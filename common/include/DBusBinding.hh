@@ -27,7 +27,7 @@
 namespace workrave
 {
   class DBus;
-  
+
   struct DBusIntrospectArg
   {
     const char *name;
@@ -72,7 +72,7 @@ namespace workrave
   public:
     DBusBindingBase(DBus *dbus);
     virtual ~DBusBindingBase();
-  
+
     virtual DBusIntrospect *get_method_introspect() = 0;
     virtual DBusIntrospect *get_signal_introspect() = 0;
 
@@ -81,7 +81,7 @@ namespace workrave
   protected:
     virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
     void send(DBusMessage *msg);
-  
+
     DBus *dbus;
   };
 }

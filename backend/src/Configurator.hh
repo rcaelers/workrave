@@ -117,7 +117,7 @@ private:
 
 private:
   bool find_setting(const string &name, Setting &setting) const;
-  
+
   bool set_value(const std::string &key, Variant &value, ConfigFlags flags = CONFIG_FLAG_NONE);
   bool get_value(const std::string &key, VariantType type, Variant &value) const;
 
@@ -127,7 +127,7 @@ private:
   void add_trailing_slash(std::string &key) const;
 
   void config_changed_notify(const std::string &key);
-  
+
 private:
   //! Registered settings.
   Settings settings;

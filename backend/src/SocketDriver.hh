@@ -85,7 +85,7 @@ public:
 
   //! Set user data
   void set_data(void *data);
-  
+
 protected:
   //! Listener that received notifications of socket events.
   ISocketListener *listener;
@@ -125,7 +125,7 @@ class SocketDriver
 {
 public:
   static SocketDriver *create();
-  
+
   //! Create a new socket
   virtual ISocket *create_socket() = 0;
 

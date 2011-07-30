@@ -78,7 +78,7 @@ public:
       case VARIANT_TYPE_INT:
         int_value = rhs.int_value;
         break;
-          
+
       case VARIANT_TYPE_LONG:
         long_value = rhs.long_value;
         break;
@@ -111,7 +111,7 @@ public:
           case VARIANT_TYPE_INT:
             int_value = lid.int_value;
             break;
-          
+
           case VARIANT_TYPE_LONG:
             long_value = lid.long_value;
             break;
@@ -135,7 +135,7 @@ public:
       }
     return *this;
   }
-  
+
   virtual ~Variant()
   {
     type = VARIANT_TYPE_NONE;

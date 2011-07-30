@@ -38,7 +38,7 @@
 using namespace std;
 
 //! Constructor
-Plug::Plug() 
+Plug::Plug()
 {
   add_events(Gdk::EXPOSURE_MASK);
 }
@@ -64,7 +64,7 @@ Plug::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->set_source_rgba(0, 0, 0, 0);
   cr->set_operator(Cairo::OPERATOR_SOURCE);
   cr->paint();
-  
+
   return Gtk::Widget::on_draw(cr);
 }
 
@@ -79,7 +79,7 @@ Plug::on_realize()
 {
   GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(gobj()));
   GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(gobj()));
- 
+
   if (gdk_screen_get_rgba_visual(screen) != NULL && gdk_display_supports_composite(display))
     {
       GdkVisual *visual = gdk_screen_get_rgba_visual(screen);

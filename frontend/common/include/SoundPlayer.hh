@@ -53,7 +53,7 @@ public:
     const char *wav_file;
     const char *friendly_name;
   };
-  
+
   SoundPlayer();
   virtual ~SoundPlayer();
   void play_sound(SoundEvent snd, bool mute_after_playback = false);
@@ -67,22 +67,22 @@ public:
   void init();
   bool capability(SoundCapability cap);
   void restore_mute();
-  
+
   bool get_sound_enabled(SoundEvent snd, bool &enabled);
   void set_sound_enabled(SoundEvent snd, bool enabled);
   bool get_sound_wav_file(SoundEvent snd, std::string &filename);
   void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
-  
+
   void get_sound_themes(std::vector<Theme> &themes);
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
   void sync_settings();
 
   void eos_event();
-  
+
 private:
   void register_sound_events(std::string theme = "");
-  
+
 public:
   static const char *CFG_KEY_SOUND_ENABLED;
   static const char *CFG_KEY_SOUND_DEVICE;
@@ -92,8 +92,8 @@ public:
   static const char *CFG_KEY_SOUND_MUTE;
 
   static SoundRegistry sound_registry[SOUND_MAX];
-  
-private:  
+
+private:
   ISoundDriver *driver;
   IMixer *mixer;
   bool delayed_mute;

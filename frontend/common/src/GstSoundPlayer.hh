@@ -43,9 +43,9 @@ public:
   void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
-  
+
 private:
-  //! Sound volue 
+  //! Sound volue
   float volume;
 
   //! GStreamer init OK.

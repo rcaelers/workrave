@@ -105,16 +105,16 @@ std::string
 WRID::str() const
 {
   static const char *hex = "0123456789abcdef";
-  
+
   char uuid_str[STR_LENGTH + 1];
-  
+
   for (unsigned int i = 0; i < RAW_LENGTH; i++)
     {
       uuid_str[2 * i]     = hex[(id[i] & 0xf0) >> 4];
       uuid_str[2 * i + 1] = hex[id[i] & 0x0f];
     }
   uuid_str[STR_LENGTH] = '\0';
-  
+
   return uuid_str;
 }
 
@@ -130,10 +130,10 @@ WRID::create()
 {
   GTimeVal now;
   g_get_current_time(&now);
-  
+
   guint32 *id32 = ((guint32 *)&id);
   id32[3] = GUINT32_TO_BE(now.tv_sec);
-        
+
   get_random_bytes(id, sizeof(id) - 4);
 }
 
@@ -142,7 +142,7 @@ WRID::set(const std::string &str)
 {
   size_t len = str.length();
   bool ret = true;
-  
+
   if (len != STR_LENGTH)
     {
       ret = false;
@@ -154,7 +154,7 @@ WRID::set(const std::string &str)
       for (unsigned int i = 0; ret && i < len; i++)
         {
           char nibble = str[i];
-      
+
           if (nibble >= '0' && nibble <= '9')
             {
               nibble -= '0';
@@ -196,7 +196,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
 {
   int fd = -1;
   bool ok = false;
-  
+
   do
     {
       fd = open("/dev/urandom", O_RDONLY);
@@ -206,7 +206,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
   if (fd >= 0)
     {
       size_t s = 0;
-      
+
       do
         {
           s = read(fd, buf, length);
@@ -217,7 +217,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
         {
           ok = true;
         }
-      
+
       close(fd);
     }
 
@@ -238,7 +238,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
 
           r >>= 8;
         }
-      
+
       g_rand_free(grand);
     }
 }

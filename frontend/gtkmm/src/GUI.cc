@@ -210,7 +210,7 @@ GUI::main()
       std::cout << "Failed to initialize: " << e.what() << std::endl;
       exit(1);
     }
-  
+
   init_core();
   init_nls();
   init_platform();
@@ -221,7 +221,7 @@ GUI::main()
   init_session();
   init_gui();
   init_startup_warnings();
-  
+
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
@@ -232,7 +232,7 @@ GUI::main()
   gdk_threads_leave();
 
   cleanup_session();
-    
+
   delete main_window;
   main_window = NULL;
 
@@ -241,7 +241,7 @@ GUI::main()
 
   delete kit;
 
-  
+
   TRACE_EXIT();
 }
 
@@ -317,7 +317,7 @@ bool
 GUI::on_timer()
 {
   std::string tip = get_timers_tooltip();
-  
+
   if (core != NULL)
     {
       core->heartbeat();
@@ -353,7 +353,7 @@ GUI::on_timer()
           muted = false;
         }
     }
-  
+
   return true;
 }
 
@@ -374,7 +374,7 @@ GUI::init_platform()
 #if defined(PLATFORM_OS_OSX)
   [ [ AppController alloc ] init ];
 #endif
-  
+
 #if defined(PLATFORM_OS_UNIX)
   char *display = gdk_get_display();
   System::init(display);
@@ -382,7 +382,7 @@ GUI::init_platform()
 #else
   System::init();
 #endif
-  
+
   srand((unsigned int)time(NULL));
   TRACE_EXIT();
 }
@@ -393,7 +393,7 @@ GUI::session_quit_cb(EggSMClient *client, GUI *gui)
 {
   (void) client;
   (void) gui;
-  
+
   TRACE_ENTER("GUI::session_quit_cb");
 
   CoreFactory::get_configurator()->save();
@@ -409,7 +409,7 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
   (void) client;
   (void) key_file;
   (void) gui;
-  
+
   CoreFactory::get_configurator()->save();
 }
 
@@ -433,7 +433,7 @@ GUI::init_session()
 
   session = new Session();
   session->init();
-  
+
   TRACE_EXIT();
 }
 
@@ -545,7 +545,7 @@ GUI::init_nls()
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
- 
+
 #endif
 }
 
@@ -555,7 +555,7 @@ void
 GUI::init_core()
 {
   string display_name;
-  
+
 #if defined(PLATFORM_OS_UNIX)
   char *display = gdk_get_display();
   if (display != NULL)
@@ -767,7 +767,7 @@ GUI::init_gtk_multihead()
                           irect.intersect(heads[k].geometry, overlap);
                         }
                     }
-                  
+
                   if (!overlap)
                     {
                       heads[count].screen = screen;
@@ -820,7 +820,7 @@ GUI::init_gui()
   status_icon = new StatusIcon(*main_window);
   status_icon->set_visible(tray_icon_enabled);
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
-  
+
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
 
@@ -829,10 +829,10 @@ GUI::init_gui()
       dbus->connect("/org/workrave/Workrave/UI",
                     "org.workrave.ControlInterface",
                     menus);
-      
+
     }
 #endif
-  
+
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
 #endif
@@ -859,7 +859,7 @@ GUI::init_dbus()
           dialog.run();
           exit(1);
         }
-      
+
       try
         {
           dbus->register_service("org.workrave.Workrave.Activator");
@@ -871,7 +871,7 @@ GUI::init_dbus()
       catch (DBusException &)
         {
         }
-    }  
+    }
 #endif
 }
 
@@ -918,7 +918,7 @@ GUI::init_sound_player()
     {
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
-      
+
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
@@ -983,7 +983,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
     {
       status_icon->set_operation_mode(m);
     }
-  
+
   menus->resync();
 }
 
@@ -991,7 +991,7 @@ void
 GUI::config_changed_notify(const std::string &key)
 {
   TRACE_ENTER_MSG("GUI::config_changed_notify", key);
-  
+
 #if defined(HAVE_LANGUAGE_SELECTION)
   if (key == GUIConfig::CFG_KEY_LOCALE)
     {
@@ -1011,7 +1011,7 @@ GUI::config_changed_notify(const std::string &key)
           if (!tray)
             {
               TimerBoxControl::set_enabled("main_window", true);
-              
+
               AppletControl *applet_control = get_applet_control();
               if (applet_control != NULL)
                 {
@@ -1023,7 +1023,7 @@ GUI::config_changed_notify(const std::string &key)
             }
         }
     }
-    
+
   TRACE_EXIT();
 }
 
@@ -1081,7 +1081,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
       break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL |
                        BreakWindow::BREAK_FLAGS_POSTPONABLE);
     }
-  
+
   active_break_id = break_id;
 
   for (int i = 0; i < num_heads; i++)
@@ -1160,7 +1160,7 @@ GUI::show_break_window()
     {
       grab();
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -1465,7 +1465,7 @@ GUI::bound_head(int &x, int &y, int width, int height, int &head)
     {
       head = 0;
     }
-  
+
   HeadInfo &h = get_head(head);
   if (x < - h.get_width())
     {
@@ -1529,10 +1529,10 @@ GUI::get_timers_tooltip()
 #if !defined(PLATFORM_OS_WIN32)
           // Win32 tip is limited in length
       tip = "Workrave";
-#endif      
+#endif
       break;
     }
-  
+
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       IBreak *b = core->get_break(BreakId(count));
@@ -1592,7 +1592,7 @@ GUI::win32_init_filter()
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  
+
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
 
@@ -1622,7 +1622,7 @@ GUI::win32_filter_func (void     *xevent,
           }
       }
       break;
-      
+
     case WM_POWERBROADCAST:
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);

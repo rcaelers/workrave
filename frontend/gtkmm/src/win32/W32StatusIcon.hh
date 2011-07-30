@@ -42,7 +42,7 @@ public:
   void set_visible(bool visible = true);
   bool get_visible() const;
   bool is_embedded() const;
-  
+
   sigc::signal<bool, int> size_changed_signal;
   sigc::signal<void> 	activate_signal;
   sigc::signal<void, guint, guint32> popup_menu_signal;
@@ -58,13 +58,13 @@ private:
 
   static HWND tray_hwnd;
   static UINT wm_taskbarcreated;
-  
+
   void init();
   void cleanup();
   void add_tray_icon();
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-  
+
 };
 
 #endif // W32STATUSICON_HH

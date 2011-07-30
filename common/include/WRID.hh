@@ -35,7 +35,7 @@ namespace workrave
   private:
     typedef unsigned char uuid_type[16];
 
-    
+
   public:
     WRID();
     WRID(const WRID &rhs);
@@ -50,14 +50,14 @@ namespace workrave
     std::string str() const;
     guint8 *raw() const;
     bool set(const std::string &str);
-    
+
     const static size_t RAW_LENGTH = sizeof(uuid_type);
     const static size_t STR_LENGTH = sizeof(uuid_type) * 2;
-    
+
   private:
     void create();
     void get_random_bytes(unsigned char *buf, size_t length);
-    
+
     //! Unique ID
     uuid_type id;
   };

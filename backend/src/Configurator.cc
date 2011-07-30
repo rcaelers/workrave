@@ -155,7 +155,7 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
 {
   bool ok = false;
   Variant value;
-  
+
   bool exists = get_value(new_key, VARIANT_TYPE_NONE, value);
   if (!exists)
     {
@@ -217,15 +217,15 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
             }
         }
     }
-  
+
   if (!skip)
     {
       ret = backend->set_value(newkey, value);
-      
+
       if (ret && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
         {
           fire_configurator_event(newkey);
-          
+
           if (auto_save_time == 0)
             {
               ICore *core = CoreFactory::get_core();
@@ -246,7 +246,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   Setting setting;
 
   TRACE_ENTER_MSG("Configurator::get_value", key);
-  
+
   string newkey = key;
   strip_trailing_slash(newkey);
   strip_leading_slash(newkey);
@@ -341,11 +341,11 @@ Configurator::set_value(const std::string &key, const std::string &v, ConfigFlag
 {
   Variant value;
   bool ret = false;
-  
+
   value.type = VARIANT_TYPE_STRING;
   value.string_value = v;
   ret = set_value(key, value, flags);
-  
+
   return ret;
 }
 
@@ -355,7 +355,7 @@ Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags
 {
   Variant value;
   bool ret = false;
-  
+
   value.type = VARIANT_TYPE_STRING;
   value.string_value = v;
   ret = set_value(key, value, flags);
@@ -368,7 +368,7 @@ Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
 {
   Variant value;
   bool ret = false;
-  
+
   value.type = VARIANT_TYPE_INT;
   value.int_value = v;
   ret = set_value(key, value, flags);
@@ -382,7 +382,7 @@ Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
 {
   Variant value;
   bool ret = false;
-  
+
   value.type = VARIANT_TYPE_BOOL;
   value.bool_value = v;
   ret = set_value(key, value, flags);
@@ -396,7 +396,7 @@ Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
 {
   Variant value;
   bool ret = false;
-  
+
   value.type = VARIANT_TYPE_DOUBLE;
   value.double_value = v;
   ret = set_value(key, value, flags);

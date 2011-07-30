@@ -37,7 +37,7 @@ typedef enum
     eRender	             = 0,
     eCapture	           = 1,
     eAll	               = 2,
-    EDataFlow_enum_count = 3 
+    EDataFlow_enum_count = 3
   } EDataFlow;
 
 typedef enum
@@ -56,7 +56,7 @@ public:
   virtual HRESULT STDMETHODCALLTYPE GetId(LPWSTR *) = 0;
   virtual HRESULT STDMETHODCALLTYPE GetState(DWORD *) = 0;
 };
-  
+
 class IMMDeviceEnumerator : public IUnknown
 {
 public:
@@ -96,13 +96,13 @@ class W32Mixer : public IMixer
 public:
   W32Mixer();
   virtual ~W32Mixer();
-  
+
   void init();
   bool set_mute(bool on);
 
   bool set_mute_mmdevice(bool on);
   bool set_mute_mixer(bool on);
-    
+
 private:
   IAudioEndpointVolume *endpoint_volume;
 };

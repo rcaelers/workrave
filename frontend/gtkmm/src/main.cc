@@ -50,11 +50,11 @@ run(int argc, char **argv)
   __try1(exception_handler);
 #endif
 #endif
-  
-#ifdef TRACING 
+
+#ifdef TRACING
   Debug::init();
 #endif
-  
+
   GUI *gui = new GUI(argc, argv);
 
 #if defined(PLATFORM_OS_WIN32)
@@ -71,7 +71,7 @@ run(int argc, char **argv)
   __except1;
 #endif
 #endif
-  
+
   return 0;
 }
 
@@ -98,7 +98,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
   (void) iCmdShow;
 
   char *argv[] = { szCmdLine };
-  
+
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
   // directive.

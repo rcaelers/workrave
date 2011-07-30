@@ -280,17 +280,17 @@ MainWindow::setup()
 #else
   bool visible = is_visible();
 #endif
-  
+
   if (visible)
     {
       WindowHints::set_always_on_top(this, always_on_top);
     }
-  
+
   if (visible && always_on_top)
     {
       raise();
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -312,7 +312,7 @@ MainWindow::on_activate()
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  
+
   bool visible = IsWindowVisible(hwnd);
 #elif defined(HAVE_GTK3)
   bool visible = get_visible();
@@ -357,11 +357,11 @@ MainWindow::open_window()
       GtkRequisition min_size;
       GtkRequisition natural_size;
       get_preferred_size(min_size, natural_size);
-#else      
+#else
       GtkRequisition min_size;
       on_size_request(&min_size);
 #endif
-      
+
       GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
 
       GUI::get_instance()->map_from_head(x, y, head);
@@ -435,7 +435,7 @@ MainWindow::on_delete_event(GdkEventAny *)
       close_window();
       TimerBoxControl::set_enabled("main_window", false);
     }
-#elif defined(PLATFORM_OS_OSX) 
+#elif defined(PLATFORM_OS_OSX)
   close_window();
   TimerBoxControl::set_enabled("main_window", false);
 #else
@@ -457,10 +457,10 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   bool ret = false;
 
   (void) event;
-  
+
 #ifndef PLATFORM_OS_OSX
   // No popup menu on OS X
-  
+
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
       GUI *gui = GUI::get_instance();
@@ -469,7 +469,7 @@ MainWindow::on_button_press_event(GdkEventButton *event)
       ret = true;
     }
 #endif
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -555,7 +555,7 @@ MainWindow::win32_show(bool b)
             }
 
           TRACE_MSG("2 " << show_retry_count);
-          retry = true;  
+          retry = true;
         }
     }
 
@@ -689,7 +689,7 @@ MainWindow::move_to_start_position()
   GtkRequisition min_size;
   GtkRequisition natural_size;
   get_preferred_size(min_size, natural_size);
-#else      
+#else
   GtkRequisition min_size;
   on_size_request(&min_size);
 #endif
@@ -785,7 +785,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       TRACE_EXIT();
       return;
     }
-  
+
 #ifndef PLATFORM_OS_WIN32
   // Returns bogus results on windows...sometime.
   if (event != NULL)
@@ -806,11 +806,11 @@ MainWindow::locate_window(GdkEventConfigure *event)
       GtkRequisition min_size;
       GtkRequisition natural_size;
       get_preferred_size(min_size, natural_size);
-#else      
+#else
       GtkRequisition min_size;
       on_size_request(&min_size);
 #endif
-      
+
       width = min_size.width;
       height = min_size.height;
     }
@@ -886,11 +886,11 @@ MainWindow::relocate_window(int width, int height)
               GtkRequisition min_size;
               GtkRequisition natural_size;
               get_preferred_size(min_size, natural_size);
-#else      
+#else
               GtkRequisition min_size;
               on_size_request(&min_size);
 #endif
-              
+
               GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
 
               gui->map_from_head(x, y, i);

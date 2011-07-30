@@ -91,7 +91,7 @@ Session::set_idle(bool new_idle)
             }
         }
     }
-  
+
   is_idle = new_idle;
   TRACE_EXIT();
 }
@@ -123,7 +123,7 @@ Session::init_gnome()
       g_error_free(err);
       return;
     }
-  
+
   proxy = dbus_g_proxy_new_for_name(connection,
                                     "org.gnome.SessionManager",
                                     "/org/gnome/SessionManager/Presence",

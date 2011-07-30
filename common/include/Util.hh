@@ -52,7 +52,7 @@ public:
   static string complete_directory(string path, SearchPathId type);
 
   static bool running_gnome();
-  
+
 private:
   static set<string> search_paths[SEARCH_PATH_SIZEOF];
   static string home_directory;

@@ -40,7 +40,7 @@ protected:
 private:
   void Monitor();
   void Update( LASTINPUTINFO * );
-  
+
   BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
   int interval;
   HANDLE thread_handle;

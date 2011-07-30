@@ -141,24 +141,24 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();
-  
+
   TRACE_MSG("BreakWindow created" <<  hex << _hwnd << dec);
   if (_hwnd != _scope)
     {
       TRACE_MSG("!!! Scope issue: " << hex << _scope << dec);
     }
-  
+
   if (_hwnd != _hRoot)
     {
       TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
       TRACE_MSG("!!! BreakWindow GA_ROOT: " << hex << _hRoot << dec);
     }
-  
+
   if (_hParent != _hDesktop)
     {
       TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
       TRACE_MSG("!!! PreludeWindow GA_PARENT: " << hex << _hParent << dec);
-      
+
       HWND _hTemp;
       while( IsWindow( _hParent ) && _hParent != _hDesktop )
         {
@@ -171,7 +171,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           TRACE_MSG("!!!" <<  hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2  << dec);
         }
     }
-    
+
 #endif
 
   this->head = head;
@@ -261,11 +261,11 @@ BreakWindow::init_gui()
         {
 #ifdef HAVE_GTK3
           set_can_focus(false);
-#else          
+#else
           unset_flags(Gtk::CAN_FOCUS);
 #endif
         }
-      
+
       show_all_children();
       stick();
     }
@@ -468,10 +468,10 @@ BreakWindow::resume_non_ignorable_break()
           if (!ignorable)
             {
               TRACE_MSG("Break " << id << " not ignorable");
-          
+
               ICore *core = CoreFactory::get_core();
               assert(core != NULL);
-              
+
               IBreak *b = core->get_break(BreakId(id));
               assert(b != NULL);
 
@@ -496,7 +496,7 @@ BreakWindow::create_break_buttons(bool lockable,
 
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
-  
+
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
       box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
@@ -525,7 +525,7 @@ BreakWindow::create_break_buttons(bool lockable,
           skip_button = create_skip_button();
           box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
         }
-      
+
       if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
         {
           postpone_button = create_postpone_button();
@@ -589,7 +589,7 @@ BreakWindow::stop()
   hide_all();
 #endif
   visible = false;
-  
+
 #ifdef PLATFORM_OS_WIN32
   if (desktop_window)
     desktop_window->set_visible(false);
@@ -616,7 +616,7 @@ void
 BreakWindow::refresh()
 {
   TRACE_ENTER("BreakWindow::refresh");
-  
+
   update_break_window();
 
 #ifdef PLATFORM_OS_WIN32

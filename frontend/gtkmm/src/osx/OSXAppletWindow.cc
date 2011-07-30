@@ -42,7 +42,7 @@ OSXAppletWindow::OSXAppletWindow()
   NSMenu *menu = [[NSMenu alloc] init];
   view = [[OSXStatusBarView alloc] initWithMenu:menu];
 
-  
+
   int i;
   while ([menu numberOfItems] > 0) {
     [menu removeItemAtIndex:0];
@@ -88,7 +88,7 @@ OSXAppletWindow::set_time_bar(BreakId id,
   TRACE_ENTER_MSG("OSXAppletWindow::set_time_bar", int(id) << "=" << text);
 
   NSString *bar_text = [NSString stringWithCString: text.c_str() encoding: NSASCIIStringEncoding];
-  
+
   [view setBreak: id
         text: bar_text
         primaryColor: convertColorId(primary_color)
@@ -97,7 +97,7 @@ OSXAppletWindow::set_time_bar(BreakId id,
         secondaryColor: convertColorId(secondary_color)
         secondaryValue: secondary_val
         secondaryMaxValue: secondary_max ];
-  
+
   TRACE_EXIT();
 }
 

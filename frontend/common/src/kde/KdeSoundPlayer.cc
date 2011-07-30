@@ -87,7 +87,7 @@ KdeSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   (void) snd;
   (void) enabled;
-  
+
   return false;
 }
 

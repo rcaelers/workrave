@@ -344,6 +344,6 @@ GNetSocketDriver::create_server()
 {
   return new GNetSocketServer();
 }
- 
+
 #endif
 

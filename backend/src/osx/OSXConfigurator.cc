@@ -72,8 +72,8 @@ OSXConfigurator::remove_key(const std::string &key)
   TRACE_ENTER_MSG("OSXConfigurator::remove_key", key);
 
   NSString* keystring = [NSString stringWithCString:key.c_str() encoding: NSUTF8StringEncoding];
- 
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey: keystring];  
+
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey: keystring];
 
   TRACE_EXIT();
   return true;
@@ -94,19 +94,19 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
   if ([[NSUserDefaults standardUserDefaults] objectForKey: keystring] != nil)
     {
       ret = true;
-      
+
       switch(type)
         {
         case VARIANT_TYPE_INT:
-          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey: keystring];  
+          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey: keystring];
           break;
 
         case VARIANT_TYPE_BOOL:
-          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey: keystring];  
+          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey: keystring];
           break;
 
         case VARIANT_TYPE_DOUBLE:
-          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey: keystring];  
+          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey: keystring];
           break;
 
         case VARIANT_TYPE_NONE:
@@ -142,19 +142,19 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
   bool ret = true;
 
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
-  
+
   switch(value.type)
     {
     case VARIANT_TYPE_INT:
-      [[NSUserDefaults standardUserDefaults] setInteger: value.int_value forKey: keystring];  
+      [[NSUserDefaults standardUserDefaults] setInteger: value.int_value forKey: keystring];
       break;
 
     case VARIANT_TYPE_BOOL:
-      [[NSUserDefaults standardUserDefaults] setBool: value.bool_value forKey: keystring];  
+      [[NSUserDefaults standardUserDefaults] setBool: value.bool_value forKey: keystring];
       break;
 
     case VARIANT_TYPE_DOUBLE:
-      [[NSUserDefaults standardUserDefaults] setFloat: value.double_value forKey: keystring];  
+      [[NSUserDefaults standardUserDefaults] setFloat: value.double_value forKey: keystring];
       break;
 
     case VARIANT_TYPE_NONE:

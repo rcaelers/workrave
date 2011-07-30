@@ -58,7 +58,7 @@ public:
   static const std::string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
   static const std::string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
   static const std::string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
-  
+
   static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
 };
 

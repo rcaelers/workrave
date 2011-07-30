@@ -48,9 +48,9 @@
 NetworkLogDialog::NetworkLogDialog()
 #ifdef HAVE_GTK3
   : Gtk::Dialog(_("Network log"), false)
-#else    
+#else
     : Gtk::Dialog(_("Network log"), false, true)
-#endif    
+#endif
 {
   TRACE_ENTER("NetworkLogDialog::NetworkLogDialog");
 

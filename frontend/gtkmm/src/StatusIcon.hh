@@ -69,12 +69,12 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   bool on_size_changed(guint size);
 
-#ifndef HAVE_STATUSICON_SIGNAL 
+#ifndef HAVE_STATUSICON_SIGNAL
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
                                   gpointer callback_data);
 #endif
-  
+
   MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
 

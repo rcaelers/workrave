@@ -242,7 +242,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
     {
       out.type = type;
     }
-  
+
   return ret;
 }
 

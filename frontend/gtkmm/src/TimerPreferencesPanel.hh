@@ -91,7 +91,7 @@ private:
   Glib::RefPtr<Gtk::Adjustment> max_prelude_adjustment;
 #else
   Gtk::Adjustment max_prelude_adjustment;
-#endif  
+#endif
   Gtk::CheckButton *enabled_cb;
   Gtk::CheckButton *auto_natural_cb;
 #ifdef HAVE_EXERCISES

@@ -64,7 +64,7 @@ const char *workrave_translators =
  /* pl */           "Mikolaj Machowski <mikmach@wp.pl>\n"
  /* pt_BR -1 */     "Claudio Ferreira Filho <filhocf@yahoo.com.br>\n"
  /* ro */           "Alexandru Szasz <alexxed@gmail.com>\n"
- /* ru */           "Sergey Kirkinsky <ksa@pfr.altai.ru>\n" 
+ /* ru */           "Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
  /* ru */           "FreeWe <free@asdasd.ru>\n"
  /* sk */           "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>\n"
  /* sl */           "Vanja Cvelbar <cvelbar@gmail.com>\n"

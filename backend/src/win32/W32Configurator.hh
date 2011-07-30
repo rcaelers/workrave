@@ -60,7 +60,7 @@ private:
 
   void strip_trailing_slash(std::string &key) const;
   void add_trailing_slash(std::string &key) const;
-  
+
   std::string key_root;
   PHKEY key_root_handle;
 };

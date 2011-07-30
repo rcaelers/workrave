@@ -62,16 +62,16 @@ DBus::~DBus()
       dbus_connection_unref(connection);
     }
 }
-  
+
 
 //! Initialize D-BUS bridge
 void
 DBus::init()
 {
 	DBusError error;
-  
+
 	dbus_error_init(&error);
-  
+
 	connection = dbus_bus_get_private(DBUS_BUS_STARTER, &error);
   if (dbus_error_is_set(&error))
     {
@@ -93,9 +93,9 @@ DBus::register_service(const std::string &service)
 {
 	DBusError error;
   int result = 0;
-  
+
 	dbus_error_init(&error);
-  
+
 	result = dbus_bus_request_name(connection,
                                  service.c_str(),
                                  DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE,
@@ -188,13 +188,13 @@ DBusBindingBase *
 DBus::find_binding(const std::string &interface_name) const
 {
   DBusBindingBase *ret = NULL;
-  
+
   BindingCIter it = bindings.find(interface_name);
   if (it != bindings.end())
     {
       ret = it->second;
     }
-  
+
   return ret;
 }
 
@@ -212,7 +212,7 @@ void *
 DBus::find_cobject(const std::string &path, const std::string &interface_name) const
 {
   void *cobject = NULL;
-  
+
   ObjectCIter object_it = objects.find(path);
   if (object_it != objects.end())
     {
@@ -223,8 +223,8 @@ DBus::find_cobject(const std::string &path, const std::string &interface_name) c
           cobject = interface_it->second;
         }
     }
-  
-  
+
+
   return cobject;
 }
 
@@ -310,19 +310,19 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
       str += "<arg name=\"data\" direction=\"out\" type=\"s\"/>\n";
       str += "</method>\n";
       str += "</interface>\n";
-      
+
       for (InterfaceCIter interface_it = object_it->second.begin();
            interface_it != object_it->second.end();
            interface_it++)
         {
           string interface_name = interface_it->first;
-          
+
           DBusBindingBase *binding = find_binding(interface_name);
           if (binding == NULL)
             {
               throw DBusSystemException("Internal error, unknown interface");
             }
-        
+
           str += "<interface name='" + interface_name + "'>\n";
 
           DBusIntrospect *table = binding->get_method_introspect();
@@ -338,13 +338,13 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
                   direction = dbus_gettext(&text);
                   type = dbus_gettext(&text);
                   name = dbus_gettext(&text);
-              
+
                   str += string("<arg name='") + name + "' type='" + type +"' direction='"+ direction +"'/>\n";
                 }
               str += "</method>\n";
               table++;
             }
-      
+
           table = binding->get_signal_introspect();
           while (table->name != NULL)
             {
@@ -357,7 +357,7 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
 
                   type = dbus_gettext(&text);
                   name = dbus_gettext(&text);
-              
+
                   str += string("<arg name='") + name + "' type='" + type +"'/>\n";
                 }
               str += "</signal>\n";
@@ -376,7 +376,7 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
       dbus_message_append_args(reply, DBUS_TYPE_STRING, &cstr, DBUS_TYPE_INVALID);
       dbus_connection_send(connection, reply, NULL);
       dbus_message_unref(reply);
-    
+
       return DBUS_HANDLER_RESULT_HANDLED;
     }
 
@@ -396,7 +396,7 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
     {
       throw DBusUsageException(string("no such object: ") + path + " " + interface_name );
     }
-  
+
   DBusBindingBase *binding = find_binding(interface_name);
   if (binding == NULL)
     {
@@ -408,10 +408,10 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
     {
       throw DBusUsageException("Call failure");
     }
-  
+
   dbus_connection_send(connection, reply, NULL);
   dbus_message_unref(reply);
-                
+
   return DBUS_HANDLER_RESULT_HANDLED;
 }
 
@@ -459,9 +459,9 @@ DBus::queue_dispatch(GSource *source, GSourceFunc callback, gpointer data)
 {
   (void) data;
   (void) callback;
-  
+
 	DBusConnection *connection = ((QueueData *) source)->connection;
-  
+
 	dbus_connection_ref(connection);
 	dbus_connection_dispatch(connection);
 	dbus_connection_unref(connection);
@@ -522,7 +522,7 @@ DBus::watch_free(void *data)
 	if (watch_data->source != NULL)
     {
       watch_data->dbus->watches = g_slist_remove(watch_data->dbus->watches, watch_data);
-      
+
       g_source_destroy(watch_data->source);
       g_source_unref(watch_data->source);
     }
@@ -632,7 +632,7 @@ DBus::timeout_add(DBusTimeout *timeout, void *data)
 {
 	TimeoutData *timeout_data;
   DBus *dbus = (DBus *) data;
-  
+
 	if (dbus_timeout_get_enabled(timeout) == FALSE)
 		return TRUE;
 
@@ -640,7 +640,7 @@ DBus::timeout_add(DBusTimeout *timeout, void *data)
 
 	timeout_data->timeout = timeout;
   timeout_data->dbus = dbus;
-  
+
 	timeout_data->id = g_timeout_add(dbus_timeout_get_interval(timeout),
                                    timeout_dispatch, timeout_data);
 
@@ -656,7 +656,7 @@ DBus::timeout_remove(DBusTimeout *timeout, void *data)
 {
 	TimeoutData *timeout_data = (TimeoutData*)dbus_timeout_get_data(timeout);
   DBus *dbus = (DBus *) data;
-  
+
 	if (timeout_data == NULL)
 		return;
 
@@ -705,13 +705,13 @@ DBus::connection_setup(GMainContext *context)
                                       watch_remove,
                                       watch_toggled,
                                       this, NULL);
-  
+
   dbus_connection_set_timeout_functions(connection,
                                         timeout_add,
                                         timeout_remove,
                                         timeout_toggled,
                                         this, NULL);
-  
+
   dbus_connection_set_wakeup_main_function(connection,
                                            wakeup,
                                            this, NULL);

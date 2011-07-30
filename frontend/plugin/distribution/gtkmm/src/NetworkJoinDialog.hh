@@ -33,7 +33,7 @@ namespace workrave
 {
   class IDistributionManager;
 }
-  
+
 class TimeEntry;
 
 class NetworkJoinDialog : public HigDialog

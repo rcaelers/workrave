@@ -57,7 +57,7 @@ public:
   virtual void deactivate_applet();
 
   virtual void set_applet_enabled(bool enable);
-  
+
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
                             std::string text,

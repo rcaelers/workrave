@@ -57,7 +57,7 @@ protected:
   bool on_expose_event(GdkEventExpose* e);
   void on_size_request(Gtk::Requisition *requisition);
 #endif
-  
+
 
 private:
   //! Frame border width
@@ -70,7 +70,7 @@ private:
   //! Color map
   Glib::RefPtr<Gdk::Colormap> color_map;
 #endif
-  
+
   //! Color of the frame.
   Gdk::Color frame_color;
 

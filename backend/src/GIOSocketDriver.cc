@@ -65,13 +65,13 @@ GIOSocketServer::listen(int port)
     {
       g_object_unref(service);
       service = NULL;
-      
+
       throw SocketException(string("Failed to listen: ") + error->message);
     }
 
   g_signal_connect(service, "incoming", G_CALLBACK(static_socket_incoming), this);
   g_socket_service_start(service);
-  
+
 }
 
 gboolean
@@ -83,7 +83,7 @@ GIOSocketServer::static_socket_incoming(GSocketService *service,
   TRACE_ENTER("GIOSocketServer::static_socket_incoming");
   (void) service;
   (void) src_object;
-  
+
   try
     {
       GIOSocketServer *ss = (GIOSocketServer *) user_data;
@@ -110,7 +110,7 @@ GIOSocket::static_connected_callback(GObject *source_object,
 
   GIOSocket *socket = (GIOSocket *)user_data;
   GError *error = NULL;
-  
+
   GSocketConnection *socket_connection =
     g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
 
@@ -131,7 +131,7 @@ GIOSocket::static_connected_callback(GObject *source_object,
                                               NULL);
       g_source_set_callback(socket->source, (GSourceFunc) static_data_callback, (void*)socket, NULL);
       g_source_attach(socket->source, NULL);
-      // g_source_unref(source);  
+      // g_source_unref(source);
 
       if (socket->listener != NULL)
         {
@@ -196,10 +196,10 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
   TRACE_ENTER("GIOSocket::GIOSocket(con)");
   socket = g_socket_connection_get_socket(connection);
   g_object_ref(connection);
-  
+
   g_socket_set_blocking(socket, FALSE);
   g_socket_set_keepalive(socket, TRUE);
-  
+
   source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
   g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
   g_source_attach(source, NULL);
@@ -247,7 +247,7 @@ GIOSocket::connect(const string &host, int port)
 {
   TRACE_ENTER_MSG("GIOSocket::connect", host << " " << port);
   this->port = port;
-  
+
   GInetAddress *inet_addr = g_inet_address_new_from_string(host.c_str());
   if (inet_addr != NULL)
     {
@@ -294,7 +294,7 @@ GIOSocket::static_connect_after_resolve(GObject *source_object, GAsyncResult *re
       TRACE_MSG("failed");
       g_error_free(error);
     }
-  
+
   if (addresses != NULL)
     {
       // Take first result
@@ -315,7 +315,7 @@ void
 GIOSocket::read(void *buf, int count, int &bytes_read)
 {
   TRACE_ENTER_MSG("GIOSocket::read", count);
-  
+
   GError *error = NULL;
   gsize num_read = 0;
 
@@ -328,7 +328,7 @@ GIOSocket::read(void *buf, int count, int &bytes_read)
           throw SocketException(string("socket read error: ") + error->message);
         }
     }
-  
+
   bytes_read = (int)num_read;
   TRACE_RETURN(bytes_read);
 }

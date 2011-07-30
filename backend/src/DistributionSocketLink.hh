@@ -178,7 +178,7 @@ public:
   DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
 
-  void init_my_id(); 
+  void init_my_id();
   std::string get_my_id() const;
   int get_number_of_peers();
   void set_distribution_manager(DistributionManager *dll);
@@ -262,7 +262,7 @@ private:
   DistributionManager *dist_manager;
 
   SocketDriver *socket_driver;
-  
+
   //! The configuration access.
   Configurator *configurator;
 
@@ -302,7 +302,7 @@ private:
   //! Whether distribution is enabled.
   bool network_enabled;
   bool server_enabled;
-  
+
   //! ClientMessage listeners
   ClientMessageMap client_message_map;
 

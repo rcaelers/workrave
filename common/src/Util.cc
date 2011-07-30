@@ -274,7 +274,7 @@ Util::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_OSX)
   char execpath[MAXPATHLEN+1];
   uint32_t pathsz = sizeof (execpath);
-      
+
   _NSGetExecutablePath (execpath, &pathsz);
 
   gchar *dir_path = g_path_get_dirname(execpath);

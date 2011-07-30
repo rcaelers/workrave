@@ -98,7 +98,7 @@ TimerBoxPreferencePage::create_page()
   place_button->append_text(_("Place rest break and daily limit in one spot"));
   place_button->append_text(_("Place all timers in one spot"));
 #endif
-  
+
   // Cycle time spin button.
   cycle_entry = Gtk::manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);

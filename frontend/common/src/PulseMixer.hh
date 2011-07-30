@@ -35,10 +35,10 @@ class PulseMixer : public IMixer
 public:
   PulseMixer();
   virtual ~PulseMixer();
-  
+
   void init();
   bool set_mute(bool on);
-  
+
 private:
   static void context_state_cb(pa_context *c, void *user_data);
   static void subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *user_data);
@@ -56,7 +56,7 @@ private:
     std::string name;
     uint32_t index;
   };
-  
+
   pa_glib_mainloop *pa_mainloop;
   pa_mainloop_api *pa_api;
   pa_context *context;

@@ -25,5 +25,5 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
-  
+
 @end

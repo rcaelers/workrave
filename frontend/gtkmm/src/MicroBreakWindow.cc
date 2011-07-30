@@ -126,7 +126,7 @@ MicroBreakWindow::create_gui()
     }
 
   fixed_size = false;
-  
+
   return box;
 }
 
@@ -152,7 +152,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
                          &MicroBreakWindow::on_restbreaknow_button_clicked));
 #ifdef HAVE_GTK3
   ret->set_can_focus(false);
-#else          
+#else
   ret->unset_flags(Gtk::CAN_FOCUS);
 #endif
 
@@ -294,7 +294,7 @@ MicroBreakWindow::update_break_window()
       GtkRequisition min_size;
       GtkRequisition natural_size;
       label->get_preferred_size(min_size, natural_size);
-#else      
+#else
       Gtk::Requisition min_size = label->size_request();
 #endif
 

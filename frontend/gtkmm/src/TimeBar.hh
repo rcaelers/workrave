@@ -56,14 +56,14 @@ private:
                 int winw, int winh);
   void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);
-#else  
+#else
   void draw_bar(Glib::RefPtr<Gdk::Window> &window,
                 const Glib::RefPtr<Gdk::GC> &gc,
                 bool filled, int x, int y, int width, int height,
                 int winw, int winh);
 #endif
   void set_text_color(Gdk::Color color);
-  
+
 protected:
 #ifdef HAVE_GTK3
   virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
@@ -80,7 +80,7 @@ protected:
   virtual bool on_expose_event(GdkEventExpose *event);
   virtual void on_size_request(GtkRequisition *requisition);
   virtual void on_size_allocate(Gtk::Allocation& allocation);
-#endif  
+#endif
 
 private:
   static Gdk::Color bar_colors[COLOR_ID_SIZEOF];
@@ -89,7 +89,7 @@ private:
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> window_gc;
 #endif
-  
+
   //! Color of the time-bar.
   ColorId bar_color;
 

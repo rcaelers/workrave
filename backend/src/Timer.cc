@@ -249,7 +249,7 @@ void
 Timer::set_activity_sensitive(bool a)
 {
   TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
-  
+
   activity_sensitive = a;
   activity_state = ACTIVITY_UNKNOWN;
 
@@ -631,7 +631,7 @@ Timer::get_elapsed_time() const
   time_t ret = elapsed_time;
 
   TRACE_MSG(ret << " " << core->get_time() << " " <<  last_start_time);
-    
+
   if (timer_enabled && last_start_time != 0)
     {
       ret += (core->get_time() - last_start_time);
@@ -650,7 +650,7 @@ Timer::get_total_overdue_time() const
   time_t elapsed = get_elapsed_time();
 
   TRACE_MSG(ret << " " << elapsed);
-  
+
   if (elapsed > limit_interval)
     {
       ret += (elapsed - limit_interval);
@@ -705,18 +705,18 @@ void
 Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
   TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
-  
+
   // msvc can't handle std::string conditional tracepoints. use TRACE as the conditional
   bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
   (void) TRACE;
-  
+
   time_t current_time= core->get_time();
-  
+
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
-  
+
   TRACE_MSG("idle = " << info.idle_time);
   TRACE_MSG("elap = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
@@ -733,7 +733,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       new_activity_state = activity_monitor->get_current_state();
       TRACE_MSG("foreign activity state =" << new_activity_state);
     }
-  
+
   if (activity_sensitive)
     {
       // This timer responds to the activity monitoring.
@@ -911,7 +911,7 @@ Timer::deserialize_state(const std::string &state, int version)
       ss >> tz;
       tz -= timezone;
     }
-  
+
   // Sanity check...
   if (lastReset > saveTime)
     {
@@ -987,7 +987,7 @@ Timer::set_state(int elapsed, int idle, int overdue)
           total_overdue_time -= (get_elapsed_time() - limit_interval);
         }
     }
-  
+
   compute_next_reset_time();
   compute_next_limit_time();
   compute_next_predicate_reset_time();

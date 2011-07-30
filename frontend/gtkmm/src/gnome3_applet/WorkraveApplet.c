@@ -45,14 +45,14 @@
 struct _WorkraveAppletPrivate
 {
   GtkActionGroup *action_group;
-  
+
   GtkWidget *hbox;
   GtkWidget *event_box;
   GtkWidget *image;
   GtkWidget *socket;
   PanelApplet *applet;
   gboolean has_alpha;
-  
+
   int size;
   int orientation;
 
@@ -285,7 +285,7 @@ workrave_applet_get_menu_active(WorkraveApplet *applet, const char *name, gboole
 {
   GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
   *active = gtk_action_get_visible(action);
-    
+
   return TRUE;
 }
 
@@ -322,11 +322,11 @@ on_menu_about(GtkAction *action, WorkraveApplet *applet)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
-#ifdef GIT_VERSION                        
+#ifdef GIT_VERSION
                         "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
-#else                        
+#else
                         "version", PACKAGE_VERSION,
-#endif                        
+#endif
                         "copyright", workrave_copyright,
                         "website", "http://www.workrave.org",
                         "website_label", "www.workrave.org",
@@ -358,7 +358,7 @@ on_menu_preferences(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "Preferences", dbus_callback, NULL, NULL,
@@ -374,7 +374,7 @@ on_menu_exercises(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "Exercises", dbus_callback, NULL, NULL,
@@ -389,9 +389,9 @@ on_menu_statistics(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
-    { 
+    {
       dbus_g_proxy_begin_call(applet->priv->ui, "Statistics", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
@@ -404,7 +404,7 @@ on_menu_restbreak(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "RestBreak", dbus_callback, NULL, NULL,
@@ -421,7 +421,7 @@ on_menu_connect(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "NetworkConnect", dbus_callback, NULL, NULL,
@@ -438,7 +438,7 @@ on_menu_disconnect(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
@@ -453,7 +453,7 @@ on_menu_reconnect(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
@@ -470,7 +470,7 @@ on_menu_quit(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   if (applet->priv->ui != NULL)
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "Quit", dbus_callback, NULL, NULL,
@@ -495,7 +495,7 @@ plug_added(GtkSocket *socket, WorkraveAppletPrivate *priv)
   gtk_widget_hide(GTK_WIDGET(priv->image));
   gtk_widget_show(GTK_WIDGET(priv->socket));
   workrave_applet_set_all_visible(priv, TRUE);
-  
+
   return TRUE;
 }
 
@@ -552,7 +552,7 @@ reading_mode_callback(GtkAction *action, WorkraveApplet *applet)
     }
 
   applet->priv->last_reading_mode_state = new_state;
-  
+
   if (applet->priv->ui != NULL && workrave_is_running())
     {
       dbus_g_proxy_begin_call(applet->priv->ui, "ReadingMode", dbus_callback, NULL, NULL,
@@ -576,7 +576,7 @@ mode_callback(GtkRadioAction *action, GtkRadioAction *current, gpointer user_dat
   if (mode >= 0 && mode < G_N_ELEMENTS(modes))
     {
       applet->priv->last_mode = mode;
-          
+
       if (applet->priv->core != NULL && workrave_is_running())
         {
           dbus_g_proxy_begin_call(applet->priv->core, "SetOperationMode", dbus_callback, NULL, NULL,
@@ -632,7 +632,7 @@ static const GtkActionEntry menu_actions [] = {
   { "Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences"),
     NULL, NULL,
     G_CALLBACK(on_menu_preferences) },
-  
+
   { "Exercises", NULL, N_("_Exercises"),
     NULL, NULL,
     G_CALLBACK(on_menu_exercises) },
@@ -712,12 +712,12 @@ workrave_applet_socket_realize(GtkWidget *widget, gpointer user_data)
       gdk_window_set_background_pattern(window, transparent);
       gdk_window_set_composited(window, TRUE);
       cairo_pattern_destroy(transparent);
-      
+
       gtk_widget_set_app_paintable(GTK_WIDGET(socket), TRUE);
       gtk_widget_set_double_buffered(GTK_WIDGET(socket), TRUE);
       gtk_container_set_border_width(GTK_CONTAINER(socket), 0);
     }
-  
+
   // TODO: background relative to parent.
 }
 
@@ -729,7 +729,7 @@ workrave_applet_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
   if (applet->priv->has_alpha)
     {
       GtkAllocation allocation;
-      
+
       gtk_widget_get_allocation(applet->priv->socket, &allocation);
 
       cairo_save (cr);
@@ -771,7 +771,7 @@ workrave_applet_change_orient(PanelApplet *panel, PanelAppletOrient o)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(panel);
   char *str = "";
-  
+
   switch (o)
     {
     case PANEL_APPLET_ORIENT_UP:
@@ -809,7 +809,7 @@ force_no_focus_padding(GtkWidget *widget)
                                   " -GtkWidget-focus-line-width: 0px;\n"
                                   " -GtkWidget-focus-padding: 0px;\n"
                                   "}", -1, NULL);
-  
+
   gtk_style_context_add_provider(gtk_widget_get_style_context(widget),
                                  GTK_STYLE_PROVIDER(provider),
                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -860,7 +860,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-applet-menu.xml", NULL);
   panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group);
   g_free(ui_path);
-  
+
   panel_applet_set_flags(PANEL_APPLET(applet), PANEL_APPLET_EXPAND_MINOR);
 
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
@@ -871,7 +871,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   applet->priv->socket = gtk_socket_new();
   GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(applet));
   GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(applet));
- 
+
   if (gdk_screen_get_rgba_visual(screen) != NULL && gdk_display_supports_composite(display))
     {
       GdkVisual *visual = gdk_screen_get_rgba_visual(screen);
@@ -884,7 +884,7 @@ workrave_applet_fill(WorkraveApplet *applet)
     }
 
 	g_signal_connect(applet->priv->socket, "realize", G_CALLBACK(workrave_applet_socket_realize), applet);
-  
+
   // Image
   pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
   applet->priv->image = gtk_image_new_from_pixbuf(pixbuf);
@@ -930,7 +930,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet->priv);
 
   gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->priv->hbox));
-  
+
   gtk_widget_show(GTK_WIDGET(applet->priv->image));
   gtk_widget_hide(GTK_WIDGET(applet->priv->socket));
   gtk_widget_show(GTK_WIDGET(applet->priv->hbox));
@@ -944,14 +944,14 @@ workrave_applet_init(WorkraveApplet *applet)
   applet->priv = G_TYPE_INSTANCE_GET_PRIVATE(applet, WORKRAVE_TYPE_APPLET, WorkraveAppletPrivate);
 
   WorkraveAppletPrivate *priv = applet->priv;
-  
+
   priv->image = NULL;
   priv->socket = NULL;
   priv->size = 48;
   priv->orientation = 0;
   priv->last_showlog_state = FALSE;
   priv->last_reading_mode_state = FALSE;
-  priv->last_mode = 0; 
+  priv->last_mode = 0;
   priv->support = NULL;
   priv->ui = NULL;
   priv->core = NULL;
@@ -964,7 +964,7 @@ workrave_applet_init(WorkraveApplet *applet)
       dbus_g_proxy_begin_call(applet->priv->support, "EmbedRequest", dbus_callback, NULL, NULL,
                               G_TYPE_INVALID);
     }
-  
+
   force_no_focus_padding(GTK_WIDGET(applet));
 }
 

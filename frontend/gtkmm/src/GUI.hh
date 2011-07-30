@@ -72,7 +72,7 @@ public:
   MainWindow *get_main_window() const;
   SoundPlayer *get_sound_player() const;
   Menus *get_menus() const;
-  
+
   void main();
 
   // GUIFactoryInterface methods
@@ -97,7 +97,7 @@ public:
   void close_main_window();
   void init_multihead();
   void main_window_closed();
-  
+
   // Prefs
   // Misc
   sigc::signal0<void> &signal_heartbeat();
@@ -109,7 +109,7 @@ public:
   void interrupt_grab();
 
   bool is_status_icon_visible() const;
-  
+
 
 private:
   std::string get_timers_tooltip();
@@ -125,7 +125,7 @@ private:
   void init_dbus();
   void init_session();
   void init_startup_warnings();
-  
+
   void init_gtk_multihead();
 
   static void session_quit_cb(EggSMClient *client, GUI *gui);
@@ -146,7 +146,7 @@ private:
   bool on_grab_retry_timer();
 #endif
   bool on_operational_mode_warning_timer();
-  
+
 #if defined(PLATFORM_OS_WIN32)
   void win32_init_filter();
   static GdkFilterReturn win32_filter_func (void     *xevent,

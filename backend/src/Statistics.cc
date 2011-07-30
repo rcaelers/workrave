@@ -93,7 +93,7 @@ Statistics::init(Core *control)
     {
       input_monitor->subscribe_statistics(this);
     }
-  
+
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
@@ -498,7 +498,7 @@ Statistics::load(ifstream &infile, bool history)
     {
       add_history(stats);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -970,7 +970,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
           delta_x = abs(x - prev_x);
           delta_y = abs(y - prev_y);
         }
-      
+
       prev_x = x;
       prev_y = y;
 
@@ -1003,7 +1003,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
           last_mouse_time = now;
         }
     }
-  
+
   lock.unlock();
 }
 

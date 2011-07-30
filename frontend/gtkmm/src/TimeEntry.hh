@@ -64,7 +64,7 @@ private:
   Gtk::Adjustment hours_adjustment;
   Gtk::Adjustment mins_adjustment;
   Gtk::Adjustment secs_adjustment;
-#endif  
+#endif
 
   bool millis;
 };

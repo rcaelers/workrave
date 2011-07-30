@@ -45,7 +45,7 @@ public:
 #endif
 
 #ifdef HAVE_GTK3
-  static GdkDevice *keyboard, *pointer;  
+  static GdkDevice *keyboard, *pointer;
 #endif
 };
 

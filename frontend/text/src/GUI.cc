@@ -307,7 +307,7 @@ GUI::new_break_window(BreakId break_id, bool user_initiated)
   bool ignorable = true;
 
   (void) user_initiated;
-  
+
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new BreakWindow(break_id, ignorable, block_mode);

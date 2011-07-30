@@ -52,14 +52,14 @@ private:
   DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, int cmd);
   DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, MenuItemType type, int cmd);
   void menu_item_set_checked(int cmd, bool checked);
-  
+
   int find_menu_item(DbusmenuMenuitem *item) const;
-  
+
   static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
   void menu_item_activated(DbusmenuMenuitem *mi);
-  
+
 private:
-  IndicatorAppletWindow *applet_window;  
+  IndicatorAppletWindow *applet_window;
 
   DbusmenuServer *server;
   DbusmenuMenuitem *root;

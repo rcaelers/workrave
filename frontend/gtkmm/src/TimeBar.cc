@@ -274,7 +274,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
     {
       colormap->alloc_color(bar_colors[i]);
     }
-  
+
   // Physical width/height
   int win_w = allocation.get_width();
   int win_h = allocation.get_height();
@@ -299,7 +299,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
 
   Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
   bar_colors[COLOR_ID_BG] = bg;
-  
+
   // Draw background
   window_gc->set_foreground(bar_colors[COLOR_ID_BG]);
   style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area,
@@ -404,7 +404,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
-  
+
   pango_matrix_rotate(&matrix, 360 - rotation);
   pc1->set_matrix(matrix);
 
@@ -479,7 +479,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   TRACE_MSG(textcolor.get_red() << " " <<
             textcolor.get_green() << " " <<
             textcolor.get_blue());
-  
+
   Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
 
   window_gc1->set_clip_origin(0,0);
@@ -576,7 +576,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
- 
+
   // Physical width/height
   int win_w = allocation.get_width();
   int win_h = allocation.get_height();
@@ -609,11 +609,11 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->set_state((Gtk::StateFlags)Gtk::STATE_FLAG_ACTIVE);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h -1);
   style_context->context_restore();
-  
+
   set_color(cr, back_color);
   cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
   cr->fill();
-  
+
   // Bar
   int bar_width = 0;
   if (bar_max_value > 0)
@@ -708,7 +708,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
-  
+
   pc1->set_matrix(matrix);
 
   int text_width, text_height;
@@ -784,7 +784,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->move_to(text_x, text_y);
   set_color(cr, bar_text_color);
   pl1->show_in_cairo_context(cr);
- 
+
   Gdk::RGBA front_color = style_context->get_color();
   cr->reset_clip();
   cr->rectangle(rect2.get_x(), rect2.get_y(), rect2.get_width(), rect2.get_height());
@@ -794,7 +794,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   pl1->show_in_cairo_context(cr);
 
   style_context->context_restore();
-  
+
   TRACE_EXIT();
   return Gtk::Widget::on_draw(cr);
 }

@@ -55,14 +55,14 @@ private:
   //! The monitor's execution thread.
   virtual void run();
 
-#ifdef HAVE_XRECORD_FALLBACK  
+#ifdef HAVE_XRECORD_FALLBACK
   //! the events execution thread.
   void run_events();
 #endif
-  
+
   void error_trap_enter();
   void error_trap_exit();
-  
+
   //! Initialize
   bool init_xrecord();
 
@@ -83,7 +83,7 @@ private:
   static gboolean static_report_failure(void *data);
 
 private:
-#ifdef HAVE_XRECORD_FALLBACK  
+#ifdef HAVE_XRECORD_FALLBACK
   //! Internal X magic
   void set_event_mask(Window window);
 
@@ -99,7 +99,7 @@ private:
   //! Handle a mouse button event.
   void handle_button(XEvent *event);
 #endif
-  
+
 private:
   //! The X11 display name.
   std::string x11_display_name;
@@ -107,7 +107,7 @@ private:
   //! The X11 display handle.
   Display *x11_display;
 
-#ifdef HAVE_XRECORD_FALLBACK  
+#ifdef HAVE_XRECORD_FALLBACK
   //! The X11 root window handle.
   Window root_window;
 #endif

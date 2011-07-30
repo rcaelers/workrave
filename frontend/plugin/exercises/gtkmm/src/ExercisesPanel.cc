@@ -213,16 +213,16 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
          exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != NULL;
-        
-  copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));  
+
+  copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
 
-#ifdef HAVE_GTK3  
+#ifdef HAVE_GTK3
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
-#else  
+#else
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 #endif
-  
+
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
@@ -239,7 +239,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
       back_button =  Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
       forward_button =  Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
       stop_button = NULL;
-      
+
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
       dialog_action_area->pack_start(*forward_button, false, false, 0);

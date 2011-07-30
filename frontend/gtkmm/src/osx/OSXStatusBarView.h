@@ -4,7 +4,7 @@
 #include "ITimeBar.hh"
 
 @interface OSXStatusBarView : NSView {
-	
+
   NSStatusItem *statusItem;
   NSMenu *menu;
   bool menuVisibility;

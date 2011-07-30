@@ -27,7 +27,7 @@ namespace workrave
   class IConfigurator;
   class INetwork;
   class DBus;
-  
+
   //! Main access points to the Core.
   class CoreFactory
   {

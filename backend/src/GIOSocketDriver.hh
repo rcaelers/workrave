@@ -45,8 +45,8 @@ private:
                                          GSocketConnection *connection,
                                          GObject *src_object,
                                          gpointer user_data);
-  
-  
+
+
 private:
   GSocketService *service;
 };
@@ -75,11 +75,11 @@ private:
   static void static_connected_callback(GObject *source_object,
                                         GAsyncResult *result,
                                         gpointer user_data);
-  
+
   static gboolean static_data_callback(GSocket *socket,
                                    GIOCondition condition,
                                    gpointer user_data);
-  
+
 private:
   GSocketConnection *connection;
   GSocket *socket;

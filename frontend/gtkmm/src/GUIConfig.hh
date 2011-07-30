@@ -46,7 +46,7 @@ public:
 
   static bool get_trayicon_enabled();
   static void set_trayicon_enabled(bool enabled);
-  
+
   static bool get_ignorable(BreakId id);
   static void set_ignorable(BreakId id, bool b);
   static int get_number_of_exercises(BreakId id);

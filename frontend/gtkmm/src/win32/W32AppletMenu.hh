@@ -46,7 +46,7 @@ public:
   virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
-  
+
 private:
   MainWindow *main_window;
   W32AppletWindow *applet_window;

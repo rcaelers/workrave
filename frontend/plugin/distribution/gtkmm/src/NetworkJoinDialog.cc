@@ -71,7 +71,7 @@ NetworkJoinDialog::NetworkJoinDialog()
 #else
                   (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
 #endif
-  
+
   img_aln->add(*title_img);
 
   Gtk::Label *title_lab = Gtk::manage(new Gtk::Label());

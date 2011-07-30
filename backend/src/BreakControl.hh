@@ -69,13 +69,13 @@ public:
   void set_state_data(bool activate, const BreakStateData &data);
   void get_state_data(BreakStateData &data);
   bool is_taking();
-  
+
   // ActivityMonitorListener
   bool action_notify();
 
   // Configuration
   void set_max_preludes(int m);
-  
+
   // BreakResponseInterface
   void postpone_break();
   void skip_break();

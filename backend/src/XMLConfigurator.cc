@@ -95,7 +95,7 @@ XMLConfigurator::load(string filename)
 
         gdome_di_freeDoc(domImpl, doc, &exc);
       }
-  
+
     gdome_di_unref(domImpl, &exc);
   }
 

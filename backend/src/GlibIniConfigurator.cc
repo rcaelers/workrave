@@ -158,7 +158,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
   if (has_key == TRUE && error == NULL)
     {
       ret = true;
-      
+
       switch(type)
         {
         case VARIANT_TYPE_INT:
@@ -205,7 +205,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
       g_error_free(error);
       ret = false;
     }
-  
+
   TRACE_RETURN(ret);
   return ret;
 }

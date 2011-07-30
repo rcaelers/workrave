@@ -26,7 +26,7 @@ using namespace std;
 namespace workrave
 {
   class DistributionLogListener;
-  
+
   class IDistributionManager
   {
   public:
@@ -54,7 +54,7 @@ namespace workrave
 
     virtual bool get_listening() const = 0;
     virtual void set_listening(bool b) = 0;
-    
+
     virtual string get_username() const = 0;
     virtual void set_username(string name) = 0;
 

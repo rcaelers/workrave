@@ -63,7 +63,7 @@ public:
       BREAK_FLAGS_NATURAL         = 1 << 3,
       BREAK_FLAGS_USER_INITIATED  = 1 << 4
     };
-    
+
   BreakWindow(BreakId break_id,
               HeadInfo &head,
               BreakFlags break_flags,
@@ -79,7 +79,7 @@ public:
   virtual void refresh();
 
   virtual void update_break_window();
-  
+
   Glib::RefPtr<Gdk::Window> get_gdk_window();
 
 protected:
@@ -126,7 +126,7 @@ private:
 
   //! Break windows visible?
   bool visible;
- 
+
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
 

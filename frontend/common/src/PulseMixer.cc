@@ -20,11 +20,11 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
- 
+
 #ifdef HAVE_PULSE
- 
+
 #include "debug.hh"
- 
+
 #include "IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
@@ -51,10 +51,10 @@ PulseMixer::PulseMixer()
 PulseMixer::~PulseMixer()
 {
   TRACE_ENTER("PulseMixer::~PulseMixer");
-	
+
   pa_context_unref(context);
   pa_glib_mainloop_free(pa_mainloop);
-  
+
   TRACE_EXIT();
 }
 
@@ -64,14 +64,14 @@ bool
 PulseMixer::set_mute(bool on)
 {
   TRACE_ENTER_MSG("PulseMixer::set_mute", on);
- 
+
   bool was_muted = false;
-  
+
   if (default_sink_info != NULL)
     {
       was_muted = default_sink_info->mute;
       TRACE_MSG("Was muted " << was_muted);
-      
+
       if (was_muted != on)
         {
           pa_operation* o;
@@ -94,7 +94,7 @@ void
 PulseMixer::init()
 {
   TRACE_ENTER("PulseMixer::init");
-  
+
   pa_mainloop = pa_glib_mainloop_new(g_main_context_default());
   g_assert(pa_mainloop);
 
@@ -115,7 +115,7 @@ PulseMixer::init()
   pa_proplist_sets(pa_proplist,
                    PA_PROP_APPLICATION_VERSION,
                    PACKAGE_VERSION);
-  
+
   context = pa_context_new_with_proplist(pa_api, NULL, pa_proplist);
   g_assert(context);
 
@@ -213,7 +213,7 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
              return;
            }
          pa_operation_unref(o);
-        
+
         break;
       }
     case PA_CONTEXT_TERMINATED:
@@ -290,7 +290,7 @@ PulseMixer::update_sink(const pa_sink_info &info)
 {
   TRACE_ENTER("PulseMixer::update_sink");
   SinkInfo *sink_info = NULL;
-  
+
   if (sinks.count(info.index))
     {
       sink_info = sinks[info.index];
@@ -307,7 +307,7 @@ PulseMixer::update_sink(const pa_sink_info &info)
   sink_info->mute = info.mute;
 
   TRACE_MSG(info.name << " " << info.mute << " " << info.index);
-  
+
   if (sink_info->name == default_sink_name)
     {
       default_sink_info = sink_info;

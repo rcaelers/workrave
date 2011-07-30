@@ -51,7 +51,7 @@ public:
 private:
   static inline void init() { if(run_once) init_once(); }
   static void init_once();
-  
+
   static bool run_once;
   static bool force_focus;
   static bool ime_magic;

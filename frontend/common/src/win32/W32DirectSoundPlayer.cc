@@ -132,7 +132,7 @@ W32DirectSoundPlayer::init(ISoundDriverEvents *events)
   HRESULT             hr = S_OK;
 
   this->events = events;
-  
+
   if (direct_sound != NULL)
     {
       direct_sound->Release();
@@ -160,7 +160,7 @@ W32DirectSoundPlayer::init(ISoundDriverEvents *events)
           direct_sound->Release();
           direct_sound = NULL;
         }
-      
+
       throw;
     }
 }
@@ -214,7 +214,7 @@ bool
 W32DirectSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   char key[MAX_PATH], val[MAX_PATH];
-  
+
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.current");
@@ -224,7 +224,7 @@ W32DirectSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
       enabled = (val[0] != '\0');
       return true;
     }
-  
+
   return false;
 }
 
@@ -235,7 +235,7 @@ W32DirectSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
   if (enabled)
     {
       char key[MAX_PATH], def[MAX_PATH];
-      
+
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
       strcat(key, SoundPlayer::sound_registry[snd].label);
       strcat(key, "\\.default");
@@ -250,11 +250,11 @@ W32DirectSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
   else
     {
       char key[MAX_PATH];
-      
+
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
       strcat(key, SoundPlayer::sound_registry[snd].label);
       strcat(key, "\\.current");
-  
+
       registry_set_value(key, NULL, "");
     }
 }
@@ -268,7 +268,7 @@ W32DirectSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.current");
-  
+
   if (registry_get_value(key, NULL, val))
     {
       wav_file = val;
@@ -283,7 +283,7 @@ W32DirectSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
           wav_file = val;
         }
     }
-  
+
   return true;;
 }
 
@@ -298,7 +298,7 @@ W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_
     {
       registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
     }
-  
+
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.default");
@@ -337,7 +337,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
   catch(...)
     {
     }
- 
+
   delete clip;
 
   TRACE_EXIT();
@@ -384,7 +384,7 @@ SoundClip::~SoundClip()
       CloseHandle(stop_event);
       stop_event = NULL;
     }
-  
+
   delete wave_file;
   wave_file = NULL;
 
@@ -398,7 +398,7 @@ SoundClip::init()
   HRESULT hr = S_OK;
 
   TRACE_ENTER("SoundClip::init");
-  
+
   wave_file = new WaveFile(filename);
   wave_file->init();
 
@@ -437,7 +437,7 @@ SoundClip::init()
   DSBPOSITIONNOTIFY pn;
   pn.dwOffset = DSBPN_OFFSETSTOP;
   pn.hEventNotify = stop_event;
-  
+
   hr = notify->SetNotificationPositions(1, &pn);
   if (FAILED(hr))
     {
@@ -460,14 +460,14 @@ SoundClip::fill_buffer()
 {
   TRACE_ENTER("SoundClip::fill_buffer");
 
-  HRESULT hr; 
+  HRESULT hr;
   VOID *locked_sound_buffer = NULL;
   DWORD locked_sound_buffer_size = 0;
 
   restore_buffer();
 
-  hr = sound_buffer->Lock(0, sound_buffer_size, 
-                          &locked_sound_buffer, &locked_sound_buffer_size, 
+  hr = sound_buffer->Lock(0, sound_buffer_size,
+                          &locked_sound_buffer, &locked_sound_buffer_size,
                           NULL, NULL, 0L);
   if (FAILED(hr))
     {
@@ -480,11 +480,11 @@ SoundClip::fill_buffer()
 
   if (locked_sound_buffer_size - bytes_read > 0)
     {
-      FillMemory((BYTE*) locked_sound_buffer + bytes_read, 
-                 locked_sound_buffer_size - bytes_read, 
+      FillMemory((BYTE*) locked_sound_buffer + bytes_read,
+                 locked_sound_buffer_size - bytes_read,
                  (BYTE)(wave_file->get_format()->wBitsPerSample == 8 ? 128 : 0));
     }
-  
+
   sound_buffer->Unlock(locked_sound_buffer, locked_sound_buffer_size, NULL, 0);
   sound_buffer->SetCurrentPosition(0);
   TRACE_EXIT();
@@ -516,7 +516,7 @@ SoundClip::restore_buffer()
 {
   TRACE_ENTER("SoundClip::restore_buffer");
   HRESULT hr = S_OK;
-  do 
+  do
     {
       hr = sound_buffer->Restore();
       if (hr == DSERR_BUFFERLOST)
@@ -544,7 +544,7 @@ SoundClip::play()
     {
       events->eos_event();
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -556,7 +556,7 @@ SoundClip::set_volume(int volume)
   if (sound_buffer != NULL)
     {
       long dsVolume;
-      
+
       if (volume == 0)
         {
           dsVolume = -10000;
@@ -565,7 +565,7 @@ SoundClip::set_volume(int volume)
         {
           dsVolume = 100 * (long) (20 * log10((double) volume / 100.0));
         }
-      
+
       dsVolume = CLAMP(dsVolume, -10000, 0);
 
       sound_buffer->SetVolume(dsVolume);
@@ -620,7 +620,7 @@ WaveFile::init()
       TRACE_RETURN("Exception: mmioDescend1");
       throw Exception("mmioDescend1");
     }
-  
+
   if (parent.ckid != FOURCC_RIFF || parent.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
     {
       TRACE_RETURN("Exception: no Wave");
@@ -630,7 +630,7 @@ WaveFile::init()
   memset((void *)&child, 0, sizeof(child));
 
   child.ckid = mmioFOURCC('f', 'm', 't', ' ');
-  
+
   res = mmioDescend(mmio, &child, &parent, MMIO_FINDCHUNK);
   if (res != MMSYSERR_NOERROR)
     {
@@ -709,14 +709,14 @@ WaveFile::read(BYTE *buffer, size_t size)
       TRACE_RETURN("Exception: mmioGetInfo");
       throw Exception("mmioGetInfo");
     }
-  
+
   int pos = 0;
   do
     {
       size_t copy = mmioInfo.pchEndRead - mmioInfo.pchNext;
 
-      if (copy > 0) 
-        {	
+      if (copy > 0)
+        {
           if (copy > size - pos)
             {
               copy = size - pos;
@@ -730,7 +730,7 @@ WaveFile::read(BYTE *buffer, size_t size)
 
     } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
 
-  mmioSetInfo(mmio, &mmioInfo, 0); 
+  mmioSetInfo(mmio, &mmioInfo, 0);
 
   TRACE_EXIT();
   return pos;

@@ -34,7 +34,7 @@ public:
   virtual ~Plug();
 
 private:
-  
+
 protected:
 #ifdef HAVE_GTK3
   virtual void on_realize();

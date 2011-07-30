@@ -70,7 +70,7 @@ private:
 
   //! Applet embedded?
   bool embedded;
-  
+
   //! Controller
   AppletControl *control;
 

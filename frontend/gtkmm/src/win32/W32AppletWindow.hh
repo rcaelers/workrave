@@ -82,7 +82,7 @@ private:
   AppletHeartbeatData local_heartbeat_data;
   AppletMenuData local_menu_data;
   HWND local_applet_window;
-  
+
   AppletHeartbeatData heartbeat_data;
   AppletMenuData menu_data;
   CRITICAL_SECTION heartbeat_data_lock;

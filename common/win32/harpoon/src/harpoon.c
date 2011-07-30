@@ -269,9 +269,9 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case HARPOON_MOUSE_MOVE:
        /*
        The x and y mouse coordinates are packed into lParam.
-       Here we separate x and y. It's important to cast as 
+       Here we separate x and y. It's important to cast as
        signed, because the coordinate(s) could be negative.
-       Casting to the signed type allows the compiler to 
+       Casting to the signed type allows the compiler to
        properly promote the signed short to a signed int.
        */
               evt.mouse.x = (short)LOWORD( lParam );
@@ -320,8 +320,8 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
       int button = -1;
       int x = pmhs->pt.x;
       int y = pmhs->pt.y;
-      
-      // If WH_MOUSE_LL is hooked, 
+
+      // If WH_MOUSE_LL is hooked,
       // WH_MOUSE messages are not appended to the debug window.
       // This is mainly to avoid overflow.
       switch (wpar)
@@ -362,7 +362,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
               if( debug && !mouse_ll_hook && wpar == WM_XBUTTONDOWN )
                   debug_send_message( "WH_MOUSE: WM_XBUTTONDOWN" );
               break;
-          
+
           case WM_NCLBUTTONUP:
               if( debug && !mouse_ll_hook )
                   debug_send_message( "WH_MOUSE: WM_NCLBUTTONUP" );
@@ -399,7 +399,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
               if( debug && !mouse_ll_hook && wpar == WM_XBUTTONUP )
                   debug_send_message( "WH_MOUSE: WM_XBUTTONUP" );
               break;
-          
+
           case WM_NCLBUTTONDBLCLK:
               if( debug && !mouse_ll_hook )
                   debug_send_message( "WH_MOUSE: WM_NCLBUTTONDBLCLK" );
@@ -436,7 +436,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
               if( debug && !mouse_ll_hook && wpar == WM_XBUTTONDBLCLK )
                   debug_send_message( "WH_MOUSE: WM_XBUTTONDBLCLK" );
               break;
-          
+
           case WM_MOUSEWHEEL:
               evt = HARPOON_MOUSE_WHEEL;
               button = 1;
@@ -459,7 +459,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
               if( debug && !mouse_ll_hook && wpar == WM_MOUSEMOVE )
                   debug_send_message( "WH_MOUSE: WM_MOUSEMOVE" );
             }
-      
+
       /*
    The low-level mouse hook is always preferred over the
    regular mouse hook. The low-level hook posts its own
@@ -469,7 +469,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
    */
       if( !mouse_ll_hook && evt != HARPOON_NOTHING )
           harpoon_post_message (evt, button, MAKELONG(x, y));
-      
+
       if (evt == HARPOON_BUTTON_RELEASE)
         {
           forcecallnext = TRUE;
@@ -489,7 +489,7 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
       int button = -1;
       int x = pmhs->pt.x;
       int y = pmhs->pt.y;
-      
+
       switch (wpar)
         {
           case WM_LBUTTONDOWN:
@@ -512,7 +512,7 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
               evt = HARPOON_BUTTON_PRESS;
               if_debug_send_message( "WH_MOUSE_LL: WM_XBUTTONDOWN" );
               break;
-          
+
           case WM_LBUTTONUP:
               button = 0;
               evt = HARPOON_BUTTON_RELEASE;
@@ -533,7 +533,7 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
               evt = HARPOON_BUTTON_RELEASE;
               if_debug_send_message( "WH_MOUSE_LL: WM_XBUTTONUP" );
               break;
-          
+
           case WM_MOUSEWHEEL:
               evt = HARPOON_MOUSE_WHEEL;
               button = 1;
@@ -545,12 +545,12 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
               button = 2;
               if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEHWHEEL" );
               break;
-#endif          
+#endif
           case WM_MOUSEMOVE:
               evt = HARPOON_MOUSE_MOVE;
               if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEMOVE" );
         }
-      
+
       if( evt != HARPOON_NOTHING )
           harpoon_post_message (evt, button, MAKELONG(x, y));
     }
@@ -577,7 +577,7 @@ harpoon_mouse_block_hook (int code, WPARAM wpar, LPARAM lpar)
           forcecallnext = TRUE;
         }
     }
-  
+
   return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook,
                                       forcecallnext);
 }
@@ -628,7 +628,7 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 
       evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
       forcecallnext = !pressed;
-      
+
       /*
         The low-level keyboard hook is always preferred over the
         regular keyboard hook. The low-level hook posts its own
@@ -695,7 +695,7 @@ harpoon_keyboard_block_hook (int code, WPARAM wpar, LPARAM lpar)
 }
 
 
-static LRESULT CALLBACK 
+static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
   BOOL forcecallnext = TRUE;
@@ -861,7 +861,7 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
           SendMessage( debug_hwnd, EM_SETLIMITTEXT, 0x7FFFFFFE, 0 );
           // Assign debug flag global.
           debug = debug_harpoon;
-          debug_send_message( 
+          debug_send_message(
               "Note: If both WH_MOUSE and WH_MOUSE_LL are hooked, "
               "WH_MOUSE messages are not appended to the debug window. "
               "This is done mainly to avoid overflow."
@@ -889,7 +889,7 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
   if_debug_send_message( "harpoon_init() success" );
 
   initialized = TRUE;
-  
+
   return TRUE;
 }
 
@@ -1050,8 +1050,8 @@ harpoon_hook_block_only(void)
 #ifdef _WIN64
       if (msg_hook == NULL)
         {
-          msg_hook = SetWindowsHookEx(WH_GETMESSAGE, 
-                                      harpoon_msg_block_hook, 
+          msg_hook = SetWindowsHookEx(WH_GETMESSAGE,
+                                      harpoon_msg_block_hook,
                                       dll_handle, 0);
           if ( msg_hook )
             if_debug_send_message( "SetWindowsHookEx: WH_GETMESSAGE (success)" );

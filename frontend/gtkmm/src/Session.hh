@@ -40,19 +40,19 @@ public:
   void init();
 
   void set_idle(bool idle);
-  
+
 #if defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
 public:
   void init_gnome();
 
-private:  
+private:
   DBusGConnection *connection;
 #endif // defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
 
 private:
   bool is_idle;
   bool taking;
-  
+
   //! Operation mode before the screen was locked.
   workrave::OperationMode mode_before_screenlock;
 };

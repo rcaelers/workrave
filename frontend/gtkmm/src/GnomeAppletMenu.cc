@@ -87,7 +87,7 @@ GnomeAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
         case OPERATION_MODE_NORMAL:
           applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_NORMAL, true);
           break;
-        
+
         case OPERATION_MODE_SUSPENDED:
           applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_SUSPENDED, true);
           break;

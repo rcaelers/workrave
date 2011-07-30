@@ -67,7 +67,7 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
 
   // FIXME:
   const_cast<IconListCellRenderer*>(this)->update_properties();
-  
+
   text_renderer.get_preferred_width(widget, text_minimum_width, text_natural_width);
   pixbuf_renderer.get_preferred_width(widget, pixbuf_minimum_width, pixbuf_natural_width);
 
@@ -86,7 +86,7 @@ void IconListCellRenderer::get_preferred_height_for_width_vfunc(Gtk::Widget &wid
   TRACE_EXIT();
 
 }
-  
+
 void IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const
 {
   TRACE_ENTER("IconListCellRenderer::get_preferred_height_vfunc");
@@ -95,7 +95,7 @@ void IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &
 
   // FIXME:
   const_cast<IconListCellRenderer*>(this)->update_properties();
-  
+
   text_renderer.get_preferred_height(widget, text_minimum_height, text_natural_height);
   pixbuf_renderer.get_preferred_height(widget, pixbuf_minimum_height, pixbuf_natural_height);
 
@@ -143,7 +143,7 @@ void IconListCellRenderer::render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr,
 }
 
 #else
-   
+
 void
 IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
                                      const Gdk::Rectangle* cell_area,
@@ -218,7 +218,7 @@ IconListCellRenderer::render_vfunc(
   GtkCellRenderer *prend = GTK_CELL_RENDERER(pixbuf_renderer.gobj());
   gtk_cell_renderer_get_size (prend, widg, ca,
                               NULL, NULL, &width, &height);
-    
+
   pixbuf_area.y = ca->y;
   pixbuf_area.x = ca->x;
   pixbuf_area.height = height;

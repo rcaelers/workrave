@@ -55,7 +55,7 @@ class ${interface.qname}_Impl : public ${interface.qname}, public DBusBaseTypes
 {
 public:
   ${interface.qname}_Impl(DBus *dbus, const string &service, const string &path);
-  
+
   #for $method in interface.methods
   #slurp
   $interface.type2csymbol(method.return_type()) ${method.qname}(#slurp
@@ -71,12 +71,12 @@ public:
   #if p.direction == 'out'
     #if 'return' in p.hint
     /**/ #slurp
-    #slurp                                                             
+    #slurp
     #else if 'ptr' in p.hint
      *$p.name#slurp
     #else
      &$p.name#slurp
-    #end if 
+    #end if
   #else if p.direction == 'in'
     #if 'ref' in p.hint
     &$p.name#slurp
@@ -84,7 +84,7 @@ public:
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
   #end if
   #end for
   );
@@ -103,7 +103,7 @@ public:
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
     #set comma = ','
   #end if
   #end for
@@ -113,7 +113,7 @@ public:
 
 
   #end for
-  
+
 private:
   #for $method in interface.methods
   typedef sigc::signal<void, DBusError * #slurp
@@ -128,7 +128,7 @@ private:
     &#slurp
     #else if 'ptr' in p.hint
     *#slurp
-    #end if 
+    #end if
     #set comma = ','
   #end if
   #end for
@@ -143,12 +143,12 @@ private:
   {
     delete (${method.qname}_async_closure *)mem;
   }
-  
+
   static void ${method.qname}_fcn_static(DBusPendingCall *pending, void *user_data);
   void ${method.qname}_fcn(DBusPendingCall *pending, void *user_data);
 
   #end for
-  
+
   #for enum in $interface.enums
   void get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result);
   void put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
@@ -198,7 +198,7 @@ ${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *
 		throw DBusTypeException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
-  
+
   #set ifs = 'if'
   #for e in enum.values
   $ifs ("$e.name" == value)
@@ -227,7 +227,7 @@ ${interface.qname}::put_${enum.qname}(DBusMessageIter *writer, const ${enum.csym
     default:
       throw DBusTypeException("Illegal enum value");
     }
-        	
+
   put_string(writer, &value);
 }
 
@@ -253,7 +253,7 @@ ${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.
 {
   DBusMessageIter it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_STRUCT, NULL, &it);
   if (!ok)
     {
@@ -297,7 +297,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
   DBusMessageIter arr;
   ${seq.csymbol}::const_iterator it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "$interface.type2sig(seq.data_type)", &arr);
   if (!ok)
     {
@@ -308,7 +308,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
   {
     put_${seq.data_type}(&arr, &(*it));
   }
-  
+
   ok = dbus_message_iter_close_container(writer, &arr);
   if (!ok)
     {
@@ -333,7 +333,7 @@ ${interface.qname}::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *
     $interface.type2csymbol(dict.value_type) value;
 
     dbus_message_iter_recurse(&arr_it, &dict_it);
-    
+
     get_${dict.key_type}(&dict_it, &key);
     get_${dict.value_type}(&dict_it, &value);
 
@@ -353,7 +353,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
   DBusMessageIter dict_it;
   ${dict.csymbol}::const_iterator it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY,
                                         "$interface.type2sig(dict.value_type)", &arr_it);
   if (!ok)
@@ -368,7 +368,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
         {
           throw DBusSystemException("Internal error");
         }
-    
+
       put_${dict.key_type}(&dict_it, &(it->first));
       put_${dict.value_type}(&dict_it, &(it->second));
 
@@ -378,7 +378,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
           throw DBusSystemException("Internal error");
         }
     }
-  
+
   ok = dbus_message_iter_close_container(writer, &arr_it);
   if (!ok)
     {
@@ -404,12 +404,12 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   #if p.direction == 'out'
     #if 'return' in p.hint
     /**/ #slurp
-    #slurp                                                             
+    #slurp
     #else if 'ptr' in p.hint
      *$p.name#slurp
     #else
      &$p.name#slurp
-    #end if 
+    #end if
   #else if p.direction == 'in'
     #if 'ref' in p.hint
     &$p.name#slurp
@@ -417,7 +417,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
   #end if
   #end for
   )
@@ -429,7 +429,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   DBusMessage *message = NULL;
   DBusMessage *reply = NULL;
   DBusPendingCall *pending = NULL;
-  
+
   DBusMessageIter reader;
   DBusMessageIter writer;
   dbus_bool_t ok;
@@ -447,12 +447,12 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   #end if
 #end if
 #end for
-  
+
   try
     {
       message = dbus_message_new_method_call(service.c_str(),
                                              path.c_str(),
-                                             "$interface.name",  "$method.name"); 
+                                             "$interface.name",  "$method.name");
 
       dbus_message_iter_init_append(message, &writer);
 
@@ -460,42 +460,42 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   #if arg.direction == 'in'
   #if 'ptrptr' in p.hint
       put_${arg.type}(&writer, ${arg.name});
-  #else                                                        
+  #else
       put_${arg.type}(&writer, &${arg.name});
-  #end if                                                         
+  #end if
   #end if
   #end for
 
       if (!dbus_connection_send_with_reply(dbus->conn(), message, &pending, -1))
-        { 
+        {
           throw DBusSystemException("Cannot send");
         }
-      
+
       if (NULL == pending)
-        { 
+        {
           throw DBusSystemException("No pending reply");
         }
-      
+
       dbus_connection_flush(dbus->conn());
-      
+
       // free message
       dbus_message_unref(message);
       message = NULL;
-      
+
       // block until we receive a reply
       dbus_pending_call_block(pending);
-      
+
       // get the reply message
       reply = dbus_pending_call_steal_reply(pending);
       if (NULL == reply)
         {
           throw DBusSystemException("No reply");
         }
-      
+
       // free the pending message handle
       dbus_pending_call_unref(pending);
       pending = NULL;
-      
+
       ok = dbus_message_iter_init(reply, &reader);
 #if have_in_args
       if (!ok)
@@ -503,13 +503,13 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
           throw DBusSystemException("No parameters");
         }
 #end if
-      
+
 #for arg in method.params:
 #if $arg.direction == 'out'
       get_${arg.type}(&reader, &${arg.name});
 #end if
 #end for
-      
+
     }
   catch (DBusException)
     {
@@ -527,23 +527,23 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
         {
           dbus_pending_call_unref(pending);
         }
-      
+
       throw;
     }
-  
+
 #if method.return_type() != 'void'
   return $method.return_name();
 #end if
-    
+
 #if method.condition != ''
 \#else
     (void) object;
-  
+
   reply = dbus_message_new_error(message,
                                  "org.workrave.NotImplemented",
                                  "This method is unavailable in current configuration");
 \#endif
-#end if                                                          
+#end if
 }
 
 
@@ -561,11 +561,11 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
     #set comma = ','
   #end if
   #end for
-  $comma ${method.name}_slot slot                                                    
+  $comma ${method.name}_slot slot
   )
 {
 #if method.condition != ''
@@ -574,14 +574,14 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
 
   DBusMessage *message = NULL;
   DBusPendingCall *pending = NULL;
-  
+
   DBusMessageIter writer;
 
   try
     {
       message = dbus_message_new_method_call(service.c_str(),
                                              path.c_str(),
-                                             "$interface.name",  "$method.name"); 
+                                             "$interface.name",  "$method.name");
 
       dbus_message_iter_init(message, &writer);
 
@@ -589,33 +589,33 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
   #if arg.direction == 'in'
   #if 'ptrptr' in p.hint
       put_${arg.type}(&writer, ${arg.name});
-  #else                                                        
+  #else
       put_${arg.type}(&writer, &${arg.name});
-  #end if                                                         
+  #end if
   #end if
   #end for
 
       if (!dbus_connection_send_with_reply(dbus->conn(), message, &pending, -1))
-        { 
+        {
           throw DBusSystemException("Cannot send");
         }
-      
+
       if (NULL == pending)
-        { 
+        {
           throw DBusSystemException("No pending reply");
         }
 
       ${method.qname}_async_closure *closure = new ${method.qname}_async_closure;
       closure->impl = this;
       closure->signal.connect(slot);
-      
+
       if (!dbus_pending_call_set_notify(pending,
                                         ${interface.qname}_Impl::${method.qname}_fcn_static,
                                         closure, ${method.qname}_async_closure_free))
         {
           throw DBusSystemException("Cannot set notifier");
         }
-      
+
       // free message
       dbus_message_unref(message);
       message = NULL;
@@ -631,19 +631,19 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
         {
           dbus_pending_call_unref(pending);
         }
-      
+
       throw;
     }
-  
+
 #if method.condition != ''
 \#else
     (void) object;
-  
+
   reply = dbus_message_new_error(message,
                                  "org.workrave.NotImplemented",
                                  "This method is unavailable in current configuration");
   \#endif
-#end if                                                          
+#end if
 }
 
 void ${interface.qname}_Impl::${method.qname}_fcn_static(DBusPendingCall *pending, void *user_data)
@@ -675,7 +675,7 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
     #end if
   #end if
 #end for
-  
+
 	dbus_error_init(&error);
 
   try
@@ -685,7 +685,7 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
         {
           throw DBusSystemException("Cannot get reply");
         }
-      
+
       ok = dbus_message_iter_init(reply, &reader);
 #if have_out_args
       if (!ok)
@@ -693,7 +693,7 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
           throw DBusSystemException("No parameters");
         }
 #end if
-      
+
 #for arg in method.params:
 #if $arg.direction == 'out'
       get_${arg.type}(&reader, &${arg.name});
@@ -719,23 +719,23 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
         {
           dbus_pending_call_unref(pending);
         }
-      
+
       throw;
     }
 #if method.condition != ''
 \#endif
 #end if
-}                           
-  
+}
 
 
-  
+
+
 
 #end for
 
 
 #if interface.condition != ''
 \#endif
-#end if                                                          
+#end if
 
 #end for

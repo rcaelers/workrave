@@ -30,7 +30,7 @@ class UnixInputMonitorFactory  : public IInputMonitorFactory
 {
 public:
   UnixInputMonitorFactory();
-  
+
   virtual void init(const std::string &display);
   virtual IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
 

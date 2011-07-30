@@ -19,21 +19,21 @@
 //
 
 //! Sets the callback handler for asynchronous socket events.
-inline void 
+inline void
 ISocket::set_listener(ISocketListener *l)
 {
   listener = l;
 }
 
 
-inline void 
+inline void
 ISocket::set_data(void *data)
 {
   user_data = data;
 }
 
 //! Sets the callback handler for asynchronous server events.
-inline void 
+inline void
 ISocketServer::set_listener(ISocketServerListener *l)
 {
   listener = l;

@@ -25,16 +25,16 @@ class W32LowLevelMonitor :
 public:
   W32LowLevelMonitor();
   virtual ~W32LowLevelMonitor();
-  bool init(); 
+  bool init();
   void terminate();
   static W32LowLevelMonitor *singleton;
-  
+
 protected:
   static DWORD WINAPI thread_Dispatch( LPVOID );
   static DWORD WINAPI thread_Callback( LPVOID );
-  
+
 private:
-  
+
   struct thread_struct
     {
       volatile bool active;
@@ -50,21 +50,21 @@ private:
         }
     };
   static thread_struct *dispatch, *callback;
-  
+
   bool wait_for_thread_queue( thread_struct * );
   void terminate_thread( thread_struct * );
   void wait_for_thread_to_exit( thread_struct * );
   void unhook();
-  
+
   DWORD dispatch_thread();
   DWORD time_critical_callback_thread();
-  
+
   static LRESULT CALLBACK k_hook_callback( int, WPARAM, LPARAM );
   static LRESULT CALLBACK m_hook_callback( int, WPARAM, LPARAM );
-  
+
   static volatile HHOOK k_hook;
   static volatile HHOOK m_hook;
-  
+
   bool check_api();
   static HMODULE process_handle;
   static BOOL ( WINAPI *GetMessageW ) ( LPMSG, HWND, UINT, UINT );
@@ -72,7 +72,7 @@ private:
   static BOOL ( WINAPI *PostThreadMessageW ) ( DWORD, UINT, WPARAM, LPARAM );
   static HHOOK ( WINAPI *SetWindowsHookExW ) ( int, HOOKPROC, HINSTANCE, DWORD );
   static BOOL ( WINAPI *SwitchToThread ) ( void );
-  
+
 };
 
 #ifndef WM_XBUTTONDOWN

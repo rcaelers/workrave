@@ -133,7 +133,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
 #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
-#endif      
+#endif
 
 #ifdef PLATFORM_OS_WIN32
   menus[MENU_MAINAPPLET] = new W32TrayMenu();
@@ -146,7 +146,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
   menus[MENU_APPLET_W32] = new W32AppletMenu(main_window, w32_applet_window);
 #endif
-  
+
 #if defined(HAVE_GNOMEAPPLET)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
@@ -158,7 +158,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   IndicatorAppletWindow *indicator_applet_window = dynamic_cast<IndicatorAppletWindow*>(applet_window);
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet_window);
 #endif
-  
+
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -221,7 +221,7 @@ Menus::set_operation_mode(OperationMode m)
 {
   ICore *core = CoreFactory::get_core();
   core->set_operation_mode(m, true);
-  resync();  
+  resync();
 }
 
 
@@ -230,7 +230,7 @@ Menus::set_usage_mode(UsageMode m)
 {
   ICore *core = CoreFactory::get_core();
   core->set_usage_mode(m, true);
-  resync();  
+  resync();
 }
 
 
@@ -377,7 +377,7 @@ Menus::on_menu_about()
 #else
       about->set_authors(workrave_authors);
 #endif
-      
+
       about->set_copyright(workrave_copyright);
       about->set_comments(_("This program assists in the prevention and recovery"
                             " of Repetitive Strain Injury (RSI)."));
@@ -507,7 +507,7 @@ Menus::on_menu_network_log(bool active)
       network_log_dialog->hide();
       delete network_log_dialog;
       network_log_dialog = NULL;
-      resync();  
+      resync();
     }
 
 
@@ -530,7 +530,7 @@ Menus::on_network_log_response(int response)
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 
-  resync();  
+  resync();
 
   TRACE_EXIT();
 }
@@ -631,7 +631,7 @@ Menus::resync()
   if (syncing)
     return;
   syncing = true;
-  
+
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -660,7 +660,7 @@ Menus::locale_changed()
   if (syncing)
     return;
   syncing = true;
-  
+
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -670,6 +670,6 @@ Menus::locale_changed()
     }
 
   resync();
-  
+
   syncing = false;
 }

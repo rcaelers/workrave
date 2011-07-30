@@ -57,7 +57,7 @@ private:
   typedef DBusMessage * (${interface.qname}_Stub::*DBusMethod)(void *object, DBusMessage *message);
 
   virtual DBusMessage *call(int method_num, void *object, DBusMessage *message);
-   
+
   virtual DBusIntrospect *get_method_introspect()
   {
     return method_introspect;
@@ -71,7 +71,7 @@ private:
 public:
   ${interface.qname}_Stub(DBus *dbus);
   ~${interface.qname}_Stub();
-  
+
   #for $m in interface.signals
   void ${m.qname}(const string &path, #slurp
   #set comma = ''
@@ -82,7 +82,7 @@ public:
   );
   #end for
 
-  
+
 private:
   #for $m in interface.methods
   DBusMessage *${m.qname}(void *object, DBusMessage *message);
@@ -107,7 +107,7 @@ private:
   void get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result);
   void put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result);
   #end for
-  
+
   static DBusMethod method_table[];
   static DBusIntrospect method_introspect[];
   static DBusIntrospect signal_introspect[];
@@ -118,7 +118,7 @@ ${interface.qname} *${interface.qname}::instance(const DBus *dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
   DBusBindingBase *binding = dbus->find_binding("${interface.name}");
-  
+
   if (binding != NULL)
     {
       iface = dynamic_cast<${interface.qname}_Stub *>(binding);
@@ -141,7 +141,7 @@ DBusMessage *
 ${interface.qname}_Stub::call(int method_num, void *object, DBusMessage *message)
 {
   DBusMessage *ret = NULL;
-  
+
   if (method_num >=0 && method_num < $len(interface.methods) )
     {
       DBusMethod m = method_table[method_num];
@@ -150,10 +150,10 @@ ${interface.qname}_Stub::call(int method_num, void *object, DBusMessage *message
           ret = (this->*m)(object, message);
         }
     }
-  
+
   return ret;
 }
- 
+
 #for enum in $interface.enums
 
 void
@@ -166,7 +166,7 @@ ${interface.qname}_Stub::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymb
 		throw DBusTypeException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
-  
+
   #set ifs = 'if'
   #for e in enum.values
   $ifs ("$e.name" == value)
@@ -195,7 +195,7 @@ ${interface.qname}_Stub::put_${enum.qname}(DBusMessageIter *writer, const ${enum
     default:
       throw DBusTypeException("Illegal enum value");
     }
-        	
+
   put_string(writer, &value);
 }
 
@@ -214,7 +214,7 @@ ${interface.qname}_Stub::get_${struct.qname}(DBusMessageIter *reader, ${struct.c
   $interface.type2csymbol(p.ext_type) _${p.name};
   #end if
   #end for
-  
+
   #for p in struct.fields
   #if p.type != p.ext_type
   get_${p.ext_type}(&it, &_${p.name});
@@ -228,7 +228,7 @@ ${interface.qname}_Stub::get_${struct.qname}(DBusMessageIter *reader, ${struct.c
   result->${p.name} = ($interface.type2csymbol(p.type)) _${p.name};
   #end if
   #end for
-    
+
   dbus_message_iter_next(reader);
 }
 
@@ -237,7 +237,7 @@ ${interface.qname}_Stub::put_${struct.qname}(DBusMessageIter *writer, const ${st
 {
   DBusMessageIter it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_STRUCT, NULL, &it);
   if (!ok)
     {
@@ -291,7 +291,7 @@ ${interface.qname}_Stub::put_${seq.qname}(DBusMessageIter *writer, const ${seq.c
   DBusMessageIter arr;
   ${seq.csymbol}::const_iterator it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "$interface.type2sig(seq.data_type)", &arr);
   if (!ok)
     {
@@ -302,7 +302,7 @@ ${interface.qname}_Stub::put_${seq.qname}(DBusMessageIter *writer, const ${seq.c
   {
     put_${seq.data_type}(&arr, &(*it));
   }
-  
+
   ok = dbus_message_iter_close_container(writer, &arr);
   if (!ok)
     {
@@ -327,7 +327,7 @@ ${interface.qname}_Stub::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymb
     $interface.type2csymbol(dict.value_type) value;
 
     dbus_message_iter_recurse(&arr_it, &dict_it);
-    
+
     get_${dict.key_type}(&dict_it, &key);
     get_${dict.value_type}(&dict_it, &value);
 
@@ -347,7 +347,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
   DBusMessageIter dict_it;
   ${dict.csymbol}::const_iterator it;
   dbus_bool_t ok;
-  
+
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY,
                                         "$interface.type2sig(dict.value_type)", &arr_it);
   if (!ok)
@@ -362,7 +362,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
         {
           throw DBusSystemException("Internal error");
         }
-    
+
       put_${dict.key_type}(&dict_it, &(it->first));
       put_${dict.value_type}(&dict_it, &(it->second));
 
@@ -372,7 +372,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
           throw DBusSystemException("Internal error");
         }
     }
-  
+
   ok = dbus_message_iter_close_container(writer, &arr_it);
   if (!ok)
     {
@@ -404,7 +404,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #else
       (void) object;
       #end if
-      
+
       #set have_in_args = False
       #for p in method.params
       #if p.direction == 'in'
@@ -420,7 +420,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #end if
       ;
       #end for
-      
+
       ok = dbus_message_iter_init(message, &reader);
       #if have_in_args
       if (!ok)
@@ -428,7 +428,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
           throw DBusSystemException("No parameters");
         }
       #end if
-        
+
       #for arg in method.params:
       #if $arg.direction == 'in'
       get_${arg.type}(&reader, &${arg.name});
@@ -454,22 +454,22 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #end for
       );
       #end if
-                                                              
+
       reply = dbus_message_new_method_return(message);
       if (reply == NULL)
         {
           throw DBusSystemException("Internal error");
         }
-                                                              
+
       dbus_message_iter_init_append(reply, &writer);
-      
+
       #for arg in method.params:
       #if arg.direction == 'out'
       #if 'ptrptr' in p.hint
       put_${arg.type}(&writer, ${arg.name});
-      #else                                                        
+      #else
       put_${arg.type}(&writer, &${arg.name});
-      #end if                                                         
+      #end if
       #end if
       #end for
   }
@@ -482,7 +482,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
 
       throw;
     }
-                                                          
+
 #if method.condition != ''
 \#else
  (void) object;
@@ -491,12 +491,12 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
                                 "org.workrave.NotImplemented",
                                 "This method is unavailable in current configuration");
 \#endif
-#end if                                                          
+#end if
   return reply;
 
 }
 
-  
+
 #end for
 
 #for signal in interface.signals
@@ -537,7 +537,7 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
 }
 
 #end for
-  
+
 ${interface.qname}_Stub::DBusMethod ${interface.qname}_Stub::method_table[] = {
 #for method in $interface.methods
   &${interface.qname}_Stub::$method.qname,
@@ -554,7 +554,7 @@ DBusIntrospect ${interface.qname}_Stub::method_introspect[] = {
     NULL
   }
 };
-  
+
 DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 #for signal in $interface.signals
   { "$signal.qname",
@@ -569,7 +569,7 @@ DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 #if interface.condition != ''
  \#endif // $interface.condition
 #end if
- 
+
 #end for
 
 void init_${model.name}(DBus *dbus)

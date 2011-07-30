@@ -96,11 +96,11 @@ public:
   virtual bool is_taking() const;
 
   void set_usage_mode(UsageMode mode);
-  
+
   bool get_timer_activity_sensitive() const;
 
   void override(BreakId id);
-  
+
 private:
   void config_changed_notify(const std::string &key);
 

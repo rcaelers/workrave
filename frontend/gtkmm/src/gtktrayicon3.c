@@ -63,7 +63,7 @@ enum {
 struct _WRGtkTrayIconPrivate
 {
   guint stamp;
-  
+
   Atom selection_atom;
   Atom manager_atom;
   Atom system_tray_opcode_atom;
@@ -215,15 +215,15 @@ wrgtk_tray_icon_constructed (GObject *object)
   GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (object));
   Display *xdisplay = gdk_x11_display_get_xdisplay (display);
   char buffer[256];
-  
+
   g_snprintf (buffer, sizeof (buffer),
 	      "_NET_SYSTEM_TRAY_S%d",
 	      gdk_screen_get_number (screen));
 
   icon->priv->selection_atom = XInternAtom (xdisplay, buffer, False);
-  
+
   icon->priv->manager_atom = XInternAtom (xdisplay, "MANAGER", False);
-  
+
   icon->priv->system_tray_opcode_atom = XInternAtom (xdisplay,
 						     "_NET_SYSTEM_TRAY_OPCODE",
 						     False);
@@ -317,7 +317,7 @@ wrgtk_tray_icon_get_property (GObject    *object,
 }
 
 static gboolean
-wrgtk_tray_icon_draw (GtkWidget *widget, 
+wrgtk_tray_icon_draw (GtkWidget *widget,
 		    cairo_t   *cr)
 {
   WRGtkTrayIcon *icon = GTK_TRAY_ICON (widget);
@@ -355,7 +355,7 @@ wrgtk_tray_icon_draw (GtkWidget *widget,
                       clip.x, clip.y,
                       clip.width, clip.height,
                       False);
-          cairo_surface_mark_dirty_rectangle (target, 
+          cairo_surface_mark_dirty_rectangle (target,
                                               clip.x, clip.y,
                                               clip.width, clip.height);
         }
@@ -405,7 +405,7 @@ wrgtk_tray_icon_get_orientation_property (WRGtkTrayIcon *icon)
   int error, result;
 
   g_assert (icon->priv->manager_window != None);
-  
+
   gdk_error_trap_push ();
   type = None;
   result = XGetWindowProperty (xdisplay,
@@ -689,7 +689,7 @@ wrgtk_tray_icon_manager_filter (GdkXEvent *xevent,
         GTK_NOTE (PLUGSOCKET,
 		  g_print ("GtkStatusIcon %p: got other message on manager window\n", icon));
     }
-  
+
   return GDK_FILTER_CONTINUE;
 }
 
@@ -759,7 +759,7 @@ wrgtk_tray_icon_update_manager_window (WRGtkTrayIcon *icon)
 	    g_print ("GtkStatusIcon %p: trying to find manager window\n", icon));
 
   XGrabServer (xdisplay);
-  
+
   icon->priv->manager_window = XGetSelectionOwner (xdisplay,
 						   icon->priv->selection_atom);
 
@@ -769,7 +769,7 @@ wrgtk_tray_icon_update_manager_window (WRGtkTrayIcon *icon)
 
   XUngrabServer (xdisplay);
   XFlush (xdisplay);
-  
+
   if (icon->priv->manager_window != None)
     {
       GdkWindow *gdkwin;
@@ -919,7 +919,7 @@ _wrgtk_tray_icon_send_message (WRGtkTrayIcon *icon,
 {
   guint stamp;
   Display *xdisplay;
- 
+
   g_return_val_if_fail (GTK_IS_TRAY_ICON (icon), 0);
   g_return_val_if_fail (timeout >= 0, 0);
   g_return_val_if_fail (message != NULL, 0);
@@ -931,7 +931,7 @@ _wrgtk_tray_icon_send_message (WRGtkTrayIcon *icon,
     len = strlen (message);
 
   stamp = icon->priv->stamp++;
-  
+
   /* Get ready to send the message */
   wrgtk_tray_icon_send_manager_message (icon, SYSTEM_TRAY_BEGIN_MESSAGE,
 				      (Window)gtk_plug_get_id (GTK_PLUG (icon)),
@@ -977,29 +977,29 @@ _wrgtk_tray_icon_cancel_message (WRGtkTrayIcon *icon,
 {
   g_return_if_fail (GTK_IS_TRAY_ICON (icon));
   g_return_if_fail (id > 0);
-  
+
   wrgtk_tray_icon_send_manager_message (icon, SYSTEM_TRAY_CANCEL_MESSAGE,
 				      (Window)gtk_plug_get_id (GTK_PLUG (icon)),
 				      id, 0, 0);
 }
 
 WRGtkTrayIcon *
-_wrgtk_tray_icon_new_for_screen (GdkScreen  *screen, 
+_wrgtk_tray_icon_new_for_screen (GdkScreen  *screen,
 			       const gchar *name)
 {
   g_return_val_if_fail (GDK_IS_SCREEN (screen), NULL);
 
-  return g_object_new (GTK_TYPE_TRAY_ICON, 
-		       "screen", screen, 
-		       "title", name, 
+  return g_object_new (GTK_TYPE_TRAY_ICON,
+		       "screen", screen,
+		       "title", name,
 		       NULL);
 }
 
 WRGtkTrayIcon*
 wrgtk_tray_icon_new (const gchar *name)
 {
-  return g_object_new (GTK_TYPE_TRAY_ICON, 
-		       "title", name, 
+  return g_object_new (GTK_TYPE_TRAY_ICON,
+		       "title", name,
 		       NULL);
 }
 

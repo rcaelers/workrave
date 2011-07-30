@@ -61,7 +61,7 @@ workrave_proxy_cb(GObject *object, GAsyncResult *res, gpointer user_data)
 	GError *error = NULL;
 
 	g_debug("indicator-workrave: workrave_proxy_cb");
-  
+
 	GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
 
 	if (workrave_proxy_cancel != NULL)
@@ -109,11 +109,11 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
         {
           timer = g_timeout_add_seconds(10, on_timer, NULL);
         }
-      
+
       TimerData td[BREAK_ID_SIZEOF];
 
       memset(td, 0, sizeof(td));
-      
+
       g_variant_get(parameters, "((suuuuuuu)(suuuuuuu)(suuuuuuu))",
                     &td[BREAK_ID_MICRO_BREAK].bar_text,
                     &td[BREAK_ID_MICRO_BREAK].slot,
@@ -145,7 +145,7 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
         {
           workrave_timerbox_set_slot(timerbox, i, td[i].slot);
         }
-      
+
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           WorkraveTimebar *timebar = workrave_timerbox_get_time_bar(timerbox, i);
@@ -181,20 +181,20 @@ int main( int   argc,
           char *argv[] )
 {
   GtkWidget *window;
-    
+
   gtk_init(&argc, &argv);
-    
+
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    
+
   g_signal_connect(window, "delete-event", G_CALLBACK (delete_event), NULL);
   g_signal_connect(window, "destroy", G_CALLBACK (destroy), NULL);
-    
+
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
-    
+
   image = gtk_image_new();
-    
+
   gtk_container_add(GTK_CONTAINER(window), image);
-    
+
   gtk_widget_show(image);
   gtk_widget_show(window);
 
@@ -209,11 +209,11 @@ int main( int   argc,
                            workrave_proxy_cancel,
                            workrave_proxy_cb,
                            NULL);
-  
+
 
   timer = g_timeout_add_seconds(10, on_timer, NULL);
-  
+
   gtk_main();
-    
+
   return 0;
 }

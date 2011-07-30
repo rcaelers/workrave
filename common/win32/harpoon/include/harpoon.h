@@ -164,7 +164,7 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 #define WM_UNICHAR 265
 #endif
 
-#ifndef WM_APPCOMMAND 
+#ifndef WM_APPCOMMAND
 #define WM_APPCOMMAND 793
 #endif
 

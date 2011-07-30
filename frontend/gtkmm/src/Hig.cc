@@ -14,14 +14,14 @@ HigDialog::HigDialog()
 
 HigDialog::HigDialog(const Glib::ustring& title, bool modal,
                      bool use_separator)
-#ifdef HAVE_GTK3  
+#ifdef HAVE_GTK3
   : Gtk::Dialog(title, modal)
 #else
     : Gtk::Dialog(title, modal, use_separator)
 #endif
 {
   (void) use_separator;
-  
+
   set_hig_defaults();
   vbox = NULL;
 }

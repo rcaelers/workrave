@@ -67,7 +67,7 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 
   HICON old_hicon = nid.hIcon;
   int size = 16;
-  
+
   if (width > size || height > size)
     {
       scaled = pixbuf->scale_simple(MIN (size, width),
@@ -79,7 +79,7 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     {
       nid.hIcon = pixbuf_to_hicon(pixbuf->gobj());
     }
-  
+
   nid.uFlags |= NIF_ICON;
   if (nid.hWnd != NULL && visible)
     {
@@ -109,7 +109,7 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
     {
       nid.szTip[0] = 0;
     }
-  
+
   if (nid.hWnd != NULL && visible)
     {
       Shell_NotifyIconW(NIM_MODIFY, &nid);
@@ -214,7 +214,7 @@ W32StatusIcon::init()
       wclass.lpszClassName = "WorkraveTrayObserver";
       wclass.lpfnWndProc = window_proc;
       wclass.hInstance = hinstance;
-      
+
       ATOM atom = RegisterClass(&wclass);
       if (atom != 0)
         {
@@ -242,7 +242,7 @@ W32StatusIcon::init()
   nid.hWnd = tray_hwnd;
 
   set_tooltip("Workrave");
-  
+
   if (tray_hwnd != NULL)
     {
       SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
@@ -267,7 +267,7 @@ void
 W32StatusIcon::add_tray_icon()
 {
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
-    
+
   nid.cbSize = sizeof(NOTIFYICONDATA);
   nid.hWnd = tray_hwnd;
   nid.uID = 1;
@@ -304,14 +304,14 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
             }
         }
     }
-  
+
   TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 
 
-/* This is ganked from GTK+. 
+/* This is ganked from GTK+.
 
  * GDK - The GIMP Drawing Kit
  * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
@@ -322,7 +322,7 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  */
- 
+
 static gboolean
 _gdk_win32_pixbuf_to_hicon_supports_alpha (void)
 {

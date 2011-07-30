@@ -137,7 +137,7 @@ TimerBoxGtkView::init()
                              Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
   sheep_eventbox->property_visible_window() = false;
-  
+
   string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
   sheep_eventbox->set_tooltip_text("Workrave");
@@ -185,7 +185,7 @@ TimerBoxGtkView::init_widgets()
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
-    
+
           b->set_tooltip_text(_("Take rest break now"));
 
           GUI *gui = GUI::get_instance();
@@ -549,7 +549,7 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       cr->set_operator(Cairo::OPERATOR_SOURCE);
       cr->paint();
     };
-  
+
   return Gtk::Widget::on_draw(cr);
 }
 #endif

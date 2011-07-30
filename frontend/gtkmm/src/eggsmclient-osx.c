@@ -122,7 +122,7 @@ quit_requested (const AppleEvent *aevt, AppleEvent *reply, long refcon)
   EggSMClientOSX *osx = (EggSMClientOSX *)GSIZE_TO_POINTER ((gsize)refcon);
 
   g_return_val_if_fail (!osx->quit_requested, userCanceledErr);
-    
+
   /* FIXME AEInteractWithUser? */
 
   osx->quit_requested = TRUE;
@@ -208,7 +208,7 @@ sm_client_osx_end_session (EggSMClient         *client,
       break;
     }
 
-  err = AECreateDesc (typeProcessSerialNumber, &loginwindow_psn, 
+  err = AECreateDesc (typeProcessSerialNumber, &loginwindow_psn,
 		      sizeof (loginwindow_psn), &target);
   if (err != noErr)
     {

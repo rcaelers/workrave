@@ -41,7 +41,7 @@ namespace workrave {
       //! The value must be set immediately, without delay.
       CONFIG_FLAG_IMMEDIATE = 2,
     };
-    
+
 
   //! Interface to access the configuration.
   class IConfigurator

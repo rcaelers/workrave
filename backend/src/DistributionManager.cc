@@ -549,14 +549,14 @@ DistributionManager::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
   (void)key;
-  
+
   read_configuration();
 
   TRACE_EXIT();
 }
 
 
-//! 
+//!
 void
 DistributionManager::log(const char *fmt, ...)
 {

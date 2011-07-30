@@ -44,7 +44,7 @@ public:
                       const std::string &path,
                       const Glib::ustring &id,
                       const Glib::ustring &label);
-  
+
   void register_stock_items();
 
   virtual void create_actions();
@@ -70,7 +70,7 @@ private:
                                                GdkEventCrossing *event,
                                                void *data);
 #endif
-  
+
 
 protected:
   Glib::RefPtr<Gtk::UIManager> ui_manager;

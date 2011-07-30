@@ -20,12 +20,12 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
- 
+
 #include <windows.h>
 #include <initguid.h>
 #include <mmsystem.h>
 #include "debug.hh"
- 
+
 #include "IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
@@ -39,7 +39,7 @@ using namespace workrave;
 
 #ifndef HAVE_MMDEVICEAPI_H
 DEFINE_GUID(CLSID_MMDeviceEnumerator, 0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e);
-DEFINE_GUID(IID_IAudioEndpointVolume, 0x5cdf2c82, 0x841e, 0x4546, 0x97, 0x22, 0x0c, 0xf7, 0x40, 0x78, 0x22, 0x9a); 
+DEFINE_GUID(IID_IAudioEndpointVolume, 0x5cdf2c82, 0x841e, 0x4546, 0x97, 0x22, 0x0c, 0xf7, 0x40, 0x78, 0x22, 0x9a);
 DEFINE_GUID(IID_IMMDeviceEnumerator,  0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6);
 #else
 #define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
@@ -61,7 +61,7 @@ W32Mixer::~W32Mixer()
       endpoint_volume->Release();
       endpoint_volume = NULL;
     }
-  
+
   CoUninitialize();
   TRACE_EXIT();
 }
@@ -70,7 +70,7 @@ bool
 W32Mixer::set_mute(bool on)
 {
   TRACE_ENTER_MSG("W32Mixer::set_mute", on);
- 
+
   bool was_muted = false;
 
   if (endpoint_volume != NULL)
@@ -81,7 +81,7 @@ W32Mixer::set_mute(bool on)
     {
       was_muted = set_mute_mixer(on);
     }
-  
+
   TRACE_EXIT();
   return was_muted;
 }
@@ -90,7 +90,7 @@ void
 W32Mixer::init()
 {
   TRACE_ENTER("W32Mixer::init");
-  
+
   CoInitialize(NULL);
 
   HRESULT hr;
@@ -148,16 +148,16 @@ W32Mixer::set_mute_mixer(bool on)
   MIXERCONTROL *mixer_control = NULL;
 	int mute_control = -1;
   bool ret = false;
-  
+
   memset(&mixer_line, 0, sizeof(MIXERLINE));
   memset(&mixer_line_controls, 0, sizeof(MIXERLINECONTROLS));
-  
+
 	mixer_line.cbStruct = sizeof(MIXERLINE);
   mixer_line_controls.cbStruct = sizeof(MIXERLINECONTROLS);
 
 	result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
   if (result == MMSYSERR_NOERROR)
-    { 
+    {
       mixer_control = new MIXERCONTROL[mixer_line.cControls];
 
       mixer_line_controls.dwLineID = mixer_line.dwLineID;
@@ -185,7 +185,7 @@ W32Mixer::set_mute_mixer(bool on)
       MIXERCONTROLDETAILS_BOOLEAN value;
       memset(&value, 0, sizeof(MIXERCONTROLDETAILS_BOOLEAN));
 
-      value.fValue = FALSE; 
+      value.fValue = FALSE;
 
       MIXERCONTROLDETAILS mixer_control_details;
       memset(&mixer_control_details, 0, sizeof(MIXERCONTROLDETAILS));
@@ -200,8 +200,8 @@ W32Mixer::set_mute_mixer(bool on)
       mixerGetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
       ret = value.fValue;
       TRACE_MSG("current mute is: " <<  ret);
-  
-      value.fValue = on; 
+
+      value.fValue = on;
       mixerSetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
     }
 
@@ -209,7 +209,7 @@ W32Mixer::set_mute_mixer(bool on)
     {
       delete [] mixer_control;
     }
-  
+
   TRACE_EXIT();
   return ret;
 }

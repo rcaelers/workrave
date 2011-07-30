@@ -35,5 +35,5 @@ public:
 private:
   static IInputMonitorFactory *factory;
 };
-  
+
 #endif // INPUTMONITORFACTORY_HH

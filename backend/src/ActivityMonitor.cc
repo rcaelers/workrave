@@ -77,7 +77,7 @@ ActivityMonitor::ActivityMonitor() :
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   input_monitor->subscribe_activity(this);
-                                    
+
   TRACE_EXIT();
 }
 

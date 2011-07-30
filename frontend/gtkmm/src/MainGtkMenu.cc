@@ -66,7 +66,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
 #else
   Gtk::IconSet icon_set;
 #endif
-    
+
   string filename = Util::complete_directory(path, Util::SEARCH_PATH_IMAGES);
 
   try
@@ -85,7 +85,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
 #else
   icon_set.add_source(source);
 #endif
-  
+
   const Gtk::StockID stock_id(icon_id);
   factory->add(stock_id, icon_set);
   Gtk::Stock::add(Gtk::StockItem(stock_id, label));
@@ -138,14 +138,14 @@ MainGtkMenu::create_actions()
   action_group = Gtk::ActionGroup::create();
 
   action_group->add(Gtk::Action::create("Main", "_Tools"));
-  
+
   // Mode menu
   Gtk::RadioAction::Group group_mode;
   action_group->add(Gtk::Action::create("Mode", _("_Mode")));
 
   action_group->add(Gtk::RadioAction::create(group_mode, "Normal", _("_Normal")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_normal));
-  
+
   action_group->add(Gtk::RadioAction::create(group_mode, "Suspended", _("_Suspended")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_suspend));
 
@@ -154,7 +154,7 @@ MainGtkMenu::create_actions()
 
   action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
-  
+
   // Networking menu
 #ifdef HAVE_DISTRIBUTION
   action_group->add(Gtk::Action::create("Network", _("_Network")));
@@ -178,7 +178,7 @@ MainGtkMenu::create_actions()
                                         Gtk::StockID("restbreak"),
                                         _("_Rest break")),
                     sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
-  
+
   // Preferences
   action_group->add(Gtk::Action::create("Preferences",
                                         Gtk::Stock::PREFERENCES,
@@ -199,7 +199,7 @@ MainGtkMenu::create_actions()
                                         Gtk::Stock::ABOUT,
                                         _("_About")),
                     sigc::mem_fun(*menus, &Menus::on_menu_about));
-  
+
   action_group->add(Gtk::Action::create("Quit",
                                         Gtk::Stock::QUIT,
                                         _("_Quit")),
@@ -250,7 +250,7 @@ MainGtkMenu::create_ui()
 
   ui_manager = Gtk::UIManager::create();
   ui_manager->insert_action_group(action_group);
-  
+
   try
     {
       ui_manager->add_ui_from_string(ui_info);
@@ -259,7 +259,7 @@ MainGtkMenu::create_ui()
     {
     }
 
-  popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu")); 
+  popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu"));
 
 #ifdef PLATFORM_OS_OSX
   osx_popup_hack_connect(popup_menu);
@@ -271,7 +271,7 @@ void
 MainGtkMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;
-  
+
   if (popup_menu != NULL)
     {
       popup_menu->popup(button, activate_time);
@@ -284,13 +284,13 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   Gtk::CheckMenuItem *item = NULL;
   const char *menu_name = NULL;
-  
+
   switch (mode)
     {
     case OPERATION_MODE_NORMAL:
       menu_name = "/Menu/Mode/Normal";
       break;
-        
+
     case OPERATION_MODE_SUSPENDED:
       menu_name = "/Menu/Mode/Suspended";
       break;
@@ -424,7 +424,7 @@ void
 MainGtkMenu::osx_popup_hack_connect(Gtk::Menu *menu)
 {
   TRACE_ENTER("W32TrayMenu::osx_popup_hack_connect");
-  
+
   GtkWidget *widget = (GtkWidget*) menu->gobj();
   g_signal_connect(widget, "leave-notify-event",
                    G_CALLBACK(osx_popup_hack_leave_enter), NULL);
@@ -454,11 +454,11 @@ MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event
   TRACE_ENTER("W32TrayMenu::osx_popup_hack_leave_enter");
 
   TRACE_MSG(event->type << " " <<  event->detail);
-  
+
   (void) data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
-      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/ 
+      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/
       && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
     /* Add some slop so that the menu doesn't annoyingly disappear
        when mousing around */
@@ -470,7 +470,7 @@ MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event
              && event->detail == GDK_NOTIFY_ANCESTOR) {
 
     TRACE_MSG("enter " << hide_docklet_timer);
-    
+
     if (hide_docklet_timer != 0) {
       /* Cancel the hiding if we reenter */
 
@@ -482,4 +482,4 @@ MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event
   return FALSE;
 }
 #endif
- 
+

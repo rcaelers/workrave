@@ -250,15 +250,15 @@ Core::init_bus()
       if (env != NULL)
         {
           name = env;
-        }      
+        }
       dbus->register_service(name);
       dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
       extern void init_DBusWorkrave(DBus *dbus);
       init_DBusWorkrave(dbus);
-  
+
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-      
+
       dbus->connect(DBUS_PATH_WORKRAVE,
                     "org.workrave.ConfigInterface",
                     configurator);
@@ -293,7 +293,7 @@ Core::init_monitor(const string &display_name)
 #endif
 
   InputMonitorFactory::init(display_name);
-  
+
   monitor = new ActivityMonitor();
   load_monitor_config();
 
@@ -550,24 +550,24 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
                   (mode == OPERATION_MODE_NORMAL ? "normal" :
                    mode == OPERATION_MODE_SUSPENDED ? "suspended" :
                    mode == OPERATION_MODE_QUIET ? "quiet" : "???") << " " << persistent);
-  
+
   OperationMode previous_mode = operation_mode;
 
   TRACE_MSG("Previous " << (mode == OPERATION_MODE_NORMAL ? "normal" :
                             mode == OPERATION_MODE_SUSPENDED ? "suspended" :
                             mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
-  
+
   if (operation_mode != mode)
     {
       operation_mode = mode;
-      
+
       if (operation_mode == OPERATION_MODE_SUSPENDED)
         {
           TRACE_MSG("Force idle");
           force_idle();
           monitor->suspend();
           stop_all_breaks();
-          
+
           for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
             {
               if (breaks[i].is_enabled())
@@ -582,7 +582,7 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
           stop_all_breaks();
           monitor->resume();
         }
-      
+
       if (operation_mode == OPERATION_MODE_QUIET)
         {
           stop_all_breaks();
@@ -592,7 +592,7 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
         {
           get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
         }
-      
+
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
@@ -616,7 +616,7 @@ Core::set_usage_mode(UsageMode mode, bool persistent)
   if (usage_mode != mode)
     {
       usage_mode = mode;
-  
+
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           breaks[i].set_usage_mode(mode);
@@ -626,7 +626,7 @@ Core::set_usage_mode(UsageMode mode, bool persistent)
         {
           get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
         }
-    }      
+    }
 }
 
 //! Sets the listener for core events.
@@ -685,7 +685,7 @@ Core::time_changed()
     {
       breaks[i].get_timer()->shift_time(0);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -889,7 +889,7 @@ Core::heartbeat()
       // Perform state computation.
       process_state();
     }
-  
+
   // Perform timer processing.
   process_timers();
 
@@ -1105,7 +1105,7 @@ Core::process_timers()
         }
     }
 
-  
+
   // Process all timer events.
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
@@ -1136,7 +1136,7 @@ bool
 Core::process_timewarp()
 {
   bool ret = false;
-  
+
   TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
     {
@@ -1186,7 +1186,7 @@ bool
 Core::process_timewarp()
 {
   bool ret = false;
-  
+
   TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
     {
@@ -1195,21 +1195,21 @@ Core::process_timewarp()
       if (gap >= 30)
         {
           TRACE_MSG("Time warp of " << gap << " seconds. Powersafe");
-          
+
           force_idle();
 
           int save_current_time = current_time;
 
           current_time = last_process_time + 1;
           monitor_state = ACTIVITY_IDLE;
-          
+
           process_timers();
 
           current_time = save_current_time;
           ret = true;
         }
     }
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -1248,7 +1248,7 @@ Core::timer_action(BreakId id, TimerInfo info)
     case TIMER_EVENT_NATURAL_RESET:
       statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
       // FALLTHROUGH
-      
+
     case TIMER_EVENT_RESET:
       if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
@@ -1283,7 +1283,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
     {
       breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_REST_BREAK);
     }
-  
+
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
     {
       Timer *rb_timer = breaks[BREAK_ID_REST_BREAK].get_timer();
@@ -1305,7 +1305,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
               breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_MICRO_BREAK);
-                
+
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
 
               // Snooze timer before the limit was reached. Just to make sure
@@ -1386,7 +1386,7 @@ Core::daily_reset()
       t->daily_reset_timer();
     }
 
-  
+
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();
 #endif
@@ -1427,7 +1427,7 @@ Core::load_misc()
 {
   configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
   configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
-  
+
   int mode;
   if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
@@ -1637,7 +1637,7 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
   bool ret = false;
 
   (void) client_id;
-  
+
   switch (id)
     {
     case DCM_BREAKS:
@@ -2010,17 +2010,17 @@ namespace workrave
   std::string operator%(const string &key, BreakId id)
   {
     IBreak *b = Core::get_instance()->get_break(id);
-  
+
     string str = key;
     string::size_type pos = 0;
     string name = b->get_name();
-  
+
     while ((pos = str.find("%b", pos)) != string::npos)
       {
         str.replace(pos, 2, name);
         pos++;
       }
-  
+
     return str;
   }
 }

@@ -104,14 +104,14 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->add(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
- 
+
   // Server switch
   listening_cb = Gtk::manage(new Gtk::CheckButton());
   Gtk::Label *listening_lab
     = Gtk::manage(GtkUtil::create_label(_("Allow incoming connections"), true));
   listening_cb->add(*listening_lab);
   id_frame->add(*listening_cb);
- 
+
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
 
@@ -214,7 +214,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   renderer->property_editable().set_value(true);
   renderer->signal_edited().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_port_edited));
 
-  
+
   Gtk::ScrolledWindow *peers_scroll = Gtk::manage(new Gtk::ScrolledWindow());
   peers_scroll->add(*peers_list);
 
@@ -243,7 +243,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   gp->pack_start(*hbox, true, true, 0);
 
   create_model();
-  
+
   gp->show_all();
 
   gp->set_border_width(12);
@@ -258,7 +258,7 @@ NetworkPreferencePage::create_model()
 //   Gtk::ListStore *store = peers_store.operator->();
 //   printf("%x\n", store);
 // #endif
-  
+
   list<string> peers = dist_manager->get_peers();
 
   for (list<string>::iterator i = peers.begin(); i != peers.end(); i++)
@@ -272,7 +272,7 @@ NetworkPreferencePage::create_model()
 
           string hostname, port;
           parse_peers(peer, hostname, port);
-          
+
           row[peers_columns.hostname]  = hostname;
           row[peers_columns.port]      = port;
         }
@@ -285,7 +285,7 @@ NetworkPreferencePage::parse_peers(const string &peer, string &hostname, string 
 {
   hostname = "";
   port = "";
-  
+
   std::string::size_type pos = peer.find("tcp://");
   if (pos != std::string::npos)
     {
@@ -439,10 +439,10 @@ NetworkPreferencePage::on_peer_add()
 
   Gtk::TreeModel::iterator iter = peers_store->append();
   Gtk::TreeModel::Row row = *iter;
-  
+
   row[peers_columns.hostname]  = "";
   row[peers_columns.port]      = ss.str();
-  
+
   TRACE_EXIT();
 }
 

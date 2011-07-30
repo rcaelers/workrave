@@ -49,7 +49,7 @@ struct ExerciseParser
   std::string cdata;
   ExerciseParser(std::list<Exercise> &exe);
 
-  const gchar * const *i18n_languages;  
+  const gchar * const *i18n_languages;
 };
 
 static const gchar *

@@ -140,7 +140,7 @@ RestBreakWindow::start()
 #else
   set_ignore_activity(false);
 #endif
-  
+
   update_break_window();
 
   BreakWindow::start();
@@ -291,7 +291,7 @@ RestBreakWindow::install_info_panel()
 #else
   Gtk::Requisition old_size = size_request();
 #endif
-  
+
   set_ignore_activity(false);
   clear_pluggable_panel();
   pluggable_panel->pack_start(*(create_info_panel()), false, false, 0);

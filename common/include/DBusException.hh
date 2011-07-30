@@ -37,7 +37,7 @@ namespace workrave
       : Exception(detail), dbus_id("org.workrave.Error")
     {
     }
-  
+
     virtual ~DBusException() throw()
     {
     }
@@ -46,7 +46,7 @@ namespace workrave
     {
       return dbus_id;
     }
-  
+
   private:
     std::string dbus_id;
   };
@@ -64,7 +64,7 @@ namespace workrave
       : DBusException("org.workrave.SystemError", detail)
     {
     }
-  
+
     virtual ~DBusSystemException() throw()
     {
     }
@@ -83,7 +83,7 @@ namespace workrave
       : DBusException("org.workrave.TypeError", detail)
     {
     }
-  
+
     virtual ~DBusTypeException() throw()
     {
     }
@@ -102,7 +102,7 @@ namespace workrave
       : DBusException("org.workrave.UsageError", detail)
     {
     }
-  
+
     virtual ~DBusUsageException() throw()
     {
     }

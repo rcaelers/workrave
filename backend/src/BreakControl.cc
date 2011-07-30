@@ -236,7 +236,7 @@ BreakControl::goto_stage(BreakStage stage)
                 timer->force_active();
               }
           }
-        
+
         if (break_stage == STAGE_TAKING && !fake_break)
           {
             // Update statistics and play sound if the break end
@@ -500,7 +500,7 @@ BreakControl::suspend_break()
   TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
 
   break_hint = BREAK_HINT_NONE;
-  
+
   goto_stage(STAGE_NONE);
 
   TRACE_EXIT();
@@ -634,7 +634,7 @@ BreakControl::break_window_start()
   application->create_break_window(break_id, break_hint);
   update_break_window();
   application->show_break_window();
-  
+
   TRACE_EXIT();
 }
 
@@ -660,7 +660,7 @@ BreakControl::prelude_window_start()
   update_prelude_window();
 
   application->show_break_window();
-  
+
   TRACE_EXIT();
 }
 
@@ -769,17 +769,17 @@ BreakControl::send_signal(BreakStage stage)
               iface->MicrobreakChanged("/org/workrave/Workrave/Core",
                                        progress);
               break;
-          
+
             case BREAK_ID_REST_BREAK:
               iface->RestbreakChanged("/org/workrave/Workrave/Core",
                                        progress);
               break;
-          
+
             case BREAK_ID_DAILY_LIMIT:
               iface->DailylimitChanged("/org/workrave/Workrave/Core",
                                        progress);
               break;
-          
+
             default:
               break;
             }

@@ -61,17 +61,17 @@ public:
 #ifdef HAVE_GTK3
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 #endif
-  
+
 private:
   void init_widgets();
   void init_table();
   void init();
-  
+
   bool on_restbreak_button_press_event(int button);
 
   //! What menu to active on click
   Menus::MenuKind menu;
-  
+
   //! Use tranparentcy.
   bool transparent;
 

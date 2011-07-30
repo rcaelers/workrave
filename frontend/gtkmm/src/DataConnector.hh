@@ -71,7 +71,7 @@ public:
                DataConnection *connection,
                sigc::slot<bool, const std::string &, bool> slot,
                dc::Flags flags = dc::NONE);
-  
+
 private:
   struct MonitoredWidget
   {
@@ -86,7 +86,7 @@ private:
   typedef std::list<MonitoredWidget> Widgets;
   typedef Widgets::iterator WidgetIter;
 
-  //! 
+  //!
   Widgets connections;
 
   //!

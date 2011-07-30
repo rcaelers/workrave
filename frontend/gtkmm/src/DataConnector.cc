@@ -399,7 +399,7 @@ DataConnectionGtkAdjustment::widget_changed_notify()
   if (!skip)
     {
       int value = (int)widget->get_value();
-      
+
       config->set_value(key, value);
     }
 }
@@ -514,7 +514,7 @@ DataConnectionGtkEntryTwin::widget_changed_notify()
       string value2 = widget2->get_text();
       bool verified = true;
 
-#ifdef HAVE_GTK3      
+#ifdef HAVE_GTK3
       if (value1 == value2)
         {
           widget1->unset_background_color();
@@ -539,7 +539,7 @@ DataConnectionGtkEntryTwin::widget_changed_notify()
           verified = false;
         }
 #endif
-      
+
       if (verified)
         {
           config->set_value(key, value1);

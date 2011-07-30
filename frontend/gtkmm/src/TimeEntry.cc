@@ -42,11 +42,11 @@ TimeEntry::TimeEntry(bool millis)
     hrs(NULL),
     mins(NULL),
     secs(NULL),
-#ifdef HAVE_GTK3    
+#ifdef HAVE_GTK3
     hours_adjustment(Gtk::Adjustment::create(0, 0, 23)),
     mins_adjustment(Gtk::Adjustment::create(0, 0, 59)),
     secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
-#else    
+#else
     hours_adjustment(0, 0, 23),
     mins_adjustment(0, 0, 59),
     secs_adjustment(0, 0, 59)
@@ -93,10 +93,10 @@ TimeEntry::TimeEntry(bool millis)
       mins->set_width_chars(2);
       mins->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
       mins->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
-  
+
       Gtk::Label *semi1 = Gtk::manage(new Gtk::Label(":"));
       Gtk::Label *semi2 = Gtk::manage(new Gtk::Label(":"));
-  
+
       pack_start(*hrs, 0, 0);
       pack_start(*semi1, 0, 0);
       pack_start(*mins, 0, 0);
@@ -127,7 +127,7 @@ TimeEntry::set_value(time_t t)
       hours_adjustment.set_value((double)(t / (60*60)));
       mins_adjustment.set_value((double)((t / 60) % 60));
       secs_adjustment.set_value((double)(t % 60));
-#endif      
+#endif
     }
   else
     {

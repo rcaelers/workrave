@@ -35,7 +35,7 @@ EventLabel::on_realize()
   GdkWindowAttr attributes;
   attributes.window_type = GDK_WINDOW_CHILD;
 
-#ifdef HAVE_GTK3  
+#ifdef HAVE_GTK3
   GtkAllocation allocation;
   gtk_widget_get_allocation(widget, &allocation);
   attributes.x = allocation.x;
@@ -47,7 +47,7 @@ EventLabel::on_realize()
   attributes.y = widget->allocation.y;
   attributes.width = widget->allocation.width;
   attributes.height = widget->allocation.height;
-#endif  
+#endif
 
   attributes.wclass = GDK_INPUT_ONLY;
   attributes.event_mask = gtk_widget_get_events(widget);
@@ -116,11 +116,11 @@ EventLabel::on_size_allocate(Gtk::Allocation &allocation)
 
   GtkWidget *widget = GTK_WIDGET(gobj());
 
-#ifdef HAVE_GTK3  
+#ifdef HAVE_GTK3
   if (gtk_widget_get_realized (widget))
-#else  // needed for 2.16   
+#else  // needed for 2.16
   if (GTK_WIDGET_REALIZED(widget))
-#endif    
+#endif
     {
       gdk_window_move_resize(event_window,
                              allocation.get_x(),

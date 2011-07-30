@@ -45,7 +45,7 @@ protected:
   virtual void get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const;
   virtual void render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::Widget &widget, const Gdk::Rectangle &background_area, const Gdk::Rectangle &cell_area, Gtk::CellRendererState flags);
 
-#else  
+#else
   virtual void get_size_vfunc(Gtk::Widget &widget,
                               const Gdk::Rectangle *cell_area,
                               int* x_offset, int* y_offset,
@@ -63,7 +63,7 @@ protected:
                             const Gdk::Rectangle &expose_area,
                             Gtk::CellRendererState flags);
 #endif
-  
+
 private:
   void update_properties();
 

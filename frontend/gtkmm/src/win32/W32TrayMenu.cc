@@ -70,7 +70,7 @@ void
 W32TrayMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;
-  
+
   if (popup_menu != NULL)
     {
       popup_menu->popup(1, activate_time);
@@ -88,7 +88,7 @@ void
 W32TrayMenu::win32_popup_hack_connect(Gtk::Menu *menu)
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
-  
+
   GtkWidget *widget = (GtkWidget*) menu->gobj();
   g_signal_connect(widget, "leave-notify-event",
                    G_CALLBACK(win32_popup_hack_leave_enter), NULL);
@@ -118,11 +118,11 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_leave_enter");
 
   TRACE_MSG(event->type << " " <<  event->detail);
-  
+
   (void) data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
-      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/ 
+      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/
       && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
     /* Add some slop so that the menu doesn't annoyingly disappear
        when mousing around */
@@ -134,7 +134,7 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
              && event->detail == GDK_NOTIFY_ANCESTOR) {
 
     TRACE_MSG("enter " << hide_docklet_timer);
-    
+
     if (hide_docklet_timer != 0) {
       /* Cancel the hiding if we reenter */
 

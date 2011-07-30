@@ -48,7 +48,7 @@
 
 #ifdef HAVE_GTK3
 GdkDevice *WindowHints::keyboard = NULL;
-GdkDevice *WindowHints::pointer = NULL;  
+GdkDevice *WindowHints::pointer = NULL;
 #endif
 
 void
@@ -125,13 +125,13 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
               keyboard = gdk_device_get_associated_device(device);
             }
         }
-      
+
       GdkGrabStatus keybGrabStatus;
       keybGrabStatus = gdk_device_grab(keyboard, windows[0],
                                        GDK_OWNERSHIP_NONE, TRUE,
                                        (GdkEventMask) (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
                                        NULL, GDK_CURRENT_TIME);
-      
+
       if (keybGrabStatus == GDK_GRAB_SUCCESS)
         {
           GdkGrabStatus pointerGrabStatus;
@@ -139,7 +139,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
                                               GDK_OWNERSHIP_NONE, TRUE,
                                               (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
                                               NULL, GDK_CURRENT_TIME);
-            
+
           if (pointerGrabStatus != GDK_GRAB_SUCCESS)
             {
               gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
@@ -152,7 +152,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
             }
         }
     }
-#else  
+#else
   if (num_windows > 0)
     {
       // Only grab first window.
@@ -183,7 +183,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
           gdk_keyboard_ungrab(GDK_CURRENT_TIME);
           gdk_pointer_ungrab(GDK_CURRENT_TIME);
         }
-      
+
       TRACE_MSG(keybGrabStatus << " " << pointerGrabStatus);
     }
 

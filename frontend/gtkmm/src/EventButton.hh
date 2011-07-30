@@ -28,7 +28,7 @@ public:
   EventButton()
   {
   }
-  
+
   sigc::signal<bool, int> button_pressed;
 
 private:

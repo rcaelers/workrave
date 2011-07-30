@@ -54,7 +54,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
  Glib::RefPtr<Gtk::SizeGroup> hsize_group,
  Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6)
-#ifdef HAVE_GTK3    
+#ifdef HAVE_GTK3
   ,max_prelude_adjustment(Gtk::Adjustment::create(0, 1, 100))
 # ifdef HAVE_EXERCISES
   ,exercises_adjustment(Gtk::Adjustment::create(0, 0, 10))
@@ -64,7 +64,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
 # ifdef HAVE_EXERCISES
   ,exercises_adjustment(0, 0, 10)
 # endif
-#endif    
+#endif
 {
   connector = new DataConnector();
   break_id = t;
@@ -98,7 +98,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   pack_start(*box, false, false, 0);
 
   connector->connect(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, dc::wrap(enabled_cb));
-  
+
   set_border_width(12);
 }
 
@@ -128,7 +128,7 @@ TimerPreferencesPanel::create_prelude_panel()
   connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                      dc::wrap(prelude_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
-  
+
   connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                      dc::wrap(has_max_prelude_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
@@ -157,7 +157,7 @@ TimerPreferencesPanel::create_options_panel()
 #if REMOVED_IN_FAVOR_OF_READING_MODE__REMOVE_LATER
   hig->add(*activity_sensitive_cb);
 #endif
-  
+
   // Break specific options
 #ifdef HAVE_EXERCISES
   exercises_spin = NULL;
@@ -184,7 +184,7 @@ TimerPreferencesPanel::create_options_panel()
     {
       auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start natural restbreak when screen is locked")));
       hig->add(*auto_natural_cb);
-      
+
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
                          dc::wrap(auto_natural_cb));
     }
@@ -195,7 +195,7 @@ TimerPreferencesPanel::create_options_panel()
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
                      dc::wrap(ignorable_cb));
 
-  
+
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
@@ -275,7 +275,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
     return true;
 
   inside = true;
-  
+
   IConfigurator *config = CoreFactory::get_configurator();
   if (write)
     {
@@ -286,7 +286,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
             {
 #ifdef HAVE_GTK3
               mp = (int) max_prelude_adjustment->get_value();
-#else              
+#else
               mp = (int) max_prelude_adjustment.get_value();
 #endif
             }
@@ -322,7 +322,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
             {
               prelude_cb->set_active(true);
               has_max_prelude_cb->set_active(true);
-#ifdef HAVE_GTK3              
+#ifdef HAVE_GTK3
               max_prelude_adjustment->set_value(value);
 #else
               max_prelude_adjustment.set_value(value);
@@ -334,7 +334,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
     }
 
   inside = false;
-  
+
   return true;
 }
 

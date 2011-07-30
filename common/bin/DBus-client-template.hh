@@ -36,7 +36,7 @@ class $interface.qname
 {
 public:
   static $interface.qname *instance(workrave::DBus *dbus, const std::string &service, const std::string &path);
-  
+
   #for $m in interface.methods
   typedef sigc::slot<void, DBusError * #slurp
   #set comma = ','
@@ -50,7 +50,7 @@ public:
     &#slurp
     #else if 'ptr' in p.hint
     *#slurp
-    #end if 
+    #end if
     #set comma = ','
   #end if
   #end for
@@ -69,12 +69,12 @@ public:
   #if p.direction == 'out'
     #if 'return' in p.hint
     /**/ #slurp
-    #slurp                                                             
+    #slurp
     #else if 'ptr' in p.hint
      *$p.name#slurp
     #else
      &$p.name#slurp
-    #end if 
+    #end if
   #else if p.direction == 'in'
     #if 'ref' in p.hint
     &$p.name#slurp
@@ -82,7 +82,7 @@ public:
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
   #end if
   #end for
   ) = 0;
@@ -100,7 +100,7 @@ public:
     *$p.name#slurp
     #else
     $p.name#slurp
-    #end if 
+    #end if
     #set comma = ','
   #end if
   #end for

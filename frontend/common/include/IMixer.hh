@@ -30,7 +30,7 @@ public:
   virtual ~IMixer() {}
 
   virtual void init() = 0;
-  
+
   //! Mutes or unmutes all audio.
   virtual bool set_mute(bool mute) = 0;
 };

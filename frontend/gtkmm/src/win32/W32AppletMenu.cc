@@ -76,7 +76,7 @@ void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
-  
+
   if (applet_window != NULL && main_window != NULL)
     {
       TRACE_MSG("ok");
@@ -140,7 +140,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
                       |(usage == USAGE_MODE_READING
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      
+
       w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), Menus::MENU_COMMAND_ABOUT, 0);
     }

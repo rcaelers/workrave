@@ -90,7 +90,7 @@ public:
   static bool has_button_images();
 
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
-  
+
 private:
   static Glib::Quark *label_quark;
 };

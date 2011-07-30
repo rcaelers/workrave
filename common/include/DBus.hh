@@ -30,7 +30,7 @@
 namespace workrave
 {
   class DBusBindingBase;
-  
+
   class DBus
   {
   public:
@@ -38,7 +38,7 @@ namespace workrave
     ~DBus();
 
     typedef DBusMessage *DBusSignal;
-    
+
     void init();
     void register_service(const std::string &service);
     void register_object_path(const std::string &object_path);
@@ -52,7 +52,7 @@ namespace workrave
     bool is_owner() const;
 
     DBusConnection *conn() { return connection; }
-        
+
   private:
     typedef std::map<std::string, DBusBindingBase *> Bindings;
     typedef Bindings::iterator BindingIter;
@@ -68,11 +68,11 @@ namespace workrave
 
     DBusHandlerResult dispatch_static(DBusConnection *connection,
                                       DBusMessage *message);
-  
+
     static DBusHandlerResult dispatch_static(DBusConnection *connection,
                                              DBusMessage *message,
                                              void *user_data);
-  
+
     DBusHandlerResult dispatch(DBusConnection *connection, DBusMessage *message);
     DBusHandlerResult handle_introspect(DBusConnection *connection, DBusMessage *message);
     DBusHandlerResult handle_method(DBusConnection *connection, DBusMessage *message);
@@ -100,8 +100,8 @@ namespace workrave
     GSource *queue;
     GSList *watches;
     GSList *timeouts;
- 
-    static GSourceFuncs queue_funcs;   
+
+    static GSourceFuncs queue_funcs;
 
     static gboolean queue_prepare(GSource *source, gint *timeout);
     static gboolean queue_check(GSource *source);

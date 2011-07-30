@@ -144,7 +144,7 @@ X11SystrayAppletWindow::activate_applet()
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);
       box->pack_start(*view, true, true, 0);
-      
+
       if (System::is_kde())
         {
           timer_box_control->set_force_empty(true);
@@ -170,7 +170,7 @@ X11SystrayAppletWindow::activate_applet()
       Gtk::Requisition req;
       plug->size_request(req);
       applet_size = req.height;
-#endif      
+#endif
 
       view->set_geometry(applet_orientation, applet_size);
 
@@ -255,7 +255,7 @@ X11SystrayAppletWindow::on_embedded()
       embedded = true;
       applet_size = 24;
       applet_orientation = orientation;
-      
+
       view->set_geometry(applet_orientation, applet_size);
     }
 
@@ -314,7 +314,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
                 allocation.get_height());
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
-  
+
       if (o == GTK_ORIENTATION_VERTICAL)
         {
           orientation = ORIENTATION_UP;
@@ -323,7 +323,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
         {
           orientation = ORIENTATION_LEFT;
         }
-  
+
       if (orientation == ORIENTATION_UP ||
           orientation == ORIENTATION_DOWN)
         {

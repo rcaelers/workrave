@@ -36,12 +36,12 @@ public:
 private:
   IInputMonitor *create_statistics_monitor();
   IInputMonitor *create_activity_monitor();
-  
+
 
 private:
   IInputMonitor *activity_monitor;
   IInputMonitor *statistics_monitor;
-  
+
   std::string actual_monitor_method;
 };
 

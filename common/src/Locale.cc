@@ -53,13 +53,13 @@ Locale::get_language(const string &code, string &language)
 {
   language_t key = { code.c_str(), NULL };
   language_t *val;
-  
+
   val = (language_t *) bsearch(&key,
                                languages,
                                sizeof(languages) / sizeof (language_t),
                                sizeof(language_t),
                                compare_languages);
-  
+
   if (val != NULL)
     {
       language = val->lang;
@@ -73,13 +73,13 @@ Locale::get_country(const string &code, string &country)
 {
   country_t key = { code.c_str(), NULL };
   country_t *val;
-  
+
   val = (country_t *) bsearch(&key,
                               countries,
                               sizeof(countries) / sizeof (country_t),
                               sizeof(country_t),
                               compare_countries);
-  
+
   if (val != NULL)
     {
       country = val->country;
@@ -117,7 +117,7 @@ Locale::get_locale()
     {
       lang_env = g_getenv("LANG");
     }
-  
+
   if (lang_env != NULL)
     {
       ret = lang_env;
@@ -130,7 +130,7 @@ void
 Locale::lookup(const string &domain, string &str)
 {
   string ret;
-  
+
   if (str != "")
     {
       ret = dgettext(domain.c_str(), str.c_str());
@@ -158,11 +158,11 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
       string country_code;
 
       Language &language_entry = languages[code];
-      
+
       lang_code = code.substr(0,2);
       if (code.length() >= 5)
         {
-          country_code = code.substr(3,2);    
+          country_code = code.substr(3,2);
         }
 
       Locale::get_language(lang_code, language_entry.language_name);
@@ -184,14 +184,14 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
       list = languages_native_locale;
       return;
     }
-    
+
   std::vector<std::string> all_linguas;
 
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
 
   string lang_save = Locale::get_locale();
-                          
+
   for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
     {
       string code = *i;
@@ -199,13 +199,13 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
       string country_code;
 
       Locale::set_locale(code);
-      
+
       Language &language_entry = languages_native_locale[code];
-      
+
       lang_code = code.substr(0,2);
       if (code.length() >= 5)
         {
-          country_code = code.substr(3,2);    
+          country_code = code.substr(3,2);
         }
 
       Locale::get_language(lang_code, language_entry.language_name);

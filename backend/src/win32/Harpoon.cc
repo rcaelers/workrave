@@ -79,7 +79,7 @@ Harpoon::init(HarpoonHookFunc func)
     {
       default_mouse_lowlevel = true;
     }
-  
+
   CoreFactory::get_configurator()->
       get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
 
@@ -119,7 +119,7 @@ Harpoon::terminate()
 }
 
 
-void 
+void
 Harpoon::block_input()
 {
   harpoon_block_input();
@@ -138,7 +138,7 @@ Harpoon::block_input()
     }
 }
 
-void 
+void
 Harpoon::unblock_input()
 {
   harpoon_unblock_input();
@@ -278,7 +278,7 @@ Harpoon::check_for_taskmgr_debugger( char *out )
 }
 
 
-bool 
+bool
 Harpoon::is_64bit_windows()
 {
 #if defined(_WIN64)
@@ -366,8 +366,8 @@ Harpoon::start_harpoon_helper()
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());
       TRACE_MSG(args.c_str());
-      
-      if (CreateProcessA(helper.c_str(), (LPSTR) args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
+
+      if (CreateProcessA(helper.c_str(), (LPSTR) args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
           helper_started = true;
           helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);

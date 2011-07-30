@@ -38,7 +38,7 @@ public:
 
   virtual void create_ui();
   virtual void popup(const guint button, const guint activate_time);
-  
+
 private:
   static void dock_clicked(IgeMacDock *dock, void *data);
   static void dock_quit(IgeMacDock *dock, void *data);

@@ -98,7 +98,7 @@ private:
   void set_usage_mode(UsageMode m);
   void on_menu_response(int response);
   void on_about_response(int response);
-  
+
 #ifdef HAVE_DISTRIBUTION
   void on_network_log_response(int response);
   void on_network_join_response(int response);
@@ -130,7 +130,7 @@ public:
 #ifdef PLATFORM_OS_WIN32
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
 #endif
-  
+
 private:
   //! The one and only instance
   static Menus *instance;

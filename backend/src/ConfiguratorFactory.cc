@@ -84,7 +84,7 @@ ConfiguratorFactory::create(Format fmt)
     }
   else
 #endif
-    
+
 #ifdef HAVE_QT
   if (fmt == FormatNative)
     {

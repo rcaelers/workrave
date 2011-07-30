@@ -74,9 +74,9 @@ workrave_applet_init(WorkraveApplet *applet)
   applet->orientation = 0;
   applet->last_showlog_state = FALSE;
   applet->last_reading_mode_state = FALSE;
-  applet->last_mode = 0; 
+  applet->last_mode = 0;
   applet->applet = NULL;
-  
+
   applet->support = NULL;
   applet->ui = NULL;
   applet->core = NULL;
@@ -280,7 +280,7 @@ workrave_applet_get_menu_status(WorkraveApplet *applet, const char *name, gboole
     }
 
   *status = ret;
-  
+
   return TRUE;
 }
 
@@ -349,11 +349,11 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
-#ifdef GIT_VERSION                        
+#ifdef GIT_VERSION
                         "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
-#else                        
+#else
                         "version", PACKAGE_VERSION,
-#endif                        
+#endif
                         "copyright", workrave_copyright,
                         "website", "http://www.workrave.org",
                         "website_label", "www.workrave.org",
@@ -385,7 +385,7 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Preferences", dbus_callback, NULL, NULL,
@@ -401,7 +401,7 @@ verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Exercises", dbus_callback, NULL, NULL,
@@ -416,9 +416,9 @@ verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
-    { 
+    {
       dbus_g_proxy_begin_call(g_applet->ui, "Statistics", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
@@ -431,7 +431,7 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "RestBreak", dbus_callback, NULL, NULL,
@@ -448,7 +448,7 @@ verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkConnect", dbus_callback, NULL, NULL,
@@ -465,7 +465,7 @@ verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
@@ -480,7 +480,7 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
@@ -497,7 +497,7 @@ verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       return;
     }
-  
+
   if (g_applet->ui != NULL)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Quit", dbus_callback, NULL, NULL,
@@ -579,17 +579,17 @@ change_background(PanelApplet * widget,
             }
         }
     }
-  
+
   if (type == PANEL_COLOR_BACKGROUND && color != NULL)
     {
       g_value_array_append(val, NULL);
       g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
       g_value_set_uint(g_value_array_get_nth(val, 0), color->pixel);
- 
+
       g_value_array_append(val, NULL);
       g_value_init(g_value_array_get_nth(val, 1), G_TYPE_UINT);
       g_value_set_uint(g_value_array_get_nth(val, 1), color->red);
-      
+
       g_value_array_append(val, NULL);
       g_value_init(g_value_array_get_nth(val, 2), G_TYPE_UINT);
       g_value_set_uint(g_value_array_get_nth(val, 2), color->green);
@@ -608,7 +608,7 @@ change_background(PanelApplet * widget,
           g_value_set_uint(g_value_array_get_nth(val, 0), 0);
         }
     }
-  
+
   if (type == PANEL_PIXMAP_BACKGROUND)
     {
       if (keep != NULL)
@@ -631,7 +631,7 @@ change_background(PanelApplet * widget,
                               G_TYPE_VALUE_ARRAY, val,
                               G_TYPE_UINT, xid,
                               G_TYPE_INVALID);
-      
+
 
     }
 
@@ -663,7 +663,7 @@ static gboolean
 button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
   gboolean ret = FALSE;
-  
+
   if (event->button == 1)
     {
       if (g_applet->support != NULL && workrave_is_running())
@@ -737,13 +737,13 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
   gboolean new_state;
   int mode = 0;
   char *mode_str = "";
-  
+
   if (state == NULL || strcmp(state, "") == 0)
     {
       /* State goes blank when component is removed; ignore this. */
       return;
     }
-  
+
   new_state = strcmp(state, "0") != 0;
 
   if (path != NULL && new_state)
@@ -767,7 +767,7 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
       if (mode != -1)
         {
           g_applet->last_mode = mode;
-          
+
           if (g_applet->ui != NULL && workrave_is_running())
             {
               dbus_g_proxy_begin_call(g_applet->core, "SetOperationMode", dbus_callback, NULL, NULL,
@@ -872,11 +872,11 @@ void size_allocate(GtkWidget     *widget,
           dbus_g_proxy_begin_call(g_applet->support, "SetSize", dbus_callback, NULL, NULL,
                                   G_TYPE_UINT, g_applet->size,
                                   G_TYPE_INVALID);
-      
+
         }
     }
 }
-      
+
 
 static
 void workrave_applet_destroy(GtkObject *object)
@@ -985,7 +985,7 @@ workrave_applet_fill(PanelApplet *applet)
   g_signal_connect(G_OBJECT(applet), "destroy", G_CALLBACK(workrave_applet_destroy), NULL);
 	g_signal_connect(G_OBJECT(hbox), "realize",   G_CALLBACK(workrave_applet_realize), NULL);
 	g_signal_connect(G_OBJECT(hbox), "unrealize", G_CALLBACK(workrave_applet_unrealize), NULL);
-  
+
   gtk_widget_show(GTK_WIDGET(g_applet->image));
   gtk_widget_show(GTK_WIDGET(g_applet->socket));
   gtk_widget_show(GTK_WIDGET(hbox));
@@ -1007,7 +1007,7 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
     {
       g_applet = workrave_applet_new();
       g_applet->applet = applet;
-      
+
       workrave_dbus_server_init();
       retval = workrave_applet_fill(applet);
 

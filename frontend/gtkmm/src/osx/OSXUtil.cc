@@ -47,7 +47,7 @@ OSXUtil::init()
       fclose(f);
       setenv ("PANGO_RC_FILE", path, 1);
     }
-  
+
   // gettext charset aliases
   setenv ("CHARSETALIASDIR", path, 1);
 

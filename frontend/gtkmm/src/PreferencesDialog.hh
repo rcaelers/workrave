@@ -75,7 +75,7 @@ private:
   Gtk::ComboBoxText *sound_button;
   Gtk::ComboBoxText *block_button;
   Gtk::ComboBoxText *sound_theme_button;
-  
+
   // Mode before focus in.
   OperationMode mode;
   IconListNotebook notebook;
@@ -98,7 +98,7 @@ private:
   void on_current_cell_data(const Gtk::TreeModel::const_iterator& iter);
   int on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
                            const Gtk::TreeModel::iterator& iter2);
-  
+
   Gtk::ComboBox languages_combo;
   ModelColumns languages_columns;
   Glib::RefPtr<Gtk::ListStore> languages_model;
@@ -130,16 +130,16 @@ private:
   Gtk::Button *sound_play_button;
   int inhibit_events;
   Gtk::CheckButton *mute_cb;
-  
+
   Gtk::FileChooserButton *fsbutton;
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::FileFilter> filefilter;
 #else
   Gtk::FileFilter *filefilter;
-#endif  
+#endif
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb;
-  
+
   void on_sound_enabled(const Glib::ustring& path_stringxo);
   void on_sound_play();
   void on_sound_filechooser_play();
@@ -148,7 +148,7 @@ private:
   void on_sound_theme_changed();
   void update_theme_selection();
   void update_senstives();
-  
+
 #if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *autostart_cb;
   void on_autostart_toggled();

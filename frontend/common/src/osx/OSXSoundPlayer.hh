@@ -38,11 +38,11 @@ public:
   void set_sound_enabled(SoundEvent snd, bool enabled);
   bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
   void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
- 
+
 private:
 
   void run();
-  
+
   const char *wav_file;
 };
 

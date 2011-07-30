@@ -94,7 +94,7 @@ static int
 errorHandler(Display *dpy, XErrorEvent *error)
 {
   (void)dpy;
-  
+
   if (error->error_code == BadWindow || error->error_code==BadDrawable)
     return 0;
   return 0;
@@ -218,7 +218,7 @@ X11InputMonitor::run()
   TRACE_EXIT();
 }
 
-#ifdef HAVE_XRECORD_FALLBACK  
+#ifdef HAVE_XRECORD_FALLBACK
 
 void
 X11InputMonitor::run_events()
@@ -229,9 +229,9 @@ X11InputMonitor::run_events()
     {
       return;
     }
-  
+
   error_trap_enter();
-  
+
   root_window = DefaultRootWindow(x11_display);
   set_all_events(root_window);
 
@@ -240,7 +240,7 @@ X11InputMonitor::run_events()
   XSync(x11_display,False);
 
   error_trap_exit();
-  
+
   Window lastMouseRoot = 0;
   while (1)
     {
@@ -256,7 +256,7 @@ X11InputMonitor::run_events()
       if (gotEvent)
         {
           error_trap_enter();
-          
+
           switch (event.xany.type)
             {
             case KeyPress:
@@ -276,18 +276,18 @@ X11InputMonitor::run_events()
           error_trap_exit();
         }
 
-      
+
       // timeout
       Window root, child;
       int root_x, root_y, win_x, win_y;
       unsigned mask;
 
       error_trap_enter();
-      
+
       XQueryPointer(x11_display, root_window, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
 
       error_trap_exit();
-      
+
       lastMouseRoot = root;
       fire_mouse(root_x, root_y);
     }
@@ -342,7 +342,7 @@ void
 X11InputMonitor::set_all_events(Window window)
 {
   error_trap_enter();
-  
+
   set_event_mask(window);
   XSync(x11_display,False);
 
@@ -411,7 +411,7 @@ X11InputMonitor::error_trap_exit()
   XSetErrorHandler(old_handler);
 #endif
 }
-  
+
 
 void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
@@ -461,7 +461,7 @@ X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInter
   static Time lastTime = 0;
   static int detail = 0;
   static int state = 0;
-  
+
   if (press)
     {
       if (event->time != lastTime)
@@ -479,7 +479,7 @@ X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInter
       detail = 0;
       state = 0;
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -494,7 +494,7 @@ X11InputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData 
       lastTime = event->time;
       int x = event->root_x;
       int y = event->root_y;
-      
+
       fire_mouse(x, y, 0);
     }
 }
@@ -575,7 +575,7 @@ X11InputMonitor::run_xrecord()
   init_xrecord();
 
   error_trap_enter();
-  
+
   if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
     {
@@ -584,14 +584,14 @@ X11InputMonitor::run_xrecord()
     }
   else
     {
-#ifdef HAVE_XRECORD_FALLBACK  
+#ifdef HAVE_XRECORD_FALLBACK
       error_trap_exit();
       TRACE_MSG("Fallback to run events");
       use_xrecord = false;
       run_events();
 #else
       g_idle_add(static_report_failure, NULL);
-#endif      
+#endif
     }
   TRACE_EXIT();
 }
@@ -644,7 +644,7 @@ X11InputMonitor::init_xrecord()
 
           XFree(recordRange);
         }
-      
+
       if (xrecord_context != 0)
         {
           XSync(x11_display, True);

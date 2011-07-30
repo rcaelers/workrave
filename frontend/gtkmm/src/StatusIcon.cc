@@ -94,8 +94,8 @@ StatusIcon::insert_icon()
 #endif
 
   status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
-  
-#ifdef HAVE_STATUSICON_SIGNAL 
+
+#ifdef HAVE_STATUSICON_SIGNAL
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
@@ -156,7 +156,7 @@ bool StatusIcon::on_size_changed(guint size)
   return true;
 }
 
-#ifndef HAVE_STATUSICON_SIGNAL 
+#ifndef HAVE_STATUSICON_SIGNAL
 void StatusIcon::activate_callback(GtkStatusIcon *,
                                    gpointer callback_data)
 {

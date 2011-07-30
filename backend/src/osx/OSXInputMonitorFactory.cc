@@ -48,7 +48,7 @@ IInputMonitor *
 OSXInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   (void) capability;
-  
+
   if (monitor == NULL)
     {
       monitor = new OSXInputMonitor();

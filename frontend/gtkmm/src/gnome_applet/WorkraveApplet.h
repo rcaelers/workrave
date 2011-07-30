@@ -24,7 +24,7 @@ struct _WorkraveApplet
   GtkWidget *image;
   GtkWidget *socket;
   PanelApplet *applet;
-  
+
   int size;
   int socket_id;
   int orientation;

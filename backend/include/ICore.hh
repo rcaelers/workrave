@@ -31,7 +31,7 @@ namespace workrave {
   class ICoreEventListener;
   class INetwork;
   class IDistributionManager;
-  
+
   //! Mode
   enum OperationMode
     {
@@ -76,9 +76,9 @@ namespace workrave {
 
         // Natural break.
         BREAK_HINT_NATURAL_BREAK = 2,
-        
+
       };
-      
+
 
   //! Main interface of the backend.
   class ICore

@@ -51,7 +51,7 @@ static
 DWORD GetModuleBase(DWORD dwAddress)
 {
   MEMORY_BASIC_INFORMATION Buffer;
-  
+
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
@@ -123,12 +123,12 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     {
       HANDLE handle;
       DWORD bufsize, ret;
-      
+
       wcsncpy( env_var, L"APPDATA", 19 );
       env_var[ 19 ] = '\0';
       bufsize = ( *GetEnvironmentVariableW ) ( env_var, NULL, 0 );
       // bufsize is size in wide chars, including null
-      
+
       if( !bufsize )
       // If %appdata% is unsuitable, try temp:
       {
@@ -136,10 +136,10 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           env_var[ 19 ] = '\0';
           bufsize = ( *GetEnvironmentVariableW ) ( env_var, NULL, 0 );
       }
-      
+
       ret = 0;
       wbuffer = NULL;
-      
+
       if( bufsize )
         {
           // We will need room for \\?\ so add 4
@@ -150,7 +150,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
               ret = ( *GetEnvironmentVariableW ) ( env_var, p_wbuffer, bufsize );
             }
         }
-      
+
       if( !ret )
       // Environment unsuitable, notify & terminate.
         {
@@ -164,20 +164,20 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           __except1;
           exit( 1 );
         }
-      
+
       //last wchar
       p_wbuffer = wbuffer + wcslen(wbuffer) - 1;
-      
+
       while( *p_wbuffer == L'\\' )
       // remove trailing slashes
         {
           *p_wbuffer-- = L'\0';
         }
-      
+
       // append filename to end of string
       wcscpy( ++p_wbuffer, crashlog );
-      
-      
+
+
       // compare first wchar of returned environment string
       if( wbuffer[ 4 ] == L'\\' )
       /*
@@ -189,8 +189,8 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       else
       // Point to start of wbuffer:
           p_wbuffer = wbuffer;
-      
-      
+
+
       handle = ( *CreateFileW ) (
           p_wbuffer,
           GENERIC_READ | GENERIC_WRITE,
@@ -200,7 +200,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           FILE_ATTRIBUTE_NORMAL,
           NULL
         );
-      
+
       int fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
       log = _fdopen( fd, "w" );
     }
@@ -282,12 +282,12 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
 // write locale info:
   char *buffer = NULL;
-  int bufsize = 
+  int bufsize =
       GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, 0);
-  
+
   if( bufsize )
       buffer = (char *)calloc( bufsize + 1, 1 );
-  
+
   if( buffer )
     {
       GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, bufsize);
@@ -295,7 +295,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       fprintf( log, "locale = %s\n", buffer );
       free( buffer );
     }
-  
+
   fprintf(log, "\n\n");
   fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
   fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
@@ -446,18 +446,18 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   if( GetEnvironmentVariableW && CreateFileW )
   // >= WinNT
     {
-      WCHAR *one = 
+      WCHAR *one =
           L"Workrave has unexpectedly crashed. A crash log has been saved to:\n";
-      
-      WCHAR *two = 
+
+      WCHAR *two =
           L"\nPlease file a bug report: http://issues.workrave.org/\n"
           L"Thanks.";
-      
+
       WCHAR *nomem =
           L"Workrave is out of memory!";
-      
+
       int size = wcslen( one ) + wcslen( p_wbuffer ) + wcslen( two ) + 1;
-      
+
       WCHAR *message = (WCHAR *)calloc( size, sizeof( WCHAR ) );
       if( !message )
       // Low memory...
@@ -467,7 +467,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           message = (WCHAR *)calloc( size, sizeof( WCHAR ) );
           if( message )
             {
-              snwprintf( message, size - 1, L"%ws%%%ws%%%ws%ws", 
+              snwprintf( message, size - 1, L"%ws%%%ws%%%ws%ws",
                   one, env_var, crashlog, two );
               message[ size - 1 ] = L'\0';
             }
@@ -481,7 +481,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           snwprintf( message, size - 1, L"%ws%ws%ws", one, p_wbuffer, two );
           message[ size - 1 ] = L'\0';
         }
-      
+
       MessageBoxW( NULL, message, L"Exception", MB_OK );
     }
   else
@@ -506,7 +506,7 @@ BOOL WINAPI stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT contex
   if (!stack_frame->Reserved[0])
     {
       stack_frame->Reserved[0] = 1;
-    
+
       stack_frame->AddrPC.Mode = AddrModeFlat;
       stack_frame->AddrPC.Offset = context_record->Eip;
       stack_frame->AddrStack.Mode = AddrModeFlat;
@@ -535,8 +535,8 @@ BOOL WINAPI stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT contex
 
   ReadProcessMemory(process, (LPCVOID) (stack_frame->AddrFrame.Offset + 2*sizeof(DWORD)),
                     stack_frame->Params, sizeof(stack_frame->Params), NULL);
-  
-  return TRUE;  
+
+  return TRUE;
 }
 
 static void

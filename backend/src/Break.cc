@@ -175,37 +175,37 @@ Break::init_defaults()
                      CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
 
   config->remove_key(string("gui/breaks/%b/max_postpone") % break_id);
-  
+
   // Set defaults.
 
   config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id,
                     def.limit,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id,
                     def.auto_reset,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id,
                     def.resetpred,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id,
                     def.snooze,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
                     "",
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
                     true,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                     def.max_preludes,
                     CONFIG_FLAG_DEFAULT);
-  
+
   config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id,
                     true,
                     CONFIG_FLAG_DEFAULT);
@@ -426,8 +426,8 @@ Break::is_limit_enabled() const
 
 void
 Break::set_usage_mode(UsageMode mode)
-{ 
-  TRACE_ENTER_MSG("Break::set_usage_mode", mode); 
+{
+  TRACE_ENTER_MSG("Break::set_usage_mode", mode);
   if (usage_mode != mode)
     {
       usage_mode = mode;

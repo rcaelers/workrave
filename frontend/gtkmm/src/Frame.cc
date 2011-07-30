@@ -149,11 +149,11 @@ Frame::get_request_mode_vfunc() const
 
 void
 Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
-{ 
+{
   TRACE_ENTER_MSG("Frame::get_preferred_width_vfunc", (int)frame_style);
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_width(minimum_width, natural_width);
-    
+
   guint d = 2*(get_border_width()+frame_width);
   minimum_width += d;
   natural_width += d;
@@ -167,7 +167,7 @@ Frame::get_preferred_height_vfunc(int &minimum_height, int &natural_height) cons
   TRACE_ENTER_MSG("Frame::get_preferred_height_vfunc", (int)frame_style);
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_height(minimum_height, natural_height);
-    
+
   guint d = 2*(get_border_width()+frame_width);
   minimum_height += d;
   natural_height += d;
@@ -211,7 +211,7 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
   TRACE_MSG("frame_style " << frame_style);
   TRACE_MSG(frame_color.get_red_p() << " " << frame_color.get_green_p()  << " " << frame_color.get_blue_p());
   TRACE_MSG(back_color.get_red() << " " << back_color.get_green() << " " << back_color.get_blue());
-  
+
   switch (frame_style)
     {
     case STYLE_SOLID:
@@ -251,7 +251,7 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
     }
 
   Gtk::Widget::on_draw(cr);
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -270,7 +270,7 @@ Frame::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color
 }
 
 #else
-    
+
 void
 Frame::on_realize()
 {

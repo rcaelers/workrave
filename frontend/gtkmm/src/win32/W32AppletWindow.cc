@@ -39,7 +39,7 @@ W32AppletWindow::W32AppletWindow()
   memset(&local_menu_data, 0, sizeof(AppletMenuData));
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
   memset(&menu_data, 0, sizeof(AppletMenuData));
-  
+
   thread_id = 0;
   thread_handle = NULL;
   timer_box_view = this;
@@ -158,7 +158,7 @@ W32AppletWindow::update_view()
         local_applet_window = window;
         menu_sent = true;
       }
-          
+
     SetEvent(heartbeat_data_event);
     ::LeaveCriticalSection(&heartbeat_data_lock);
   }
@@ -228,7 +228,7 @@ W32AppletWindow::set_enabled(bool enabled)
     {
       thread_id = 0;
       thread_handle = CreateThread(NULL, 0, run_event_pipe_static, this, 0, (DWORD *)&thread_id);
-  
+
       if (thread_handle == NULL || thread_id == 0)
         {
           TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError());
@@ -272,15 +272,15 @@ W32AppletWindow::run_event_pipe()
     }
 }
 
-    
+
 void
 W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
-  
+
   /*
-    As noted in frontend/win32/applet/include/applet.hh: 
+    As noted in frontend/win32/applet/include/applet.hh:
     We pass the command_window HWND as a LONG for compatibility.
   */
   menu_data.command_window = HandleToLong( hwnd );

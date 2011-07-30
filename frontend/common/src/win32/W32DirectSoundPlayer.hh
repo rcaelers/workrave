@@ -47,7 +47,7 @@ private:
   static DWORD WINAPI play_thread(LPVOID);
 
   void play();
-    
+
 private:
   LPDIRECTSOUND8 direct_sound;
   ISoundDriverEvents *events;
@@ -64,7 +64,7 @@ public:
 
   size_t read(BYTE *buffer, size_t size);
   size_t get_size();
-  
+
   void  reset_file();
   WAVEFORMATEX *get_format() { return &format; };
 

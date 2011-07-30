@@ -63,7 +63,7 @@ public:
   void mouse_notify(int x, int y, int wheel = 0);
   void button_notify(bool is_press);
   void keyboard_notify(bool repeat);
-  
+
 private:
   void call_listener();
 

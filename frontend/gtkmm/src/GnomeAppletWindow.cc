@@ -93,7 +93,7 @@ GnomeAppletWindow::activate_applet()
   if (!applet_active)
     {
       long id = 0;
-      
+
       try
         {
           DBus *dbus = CoreFactory::get_dbus();
@@ -104,7 +104,7 @@ GnomeAppletWindow::activate_applet()
                             "org.workrave.GnomeAppletSupportInterface",
                             this);
             }
-      
+
           applet_control = org_workrave_GnomeAppletInterface::instance(dbus,
                                                                        "org.workrave.Workrave.GnomeApplet",
                                                                        "/org/workrave/Workrave/GnomeApplet");
@@ -133,7 +133,7 @@ GnomeAppletWindow::activate_applet()
               delete applet_control;
               applet_control = NULL;
             }
-          
+
           ok = false;
         }
 
@@ -149,9 +149,9 @@ GnomeAppletWindow::activate_applet()
           plug->add(*frame);
 
           plug->signal_size_allocate().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_plug_size_allocate));
-          
+
           plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-          
+
           plug->signal_embedded().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_embedded));
           plug->signal_delete_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::delete_event));
 
@@ -368,16 +368,16 @@ void
 GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 {
 #ifdef HAVE_GTK3
-  
+
   (void) type;
   (void) color;
   (void) xid;
-  
+
 #else
-  
-  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid 
+
+  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid
                   << " " << color.pixel
-                  << " " << color.red 
+                  << " " << color.red
                   << " " << color.green
                   << " " << color.blue
                   );
@@ -481,7 +481,7 @@ GnomeAppletWindow::on_plug_size_allocate(Gtk::Allocation &allocation)
 {
   TRACE_ENTER("GnomeAppletWindow::on_plug_size_allocate");
   TRACE_MSG("alloc " << allocation.get_width() << " " << allocation.get_height());
-  
+
   if ((applet_orientation == ORIENTATION_LEFT || applet_orientation == ORIENTATION_RIGHT))
     {
       set_applet_size(allocation.get_width());
@@ -537,7 +537,7 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
       g_list_free(devices);
 #else
       gdk_display_pointer_ungrab(gtk_widget_get_display(widget), GDK_CURRENT_TIME);
-#endif      
+#endif
       ok = true;
     }
   else if (event->type == GDK_BUTTON_RELEASE)
@@ -575,7 +575,7 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
       gdk_error_trap_push();
 
       TRACE_MSG("send");
-      
+
       XSendEvent(GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget)),
                  GDK_WINDOW_XWINDOW(gtk_plug_get_socket_window(GTK_PLUG(widget))),
                  False, NoEventMask, &xevent);

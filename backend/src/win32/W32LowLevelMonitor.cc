@@ -20,20 +20,20 @@ Alternate low-level activity monitor.
 --
 From MSDN, re WH_KEYBOARD_LL & WH_MOUSE_LL:
 
-This hook is called in the context of the thread that 
-installed it. The call is made by sending a message to 
-the thread that installed the hook. 
+This hook is called in the context of the thread that
+installed it. The call is made by sending a message to
+the thread that installed the hook.
 
-Therefore, the thread that installed the hook must 
-have a message loop. 
+Therefore, the thread that installed the hook must
+have a message loop.
 --
 
-Because a low-level hook is called in the context of 
-the thread that installed it, we can install the hook 
+Because a low-level hook is called in the context of
+the thread that installed it, we can install the hook
 from a time critical thread, and run a message loop.
 
 This should solve the Philips slowdown problem:
-1. high priority callback thread returns immediately after 
+1. high priority callback thread returns immediately after
 posting a message to the dispatch thread
 2. the dispatch thread processes and notifies main thread
 
@@ -78,7 +78,7 @@ MS type BOOL is type int.
 Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
-BOOL ( WINAPI *W32LowLevelMonitor::GetMessageW ) 
+BOOL ( WINAPI *W32LowLevelMonitor::GetMessageW )
     ( LPMSG, HWND, UINT, UINT ) = NULL;
 BOOL ( WINAPI *W32LowLevelMonitor::PeekMessageW )
     ( LPMSG, HWND, UINT, UINT, UINT ) = NULL;
@@ -92,24 +92,24 @@ BOOL ( WINAPI *W32LowLevelMonitor::SwitchToThread ) ( void ) = NULL;
 W32LowLevelMonitor::W32LowLevelMonitor()
 {
   TRACE_ENTER( "W32LowLevelMonitor::W32LowLevelMonitor" );
-  
+
   if( singleton != NULL )
     {
       TRACE_RETURN( " singleton != NULL " );
       return;
     }
-  
+
   singleton = this;
-  
+
   dispatch = new thread_struct;
   dispatch->name = "Dispatch";
-  
+
   callback = new thread_struct;
   callback->name = "Callback";
-  
+
   k_hook = NULL;
   m_hook = NULL;
-  
+
   TRACE_EXIT();
 }
 
@@ -117,22 +117,22 @@ W32LowLevelMonitor::W32LowLevelMonitor()
 W32LowLevelMonitor::~W32LowLevelMonitor()
 {
   TRACE_ENTER( "W32LowLevelMonitor::~W32LowLevelMonitor" );
-  
+
   if( singleton != this )
     {
       TRACE_RETURN( " singleton != this " );
       return;
     }
-  
+
   terminate();
-  
+
   delete dispatch;
   delete callback;
-  
+
   dispatch = NULL;
   callback = NULL;
   singleton = NULL;
-  
+
   TRACE_EXIT();
 }
 
@@ -140,26 +140,26 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
 bool W32LowLevelMonitor::check_api()
 {
   TRACE_ENTER( "W32LowLevelMonitor::check_api" );
-  
+
   process_handle = GetModuleHandle( NULL );
   HMODULE user32_handle = GetModuleHandleA( "user32.dll" );
-  
+
   GetMessageW = ( BOOL ( WINAPI * ) ( LPMSG, HWND, UINT, UINT ) )
       GetProcAddress( user32_handle, "GetMessageW" );
-  
+
   PeekMessageW = ( BOOL ( WINAPI * ) ( LPMSG, HWND, UINT, UINT, UINT ) )
       GetProcAddress( user32_handle, "PeekMessageW" );
-  
+
   PostThreadMessageW = ( BOOL ( WINAPI * ) ( DWORD, UINT, WPARAM, LPARAM ) )
       GetProcAddress( user32_handle, "PostThreadMessageW" );
-  
+
   SetWindowsHookExW = ( HHOOK ( WINAPI * ) ( int, HOOKPROC, HINSTANCE, DWORD ) )
       GetProcAddress( user32_handle, "SetWindowsHookExW" );
-  
+
   SwitchToThread = ( BOOL ( WINAPI * ) ( void ) )
       GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "SwitchToThread" );
-  
-  if( process_handle && GetMessageW && PeekMessageW && 
+
+  if( process_handle && GetMessageW && PeekMessageW &&
       PostThreadMessageW && SetWindowsHookExW && SwitchToThread )
     {
       TRACE_EXIT();
@@ -183,13 +183,13 @@ bool W32LowLevelMonitor::check_api()
 bool W32LowLevelMonitor::init()
 {
   TRACE_ENTER( "W32LowLevelMonitor::init" );
-  
+
   if( singleton != this )
     {
       TRACE_RETURN( " singleton != this " );
       return false;
     }
-  
+
   if( !check_api() )
     {
       TRACE_RETURN( " : init failed. " );
@@ -197,29 +197,29 @@ bool W32LowLevelMonitor::init()
     }
 
   terminate();
-  
-  dispatch->handle = 
+
+  dispatch->handle =
       CreateThread( NULL, 0, thread_Dispatch, this, 0, &dispatch->id );
-  
+
   if( !wait_for_thread_queue( dispatch ) )
     {
       terminate();
       TRACE_EXIT();
       return false;
     }
-  
-  callback->handle = 
+
+  callback->handle =
       CreateThread( NULL, 0, thread_Callback, this, 0, &callback->id );
-  
+
   if( !wait_for_thread_queue( callback ) )
     {
       terminate();
       TRACE_EXIT();
       return false;
     }
-  
+
   Harpoon::init(NULL);
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -227,15 +227,15 @@ bool W32LowLevelMonitor::init()
 bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
 {
   TRACE_ENTER_MSG( "W32LowLevelMonitor::wait_for_thread_queue : ", thread->name);
-  
+
   if( !thread->handle || !thread->id )
     {
       TRACE_RETURN( " thread: creation failed." );
       return false;
     }
-  
+
   DWORD thread_exit_code;
-  
+
   do
     {
       thread_exit_code = 0;
@@ -247,11 +247,11 @@ bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
         }
       ( *SwitchToThread )();
     } while( thread->active == false );
-  
+
   SetLastError( 0 );
   BOOL ret = ( *PostThreadMessageW )( thread->id, 0xFFFF, 0, 0 );
   DWORD gle = GetLastError();
-  
+
   if( !ret || gle )
     {
       TRACE_MSG( " thread: PostThreadMessage test failed." );
@@ -270,9 +270,9 @@ void W32LowLevelMonitor::terminate()
 {
   if( singleton != this )
       return;
-  
+
   unhook();
-  
+
   terminate_thread( callback );
   terminate_thread( dispatch );
 
@@ -283,12 +283,12 @@ void W32LowLevelMonitor::terminate()
 void W32LowLevelMonitor::terminate_thread( thread_struct *thread )
 {
   thread->active = false;
-  
+
   if( thread->id )
       ( *PostThreadMessageW )( thread->id, WM_QUIT, 0, 0 );
-  
+
   wait_for_thread_to_exit( thread );
-  
+
   if( thread->handle != NULL )
     {
       CloseHandle( thread->handle );
@@ -301,8 +301,8 @@ void W32LowLevelMonitor::terminate_thread( thread_struct *thread )
 void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
 {
   DWORD thread_exit_code = 0;
-  
-  do 
+
+  do
     {
       ( *SwitchToThread )();
       GetExitCodeThread( thread->handle, &thread_exit_code );
@@ -314,7 +314,7 @@ void W32LowLevelMonitor::unhook()
 {
   UnhookWindowsHookEx( k_hook );
   k_hook = NULL;
-  
+
   UnhookWindowsHookEx( m_hook );
   m_hook = NULL;
 }
@@ -330,15 +330,15 @@ DWORD WINAPI W32LowLevelMonitor::thread_Dispatch( LPVOID lpParam )
 DWORD W32LowLevelMonitor::dispatch_thread()
 {
   dispatch->active = false;
-  
+
   bool ret = 0;
   MSG msg;
-  
-  // It's good practice to force creation of the thread 
+
+  // It's good practice to force creation of the thread
   // message queue before setting active.
   ( *PeekMessageW )( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
   dispatch->active = true;
-  
+
   while( ret = ( *GetMessageW )( &msg, NULL, 0, 0 ) > 0  && dispatch->active )
     {
       msg.message &= 0xFFFF;
@@ -352,19 +352,19 @@ DWORD W32LowLevelMonitor::dispatch_thread()
               case WM_MOUSEMOVE:
                   fire_mouse( msg.wParam, msg.lParam, 0 );
                   break;
-              
+
               case WM_MOUSEWHEEL:
               case WM_MOUSEHWHEEL:
                   fire_mouse( msg.wParam, msg.lParam, 1 );
                   break;
-              
+
               case WM_LBUTTONDOWN:
               case WM_MBUTTONDOWN:
               case WM_RBUTTONDOWN:
               case WM_XBUTTONDOWN:
                   fire_button( true );
                   break;
-              
+
               case WM_LBUTTONUP:
               case WM_MBUTTONUP:
               case WM_RBUTTONUP:
@@ -385,9 +385,9 @@ DWORD W32LowLevelMonitor::dispatch_thread()
               fire_action();
         }
     }
-  
+
   dispatch->active = false;
-  
+
   // Always return a value != STILL_ACTIVE (259)
   return (DWORD) ret;
 }
@@ -403,11 +403,11 @@ DWORD WINAPI W32LowLevelMonitor::thread_Callback( LPVOID lpParam )
 DWORD W32LowLevelMonitor::time_critical_callback_thread()
 {
   callback->active = false;
-  
+
   int i = 0;
   HANDLE handle = GetCurrentThread();
-  
-  // An attempt to set the thread priority to 
+
+  // An attempt to set the thread priority to
   // THREAD_PRIORITY_TIME_CRITICAL.
   // Try for several seconds.
   while( SetThreadPriority( handle, 15 ) == 0 )
@@ -420,74 +420,74 @@ DWORD W32LowLevelMonitor::time_critical_callback_thread()
     }
   /*
   Do not double check using GetThreadPriority.
-  It's possible, throughout this thread's lifetime, that 
+  It's possible, throughout this thread's lifetime, that
   an administrative application could change the priority.
   */
-  
+
   /* MSDN:
-  The system creates a thread's message queue when the thread 
-  makes its first call to one of the User or GDI functions. 
+  The system creates a thread's message queue when the thread
+  makes its first call to one of the User or GDI functions.
   */
   unhook(); // thread message queue created here
-  
-  k_hook = 
+
+  k_hook =
       ( *SetWindowsHookExW )( WH_KEYBOARD_LL,  &k_hook_callback, process_handle, 0 );
-  m_hook = 
+  m_hook =
       ( *SetWindowsHookExW )( WH_MOUSE_LL,  &m_hook_callback, process_handle, 0 );
-  
+
   if( !k_hook || !m_hook )
     {
       unhook();
       return (DWORD) 0;
     }
-  
-  
+
+
   MSG msg;
-  
-  // It's good practice to force creation of the thread 
+
+  // It's good practice to force creation of the thread
   // message queue before setting active.
   ( *PeekMessageW )( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
   callback->active = true;
-  
-  // Message loop. As noted, a hook is called in the 
+
+  // Message loop. As noted, a hook is called in the
   // context of the thread that installed it. i.e. this one.
   while( ( *GetMessageW )( &msg, NULL, 0, 0 ) && callback->active )
   ;
-  
+
   unhook();
   callback->active = false;
-  
+
   // Always return a value != STILL_ACTIVE (259)
   return (DWORD) 1;
 }
 
 
-LRESULT CALLBACK W32LowLevelMonitor::k_hook_callback( 
+LRESULT CALLBACK W32LowLevelMonitor::k_hook_callback(
     int nCode, WPARAM wParam, LPARAM lParam )
 {
   DWORD flags = ( (_KBDLLHOOKSTRUCT *) lParam )->flags;
-  
+
   if( !nCode && !( flags & LLKHF_INJECTED ) )
   // If there is an event, and it's not injected, notify.
     {
       ( *PostThreadMessageW )
-        ( 
+        (
           dispatch->id, //idThread
           WM_APP, //Msg
           (WPARAM) flags, //wParam
           (LPARAM) 0 //lParam
         );
     }
-  
+
   return CallNextHookEx( (HHOOK) 0, nCode, wParam, lParam );
 }
 
 
-LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback( 
+LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
     int nCode, WPARAM wParam, LPARAM lParam )
 {
   DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
-  
+
 
   if( !nCode ) // && !( flags & LLMHF_INJECTED ) )
   // If there is an event, and it's not injected, notify.
@@ -501,7 +501,7 @@ LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
           (LPARAM) ( (_MSLLHOOKSTRUCT *) lParam )->pt.y //lParam
         );
     }
-  
+
   return CallNextHookEx( (HHOOK) 0, nCode, wParam, lParam );
 }
 

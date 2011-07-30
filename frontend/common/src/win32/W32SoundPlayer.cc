@@ -139,7 +139,7 @@ W32SoundPlayer::play_sound(string wavfile)
     {
       TRACE_MSG("Sound already queued");
     }
-  else 
+  else
     {
       DWORD id;
       sound_filename = wavfile;
@@ -154,7 +154,7 @@ bool
 W32SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   char key[MAX_PATH], val[MAX_PATH];
-  
+
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.current");
@@ -163,7 +163,7 @@ W32SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
     {
       enabled = (val[0] != '\0');
     }
-  
+
   return true;
 }
 
@@ -174,7 +174,7 @@ W32SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
   if (enabled)
     {
       char key[MAX_PATH], def[MAX_PATH];
-      
+
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
       strcat(key, SoundPlayer::sound_registry[snd].label);
       strcat(key, "\\.default");
@@ -189,11 +189,11 @@ W32SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
   else
     {
       char key[MAX_PATH];
-      
+
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
       strcat(key, SoundPlayer::sound_registry[snd].label);
       strcat(key, "\\.current");
-  
+
       registry_set_value(key, NULL, "");
     }
 }
@@ -207,7 +207,7 @@ W32SoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.current");
-  
+
   if (registry_get_value(key, NULL, val))
     {
       wav_file = val;
@@ -222,7 +222,7 @@ W32SoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
           wav_file = val;
         }
     }
-  
+
   return true;;
 }
 
@@ -237,7 +237,7 @@ W32SoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
     {
       registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
     }
-  
+
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.default");
@@ -284,7 +284,7 @@ void W32SoundPlayer::Play()
     }
 
   sound_filename = "";
-  
+
   TRACE_EXIT();
 }
 
@@ -315,16 +315,16 @@ W32SoundPlayer::open()
 
   int volume = 100;
   CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
-  
+
   volume = (volume * 0xFFFF / 100);
   volume = volume | (volume << 16);
- 	
+
   res = waveOutSetVolume(waveout, volume);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("waveOutSetVolume");
     }
-  
+
   buffers = (WAVEHDR**) malloc(number_of_buffers * sizeof(WAVEHDR**));
   for (i = 0; i < number_of_buffers; i++)
     {
@@ -333,7 +333,7 @@ W32SoundPlayer::open()
         {
           throw Exception("buffers malloc");
         }
-          
+
       if (buffers[i] != NULL)
         {
           buffers[i]->lpData = (CHAR *)malloc(WAVE_BUFFER_SIZE);
@@ -352,7 +352,7 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
 	unsigned char *ptr = buf;
 	unsigned char *end = buf + size;
 	MMRESULT res;
-	
+
 	for (int i = buffer_position; ptr < end; i = (i + 1) % number_of_buffers)
     {
       while ((buffers[i]->dwFlags & WHDR_INQUEUE) != 0)
@@ -362,20 +362,20 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
             {
               throw Exception("waveOutRestart");
             }
-          
+
           WaitForSingleObject(wave_event, INFINITE);
         }
-      
+
       int chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
       if (ptr + chunck_size > end)
         {
           chunck_size = end - ptr;
         }
-      
+
       memcpy(buffers[i]->lpData + buffers[i]->dwBytesRecorded, ptr, chunck_size);
       ptr += chunck_size;
       buffers[i]->dwBytesRecorded += chunck_size;
-      
+
       if (buffers[i]->dwBytesRecorded == WAVE_BUFFER_SIZE)
         {
           flush_buffer(i);
@@ -431,7 +431,7 @@ W32SoundPlayer::close(void)
         {
           WaitForSingleObject(wave_event, INFINITE);
         }
-      
+
       res = waveOutUnprepareHeader(waveout, buffers[i], sizeof(WAVEHDR));
       if (res != MMSYSERR_NOERROR)
         {
@@ -442,7 +442,7 @@ W32SoundPlayer::close(void)
       free(buffers[i]);
       buffers[i] = NULL;
     }
-  
+
   free(buffers);
   free(sample);
 
@@ -460,7 +460,7 @@ void
 W32SoundPlayer::load_wav_file(const string &filename)
 {
   MMRESULT res;
-  
+
   HMMIO handle = mmioOpen((CHAR*)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
   if (handle == NULL)
     {
@@ -475,18 +475,18 @@ W32SoundPlayer::load_wav_file(const string &filename)
     {
       throw Exception("mmioDescend");
     }
-  
+
   if (parent.ckid != FOURCC_RIFF || parent.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
     {
       throw Exception("no Wave");
     }
 
-  
+
   MMCKINFO child;
   memset((void *)&child, 0, sizeof(child));
 
   parent.ckid = mmioFOURCC('f', 'm', 't', ' ');
-  
+
   res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
   if (res != MMSYSERR_NOERROR)
     {
@@ -531,7 +531,7 @@ W32SoundPlayer::load_wav_file(const string &filename)
     {
       throw Exception("malloc");
     }
-  
+
   MMIOINFO mmio;
   res = mmioGetInfo(handle, &mmio, 0);
   if (res != MMSYSERR_NOERROR)
@@ -545,8 +545,8 @@ W32SoundPlayer::load_wav_file(const string &filename)
     {
       size_t copy = mmio.pchEndRead - mmio.pchNext;
 
-      if (copy > 0) 
-        {	
+      if (copy > 0)
+        {
           if (copy > sample_size - pos)
             {
               copy = sample_size - pos;
@@ -559,7 +559,7 @@ W32SoundPlayer::load_wav_file(const string &filename)
       mmio.pchNext = mmio.pchEndRead;
 
     } while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
-  
+
 
   mmioClose(handle, 0);
 }

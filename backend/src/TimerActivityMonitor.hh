@@ -70,7 +70,7 @@ public:
       {
         ActivityState local_state = monitor->get_current_state();
         TRACE_MSG(local_state)
-          
+
         if (local_state != ACTIVITY_IDLE &&
             local_state != ACTIVITY_SUSPENDED)
           {

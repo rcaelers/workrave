@@ -58,7 +58,7 @@ IndicatorAppletWindow::IndicatorAppletWindow(AppletControl *control) :
   service = NULL;
   menu_server = NULL;
   menu_root = NULL;
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       data[i].bar_text = "";
@@ -122,18 +122,18 @@ IndicatorAppletWindow::update_view()
   TRACE_ENTER("IndicatorAppletWindow::update_view");
 
   DBus *dbus = CoreFactory::get_dbus();
-  
+
   if (dbus != NULL && dbus->is_available())
     {
       org_workrave_IndicatorInterface *iface = org_workrave_IndicatorInterface::instance(dbus);
-      
+
       if (iface != NULL)
         {
           iface->UpdateIndicator(WORKRAVE_INDICATOR_SERVICE_OBJ,
                                  data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
         }
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -155,7 +155,7 @@ IndicatorAppletWindow::activate_applet()
 
       control->set_applet_state(AppletControl::APPLET_INDICATOR, AppletWindow::APPLET_STATE_VISIBLE);
     }
-      
+
   TRACE_EXIT();
   return AppletWindow::APPLET_STATE_VISIBLE;
 }

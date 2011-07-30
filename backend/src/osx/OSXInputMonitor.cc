@@ -60,7 +60,7 @@ OSXInputMonitor::init()
 //! Stops the activity monitoring.
 void
 OSXInputMonitor::terminate()
-{  
+{
   terminate_loop = true;
   monitor_thread->wait();
 }
@@ -83,9 +83,9 @@ OSXInputMonitor::run()
       CFNumberGetValue((CFNumberRef)property,
                        kCFNumberSInt64Type, &idle_time);
       CFRelease(property);
-      
+
       TRACE_MSG(idle_time);
-      
+
       if (idle_time < 1000000000)
         {
           fire_action();

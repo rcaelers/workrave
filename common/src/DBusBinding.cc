@@ -47,7 +47,7 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *mess
   DBusMessage *ret = NULL;
   bool found = false;
   int count = 0;
-  
+
   DBusIntrospect *table = get_method_introspect();
   while (!found && table[count].name != NULL)
     {
@@ -205,7 +205,7 @@ DBusBaseTypes::get_double(DBusMessageIter *it, double *value)
     {
       throw DBusTypeException("Double expected");
     }
-  
+
 	dbus_message_iter_get_basic(it, value);
   dbus_message_iter_next(it);
 }

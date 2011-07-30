@@ -165,7 +165,7 @@ DistributionSocketLink::init_my_id()
   if (Util::file_exists(idfilename))
     {
       ifstream file(idfilename.c_str());
-      
+
       if (file)
         {
           string id_str;
@@ -173,7 +173,7 @@ DistributionSocketLink::init_my_id()
 
           if (id_str.length() == WRID::STR_LENGTH)
             {
-              ok = my_id.set(id_str);              
+              ok = my_id.set(id_str);
             }
           file.close();
         }
@@ -229,7 +229,7 @@ DistributionSocketLink::connect(string url)
     {
       std::string::size_type pos = url.find("://");
       std::string hostport;
-      
+
       if (pos == std::string::npos)
         {
           hostport = url;
@@ -238,11 +238,11 @@ DistributionSocketLink::connect(string url)
         {
           hostport = url.substr(pos + 3);
         }
-      
+
       pos = hostport.rfind(":");
       std::string host;
       std::string port = "0";
-      
+
       if (pos == std::string::npos)
         {
           host = hostport;
@@ -252,7 +252,7 @@ DistributionSocketLink::connect(string url)
           host = hostport.substr(0, pos);
           port = hostport.substr(pos + 1);
         }
-       
+
       add_client(NULL, (gchar *)host.c_str(), atoi(port.c_str()), CLIENTTYPE_DIRECT);
     }
 }
@@ -392,7 +392,7 @@ DistributionSocketLink::set_network_enabled(bool enabled)
   else if (!network_enabled && enabled)
     {
       network_enabled = enabled;
-      
+
       set_server_enabled(server_enabled);
     }
 
@@ -533,7 +533,7 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
                   (host != NULL ? host : "NULL")  << " " << port);
 
   gchar *canonical_host = NULL;
-  
+
   Client *c = find_client_by_canonicalname(host, port);
   if (c != NULL && c->type == CLIENTTYPE_SIGNEDOFF && type == CLIENTTYPE_DIRECT)
     {
@@ -550,12 +550,12 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
           c->socket->close();
           delete c->socket;
         }
-      
+
       ISocket *socket = socket_driver->create_socket();
       socket->set_data(c);
       socket->set_listener(this);
       socket->connect(host, port);
-      
+
       c->socket = socket;
     }
   else
@@ -587,12 +587,12 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
               client->socket->close();
               delete client->socket;
             }
-          
+
           ISocket *socket = socket_driver->create_socket();
           socket->set_data(client);
           socket->set_listener(this);
           socket->connect(host, port);
-          
+
           client->socket = socket;
         }
     }
@@ -696,7 +696,7 @@ DistributionSocketLink::remove_client(Client *client)
             {
               dist_manager->signoff_remote_client((*i)->id);
             }
-          
+
           dist_manager->log(_("Removing client %s."),
                             (*i)->id == NULL ? "Unknown" : (*i)->id);
           delete *i;
@@ -737,7 +737,7 @@ DistributionSocketLink::remove_peer_clients(Client *client)
             {
               dist_manager->signoff_remote_client((*i)->id);
             }
-          
+
           if (client == master_client)
             {
               // Connection to master is lost. Unset master client.
@@ -760,14 +760,14 @@ DistributionSocketLink::remove_peer_clients(Client *client)
 void
 DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink::close_client", 
+  TRACE_ENTER_MSG("DistributionSocketLink::close_client",
 	  (client->id != NULL ? client->id : "Unknown") << " " << reconnect);
 
   if (client->id != NULL)
     {
       dist_manager->signoff_remote_client(client->id);
     }
-  
+
   if (client == master_client)
     {
       // Client to be closed is master. Unset master client.
@@ -1387,7 +1387,7 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
           TRACE_MSG("Direct connection. setting signedoff");
           c->type = CLIENTTYPE_SIGNEDOFF;
           remove_peer_clients(c);
-          
+
           if (c->socket != NULL)
             {
               TRACE_MSG("Remove connection");
@@ -2001,7 +2001,7 @@ DistributionSocketLink::start_async_server()
     {
       /* Create the server */
       server_socket = socket_driver->create_server();
-      
+
       if (server_socket != NULL)
         {
           server_socket->set_listener(this);
@@ -2013,7 +2013,7 @@ DistributionSocketLink::start_async_server()
   catch(SocketException e)
     {
     }
-  
+
   TRACE_RETURN(ret);
   return ret;
 }

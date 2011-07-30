@@ -187,7 +187,7 @@ public:
   void force_idle();
   void force_active();
   void set_insensitive_mode(InsensitiveMode mode);
-  
+
 private:
   //! Is this timer enabled ?
   bool timer_enabled;

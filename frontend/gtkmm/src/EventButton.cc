@@ -34,11 +34,11 @@ EventButton::on_button_press_event(GdkEventButton *event)
 {
   bool handled = button_pressed.emit(event->button);
   bool ret = true;
-  
+
   if (!handled)
     {
       ret = Gtk::Button::on_button_press_event(event);
     }
-  
+
   return ret;
 }

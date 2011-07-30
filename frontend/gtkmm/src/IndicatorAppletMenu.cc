@@ -81,7 +81,7 @@ IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *labe
     case Normal:
       break;
     }
-  
+
   dbusmenu_menuitem_child_append(parent, item);
 
   g_signal_connect(G_OBJECT(item), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(static_menu_item_activated), this);
@@ -121,7 +121,7 @@ IndicatorAppletMenu::init()
   menu_item_append(root, _("Exercises"), Menus::MENU_COMMAND_EXERCISES);
 
   DbusmenuMenuitem *mode_menu = menu_item_append(root, _("_Mode"));
-    
+
   menu_item_append(mode_menu, _("_Normal"), Radio, Menus::MENU_COMMAND_MODE_NORMAL);
   menu_item_append(mode_menu, _("_Suspended"), Radio, Menus::MENU_COMMAND_MODE_SUSPENDED);
   menu_item_append(mode_menu, _("Q_uiet"), Radio, Menus::MENU_COMMAND_MODE_QUIET);
@@ -180,7 +180,7 @@ void
 IndicatorAppletMenu::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
   (void) timestamp;
-  
+
   IndicatorAppletMenu *menu = (IndicatorAppletMenu *) user_data;
   menu->menu_item_activated(mi);
 }

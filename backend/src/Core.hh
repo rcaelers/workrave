@@ -137,14 +137,14 @@ public:
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
-  
+
 #ifdef HAVE_DBUS
   DBus *get_dbus()
   {
     return dbus;
   }
 #endif
-  
+
 private:
 
 #ifndef NDEBUG
@@ -179,7 +179,7 @@ private:
   void do_postpone_break(BreakId break_id);
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
-  
+
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 

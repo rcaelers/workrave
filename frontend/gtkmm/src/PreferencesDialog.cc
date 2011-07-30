@@ -83,7 +83,7 @@ PreferencesDialog::PreferencesDialog()
 
   connector = new DataConnector();
   inhibit_events = 0;
-  
+
   // Pages
   Gtk::Widget *timer_page = Gtk::manage(create_timer_page());
   Gtk::Notebook *gui_page = Gtk::manage(new Gtk::Notebook());
@@ -97,7 +97,7 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *gui_sounds_page = Gtk::manage(create_sounds_page());
   gui_page->append_page(*gui_sounds_page, _("Sounds"));
 #endif
-  
+
   Gtk::Widget *gui_mainwindow_page = Gtk::manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
@@ -105,7 +105,7 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *gui_applet_page = Gtk::manage(create_applet_page());
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
-  
+
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = Gtk::manage(create_network_page());
 #endif
@@ -119,7 +119,7 @@ PreferencesDialog::PreferencesDialog()
 
   // Gtk::Widget *plugins_page = Gtk::manage( new PluginsPreferencePage() );
   // add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
-  
+
   // Dialog
   get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
@@ -145,14 +145,14 @@ PreferencesDialog::~PreferencesDialog()
 
   GUIConfig::set_locale(code);
 #endif
-  
+
   ICore *core = CoreFactory::get_core();
   core->set_operation_mode(mode, false);
 
   delete connector;
 #ifndef HAVE_GTK3
   delete filefilter;
-#endif  
+#endif
   TRACE_EXIT();
 }
 
@@ -172,7 +172,7 @@ PreferencesDialog::create_gui_page()
   block_button->append_text(_("Block input"));
   block_button->append_text(_("Block input and screen"));
 #endif
-  
+
   int block_idx;
   switch (GUIConfig::get_block_mode())
     {
@@ -193,20 +193,20 @@ PreferencesDialog::create_gui_page()
   HigCategoryPanel *panel = Gtk::manage(new HigCategoryPanel(_("Options")));
 
   panel->add(_("Block mode:"), *block_button);
-  
+
 #if defined(HAVE_LANGUAGE_SELECTION)
   string current_locale = GUIConfig::get_locale();
 
   languages_model = Gtk::ListStore::create(languages_columns);
   languages_combo.set_model(languages_model);
-  
+
   std::vector<std::string> all_linguas;
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
-  
+
   Locale::LanguageMap languages_current_locale;
   Locale::LanguageMap languages_native_locale;
-  
+
   Locale::get_all_languages_in_current_locale(languages_current_locale);
   Locale::get_all_languages_in_native_locale(languages_native_locale);
 
@@ -217,7 +217,7 @@ PreferencesDialog::create_gui_page()
   row[languages_columns.code] = "";
   row[languages_columns.enabled] = true;
 
-  Gtk::TreeModel::iterator selected = iter;  
+  Gtk::TreeModel::iterator selected = iter;
 
   for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
     {
@@ -232,7 +232,7 @@ PreferencesDialog::create_gui_page()
         {
           selected = iter;
         }
-      
+
       string txt = languages_current_locale[code].language_name;
       if (languages_current_locale[code].country_name != "")
         {
@@ -255,7 +255,7 @@ PreferencesDialog::create_gui_page()
               txt = _("(font not available)");
               row[languages_columns.enabled] = false;
             }
-          
+
           row[languages_columns.native] = txt;
         }
     }
@@ -264,10 +264,10 @@ PreferencesDialog::create_gui_page()
  	languages_model->set_sort_func (languages_columns.current,
                                   sigc::mem_fun(*this,
                                                 &PreferencesDialog::on_cell_data_compare));
-    
-  languages_combo.pack_start(current_cellrenderer, true); 
+
+  languages_combo.pack_start(current_cellrenderer, true);
   languages_combo.pack_start(native_cellrenderer, false);
-  
+
   languages_combo.set_cell_data_func(native_cellrenderer,
                                      sigc::mem_fun(*this,
                                                    &PreferencesDialog::on_native_cell_data));
@@ -276,7 +276,7 @@ PreferencesDialog::create_gui_page()
                                                    &PreferencesDialog::on_current_cell_data));
 
   languages_combo.set_active(selected);
-  
+
   panel->add(_("Language:"), languages_combo);
 #endif
 
@@ -291,7 +291,7 @@ PreferencesDialog::create_gui_page()
   char value[MAX_PATH];
   bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
   autostart_cb->set_active(rc);
-#endif  
+#endif
 
   Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
@@ -313,7 +313,7 @@ PreferencesDialog::create_sounds_page()
   // Options
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Sound Options")));
   panel->pack_start(*hig, false, false, 0);
-  
+
   // Sound types
   sound_button  = Gtk::manage(new Gtk::ComboBoxText());
 #if GTKMM_CHECK_VERSION(2, 18, 0)
@@ -340,10 +340,10 @@ PreferencesDialog::create_sounds_page()
 
   GUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
-  
+
   if (snd->capability(SOUND_CAP_VOLUME))
     {
-      // Volume 
+      // Volume
       sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
       sound_volume_scale->set_increments(1.0, 5.0);
       connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
@@ -355,10 +355,10 @@ PreferencesDialog::create_sounds_page()
 
   if (snd->capability(SOUND_CAP_MUTE))
     {
-      // Volume 
+      // Volume
       mute_cb = Gtk::manage(new Gtk::CheckButton
                             (_("Mute sounds during rest break and daily limit")));
-  
+
       connector->connect(SoundPlayer::CFG_KEY_SOUND_MUTE, dc::wrap(mute_cb));
 
       hig->add(*mute_cb, true, true);
@@ -369,14 +369,14 @@ PreferencesDialog::create_sounds_page()
       // Sound themes
       hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
       panel->pack_start(*hig, true, true, 0);
-  
+
       sound_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
 
       update_theme_selection();
-  
+
       sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_theme_changed));
       hig->add(_("Sound Theme:"), *sound_theme_button);
-  
+
       sound_store = Gtk::ListStore::create(sound_model);
       sound_treeview.set_model(sound_store);
 
@@ -397,32 +397,32 @@ PreferencesDialog::create_sounds_page()
 
       sound_treeview.set_rules_hint();
       sound_treeview.set_search_column(sound_model.description.index());
-  
+
       int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
       Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
 
       Gtk::CellRendererToggle *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
-    
+
       cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
       column = sound_treeview.get_column(cols_count - 1);
       column->set_fixed_width(40);
-  
+
       Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
       sound_scroll->add(sound_treeview);
       sound_scroll->set_size_request(-1, 200);
       sound_treeview.set_size_request(-1, 200);
 
       hig->add(*sound_scroll, true, true);
-                                                      
+
       Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
-  
+
       sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
       hbox->pack_start(*sound_play_button, false, false, 0);
-  
+
       fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"),
                                                    Gtk::FILE_CHOOSER_ACTION_OPEN
                                                    ));
-  
+
       hbox->pack_start(*fsbutton, true, true, 0);
 
 #ifdef HAVE_GTK3
@@ -430,7 +430,7 @@ PreferencesDialog::create_sounds_page()
 #else
       filefilter = new Gtk::FileFilter();
 #endif
-      
+
       filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WIN32
       filefilter->add_pattern("*.wav");
@@ -442,7 +442,7 @@ PreferencesDialog::create_sounds_page()
 #else
       fsbutton->add_filter(*filefilter);
 #endif
-  
+
       hig->add(*hbox);
 
       Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
@@ -457,10 +457,10 @@ PreferencesDialog::create_sounds_page()
 
       sound_play_button->signal_clicked().connect(sigc::mem_fun(*this,
                                                                 &PreferencesDialog::on_sound_play));
-  
+
       selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this,
                                                                   &PreferencesDialog::on_sound_filechooser_play));
-  
+
       fsbutton->signal_selection_changed().connect(sigc::mem_fun(*this,
                                                                  &PreferencesDialog::on_sound_filechooser_select));
 
@@ -473,10 +473,10 @@ PreferencesDialog::create_sounds_page()
         {
           selection->select(iter);
         }
-      
+
       update_senstives();
     }
-    
+
   panel->set_border_width(12);
   return panel;
 }
@@ -503,7 +503,7 @@ PreferencesDialog::create_timer_page()
       tnotebook->append_page(*tp, *box);
 #else
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
-#endif      
+#endif
     }
   return tnotebook;
 }
@@ -716,7 +716,7 @@ PreferencesDialog::on_autostart_toggled()
 
       value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
-  
+
   Util::registry_set_value(RUNKEY, "Workrave", value);
 }
 #endif
@@ -734,7 +734,7 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
 
       GUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
-  
+
       snd->set_sound_enabled((SoundEvent)(int)row[sound_model.event],
                              row[sound_model.enabled]);
     }
@@ -783,11 +783,11 @@ PreferencesDialog::on_sound_filechooser_select()
   string filename = fsbutton->get_filename();
 
   TRACE_MSG(filename << " " << fsbutton_filename << " " << inhibit_events);
-  
+
   if (inhibit_events == 0 && filename != "" && fsbutton_filename != filename)
     {
       TRACE_MSG("ok");
-  
+
       Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
       Gtk::TreeModel::iterator iter = selection->get_selected();
 
@@ -825,7 +825,7 @@ PreferencesDialog::on_sound_events_changed()
       bool valid = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
                                                               row[sound_model.label],
                                                               filename);
-    
+
       TRACE_MSG(filename);
 
       if (valid)
@@ -860,11 +860,11 @@ PreferencesDialog::on_sound_theme_changed()
       Gtk::TreeModel::Row row = *iter;
       string event = (Glib::ustring) row[sound_model.label];
       string filename;
-      
+
       bool valid = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
                                                               row[sound_model.label],
                                                               filename);
-      
+
       if (valid)
         {
           TRACE_MSG(filename << " " <<row[sound_model.label]);
@@ -883,7 +883,7 @@ PreferencesDialog::update_theme_selection()
 {
   TRACE_ENTER("PreferencesDialog::update_theme_selection");
   sound_themes.erase(sound_themes.begin(), sound_themes.end());
-  
+
   GUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   snd->get_sound_themes(sound_themes);
@@ -893,7 +893,7 @@ PreferencesDialog::update_theme_selection()
 #else
   sound_theme_button->clear_items();
 #endif
-  
+
   int idx = 0;
   for (vector<SoundPlayer::Theme>::iterator it = sound_themes.begin(); it != sound_themes.end(); it++)
     {
@@ -902,7 +902,7 @@ PreferencesDialog::update_theme_selection()
 #else
       sound_theme_button->append_text(it->description);
 #endif
-      
+
       if (it->active)
        {
           sound_theme_button->set_active(idx);

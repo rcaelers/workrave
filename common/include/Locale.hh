@@ -47,16 +47,16 @@ public:
   static void get_all_languages_in_current_locale(LanguageMap &list);
   static void get_all_languages_in_native_locale(LanguageMap &list);
 
-  
+
   static void set_locale(const std::string &code);
   static std::string get_locale();
   static void lookup(const string &domain, string &str);
-  
+
   static LanguageMap languages_native_locale;
-  
+
 private:
   void init();
-  
+
 };
 
 #endif // LOCALE_HH

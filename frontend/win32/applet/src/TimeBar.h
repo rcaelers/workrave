@@ -71,7 +71,7 @@ private:
 };
 
 
-struct NONCLIENTMETRICS_PRE_VISTA_STRUCT 
+struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
 {
     UINT    cbSize;
     int     iBorderWidth;
@@ -90,7 +90,7 @@ struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
     LOGFONT lfMessageFont;
 	/*
 	This is a pre-vista structure for compatibility across platforms.
-	Normally, when Vista is the target build (WINVER 0x0600), 
+	Normally, when Vista is the target build (WINVER 0x0600),
 	NONCLIENTMETRICS structs contain an ifdef WINVER >= 0x0600:
 	int     iPaddedBorderWidth;
 	*/

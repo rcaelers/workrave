@@ -105,7 +105,7 @@ AppletControl::init()
 
 
   applets[APPLET_INDICATOR] = new IndicatorAppletWindow(this);
-  
+
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
 #endif
@@ -131,7 +131,7 @@ void
 AppletControl::show()
 {
   TRACE_ENTER("AppletControl::show");
-  
+
   bool specific = false;
   AppletState rc;
 
@@ -186,7 +186,7 @@ AppletControl::show()
     }
 #endif
   check_visible();
-  
+
   TRACE_EXIT();
 }
 
@@ -252,7 +252,6 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
   switch (state)
     {
     case AppletWindow::APPLET_STATE_DISABLED:
-    case AppletWindow::APPLET_STATE_PENDING:
       visible[type] = false;
       break;
 
@@ -280,7 +279,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
       Menus *menus = gui->get_menus();;
       menus->resync();
     }
-  
+
   check_visible();
   TRACE_EXIT();
 }
@@ -366,7 +365,7 @@ AppletControl::read_configuration()
     {
       delayed_show = -1;
     }
-  
+
   if (!previous_enabled && enabled)
     {
       show();
@@ -407,7 +406,7 @@ AppletControl::check_visible()
 // #ifdef PLATFORM_OS_OSX
 //   count++;
 // #endif
-    
+
   GUI *gui = GUI::get_instance();
   MainWindow *main = gui->get_main_window();
   if (main != NULL)

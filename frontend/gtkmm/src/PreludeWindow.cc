@@ -122,10 +122,10 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
 #ifdef HAVE_GTK3
   set_can_focus(false);
-#else  
+#else
   unset_flags(Gtk::CAN_FOCUS);
 #endif
-  
+
   show_all_children();
   stick();
 
@@ -137,25 +137,25 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();
-  
+
   TRACE_MSG("PreludeWindow created" <<  hex << _hwnd  << dec);
-  
+
   if (_hwnd != _scope)
     {
       TRACE_MSG( "!!!!!!!!!!!!!!!" <<  "Scope issue: " << hex << _scope  << dec);
     }
-  
+
   if (_hwnd != _hRoot)
     {
       TRACE_MSG( "GetDesktopWindow()" <<  hex << _hDesktop  << dec);
       TRACE_MSG( "!!!!!!!!!!!!!!!" <<  "PreludeWindow GA_ROOT: " << hex << _hRoot  << dec);
     }
-  
+
   if( _hParent != _hDesktop )
     {
       TRACE_MSG( "GetDesktopWindow()" <<  hex << _hDesktop  << dec);
       TRACE_MSG( "!!!!!!!!!!!!!!!" << "PreludeWindow GA_PARENT: " << hex << _hParent  << dec);
-      
+
       HWND _hTemp;
       while( IsWindow( _hParent ) && _hParent != _hDesktop )
         {
@@ -214,9 +214,9 @@ PreludeWindow::start()
   show_all();
 
   WindowHints::set_always_on_top(this, true);
-  
+
   time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
-  
+
   TRACE_EXIT();
 }
 
@@ -284,7 +284,7 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
-  
+
 #if defined(PLATFORM_OS_WIN32)
 // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
@@ -295,7 +295,7 @@ PreludeWindow::refresh()
       if( hAncestor && hDesktop && hAncestor != hDesktop )
           hwnd = hAncestor;
       // Set toplevel window topmost!
-      SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, 
+      SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
           SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
     }
 #endif
@@ -394,7 +394,7 @@ PreludeWindow::init_avoid_pointer()
     {
       POINT p;
       GetCursorPos(&p);
-      
+
       Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
       int x, y;
       Gdk::ModifierType mod;
@@ -406,8 +406,8 @@ PreludeWindow::init_avoid_pointer()
       gdk_offset_x = p.x - x;
       gdk_offset_y = p.y - y;
 
-      TRACE_MSG("offset " << gdk_offset_x << " " << gdk_offset_y); 
-     
+      TRACE_MSG("offset " << gdk_offset_x << " " << gdk_offset_y);
+
       avoid_signal = Glib::signal_timeout()
         .connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer),
                  150);
@@ -458,7 +458,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   int winx, winy, width, height, wind;
   window->get_geometry(winx, winy, width, height, wind);
 #endif
-  
+
   TRACE_MSG("geom" << winx << " " << winy << " " << width << " " << height << " ");
 
 #ifdef PLATFORM_OS_WIN32
@@ -480,7 +480,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   int top_y = head.get_y() + SCREEN_MARGIN;
   int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
   TRACE_MSG("geom3" << screen_height << " " << top_y << " " << bottom_y);
-  
+
   if (winy < top_y + SCREEN_MARGIN)
     {
       winy = bottom_y;

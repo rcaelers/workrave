@@ -46,7 +46,7 @@ GstSoundPlayer::GstSoundPlayer() :
 
   gst_ok = gst_init_check(NULL, NULL, &error);
 	gst_registry_fork_set_enabled(FALSE);
-  
+
   if (!gst_ok)
     {
       if (error)
@@ -89,7 +89,7 @@ GstSoundPlayer::capability(SoundCapability cap)
     {
       return true;
     }
-  
+
   return false;
 }
 
@@ -112,7 +112,7 @@ GstSoundPlayer::play_sound(std::string wavfile)
   GstBus *bus = NULL;
 
   string method = "automatic";
-  
+
   if (method == "automatic")
     {
       if (Util::running_gnome())
@@ -143,10 +143,10 @@ GstSoundPlayer::play_sound(std::string wavfile)
       WatchData *watch_data = new WatchData;
       watch_data->player = this;
       watch_data->play = play;
-      
+
       bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
-  
+
       char *uri = g_strdup_printf("file://%s", wavfile.c_str());
 
       int volume = 100;
@@ -154,12 +154,12 @@ GstSoundPlayer::play_sound(std::string wavfile)
 
       TRACE_MSG((float)volume);
       gst_element_set_state(play, GST_STATE_NULL);
-      
+
       g_object_set(G_OBJECT(play),
                    "uri", uri,
                    "volume", (float)(volume / 100.0),
                    "audio-sink", sink, NULL);
-      
+
       gst_element_set_state(play, GST_STATE_PLAYING);
 
       gst_object_unref(bus);
@@ -177,16 +177,16 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
   GstElement *play = watch_data->play;
   GError *err = NULL;
   gboolean ret = TRUE;
-  
+
   (void) bus;
-  
+
   switch (GST_MESSAGE_TYPE (msg))
     {
     case GST_MESSAGE_ERROR:
       gst_message_parse_error(msg, &err, NULL);
       g_error_free(err);
       /* FALLTHROUGH */
-      
+
     case GST_MESSAGE_EOS:
       gst_element_set_state(play, GST_STATE_NULL);
       gst_object_unref(GST_OBJECT(play));
@@ -197,7 +197,7 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
           watch_data->player->events->eos_event();
         }
       break;
-      
+
     case GST_MESSAGE_WARNING:
       gst_message_parse_warning(msg, &err, NULL);
       g_error_free(err);
@@ -211,7 +211,7 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
     {
       delete watch_data;
     }
-            
+
   return ret;
 }
 
@@ -220,7 +220,7 @@ GstSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   (void) snd;
   (void) enabled;
-  
+
   return false;
 }
 

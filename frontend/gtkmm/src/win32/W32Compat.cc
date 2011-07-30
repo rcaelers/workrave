@@ -68,7 +68,7 @@ void
 W32Compat::init_once()
 {
 	run_once = false;
-	
+
 	HMODULE user_lib = GetModuleHandleA( "user32.dll" );
 	if( user_lib )
 	{
@@ -77,43 +77,43 @@ W32Compat::init_once()
 		monitor_from_point_proc = (MONITORFROMPOINTPROC) GetProcAddress(user_lib, "MonitorFromPoint");
 		switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC) GetProcAddress(user_lib, "SwitchToThisWindow");
 	}
-	
+
 	// Should SetWindowOnTop() call ForceWindowFocus() ?
 	if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", force_focus ) )
 	{
 		force_focus = false;
 	}
-	
+
 	// Should SetWindowOnTop() call IMEWindowMagic() ?
 	if( !CoreFactory::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
 	{
-		ime_magic = false; 
+		ime_magic = false;
 	}
 
-	// As of writing SetWindowOnTop() always calls ResetWindow() 
-	// ResetWindow() determines whether to "reset" when both 
+	// As of writing SetWindowOnTop() always calls ResetWindow()
+	// ResetWindow() determines whether to "reset" when both
 	// reset_window_always and reset_window_never are false.
 	//
-	// If reset_window_always is true, and if ResetWindow() is continually 
-	// passed the same hwnd, hwnd will flicker as a result of the continual 
+	// If reset_window_always is true, and if ResetWindow() is continually
+	// passed the same hwnd, hwnd will flicker as a result of the continual
 	// z-order position changes / resetting.
 	if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
 	{
-		reset_window_always = false; 
+		reset_window_always = false;
 	}
 	// ResetWindow() will always abort when reset_window_never is true.
 	if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
 	{
-		reset_window_never = false; 
+		reset_window_never = false;
 	}
 
 }
 
-bool 
+bool
 W32Compat::get_force_focus_value()
 {
 	init();
-	
+
 	return force_focus;
 }
 
@@ -122,39 +122,39 @@ void
 W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
 {
 	init();
-	
+
 	SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
 		0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-	
+
 	ResetWindow( hwnd, (bool)topmost );
-	
+
 	if( ime_magic && topmost )
 	{
 		IMEWindowMagic( hwnd );
 	}
-	
+
 	if( force_focus && topmost )
 	{
 		ForceWindowFocus( hwnd );
 	}
-	
+
 	return;
 }
 
 
-// ForceWindowFocus() code was written in 2007 for Vista UIPI 
-// troubleshooting. It appears to no longer be useful, but I've 
+// ForceWindowFocus() code was written in 2007 for Vista UIPI
+// troubleshooting. It appears to no longer be useful, but I've
 // cleaned it up should it possibly serve some other use.
 // In 2008 the hack to undo admin focus stopped working.
 // if all else fails request user enable advanced/force_focus = "1"
-bool 
+bool
 W32Compat::ForceWindowFocus( HWND hwnd )
 {
 	init();
-	
+
 	if( !IsWindow( hwnd ) )
 		return false;
-	
+
 	/* FYI:
 	* GetForegroundWindow returns NULL if there is no window in focus.
 	*/
@@ -173,7 +173,7 @@ W32Compat::ForceWindowFocus( HWND hwnd )
 	to AttachThreadInput on the current foreground window as a
 	last resort. This method has been in use since Windows 98.
 	.
-	This method doesn't work on foreground console windows, 
+	This method doesn't work on foreground console windows,
 	or windows of a higher integrity level (Vista).
 	.
 	Attaching input can cause deadlock.
@@ -200,30 +200,30 @@ W32Compat::ForceWindowFocus( HWND hwnd )
 }
 
 
-// Bug 587 -  Vista: Workrave not modal / coming to front  
+// Bug 587 -  Vista: Workrave not modal / coming to front
 // http://issues.workrave.org/cgi-bin/bugzilla/show_bug.cgi?id=587
 // There is an issue with IME and window z-ordering.
-// 
+//
 // hwnd == window to "reset" in z-order
 // topmost == true if window should be topmost, false otherwise
-void 
+void
 W32Compat::ResetWindow( HWND hwnd, bool topmost )
 {
 	init();
-	
+
 	if( !IsWindow( hwnd ) || reset_window_never )
 		return;
-	
+
 	const bool DEBUG = false;
 	bool reset = false;
 	DWORD gwl_exstyle = 0;
 	DWORD valid_exstyle_diff = 0;
-	
+
 	WINDOWINFO gwi;
 	ZeroMemory( &gwi, sizeof( gwi ) );
 	gwi.cbSize = sizeof( WINDOWINFO );
 
-	
+
 	SetLastError( 0 );
 	gwl_exstyle = (DWORD)GetWindowLong( hwnd, GWL_EXSTYLE );
 	if( !GetLastError() )
@@ -232,7 +232,7 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 		if( topmost != ( gwl_exstyle & WS_EX_TOPMOST ? true : false ) )
 			reset = true;
 	}
-	
+
 	SetLastError( 0 );
 	GetWindowInfo( hwnd, &gwi );
 	if( !GetLastError() )
@@ -250,11 +250,11 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 		// if the extended style info differs, plan to reset.
 		// e.g. gwl returned ws_ex_toolwindow but gwi didn't
 		reset = true;
-		
+
 #ifdef BREAKAGE
-		// attempt to sync differences:	
+		// attempt to sync differences:
 		DWORD swl_exstyle = ( valid_exstyle_diff | gwl_exstyle ) & ~0xF1A08802;
-		
+
 		if( ( swl_exstyle & WS_EX_APPWINDOW ) && ( swl_exstyle & WS_EX_TOOLWINDOW ) )
 		// this hasn't happened and shouldn't happen, but i suppose it could.
 		// if both styles are set change to appwindow only.
@@ -263,7 +263,7 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 		{
 			swl_exstyle &= ~WS_EX_TOOLWINDOW;
 		}
-		
+
 		ShowWindow( hwnd, SW_HIDE );
 		SetWindowLong( hwnd, GWL_EXSTYLE, (LONG)swl_exstyle );
 		ShowWindow( hwnd, SW_SHOWNA );
@@ -274,45 +274,45 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 	// if the window is supposed to be topmost but is really not:
 	// set HWND_NOTOPMOST followed by HWND_TOPMOST
 	// the above sequence is key: review test results in 587#c17
-	// 
+	//
 	// if the window is not supposed to be topmost but is, reverse:
 	// set HWND_TOPMOST followed by HWND_NOTOPMOST
 	// the reverse is currently unproven.
 	// i don't know of any problems removing the topmost style.
 	if( IsWindow( hwnd ) && ( reset || reset_window_always ) )
 	{
-		SetWindowPos( hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST, 
+		SetWindowPos( hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
 			0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-		SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST, 
+		SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
 			0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
 	}
-	
+
 	return;
 }
 
 
-// Bug 587 -  Vista: Workrave not modal / coming to front  
+// Bug 587 -  Vista: Workrave not modal / coming to front
 // http://issues.workrave.org/cgi-bin/bugzilla/show_bug.cgi?id=587
 // There is an issue with IME and window z-ordering.
-// 
+//
 // ResetWindow() tests sufficient. This code is for troubleshooting.
 // if all else fails request user enable advanced/ime_magic = "1"
-void 
+void
 W32Compat::IMEWindowMagic( HWND hwnd )
 {
 	TRACE_ENTER( "W32Compat::IMEWindowMagic" );
-	
+
 	init();
-	
+
 	if( !IsWindow( hwnd ) )
 		return;
-	
+
 	// This message works to make hwnd topmost without activation or focus.
 	// I found it by watching window messages. I don't know its intended use.
 	SendMessage( hwnd, 0x287, 0x17/*0x18*/, (LPARAM)hwnd );
-	
-	SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER | 
+
+	SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER |
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-	
+
 	TRACE_EXIT();
 }

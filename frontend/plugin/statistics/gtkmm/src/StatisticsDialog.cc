@@ -72,7 +72,7 @@ StatisticsDialog::StatisticsDialog()
     {
       activity_labels[i] = NULL;
     }
-  
+
   init_gui();
   display_calendar_date();
 }
@@ -104,7 +104,7 @@ StatisticsDialog::init_gui()
 #else
   Gtk::HBox *tnotebook= Gtk::manage(new Gtk::HBox(false, 6));
 #endif
-  
+
   // Calendar
   calendar = Gtk::manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
@@ -118,7 +118,7 @@ StatisticsDialog::init_gui()
                             |Gtk::CALENDAR_SHOW_DAY_NAMES
                             |Gtk::CALENDAR_SHOW_HEADING);
 #endif
-  
+
   // Button box.
   Gtk::HBox *btnbox= Gtk::manage(new Gtk::HBox(false, 6));
   first_btn
@@ -174,7 +174,7 @@ StatisticsDialog::init_gui()
 #if !defined(PLATFORM_OS_OSX)
   tnotebook->set_current_page(0);
 #endif
-  
+
   get_vbox()->pack_start(*hbox, true, true, 0);
 
   // Dialog
@@ -293,13 +293,13 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
     }
 
   box->show_all();
-  
+
 #if !defined(PLATFORM_OS_OSX)
-  #ifdef HAVE_GTK3  
+  #ifdef HAVE_GTK3
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
   #else
   ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
-  #endif  
+  #endif
 #else
   ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
 #endif
@@ -355,11 +355,11 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
     }
 
   box->show_all();
-#ifdef HAVE_GTK3  
+#ifdef HAVE_GTK3
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 #else
   ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
-#endif  
+#endif
 
 }
 
@@ -447,7 +447,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
   if (activity_labels[0] != NULL)
     {
       // Label not available is OS X
-      
+
       value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
       if (value > 24 * 60 * 60) {
         value = 0;

@@ -92,7 +92,7 @@ workrave_timerbox_class_init(WorkraveTimerboxClass *klass)
 static void
 workrave_timerbox_init(WorkraveTimerbox *self)
 {
-  self->priv = WORKRAVE_TIMERBOX_GET_PRIVATE(self); 
+  self->priv = WORKRAVE_TIMERBOX_GET_PRIVATE(self);
 
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   self->priv->sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
@@ -105,18 +105,18 @@ workrave_timerbox_init(WorkraveTimerbox *self)
       g_string_printf(filename, "%s/images/%s", WORKRAVE_PKGDATADIR, icons[i]);
       self->priv->break_to_icon[i] = gdk_pixbuf_new_from_file(filename->str, NULL);
       g_string_free(filename, TRUE);
-      
+
       self->priv->break_visible[i] = FALSE;
       self->priv->slot_to_break[i] = BREAK_ID_NONE;
       self->priv->break_to_slot[i] = -1;
     }
   self->priv->filled_slots = 0;
   self->priv->enabled = FALSE;
-  
+
   /* initialize all public and private members to reasonable default values. */
 
   /* If you need specific construction properties to complete initialization,
-   * delay initialization completion until the property is set. 
+   * delay initialization completion until the property is set.
    */
 }
 
@@ -128,7 +128,7 @@ workrave_timerbox_dispose(GObject *gobject)
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
 
   g_object_unref(self->priv->sheep_icon);
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       g_object_unref(self->priv->break_to_icon[i]);
@@ -191,7 +191,7 @@ void
 workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, BreakId brk)
 {
   WorkraveTimerboxPrivate *priv = self->priv;
-  
+
   BreakId old_brk = priv->slot_to_break[slot];
   if (old_brk != brk)
     {
@@ -248,8 +248,8 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   cairo_set_source_rgba(cr, 0, 0, 0, 0);
   cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
   cairo_paint(cr);
-  cairo_restore(cr);   
-  
+  cairo_restore(cr);
+
   workrave_timerbox_update_time_bars(self, cr, surface);
   workrave_timerbox_update_sheep(self, cr);
 
@@ -301,7 +301,7 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
         {
           bar_dy = (icon_height - bar_height + 1) / 2;
         }
-       
+
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           BreakId bid = priv->slot_to_break[i];
@@ -316,11 +316,11 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
               workrave_timebar_draw(bar, bar_cr);
               cairo_surface_destroy(bar_surface);
               cairo_destroy(bar_cr);
-              
+
               gdk_cairo_set_source_pixbuf(cr, priv->break_to_icon[bid], x, y + icon_dy);
               cairo_fill(cr);
               cairo_paint(cr);
-              
+
               x += icon_bar_width + 2 * PADDING_X;
             }
         }

@@ -71,7 +71,7 @@ bool
 CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)
 {
   bool ret = false;
-  
+
   for (int i = 0; !ret && i < BREAK_ID_SIZEOF; i++)
     {
       if (key % BreakId(i) == str)

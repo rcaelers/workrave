@@ -68,7 +68,7 @@ static int
 errorHandler(Display *dpy, XErrorEvent *error)
 {
   (void)dpy;
-  
+
   if (error->error_code == BadWindow || error->error_code==BadDrawable)
     return 0;
   return 0;
@@ -113,7 +113,7 @@ DECLARE_INTERFACE_(IShellDispatch, IUnknown)
 END_INTERFACE
 };
 typedef IShellDispatch *LPSHELLDISPATCH;
-#endif 
+#endif
 
 //uuid(D8F015C0-C278-11CE-A49E-444553540000);
 const GUID IID_IShellDispatch =
@@ -238,9 +238,9 @@ System::is_shutdown_supported()
 #if defined(PLATFORM_OS_UNIX)
 # if defined(HAVE_GNOME)
   ret = true;
-# else  
+# else
   ret = false;
-# endif  
+# endif
 #elif defined(PLATFORM_OS_WIN32)
   ret = shutdown_supported;
 #else
@@ -299,7 +299,7 @@ System::init(
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
   init_kde(display);
- 
+
   gchar *program;
   if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")) != NULL)
     lockable = true;
@@ -309,7 +309,7 @@ System::init(
     lockable = true;
   else if ((program = g_find_program_in_path("xlock")) != NULL)
     lockable = true;
- 
+
   if (lockable && display != NULL)
     {
       g_free(program);
@@ -389,7 +389,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
 #else
   old_handler = XSetErrorHandler(&errorHandler);
 #endif
-  
+
   /* If WM_STATE is set, this is a managed client, so look
    * for the class hint and end recursion. Otherwise,
    * this is probably just a WM frame, so keep recursing.
@@ -443,7 +443,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
 #else
   XSetErrorHandler(old_handler);
 #endif
-  
+
   return retval;
 }
 

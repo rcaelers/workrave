@@ -57,7 +57,7 @@ public:
       MENUSYNC_SHOW_LOG,
       MENUSYNC_SIZEOF
     };
-  
+
   void fire_gnome_applet();
 
   void on_menu_restbreak_now();
@@ -65,7 +65,7 @@ public:
 
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
-  
+
   // DBUS methods
   void set_applet_orientation(Orientation orientation);
   void set_applet_size(int size);

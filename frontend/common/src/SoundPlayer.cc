@@ -358,7 +358,7 @@ SoundPlayer::init()
     {
       mixer->init();
     }
-  
+
   int volume = 0;
   if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
     {
@@ -392,7 +392,7 @@ SoundPlayer::register_sound_events(string theme)
     {
       string file = Util::complete_directory(path, Util::SEARCH_PATH_SOUNDS);
       TRACE_MSG(file);
-      
+
       Theme theme;
       load_sound_theme(file, theme);
 
@@ -470,7 +470,7 @@ SoundPlayer::sync_settings()
 
           string wav_file;
           valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
-          if (valid) 
+          if (valid)
            {
               CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
                                                          snd->id,
@@ -493,12 +493,12 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
   r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, NULL);
   TRACE_MSG("load " << r);
-  
+
   if (r)
     {
       gchar *themedir = g_path_get_dirname(themefilename.c_str());
       TRACE_MSG(themedir);
-      
+
       char *desc = g_key_file_get_string(config, "general", "description", NULL);
       if (desc != NULL)
         {
@@ -511,7 +511,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
         {
           SoundRegistry *snd = &sound_registry[i];
           char *sound_pathname = NULL;
-          
+
           char *filename = g_key_file_get_string(config, snd->id, "file", NULL);
           if (filename != NULL)
             {
@@ -579,7 +579,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 		      while ((file = g_dir_read_name(dir)) != NULL)
             {
               gchar *test_path = g_build_filename(it->c_str(), file, NULL);
-              
+
               if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   char *path = g_build_filename(it->c_str(), file, "soundtheme", NULL);
@@ -781,7 +781,7 @@ SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
       enabled = true;
-      
+
       ret = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
                                                        sound_registry[snd].id +
                                                        CFG_KEY_SOUND_EVENTS_ENABLED,
@@ -858,7 +858,7 @@ SoundPlayer::capability(SoundCapability cap)
     {
       ret = driver->capability(cap);
     }
-  
+
   return ret;
 }
 
@@ -866,7 +866,7 @@ void
 SoundPlayer::restore_mute()
 {
   TRACE_ENTER("SoundPlayer::restore_mute");
-  
+
   if (mixer != NULL && must_unmute)
     {
       mixer->set_mute(false);

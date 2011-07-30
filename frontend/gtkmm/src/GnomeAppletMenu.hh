@@ -45,9 +45,9 @@ public:
   virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
-  
+
 private:
-  GnomeAppletWindow *applet_window;  
+  GnomeAppletWindow *applet_window;
 };
 
 #endif // GNOMEAPPLETMENU_HH

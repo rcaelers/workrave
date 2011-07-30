@@ -83,7 +83,7 @@ struct _IndicatorWorkravePrivate {
   guint timer;
 
   WorkraveTimerbox *timerbox;
- 
+
 };
 
 typedef struct _TimerData  TimerData;
@@ -162,7 +162,7 @@ indicator_workrave_init(IndicatorWorkrave *self)
   priv->alive = FALSE;
   priv->timer = 0;
   priv->timerbox = NULL;
-  
+
   // self->priv->sm = indicator_service_manager_new_version(WORKRAVE_INDICATOR_SERVICE_NAME, WORKRAVE_INDICATOR_SERVICE_VERSION);
   priv->menu = dbusmenu_gtkmenu_new(WORKRAVE_INDICATOR_MENU_NAME, WORKRAVE_INDICATOR_MENU_OBJ);
   priv->timerbox = g_object_new(WORKRAVE_TYPE_TIMERBOX, NULL);
@@ -192,7 +192,7 @@ indicator_workrave_dispose(GObject *object)
       g_source_remove(priv->timer);
       priv->timer = 0;
     }
-  
+
   if (priv->label != NULL)
     {
       g_object_unref(priv->label);
@@ -278,7 +278,7 @@ on_timer(gpointer user_data)
     {
       workrave_timerbox_set_enabled(priv->timerbox, FALSE);
       workrave_timerbox_update(priv->timerbox, priv->image);
-      
+
       priv->timer = 0;
       return FALSE;
     }
@@ -333,9 +333,9 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
     {
       priv->timer = g_timeout_add_seconds(10, on_timer, self);
     }
-      
+
   TimerData td[BREAK_ID_SIZEOF];
-      
+
   g_variant_get(parameters, "((suuuuuuu)(suuuuuuu)(suuuuuuu))",
                 &td[BREAK_ID_MICRO_BREAK].bar_text,
                 &td[BREAK_ID_MICRO_BREAK].slot,
@@ -367,7 +367,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
     {
       workrave_timerbox_set_slot(priv->timerbox, i, td[i].slot);
     }
-      
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       WorkraveTimebar *timebar = workrave_timerbox_get_time_bar(priv->timerbox, i);

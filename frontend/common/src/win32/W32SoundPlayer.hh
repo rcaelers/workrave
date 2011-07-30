@@ -40,7 +40,7 @@ public:
 
 protected:
   static DWORD WINAPI thread_Play( LPVOID );
-  
+
 private:
   void Play();
 
@@ -49,7 +49,7 @@ private:
   int write(unsigned char *buffer, size_t size);
   void flush_buffer(int buffer);
   void load_wav_file(const std::string &filename);
-  
+
   HWAVEOUT waveout;
   HANDLE wave_event;
 

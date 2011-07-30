@@ -126,7 +126,7 @@ sm_client_win32_startup (EggSMClient *client,
 
   win32->message_event = CreateEvent (NULL, FALSE, FALSE, NULL);
   win32->response_event = CreateEvent (NULL, FALSE, FALSE, NULL);
-  g_win32_handle_source_add (win32->message_event, got_message, win32);  
+  g_win32_handle_source_add (win32->message_event, got_message, win32);
   _beginthread (sm_client_thread, 0, client);
 }
 
@@ -327,7 +327,7 @@ static void
 sm_client_thread (gpointer smclient)
 {
   HINSTANCE instance;
-  WNDCLASSEXW wcl; 
+  WNDCLASSEXW wcl;
   ATOM klass;
   HWND window;
   MSG msg;
