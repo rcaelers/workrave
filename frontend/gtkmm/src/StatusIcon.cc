@@ -34,6 +34,7 @@
 #include "W32StatusIcon.hh"
 #endif
 
+#include "GUI.hh"
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
 #include "Menus.hh"
@@ -143,7 +144,9 @@ void StatusIcon::on_popup_menu(guint button, guint activate_time)
   (void) button;
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  Menus::get_instance()->popup(Menus::MENU_APPLET, 1, activate_time);
+  GUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();;
+  menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
 
 bool StatusIcon::on_size_changed(guint size)

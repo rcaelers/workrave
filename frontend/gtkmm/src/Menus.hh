@@ -1,6 +1,6 @@
 // Menus.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ class StatisticsDialog;
 class PreferencesDialog;
 class MainWindow;
 class AppletWindow;
+class AppletControl;
 class ExercisesDialog;
 class Menu;
 
@@ -57,12 +58,14 @@ public:
     {
       MENU_NONE,
       MENU_MAINWINDOW,
-      MENU_APPLET,
-      MENU_NATIVE,
+      MENU_MAINAPPLET,
+      MENU_APPLET_GNOME,
+      MENU_APPLET_W32,
+      MENU_APPLET_INDICATOR,
       MENU_SIZEOF,
     };
 
-  enum
+  enum MenuCommand
     {
       MENU_COMMAND_PREFERENCES,
       MENU_COMMAND_EXERCISES,
@@ -78,11 +81,11 @@ public:
       MENU_COMMAND_ABOUT,
       MENU_COMMAND_MODE_READING,
       MENU_COMMAND_OPEN,
+      MENU_COMMAND_QUIT,
+      MENU_COMMAND_SIZEOF,
     };
 
-  static Menus *get_instance();
-  
-  void init(MainWindow *main_windows, AppletWindow *applet_window);
+  void init(MainWindow *main_windows, AppletControl *applet_control);
   void applet_command(short cmd);
   void resync();
   void locale_changed();
@@ -152,9 +155,6 @@ private:
 #endif
   //! The main window.
   MainWindow *main_window;
-
-  //! The applet window.
-  AppletWindow *applet_window;
 
   //! Different kind of menus
   Menu *menus[MENU_SIZEOF];

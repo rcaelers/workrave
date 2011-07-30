@@ -58,10 +58,16 @@
 #endif
 
 #include "MainGtkMenu.hh"
+#include "AppletControl.hh"
 
 #ifdef HAVE_GNOMEAPPLET
 #include "GnomeAppletMenu.hh"
 #include "GnomeAppletWindow.hh"
+#endif
+
+#ifdef HAVE_INDICATORS
+#include "IndicatorAppletMenu.hh"
+#include "IndicatorAppletWindow.hh"
 #endif
 
 #ifdef PLATFORM_OS_WIN32
@@ -94,7 +100,6 @@ Menus::Menus() :
   exercises_dialog(NULL),
 #endif
   main_window(NULL),
-  applet_window(NULL),
   about(NULL)
 {
   assert(instance == 0);
@@ -117,40 +122,43 @@ Menus::~Menus()
 }
 
 
-Menus *
-Menus::get_instance()
-{
-  assert(instance != 0);
-  return instance;
-}
-
-
 void
-Menus::init(MainWindow *main_window, AppletWindow *applet_window)
+Menus::init(MainWindow *main_window, AppletControl *applet_control)
 {
   this->main_window = main_window;
-  this->applet_window = applet_window;
-  
-#ifdef PLATFORM_OS_WIN32
-  menus[MENU_APPLET] = new W32TrayMenu();
-#else
-  menus[MENU_APPLET] = new MainGtkMenu(true);
-#endif
 
-#if defined(PLATFORM_OS_WIN32)
-  W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
-  menus[MENU_NATIVE] = new W32AppletMenu(main_window, w32_applet_window);
-#elif defined(HAVE_GNOMEAPPLET)
-  GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
-  menus[MENU_NATIVE] = new GnomeAppletMenu(gnome_applet_window);
-#endif
-  
+  AppletWindow *applet_window = NULL;
+
 #if defined(PLATFORM_OS_OSX)
   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
 #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
 #endif      
 
+#ifdef PLATFORM_OS_WIN32
+  menus[MENU_MAINAPPLET] = new W32TrayMenu();
+#else
+  menus[MENU_MAINAPPLET] = new MainGtkMenu(true);
+#endif
+
+#if defined(PLATFORM_OS_WIN32)
+  applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
+  W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
+  menus[MENU_APPLET_W32] = new W32AppletMenu(main_window, w32_applet_window);
+#endif
+  
+#if defined(HAVE_GNOMEAPPLET)
+  applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+  GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
+  menus[MENU_APPLET_GNOME] = new GnomeAppletMenu(gnome_applet_window);
+#endif
+
+#if defined(HAVE_INDICATORS)
+  applet_window = applet_control->get_applet_window(AppletControl::APPLET_INDICATOR);
+  IndicatorAppletWindow *indicator_applet_window = dynamic_cast<IndicatorAppletWindow*>(applet_window);
+  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet_window);
+#endif
+  
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -179,6 +187,7 @@ Menus::popup(const MenuKind kind,
       pop_menu->popup(button, activate_time);
     }
 }
+
 
 void
 Menus::on_menu_open_main_window()
@@ -232,7 +241,6 @@ Menus::on_menu_quiet()
   set_operation_mode(OPERATION_MODE_QUIET);
   TRACE_EXIT();
 }
-
 
 
 void
@@ -554,6 +562,7 @@ Menus::on_preferences_response(int response)
   preferences_dialog = NULL;
 }
 
+
 void
 Menus::applet_command(short cmd)
 {
@@ -608,6 +617,9 @@ Menus::applet_command(short cmd)
         on_menu_reading(core->get_usage_mode() == USAGE_MODE_NORMAL);
       }
       break;
+    case MENU_COMMAND_QUIT:
+      on_menu_quit();
+      break;
     }
 }
 
@@ -619,7 +631,6 @@ Menus::resync()
   if (syncing)
     return;
   syncing = true;
-  TRACE_ENTER("Menus::resync");
   
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
@@ -639,7 +650,6 @@ Menus::resync()
     }
 
   syncing = false;
-  TRACE_EXIT();
 }
 
 
@@ -650,7 +660,6 @@ Menus::locale_changed()
   if (syncing)
     return;
   syncing = true;
-  TRACE_ENTER("Menus::locale_changed");
   
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
@@ -663,5 +672,4 @@ Menus::locale_changed()
   resync();
   
   syncing = false;
-  TRACE_EXIT();
 }

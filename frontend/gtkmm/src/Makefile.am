@@ -31,6 +31,8 @@ extranodistsources =
 # Additional Gnome sources
 sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc
 
+## GnomeShellAppletWindow.cc
+
 # Additional non-Gnome sources.
 sourcesnognome =
 
@@ -251,7 +253,8 @@ workrave_SOURCES = \
 			MainGtkMenu.cc \
 			StatusIcon.cc \
 			eggsmclient.c \
-			UnityAppletWindow.cc \
+			IndicatorAppletWindow.cc \
+			IndicatorAppletMenu.cc \
 			${dbussources} \
 			$(extrasources)
 
@@ -268,7 +271,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
-			$(includesx) $(eggcflags) \
+			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -302,7 +305,7 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
-			${DIRECTSOUNDLIBS} 
+			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
 # workrave_LINK		= $(LINK) \
 # 			  nm - nos > workrave.dmp \

@@ -188,7 +188,8 @@ TimerBoxGtkView::init_widgets()
     
           b->set_tooltip_text(_("Take rest break now"));
 
-          Menus *menus = Menus::get_instance();
+          GUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();;
 
 	        b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           b->button_pressed.connect(sigc::mem_fun(*this,
@@ -528,8 +529,9 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 
   if (button == 3 && menu != Menus::MENU_NONE)
     {
-      Menus::get_instance()->popup(menu,
-                                   0 /*event->button */, 0);
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
+      menus->popup(menu, 0 /*event->button */, 0);
       ret = true;
     }
 

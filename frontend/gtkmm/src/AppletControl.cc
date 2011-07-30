@@ -44,7 +44,9 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#include "UnityAppletWindow.hh"
+#ifdef HAVE_INDICATORS
+#include "IndicatorAppletWindow.hh"
+#endif
 
 // #ifdef PLATFORM_OS_OSX
 // #include "OSXAppletWindow.hh"
@@ -53,6 +55,7 @@
 #include "GUI.hh"
 #include "MainWindow.hh"
 #include "TimerBoxControl.hh"
+#include "Menus.hh"
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -101,7 +104,7 @@ AppletControl::init()
 #endif
 
 
-  applets[APPLET_UNITY] = new UnityAppletWindow(this);
+  applets[APPLET_INDICATOR] = new IndicatorAppletWindow(this);
   
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
@@ -133,7 +136,7 @@ AppletControl::show()
   AppletState rc;
 
 
-  rc = activate_applet(APPLET_UNITY);
+  rc = activate_applet(APPLET_INDICATOR);
   TRACE_MSG("Unity" << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
@@ -249,15 +252,12 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
   switch (state)
     {
     case AppletWindow::APPLET_STATE_DISABLED:
+    case AppletWindow::APPLET_STATE_PENDING:
       visible[type] = false;
       break;
 
     case AppletWindow::APPLET_STATE_VISIBLE:
       visible[type] = true;
-      break;
-
-    case AppletWindow::APPLET_STATE_PENDING:
-      visible[type] = false;
       break;
     }
 
@@ -274,6 +274,13 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
       delayed_show = 5;
     }
 
+  if (state == AppletWindow::APPLET_STATE_VISIBLE)
+    {
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
+      menus->resync();
+    }
+  
   check_visible();
   TRACE_EXIT();
 }

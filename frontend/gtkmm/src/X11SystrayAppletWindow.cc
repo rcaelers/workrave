@@ -30,6 +30,7 @@
 
 #include "X11SystrayAppletWindow.hh"
 
+#include "GUI.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
 #include "AppletControl.hh"
@@ -136,7 +137,7 @@ X11SystrayAppletWindow::activate_applet()
                                                                   &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view = new TimerBoxGtkView(Menus::MENU_APPLET);
+      view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 
@@ -275,8 +276,9 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3)
         {
-          Menus::get_instance()->popup(Menus::MENU_APPLET,
-                                       0 /*event->button */, event->time);
+          GUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();;
+          menus->popup(Menus::MENU_MAINAPPLET, 0 /*event->button */, event->time);
           ret = true;
         }
       if (event->button == 1)

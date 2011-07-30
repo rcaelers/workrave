@@ -463,8 +463,9 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      Menus::get_instance()->popup(Menus::MENU_MAINWINDOW,
-                                   event->button, event->time);
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
+      menus->popup(Menus::MENU_MAINWINDOW, event->button, event->time);
       ret = true;
     }
 #endif

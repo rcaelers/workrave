@@ -2,8 +2,7 @@
 /Makefile.in
 /.deps
 /.libs
-/*.o
-/*.lo
 /*.la
+/*.lo
+/*.o
 /*~
-/indicator-workrave-test

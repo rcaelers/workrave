@@ -34,7 +34,7 @@ public:
       APPLET_TRAY,
       APPLET_GNOME,
       APPLET_GNOME_SHELL,
-      APPLET_UNITY,
+      APPLET_INDICATOR,
       APPLET_KDE,
       APPLET_W32,
       APPLET_OSX,

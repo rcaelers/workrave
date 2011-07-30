@@ -26,9 +26,10 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
-  <interface name="org.workrave.UnityInterface" csymbol="UnityAppletWindow">
+  <interface name="org.workrave.IndicatorInterface" csymbol="IndicatorAppletWindow"
+	     condition="defined(HAVE_INDICATORS)">
     <import>
-      <include name="UnityAppletWindow.hh"/>
+      <include name="IndicatorAppletWindow.hh"/>
     </import>
 
     <struct name="TimerData" csymbol="TimerData">

@@ -69,7 +69,7 @@ AC_ARG_ENABLE(gnome3,
 
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
-                              [compile with preliminary indicator applet support])])
+                              [compile with preliminary Unity indicator applet support])])
 	      
 AC_ARG_ENABLE(dbus,
               [AS_HELP_STRING([--disable-dbus],

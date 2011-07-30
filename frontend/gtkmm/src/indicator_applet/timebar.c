@@ -420,6 +420,7 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
   gtk_style_context_restore(priv->style_context);
 
   cairo_set_source_rgb(cr, priv->background_color.red, priv->background_color.green, priv->background_color.blue);
+  //cairo_set_source_rgb(cr, 1, 0, 0);
   cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2*BORDER_SIZE, height - 2*BORDER_SIZE);
   cairo_fill(cr);
 }

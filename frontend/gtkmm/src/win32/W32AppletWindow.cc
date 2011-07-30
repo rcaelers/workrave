@@ -320,7 +320,8 @@ bool
 W32AppletWindow::on_applet_command(int command)
 {
   TRACE_ENTER_MSG("W32AppletWindow::on_applet_command", command);
-  Menus *menus = Menus::get_instance();
+  GUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();;
   menus->applet_command(command);
   TRACE_EXIT();
   return false;

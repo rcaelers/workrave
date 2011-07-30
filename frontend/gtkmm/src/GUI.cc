@@ -807,15 +807,7 @@ GUI::init_gui()
   applet_control = new AppletControl();
   applet_control->init();
 
-  AppletWindow *applet_window = NULL;
-#if defined(HAVE_GNOME)
-  applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-#endif
-#if defined(PLATFORM_OS_WIN32)
-  applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
-#endif
-
-  menus->init(main_window, applet_window);
+  menus->init(main_window, applet_control);
   menus->resync();
 
   // Status icon

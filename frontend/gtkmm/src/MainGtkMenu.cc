@@ -26,6 +26,7 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include "GUI.hh"
 #include "MainGtkMenu.hh"
 
 #include <string>
@@ -131,7 +132,8 @@ MainGtkMenu::add_accel(Gtk::Window &window)
 void
 MainGtkMenu::create_actions()
 {
-  Menus *menus = Menus::get_instance();
+  GUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();;
 
   action_group = Gtk::ActionGroup::create();
 
@@ -333,7 +335,8 @@ MainGtkMenu::on_menu_network_log()
   if (ract)
     {
       bool active = ract->get_active();
-      Menus *menus = Menus::get_instance();
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
       menus->on_menu_network_log(active);
     }
 }
@@ -349,7 +352,8 @@ MainGtkMenu::on_menu_normal()
       bool active = ract->get_active();
       if (active)
         {
-          Menus *menus = Menus::get_instance();
+          GUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();;
           menus->on_menu_normal();
         }
     }
@@ -366,7 +370,9 @@ MainGtkMenu::on_menu_suspend()
       bool active = ract->get_active();
       if (active)
         {
-          Menus *menus = Menus::get_instance();
+          GUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();;
+
           menus->on_menu_suspend();
         }
     }
@@ -383,7 +389,9 @@ MainGtkMenu::on_menu_quiet()
       bool active = ract->get_active();
       if (active)
         {
-          Menus *menus = Menus::get_instance();
+          GUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();;
+
           menus->on_menu_quiet();
         }
     }
@@ -398,7 +406,9 @@ MainGtkMenu::on_menu_reading()
   if (ract)
     {
       bool active = ract->get_active();
-      Menus *menus = Menus::get_instance();
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
+
       menus->on_menu_reading(active);
     }
 }

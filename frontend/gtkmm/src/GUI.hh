@@ -68,6 +68,11 @@ public:
 
   static GUI *get_instance();
 
+  AppletControl *get_applet_control() const;
+  MainWindow *get_main_window() const;
+  SoundPlayer *get_sound_player() const;
+  Menus *get_menus() const;
+  
   void main();
 
   // GUIFactoryInterface methods
@@ -103,10 +108,8 @@ public:
   bool bound_head(int &x, int &y, int width, int height, int &head);
   void interrupt_grab();
 
-  AppletControl *get_applet_control() const;
   bool is_status_icon_visible() const;
-  MainWindow *get_main_window() const;
-  SoundPlayer *get_sound_player() const;
+  
 
 private:
   std::string get_timers_tooltip();
@@ -271,6 +274,13 @@ inline SoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;
+}
+
+//! Returns the sound player
+inline Menus *
+GUI::get_menus() const
+{
+  return menus;
 }
 
 //! Returns the GUI Heartbeat signal.

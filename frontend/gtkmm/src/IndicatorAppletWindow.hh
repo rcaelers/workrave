@@ -1,4 +1,4 @@
-// UnityAppletWindow.hh --- X11 Applet Window
+// IndicatorAppletWindow.hh --- X11 Applet Window
 //
 // Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,11 +17,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UNITYAPPLETWINDOW_HH
-#define UNITYAPPLETWINDOW_HH
+#ifndef INDICATORAPPLETWINDOW_HH
+#define INDICATORAPPLETWINDOW_HH
 
 #include "preinclude.h"
 #include <stdio.h>
+
+#include <libindicator/indicator-service.h>
+#include <libdbusmenu-glib/server.h>
+#include <libdbusmenu-glib/menuitem.h>
 
 #include "ITimerBoxView.hh"
 #include "ITimeBar.hh"
@@ -43,11 +47,11 @@ struct TimerData
 
 class AppletControl;
 
-class UnityAppletWindow : public AppletWindow , ITimerBoxView
+class IndicatorAppletWindow : public AppletWindow , ITimerBoxView
 {
 public:
-  UnityAppletWindow(AppletControl *control);
-  virtual ~UnityAppletWindow();
+  IndicatorAppletWindow(AppletControl *control);
+  virtual ~IndicatorAppletWindow();
 
   virtual AppletState activate_applet();
   virtual void deactivate_applet();
@@ -73,6 +77,10 @@ private:
 
   //! Controller
   AppletControl *control;
+
+  IndicatorService *service;
+  DbusmenuServer *menu_server;
+  DbusmenuMenuitem *menu_root;
 };
 
-#endif // UNITYAPPLETWINDOW_HH
+#endif // INDICATORAPPLETWINDOW_HH

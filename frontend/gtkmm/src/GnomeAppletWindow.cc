@@ -173,9 +173,6 @@ GnomeAppletWindow::activate_applet()
           container->show_all();
           plug->show_all();
         }
-
-      Menus *menus = Menus::get_instance();
-      menus->resync();
     }
 
   if (ok)
@@ -605,8 +602,5 @@ GnomeAppletWindow::on_embedded()
   control->set_applet_state(AppletControl::APPLET_GNOME,
                             AppletWindow::APPLET_STATE_VISIBLE);
 
-  Menus *menus = Menus::get_instance();
-  menus->resync();
-  
   TRACE_EXIT();
 }

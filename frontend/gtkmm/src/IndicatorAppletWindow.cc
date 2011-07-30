@@ -1,4 +1,4 @@
-// UnityAppletWindow.cc --- Applet info Window
+// IndicatorAppletWindow.cc --- Applet info Window
 //
 // Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -30,7 +30,11 @@ using namespace std;
 
 #include <gtkmm.h>
 
-#include "UnityAppletWindow.hh"
+#include <libdbusmenu-gtk/menuitem.h>
+#include <libdbusmenu-glib/client.h>
+
+#include "IndicatorAppletWindow.hh"
+#include "indicator_applet/dbus-shared.h"
 
 #include "AppletControl.hh"
 #include "TimerBoxControl.hh"
@@ -45,12 +49,16 @@ using namespace std;
 #include "DBusGUI.hh"
 
 //! Constructor.
-UnityAppletWindow::UnityAppletWindow(AppletControl *control) :
+IndicatorAppletWindow::IndicatorAppletWindow(AppletControl *control) :
   control(control)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
 
+  service = NULL;
+  menu_server = NULL;
+  menu_root = NULL;
+  
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       data[i].bar_text = "";
@@ -65,27 +73,27 @@ UnityAppletWindow::UnityAppletWindow(AppletControl *control) :
 
 
 //! Destructor.
-UnityAppletWindow::~UnityAppletWindow()
+IndicatorAppletWindow::~IndicatorAppletWindow()
 {
 }
 
 void
-UnityAppletWindow::set_slot(BreakId id, int slot)
+IndicatorAppletWindow::set_slot(BreakId id, int slot)
 {
-  TRACE_ENTER_MSG("UnityAppletWindow::set_slot", int(id) << ", " << slot);
+  TRACE_ENTER_MSG("IndicatorAppletWindow::set_slot", int(id) << ", " << slot);
   data[slot].slot = id;
   TRACE_EXIT();
 }
 
 void
-UnityAppletWindow::set_time_bar(BreakId id,
+IndicatorAppletWindow::set_time_bar(BreakId id,
                                 std::string text,
                                 ITimeBar::ColorId primary_color,
                                 int primary_val, int primary_max,
                                 ITimeBar::ColorId secondary_color,
                                 int secondary_val, int secondary_max)
 {
-  TRACE_ENTER_MSG("UnityAppletWindow::set_time_bar", int(id) << "=" << text);
+  TRACE_ENTER_MSG("IndicatorAppletWindow::set_time_bar", int(id) << "=" << text);
   data[id].bar_text = text;
   data[id].bar_primary_color = primary_color;
   data[id].bar_primary_val = primary_val;
@@ -97,31 +105,31 @@ UnityAppletWindow::set_time_bar(BreakId id,
 }
 
 void
-UnityAppletWindow::set_tip(std::string tip)
+IndicatorAppletWindow::set_tip(std::string tip)
 {
   (void) tip;
 }
 
 void
-UnityAppletWindow::set_icon(IconType type)
+IndicatorAppletWindow::set_icon(IconType type)
 {
   (void) type;
 }
 
 void
-UnityAppletWindow::update_view()
+IndicatorAppletWindow::update_view()
 {
-  TRACE_ENTER("UnityAppletWindow::update_view");
+  TRACE_ENTER("IndicatorAppletWindow::update_view");
 
   DBus *dbus = CoreFactory::get_dbus();
   
   if (dbus != NULL && dbus->is_available())
     {
-      org_workrave_UnityInterface *iface = org_workrave_UnityInterface::instance(dbus);
+      org_workrave_IndicatorInterface *iface = org_workrave_IndicatorInterface::instance(dbus);
       
       if (iface != NULL)
         {
-          iface->UpdateIndicator("/org/workrave/Workrave/UI",
+          iface->UpdateIndicator(WORKRAVE_INDICATOR_SERVICE_OBJ,
                                  data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
         }
     }
@@ -131,19 +139,21 @@ UnityAppletWindow::update_view()
 
 //! Initializes the native gnome applet.
 AppletWindow::AppletState
-UnityAppletWindow::activate_applet()
+IndicatorAppletWindow::activate_applet()
 {
-  TRACE_ENTER("UnityAppletWindow::activate_applet");
+  TRACE_ENTER("IndicatorAppletWindow::activate_applet");
   DBus *dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
     {
-      dbus->connect("/org/workrave/Workrave/UI",
-                    "org.workrave.UnityInterface",
+      dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
+                    WORKRAVE_INDICATOR_SERVICE_IFACE,
                     this);
 
-      control->set_applet_state(AppletControl::APPLET_UNITY,
-                                AppletWindow::APPLET_STATE_VISIBLE);
+      // service = indicator_service_new_version(WORKRAVE_INDICATOR_SERVICE_NAME, WORKRAVE_INDICATOR_SERVICE_VERSION);
+      // g_signal_connect(service, INDICATOR_SERVICE_SIGNAL_SHUTDOWN, G_CALLBACK(service_shutdown), NULL);
+
+      control->set_applet_state(AppletControl::APPLET_INDICATOR, AppletWindow::APPLET_STATE_VISIBLE);
     }
       
   TRACE_EXIT();
@@ -153,28 +163,35 @@ UnityAppletWindow::activate_applet()
 
 //! Destroys the native gnome applet.
 void
-UnityAppletWindow::deactivate_applet()
+IndicatorAppletWindow::deactivate_applet()
 {
-  TRACE_ENTER("UnityAppletWindow::deactivate_applet");
-  control->set_applet_state(AppletControl::APPLET_UNITY,
+  TRACE_ENTER("IndicatorAppletWindow::deactivate_applet");
+  control->set_applet_state(AppletControl::APPLET_INDICATOR,
                             AppletWindow::APPLET_STATE_DISABLED);
+
+	g_object_unref(G_OBJECT(service));
+	g_object_unref(G_OBJECT(menu_server));
+	g_object_unref(G_OBJECT(menu_root));
+
   TRACE_EXIT();
 }
 
 void
-UnityAppletWindow::set_enabled(bool enabled)
+IndicatorAppletWindow::set_enabled(bool enabled)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_enabled", enabled);
   TRACE_EXIT();
 }
 
 void
-UnityAppletWindow::set_geometry(Orientation orientation, int size)
+IndicatorAppletWindow::set_geometry(Orientation orientation, int size)
 {
   (void) orientation;
   (void) size;
 }
 
-void UnityAppletWindow::set_applet_enabled(bool enable)
+void
+IndicatorAppletWindow::set_applet_enabled(bool enable)
 {
+  (void) enable;
 }
