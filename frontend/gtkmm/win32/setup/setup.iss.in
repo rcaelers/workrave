@@ -104,35 +104,45 @@ Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
 
+function FindWorkrave(): Boolean;
+external 'FindWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
+
 function ZapWorkrave(): Boolean;
 external 'ZapWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
 
+function KillProcess(name : String): Boolean;
+external 'KillProcess@{tmp}\libzapper-0.dll stdcall delayload';
+
 Function EnsureWorkraveIsNotRunning() : Boolean;
-var winHwnd: longint;
-    retVal : boolean;
+var retVal : Boolean;
 begin
-  Result := true;
+  Result := True;
   try
-    winHwnd := FindWindowByWindowName('Workrave');
-    if winHwnd <> 0 then
+    retVal := FindWorkrave;
+    if retVal then
     begin
       if MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
                 mbConfirmation, MB_OKCANCEL) = IDOK then
       begin
         retVal := ZapWorkrave();
-	if not retVal then
+	if retVal then
 	begin
-	  winHwnd := FindWindowByWindowName('Workrave');
-	  if winHwnd <> 0 then
+	  retVal := KillProcess('dbus-daemon.exe')
+	end
+
+	if retVal then
+	begin
+	  retVal := FindWorkrave();
+	  if retVal then
 	  begin
  	    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
 	    Result := False;
           end
-	  else
-	  begin
-	    Result := True;
-          end
 	end
+      end
+      else
+      begin
+         Result := False;
       end
     end
   except
