@@ -61,8 +61,6 @@ Plug::~Plug()
 bool
 Plug::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
-  Gtk::Allocation allocation = get_allocation();
-
   cr->set_source_rgba(0, 0, 0, 0);
   cr->set_operator(Cairo::OPERATOR_SOURCE);
   cr->paint();

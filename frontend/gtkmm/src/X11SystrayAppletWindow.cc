@@ -254,6 +254,7 @@ X11SystrayAppletWindow::on_embedded()
 
       embedded = true;
       applet_size = 24;
+      applet_orientation = orientation;
       
       view->set_geometry(applet_orientation, applet_size);
     }
