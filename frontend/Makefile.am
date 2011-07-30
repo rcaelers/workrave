@@ -5,6 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common gtkmm plugin win32 text qt
-
-EXTRA_DIST = 		SConscript
+SUBDIRS = 		common gtkmm plugin win32 text

@@ -4,7 +4,7 @@
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		gnome_applet gnome3_applet kde_applet indicator_applet win32 unix osx
+SUBDIRS = 		gnome_applet gnome3_applet indicator_applet win32 unix osx
 
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
@@ -35,17 +35,6 @@ sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc
 
 # Additional non-Gnome sources.
 sourcesnognome =
-
-# Additional KDE sources.
-if HAVE_KDE
-sourceskde = 		KdeAppletWindow.cc KdeWorkraveControl.cc
-sourcesnodistkde = 	kde_applet/kworkraveapplet_stub.cpp \
-			kde_applet/kworkravecontroliface_stub.cpp \
-			kde_applet/kworkravecontroliface_skel.cpp \
-			KdeWorkraveControl.moc
-else
-sourcesnodistkde =
-endif
 
 # Additional X11 sources.
 if HAVE_GTK3
@@ -97,11 +86,6 @@ if HAVE_GNOMEAPPLET
 extrasources +=		$(sourcesgnome)
 else
 extrasources +=		$(sourcesnognome)
-endif
-
-if HAVE_KDE
-extrasources +=		$(sourceskde)
-extranodistsources +=	$(sourcesnodistkde)
 endif
 
 if PLATFORM_OS_UNIX
@@ -193,23 +177,6 @@ dbussources =
 
 endif # HAVE_DBUS
 
-#if HAVE_KDE
-#
-#KdeWorkraveControl.kidl: $(srcdir)/KdeWorkraveControl.hh $(DCOP_DEPENDENCIES)
-#	$(DCOPIDL) $(srcdir)/KdeWorkraveControl.hh > KdeWorkraveControl.kidl || ( rm -f KdeWorkraveControl.kidl ; false )
-#KdeWorkraveControl_skel.cpp: KdeWorkraveControl.kidl
-#	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-stub KdeWorkraveControl.kidl
-#KdeWorkraveControl_stub.cpp: KdeWorkraveControl_stub.h 
-#KdeWorkraveControl_stub.h: KdeWorkraveControl.kidl
-#	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-skel KdeWorkraveControl.kidl
-#KdeWorkraveControl.moc.cpp: $(srcdir)/KdeWorkraveControl.hh
-#	$(MOC) $(srcdir)/KdeWorkraveControl.hh -o KdeWorkraveControl.moc.cpp
-#
-#extrasources 	 +=	KdeWorkraveControl.moc.cpp KdeWorkraveControl_skel.cpp KdeWorkraveControl_stub.cpp
-##extranodistsources +=	
-#
-#endif
-
 iconsdir = $(datadir)/pixmaps/workrave
 
 desktopdir = ${datadir}/applications
@@ -269,7 +236,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
-			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
+			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -302,8 +269,7 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
-			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
-			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
+			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 

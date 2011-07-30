@@ -49,4 +49,4 @@ private:
   GStaticRecMutex gmutex;
 };
 
-#endif // QTMUTEX_HH
+#endif // GLIBMUTEX_HH

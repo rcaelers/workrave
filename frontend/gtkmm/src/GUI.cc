@@ -92,11 +92,6 @@
 #include <gconf/gconf-client.h>
 #endif
 
-#if defined(HAVE_KDE)
-#include <dcopclient.h>
-#include <kapp.h>
-#endif
-
 #if defined(HAVE_DBUS)
 #if defined(interface)
 #undef interface
@@ -368,9 +363,6 @@ void
 GUI::init_platform()
 {
   TRACE_ENTER("GUI::init_platform");
-#if defined(HAVE_KDE)
-  init_kde();
-#endif
 #if defined(PLATFORM_OS_OSX)
   [ [ AppController alloc ] init ];
 #endif
@@ -456,19 +448,6 @@ GUI::cleanup_session()
 }
 
 
-
-#if defined(HAVE_KDE)
-void
-GUI::init_kde()
-{
-  TRACE_ENTER("GUI::init_kde");
-  new KApplication(argc, argv, "Workrave");
-  bool rc = kapp->dcopClient()->attach();
-  TRACE_MSG(rc);
-
-  TRACE_EXIT();
-}
-#endif
 
 //! Initializes messages hooks.
 void

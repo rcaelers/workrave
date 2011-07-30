@@ -28,10 +28,6 @@
 
 #include "AppletControl.hh"
 
-#ifdef HAVE_KDE
-#include "KdeAppletWindow.hh"
-#endif
-
 #ifdef HAVE_GNOMEAPPLET
 #include "GnomeAppletWindow.hh"
 #endif
@@ -95,10 +91,6 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#ifdef HAVE_KDE
-  applets[APPLET_KDE] = new KdeAppletWindow(this);
-#endif
-
 #ifdef HAVE_GNOMEAPPLET
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
@@ -152,13 +144,6 @@ AppletControl::show()
       specific = true;
     }
 
-  rc = activate_applet(APPLET_KDE);
-  TRACE_MSG("kde " << rc);
-  if (rc != AppletWindow::APPLET_STATE_DISABLED)
-    {
-      specific = true;
-    }
-
   rc = activate_applet(APPLET_W32);
   TRACE_MSG("Win32 " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
@@ -208,9 +193,7 @@ AppletControl::show(AppletType type)
 #ifdef PLATFORM_OS_UNIX
   if (applets[APPLET_TRAY] != NULL)
     {
-      if ((type == APPLET_KDE || type == APPLET_GNOME)
-          && specific)
-
+      if (type == APPLET_GNOME && specific)
         {
           deactivate_applet(APPLET_TRAY);
         }
@@ -261,8 +244,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
     }
 
 #ifdef PLATFORM_OS_UNIX
-  if (visible[type] &&
-      (type == APPLET_KDE || type == APPLET_GNOME))
+  if (visible[type] && type == APPLET_GNOME)
     {
       deactivate_applet(APPLET_TRAY);
     }

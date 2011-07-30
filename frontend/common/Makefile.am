@@ -6,5 +6,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		src share include
-
-EXTRA_DIST = 		SConscript

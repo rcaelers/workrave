@@ -29,10 +29,6 @@
 #ifdef HAVE_GLIB
 #include "GlibIniConfigurator.hh"
 #endif
-#ifdef HAVE_QT
-#include "QtIniConfigurator.hh"
-#include "QtNativeConfigurator.hh"
-#endif
 #ifdef HAVE_GDOME
 #include "XMLConfigurator.hh"
 #endif
@@ -85,21 +81,10 @@ ConfiguratorFactory::create(Format fmt)
   else
 #endif
 
-#ifdef HAVE_QT
-  if (fmt == FormatNative)
-    {
-      b = new QtNativeConfigurator();
-    }
-  else
-#endif
-
   if (fmt == FormatIni)
     {
 #ifdef HAVE_GLIB
       b = new GlibIniConfigurator();
-#elif defined(HAVE_QT)
-      b = new QtIniConfigurator();
-#else
 #error Not ported
 #endif
     }

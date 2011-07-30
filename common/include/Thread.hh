@@ -24,9 +24,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_QT
-#error Port missing
-#elif defined(HAVE_GLIB)
+#if defined(HAVE_GLIB)
 #include "GlibThread.hh"
 #else
 #error Port missing

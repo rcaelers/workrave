@@ -107,4 +107,4 @@ libworkrave_backend_la_LIBADD=${platform_ldadd}
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in SConscript
+			org.workrave.Workrave.service.in

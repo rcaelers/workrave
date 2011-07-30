@@ -35,7 +35,6 @@ public:
       APPLET_GNOME,
       APPLET_GNOME_SHELL,
       APPLET_INDICATOR,
-      APPLET_KDE,
       APPLET_W32,
       APPLET_OSX,
       APPLET_SIZE

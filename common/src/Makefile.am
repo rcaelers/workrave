@@ -43,7 +43,7 @@ INCLUDES = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"
 			@WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @DBUS_CFLAGS@ 
 
-EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) SConscript locale.inc
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) locale.inc
 
 Locale.cc:		locale.inc
 

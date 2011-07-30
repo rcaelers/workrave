@@ -416,7 +416,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   win32_show(false);
   gui->main_window_closed();
 #else
-#if defined(HAVE_GNOME) || defined(HAVE_KDE)
+#if defined(HAVE_GNOME)
   bool terminate = true;
   AppletControl *applet_control = gui->get_applet_control();
   if (applet_control != NULL)
@@ -439,7 +439,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   TimerBoxControl::set_enabled("main_window", false);
 #else
   gui->terminate();
-#endif // HAVE_GNOME || HAVE_KDE
+#endif // HAVE_GNOME
 #endif // PLATFORM_OS_WIN32
 
   TRACE_EXIT();

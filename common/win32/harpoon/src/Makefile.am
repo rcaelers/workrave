@@ -6,5 +6,4 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
-			$(wildcard $(srcdir)/*.vcproj) $(wildcard $(srcdir)/*.dsp) $(wildcard $(srcdir)/*.def) \
-	 		SConscript
+			$(wildcard $(srcdir)/*.vcproj) $(wildcard $(srcdir)/*.dsp) $(wildcard $(srcdir)/*.def)

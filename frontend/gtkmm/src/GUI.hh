@@ -132,9 +132,6 @@ private:
   static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
   void cleanup_session();
 
-#ifdef HAVE_KDE
-  void init_kde();
-#endif
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
   void config_changed_notify(const std::string &key);

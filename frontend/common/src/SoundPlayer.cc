@@ -47,8 +47,6 @@
 #include "GstSoundPlayer.hh"
 #elif defined HAVE_DEPRECATED_GNOME
 #include "GnomeSoundPlayer.hh"
-#elif defined HAVE_KDE
-#include "KdeSoundPlayer.hh"
 #elif defined PLATFORM_OS_UNIX
 #include <X11/Xlib.h>
 #elif defined PLATFORM_OS_WIN32
@@ -314,8 +312,6 @@ SoundPlayer::SoundPlayer()
      new GstSoundPlayer()
 #elif defined HAVE_DEPRECATED_GNOME
      new GnomeSoundPlayer()
-#elif defined HAVE_KDE
-     new KdeSoundPlayer()
 #elif defined PLATFORM_OS_WIN32
      new W32DirectSoundPlayer()
 #elif defined PLATFORM_OS_OSX

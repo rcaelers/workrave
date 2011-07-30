@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
 
-SUBDIRS = 		kde win32 x11 osx
+SUBDIRS = 		win32 x11 osx
 
 libworkrave_frontend_common_la_SOURCES = \
 			Text.cc \
@@ -28,15 +28,11 @@ endif
 if PLATFORM_OS_UNIX
 ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
 endif
-if HAVE_KDE
-ldadd_platform += 	kde/libworkrave-frontend-common-kde.la
-endif
 
 libworkrave_frontend_common_la_LIBADD=${ldadd_platform}
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
-			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc) \
-			SConscript
+			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
 
 libworkrave_frontend_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
@@ -44,7 +40,6 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-W -I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/kde \
 			-I$(top_srcdir)/frontend/common/src/osx \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \

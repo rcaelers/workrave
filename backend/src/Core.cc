@@ -217,8 +217,6 @@ Core::init_configurator()
         {
           configurator->load(configFile);
         }
-#elif defined(HAVE_QT)
-      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 #else
       ini_file = Util::get_home_directory() + "workrave.ini";
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);

@@ -83,10 +83,6 @@ AC_ARG_ENABLE(pulse,
               [AS_HELP_STRING([--disable-pulse],
                               [compile without PulseAudio support])])
 
-AC_ARG_ENABLE(kde,
-              [AS_HELP_STRING([--enable-kde],
-                              [compile with KDE support (broken)])])
-
 AC_ARG_ENABLE(x11-monitoring-fallback,
               [AS_HELP_STRING([--enable-x11-monitoring-fallback],
                               [compile with fallback monitoring if RECORD is not available (discouraged)])])
@@ -225,7 +221,6 @@ platform_os_osx=no
 platform_os_unix=no
 platform_variant_x11=no
 platform_variant_gnome=no
-platform_variant_kde=no
 
 case "$target_or_host" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
@@ -551,42 +546,6 @@ AC_SUBST(INDICATORICONSDIR)
 AM_CONDITIONAL(HAVE_INDICATOR, test "x$config_indicator" = "xyes")
 
 dnl
-dnl KDE
-dnl
-  
-config_kde=no
-
-KDE_MISC_TESTS
-if test "x$enable_kde" = "xyes";
-then
-    AC_BASE_PATH_KDE
-
-    dnl for NLS support. Call them in this order!
-    dnl WITH_NLS is for the po files
-    dnl AM_KDE_WITH_NLS
-    dnl KDE_PROG_LIBTOOL
-
-    KDE_USE_QT(3.0.0)
-    AC_PATH_KDE
-
-    dnl PACKAGE set before
-    AC_CHECK_KDEMAXPATHLEN
-
-    KDE_CREATE_SUBDIRSLIST
-
-    config_kde=yes
-    AC_DEFINE([HAVE_KDE], , [Define if KDE is available])
-else
-    build_arts="no"
-    include_ARTS_TRUE='#'
-    include_ARTS_FALSE=
-fi
-
-AC_SUBST(include_ARTS)
-AM_CONDITIONAL(HAVE_KDE, test "x$config_kde" = "xyes")
-  
-
-dnl
 dnl GConf
 dnl
 
@@ -825,10 +784,6 @@ if test "x$config_gnome" = "xyes"
 then
    variant="$variant gnome"
 fi
-if test "x$config_kde" = "xyes"
-then
-   variant="$variant kde"
-fi
 
 WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
 WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
@@ -951,7 +906,6 @@ AC_OUTPUT(Makefile
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \
           frontend/common/src/Makefile \
-          frontend/common/src/kde/Makefile \
           frontend/common/src/win32/Makefile \
           frontend/common/src/x11/Makefile \
           frontend/common/src/osx/Makefile \
@@ -972,9 +926,6 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/src/gnome_applet/Makefile \
           frontend/gtkmm/src/gnome3_applet/Makefile \
           frontend/gtkmm/src/indicator_applet/Makefile \
-          frontend/gtkmm/src/kde_applet/Makefile \
-          frontend/qt/Makefile \
-          frontend/qt/src/Makefile \
           frontend/text/Makefile \
           frontend/text/src/Makefile \
           frontend/plugin/Makefile \
@@ -1025,7 +976,6 @@ echo "                Gnome support :   Gnome 2"
 else
 echo "                Gnome support :   No"
 fi
-echo "                  KDE support :   ${config_kde}"
 echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"
