@@ -147,6 +147,21 @@ protected:
     }                                                                   \
   }
 
+#define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType)                   \
+  namespace dc {                                                        \
+    WrapperType *wrap (WidgetType *t)                                   \
+    {                                                                   \
+      if (t != NULL)                                                    \
+        {                                                               \
+          return new WrapperType(t);                                    \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          return NULL;                                                  \
+        }                                                               \
+    }                                                                   \
+  }
+
 DECLARE_DATA_TYPE(Gtk::Entry *, DataConnectionGtkEntry, std::string);
 DECLARE_DATA_TYPE(Gtk::CheckButton *, DataConnectionGtkCheckButton, bool);
 DECLARE_DATA_TYPE(Gtk::SpinButton *, DataConnectionGtkSpinButton, int);
