@@ -95,9 +95,10 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
-
+#ifdef HAVE_INDICATORS  
   applets[APPLET_INDICATOR] = new IndicatorAppletWindow(this);
-
+#endif
+  
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
 #endif
