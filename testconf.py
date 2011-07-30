@@ -6,10 +6,13 @@ import sys;
 options = [ "gconf",
             "xml",
             "gnome",
+            "gnome3",
+            "indicator",
             "distribution",
             "gstreamer",
             "dbus",
             "exercises",
+            "pulse",
             "debug",
             "x11-monitoring-fallback",
             "tracing"]

@@ -1013,7 +1013,11 @@ echo ""
 echo "          GConf configuration :   ${config_gconf}"
 echo "            XML configuration :   ${config_xml}"
 echo ""
-echo "                      Gtk GUI :   ${config_gtk}"
+if test "${config_gtk3}" = "yes"; then
+echo "                      Gtk GUI :   ${config_gtk} (Gtk3)"
+else
+echo "                      Gtk GUI :   ${config_gtk} (Gtk2)"
+fi
 if test "${config_gnome3}" = "yes"; then
 echo "                Gnome support :   Gnome 3"
 elif test "${config_gnome}" = "yes"; then
