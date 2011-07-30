@@ -1,6 +1,6 @@
 // XMLConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -608,7 +608,7 @@ XMLConfigurator::create_child(const string &key)
 {
   TRACE_ENTER_MSG("XMLConfigurator::create_child", "|" << key << "|");
 
-  bool ret = true; //TODO:
+  bool ret = true;
 
   if (key != "")
     {

@@ -346,7 +346,6 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
     {
       Gtk::Requisition size;
 #ifdef HAVE_GTK3
-      // FIXME: GTK3
       Gtk::Requisition minsize;
       window.get_preferred_size(minsize, size);
 #else

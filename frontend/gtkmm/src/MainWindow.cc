@@ -392,7 +392,6 @@ MainWindow::close_window()
 
   if (applet_active || gui->is_status_icon_visible())
     {
-      // FIXME: GTK3 was hideall
       hide();
     }
   else
@@ -724,7 +723,6 @@ MainWindow::set_applet_active(bool a)
       GUI *gui = GUI::get_instance();
       if (applet_active || gui->is_status_icon_visible())
         {
-          // FIXME: GTK3 was hide_all
           hide();
         }
       else
@@ -747,7 +745,6 @@ MainWindow::status_icon_changed()
       GUI *gui = GUI::get_instance();
       if (applet_active || gui->is_status_icon_visible())
         {
-          // FIXME: GTK3 was hide_all
           hide();
         }
       else
