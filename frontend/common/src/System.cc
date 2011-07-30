@@ -1,6 +1,6 @@
 // System.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -438,7 +438,8 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
 
 #ifdef HAVE_APP_GTK
   gdk_flush();
-  gdk_error_trap_pop();
+  gint err = gdk_error_trap_pop();
+  (void) err;
 #else
   XSetErrorHandler(old_handler);
 #endif

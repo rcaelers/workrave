@@ -367,7 +367,14 @@ GnomeAppletWindow::set_applet_size(int size)
 void
 GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 {
-#ifndef HAVE_GTK3
+#ifdef HAVE_GTK3
+  
+  (void) type;
+  (void) color;
+  (void) xid;
+  
+#else
+  
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid 
                   << " " << color.pixel
                   << " " << color.red 
@@ -574,7 +581,8 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
                  False, NoEventMask, &xevent);
 
       gdk_flush();
-      gdk_error_trap_pop();
+      gint err = gdk_error_trap_pop();
+      (void) err;
     }
 
   TRACE_EXIT();

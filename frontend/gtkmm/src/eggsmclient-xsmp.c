@@ -38,6 +38,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
+#ifdef HAVE_GTK3
+#include <gdk/gdkx.h>
+#endif
+
 #define EGG_TYPE_SM_CLIENT_XSMP            (egg_sm_client_xsmp_get_type ())
 #define EGG_SM_CLIENT_XSMP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMP))
 #define EGG_SM_CLIENT_XSMP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMPClass))

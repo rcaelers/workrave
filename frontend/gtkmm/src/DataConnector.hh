@@ -143,17 +143,9 @@ protected:
   namespace dc {                                                        \
     WrapperType *wrap (WidgetType t)                                    \
     {                                                                   \
-      if (t != NULL)                                                    \
-        {                                                               \
-          return new WrapperType(t);                                    \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          return NULL;                                                  \
-        }                                                               \
+      return new WrapperType(t);                                        \
     }                                                                   \
   }
-
 
 DECLARE_DATA_TYPE(Gtk::Entry *, DataConnectionGtkEntry, std::string);
 DECLARE_DATA_TYPE(Gtk::CheckButton *, DataConnectionGtkCheckButton, bool);

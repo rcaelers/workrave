@@ -1,6 +1,6 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001-2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001-2007, 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -405,7 +405,8 @@ X11InputMonitor::error_trap_exit()
 {
 #ifdef HAVE_APP_GTK
   gdk_flush ();
-  gdk_error_trap_pop();
+  gint err = gdk_error_trap_pop();
+  (void) err;
 #else
   XSetErrorHandler(old_handler);
 #endif

@@ -20,6 +20,8 @@ HigDialog::HigDialog(const Glib::ustring& title, bool modal,
     : Gtk::Dialog(title, modal, use_separator)
 #endif
 {
+  (void) use_separator;
+  
   set_hig_defaults();
   vbox = NULL;
 }

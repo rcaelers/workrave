@@ -538,8 +538,8 @@ AS_IF([test "x$with_localinstall" = "xyes"],
 		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator`
 		],
 		[
-		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3`
-		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3`
+		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
+		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
 		])])
 
 AC_SUBST(INDICATORDIR)

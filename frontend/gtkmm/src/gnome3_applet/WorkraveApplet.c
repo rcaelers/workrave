@@ -972,7 +972,7 @@ workrave_applet_init(WorkraveApplet *applet)
 static gboolean
 applet_factory(PanelApplet *applet, const gchar *iid, gpointer user_data)
 {
-  if (strcmp(iid, "WorkraveApplet") == 0)
+  if (g_strcmp0(iid, "WorkraveApplet") == 0)
     {
       gtk_widget_show_all(GTK_WIDGET(applet));
       return TRUE;
