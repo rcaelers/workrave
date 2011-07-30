@@ -85,6 +85,7 @@ ConfiguratorFactory::create(Format fmt)
     {
 #ifdef HAVE_GLIB
       b = new GlibIniConfigurator();
+#else
 #error Not ported
 #endif
     }
