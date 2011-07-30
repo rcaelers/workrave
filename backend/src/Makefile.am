@@ -25,7 +25,6 @@ sources = 		ActivityMonitor.cc \
 			TimePredFactory.cc \
 			Timer.cc \
 			DayTimePred.cc \
-			WeekTimePred.cc \
 			Test.cc \
 			TimePredFactory.cc
 

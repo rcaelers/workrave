@@ -1,6 +1,6 @@
 // TimePredFactory.cc
 //
-// Copyright (C) 2001, 2002, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 #include "TimePredFactory.hh"
 #include "DayTimePred.hh"
-#if 0
-#include "WeekTimePred.hh"
-#endif
 
 using namespace std;
 
@@ -49,14 +46,6 @@ TimePredFactory::create_time_pred(string spec)
           ok = dayPred->init(spec);
           pred = dayPred;
         }
-#if 0
-      else if (type == "week")
-        {
-          WeekTimePred *weekPred = new WeekTimePred();
-          ok = weekPred->init(spec);
-          pred = weekPred;
-        }
-#endif
     }
 
   if (pred && !ok)
