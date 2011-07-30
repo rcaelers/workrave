@@ -5,4 +5,5 @@
 /runtime-base
 /runtime-gtk
 /runtime-wimp
+/runtime-dbus
 /Output

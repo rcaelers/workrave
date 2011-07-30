@@ -15,6 +15,9 @@
 /Workrave-Control.server
 /Workrave-Control.server.in
 /GNOME_WorkraveApplet.xml
+/org.workrave.WorkraveApplet.panel-applet.in
+/org.workrave.WorkraveApplet.panel-applet
+/org.workrave.WorkraveAppletFactory.service
 /workrave-applet
 /DBusGUI.xml
 /DBusGnomeApplet.xml
