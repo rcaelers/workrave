@@ -166,7 +166,7 @@ aclocal -I m4 $aclocalinclude || {
 }
 
 
-if grep "^AM_CONFIG_HEADER" configure.ac >/dev/null; then
+if grep "^AC_CONFIG_HEADER" configure.ac >/dev/null; then
     echo "Running autoheader..."
     autoheader --force || {
         echo "**Error**: autoheader failed."
