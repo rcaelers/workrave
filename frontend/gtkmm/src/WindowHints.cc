@@ -112,6 +112,13 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
   if (num_windows > 0)
     {
       GdkDevice *device = gtk_get_current_event_device();
+      if (device == NULL)
+        {
+          GdkDisplay *display = gdk_window_get_display(windows[0]);
+          GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
+          device = gdk_device_manager_get_client_pointer(device_manager);
+        }
+      
       if (device != NULL)
         {
           if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
