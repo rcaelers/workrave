@@ -5,7 +5,6 @@ import sys;
 
 options = [ "gconf",
             "xml",
-            "gnome",
             "gnome3",
             "indicator",
             "distribution",

@@ -112,12 +112,7 @@ AC_ARG_ENABLE(tracing,
                               [compile with method call tracing])],
               [test "x$enable_tracing" = "xyes" && enable_debug=yes])
 
-AC_ARG_WITH([indicator-gtk],
-  [AS_HELP_STRING([--with-indicator-gtk],
-    [Which version of gtk to use for the indicator @<:@default=3@:>@])],
-  [],
-  [with_indicator_gtk=3])
-	      
+      
 case x"$target" in
   xNONE | x)
     target_or_host="$host" ;;
@@ -494,48 +489,25 @@ INDICATOR_REQUIRED_VERSION=0.3.19
 DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
 DBUSMENUGTK_REQUIRED_VERSION=0.3.95
 
-if test "x$enable_indicator" != "xno"
+if test "x$enable_indicator" != "xno" -a "x$config_gtk3" = "xyes"
 then
-    AS_IF([test "x$with_indicator_gtk" = x3],
-          [PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+          PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                         dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                         dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                               [ config_indicator=yes
                        	        AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
-          ],
-          [test "x$with_indicator_gtk" = x2],
-          [PKG_CHECK_MODULES(INDICATOR, indicator-0.4 >= $INDICATOR_REQUIRED_VERSION
-                                        dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
-                                        dbusmenu-gtk-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
-				 [config_indicator=yes
-                       		  AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
-        ],
-        [AC_MSG_FAILURE([Value for --with-gtk was neither 2 nor 3])]
-    )
 fi
 
 with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
 AS_IF([test "x$with_localinstall" = "xyes"],
-	[AS_IF([test "x$with_indicator_gtk" = "x2"],
-		[
-		INDICATORDIR="${libdir}/indicators/5/"
-		INDICATORICONSDIR="${datadir}/libindicate/icons/"
-		],
-		[
 		INDICATORDIR="${libdir}/indicators3/2/"
 		INDICATORICONSDIR="${datadir}/libindicate/icons/"
-		])],
-	[AS_IF([test "x$with_indicator_gtk" = "x2"],
-		[
-		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator`
-		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator`
-		],
-		[
+		,
 		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
 		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
-		])])
+		)
 
 AC_SUBST(INDICATORDIR)
 AC_SUBST(INDICATORICONSDIR)
@@ -883,11 +855,9 @@ AC_OUTPUT(Makefile
           common/Makefile \
           common/bin/Makefile \
           common/src/Makefile \
-          common/src/unix/Makefile \
           common/src/win32/Makefile \
           common/include/Makefile \
           common/include/win32/Makefile \
-          common/include/unix/Makefile \
           common/win32/Makefile \
           common/win32/harpoon/Makefile \
           common/win32/harpoon/include/Makefile \
@@ -976,6 +946,7 @@ echo "                Gnome support :   Gnome 2"
 else
 echo "                Gnome support :   No"
 fi
+echo "            Indicator support :   ${config_indicator}"
 echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"

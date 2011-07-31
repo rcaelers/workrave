@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		win32 unix
+SUBDIRS = 		win32
 
 noinst_LTLIBRARIES = 	libworkrave-common.la
 
@@ -31,9 +31,6 @@ libworkrave_common_la_SOURCES =  \
 
 if PLATFORM_OS_WIN32
 ldadd_platform = 	win32/libworkrave-common-win32.la
-endif
-if PLATFORM_OS_UNIX
-ldadd_platform = 	unix/libworkrave-common-unix.la
 endif
 
 libworkrave_common_la_LIBADD = ${ldadd_platform}

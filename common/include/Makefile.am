@@ -5,6 +5,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in 
 
-SUBDIRS =		unix win32
+SUBDIRS =		win32
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h)
