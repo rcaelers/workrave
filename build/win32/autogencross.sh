@@ -3,7 +3,7 @@
 
 DIE=0
 
-srcdir=`dirname $0`
+srcdir=`dirname $0`/../..
 test -z "$srcdir" && srcdir=.
 
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
@@ -37,7 +37,7 @@ test -z "$srcdir" && srcdir=.
 }
  
 
-(grep "^AM_PROG_LIBTOOL" $srcdir/configure.ac >/dev/null) && {
+(grep "^AC_PROG_LIBTOOL" $srcdir/configure.ac >/dev/null) && {
     (libtool --version) < /dev/null > /dev/null 2>&1 || {
         echo
         echo "**Error**: You must have \`libtool' installed to compile $PKG_NAME."
@@ -166,7 +166,7 @@ aclocal -I m4 $aclocalinclude || {
 }
 
 
-if grep "^AM_CONFIG_HEADER" configure.ac >/dev/null; then
+if grep "^AC_CONFIG_HEADER" configure.ac >/dev/null; then
     echo "Running autoheader..."
     autoheader --force || {
         echo "**Error**: autoheader failed."
