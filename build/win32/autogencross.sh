@@ -3,7 +3,7 @@
 
 DIE=0
 
-srcdir=`dirname $0`
+srcdir=`dirname $0`/../..
 test -z "$srcdir" && srcdir=.
 
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
