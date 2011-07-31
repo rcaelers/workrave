@@ -65,7 +65,7 @@
 #include "GnomeAppletWindow.hh"
 #endif
 
-#ifdef HAVE_INDICATORS
+#ifdef HAVE_INDICATOR
 #include "IndicatorAppletMenu.hh"
 #include "IndicatorAppletWindow.hh"
 #endif
@@ -153,7 +153,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   menus[MENU_APPLET_GNOME] = new GnomeAppletMenu(gnome_applet_window);
 #endif
 
-#if defined(HAVE_INDICATORS)
+#if defined(HAVE_INDICATOR)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_INDICATOR);
   IndicatorAppletWindow *indicator_applet_window = dynamic_cast<IndicatorAppletWindow*>(applet_window);
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet_window);

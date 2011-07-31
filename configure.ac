@@ -295,6 +295,7 @@ then
     config_gconf=no
     config_gnome=no
     config_xml=no
+    config_indicator=no
 
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
@@ -495,7 +496,7 @@ then
                                         dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                         dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                               [ config_indicator=yes
-                       	        AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
+                       	        AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])])
 fi
 
 with_localinstall="no"
