@@ -164,7 +164,7 @@ if (WIN32)
     "${COMMON_DIR}/win32/harpoon/include"
     "${FRONTEND_DIR}/common/src/win32"
     "${FRONTEND_DIR}/gtkmm/src/win32"
-    "${FRONTEND_DIR}/win32/applet/include"
+    "${FRONTEND_DIR}/applets/win32/include"
   )
 
   #ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/workrave_rc.o

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
 #
 
 
@@ -17,19 +17,14 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-SUBDIRS =      intl m4 po common backend frontend 
+SUBDIRS =      m4 po common backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \
 		autogen.sh \
 		autogencross.sh \
-		depcomp \
-		workrave.spec.in \
-		workrave.spec \
-		SConstruct
-
-WIN32_NMAKE=wineconsole ~/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
+		depcomp
 
 noinst_PROGRAMS =
 
@@ -52,16 +47,6 @@ AUTHORS.txt: AUTHORS
 
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
-
-win32:
-	( . build/vcvars32.sh; \
-          cd common/win32/harpoon/src; \
-	  ${WIN32_NMAKE} /f harpoon.mak CFG="harpoon - Win32 Release"; \
-	  cd ../../../.. \
-          cd frontend/win32/applet/src; \
-          ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release"; \
-	  cd ../../../.. \
-	)
 
 version.h: config.h
 	PACKAGE_VERSION=`grep PACKAGE_VERSION config.h | cut -d' ' -f 3 | sed "s/\\"//g"`

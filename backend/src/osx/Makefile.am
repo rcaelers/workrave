@@ -1,13 +1,13 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
 noinst_LTLIBRARIES = 	libworkrave-backend-osx.la
 
-INCLUDES=-xobjective-c++
+AM_CPPFLAGS=-xobjective-c++
 
 if PLATFORM_OS_OSX
 sourcesosx = 		OSXInputMonitor.cc OSXInputMonitorFactory.cc OSXConfigurator.cc

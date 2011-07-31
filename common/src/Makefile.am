@@ -35,7 +35,7 @@ endif
 
 libworkrave_common_la_LIBADD = ${ldadd_platform}
 
-INCLUDES = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
+AM_CPPFLAGS = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			@WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @DBUS_CFLAGS@ 

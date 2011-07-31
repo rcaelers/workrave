@@ -2,9 +2,6 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 dnl
-dnl
-dnl $Id$
-dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
@@ -15,22 +12,24 @@ m4_define([workrave_version],
 m4_define([workrave_resource_version],
           [workrave_major_version,workrave_minor_version,workrave_micro_version,workrave_version_suffix])
 
-AC_INIT(workrave, [workrave_version],
-        [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
-
 if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
     git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
     AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
 fi	
 
-dnl Demand at least version 2.61 of autoconf.
-AC_PREREQ(2.61)
-AC_CONFIG_MACRO_DIR([m4])
+AC_PREREQ([2.64])
+AC_INIT([workrave],
+        [workrave_version],
+        [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
+	[workrave],
+	[http://www.workrave.org])
 
-dnl Automake
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, workrave_version)
-AM_GNU_GETTEXT_VERSION()
+AC_CONFIG_SRCDIR([backend/include/ICore.hh])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_HEADER([config.h])
+
+AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
+AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE
 
 dnl Set of available languages.
@@ -125,17 +124,17 @@ dnl
 dnl Checks for programs
 dnl
 
+AC_USE_SYSTEM_EXTENSIONS
+
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_OBJC
 AC_PROG_CXX
 AC_PROG_CPP
-AC_GNU_SOURCE
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_ISC_POSIX
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 AC_CHECK_PROGS(M4, gm4 m4, m4)
 
 AC_CHECK_PROGS(WINDRES, ${target_or_host}-windres,false)
@@ -241,7 +240,6 @@ AC_MSG_RESULT([$platform_os_name])
 AM_CONDITIONAL(PLATFORM_OS_WIN32, test "$platform_os_win32" = "yes")
 AM_CONDITIONAL(PLATFORM_OS_OSX, test "$platform_os_osx" = "yes")
 AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
-
 AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "$platform_os_win32" = "yes")
 
 dnl
@@ -249,6 +247,7 @@ dnl Debug
 dnl
 
 config_debug=no
+config_tracing=no
 
 if test "x$enable_debug" = "xyes"
 then
@@ -265,6 +264,7 @@ fi
 
 if test "x$enable_tracing" = "xyes"
 then
+   config_tracing=yes
    AC_DEFINE([TRACING], , [Define to enable method call tracing])
 fi
 
@@ -485,6 +485,7 @@ dnl
 dnl Indicator applet
 dnl
 
+config_indicator=no
 
 INDICATOR_REQUIRED_VERSION=0.3.19
 DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
@@ -595,7 +596,7 @@ dnl
 dnl DBus
 dnl
             
-have_dbus=no
+config_dbus=no
 have_python_cheetah=no
 
 if test "x$enable_dbus" != "xno"
@@ -608,23 +609,23 @@ then
     then
 	PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
-                          [have_dbus=yes],
+                          [config_dbus=yes],
                           [true])
     else
 	PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
-                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [have_dbus=yes], [true])
+                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
                            PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
                                          [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
                           [true])
 
-        if test "x$have_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
+        if test "x$config_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
             AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
         fi
     fi
     
 	 
-    if test "x$have_dbus" = "xyes"
+    if test "x$config_dbus" = "xyes"
     then
         AC_DEFINE(HAVE_DBUS, , [DBus support])
 	if test "x$platform_os_win32" != "xyes"
@@ -645,7 +646,7 @@ then
   fi
 fi
 
-AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
+AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
 AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
 
 
@@ -671,28 +672,28 @@ dnl
 dnl PulseAudio
 dnl
 
-have_pulse=no
+config_pulse=no
 
 if test "$platform_os_unix" = "yes" -a "x$enable_pulse" != "xno"
 then
            PA_REQUIRED_VERSION=0.9.15
     PKG_CHECK_MODULES([PULSE],
                       [glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION],
-                      [have_pulse=yes
-                  AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
+                      [config_pulse=yes
+                  AC_DEFINE(CONFIG_PULSE, 1, [Define if PULSE sound server should be used])],
                       [if test "x$enable_pulse" = "xyes"; then
                            AC_MSG_ERROR([Pulseaudio development headers not found.])
                        fi])
 fi
 
-AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xyes")
+AM_CONDITIONAL(CONFIG_PULSE, test "x$config_pulse" = "xyes")
 
 
 dnl
 dnl Internationalization
 dnl
 
-AM_GNU_GETTEXT()
+AM_GLIB_GNU_GETTEXT
 
 dnl Hack because windows gettext package is SEVERELY broken...
 if test "x$platform_os_win32" = "xyes"
@@ -792,7 +793,7 @@ fi
 AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
 
 config_gnomeapplet=no
-if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes" ; then
+if test "x$config_gnome" = "xyes" -a "x$config_dbus" = "xyes" ; then
    config_gnomeapplet=yes
    AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
 fi
@@ -845,82 +846,85 @@ dnl
 dnl Makefile output
 dnl
 
-AC_OUTPUT(Makefile 
-          backend/Makefile \
-          backend/test/Makefile \
-          backend/src/Makefile \
-          backend/src/unix/Makefile \
-          backend/src/osx/Makefile \
-          backend/src/win32/Makefile \
-          backend/include/Makefile \
-          common/Makefile \
-          common/bin/Makefile \
-          common/src/Makefile \
-          common/src/win32/Makefile \
-          common/include/Makefile \
-          common/include/win32/Makefile \
-          common/win32/Makefile \
-          common/win32/harpoon/Makefile \
-          common/win32/harpoon/include/Makefile \
-          common/win32/harpoon/src/Makefile \
-          common/win32/harpoonHelper/Makefile \
-          common/win32/harpoonHelper/include/Makefile \
-          common/win32/harpoonHelper/src/Makefile \
-          frontend/Makefile \
-          frontend/common/Makefile \
-          frontend/common/include/Makefile \
-          frontend/common/share/Makefile \
-          frontend/common/share/sounds/Makefile \
-          frontend/common/share/sounds/subtle/Makefile \
-          frontend/common/share/sounds/default/Makefile \
-          frontend/common/share/images/Makefile \
-          frontend/common/share/images/win32/Makefile \
-          frontend/common/share/images/osx/Makefile \
-          frontend/common/src/Makefile \
-          frontend/common/src/win32/Makefile \
-          frontend/common/src/x11/Makefile \
-          frontend/common/src/osx/Makefile \
-          frontend/win32/Makefile \
-          frontend/win32/applet/Makefile \
-          frontend/win32/applet/src/Makefile \
-          frontend/win32/applet/include/Makefile \
-          frontend/gtkmm/Makefile \
-          frontend/gtkmm/osx/Makefile \
-          frontend/gtkmm/win32/Makefile \
-          frontend/gtkmm/win32/setup/Makefile \
-          frontend/gtkmm/win32/setup/setup.iss \
-          frontend/gtkmm/win32/setup/src/Makefile \
-          frontend/gtkmm/src/Makefile \
-          frontend/gtkmm/src/win32/Makefile \
-          frontend/gtkmm/src/unix/Makefile \
-          frontend/gtkmm/src/osx/Makefile \
-          frontend/gtkmm/src/gnome_applet/Makefile \
-          frontend/gtkmm/src/gnome3_applet/Makefile \
-          frontend/gtkmm/src/indicator_applet/Makefile \
-          frontend/text/Makefile \
-          frontend/text/src/Makefile \
-          frontend/plugin/Makefile \
-          frontend/plugin/distribution/Makefile \
-          frontend/plugin/distribution/gtkmm/Makefile \
-          frontend/plugin/distribution/gtkmm/src/Makefile \
-          frontend/plugin/statistics/Makefile \
-          frontend/plugin/statistics/gtkmm/Makefile \
-          frontend/plugin/statistics/gtkmm/src/Makefile \
-          frontend/plugin/exercises/Makefile \
-          frontend/plugin/exercises/common/Makefile \
-          frontend/plugin/exercises/common/share/Makefile \
-          frontend/plugin/exercises/common/src/Makefile \
-          frontend/plugin/exercises/gtkmm/Makefile \
-          frontend/plugin/exercises/gtkmm/src/Makefile \
-          intl/Makefile \
-          po/Makefile.in \
-          contrib/Makefile \
-          contrib/plot/Makefile \
-          build/Makefile \
-          m4/Makefile \
-          workrave.spec)
+AC_CONFIG_FILES([Makefile 
+          	 backend/Makefile
+          	 backend/test/Makefile
+          	 backend/src/Makefile
+          	 backend/src/unix/Makefile
+          	 backend/src/osx/Makefile
+          	 backend/src/win32/Makefile
+          	 backend/include/Makefile
+          	 common/Makefile
+          	 common/bin/Makefile
+          	 common/src/Makefile
+          	 common/src/win32/Makefile
+          	 common/include/Makefile
+          	 common/include/win32/Makefile
+          	 common/win32/Makefile
+          	 common/win32/harpoon/Makefile
+          	 common/win32/harpoon/include/Makefile
+          	 common/win32/harpoon/src/Makefile
+          	 common/win32/harpoonHelper/Makefile
+          	 common/win32/harpoonHelper/include/Makefile
+          	 common/win32/harpoonHelper/src/Makefile
+          	 frontend/Makefile
+          	 frontend/common/Makefile
+          	 frontend/common/include/Makefile
+          	 frontend/common/share/Makefile
+          	 frontend/common/share/sounds/Makefile
+          	 frontend/common/share/sounds/subtle/Makefile
+          	 frontend/common/share/sounds/default/Makefile
+          	 frontend/common/share/images/Makefile
+          	 frontend/common/share/images/win32/Makefile
+          	 frontend/common/share/images/osx/Makefile
+          	 frontend/common/src/Makefile
+          	 frontend/common/src/win32/Makefile
+          	 frontend/common/src/x11/Makefile
+          	 frontend/common/src/osx/Makefile
+          	 frontend/applets/Makefile
+          	 frontend/applets/win32/Makefile
+          	 frontend/applets/win32/src/Makefile
+          	 frontend/applets/win32/include/Makefile
+          	 frontend/applets/gnome2/Makefile
+          	 frontend/applets/gnome2/src/Makefile
+          	 frontend/applets/gnome3/Makefile
+          	 frontend/applets/gnome3/src/Makefile
+          	 frontend/applets/indicator/Makefile
+          	 frontend/applets/indicator/src/Makefile
+          	 frontend/applets/indicator/include/Makefile
+          	 frontend/gtkmm/Makefile
+          	 frontend/gtkmm/osx/Makefile
+          	 frontend/gtkmm/win32/Makefile
+          	 frontend/gtkmm/win32/setup/Makefile
+          	 frontend/gtkmm/win32/setup/setup.iss
+          	 frontend/gtkmm/win32/setup/src/Makefile
+          	 frontend/gtkmm/src/Makefile
+          	 frontend/gtkmm/src/win32/Makefile
+          	 frontend/gtkmm/src/unix/Makefile
+          	 frontend/gtkmm/src/osx/Makefile
+          	 frontend/text/Makefile
+          	 frontend/text/src/Makefile
+          	 frontend/plugin/Makefile
+          	 frontend/plugin/distribution/Makefile
+          	 frontend/plugin/distribution/gtkmm/Makefile
+          	 frontend/plugin/distribution/gtkmm/src/Makefile
+          	 frontend/plugin/statistics/Makefile
+          	 frontend/plugin/statistics/gtkmm/Makefile
+          	 frontend/plugin/statistics/gtkmm/src/Makefile
+          	 frontend/plugin/exercises/Makefile
+          	 frontend/plugin/exercises/common/Makefile
+          	 frontend/plugin/exercises/common/share/Makefile
+          	 frontend/plugin/exercises/common/src/Makefile
+          	 frontend/plugin/exercises/gtkmm/Makefile
+          	 frontend/plugin/exercises/gtkmm/src/Makefile
+          	 po/Makefile.in
+          	 contrib/Makefile
+          	 contrib/plot/Makefile
+          	 build/Makefile
+          	 m4/Makefile
+])
 
-
+AC_OUTPUT
 
 dnl ========================================================================
 
@@ -948,15 +952,16 @@ else
 echo "                Gnome support :   No"
 fi
 echo "            Indicator support :   ${config_indicator}"
-echo "                 DBUS support :   ${have_dbus}"
+echo "                 DBUS support :   ${config_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then
-echo "           Pulseaudio support :   ${have_pulse}"
+echo "           Pulseaudio support :   ${config_pulse}"
 fi
 echo "                    Exercises :   ${config_exercises}"
 echo ""
 echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"
+echo "                   Debug logs :   ${config_tracing}"
 echo "                    Test code :   ${config_tests}"
 echo ""

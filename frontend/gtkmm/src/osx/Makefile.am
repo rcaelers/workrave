@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -10,7 +10,7 @@ EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 
 if PLATFORM_OS_OSX
 
-##INCLUDES=-xobjective-c++
+##AM_CPPFLAGS=-xobjective-c++
 
 noinst_LTLIBRARIES = 	libworkrave-frontend-gtkmm-osx.la
 libworkrave_frontend_gtkmm_osx_la_SOURCES = \

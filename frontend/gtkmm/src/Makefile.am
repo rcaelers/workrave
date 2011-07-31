@@ -4,7 +4,7 @@
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		gnome_applet gnome3_applet indicator_applet win32 unix osx
+SUBDIRS = 		win32 unix osx
 
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
@@ -70,12 +70,13 @@ STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 
 
 if HAVE_PYTHON_CHEETAH
+GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
 
-DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
+DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
 		    	$(top_srcdir)/common/bin/DBus-client-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(srcdir)/gnome_applet/gnome-applet.xml DBUSGnomeApplet
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
 
 endif
 
@@ -92,6 +93,7 @@ endif
 
 if HAVE_INDICATOR
 extrasources += 	$(sourcesindicator)
+indicatorflags = 	-I$(top_srcdir)/frontend/applets/indicator/include
 endif
 
 if PLATFORM_OS_UNIX
@@ -106,7 +108,7 @@ if PLATFORM_OS_WIN32
 extrasources +=		$(sourceswin32) eggsmclient-win32.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
-			-I$(top_srcdir)/frontend/win32/applet/include
+			-I$(top_srcdir)/frontend/applets/win32/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
 win32cflags		= -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600
 endif
@@ -242,14 +244,14 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
-			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) \
+			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) $(indicatorflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src
 
 if PLATFORM_OS_OSX
-INCLUDES =		-xobjective-c++
+AM_CPPFLAGS =		-xobjective-c++
 endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \

@@ -20,7 +20,7 @@ cd ${WORKRAVE_GIT_DIR}/common/win32/harpoon/src
 mkdir Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug/harpoon.dll Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/harpoon64.dll Release
-cd ${WORKRAVE_GIT_DIR}/frontend/win32/applet/src
+cd ${WORKRAVE_GIT_DIR}/frontend/applets/win32/src
 mkdir Release;
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug/workrave-applet.dll Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/workrave-applet.dll Release/workrave-applet64.dll

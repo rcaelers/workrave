@@ -148,12 +148,12 @@ TimerPreferencesPanel::create_options_panel()
 
   // Ignorable
   ignorable_cb = Gtk::manage(new Gtk::CheckButton
-                        (_("Show 'Postpone' and 'Skip' button")));
+                             (_("Show 'Postpone' and 'Skip' button")));
   hig->add(*ignorable_cb);
 
   // Sensitive for activity
   activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
-                        (_("Suspend timer when inactive")));
+                                      (_("Suspend timer when inactive")));
 #if REMOVED_IN_FAVOR_OF_READING_MODE__REMOVE_LATER
   hig->add(*activity_sensitive_cb);
 #endif
@@ -207,6 +207,7 @@ TimerPreferencesPanel::create_options_panel()
   connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
                      dc::wrap(monitor_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
+
   return hig;
 }
 

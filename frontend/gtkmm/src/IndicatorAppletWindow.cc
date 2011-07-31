@@ -34,7 +34,7 @@ using namespace std;
 #include <libdbusmenu-glib/client.h>
 
 #include "IndicatorAppletWindow.hh"
-#include "indicator_applet/dbus-shared.h"
+#include "indicator-applet.h"
 
 #include "AppletControl.hh"
 #include "TimerBoxControl.hh"

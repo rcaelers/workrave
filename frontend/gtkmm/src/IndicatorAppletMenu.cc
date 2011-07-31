@@ -26,12 +26,13 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include "indicator-applet.h"
+
 #include <string>
 
 #include <libindicator/indicator-service.h>
 
 #include "IndicatorAppletMenu.hh"
-#include "indicator_applet/dbus-shared.h"
 #include "IndicatorAppletWindow.hh"
 #include "GUI.hh"
 #include "Menus.hh"

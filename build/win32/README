@@ -58,7 +58,7 @@ This step must be executed on Window...
 
 - Install the Window 7 SDK
 - Open a Command Prompt, go to the common/win32 directory and run buildall.cmd
-- In the Command Prompt window, go to frontend/win32/applet/src/ directory and run buildall.cmd
+- In the Command Prompt window, go to frontend/applets/win32/src/ directory and run buildall.cmd
 
 The generated DLLs and EXEs must be copied to Linux for step 5.
 

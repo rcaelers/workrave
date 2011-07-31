@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common gtkmm plugin applets text
+SUBDIRS = 		win32 gnome2 gnome3 indicator

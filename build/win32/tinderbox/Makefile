@@ -96,7 +96,7 @@ workrave-win32-build-original=\
           cd ${1}/common/win32/harpoon/src; \
           mkdir Release; \
 	  ${WIN32_NMAKE} /f harpoon.mak CFG="harpoon - Win32 Release"; \
-          cd ${1}/frontend/win32/applet/src; \
+          cd ${1}/frontend/applets/win32/src; \
           mkdir Release; \
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release" ); \
 	( cd ${1}; \
@@ -112,7 +112,7 @@ workrave-win32-build=\
           mkdir Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoon.dll Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/harpoon64.dll Release; \
-          cd ${1}/frontend/win32/applet/src; \
+          cd ${1}/frontend/applets/win32/src; \
           mkdir Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/workrave-applet.dll Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
