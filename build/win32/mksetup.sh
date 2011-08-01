@@ -1,6 +1,6 @@
 #!/bin/bash
 TINDERBOX_HOME=${HOME}/src/tinderbox
-WORKRAVE_GIT_DIR=${HOME}/src/workrave
+WORKRAVE_GIT_DIR=${HOME}/src/workrave-win32
 
 WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32
@@ -27,7 +27,7 @@ cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/workrave-applet.dll Release/workrave-ap
 
 cd ${WORKRAVE_GIT_DIR}
 . ${WIN32_MINGW_ENV}
-./autogencross.sh || exit 1
+${WORKRAVE_GIT_DIR}/build/win32/autogencross.sh || exit 1
 make || exit 1
 cp -a ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src
 
