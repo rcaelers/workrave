@@ -8,7 +8,7 @@ INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(srcdir)/../i
 
 if HAVE_INTROSPECTION
 
-workravelibdir = $(INDICATORDIR)
+workravelibdir = $(libdir)
 workravelib_LTLIBRARIES = libworkrave-1.0.la
 libworkrave_1_0_la_SOURCES = \
 	timebar.c \
