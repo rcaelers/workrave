@@ -5,4 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		src include
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.h)
+
+
+

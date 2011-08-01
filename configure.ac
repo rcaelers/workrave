@@ -897,6 +897,7 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/win32/include/Makefile
              frontend/applets/common/Makefile
              frontend/applets/common/src/Makefile
+             frontend/applets/common/include/Makefile
              frontend/applets/gnome2/Makefile
              frontend/applets/gnome2/src/Makefile
              frontend/applets/gnome3/Makefile

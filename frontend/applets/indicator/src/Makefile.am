@@ -8,11 +8,11 @@ libworkrave_la_SOURCES = \
 	indicator-workrave.c
 libworkrave_la_CFLAGS = \
 	$(INDICATOR_CFLAGS) \
-	-Wall -std=c99 -I../include \
+	-Wall -std=c99 -I../include -I../../common/include \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_la_LIBADD = \
-	$(INDICATOR_LIBS) -L../../gnome-shell/src -lworkrave-1.0
+	$(INDICATOR_LIBS) -L../../common/src -lworkrave-1.0
 libworkrave_la_LDFLAGS = \
 	-module \
 	-avoid-version
@@ -24,18 +24,14 @@ libworkrave_la_LDFLAGS = \
 #
 
 indicator_workrave_test_SOURCES = \
-	timebar.c \
-	timebar.h \
-	timerbox.c \
-	timerbox.h \
 	test.c
 indicator_workrave_test_CFLAGS = \
-	-Wall -std=c99 $(GTK_CFLAGS)  -I../include \
+	-Wall -std=c99 $(GTK_CFLAGS)  -I../include -I../../common/include \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 indicator_workrave_test_LDADD = \
-	$(GTK_LIBS)
+	$(GTK_LIBS)  -L../../common/src -lworkrave-1.0
 
 BUILT_SOURCES =
 
