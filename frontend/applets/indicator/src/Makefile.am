@@ -5,22 +5,23 @@ libexec_PROGRAMS = indicator-workrave-test
 workravelibdir = $(INDICATORDIR)
 workravelib_LTLIBRARIES = libworkrave.la
 libworkrave_la_SOURCES = \
-	indicator-workrave.c \
-	timebar.c \
-	timebar.h \
-	timerbox.c \
-	timerbox.h \
-	dbus-shared.h
+	indicator-workrave.c
 libworkrave_la_CFLAGS = \
 	$(INDICATOR_CFLAGS) \
 	-Wall -std=c99 -I../include \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_la_LIBADD = \
-	$(INDICATOR_LIBS)
+	$(INDICATOR_LIBS) -L../../gnome-shell/src -lworkrave-1.0
 libworkrave_la_LDFLAGS = \
 	-module \
 	-avoid-version
+
+#	timebar.c \
+#	timebar.h \
+#	timerbox.c \
+#	timerbox.h	
+#
 
 indicator_workrave_test_SOURCES = \
 	timebar.c \

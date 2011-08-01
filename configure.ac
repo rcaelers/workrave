@@ -15,14 +15,14 @@ m4_define([workrave_resource_version],
 if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
     git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
     AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
-fi	
+fi
 
 AC_PREREQ([2.64])
 AC_INIT([workrave],
         [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
-	[workrave],
-	[http://www.workrave.org])
+        [workrave],
+        [http://www.workrave.org])
 
 AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
@@ -38,7 +38,7 @@ ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu t
 AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
-dnl Command line options.                           
+dnl Command line options.
 dnl
 
 AC_ARG_ENABLE(app-gtk,
@@ -48,7 +48,7 @@ AC_ARG_ENABLE(app-gtk,
 AC_ARG_ENABLE(app-text,
               [AS_HELP_STRING([--enable-app-text],
                               [compile with dummy text GUI support (NOT recommended)])])
-    
+
 AC_ARG_ENABLE(xml,
               [AS_HELP_STRING([--disable-xml],
                               [compile without XML support])])
@@ -69,7 +69,7 @@ AC_ARG_ENABLE(gnome3,
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
                               [compile with preliminary Unity indicator applet support])])
-	      
+
 AC_ARG_ENABLE(dbus,
               [AS_HELP_STRING([--disable-dbus],
                               [compile without DBus support])])
@@ -81,6 +81,10 @@ AC_ARG_ENABLE(gstreamer,
 AC_ARG_ENABLE(pulse,
               [AS_HELP_STRING([--disable-pulse],
                               [compile without PulseAudio support])])
+
+AC_ARG_ENABLE(introspection,
+              [AS_HELP_STRING([--enable-introspection],
+                              [enable GObject introspection])])
 
 AC_ARG_ENABLE(x11-monitoring-fallback,
               [AS_HELP_STRING([--enable-x11-monitoring-fallback],
@@ -111,7 +115,7 @@ AC_ARG_ENABLE(tracing,
                               [compile with method call tracing])],
               [test "x$enable_tracing" = "xyes" && enable_debug=yes])
 
-      
+
 case x"$target" in
   xNONE | x)
     target_or_host="$host" ;;
@@ -119,7 +123,7 @@ case x"$target" in
     target_or_host="$target" ;;
 esac
 
-	      
+
 dnl
 dnl Checks for programs
 dnl
@@ -161,20 +165,20 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCTEX.mouseData,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUC
 
 have_ishelldispatch=no
 AC_MSG_CHECKING([IShellDispatch])
-AC_TRY_COMPILE([#include <shlobj.h>], 
+AC_TRY_COMPILE([#include <shlobj.h>],
         [ IShellDispatch* pShellDispatch = NULL; ],
         [have_ishelldispatch=yes
          AC_DEFINE(HAVE_ISHELLDISPATCH, 1, "IShellDispatch")
          AC_MSG_RESULT(yes)],
          AC_MSG_RESULT(no))
-	 
+
 AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
 
 have_extern_timezone_defined=no
 AC_MSG_CHECKING([external timezone variable defined in time.h])
-AC_TRY_COMPILE([#include <time.h>], 
+AC_TRY_COMPILE([#include <time.h>],
         [ timezone += 1;
           return 0;],
         [have_extern_timezone_defined=yes
@@ -184,17 +188,17 @@ AC_TRY_COMPILE([#include <time.h>],
 
 have_extern_timezone=no
 AC_MSG_CHECKING([external timezone variable])
-AC_TRY_COMPILE([#include <time.h>], 
+AC_TRY_COMPILE([#include <time.h>],
         [ extern long timezone;
-	  timezone += 1;
+          timezone += 1;
           return 0;],
         [have_extern_timezone=yes
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
          AC_MSG_RESULT(yes)],
          AC_MSG_RESULT(no))
 
-	 
-dnl Update version and date.                           
+
+dnl Update version and date.
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
@@ -284,7 +288,7 @@ then
 
     AC_DEFINE([_WIN32_IE],    [0x0600], [Windows version])
     AC_DEFINE([_WIN32_WINNT], [0x0600], [Windows version])
-    
+
     if test "x$enable_debug" != "xyes"
     then
         WIN32CONSOLE=-mwindows
@@ -306,8 +310,8 @@ then
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
 
-static REFIID foo = __uuidof(IAudioEndpointVolume); 
-   ], 
+static REFIID foo = __uuidof(IAudioEndpointVolume);
+   ],
    [
       IMMDeviceEnumerator *device_enum = NULL;
    ],
@@ -336,7 +340,7 @@ AC_SUBST(OSX_CFLAGS)
 if test "$platform_os_osx" = "yes"
 then
    PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
-   
+
    AC_CHECK_LIB(resolv, res_query)
 
    AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [ AC_CHECK_HEADER(IOKit/IOKitLib.h,
@@ -367,7 +371,7 @@ then
     if test x$have_x != xyes ; then
        AC_MSG_ERROR(X11 required on Unix platform)
     fi
-    
+
     LIBS_save=$LIBS
     if test -n "$ac_x_libraries"
     then
@@ -406,10 +410,10 @@ if test "x$enable_gtk" != "xno"
 then
    if test "x$enable_experimental" = "xyes"; then
       PKG_CHECK_MODULES(GTK,
-			glib-2.0 >= 2.28.0
-			gio-2.0 >= 2.25.0
-			gtk+-3.0 >= 3.0.0
-			gdk-3.0 >= 3.0.0
+      			glib-2.0 >= 2.28.0
+      			gio-2.0 >= 2.25.0
+      			gtk+-3.0 >= 3.0.0
+      			gdk-3.0 >= 3.0.0
                         sigc++-2.0 >= 2.2.4.2
                         glibmm-2.4 >= 2.28.0
                         gtkmm-3.0 >= 3.0.0,
@@ -417,10 +421,10 @@ then
                          AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
       if test x$config_gtk3 = xyes
       then
-	  config_gtk=yes
-	  AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-          CFLAGS="${CFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
-          CXXFLAGS="${CXXFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+         config_gtk=yes
+         AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
+         CFLAGS="${CFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+         XXFLAGS="${CXXFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
       fi
    fi
 
@@ -454,14 +458,14 @@ then
     PKG_CHECK_MODULES([GNOME],
                       [libpanelapplet-4.0],
                       [config_gnome=yes
-		       config_gnome3=yes
+           config_gnome3=yes
                        config_panelapplet4=yes
                        AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
                        [if test "x$enable_gnome3" = "xyes"; then
                            AC_MSG_ERROR([Gnome 3 development headers not found.])
                        fi])
 fi
-   
+
 if test "x$enable_gnome" != "xno" -a x$config_panelapplet4 = xno -a x$config_gtk3 = xno
 then
     PKG_CHECK_MODULES([GNOME],
@@ -472,7 +476,7 @@ then
                           AC_MSG_ERROR([Gnome development headers not found.])
                        fi])
 fi
-   
+
 if test $config_gnome = yes
 then
     AC_DEFINE([HAVE_GNOME], , [Define if Gnome is available])
@@ -493,32 +497,38 @@ DBUSMENUGTK_REQUIRED_VERSION=0.3.95
 
 if test "x$enable_indicator" != "xno" -a "x$config_gtk3" = "xyes"
 then
-          PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
-                                        dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
-                                        dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
-                              [ config_indicator=yes
-                       	        AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])])
+   PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
+                                dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
+                     [ config_indicator=yes
+                       AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])])
 fi
 
 with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
 AS_IF([test "x$with_localinstall" = "xyes"],
-		INDICATORDIR="${libdir}/indicators3/2/"
-		INDICATORICONSDIR="${datadir}/libindicate/icons/"
-		,
-		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
-		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
-		)
+    INDICATORDIR="${libdir}/indicators3/2/"
+    INDICATORICONSDIR="${datadir}/libindicate/icons/"
+    ,
+    INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
+    INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
+    )
 
 AC_SUBST(INDICATORDIR)
 AC_SUBST(INDICATORICONSDIR)
 
 AC_SUBST(INDICATORDIR)
 AC_SUBST(INDICATORICONSDIR)
-	
+
 AM_CONDITIONAL(HAVE_INDICATOR, test "x$config_indicator" = "xyes")
 
+dnl
+dnl Introspection
+dnl
+
+GOBJECT_INTROSPECTION_CHECK([0.6.7])
+ 
 dnl
 dnl GConf
 dnl
@@ -595,7 +605,7 @@ AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
 dnl
 dnl DBus
 dnl
-            
+
 config_dbus=no
 have_python_cheetah=no
 
@@ -607,12 +617,12 @@ then
 
     if test "x$platform_os_win32" = "xyes"
     then
-	PKG_CHECK_MODULES([DBUS],
+  PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
                           [config_dbus=yes],
                           [true])
     else
-	PKG_CHECK_MODULES([DBUS],
+  PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
                           [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
                            PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
@@ -623,15 +633,15 @@ then
             AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
         fi
     fi
-    
-	 
+
+
     if test "x$config_dbus" = "xyes"
     then
         AC_DEFINE(HAVE_DBUS, , [DBus support])
-	if test "x$platform_os_win32" != "xyes"
-	then
+  if test "x$platform_os_win32" != "xyes"
+  then
             AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
-	fi
+  fi
         AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
     fi
 
@@ -650,7 +660,7 @@ AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
 AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
 
 
-dnl 
+dnl
 dnl GStreamer
 dnl
 
@@ -740,7 +750,7 @@ AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" = "xyes")
 dnl
 dnl What variant to build
 dnl
-    
+
 variant=""
 
 if test "x$platform_os_win32" = "xyes"
@@ -846,82 +856,86 @@ dnl
 dnl Makefile output
 dnl
 
-AC_CONFIG_FILES([Makefile 
-          	 backend/Makefile
-          	 backend/test/Makefile
-          	 backend/src/Makefile
-          	 backend/src/unix/Makefile
-          	 backend/src/osx/Makefile
-          	 backend/src/win32/Makefile
-          	 backend/include/Makefile
-          	 common/Makefile
-          	 common/bin/Makefile
-          	 common/src/Makefile
-          	 common/src/win32/Makefile
-          	 common/include/Makefile
-          	 common/include/win32/Makefile
-          	 common/win32/Makefile
-          	 common/win32/harpoon/Makefile
-          	 common/win32/harpoon/include/Makefile
-          	 common/win32/harpoon/src/Makefile
-          	 common/win32/harpoonHelper/Makefile
-          	 common/win32/harpoonHelper/include/Makefile
-          	 common/win32/harpoonHelper/src/Makefile
-          	 frontend/Makefile
-          	 frontend/common/Makefile
-          	 frontend/common/include/Makefile
-          	 frontend/common/share/Makefile
-          	 frontend/common/share/sounds/Makefile
-          	 frontend/common/share/sounds/subtle/Makefile
-          	 frontend/common/share/sounds/default/Makefile
-          	 frontend/common/share/images/Makefile
-          	 frontend/common/share/images/win32/Makefile
-          	 frontend/common/share/images/osx/Makefile
-          	 frontend/common/src/Makefile
-          	 frontend/common/src/win32/Makefile
-          	 frontend/common/src/x11/Makefile
-          	 frontend/common/src/osx/Makefile
-          	 frontend/applets/Makefile
-          	 frontend/applets/win32/Makefile
-          	 frontend/applets/win32/src/Makefile
-          	 frontend/applets/win32/include/Makefile
-          	 frontend/applets/gnome2/Makefile
-          	 frontend/applets/gnome2/src/Makefile
-          	 frontend/applets/gnome3/Makefile
-          	 frontend/applets/gnome3/src/Makefile
-          	 frontend/applets/indicator/Makefile
-          	 frontend/applets/indicator/src/Makefile
-          	 frontend/applets/indicator/include/Makefile
-          	 frontend/gtkmm/Makefile
-          	 frontend/gtkmm/osx/Makefile
-          	 frontend/gtkmm/win32/Makefile
-          	 frontend/gtkmm/win32/setup/Makefile
-          	 frontend/gtkmm/win32/setup/setup.iss
-          	 frontend/gtkmm/win32/setup/src/Makefile
-          	 frontend/gtkmm/src/Makefile
-          	 frontend/gtkmm/src/win32/Makefile
-          	 frontend/gtkmm/src/unix/Makefile
-          	 frontend/gtkmm/src/osx/Makefile
-          	 frontend/text/Makefile
-          	 frontend/text/src/Makefile
-          	 frontend/plugin/Makefile
-          	 frontend/plugin/distribution/Makefile
-          	 frontend/plugin/distribution/gtkmm/Makefile
-          	 frontend/plugin/distribution/gtkmm/src/Makefile
-          	 frontend/plugin/statistics/Makefile
-          	 frontend/plugin/statistics/gtkmm/Makefile
-          	 frontend/plugin/statistics/gtkmm/src/Makefile
-          	 frontend/plugin/exercises/Makefile
-          	 frontend/plugin/exercises/common/Makefile
-          	 frontend/plugin/exercises/common/share/Makefile
-          	 frontend/plugin/exercises/common/src/Makefile
-          	 frontend/plugin/exercises/gtkmm/Makefile
-          	 frontend/plugin/exercises/gtkmm/src/Makefile
-          	 po/Makefile.in
-          	 contrib/Makefile
-          	 contrib/plot/Makefile
-          	 build/Makefile
-          	 m4/Makefile
+AC_CONFIG_FILES([Makefile
+             backend/Makefile
+             backend/test/Makefile
+             backend/src/Makefile
+             backend/src/unix/Makefile
+             backend/src/osx/Makefile
+             backend/src/win32/Makefile
+             backend/include/Makefile
+             common/Makefile
+             common/bin/Makefile
+             common/src/Makefile
+             common/src/win32/Makefile
+             common/include/Makefile
+             common/include/win32/Makefile
+             common/win32/Makefile
+             common/win32/harpoon/Makefile
+             common/win32/harpoon/include/Makefile
+             common/win32/harpoon/src/Makefile
+             common/win32/harpoonHelper/Makefile
+             common/win32/harpoonHelper/include/Makefile
+             common/win32/harpoonHelper/src/Makefile
+             frontend/Makefile
+             frontend/common/Makefile
+             frontend/common/include/Makefile
+             frontend/common/share/Makefile
+             frontend/common/share/sounds/Makefile
+             frontend/common/share/sounds/subtle/Makefile
+             frontend/common/share/sounds/default/Makefile
+             frontend/common/share/images/Makefile
+             frontend/common/share/images/win32/Makefile
+             frontend/common/share/images/osx/Makefile
+             frontend/common/src/Makefile
+             frontend/common/src/win32/Makefile
+             frontend/common/src/x11/Makefile
+             frontend/common/src/osx/Makefile
+             frontend/applets/Makefile
+             frontend/applets/win32/Makefile
+             frontend/applets/win32/src/Makefile
+             frontend/applets/win32/include/Makefile
+             frontend/applets/common/Makefile
+             frontend/applets/common/src/Makefile
+             frontend/applets/gnome2/Makefile
+             frontend/applets/gnome2/src/Makefile
+             frontend/applets/gnome3/Makefile
+             frontend/applets/gnome3/src/Makefile
+             frontend/applets/indicator/Makefile
+             frontend/applets/indicator/src/Makefile
+             frontend/applets/indicator/include/Makefile
+             frontend/applets/gnome-shell/Makefile
+             frontend/applets/gnome-shell/src/Makefile
+             frontend/gtkmm/Makefile
+             frontend/gtkmm/osx/Makefile
+             frontend/gtkmm/win32/Makefile
+             frontend/gtkmm/win32/setup/Makefile
+             frontend/gtkmm/win32/setup/setup.iss
+             frontend/gtkmm/win32/setup/src/Makefile
+             frontend/gtkmm/src/Makefile
+             frontend/gtkmm/src/win32/Makefile
+             frontend/gtkmm/src/unix/Makefile
+             frontend/gtkmm/src/osx/Makefile
+             frontend/text/Makefile
+             frontend/text/src/Makefile
+             frontend/plugin/Makefile
+             frontend/plugin/distribution/Makefile
+             frontend/plugin/distribution/gtkmm/Makefile
+             frontend/plugin/distribution/gtkmm/src/Makefile
+             frontend/plugin/statistics/Makefile
+             frontend/plugin/statistics/gtkmm/Makefile
+             frontend/plugin/statistics/gtkmm/src/Makefile
+             frontend/plugin/exercises/Makefile
+             frontend/plugin/exercises/common/Makefile
+             frontend/plugin/exercises/common/share/Makefile
+             frontend/plugin/exercises/common/src/Makefile
+             frontend/plugin/exercises/gtkmm/Makefile
+             frontend/plugin/exercises/gtkmm/src/Makefile
+             po/Makefile.in
+             contrib/Makefile
+             contrib/plot/Makefile
+             build/Makefile
+             m4/Makefile
 ])
 
 AC_OUTPUT

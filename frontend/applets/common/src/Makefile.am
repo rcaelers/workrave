@@ -1,0 +1,44 @@
+-include $(INTROSPECTION_MAKEFILE)
+
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all \
+		--include GObject-2.0 \
+                --include Gtk-2.0
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+
+if HAVE_INTROSPECTION
+
+workravelibdir = $(INDICATORDIR)
+workravelib_LTLIBRARIES = libworkrave-1.0.la
+libworkrave_1_0_la_SOURCES = \
+	timebar.c \
+	timebar.h \
+	timerbox.c \
+	timerbox.h
+libworkrave_1_0_la_CFLAGS = \
+	-Wall -std=c99 $(GTK_CFLAGS) \
+	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
+libworkrave_1_0_la_LIBADD = \
+	$(GTK_LIBS)
+
+introspection_sources = $(libworkrave_1_0_la_SOURCES)
+
+Workrave-1.0.gir: libworkrave-1.0.la
+Workrave_1_0_gir_INCLUDES = GObject-2.0
+Workrave_1_0_gir_CFLAGS = $(INCLUDES) $(GTK_CFLAGS)
+Workrave_1_0_gir_LIBS = libworkrave-1.0.la
+Workrave_1_0_gir_FILES = $(introspection_sources)
+INTROSPECTION_GIRS += Workrave-1.0.gir
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES = $(gir_DATA) $(typelib_DATA)
+endif
+
+EXTRA_DIST = 
+
+
