@@ -147,7 +147,7 @@ if grep "^AM_PROG_XML_I18N_TOOLS" configure.ac >/dev/null; then
     xml-i18n-toolize --copy --force --automake
 fi
 
-if grep "^AM_PROG_LIBTOOL" configure.ac >/dev/null; then
+if grep "^AC_PROG_LIBTOOL" configure.ac >/dev/null; then
     if test -z "$NO_LIBTOOLIZE" ; then 
         echo "Running libtoolize..."
         libtoolize --copy
