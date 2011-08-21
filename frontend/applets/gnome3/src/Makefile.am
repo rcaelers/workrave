@@ -2,15 +2,12 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 	\
 		  org.workrave.WorkraveAppletFactory.service.in		\
 	  	  WorkraveApplet.c				 	\
 		  WorkraveApplet.h				 	\
-		  DBusGUI.xml					 	\
-		  DBusGnomeApplet.xml				 	\
 		  gnome-applet.xml					\
 		  workrave-applet-menu.xml
 
 CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(service_DATA) $(schemas_DATA)
 
-MAINTAINERCLEANFILES =  Makefile.in \
-			DBusGnomeApplet.xml DBusGUI.xml
+MAINTAINERCLEANFILES =  Makefile.in
 
 SUBDIRS = 
 
@@ -66,25 +63,6 @@ BUILT_SOURCES=applet-server-bindings.h applet-client-bindings.h gui-client-bindi
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES += $(BUILT_SOURCES)
 
-#Rule to generate the binding headers
-applet-server-bindings.h:  DBusGnomeApplet.xml
-	dbus-binding-tool --prefix=workrave --mode=glib-server $<> $@
-
-applet-client-bindings.h:  DBusGnomeApplet.xml
-	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
-
-gui-client-bindings.h:  DBusGUI.xml
-	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
-
 endif
 endif
 
-if HAVE_PYTHON_CHEETAH
-
-DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml
-	python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml DBusGUI
-
-DBusGnomeApplet.xml: gnome-applet.xml
-	python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib $(srcdir)/gnome-applet.xml DBusGnomeApplet
-
-endif

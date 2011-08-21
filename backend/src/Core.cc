@@ -250,22 +250,17 @@ Core::init_bus()
           name = env;
         }
       dbus->register_service(name);
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
       extern void init_DBusWorkrave(DBus *dbus);
       init_DBusWorkrave(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-
-      dbus->connect(DBUS_PATH_WORKRAVE,
-                    "org.workrave.ConfigInterface",
-                    configurator);
-
+      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator);
+      dbus->register_object_path(DBUS_PATH_WORKRAVE);
+      
 #ifdef HAVE_TESTS
+      dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
-      dbus->connect("/org/workrave/Workrave/Debug",
-                    "org.workrave.DebugInterface",
-                    Test::get_instance());
 #endif
     }
   catch (DBusException &)

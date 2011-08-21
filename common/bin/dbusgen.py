@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2007, 2008, 2009, 2011 Rob Caelers <robc@krandor.nl>
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@ from xml.dom.minidom import parse
 class NodeBase(object):
     pass
 
+
 class ArgNode(NodeBase):
     def __init__(self, interface_node):
         NodeBase.__init__(self)
@@ -42,6 +43,7 @@ class ArgNode(NodeBase):
 
     def sig(self):
         return self.interface_node.type2sig(self.ext_type)
+
 
 class DefaultTypeNode(NodeBase):
     def __init__(self, csymbol, type_sig):
@@ -171,13 +173,14 @@ class MethodNode(NodeBase):
     def __init__(self, parent):
         NodeBase.__init__(self)
         self.parent = parent
-
         self.name = None
         self.csymbol = None
         self.qname = None
         self.condition = ""
         self.params = []
-
+        self.num_in_args = 0
+        self.num_out_args = 0
+        
     def handle(self, node):
         self.name = node.getAttribute('name')
         self.csymbol = node.getAttribute('csymbol')
@@ -199,6 +202,11 @@ class MethodNode(NodeBase):
 
         if p.ext_type == '':
             p.ext_type = p.type;
+
+        if p.direction == 'in':
+            self.num_in_args = self.num_in_args + 1
+        if p.direction == 'out':
+            self.num_out_args = self.num_out_args + 1
             
         hint = node.getAttribute('hint')
         if hint != None and hint != '':
@@ -215,6 +223,15 @@ class MethodNode(NodeBase):
 
         return method_sig
 
+    def sig_of_type(self, type):
+        method_sig = ''
+        for p in self.params:
+            if p.direction == type:
+                param_sig = self.parent.type2sig(p.ext_type)
+                method_sig = method_sig + '%s' % (param_sig, )
+
+        return '(' + method_sig + ')'
+
     def return_type(self):
         ret = 'void'
         for p in self.params:
@@ -229,7 +246,6 @@ class MethodNode(NodeBase):
                 ret = p.name
         return ret
         
-
 
 class SignalNode(NodeBase):
     def __init__(self, parent):
@@ -258,7 +274,6 @@ class SignalNode(NodeBase):
             p.ext_type = p.type;
         
         self.params.append(p)
-
 
     def sig(self):
         method_sig = ''
@@ -312,7 +327,6 @@ class StructNode(NodeBase):
 
         self.fields.append(arg)
 
-
     def sig(self):
         struct_sig = ''
         for f in self.fields:
@@ -321,7 +335,6 @@ class StructNode(NodeBase):
 
         print struct_sig
         return '(' + struct_sig + ')'
-
 
 
 class SequenceNode(NodeBase):
@@ -401,6 +414,7 @@ class EnumNode(NodeBase):
     def sig(self):
         return 's'
 
+
 class TypeNode(NodeBase):
     def __init__(self, parent):
         NodeBase.__init__(self)
@@ -417,7 +431,6 @@ class TypeNode(NodeBase):
     def sig(self):
         print 'Signature of type ' + self.name + ' unknown'
         sys.exit(1)
-
 
 
 class ImportNode(NodeBase):
@@ -450,29 +463,25 @@ if __name__ == '__main__':
     parser.add_option("-l", "--language",
                       dest="language",
                       help="Generate stubs for this language")
-    parser.add_option("-c", "--client",
-                      action="store_true", dest="client",
-                      help="Generate client stubs")
-    parser.add_option("-s", "--server",
-                      action="store_true", dest="server",
-                      help="Generate server stubs"
-                      )
+    parser.add_option("-g", "--gio",
+                      action="store_true", dest="gio",
+                      help="Generate GIO based stubs")
 
     (options, args) = parser.parse_args()
 
     templates = []
     directory = os.path.dirname(sys.argv[0])
 
+    gio = ""
+    if options.gio:
+        gio = "-gio"
+
     if options.language:
         if options.language == 'C':
             header_ext=".h"
         elif options.language == 'C++':
-            if options.client:
-                templates.append(directory+"/DBus-client-template.cc")
-                templates.append(directory+"/DBus-client-template.hh")
-            if options.server:
-                templates.append(directory+"/DBus-template.cc")
-                templates.append(directory+"/DBus-template.hh")
+            templates.append(directory+"/DBus-template" + gio + ".cc")
+            templates.append(directory+"/DBus-template" + gio + ".hh")
             header_ext=".hh"
         elif options.language == 'dbus-glib':
             templates.append(directory+"/DBus-glib.xml")

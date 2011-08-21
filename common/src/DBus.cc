@@ -1,6 +1,6 @@
 // DBus.c
 //
-// Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,9 +36,6 @@
 #include <string>
 #include <list>
 #include <map>
-
-//#define DBUS_API_SUBJECT_TO_CHANGE
-//#include <dbus/dbus-glib-lowlevel.h>
 
 #include "DBus.hh"
 #include "DBusBinding.hh"
@@ -209,7 +206,7 @@ DBus::send(DBusMessage *msg) const
 
 
 void *
-DBus::find_cobject(const std::string &path, const std::string &interface_name) const
+DBus::find_object(const std::string &path, const std::string &interface_name) const
 {
   void *cobject = NULL;
 
@@ -391,7 +388,7 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
   string interface_name = dbus_message_get_interface(message);
   string method = dbus_message_get_member(message);
 
-  void *cobject = find_cobject(path, interface_name);
+  void *cobject = find_object(path, interface_name);
   if (cobject == NULL)
     {
       throw DBusUsageException(string("no such object: ") + path + " " + interface_name );

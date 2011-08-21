@@ -9,9 +9,15 @@ SUBDIRS = 		win32
 
 noinst_LTLIBRARIES = 	libworkrave-common.la
 
+dbussources =
 if HAVE_DBUS
-dbussources = 		DBus.cc \
+if HAVE_DBUS_GIO
+dbussources += 		DBus-gio.cc \
+			DBusBinding-gio.cc
+else
+dbussources += 		DBus.cc \
 			DBusBinding.cc
+endif
 endif
 
 if HAVE_LANGUAGE_SELECTION

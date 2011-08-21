@@ -69,11 +69,19 @@ BUILT_SOURCES = $(dbussources)
 
 if HAVE_PYTHON_CHEETAH
 
+if HAVE_DBUS_GIO
+DBusWorkrave.cc:	workrave-service.xml \
+			$(top_srcdir)/common/bin/dbusgen.py \
+			$(top_srcdir)/common/bin/DBus-template-gio.cc \
+			$(top_srcdir)/common/bin/DBus-template-gio.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+else
 DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template.cc \
 			$(top_srcdir)/common/bin/DBus-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py -l C++ -s $(srcdir)/workrave-service.xml DBusWorkrave
+			python $(top_srcdir)/common/bin/dbusgen.py -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+endif
 
 DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
 #BreakControl.cc: 	DBusWorkrave.hh ; test -f $@

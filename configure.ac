@@ -82,10 +82,6 @@ AC_ARG_ENABLE(pulse,
               [AS_HELP_STRING([--disable-pulse],
                               [compile without PulseAudio support])])
 
-AC_ARG_ENABLE(introspection,
-              [AS_HELP_STRING([--enable-introspection],
-                              [enable GObject introspection])])
-
 AC_ARG_ENABLE(x11-monitoring-fallback,
               [AS_HELP_STRING([--enable-x11-monitoring-fallback],
                               [compile with fallback monitoring if RECORD is not available (discouraged)])])
@@ -453,12 +449,12 @@ config_gnome=no
 config_gnome3=no
 config_panelapplet4=no
 
-if test "x$enable_gnome3" != "xno"
+if test "x$enable_gnome3" != "xno" -a "x$enable_gnome" != "xno"
 then
     PKG_CHECK_MODULES([GNOME],
                       [libpanelapplet-4.0],
                       [config_gnome=yes
-           config_gnome3=yes
+                       config_gnome3=yes
                        config_panelapplet4=yes
                        AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
                        [if test "x$enable_gnome3" = "xyes"; then
@@ -608,21 +604,24 @@ dnl
 
 config_dbus=no
 have_python_cheetah=no
+config_dbus_gio=no
 
-if test "x$enable_dbus" != "xno"
+PKG_CHECK_MODULES([GIO],
+                  [gio-2.0 >= 2.22.0],
+                  [config_dbus_gio=yes
+		   config_dbus=yes
+		   ])
+
+if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
 then
-    AS_AC_EXPAND(DATADIR, "$datadir")
-    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
-    AC_SUBST(DBUS_SERVICES_DIR)
-
     if test "x$platform_os_win32" = "xyes"
     then
-  PKG_CHECK_MODULES([DBUS],
+        PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
                           [config_dbus=yes],
                           [true])
     else
-  PKG_CHECK_MODULES([DBUS],
+        PKG_CHECK_MODULES([DBUS],
                           [dbus-1 >= 1.2],
                           [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
                            PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
@@ -633,30 +632,40 @@ then
             AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
         fi
     fi
+fi
 
-
-    if test "x$config_dbus" = "xyes"
+if test "x$config_dbus" = "xyes"
+then
+    AC_DEFINE(HAVE_DBUS, , [DBus support])
+    if test "x$platform_os_win32" != "xyes"
     then
-        AC_DEFINE(HAVE_DBUS, , [DBus support])
-  if test "x$platform_os_win32" != "xyes"
-  then
-            AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
-  fi
-        AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
+    fi
+    if test "x$config_dbus_gio" == "xyes";
+    then
+        AC_DEFINE(HAVE_DBUS_GIO, 1, [Have GIO DBUS support])
     fi
 
+    AS_AC_EXPAND(DATADIR, "$datadir")
+    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
+    AC_SUBST(DBUS_SERVICES_DIR)
+    AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+
+    
     AC_CHECK_PROG(PYTHON, python, python)
-      AC_MSG_CHECKING([for the Cheetah Python package])
-        ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
-        if test -z "$ac_cheetah_result"; then
-           AC_MSG_RESULT([yes])
+    AC_MSG_CHECKING([for the Cheetah Python package])
+
+    ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
+    if test -z "$ac_cheetah_result"; then
+        AC_MSG_RESULT([yes])
         have_python_cheetah=yes
-        else
+    else
         AC_MSG_RESULT([no, dbusgen rules will be disabled])
-  fi
+    fi
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
+AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
 AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
 
 
@@ -967,6 +976,9 @@ else
 echo "                Gnome support :   No"
 fi
 echo "            Indicator support :   ${config_indicator}"
+if test "${config_dbus_gio}" = "yes"; then
+echo "                 DBUS support :   ${config_dbus} (GIO)"
+fi
 echo "                 DBUS support :   ${config_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"

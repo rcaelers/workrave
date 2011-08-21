@@ -68,21 +68,6 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
-
-if HAVE_PYTHON_CHEETAH
-GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
-
-DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
-		    	$(top_srcdir)/common/bin/DBus-client-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
-
-endif
-
-DBusGnomeApplet.hh:	DBusGnomeApplet.cc
-GnomeAppletWindow.cc:   DBusGnomeApplet.hh
-
 if HAVE_APP_GTKMM
 
 if HAVE_GNOMEAPPLET
@@ -160,7 +145,7 @@ $(service_DATA): $(service_in_files) Makefile
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES = org.workrave.Workrave.service
 
-dbussources = DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+dbussources = DBusGUI.cc DBusGUI.hh
 
 BUILT_SOURCES = $(dbussources)
 
@@ -172,11 +157,19 @@ BUILT_SOURCES = $(dbussources)
 
 if HAVE_PYTHON_CHEETAH
 
+if HAVE_DBUS_GIO
+DBusGUI.cc: 		workrave-gui.xml \
+			$(top_srcdir)/common/bin/dbusgen.py \
+			$(top_srcdir)/common/bin/DBus-template-gio.cc \
+			$(top_srcdir)/common/bin/DBus-template-gio.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+else
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template.cc \
 			$(top_srcdir)/common/bin/DBus-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -s $(srcdir)/workrave-gui.xml DBusGUI
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+endif
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
 

@@ -1,6 +1,6 @@
 // DBus.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,7 @@ namespace workrave
     DBusHandlerResult handle_introspect(DBusConnection *connection, DBusMessage *message);
     DBusHandlerResult handle_method(DBusConnection *connection, DBusMessage *message);
 
-    void *find_cobject(const std::string &path, const std::string &interface_name) const;
+    void *find_object(const std::string &path, const std::string &interface_name) const;
     void send(DBusMessage *msg) const;
 
     friend class DBusBindingBase;

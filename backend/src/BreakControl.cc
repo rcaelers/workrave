@@ -766,18 +766,15 @@ BreakControl::send_signal(BreakStage stage)
           switch (break_id)
             {
             case BREAK_ID_MICRO_BREAK:
-              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
-                                       progress);
+              iface->MicrobreakChanged("/org/workrave/Workrave/Core", progress);
               break;
 
             case BREAK_ID_REST_BREAK:
-              iface->RestbreakChanged("/org/workrave/Workrave/Core",
-                                       progress);
+              iface->RestbreakChanged("/org/workrave/Workrave/Core", progress);
               break;
 
             case BREAK_ID_DAILY_LIMIT:
-              iface->DailylimitChanged("/org/workrave/Workrave/Core",
-                                       progress);
+              iface->DailylimitChanged("/org/workrave/Workrave/Core", progress);
               break;
 
             default:

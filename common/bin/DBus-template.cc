@@ -132,7 +132,6 @@ ${interface.qname}_Stub::${interface.qname}_Stub(DBus *dbus)
 {
 }
 
-
 ${interface.qname}_Stub::~${interface.qname}_Stub()
 {
 }
