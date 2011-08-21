@@ -317,7 +317,9 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
 
-  if (g_strcmp0(signal_name, "UpdateIndicator") == 0)
+  g_debug("up");
+  
+  if (g_strcmp0(signal_name, "Update") == 0)
     {
       on_update_indicator(self, parameters);
     }
@@ -336,7 +338,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
 
   TimerData td[BREAK_ID_SIZEOF];
 
-  g_variant_get(parameters, "((suuuuuuu)(suuuuuuu)(suuuuuuu))",
+  g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
                 &td[BREAK_ID_MICRO_BREAK].bar_text,
                 &td[BREAK_ID_MICRO_BREAK].slot,
                 &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,
@@ -363,6 +365,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
                 &td[BREAK_ID_DAILY_LIMIT].bar_primary_max
                 );
 
+  g_debug("up");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       workrave_timerbox_set_slot(priv->timerbox, i, td[i].slot);

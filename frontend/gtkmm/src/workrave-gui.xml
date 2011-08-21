@@ -26,15 +26,14 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
-  <interface name="org.workrave.IndicatorInterface" csymbol="IndicatorAppletWindow"
-	     condition="defined(HAVE_INDICATOR)">
+  <interface name="org.workrave.AppletInterface" csymbol="GenericDBusAppletWindow">
     <import>
-      <include name="IndicatorAppletWindow.hh"/>
+      <include name="GenericDBusAppletWindow.hh"/>
     </import>
 
     <struct name="TimerData" csymbol="TimerData">
       <field type="string" name="bar_text"/>
-      <field type="uint32" name="slot"/>
+      <field type="int32" name="slot"/>
       <field type="uint32" name="bar_secondary_color"/>
       <field type="uint32" name="bar_secondary_val"/>
       <field type="uint32" name="bar_secondary_max"/>
@@ -47,12 +46,17 @@
       <arg type="bool" name="enabled" direction="in"/>
     </method>
 
-    <signal name="UpdateIndicator">
+    <signal name="Update">
       <arg type="TimerData" name="micro"/>
       <arg type="TimerData" name="rest"/>
       <arg type="TimerData" name="daily"/>
     </signal>
 
+    <signal name="MenuStatus">
+      <arg type="string" name="menuitem"/>
+      <arg type="bool" name="status"/>
+    </signal>
+    
   </interface>
     
   <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"

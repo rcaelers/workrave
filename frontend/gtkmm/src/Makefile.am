@@ -19,7 +19,6 @@ bin_PROGRAMS = 		workrave
 
 endif
 
-
 eggcflags = 
 
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -29,14 +28,14 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc
+sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
 
 ## GnomeShellAppletWindow.cc
 
 # Additional non-Gnome sources.
 sourcesnognome =
 
-sourcesindicator = 	IndicatorAppletWindow.cc IndicatorAppletMenu.cc
+sourcesindicator = 	IndicatorAppletMenu.cc
 
 # Additional X11 sources.
 if HAVE_GTK3
@@ -67,6 +66,7 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 
 # Statistics.
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
+sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
 
 if HAVE_PYTHON_CHEETAH
@@ -118,8 +118,11 @@ extrasources +=		$(sourcesdistribution)
 endif
 
 if HAVE_EXERCISES
-extrasources +=		$(sourcesexercises)
+extrasources +=		$(sourcesexercises) 
 endif
+
+extrasources +=		$(sourcesstatistics) 
+
 
 if PLATFORM_OS_WIN32
 WINDRES ?= 		"windres"
@@ -194,43 +197,42 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
 workrave_SOURCES = \
-			AppletWindow.cc \
 			AppletControl.cc \
+			AppletWindow.cc \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
 			DataConnector.cc \
+			EventButton.cc \
+			EventImage.cc \
+			EventLabel.cc \
+			Frame.cc \
 			GUI.cc \
 			GUIConfig.cc \
+			GenericDBusAppletWindow.cc \
 			GtkUtil.cc \
-			EventLabel.cc \
-			EventImage.cc \
-			EventButton.cc \
 			HeadInfo.cc \
 			Hig.cc \
-			IconListNotebook.cc \
 			IconListCellRenderer.cc \
+			IconListNotebook.cc \
+			MainGtkMenu.cc \
 			MainWindow.cc \
+			Menus.cc \
 			MicroBreakWindow.cc \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \
-			${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc \
 			Session.cc \
+			StatusIcon.cc \
 			TimeBar.cc \
 			TimeEntry.cc \
-			TimerPreferencesPanel.cc \
-			WindowHints.cc \
-			Frame.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
-			Menus.cc \
-			main.cc \
-			MainGtkMenu.cc \
-			StatusIcon.cc \
+			TimerPreferencesPanel.cc \
+			WindowHints.cc \
 			eggsmclient.c \
-			${dbussources} \
-			$(extrasources)
-
+			main.cc \
+			$(extrasources) \
+			${dbussources}
 
 nodist_workrave_SOURCES = \
 			$(extranodistsources)
@@ -278,14 +280,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
-
-# workrave_LINK		= $(LINK) \
-# 			  nm - nos > workrave.dmp \
-# 			  strip workrave$(EXEEXT)
-
-#workrave$(EXEEXT): $(workrave_OBJECTS) $(workrave_DEPENDENCIES) 
-#	@rm -f workrave$(EXEEXT)
-#	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
 	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in

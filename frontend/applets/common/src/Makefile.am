@@ -3,7 +3,8 @@
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --add-include-path=$(srcdir)/../include --warn-all \
 		--include GObject-2.0 \
-                --include Gtk-2.0
+                --include Gtk-3.0 \
+		--include cairo-1.0
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(srcdir)/../include
 
 if HAVE_INTROSPECTION

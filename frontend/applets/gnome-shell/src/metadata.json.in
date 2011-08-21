@@ -1,0 +1,8 @@
+{
+ "uuid": "@uuid@",
+ "name": "Workrave",
+ "description": "Applet that shows all the Workrave timers.",
+ "shell-version": [ "@shell_current@" ],
+ "localedir": "@LOCALEDIR@",
+ "url": "@url@"
+}

@@ -141,7 +141,7 @@ workrave_timebar_init(WorkraveTimebar *self)
   self->priv->bar_max_value = 50;
   self->priv->secondary_bar_value = 100;
   self->priv->secondary_bar_max_value = 600;
-  self->priv->bar_text = "foo";
+  self->priv->bar_text = g_strdup("");
 
   workrave_timebar_init_ui(self);
 }
@@ -236,6 +236,8 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   int bar_height = 0;
   workrave_timebar_compute_bar_dimensions(self, &bar_width, &sbar_width, &bar_height);
 
+  g_debug("bar_width %d %d", bar_width, sbar_width);
+  
   if (sbar_width > 0)
     {
       // Overlap
@@ -319,6 +321,7 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
+  g_debug("bar_text %s", priv->bar_text);
   pango_layout_set_text(priv->pango_layout, priv->bar_text, -1);
 
   int text_width, text_height;
@@ -397,7 +400,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH) -  2; // FIXME:
+  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
   priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 
   gtk_widget_path_free(path);
@@ -462,7 +465,7 @@ workrave_timebar_set_progress(WorkraveTimebar *self, int value, int max_value, W
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
-  priv->bar_value = value;
+  priv->bar_value = value <= max_value ? value : max_value;
   priv->bar_max_value = max_value;
   priv->bar_color = color;
 }
@@ -472,16 +475,17 @@ workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, int ma
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
-  priv->secondary_bar_value = value;
+  priv->secondary_bar_value = value <= max_value ? value : max_value;
   priv->secondary_bar_max_value = max_value;
   priv->secondary_bar_color = color;
 }
 
 void
-workrave_timebar_set_text(WorkraveTimebar *self, const char *text)
+workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text)
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
-  priv->bar_text = text;
+  g_free(priv->bar_text);
+  priv->bar_text = g_strdup(text);
 }
 
 void

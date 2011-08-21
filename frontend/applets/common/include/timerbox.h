@@ -22,6 +22,7 @@
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <cairo.h>
 
 #include "timebar.h"
 
@@ -66,44 +67,12 @@ typedef enum WorkraveBreakId
  * Method definitions.
  */
 
-
-/**
-  * workrave_timerbox_update: 
-  *
-  * @self: a @WorkraveTimerbox 
-  * @image: a @GtkImage where the timerbox will be drawn into
-  *
-  */
 void workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image);
-
-/**
-  * workrave_timerbox_set_slot: 
-  *
-  * @self: a @WorkraveTimerbox
-  * @slot:
-  * @brk: 
-  *
-  */
+void workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr);
 void workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, WorkraveBreakId brk);
-
-/**
-  * workrave_timerbox_set_enabled: 
-  *
-  * @self: a @WorkraveTimerbox 
-  * @enabled: 
-  *
-  */
 void workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled);
-
-/**
-  * workrave_timerbox_get_time_bar: 
-  *
-  * @self: a @WorkraveTimerbox 
-  * @timer: the ID of the #WorkraveTimebar to return
-  *
-  * Return value: (transfer none): The @WorkraveTimebar of the specified timer
-  *
-  */
+int workrave_timerbox_get_width(WorkraveTimerbox *self);
+int workrave_timerbox_get_height(WorkraveTimerbox *self);
 WorkraveTimebar *workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer);
 
 #endif /* __WORKRAVE_TIMERBOX_H__ */

@@ -1,4 +1,4 @@
-// DBus.cc --- The main controller
+// Test.cc --- The main controller
 //
 // Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.

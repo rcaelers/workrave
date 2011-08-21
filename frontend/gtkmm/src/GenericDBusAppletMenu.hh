@@ -1,4 +1,4 @@
-// IndicatorAppletMenu.hh --- Menu using IndicatorApplet+
+// GenericDBusAppletMenu.hh --- Menu using IndicatorApplet+
 //
 // Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef INDICATORAPPLETMENU_HH
-#define INDICATORAPPLETMENU_HH
+#ifndef GENERICDBUSAPPLETMENU_HH
+#define GENERICDBUSAPPLETMENU_HH
 
 #include "config.h"
 
@@ -26,19 +26,16 @@
 
 #include <gtk/gtk.h>
 
-#include <libdbusmenu-glib/server.h>
-#include <libdbusmenu-glib/menuitem.h>
-
 #include "Menus.hh"
 #include "Menu.hh"
 
 class GenericDBusAppletWindow;
 
-class IndicatorAppletMenu : public Menu
+class GenericDBusAppletMenu : public Menu
 {
 public:
-  IndicatorAppletMenu(GenericDBusAppletWindow *applet_window);
-  virtual ~IndicatorAppletMenu();
+  GenericDBusAppletMenu(GenericDBusAppletWindow *applet_window);
+  virtual ~GenericDBusAppletMenu();
 
   virtual void init();
   virtual void add_accel(Gtk::Window &window);
@@ -48,22 +45,8 @@ public:
 private:
   enum MenuItemType { Radio, Check, Normal };
 
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label);
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, int cmd);
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, MenuItemType type, int cmd);
-  void menu_item_set_checked(int cmd, bool checked);
-
-  int find_menu_item(DbusmenuMenuitem *item) const;
-
-  static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
-  void menu_item_activated(DbusmenuMenuitem *mi);
-
 private:
   GenericDBusAppletWindow *applet_window;
-
-  DbusmenuServer *server;
-  DbusmenuMenuitem *root;
-  DbusmenuMenuitem *menu_items[Menus::MENU_COMMAND_SIZEOF];
 };
 
-#endif // INDICATORAPPLETMENU_HH
+#endif // GENERICDBUSAPPLETMENU_HH

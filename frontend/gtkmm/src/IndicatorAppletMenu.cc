@@ -33,7 +33,7 @@
 #include <libindicator/indicator-service.h>
 
 #include "IndicatorAppletMenu.hh"
-#include "IndicatorAppletWindow.hh"
+#include "GenericDBusAppletWindow.hh"
 #include "GUI.hh"
 #include "Menus.hh"
 #include "Util.hh"
@@ -42,7 +42,7 @@ using namespace std;
 
 
 //! Constructor.
-IndicatorAppletMenu::IndicatorAppletMenu(IndicatorAppletWindow *applet_window)
+IndicatorAppletMenu::IndicatorAppletMenu(GenericDBusAppletWindow *applet_window)
   :applet_window(applet_window)
 {
 }

@@ -28,6 +28,8 @@
 
 #include "timerbox.h"
 
+#include "indicator-applet.h"
+
 static GtkWidget *image;
 static GCancellable *workrave_proxy_cancel;
 static GDBusProxy *workrave_proxy;
@@ -56,7 +58,7 @@ static void destroy( GtkWidget *widget,
 }
 
 static void
-workrave_proxy_cb(GObject *object, GAsyncResult *res, gpointer user_data)
+on_dbus_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
 	GError *error = NULL;
 
@@ -102,7 +104,7 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 	if (g_strcmp0(signal_name, "Update") == 0)
     {
     }
-	else if (g_strcmp0(signal_name, "UpdateIndicator") == 0)
+	else if (g_strcmp0(signal_name, "Update") == 0)
     {
       alive = TRUE;
       if (timer == 0)
@@ -114,7 +116,7 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 
       memset(td, 0, sizeof(td));
 
-      g_variant_get(parameters, "((suuuuuuu)(suuuuuuu)(suuuuuuu))",
+      g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
                     &td[BREAK_ID_MICRO_BREAK].bar_text,
                     &td[BREAK_ID_MICRO_BREAK].slot,
                     &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,
@@ -200,16 +202,15 @@ int main( int   argc,
 
   timerbox = g_object_new(WORKRAVE_TYPE_TIMERBOX, NULL);
 
-	g_dbus_proxy_new_for_bus(G_BUS_TYPE_SESSION,
+  g_dbus_proxy_new_for_bus(G_BUS_TYPE_SESSION,
                            G_DBUS_PROXY_FLAGS_NONE,
                            NULL,
-                           "org.workrave.Workrave",
-                           "/org/workrave/Workrave/UI",
-                           "org.workrave.UnityInterface",
+                           WORKRAVE_INDICATOR_SERVICE_NAME,
+                           WORKRAVE_INDICATOR_SERVICE_OBJ,
+                           WORKRAVE_INDICATOR_SERVICE_IFACE,
                            workrave_proxy_cancel,
-                           workrave_proxy_cb,
+                           on_dbus_ready,
                            NULL);
-
 
   timer = g_timeout_add_seconds(10, on_timer, NULL);
 

@@ -24,14 +24,14 @@ libworkrave_la_LDFLAGS = \
 #
 
 indicator_workrave_test_SOURCES = \
-	test.c
+	test.c 
 indicator_workrave_test_CFLAGS = \
 	-Wall -std=c99 $(GTK_CFLAGS)  -I../include -I../../common/include \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 indicator_workrave_test_LDADD = \
-	$(GTK_LIBS)  -L../../common/src -lworkrave-1.0
+	$(GTK_LIBS) ../../common/src/libworkrave-1.0.la
 
 BUILT_SOURCES =
 

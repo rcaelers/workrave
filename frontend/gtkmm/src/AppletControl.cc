@@ -41,7 +41,7 @@
 #endif
 
 #ifdef HAVE_INDICATOR
-#include "IndicatorAppletWindow.hh"
+#include "GenericDBusAppletWindow.hh"
 #endif
 
 // #ifdef PLATFORM_OS_OSX
@@ -96,7 +96,7 @@ AppletControl::init()
 #endif
 
 #ifdef HAVE_INDICATOR  
-  applets[APPLET_INDICATOR] = new IndicatorAppletWindow(this);
+  applets[APPLET_GENERIC_DBUS] = new GenericDBusAppletWindow(this);
 #endif
   
 #ifdef PLATFORM_OS_UNIX
@@ -129,7 +129,7 @@ AppletControl::show()
   AppletState rc;
 
 
-  rc = activate_applet(APPLET_INDICATOR);
+  rc = activate_applet(APPLET_GENERIC_DBUS);
   TRACE_MSG("Unity" << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {

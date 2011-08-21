@@ -578,9 +578,11 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
   // Physical width/height
-  int win_w = allocation.get_width();
+  int win_w = allocation.get_width() - 2; // FIXME:
   int win_h = allocation.get_height();
 
+  TRACE_MSG("w/h " << win_w << " " << win_h);
+  
   // Logical width/height
   // width = direction of bar
   int win_lw, win_lh;
@@ -628,6 +630,8 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       sbar_width = (secondary_bar_value * (win_lw - 2 * border_size)) / secondary_bar_max_value;
     }
 
+  TRACE_MSG("bw/sbw " << bar_width << " " << sbar_width);
+  
   int bar_height = win_lh - 2 * border_size;
 
   if (sbar_width > 0)
@@ -817,8 +821,11 @@ TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
                   int x, int y, int width, int height,
                   int winw, int winh)
 {
+  TRACE_ENTER("TimeBar::draw_bar");
   (void) winh;
 
+  TRACE_MSG("x/y/w/h " << x << " " << y << " " << width << " " << height);
+  
   if (rotation == 0 || rotation == 180)
     {
       cr->rectangle(x, y, width, height);
@@ -829,6 +836,7 @@ TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
       cr->rectangle(y, winw - x- width, height, width);
       cr->fill();
     }
+  TRACE_EXIT();
 }
 
 #endif

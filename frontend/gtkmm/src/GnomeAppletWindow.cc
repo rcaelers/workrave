@@ -49,7 +49,6 @@ using namespace std;
 #include <X11/Xlib.h>
 
 #include "DBusException.hh"
-#include "DBusGnomeApplet.hh"
 
 #ifndef GDK_WINDOW_XWINDOW
 #define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)

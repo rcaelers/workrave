@@ -17,7 +17,7 @@
  */
 
 #define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"
-#define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.IndicatorInterface"
+#define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.AppletInterface"
 #define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
 #define  WORKRAVE_INDICATOR_SERVICE_VERSION  1
 
