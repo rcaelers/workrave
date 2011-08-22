@@ -912,7 +912,7 @@ workrave_applet_fill(WorkraveApplet *applet)
                                       G_CALLBACK(mode_callback),
                                       applet);
 
-  gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-applet-menu.xml", NULL);
+  gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-gnome-applet-menu.xml", NULL);
   panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group);
   g_free(ui_path);
 

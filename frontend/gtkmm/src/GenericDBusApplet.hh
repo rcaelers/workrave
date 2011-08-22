@@ -1,4 +1,4 @@
-// GenericDBusAppletWindow.hh --- X11 Applet Window
+// GenericDBusApplet.hh --- X11 Applet Window
 //
 // Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,46 +17,70 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GENERICDBUSAPPLETWINDOW_HH
-#define GENERICDBUSAPPLETWINDOW_HH
+#ifndef GENERICDBUSAPPLET_HH
+#define GENERICDBUSAPPLET_HH
 
-#include "preinclude.h"
+#include "config.h"
+
+#include <string>
 #include <stdio.h>
 
 #include <libindicator/indicator-service.h>
 #include <libdbusmenu-glib/server.h>
 #include <libdbusmenu-glib/menuitem.h>
+#include <gtk/gtk.h>
 
 #include "ITimerBoxView.hh"
 #include "ITimeBar.hh"
 #include "AppletWindow.hh"
-
-#include <string>
-
-struct TimerData
-{
-  std::string bar_text;
-  int slot;
-  int bar_secondary_color;
-  int bar_secondary_val;
-  int bar_secondary_max;
-  int bar_primary_color;
-  int bar_primary_val;
-  int bar_primary_max;
-};
+#include "Menus.hh"
+#include "Menu.hh"
 
 class AppletControl;
 
-class GenericDBusAppletWindow : public AppletWindow , ITimerBoxView
+class GenericDBusApplet : public AppletWindow , public ITimerBoxView, public Menu
 {
 public:
-  GenericDBusAppletWindow(AppletControl *control);
-  virtual ~GenericDBusAppletWindow();
+  struct TimerData
+  {
+    std::string bar_text;
+    int slot;
+    int bar_secondary_color;
+    int bar_secondary_val;
+    int bar_secondary_max;
+    int bar_primary_color;
+    int bar_primary_val;
+    int bar_primary_max;
+  };
+
+  enum MenuItemFlags
+    {
+      MENU_ITEM_FLAG_NONE = 0,
+      MENU_ITEM_FLAG_SUBMENU_BEGIN = 1,
+      MENU_ITEM_FLAG_SUBMENU_END = 2,
+      MENU_ITEM_FLAG_CHECK = 4,
+      MENU_ITEM_FLAG_TOGGLE = 8,
+      MENU_ITEM_FLAG_ACTIVE = 16,
+    };
+
+  struct MenuItem
+  {
+    std::string text;
+    int command;
+    int flags;
+    int group;
+  };
+
+  typedef std::list<MenuItem> MenuItems;
+ 
+  GenericDBusApplet(AppletControl *control);
+  virtual ~GenericDBusApplet();
 
   virtual AppletState activate_applet();
   virtual void deactivate_applet();
 
   virtual void set_applet_enabled(bool enable);
+  virtual void get_menu_items(MenuItems &out) const;
 
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
@@ -71,12 +95,22 @@ public:
   virtual void set_enabled(bool enabled);
   virtual void set_geometry(Orientation orientation, int size);
 
+  
+private:
+  virtual void init();
+  virtual void add_accel(Gtk::Window &window);
+  virtual void popup(const guint button, const guint activate_time);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  
+  void add_menu_item(const char *text, int command, int flags);
+  
 private:
   bool enabled;
   TimerData data[BREAK_ID_SIZEOF];
+  MenuItems items;
 
   //! Controller
   AppletControl *control;
 };
 
-#endif // GENERICDBUSAPPLETWINDOW_HH
+#endif // GENERICDBUSAPPLET_HH

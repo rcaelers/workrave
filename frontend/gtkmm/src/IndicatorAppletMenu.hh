@@ -32,12 +32,12 @@
 #include "Menus.hh"
 #include "Menu.hh"
 
-class GenericDBusAppletWindow;
+class GenericDBusApplet;
 
 class IndicatorAppletMenu : public Menu
 {
 public:
-  IndicatorAppletMenu(GenericDBusAppletWindow *applet_window);
+  IndicatorAppletMenu(GenericDBusApplet *applet_window);
   virtual ~IndicatorAppletMenu();
 
   virtual void init();
@@ -59,7 +59,7 @@ private:
   void menu_item_activated(DbusmenuMenuitem *mi);
 
 private:
-  GenericDBusAppletWindow *applet_window;
+  GenericDBusApplet *applet_window;
 
   DbusmenuServer *server;
   DbusmenuMenuitem *root;

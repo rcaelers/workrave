@@ -42,6 +42,7 @@ public:
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 
+  
 private:
   enum MenuItemType { Radio, Check, Normal };
 

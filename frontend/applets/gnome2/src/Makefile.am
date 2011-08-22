@@ -68,9 +68,9 @@ endif
 if HAVE_PYTHON_CHEETAH
 
 DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml
-	python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml DBusGUI
+	python $(top_srcdir)/common/bin/dbusgen.py --server --language=xml $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml DBusGUI
 
 DBusGnomeApplet.xml: gnome-applet.xml
-	python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib $(srcdir)/gnome-applet.xml DBusGnomeApplet
+	python $(top_srcdir)/common/bin/dbusgen.py --server --language=xml $(srcdir)/gnome-applet.xml DBusGnomeApplet
 
 endif

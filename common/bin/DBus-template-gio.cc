@@ -80,7 +80,13 @@ public:
   void ${m.qname}(const string &path, #slurp
   #set comma = ''
   #for p in m.params
-  $comma $interface.type2csymbol(p.type) $p.name#slurp
+    #if p.hint == [] 
+      $comma $interface.type2csymbol(p.type) $p.name#slurp
+    #else if 'ptr' in p.hint
+      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+    #else if 'ref' in p.hint
+      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+    #end if
   #set comma = ','
   #end for
   );
@@ -296,17 +302,17 @@ GVariant *
 ${interface.qname}_Stub::put_${seq.qname}(const ${seq.csymbol} *result)
 {
   GVariantBuilder builder;
-  g_variant_builder_init(&buider, "$struct.sig()");
+  g_variant_builder_init(&builder, (GVariantType *)"$seq.sig()");
 
   ${seq.csymbol}::const_iterator it;
 
   for (it = result->begin(); it != result->end(); it++)
   {
     GVariant *v = put_${seq.data_type}(&(*it));
-    g_variant_builder_add_value(builder, v);
+    g_variant_builder_add_value(&builder, v);
   }
   
-  return g_variant_builder_end(builder);                                                        
+  return g_variant_builder_end(&builder);                                                        
 }
 #end for
 
@@ -344,7 +350,7 @@ void
 ${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymbol} *result)
 {
   GVariantBuilder builder;
-  g_variant_builder_init(&buider, "$struct.sig()");
+  g_variant_builder_init(&builder, (GVariantType *)"$dict.sig()");
 
   ${dict.csymbol}::const_iterator it;
 
@@ -354,10 +360,10 @@ ${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymb
       GVariant *v_value = put_${dict.value_type}(&(it->second));
 
       GVariant *v_entry = g_variant_new_dict_entry(v_key, v_value);
-      g_variant_builder_add_value(builder, v_entry);
+      g_variant_builder_add_value(&builder, v_entry);
     }
   
-  return g_variant_builder_end(builder);
+  return g_variant_builder_end(&builder);
 }
 
 
@@ -472,10 +478,16 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 #for signal in interface.signals
 void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #set comma = ''
-#for p in signal.params
-$comma $interface.type2csymbol(p.type) $p.name#slurp
-#set comma = ','
-#end for
+  #for p in signal.params
+    #if p.hint == [] 
+      $comma $interface.type2csymbol(p.type) $p.name#slurp
+    #else if 'ptr' in p.hint
+      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+    #else if 'ref' in p.hint
+      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+    #end if
+  #set comma = ','
+  #end for
 )
 {
   GDBusConnection *connection = dbus->get_connection();
@@ -489,7 +501,11 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
   g_variant_builder_init(&builder, (GVariantType*)"$signal.sig()");
 
   #for arg in signal.params:
+    #if 'ptr' in p.hint
+  GVariant *v_${arg.name} = put_${arg.type}(${arg.name});
+    #else
   GVariant *v_${arg.name} = put_${arg.type}(&${arg.name});
+    #end if
   g_variant_builder_add_value(&builder, v_${arg.name});
   #end for
 

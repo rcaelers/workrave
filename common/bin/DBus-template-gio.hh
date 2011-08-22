@@ -36,15 +36,21 @@ public:
 
   static $interface.qname *instance(const DBus *dbus);
 
-  #for $m in interface.signals
+#for $m in interface.signals
   virtual void ${m.qname}(const string &path, #slurp
   #set comma = ''
   #for p in m.params
-  $comma $interface.type2csymbol(p.type) $p.name#slurp
+    #if p.hint == [] 
+      $comma $interface.type2csymbol(p.type) $p.name#slurp
+    #else if 'ptr' in p.hint
+      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+    #else if 'ref' in p.hint
+      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+    #end if
   #set comma = ','
   #end for
   ) = 0;
-  #end for
+#end for
 };
 
 #if interface.condition != ''

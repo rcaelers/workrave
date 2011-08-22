@@ -26,12 +26,12 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
-  <interface name="org.workrave.AppletInterface" csymbol="GenericDBusAppletWindow">
+  <interface name="org.workrave.AppletInterface" csymbol="GenericDBusApplet">
     <import>
-      <include name="GenericDBusAppletWindow.hh"/>
+      <include name="GenericDBusApplet.hh"/>
     </import>
 
-    <struct name="TimerData" csymbol="TimerData">
+    <struct name="TimerData" csymbol="GenericDBusApplet::TimerData">
       <field type="string" name="bar_text"/>
       <field type="int32" name="slot"/>
       <field type="uint32" name="bar_secondary_color"/>
@@ -42,19 +42,35 @@
       <field type="uint32" name="bar_primary_max"/>
     </struct>
 
+    <struct name="MenuItem" csymbol="GenericDBusApplet::MenuItem">
+      <field type="string" name="text"/>
+      <field type="int32" name="command"/>
+      <field type="int32" name="flags"/>
+      <field type="int32" name="group"/>
+    </struct>
+
+    <sequence name="MenuItems"
+	      container="std::list"
+	      type="MenuItem"
+	      csymbol="GenericDBusApplet::MenuItems">
+    </sequence>
+    
     <method name="SetEnabled" csymbol="set_applet_enabled">
       <arg type="bool" name="enabled" direction="in"/>
     </method>
 
-    <signal name="Update">
-      <arg type="TimerData" name="micro"/>
-      <arg type="TimerData" name="rest"/>
-      <arg type="TimerData" name="daily"/>
+    <method name="GetMenuItems" csymbol="get_menu_items">
+      <arg type="MenuItems" name="menuitems" direction="out"/>
+    </method>
+    
+    <signal name="TimersUpdated">
+      <arg type="TimerData" name="micro" hint="ref"/>
+      <arg type="TimerData" name="rest" hint="ref"/>
+      <arg type="TimerData" name="daily" hint="ref"/>
     </signal>
 
-    <signal name="MenuStatus">
-      <arg type="string" name="menuitem"/>
-      <arg type="bool" name="status"/>
+    <signal name="MenuUpdated">
+      <arg type="MenuItems" name="menuitems" hint="ref"/>
     </signal>
     
   </interface>

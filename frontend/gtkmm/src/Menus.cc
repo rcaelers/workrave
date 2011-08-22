@@ -67,7 +67,7 @@
 
 #ifdef HAVE_INDICATOR
 #include "IndicatorAppletMenu.hh"
-#include "GenericDBusAppletWindow.hh"
+#include "GenericDBusApplet.hh"
 #endif
 
 #ifdef PLATFORM_OS_WIN32
@@ -153,12 +153,16 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   menus[MENU_APPLET_GNOME] = new GnomeAppletMenu(gnome_applet_window);
 #endif
 
-#if defined(HAVE_INDICATOR)
+#if defined(HAVE_DBUS)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GENERIC_DBUS);
-  GenericDBusAppletWindow *indicator_applet_window = dynamic_cast<GenericDBusAppletWindow*>(applet_window);
-  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet_window);
-#endif
+  GenericDBusApplet *indicator_applet = dynamic_cast<GenericDBusApplet*>(applet_window);
+  menus[MENU_APPLET_GENERICDBUS] = indicator_applet;
 
+#if defined(HAVE_INDICATOR)
+  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet);
+#endif
+#endif
+  
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)

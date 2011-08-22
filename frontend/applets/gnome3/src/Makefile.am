@@ -3,7 +3,7 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 	\
 	  	  WorkraveApplet.c				 	\
 		  WorkraveApplet.h				 	\
 		  gnome-applet.xml					\
-		  workrave-applet-menu.xml
+		  workrave-gnome-applet-menu.xml
 
 BUILT_SOURCES   =
 CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(service_DATA) $(schemas_DATA)
@@ -41,7 +41,7 @@ org.workrave.WorkraveAppletFactory.service: $(service_in_files)
 	    $< > $@
 
 xmluidir    			= $(datadir)/gnome-panel/ui
-xmlui_DATA  			= workrave-applet-menu.xml
+xmlui_DATA  			= workrave-gnome-applet-menu.xml
 
 AM_CPPFLAGS 			= -I$(srcdir)
 

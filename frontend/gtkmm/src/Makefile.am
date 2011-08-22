@@ -28,7 +28,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome applet sources
-sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
+sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc DBusGnomeApplet.cc Plug.cc 
 
 # Additional Indicator applet sources
 sourcesindicator = 	IndicatorAppletMenu.cc
@@ -63,6 +63,20 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 # Statistics.
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
+
+if HAVE_PYTHON_CHEETAH
+GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
+
+DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
+			$(top_srcdir)/common/bin/dbusgen.py \
+		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
+		    	$(top_srcdir)/common/bin/DBus-client-template.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
+
+endif
+
+DBusGnomeApplet.hh:	DBusGnomeApplet.cc
+GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 
 if HAVE_APP_GTKMM
 
@@ -156,13 +170,13 @@ DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template-gio.cc \
 			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			python $(top_srcdir)/common/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 else
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template.cc \
-			$(top_srcdir)/common/bin/DBus-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
+			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 endif
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
@@ -195,7 +209,7 @@ workrave_SOURCES = \
 			Frame.cc \
 			GUI.cc \
 			GUIConfig.cc \
-			GenericDBusAppletWindow.cc \
+			GenericDBusApplet.cc \
 			GtkUtil.cc \
 			HeadInfo.cc \
 			Hig.cc \

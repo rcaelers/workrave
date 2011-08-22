@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <unit name="DBusGnomeApplet">
-
   <interface name="org.workrave.GnomeAppletInterface" csymbol="workrave_applet">
-
     <method name="GetSocketId" csymbol="workrave_applet_get_socket_id">
       <arg type="uint32" name="id" direction="out" hint="return"/>
     </method>
@@ -35,7 +33,5 @@
       <arg type="string" name="menu" direction="in" hint="const,ref"/>
       <arg type="bool" name="active" direction="out" hint="ref"/>
     </method>
-
   </interface>
-
 </unit>

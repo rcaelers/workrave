@@ -281,6 +281,10 @@ class SignalNode(NodeBase):
 
         if p.ext_type == '':
             p.ext_type = p.type;
+
+        hint = node.getAttribute('hint')
+        if hint != None and hint != '':
+            p.hint = hint.split(',')
         
         self.params.append(p)
 
@@ -483,7 +487,13 @@ if __name__ == '__main__':
     parser.add_option("-g", "--gio",
                       action="store_true", dest="gio",
                       help="Generate GIO based stubs")
-
+    parser.add_option("-c", "--client",
+                      action="store_true", dest="client",
+                      help="Generate client stubs")
+    parser.add_option("-s", "--server",
+                      action="store_true", dest="server",
+                      help="Generate server stubs"
+                      )
     (options, args) = parser.parse_args()
 
     templates = []
@@ -497,12 +507,13 @@ if __name__ == '__main__':
         if options.language == 'C':
             header_ext=".h"
         elif options.language == 'C++':
-            templates.append(directory+"/DBus-template-" + brand + ".cc")
-            templates.append(directory+"/DBus-template-" + brand + ".hh")
+            if options.client:
+                templates.append(directory+"/DBus-client-template-" + brand + ".cc")
+                templates.append(directory+"/DBus-client-template-" + brand + ".hh")
+            if options.server:
+                templates.append(directory+"/DBus-template-" + brand + ".cc")
+                templates.append(directory+"/DBus-template-" + brand + ".hh")
             header_ext=".hh"
-        elif options.language == 'dbus-glib':
-            templates.append(directory+"/DBus-xml.xml")
-            header_ext=".xml"
         elif options.language == 'xml':
             templates.append(directory+"/DBus-xml.xml")
             header_ext=".xml"

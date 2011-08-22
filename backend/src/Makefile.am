@@ -74,13 +74,13 @@ DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template-gio.cc \
 			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+			python $(top_srcdir)/common/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
 else
 DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template.cc \
-			$(top_srcdir)/common/bin/DBus-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
+			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
+			python $(top_srcdir)/common/bin/dbusgen.py -s -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
 endif
 
 DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@

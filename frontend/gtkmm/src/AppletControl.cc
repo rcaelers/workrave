@@ -41,7 +41,7 @@
 #endif
 
 #ifdef HAVE_INDICATOR
-#include "GenericDBusAppletWindow.hh"
+#include "GenericDBusApplet.hh"
 #endif
 
 // #ifdef PLATFORM_OS_OSX
@@ -96,7 +96,7 @@ AppletControl::init()
 #endif
 
 #ifdef HAVE_INDICATOR  
-  applets[APPLET_GENERIC_DBUS] = new GenericDBusAppletWindow(this);
+  applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet(this);
 #endif
   
 #ifdef PLATFORM_OS_UNIX

@@ -62,6 +62,7 @@ public:
       MENU_APPLET_GNOME,
       MENU_APPLET_W32,
       MENU_APPLET_INDICATOR,
+      MENU_APPLET_GENERICDBUS,
       MENU_SIZEOF,
     };
 
