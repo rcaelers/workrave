@@ -445,6 +445,10 @@ AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk3" = "xyes")
 dnl
 dnl Gnome
 dnl
+	
+if test "x$enable_gnome3" = "xyes" -a "x$enable_gnome2" = "xyes"; then
+   AC_MSG_ERROR([Cannot compile for both Gnome 2 and 3 at the moment.])
+fi
 
 config_gnome2=no
 config_gnome3=no
@@ -463,7 +467,7 @@ then
                        fi])
 fi
 
-if test "x$enable_gnome2" != "xno"
+if test "x$enable_gnome2" != "xno" -a "x$config_gnome3" = "xno"
 then
     PKG_CHECK_MODULES([GNOME2],
                       [libpanelapplet-2.0 >= 2.0.10 \
@@ -620,14 +624,17 @@ dnl DBus
 dnl
 
 config_dbus=no
-have_python_cheetah=no
 config_dbus_gio=no
+have_python_cheetah=no
 
+if test "x$config_gnome2" == "xno" -a "x$enable_dbus" != "xno"
+then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
                   [config_dbus_gio=yes
 		   config_dbus=yes
 		   ])
+fi
 
 if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
 then
