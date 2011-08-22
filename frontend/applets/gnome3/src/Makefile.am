@@ -5,13 +5,13 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 	\
 		  gnome-applet.xml					\
 		  workrave-applet-menu.xml
 
+BUILT_SOURCES   =
 CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(service_DATA) $(schemas_DATA)
 
-MAINTAINERCLEANFILES =  Makefile.in
+MAINTAINERCLEANFILES =  Makefile.in DBusGnomeApplet.xml DBusGUI.xml
 
 SUBDIRS = 
 
-if HAVE_GNOMEAPPLET
 if HAVE_PANELAPPLET4
 
 LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapplet-4.0`
@@ -45,24 +45,34 @@ xmlui_DATA  			= workrave-applet-menu.xml
 
 AM_CPPFLAGS 			= -I$(srcdir)
 
-FLAGS				= @GNOME_CFLAGS@ @DBUSGLIB_CFLAGS@ \
-				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= WorkraveApplet.c
-workrave_applet_LDADD 		= @GNOME_LIBS@ @DBUSGLIB_LIBS@
+workrave_applet_SOURCES 	= WorkraveApplet.c workrave-gnome-applet-generated.c
+workrave_applet_LDADD 		= @GNOME3_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
 
-BUILT_SOURCES=applet-server-bindings.h applet-client-bindings.h gui-client-bindings.h 
+# ------------------------------------------------------------------------
 
-# Correctly clean the generated headers, but keep the xml description
-CLEANFILES += $(BUILT_SOURCES)
+GDBUS_SERVER_GENERATED = workrave-gnome-applet-generated.h workrave-gnome-applet-generated.c
+
+$(GDBUS_SERVER_GENERATED) : workrave-gnome-applet.xml
+	$(AM_V_GEN) gdbus-codegen					 	\
+		--interface-prefix org.workrave.				\
+		--c-namespace Workrave	 					\
+		--c-generate-object-manager					\
+		--generate-c-code workrave-gnome-applet-generated		\
+		$<								
+
+BUILT_SOURCES += $(GDBUS_SERVER_GENERATED)
+
+EXTRA_DIST += workrave-applet.xml
+
+CLEANFILES += $(GDBUS_SERVER_GENERATED)
 
 endif
-endif
-

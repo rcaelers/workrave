@@ -60,7 +60,7 @@
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
 
-#ifdef HAVE_GNOMEAPPLET
+#ifdef HAVE_PANELAPPLET2
 #include "GnomeAppletMenu.hh"
 #include "GnomeAppletWindow.hh"
 #endif
@@ -147,7 +147,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   menus[MENU_APPLET_W32] = new W32AppletMenu(main_window, w32_applet_window);
 #endif
 
-#if defined(HAVE_GNOMEAPPLET)
+#if defined(HAVE_PANELAPPLET2)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
   menus[MENU_APPLET_GNOME] = new GnomeAppletMenu(gnome_applet_window);

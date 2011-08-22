@@ -134,6 +134,7 @@ const GUID CLSID_Shell =
 bool System::kde = false;
 bool System::lockable = false;
 std::string System::lock_display;
+bool System::shutdown_supported;
 
 #elif defined(PLATFORM_OS_WIN32)
 
@@ -236,11 +237,7 @@ System::is_shutdown_supported()
 {
   bool ret;
 #if defined(PLATFORM_OS_UNIX)
-# if defined(HAVE_GNOME)
-  ret = true;
-# else
-  ret = false;
-# endif
+  ret = shutdown_supported;
 #elif defined(PLATFORM_OS_WIN32)
   ret = shutdown_supported;
 #else
@@ -253,7 +250,6 @@ void
 System::shutdown()
 {
 #if defined(PLATFORM_OS_UNIX)
-# if defined(HAVE_GNOME)
   gchar *program = NULL, *cmd = NULL;
 
   if ((program = g_find_program_in_path("gnome-session-save")))
@@ -261,7 +257,6 @@ System::shutdown()
       cmd = g_strdup_printf("%s --kill", program);
       invoke(cmd, false);
     }
-# endif
 #elif defined(PLATFORM_OS_WIN32)
   shutdown_helper(true);
 #endif
@@ -320,6 +315,13 @@ System::init(
     {
       TRACE_MSG("Locking disabled");
     }
+
+  shutdown_supported = false;
+  if (!shutdown_supported && (g_find_program_in_path("gnome-session-save") != NULL))
+    {
+      shutdown_supported = true;
+    }
+  
 #elif defined(PLATFORM_OS_WIN32)
   // Note: this memory is never freed
   user32_dll = LoadLibrary("user32.dll");

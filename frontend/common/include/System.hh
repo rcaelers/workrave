@@ -61,6 +61,7 @@ private:
   static bool kde;
   static bool lockable;
   static std::string lock_display;
+  static bool shutdown_supported;
 
 #elif defined(PLATFORM_OS_WIN32)
   static bool shutdown_helper(bool for_real);

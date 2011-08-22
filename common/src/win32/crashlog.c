@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003, 2004, 2005, 2007, 2010 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2003, 2004, 2005, 2007, 2010, 2011 Rob Caelers <robc@krandor.nl>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
@@ -267,9 +267,6 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #endif
 #ifdef HAVE_GNET2
           "GNET2 "
-#endif
-#ifdef HAVE_GNOME
-          "GNOME?? "
 #endif
 #ifdef HAVE_XRECORD
           "XRECORD?? "

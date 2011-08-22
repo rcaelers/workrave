@@ -14,7 +14,6 @@ MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 SUBDIRS = 
 
 if !HAVE_PANELAPPLET4
-if HAVE_GNOMEAPPLET
 
 uidir		= $(datadir)/gnome-2.0/ui
 ui_DATA		= GNOME_WorkraveApplet.xml
@@ -25,7 +24,7 @@ server_DATA     = $(server_in_files:.server.in=.server)
 
 AM_CPPFLAGS  			= -I$(srcdir)
 
-FLAGS				= @GNOME_CFLAGS@ @DBUSGLIB_CFLAGS@ \
+FLAGS				= @GNOME2_CFLAGS@ @DBUSGLIB_CFLAGS@ \
 				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
@@ -34,7 +33,7 @@ FLAGS				= @GNOME_CFLAGS@ @DBUSGLIB_CFLAGS@ \
 libexec_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= WorkraveApplet.c
-workrave_applet_LDADD 		= @GNOME_LIBS@ @DBUSGLIB_LIBS@
+workrave_applet_LDADD 		= @GNOME2_LIBS@ @DBUSGLIB_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
 
@@ -64,7 +63,6 @@ applet-client-bindings.h:  DBusGnomeApplet.xml
 gui-client-bindings.h:  DBusGUI.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
-endif
 endif
 
 if HAVE_PYTHON_CHEETAH

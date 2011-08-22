@@ -27,14 +27,10 @@ DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 extrasources =
 extranodistsources = 
 
-# Additional Gnome sources
-sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
+# Additional Gnome applet sources
+sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
 
-## GnomeShellAppletWindow.cc
-
-# Additional non-Gnome sources.
-sourcesnognome =
-
+# Additional Indicator applet sources
 sourcesindicator = 	IndicatorAppletMenu.cc
 
 # Additional X11 sources.
@@ -70,10 +66,8 @@ sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
 if HAVE_APP_GTKMM
 
-if HAVE_GNOMEAPPLET
-extrasources +=		$(sourcesgnome)
-else
-extrasources +=		$(sourcesnognome)
+if HAVE_PANELAPPLET2
+extrasources +=		$(sourcesgnome2)
 endif
 
 if HAVE_INDICATOR

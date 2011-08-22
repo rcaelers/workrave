@@ -398,11 +398,10 @@ BreakWindow::on_lock_button_clicked()
 void
 BreakWindow::on_shutdown_button_clicked()
 {
-#ifdef HAVE_GNOME
   GUI *gui = GUI::get_instance();
   assert(gui != NULL);
   gui->interrupt_grab();
-#endif
+
   System::shutdown();
 }
 

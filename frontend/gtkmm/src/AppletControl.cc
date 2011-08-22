@@ -28,7 +28,7 @@
 
 #include "AppletControl.hh"
 
-#ifdef HAVE_GNOMEAPPLET
+#ifdef HAVE_PANELAPPLET2
 #include "GnomeAppletWindow.hh"
 #endif
 
@@ -91,7 +91,7 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#ifdef HAVE_GNOMEAPPLET
+#ifdef HAVE_PANELAPPLET2
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 

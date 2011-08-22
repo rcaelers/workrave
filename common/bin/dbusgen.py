@@ -484,7 +484,10 @@ if __name__ == '__main__':
             templates.append(directory+"/DBus-template" + gio + ".hh")
             header_ext=".hh"
         elif options.language == 'dbus-glib':
-            templates.append(directory+"/DBus-glib.xml")
+            templates.append(directory+"/DBus-xml.xml")
+            header_ext=".xml"
+        elif options.language == 'xml':
+            templates.append(directory+"/DBus-xml.xml")
             header_ext=".xml"
         else:
             parser.error("Unsupported language: " + options.language)

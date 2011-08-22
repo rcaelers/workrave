@@ -41,13 +41,13 @@ public:
 
   void set_idle(bool idle);
 
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB_GET_PRIVATE)
 public:
   void init_gnome();
 
 private:
   DBusGConnection *connection;
-#endif // defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
+#endif // defined(HAVE_DBUSGLIB_GET_PRIVATE)
 
 private:
   bool is_idle;

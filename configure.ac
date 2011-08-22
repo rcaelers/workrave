@@ -57,14 +57,13 @@ AC_ARG_ENABLE(gconf,
               [AS_HELP_STRING([--disable-gconf],
                               [compile without Gnome gconf2 support])])
 
-AC_ARG_ENABLE(gnome,
-              [AS_HELP_STRING([--disable-gnome],
-                              [compile without Gnome support])])
+AC_ARG_ENABLE(gnome2,
+              [AS_HELP_STRING([--enable-gnome2],
+                              [compile with Gnome 2 support])])
 
 AC_ARG_ENABLE(gnome3,
-              [AS_HELP_STRING([--enable-gnome3],
-                              [compile with preliminary Gnome 3 support])],
-              [test "x$enable_gnome3" = "xyes" && enable_gnome=yes])
+              [AS_HELP_STRING([--disable-gnome3],
+                              [compile without preliminary Gnome 3 support])])
 
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
@@ -214,7 +213,7 @@ platform_os_win32=no
 platform_os_osx=no
 platform_os_unix=no
 platform_variant_x11=no
-platform_variant_gnome=no
+#platform_variant_gnome=no
 
 case "$target_or_host" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
@@ -293,7 +292,8 @@ then
     fi
 
     config_gconf=no
-    config_gnome=no
+    config_gnome2=no
+    config_gnome3=no
     config_xml=no
     config_indicator=no
 
@@ -344,7 +344,8 @@ then
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
-    config_gnome=no
+    config_gnome2=no
+    config_gnome3=no
     config_gconf=no
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
@@ -445,16 +446,16 @@ dnl
 dnl Gnome
 dnl
 
-config_gnome=no
+config_gnome2=no
 config_gnome3=no
 config_panelapplet4=no
 
-if test "x$enable_gnome3" != "xno" -a "x$enable_gnome" != "xno"
+if test "x$enable_gnome3" != "xno"
 then
-    PKG_CHECK_MODULES([GNOME],
-                      [libpanelapplet-4.0],
-                      [config_gnome=yes
-                       config_gnome3=yes
+    PKG_CHECK_MODULES([GNOME3],
+                      [libpanelapplet-4.0 \
+		       gio-2.0 >= 2.26.0],
+                      [config_gnome3=yes
                        config_panelapplet4=yes
                        AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
                        [if test "x$enable_gnome3" = "xyes"; then
@@ -462,23 +463,39 @@ then
                        fi])
 fi
 
-if test "x$enable_gnome" != "xno" -a x$config_panelapplet4 = xno -a x$config_gtk3 = xno
+if test "x$enable_gnome2" != "xno"
 then
-    PKG_CHECK_MODULES([GNOME],
+    PKG_CHECK_MODULES([GNOME2],
                       [libpanelapplet-2.0 >= 2.0.10 \
-                       libbonobo-2.0 >= 2.0.0],
-                      [config_gnome=yes],
-                      [if test "x$enable_gnome" = "xyes"; then
-                          AC_MSG_ERROR([Gnome development headers not found.])
+                       libbonobo-2.0 >= 2.0.0
+		       dbus-glib-1],
+                      [config_gnome2=yes
+                       config_panelapplet2=yes
+                       AC_DEFINE(HAVE_PANELAPPLET2, 1, [Support for Gnome panel applet v2])],
+                       PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
+                                       [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])]),
+                      [if test "x$enable_gnome2" = "xyes"; then
+                          AC_MSG_ERROR([Gnome 2 development headers not found.])
                        fi])
 fi
 
-if test $config_gnome = yes
+if test "x$config_gnome2" = "yes"
 then
-    AC_DEFINE([HAVE_GNOME], , [Define if Gnome is available])
+    AC_DEFINE([HAVE_GNOME2], , [Define if Gnome 2 is available])
+fi
+if test "x$config_gnome3" = "xyes"
+then
+    AC_DEFINE([HAVE_GNOME3], , [Define if Gnome 3 is available])
+fi
+if test "x$config_gnome2" = "xyes" -o "x$config_gnome3" = "xyes"
+then
+    AC_DEFINE([HAVE_GNOME], , [Define if Gnome 2 or 3 is available])
 fi
 
-AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
+AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome2" = "xyes" -o "x$config_gnome3" = "xyes")
+AM_CONDITIONAL(HAVE_GNOME2, test "x$config_gnome2" = "xyes")
+AM_CONDITIONAL(HAVE_GNOME3, test "x$config_gnome3" = "xyes")
+AM_CONDITIONAL(HAVE_PANELAPPLET2, test "x$config_panelapplet2" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 
 dnl
@@ -607,7 +624,7 @@ have_python_cheetah=no
 config_dbus_gio=no
 
 PKG_CHECK_MODULES([GIO],
-                  [gio-2.0 >= 2.22.0],
+                  [gio-2.0 >= 2.26.0],
                   [config_dbus_gio=yes
 		   config_dbus=yes
 		   ])
@@ -773,10 +790,10 @@ then
    variant="$variant x11 unix"
 fi
 
-if test "x$config_gnome" = "xyes"
-then
-   variant="$variant gnome"
-fi
+#if test "x$config_gnome" = "xyes"
+#then
+#   variant="$variant gnome"
+#fi
 
 WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
 WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
@@ -810,13 +827,6 @@ if test "x$enable_tests" = "xyes"; then
    AC_DEFINE([HAVE_TESTS], , [Define if test code is enabled])
 fi
 AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
-
-config_gnomeapplet=no
-if test "x$config_gnome" = "xyes" -a "x$config_dbus" = "xyes" ; then
-   config_gnomeapplet=yes
-   AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
-fi
-AM_CONDITIONAL(HAVE_GNOMEAPPLET, test "x$config_gnomeapplet" = "xyes")
 
 config_exercises=no
 if test "x$enable_exercises" != "xno"; then
@@ -968,13 +978,8 @@ echo "                      Gtk GUI :   ${config_gtk} (Gtk3)"
 else
 echo "                      Gtk GUI :   ${config_gtk} (Gtk2)"
 fi
-if test "${config_gnome3}" = "yes"; then
-echo "                Gnome support :   Gnome 3"
-elif test "${config_gnome}" = "yes"; then
-echo "                Gnome support :   Gnome 2"
-else
-echo "                Gnome support :   No"
-fi
+echo "              Gnome 2 support :   ${config_gnome2}"
+echo "              Gnome 3 support :   ${config_gnome3}"
 echo "            Indicator support :   ${config_indicator}"
 if test "${config_dbus_gio}" = "yes"; then
 echo "                 DBUS support :   ${config_dbus} (GIO)"
