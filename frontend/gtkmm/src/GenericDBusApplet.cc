@@ -211,31 +211,31 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   items.clear();
   
-  add_menu_item(_("_Open"),        Menus::MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Open"),        Menus::MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Preferences"),  Menus::MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("_Rest break"),  Menus::MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Rest break"),  Menus::MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Exercises"),    Menus::MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("_Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
+  add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
-  add_menu_item(_("_Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("_Suspended"),   Menus::MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Suspended"),   Menus::MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Q_uiet"),       Menus::MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Quiet"),       Menus::MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
-  add_menu_item(_("_Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
+  add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
  
 #ifdef HAVE_DISTRIBUTION
-  add_menu_item(_("_Network"),     0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
-  add_menu_item(_("_Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("_Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show _log"),   Menus::MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Network"),     0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
+  add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Show log"),   Menus::MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
                 | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
-  add_menu_item(_("_Network"),    0,                                      MENU_ITEM_FLAG_SUBMENU_END);
+  add_menu_item(_("Network"),    0,                                      MENU_ITEM_FLAG_SUBMENU_END);
       
 #endif
   add_menu_item(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
@@ -278,3 +278,13 @@ GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
   items.push_back(item);
 }
 
+void
+GenericDBusApplet::applet_command(int command)
+{
+  if (command != -1)
+    {
+      GUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();;
+      menus->applet_command(command);
+    }
+}

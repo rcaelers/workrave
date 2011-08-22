@@ -59,7 +59,7 @@ public:
       MENU_ITEM_FLAG_SUBMENU_BEGIN = 1,
       MENU_ITEM_FLAG_SUBMENU_END = 2,
       MENU_ITEM_FLAG_CHECK = 4,
-      MENU_ITEM_FLAG_TOGGLE = 8,
+      MENU_ITEM_FLAG_RADIO = 8,
       MENU_ITEM_FLAG_ACTIVE = 16,
     };
 
@@ -81,6 +81,7 @@ public:
 
   virtual void set_applet_enabled(bool enable);
   virtual void get_menu_items(MenuItems &out) const;
+  virtual void applet_command(int command);
 
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,

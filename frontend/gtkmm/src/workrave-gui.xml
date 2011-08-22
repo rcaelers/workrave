@@ -59,6 +59,10 @@
       <arg type="bool" name="enabled" direction="in"/>
     </method>
 
+    <method name="Command" csymbol="applet_command">
+      <arg type="int32" name="command" direction="in"/>
+    </method>
+
     <method name="GetMenuItems" csymbol="get_menu_items">
       <arg type="MenuItems" name="menuitems" direction="out"/>
     </method>

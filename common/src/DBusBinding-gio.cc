@@ -46,7 +46,7 @@ DBusBaseTypes::get_uint8(GVariant *v, guint8 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_BYTE)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BYTE))
     {
       throw DBusTypeException("UInt8 expected");
     }
@@ -60,7 +60,7 @@ DBusBaseTypes::get_uint16(GVariant *v, guint16 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_UINT16)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT16))
     {
       throw DBusTypeException("UInt16 expected");
     }
@@ -74,7 +74,7 @@ DBusBaseTypes::get_int16(GVariant *v, gint16 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_INT16)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT16))
     {
       throw DBusTypeException("Int16 expected");
     }
@@ -87,7 +87,7 @@ DBusBaseTypes::get_uint32(GVariant *v, guint32 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_UINT32)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT32))
     {
       throw DBusTypeException("UInt32 expected");
     }
@@ -100,8 +100,8 @@ void
 DBusBaseTypes::get_int32(GVariant *v, gint32 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
-
-  if (argtype != G_VARIANT_TYPE_INT32)
+  
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
       throw DBusTypeException("Int32 expected");
     }
@@ -115,7 +115,7 @@ DBusBaseTypes::get_uint64(GVariant *v, guint64 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_UINT64)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT64))
     {
       throw DBusTypeException("UInt64 expected");
     }
@@ -129,7 +129,7 @@ DBusBaseTypes::get_int64(GVariant *v, gint64 *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_INT64)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT64))
     {
       throw DBusTypeException("Int64 expected");
     }
@@ -143,7 +143,7 @@ DBusBaseTypes::get_bool(GVariant *v, bool *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_BOOLEAN)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BOOLEAN))
     {
       throw DBusTypeException("Boolean expected");
     }
@@ -157,7 +157,7 @@ DBusBaseTypes::get_double(GVariant *v, double *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_DOUBLE)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_DOUBLE))
     {
       throw DBusTypeException("Double expected");
     }
@@ -171,7 +171,7 @@ DBusBaseTypes::get_string(GVariant *v, std::string *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
-  if (argtype != G_VARIANT_TYPE_STRING)
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_STRING))
     {
       throw DBusTypeException("String expected");
     }

@@ -26,10 +26,22 @@ const IndicatorIface = {
     methods: [ { name: 'SetEnabled',
                  inSignature: 'b',
                  outSignature: ''
+               },
+	       { name: 'GetMenuItems',
+                 inSignature: '',
+                 outSignature: 'a(siii)'
+               },
+	       { name: 'Command',
+                 inSignature: 'i',
+                 outSignature: ''
                }
              ],
-    signals: [ {  name: 'Update',
+
+    signals: [ {  name: 'TimersUpdated',
                   inSignature: '(siuuuuuu)(siuuuuuu)(siuuuuuu)'
+               },
+	       {  name: 'MenuUpdated',
+                  inSignature: 'a(siii)'
                }
              ],
    properties: []
@@ -57,22 +69,21 @@ _workraveButton.prototype = {
         this.actor.set_child(this._area);
         Main.panel._centerBox.add(this.actor, { y_fill: true });
  
-        this._workraveMenu = new PopupMenu.PopupMenuItem(_('Workrave MenuItem'));
-        this.menu.addMenuItem(this._workraveMenu);
-        
 	this._proxy = new IndicatorProxy(DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
-	this._id = this._proxy.connect("Update", Lang.bind(this, this._onIndicatorUpdate));
+	this._timers_updated_id = this._proxy.connect("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
+	this._menu_updated_id = this._proxy.connect("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
 
 	this._timer_running = true;
 	Mainloop.timeout_add(3000, Lang.bind(this, this._onTimer));
 
-    	global.log('workrave-applet: init ');
+	this._proxy.GetMenuItemsRemote(Lang.bind(this, this._onGetMenuItemsReply));
     },
  
     _onTimer: function() {
 	
 	if (! this._alive)
 	{
+	    global.log('workrave-applet: now dead');
 	    this._timerbox.set_enabled(false);
 	    this._timer_running = false;
 	    return false;
@@ -94,21 +105,24 @@ _workraveButton.prototype = {
 	this._timerbox.draw(cr);
     },
 
-    _onIndicatorUpdate : function(result, microbreak, restbreak, daily) {
-	this._alive = true;
+    _onTimersUpdated : function(result, microbreak, restbreak, daily) {
 
-	global.log('workrave-applet: update ');
+	if (! this._alive)
+	{
+	    this._alive = true;
+	}
 
 	if (! this._timer_running)
 	{
+	    global.log('workrave-applet: now alive');
+	    this._timer_running = true;
 	    Mainloop.timeout_add(3000, Lang.bind(this, this._onTimer));
+	    this._proxy.GetMenuItemsRemote(Lang.bind(this, this._onGetMenuItemsReply));
 	}
 
 	this._timerbox.set_slot(0, microbreak[1]);
 	this._timerbox.set_slot(1, restbreak[1]);
 	this._timerbox.set_slot(2, daily[1]);
-
-	global.log('workrave-applet: ' + microbreak[0]);
 
 	var timebar = this._timerbox.get_time_bar(0);
 	if (timebar != null)
@@ -141,6 +155,76 @@ _workraveButton.prototype = {
 	this._area.set_width(this.width=width);
 
 	this._area.queue_repaint();
+    },
+
+    _onGetMenuItemsReply : function(menuitems) {
+	this._updateMenu(menuitems);
+    },
+
+    _onMenuUpdated : function(result, menuitems) {
+	this._updateMenu(menuitems);
+    },
+
+    _onCommandReply : function(menuitems) {
+    },
+    
+    _onMenuCommand: function(item, event, command) {
+	this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
+    },
+
+    _updateMenu : function(menuitems) {
+	this.menu.removeAll();
+
+	let current_menu = this.menu;
+	let indent = "";
+
+	for (item in menuitems)
+	{
+	    let text = indent + menuitems[item][0];
+	    let command = menuitems[item][1];
+	    let flags = menuitems[item][2];
+
+	    if ((flags & 1) != 0)
+	    {
+		let popup = new PopupMenu.PopupSubMenuMenuItem(text);
+		this.menu.addMenuItem(popup);
+		current_menu = popup.menu;
+		indent = "   "; // Look at CSS??
+	    }
+	    else if ((flags & 2) != 0)
+	    {
+		current_menu = this.menu;
+		indent = "";
+	    }
+	    else
+	    {
+		let active = ((flags & 16) != 0);
+		let popup;
+
+		if (text == "")
+		{
+		    popup = new PopupSub.PopupSeparatorMenuItem();
+		}
+		else if ((flags & 4) != 0)
+		{
+		    popup = new PopupMenu.PopupSwitchMenuItem(text);
+		    popup.setToggleState(active);
+		}
+		else if ((flags & 8) != 0)
+		{
+		    popup = new PopupMenu.PopupMenuItem(text);
+		    popup.setShowDot(active);
+		}
+		else 
+		{
+		    popup = new PopupMenu.PopupMenuItem(text);
+		}
+		
+		popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
+
+		current_menu.addMenuItem(popup);
+	    }
+	}
     }
 };
 

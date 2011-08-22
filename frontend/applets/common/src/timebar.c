@@ -236,7 +236,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   int bar_height = 0;
   workrave_timebar_compute_bar_dimensions(self, &bar_width, &sbar_width, &bar_height);
 
-  g_debug("bar_width %d %d", bar_width, sbar_width);
+  // g_debug("bar_width %d %d", bar_width, sbar_width);
   
   if (sbar_width > 0)
     {
@@ -321,7 +321,7 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
-  g_debug("bar_text %s", priv->bar_text);
+  // g_debug("bar_text %s", priv->bar_text);
   pango_layout_set_text(priv->pango_layout, priv->bar_text, -1);
 
   int text_width, text_height;
@@ -381,7 +381,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   char *s = gtk_widget_path_to_string(path);
 
-  g_debug("style %s", s);
+  // g_debug("style %s", s);
 
   GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
