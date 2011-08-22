@@ -255,9 +255,53 @@ DBus::find_object(const std::string &path, const std::string &interface_name) co
 
 
 bool
-DBus::is_owner() const
+DBus::is_running(const std::string &name) const
 {
-  return owner;
+  TRACE_ENTER("DBus::is_owner");
+	GError *error = NULL;
+	gboolean running = FALSE;
+
+  GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
+                                                    G_DBUS_PROXY_FLAGS_NONE,
+                                                    NULL,
+                                                    "org.freedesktop.DBus",
+                                                    "/org/freedesktop/DBus",
+                                                    "org.freedesktop.DBus",
+                                                    NULL,
+                                                    &error);
+
+  if (error != NULL)
+    {
+      TRACE_MSG("Error: " << error->message);
+      g_error_free(error);
+    }
+
+  if (error == NULL && proxy != NULL)
+    {
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "NameHasOwner",
+                                                g_variant_new("(s)", name.c_str()),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+
+      if (error != NULL)
+        {
+          TRACE_MSG("Error: " << error->message);
+          g_error_free(error);
+        }
+      else
+        {
+          GVariant *first = g_variant_get_child_value(result, 0);
+          running = g_variant_get_boolean(first);
+          g_variant_unref(first);
+          g_variant_unref(result);
+        }
+    }
+
+  TRACE_RETURN(running);
+	return running;
 }
 
 

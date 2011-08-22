@@ -15,8 +15,8 @@ if HAVE_DBUS_GIO
 dbussources += 		DBus-gio.cc \
 			DBusBinding-gio.cc
 else
-dbussources += 		DBus.cc \
-			DBusBinding.cc
+dbussources += 		DBus-freedesktop.cc \
+			DBusBinding-freedesktop.cc
 endif
 endif
 

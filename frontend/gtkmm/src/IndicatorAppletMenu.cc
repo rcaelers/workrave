@@ -107,9 +107,9 @@ IndicatorAppletMenu::menu_item_set_checked(int cmd, bool checked)
 void
 IndicatorAppletMenu::init()
 {
-  // FIXME: can be removed once Workrave sed gio dbus
-	g_bus_own_name(G_BUS_TYPE_SESSION, WORKRAVE_INDICATOR_MENU_NAME, G_BUS_NAME_OWNER_FLAGS_NONE,
-	               NULL, NULL, NULL, NULL, NULL);
+  // // FIXME: can be removed once Workrave sed gio dbus
+	// g_bus_own_name(G_BUS_TYPE_SESSION, WORKRAVE_INDICATOR_MENU_NAME, G_BUS_NAME_OWNER_FLAGS_NONE,
+	//                NULL, NULL, NULL, NULL, NULL);
 
 	server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
 	root = dbusmenu_menuitem_new();

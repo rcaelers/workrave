@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<node name="/org/workrave/Workrave">
+  <interface name="org.workrave.GnomeAppletInterface">
+    <method name="GetSocketId">
+     <arg type="u" name="id" direction="out" />
+    </method>
+    <method name="GetSize">
+     <arg type="u" name="size" direction="out" />
+    </method>
+    <method name="GetOrientation">
+     <arg type="u" name="orientation" direction="out" />
+    </method>
+    <method name="SetMenuStatus">
+     <arg type="s" name="menu" direction="in" />
+     <arg type="b" name="status" direction="in" />
+    </method>
+    <method name="GetMenuStatus">
+     <arg type="s" name="menu" direction="in" />
+     <arg type="b" name="status" direction="out" />
+    </method>
+    <method name="SetMenuActive">
+     <arg type="s" name="menu" direction="in" />
+     <arg type="b" name="active" direction="in" />
+    </method>
+    <method name="GetMenuActive">
+     <arg type="s" name="menu" direction="in" />
+     <arg type="b" name="active" direction="out" />
+    </method>
+  </interface>
+</node>
+
+  

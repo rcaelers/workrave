@@ -829,16 +829,19 @@ GUI::init_dbus()
 
   if (dbus != NULL && dbus->is_available())
     {
-      // TODO: 
-      // if (!dbus->is_owner())
-      //   {
-      //     Gtk::MessageDialog dialog(_("Workrave failed to start"),
-      //                               false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-      //     dialog.set_secondary_text(_("Is Workrave already running?"));
-      //     dialog.show();
-      //     dialog.run();
-      //     exit(1);
-      //   }
+#ifdef HAVE_DBUS_GIO
+      if (dbus->is_running("org.workrave.Workrave.Activator"))
+#else      
+      if (!dbus->is_owner())
+#endif
+        {
+          Gtk::MessageDialog dialog(_("Workrave failed to start"),
+                                    false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+          dialog.set_secondary_text(_("Is Workrave already running?"));
+          dialog.show();
+          dialog.run();
+          exit(1);
+        }
 
       try
         {

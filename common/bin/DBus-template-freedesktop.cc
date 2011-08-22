@@ -1,6 +1,6 @@
 // DBus-template.hh --- DBUS template
 //
-// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,8 @@
 \#include <map>
 \#include <deque>
 
-\#include "DBus.hh"
-\#include "DBusBinding.hh"
+\#include "DBus-freedesktop.hh"
+\#include "DBusBinding-freedesktop.hh"
 \#include "DBusException.hh"
 \#include "${model.include_filename}"
 
@@ -546,7 +546,7 @@ ${interface.qname}_Stub::DBusMethod ${interface.qname}_Stub::method_table[] = {
 DBusIntrospect ${interface.qname}_Stub::method_introspect[] = {
 #for method in $interface.methods
   { "$method.qname",
-    "$method.sig()"
+    "$method.introspect_sig()"
   },
 #end for
   { NULL,
@@ -557,7 +557,7 @@ DBusIntrospect ${interface.qname}_Stub::method_introspect[] = {
 DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 #for signal in $interface.signals
   { "$signal.qname",
-    "$signal.sig()"
+    "$signal.introspect_sig()"
   },
 #end for
   { NULL,

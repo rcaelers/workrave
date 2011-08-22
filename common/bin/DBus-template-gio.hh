@@ -1,8 +1,8 @@
 //
 //
 
-\#ifndef DBUS__HH
-\#define DBUS__HH
+\#ifndef DBUS_${model.name}_HH
+\#define DBUS_${model.name}_HH
 
 \#ifdef HAVE_CONFIG_H
 \#include "config.h"
@@ -53,4 +53,4 @@ public:
 
 #end for
 
-#endif // DBUS__HH
+#endif // DBUS_${model.name}_HH

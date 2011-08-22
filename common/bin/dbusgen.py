@@ -214,6 +214,15 @@ class MethodNode(NodeBase):
             
         self.params.append(p)
 
+    def introspect_sig(self):
+        method_sig = ''
+        for p in self.params:
+            if p.direction != 'bind':
+                param_sig = self.parent.type2sig(p.ext_type)
+                method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
+
+        return method_sig
+
     def sig(self):
         method_sig = ''
         for p in self.params:
@@ -275,13 +284,21 @@ class SignalNode(NodeBase):
         
         self.params.append(p)
 
-    def sig(self):
+    def introspect_sig(self):
         method_sig = ''
         for p in self.params:
             param_sig = self.parent.type2sig(p.ext_type)
             method_sig = method_sig + '%s\\0%s\\0' % (param_sig, p.name)
 
         return method_sig
+
+    def sig(self):
+        method_sig = ''
+        for p in self.params:
+            param_sig = self.parent.type2sig(p.ext_type)
+            method_sig = method_sig + param_sig
+
+        return '(' + method_sig + ')'
 
     def return_type(self):
         ret = 'void'
@@ -472,16 +489,16 @@ if __name__ == '__main__':
     templates = []
     directory = os.path.dirname(sys.argv[0])
 
-    gio = ""
+    brand = "freedesktop"
     if options.gio:
-        gio = "-gio"
+        brand = "gio"
 
     if options.language:
         if options.language == 'C':
             header_ext=".h"
         elif options.language == 'C++':
-            templates.append(directory+"/DBus-template" + gio + ".cc")
-            templates.append(directory+"/DBus-template" + gio + ".hh")
+            templates.append(directory+"/DBus-template-" + brand + ".cc")
+            templates.append(directory+"/DBus-template-" + brand + ".hh")
             header_ext=".hh"
         elif options.language == 'dbus-glib':
             templates.append(directory+"/DBus-xml.xml")

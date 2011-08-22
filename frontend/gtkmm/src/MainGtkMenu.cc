@@ -62,7 +62,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
 {
   Gtk::IconSource source;
 #ifdef HAVE_GTK3
-  Glib::RefPtr<Gtk::IconSet> icon_set;
+  Glib::RefPtr<Gtk::IconSet> icon_set = Gtk::IconSet::create();
 #else
   Gtk::IconSet icon_set;
 #endif

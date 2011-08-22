@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUS_HH
-#define DBUS_HH
+#ifndef DBUSGIO_HH
+#define DBUSGIO_HH
 
 #include <glib.h>
 #include <gio/gio.h>
@@ -47,7 +47,7 @@ namespace workrave
     DBusBindingBase *find_binding(const std::string &interface_name) const;
 
     bool is_available() const;
-    bool is_owner() const;
+    bool is_running(const std::string &name) const;
 
     GDBusConnection *get_connection() const { return connection; }
     
@@ -145,4 +145,4 @@ namespace workrave
   };
 }
 
-#endif // DBUS_HH
+#endif // DBUSGIO_HH

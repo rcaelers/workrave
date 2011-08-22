@@ -8,7 +8,7 @@
 \#include "config.h"
 \#endif
 
-\#include "DBusBinding.hh"
+\#include "DBusBinding-freedesktop.hh"
 
 #for $interface in $model.interfaces
 

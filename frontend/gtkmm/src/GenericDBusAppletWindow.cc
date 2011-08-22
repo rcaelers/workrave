@@ -126,7 +126,7 @@ GenericDBusAppletWindow::update_view()
       if (iface != NULL)
         {
           iface->Update(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                                 data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
         }
     }
 
@@ -145,9 +145,6 @@ GenericDBusAppletWindow::activate_applet()
       dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
                     WORKRAVE_INDICATOR_SERVICE_IFACE,
                     this);
-
-      // service = indicator_service_new_version(WORKRAVE_INDICATOR_SERVICE_NAME, WORKRAVE_INDICATOR_SERVICE_VERSION);
-      // g_signal_connect(service, INDICATOR_SERVICE_SIGNAL_SHUTDOWN, G_CALLBACK(service_shutdown), NULL);
 
       control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_VISIBLE);
     }

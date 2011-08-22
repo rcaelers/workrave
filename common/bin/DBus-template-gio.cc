@@ -296,7 +296,7 @@ GVariant *
 ${interface.qname}_Stub::put_${seq.qname}(const ${seq.csymbol} *result)
 {
   GVariantBuilder builder;
-  g_variant_builder_init(&buider, $struct.sig());
+  g_variant_builder_init(&buider, "$struct.sig()");
 
   ${seq.csymbol}::const_iterator it;
 
@@ -344,7 +344,7 @@ void
 ${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymbol} *result)
 {
   GVariantBuilder builder;
-  g_variant_builder_init(&buider, $struct.sig());
+  g_variant_builder_init(&buider, "$struct.sig()");
 
   ${dict.csymbol}::const_iterator it;
 
@@ -479,7 +479,11 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
 )
 {
   GDBusConnection *connection = dbus->get_connection();
-
+  if (connection == NULL)
+    {
+      return;
+    }
+  
 #if len(signal.params) > 0 
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType*)"$signal.sig()");
@@ -494,7 +498,7 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
   GVariant *out = NULL;
 #end if
   
-  GError *error;
+  GError *error = NULL;
   g_dbus_connection_emit_signal(connection,
                                 NULL,
                                 path.c_str(),
@@ -503,6 +507,11 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
                                 out,
                                 &error);
 
+  if (error != NULL)
+    {
+      g_error_free(error);
+    }
+  
   if (out != NULL)
     {
       g_variant_unref(out);

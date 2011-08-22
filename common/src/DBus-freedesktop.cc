@@ -37,8 +37,8 @@
 #include <list>
 #include <map>
 
-#include "DBus.hh"
-#include "DBusBinding.hh"
+#include "DBus-freedesktop.hh"
+#include "DBusBinding-freedesktop.hh"
 #include "DBusException.hh"
 
 using namespace std;

@@ -240,7 +240,6 @@ Core::init_bus()
   try
     {
       dbus = new DBus();
-
       dbus->init();
 
       string name = DBUS_SERVICE_WORKRAVE;
