@@ -67,6 +67,9 @@
 
 #ifdef HAVE_INDICATOR
 #include "IndicatorAppletMenu.hh"
+#endif
+
+#ifdef HAVE_DBUS
 #include "GenericDBusApplet.hh"
 #endif
 

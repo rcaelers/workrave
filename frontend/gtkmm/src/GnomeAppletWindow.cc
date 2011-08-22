@@ -48,6 +48,7 @@ using namespace std;
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
+#include "DBusGnomeApplet.hh"
 #include "DBusException.hh"
 
 #ifndef GDK_WINDOW_XWINDOW
@@ -329,13 +330,15 @@ GnomeAppletWindow::set_applet_orientation(Orientation o)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_orientation", o);
 
-  applet_orientation = o;
-
-  if (view != NULL)
+  if (applet_orientation != o)
     {
-      view->set_geometry(applet_orientation, applet_size);
-    }
+      applet_orientation = o;
 
+      if (view != NULL)
+        {
+          view->set_geometry(applet_orientation, applet_size);
+        }
+    }
   TRACE_EXIT();
 }
 
@@ -346,18 +349,20 @@ GnomeAppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_size", size);
 
-  if (plug != NULL)
+  if (applet_size != size)
     {
-      plug->queue_resize();
+      if (plug != NULL)
+        {
+          plug->queue_resize();
+        }
+
+      applet_size = size;
+
+      if (view != NULL)
+        {
+          view->set_geometry(applet_orientation, applet_size);
+        }
     }
-
-  applet_size = size;
-
-  if (view != NULL)
-    {
-      view->set_geometry(applet_orientation, applet_size);
-    }
-
   TRACE_EXIT();
 }
 

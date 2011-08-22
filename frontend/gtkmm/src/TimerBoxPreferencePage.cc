@@ -87,7 +87,7 @@ TimerBoxPreferencePage::create_page()
 {
   // Placement
   place_button  = Gtk::manage(new Gtk::ComboBoxText());
-#if GTKMM_CHECK_VERSION(2, 18, 0)
+#if GTKMM_CHECK_VERSION(2, 24, 0)
   place_button->append(_("Place timers next to each other"));
   place_button->append(_("Place micro-break and rest break in one spot"));
   place_button->append(_("Place rest break and daily limit in one spot"));
@@ -114,7 +114,7 @@ TimerBoxPreferencePage::create_page()
       Gtk::ComboBoxText *display_button  = Gtk::manage(new Gtk::ComboBoxText());
       timer_display_button[i] = display_button;
 
-#if GTKMM_CHECK_VERSION(2, 18, 0)
+#if GTKMM_CHECK_VERSION(2, 24, 0)
       display_button->append(_("Hide"));
       display_button->append(_("Show"));
       display_button->append(_("Show only when this timer is first due"));

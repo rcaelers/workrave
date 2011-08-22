@@ -25,9 +25,6 @@
 #include <string>
 #include <stdio.h>
 
-#include <libindicator/indicator-service.h>
-#include <libdbusmenu-glib/server.h>
-#include <libdbusmenu-glib/menuitem.h>
 #include <gtk/gtk.h>
 
 #include "ITimerBoxView.hh"

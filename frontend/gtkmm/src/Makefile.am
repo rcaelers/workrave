@@ -69,8 +69,8 @@ GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
 
 DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
-		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
-		    	$(top_srcdir)/common/bin/DBus-client-template.hh
+		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.cc \
+		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.hh
 			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
 
 endif

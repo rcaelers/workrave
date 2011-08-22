@@ -191,6 +191,7 @@ GenericDBusApplet::init()
 {
 }
 
+
 void
 GenericDBusApplet::add_accel(Gtk::Window &window)
 {
