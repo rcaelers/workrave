@@ -627,7 +627,7 @@ config_dbus=no
 config_dbus_gio=no
 have_python_cheetah=no
 
-if test "x$config_gnome2" == "xno" -a "x$enable_dbus" != "xno"
+if test "x$enable_dbus" != "xno"
 then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],

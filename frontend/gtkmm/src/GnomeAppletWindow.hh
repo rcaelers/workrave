@@ -25,19 +25,20 @@
 
 #include "AppletWindow.hh"
 
+#include <gtkmm.h>
 #include <sigc++/trackable.h>
 
 #include <string>
 
-#include <gdkmm.h>
-#include <gtkmm.h>
-#include <gtkmm/plug.h>
-
-#include "Plug.hh"
-
 class TimerBoxGtkView;
 class AppletControl;
+class Plug;
 class org_workrave_GnomeAppletInterface;
+
+namespace Gtk
+{
+  class Bin;
+}
 
 class GnomeAppletWindow :
   public sigc::trackable,
@@ -62,9 +63,7 @@ public:
 
   void on_menu_restbreak_now();
   void button_clicked(int button);
-
-  void set_menu_active(int menu, bool active);
-  bool get_menu_active(int menu);
+  void set_menu_status(int menu, bool active);
 
   // DBUS methods
   void set_applet_orientation(Orientation orientation);
@@ -88,15 +87,13 @@ private:
   int applet_size;
 
   //!
-  org_workrave_GnomeAppletInterface *applet_control;
-
-  //!
   AppletControl *control;
 
   //!
   bool applet_active;
 
 private:
+  void init();
   void deactivate_applet();
   AppletState activate_applet();
 
@@ -111,6 +108,23 @@ private:
   bool on_delete_event(GdkEventAny*);
   bool delete_event(GdkEventAny *event);
   void on_plug_size_allocate(Gtk::Allocation &allocation);
+  
+  void cleanup_dbus();
+  void init_dbus();
+  guint32 get_socketid();
+  guint32 get_size();
+  Orientation get_orientation();
+  void set_menu_status(const std::string &menu, bool status);
+  void set_menu_active(const std::string &menu, bool active);
+  
+#ifdef HAVE_DBUS_GIO
+  GDBusProxy *proxy;
+
+#else
+  //!
+  org_workrave_GnomeAppletInterface *applet_control;
+  
+#endif
 };
 
 #endif // GNOMEAPPLETWINDOW_HH

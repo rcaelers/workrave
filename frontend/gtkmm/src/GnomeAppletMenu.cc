@@ -1,6 +1,6 @@
 // GnomeAppletMenu.cc --- Menus using GnomeApplet+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -85,22 +85,22 @@ GnomeAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       switch (mode)
         {
         case OPERATION_MODE_NORMAL:
-          applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_NORMAL, true);
+          applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_NORMAL, true);
           break;
 
         case OPERATION_MODE_SUSPENDED:
-          applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_SUSPENDED, true);
+          applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_SUSPENDED, true);
           break;
 
         case OPERATION_MODE_QUIET:
-          applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_QUIET, true);
+          applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_QUIET, true);
           break;
 
         default:
           break;
         }
 
-      applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_SHOW_LOG, show_log);
-      applet_window->set_menu_active(GnomeAppletWindow::MENUSYNC_MODE_READING, usage == USAGE_MODE_READING);
+      applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_SHOW_LOG, show_log);
+      applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_READING, usage == USAGE_MODE_READING);
     }
 }

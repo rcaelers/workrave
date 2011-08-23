@@ -28,7 +28,11 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome applet sources
-sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc DBusGnomeApplet.cc Plug.cc 
+sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc  Plug.cc 
+
+if !HAVE_DBUS_GIO
+sourcesgnome2 += DBusGnomeApplet.cc
+endif
 
 # Additional Indicator applet sources
 sourcesindicator = 	IndicatorAppletMenu.cc

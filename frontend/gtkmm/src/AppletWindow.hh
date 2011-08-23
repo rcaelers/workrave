@@ -44,9 +44,9 @@ public:
 
   virtual AppletState activate_applet() = 0;
   virtual void deactivate_applet() = 0;
-
+  virtual void init();
+  
   virtual void update_applet();
-
   virtual void set_timers_tooltip(std::string& tip);
 
 protected:

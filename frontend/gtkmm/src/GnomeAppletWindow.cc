@@ -48,8 +48,14 @@ using namespace std;
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
+#ifndef HAVE_DBUS_GIO
 #include "DBusGnomeApplet.hh"
+#endif
+
+#include "DBus.hh"
 #include "DBusException.hh"
+
+#include "Plug.hh"
 
 #ifndef GDK_WINDOW_XWINDOW
 #define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
@@ -66,9 +72,13 @@ GnomeAppletWindow::GnomeAppletWindow(AppletControl *control) :
   container(NULL),
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
-  applet_control(NULL),
   control(control),
-  applet_active(false)
+  applet_active(false),
+#ifdef HAVE_DBUS_GIO
+  proxy(NULL)
+#else
+  applet_control(NULL)
+#endif  
 {
 }
 
@@ -80,8 +90,31 @@ GnomeAppletWindow::~GnomeAppletWindow()
   delete container;
   delete timer_box_control;
   delete timer_box_view;
+
+  cleanup_dbus();
 }
 
+
+void
+GnomeAppletWindow::init()
+{
+  try
+    {
+      DBus *dbus = CoreFactory::get_dbus();
+      if (dbus != NULL && dbus->is_available())
+        {
+          dbus->connect("/org/workrave/Workrave/UI",
+                        "org.workrave.GnomeAppletSupportInterface",
+                        this);
+        }
+
+      init_dbus();
+    }
+  catch (DBusException)
+    {
+      cleanup_dbus();
+    }
+}
 
 //! Initializes the native gnome applet.
 AppletWindow::AppletState
@@ -90,50 +123,45 @@ GnomeAppletWindow::activate_applet()
   TRACE_ENTER("GnomeAppletWindow::activate_applet");
   bool ok = true;
 
-  if (!applet_active)
+#ifdef HAVE_DBUS_GIO
+  if (proxy == NULL)
+    {
+      TRACE_MSG("No proxy");
+      ok = false;
+    }
+#else
+  if (applet_control == NULL)
+    {
+      ok = false;
+    }
+#endif
+
+  if (ok && !applet_active)
     {
       long id = 0;
-
+      
       try
         {
-          DBus *dbus = CoreFactory::get_dbus();
-
-          if (dbus != NULL && dbus->is_available())
-            {
-              dbus->connect("/org/workrave/Workrave/UI",
-                            "org.workrave.GnomeAppletSupportInterface",
-                            this);
-            }
-
-          applet_control = org_workrave_GnomeAppletInterface::instance(dbus,
-                                                                       "org.workrave.Workrave.GnomeApplet",
-                                                                       "/org/workrave/Workrave/GnomeApplet");
-          if (applet_control != NULL)
-            {
-              id = applet_control->GetSocketId();
-              applet_size = applet_control->GetSize();
-              applet_orientation =  (Orientation) applet_control->GetOrientation();
-
+          TRACE_MSG("obtaining applet info");
+          
+          id = get_socketid();
+          applet_size = get_size();
+          applet_orientation = get_orientation();
+          
 #ifndef HAVE_EXERCISES
-              const std::string exercices_command("/commands/Exercises");
-              bool exercices_command_status(false);
-              applet_control->SetMenuActive(exercices_command, exercices_command_status);
+          const std::string exercices_command("/commands/Exercises");
+          bool exercices_command_status(false);
+          set_menu_active(exercices_command, exercices_command_status);
 #endif
 #ifndef HAVE_DISTRIBUTION
-              const std::string network_command("/commands/Network");
-              bool network_command_status(false);
-              applet_control->SetMenuActive(network_command, network_command_status);
+          const std::string network_command("/commands/Network");
+          bool network_command_status(false);
+          set_menu_active(network_command, network_command_status);
 #endif
-            }
         }
       catch (DBusException)
         {
-          if (applet_control != NULL)
-            {
-              delete applet_control;
-              applet_control = NULL;
-            }
-
+          TRACE_MSG("exception");
           ok = false;
         }
 
@@ -172,12 +200,14 @@ GnomeAppletWindow::activate_applet()
           container->add(*view);
           container->show_all();
           plug->show_all();
+          TRACE_MSG("showing plug");
         }
     }
 
   if (ok)
     {
       applet_active = true;
+      TRACE_MSG("all ok");
     }
 
   TRACE_EXIT();
@@ -215,9 +245,6 @@ GnomeAppletWindow::deactivate_applet()
       delete timer_box_view;
       timer_box_view = NULL;
       view = NULL;
-
-      delete applet_control;
-      applet_control = NULL;
     }
 
   applet_active = false;
@@ -243,38 +270,37 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
 void
 GnomeAppletWindow::fire_gnome_applet()
 {
+  TRACE_ENTER("GnomeAppletWindow::fire_gnome_applet");
   control->show(AppletControl::APPLET_GNOME);
+  TRACE_EXIT();
 }
 
 
 //! Sets the state of a toggle menu item.
 void
-GnomeAppletWindow::set_menu_active(int menu, bool active)
+GnomeAppletWindow::set_menu_status(int menu, bool active)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_menu_active", menu << " " << active);
 
   try
     {
-      if (applet_control != NULL)
+      switch (menu)
         {
-          switch (menu)
-            {
-            case MENUSYNC_MODE_NORMAL:
-              applet_control->SetMenuStatus("/commands/Normal", active);
-              break;
-            case MENUSYNC_MODE_SUSPENDED:
-              applet_control->SetMenuStatus("/commands/Suspended", active);
-              break;
-            case MENUSYNC_MODE_QUIET:
-              applet_control->SetMenuStatus("/commands/Quiet", active);
-              break;
-            case MENUSYNC_MODE_READING:
-              applet_control->SetMenuStatus("/commands/ReadingMode", active);
-              break;
-            case MENUSYNC_SHOW_LOG:
-              applet_control->SetMenuStatus("/commands/ShowLog", active);
-              break;
-            }
+        case MENUSYNC_MODE_NORMAL:
+          set_menu_status("/commands/Normal", active);
+          break;
+        case MENUSYNC_MODE_SUSPENDED:
+          set_menu_status("/commands/Suspended", active);
+          break;
+        case MENUSYNC_MODE_QUIET:
+          set_menu_status("/commands/Quiet", active);
+          break;
+        case MENUSYNC_MODE_READING:
+          set_menu_status("/commands/ReadingMode", active);
+          break;
+        case MENUSYNC_SHOW_LOG:
+          set_menu_status("/commands/ShowLog", active);
+          break;
         }
     }
   catch(DBusException)
@@ -282,45 +308,6 @@ GnomeAppletWindow::set_menu_active(int menu, bool active)
     }
 
   TRACE_EXIT();
-}
-
-
-//! Retrieves the state of a toggle menu item.
-bool
-GnomeAppletWindow::get_menu_active(int menu)
-{
-  bool ret = false;
-
-  try
-    {
-      if (applet_control != NULL)
-        {
-          switch (menu)
-            {
-            case MENUSYNC_MODE_NORMAL:
-              applet_control->GetMenuStatus("/commands/Normal", ret);
-              break;
-            case MENUSYNC_MODE_SUSPENDED:
-              applet_control->GetMenuStatus("/commands/Suspended", ret);
-              break;
-            case MENUSYNC_MODE_QUIET:
-              applet_control->GetMenuStatus("/commands/Quiet", ret);
-              break;
-            case MENUSYNC_MODE_READING:
-              applet_control->GetMenuStatus("/commands/ReadingMode", ret);
-              break;
-            case MENUSYNC_SHOW_LOG:
-              applet_control->GetMenuStatus("/commands/ShowLog", ret);
-              break;
-            }
-        }
-    }
-  catch(DBusException)
-    {
-      ret = false;
-    }
-
-  return ret;
 }
 
 
@@ -616,3 +603,231 @@ GnomeAppletWindow::on_embedded()
 
   TRACE_EXIT();
 }
+
+void
+GnomeAppletWindow::cleanup_dbus()
+{
+#ifdef HAVE_DBUS_GIO
+  if (proxy != NULL)
+    {
+      g_object_unref(proxy);
+      proxy = NULL;
+    }
+#else
+  if (applet_control != NULL)
+    {
+      delete applet_control;
+      applet_control = NULL;
+    }
+#endif
+}
+
+#ifdef HAVE_DBUS_GIO
+void
+GnomeAppletWindow::init_dbus()
+{
+  TRACE_ENTER("GnomeAppletWindow::init_dbus");
+	GError *error = NULL;
+
+  proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
+                                        G_DBUS_PROXY_FLAGS_NONE,
+                                        NULL,
+                                        "org.workrave.Workrave.GnomeApplet",
+                                        "/org/workrave/Workrave/GnomeApplet",
+                                        "org.workrave.GnomeAppletInterface",
+                                        NULL,
+                                        &error);
+
+  if (error != NULL)
+    {
+      TRACE_MSG("Error: " << error->message);
+      g_error_free(error);
+    }
+
+  TRACE_EXIT();
+}
+
+guint32
+GnomeAppletWindow::get_socketid()
+{
+  guint32 ret = 0;
+  if (proxy != NULL)
+    {
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "GetSocketId",
+                                                NULL,
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      if (error != NULL)
+        {
+          g_error_free(error);
+          throw DBusException("Cannot get socket id");
+        }
+
+      g_variant_get(result, "(u)", &ret);
+      g_variant_unref(result);
+    }
+  return ret;
+}
+
+guint32
+GnomeAppletWindow::get_size()
+{
+  guint32 ret = 0;
+  if (proxy != NULL)
+    {
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "GetSize",
+                                                NULL,
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      if (error != NULL)
+        {
+          g_error_free(error);
+          throw DBusException("Cannot get size");
+        }
+
+      g_variant_get(result, "(u)", &ret);
+      g_variant_unref(result);
+    }
+  return ret;
+}
+
+Orientation
+GnomeAppletWindow::get_orientation()
+{
+  guint32 ret = 0;
+  if (proxy != NULL)
+    {
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "GetOrientation",
+                                                NULL,
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      if (error != NULL)
+        {
+          g_error_free(error);
+          throw DBusException("Cannot get socket id");
+        }
+
+      g_variant_get(result, "(u)", &ret);
+      g_variant_unref(result);
+    }
+  return (Orientation)ret;
+}
+
+void
+GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
+{
+  if (proxy != NULL)
+    {
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "GetMenuStatus",
+                                                g_variant_new("(sb)", menu.c_str(), status),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      if (error != NULL)
+        {
+          g_error_free(error);
+          throw DBusException("Cannot set menu status");
+        }
+
+      g_variant_unref(result);
+    }
+}
+
+void
+GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
+{
+  if (proxy != NULL)
+    {
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "SetMenuActive",
+                                                g_variant_new("(sb)", menu.c_str(), active),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      if (error != NULL)
+        {
+          g_error_free(error);
+          throw DBusException("Cannot set menu active");
+        }
+      g_variant_unref(result);
+    }
+}
+
+#else
+
+void
+GnomeAppletWindow::init_dbus()
+{
+  TRACE_ENTER("GnomeAppletWindow::init_dbus");
+  DBus *dbus = CoreFactory::get_dbus();
+
+  applet_control = org_workrave_GnomeAppletInterface::instance(dbus,
+                                                               "org.workrave.Workrave.GnomeApplet",
+                                                               "/org/workrave/Workrave/GnomeApplet");
+  TRACE_EXIT();
+}
+
+guint32 GnomeAppletWindow::get_socketid()
+{
+  guint32 ret = -1;
+  if (applet_control != NULL)
+    {
+      ret = applet_control->GetSocketId();
+    }
+  return ret;
+}
+
+guint32 GnomeAppletWindow::get_size()
+{
+  if (applet_control != NULL)
+    {
+      ret = applet_control->GetSize();
+    }
+  return ret;
+}
+
+Orientation GnomeAppletWindow::get_orientation()
+{
+  Orientation ret;
+  if (applet_control != NULL)
+    {
+      ret = (Orientation) applet_control->GetOrientation();
+    }
+  return ret;
+}
+
+void GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
+{
+  if (applet_control != NULL)
+    {
+      applet_control->SetMenuActive(menu, status);
+    }
+}
+
+void GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
+{
+  if (applet_control != NULL)
+    {
+      applet_control->SetMenuStatus(menu, active);
+    }
+}
+
+#endif
+

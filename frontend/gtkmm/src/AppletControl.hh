@@ -44,11 +44,7 @@ public:
   ~AppletControl();
 
   void init();
-  void show();
   void show(AppletType type);
-  void hide();
-  void hide(AppletType type);
-  bool is_visible(AppletType type);
   bool is_visible();
 
   // callback from appletwindow
@@ -81,6 +77,11 @@ private:
   void config_changed_notify(const std::string &key);
   void read_configuration();
   void check_visible();
+  void show();
+  void hide();
+  void hide(AppletType type);
+
+  bool is_visible(AppletType type);
 };
 
 

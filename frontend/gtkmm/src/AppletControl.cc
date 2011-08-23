@@ -44,6 +44,9 @@
 #include "GenericDBusApplet.hh"
 #endif
 
+#include <gdkmm.h>
+#include <gtkmm.h>
+
 // #ifdef PLATFORM_OS_OSX
 // #include "OSXAppletWindow.hh"
 // #endif
@@ -111,6 +114,14 @@ AppletControl::init()
 //   applets[APPLET_OSX] = new OSXAppletWindow();
 // #endif
 
+  for (int i = 0; i < APPLET_SIZE; i++)
+    {
+      if (applets[i] != NULL)
+        {
+          applets[i]->init();
+        }
+    }
+  
   // Read configuration and start monitoring it.
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
