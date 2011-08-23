@@ -732,7 +732,7 @@ GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
     {
       GError *error = NULL;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
-                                                "GetMenuStatus",
+                                                "SetMenuStatus",
                                                 g_variant_new("(sb)", menu.c_str(), status),
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
@@ -813,7 +813,7 @@ Orientation GnomeAppletWindow::get_orientation()
   return ret;
 }
 
-void GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
+void GnomeAppletWindow::set_menu_active(const std::string &menu, bool status)
 {
   if (applet_control != NULL)
     {
@@ -821,7 +821,7 @@ void GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
     }
 }
 
-void GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
+void GnomeAppletWindow::set_menu_status(const std::string &menu, bool active)
 {
   if (applet_control != NULL)
     {
