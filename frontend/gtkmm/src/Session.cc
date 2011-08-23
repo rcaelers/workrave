@@ -46,7 +46,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE)
+#if defined(HAVE_DBUSGLIB_GET_PRIVATE) || defined(HAVE_DBUS_GIO)
   init_gnome();
 #endif
 }
@@ -96,8 +96,54 @@ Session::set_idle(bool new_idle)
   TRACE_EXIT();
 }
 
+#if defined(HAVE_DBUS_GIO)
 
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE)
+void
+Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
+{
+  (void) proxy;
+  (void) sender_name;
+  
+  Session *self = (Session *)user_data;
+  int session_status;
+
+  if (g_strcmp0(signal_name, "StatusChanged") == 0)
+    {
+      g_variant_get(parameters, "(i)", &session_status);
+      self->set_idle(session_status == 3);
+    }
+}
+
+      
+void
+Session::init_gnome()
+{
+  TRACE_ENTER("Session::init_gnome");
+	GError *error = NULL;
+
+  GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
+                                                    G_DBUS_PROXY_FLAGS_NONE,
+                                                    NULL,
+                                                    "org.gnome.SessionManager",
+                                                    "/org/gnome/SessionManager/Presence",
+                                                    "org.gnome.SessionManager.Presence",
+                                                    NULL,
+                                                    &error);
+
+  if (error != NULL)
+    {
+      TRACE_MSG("Error: " << error->message);
+      g_error_free(error);
+    }
+
+  if (error == NULL && proxy != NULL)
+    {
+      g_signal_connect(proxy, "g-signal", G_CALLBACK(on_signal), this);
+    }
+}
+
+#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
+
 static void
 status_changed_cb(DBusGProxy *proxy, int session_status, void *data)
 {

@@ -24,7 +24,9 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DBUSGLIB_GET_PRIVATE
+#if defined(HAVE_DBUS_GIO)
+#include <gio/gio.h>
+#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-bindings.h>
@@ -41,7 +43,15 @@ public:
 
   void set_idle(bool idle);
 
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE)
+#if defined(HAVE_DBUS_GIO)
+public:
+  void init_gnome();
+private:
+  GDBusProxy *proxy;
+  
+  static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+  
+#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
 public:
   void init_gnome();
 
