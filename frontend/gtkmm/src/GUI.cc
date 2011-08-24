@@ -847,7 +847,7 @@ GUI::init_dbus()
       try
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");
-#ifndef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS_GIO
           dbus->register_service("org.workrave.Workrave");
 #endif
           
