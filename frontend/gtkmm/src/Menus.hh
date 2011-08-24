@@ -66,8 +66,11 @@ public:
       MENU_SIZEOF,
     };
 
+  
   enum MenuCommand
     {
+      // Note: Do NOT remove/change any of the commands.
+      // Append new items only at the end.
       MENU_COMMAND_PREFERENCES,
       MENU_COMMAND_EXERCISES,
       MENU_COMMAND_REST_BREAK,

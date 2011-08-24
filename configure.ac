@@ -990,8 +990,9 @@ echo "              Gnome 3 support :   ${config_gnome3}"
 echo "            Indicator support :   ${config_indicator}"
 if test "${config_dbus_gio}" = "yes"; then
 echo "                 DBUS support :   ${config_dbus} (GIO)"
-fi
+else
 echo "                 DBUS support :   ${config_dbus}"
+fi
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then

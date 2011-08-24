@@ -527,11 +527,6 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
     {
       g_error_free(error);
     }
-  
-  if (out != NULL)
-    {
-      g_variant_unref(out);
-    }
 }
 
 #end for

@@ -98,7 +98,7 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
-#ifdef HAVE_INDICATOR  
+#ifdef HAVE_DBUS
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet(this);
 #endif
   

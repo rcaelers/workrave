@@ -86,6 +86,7 @@ _workraveButton.prototype = {
 	    global.log('workrave-applet: now dead');
 	    this._timerbox.set_enabled(false);
 	    this._timer_running = false;
+	    this._area.queue_repaint();
 	    return false;
 	}
 
@@ -178,51 +179,59 @@ _workraveButton.prototype = {
 	let current_menu = this.menu;
 	let indent = "";
 
-	for (item in menuitems)
+	if (menuitems == null || menuitems.length == 0)
 	{
-	    let text = indent + menuitems[item][0];
-	    let command = menuitems[item][1];
-	    let flags = menuitems[item][2];
-
-	    if ((flags & 1) != 0)
+	    let popup = new PopupMenu.PopupMenuItem(_("Open"));
+	    popup.connect('activate', Lang.bind(this, this._onMenuCommand, 13));
+	    current_menu.addMenuItem(popup);
+	}
+	else
+	{
+	    for (item in menuitems)
 	    {
-		let popup = new PopupMenu.PopupSubMenuMenuItem(text);
-		this.menu.addMenuItem(popup);
-		current_menu = popup.menu;
-		indent = "   "; // Look at CSS??
-	    }
-	    else if ((flags & 2) != 0)
-	    {
-		current_menu = this.menu;
-		indent = "";
-	    }
-	    else
-	    {
-		let active = ((flags & 16) != 0);
-		let popup;
-
-		if (text == "")
-		{
-		    popup = new PopupSub.PopupSeparatorMenuItem();
-		}
-		else if ((flags & 4) != 0)
-		{
-		    popup = new PopupMenu.PopupSwitchMenuItem(text);
-		    popup.setToggleState(active);
-		}
-		else if ((flags & 8) != 0)
-		{
-		    popup = new PopupMenu.PopupMenuItem(text);
-		    popup.setShowDot(active);
-		}
-		else 
-		{
-		    popup = new PopupMenu.PopupMenuItem(text);
-		}
+		let text = indent + menuitems[item][0];
+		let command = menuitems[item][1];
+		let flags = menuitems[item][2];
 		
-		popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
-
-		current_menu.addMenuItem(popup);
+		if ((flags & 1) != 0)
+		{
+		    let popup = new PopupMenu.PopupSubMenuMenuItem(text);
+		    this.menu.addMenuItem(popup);
+		    current_menu = popup.menu;
+		    indent = "   "; // Look at CSS??
+		}
+		else if ((flags & 2) != 0)
+		{
+		    current_menu = this.menu;
+		    indent = "";
+		}
+		else
+		{
+		    let active = ((flags & 16) != 0);
+		    let popup;
+		    
+		    if (text == "")
+		    {
+			popup = new PopupSub.PopupSeparatorMenuItem();
+		    }
+		    else if ((flags & 4) != 0)
+		    {
+			popup = new PopupMenu.PopupSwitchMenuItem(text);
+			popup.setToggleState(active);
+		    }
+		    else if ((flags & 8) != 0)
+		    {
+			popup = new PopupMenu.PopupMenuItem(text);
+			popup.setShowDot(active);
+		    }
+		    else 
+		    {
+			popup = new PopupMenu.PopupMenuItem(text);
+		    }
+		    
+		    popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
+		    current_menu.addMenuItem(popup);
+		}
 	    }
 	}
     }
