@@ -57,7 +57,7 @@ using namespace $ns;
 class ${interface.qname}_Stub : public DBusBindingBase, public ${interface.qname}
 {
 private:
-  typedef void (${interface.qname}_Stub::*DBusMethodPointer)(void *object, GDBusMethodInvocation *invocation, GVariant *inargs);
+  typedef void (${interface.qname}_Stub::*DBusMethodPointer)(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
 
   struct DBusMethod
   {
@@ -65,13 +65,13 @@ private:
     DBusMethodPointer fn;
   };
 
-  virtual void call(const std::string &method_name, void *object, GDBusMethodInvocation *invocation, GVariant *inargs);
+  virtual void call(const std::string &method_name, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
 
   virtual const char *get_interface_introspect()
   {
     return interface_introspect;
   }
-  
+
 public:
   ${interface.qname}_Stub(DBus *dbus);
   ~${interface.qname}_Stub();
@@ -80,7 +80,7 @@ public:
   void ${m.qname}(const string &path, #slurp
   #set comma = ''
   #for p in m.params
-    #if p.hint == [] 
+    #if p.hint == []
       $comma $interface.type2csymbol(p.type) $p.name#slurp
     #else if 'ptr' in p.hint
       $comma $interface.type2csymbol(p.type) *$p.name#slurp
@@ -95,7 +95,7 @@ public:
 
 private:
 #for $m in interface.methods
-  void ${m.qname}(void *object, GDBusMethodInvocation *invocation, GVariant *inargs);
+  void ${m.qname}(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
 #end for
 
 #for enum in $interface.enums
@@ -146,7 +146,7 @@ ${interface.qname}_Stub::~${interface.qname}_Stub()
 }
 
 void
-${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBusMethodInvocation *invocation, GVariant *inargs)
+${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs)
 {
   const DBusMethod *table = method_table;
   while (table->fn != NULL)
@@ -156,7 +156,7 @@ ${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBu
           DBusMethodPointer ptr = table->fn;
           if (ptr != NULL)
             {
-              (this->*ptr)(object, invocation, inargs);
+              (this->*ptr)(object, invocation, sender, inargs);
             }
           return;
         }
@@ -213,21 +213,21 @@ ${interface.qname}_Stub::put_${enum.qname}(const ${enum.csymbol} *result)
 void
 ${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.csymbol} *result)
 {
-#set num_expected_fields = len($struct.fields)  
+#set num_expected_fields = len($struct.fields)
 
   gsize num_fields = g_variant_n_children(variant);
   if (num_fields != $num_expected_fields)
     {
       throw DBusSystemException("Incorrect number of field in struct");
     }
-  
+
 #for p in struct.fields
   #if p.type != p.ext_type
   $interface.type2csymbol(p.ext_type) _${p.name};
   #end if
 #end for
-  
-#set index = 0 
+
+#set index = 0
 #for p in struct.fields
   GVariant *v_${p.name} = g_variant_get_child_value(variant, $index);
 
@@ -264,7 +264,7 @@ ${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
 #end for
 
   GVariant *v;
-  
+
 #for p in struct.fields
   #if p.type != p.ext_type
   v = put_${p.ext_type}(&f_${p.name});
@@ -274,7 +274,7 @@ ${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
   g_variant_builder_add_value(&builder, v);
 #end for
 
-  return g_variant_builder_end(&builder);                                                        
+  return g_variant_builder_end(&builder);
 }
 
 #end for
@@ -286,14 +286,14 @@ ${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.csymbol} *res
 {
   GVariantIter iter;
   g_variant_iter_init(&iter, variant);
-  
+
   GVariant *child;
   while ((child = g_variant_iter_next_value(&iter)))
     {
       $interface.type2csymbol(seq.data_type) tmp;
       get_${seq.data_type}(child, &tmp);
       result->push_back(tmp);
-      
+
       g_variant_unref (child);
     }
 }
@@ -311,8 +311,8 @@ ${interface.qname}_Stub::put_${seq.qname}(const ${seq.csymbol} *result)
     GVariant *v = put_${seq.data_type}(&(*it));
     g_variant_builder_add_value(&builder, v);
   }
-  
-  return g_variant_builder_end(&builder);                                                        
+
+  return g_variant_builder_end(&builder);
 }
 #end for
 
@@ -324,7 +324,7 @@ ${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.csymbol} *r
 {
   GVariantIter iter;
   g_variant_iter_init(&iter, variant);
-  
+
   GVariant *child;
   while ((child = g_variant_iter_next_value(&iter)))
     {
@@ -362,7 +362,7 @@ ${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymb
       GVariant *v_entry = g_variant_new_dict_entry(v_key, v_value);
       g_variant_builder_add_value(&builder, v_entry);
     }
-  
+
   return g_variant_builder_end(&builder);
 }
 
@@ -372,11 +372,12 @@ ${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymb
 #for method in $interface.methods
 
 void
-${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *invocation, GVariant *inargs)
+${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs)
 {
 #if method.condition != ''
 \#if $method.condition
 #end if
+  (void) sender;
 
   try
     {
@@ -394,6 +395,8 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
   #end if
   #if p.direction == 'bind'
       = ${p.bind} #slurp
+  #else if p.direction == 'sender'
+      = sender #slurp
   #end if
       ;
 #end for
@@ -403,8 +406,8 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
         {
           throw DBusSystemException("Incorrect numer of in-parameters");
         }
-      
-#set index = 0 
+
+#set index = 0
 #for arg in method.params:
   #if $arg.direction == 'in'
       GVariant *v_${arg.name} = g_variant_get_child_value(inargs, $index);
@@ -434,7 +437,7 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
       );
 #end if
 
-#if method.num_out_args > 0 
+#if method.num_out_args > 0
       GVariantBuilder builder;
       g_variant_builder_init(&builder, (GVariantType*)"$method.sig_of_type('out')");
 
@@ -449,11 +452,11 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
     #end if
   #end for
 
-      GVariant *out = g_variant_builder_end(&builder);                                                        
+      GVariant *out = g_variant_builder_end(&builder);
 #else
       GVariant *out = NULL;
 #end if
-      
+
       g_dbus_method_invocation_return_value(invocation, out);
     }
   catch (DBusException)
@@ -479,7 +482,7 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #set comma = ''
   #for p in signal.params
-    #if p.hint == [] 
+    #if p.hint == []
       $comma $interface.type2csymbol(p.type) $p.name#slurp
     #else if 'ptr' in p.hint
       $comma $interface.type2csymbol(p.type) *$p.name#slurp
@@ -495,8 +498,8 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
     {
       return;
     }
-  
-#if len(signal.params) > 0 
+
+#if len(signal.params) > 0
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType*)"$signal.sig()");
 
@@ -509,11 +512,11 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
   g_variant_builder_add_value(&builder, v_${arg.name});
   #end for
 
-  GVariant *out = g_variant_builder_end(&builder);                                                        
+  GVariant *out = g_variant_builder_end(&builder);
 #else
   GVariant *out = NULL;
 #end if
-  
+
   GError *error = NULL;
   g_dbus_connection_emit_signal(connection,
                                 NULL,
@@ -544,7 +547,9 @@ ${interface.qname}_Stub::interface_introspect =
 #for method in $interface.methods
   "    <method name=\"$method.qname\">\n"
   #for p in method.params
+    #if p.direction == 'in' or p.direction == 'out'
   "      <arg type=\"$p.sig()\" name=\"$p.name\" direction=\"$p.direction\" />\n"
+    #end if
   #end for
   "    </method>\n"
 #end for
@@ -556,8 +561,7 @@ ${interface.qname}_Stub::interface_introspect =
   "    </signal>\n"
   #end for
   "  </interface>\n";
-  
- 
+
 #if interface.condition != ''
  \#endif // $interface.condition
 #end if

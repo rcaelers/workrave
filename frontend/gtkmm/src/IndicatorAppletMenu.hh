@@ -30,19 +30,17 @@
 #include <libdbusmenu-glib/menuitem.h>
 
 #include "Menus.hh"
-#include "Menu.hh"
+#include "MenuBase.hh"
 
 class GenericDBusApplet;
 
-class IndicatorAppletMenu : public Menu
+class IndicatorAppletMenu : public MenuBase
 {
 public:
   IndicatorAppletMenu(GenericDBusApplet *applet_window);
   virtual ~IndicatorAppletMenu();
 
   virtual void init();
-  virtual void add_accel(Gtk::Window &window);
-  virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 
 private:

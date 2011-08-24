@@ -37,7 +37,7 @@ class MainWindow;
 class AppletWindow;
 class AppletControl;
 class ExercisesDialog;
-class Menu;
+class IMenu;
 
 namespace Gtk
 {
@@ -161,7 +161,7 @@ private:
   MainWindow *main_window;
 
   //! Different kind of menus
-  Menu *menus[MENU_SIZEOF];
+  IMenu *menus[MENU_SIZEOF];
 
   Gtk::AboutDialog *about;
 };

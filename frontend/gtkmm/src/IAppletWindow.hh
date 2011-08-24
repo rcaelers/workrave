@@ -1,6 +1,6 @@
-// GnomeAppletMenu.hh --- Menu using GnomeApplet+
+// IAppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GNOMEAPPLETMENU_HH
-#define GNOMEAPPLETMENU_HH
+#ifndef IAPPLETWINDOW_HH
+#define IAPPLETWINDOW_HH
 
-#include "config.h"
+#include "preinclude.h"
 
 #include <string>
 
-#include <glibmm/refptr.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/actiongroup.h>
-#include <gtkmm/iconfactory.h>
-#include <gtkmm/radioaction.h>
-#include <gtkmm/uimanager.h>
+using namespace workrave;
 
-#include "MenuBase.hh"
-
-class GnomeAppletWindow;
-
-class GnomeAppletMenu : public MenuBase
+class IAppletWindow
 {
 public:
-  GnomeAppletMenu(GnomeAppletWindow *applet_window);
-  virtual ~GnomeAppletMenu();
+  enum AppletState
+    {
+      APPLET_STATE_DISABLED,
+      APPLET_STATE_VISIBLE,
+    };
 
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  virtual ~IAppletWindow() {}
 
-private:
-  GnomeAppletWindow *applet_window;
+  virtual AppletState activate_applet() = 0;
+  virtual void deactivate_applet() = 0;
+  virtual void init_applet() = 0;
+  virtual void update_applet() = 0;
+  virtual void set_applet_tooltip(const std::string &tip) = 0;
 };
 
-#endif // GNOMEAPPLETMENU_HH
+#endif // IAPPLETWINDOW_HH

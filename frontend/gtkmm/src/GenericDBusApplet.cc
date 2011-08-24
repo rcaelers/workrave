@@ -50,7 +50,7 @@ using namespace std;
 
 //! Constructor.
 GenericDBusApplet::GenericDBusApplet(AppletControl *control) :
-  control(control)
+  enabled(false), control(control), dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -101,108 +101,67 @@ GenericDBusApplet::set_time_bar(BreakId id,
 }
 
 void
-GenericDBusApplet::set_tip(std::string tip)
-{
-  (void) tip;
-}
-
-void
-GenericDBusApplet::set_icon(IconType type)
-{
-  (void) type;
-}
-
-void
 GenericDBusApplet::update_view()
 {
   TRACE_ENTER("GenericDBusApplet::update_view");
 
-  DBus *dbus = CoreFactory::get_dbus();
-
-  if (dbus != NULL && dbus->is_available())
-    {
-      org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-
-      if (iface != NULL)
-        {
-          iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                               data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
-        }
-    }
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  assert(iface != NULL);
+  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
+                       data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
 
-//! Initializes the native gnome applet.
+void
+GenericDBusApplet::init_applet()
+{
+  try
+    {
+      dbus = CoreFactory::get_dbus();
+      if (dbus != NULL && dbus->is_available())
+        {
+          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
+                        WORKRAVE_INDICATOR_SERVICE_IFACE,
+                        this);
+        }
+    }
+  catch (DBusException)
+    {
+    }
+}
+
+//! Initializes the applet.
 AppletWindow::AppletState
 GenericDBusApplet::activate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::activate_applet");
-  DBus *dbus = CoreFactory::get_dbus();
-
-  if (dbus != NULL && dbus->is_available())
-    {
-      dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                    WORKRAVE_INDICATOR_SERVICE_IFACE,
-                    this);
-
-      control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_VISIBLE);
-    }
-
   TRACE_EXIT();
-  return AppletWindow::APPLET_STATE_VISIBLE;
+  return AppletWindow::APPLET_STATE_DISABLED;
 }
 
 
-//! Destroys the native gnome applet.
+//! Destroys the applet.
 void
 GenericDBusApplet::deactivate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::deactivate_applet");
-  control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS,
-                            AppletWindow::APPLET_STATE_DISABLED);
-
+  enabled = false;
+  control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_DISABLED);
   TRACE_EXIT();
 }
 
+//! 
 void
-GenericDBusApplet::set_enabled(bool enabled)
+GenericDBusApplet::applet_embed(bool enable, const string &sender)
 {
-  TRACE_ENTER_MSG("W32AppletWindow::set_enabled", enabled);
+  TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
+  if (sender != "")
+    {
+      dbus->watch(sender, this);
+    }
+  // else... FIXME:
   TRACE_EXIT();
-}
-
-void
-GenericDBusApplet::set_geometry(Orientation orientation, int size)
-{
-  (void) orientation;
-  (void) size;
-}
-
-void
-GenericDBusApplet::set_applet_enabled(bool enable)
-{
-  (void) enable;
-}
-
-
-void
-GenericDBusApplet::init()
-{
-}
-
-
-void
-GenericDBusApplet::add_accel(Gtk::Window &window)
-{
-  (void) window;
-}
-
-void
-GenericDBusApplet::popup(const guint button, const guint activate_time)
-{
-  (void) button;
-  (void) activate_time;
 }
 
 void
@@ -213,9 +172,9 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   items.clear();
   
   add_menu_item(_("Open"),        Menus::MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"),  Menus::MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Rest break"),  Menus::MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"),    Menus::MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Exercises"),   Menus::MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
   add_menu_item(_("Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
@@ -247,22 +206,15 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   add_menu_item(_("About..."),     Menus::MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
 
 
-  DBus *dbus = CoreFactory::get_dbus();
-  if (dbus != NULL && dbus->is_available())
-    {
-      org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-
-      if (iface != NULL)
-        {
-          iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
-        }
-    }
-
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  assert(iface != NULL);
+  iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
+  
   TRACE_EXIT();
 }
 
 void
-GenericDBusApplet::get_menu_items(MenuItems &out) const
+GenericDBusApplet::get_menu(MenuItems &out) const
 {
   out = items;
 }
@@ -274,18 +226,40 @@ GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
   item.text = text;
   item.command = command;
   item.flags = flags;
-  item.group = 0;
-
   items.push_back(item);
 }
 
 void
 GenericDBusApplet::applet_command(int command)
 {
-  if (command != -1)
+  GUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();;
+  menus->applet_command(command);
+}
+
+void
+GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
+{
+  TRACE_ENTER_MSG("GenericDBusApplet::bus_name_presence", name << " " << present);
+  if (present)
     {
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
-      menus->applet_command(command);
+      active_bus_names.insert(name);
+      if (!enabled)
+        {
+          TRACE_MSG("Enabling");
+          enabled = true;
+          control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_VISIBLE);
+        }
     }
+  else
+    {
+      active_bus_names.erase(name);
+      if (active_bus_names.size() == 0)
+        {
+          TRACE_MSG("Disabling");
+          control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_DISABLED);
+          enabled = false;
+        }
+    }
+  TRACE_EXIT();
 }

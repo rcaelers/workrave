@@ -54,8 +54,6 @@ struct _WorkraveAppletPrivate
 
   GDBusObjectManagerServer *manager;
   guint service_id;
-  guint watcher_id;
-  gboolean running;
   GDBusProxy *support;
   GDBusProxy *control;
   GDBusProxy *core;
@@ -167,20 +165,6 @@ on_get_menu_active(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
 /************************************************************************/
 
 static void
-on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
-{
-  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  applet->priv->running = TRUE;
-}
-
-static void
-on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
-{
-  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  applet->priv->running = FALSE;
-}
-  
-static void
 on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
 }
@@ -232,7 +216,7 @@ on_support_proxy_ready(GObject *source, GAsyncResult *result, gpointer user_data
       g_dbus_proxy_call(applet->priv->support,
                         "EmbedRequest",
                         NULL,
-                        G_DBUS_CALL_FLAGS_NONE,
+                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
                         NULL,
                         (GAsyncReadyCallback) dbus_call_finish,
@@ -306,7 +290,7 @@ init_dbus_client(GDBusConnection *connection, WorkraveApplet *applet)
   g_dbus_proxy_new(connection,
                    G_DBUS_PROXY_FLAGS_NONE,
                    NULL,
-                   "org.workrave.Workrave.Activator",
+                   "org.workrave.Workrave",
                    "/org/workrave/Workrave/UI",
                    "org.workrave.GnomeAppletSupportInterface",
                    NULL, 
@@ -316,7 +300,7 @@ init_dbus_client(GDBusConnection *connection, WorkraveApplet *applet)
   g_dbus_proxy_new(connection,
                    G_DBUS_PROXY_FLAGS_NONE,
                    NULL,
-                   "org.workrave.Workrave.Activator",
+                   "org.workrave.Workrave",
                    "/org/workrave/Workrave/UI",
                    "org.workrave.ControlInterface",
                    NULL, 
@@ -326,22 +310,12 @@ init_dbus_client(GDBusConnection *connection, WorkraveApplet *applet)
   g_dbus_proxy_new(connection,
                    G_DBUS_PROXY_FLAGS_NONE,
                    NULL,
-                   "org.workrave.Workrave.Activator",
+                   "org.workrave.Workrave",
                    "/org/workrave/Workrave/Core",
                    "org.workrave.CoreInterface",
                    NULL, 
                    on_core_proxy_ready,
                    applet);
-
-
-  applet->priv->watcher_id = g_bus_watch_name_on_connection(connection,
-                                                            "org.workrave.Workrave",
-                                                            G_BUS_NAME_WATCHER_FLAGS_NONE,
-                                                            on_bus_name_appeared,
-                                                            on_bus_name_vanished,
-                                                            applet,
-                                                            NULL);
-  
 }
 
 static void
@@ -364,19 +338,12 @@ workrave_dbus_server_init(WorkraveApplet *applet)
 static void
 workrave_dbus_server_cleanup(WorkraveApplet *applet)
 {
-  g_bus_unwatch_name(applet->priv->watcher_id);
-  g_bus_unown_name (applet->priv->service_id);
+  g_bus_unown_name(applet->priv->service_id);
   g_object_unref(applet->priv->control);
   g_object_unref(applet->priv->support);
   g_object_unref(applet->priv->core);
 }
 
-
-static gboolean
-workrave_is_running(WorkraveApplet *applet)
-{
-	return applet->priv->running;
-}
 
 /************************************************************************/
 /* GNOME::Applet                                                        */
@@ -412,7 +379,7 @@ on_menu_about(GtkAction *action, WorkraveApplet *applet)
 
 
 static void
-menu_call(WorkraveApplet *applet, char *call)
+menu_call_and_start(WorkraveApplet *applet, char *call)
 {
   g_dbus_proxy_call(applet->priv->control,
                     call,
@@ -425,102 +392,69 @@ menu_call(WorkraveApplet *applet, char *call)
 }
 
 static void
+menu_call(WorkraveApplet *applet, char *call)
+{
+  g_dbus_proxy_call(applet->priv->control,
+                    call,
+                    NULL,
+                    G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                    -1,
+                    NULL,
+                    (GAsyncReadyCallback) dbus_call_finish,
+                    applet);
+}
+
+static void
 on_menu_open(GtkAction *action, WorkraveApplet *applet)
 {
-  menu_call(applet, "OpenMain");
+  menu_call_and_start(applet, "OpenMain");
 }
 
 static void
 on_menu_preferences(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "Preferences");
 }
-
 
 static void
 on_menu_exercises(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "Exercises");
 }
 
 static void
 on_menu_statistics(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "Statistics");
 }
 
 static void
 on_menu_restbreak(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "RestBreak");
 }
-
-
 
 static void
 on_menu_connect(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "NetworkConnect");
 }
-
 
 static void
 on_menu_disconnect(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "NetworkDisconnect");
 }
 
 static void
 on_menu_reconnect(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "NetworkReconnect");
 }
-
-
 
 static void
 on_menu_quit(GtkAction *action, WorkraveApplet *applet)
 {
-  if (!workrave_is_running(applet))
-    {
-      return;
-    }
-
   menu_call(applet, "Quit");
 }
 
@@ -552,12 +486,12 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 
   if (event->button == 1)
     {
-      if (applet->priv->support != NULL && workrave_is_running(applet))
+      if (applet->priv->support != NULL)
         {
           g_dbus_proxy_call(applet->priv->support,
                             "ButtonClicked",
                             g_variant_new("(u)", event->button),
-                            G_DBUS_CALL_FLAGS_NONE,
+                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
                             -1,
                             NULL,
                             (GAsyncReadyCallback) dbus_call_finish,
@@ -582,12 +516,12 @@ showlog_callback(GtkAction *action, WorkraveApplet *applet)
 
   applet->priv->last_showlog_state = new_state;
 
-  if (applet->priv->control != NULL && workrave_is_running(applet))
+  if (applet->priv->control != NULL)
     {
       g_dbus_proxy_call(applet->priv->control,
                             "NetworkLog",
                             g_variant_new("(b)", new_state),
-                            G_DBUS_CALL_FLAGS_NONE,
+                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
                             -1,
                             NULL,
                             (GAsyncReadyCallback) dbus_call_finish,
@@ -609,12 +543,12 @@ reading_mode_callback(GtkAction *action, WorkraveApplet *applet)
 
   applet->priv->last_reading_mode_state = new_state;
 
-  if (applet->priv->control != NULL && workrave_is_running(applet))
+  if (applet->priv->control != NULL)
     {
       g_dbus_proxy_call(applet->priv->control,
                             "ReadingMode",
                             g_variant_new("(b)", new_state),
-                            G_DBUS_CALL_FLAGS_NONE,
+                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
                             -1,
                             NULL,
                             (GAsyncReadyCallback) dbus_call_finish,
@@ -639,12 +573,12 @@ mode_callback(GtkRadioAction *action, GtkRadioAction *current, gpointer user_dat
     {
       applet->priv->last_mode = mode;
 
-      if (applet->priv->core != NULL && workrave_is_running(applet))
+      if (applet->priv->core != NULL)
         {
           g_dbus_proxy_call(applet->priv->core,
                             "SetOperationMode",
                             g_variant_new("(s)", modes[mode]),
-                            G_DBUS_CALL_FLAGS_NONE,
+                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
                             -1,
                             NULL,
                             (GAsyncReadyCallback) dbus_call_finish,
@@ -843,12 +777,12 @@ workrave_applet_change_orient(PanelApplet *panel, PanelAppletOrient o)
       break;
     }
 
-  if (applet->priv->support != NULL && workrave_is_running(applet))
+  if (applet->priv->support != NULL)
     {
       g_dbus_proxy_call(applet->priv->support,
                         "SetOrientation",
                         g_variant_new("(s)", str),
-                        G_DBUS_CALL_FLAGS_NONE,
+                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
                         NULL,
                         (GAsyncReadyCallback) dbus_call_finish,
@@ -1011,8 +945,6 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->last_mode = 0;
   priv->manager = NULL;
   priv->service_id = 0;
-  priv->watcher_id = 0;
-  priv->running = FALSE;
   priv->support = NULL;
   priv->control = NULL;
   priv->core = NULL;

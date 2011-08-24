@@ -326,12 +326,12 @@ GUI::on_timer()
   if (applet_control != NULL)
     {
       applet_control->heartbeat();
-      applet_control->set_timers_tooltip(tip);
+      applet_control->set_tooltip(tip);
     }
 
   if (status_icon)
     {
-      status_icon->set_timers_tooltip(tip);
+      status_icon->set_tooltip(tip);
     }
 
   heartbeat_signal();
@@ -830,7 +830,7 @@ GUI::init_dbus()
   if (dbus != NULL && dbus->is_available())
     {
 #ifdef HAVE_DBUS_GIO
-      if (dbus->is_running("org.workrave.Workrave.Activator"))
+      if (dbus->is_running("org.workrave.Workrave"))
 #else      
       if (!dbus->is_owner())
 #endif
@@ -845,8 +845,8 @@ GUI::init_dbus()
 
       try
         {
-          dbus->register_service("org.workrave.Workrave.Activator");
           dbus->register_object_path("/org/workrave/Workrave/UI");
+          dbus->register_service("org.workrave.Workrave");
 
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
@@ -1016,7 +1016,6 @@ GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
 }
-
 
 
 void

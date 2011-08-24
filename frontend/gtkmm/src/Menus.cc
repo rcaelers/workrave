@@ -130,7 +130,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
 {
   this->main_window = main_window;
 
-  AppletWindow *applet_window = NULL;
+  IAppletWindow *applet_window = NULL;
 
 #if defined(PLATFORM_OS_OSX)
   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
@@ -174,11 +174,6 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
         }
     }
 
-  if (main_window != NULL)
-    {
-      menus[MENU_MAINWINDOW]->add_accel(*main_window);
-    }
-
   resync();
 }
 
@@ -188,7 +183,7 @@ Menus::popup(const MenuKind kind,
              const guint button,
              const guint activate_time)
 {
-  Menu *pop_menu = menus[kind];
+  IMenu *pop_menu = menus[kind];
   if (pop_menu)
     {
       pop_menu->popup(button, activate_time);

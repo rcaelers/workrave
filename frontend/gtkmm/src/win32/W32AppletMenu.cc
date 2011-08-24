@@ -53,26 +53,6 @@ W32AppletMenu::~W32AppletMenu()
 }
 
 void
-W32AppletMenu::popup(const guint button, const guint activate_time)
-{
-  (void) button;
-  (void) activate_time;
-}
-
-
-void
-W32AppletMenu::init()
-{
-}
-
-
-void
-W32AppletMenu::add_accel(Gtk::Window &window)
-{
-  (void) window;
-}
-
-void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);

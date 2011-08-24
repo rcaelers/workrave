@@ -412,11 +412,13 @@ MainWindow::on_delete_event(GdkEventAny *)
   GUI *gui = GUI::get_instance();
   assert(gui != NULL);
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   win32_show(false);
   gui->main_window_closed();
+#elif defined(PLATFORM_OS_OSX)
+  close_window();
+  TimerBoxControl::set_enabled("main_window", false);
 #else
-#if defined(HAVE_PANELAPPLET2)
   bool terminate = true;
   AppletControl *applet_control = gui->get_applet_control();
   if (applet_control != NULL)
@@ -434,13 +436,7 @@ MainWindow::on_delete_event(GdkEventAny *)
       close_window();
       TimerBoxControl::set_enabled("main_window", false);
     }
-#elif defined(PLATFORM_OS_OSX)
-  close_window();
-  TimerBoxControl::set_enabled("main_window", false);
-#else
-  gui->terminate();
-#endif // HAVE_PANELAPPLET2
-#endif // PLATFORM_OS_WIN32
+#endif
 
   TRACE_EXIT();
   return true;

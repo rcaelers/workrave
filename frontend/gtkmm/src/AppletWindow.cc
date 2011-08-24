@@ -41,14 +41,13 @@ AppletWindow::~AppletWindow()
 }
 
 void
-AppletWindow::set_timers_tooltip(std::string& tip)
+AppletWindow::set_applet_tooltip(const std::string &tip)
 {
   if (timer_box_view)
     {
       timer_box_view->set_tip(tip);
     }
 }
-
 
 void
 AppletWindow::update_applet()
@@ -62,6 +61,6 @@ AppletWindow::update_applet()
 }
 
 void
-AppletWindow::init()
+AppletWindow::init_applet()
 {
 }

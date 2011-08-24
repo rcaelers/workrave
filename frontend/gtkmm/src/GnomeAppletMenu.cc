@@ -56,27 +56,6 @@ GnomeAppletMenu::~GnomeAppletMenu()
 {
 }
 
-
-void
-GnomeAppletMenu::init()
-{
-}
-
-
-void
-GnomeAppletMenu::add_accel(Gtk::Window &)
-{
-}
-
-
-void
-GnomeAppletMenu::popup(const guint button, const guint activate_time)
-{
-  (void) button;
-  (void) activate_time;
-}
-
-
 void
 GnomeAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {

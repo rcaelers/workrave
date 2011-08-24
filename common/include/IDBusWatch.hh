@@ -1,6 +1,6 @@
-// Menu.hh --- Menu using +
+// IDBusWatch.hh --- DBUS bus watch interface
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MENU_HH
-#define MENU_HH
-
-#include "config.h"
+#ifndef IDBUSWATCH_HH
+#define IDBUSWATCH_HH
 
 #include <string>
 
-#include "ICore.hh"
-
-#include <gtkmm/window.h>
-
-class Menu
+namespace workrave
 {
-public:
-  Menu() {}
-  virtual ~Menu() {}
+  class IDBusWatch
+  {
+  public:
+    virtual ~IDBusWatch() {}
+    virtual void bus_name_presence(const std::string &name, bool present) = 0;
+  };
+}
 
-  virtual void init() = 0;
-  virtual void add_accel(Gtk::Window &window) = 0;
-  virtual void popup(const guint button, const guint activate_time) = 0;
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) = 0;
-};
-
-#endif // MENU_HH
+#endif // IDBUSWATCH_HH

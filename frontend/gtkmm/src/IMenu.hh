@@ -1,4 +1,4 @@
-// W32AppletMenu.hh --- Menu using W32Applet+
+// IMenu.hh --- Menu interface
 //
 // Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,36 +17,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef W32APPLETMENU_HH
-#define W32APPLETMENU_HH
+#ifndef IMENU_HH
+#define IMENU_HH
 
 #include "config.h"
 
 #include <string>
 
-#include <glibmm/refptr.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/actiongroup.h>
-#include <gtkmm/iconfactory.h>
-#include <gtkmm/radioaction.h>
-#include <gtkmm/uimanager.h>
+#include "ICore.hh"
 
-#include "MenuBase.hh"
+#include <gtkmm/window.h>
 
-class MainWindow;
-class W32AppletWindow;
-
-class W32AppletMenu : public MenuBase
+class IMenu
 {
 public:
-  W32AppletMenu(MainWindow *main_window, W32AppletWindow *applet_window);
-  virtual ~W32AppletMenu();
+  IMenu() {}
+  virtual ~IMenu() {}
 
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
-
-private:
-  MainWindow *main_window;
-  W32AppletWindow *applet_window;
+  virtual void init() = 0;
+  virtual void add_accel(Gtk::Window &window) = 0;
+  virtual void popup(const guint button, const guint activate_time) = 0;
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) = 0;
 };
 
-#endif // W32APPLETMENU_HH
+#endif // IMENU_HH

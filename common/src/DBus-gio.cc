@@ -96,8 +96,8 @@ DBus::register_service(const std::string &service_name)
                             service_name.c_str(),
                             G_BUS_NAME_OWNER_FLAGS_NONE,
                             &DBus::on_bus_acquired,
-                            &DBus::on_name_acquired,
-                            &DBus::on_name_lost,
+                            NULL, //&DBus::on_name_acquired,
+                            NULL, //&DBus::on_name_lost,
                             this,
                             NULL);
 
@@ -311,6 +311,55 @@ DBus::is_available() const
   return true;
 }
 
+void
+DBus::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
+{
+  (void) connection;
+  (void) name_owner;
+  DBus *dbus = (DBus *)user_data;
+  dbus->bus_name_presence(name, true);
+}
+
+void
+DBus::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+  (void) connection;
+  DBus *dbus = (DBus *)user_data;
+  dbus->bus_name_presence(name, false);
+}
+
+void
+DBus::bus_name_presence(const std::string &name, bool present)
+{
+  if (watched.find(name) != watched.end())
+    {
+      watched[name].callback->bus_name_presence(name, present);
+    }
+}
+
+void
+DBus::watch(const std::string &name, IDBusWatch *cb)
+{
+  guint id = g_bus_watch_name_on_connection(connection,
+                                            name.c_str(),
+                                            G_BUS_NAME_WATCHER_FLAGS_NONE,
+                                            on_bus_name_appeared,
+                                            on_bus_name_vanished,
+                                            this,
+                                            NULL);
+  watched[name].id = id;
+  watched[name].callback = cb;
+  
+}
+
+void
+DBus::unwatch(const std::string &name)
+{
+  guint id = watched[name].id;
+  g_bus_unwatch_name(id);
+  watched.erase(name);
+}
+
 
 string
 DBus::get_introspect(const string &object_path, const string &interface_name)
@@ -373,7 +422,7 @@ DBus::on_method_call(GDBusConnection       *connection,
           throw DBusSystemException(string("No such binding: ") + interface_name );
         }
 
-      binding->call(method_name, object, invocation, parameters);
+      binding->call(method_name, object, invocation, sender, parameters);
     }
   catch (DBusException &e)
     {

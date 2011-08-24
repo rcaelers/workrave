@@ -118,7 +118,7 @@ AppletControl::init()
     {
       if (applets[i] != NULL)
         {
-          applets[i]->init();
+          applets[i]->init_applet();
         }
     }
   
@@ -138,7 +138,6 @@ AppletControl::show()
 
   bool specific = false;
   AppletState rc;
-
 
   rc = activate_applet(APPLET_GENERIC_DBUS);
   TRACE_MSG("Unity" << rc);
@@ -336,13 +335,13 @@ AppletControl::heartbeat()
 
 //! Sets the tooltip of all visible applets.
 void
-AppletControl::set_timers_tooltip(std::string& tip)
+AppletControl::set_tooltip(std::string& tip)
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       if (applets[i] != NULL && visible[i])
         {
-          applets[i]->set_timers_tooltip(tip);
+          applets[i]->set_applet_tooltip(tip);
         }
     }
 }

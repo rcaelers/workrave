@@ -242,14 +242,6 @@ Core::init_bus()
       dbus = new DBus();
       dbus->init();
 
-      string name = DBUS_SERVICE_WORKRAVE;
-      char *env = getenv("WORKRAVE_DBUS_NAME");
-      if (env != NULL)
-        {
-          name = env;
-        }
-      dbus->register_service(name);
-
       extern void init_DBusWorkrave(DBus *dbus);
       init_DBusWorkrave(dbus);
 

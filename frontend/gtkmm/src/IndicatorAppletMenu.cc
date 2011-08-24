@@ -141,19 +141,6 @@ IndicatorAppletMenu::init()
 }
 
 void
-IndicatorAppletMenu::add_accel(Gtk::Window &window)
-{
-  (void) window;
-}
-
-void
-IndicatorAppletMenu::popup(const guint button, const guint activate_time)
-{
-  (void) button;
-  (void) activate_time;
-}
-
-void
 IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   menu_item_set_checked(Menus::MENU_COMMAND_MODE_NORMAL, mode == OPERATION_MODE_NORMAL);

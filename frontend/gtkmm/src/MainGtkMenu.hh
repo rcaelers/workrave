@@ -1,6 +1,6 @@
 // MainGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,9 +32,9 @@
 #include <gtkmm/uimanager.h>
 #include <gtkmm/menu.h>
 
-#include "Menu.hh"
+#include "MenuBase.hh"
 
-class MainGtkMenu : public Menu
+class MainGtkMenu : public MenuBase
 {
 public:
   MainGtkMenu(bool show_open);
@@ -52,7 +52,6 @@ public:
   virtual void post_init() {}
 
   virtual void init();
-  virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 

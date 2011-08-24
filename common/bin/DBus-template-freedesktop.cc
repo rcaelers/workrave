@@ -409,6 +409,9 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #if p.direction == 'in'
       #set have_in_args = True
       #end if
+      #if p.direction == 'sender'
+      const char *sender = dbus_message_get_sender(message);
+      #end if
       #if 'ptrptr' in p.hint
       $interface.type2csymbol(p.type) *${p.name} #slurp
       #else
@@ -416,6 +419,8 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #end if
       #if p.direction == 'bind'
       = ${p.bind} #slurp
+      else if p.direction == 'sender'
+      = sender #slurp
       #end if
       ;
       #end for

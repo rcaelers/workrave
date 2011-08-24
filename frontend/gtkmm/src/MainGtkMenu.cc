@@ -34,6 +34,7 @@
 #include <gdkmm.h>
 #include <gtkmm.h>
 
+#include "MainWindow.hh"
 #include "Menus.hh"
 #include "Util.hh"
 
@@ -120,14 +121,11 @@ MainGtkMenu::init()
       create_actions();
       ui_manager->insert_action_group(action_group);
     }
-}
 
-void
-MainGtkMenu::add_accel(Gtk::Window &window)
-{
-  window.add_accel_group(ui_manager->get_accel_group());
+  GUI *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+  main_window->add_accel_group(ui_manager->get_accel_group());
 }
-
 
 void
 MainGtkMenu::create_actions()

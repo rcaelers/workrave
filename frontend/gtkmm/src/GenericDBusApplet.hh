@@ -23,19 +23,26 @@
 #include "config.h"
 
 #include <string>
+#include <set>
 #include <stdio.h>
 
 #include <gtk/gtk.h>
 
-#include "ITimerBoxView.hh"
+#include "TimerBoxViewBase.hh"
 #include "ITimeBar.hh"
+#include "IDBusWatch.hh"
 #include "AppletWindow.hh"
 #include "Menus.hh"
-#include "Menu.hh"
+#include "MenuBase.hh"
 
 class AppletControl;
 
-class GenericDBusApplet : public AppletWindow , public ITimerBoxView, public Menu
+namespace workrave
+{
+  class DBus;
+}
+
+class GenericDBusApplet : public AppletWindow , public TimerBoxViewBase, public MenuBase, public IDBusWatch
 {
 public:
   struct TimerData
@@ -65,7 +72,6 @@ public:
     std::string text;
     int command;
     int flags;
-    int group;
   };
 
   typedef std::list<MenuItem> MenuItems;
@@ -73,13 +79,18 @@ public:
   GenericDBusApplet(AppletControl *control);
   virtual ~GenericDBusApplet();
 
+  // DBus
+  virtual void get_menu(MenuItems &out) const;
+  virtual void applet_command(int command);
+  virtual void applet_embed(bool enable, const std::string &sender);
+  
+private:
+  // IAppletWindow
   virtual AppletState activate_applet();
   virtual void deactivate_applet();
+  virtual void init_applet();
 
-  virtual void set_applet_enabled(bool enable);
-  virtual void get_menu_items(MenuItems &out) const;
-  virtual void applet_command(int command);
-
+  // ITimerBoxView
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
                             std::string text,
@@ -87,19 +98,14 @@ public:
                             int primary_value, int primary_max,
                             ITimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
-  virtual void set_tip(std::string tip);
-  virtual void set_icon(IconType icon);
   virtual void update_view();
-  virtual void set_enabled(bool enabled);
-  virtual void set_geometry(Orientation orientation, int size);
 
+  // IDBusWatch
+  virtual void bus_name_presence(const std::string &name, bool present);
   
-private:
-  virtual void init();
-  virtual void add_accel(Gtk::Window &window);
-  virtual void popup(const guint button, const guint activate_time);
+  // Menu
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
-  
+
   void add_menu_item(const char *text, int command, int flags);
   
 private:
@@ -107,8 +113,13 @@ private:
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
 
+  std::set<std::string> active_bus_names;
+  
   //! Controller
   AppletControl *control;
+
+  //!
+  DBus *dbus;
 };
 
 #endif // GENERICDBUSAPPLET_HH

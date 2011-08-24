@@ -46,7 +46,6 @@
       <field type="string" name="text"/>
       <field type="int32" name="command"/>
       <field type="int32" name="flags"/>
-      <field type="int32" name="group"/>
     </struct>
 
     <sequence name="MenuItems"
@@ -55,15 +54,16 @@
 	      csymbol="GenericDBusApplet::MenuItems">
     </sequence>
     
-    <method name="SetEnabled" csymbol="set_applet_enabled">
+    <method name="Embed" csymbol="applet_embed">
       <arg type="bool" name="enabled" direction="in"/>
+      <arg type="string" name="sender" direction="in"/>
     </method>
 
     <method name="Command" csymbol="applet_command">
       <arg type="int32" name="command" direction="in"/>
     </method>
 
-    <method name="GetMenuItems" csymbol="get_menu_items">
+    <method name="GetMenu" csymbol="get_menu">
       <arg type="MenuItems" name="menuitems" direction="out"/>
     </method>
     

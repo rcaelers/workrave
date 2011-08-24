@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,12 @@
 #include <string>
 #include <gdk/gdkwin32.h>
 
-#include "ITimerBoxView.hh"
+#include "TimerBoxViewBase.hh"
 #include "ITimeBar.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
-class W32AppletWindow : public AppletWindow, public ITimerBoxView
+class W32AppletWindow : public IAppletWindow, public TimerBoxViewBase
 {
 public:
   W32AppletWindow();
@@ -46,8 +46,6 @@ public:
                     int primary_value, int primary_max,
                     ITimeBar::ColorId secondary_color,
                     int secondary_value, int secondary_max);
-  void set_tip(std::string tip);
-  void set_icon(IconType icon);
   void update_view();
   void update_time_bars();
   void update_menu();

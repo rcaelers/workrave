@@ -56,6 +56,8 @@
 #define IS_INDICATOR_WORKRAVE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), INDICATOR_WORKRAVE_TYPE))
 #define INDICATOR_WORKRAVE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), INDICATOR_WORKRAVE_TYPE, IndicatorWorkraveClass))
 
+#define DBUS_NAME ("org.workrave.IndicatorApplet")
+
 typedef struct _IndicatorWorkrave         IndicatorWorkrave;
 typedef struct _IndicatorWorkraveClass    IndicatorWorkraveClass;
 typedef struct _IndicatorWorkravePrivate  IndicatorWorkravePrivate;
@@ -78,6 +80,7 @@ struct _IndicatorWorkravePrivate {
 
   GCancellable *workrave_proxy_cancel;
   GDBusProxy *workrave_proxy;
+  guint owner_id;
 
   gboolean alive;
   guint timer;
@@ -123,6 +126,7 @@ static gboolean on_timer                  (gpointer user_data);
 static void on_dbus_ready                 (GObject *object, GAsyncResult *res, gpointer user_data);
 static void on_dbus_signal                (GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
 static void on_update_indicator           (IndicatorWorkrave *self, GVariant *parameters);
+static void on_bus_acquired               (GDBusConnection *connection, const gchar *name, gpointer user_data);
 
 /* Indicator Module Config */
 INDICATOR_SET_VERSION
@@ -159,6 +163,7 @@ indicator_workrave_init(IndicatorWorkrave *self)
   priv->menu = NULL;
   priv->workrave_proxy = NULL;
   priv->workrave_proxy_cancel = NULL;
+  priv->owner_id = 0;
   priv->alive = FALSE;
   priv->timer = 0;
   priv->timerbox = NULL;
@@ -178,6 +183,16 @@ indicator_workrave_init(IndicatorWorkrave *self)
                            on_dbus_ready,
                            self);
 
+
+  priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
+                                  DBUS_NAME,
+                                  G_BUS_NAME_OWNER_FLAGS_NONE,
+                                  on_bus_acquired,
+                                  NULL,
+                                  NULL,
+                                  self,
+                                  NULL);
+  
   priv->timer = g_timeout_add_seconds(10, on_timer, self);
 }
 
@@ -310,16 +325,27 @@ on_dbus_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 
   priv->workrave_proxy = proxy;
   g_signal_connect(proxy, "g-signal", G_CALLBACK(on_dbus_signal), self);
+
+  GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                            "Embed",
+                                            g_variant_new("(bs)", TRUE, DBUS_NAME),
+                                            G_DBUS_CALL_FLAGS_NONE,
+                                            -1,
+                                            NULL,
+                                            &error);
+
+  if (error != NULL)
+    {
+      g_warning("Could not request embedding for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
+      g_error_free(error);
+    }
 }
 
 static void
 on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-
-  g_debug("up");
-  
-  if (g_strcmp0(signal_name, "Update") == 0)
+  if (g_strcmp0(signal_name, "TimersUpdated") == 0)
     {
       on_update_indicator(self, parameters);
     }
@@ -365,7 +391,6 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
                 &td[BREAK_ID_DAILY_LIMIT].bar_primary_max
                 );
 
-  g_debug("up");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       workrave_timerbox_set_slot(priv->timerbox, i, td[i].slot);
@@ -384,4 +409,12 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
     }
 
   workrave_timerbox_update(priv->timerbox, priv->image);
+}
+
+static void
+on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+  (void) connection;
+  (void) name;
+  (void) user_data;
 }

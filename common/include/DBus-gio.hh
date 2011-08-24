@@ -27,6 +27,8 @@
 #include <map>
 #include <list>
 
+#include "IDBusWatch.hh"
+
 namespace workrave
 {
   class DBusBindingBase;
@@ -50,6 +52,9 @@ namespace workrave
     bool is_running(const std::string &name) const;
 
     GDBusConnection *get_connection() const { return connection; }
+
+    void watch(const std::string &name, IDBusWatch *cb);
+    void unwatch(const std::string &name);
     
   private:
     typedef std::map<std::string, DBusBindingBase *> Bindings;
@@ -87,11 +92,26 @@ namespace workrave
     typedef Objects::iterator ObjectIter;
     typedef Objects::const_iterator ObjectCIter;
 
+    struct WatchData
+    {
+      guint id;
+      IDBusWatch *callback;
+    };
+      
+    typedef std::map<std::string, WatchData> Watched;
+    typedef Watched::iterator WatchIter;
+    typedef Watched::const_iterator WatchCIter;
+    
     void *find_object(const std::string &path, const std::string &interface_name) const;
     void send() const;
 
     std::string get_introspect(const std::string &path, const std::string &interface_name);
     void update_object_registration(InterfaceData &data);
+
+    static void on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data);
+    static void on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data);
+
+    void bus_name_presence(const std::string &name, bool present);
     
     static void on_method_call(GDBusConnection       *connection,
                                const gchar           *sender,
@@ -136,6 +156,9 @@ namespace workrave
     //!
     Objects objects;
 
+    //
+    Watched watched;
+    
     //!
     bool owner;
 

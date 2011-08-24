@@ -54,7 +54,7 @@ public:
 
   void set_visible(bool b);
   void set_operation_mode(OperationMode m);
-  void set_timers_tooltip(std::string& tip);
+  void set_tooltip(std::string& tip);
   bool is_embedded() const;
 #ifdef PLATFORM_OS_WIN32
 #ifndef USE_W32STATUSICON

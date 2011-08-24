@@ -25,29 +25,21 @@
 #include <iostream>
 
 #include "Orientation.hh"
+#include "IAppletWindow.hh"
 using namespace workrave;
 
 class TimerBoxControl;
 class ITimerBoxView;
 
-class AppletWindow
+class AppletWindow : public IAppletWindow
 {
 public:
-  enum AppletState
-    {
-      APPLET_STATE_DISABLED,
-      APPLET_STATE_VISIBLE,
-    };
-
   AppletWindow();
   virtual ~AppletWindow();
 
-  virtual AppletState activate_applet() = 0;
-  virtual void deactivate_applet() = 0;
-  virtual void init();
-  
+  virtual void init_applet();
   virtual void update_applet();
-  virtual void set_timers_tooltip(std::string& tip);
+  virtual void set_applet_tooltip(const std::string &tip);
 
 protected:
   //! Box container all the timers.
@@ -55,7 +47,6 @@ protected:
 
   //! Box container controller.
   TimerBoxControl *timer_box_control;
-
 };
 
 #endif // APPLETWINDOW_HH

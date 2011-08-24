@@ -128,19 +128,6 @@ W32AppletWindow::set_time_bar(BreakId id,
 }
 
 void
-W32AppletWindow::set_tip(std::string tip)
-{
-  (void) tip;
-}
-
-void
-W32AppletWindow::set_icon(IconType type)
-{
-  (void) type;
-}
-
-
-void
 W32AppletWindow::update_view()
 {
   TRACE_ENTER("W32AppletWindow::update_view");

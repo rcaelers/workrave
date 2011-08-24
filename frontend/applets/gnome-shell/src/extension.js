@@ -23,11 +23,11 @@ global.log('workrave-applet: start @ ' + start);
 
 const IndicatorIface = {
     name: 'org.workrave.AppletInterface',
-    methods: [ { name: 'SetEnabled',
-                 inSignature: 'b',
+    methods: [ { name: 'Embed',
+                 inSignature: 'bs',
                  outSignature: ''
                },
-	       { name: 'GetMenuItems',
+	       { name: 'GetMenu',
                  inSignature: '',
                  outSignature: 'a(siii)'
                },
@@ -61,6 +61,8 @@ _workraveButton.prototype = {
   
         this._timerbox = new Workrave.Timerbox();
 	this._height = 24;
+	this._bus_name = 'org.workrave.GnomeShellApplet';
+	this.bus_id = 0;
 
       	this._area = new St.DrawingArea({ style_class: "workrave", reactive: false});
 	this._area.set_width(this.width=100);
@@ -73,53 +75,87 @@ _workraveButton.prototype = {
 	this._timers_updated_id = this._proxy.connect("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
 	this._menu_updated_id = this._proxy.connect("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
 
-	this._timer_running = true;
-	Mainloop.timeout_add(3000, Lang.bind(this, this._onTimer));
-
-	this._proxy.GetMenuItemsRemote(Lang.bind(this, this._onGetMenuItemsReply));
+        DBus.session.watch_name('org.workrave.Workrave',
+                                false, // no auto launch
+                                Lang.bind(this, this._onWorkraveAppeared),
+                                Lang.bind(this, this._onWorkraveVanished));
     },
  
-    _onTimer: function() {
-	
+    _onDestroy: function() 
+    {
+	global.log('workrave-applet: destroy');
+    	this._proxy.EmbedRemote(false, 'GnomeShellApplet');
+    },
+
+    _start: function()
+    {
+	global.log('workrave-applet: starting');
 	if (! this._alive)
 	{
-	    global.log('workrave-applet: now dead');
-	    this._timerbox.set_enabled(false);
-	    this._timer_running = false;
-	    this._area.queue_repaint();
+	    this.bus_id = DBus.session.acquire_name(this._bus_name, 0, null, null);
+	    this._proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
+    	    this._proxy.EmbedRemote(true, this._bus_name);
+	    this._timeoutId = Mainloop.timeout_add(5000, Lang.bind(this, this._onTimer));
+	    this._alive = true;
+	    this._update_count = 0;
+	}
+    },
+
+    _stop: function()
+    {
+	 if (this._alive)
+	 {
+	     global.log('workrave-applet: stopping');
+	     Mainloop.source_remove(this._timeoutId);
+	     DBus.session.release_name_by_id(this.bus_id);
+	     this.bus_id = 0;
+	     this._timerbox.set_enabled(false);
+	     this._area.queue_repaint();
+	     this._alive = false;
+	 }
+     },
+
+     _draw: function(area) {
+	 let [width, height] = area.get_surface_size();
+	 let cr = area.get_context();
+	 this._timerbox.draw(cr);
+    },
+
+    _onTimer: function() {
+	if (! this._alive)
+	{
 	    return false;
 	}
 
-	this._alive = false;
-	return true;
+	if (this._update_count == 0)
+	{
+	    this._timerbox.set_enabled(false);
+	    this._area.queue_repaint();
+	}
+	this._update_count = 0;
+
+	return this._alive;
     },
 
-    _onDestroy: function() {},
+    _onWorkraveAppeared: function(owner) {
+	global.log('workrave-applet: appeared');
+	this._start();
+    },
 
-    _draw: function(area) {
-        let [width, height] = area.get_surface_size();
-        let themeNode = area.get_theme_node();
-        //let gradientHeight = themeNode.get_length('-gradient-height');
-        //let startColor = themeNode.get_color('-gradient-start');
-        let cr = area.get_context();
-	
-	this._timerbox.draw(cr);
+    _onWorkraveVanished: function(oldOwner) {
+	global.log('workrave-applet: vanished');
+	this._stop();
     },
 
     _onTimersUpdated : function(result, microbreak, restbreak, daily) {
 
 	if (! this._alive)
 	{
-	    this._alive = true;
+	    global.log('workrave-applet: now alive');
+	    this._start();
 	}
 
-	if (! this._timer_running)
-	{
-	    global.log('workrave-applet: now alive');
-	    this._timer_running = true;
-	    Mainloop.timeout_add(3000, Lang.bind(this, this._onTimer));
-	    this._proxy.GetMenuItemsRemote(Lang.bind(this, this._onGetMenuItemsReply));
-	}
+	this._update_count++;
 
 	this._timerbox.set_slot(0, microbreak[1]);
 	this._timerbox.set_slot(1, restbreak[1]);
@@ -158,7 +194,7 @@ _workraveButton.prototype = {
 	this._area.queue_repaint();
     },
 
-    _onGetMenuItemsReply : function(menuitems) {
+    _onGetMenuReply : function(menuitems) {
 	this._updateMenu(menuitems);
     },
 

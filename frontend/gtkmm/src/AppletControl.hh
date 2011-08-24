@@ -22,7 +22,7 @@
 
 #include "preinclude.h"
 #include "IConfiguratorListener.hh"
-#include "AppletWindow.hh"
+#include "IAppletWindow.hh"
 
 class AppletControl :
   public IConfiguratorListener
@@ -33,7 +33,6 @@ public:
       APPLET_NONE = -1,
       APPLET_TRAY,
       APPLET_GNOME,
-      APPLET_GNOME_SHELL,
       APPLET_GENERIC_DBUS,
       APPLET_W32,
       APPLET_OSX,
@@ -48,17 +47,17 @@ public:
   bool is_visible();
 
   // callback from appletwindow
-  void set_applet_state(AppletType type, AppletWindow::AppletState);
+  void set_applet_state(AppletType type, IAppletWindow::AppletState);
 
   void heartbeat();
-  void set_timers_tooltip(std::string& tip);
-  AppletWindow *get_applet_window(AppletType type);
+  void set_tooltip(std::string& tip);
+  IAppletWindow *get_applet_window(AppletType type);
 
 protected:
 
 private:
   //! All known applets
-  AppletWindow *applets[APPLET_SIZE];
+  IAppletWindow *applets[APPLET_SIZE];
 
   //! Did applet acknowledge visibility?
   bool visible[APPLET_SIZE];
@@ -69,7 +68,7 @@ private:
   int delayed_show;
 
 private:
-  typedef AppletWindow::AppletState AppletState;
+  typedef IAppletWindow::AppletState AppletState;
 
   AppletState activate_applet(AppletType type);
   void deactivate_applet(AppletType type);
@@ -86,7 +85,7 @@ private:
 
 
 //! Return the specified applet.
-inline AppletWindow *
+inline IAppletWindow *
 AppletControl::get_applet_window(AppletType type)
 {
   return applets[type];

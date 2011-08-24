@@ -1,6 +1,6 @@
 // OSXAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -119,36 +119,6 @@ OSXAppletWindow::convertColorId(ITimeBar::ColorId colorId)
   return COLOR_ID_INACTIVE;
 }
 
-void
-OSXAppletWindow::set_tip(std::string tip)
-{
-  (void) tip;
-}
-
-
-void
-OSXAppletWindow::set_icon(IconType type)
-{
-  (void) type;
-}
-
-
-void
-OSXAppletWindow::update_view()
-{
-  TRACE_ENTER("OSXAppletWindow::update_view");
-  TRACE_EXIT();
-}
-
-
-void
-OSXAppletWindow::set_enabled(bool enabled)
-{
-  TRACE_ENTER_MSG("OSXAppletWindow::set_enabled", enabled);
-  TRACE_EXIT();
-}
-
-
 AppletWindow::AppletState
 OSXAppletWindow::activate_applet()
 {
@@ -160,12 +130,3 @@ void
 OSXAppletWindow::deactivate_applet()
 {
 }
-
-
-void
-OSXAppletWindow::set_geometry(Orientation orientation, int size)
-{
-  (void) orientation;
-  (void) size;
-}
-

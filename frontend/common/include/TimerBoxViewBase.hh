@@ -1,6 +1,6 @@
-// GnomeAppletMenu.hh --- Menu using GnomeApplet+
+// TimerBoxViewBase.hh --- All timers
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,44 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GNOMEAPPLETMENU_HH
-#define GNOMEAPPLETMENU_HH
-
-#include "config.h"
+#ifndef TIMERBOXVIEWBASE_HH
+#define TIMERBOXVIEWBASE_HH
 
 #include <string>
 
-#include <glibmm/refptr.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/actiongroup.h>
-#include <gtkmm/iconfactory.h>
-#include <gtkmm/radioaction.h>
-#include <gtkmm/uimanager.h>
+#include "ITimerBoxView.hh"
 
-#include "MenuBase.hh"
+using namespace workrave;
 
-class GnomeAppletWindow;
-
-class GnomeAppletMenu : public MenuBase
+class TimerBoxViewBase : public ITimerBoxView
 {
 public:
-  GnomeAppletMenu(GnomeAppletWindow *applet_window);
-  virtual ~GnomeAppletMenu();
+  virtual ~TimerBoxViewBase() {}
 
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
-
-private:
-  GnomeAppletWindow *applet_window;
+  virtual void set_tip(std::string tip)
+  {
+    (void) tip;
+  }
+  
+  virtual void set_icon(IconType icon)
+  {
+    (void) icon;
+  }
+  
+  virtual void update_view()
+  {
+  }
+  
+  virtual void set_enabled(bool enabled)
+  {
+    (void) enabled;
+  }
+  
+  virtual void set_geometry(Orientation orientation, int size)
+  {
+    (void) orientation;
+    (void) size;
+  }
 };
 
-#endif // GNOMEAPPLETMENU_HH
+#endif // TIMERBOXVIEWBASE_HH

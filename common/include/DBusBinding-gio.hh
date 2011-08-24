@@ -60,7 +60,7 @@ namespace workrave
     virtual ~DBusBindingBase();
 
     virtual const char *get_interface_introspect() = 0;
-    virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, GVariant *inargs) = 0;
+    virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs) = 0;
 
   protected:
     DBus *dbus;

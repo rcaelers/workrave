@@ -1,6 +1,6 @@
 // OSXAppletWindow.hh --- Applet window
 //
-// Copyright (C) 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "preinclude.h"
 #include <string>
 
-#include "ITimerBoxView.hh"
+#include "TimerBoxViewBase.hh"
 #include "ITimeBar.hh"
 #include "AppletWindow.hh"
 
@@ -31,7 +31,7 @@
 
 @class OSXStatusBarView;
 
-class OSXAppletWindow : public AppletWindow, public ITimerBoxView
+class OSXAppletWindow : public AppletWindow, public TimerBoxViewBase
 {
 public:
   OSXAppletWindow();
@@ -47,15 +47,9 @@ public:
                     int primary_value, int primary_max,
                     ITimeBar::ColorId secondary_color,
                     int secondary_value, int secondary_max);
-  void set_tip(std::string tip);
-  void set_icon(IconType icon);
-  void update_view();
-  void set_enabled(bool enabled);
-  void set_geometry(Orientation orientation, int size);
+
 private:
-
   ColorId convertColorId(ITimeBar::ColorId colorId);
-
   OSXStatusBarView *view;
 };
 
