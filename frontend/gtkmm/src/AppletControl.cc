@@ -40,7 +40,7 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#ifdef HAVE_INDICATOR
+#ifdef HAVE_DBUS
 #include "GenericDBusApplet.hh"
 #endif
 
