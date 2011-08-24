@@ -156,7 +156,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
   menus[MENU_APPLET_GNOME] = new GnomeAppletMenu(gnome_applet_window);
 #endif
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GENERIC_DBUS);
   GenericDBusApplet *indicator_applet = dynamic_cast<GenericDBusApplet*>(applet_window);
   menus[MENU_APPLET_GENERICDBUS] = indicator_applet;

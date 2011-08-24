@@ -96,7 +96,7 @@ GnomeAppletWindow::~GnomeAppletWindow()
 
 
 void
-GnomeAppletWindow::init()
+GnomeAppletWindow::init_applet()
 {
   try
     {
@@ -784,7 +784,8 @@ GnomeAppletWindow::init_dbus()
   TRACE_EXIT();
 }
 
-guint32 GnomeAppletWindow::get_socketid()
+guint32
+GnomeAppletWindow::get_socketid()
 {
   guint32 ret = -1;
   if (applet_control != NULL)
@@ -794,8 +795,10 @@ guint32 GnomeAppletWindow::get_socketid()
   return ret;
 }
 
-guint32 GnomeAppletWindow::get_size()
+guint32
+GnomeAppletWindow::get_size()
 {
+  guint32 ret = -1;
   if (applet_control != NULL)
     {
       ret = applet_control->GetSize();
@@ -803,7 +806,8 @@ guint32 GnomeAppletWindow::get_size()
   return ret;
 }
 
-Orientation GnomeAppletWindow::get_orientation()
+Orientation
+GnomeAppletWindow::get_orientation()
 {
   Orientation ret;
   if (applet_control != NULL)
@@ -813,7 +817,8 @@ Orientation GnomeAppletWindow::get_orientation()
   return ret;
 }
 
-void GnomeAppletWindow::set_menu_active(const std::string &menu, bool status)
+void
+GnomeAppletWindow::set_menu_active(const std::string &menu, bool status)
 {
   if (applet_control != NULL)
     {
@@ -821,7 +826,8 @@ void GnomeAppletWindow::set_menu_active(const std::string &menu, bool status)
     }
 }
 
-void GnomeAppletWindow::set_menu_status(const std::string &menu, bool active)
+void
+GnomeAppletWindow::set_menu_status(const std::string &menu, bool active)
 {
   if (applet_control != NULL)
     {

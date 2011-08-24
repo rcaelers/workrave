@@ -159,6 +159,10 @@ CLEANFILES = org.workrave.Workrave.service
 
 dbussources = DBusGUI.cc DBusGUI.hh
 
+if HAVE_DBUS_GIO
+dbussources += 	GenericDBusApplet.cc
+endif
+
 BUILT_SOURCES = $(dbussources)
 
 # broken: 
@@ -213,7 +217,6 @@ workrave_SOURCES = \
 			Frame.cc \
 			GUI.cc \
 			GUIConfig.cc \
-			GenericDBusApplet.cc \
 			GtkUtil.cc \
 			HeadInfo.cc \
 			Hig.cc \

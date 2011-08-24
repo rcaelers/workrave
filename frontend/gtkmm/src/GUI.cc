@@ -832,6 +832,7 @@ GUI::init_dbus()
 #ifdef HAVE_DBUS_GIO
       if (dbus->is_running("org.workrave.Workrave"))
 #else      
+      dbus->register_service("org.workrave.Workrave");
       if (!dbus->is_owner())
 #endif
         {
@@ -846,8 +847,10 @@ GUI::init_dbus()
       try
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");
+#ifndef HAVE_DBUS_GIO
           dbus->register_service("org.workrave.Workrave");
-
+#endif
+          
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
         }

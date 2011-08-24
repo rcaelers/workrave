@@ -40,7 +40,7 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
 #include "GenericDBusApplet.hh"
 #endif
 
@@ -98,7 +98,7 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet(this);
 #endif
   
@@ -140,10 +140,10 @@ AppletControl::show()
   AppletState rc;
 
   rc = activate_applet(APPLET_GENERIC_DBUS);
-  TRACE_MSG("Unity" << rc);
+  TRACE_MSG("Generic" << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
-      specific = true;
+      // FIXME: specific = true;
     }
 
   rc = activate_applet(APPLET_GNOME);

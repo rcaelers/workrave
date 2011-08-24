@@ -93,7 +93,7 @@ private:
   bool applet_active;
 
 private:
-  void init();
+  void init_applet();
   void deactivate_applet();
   AppletState activate_applet();
 

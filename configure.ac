@@ -408,7 +408,7 @@ then
    if test "x$enable_experimental" = "xyes"; then
       PKG_CHECK_MODULES(GTK,
       			glib-2.0 >= 2.28.0
-      			gio-2.0 >= 2.25.0
+      			gio-2.0 >= 2.26.0
       			gtk+-3.0 >= 3.0.0
       			gdk-3.0 >= 3.0.0
                         sigc++-2.0 >= 2.2.4.2
@@ -567,39 +567,6 @@ AM_CONDITIONAL(HAVE_GCONF, test "x$config_gconf" = "xyes")
 
 
 dnl
-dnl GIO/GNet2 networking
-dnl
-
-config_distribution=no
-have_gnet=no
-
-if test "x$enable_distribution" != "xno"
-then
-  PKG_CHECK_MODULES([GIO],
-                    [gio-2.0 >= 2.22.0],
-                    [config_distribution=yes
-                     AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
-                    [PKG_CHECK_MODULES([GNET],
-                                       [gnet-2.0],
-                                       [config_distribution=yes
-                                        have_gnet=yes
-                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available])
-                                        AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
-                                       [if test "x$enable_distribution" = "xyes"; then
-                                          AC_MSG_ERROR([GIO/GNet development headers not found.])
-                                        fi])])
-fi
-
-if test $config_distribution = yes
-then
-  AC_DEFINE([HAVE_DISTRIBUTION], , [Define if network-distributed operation is available])
-fi
-
-AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
-AM_CONDITIONAL(HAVE_GNET, test $have_gnet = yes)
-
-
-dnl
 dnl XML
 dnl
 
@@ -633,7 +600,7 @@ PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
                   [config_dbus_gio=yes
 		   config_dbus=yes
-		   ])
+		   ], [ config_dbus_gio=no])
 fi
 
 if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
@@ -691,6 +658,39 @@ fi
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
 AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
 AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
+
+
+dnl
+dnl GIO/GNet2 networking
+dnl
+
+config_distribution=no
+have_gnet=no
+
+if test "x$enable_distribution" != "xno"
+then
+  PKG_CHECK_MODULES([GIO],
+                    [gio-2.0 >= 2.22.0],
+                    [config_distribution=yes
+                     AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
+                    [PKG_CHECK_MODULES([GNET],
+                                       [gnet-2.0],
+                                       [config_distribution=yes
+                                        have_gnet=yes
+                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available])
+                                        AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
+                                       [if test "x$enable_distribution" = "xyes"; then
+                                          AC_MSG_ERROR([GIO/GNet development headers not found.])
+                                        fi])])
+fi
+
+if test $config_distribution = yes
+then
+  AC_DEFINE([HAVE_DISTRIBUTION], , [Define if network-distributed operation is available])
+fi
+
+AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
+AM_CONDITIONAL(HAVE_GNET, test $have_gnet = yes)
 
 
 dnl
