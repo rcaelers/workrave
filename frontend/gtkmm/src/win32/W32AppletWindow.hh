@@ -30,7 +30,7 @@
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
-class W32AppletWindow : public IAppletWindow, public TimerBoxViewBase
+class W32AppletWindow : public AppletWindow, public TimerBoxViewBase
 {
 public:
   W32AppletWindow();
