@@ -81,10 +81,12 @@ struct _IndicatorWorkravePrivate {
   GCancellable *workrave_proxy_cancel;
   GDBusProxy *workrave_proxy;
   guint owner_id;
-
+  guint watch_id;
+  
   gboolean alive;
   guint timer;
-
+  guint update_count;
+  
   WorkraveTimerbox *timerbox;
 
 };
@@ -127,6 +129,8 @@ static void on_dbus_ready                 (GObject *object, GAsyncResult *res, g
 static void on_dbus_signal                (GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
 static void on_update_indicator           (IndicatorWorkrave *self, GVariant *parameters);
 static void on_bus_acquired               (GDBusConnection *connection, const gchar *name, gpointer user_data);
+static void on_workrave_appeared          (GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data);
+static void on_workrave_vanished          (GDBusConnection *connection, const gchar *name, gpointer user_data);
 
 /* Indicator Module Config */
 INDICATOR_SET_VERSION
@@ -164,9 +168,11 @@ indicator_workrave_init(IndicatorWorkrave *self)
   priv->workrave_proxy = NULL;
   priv->workrave_proxy_cancel = NULL;
   priv->owner_id = 0;
+  priv->watch_id = 0;
   priv->alive = FALSE;
   priv->timer = 0;
   priv->timerbox = NULL;
+  priv->update_count = 0;
 
   // self->priv->sm = indicator_service_manager_new_version(WORKRAVE_INDICATOR_SERVICE_NAME, WORKRAVE_INDICATOR_SERVICE_VERSION);
   priv->menu = dbusmenu_gtkmenu_new(WORKRAVE_INDICATOR_MENU_NAME, WORKRAVE_INDICATOR_MENU_OBJ);
@@ -182,18 +188,6 @@ indicator_workrave_init(IndicatorWorkrave *self)
                            priv->workrave_proxy_cancel,
                            on_dbus_ready,
                            self);
-
-
-  priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
-                                  DBUS_NAME,
-                                  G_BUS_NAME_OWNER_FLAGS_NONE,
-                                  on_bus_acquired,
-                                  NULL,
-                                  NULL,
-                                  self,
-                                  NULL);
-  
-  priv->timer = g_timeout_add_seconds(10, on_timer, self);
 }
 
 static void
@@ -202,6 +196,16 @@ indicator_workrave_dispose(GObject *object)
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(object);
   IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
 
+  if (priv->watch_id != 0)
+    {
+      g_bus_unwatch_name(priv->watch_id);
+    }
+  
+  if (priv->owner_id != 0)
+    {
+      g_bus_unown_name(priv->owner_id);
+    }
+  
   if (priv->timer != 0)
     {
       g_source_remove(priv->timer);
@@ -232,6 +236,7 @@ indicator_workrave_dispose(GObject *object)
   //    priv->sm = NULL;
   //  }
 
+  
   G_OBJECT_CLASS(indicator_workrave_parent_class)->dispose(object);
   return;
 }
@@ -283,23 +288,88 @@ get_accessible_desc(IndicatorObject *io)
   return name;
 }
 
+static void
+indicator_workrave_start(IndicatorWorkrave *self)
+{
+  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+
+  if (! priv->alive)
+    {
+      priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
+                                      DBUS_NAME,
+                                      G_BUS_NAME_OWNER_FLAGS_NONE,
+                                      on_bus_acquired,
+                                      NULL,
+                                      NULL,
+                                      self,
+                                      NULL);
+
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(priv->workrave_proxy,
+                                                "Embed",
+                                                g_variant_new("(bs)", TRUE, DBUS_NAME),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+
+      if (error != NULL)
+        {
+          g_warning("Could not request embedding for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
+          g_error_free(error);
+        }
+      else
+        {
+          if (result != NULL)
+            {
+              g_variant_unref(result);
+            }
+      
+          priv->timer = g_timeout_add_seconds(10, on_timer, self);
+          priv->alive = TRUE;
+          priv->update_count = 0;
+        }
+    }
+}
+
+static void
+indicator_workrave_stop(IndicatorWorkrave *self)
+{
+  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  if (priv->alive)
+    {
+      if (priv->timer != 0)
+        {
+          g_source_remove(priv->timer);
+          priv->timer = 0;
+        }
+
+      if (priv->owner_id != 0)
+        {
+          g_bus_unown_name(priv->owner_id);
+          priv->owner_id = 0;
+        }
+
+      workrave_timerbox_set_enabled(priv->timerbox, FALSE);
+      workrave_timerbox_update(priv->timerbox, priv->image);
+      priv->alive = FALSE;
+    }
+}
+
 static gboolean
 on_timer(gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
   IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
 
-  if (! priv->alive)
+  if (priv->alive && priv->update_count == 0)
     {
       workrave_timerbox_set_enabled(priv->timerbox, FALSE);
       workrave_timerbox_update(priv->timerbox, priv->image);
-
-      priv->timer = 0;
-      return FALSE;
     }
+  priv->update_count = 0;
 
-  priv->alive = FALSE;
-  return TRUE;
+  return priv->alive;
 }
 
 static void
@@ -322,22 +392,18 @@ on_dbus_ready(GObject *object, GAsyncResult *res, gpointer user_data)
       g_warning("Could not grab DBus proxy for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
       g_error_free(error);
     }
-
-  priv->workrave_proxy = proxy;
-  g_signal_connect(proxy, "g-signal", G_CALLBACK(on_dbus_signal), self);
-
-  GVariant *result = g_dbus_proxy_call_sync(proxy,
-                                            "Embed",
-                                            g_variant_new("(bs)", TRUE, DBUS_NAME),
-                                            G_DBUS_CALL_FLAGS_NONE,
-                                            -1,
-                                            NULL,
-                                            &error);
-
-  if (error != NULL)
+  else
     {
-      g_warning("Could not request embedding for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
-      g_error_free(error);
+      g_signal_connect(proxy, "g-signal", G_CALLBACK(on_dbus_signal), self);
+      priv->workrave_proxy = proxy;
+
+      priv->watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION,
+                                        "org.workrave.Workrave",
+                                        G_BUS_NAME_WATCHER_FLAGS_NONE,
+                                        on_workrave_appeared,
+                                        on_workrave_vanished,
+                                        self,
+                                        NULL);
     }
 }
 
@@ -356,12 +422,13 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
 {
   IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
 
-  priv->alive = TRUE;
-  if (priv->timer == 0)
+  if (! priv->alive)
     {
-      priv->timer = g_timeout_add_seconds(10, on_timer, self);
+      indicator_workrave_start(self);
     }
 
+  priv->update_count++;
+  
   TimerData td[BREAK_ID_SIZEOF];
 
   g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
@@ -417,4 +484,18 @@ on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_da
   (void) connection;
   (void) name;
   (void) user_data;
+}
+
+static void
+on_workrave_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
+{
+  IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
+  indicator_workrave_start(self);
+}
+
+static void
+on_workrave_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+  IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
+  indicator_workrave_stop(self);
 }

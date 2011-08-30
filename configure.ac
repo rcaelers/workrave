@@ -241,7 +241,7 @@ AM_CONDITIONAL(PLATFORM_OS_OSX, test "$platform_os_osx" = "yes")
 AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
 AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "$platform_os_win32" = "yes")
 
-dnl
+dnl<
 dnl Debug
 dnl
 
@@ -420,8 +420,8 @@ then
       then
          config_gtk=yes
          AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-         CFLAGS="${CFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
-         XXFLAGS="${CXXFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+         CFLAGS="${CFLAGS}" # -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+         XXFLAGS="${CXXFLAGS}" # -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
       fi
    fi
 
@@ -472,6 +472,8 @@ then
     PKG_CHECK_MODULES([GNOME2],
                       [libpanelapplet-2.0 >= 2.0.10 \
                        libbonobo-2.0 >= 2.0.0
+                       gtk+-2.0 >= 2.6.0 \
+                       gdk-2.0 >= 2.8 \
 		       dbus-glib-1],
                       [config_gnome2=yes
                        config_panelapplet2=yes
@@ -503,6 +505,12 @@ AM_CONDITIONAL(HAVE_PANELAPPLET2, test "x$config_panelapplet2" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 
 dnl
+dnl Introspection
+dnl
+
+GOBJECT_INTROSPECTION_CHECK([0.6.7])
+ 
+dnl
 dnl Indicator applet
 dnl
 
@@ -514,19 +522,27 @@ DBUSMENUGTK_REQUIRED_VERSION=0.3.95
 
 if test "x$enable_indicator" != "xno" -a "x$config_gtk3" = "xyes"
 then
+   if test "x$found_introspection" != "xyes"
+   then
+	AC_MSG_ERROR([Introspection development headers not found.])
+   else
    PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                 dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                 dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                      [ config_indicator=yes
-                       AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])])
+                       AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
+                     [if test "x$enable_indicator" = "xyes"; then
+                       AC_MSG_ERROR([Indicator development headers not found.])
+                      fi])
+   fi
 fi
 
 with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
 AS_IF([test "x$with_localinstall" = "xyes"],
-    INDICATORDIR="${libdir}/indicators3/2/"
-    INDICATORICONSDIR="${datadir}/libindicate/icons/"
+    INDICATORDIR="${libdir}/indicators3/2"
+    INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
     INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
     INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
@@ -540,12 +556,6 @@ AC_SUBST(INDICATORICONSDIR)
 
 AM_CONDITIONAL(HAVE_INDICATOR, test "x$config_indicator" = "xyes")
 
-dnl
-dnl Introspection
-dnl
-
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
- 
 dnl
 dnl GConf
 dnl

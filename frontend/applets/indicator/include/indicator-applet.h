@@ -21,7 +21,7 @@
 #define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
 #define  WORKRAVE_INDICATOR_SERVICE_VERSION  1
 
-#define  WORKRAVE_INDICATOR_MENU_NAME        "org.workrave.Workrave.Menu"
+#define  WORKRAVE_INDICATOR_MENU_NAME        "org.workrave.Workrave"
 #define  WORKRAVE_INDICATOR_MENU_OBJ         "/org/workrave/Workrave/Menu"
 
 #define DBUSMENU_WORKRAVE_MENUITEM_TYPE      "x-workrave-menu-item"

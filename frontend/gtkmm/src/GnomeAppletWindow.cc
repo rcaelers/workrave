@@ -45,6 +45,11 @@ using namespace std;
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+#include <cairo.h>
+#include <cairo-xlib.h>
+#endif
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -354,18 +359,95 @@ GnomeAppletWindow::set_applet_size(int size)
 }
 
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+
 //! Sets the size of the applet.
 void
 GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 {
-#ifdef HAVE_GTK3
+  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid
+                  << " " << color.pixel
+                  << " " << color.red
+                  << " " << color.green
+                  << " " << color.blue
+                  );
 
-  (void) type;
-  (void) color;
-  (void) xid;
+  static GtkStyleProperties *properties = NULL;
+  if (properties == NULL)
+    {
+      properties = gtk_style_properties_new();
+    }
+ 
+  if (plug == NULL)
+    {
+      return;
+    }
+
+  GtkWidget *widget = GTK_WIDGET(plug->gobj());
+  gtk_widget_reset_style(widget);
+
+	switch (type)
+    {
+    case 0: //PANEL_NO_BACKGROUND:
+      gtk_style_context_remove_provider(gtk_widget_get_style_context(widget),
+                                        GTK_STYLE_PROVIDER(properties));
+      break;
+        
+    case 1: //PANEL_COLOR_BACKGROUND
+        gtk_style_properties_set(properties, GTK_STATE_FLAG_NORMAL,
+                                 "background-color", &color,
+                                 "background-image", NULL,
+                                 NULL);
+      gtk_style_context_add_provider(gtk_widget_get_style_context(widget),
+                                     GTK_STYLE_PROVIDER(properties),
+                                     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      break;
+  
+    case 2: // PANEL_PIXMAP_BACKGROUND
+      {
+        
+        //int width, height;
+
+        gdk_error_trap_push();
+
+        Display *dpy = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
+        cairo_surface_t *surface = cairo_xlib_surface_create(dpy, xid, DefaultVisual(dpy, 0), 0, 0);
+        cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
+        
+        if (pattern != NULL)
+          {
+            gtk_style_properties_set (properties, GTK_STATE_FLAG_NORMAL,
+                                      "background-image", pattern,
+                                      NULL);
+            cairo_pattern_destroy(pattern);
+            gtk_style_context_add_provider(gtk_widget_get_style_context(widget),
+                                           GTK_STYLE_PROVIDER(properties),
+                                           GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+          }
+        else
+          {
+            gtk_style_context_remove_provider(gtk_widget_get_style_context(widget),
+                                              GTK_STYLE_PROVIDER(properties));
+          }
+
+        cairo_surface_destroy(surface);
+        gdk_flush();
+        gdk_error_trap_pop();
+      }
+      break;
+      
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+  TRACE_EXIT();
+}
 
 #else
 
+void
+GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
+{
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid
                   << " " << color.pixel
                   << " " << color.red
@@ -378,6 +460,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     }
 
   // FIXME: convert to Gtkmm and check for memory leaks.
+
   GtkWidget *widget = GTK_WIDGET(plug->gobj());
   GdkPixmap *pixmap = NULL;
 
@@ -386,21 +469,25 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
       int width, height;
 
       gdk_error_trap_push();
+
       GdkPixmap *orig_pixmap = gdk_pixmap_foreign_new(xid);
+      pixbuf = gdk_pixbuf_get_from_drawable(pixbuf, pixmap,
+                                            gdk_colormap_get_system(),
+                                            0, 0, x, y, bw, title_h);
 
       if (orig_pixmap != NULL)
         {
           gdk_drawable_get_size(GDK_DRAWABLE(orig_pixmap), &width, &height);
 
           GdkPixbuf *pbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-          GdkWindow *rootwin = gdk_get_default_root_window ();
+          GdkWindow *rootwin = gdk_get_default_root_window();
           GdkColormap *cmap = gdk_drawable_get_colormap(GDK_DRAWABLE(rootwin));
 
           gdk_pixbuf_get_from_drawable (pbuf, orig_pixmap, cmap, 0, 0,
                                         0, 0, width , height);
 
           /* put background onto the widget */
-          gdk_pixbuf_render_pixmap_and_mask (pbuf, &pixmap, NULL, 127);
+          gdk_pixbuf_render_pixmap_and_mask(pbuf, &pixmap, NULL, 127);
 
           gdk_flush();
           gdk_error_trap_pop();
@@ -431,7 +518,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     case 0: //PANEL_NO_BACKGROUND:
       break;
     case 1: //PANEL_COLOR_BACKGROUND:
-      gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
+      plug->override_background_color(color);
       break;
     case 2: //PANEL_PIXMAP_BACKGROUND:
       style = gtk_style_copy(widget->style);
@@ -443,14 +530,14 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
       break;
     }
 
-
   if (pixmap != NULL)
     {
       g_object_unref(G_OBJECT(pixmap));
     }
+
   TRACE_EXIT();
-#endif
 }
+#endif
 
 //! Destroy notification.
 gboolean
