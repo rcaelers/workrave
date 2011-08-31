@@ -127,18 +127,19 @@ begin
         retVal := ZapWorkrave();
 	if retVal then
 	begin
-	  retVal := KillProcess('dbus-daemon.exe')
-	end
-
-	if retVal then
-	begin
 	  retVal := FindWorkrave();
+	  if retVal then
+	  begin
+	    KillProcess('workrave.exe')
+	    retVal := FindWorkrave();
+	  end
 	  if retVal then
 	  begin
  	    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
 	    Result := False;
           end
 	end
+	KillProcess('dbus-daemon.exe')
       end
       else
       begin
