@@ -1,8 +1,1 @@
-/Makefile
-/Makefile.in
-/.deps
-/.libs
-/*.o
-/*.lo
-/*.la
-/*~
+metadata.json

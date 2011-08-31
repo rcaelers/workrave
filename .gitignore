@@ -1,3 +1,14 @@
+Makefile
+Makefile.in
+.deps
+.libs
+*.la
+*.lo
+*.o
+*.a
+*.ncb
+*.suo
+*~
 /*.diff
 /*.diffs
 /*.log
@@ -5,8 +16,6 @@
 /*.spec
 /*.tar.gz
 /.new.ltmain.sh
-/Makefile
-/Makefile.in
 /TAGS
 /TAGS.stamp
 /aclocal.m4
@@ -53,7 +62,6 @@
 /depcomp
 /stamp-h1
 /subdirs
-*~
 /AUTHORS.txt
 /COPYING.txt
 /NEWS.txt

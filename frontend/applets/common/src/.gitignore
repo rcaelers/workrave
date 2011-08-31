@@ -1,9 +1,3 @@
-/Makefile
-/Makefile.in
-/.deps
-/.libs
-/*.o
-/*.lo
-/*.la
-/*~
 /indicator-workrave-test
+/Workrave-1.0.gir
+/Workrave-1.0.typelib

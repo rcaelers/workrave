@@ -1,10 +1,2 @@
-/Makefile
-/Makefile.in
-/.deps
-/.libs
-/*.la
-/*.lo
-/*.o
-/*~
 /DBusWorkrave.cc
 /DBusWorkrave.hh

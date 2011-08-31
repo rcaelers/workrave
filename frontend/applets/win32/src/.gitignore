@@ -1,10 +1,4 @@
-/Makefile
-/Makefile.in
-/.deps
 /Release
 /Debug
 /Release64
 /Debug64
-/*.ncb
-/*.suo
-/*~

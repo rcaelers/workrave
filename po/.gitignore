@@ -1,7 +1,4 @@
-/Makefile
-/Makefile.in
 /*.gmo
 /.intltool-merge-cache
 /POTFILES
 /stamp-it
-/*~
