@@ -297,7 +297,7 @@ Harpoon::is_64bit_windows()
   fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process");
   if (fnIsWow64Process != NULL)
     {
-      bool ret = fnIsWow64Process(GetCurrentProcess(), &f64) && f64
+      bool ret = fnIsWow64Process(GetCurrentProcess(), &f64) && f64;
       TRACE_RETURN(ret);
       return ret;
     }
