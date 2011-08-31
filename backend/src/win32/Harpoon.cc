@@ -66,13 +66,14 @@ Harpoon::~Harpoon()
 bool
 Harpoon::init(HarpoonHookFunc func)
 {
+  TRACE_ENTER("Harpoon::init");
   assert( HARPOON_MAX_UNBLOCKED_APPS );
   init_critical_filename_list();
 
   bool debug, mouse_lowlevel, keyboard_lowlevel;
 
   CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/debug", debug, false );
+    get_value_with_default( "advanced/harpoon/debug", debug, false );
 
   bool default_mouse_lowlevel = false;
   if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
@@ -81,13 +82,14 @@ Harpoon::init(HarpoonHookFunc func)
     }
 
   CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
+    get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
 
   CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
+    get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
+      TRACE_RETURN("Cannot init");
       return false;
     }
 
@@ -95,17 +97,18 @@ Harpoon::init(HarpoonHookFunc func)
     {
       if (!harpoon_hook(func, (BOOL)keyboard_lowlevel, (BOOL)mouse_lowlevel))
         {
+          TRACE_RETURN("Cannot hook");
           return false;
         }
     }
 
-#if 1
   if (is_64bit_windows())
     {
-       start_harpoon_helper();
+      TRACE_MSG("start helper");
+      start_harpoon_helper();
     }
-#endif
 
+  TRACE_RETURN(true);
   return true;
 }
 
@@ -281,8 +284,10 @@ Harpoon::check_for_taskmgr_debugger( char *out )
 bool
 Harpoon::is_64bit_windows()
 {
+  TRACE_ENTER("Harpoon::is_64bit_windows");
 #if defined(_WIN64)
-  return TRUE;  // 64-bit programs run only on Win64
+  TRACE_RETURN("Yes. win64 build");
+  return true;  // 64-bit programs run only on Win64
 #elif defined(_WIN32)
   BOOL f64 = FALSE;
 
@@ -292,14 +297,18 @@ Harpoon::is_64bit_windows()
   fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process");
   if (fnIsWow64Process != NULL)
     {
-      return fnIsWow64Process(GetCurrentProcess(), &f64) && f64;
+      bool ret = fnIsWow64Process(GetCurrentProcess(), &f64) && f64
+      TRACE_RETURN(ret);
+      return ret;
     }
   else
     {
-      return FALSE;
+      TRACE_RETURN("No. IsWow64Process missing.");
+      return false;
     }
 #else
-  return FALSE; // Win64 does not support Win16
+  TRACE_RETURN("No. win16 build");
+  return false; // Win64 does not support Win16
 #endif
 }
 
