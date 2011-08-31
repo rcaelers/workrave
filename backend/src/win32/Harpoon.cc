@@ -396,6 +396,10 @@ void
 Harpoon::stop_harpoon_helper()
 {
   TRACE_ENTER("Harpoon::stop_harpoon_helper" );
+  if (helper_window == NULL)
+    {
+      helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+    }
   if (helper_window != NULL)
     {
       PostMessage(helper_window, WM_USER + HARPOON_HELPER_EXIT, 0, 0);

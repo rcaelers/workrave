@@ -140,6 +140,7 @@ begin
           end
 	end
 	KillProcess('dbus-daemon.exe')
+	KillProcess('harpoonHelper.exe')
       end
       else
       begin
