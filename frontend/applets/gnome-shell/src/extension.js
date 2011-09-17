@@ -62,7 +62,7 @@ _workraveButton.prototype = {
         this._timerbox = new Workrave.Timerbox();
 	this._height = 24;
 	this._bus_name = 'org.workrave.GnomeShellApplet';
-	this.bus_id = 0;
+	this._bus_id = 0;
 
       	this._area = new St.DrawingArea({ style_class: "workrave", reactive: false});
 	this._area.set_width(this.width=100);
@@ -92,7 +92,7 @@ _workraveButton.prototype = {
 	global.log('workrave-applet: starting');
 	if (! this._alive)
 	{
-	    this.bus_id = DBus.session.acquire_name(this._bus_name, 0, null, null);
+	    this._bus_id = DBus.session.acquire_name(this._bus_name, 0, null, null);
 	    this._proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
     	    this._proxy.EmbedRemote(true, this._bus_name);
 	    this._timeoutId = Mainloop.timeout_add(5000, Lang.bind(this, this._onTimer));
@@ -107,8 +107,8 @@ _workraveButton.prototype = {
 	 {
 	     global.log('workrave-applet: stopping');
 	     Mainloop.source_remove(this._timeoutId);
-	     DBus.session.release_name_by_id(this.bus_id);
-	     this.bus_id = 0;
+	     DBus.session.release_name_by_id(this._bus_id);
+	     this._bus_id = 0;
 	     this._timerbox.set_enabled(false);
 	     this._area.queue_repaint();
 	     this._alive = false;
