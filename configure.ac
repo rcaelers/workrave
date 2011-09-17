@@ -30,7 +30,6 @@ AC_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
 AM_SILENT_RULES([yes])
-AM_MAINTAINER_MODE
 
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
@@ -58,12 +57,12 @@ AC_ARG_ENABLE(gconf,
                               [compile without Gnome gconf2 support])])
 
 AC_ARG_ENABLE(gnome2,
-              [AS_HELP_STRING([--enable-gnome2],
-                              [compile with Gnome 2 support])])
+              [AS_HELP_STRING([--disable-gnome2],
+                              [compile without Gnome 2 support])])
 
 AC_ARG_ENABLE(gnome3,
               [AS_HELP_STRING([--disable-gnome3],
-                              [compile without preliminary Gnome 3 support])])
+                              [compile without Gnome 3 support])])
 
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
@@ -213,7 +212,6 @@ platform_os_win32=no
 platform_os_osx=no
 platform_os_unix=no
 platform_variant_x11=no
-#platform_variant_gnome=no
 
 case "$target_or_host" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
@@ -236,10 +234,10 @@ esac
 
 AC_MSG_RESULT([$platform_os_name])
 
-AM_CONDITIONAL(PLATFORM_OS_WIN32, test "$platform_os_win32" = "yes")
-AM_CONDITIONAL(PLATFORM_OS_OSX, test "$platform_os_osx" = "yes")
-AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
-AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "$platform_os_win32" = "yes")
+AM_CONDITIONAL(PLATFORM_OS_WIN32, test "x$platform_os_win32" = "xyes")
+AM_CONDITIONAL(PLATFORM_OS_OSX, test "x$platform_os_osx" = "xyes")
+AM_CONDITIONAL(PLATFORM_OS_UNIX, test "x$platform_os_unix" = "xyes")
+AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "x$platform_os_win32" = "xyes")
 
 dnl<
 dnl Debug
@@ -323,7 +321,7 @@ AC_SUBST(LIBSTDCPP_LIBS)
 AC_SUBST(WIN32CONSOLE)
 AC_SUBST(DIRECTSOUNDLIBS)
 
-AM_CONDITIONAL(HAVE_DSOUND, test "$have_dsound" = "yes")
+AM_CONDITIONAL(HAVE_DSOUND, test "x$have_dsound" = "xyes")
 
 dnl
 dnl OSX specific checks
@@ -333,7 +331,7 @@ PKG_PROG_PKG_CONFIG
 
 AC_SUBST(OSX_CFLAGS)
 
-if test "$platform_os_osx" = "yes"
+if test "x$platform_os_osx" = "xyes"
 then
    PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
 
@@ -360,7 +358,7 @@ dnl
 dnl Unix specific checks
 dnl
 
-if test "$platform_os_unix" = "yes"
+if test "x$platform_os_unix" = "xyes"
 then
     AC_PATH_X
     AC_PATH_XTRA
@@ -385,61 +383,6 @@ then
     PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
 fi
-
-
-dnl
-dnl GLIB
-dnl
-
-PKG_CHECK_MODULES([GLIB],
-                  [glib-2.0 >= 2.10 gmodule-2.0 gthread-2.0],
-                  [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
-
-
-dnl
-dnl GTK+
-dnl
-
-config_gtk=no
-config_gtk3=no
-
-if test "x$enable_gtk" != "xno"
-then
-   if test "x$enable_experimental" = "xyes"; then
-      PKG_CHECK_MODULES(GTK,
-      			glib-2.0 >= 2.28.0
-      			gio-2.0 >= 2.26.0
-      			gtk+-3.0 >= 3.0.0
-      			gdk-3.0 >= 3.0.0
-                        sigc++-2.0 >= 2.2.4.2
-                        glibmm-2.4 >= 2.28.0
-                        gtkmm-3.0 >= 3.0.0,
-                        [config_gtk3=yes
-                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
-      if test x$config_gtk3 = xyes
-      then
-         config_gtk=yes
-         AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-         CFLAGS="${CFLAGS}" # -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
-         XXFLAGS="${CXXFLAGS}" # -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
-      fi
-   fi
-
-   if test x$config_gtk3 = xno
-   then
-      PKG_CHECK_MODULES(GTK,
-                        gtk+-2.0 >= 2.6.0 \
-                        gdk-2.0 >= 2.8 \
-                        sigc++-2.0 \
-                        glibmm-2.4 >= 2.10 \
-                        gtkmm-2.4 >= 2.10,
-                        [config_gtk=yes
-                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
-fi
-fi
-
-AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
-AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk3" = "xyes")
 
 
 dnl
@@ -485,7 +428,7 @@ then
                        fi])
 fi
 
-if test "x$config_gnome2" = "yes"
+if test "x$config_gnome2" = "xyes"
 then
     AC_DEFINE([HAVE_GNOME2], , [Define if Gnome 2 is available])
 fi
@@ -505,6 +448,66 @@ AM_CONDITIONAL(HAVE_PANELAPPLET2, test "x$config_panelapplet2" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 
 dnl
+dnl GLIB
+dnl
+
+PKG_CHECK_MODULES([GLIB],
+                  [glib-2.0 >= 2.10 gmodule-2.0 gthread-2.0],
+                  [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
+
+
+config_gsettings=no
+if test "x$platform_os_unix" == "xyes"; then		  
+   GLIB_GSETTINGS
+   config_gsettings=yes
+   AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
+fi
+
+AM_CONDITIONAL(HAVE_GSETTINGS, test "x$config_gsettings" = "xyes")
+
+dnl
+dnl GTK+
+dnl
+
+config_gtk=no
+config_gtk_version=none
+
+if test "x$enable_gnome2" != "xyes"
+then
+   if test "x$e_gnome2" != "xyes"; then
+      PKG_CHECK_MODULES(GTK,
+      			glib-2.0 >= 2.28.0
+      			gio-2.0 >= 2.26.0
+      			gtk+-3.0 >= 3.0.0
+      			gdk-3.0 >= 3.0.0
+                        sigc++-2.0 >= 2.2.4.2
+                        glibmm-2.4 >= 2.28.0
+                        gtkmm-3.0 >= 3.0.0,
+                        [config_gtk=yes
+  		 	 config_gtk_version=3
+   	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
+                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
+   fi
+
+   if test x$config_gtk = xno
+   then
+      PKG_CHECK_MODULES(GTK,
+                        gtk+-2.0 >= 2.6.0 \
+                        gdk-2.0 >= 2.8 \
+                        sigc++-2.0 \
+                        glibmm-2.4 >= 2.10 \
+                        gtkmm-2.4 >= 2.10,
+                        [config_gtk=yes
+			 config_gtk_version=2
+                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
+fi
+fi
+
+AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
+AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk_version" = "x3")
+
+
+dnl
 dnl Introspection
 dnl
 
@@ -520,7 +523,7 @@ INDICATOR_REQUIRED_VERSION=0.3.19
 DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
 DBUSMENUGTK_REQUIRED_VERSION=0.3.95
 
-if test "x$enable_indicator" != "xno" -a "x$config_gtk3" = "xyes"
+if test "x$enable_indicator" != "xno" -a "x$config_gtk_version" = "x3"
 then
    if test "x$found_introspection" != "xyes"
    then
@@ -562,7 +565,7 @@ dnl
 
 config_gconf=no
 
-if test "x$enable_gconf" != "xno"
+if test "x$enable_gconf" != "xno" -a "x$config_gnome3" != "xyes"
 then
   PKG_CHECK_MODULES([GCONF],
                     [gconf-2.0 >= 2.31.1],
@@ -807,11 +810,6 @@ then
    variant="$variant x11 unix"
 fi
 
-#if test "x$config_gnome" = "xyes"
-#then
-#   variant="$variant gnome"
-#fi
-
 WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
 WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
 WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
@@ -896,6 +894,7 @@ AC_CONFIG_FILES([Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
+	     backend/src/org.workrave.gschema.xml.in
              backend/src/unix/Makefile
              backend/src/osx/Makefile
              backend/src/win32/Makefile
@@ -950,6 +949,7 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/win32/setup/setup.iss
              frontend/gtkmm/win32/setup/src/Makefile
              frontend/gtkmm/src/Makefile
+	     frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
@@ -990,11 +990,7 @@ echo ""
 echo "          GConf configuration :   ${config_gconf}"
 echo "            XML configuration :   ${config_xml}"
 echo ""
-if test "${config_gtk3}" = "yes"; then
-echo "                      Gtk GUI :   ${config_gtk} (Gtk3)"
-else
-echo "                      Gtk GUI :   ${config_gtk} (Gtk2)"
-fi
+echo "                      Gtk GUI :   ${config_gtk} (Gtk${config_gtk_version})"
 echo "              Gnome 2 support :   ${config_gnome2}"
 echo "              Gnome 3 support :   ${config_gnome3}"
 echo "            Indicator support :   ${config_indicator}"

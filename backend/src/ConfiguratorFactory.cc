@@ -1,6 +1,6 @@
 // ConfiguratorFactory.cc
 //
-// Copyright (C) 2007, 2008 Rob Caelers
+// Copyright (C) 2007, 2008, 2011 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,9 @@
 
 #ifdef HAVE_GLIB
 #include "GlibIniConfigurator.hh"
+#endif
+#ifdef HAVE_GSETTINGS
+#include "GSettingsConfigurator.hh"
 #endif
 #ifdef HAVE_GDOME
 #include "XMLConfigurator.hh"
@@ -57,6 +60,15 @@ ConfiguratorFactory::create(Format fmt)
   else
 #endif
 
+#if HAVE_GSETTINGS
+
+    if (fmt == FormatNative)
+    {
+      b = new GSettingsConfigurator();
+    }
+  else
+#endif
+    
 #ifdef HAVE_GCONF
   if (fmt == FormatNative)
     {

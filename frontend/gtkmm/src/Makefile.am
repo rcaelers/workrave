@@ -197,6 +197,19 @@ dbussources =
 
 endif # HAVE_DBUS
 
+if HAVE_GSETTINGS
+
+gsettings_ENUM_NAMESPACE = 
+gsettings_ENUM_FILES =
+
+gsettings_SCHEMAS = org.workrave.gui.gschema.xml
+
+@INTLTOOL_XML_NOMERGE_RULE@
+
+@GSETTINGS_RULES@
+
+endif
+
 iconsdir = $(datadir)/pixmaps/workrave
 
 desktopdir = ${datadir}/applications

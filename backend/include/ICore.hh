@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include "enum.h"
+
 namespace workrave {
 
   // Forward declaratons
@@ -31,31 +33,6 @@ namespace workrave {
   class ICoreEventListener;
   class INetwork;
   class IDistributionManager;
-
-  //! Mode
-  enum OperationMode
-    {
-      //! Breaks are reported to the user when due.
-      OPERATION_MODE_NORMAL=0,
-
-      //! Monitoring is suspended.
-      OPERATION_MODE_SUSPENDED,
-
-      //! Breaks are not reported to the user when due.
-      OPERATION_MODE_QUIET,
-
-      //! Number of modes.
-      OPERATION_MODE_SIZEOF
-    };
-
-  enum UsageMode
-    {
-      //! Normal 'average' PC usage.
-      USAGE_MODE_NORMAL=0,
-
-      //! User is reading.
-      USAGE_MODE_READING,
-    };
 
   //! ID of a break.
   enum BreakId

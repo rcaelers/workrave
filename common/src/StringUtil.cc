@@ -1,6 +1,6 @@
 // StringUtil.cc --- General purpose string utility functions
 //
-// Copyright (C) 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -59,7 +59,7 @@ StringUtil::search_replace(const string &in, const string &search, const string 
 
   while ((pos = str.find(search, pos)) != string::npos)
     {
-      str.replace(pos, 2, replace);
+      str.replace(pos, search.size(), replace);
       pos++;
     }
 

@@ -3,7 +3,7 @@
 # Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
-MAINTAINERCLEANFILES = 	Makefile.in
+MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid)
 
 SUBDIRS = 		unix win32 osx
 
@@ -18,6 +18,7 @@ sources = 		ActivityMonitor.cc \
 			CoreConfig.cc \
 			CoreFactory.cc \
 			GlibIniConfigurator.cc \
+			GSettingsConfigurator.cc \
 			IdleLogManager.cc \
 			InputMonitor.cc \
 			InputMonitorFactory.cc \
@@ -97,6 +98,19 @@ dbussources =
 
 endif # HAVE_DBUS
 
+if HAVE_GSETTINGS
+
+gsettings_ENUM_NAMESPACE = org.workrave
+gsettings_ENUM_FILES = ../include/enum.h
+
+gsettings_SCHEMAS = org.workrave.gschema.xml
+
+@INTLTOOL_XML_NOMERGE_RULE@
+
+@GSETTINGS_RULES@
+
+endif
+
 libworkrave_backend_la_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesgnet} ${sourcesdistribution} \
 			${dbussources} 
@@ -115,4 +129,4 @@ libworkrave_backend_la_LIBADD=${platform_ldadd}
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in
+			org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in)
