@@ -401,7 +401,7 @@ Core::config_changed_notify(const string &key)
         {
           mode = OPERATION_MODE_NORMAL;
         }
-      TRACE_MSG("Setting mode");
+      TRACE_MSG("Setting operation mode");
       set_operation_mode(OperationMode(mode), false);
     }
 
@@ -412,6 +412,7 @@ Core::config_changed_notify(const string &key)
         {
           mode = USAGE_MODE_NORMAL;
         }
+      TRACE_MSG("Setting usage mode");
       set_usage_mode(UsageMode(mode), false);
     }
   TRACE_EXIT();
@@ -610,6 +611,11 @@ Core::set_usage_mode(UsageMode mode, bool persistent)
       if (persistent)
         {
           get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+        }
+
+      if (core_event_listener != NULL)
+        {
+          core_event_listener->core_event_usage_mode_changed(mode);
         }
     }
 }

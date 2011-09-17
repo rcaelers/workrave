@@ -90,6 +90,7 @@ public:
   //
   void core_event_notify(const CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
+  void core_event_usage_mode_changed(const UsageMode m);
 
   // Internal public methods
   void restbreak_now();

@@ -1,6 +1,6 @@
 // ICoreEventListener.hh
 //
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2007, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,9 @@ namespace workrave
 
     // Notification that the operation mode has changed..
     virtual void core_event_operation_mode_changed(const OperationMode m) = 0;
+
+    // Notification that the usage mode has changed..
+    virtual void core_event_usage_mode_changed(const UsageMode m) = 0;
   };
 }
 

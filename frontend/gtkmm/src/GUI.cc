@@ -974,6 +974,12 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 }
 
 void
+GUI::core_event_usage_mode_changed(const UsageMode m)
+{
+  menus->resync();
+}
+
+void
 GUI::config_changed_notify(const std::string &key)
 {
   TRACE_ENTER_MSG("GUI::config_changed_notify", key);
