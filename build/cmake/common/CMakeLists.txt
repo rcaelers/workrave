@@ -13,7 +13,6 @@ set(COMMON_SOURCES
   ${COMMON_DIR}/include/GlibThread.hh
   ${COMMON_DIR}/include/Locale.hh
   ${COMMON_DIR}/include/Mutex.hh
-  ${COMMON_DIR}/include/QtMutex.hh
   ${COMMON_DIR}/include/Runnable.hh
   ${COMMON_DIR}/include/StringUtil.hh
   ${COMMON_DIR}/include/Thread.hh
@@ -37,9 +36,7 @@ endif (HAVE_DBUS)
 if (WIN32)
   set (COMMON_SOURCES ${COMMON_SOURCES}
     ${COMMON_DIR}/src/win32/crashlog.cc
-    ${COMMON_DIR}/include/win32/Sound.hh
     ${COMMON_DIR}/include/win32/crashlog.h
-#    ${COMMON_DIR}/include/win32/w32debug.hh
   )
 endif (WIN32)
 

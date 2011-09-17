@@ -63,7 +63,7 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/gtkmm/src/MainGtkMenu.cc
     ${FRONTEND_DIR}/gtkmm/src/MainWindow.cc
     ${FRONTEND_DIR}/gtkmm/src/MainWindow.hh
-    ${FRONTEND_DIR}/gtkmm/src/Menu.hh
+    ${FRONTEND_DIR}/gtkmm/src/IMenu.hh
     ${FRONTEND_DIR}/gtkmm/src/Menus.cc
     ${FRONTEND_DIR}/gtkmm/src/Menus.hh
     ${FRONTEND_DIR}/gtkmm/src/MicroBreakWindow.cc
@@ -139,6 +139,7 @@ if (WIN32)
     ${FRONTEND_DIR}/common/src/win32/W32DirectSoundPlayer.hh
     ${FRONTEND_DIR}/common/src/win32/W32Mixer.cc
     ${FRONTEND_DIR}/common/src/win32/W32Mixer.hh
+    ${FRONTEND_DIR}/common/src/win32/Sound.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32AppletMenu.cc
@@ -233,19 +234,6 @@ if (HAVE_EXERCISES)
     ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.hh
   )
 endif (HAVE_EXERCISES)
-
-if (HAVE_OBSOLETE)
-  set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
-    ${FRONTEND_DIR}/src/QtIniConfigurator.cc
-    ${FRONTEND_DIR}/src/QtIniConfigurator.hh
-    ${FRONTEND_DIR}/src/QtNativeConfigurator.cc
-    ${FRONTEND_DIR}/src/QtNativeConfigurator.hh
-    ${FRONTEND_DIR}/src/QtSettingsConfigurator.cc
-    ${FRONTEND_DIR}/src/QtSettingsConfigurator.hh
-    ${FRONTEND_DIR}/src/WeekTimePred.cc
-    ${FRONTEND_DIR}/src/WeekTimePred.hh
-  )
-endif (HAVE_OBSOLETE)
 
 include_directories( 
   ${COMMON_DIR}/include
@@ -363,7 +351,7 @@ if (GETTEXT_FOUND)
   endif (HAVE_EXERCISES)
 
   ADD_CUSTOM_TARGET(nls ALL
-                    DEPENDS ${PO_BIN_DIR}/workrave.pot ${LANG_TARGETS} ${EXERCISE_TARGETS})
+                    DEPENDS ${LANG_TARGETS} ${EXERCISE_TARGETS})
 
 endif(GETTEXT_FOUND)
 		    

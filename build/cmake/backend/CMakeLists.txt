@@ -154,19 +154,6 @@ if (HAVE_DBUS)
 endif (HAVE_DBUS)
     
 
-if (HAVE_OBSOLETE)
-  set(BACKEND_SOURCES ${BACKEND_SOURCES}
-    ${BACKEND_DIR}/src/QtIniConfigurator.cc
-    ${BACKEND_DIR}/src/QtIniConfigurator.hh
-    ${BACKEND_DIR}/src/QtNativeConfigurator.cc
-    ${BACKEND_DIR}/src/QtNativeConfigurator.hh
-    ${BACKEND_DIR}/src/QtSettingsConfigurator.cc
-    ${BACKEND_DIR}/src/QtSettingsConfigurator.hh
-    ${BACKEND_DIR}/src/WeekTimePred.cc
-    ${BACKEND_DIR}/src/WeekTimePred.hh
-  )
-endif (HAVE_OBSOLETE)
-
 include_directories( 
   "${COMMON_DIR}/include"
   "${BACKEND_DIR}/include"

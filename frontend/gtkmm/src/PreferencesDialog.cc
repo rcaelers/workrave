@@ -888,7 +888,7 @@ PreferencesDialog::update_theme_selection()
   SoundPlayer *snd = gui->get_sound_player();
   snd->get_sound_themes(sound_themes);
 
-#if GTKMM_CHECK_VERSION(3, 0, 0)
+#if GTKMM_CHECK_VERSION(2, 24, 0)
   sound_theme_button->remove_all();
 #else
   sound_theme_button->clear_items();

@@ -101,27 +101,9 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/intl.lib
     )
 
-  SET(GTKMM_DEBUG_LIBS
-    ${GTKMM_DIR}/lib/gtk-win32-2.0.lib
-    ${GTKMM_DIR}/lib/libxml2.lib
-    ${GTKMM_DIR}/lib/gdk-win32-2.0.lib
-    ${GTKMM_DIR}/lib/atk-1.0.lib
-    ${GTKMM_DIR}/lib/gdk_pixbuf-2.0.lib
-    ${GTKMM_DIR}/lib/pangowin32-1.0.lib
-    ${GTKMM_DIR}/lib/pangocairo-1.0.lib
-    ${GTKMM_DIR}/lib/pango-1.0.lib
-    ${GTKMM_DIR}/lib/cairo.lib
-    ${GTKMM_DIR}/lib/gio-2.0.lib
-    ${GTKMM_DIR}/lib/gobject-2.0.lib
-    ${GTKMM_DIR}/lib/gmodule-2.0.lib
-    ${GTKMM_DIR}/lib/glib-2.0.lib
-    ${GTKMM_DIR}/lib/gthread-2.0.lib
-    ${GTKMM_DIR}/lib/intl.lib
-    )
-
     if (ICONV_LIBS)
       SET(GTKMM_LIBS
-        ${GTKMM_DEBUG_LIBS}
+        ${GTKMM_LIBS}
         ${ICONV_LIBS}
       )
       SET(GTKMM_DEBUG_LIBS

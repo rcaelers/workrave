@@ -30,7 +30,7 @@ Install CMake 2.8 (required)
 
   Website: http://www.cmake.org
   
-  File: http://www.cmake.org/files/v2.8/cmake-2.8.3-win32-x86.exe
+  File: http://www.cmake.org/files/v2.8/cmake-2.8.5-win32-x86.exe
   
 Install Intltool (recommended, needed for exercises)
 ====================================================
@@ -40,7 +40,7 @@ Install Intltool (recommended, needed for exercises)
 
   Website: http://strawberryperl.com/
   
-  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.12.1.0.msi
+  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.12.3.0.msi
   
 - Download and extract intltool
 
@@ -68,8 +68,8 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
 
   Website: http://www.python.org/download/
 
-  File: http://www.python.org/ftp/python/2.7/python-2.7.msi
-  File: http://www.python.org/ftp/python/2.7/python-2.7.amd64.msi
+  File: http://www.python.org/ftp/python/2.7.2/python-2.7.2.msi
+  File: http://www.python.org/ftp/python/2.7.2/python-2.7.2.amd64.msi
   
 - Download and install setuptools
 
@@ -102,13 +102,13 @@ Install DBus (optional/experimental, needed for dbus)
   - cd dbus-build
   - Run cmake
   
-    cmake -G "Visual Studio 9 2008" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="<PATH-TO-DEPEDENCIES>;<PATH-TO-GTKMM>"
-          -DCMAKE_INSTALL_PREFIX=<PATH-TO-DEPEDENCIES>
+    cmake -G "Visual Studio 10" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="<PATH-TO-DEPEDENCIES>;<PATH-TO-GTKMM>"
+          -DCMAKE_INSTALL_PREFIX=<PATH-TO-DEPEDENCIES>  -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=install-path 
 
     e.g.
     
-    cmake -G "Visual Studio 9 2008" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="c:/mystuff/devel;C:/Program Files (x86)/gtkmm"
-          -DCMAKE_INSTALL_PREFIX=c:/mystuff/devel
+    cmake -G "Visual Studio 10" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="c:/mystuff/devel;C:/Program Files (x86)/gtkmm"
+          -DCMAKE_INSTALL_PREFIX=c:/mystuff/devel -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=install-path 
 
   - Open dbus solution in visual studio (located in dbus-build directory)
   - Select Release configuration
@@ -126,13 +126,13 @@ Compiling Workrave
  - mkdir workrave-build
  - cd workrave-build
 
- - cmake -G "Visual Studio 9 2008" <PATH-TO-WORKRAVE-SOURCES>/build/cmake/
+ - cmake -G "Visual Studio 10" <PATH-TO-WORKRAVE-SOURCES>/build/cmake/
                  -DDEVELOPMENT_MODE=ON 
                  -DCMAKE_PREFIX_PATH="PATH-TO-DEPEDENCIES" -DCMAKE_INSTALL_PREFIX="<INSTALL-DIRECTORY>
 
     Note: PATH-TO-DEPEDENCIES should contains all dependencies: gettext, dbus, intltool etc.
 
-    eg. cmake -G "Visual Studio 9 2008" ../workrave/build/cmake/ -DDEVELOPMENT_MODE=ON
+    eg. cmake -G "Visual Studio 10" ../workrave/build/cmake/ -DDEVELOPMENT_MODE=ON
               -DCMAKE_PREFIX_PATH=c:/mystuff/devel -DCMAKE_INSTALL_PREFIX=c:/mystuff/programs/workrave
 
   - Open Workrave solution in visual studio (location in workrave-build directory)
