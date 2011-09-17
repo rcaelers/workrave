@@ -273,12 +273,20 @@ _workraveButton.prototype = {
     }
 };
 
+let workravePanelButton;
 
-function main(extensionMeta) {
+function init(extensionMeta) {
+    /* do nothing */
+}
 
+function disable() {
+    workravePanelButton.destroy();
+}
+
+function enable() {
     let userExtensionLocalePath = extensionMeta.path + '/locale';
     Gettext.bindtextdomain("workrave", userExtensionLocalePath);
     Gettext.textdomain("workrave");
  
-    let _workravePanelButton = new _workraveButton();
+    workravePanelButton = new _workraveButton();
 }
