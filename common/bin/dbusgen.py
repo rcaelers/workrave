@@ -354,7 +354,6 @@ class StructNode(NodeBase):
             field_sig = self.parent.type2sig(f.ext_type)
             struct_sig =  struct_sig + field_sig
 
-        print struct_sig
         return '(' + struct_sig + ')'
 
 
