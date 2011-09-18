@@ -227,7 +227,8 @@ Core::init_configurator()
     }
   
   string home;
-  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home))
+  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) &&
+      home != "")
     {
       Util::set_home_directory(home);
     }

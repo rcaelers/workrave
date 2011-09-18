@@ -756,7 +756,7 @@ PreferencesDialog::on_sound_play()
                                                               row[sound_model.label],
                                                               filename);
 
-      if (valid)
+      if (valid && filename != "")
         {
           GUI *gui = GUI::get_instance();
           SoundPlayer *snd = gui->get_sound_player();
@@ -828,7 +828,7 @@ PreferencesDialog::on_sound_events_changed()
 
       TRACE_MSG(filename);
 
-      if (valid)
+      if (valid && filename != "")
         {
           inhibit_events++;
           fsbutton_filename = filename;
@@ -865,7 +865,7 @@ PreferencesDialog::on_sound_theme_changed()
                                                               row[sound_model.label],
                                                               filename);
 
-      if (valid)
+      if (valid && filename != "")
         {
           TRACE_MSG(filename << " " <<row[sound_model.label]);
           inhibit_events++;

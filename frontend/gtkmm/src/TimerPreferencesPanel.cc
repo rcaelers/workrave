@@ -363,7 +363,7 @@ TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
     {
       string monitor_name;
       bool ok = config->get_value(key, monitor_name);
-      if (ok)
+      if (ok && monitor_name != "")
         {
           bool s = monitor_cb->is_sensitive();
           monitor_cb->set_active(monitor_name != "");

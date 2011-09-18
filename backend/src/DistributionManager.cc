@@ -515,7 +515,7 @@ DistributionManager::read_configuration()
     {
       string peer ;
       is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_PEERS, peer);
-      if (is_set)
+      if (is_set && peer != "")
         {
           parse_peers(peer);
         }

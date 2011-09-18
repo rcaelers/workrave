@@ -616,7 +616,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
           bool valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
                                                                   snd->id,
                                                                   file);
-          if (valid)
+          if (valid && file != "")
             {
               active_theme.files.push_back(file);
             }
