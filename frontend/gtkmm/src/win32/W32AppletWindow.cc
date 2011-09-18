@@ -27,6 +27,11 @@
 
 #include "W32AppletWindow.hh"
 #include "TimerBoxControl.hh"
+
+#if defined(interface)
+#undef interface
+#endif
+
 #include "Applet.hh"
 #include "GUI.hh"
 #include "Menus.hh"

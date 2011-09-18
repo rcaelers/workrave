@@ -289,12 +289,12 @@ then
         WIN32CONSOLE=-mconsole
     fi
 
-    config_gconf=no
-    config_gnome2=no
-    config_gnome3=no
-    config_xml=no
-    config_indicator=no
-
+    enable_gconf=no
+    enable_gnome2=no
+    enable_gnome3=no
+    enable_xml=no
+    enable_indicator=no
+    
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
@@ -474,8 +474,7 @@ config_gtk_version=none
 
 if test "x$enable_gnome2" != "xyes"
 then
-   if test "x$e_gnome2" != "xyes"; then
-      PKG_CHECK_MODULES(GTK,
+   PKG_CHECK_MODULES(GTK,
       			glib-2.0 >= 2.28.0
       			gio-2.0 >= 2.26.0
       			gtk+-3.0 >= 3.0.0
@@ -486,8 +485,7 @@ then
                         [config_gtk=yes
   		 	 config_gtk_version=3
    	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
-   fi
+                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
 
    if test x$config_gtk = xno
    then
@@ -511,8 +509,11 @@ dnl
 dnl Introspection
 dnl
 
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
- 
+#if test "x$platform_os_win32" != "xyes"
+#then
+    GOBJECT_INTROSPECTION_CHECK([0.6.7])
+#fi
+
 dnl
 dnl Indicator applet
 dnl

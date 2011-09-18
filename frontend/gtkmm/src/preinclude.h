@@ -1,6 +1,6 @@
 // preinclude.h --- Patch includes
 //
-// Copyright (C) 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef PREINCLUDE_HH
-#define PREINCLUDE_HH
-
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -32,5 +29,6 @@
 #undef ERROR
 #undef OK
 
-
+#if defined(interface)
+#undef interface
 #endif

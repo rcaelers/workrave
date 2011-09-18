@@ -26,8 +26,10 @@
 
 #include "preinclude.h"
 #include "Hig.hh"
+
 #include "IconListNotebook.hh"
 #include "ICore.hh"
+
 
 #include "SoundPlayer.hh"
 
