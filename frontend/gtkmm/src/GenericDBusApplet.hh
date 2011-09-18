@@ -110,6 +110,7 @@ private:
   
 private:
   bool enabled;
+  bool embedded;
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
 

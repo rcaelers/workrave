@@ -50,7 +50,7 @@ using namespace std;
 
 //! Constructor.
 GenericDBusApplet::GenericDBusApplet(AppletControl *control) :
-  enabled(false), control(control), dbus(NULL)
+  enabled(false), embedded(false), control(control), dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -137,7 +137,8 @@ GenericDBusApplet::activate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::activate_applet");
   TRACE_EXIT();
-  return AppletWindow::APPLET_STATE_DISABLED;
+  enabled = embedded;
+  return enabled ? AppletWindow::APPLET_STATE_VISIBLE : AppletWindow::APPLET_STATE_DISABLED;
 }
 
 
@@ -159,6 +160,7 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
   if (sender != "")
     {
       dbus->watch(sender, this);
+      embedded = true;
     }
   // else... FIXME:
   TRACE_EXIT();
@@ -258,6 +260,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
         {
           TRACE_MSG("Disabling");
           control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_DISABLED);
+          dbus->unwatch(name);
           enabled = false;
         }
     }
