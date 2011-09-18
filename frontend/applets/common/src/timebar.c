@@ -77,7 +77,7 @@ struct _WorkraveTimebarPrivate
   int secondary_bar_max_value;
 
   //! Text to show;
-  const gchar *bar_text;
+  gchar *bar_text;
 
   int width;
   int height;
@@ -378,10 +378,6 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
   gtk_style_context_set_path(priv->style_context, path);
   gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_FRAME);
-
-  char *s = gtk_widget_path_to_string(path);
-
-  // g_debug("style %s", s);
 
   GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);

@@ -976,6 +976,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 void
 GUI::core_event_usage_mode_changed(const UsageMode m)
 {
+  (void) m;
   menus->resync();
 }
 
