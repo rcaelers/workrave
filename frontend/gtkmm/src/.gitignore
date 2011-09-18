@@ -8,3 +8,6 @@
 /DBusGUI.hh
 /resource.rc
 /workrave.sym
+/org.workrave.gui.gschema.xml.in
+/org.workrave.gui.gschema.xml
+/org.workrave.gui.gschema.valid

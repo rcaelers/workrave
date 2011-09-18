@@ -1,2 +1,6 @@
 /DBusWorkrave.cc
 /DBusWorkrave.hh
+/org.workrave.gschema.xml.in
+/org.workrave.gschema.xml
+/org.workrave.gschema.valid
+/org.workrave.enums.xml
