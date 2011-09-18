@@ -274,9 +274,11 @@ _workraveButton.prototype = {
 };
 
 let workravePanelButton;
+let workraveUserExtensionLocalePath;
 
 function init(extensionMeta) {
     /* do nothing */
+    workraveUserExtensionLocalePath = extensionMeta.path + '/locale';
 }
 
 function disable() {
@@ -284,8 +286,8 @@ function disable() {
 }
 
 function enable() {
-    let userExtensionLocalePath = extensionMeta.path + '/locale';
-    Gettext.bindtextdomain("workrave", userExtensionLocalePath);
+    global.log('workrave-applet: enable');
+    Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
     Gettext.textdomain("workrave");
  
     workravePanelButton = new _workraveButton();
