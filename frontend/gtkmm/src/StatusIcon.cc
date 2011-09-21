@@ -90,14 +90,16 @@ StatusIcon::insert_icon()
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
+  status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
 #endif
 
 #ifdef HAVE_STATUSICON_SIGNAL
+#ifdef USE_W32STATUSICON
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
+#endif
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
-  status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
 
   // Hook up signals, missing from gtkmm
   GtkStatusIcon *gobj = status_icon->gobj();
@@ -147,6 +149,7 @@ StatusIcon::show_balloon(string id, const string &balloon)
 #ifdef USE_W32STATUSICON
   status_icon->show_balloon(id, balloon);
 #else
+  (void) id;
   (void) balloon;
 #endif
 }

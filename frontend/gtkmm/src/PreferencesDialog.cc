@@ -299,7 +299,7 @@ PreferencesDialog::create_gui_page()
   connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
 
   panel->add(*trayicon_cb);
-
+  
   panel->set_border_width(12);
   return panel;
 }
@@ -505,8 +505,50 @@ PreferencesDialog::create_timer_page()
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
 #endif
     }
+
+#if defined(PLATFORM_OS_WIN32)
+  Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
+  Gtk::Widget *monitoring_page = create_monitoring_page();
+  
+#ifdef HAVE_GTK3
+  tnotebook->append_page(*monitoriing_page , *box);
+#else
+  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
+#endif
+#endif
+  
   return tnotebook;
 }
+
+#if defined(PLATFORM_OS_WIN32)
+Gtk::Widget *
+PreferencesDialog::create_monitoring_page()
+{
+  Gtk::VBox *panel = Gtk::manage(new Gtk::VBox(false, 6));
+  panel->set_border_width(12);
+
+  Gtk::Label *monitor_type_lab = Gtk::manage(GtkUtil::create_label(_("Use alternate monitor"), false));
+  monitor_type_cb = Gtk::manage(new Gtk::CheckButton());
+  monitor_type_cb->add(*monitor_type_lab);
+  monitor_type_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_monitor_type_toggled));
+  panel->pack_start(*monitor_type_cb, false, false, 0);
+  
+  Gtk::Label *monitor_type_help = Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using you computer"), false));
+  panel->pack_start(*monitor_type_help, false, false, 0);
+
+  string monitor_type;
+  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
+                                                          monitor_type,
+                                                          "default");
+
+
+  
+  monitor_type_cb->set_active(monitor_type != "default");
+
+  return panel;
+}
+
+#endif
 
 Gtk::Widget *
 PreferencesDialog::create_mainwindow_page()
@@ -719,8 +761,14 @@ PreferencesDialog::on_autostart_toggled()
 
   Util::registry_set_value(RUNKEY, "Workrave", value);
 }
-#endif
 
+void
+PreferencesDialog::on_monitor_type_toggled()
+{
+  bool on = monitor_type_cb->get_active();
+  CoreFactory::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
+}
+#endif
 
 void
 PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
