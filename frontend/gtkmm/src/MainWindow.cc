@@ -304,9 +304,9 @@ MainWindow::update()
 
 
 void
-MainWindow::on_activate()
+MainWindow::activate()
 {
-  TRACE_ENTER("MainWindow::on_activate");
+  TRACE_ENTER("MainWindow::activate");
 
 #if defined(PLATFORM_OS_WIN32)
   GtkWidget *window = Gtk::Widget::gobj();
@@ -330,7 +330,6 @@ MainWindow::on_activate()
     }
   TRACE_EXIT();
 }
-
 
 
 //! Opens the main window.

@@ -23,9 +23,9 @@
 #include "preinclude.h"
 
 #ifdef PLATFORM_OS_WIN32
-#if ! GTK_CHECK_VERSION(2,22,1)
+//#if ! GTK_CHECK_VERSION(2,22,1)
 #define USE_W32STATUSICON 1
-#endif
+//#endif
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
@@ -44,24 +44,22 @@
 #endif
 
 class W32StatusIcon;
-class MainWindow;
 
 class StatusIcon
 {
 public:
-  StatusIcon(MainWindow& mw);
+  StatusIcon();
   ~StatusIcon();
 
   void set_visible(bool b);
   void set_operation_mode(OperationMode m);
   void set_tooltip(std::string& tip);
   bool is_embedded() const;
-#ifdef PLATFORM_OS_WIN32
-#ifndef USE_W32STATUSICON
-  GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
-#endif
-#endif
-  void show_balloon(const std::string& balloon);
+  void show_balloon(std::string id, const std::string& balloon);
+
+  sigc::signal<void> &signal_changed();
+  sigc::signal<void> signal_activate();
+  sigc::signal<void, std::string> signal_balloon_activate();
 
 private:
   void insert_icon();
@@ -69,15 +67,27 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   bool on_size_changed(guint size);
 
+#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+  GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+#endif
+  
+#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+  void on_balloon_activate(std::string id);
+#endif
+  
 #ifndef HAVE_STATUSICON_SIGNAL
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
                                   gpointer callback_data);
 #endif
 
-  MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
 
+  sigc::signal<void> changed_signal;
+  sigc::signal<void> 	activate_signal;
+  sigc::signal<void, std::string> balloon_activate_signal;
+
+  
 #ifdef USE_W32STATUSICON
   W32StatusIcon *status_icon;
 #else

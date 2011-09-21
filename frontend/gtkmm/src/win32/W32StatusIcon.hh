@@ -38,20 +38,17 @@ public:
 
   void set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf);
   void set_tooltip(const Glib::ustring &text);
-  void show_balloon(const Glib::ustring &balloon);
+  void show_balloon(std::string id, const Glib::ustring &balloon);
   void set_visible(bool visible = true);
   bool get_visible() const;
   bool is_embedded() const;
 
-  sigc::signal<bool, int> size_changed_signal;
-  sigc::signal<void> 	activate_signal;
-  sigc::signal<void, guint, guint32> popup_menu_signal;
-
-  sigc::signal<bool, int> &signal_size_changed();
   sigc::signal<void> signal_activate();
+  sigc::signal<void, std::string> signal_balloon_activate();
   sigc::signal<void, guint, guint32> signal_popup_menu();
 
 private:
+  std::string current_id;
   bool visible;
 
   NOTIFYICONDATAW nid;
@@ -64,6 +61,10 @@ private:
   void add_tray_icon();
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+  sigc::signal<void> 	activate_signal;
+  sigc::signal<void, std::string> balloon_activate_signal;
+  sigc::signal<void, guint, guint32> popup_menu_signal;
 
 };
 

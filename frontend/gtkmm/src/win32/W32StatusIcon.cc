@@ -118,12 +118,14 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
 
 
 void
-W32StatusIcon::show_balloon(const Glib::ustring &balloon)
+W32StatusIcon::show_balloon(string id, const Glib::ustring &balloon)
 {
   TRACE_ENTER("W32StatusIcon::show_balloon");
   gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
   gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
 
+  current_id = id;
+  
   if (winfo != NULL && wtitle != NULL)
     {
       nid.uFlags |= NIF_INFO;
@@ -184,12 +186,6 @@ W32StatusIcon::is_embedded() const
   return true;
 }
 
-sigc::signal<bool, int> &
-W32StatusIcon::signal_size_changed()
-{
-    return size_changed_signal;
-}
-
 sigc::signal<void>
 W32StatusIcon::signal_activate()
 {
@@ -200,6 +196,12 @@ sigc::signal<void, guint, guint32>
 W32StatusIcon::signal_popup_menu()
 {
   return popup_menu_signal;
+}
+
+sigc::signal<void, string>
+W32StatusIcon::signal_balloon_activate()
+{
+  return balloon_activate_signal;
 }
 
 void
@@ -301,6 +303,8 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
             case WM_LBUTTONDOWN:
               status_icon->activate_signal.emit();
               break;
+            case NIN_BALLOONUSERCLICK:
+              status_icon->balloon_activate_signal.emit(status_icon->current_id);
             }
         }
     }

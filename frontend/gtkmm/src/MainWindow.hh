@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -57,13 +57,13 @@ public:
   void open_window();
   void close_window();
   void set_applet_active(bool a);
-  void status_icon_changed();
 
   void update();
   void relocate_window(int width, int height);
 
-  void on_activate();
-
+  void status_icon_changed();
+  void activate();
+  
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
 

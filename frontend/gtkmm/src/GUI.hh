@@ -140,6 +140,10 @@ private:
   bool grab();
   void ungrab();
 
+  void on_status_icon_balloon_activate(const std::string &id);
+  void on_status_icon_activate();
+  void on_status_icon_changed();
+  
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
 #endif

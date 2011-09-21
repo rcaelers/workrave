@@ -298,8 +298,10 @@ GUI::main_window_closed()
       TRACE_MSG(closewarn);
       if (closewarn && !closewarn_shown)
         {
-          status_icon->show_balloon(_("Workrave is still running. "
-                                      "You can access Workrave by clicking on the white sheep icon."));
+          status_icon->show_balloon("closewarn",
+                                    _("Workrave is still running. "
+                                      "You can access Workrave by clicking on the white sheep icon. "
+                                      "Click on this balloon to disable this message" ));
           closewarn_shown =  true;
         }
     }
@@ -796,9 +798,12 @@ GUI::init_gui()
       // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
       TimerBoxControl::set_enabled("main_window", true);
     }
-  status_icon = new StatusIcon(*main_window);
+  status_icon = new StatusIcon();
   status_icon->set_visible(tray_icon_enabled);
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate));
+  status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate));
+  status_icon->signal_changed().connect(sigc::mem_fun(*this, &GUI::on_status_icon_changed));
 
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
@@ -1369,12 +1374,14 @@ GUI::on_operational_mode_warning_timer()
   OperationMode mode = core->get_operation_mode();
   if (mode == OPERATION_MODE_SUSPENDED)
     {
-      status_icon->show_balloon(_("Workrave is in suspended mode. "
+      status_icon->show_balloon("operation_mode",
+                                _("Workrave is in suspended mode. "
                                   "Mouse and keyboard activity will not be monitored."));
     }
   else if (mode == OPERATION_MODE_QUIET)
     {
-      status_icon->show_balloon(_("Workrave is in quiet mode. "
+      status_icon->show_balloon("operation_mode",
+                                _("Workrave is in quiet mode. "
                                   "No break windows will appear."));
     }
   return false;
@@ -1694,3 +1701,24 @@ GUI::win32_filter_func (void     *xevent,
 
 
 #endif
+
+void
+GUI::on_status_icon_balloon_activate(const std::string &id)
+{
+  if (id == "closewarn")
+    {
+      CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+    }
+}
+
+void
+GUI::on_status_icon_activate()
+{
+  main_window->activate();
+}
+
+void
+GUI::on_status_icon_changed()
+{
+  main_window->status_icon_changed();
+}
