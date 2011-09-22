@@ -5,6 +5,29 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.9.900
+
+** Workrave now supports DBus on window.
+   DBus can be used to control Workrave by an external program.
+
+** Workrave now offers a Gnome 3 applet. Applets for both Gnome 3
+   classic and the Gnome shell are available.
+
+** Workrave now offers an application indicator (applet) in Unity.
+
+** Infrastructure update. Workrave now supports:
+   - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
+   - Configuration in GSettings (instead of GConf)
+   - GIO based DBus (instead of freedesktop.org DBus)
+   
+** Obsolete KDE3 support has been droppped.
+
+** Translation updates:
+   - ykola Rykov translated Workrave into Ukrainian.
+   - Ivan Barkovic translated Workave into Croatian.
+   - Moein Gh translated Workave into Persian.
+   - Igor Zinovik updated the Russian translation.
+  
 * Workrave 1.9.4
 
 ** The automatic start of a restbreak when the screen is locked is now
