@@ -118,6 +118,7 @@ var retVal : Boolean;
 begin
   Result := True;
   try
+    KillProcess('dbus-daemon.exe')
     retVal := FindWorkrave;
     if retVal then
     begin
@@ -139,7 +140,6 @@ begin
 	    Result := False;
           end
 	end
-	KillProcess('dbus-daemon.exe')
 	KillProcess('harpoonHelper.exe')
       end
       else
