@@ -49,7 +49,6 @@ done
 TARGETDIR=$RUNTIMEDIR/runtime-dbus
 
 copy_dir  bin    dbus*.exe					bin
-copy_dir  bin    dbus*.bat					bin
 copy_dir  lib    libdbus-1.dll					lib
 copy_dir  etc    dbus-1					        etc
 

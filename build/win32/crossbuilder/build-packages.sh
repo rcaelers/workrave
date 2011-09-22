@@ -20,20 +20,26 @@ BUILDDIR="$TOPDIR/build"
 SF_URL="http://surfnet.dl.sourceforge.net/sourceforge"
 GNU_URL="ftp://ftp.gnu.org/gnu"
 
-GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.20/"
-GLIB_FILES=" glib_2.20.5-1_win32.zip glib-dev_2.20.5-1_win32.zip"
+GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.28/"
+GLIB_FILES="glib_2.28.1-1_win32.zip glib-dev_2.28.1-1_win32.zip"
 
-GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.16/"
-GTK_FILES="gtk+_2.16.6-2_win32.zip gtk+-dev_2.16.6-2_win32.zip"
+PIXBUF_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gdk-pixbuf/2.22"
+PIXBUF_FILES="gdk-pixbuf_2.22.1-1_win32.zip gdk-pixbuf-dev_2.22.1-1_win32.zip"
 
-PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.24"
-PANGO_FILES="pango_1.24.5-1_win32.zip pango-dev_1.24.5-1_win32.zip"
+#GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.16/"
+#GTK_FILES="gtk+_2.16.6-2_win32.zip gtk+-dev_2.16.6-2_win32.zip"
 
-ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.24/"
-ATK_FILES="atk_1.24.0-1_win32.zip atk-dev_1.24.0-1_win32.zip"
+GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/"
+GTK_FILES="gtk+_2.24.0-1_win32.zip gtk+-dev_2.24.0-1_win32.zip"
+
+PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.28"
+PANGO_FILES="pango_1.28.3-1_win32.zip pango-dev_1.28.3-1_win32.zip"
+
+ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.32/"
+ATK_FILES="atk_1.32.0-1_win32.zip atk-dev_1.32.0-1_win32.zip"
 
 DBUS_URL="http://dbus.freedesktop.org/releases/dbus/"
-DBUS_FILES="dbus-1.5.4.tar.gz"
+DBUS_FILES="dbus-1.5.6.tar.gz"
 
 # http://www.dgrigoriadis.net/post/2004/06/26/DirectXDevPak-for-Dev-Cpp.aspx
 # http://www.dgrigoriadis.net/file.axd?file=2009%2f2%2fDirectX90c.DevPak
@@ -42,28 +48,31 @@ DIRECTX_URL="http://www.g-productions.net/files/devpak/"
 DIRECTX_FILE="DirectX90c.DevPak"
 
 DEP_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/"
-DEP_FILES="cairo_1.8.10-1_win32.zip cairo-dev_1.8.10-1_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.4.0-1_win32.zip libpng-dev_1.4.0-1_win32.zip zlib-1.2.3.zip zlib-dev-1.2.3.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev-0.17-1.zip gettext-runtime-0.17-1.zip freetype-dev_2.3.11-1_win32.zip freetype_2.3.11-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
+DEP_FILES="cairo_1.10.2-1_win32.zip cairo-dev_1.10.2-1_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.4.3-1_win32.zip libpng-dev_1.4.3-1_win32.zip zlib_1.2.5-2_win32.zip zlib-dev_1.2.5-2_win32.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev_0.18.1.1-2_win32.zip gettext-runtime_0.18.1.1-2_win32.zip freetype-dev_2.4.4-1_win32.zip freetype_2.4.4-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
 
 PKGCONFIG_URL="http://pkgconfig.freedesktop.org/releases/"
-PKGCONFIG_FILES="pkg-config-0.23.tar.gz"
+PKGCONFIG_FILES="pkg-config-0.26.tar.gz"
 
 GNETSRC_URL="http://ftp.gnome.org/pub/GNOME/sources/gnet/2.0/"
 GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
 
-UUID_URL=$SF_URL/e2fsprogs/
+# UUID_URL=$SF_URL/e2fsprogs/
 SIGCPPSRC_URL=$GNOME_URL/libsigc++/2.2/
-GLIBMMSRC_URL=$GNOME_URL/glibmm/2.20/
-GTKMMSRC_URL=$GNOME_URL/gtkmm/2.16/
-PANGOMMSRC_URL=$GNOME_URL/pangomm/2.24/
+GLIBMMSRC_URL=$GNOME_URL/glibmm/2.28/
+GTKMMSRC_URL=$GNOME_URL/gtkmm/2.24/
+PANGOMMSRC_URL=$GNOME_URL/pangomm/2.28/
+ATKMMSRC_URL=$GNOME_URL/atkmm/2.22/
 CAIROMMSRC_URL=http://cairographics.org/releases/
 
-GNETSRC_FILES="gnet-2.0.8.tar.gz"
-GTKMMSRC_FILES="gtkmm-2.16.0.tar.bz2"
-GLIBMMSRC_FILES="glibmm-2.20.2.tar.bz2"
-SIGCPPSRC_FILES="libsigc++-2.2.3.tar.bz2"
-PANGOMMSRC_FILES="pangomm-2.24.0.tar.bz2"
-CAIROMMSRC_FILES="cairomm-1.8.0.tar.gz"
-UUID_FILES="e2fsprogs-libs-1.40.5.tar.gz"
+SIGCPPSRC_FILES="libsigc++-2.2.10.tar.bz2"
+GTKMMSRC_FILES="gtkmm-2.24.2.tar.bz2"
+GLIBMMSRC_FILES="glibmm-2.28.2.tar.bz2"
+PANGOMMSRC_FILES="pangomm-2.28.2.tar.bz2"
+ATKMMSRC_FILES="atkmm-2.22.5.tar.bz2"
+CAIROMMSRC_FILES="cairomm-1.10.0.tar.gz"
+
+#GNETSRC_FILES="gnet-2.0.8.tar.gz"
+#UUID_FILES="e2fsprogs-libs-1.40.5.tar.gz"
 
 BINUTILS=binutils-2.16.91-20060119-1
 BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
@@ -117,6 +126,7 @@ download()
 	fi
 
         download_files $GLIB_URL $GLIB_FILES
+	download_files $PIXBUF_URL $PIXBUF_FILES
         download_files $GTK_URL $GTK_FILES
         download_files $PANGO_URL $PANGO_FILES
         download_files $ATK_URL $ATK_FILES
@@ -127,6 +137,7 @@ download()
         download_files $GTKMMSRC_URL $GTKMMSRC_FILES
         download_files $PANGOMMSRC_URL $PANGOMMSRC_FILES
         download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
+        download_files $ATKMMSRC_URL $ATKMMSRC_FILES
         download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
         download_files $UUID_URL $UUID_FILES
         download_files $DBUS_URL $DBUS_FILES
@@ -142,6 +153,7 @@ unpack()
         	
         unzip_files $GTK_FILES
         unzip_files $GLIB_FILES
+	unzip_files $PIXBUF_FILES
         unzip_files $PANGO_FILES
         unzip_files $GTK_DEP_FILES
         unzip_files $DEP_FILES
@@ -260,7 +272,8 @@ build_pkgconfig()
 	cd "$BUILDDIR/pkgconfig-$TARGET"
 
         echo "Configuring pkgconfig"
-        (   "$BUILDDIR/$1/configure" -v \
+        (  . $TOPDIR/mingw32-x -gtk2.14
+	    "$BUILDDIR/$1/configure" -v \
 		--prefix="$TOOLS" --disable-shared --enable-static \
                 --target=$TARGET --host=i586-linux --build=i586-linux \
 		--with-gnu-as --with-gnu-ld &> configure.log
@@ -513,6 +526,64 @@ build_pangomm()
 	cd "$TOPDIR"
 }
 
+build_atkmm()
+{
+	cd "$BUILDDIR"
+	rm -rf "libatkmm-$TARGET"
+	mkdir "libatkmm-$TARGET"
+
+        # We want statis libs... remove #define XXX_DLL
+        #cd $BUILDDIR/$1
+        #for a in atk/atkmmconfig.h.in; do
+        #    echo Patching $a...
+        #    sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
+        #    mv $a.new $a
+        #done
+
+	cd "$BUILDDIR/libatkmm-$TARGET"
+
+        echo "Configuring Libatkmm"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            "$BUILDDIR/$1/configure" -v \
+		--prefix="$PREFIX" --disable-shared --enable-static \
+                --target=$TARGET --host=$TARGET --build=i586-linux \
+		--with-headers="$PREFIX/$TARGET/include" \
+		--with-gnu-as --with-gnu-ld &> configure.log
+        )
+#                --enable-use-deprecations \
+#                --disable-api-properties \
+#                --disable-api-vfuncs \
+#                --disable-api-exceptions \
+#                --disable-deprecated-api \
+#                --disable-api-default-signal-handlers \
+	
+	if test $? -ne 0; then
+		echo "configure failed - log available: libatkmm-$TARGET/configure.log"
+		exit 1
+	fi
+        
+	echo "Building Libatkmm"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            make &> make.log
+        )
+	if test $? -ne 0; then
+		echo "make failed - log available: libatkmm-$TARGET/make.log"
+		exit 1
+	fi
+
+        
+	cd "$BUILDDIR/libatkmm-$TARGET"
+	echo "Installing Libatkmm"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            make install &> make-install.log
+        )
+        if test $? -ne 0; then
+            echo "install failed - log available: libatkmm-$TARGET/make-install.log"
+            exit 1
+        fi
+	cd "$TOPDIR"
+}
+
 build_gtkmm()
 {
 	cd "$BUILDDIR"
@@ -746,6 +817,7 @@ build_dbus()
                 -DBUILD_SHARED_LIBS:BOOL=ON \
                 -DCMAKE_C_COMPILER="i686-w64-mingw32-gcc" \
                 -DCMAKE_CXX_COMPILER="i686-w64-mingw32-g++" \
+                -DCMAKE_RC_COMPILER_INIT="i686-w64-mingw32-windres" \
                 -DCMAKE_FIND_ROOT_PATH="$PREFIX" \
                 -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
                 -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
@@ -763,13 +835,12 @@ build_dbus()
                 -DDBUS_DISABLE_ASSERTS=ON \
                 -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=install-path \
                 -DDBUS_USE_OUTPUT_DEBUG_STRING=OFF
-	    
 	)
 	if test $? -ne 0; then
 		echo "configure failed - log available: dbus-$TARGET/configure.log"
 		exit 1
 	fi
-        
+
 	echo "Building Dbus"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
@@ -808,25 +879,25 @@ extract_directx
 fix_theme
 fix_pkgconfig
 
-extract_package "pkg-config-0.23" "pkg-config-0.23.tar.gz" 
-build_pkgconfig "pkg-config-0.23"
+extract_package "libsigc++-2.2.10" "libsigc++-2.2.10.tar.bz2"
+build_sigcpp "libsigc++-2.2.10"
 
-extract_package "libsigc++-2.2.3" "libsigc++-2.2.3.tar.bz2"
-build_sigcpp "libsigc++-2.2.3"
+extract_package "glibmm-2.28.2" "glibmm-2.28.2.tar.bz2"
+build_glibmm "glibmm-2.28.2"
 
-extract_package "glibmm-2.20.2" "glibmm-2.20.2.tar.bz2"
-build_glibmm "glibmm-2.20.2"
+extract_package "cairomm-1.10.0" "cairomm-1.10.0.tar.gz"
+build_cairomm "cairomm-1.10.0"
 
-extract_package "cairomm-1.8.0" "cairomm-1.8.0.tar.gz"
-build_cairomm "cairomm-1.8.0"
+extract_package "pangomm-2.28.2" "pangomm-2.28.2.tar.bz2"
+build_pangomm "pangomm-2.28.2"
 
-extract_package "pangomm-2.24.0" "pangomm-2.24.0.tar.bz2"
-build_pangomm "pangomm-2.24.0"
+extract_package "atkmm-2.22.5" "atkmm-2.22.5.tar.bz2"
+build_atkmm "atkmm-2.22.5"
 
-extract_package "gtkmm-2.16.0" "gtkmm-2.16.0.tar.bz2"
-build_gtkmm "gtkmm-2.16.0"
+extract_package "gtkmm-2.24.2" "gtkmm-2.24.2.tar.bz2"
+build_gtkmm "gtkmm-2.24.2"
 
-extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
-build_gnet "gnet-2.0.8"
+#extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
+#build_gnet "gnet-2.0.8"
 
 build_dbus

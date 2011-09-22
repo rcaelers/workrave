@@ -19,7 +19,7 @@ CONF_FLAGS = --quiet
 
 WORKRAVE_GIT_BRANCH_PREFIX=origin
 WORKRAVE_GIT_BRANCH=master
-WORKRAVE_TAG=v1_9_2
+WORKRAVE_TAG=v1_9_4
 
 #WORKRAVE_GIT_BRANCH_PREFIX=origin
 #WORKRAVE_GIT_BRANCH=master
@@ -34,9 +34,9 @@ WORKRAVE_TAG=v1_9_2
 #WORKRAVE_GIT_BRANCH=bug791
 #WORKRAVE_TAG=bug791
 
+WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
 WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
-WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
 
 export TINDERBOX_BUILD=yes
 
@@ -96,12 +96,12 @@ workrave-win32-build-original=\
           cd ${1}/common/win32/harpoon/src; \
           mkdir Release; \
 	  ${WIN32_NMAKE} /f harpoon.mak CFG="harpoon - Win32 Release"; \
-          cd ${1}/frontend/applets/win32/src; \
+          cd ${1}/applets/frontend/win32/src; \
           mkdir Release; \
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release" ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	  ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	   $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
@@ -118,7 +118,7 @@ workrave-win32-build=\
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	  ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
 	  $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym)
 
@@ -152,7 +152,7 @@ workrave-win32-debug-dir:
 	$(call workrave-win32-dir,${WORKRAVE_GIT_DIR})
 
 workrave-win32-debug-build: workrave-win32-debug-dir
-	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--enable-debug,Debug)
+	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--enable-debug --enable-tracing,Debug)
 
 workrave-win32-debug-setup: workrave-win32-debug-build
 	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},debug-installer)
