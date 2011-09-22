@@ -38,8 +38,8 @@ PrivilegesRequired=none
 ; MinVersion=4,3.51
 
 [Types]
-Name: "full"; Description: "Full installation"
 Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
+Name: "full"; Description: "Full installation"
 
 [Components]
 Name: "main"; Description: "Main Files"; Types: full compact; Flags: fixed
