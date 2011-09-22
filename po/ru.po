@@ -269,23 +269,25 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon."
 msgstr ""
+"Workrave продолжает работать.  Вы можете открыть Workrave, кликнув на иконку"
+"с белой овечкой."
 
 #: ../frontend/gtkmm/src/GUI.cc:867 ../frontend/gtkmm/src/GUI.cc:970
 #, fuzzy
 msgid "Workrave failed to start"
-msgstr "Апплет Workrave"
+msgstr "Апплет Workrave не смог запуститься"
 
 #: ../frontend/gtkmm/src/GUI.cc:869
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Workrave ещё работает?"
 
 #: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave не может отслеживать активность вашей клавиатуры и мыши.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extention is enabled in the X server."
-msgstr ""
+msgstr "Убедитесь в том, что расширение RECORD включено в X сервере."
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
@@ -348,7 +350,7 @@ msgstr "_Тихо"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
 msgid "_Reading mode"
-msgstr ""
+msgstr "Режим чтения"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
@@ -486,33 +488,33 @@ msgstr "Режим блокировки:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
-msgstr ""
+msgstr "Системный"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:253
 msgid "(font not available)"
-msgstr ""
+msgstr "(шрифт не доступен)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
-msgstr ""
+msgstr "Язык:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Запустить Workrave при старте Windows"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Показывать иконку в трее"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:312
 #, fuzzy
 msgid "Sound Options"
-msgstr "Параметры"
+msgstr "Звуковые параметры"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
-msgstr "Нет звуков"
+msgstr "Без звуков"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
@@ -524,7 +526,7 @@ msgstr "Проигрывать звуки, используя встроенный динамик"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
-msgstr ""
+msgstr "Громкость:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
@@ -533,32 +535,32 @@ msgstr "Звуки:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Разместить перерыв и дневной предел вместе"
+msgstr "Отключить звуки во время перерыва и дневного предела"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
-msgstr ""
+msgstr "Звуковые события"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:377
 #, fuzzy
 msgid "Sound Theme:"
-msgstr "Звуки:"
+msgstr "Звуковая тема:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:400
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:418
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:439
 msgid "Play"
-msgstr ""
+msgstr "Играть"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Event"
-msgstr ""
+msgstr "Событие"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:421
 #, fuzzy
 msgid "Choose a sound"
-msgstr "Нет звуков"
+msgstr "Выбрать звук"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
@@ -725,7 +727,7 @@ msgstr "Количество упражнений:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Start natural restbreak when screen is locked"
-msgstr ""
+msgstr "Начинать естественный перерыв при блокировке экрана"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:216
 msgid "Time before end:"
@@ -763,7 +765,7 @@ msgstr ""
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
-msgstr ""
+msgstr "Режим чтения"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_About..."
@@ -855,7 +857,7 @@ msgstr "Пароль:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Разрешить входящие соединения"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -1050,23 +1052,23 @@ msgstr "Просмотрщик упражнений"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
-msgstr ""
+msgstr "Предыдущее упражнение"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 #, fuzzy
 msgid "Next exercise"
-msgstr "Количество упражнений:"
+msgstr "Следующее упражнение"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
 #, fuzzy
 msgid "Pause exercises"
-msgstr "Количество упражнений:"
+msgstr "Остановить упражнения"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
 #, fuzzy
 msgid "End exercises"
-msgstr "Упражнения"
+msgstr "Конец упражнений"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
@@ -1079,7 +1081,7 @@ msgstr "Пауза"
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:482
 #, fuzzy
 msgid "Resume exercises"
-msgstr "Количество упражнений:"
+msgstr "Продолжить упражнения"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
