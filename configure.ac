@@ -428,6 +428,7 @@ then
                        fi])
 fi
 
+
 if test "x$config_gnome2" = "xyes"
 then
     AC_DEFINE([HAVE_GNOME2], , [Define if Gnome 2 is available])
@@ -446,6 +447,7 @@ AM_CONDITIONAL(HAVE_GNOME2, test "x$config_gnome2" = "xyes")
 AM_CONDITIONAL(HAVE_GNOME3, test "x$config_gnome3" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET2, test "x$config_panelapplet2" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
+AM_CONDITIONAL(HAVE_PANELAPPLET, test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet2" = "xyes")
 
 dnl
 dnl GLIB
