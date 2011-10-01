@@ -261,14 +261,14 @@ dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 static void
 init_dbus_server(GDBusConnection *connection, WorkraveApplet *applet)
 {
-  applet->priv->manager = g_dbus_object_manager_server_new("/org/workrave/Workrave/");
+  applet->priv->manager = g_dbus_object_manager_server_new("/org/workrave/Workrave");
 
   WorkraveGnomeAppletInterface *applet_dbus = workrave_gnome_applet_interface_skeleton_new();
-  WorkraveObjectSkeleton *object = workrave_object_skeleton_new("GnomeApplet");
+  WorkraveObjectSkeleton *object = workrave_object_skeleton_new("/org/workrave/Workrave/GnomeApplet");
 
   workrave_object_skeleton_set_gnome_applet_interface(object, applet_dbus);
 
-  g_object_unref(applet);
+  g_object_unref(applet_dbus);
 
   g_signal_connect(applet_dbus, "handle-get-socket-id",   G_CALLBACK (on_get_socket_id), applet);
   g_signal_connect(applet_dbus, "handle-get-size",        G_CALLBACK (on_get_size), applet);
@@ -911,8 +911,8 @@ workrave_applet_fill(WorkraveApplet *applet)
   force_no_focus_padding(GTK_WIDGET(applet->priv->hbox));
 
   // Signals.
-  g_signal_connect(applet->priv->socket, "plug_removed", G_CALLBACK(plug_removed), applet->priv);
-  g_signal_connect(applet->priv->socket, "plug_added", G_CALLBACK(plug_added), applet->priv);
+  g_signal_connect(applet->priv->socket, "plug_removed", G_CALLBACK(plug_removed), applet);
+  g_signal_connect(applet->priv->socket, "plug_added", G_CALLBACK(plug_added), applet);
 
   gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet);

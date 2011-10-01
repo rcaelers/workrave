@@ -80,7 +80,7 @@
   </interface>
     
   <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
-             condition="defined(HAVE_PANELAPPLET2)">
+             condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)">
     <import>
       <include name="gdk/gdk.h"/>
       <include name="GnomeAppletWindow.hh"/>
