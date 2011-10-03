@@ -31,6 +31,9 @@ AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
 AM_SILENT_RULES([yes])
 
+GNOME_SHELL_VERSION=3.2.0
+AC_SUBST(GNOME_SHELL_VERSION)
+
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te ga ko fa hr uk"

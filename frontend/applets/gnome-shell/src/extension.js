@@ -65,15 +65,17 @@ _workraveButton.prototype = {
 	this._bus_id = 0;
 
       	this._area = new St.DrawingArea({ style_class: "workrave", reactive: false});
-	this._area.set_width(this.width=100);
+	this._area.set_width(this.width=24);
         this._area.set_height(this.height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
-        this.actor.set_child(this._area);
-        Main.panel._centerBox.add(this.actor, { y_fill: true });
- 
+        this.actor.add_actor(this._area);
+	this.actor.show();
+
 	this._proxy = new IndicatorProxy(DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
 	this._timers_updated_id = this._proxy.connect("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
 	this._menu_updated_id = this._proxy.connect("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
+
+	this._updateMenu(null);
 
         DBus.session.watch_name('org.workrave.Workrave',
                                 false, // no auto launch
@@ -112,6 +114,7 @@ _workraveButton.prototype = {
 	     this._timerbox.set_enabled(false);
 	     this._area.queue_repaint();
 	     this._alive = false;
+	     this._updateMenu(null);
 	 }
      },
 
@@ -209,6 +212,11 @@ _workraveButton.prototype = {
 	this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },
 
+    _onMenuOpenCommand: function(item, event) {
+	global.log('workrave-applet: open');
+        DBus.session.start_service('org.workrave.Workrave');
+    },
+
     _updateMenu : function(menuitems) {
 	this.menu.removeAll();
 
@@ -218,7 +226,7 @@ _workraveButton.prototype = {
 	if (menuitems == null || menuitems.length == 0)
 	{
 	    let popup = new PopupMenu.PopupMenuItem(_("Open"));
-	    popup.connect('activate', Lang.bind(this, this._onMenuCommand, 13));
+	    popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
 	    current_menu.addMenuItem(popup);
 	}
 	else
@@ -291,4 +299,5 @@ function enable() {
     Gettext.textdomain("workrave");
  
     workravePanelButton = new _workraveButton();
+    Main.panel.addToStatusArea('workrave-applet', workravePanelButton);
 }
