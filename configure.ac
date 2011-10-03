@@ -59,6 +59,10 @@ AC_ARG_ENABLE(gconf,
               [AS_HELP_STRING([--disable-gconf],
                               [compile without Gnome gconf2 support])])
 
+AC_ARG_ENABLE(gsettings,
+              [AS_HELP_STRING([--disable-gsettings],
+                              [compile without GSettings support])])
+			      
 AC_ARG_ENABLE(gnome2,
               [AS_HELP_STRING([--disable-gnome2],
                               [compile without Gnome 2 support])])
@@ -461,11 +465,14 @@ PKG_CHECK_MODULES([GLIB],
                   [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
 
-config_gsettings=no
-if test "x$platform_os_unix" == "xyes"; then		  
-   GLIB_GSETTINGS
-   config_gsettings=yes
-   AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
+if test "x$enable_gsettings" != "xno" -a "x$config_gnome3" = "xyes"
+then
+   config_gsettings=no
+   if test "x$platform_os_unix" == "xyes"; then		  
+      GLIB_GSETTINGS
+      config_gsettings=yes
+      AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
+   fi
 fi
 
 AM_CONDITIONAL(HAVE_GSETTINGS, test "x$config_gsettings" = "xyes")

@@ -471,10 +471,6 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
       gdk_error_trap_push();
 
       GdkPixmap *orig_pixmap = gdk_pixmap_foreign_new(xid);
-      pixbuf = gdk_pixbuf_get_from_drawable(pixbuf, pixmap,
-                                            gdk_colormap_get_system(),
-                                            0, 0, x, y, bw, title_h);
-
       if (orig_pixmap != NULL)
         {
           gdk_drawable_get_size(GDK_DRAWABLE(orig_pixmap), &width, &height);
@@ -518,7 +514,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     case 0: //PANEL_NO_BACKGROUND:
       break;
     case 1: //PANEL_COLOR_BACKGROUND:
-      plug->override_background_color(color);
+      gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
       break;
     case 2: //PANEL_PIXMAP_BACKGROUND:
       style = gtk_style_copy(widget->style);
