@@ -1228,7 +1228,7 @@ msgstr ""
 "Rotieren Sie den rechten Arm langsam im Kreis neben dem Körper wie einen "
 "Flugzeugpropeller. Machen Sie dies viermal im Uhrzeigersinn, viermal gegen "
 "den Uhrzeigersinn und entspannen Sie sich für ein paar Sekunden. Wiederholen "
-"Sie dies mit dem rechten Arm."
+"Sie dies mit dem linken Arm."
 
 # src/app/shared/exercises/exercises.xml.in.h:25
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
