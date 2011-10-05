@@ -49,6 +49,9 @@ Name: "dbus"; Description: "D-BUS Runtime Environment"; Types: full
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
 
+[Dirs]
+Name: "{app}\etc\dbus-1\session.d"
+
 [Files]
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
@@ -118,7 +121,6 @@ var retVal : Boolean;
 begin
   Result := True;
   try
-    KillProcess('dbus-daemon.exe')
     retVal := FindWorkrave;
     if retVal then
     begin
@@ -140,13 +142,14 @@ begin
 	    Result := False;
           end
 	end
-	KillProcess('harpoonHelper.exe')
       end
       else
       begin
          Result := False;
       end
     end
+    KillProcess('dbus-daemon.exe')
+    KillProcess('harpoonHelper.exe')
   except
   end;
 end;
