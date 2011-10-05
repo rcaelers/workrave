@@ -115,6 +115,8 @@ _workraveButton.prototype = {
 	     this._area.queue_repaint();
 	     this._alive = false;
 	     this._updateMenu(null);
+	     this._area.set_width(this.width=24);
+
 	 }
      },
 
