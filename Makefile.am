@@ -20,11 +20,9 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 SUBDIRS =      m4 po common backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
-EXTRA_DIST = 	config.rpath  \
-		config.xml \
-		autogen.sh \
-		autogencross.sh \
-		depcomp
+EXTRA_DIST = 	config.xml
+
+DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 
 noinst_PROGRAMS =
 

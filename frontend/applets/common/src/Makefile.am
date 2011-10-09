@@ -15,7 +15,7 @@ libworkrave_1_0_la_SOURCES = \
 	timebar.c \
 	timerbox.c
 libworkrave_1_0_la_CFLAGS = \
-	-Wall -std=c99 $(GTK_CFLAGS) -I../include \
+	-Wall -std=c99 $(GTK_CFLAGS) -I$(srcdir)/../include \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_1_0_la_LIBADD = \
 	$(GTK_LIBS)

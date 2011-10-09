@@ -2,7 +2,7 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 	\
 		  org.workrave.WorkraveAppletFactory.service.in		\
 	  	  WorkraveApplet.c				 	\
 		  WorkraveApplet.h				 	\
-		  gnome-applet.xml					\
+		  workrave-gnome-applet.xml				\
 		  workrave-gnome-applet-menu.xml
 
 BUILT_SOURCES   =
@@ -70,8 +70,6 @@ $(GDBUS_SERVER_GENERATED) : workrave-gnome-applet.xml
 		$<								
 
 BUILT_SOURCES += $(GDBUS_SERVER_GENERATED)
-
-EXTRA_DIST += workrave-applet.xml
 
 CLEANFILES += $(GDBUS_SERVER_GENERATED)
 
