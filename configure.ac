@@ -560,7 +560,7 @@ AS_IF([test "x$with_localinstall" = "xyes"],
     INDICATORDIR="${libdir}/indicators3/6"
     INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
-    INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
+    INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4 | sed -e 's%/$%%'`
     INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
     )
 

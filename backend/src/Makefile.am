@@ -101,7 +101,7 @@ endif # HAVE_DBUS
 if HAVE_GSETTINGS
 
 gsettings_ENUM_NAMESPACE = org.workrave
-gsettings_ENUM_FILES = ../include/enum.h
+gsettings_ENUM_FILES = $(srcdir)/../include/enum.h
 
 gsettings_SCHEMAS = org.workrave.gschema.xml
 
@@ -126,6 +126,7 @@ libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
 libworkrave_backend_la_LIBADD=${platform_ldadd}
 
+DISTCLEANFILES = org.workrave.gschema.xml
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \

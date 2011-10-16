@@ -11,7 +11,7 @@ MAINTAINERCLEANFILES = 	Makefile.in \
 			workrave.desktop \
 			resource.rc
 
-DISTCLEANFILES = 	workrave.desktop
+DISTCLEANFILES = 	workrave.desktop org.workrave.gui.gschema.xml
 
 if HAVE_APP_GTKMM
 
