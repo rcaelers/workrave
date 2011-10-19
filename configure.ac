@@ -34,11 +34,6 @@ dnl AM_SILENT_RULES([yes])
 GNOME_SHELL_VERSION=3.2.0
 AC_SUBST(GNOME_SHELL_VERSION)
 
-dnl Set of available languages.
-AC_SUBST(ALL_LINGUAS)
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te ga ko fa hr uk"
-AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
-
 dnl
 dnl Command line options.
 dnl
@@ -762,7 +757,8 @@ dnl
 dnl Internationalization
 dnl
 
-AM_GLIB_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT([external])
 
 dnl Hack because windows gettext package is SEVERELY broken...
 if test "x$platform_os_win32" = "xyes"
@@ -777,8 +773,8 @@ fi
 
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
-AC_PROG_INTLTOOL
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Define to the gettext domain name.])
+IT_PROG_INTLTOOL([0.40.0])
 
 
 dnl
@@ -892,7 +888,7 @@ then
 
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
-    for a in $ALL_LINGUAS; do
+    for a in $(cat ./po/LINGUAS |grep -v '^#'); do
         X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
         echo -n $X     >> $LANGFILE
         echo -en "\r\n" >> $LANGFILE
