@@ -18,7 +18,7 @@ LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapple
 APPLET_IN_PROCESS 		= false
 APPLET_LOCATION   		= $(libexecdir)/workrave-applet
 
-appletdir       		= $(datadir)/gnome-panel/4.0/applets  # LIBPANEL_APPLET_DIR
+appletdir       		= $(datadir)/gnome-panel/4.0/applets
 applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
