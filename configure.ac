@@ -393,6 +393,80 @@ fi
 
 
 dnl
+dnl DBus
+dnl
+
+config_dbus=no
+config_dbus_gio=no
+have_python_cheetah=no
+
+if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes"
+then
+PKG_CHECK_MODULES([GIO],
+                  [gio-2.0 >= 2.26.0],
+                  [config_dbus_gio=yes
+		   config_dbus=yes
+		   ], [ config_dbus_gio=no])
+fi
+
+if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
+then
+    if test "x$platform_os_win32" = "xyes"
+    then
+        PKG_CHECK_MODULES([DBUS],
+                          [dbus-1 >= 1.2],
+                          [config_dbus=yes],
+                          [true])
+    else
+        PKG_CHECK_MODULES([DBUS],
+                          [dbus-1 >= 1.2],
+                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
+                           PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
+                                         [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
+                          [true])
+
+        if test "x$config_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
+            AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
+        fi
+    fi
+fi
+
+if test "x$config_dbus" = "xyes"
+then
+    AC_DEFINE(HAVE_DBUS, , [DBus support])
+    if test "x$platform_os_win32" != "xyes"
+    then
+        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
+    fi
+    if test "x$config_dbus_gio" == "xyes";
+    then
+        AC_DEFINE(HAVE_DBUS_GIO, 1, [Have GIO DBUS support])
+    fi
+
+    AS_AC_EXPAND(DATADIR, "$datadir")
+    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
+    AC_SUBST(DBUS_SERVICES_DIR)
+    AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+
+    
+    AC_CHECK_PROG(PYTHON, python, python)
+    AC_MSG_CHECKING([for the Cheetah Python package])
+
+    ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
+    if test -z "$ac_cheetah_result"; then
+        AC_MSG_RESULT([yes])
+        have_python_cheetah=yes
+    else
+        AC_MSG_ERROR([No, Please install python-cheetah])
+    fi
+fi
+
+AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
+AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
+AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
+
+
+dnl
 dnl Gnome
 dnl
 	
@@ -404,7 +478,7 @@ config_gnome2=no
 config_gnome3=no
 config_panelapplet4=no
 
-if test "x$enable_gnome3" != "xno"
+if test "x$enable_gnome3" != "xno" -a "x$config_dbus" = "xyes"
 then
     PKG_CHECK_MODULES([GNOME3],
                       [libpanelapplet-4.0 \
@@ -417,7 +491,7 @@ then
                        fi])
 fi
 
-if test "x$enable_gnome2" != "xno" -a "x$config_gnome3" = "xno"
+if test "x$enable_gnome2" != "xno" -a "x$config_gnome3" = "xno"  -a "x$config_dbus" = "xyes"
 then
     PKG_CHECK_MODULES([GNOME2],
                       [libpanelapplet-2.0 >= 2.0.10 \
@@ -610,80 +684,6 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
-
-
-dnl
-dnl DBus
-dnl
-
-config_dbus=no
-config_dbus_gio=no
-have_python_cheetah=no
-
-if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes"
-then
-PKG_CHECK_MODULES([GIO],
-                  [gio-2.0 >= 2.26.0],
-                  [config_dbus_gio=yes
-		   config_dbus=yes
-		   ], [ config_dbus_gio=no])
-fi
-
-if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
-then
-    if test "x$platform_os_win32" = "xyes"
-    then
-        PKG_CHECK_MODULES([DBUS],
-                          [dbus-1 >= 1.2],
-                          [config_dbus=yes],
-                          [true])
-    else
-        PKG_CHECK_MODULES([DBUS],
-                          [dbus-1 >= 1.2],
-                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
-                           PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
-                                         [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
-                          [true])
-
-        if test "x$config_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
-            AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
-        fi
-    fi
-fi
-
-if test "x$config_dbus" = "xyes"
-then
-    AC_DEFINE(HAVE_DBUS, , [DBus support])
-    if test "x$platform_os_win32" != "xyes"
-    then
-        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
-    fi
-    if test "x$config_dbus_gio" == "xyes";
-    then
-        AC_DEFINE(HAVE_DBUS_GIO, 1, [Have GIO DBUS support])
-    fi
-
-    AS_AC_EXPAND(DATADIR, "$datadir")
-    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
-    AC_SUBST(DBUS_SERVICES_DIR)
-    AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
-
-    
-    AC_CHECK_PROG(PYTHON, python, python)
-    AC_MSG_CHECKING([for the Cheetah Python package])
-
-    ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
-    if test -z "$ac_cheetah_result"; then
-        AC_MSG_RESULT([yes])
-        have_python_cheetah=yes
-    else
-        AC_MSG_RESULT([no, dbusgen rules will be disabled])
-    fi
-fi
-
-AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
-AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
-AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
 
 
 dnl
