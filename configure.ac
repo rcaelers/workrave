@@ -17,7 +17,7 @@ if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
     AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
 fi
 
-AC_PREREQ([2.64])
+AC_PREREQ([2.68])
 AC_INIT([workrave],
         [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
@@ -143,7 +143,7 @@ dnl
 dnl checks for compiler characteristics
 dnl
 
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 AC_REQUIRE_CPP
 AC_C_INLINE
 AC_C_CONST
@@ -153,7 +153,6 @@ dnl
 dnl Headers/Types/Functions
 dnl
 
-AC_STDC_HEADERS
 AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
 AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
@@ -161,37 +160,26 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCTEX.mouseData,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUC
 
 have_ishelldispatch=no
 AC_MSG_CHECKING([IShellDispatch])
-AC_TRY_COMPILE([#include <shlobj.h>],
-        [ IShellDispatch* pShellDispatch = NULL; ],
-        [have_ishelldispatch=yes
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <shlobj.h>]], [[ IShellDispatch* pShellDispatch = NULL; ]])],[have_ishelldispatch=yes
          AC_DEFINE(HAVE_ISHELLDISPATCH, 1, "IShellDispatch")
-         AC_MSG_RESULT(yes)],
-         AC_MSG_RESULT(no))
+         AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
 
-AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
-
 
 have_extern_timezone_defined=no
 AC_MSG_CHECKING([external timezone variable defined in time.h])
-AC_TRY_COMPILE([#include <time.h>],
-        [ timezone += 1;
-          return 0;],
-        [have_extern_timezone_defined=yes
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ timezone += 1;
+          return 0;]])],[have_extern_timezone_defined=yes
          AC_DEFINE(HAVE_EXTERN_TIMEZONE_DEFINED, 1, "External timezone")
-         AC_MSG_RESULT(yes)],
-         AC_MSG_RESULT(no))
+         AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
 
 have_extern_timezone=no
 AC_MSG_CHECKING([external timezone variable])
-AC_TRY_COMPILE([#include <time.h>],
-        [ extern long timezone;
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ extern long timezone;
           timezone += 1;
-          return 0;],
-        [have_extern_timezone=yes
+          return 0;]])],[have_extern_timezone=yes
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
-         AC_MSG_RESULT(yes)],
-         AC_MSG_RESULT(no))
+         AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
 
 
 dnl Update version and date.
@@ -301,21 +289,17 @@ then
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
 
-   AC_TRY_COMPILE(
-   [
+   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
 
 static REFIID foo = __uuidof(IAudioEndpointVolume);
-   ],
-   [
+   ]], [[
       IMMDeviceEnumerator *device_enum = NULL;
-   ],
-   [ have_mmdeviceapi=yes
+   ]])],[ have_mmdeviceapi=yes
      AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
      AC_MSG_RESULT(yes)
-   ],
-   AC_MSG_RESULT(no))
+   ],[AC_MSG_RESULT(no)])
 
 fi
 
