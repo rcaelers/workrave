@@ -83,7 +83,8 @@ Session::set_idle(bool new_idle)
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           core->set_operation_mode(mode_before_screenlock, false);
-          if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
+          if (mode_before_screenlock == OPERATION_MODE_NORMAL &&
+              rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
