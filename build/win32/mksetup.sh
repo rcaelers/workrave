@@ -28,6 +28,7 @@ cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/workrave-applet.dll Release/workrave-ap
 cd ${WORKRAVE_GIT_DIR}
 . ${WIN32_MINGW_ENV}
 ${WORKRAVE_GIT_DIR}/build/win32/autogencross.sh || exit 1
+
 make || exit 1
 cp -a ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src
 

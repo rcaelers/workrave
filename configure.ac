@@ -863,16 +863,19 @@ fi
 
 
 dnl
-dnl Generate language list for InoSetup installer
+dnl Generate language list.
 dnl
 
 if test "x$platform_os_win32" = "xyes"
 then
     LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
 
+    ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' )"
+    AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
+    
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
-    for a in $(cat ./po/LINGUAS |grep -v '^#'); do
+    for a in $ALL_LINGUAS; do
         X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
         echo -n $X     >> $LANGFILE
         echo -en "\r\n" >> $LANGFILE
