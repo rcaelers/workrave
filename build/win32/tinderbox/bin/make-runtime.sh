@@ -5,7 +5,7 @@ ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR"
 
 if [ "x$1" != "x" ]; then
     if [ -e $1 ]; then
-        ALL_LINGUAS=`grep ^ALL_LING $1/configure.ac | grep -v "for a in" | sed -e 's/^ALL_LINGUAS="\([a-zA-Z_ ]*\)"/\1/g'`
+        ALL_LINGUAS=$(cat $1/po/LINGUAS |grep -v '^#')
         echo $ALL_LINGUAS
     fi
 fi
