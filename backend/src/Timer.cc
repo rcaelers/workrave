@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ Timer::enable()
           elapsed_idle_time = autoreset_interval;
         }
 
-      if (get_elapsed_time() >= limit_interval)
+      if (limit_enabled && get_elapsed_time() >= limit_interval)
         {
           // Break is overdue, force a snooze.
           last_limit_time = core->get_time();
@@ -158,8 +158,11 @@ Timer::disable()
 void
 Timer::set_limit_enabled(bool b)
 {
-  limit_enabled = b;
-  compute_next_limit_time();
+  if (limit_enabled != b)
+    {
+      limit_enabled = b;
+      compute_next_limit_time();
+    }
 }
 
 
@@ -259,7 +262,7 @@ Timer::set_activity_sensitive(bool a)
       // it has some elasped time. Otherwise a daily limit
       // will never start (well, not until it resets...)
       time_t elasped = get_elapsed_time();
-      if (elasped > 0 && elasped < limit_interval)
+      if (elasped > 0 && (elasped < limit_interval || !limit_enabled))
         {
           activity_state = ACTIVITY_ACTIVE;
         }
@@ -410,7 +413,7 @@ Timer::reset_timer()
 
   // Update total overdue.
   time_t elapsed = get_elapsed_time();
-  if (elapsed > limit_interval)
+  if (limit_enabled && elapsed > limit_interval)
     {
       total_overdue_time += (elapsed - limit_interval);
     }
@@ -651,7 +654,7 @@ Timer::get_total_overdue_time() const
 
   TRACE_MSG(ret << " " << elapsed);
 
-  if (elapsed > limit_interval)
+  if (limit_enabled && elapsed > limit_interval)
     {
       ret += (elapsed - limit_interval);
     }
@@ -846,7 +849,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       next_reset_time = 0;
 
-      bool natural = (limit_interval >=  get_elapsed_time());
+      bool natural = limit_enabled && limit_interval >= get_elapsed_time();
 
       reset_timer();
 
@@ -942,7 +945,7 @@ Timer::deserialize_state(const std::string &state, int version)
     }
 
   // overdue, so snooze
-  if (get_elapsed_time() >= limit_interval)
+  if (limit_enabled && get_elapsed_time() >= limit_interval)
     {
       last_limit_time = llt;
       last_limit_elapsed = lle;
@@ -982,7 +985,7 @@ Timer::set_state(int elapsed, int idle, int overdue)
   if (overdue != -1)
     {
       total_overdue_time = overdue;
-      if (get_elapsed_time() > limit_interval)
+      if (limit_enabled && get_elapsed_time() > limit_interval)
         {
           total_overdue_time -= (get_elapsed_time() - limit_interval);
         }

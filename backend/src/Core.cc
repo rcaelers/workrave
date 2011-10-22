@@ -1070,21 +1070,34 @@ Core::process_timers()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
+      Timer *timer = breaks[i].get_timer();
+      
       infos[i].enabled = breaks[i].is_enabled();
       if (infos[i].enabled)
         {
-          breaks[i].get_timer()->enable();
+          timer->enable();
+          if (i == BREAK_ID_DAILY_LIMIT)
+            {
+              timer->set_limit_enabled(timer->get_limit() > 0);
+            }
         }
       else
         {
-          breaks[i].get_timer()->disable();
+          if (i != BREAK_ID_DAILY_LIMIT)
+            {
+              timer->disable();
+            }
+          else
+            {
+              timer->set_limit_enabled(false);
+            }
         }
 
       // First process only timer that do not have their
       // own activity monitor.
-      if (!(breaks[i].get_timer()->has_activity_monitor()))
+      if (!(timer->has_activity_monitor()))
         {
-          breaks[i].get_timer()->process(monitor_state, infos[i]);
+          timer->process(monitor_state, infos[i]);
         }
     }
 
