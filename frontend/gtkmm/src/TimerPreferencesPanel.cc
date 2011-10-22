@@ -182,7 +182,7 @@ TimerPreferencesPanel::create_options_panel()
 #endif
   if (break_id == BREAK_ID_REST_BREAK)
     {
-      auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start natural restbreak when screen is locked")));
+      auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start restbreak when screen is locked")));
       hig->add(*auto_natural_cb);
 
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,

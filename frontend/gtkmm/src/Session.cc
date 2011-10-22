@@ -87,7 +87,16 @@ Session::set_idle(bool new_idle)
               && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
-              core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+              bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
+              
+              if (overdue)
+                {
+                  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
+                }
+              else
+                {
+                  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+                }
             }
         }
     }
