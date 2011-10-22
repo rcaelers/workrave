@@ -414,6 +414,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 #if defined(PLATFORM_OS_WIN32)
   win32_show(false);
   gui->main_window_closed();
+  TimerBoxControl::set_enabled("main_window", false);
 #elif defined(PLATFORM_OS_OSX)
   close_window();
   TimerBoxControl::set_enabled("main_window", false);
