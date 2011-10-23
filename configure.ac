@@ -518,9 +518,9 @@ PKG_CHECK_MODULES([GLIB],
                   [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
 
+config_gsettings=no		  
 if test "x$enable_gsettings" != "xno" -a "x$config_gnome3" = "xyes"
 then
-   config_gsettings=no
    if test "x$platform_os_unix" == "xyes"; then		  
       GLIB_GSETTINGS
       config_gsettings=yes
