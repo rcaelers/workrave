@@ -119,7 +119,7 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
 
   if (g_strcmp0(signal_name, "StatusChanged") == 0)
     {
-      g_variant_get(parameters, "(i)", &session_status);
+      g_variant_get(parameters, "(u)", &session_status);
       self->set_idle(session_status == 3);
     }
 }
