@@ -456,7 +456,6 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 void
 X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data)
 {
-  TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_device_key_event");
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
   static Time lastTime = 0;
   static int detail = 0;
@@ -479,8 +478,6 @@ X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInter
       detail = 0;
       state = 0;
     }
-
-  TRACE_EXIT();
 }
 
 void

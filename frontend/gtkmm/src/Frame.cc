@@ -117,10 +117,8 @@ Frame::set_frame_flashing(int delay)
 bool
 Frame::on_timer()
 {
-  TRACE_ENTER("Frame::on_timer");
   set_frame_visible(! frame_visible);
   flash_signal_src(frame_visible);
-  TRACE_EXIT();
   return true;
 }
 
@@ -150,53 +148,40 @@ Frame::get_request_mode_vfunc() const
 void
 Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
 {
-  TRACE_ENTER_MSG("Frame::get_preferred_width_vfunc", (int)frame_style);
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_width(minimum_width, natural_width);
 
   guint d = 2*(get_border_width()+frame_width);
   minimum_width += d;
   natural_width += d;
-  TRACE_MSG(minimum_width << " " << natural_width);
-  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_height_vfunc(int &minimum_height, int &natural_height) const
 {
-  TRACE_ENTER_MSG("Frame::get_preferred_height_vfunc", (int)frame_style);
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_height(minimum_height, natural_height);
 
   guint d = 2*(get_border_width()+frame_width);
   minimum_height += d;
   natural_height += d;
-  TRACE_MSG(minimum_height << " " << natural_height);
-  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_width_for_height_vfunc(int /* height */, int &minimum_width, int &natural_width) const
 {
-  TRACE_ENTER_MSG("Frame::get_preferred_width_for_height_vfunc", (int)frame_style);
   get_preferred_width_vfunc(minimum_width, natural_width);
-  TRACE_MSG(minimum_width << " " << natural_width);
-  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_height, int &natural_height) const
 {
-  TRACE_ENTER_MSG("Frame::get_preferred_height_for_width_vfunc", (int)frame_style);
   get_preferred_height_vfunc(minimum_height, natural_height);
-  TRACE_MSG(minimum_height << " " << natural_height);
-  TRACE_EXIT();
 }
 
 bool
 Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 {
-  TRACE_ENTER("Frame::on_draw");
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
   style_context->set_state(Gtk::STATE_FLAG_ACTIVE);
   Gdk::RGBA back_color = style_context->get_background_color();
@@ -205,12 +190,6 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
   Gtk::Allocation allocation = get_allocation();
   int width = allocation.get_width();
   int height = allocation.get_height();
-
-  TRACE_MSG(width << " " << height);
-  TRACE_MSG(frame_width);
-  TRACE_MSG("frame_style " << frame_style);
-  TRACE_MSG(frame_color.get_red_p() << " " << frame_color.get_green_p()  << " " << frame_color.get_blue_p());
-  TRACE_MSG(back_color.get_red() << " " << back_color.get_green() << " " << back_color.get_blue());
 
   switch (frame_style)
     {
@@ -252,7 +231,6 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 
   Gtk::Widget::on_draw(cr);
 
-  TRACE_EXIT();
   return true;
 }
 
