@@ -145,10 +145,11 @@ X11SystrayAppletWindow::activate_applet()
       box->set_spacing(1);
       box->pack_start(*view, true, true, 0);
 
-      if (System::is_kde())
-        {
-          timer_box_control->set_force_empty(true);
-        }
+      // FIXME:
+      // if (System::is_kde())
+      //   {
+      //     timer_box_control->set_force_empty(true);
+      //   }
 
       container->add(*box);
 

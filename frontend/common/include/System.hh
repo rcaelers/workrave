@@ -1,6 +1,6 @@
 // System.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,10 @@
 #include <string>
 #endif
 
+#if defined(HAVE_DBUS_GIO)
+#include <gio/gio.h>
+#endif
+
 class System
 {
 public:
@@ -50,15 +54,15 @@ public:
 #endif
                    );
 
-#if defined(PLATFORM_OS_UNIX)
-  static bool is_kde() { return kde; }
+private:
+#ifdef HAVE_DBUS_GIO
+  static GDBusProxy *lock_proxy;
 #endif
 
-private:
 #if defined(PLATFORM_OS_UNIX)
-  static void init_kde(const char *display);
+  static void init_kde_lock();
+  static bool kde_lock();
 
-  static bool kde;
   static bool lockable;
   static std::string lock_display;
   static bool shutdown_supported;

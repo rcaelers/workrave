@@ -60,21 +60,6 @@
 
 using namespace workrave;
 
-#if defined(PLATFORM_OS_UNIX) && !defined(HAVE_APP_GTK)
-static int (*old_handler)(Display *dpy, XErrorEvent *error);
-
-//! Intercepts X11 protocol errors.
-static int
-errorHandler(Display *dpy, XErrorEvent *error)
-{
-  (void)dpy;
-
-  if (error->error_code == BadWindow || error->error_code==BadDrawable)
-    return 0;
-  return 0;
-}
-#endif
-
 #ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE
 #define INTERFACE IShellDispatch
@@ -131,7 +116,6 @@ const GUID CLSID_Shell =
 
 #if defined(PLATFORM_OS_UNIX)
 
-bool System::kde = false;
 bool System::lockable = false;
 std::string System::lock_display;
 bool System::shutdown_supported;
@@ -142,6 +126,10 @@ HINSTANCE System::user32_dll = NULL;
 System::LockWorkStationFunc System::lock_func = NULL;
 bool System::shutdown_supported;
 
+#endif
+
+#ifdef HAVE_DBUS_GIO
+GDBusProxy *System::lock_proxy =  NULL;
 #endif
 
 bool
@@ -188,6 +176,82 @@ invoke(const gchar* command, bool async = false)
 }
 #endif
 
+
+#ifdef HAVE_DBUS_GIO
+void
+System::init_kde_lock()
+{
+  TRACE_ENTER("System::init_dbus_lock");
+	GError *error = NULL;
+  lock_proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
+                                             G_DBUS_PROXY_FLAGS_NONE,
+                                             NULL,
+                                             "org.kde.screensaver",
+                                             "/ScreenSaver",
+                                             "org.freedesktop.ScreenSaver",
+                                             NULL,
+                                             &error);
+
+  if (error != NULL)
+    {
+      TRACE_MSG("Error: " << error->message);
+      g_error_free(error);
+    }
+
+  if (lock_proxy != NULL)
+    {
+      GVariant *result = g_dbus_proxy_call_sync(lock_proxy,
+                                                "GetActive",
+                                                NULL,
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
+      
+      if (result != NULL)
+        {
+          g_variant_unref(result);
+        }
+      
+      if (error != NULL)
+        {
+          g_error_free(error);
+          g_object_unref(lock_proxy);
+          lock_proxy = NULL;
+        }
+    }
+
+  TRACE_EXIT();
+}
+
+
+bool
+System::kde_lock()
+{
+  GError *error = NULL;
+  GVariant *result = g_dbus_proxy_call_sync(lock_proxy,
+                                            "Lock",
+                                            NULL,
+                                            G_DBUS_CALL_FLAGS_NONE,
+                                            -1,
+                                            NULL,
+                                            &error);
+
+  if (result != NULL)
+    {
+      g_variant_unref(result);
+    }
+
+  if (error != NULL)
+    {
+      g_error_free(error);
+      return false;
+    }
+
+  return true;
+}
+#endif
+
 void
 System::lock()
 {
@@ -196,13 +260,13 @@ System::lock()
     {
 #if defined(PLATFORM_OS_UNIX)
       gchar *program = NULL, *cmd = NULL;
-      if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")))
+
+#ifdef HAVE_DBUS_GIO
+      if (kde_lock())
         {
-          cmd = g_strdup_printf("%s --display \"%s\" --forcelock",
-                                program, lock_display.c_str() );
-          invoke(cmd, true);
           goto end;
         }
+#endif
       if ((program = g_find_program_in_path("xscreensaver-command")))
         {
           cmd = g_strdup_printf("%s --display \"%s\" -lock",
@@ -293,12 +357,12 @@ System::init(
 {
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
-  init_kde(display);
+#ifdef HAVE_DBUS_GIO
+      init_kde_lock();
+#endif
 
   gchar *program;
-  if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")) != NULL)
-    lockable = true;
-  else if ((program = g_find_program_in_path("xscreensaver-command")) != NULL)
+  if ((program = g_find_program_in_path("xscreensaver-command")) != NULL)
     lockable = true;
   else if ((program = g_find_program_in_path("gnome-screensaver-command")) != NULL)
     lockable = true;
@@ -321,7 +385,7 @@ System::init(
     {
       shutdown_supported = true;
     }
-  
+
 #elif defined(PLATFORM_OS_WIN32)
   // Note: this memory is never freed
   user32_dll = LoadLibrary("user32.dll");
@@ -334,135 +398,3 @@ System::init(
 #endif
   TRACE_EXIT();
 }
-
-
-#if defined(PLATFORM_OS_UNIX)
-static bool
-get_self_typed_prop (Display *display,
-                     Window      xwindow,
-                     Atom        atom,
-                     unsigned long     *val)
-{
-  Atom type;
-  int format;
-  unsigned long nitems;
-  unsigned long bytes_after;
-  unsigned long *num;
-
-  type = None;
-  XGetWindowProperty (display,
-                      xwindow,
-                      atom,
-                      0, 100000,
-                      False, atom, &type, &format, &nitems,
-                      &bytes_after, (unsigned char **)&num);
-
-  if (type != atom) {
-    return false;
-  }
-
-  if (val)
-    *val = *num;
-
-  XFree (num);
-
-  return true;
-}
-
-static bool
-has_wm_state (Display *display, Window xwindow)
-{
-  return get_self_typed_prop (display, xwindow,
-                              XInternAtom (display, "WM_STATE", False),
-                              NULL);
-}
-
-static bool
-look_for_kdesktop_recursive (Display *display, Window xwindow)
-{
-  Window ignored1, ignored2;
-  Window *children = NULL;
-  unsigned int n_children = 0;
-  unsigned int i = 0;
-  bool retval;
-
-#ifdef HAVE_APP_GTK
-  gdk_error_trap_push();
-#else
-  old_handler = XSetErrorHandler(&errorHandler);
-#endif
-
-  /* If WM_STATE is set, this is a managed client, so look
-   * for the class hint and end recursion. Otherwise,
-   * this is probably just a WM frame, so keep recursing.
-   */
-  if (has_wm_state (display, xwindow)) {
-    XClassHint ch;
-
-    ch.res_name = NULL;
-    ch.res_class = NULL;
-
-    XGetClassHint (display, xwindow, &ch);
-
-    if (ch.res_name)
-      XFree (ch.res_name);
-
-    if (ch.res_class) {
-      if (strcasecmp (ch.res_class, "kdesktop") == 0) {
-        XFree (ch.res_class);
-        return true;
-      }
-      else
-        XFree (ch.res_class);
-    }
-    return false;
-  }
-  retval = false;
-
-  Status status = XQueryTree(display,
-                             xwindow,
-                             &ignored1, &ignored2, &children, &n_children);
-  if (status)
-    {
-      i = 0;
-      while (i < n_children) {
-        if (look_for_kdesktop_recursive (display, children[i])) {
-          retval = true;
-          break;
-        }
-
-        ++i;
-      }
-
-      if (children)
-        XFree (children);
-    }
-
-#ifdef HAVE_APP_GTK
-  gdk_flush();
-  gint err = gdk_error_trap_pop();
-  (void) err;
-#else
-  XSetErrorHandler(old_handler);
-#endif
-
-  return retval;
-}
-
-
-void
-System::init_kde(const char *display)
-{
-  TRACE_ENTER("System::init_kde");
-  if (display != NULL)
-    {
-      Display * dis = XOpenDisplay(display);
-      if (dis != None)
-        {
-          kde = look_for_kdesktop_recursive (dis, XRootWindow(dis, 0));
-          XCloseDisplay(dis);
-        }
-    }
-  TRACE_RETURN(kde);
-}
-#endif
