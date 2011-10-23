@@ -498,6 +498,7 @@ Core::get_break(BreakId id)
   return &breaks[id];
 }
 
+//! Returns the specified break controller.
 Break *
 Core::get_break(std::string name)
 {
@@ -591,12 +592,15 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
 }
 
 
+//! Retrieves the usage mode.
 UsageMode
 Core::get_usage_mode()
 {
   return usage_mode;
 }
 
+
+//! Sets the usage mode.
 void
 Core::set_usage_mode(UsageMode mode, bool persistent)
 {
@@ -773,7 +777,7 @@ Core::force_idle()
 
 
 /********************************************************************************/
-/**** Break Response                                                        ******/
+/**** Break Response                                                       ******/
 /********************************************************************************/
 
 //! User postpones the specified break.
