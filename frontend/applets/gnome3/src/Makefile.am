@@ -52,7 +52,8 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= WorkraveApplet.c workrave-gnome-applet-generated.c
+workrave_applet_SOURCES 	= WorkraveApplet.c 
+nodist_workrave_applet_SOURCES  = workrave-gnome-applet-generated.c
 workrave_applet_LDADD 		= @GNOME3_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
