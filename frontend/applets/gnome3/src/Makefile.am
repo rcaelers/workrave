@@ -1,8 +1,8 @@
-EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 	\
-		  org.workrave.WorkraveAppletFactory.service.in		\
-	  	  WorkraveApplet.c				 	\
-		  WorkraveApplet.h				 	\
-		  workrave-gnome-applet.xml				\
+EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
+		  org.gnome.panel.applet.WorkraveAppletFactory.service.in	\
+	  	  WorkraveApplet.c				 		\
+		  WorkraveApplet.h				 		\
+		  workrave-gnome-applet.xml					\
 		  workrave-gnome-applet-menu.xml
 
 BUILT_SOURCES   =
@@ -32,10 +32,10 @@ $(applet_in_files): $(applet_in_files).in Makefile
 %.panel-applet: %.panel-applet.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
 
 servicedir       		= $(datadir)/dbus-1/services
-service_in_files 		= org.workrave.WorkraveAppletFactory.service.in
+service_in_files 		= org.gnome.panel.applet.WorkraveAppletFactory.service.in
 service_DATA     		= $(service_in_files:.service.in=.service)
 
-org.workrave.WorkraveAppletFactory.service: $(service_in_files)
+org.gnome.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 	$(AM_V_GEN)sed \
 	    -e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
 	    $< > $@
@@ -52,8 +52,7 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= WorkraveApplet.c 
-nodist_workrave_applet_SOURCES  = workrave-gnome-applet-generated.c
+workrave_applet_SOURCES 	= WorkraveApplet.c workrave-gnome-applet-generated.c
 workrave_applet_LDADD 		= @GNOME3_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
