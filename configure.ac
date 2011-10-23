@@ -17,7 +17,7 @@ if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
     AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
 fi
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.67])
 AC_INIT([workrave],
         [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
