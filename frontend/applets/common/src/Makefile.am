@@ -10,22 +10,22 @@ INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(srcdir)/../i
 if HAVE_INTROSPECTION
 
 workravelibdir = $(libdir)
-workravelib_LTLIBRARIES = libworkrave-1.0.la
-libworkrave_1_0_la_SOURCES = \
+workravelib_LTLIBRARIES = libworkrave-private-1.0.la
+libworkrave_private_1_0_la_SOURCES = \
 	timebar.c \
 	timerbox.c
-libworkrave_1_0_la_CFLAGS = \
+libworkrave_private_1_0_la_CFLAGS = \
 	-Wall -std=c99 $(GTK_CFLAGS) -I$(srcdir)/../include \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
-libworkrave_1_0_la_LIBADD = \
+libworkrave_private_1_0_la_LIBADD = \
 	$(GTK_LIBS)
 
-introspection_sources = $(libworkrave_1_0_la_SOURCES)
+introspection_sources = $(libworkrave_private_1_0_la_SOURCES)
 
-Workrave-1.0.gir: libworkrave-1.0.la
+Workrave-1.0.gir: libworkrave-private-1.0.la
 Workrave_1_0_gir_INCLUDES = GObject-2.0
 Workrave_1_0_gir_CFLAGS = $(INCLUDES) $(GTK_CFLAGS) -I$(srcdir)/../include
-Workrave_1_0_gir_LIBS = libworkrave-1.0.la
+Workrave_1_0_gir_LIBS = libworkrave-private-1.0.la
 Workrave_1_0_gir_FILES = $(introspection_sources) $(srcdir)/../include/timerbox.h $(srcdir)/../include/timebar.h
 INTROSPECTION_GIRS += Workrave-1.0.gir
 

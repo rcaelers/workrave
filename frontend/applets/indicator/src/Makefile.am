@@ -12,7 +12,7 @@ libworkrave_la_CFLAGS = \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_la_LIBADD = \
-	$(INDICATOR_LIBS) -L$(srcdir)/../../common/src -lworkrave-1.0
+	$(INDICATOR_LIBS) -L$(srcdir)/../../common/src -lworkrave-private-1.0
 libworkrave_la_LDFLAGS = \
 	-module \
 	-avoid-version
