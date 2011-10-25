@@ -51,4 +51,4 @@ EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $
 Locale.cc:		locale.inc
 
 locale.inc:
-			python $(top_srcdir)/common/bin/create_locale.py > locale.inc
+			$(PYTHON) $(top_srcdir)/common/bin/create_locale.py > locale.inc

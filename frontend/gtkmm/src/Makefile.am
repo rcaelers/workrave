@@ -75,7 +75,7 @@ DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.cc \
 		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
+			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
 
 endif
 
@@ -178,13 +178,13 @@ DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template-gio.cc \
 			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 else
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
 			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 endif
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
