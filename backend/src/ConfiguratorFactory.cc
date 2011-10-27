@@ -61,8 +61,7 @@ ConfiguratorFactory::create(Format fmt)
 #endif
 
 #if HAVE_GSETTINGS
-
-    if (fmt == FormatNative)
+  if (fmt == FormatNative)
     {
       b = new GSettingsConfigurator();
     }
@@ -100,10 +99,6 @@ ConfiguratorFactory::create(Format fmt)
 #else
 #error Not ported
 #endif
-    }
-  else
-    {
-      exit(1);
     }
 
   if (b != NULL)

@@ -217,12 +217,14 @@ Core::init_configurator()
             {
               configurator->load(configFile);
             }
-#else
+        }
+#endif
+      if (configurator == NULL)
+        {
           ini_file = Util::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
           configurator->load(ini_file);
           configurator->save(ini_file);
-#endif
         }
     }
   
