@@ -328,11 +328,8 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
   pango_layout_get_pixel_size(priv->pango_layout, &text_width, &text_height);
 
   int text_x, text_y;
-  if (priv->width - text_width - MARGINX > 0)
-    {
-      text_x = (priv->width - text_width) / 2;
-    }
-  else
+  text_x = priv->width - text_width - MARGINX;
+  if (text_x < 0)
     {
       text_x = MARGINX;
     }
