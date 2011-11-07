@@ -201,9 +201,9 @@ Core::init_configurator()
 #endif
       
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
+#if defined(HAVE_GDOME)
       if (configurator == NULL)
         {
-#if defined(HAVE_GDOME)
           string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
