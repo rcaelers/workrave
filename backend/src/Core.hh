@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -123,6 +123,7 @@ public:
   void defrost();
 
   void force_idle();
+  void force_idle(BreakId break_id);
 
   ActivityState get_current_monitor_state() const;
   bool is_master() const;

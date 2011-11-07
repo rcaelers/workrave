@@ -134,6 +134,9 @@ namespace workrave {
 
     //! Return the current time
     virtual time_t get_time() const = 0;
+
+    //! Return the current time
+    virtual void force_idle() = 0;
   };
 
   std::string operator%(const std::string &key, BreakId id);

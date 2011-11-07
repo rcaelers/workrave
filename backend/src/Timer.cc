@@ -736,8 +736,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       new_activity_state = activity_monitor->get_current_state();
       TRACE_MSG("foreign activity state =" << new_activity_state);
     }
-
-  if (activity_sensitive)
+  else if (activity_sensitive)
     {
       // This timer responds to the activity monitoring.
       TRACE_MSG("is activity sensitive");

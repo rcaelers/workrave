@@ -111,8 +111,8 @@ public:
   void force_idle()
   {
     TRACE_ENTER("TimerActivityMonitor::force_idle");
-    // TRACE_MSG("Forcing idle");
-    // forced_idle = true;
+    TRACE_MSG("Forcing idle");
+    forced_idle = true;
     TRACE_EXIT();
   }
 

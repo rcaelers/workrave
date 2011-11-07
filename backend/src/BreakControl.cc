@@ -305,7 +305,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         // "Innocent until proven guilty".
         TRACE_MSG("Force idle");
-        core->force_idle();
+        core->force_idle(break_id);
         break_timer->stop_timer();
 
         // Start the break.
@@ -408,7 +408,7 @@ BreakControl::start_break()
 
       // Idle until proven guilty.
       TRACE_MSG("Force idle");
-      core->force_idle();
+      core->force_idle(break_id);
       break_timer->stop_timer();
 
       // Update statistics.
@@ -457,7 +457,7 @@ BreakControl::force_start_break(BreakHint hint)
   if (!break_timer->get_activity_sensitive())
     {
       TRACE_MSG("Forcing idle");
-      break_timer->force_idle();
+      core->force_idle(break_id);
     }
 
   goto_stage(STAGE_TAKING);

@@ -762,16 +762,29 @@ void
 Core::force_idle()
 {
   TRACE_ENTER("Core::force_idle");
-  monitor->force_idle();
+  force_idle(BREAK_ID_NONE);
+  TRACE_EXIT();
+}
 
+
+void
+Core::force_idle(BreakId break_id)
+{
+  TRACE_ENTER("Core::force_idle_for_break");
+  
+  monitor->force_idle();
+  
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      IActivityMonitor *am = breaks[i].get_timer()->get_activity_monitor();
-      if (am != NULL)
+      if (break_id == BREAK_ID_NONE || i == break_id)
         {
-          am->force_idle();
+          IActivityMonitor *am = breaks[i].get_timer()->get_activity_monitor();
+          if (am != NULL)
+            {
+              am->force_idle();
+            }
         }
-
+      
       breaks[i].get_timer()->force_idle();
     }
   TRACE_EXIT();
