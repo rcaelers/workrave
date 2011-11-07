@@ -59,6 +59,12 @@ Session::set_idle(bool new_idle)
   bool auto_natural = false;
   IConfigurator *config = CoreFactory::get_configurator();
   config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
+  ICore *core = CoreFactory::get_core();
+
+  if (core->get_usage_mode() == USAGE_MODE_READING)
+    {
+      core->force_idle();
+    }
 
   if (auto_natural)
     {
@@ -66,7 +72,6 @@ Session::set_idle(bool new_idle)
       if (new_idle && !is_idle)
         {
           TRACE_MSG("Now idle");
-          ICore *core = CoreFactory::get_core();
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           taking = rest_break->is_taking();
@@ -79,7 +84,6 @@ Session::set_idle(bool new_idle)
       else if (!new_idle && is_idle && !taking)
         {
           TRACE_MSG("No longer idle");
-          ICore *core = CoreFactory::get_core();
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           core->set_operation_mode(mode_before_screenlock, false);
