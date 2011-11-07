@@ -128,9 +128,11 @@ MainWindow::init()
 
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
-  const char *icon_files[] = { "workrave-icon-small.png",
+  const char *icon_files[] = { "workrave-sheep.svg",
+                               "workrave-icon-small.png",
                                "workrave-icon-medium.png",
-                               "workrave-icon-large.png" };
+                               "workrave-icon-large.png",
+                               };
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {

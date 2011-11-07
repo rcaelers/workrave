@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -290,6 +290,7 @@ Util::get_search_path(SearchPathId type)
           searchPath.insert(home_dir + "/images");
         }
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.insert(string(WORKRAVE_DATADIR) + "/icons/hicolor/scalable/apps");
       searchPath.insert("/usr/local/share/workrave/images");
       searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
