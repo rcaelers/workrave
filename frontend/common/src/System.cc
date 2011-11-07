@@ -228,27 +228,36 @@ System::init_kde_lock()
 bool
 System::kde_lock()
 {
-  GError *error = NULL;
-  GVariant *result = g_dbus_proxy_call_sync(lock_proxy,
-                                            "Lock",
-                                            NULL,
-                                            G_DBUS_CALL_FLAGS_NONE,
-                                            -1,
-                                            NULL,
-                                            &error);
-
-  if (result != NULL)
+  bool ret = false;
+  
+  if (lock_proxy != NULL)
     {
-      g_variant_unref(result);
-    }
+      GError *error = NULL;
+      GVariant *result = g_dbus_proxy_call_sync(lock_proxy,
+                                                "Lock",
+                                                NULL,
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
 
-  if (error != NULL)
-    {
-      g_error_free(error);
-      return false;
-    }
+      if (result != NULL)
+        {
+          g_variant_unref(result);
+        }
 
-  return true;
+      if (error != NULL)
+        {
+          g_error_free(error);
+          ret = false;
+        }
+      else
+        {
+          ret = true;
+        }
+    }
+  
+  return ret;
 }
 #endif
 
@@ -358,7 +367,7 @@ System::init(
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
 #ifdef HAVE_DBUS_GIO
-      init_kde_lock();
+  init_kde_lock();
 #endif
 
   gchar *program;
