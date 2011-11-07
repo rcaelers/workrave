@@ -24,6 +24,6 @@
 	        <oaf_attribute name="name" type="string" _value="Workrave"/>
 	        <oaf_attribute name="description" type="string" _value="Workrave Applet"/>
 	        <oaf_attribute name="panel:category" type="string" value="Utilities"/>
-	        <oaf_attribute name="panel:icon" type="string" value="@ICONSDIR@/workrave-icon-huge.png"/>
+	        <oaf_attribute name="panel:icon" type="string" value="@ICONSDIR@/workrave.png"/>
         </oaf_server>
 </oaf_info>

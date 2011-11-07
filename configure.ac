@@ -916,6 +916,14 @@ AC_CONFIG_FILES([Makefile
              frontend/common/share/sounds/subtle/Makefile
              frontend/common/share/sounds/default/Makefile
              frontend/common/share/images/Makefile
+             frontend/common/share/images/16x16/Makefile
+             frontend/common/share/images/24x24/Makefile
+             frontend/common/share/images/32x32/Makefile
+             frontend/common/share/images/48x48/Makefile
+             frontend/common/share/images/64x64/Makefile
+             frontend/common/share/images/96x96/Makefile
+             frontend/common/share/images/128x128/Makefile
+             frontend/common/share/images/scalable/Makefile
              frontend/common/share/images/win32/Makefile
              frontend/common/share/images/osx/Makefile
              frontend/common/src/Makefile

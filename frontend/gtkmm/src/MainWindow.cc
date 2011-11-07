@@ -128,10 +128,15 @@ MainWindow::init()
 
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
-  const char *icon_files[] = { "workrave-sheep.svg",
-                               "workrave-icon-small.png",
-                               "workrave-icon-medium.png",
-                               "workrave-icon-large.png",
+  const char *icon_files[] = {
+    "scalable/apps/workrave.svg",
+                               "16x16/apps/workrave.png",
+                               "24x24/apps/workrave.png",
+                               "32x32/apps/workrave.png",
+                               "48x48/apps/workrave.png",
+                               "64x64/apps/workrave.png",
+                               "96x96/apps/workrave.png",
+                               "128x128/apps/workrave.png",
                                };
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
@@ -141,6 +146,8 @@ MainWindow::init()
       try
         {
           Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
+
+          TRACE_MSG(file << " size = " << pixbuf->get_width() << " " << pixbuf->get_height());
           icons.push_back(pixbuf);
         }
       catch (...)
@@ -150,6 +157,7 @@ MainWindow::init()
 
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
   Gtk::Window::set_default_icon_list(icon_list);
+  //Gtk::Window::set_default_icon_name("workrave");
 
   enabled = TimerBoxControl::is_enabled("main_window");
 

@@ -290,7 +290,7 @@ Util::get_search_path(SearchPathId type)
           searchPath.insert(home_dir + "/images");
         }
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.insert(string(WORKRAVE_DATADIR) + "/icons/hicolor/scalable/apps");
+      searchPath.insert(string(WORKRAVE_DATADIR) + "/icons/hicolor");
       searchPath.insert("/usr/local/share/workrave/images");
       searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
