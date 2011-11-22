@@ -81,16 +81,16 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
                       |(mode == OPERATION_MODE_NORMAL
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      w32aw->add_menu(_("_Suspended"), Menus::MENU_COMMAND_MODE_SUSPENDED,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_SUSPENDED
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
       w32aw->add_menu(_("Q_uiet"), Menus::MENU_COMMAND_MODE_QUIET,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OPERATION_MODE_QUIET
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
+      w32aw->add_menu(_("_Suspended"), Menus::MENU_COMMAND_MODE_SUSPENDED,
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP
+                      |(mode == OPERATION_MODE_SUSPENDED
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
 

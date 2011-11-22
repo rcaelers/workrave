@@ -5,8 +5,8 @@
 <menuitem name="Statistics" action="Statistics"/>
 <menu name="Mode" action="Mode">
    <menuitem name="Normal" action="Normal"/>
-   <menuitem name="Suspended" action="Suspended"/>
    <menuitem name="Quiet" action="Quiet"/>
+   <menuitem name="Suspended" action="Suspended"/>
 </menu>
 <menu name="Network" action="Network">
    <menuitem name="Join" action="Join"/>

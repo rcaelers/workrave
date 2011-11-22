@@ -28,11 +28,11 @@
         <menuitem name="Normal Item" verb="Normal" _label="_Normal"
                   type="radio" group="Mode" id="Normal"/>
                   
-        <menuitem name="Suspended Item" verb="Suspended" _label="_Suspended"
-                  type="radio" group="Mode" id="Suspended"/>
-
         <menuitem name="Quiet Item" verb="Quiet" _label="_Quiet"
                   type="radio" group="Mode" id="Quiet"/>
+
+        <menuitem name="Suspended Item" verb="Suspended" _label="_Suspended"
+                  type="radio" group="Mode" id="Suspended"/>
 
       </submenu>
 

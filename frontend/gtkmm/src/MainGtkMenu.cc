@@ -144,11 +144,11 @@ MainGtkMenu::create_actions()
   action_group->add(Gtk::RadioAction::create(group_mode, "Normal", _("_Normal")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_normal));
 
-  action_group->add(Gtk::RadioAction::create(group_mode, "Suspended", _("_Suspended")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_suspend));
-
   action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
+
+  action_group->add(Gtk::RadioAction::create(group_mode, "Suspended", _("_Suspended")),
+                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_suspend));
 
   action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
@@ -227,8 +227,8 @@ MainGtkMenu::create_ui()
     "    <menuitem action='Statistics'/>"
     "    <menu action='Mode'>"
     "      <menuitem action='Normal'/>"
-    "      <menuitem action='Suspended'/>"
     "      <menuitem action='Quiet'/>"
+    "      <menuitem action='Suspended'/>"
     "    </menu>"
 #ifdef HAVE_DISTRIBUTION
     "    <menu action='Network'>"

@@ -120,8 +120,8 @@ IndicatorAppletMenu::init()
   DbusmenuMenuitem *mode_menu = menu_item_append(root, _("_Mode"));
 
   menu_item_append(mode_menu, _("_Normal"), Radio, Menus::MENU_COMMAND_MODE_NORMAL);
-  menu_item_append(mode_menu, _("_Suspended"), Radio, Menus::MENU_COMMAND_MODE_SUSPENDED);
   menu_item_append(mode_menu, _("Q_uiet"), Radio, Menus::MENU_COMMAND_MODE_QUIET);
+  menu_item_append(mode_menu, _("_Suspended"), Radio, Menus::MENU_COMMAND_MODE_SUSPENDED);
 
   DbusmenuMenuitem *network_menu = menu_item_append(root, _("_Network"));
 
