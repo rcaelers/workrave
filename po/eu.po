@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-10-16 12:32+0200\n"
+"POT-Creation-Date: 2011-10-22 18:27+0200\n"
 "PO-Revision-Date: 2011-02-16 19:22+0100\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
@@ -898,7 +898,7 @@ msgid "Number of exercises:"
 msgstr "Ariketa kopurua:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
-msgid "Start natural restbreak when screen is locked"
+msgid "Start restbreak when screen is locked"
 msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.900\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-10-17 16:59+0200\n"
+"POT-Creation-Date: 2011-10-22 18:27+0200\n"
 "PO-Revision-Date: 2011-10-17 17:06+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -400,7 +400,10 @@ msgstr ""
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
-msgstr "El Workrave encara s'està executant. Podeu accedir-hi al Workrave fent clic a la icona de l'ovella blanca. Feu clic en aquest globus per inhabilitar aquest missatge."
+msgstr ""
+"El Workrave encara s'està executant. Podeu accedir-hi al Workrave fent clic "
+"a la icona de l'ovella blanca. Feu clic en aquest globus per inhabilitar "
+"aquest missatge."
 
 #: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
 msgid "Workrave failed to start"
@@ -412,7 +415,9 @@ msgstr "Potser ja està en execució?"
 
 #: ../frontend/gtkmm/src/GUI.cc:954
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "El Workrave no ha pogut monitoritzar l'activitat del vostre teclat i ratolí.\n"
+msgstr ""
+"El Workrave no ha pogut monitoritzar l'activitat del vostre teclat i "
+"ratolí.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:957
 msgid "Make sure that the RECORD extension is enabled in the X server."
@@ -422,7 +427,9 @@ msgstr "Assegureu-vos que l'extensió «RECORD» és habilitada al servidor X."
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
-msgstr "El Workrave és en mode suspès. L'activitat del ratolí i teclat no es monitoritzarà."
+msgstr ""
+"El Workrave és en mode suspès. L'activitat del ratolí i teclat no es "
+"monitoritzarà."
 
 #: ../frontend/gtkmm/src/GUI.cc:1384
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -704,7 +711,9 @@ msgstr "Empra un monitor alternatiu"
 msgid ""
 "Enable this option if Workrave fails to detect when you are using you "
 "computer"
-msgstr "Habiliteu aquesta opció si el Workrave no pot detectar quan esteu emprant l'ordinador"
+msgstr ""
+"Habiliteu aquesta opció si el Workrave no pot detectar quan esteu emprant "
+"l'ordinador"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
@@ -871,7 +880,8 @@ msgid "Number of exercises:"
 msgstr "Nombre d'exercicis:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
-msgid "Start natural restbreak when screen is locked"
+#, fuzzy
+msgid "Start restbreak when screen is locked"
 msgstr "Inicia un descans natural quan es bloqui la pantalla"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
