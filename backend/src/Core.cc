@@ -693,14 +693,19 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
+  TRACE_MSG(powersave << " " << powersave_resume_time << " " << powersave_operation_mode);
+
   if (down)
     {
-      // Computer is going down
-      powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED, false);
-      TRACE_MSG("prev mode " << powersave_operation_mode);
-      powersave_resume_time = 0;
-      powersave = true;
-
+      if (!powersave)
+        {
+          // Computer is going down
+          powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+          TRACE_MSG("prev mode " << powersave_operation_mode);
+          powersave_resume_time = 0;
+          powersave = true;
+        }
+      
       save_state();
       statistics->update();
     }
@@ -1165,8 +1170,11 @@ Core::process_timewarp()
   if (last_process_time != 0)
     {
       time_t gap = current_time - 1 - last_process_time;
+  
       if (abs((int)gap) > 5)
         {
+          TRACE_MSG("gap " << gap << " " << powersave << " " << powersave_operation_mode << " " << powersave_resume_time << " " << current_time);
+
           if (!powersave)
             {
               TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
@@ -1191,6 +1199,7 @@ Core::process_timewarp()
               set_operation_mode(powersave_operation_mode);
             }
         }
+      
       if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
         {
           TRACE_MSG("End of time warp after powersave");
