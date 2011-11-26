@@ -62,9 +62,6 @@ private:
 private:
   bool is_idle;
   bool taking;
-
-  //! Operation mode before the screen was locked.
-  workrave::OperationMode mode_before_screenlock;
 };
 
 #endif // SESSION_HH

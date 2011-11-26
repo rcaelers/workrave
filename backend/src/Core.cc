@@ -89,11 +89,11 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
+  user_operation_mode(OPERATION_MODE_NORMAL),
   usage_mode(USAGE_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
   powersave_resume_time(0),
-  powersave_operation_mode(OPERATION_MODE_NORMAL),
   insist_policy(ICore::INSIST_POLICY_HALT),
   active_insist_policy(ICore::INSIST_POLICY_INVALID),
   resume_break(BREAK_ID_NONE),
@@ -405,7 +405,7 @@ Core::config_changed_notify(const string &key)
           mode = OPERATION_MODE_NORMAL;
         }
       TRACE_MSG("Setting operation mode");
-      set_operation_mode(OperationMode(mode), false);
+      set_operation_mode(OperationMode(mode));
     }
 
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
@@ -416,7 +416,7 @@ Core::config_changed_notify(const string &key)
           mode = USAGE_MODE_NORMAL;
         }
       TRACE_MSG("Setting usage mode");
-      set_usage_mode(UsageMode(mode), false);
+      set_usage_mode(UsageMode(mode));
     }
   TRACE_EXIT();
 }
@@ -533,7 +533,7 @@ Core::get_operation_mode()
 
 
 //! Sets the operation mode
-OperationMode
+void
 Core::set_operation_mode(OperationMode mode, bool persistent)
 {
   TRACE_ENTER_MSG("Core::set_operation_mode",
@@ -580,6 +580,7 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
 
       if (persistent)
         {
+          user_operation_mode = mode;
           get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
         }
 
@@ -588,11 +589,20 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
           core_event_listener->core_event_operation_mode_changed(mode);
         }
     }
-
-  TRACE_RETURN(previous_mode);
-  return previous_mode;
 }
 
+//! Sets the operation mode
+void
+Core::reset_operation_mode()
+{
+  TRACE_ENTER("Core::reset_operation_mode");
+  TRACE_MSG((user_operation_mode == OPERATION_MODE_NORMAL ? "normal" :
+             user_operation_mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+             user_operation_mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+
+  set_operation_mode(user_operation_mode, false);
+  TRACE_EXIT();
+}
 
 //! Retrieves the usage mode.
 UsageMode
@@ -604,7 +614,7 @@ Core::get_usage_mode()
 
 //! Sets the usage mode.
 void
-Core::set_usage_mode(UsageMode mode, bool persistent)
+Core::set_usage_mode(UsageMode mode)
 {
   if (usage_mode != mode)
     {
@@ -615,10 +625,7 @@ Core::set_usage_mode(UsageMode mode, bool persistent)
           breaks[i].set_usage_mode(mode);
         }
 
-      if (persistent)
-        {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
-        }
+      get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
 
       if (core_event_listener != NULL)
         {
@@ -693,15 +700,14 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << powersave_operation_mode);
+  TRACE_MSG(powersave << " " << powersave_resume_time << " " << user_operation_mode << " " << operation_mode);
 
   if (down)
     {
       if (!powersave)
         {
           // Computer is going down
-          powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED, false);
-          TRACE_MSG("prev mode " << powersave_operation_mode);
+          set_operation_mode(OPERATION_MODE_SUSPENDED, false);
           powersave_resume_time = 0;
           powersave = true;
         }
@@ -721,7 +727,7 @@ Core::set_powersave(bool down)
         }
 
       TRACE_MSG("resume time " << powersave_resume_time);
-      set_operation_mode(powersave_operation_mode, false);
+      reset_operation_mode();
     }
   TRACE_EXIT();
 }
@@ -1196,7 +1202,7 @@ Core::process_timewarp()
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
-              set_operation_mode(powersave_operation_mode);
+              reset_operation_mode();
             }
         }
       
@@ -1467,13 +1473,13 @@ Core::load_misc()
     {
       mode = OPERATION_MODE_NORMAL;
     }
-  set_operation_mode(OperationMode(mode), false);
+  set_operation_mode(OperationMode(mode));
 
   if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {
       mode = USAGE_MODE_NORMAL;
     }
-  set_usage_mode(UsageMode(mode), false);
+  set_usage_mode(UsageMode(mode));
 }
 
 

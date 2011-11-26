@@ -78,8 +78,6 @@ private:
   Gtk::ComboBoxText *block_button;
   Gtk::ComboBoxText *sound_theme_button;
 
-  // Mode before focus in.
-  OperationMode mode;
   IconListNotebook notebook;
 
 #if defined(HAVE_LANGUAGE_SELECTION)

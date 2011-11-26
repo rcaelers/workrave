@@ -109,10 +109,11 @@ public:
   void post_event(CoreEvent event);
 
   OperationMode get_operation_mode();
-  OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
+  void set_operation_mode(OperationMode mode, bool persistent = true);
+  void reset_operation_mode();
 
   UsageMode get_usage_mode();
-  void set_usage_mode(UsageMode mode, bool persistent = true);
+  void set_usage_mode(UsageMode mode);
 
   void set_freeze_all_breaks(bool freeze);
 
@@ -253,6 +254,9 @@ private:
   //! Current operation mode.
   OperationMode operation_mode;
 
+  //! OperationMode before override
+  OperationMode user_operation_mode;
+
   //! Current usage mode.
   UsageMode usage_mode;
 
@@ -264,9 +268,6 @@ private:
 
   //! Time the OS announces a resume from powersave
   time_t powersave_resume_time;
-
-  //! OperationMode before powersave
-  OperationMode powersave_operation_mode;
 
   //! What to do with activity during insisted break?
   ICore::InsistPolicy insist_policy;

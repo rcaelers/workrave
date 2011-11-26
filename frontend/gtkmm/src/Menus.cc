@@ -222,7 +222,7 @@ void
 Menus::set_operation_mode(OperationMode m)
 {
   ICore *core = CoreFactory::get_core();
-  core->set_operation_mode(m, true);
+  core->set_operation_mode(m);
   resync();
 }
 
@@ -231,7 +231,7 @@ void
 Menus::set_usage_mode(UsageMode m)
 {
   ICore *core = CoreFactory::get_core();
-  core->set_usage_mode(m, true);
+  core->set_usage_mode(m);
   resync();
 }
 

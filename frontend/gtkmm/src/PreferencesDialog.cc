@@ -124,9 +124,6 @@ PreferencesDialog::PreferencesDialog()
   get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
-  ICore *core = CoreFactory::get_core();
-  mode = core->get_operation_mode();
-
   show_all();
 
   TRACE_EXIT();
@@ -147,7 +144,7 @@ PreferencesDialog::~PreferencesDialog()
 #endif
 
   ICore *core = CoreFactory::get_core();
-  core->set_operation_mode(mode, false);
+  core->reset_operation_mode();
 
   delete connector;
 #ifndef HAVE_GTK3
@@ -667,10 +664,10 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
     {
       ICore *core = CoreFactory::get_core();
 
-      mode = core->get_operation_mode();
+      OperationMode mode = core->get_operation_mode();
       if (mode == OPERATION_MODE_NORMAL)
         {
-          mode = core->set_operation_mode(OPERATION_MODE_QUIET, false);
+          core->set_operation_mode(OPERATION_MODE_QUIET, false);
         }
     }
   TRACE_EXIT();
@@ -684,7 +681,7 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   TRACE_ENTER("PreferencesDialog::focus_out");
   ICore *core = CoreFactory::get_core();
 
-  core->set_operation_mode(mode, false);
+  core->reset_operation_mode();
   TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);
 }
