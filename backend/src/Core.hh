@@ -109,8 +109,8 @@ public:
   void post_event(CoreEvent event);
 
   OperationMode get_operation_mode();
-  void set_operation_mode(OperationMode mode, bool persistent = true);
-  void reset_operation_mode();
+  void set_operation_mode(OperationMode mode);
+  void override_operation_mode(OperationMode mode, std::string id, bool enable);
 
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
@@ -185,6 +185,8 @@ private:
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
+  void set_non_persistent_operation_mode(OperationMode mode);
+  
 #ifdef HAVE_DISTRIBUTION
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
   bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
@@ -256,6 +258,9 @@ private:
 
   //! OperationMode before override
   OperationMode user_operation_mode;
+
+  //! Active operation mode overrides.
+  std::map<std::string, OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
   UsageMode usage_mode;

@@ -89,7 +89,6 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
-  user_operation_mode(OPERATION_MODE_NORMAL),
   usage_mode(USAGE_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
@@ -534,18 +533,26 @@ Core::get_operation_mode()
 
 //! Sets the operation mode
 void
-Core::set_operation_mode(OperationMode mode, bool persistent)
+Core::set_operation_mode(OperationMode mode)
+{
+  set_non_persistent_operation_mode(mode);
+  get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
+}
+
+//! Sets the operation mode
+void
+Core::set_non_persistent_operation_mode(OperationMode mode)
 {
   TRACE_ENTER_MSG("Core::set_operation_mode",
                   (mode == OPERATION_MODE_NORMAL ? "normal" :
                    mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                   mode == OPERATION_MODE_QUIET ? "quiet" : "???") << " " << persistent);
+                   mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
 
   OperationMode previous_mode = operation_mode;
 
-  TRACE_MSG("Previous " << (mode == OPERATION_MODE_NORMAL ? "normal" :
-                            mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                            mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+  TRACE_MSG("Previous " << (previous_mode == OPERATION_MODE_NORMAL ? "normal" :
+                            previous_mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+                            previous_mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
 
   if (operation_mode != mode)
     {
@@ -578,12 +585,6 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
           stop_all_breaks();
         }
 
-      if (persistent)
-        {
-          user_operation_mode = mode;
-          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
-        }
-
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
@@ -593,14 +594,39 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
 
 //! Sets the operation mode
 void
-Core::reset_operation_mode()
+Core::override_operation_mode(OperationMode mode, std::string id, bool enable)
 {
-  TRACE_ENTER("Core::reset_operation_mode");
-  TRACE_MSG((user_operation_mode == OPERATION_MODE_NORMAL ? "normal" :
-             user_operation_mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-             user_operation_mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+  TRACE_ENTER_MSG("Core::override_operation_mode", id << " " <<
+                  (mode == OPERATION_MODE_NORMAL ? "normal" :
+                   mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+                   mode == OPERATION_MODE_QUIET ? "quiet" : "???")
+                  << " " << enable);
 
-  set_operation_mode(user_operation_mode, false);
+  if (enable)
+    {
+      operation_mode_overrides[id] = mode;
+    }
+  else
+    {
+      operation_mode_overrides.erase(id);
+    }
+
+  OperationMode opmode = OPERATION_MODE_NORMAL;
+  for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
+       i != operation_mode_overrides.end(); i++)
+    {
+      TRACE_MSG(i->first << " : " << i->second);
+      OperationMode m = i->second;
+      if (opmode == OPERATION_MODE_NORMAL)
+        {
+          opmode = m;
+        }
+      else if (opmode == OPERATION_MODE_QUIET && m == OPERATION_MODE_SUSPENDED)
+        {
+          opmode = m;
+        }
+    }
+  set_non_persistent_operation_mode(opmode);
   TRACE_EXIT();
 }
 
@@ -624,7 +650,6 @@ Core::set_usage_mode(UsageMode mode)
         {
           breaks[i].set_usage_mode(mode);
         }
-
       get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
 
       if (core_event_listener != NULL)
@@ -700,14 +725,14 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << user_operation_mode << " " << operation_mode);
+  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode);
 
   if (down)
     {
       if (!powersave)
         {
           // Computer is going down
-          set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+          override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", true);
           powersave_resume_time = 0;
           powersave = true;
         }
@@ -727,7 +752,7 @@ Core::set_powersave(bool down)
         }
 
       TRACE_MSG("resume time " << powersave_resume_time);
-      reset_operation_mode();
+      override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", false);
     }
   TRACE_EXIT();
 }
@@ -1179,7 +1204,7 @@ Core::process_timewarp()
   
       if (abs((int)gap) > 5)
         {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << user_operation_mode << " " << powersave_resume_time << " " << current_time);
+          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " " << current_time);
 
           if (!powersave)
             {
@@ -1202,7 +1227,7 @@ Core::process_timewarp()
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
-              reset_operation_mode();
+              override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", false);
             }
         }
       

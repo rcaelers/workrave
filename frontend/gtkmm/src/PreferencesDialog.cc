@@ -144,7 +144,7 @@ PreferencesDialog::~PreferencesDialog()
 #endif
 
   ICore *core = CoreFactory::get_core();
-  core->reset_operation_mode();
+  core->override_operation_mode(OPERATION_MODE_QUIET, "preferences", false);
 
   delete connector;
 #ifndef HAVE_GTK3
@@ -667,7 +667,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
       OperationMode mode = core->get_operation_mode();
       if (mode == OPERATION_MODE_NORMAL)
         {
-          core->set_operation_mode(OPERATION_MODE_QUIET, false);
+          core->override_operation_mode(OPERATION_MODE_QUIET, "preferences", true);
         }
     }
   TRACE_EXIT();
@@ -681,7 +681,7 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   TRACE_ENTER("PreferencesDialog::focus_out");
   ICore *core = CoreFactory::get_core();
 
-  core->reset_operation_mode();
+  core->override_operation_mode(OPERATION_MODE_QUIET, "preferences", false);
   TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);
 }
