@@ -130,6 +130,8 @@ includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
 WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
 			-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32
+
+WIN32LDFLAGS = 		-static-libgcc 
 endif
 
 if PLATFORM_OS_UNIX
@@ -294,7 +296,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 			$(top_builddir)/common/src/libworkrave-common.la \
 			$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la
 
-workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
+workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
