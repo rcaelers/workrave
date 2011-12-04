@@ -131,7 +131,7 @@ WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
 			-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32
 
-WIN32LDFLAGS = 		-static-libgcc 
+WIN32LDFLAGS = 		-static-libgcc -static-libstdc++
 endif
 
 if PLATFORM_OS_UNIX
