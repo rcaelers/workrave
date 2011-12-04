@@ -43,7 +43,8 @@ DEFINE_GUID(IID_IAudioEndpointVolume, 0x5cdf2c82, 0x841e, 0x4546, 0x97, 0x22, 0x
 DEFINE_GUID(IID_IMMDeviceEnumerator,  0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6);
 #else
 #define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
-#define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)
+DEFINE_GUID(IID_IAudioEndpointVolume, 0x5cdf2c82, 0x841e, 0x4546, 0x97, 0x22, 0x0c, 0xf7, 0x40, 0x78, 0x22, 0x9a);
+//#define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)
 #define IID_IMMDeviceEnumerator __uuidof(IMMDeviceEnumerator)
 #endif
 
