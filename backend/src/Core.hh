@@ -185,7 +185,8 @@ private:
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
-  void set_non_persistent_operation_mode(OperationMode mode);
+  void set_operation_mode_internal(OperationMode mode, bool persistent);
+  void set_usage_mode_internal(UsageMode mode, bool persistent);
   
 #ifdef HAVE_DISTRIBUTION
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);

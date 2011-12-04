@@ -404,7 +404,7 @@ Core::config_changed_notify(const string &key)
           mode = OPERATION_MODE_NORMAL;
         }
       TRACE_MSG("Setting operation mode");
-      set_operation_mode(OperationMode(mode));
+      set_operation_mode_internal(OperationMode(mode), false);
     }
 
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
@@ -415,7 +415,7 @@ Core::config_changed_notify(const string &key)
           mode = USAGE_MODE_NORMAL;
         }
       TRACE_MSG("Setting usage mode");
-      set_usage_mode(UsageMode(mode));
+      set_usage_mode_internal(UsageMode(mode), false);
     }
   TRACE_EXIT();
 }
@@ -535,13 +535,12 @@ Core::get_operation_mode()
 void
 Core::set_operation_mode(OperationMode mode)
 {
-  set_non_persistent_operation_mode(mode);
-  get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
+  set_operation_mode_internal(mode, true);
 }
 
 //! Sets the operation mode
 void
-Core::set_non_persistent_operation_mode(OperationMode mode)
+Core::set_operation_mode_internal(OperationMode mode, bool persistent)
 {
   TRACE_ENTER_MSG("Core::set_operation_mode",
                   (mode == OPERATION_MODE_NORMAL ? "normal" :
@@ -585,6 +584,11 @@ Core::set_non_persistent_operation_mode(OperationMode mode)
           stop_all_breaks();
         }
 
+      if (persistent)
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
+        }
+      
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
@@ -626,7 +630,7 @@ Core::override_operation_mode(OperationMode mode, std::string id, bool enable)
           opmode = m;
         }
     }
-  set_non_persistent_operation_mode(opmode);
+  set_operation_mode_internal(opmode, false);
   TRACE_EXIT();
 }
 
@@ -642,6 +646,13 @@ Core::get_usage_mode()
 void
 Core::set_usage_mode(UsageMode mode)
 {
+  set_usage_mode_internal(mode, true);
+}
+
+//! Sets the usage mode.
+void
+Core::set_usage_mode_internal(UsageMode mode, bool persistent)
+{
   if (usage_mode != mode)
     {
       usage_mode = mode;
@@ -650,7 +661,11 @@ Core::set_usage_mode(UsageMode mode)
         {
           breaks[i].set_usage_mode(mode);
         }
-      get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+
+      if (persistent)
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+        }
 
       if (core_event_listener != NULL)
         {
