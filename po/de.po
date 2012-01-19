@@ -194,7 +194,7 @@ msgstr "Konnte nicht mit Client %s verbinden."
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "Reading mode"
-msgstr ""
+msgstr "Lesemodus"
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
@@ -504,7 +504,7 @@ msgstr "Workrave-Applet"
 
 #: ../frontend/gtkmm/src/GUI.cc:846
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Läuft Workrave bereits?"
 
 #: ../frontend/gtkmm/src/GUI.cc:954
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
@@ -766,23 +766,23 @@ msgstr "Blockiermodus:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
-msgstr ""
+msgstr "Systemeinstellung"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
-msgstr ""
+msgstr "(Schriftzeichen nicht verfügbar)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
-msgstr ""
+msgstr "Sprache:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Workrave mit Windows starten"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Taskleistensymbol zeigen"
 
 # src/app/gtkmm/PreferencesDialog.cc:142
 # src/app/gtkmm/TimerPreferencesPanel.cc:141
@@ -813,7 +813,7 @@ msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Volume:"
-msgstr ""
+msgstr "Lautstärke:"
 
 # src/app/gtkmm/PreferencesDialog.cc:144
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:354
@@ -824,7 +824,7 @@ msgstr "Klang:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Ruhepause und tägliches Limit an einer Stelle anzeigen"
+msgstr "Während Ruhepause und tägliches Limit stumm schalten"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:370
@@ -841,11 +841,11 @@ msgstr "Klang:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:419
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:449
 msgid "Play"
-msgstr ""
+msgstr "Abspielen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:406
 msgid "Event"
-msgstr ""
+msgstr "Ereignis"
 
 #
 # src/app/gtkmm/PreferencesDialog.cc:115
@@ -860,7 +860,7 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Alternativen Monitor verwenden"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
@@ -1073,7 +1073,7 @@ msgstr "Anzahl der Übungen"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Ruhepause starten wenn Bildschirm gesperrt wird"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
@@ -1153,7 +1153,7 @@ msgstr "Passwort:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Eingehende Verbindungen erlauben"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:104
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
