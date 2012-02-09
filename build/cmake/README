@@ -21,7 +21,9 @@ Install DirectX SDK (required)
 
 - Download and install DirectX 9 SDK:
 
-  Site: http://msdn.microsoft.com/en-us/directx/default.asxp
+  Site: http://msdn.microsoft.com/en-us/directx/default.aspx
+  -or-
+  Site: http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=6812
 
 Install CMake 2.8 (required)
 ============================
@@ -55,6 +57,8 @@ Install Gettext (recommended, needed for localization and exercises)
 - Download and extract Gettext
 
   File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-tools-dev_0.18.1.1-2_win32.zip
+  File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-runtime_0.18.1.1-2_win32.zip
+  File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-runtime-dev_0.18.1.1-2_win32.zip
   
   Note: You may run into problems (access denied and such) if you
   extract the files with unzip from cygwin; use Windows built-in zip
@@ -70,6 +74,7 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
 
   File: http://www.python.org/ftp/python/2.7.2/python-2.7.2.msi
   File: http://www.python.org/ftp/python/2.7.2/python-2.7.2.amd64.msi
+  You may need to append Python to your PATH environment variable manually, eg C:\Python27
   
 - Download and install setuptools
 
@@ -136,6 +141,8 @@ Compiling Workrave
               -DCMAKE_PREFIX_PATH=c:/mystuff/devel -DCMAKE_INSTALL_PREFIX=c:/mystuff/programs/workrave
 
   - Open Workrave solution in visual studio (location in workrave-build directory)
-  - Build
+  - Build [1]
 
+  [1] If this is your first time adding the dependencies listed in this file you may not be able to achieve 
+  a successful build without first rebooting.
   

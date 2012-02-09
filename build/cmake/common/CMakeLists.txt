@@ -25,10 +25,12 @@ set(COMMON_SOURCES
 if (HAVE_DBUS)
   set (COMMON_SOURCES ${COMMON_SOURCES}
     ${COMMON_DIR}/include/DBus.hh
+    ${COMMON_DIR}/include/DBus-freedesktop.hh
     ${COMMON_DIR}/include/DBusBinding.hh
+    ${COMMON_DIR}/include/DBusBinding-freedesktop.hh
     ${COMMON_DIR}/include/DBusException.hh
-    ${COMMON_DIR}/src/DBus.cc
-    ${COMMON_DIR}/src/DBusBinding.cc
+    ${COMMON_DIR}/src/DBus-freedesktop.cc
+    ${COMMON_DIR}/src/DBusBinding-freedesktop.cc
   )
   include_directories(${DBUS_INCLUDES})
 endif (HAVE_DBUS)
