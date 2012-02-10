@@ -2,26 +2,26 @@
 # This file is distributed under the same license as the workrave package.
 #
 # Mate Ory <orymate@gmail.com>, 2006.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2010.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2010, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-10-22 18:27+0200\n"
-"PO-Revision-Date: 2011-02-16 19:23+0100\n"
+"POT-Creation-Date: 2012-02-08 00:45+0100\n"
+"PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
-"Language-Team: Hungarian <gnome at fsf dot hu>\n"
+"Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
-msgstr "Újracsatlakozás a következőhöz: %s."
+msgstr "Újrakapcsolódás ehhez: %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "Hálózati műveletek tiltása."
 
 #: ../backend/src/DistributionSocketLink.cc:546
 #: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
-msgstr "Csatlakozás a következőhöz: %s."
+msgstr "Kapcsolódás: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:700
 #: ../backend/src/DistributionSocketLink.cc:732
-#, fuzzy, c-format
+#, c-format
 msgid "Removing client %s."
 msgstr "%s kliens eltávolítása."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:781
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Kapcsolat bontása a következővel: %s."
+msgstr "%s kapcsolatának bontása"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:950
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is now master."
 msgstr "A következő kliens az elsődleges: %s."
 
@@ -64,7 +64,7 @@ msgstr "Én vagyok az elsődleges."
 #. gchar *name =
 #. int port =
 #: ../backend/src/DistributionSocketLink.cc:1288
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s saying hello."
 msgstr "%s kliens „hello”-t küldött."
 
@@ -72,56 +72,56 @@ msgstr "%s kliens „hello”-t küldött."
 #: ../backend/src/DistributionSocketLink.cc:1303
 #: ../backend/src/DistributionSocketLink.cc:1433
 #: ../backend/src/DistributionSocketLink.cc:1677
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
 msgstr "A következő kliens többször szerepel: %s."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1313
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
-msgstr "Hozzáférés megtagadva: %s"
+msgstr "%s kliens hozzáférése megtagadva."
 
 #: ../backend/src/DistributionSocketLink.cc:1382
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
 msgstr "%s kliens kijelentkezett."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1472
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
 msgstr "%s kliens üdvözöl minket."
 
 #: ../backend/src/DistributionSocketLink.cc:1713
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
 msgstr "Elsődleges állapot igénylése a következőtől: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1727
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
-msgstr "Kliens időtúllépés: %s."
+msgstr "%s kliens túllépte az időkorlátot."
 
 #: ../backend/src/DistributionSocketLink.cc:1749
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
 msgstr "%s kliens elsődlegességi kérelme elutasítva."
 
 #: ../backend/src/DistributionSocketLink.cc:1755
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "%s kliens elsődlegességi kérelme elfogadva."
 
 #: ../backend/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
 
 #: ../backend/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés…"
+msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1882
@@ -138,23 +138,23 @@ msgid "Accepted new client."
 msgstr "Új kliens elfogadva."
 
 #: ../backend/src/DistributionSocketLink.cc:2104
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
-msgstr "Olvasási hiba: %s. Befejezés."
+msgstr "%s kliensen olvasási hiba történt, befejezés."
 
 #: ../backend/src/DistributionSocketLink.cc:2110
 #: ../backend/src/DistributionSocketLink.cc:2183
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
 msgstr "%s kliens befejezte a kapcsolatot."
 
 #: ../backend/src/DistributionSocketLink.cc:2151
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s connected."
 msgstr "%s kliens kapcsolódott."
 
 #: ../backend/src/DistributionSocketLink.cc:2189
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
 msgstr "Sikertelen kapcsolódás %s klienshez."
 
@@ -255,9 +255,9 @@ msgid "_Statistics"
 msgstr "_Statisztika"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Suspended"
 msgstr "_Felfüggesztett"
 
@@ -281,25 +281,22 @@ msgstr ""
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
-msgstr ""
+msgstr "_Csatlakozás"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#, fuzzy
 msgid "_About"
-msgstr "_Névjegy…"
+msgstr "_Névjegy"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
-#, fuzzy
 msgid "Show log"
-msgstr "Nap_ló"
+msgstr "Napló megjelenítése"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
 msgid "Normal"
-msgstr "_Általános"
+msgstr "Általános"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
 #: ../frontend/gtkmm/src/GUI.cc:1519
@@ -376,22 +373,18 @@ msgid "%s%d seconds"
 msgstr "%s%d másodperc"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:309
-#, fuzzy
 msgid "_Lock"
 msgstr "_Zárolás"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
-#, fuzzy
 msgid "Shut _down"
-msgstr "Kikapcsolás"
+msgstr "_Leállítás"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:353
-#, fuzzy
 msgid "_Skip"
 msgstr "_Kihagyás"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:370
-#, fuzzy
 msgid "_Postpone"
 msgstr "_Elhalasztás"
 
@@ -411,33 +404,38 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"A Workrave továbbra is fut. A Workravet elérheti a fehér bárány ikonra "
+"kattintással. Ezen üzenet kikapcsolásához kattintson erre a buborékra."
 
 #: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
-#, fuzzy
 msgid "Workrave failed to start"
-msgstr "Workrave indítása a Windows elindulásakor"
+msgstr "A Workrave indítása sikertelen"
 
 #: ../frontend/gtkmm/src/GUI.cc:846
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "A Workrave már fut?"
 
 #: ../frontend/gtkmm/src/GUI.cc:954
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "A Workrave nem tudta figyelni a billentyűzet- és egéraktivitást.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:957
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
+"Győződjön meg róla, hogy a RECORD kiterjesztés engedélyezett az X "
+"kiszolgálón."
 
 #: ../frontend/gtkmm/src/GUI.cc:1378
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
+"A Workrave felfüggesztett módban van. Az egér- és billentyűzetaktivitás nem "
+"lesz figyelve."
 
 #: ../frontend/gtkmm/src/GUI.cc:1384
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "A Workrave csendes módban van. Nem jelennek meg a szünet ablakok."
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -462,9 +460,8 @@ msgstr "Mód: "
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#, fuzzy
 msgid "Open"
-msgstr "_Megnyitás"
+msgstr "Megnyitás"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
@@ -483,9 +480,8 @@ msgstr "Gyakorlatok"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#, fuzzy
 msgid "Mode"
-msgstr "_Mód"
+msgstr "Mód"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
@@ -494,19 +490,16 @@ msgid "Network"
 msgstr "Hálózat"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#, fuzzy
 msgid "Connect"
-msgstr "C_satlakozás"
+msgstr "Kapcsolódás"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
-#, fuzzy
 msgid "Disconnect"
-msgstr "_Kapcsolat bontása"
+msgstr "Leválasztás"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#, fuzzy
 msgid "Reconnect"
-msgstr "Ú_jracsatlakozás"
+msgstr "Újracsatlakozás"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
@@ -530,9 +523,9 @@ msgstr "Névjegy…"
 msgid "_Rest break"
 msgstr "_Pihenőidő"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
 msgid "Q_uiet"
 msgstr "_Csendes"
 
@@ -549,9 +542,8 @@ msgid "Show _log"
 msgstr "Nap_ló"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
-#, fuzzy
 msgid "Quit"
-msgstr "_Kilépés"
+msgstr "Kilépés"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
@@ -609,119 +601,121 @@ msgstr "Időzítők"
 msgid "User interface"
 msgstr "Felhasználói felület"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:171
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "No blocking"
 msgstr "Korlátozás nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
 msgid "Block input"
 msgstr "A bemenetek tiltása"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:173
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:170
 msgid "Block input and screen"
 msgstr "A bemenetek és a képernyő tiltása"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
 msgid "Options"
 msgstr "Opciók"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:195
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:192
 msgid "Block mode:"
 msgstr "Korlátozás:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:215
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:212
 msgid "System default"
 msgstr "Rendszer alapértelmezése"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:252
 msgid "(font not available)"
 msgstr "(nem érhető el a betűtípus)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:277
 msgid "Language:"
 msgstr "Nyelv:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:281
 msgid "Start Workrave on Windows startup"
 msgstr "Workrave indítása a Windows elindulásakor"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:293
 msgid "Show system tray icon"
 msgstr "Tálcaikon megjelenítése"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:311
 msgid "Sound Options"
 msgstr "Hangbeállítások"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "No sounds"
 msgstr "Hangok nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:325
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "Hangok lejátszása a hangkártyán keresztül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:323
 msgid "Play sounds using built-in speaker"
 msgstr "Hangok lejátszása a beépített hangszórón"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
 msgstr "Hangerő:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
 msgstr "Hang:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Hangok némítása a pihenőidő és a napi korlátozás során"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
 msgstr "Hangesemények"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:375
 msgid "Sound Theme:"
 msgstr "Hangtéma:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:449
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:446
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:403
 msgid "Event"
 msgstr "Esemény"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
 msgid "Choose a sound"
 msgstr "Válasszon hangot"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:434
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:431
 msgid "Wavefiles"
 msgstr "Hangfájlok"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Másik monitor használata"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
 msgid ""
 "Enable this option if Workrave fails to detect when you are using you "
 "computer"
 msgstr ""
+"Engedélyezze ezt a beállítást, ha a Workrave nem ismeri fel, hogy mikor "
+"használja a számítógépet."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
@@ -888,7 +882,7 @@ msgstr "Gyakorlatok száma:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Pihenőidő megkezdése a képernyő zárolásakor"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Time before end:"
