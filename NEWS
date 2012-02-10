@@ -1,11 +1,11 @@
-Workrave NEWS -- history of user-visible changes.  24 Mar 2011
-Copyright (C) 2001-2011 Rob Caelers & Raymond Penners
+Workrave NEWS -- history of user-visible changes.  14 Feb 2012
+Copyright (C) 2001-2012 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.9.900
+* Workrave 1.10
 
 ** Workrave now supports DBus on window.
    DBus can be used to control Workrave by an external program.
@@ -14,6 +14,9 @@ http://www.workrave.org
    classic and the Gnome shell are available.
 
 ** Workrave now offers an application indicator (applet) in Unity.
+
+** On Windows, Workrave does not stay in the 'suspended' mode after
+   resuming from hibernate/sleep.
 
 ** Infrastructure update. Workrave now supports:
    - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
@@ -27,7 +30,8 @@ http://www.workrave.org
    - Ivan Barkovic translated Workave into Croatian.
    - Moein Gh translated Workave into Persian.
    - Igor Zinovik updated the Russian translation.
-  
+   - Gabor Kelemen updated the Hungarian translation.
+   
 * Workrave 1.9.4
 
 ** The automatic start of a restbreak when the screen is locked is now
