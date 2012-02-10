@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <gtkmm/frame.h>
+#include <gtkmm.h>
 
 class Frame : public Gtk::Bin
 {
