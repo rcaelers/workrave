@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -600,12 +600,13 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   style_context->context_save();
   style_context->set_state((Gtk::StateFlags)Gtk::STATE_FLAG_ACTIVE);
+  style_context->render_background(cr, 0, 0, win_w - 1, win_h -1);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h -1);
   style_context->context_restore();
 
-  set_color(cr, back_color);
-  cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
-  cr->fill();
+  // set_color(cr, back_color);
+  // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
+  // cr->fill();
 
   // Bar
   int bar_width = 0;
