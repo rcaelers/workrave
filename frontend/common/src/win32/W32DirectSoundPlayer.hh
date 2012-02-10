@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010 Raymond Penners & Ray Satiro
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2012 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,6 @@ private:
   void play();
 
 private:
-  LPDIRECTSOUND8 direct_sound;
   ISoundDriverEvents *events;
 };
 
@@ -81,7 +80,7 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(LPDIRECTSOUND8 direct_sound, const std::string &filename, ISoundDriverEvents *events);
+  SoundClip(const std::string &filename, ISoundDriverEvents *events);
   virtual ~SoundClip();
 
   void init();

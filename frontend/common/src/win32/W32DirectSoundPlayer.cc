@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2010 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2010, 2012 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -111,58 +111,19 @@ registry_set_value(const char *path, const char *name,
 //! Constructor
 W32DirectSoundPlayer::W32DirectSoundPlayer()
 {
-  direct_sound = NULL;
 }
 
 
 //! Destructor
 W32DirectSoundPlayer::~W32DirectSoundPlayer()
 {
-  if (direct_sound != NULL)
-    {
-      direct_sound->Release();
-      direct_sound = NULL;
-    }
 }
 
 //!
 void
 W32DirectSoundPlayer::init(ISoundDriverEvents *events)
 {
-  HRESULT             hr = S_OK;
-
   this->events = events;
-
-  if (direct_sound != NULL)
-    {
-      direct_sound->Release();
-      direct_sound = NULL;
-    }
-
-  try
-    {
-      hr = DirectSoundCreate8(NULL, &direct_sound, NULL);
-      if (FAILED(hr) || direct_sound == NULL)
-        {
-          throw Exception(string("DirectSoundCreate8") + DXGetErrorString8(hr));
-        }
-
-      hr = direct_sound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY);
-      if (FAILED(hr))
-        {
-          throw Exception(string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
-        }
-    }
-  catch (Exception)
-    {
-      if (direct_sound != NULL)
-        {
-          direct_sound->Release();
-          direct_sound = NULL;
-        }
-
-      throw;
-    }
 }
 
 
@@ -198,11 +159,11 @@ W32DirectSoundPlayer::play_sound(string wavfile)
 {
   TRACE_ENTER_MSG( "W32DirectSoundPlayer::play_sound", wavfile);
 
-  if (direct_sound != NULL && wavfile != "")
+  if (wavfile != "")
     {
       DWORD id;
-
-      SoundClip *clip = new SoundClip(direct_sound, wavfile, events);
+      
+      SoundClip *clip = new SoundClip(wavfile, events);
       CloseHandle(CreateThread(NULL, 0, play_thread, clip, 0, &id));
     }
 
@@ -339,19 +300,18 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
     }
 
   delete clip;
-
+  
   TRACE_EXIT();
   return (DWORD) 0;
 }
 
 
 
-SoundClip::SoundClip(LPDIRECTSOUND8 direct_sound, const string &filename, ISoundDriverEvents *events)
+SoundClip::SoundClip(const string &filename, ISoundDriverEvents *events)
 {
   TRACE_ENTER("SoundClip::SoundClip");
-  direct_sound->AddRef();
 
-  this->direct_sound = direct_sound;
+  this->direct_sound = NULL;
   this->filename = filename;
   this->events = events;
 
@@ -367,12 +327,6 @@ SoundClip::SoundClip(LPDIRECTSOUND8 direct_sound, const string &filename, ISound
 SoundClip::~SoundClip()
 {
   TRACE_ENTER("SoundClip::~SoundClip");
-  if (direct_sound != NULL)
-    {
-      direct_sound->Release();
-      direct_sound = NULL;
-    }
-
   if (sound_buffer != NULL)
     {
       sound_buffer->Release();
@@ -383,6 +337,12 @@ SoundClip::~SoundClip()
     {
       CloseHandle(stop_event);
       stop_event = NULL;
+    }
+
+  if (direct_sound != NULL)
+    {
+      direct_sound->Release();
+      direct_sound = NULL;
     }
 
   delete wave_file;
@@ -399,6 +359,18 @@ SoundClip::init()
 
   TRACE_ENTER("SoundClip::init");
 
+  hr = DirectSoundCreate8(NULL, &direct_sound, NULL);
+  if (FAILED(hr) || direct_sound == NULL)
+    {
+      throw Exception(string("DirectSoundCreate8") + DXGetErrorString8(hr));
+    }
+
+  hr = direct_sound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY);
+  if (FAILED(hr))
+    {
+      throw Exception(string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
+    }
+  
   wave_file = new WaveFile(filename);
   wave_file->init();
 
