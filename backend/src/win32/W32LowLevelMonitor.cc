@@ -302,6 +302,9 @@ void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
 {
   DWORD thread_exit_code = 0;
 
+  if( !thread || !thread->handle )
+    return;
+  
   do
     {
       ( *SwitchToThread )();
@@ -312,11 +315,17 @@ void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
 
 void W32LowLevelMonitor::unhook()
 {
-  UnhookWindowsHookEx( k_hook );
-  k_hook = NULL;
+  if( k_hook )
+  {
+    UnhookWindowsHookEx( k_hook );
+    k_hook = NULL;
+  }
 
-  UnhookWindowsHookEx( m_hook );
-  m_hook = NULL;
+  if( m_hook )
+  {
+    UnhookWindowsHookEx( m_hook );
+    m_hook = NULL;
+  }
 }
 
 
