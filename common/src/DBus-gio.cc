@@ -1,6 +1,6 @@
 // DBus-gio.c
 //
-// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -317,6 +317,7 @@ DBus::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const
   (void) connection;
   (void) name_owner;
   DBus *dbus = (DBus *)user_data;
+  dbus->watched[name].seen = true;
   dbus->bus_name_presence(name, true);
 }
 
@@ -325,7 +326,10 @@ DBus::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpoin
 {
   (void) connection;
   DBus *dbus = (DBus *)user_data;
-  dbus->bus_name_presence(name, false);
+  if (dbus->watched[name].seen)
+    {
+      dbus->bus_name_presence(name, false);
+    }
 }
 
 void
@@ -349,7 +353,7 @@ DBus::watch(const std::string &name, IDBusWatch *cb)
                                             NULL);
   watched[name].id = id;
   watched[name].callback = cb;
-  
+  watched[name].seen = false;
 }
 
 void
