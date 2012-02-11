@@ -372,7 +372,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   priv->style_context = gtk_style_context_new();
   GtkWidgetPath *path = gtk_widget_path_new();
 
-  gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
+  //gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
   gtk_style_context_set_path(priv->style_context, path);
   gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_FRAME);
 
@@ -412,6 +412,7 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
 
   gtk_style_context_save(priv->style_context);
   gtk_style_context_set_state(priv->style_context, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE);
+  gtk_render_background(priv->style_context, cr, 0, 0, width -1, height -1);
   gtk_render_frame(priv->style_context, cr, 0, 0, width -1, height -1);
   gtk_style_context_restore(priv->style_context);
 
