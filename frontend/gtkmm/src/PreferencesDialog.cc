@@ -530,7 +530,7 @@ PreferencesDialog::create_monitoring_page()
   monitor_type_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_monitor_type_toggled));
   panel->pack_start(*monitor_type_cb, false, false, 0);
   
-  Gtk::Label *monitor_type_help = Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using you computer"), false));
+  Gtk::Label *monitor_type_help = Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
   panel->pack_start(*monitor_type_help, false, false, 0);
 
   string monitor_type;

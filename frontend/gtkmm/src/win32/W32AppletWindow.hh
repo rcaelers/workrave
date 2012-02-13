@@ -22,6 +22,7 @@
 
 #include "preinclude.h"
 #include <windows.h>
+#include <process.h>
 #include <string>
 #include <gdk/gdkwin32.h>
 
@@ -68,7 +69,7 @@ public:
 private:
   HWND get_applet_window();
 
-  static DWORD WINAPI run_event_pipe_static(LPVOID);
+  static unsigned __stdcall run_event_pipe_static( void * );
 
 private:
   void run_event_pipe();
@@ -85,8 +86,9 @@ private:
   AppletMenuData menu_data;
   CRITICAL_SECTION heartbeat_data_lock;
   HANDLE heartbeat_data_event;
+  HANDLE thread_abort_event;
   HANDLE thread_handle;
-  volatile DWORD thread_id;
+  volatile unsigned thread_id;
 };
 
 #endif // W32APPLETWINDOW_HH
