@@ -45,7 +45,7 @@ Workrave (x86) and the applet (x86 & x64).
 
 struct AppletHeartbeatData
 {
-  bool enabled;
+  volatile bool enabled;
   short slots[BREAK_ID_SIZEOF];
 
   char bar_text[BREAK_ID_SIZEOF][APPLET_BAR_TEXT_MAX_LENGTH];
