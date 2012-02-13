@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2012 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,8 +38,13 @@
 #include <libindicator/indicator-service-manager.h>
 
 /* DBusMenu */
+#ifdef HAVE_DBUSMENU_NEW_INCLUDES
+#include <libdbusmenu-gtk/menu.h>
+#include <libdbusmenu-gtk/menuitem.h>
+#else
 #include <libdbusmenu-gtk3/menu.h>
 #include <libdbusmenu-gtk3/menuitem.h>
+#endif
 
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>

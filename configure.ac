@@ -1,11 +1,11 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [904])
+m4_define([workrave_micro_version], [906])
 m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
@@ -595,14 +595,23 @@ then
    then
 	AC_MSG_ERROR([Introspection development headers not found.])
    else
-   PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
-                                dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
-                                dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
-                     [ config_indicator=yes
-                       AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
-                     [if test "x$enable_indicator" = "xyes"; then
-                       AC_MSG_ERROR([Indicator development headers not found.])
-                      fi])
+       PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                    dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
+                                    dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
+                         [ config_indicator=yes
+                           AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
+                         [if test "x$enable_indicator" = "xyes"; then
+                           AC_MSG_ERROR([Indicator development headers not found.])
+                          fi])
+       
+       if test "x$config_indicator" != "xno"
+       then
+          PKG_CHECK_EXISTS(dbusmenu-gtk3-0.4 >= 0.5.90,
+                         [ AC_DEFINE(HAVE_DBUSMENU_NEW_INCLUDES, 1, [DBusmenu header in new location])],
+          	         [ true ]
+                         )
+       
+       fi
    fi
 fi
 

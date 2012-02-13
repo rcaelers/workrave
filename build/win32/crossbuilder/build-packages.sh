@@ -833,7 +833,7 @@ build_dbus()
                 -DDBUS_REPLACE_LOCAL_DIR=ON \
                 -DDBUS_ENABLE_VERBOSE_MODE=OFF \
                 -DDBUS_DISABLE_ASSERTS=ON \
-                -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=install-path \
+                -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch: \
                 -DDBUS_USE_OUTPUT_DEBUG_STRING=OFF
 	)
 	if test $? -ne 0; then

@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -562,7 +562,7 @@ TimeBar::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_heig
 bool
 TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
-  const int border_size = 2;
+  const int border_size = 1;
 
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
   Gtk::Allocation allocation = get_allocation();
@@ -600,28 +600,29 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   style_context->context_save();
   style_context->set_state((Gtk::StateFlags)Gtk::STATE_FLAG_ACTIVE);
+  style_context->render_background(cr, 0, 0, win_w - 1, win_h -1);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h -1);
   style_context->context_restore();
 
-  set_color(cr, back_color);
-  cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
-  cr->fill();
+  // set_color(cr, back_color);
+  // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
+  // cr->fill();
 
   // Bar
   int bar_width = 0;
   if (bar_max_value > 0)
     {
-      bar_width = (bar_value * (win_lw - 2 * border_size)) / bar_max_value;
+      bar_width = (bar_value * (win_lw - 2 * border_size - 1)) / bar_max_value;
     }
 
   // Secondary bar
   int sbar_width = 0;
   if (secondary_bar_max_value >  0)
     {
-      sbar_width = (secondary_bar_value * (win_lw - 2 * border_size)) / secondary_bar_max_value;
+      sbar_width = (secondary_bar_value * (win_lw - 2 * border_size - 1)) / secondary_bar_max_value;
     }
 
-  int bar_height = win_lh - 2 * border_size;
+  int bar_height = win_lh - 2 * border_size - 1;
 
   if (sbar_width > 0)
     {

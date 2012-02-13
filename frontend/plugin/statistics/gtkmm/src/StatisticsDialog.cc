@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,12 +41,7 @@
 #include <sstream>
 #include <stdio.h>
 
-#include <gtkmm/notebook.h>
-#include <gtkmm/calendar.h>
-#include <gtkmm/box.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/label.h>
-#include <gtkmm/separator.h>
+#include <gtkmm.h>
 
 #include "debug.hh"
 #include "nls.h"
