@@ -1,6 +1,6 @@
 // W32TrayMenu.cc --- Menus using W32Tray+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@ void
 W32TrayMenu::post_init()
 {
   // FIXME: this appears to be broken for recent versions of gtk+ (> 2.16)
-  win32_popup_hack_connect(popup_menu);
+  // win32_popup_hack_connect(popup_menu);
 }
 
 
