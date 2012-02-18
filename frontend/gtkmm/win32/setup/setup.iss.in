@@ -122,14 +122,32 @@ function ZapWorkrave(): Boolean;
 external 'ZapWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
 
 function KillProcess(name : String): Boolean;
-external 'KillProcess@{tmp}\libzapper-0.dll stdcall delayload';
+external 'KillProcess@{tmp}\libzapper-0.dll cdecl delayload';
+
+Function FindWorkraveWithRetries() : Boolean;
+var retVal : Boolean;
+var count : Integer;
+begin
+  count := 10;
+  retVal := True;
+  while ((count > 0) and (retVal)) do
+  begin
+    retVal := FindWorkrave();
+    if retVal then
+    begin
+      Sleep(100)
+    end
+    count := count - 1;
+  end
+  Result := retVal;
+end;
 
 Function EnsureWorkraveIsNotRunning() : Boolean;
 var retVal : Boolean;
 begin
   Result := True;
   try
-    retVal := FindWorkrave;
+    retVal := FindWorkraveWithRetries;
     if retVal then
     begin
       if MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
@@ -138,10 +156,10 @@ begin
         retVal := ZapWorkrave();
 	if retVal then
 	begin
-	  retVal := FindWorkrave();
+          retVal := FindWorkraveWithRetries();
 	  if retVal then
 	  begin
-	    KillProcess('workrave.exe')
+	    KillProcess('workrave.exe');
 	    retVal := FindWorkrave();
 	  end
 	  if retVal then
@@ -156,9 +174,10 @@ begin
          Result := False;
       end
     end
-    KillProcess('dbus-daemon.exe')
-    KillProcess('harpoonHelper.exe')
+    KillProcess('dbus-daemon.exe');
+    KillProcess('harpoonHelper.exe');
   except
+    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
   end;
 end;
 
