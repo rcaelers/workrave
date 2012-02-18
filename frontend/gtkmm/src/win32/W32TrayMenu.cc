@@ -61,8 +61,7 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
-  // FIXME: this appears to be broken for recent versions of gtk+ (> 2.16)
-  // win32_popup_hack_connect(popup_menu);
+  win32_popup_hack_connect(popup_menu);
 }
 
 
@@ -85,7 +84,7 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
 //    pointer leaves the menu. */
 
 void
-W32TrayMenu::win32_popup_hack_connect(Gtk::Menu *menu)
+W32TrayMenu::win32_popup_hack_connect(Gtk::Widget *menu)
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
 
@@ -122,26 +121,26 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
   (void) data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
-      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/
-      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
-    /* Add some slop so that the menu doesn't annoyingly disappear
-       when mousing around */
-    TRACE_MSG("leave " << hide_docklet_timer);
-    if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
+      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
+    {
+      /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
+      TRACE_MSG("leave " << hide_docklet_timer);
+      if (hide_docklet_timer == 0)
+        {
+          hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
+        }
     }
-  } else if (event->type == GDK_ENTER_NOTIFY
-             && event->detail == GDK_NOTIFY_ANCESTOR) {
-
-    TRACE_MSG("enter " << hide_docklet_timer);
-
-    if (hide_docklet_timer != 0) {
-      /* Cancel the hiding if we reenter */
-
-      g_source_remove(hide_docklet_timer);
-      hide_docklet_timer = 0;
+  else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
+    {
+      TRACE_MSG("enter " << hide_docklet_timer);
+      
+      if (hide_docklet_timer != 0)
+        {
+          /* Cancel the hiding if we reenter */
+          g_source_remove(hide_docklet_timer);
+          hide_docklet_timer = 0;
+        }
     }
-  }
   TRACE_EXIT();
   return FALSE;
 }

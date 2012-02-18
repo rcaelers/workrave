@@ -1,6 +1,6 @@
 // W32TrayMenu.hh --- Menu using W32Tray+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ public:
   virtual void popup(const guint button, const guint activate_time);
 
 private:
-  void win32_popup_hack_connect(Gtk::Menu *menu);
+  void win32_popup_hack_connect(Gtk::Widget *menu);
   static gboolean win32_popup_hack_hide(gpointer data);
   static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
                                                GdkEventCrossing *event,
