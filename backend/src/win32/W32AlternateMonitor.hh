@@ -41,8 +41,9 @@ private:
   void Monitor();
   void Update( LASTINPUTINFO * );
 
-  BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
+  bool initialized;
   int interval;
+  HANDLE thread_abort_event;
   HANDLE thread_handle;
   volatile DWORD thread_id;
 };

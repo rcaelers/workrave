@@ -97,21 +97,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   postpone_button(NULL),
   skip_button(NULL),
   lock_button(NULL),
-  shutdown_button(NULL)
+  shutdown_button(NULL),
+  accel_group(NULL),
+#ifdef PLATFORM_OS_WIN32
+  desktop_window( NULL ),
+  parent( 0 )
+#endif
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
-
-#ifdef PLATFORM_OS_WIN32
-  desktop_window = NULL;
-
-  // Here's the secret: IMMEDIATELY after your window creation, set focus to it
-  // THEN position it. So:
-
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
-  ::SetFocus(hwnd);
-  ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-#endif
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
     {
@@ -127,6 +121,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize();
+
+#ifdef PLATFORM_OS_WIN32
+  // Here's the secret: IMMEDIATELY after your window creation, set focus to it
+  // THEN position it. So:
+	HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
+	SetFocus(hwnd);
+	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+#endif
+
   if (mode == GUIConfig::BLOCK_MODE_NONE)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
