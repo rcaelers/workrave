@@ -7,7 +7,7 @@ test -z "$srcdir" && srcdir=.
 autopoint --force
 AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install
 
-conf_flags=" --target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux  --enable-maintainer-mode --enable-debug --enable-tracing --without-x --enable-distribution --enable-exercises --disable-gstreamer --enable-dbus"
+conf_flags=" --target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux  --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --enable-dbus"
  
 if test x$NOCONFIGURE = x; then
     echo Running $srcdir/configure $conf_flags "$@" ...
