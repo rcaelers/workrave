@@ -1,6 +1,6 @@
 // TimerBoxtGtkView.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -58,6 +58,9 @@ public:
   void update_view();
   void set_enabled(bool enabled);
 
+  void set_sheep_only(bool sheep_only);
+  bool is_sheep_only() const;
+  
 #ifdef HAVE_GTK3
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 #endif
@@ -68,7 +71,8 @@ private:
   void init();
 
   bool on_restbreak_button_press_event(int button);
-
+  int get_number_of_timers() const;
+  
   //! What menu to active on click
   Menus::MenuKind menu;
 
@@ -119,6 +123,9 @@ private:
 
   //! Rotation (clockwise in degress)
   int rotation;
+
+  //! Only show the sheep
+  bool sheep_only;
 };
 
 

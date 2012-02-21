@@ -1,6 +1,6 @@
 // TimerBoxGtkView.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,8 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
   table_columns(-1),
   table_reverse(false),
   visible_count(-1),
-  rotation(0)
+  rotation(0),
+  sheep_only(false)
 {
   init();
 }
@@ -213,6 +214,24 @@ TimerBoxGtkView::init_widgets()
 }
 
 
+int
+TimerBoxGtkView::get_number_of_timers() const
+{
+  int number_of_timers = 0;
+  if (!sheep_only)
+    {
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          if (new_content[i] != BREAK_ID_NONE)
+            {
+              number_of_timers++;
+            }
+        }
+    }
+  return number_of_timers;
+}
+
+
 //! Initializes the applet.
 void
 TimerBoxGtkView::init_table()
@@ -220,14 +239,7 @@ TimerBoxGtkView::init_table()
   TRACE_ENTER("TimerBoxGtkView::init_table");
 
   // Compute number of visible breaks.
-  int number_of_timers = 0;
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (new_content[i] != BREAK_ID_NONE)
-        {
-          number_of_timers++;
-        }
-    }
+  int number_of_timers = get_number_of_timers();;
   TRACE_MSG("number_of_timers = " << number_of_timers);
 
   // Compute table dimensions.
@@ -252,6 +264,8 @@ TimerBoxGtkView::init_table()
   GtkRequisition natural_size;
   labels[0]->get_preferred_size(label_size, natural_size);
   get_preferred_size(my_size, natural_size);
+  TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
+  TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
 #else
   labels[0]->size_request(label_size);
   size_request(my_size);
@@ -263,6 +277,8 @@ TimerBoxGtkView::init_table()
     }
 
   bars[0]->get_preferred_size(bar_size.width, bar_size.height);
+  TRACE_MSG("bar_size = " << bar_size.width << " " << bar_size.height);
+  TRACE_MSG("label_size = " << label_size.width << " " << label_size.height);
 
   if (size == -1 && (orientation == ORIENTATION_LEFT))
     {
@@ -279,6 +295,7 @@ TimerBoxGtkView::init_table()
         {
           set_size_request(-1, tsize);
         }
+      TRACE_MSG("size request = " << tsize);
     }
 
   if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
@@ -310,6 +327,7 @@ TimerBoxGtkView::init_table()
         }
       if (rows <= 0)
         {
+          TRACE_MSG("too small: rows");
           rows = 1;
         }
     }
@@ -318,6 +336,7 @@ TimerBoxGtkView::init_table()
       rows = tsize / (bar_size.height);
       if (rows <= 0)
         {
+          TRACE_MSG("too small: rows");
           rows = 1;
         }
 
@@ -378,6 +397,7 @@ TimerBoxGtkView::init_table()
   // Add sheep.
   if (number_of_timers == 0 && visible_count != 0)
     {
+      TRACE_MSG("add sheep");
       attach(*sheep_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
     }
 
@@ -427,6 +447,13 @@ TimerBoxGtkView::init_table()
   visible_count = number_of_timers;
 
   show_all();
+
+#ifdef HAVE_GTK3
+  get_preferred_size(my_size, natural_size);
+  TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
+  TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -520,6 +547,25 @@ TimerBoxGtkView::set_enabled(bool enabled)
   // Status window disappears, no need to do anything here.
 }
 
+
+void
+TimerBoxGtkView::set_sheep_only(bool sheep_only)
+{
+  TRACE_ENTER_MSG("TimerBoxGtkView::set_sheep_only", sheep_only);
+  if (this->sheep_only != sheep_only)
+    {
+      this->sheep_only = sheep_only;
+      reconfigure = true;
+      update_view();
+    }
+  TRACE_EXIT();
+}
+
+bool
+TimerBoxGtkView::is_sheep_only() const
+{
+  return sheep_only || get_number_of_timers() == 0;
+}
 
 //! User pressed some mouse button in the main window.
 bool

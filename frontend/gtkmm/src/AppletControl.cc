@@ -1,6 +1,6 @@
 // AppletControl.cc --- Applet info Control
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -255,14 +255,16 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
     }
 
 #ifdef PLATFORM_OS_UNIX
-  if (visible[type] && type == APPLET_GNOME)
+  if (visible[type] && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
     {
+      TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);
     }
 #endif
 
   if (enabled && !is_visible())
     {
+      TRACE_MSG("none visible, show in 5s");
       delayed_show = 5;
     }
 
@@ -392,6 +394,7 @@ AppletControl::check_visible()
     {
       if (visible[i])
         {
+          TRACE_MSG(i << " is visible"); 
           count++;
         }
     }

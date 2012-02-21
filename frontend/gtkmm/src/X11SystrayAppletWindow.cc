@@ -1,6 +1,6 @@
 // X11SystrayAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -91,17 +91,19 @@ X11SystrayAppletWindow::notify_callback()
       if (o != GTK_ORIENTATION_VERTICAL)
         {
           orientation = ORIENTATION_UP;
+          TRACE_MSG("up");
         }
       else
         {
           orientation = ORIENTATION_LEFT;
+          TRACE_MSG("left");
         }
 
       if (applet_orientation != orientation)
         {
+          TRACE_MSG("orientation " << orientation);
           applet_orientation = orientation;
           view->set_geometry(applet_orientation, applet_size);
-          TRACE_MSG("orientation " << applet_orientation);
         }
     }
   TRACE_EXIT();
@@ -144,12 +146,6 @@ X11SystrayAppletWindow::activate_applet()
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);
       box->pack_start(*view, true, true, 0);
-
-      // FIXME:
-      // if (System::is_kde())
-      //   {
-      //     timer_box_control->set_force_empty(true);
-      //   }
 
       container->add(*box);
 
@@ -244,7 +240,7 @@ X11SystrayAppletWindow::on_embedded()
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
-      if (o == GTK_ORIENTATION_VERTICAL)
+      if (o != GTK_ORIENTATION_VERTICAL)
         {
           orientation = ORIENTATION_UP;
         }
@@ -258,6 +254,11 @@ X11SystrayAppletWindow::on_embedded()
       applet_orientation = orientation;
 
       view->set_geometry(applet_orientation, applet_size);
+
+#ifdef HAVE_GTK3
+      gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
+      TRACE_MSG("icon size " << icon_size);
+#endif
     }
 
   control->set_applet_state(AppletControl::APPLET_TRAY,
@@ -313,6 +314,10 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
                 allocation.get_y() << " " <<
                 allocation.get_width() << " " <<
                 allocation.get_height());
+#ifdef HAVE_GTK3
+      gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
+      TRACE_MSG("icon size " << icon_size);
+#endif
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
@@ -331,7 +336,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
           if (applet_size != allocation.get_width())
             {
               applet_size = allocation.get_width();
-              TRACE_MSG("New size = " << allocation.get_width() << " " << allocation.get_height() << " " << applet_orientation);
+              TRACE_MSG("New size = " << applet_size);
               view->set_geometry(applet_orientation, applet_size);
             }
         }
@@ -340,10 +345,24 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
           if (applet_size != allocation.get_height())
             {
               applet_size = allocation.get_height();
-              TRACE_MSG("New size = " << allocation.get_width() << " " << allocation.get_height() << " " << applet_orientation);
+              TRACE_MSG("New size = " << applet_size);
               view->set_geometry(applet_orientation, applet_size);
             }
         }
+
+#ifdef HAVE_GTK3
+      Gtk::Requisition my_size;
+      GtkRequisition natural_size;
+      view->get_preferred_size(my_size, natural_size);
+      TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
+      TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
+
+      // hack... 
+      if (!view->is_sheep_only())
+        {
+          view->set_sheep_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);
+        }
+#endif
     }
   TRACE_EXIT();
 }

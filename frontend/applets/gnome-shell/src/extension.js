@@ -71,6 +71,8 @@ _workraveButton.prototype = {
         this.actor.add_actor(this._area);
 	this.actor.show();
 
+	this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
+
 	this._proxy = new IndicatorProxy(DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
 	this._timers_updated_id = this._proxy.connect("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
 	this._menu_updated_id = this._proxy.connect("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
@@ -85,8 +87,19 @@ _workraveButton.prototype = {
  
     _onDestroy: function() 
     {
-	global.log('workrave-applet: destroy');
+	global.log('workrave-applet: onDestroy');
     	this._proxy.EmbedRemote(false, 'GnomeShellApplet');
+	this._stop();
+	this._destroy();
+    },
+
+    _destroy: function() {
+	global.log('workrave-applet: _destroy');
+	this._proxy.disconnect(this._timers_updated_id);
+	this._proxy.disconnect(this._menu_updated_id);
+	this._proxy = null;
+
+        this.actor.destroy();
     },
 
     _start: function()
@@ -292,7 +305,9 @@ function init(extensionMeta) {
 }
 
 function disable() {
+    global.log('workrave-applet: disable');
     workravePanelButton.destroy();
+    workravePanelButton = null;
 }
 
 function enable() {

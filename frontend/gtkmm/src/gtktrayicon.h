@@ -1,5 +1,5 @@
 /* gtktrayicon.h
- * Copyright (C) 2002 Anders Carlsson <andersca@gnu.org>
+ * Copyright (C) 2002, 2012 Anders Carlsson <andersca@gnu.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -69,6 +69,10 @@ void           _wrgtk_tray_icon_cancel_message  (WRGtkTrayIcon *icon,
 					       guint        id);
 
 GtkOrientation wrgtk_tray_icon_get_orientation (WRGtkTrayIcon *icon);
+
+#ifdef HAVE_GTK3
+gint           wrgtk_tray_icon_get_icon_size (WRGtkTrayIcon *icon);
+#endif
 
 G_END_DECLS
 
