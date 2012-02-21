@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -78,15 +78,6 @@ MS type BOOL is type int.
 Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
-BOOL ( WINAPI *W32LowLevelMonitor::GetMessageW )
-    ( LPMSG, HWND, UINT, UINT ) = NULL;
-BOOL ( WINAPI *W32LowLevelMonitor::PeekMessageW )
-    ( LPMSG, HWND, UINT, UINT, UINT ) = NULL;
-BOOL ( WINAPI *W32LowLevelMonitor::PostThreadMessageW )
-    ( DWORD, UINT, WPARAM, LPARAM ) = NULL;
-HHOOK ( WINAPI *W32LowLevelMonitor::SetWindowsHookExW )
-    ( int, HOOKPROC, HINSTANCE, DWORD ) = NULL;
-BOOL ( WINAPI *W32LowLevelMonitor::SwitchToThread ) ( void ) = NULL;
 
 
 W32LowLevelMonitor::W32LowLevelMonitor()
@@ -109,6 +100,8 @@ W32LowLevelMonitor::W32LowLevelMonitor()
 
   k_hook = NULL;
   m_hook = NULL;
+
+  process_handle = GetModuleHandle( NULL );
 
   TRACE_EXIT();
 }
@@ -137,49 +130,6 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
 }
 
 
-bool W32LowLevelMonitor::check_api()
-{
-  TRACE_ENTER( "W32LowLevelMonitor::check_api" );
-
-  process_handle = GetModuleHandle( NULL );
-  HMODULE user32_handle = GetModuleHandleA( "user32.dll" );
-
-  GetMessageW = ( BOOL ( WINAPI * ) ( LPMSG, HWND, UINT, UINT ) )
-      GetProcAddress( user32_handle, "GetMessageW" );
-
-  PeekMessageW = ( BOOL ( WINAPI * ) ( LPMSG, HWND, UINT, UINT, UINT ) )
-      GetProcAddress( user32_handle, "PeekMessageW" );
-
-  PostThreadMessageW = ( BOOL ( WINAPI * ) ( DWORD, UINT, WPARAM, LPARAM ) )
-      GetProcAddress( user32_handle, "PostThreadMessageW" );
-
-  SetWindowsHookExW = ( HHOOK ( WINAPI * ) ( int, HOOKPROC, HINSTANCE, DWORD ) )
-      GetProcAddress( user32_handle, "SetWindowsHookExW" );
-
-  SwitchToThread = ( BOOL ( WINAPI * ) ( void ) )
-      GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "SwitchToThread" );
-
-  if( process_handle && GetMessageW && PeekMessageW &&
-      PostThreadMessageW && SetWindowsHookExW && SwitchToThread )
-    {
-      TRACE_EXIT();
-      return true;
-    }
-  else
-    {
-      TRACE_MSG( " failed." );
-      TRACE_MSG( "process_handle == " << process_handle );
-      TRACE_MSG( "GetMessageW == " << GetMessageW );
-      TRACE_MSG( "PeekMessageW == " << PeekMessageW );
-      TRACE_MSG( "PostThreadMessageW == " << PostThreadMessageW );
-      TRACE_MSG( "SetWindowsHookExW == " << SetWindowsHookExW );
-      TRACE_MSG( "SwitchToThread == " << SwitchToThread );
-      TRACE_EXIT();
-      return false;
-    }
-}
-
-
 bool W32LowLevelMonitor::init()
 {
   TRACE_ENTER( "W32LowLevelMonitor::init" );
@@ -187,12 +137,6 @@ bool W32LowLevelMonitor::init()
   if( singleton != this )
     {
       TRACE_RETURN( " singleton != this " );
-      return false;
-    }
-
-  if( !check_api() )
-    {
-      TRACE_RETURN( " : init failed. " );
       return false;
     }
 
@@ -239,17 +183,17 @@ bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
   do
     {
       thread_exit_code = 0;
+      Sleep( 1 );
       GetExitCodeThread( thread->handle, &thread_exit_code );
       if( thread_exit_code != STILL_ACTIVE )
         {
           TRACE_RETURN( " thread: terminated prematurely." );
           return false;
         }
-      ( *SwitchToThread )();
     } while( thread->active == false );
 
   SetLastError( 0 );
-  BOOL ret = ( *PostThreadMessageW )( thread->id, 0xFFFF, 0, 0 );
+  BOOL ret = PostThreadMessageW( thread->id, 0xFFFF, 0, 0 );
   DWORD gle = GetLastError();
 
   if( !ret || gle )
@@ -285,7 +229,7 @@ void W32LowLevelMonitor::terminate_thread( thread_struct *thread )
   thread->active = false;
 
   if( thread->id )
-      ( *PostThreadMessageW )( thread->id, WM_QUIT, 0, 0 );
+      PostThreadMessageW( thread->id, WM_QUIT, 0, 0 );
 
   wait_for_thread_to_exit( thread );
 
@@ -307,7 +251,7 @@ void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
   
   do
     {
-      ( *SwitchToThread )();
+      Sleep( 1 );
       GetExitCodeThread( thread->handle, &thread_exit_code );
     } while( thread_exit_code == STILL_ACTIVE );
 }
@@ -345,10 +289,10 @@ DWORD W32LowLevelMonitor::dispatch_thread()
 
   // It's good practice to force creation of the thread
   // message queue before setting active.
-  ( *PeekMessageW )( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
+  PeekMessageW( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
   dispatch->active = true;
 
-  while( ret = ( *GetMessageW )( &msg, NULL, 0, 0 ) > 0  && dispatch->active )
+  while( ( ret = GetMessageW( &msg, NULL, 0, 0 ) > 0 ) && dispatch->active )
     {
       msg.message &= 0xFFFF;
       if( msg.message > WM_APP)
@@ -414,35 +358,31 @@ DWORD W32LowLevelMonitor::time_critical_callback_thread()
   callback->active = false;
 
   int i = 0;
-  HANDLE handle = GetCurrentThread();
+  MSG msg;
 
   // An attempt to set the thread priority to
   // THREAD_PRIORITY_TIME_CRITICAL.
-  // Try for several seconds.
-  while( SetThreadPriority( handle, 15 ) == 0 )
+  for( i = 0; ( !SetThreadPriority( GetCurrentThread(), 15 ) && ( i < 100 ) ); ++i )
     {
-      if( ++i > 100 )
-          return (DWORD) 0;
-      else
-      //Give up our time slice, try next schedule.
-          ( *SwitchToThread )();
+      Sleep( 1 );
     }
+
   /*
   Do not double check using GetThreadPriority.
   It's possible, throughout this thread's lifetime, that
   an administrative application could change the priority.
   */
 
-  /* MSDN:
-  The system creates a thread's message queue when the thread
-  makes its first call to one of the User or GDI functions.
-  */
-  unhook(); // thread message queue created here
+  // It's good practice to force creation of the thread
+  // message queue before setting active.
+  PeekMessageW( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
+
+  unhook();
 
   k_hook =
-      ( *SetWindowsHookExW )( WH_KEYBOARD_LL,  &k_hook_callback, process_handle, 0 );
+      SetWindowsHookExW( WH_KEYBOARD_LL, &k_hook_callback, process_handle, 0 );
   m_hook =
-      ( *SetWindowsHookExW )( WH_MOUSE_LL,  &m_hook_callback, process_handle, 0 );
+      SetWindowsHookExW( WH_MOUSE_LL, &m_hook_callback, process_handle, 0 );
 
   if( !k_hook || !m_hook )
     {
@@ -450,17 +390,11 @@ DWORD W32LowLevelMonitor::time_critical_callback_thread()
       return (DWORD) 0;
     }
 
-
-  MSG msg;
-
-  // It's good practice to force creation of the thread
-  // message queue before setting active.
-  ( *PeekMessageW )( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
   callback->active = true;
 
   // Message loop. As noted, a hook is called in the
   // context of the thread that installed it. i.e. this one.
-  while( ( *GetMessageW )( &msg, NULL, 0, 0 ) && callback->active )
+  while( GetMessageW( &msg, NULL, 0, 0 ) && callback->active )
   ;
 
   unhook();
@@ -479,7 +413,7 @@ LRESULT CALLBACK W32LowLevelMonitor::k_hook_callback(
   if( !nCode && !( flags & LLKHF_INJECTED ) )
   // If there is an event, and it's not injected, notify.
     {
-      ( *PostThreadMessageW )
+      PostThreadMessageW
         (
           dispatch->id, //idThread
           WM_APP, //Msg
@@ -502,7 +436,7 @@ LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
   // If there is an event, and it's not injected, notify.
   // RC: My Wacom tablet driver injects mouse move events...
     {
-      ( *PostThreadMessageW )
+      PostThreadMessageW
         (
           dispatch->id, //idThread
           WM_APP + (DWORD) wParam, //Msg

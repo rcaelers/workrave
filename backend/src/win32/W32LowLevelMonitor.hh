@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -65,14 +65,7 @@ private:
   static volatile HHOOK k_hook;
   static volatile HHOOK m_hook;
 
-  bool check_api();
   static HMODULE process_handle;
-  static BOOL ( WINAPI *GetMessageW ) ( LPMSG, HWND, UINT, UINT );
-  static BOOL ( WINAPI *PeekMessageW ) ( LPMSG, HWND, UINT, UINT, UINT );
-  static BOOL ( WINAPI *PostThreadMessageW ) ( DWORD, UINT, WPARAM, LPARAM );
-  static HHOOK ( WINAPI *SetWindowsHookExW ) ( int, HOOKPROC, HINSTANCE, DWORD );
-  static BOOL ( WINAPI *SwitchToThread ) ( void );
-
 };
 
 #ifndef WM_XBUTTONDOWN
