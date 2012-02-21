@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -73,12 +73,6 @@ protected:
 private:
   //! Window enabled
   bool enabled;
-
-  //! Connection to the delete_event signal.
-  // SigC::Connection delete_connection;
-
-  //! Connection to the timeout timer.
-  // SigC::Connection timer_connection;
 
   //! Table containing all timer information
   TimerBoxControl *timer_box_control;
