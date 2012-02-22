@@ -30,6 +30,7 @@
 
 #include <string>
 
+#include "GUI.hh"
 #include "Menus.hh"
 #include "Util.hh"
 #include "MainWindow.hh"

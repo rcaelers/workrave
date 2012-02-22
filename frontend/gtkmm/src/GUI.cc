@@ -25,6 +25,7 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include <iostream>
 #include <gtkmm.h>
 #include <glibmm.h>
 #include <gtk/gtk.h>
