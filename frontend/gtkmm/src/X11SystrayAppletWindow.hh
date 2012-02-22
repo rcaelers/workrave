@@ -1,6 +1,6 @@
 // X11SystrayAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,31 +24,32 @@
 #include <stdio.h>
 
 #include "AppletWindow.hh"
+#include "Orientation.hh"
 
 #include <sigc++/trackable.h>
-
 #include <gtkmm/bin.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/plug.h>
 #include <gtkmm/eventbox.h>
+#include "gtktrayicon.h"
 
 class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
-#include "gtktrayicon.h"
+using namespace workrave;
 
 class X11SystrayAppletWindow :
   public sigc::trackable,
   public AppletWindow
 {
 public:
-  X11SystrayAppletWindow(AppletControl *control);
+  X11SystrayAppletWindow();
   virtual ~X11SystrayAppletWindow();
 
-  void on_menu_restbreak_now();
-  void button_clicked(int button);
-
+  AppletState activate_applet();
+  void deactivate_applet();
+  
 private:
   //! Gtk timerbox viewer
   TimerBoxGtkView *view;
@@ -71,20 +72,16 @@ private:
   //! Applet embedded?
   bool embedded;
 
-  //! Controller
-  AppletControl *control;
-
   //! The tray icon
   WRGtkTrayIcon *tray_icon;
 
 private:
-  AppletState activate_applet();
-  void deactivate_applet();
-
   static void static_notify_callback(GObject    *gobject,
                                      GParamSpec *arg,
                                      gpointer    user_data);
   void notify_callback();
+  void on_menu_restbreak_now();
+  void button_clicked(int button);
 
   // Events.
   void on_embedded();

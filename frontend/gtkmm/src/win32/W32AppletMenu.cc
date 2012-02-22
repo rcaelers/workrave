@@ -1,6 +1,6 @@
 // W32AppletMenu.cc --- Menus using W32Applet+
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,8 @@ using namespace workrave;
 
 
 //! Constructor.
-W32AppletMenu::W32AppletMenu(MainWindow *main_window, W32AppletWindow *applet_window)
-  : main_window(main_window),
-    applet_window(applet_window)
+W32AppletMenu::W32AppletMenu(W32AppletWindow *applet_window)
+  : applet_window(applet_window)
 {
 }
 
@@ -57,7 +56,10 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
 
-  if (applet_window != NULL && main_window != NULL)
+  GUI *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+  
+  if (applet_window != NULL)
     {
       TRACE_MSG("ok");
 #ifndef PLATFORM_OS_WIN32_NATIVE

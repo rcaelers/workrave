@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include "debug.hh"
 #include <string>
 #include <assert.h>
 
@@ -34,13 +35,15 @@
 #include "W32StatusIcon.hh"
 #endif
 
-#include "GUI.hh"
-#include "MainWindow.hh"
-#include "CoreFactory.hh"
-#include "Menus.hh"
-#include "Util.hh"
 #include "StatusIcon.hh"
 
+#include "GUI.hh"
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
+#include "GUIConfig.hh"
+#include "Menus.hh"
+#include "Util.hh"
+#include "TimerBoxControl.hh"
 
 StatusIcon::StatusIcon()
 {
@@ -65,17 +68,30 @@ StatusIcon::StatusIcon()
         }
     }
 
-#ifndef USE_W32STATUSICON
-#ifdef PLATFORM_OS_WIN32
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
-#endif
-
-  insert_icon();
 }
 
 StatusIcon::~StatusIcon()
 {
+}
+
+void
+StatusIcon::init()
+{
+  insert_icon();
+
+  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  
+  bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
+  if (!tray_icon_enabled)
+    {
+      // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
+      TimerBoxControl::set_enabled("main_window", true);
+    }
+
+  status_icon->set_visible(tray_icon_enabled);
 }
 
 void
@@ -90,7 +106,7 @@ StatusIcon::insert_icon()
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
-  status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
+  status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
 #endif
 
 #ifdef HAVE_STATUSICON_SIGNAL
@@ -117,30 +133,20 @@ StatusIcon::set_operation_mode(OperationMode m)
   status_icon->set(mode_icons[m]);
 }
 
-void
-StatusIcon::set_visible(bool b)
-{
-  status_icon->set_visible(b);
-}
-
 bool
-StatusIcon::is_embedded() const
+StatusIcon::is_visible() const
 {
   return status_icon->is_embedded() && status_icon->get_visible();
 }
 
-#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
 void
-StatusIcon::on_balloon_activate(string id)
+StatusIcon::set_tooltip(std::string& tip)
 {
-  balloon_activate_signal.emit(id);
-}
+#ifdef HAVE_GTK3
+  status_icon->set_tooltip_text(tip);
+#else
+  status_icon->set_tooltip(tip);
 #endif
-
-void
-StatusIcon::on_activate()
-{
-  activate_signal.emit();
 }
 
 void
@@ -161,15 +167,14 @@ StatusIcon::on_popup_menu(guint button, guint activate_time)
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
   GUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();;
+  Menus *menus = gui->get_menus();
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
 
 bool
-StatusIcon::on_size_changed(guint size)
+StatusIcon::on_embedded_changed()
 {
-  (void) size;
-  changed_signal.emit();
+  visibility_changed_signal.emit();
   return true;
 }
 
@@ -191,14 +196,18 @@ StatusIcon::popup_menu_callback(GtkStatusIcon *,
 }
 #endif
 
+#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
 void
-StatusIcon::set_tooltip(std::string& tip)
+StatusIcon::on_balloon_activate(string id)
 {
-#ifdef HAVE_GTK3
-  status_icon->set_tooltip_text(tip);
-#else
-  status_icon->set_tooltip(tip);
+  balloon_activate_signal.emit(id);
+}
 #endif
+
+void
+StatusIcon::on_activate()
+{
+  activate_signal.emit();
 }
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
@@ -218,22 +227,35 @@ StatusIcon::win32_filter_func (void     *xevent,
 }
 #endif
 
-
-sigc::signal<void> &
-StatusIcon::signal_changed()
+void
+StatusIcon::config_changed_notify(const std::string &key)
 {
-    return changed_signal;
+  TRACE_ENTER_MSG("StatusIcon::config_changed_notify", key);
+
+  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+    {
+      bool tray = GUIConfig::get_trayicon_enabled();
+      status_icon->set_visible(tray);
+      visibility_changed_signal.emit();
+    }
+
+  TRACE_EXIT();
 }
 
-sigc::signal<void>
+sigc::signal<void> &
+StatusIcon::signal_visibility_changed()
+{
+  return visibility_changed_signal;
+}
+
+sigc::signal<void> &
 StatusIcon::signal_activate()
 {
   return activate_signal;
 }
 
-sigc::signal<void, string>
+sigc::signal<void, string> &
 StatusIcon::signal_balloon_activate()
 {
   return balloon_activate_signal;
 }
-

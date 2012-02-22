@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,46 +35,26 @@
 #include <unistd.h>
 #endif
 
-#include <iostream>
-
-#include "AppletControl.hh"
-
-#include "TimerBoxGtkView.hh"
-#include "TimerBoxControl.hh"
 #include "MainWindow.hh"
-#include "PreferencesDialog.hh"
-#include "StatisticsDialog.hh"
-#include "WindowHints.hh"
-#include "TimeBar.hh"
-#include "GUI.hh"
-#include "Util.hh"
-#include "Text.hh"
+
+#include <list>
+#include <gtkmm.h>
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
-#include "IStatistics.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "NetworkJoinDialog.hh"
-#include "NetworkLogDialog.hh"
-#endif
-
+#include "TimerBoxGtkView.hh"
+#include "TimerBoxControl.hh"
+#include "GUI.hh"
+#include "Util.hh"
 #include "Menus.hh"
-
-#include <gtkmm.h>
-
-const string MainWindow::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
 #ifdef PLATFORM_OS_WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
 
+using namespace std;
 
 //! Constructor.
 /*!
@@ -83,11 +63,9 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
  */
 MainWindow::MainWindow() :
   enabled(true),
+  can_close(false),
   timer_box_control(NULL),
   timer_box_view(NULL),
-  monitor_suspended(false),
-  visible(true),
-  applet_active(false),
   window_location(-1, -1),
   window_head_location(-1, -1),
   window_relocated_location(-1, -1)
@@ -98,7 +76,6 @@ MainWindow::MainWindow() :
 #ifdef PLATFORM_OS_WIN32
   show_retry_count = 0;
 #endif
-  init();
 }
 
 
@@ -116,6 +93,131 @@ MainWindow::~MainWindow()
 
   TRACE_EXIT();
 }
+
+void
+MainWindow::toggle_window()
+{
+  TRACE_ENTER("MainWindow::toggle_window");
+
+#if defined(PLATFORM_OS_WIN32)
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  bool visible = IsWindowVisible(hwnd);
+#elif defined(HAVE_GTK3)
+  bool visible = get_visible();
+#else
+  bool visible = is_visible();
+#endif
+
+  if (visible)
+    {
+      close_window();
+    }
+  else
+    {
+      open_window();
+    }
+  TRACE_EXIT();
+}
+
+
+//! Opens the main window.
+void
+MainWindow::open_window()
+{
+  TRACE_ENTER("MainWindow::open_window");
+  if (timer_box_view->get_visible_count() > 0)
+    {
+#ifdef PLATFORM_OS_WIN32
+      win32_show(true);
+      show_all();
+#else
+      show_all();
+      deiconify();
+#endif
+
+      int x, y, head;
+      set_position(Gtk::WIN_POS_NONE);
+      set_gravity(Gdk::GRAVITY_STATIC);
+      get_start_position(x, y, head);
+
+#ifdef HAVE_GTK3
+      GtkRequisition min_size;
+      GtkRequisition natural_size;
+      get_preferred_size(min_size, natural_size);
+#else
+      GtkRequisition min_size;
+      on_size_request(&min_size);
+#endif
+
+      GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
+
+      GUI::get_instance()->map_from_head(x, y, head);
+      TRACE_MSG("moving to " << x << " " << y);
+      move(x, y);
+
+      bool always_on_top = GUIConfig::get_always_on_top();
+      WindowHints::set_always_on_top(this, always_on_top);
+
+      TimerBoxControl::set_enabled("main_window", true);
+    }
+  TRACE_EXIT();
+}
+
+
+
+//! Closes the main window.
+void
+MainWindow::close_window()
+{
+  TRACE_ENTER("MainWindow::close_window");
+#ifdef PLATFORM_OS_WIN32
+  win32_show(false);
+#elif defined(PLATFORM_OS_OSX)
+  hide_all();
+#else
+  if (can_close)
+    {
+      hide();
+    }
+  else
+    {
+      iconify();
+    }
+#endif
+  GUIConfig::set_trayicon_enabled(true);
+  TRACE_EXIT();
+}
+
+
+void
+MainWindow::set_can_close(bool can_close)
+{
+  this->can_close = can_close;
+
+  if (!enabled)
+    {
+      if (can_close)
+        {
+          hide();
+        }
+      else
+        {
+          iconify();
+          show_all();
+        }
+    }
+}
+
+
+//! Updates the main window.
+void
+MainWindow::update()
+{
+  timer_box_control->update();
+}
+
 
 //! Initializes the main window.
 void
@@ -253,12 +355,8 @@ MainWindow::init()
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
-
   TRACE_EXIT();
 }
-
-
-
 
 //! Setup configuration settings.
 void
@@ -267,8 +365,9 @@ MainWindow::setup()
   TRACE_ENTER("MainWindow::setup");
 
   bool new_enabled = TimerBoxControl::is_enabled("main_window");
-  bool always_on_top = get_always_on_top();
+  bool always_on_top = GUIConfig::get_always_on_top();
 
+  TRACE_MSG("can_close " << new_enabled);
   TRACE_MSG("enabled " << new_enabled);
   TRACE_MSG("on top " << always_on_top);
 
@@ -305,114 +404,6 @@ MainWindow::setup()
 }
 
 
-//! Updates the main window.
-void
-MainWindow::update()
-{
-  timer_box_control->update();
-}
-
-
-void
-MainWindow::activate()
-{
-  TRACE_ENTER("MainWindow::activate");
-
-#if defined(PLATFORM_OS_WIN32)
-  GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-
-  bool visible = IsWindowVisible(hwnd);
-#elif defined(HAVE_GTK3)
-  bool visible = get_visible();
-#else
-  bool visible = is_visible();
-#endif
-
-  if (visible)
-    {
-      close_window();
-    }
-  else
-    {
-      open_window();
-    }
-  TRACE_EXIT();
-}
-
-
-//! Opens the main window.
-void
-MainWindow::open_window()
-{
-  TRACE_ENTER("MainWindow::open_window");
-  if (timer_box_view->get_visible_count() > 0)
-    {
-#ifdef PLATFORM_OS_WIN32
-      win32_show(true);
-      show_all();
-#else
-      show_all();
-      deiconify();
-#endif
-
-      int x, y, head;
-      set_position(Gtk::WIN_POS_NONE);
-      set_gravity(Gdk::GRAVITY_STATIC);
-      get_start_position(x, y, head);
-
-#ifdef HAVE_GTK3
-      GtkRequisition min_size;
-      GtkRequisition natural_size;
-      get_preferred_size(min_size, natural_size);
-#else
-      GtkRequisition min_size;
-      on_size_request(&min_size);
-#endif
-
-      GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
-
-      GUI::get_instance()->map_from_head(x, y, head);
-      TRACE_MSG("moving to " << x << " " << y);
-      move(x, y);
-
-      bool always_on_top = get_always_on_top();
-      WindowHints::set_always_on_top(this, always_on_top);
-
-      TimerBoxControl::set_enabled("main_window", true);
-    }
-  TRACE_EXIT();
-}
-
-
-
-//! Closes the main window.
-void
-MainWindow::close_window()
-{
-  TRACE_ENTER("MainWindow::close_window");
-#ifdef PLATFORM_OS_WIN32
-  win32_show(false);
-#elif defined(PLATFORM_OS_OSX)
-  hide_all();
-#else
-  GUI *gui = GUI::get_instance();
-
-  if (applet_active || gui->is_status_icon_visible())
-    {
-      hide();
-    }
-  else
-    {
-      iconify();
-    }
-#endif
-  GUIConfig::set_trayicon_enabled(true);
-  TRACE_EXIT();
-}
-
-
 //! User has closed the main window.
 bool
 MainWindow::on_delete_event(GdkEventAny *)
@@ -423,36 +414,26 @@ MainWindow::on_delete_event(GdkEventAny *)
 
 #if defined(PLATFORM_OS_WIN32)
   win32_show(false);
-  gui->main_window_closed();
+  closed_signal.emit();
   TimerBoxControl::set_enabled("main_window", false);
 #elif defined(PLATFORM_OS_OSX)
   close_window();
   TimerBoxControl::set_enabled("main_window", false);
 #else
-  bool terminate = true;
-  AppletControl *applet_control = gui->get_applet_control();
-  if (applet_control != NULL)
-    {
-      terminate = ( !applet_control->is_visible() &&
-                    !gui->is_status_icon_visible() );
-    }
-
-  if (terminate)
-    {
-      gui->terminate();
-    }
-  else
+  if (can_close)
     {
       close_window();
       TimerBoxControl::set_enabled("main_window", false);
+    }
+  else
+    {
+      gui->terminate();
     }
 #endif
 
   TRACE_EXIT();
   return true;
 }
-
-
 
 //! Users pressed some mouse button in the main window.
 bool
@@ -483,51 +464,13 @@ void
 MainWindow::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key != CFG_KEY_MAIN_WINDOW_HEAD
-      && key != CFG_KEY_MAIN_WINDOW_X
-      && key != CFG_KEY_MAIN_WINDOW_Y)
+  if (key != GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD
+      && key != GUIConfig::CFG_KEY_MAIN_WINDOW_X
+      && key != GUIConfig::CFG_KEY_MAIN_WINDOW_Y)
     {
       setup();
     }
   TRACE_EXIT();
-}
-
-
-bool
-MainWindow::get_always_on_top()
-{
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
-                             rc,
-                             false);
-  return rc;
-}
-
-
-void
-MainWindow::set_always_on_top(bool b)
-{
-  CoreFactory::get_configurator()
-    ->set_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
-}
-
-
-bool
-MainWindow::get_start_in_tray()
-{
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
-  return rc;
-}
-
-
-void
-MainWindow::set_start_in_tray(bool b)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
 }
 
 
@@ -656,9 +599,9 @@ MainWindow::get_start_position(int &x, int &y, int &head)
   TRACE_ENTER("MainWindow::get_start_position");
   // FIXME: Default to right-bottom instead of 256x256
   IConfigurator *cfg = CoreFactory::get_configurator();
-  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_X, x, 256);
-  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_Y, y, 256);
-  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
+  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x, 256);
+  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y, 256);
+  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
   if (head < 0)
     {
       head = 0;
@@ -674,9 +617,9 @@ MainWindow::set_start_position(int x, int y, int head)
   TRACE_ENTER_MSG("MainWindow::set_start_position",
                   x << " " << y << " " << head);
   IConfigurator *cfg = CoreFactory::get_configurator();
-  cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
-  cfg->set_value(CFG_KEY_MAIN_WINDOW_Y, y);
-  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD, head);
+  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x);
+  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y);
+  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head);
   TRACE_EXIT();
 }
 
@@ -715,51 +658,6 @@ MainWindow::move_to_start_position()
   TRACE_MSG("moving to " << x << " " << y);
 
   move(x, y);
-}
-
-
-void
-MainWindow::set_applet_active(bool a)
-{
-  TRACE_ENTER_MSG("MainWindow::set_applet_active", a);
-  applet_active = a;
-
-  if (!enabled)
-    {
-      GUI *gui = GUI::get_instance();
-      if (applet_active || gui->is_status_icon_visible())
-        {
-          hide();
-        }
-      else
-        {
-          iconify();
-          show_all();
-        }
-    }
-
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::status_icon_changed()
-{
-  TRACE_ENTER("MainWindow::status_icon_changed");
-  if (!enabled)
-    {
-      GUI *gui = GUI::get_instance();
-      if (applet_active || gui->is_status_icon_visible())
-        {
-          hide();
-        }
-      else
-        {
-          iconify();
-          show_all();
-        }
-    }
-  TRACE_EXIT();
 }
 
 bool
@@ -932,3 +830,11 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 #endif
+
+
+sigc::signal<void> &
+MainWindow::signal_closed()
+{
+  return closed_signal;
+}
+

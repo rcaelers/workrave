@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,13 @@ public:
   static const std::string CFG_KEY_TRAYICON_ENABLED;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
 
+  static const std::string CFG_KEY_MAIN_WINDOW;
+  static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
+  static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
+  static const std::string CFG_KEY_MAIN_WINDOW_X;
+  static const std::string CFG_KEY_MAIN_WINDOW_Y;
+  static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
+  
   static void init();
 
   enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
@@ -52,6 +59,13 @@ public:
   static int get_number_of_exercises(BreakId id);
   static void set_number_of_exercises(BreakId id, int num);
 
+  static bool get_always_on_top();
+  static void set_always_on_top(bool b);
+
+  static void set_start_in_tray(bool b);
+  static bool get_start_in_tray();
+
+  
 private:
 
   static std::string expand(const std::string &str, BreakId id);

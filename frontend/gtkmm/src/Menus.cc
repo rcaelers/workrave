@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,6 @@
 #include "CoreFactory.hh"
 #include "ICore.hh"
 #include "IConfigurator.hh"
-
-#include "MainWindow.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "IDistributionManager.hh"
@@ -102,7 +100,6 @@ Menus::Menus() :
 #ifdef HAVE_EXERCISES
   exercises_dialog(NULL),
 #endif
-  main_window(NULL),
   about(NULL)
 {
   assert(instance == 0);
@@ -126,10 +123,8 @@ Menus::~Menus()
 
 
 void
-Menus::init(MainWindow *main_window, AppletControl *applet_control)
+Menus::init(AppletControl *applet_control)
 {
-  this->main_window = main_window;
-
   IAppletWindow *applet_window = NULL;
 
 #if defined(PLATFORM_OS_OSX)
@@ -147,7 +142,7 @@ Menus::init(MainWindow *main_window, AppletControl *applet_control)
 #if defined(PLATFORM_OS_WIN32)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
   W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
-  menus[MENU_APPLET_W32] = new W32AppletMenu(main_window, w32_applet_window);
+  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window);
 #endif
 
 #if defined(HAVE_PANELAPPLET2)

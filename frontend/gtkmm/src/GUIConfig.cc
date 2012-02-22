@@ -1,6 +1,6 @@
 // GUIConfig.cc --- The WorkRave GUI Configuration
 //
-// Copyright (C) 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,14 @@ const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
 const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
+
+const string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
+const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
+const string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
+const string GUIConfig::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
+const string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
+const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
+
 
 //!
 void
@@ -181,3 +189,42 @@ GUIConfig::expand(const string &key, BreakId id)
 
   return str;
 }
+
+bool
+GUIConfig::get_always_on_top()
+{
+  bool rc;
+  CoreFactory::get_configurator()
+    ->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
+                             rc,
+                             false);
+  return rc;
+}
+
+
+void
+GUIConfig::set_always_on_top(bool b)
+{
+  CoreFactory::get_configurator()
+    ->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+}
+
+
+bool
+GUIConfig::get_start_in_tray()
+{
+  bool rc;
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
+  return rc;
+}
+
+
+void
+GUIConfig::set_start_in_tray(bool b)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+}
+
+

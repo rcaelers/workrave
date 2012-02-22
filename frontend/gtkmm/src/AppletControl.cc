@@ -23,7 +23,6 @@
 #include "config.h"
 #endif
 
-#include "nls.h"
 #include "debug.hh"
 
 #include "AppletControl.hh"
@@ -44,17 +43,13 @@
 #include "GenericDBusApplet.hh"
 #endif
 
-#include <gdkmm.h>
-#include <gtkmm.h>
-
-// #ifdef PLATFORM_OS_OSX
-// #include "OSXAppletWindow.hh"
-// #endif
+#ifdef PLATFORM_OS_OSX
+#include "OSXAppletWindow.hh"
+#endif
 
 #include "GUI.hh"
-#include "MainWindow.hh"
 #include "TimerBoxControl.hh"
-#include "Menus.hh"
+#include "Menus.hh" // REFACTOR
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -64,13 +59,14 @@ using namespace std;
 
 //! Constructor.
 AppletControl::AppletControl()
-  : enabled(false),
+  : visible(false),
+    enabled(false),
     delayed_show(-1)
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       applets[i] = NULL;
-      visible[i] = false;
+      applet_visible[i] = false;
     }
 }
 
@@ -95,30 +91,32 @@ void
 AppletControl::init()
 {
 #if defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)
-  applets[APPLET_GNOME] = new GnomeAppletWindow(this);
+  applets[APPLET_GNOME] = new GnomeAppletWindow();
 #endif
 
 #ifdef HAVE_DBUS_GIO
-  applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet(this);
+  applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
   
 #ifdef PLATFORM_OS_UNIX
-  applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
+  applets[APPLET_TRAY] = new X11SystrayAppletWindow();
 #endif
 
 #ifdef PLATFORM_OS_WIN32
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 
-// #ifdef PLATFORM_OS_OSX
-//   applets[APPLET_OSX] = new OSXAppletWindow();
-// #endif
-
+#ifdef PLATFORM_OS_OSX
+  applets[APPLET_OSX] = new OSXAppletWindow();
+#endif
+  
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       if (applets[i] != NULL)
         {
           applets[i]->init_applet();
+          applets[i]->signal_state_changed().connect(sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_state_changed), (AppletType)i));
+          applets[i]->signal_request_activate().connect(sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_request_activate), (AppletType)i));
         }
     }
   
@@ -141,10 +139,6 @@ AppletControl::show()
 
   rc = activate_applet(APPLET_GENERIC_DBUS);
   TRACE_MSG("Generic" << rc);
-  if (rc != AppletWindow::APPLET_STATE_DISABLED)
-    {
-      // FIXME: specific = true;
-    }
 
   rc = activate_applet(APPLET_GNOME);
   TRACE_MSG("Gnome " << rc);
@@ -162,12 +156,12 @@ AppletControl::show()
       specific = true;
     }
 
-//   rc = activate_applet(APPLET_OSX);
-//   TRACE_MSG("OSX " << rc);
-//   if (rc != AppletWindow::APPLET_STATE_DISABLED)
-//     {
-//       specific = true;
-//     }
+  rc = activate_applet(APPLET_OSX);
+  TRACE_MSG("OSX " << rc);
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
+    {
+      specific = true;
+    }
 
 #ifdef PLATFORM_OS_UNIX
   if (specific)
@@ -230,32 +224,24 @@ AppletControl::hide()
 }
 
 
-//! Hide a specific applet.
-void
-AppletControl::hide(AppletType type)
-{
-  deactivate_applet(type);
-}
-
-
 //! The specified applet is not active.
 void
-AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state)
+AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletState state)
 {
   TRACE_ENTER_MSG("AppletControl::set_applet_state", type << " " << state);
   switch (state)
     {
     case AppletWindow::APPLET_STATE_DISABLED:
-      visible[type] = false;
+      applet_visible[type] = false;
       break;
 
     case AppletWindow::APPLET_STATE_VISIBLE:
-      visible[type] = true;
+      applet_visible[type] = true;
       break;
     }
 
 #ifdef PLATFORM_OS_UNIX
-  if (visible[type] && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
+  if (applet_visible[type] && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
     {
       TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);
@@ -268,6 +254,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
       delayed_show = 5;
     }
 
+  // REFACTOR
   if (state == AppletWindow::APPLET_STATE_VISIBLE)
     {
       GUI *gui = GUI::get_instance();
@@ -280,11 +267,17 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
 }
 
 
+void
+AppletControl::on_applet_request_activate(AppletType type)
+{
+  show(type);
+}
+
 //! Is at least a single applet visible.
 bool
 AppletControl::is_visible(AppletType type)
 {
-  return visible[type];
+  return applet_visible[type];
 }
 
 
@@ -296,7 +289,7 @@ AppletControl::is_visible()
 
     for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (visible[i])
+      if (applet_visible[i])
         {
           ret = true;
         }
@@ -326,7 +319,7 @@ AppletControl::heartbeat()
 
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && visible[i])
+      if (applets[i] != NULL && applet_visible[i])
         {
           applets[i]->update_applet();
         }
@@ -341,7 +334,7 @@ AppletControl::set_tooltip(std::string& tip)
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && visible[i])
+      if (applets[i] != NULL && applet_visible[i])
         {
           applets[i]->set_applet_tooltip(tip);
         }
@@ -392,24 +385,24 @@ AppletControl::check_visible()
 
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (visible[i])
+      if (applet_visible[i])
         {
           TRACE_MSG(i << " is visible"); 
           count++;
         }
     }
 
-// #ifdef PLATFORM_OS_OSX
-//   count++;
-// #endif
+#ifdef PLATFORM_OS_OSX
+  count++;
+#endif
 
-  GUI *gui = GUI::get_instance();
-  MainWindow *main = gui->get_main_window();
-  if (main != NULL)
+  bool new_visible = count > 0;
+  if (new_visible != visible)
     {
-      main->set_applet_active( count > 0 );
+      visible = new_visible;
+      visibility_changed_signal.emit();
     }
-
+  
   TRACE_EXIT();
 }
 
@@ -423,7 +416,7 @@ AppletControl::activate_applet(AppletType type)
       r = applets[type]->activate_applet();
       if (r == AppletWindow::APPLET_STATE_VISIBLE)
         {
-          visible[type] = true;
+          applet_visible[type] = true;
         }
     }
 
@@ -436,6 +429,12 @@ AppletControl::deactivate_applet(AppletType type)
  if (applets[type] != NULL)
     {
       applets[type]->deactivate_applet();
-      visible[type] = false;
+      applet_visible[type] = false;
     }
+}
+
+sigc::signal<void> &
+AppletControl::signal_visibility_changed()
+{
+  return visibility_changed_signal;
 }

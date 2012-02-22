@@ -1,6 +1,6 @@
 // Menus.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,10 @@
 #include "ICore.hh"
 
 class GUI;
-class TimeBar;
 class NetworkLogDialog;
 class NetworkJoinDialog;
 class StatisticsDialog;
 class PreferencesDialog;
-class MainWindow;
-class AppletWindow;
 class AppletControl;
 class ExercisesDialog;
 class IMenu;
@@ -89,7 +86,7 @@ public:
       MENU_COMMAND_SIZEOF,
     };
 
-  void init(MainWindow *main_windows, AppletControl *applet_control);
+  void init(AppletControl *applet_control);
   void applet_command(short cmd);
   void resync();
   void locale_changed();
@@ -157,8 +154,6 @@ private:
   // The exercises dialog.
   ExercisesDialog *exercises_dialog;
 #endif
-  //! The main window.
-  MainWindow *main_window;
 
   //! Different kind of menus
   IMenu *menus[MENU_SIZEOF];

@@ -1,6 +1,6 @@
 // IAppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,7 @@
 #include "preinclude.h"
 
 #include <string>
-
-using namespace workrave;
+#include <sigc++/sigc++.h>
 
 class IAppletWindow
 {
@@ -36,6 +35,9 @@ public:
     };
 
   virtual ~IAppletWindow() {}
+
+  virtual sigc::signal<void, AppletState> &signal_state_changed() = 0;
+  virtual sigc::signal<void> &signal_request_activate() = 0;
 
   virtual AppletState activate_applet() = 0;
   virtual void deactivate_applet() = 0;

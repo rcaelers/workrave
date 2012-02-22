@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,9 @@
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
+
 #include "ICore.hh"
+#include "IConfiguratorListener.hh"
 
 #ifndef WR_CHECK_VERSION
 #define WR_CHECK_VERSION(comp,major,minor,micro)   \
@@ -43,32 +45,38 @@
 #define HAVE_STATUSICON_SIGNAL 1
 #endif
 
+using namespace workrave;
+
 class W32StatusIcon;
 
-class StatusIcon
+class StatusIcon :
+  public IConfiguratorListener
 {
 public:
   StatusIcon();
   ~StatusIcon();
 
-  void set_visible(bool b);
+  void init();
   void set_operation_mode(OperationMode m);
   void set_tooltip(std::string& tip);
-  bool is_embedded() const;
+  bool is_visible() const;
   void show_balloon(std::string id, const std::string& balloon);
 
-  sigc::signal<void> &signal_changed();
-  sigc::signal<void> signal_activate();
-  sigc::signal<void, std::string> signal_balloon_activate();
+  sigc::signal<void> &signal_visibility_changed();
+  sigc::signal<void> &signal_activate();
+  sigc::signal<void, std::string> &signal_balloon_activate();
 
 private:
+  void set_visible(bool b);
   void insert_icon();
   void on_activate();
   void on_popup_menu(guint button, guint activate_time);
-  bool on_size_changed(guint size);
+  bool on_embedded_changed();
 
+  void config_changed_notify(const std::string &key);
+  
 #if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
-  GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+  GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
 #endif
   
 #if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
@@ -83,8 +91,8 @@ private:
 
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
 
-  sigc::signal<void> changed_signal;
-  sigc::signal<void> 	activate_signal;
+  sigc::signal<void> visibility_changed_signal;
+  sigc::signal<void> activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
 
   

@@ -26,16 +26,12 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include <gtkmm/alignment.h>
-
 #include "X11SystrayAppletWindow.hh"
 
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
-#include "AppletControl.hh"
 #include "Menus.hh"
-#include "System.hh"
 
 #include "gtktrayicon.h"
 
@@ -44,7 +40,7 @@
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-X11SystrayAppletWindow::X11SystrayAppletWindow(AppletControl *control) :
+X11SystrayAppletWindow::X11SystrayAppletWindow() :
   view(NULL),
   plug(NULL),
   container(NULL),
@@ -52,7 +48,6 @@ X11SystrayAppletWindow::X11SystrayAppletWindow(AppletControl *control) :
   applet_size(0),
   applet_active(false),
   embedded(false),
-  control(control),
   tray_icon(NULL)
 {
 }
@@ -207,8 +202,7 @@ X11SystrayAppletWindow::deactivate_applet()
       timer_box_view = NULL;
       view = NULL;
 
-      control->set_applet_state(AppletControl::APPLET_TRAY,
-                                AppletWindow::APPLET_STATE_DISABLED);
+      state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
     }
 
   applet_active = false;
@@ -223,8 +217,7 @@ X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
-  control->set_applet_state(AppletControl::APPLET_TRAY,
-                            AppletWindow::APPLET_STATE_DISABLED);
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
   return true;
 }
 
@@ -261,9 +254,7 @@ X11SystrayAppletWindow::on_embedded()
 #endif
     }
 
-  control->set_applet_state(AppletControl::APPLET_TRAY,
-                            AppletWindow::APPLET_STATE_VISIBLE);
-
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
   TRACE_EXIT();
 }
 

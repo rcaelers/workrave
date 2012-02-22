@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -249,11 +249,8 @@ GUI::terminate()
 
   // HACK: Without it status icon keeps on dangling in tray
   // Nicer solution: nicely cleanup complete gui ~GUI()
-  if (status_icon)
-    {
-      delete status_icon;
-      status_icon = 0;
-    }
+  delete status_icon;
+  status_icon = 0;
 
   CoreFactory::get_configurator()->save();
 
@@ -268,10 +265,7 @@ GUI::terminate()
 void
 GUI::open_main_window()
 {
-  if (main_window != NULL)
-    {
-      main_window->open_window();
-    }
+  main_window->open_window();
 }
 
 
@@ -279,31 +273,25 @@ GUI::open_main_window()
 void
 GUI::close_main_window()
 {
-  if (main_window != NULL)
-    {
-      main_window->close_window();
-    }
+  main_window->close_window();
 }
 
 
 //! The user close the main window.
 void
-GUI::main_window_closed()
+GUI::on_main_window_closed()
 {
-  TRACE_ENTER("GUI::main_window_closed");
-  if (status_icon)
+  TRACE_ENTER("GUI::on_main_window_closed");
+  bool closewarn = false;
+  CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
+  TRACE_MSG(closewarn);
+  if (closewarn && !closewarn_shown)
     {
-      bool closewarn = false;
-      CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
-      TRACE_MSG(closewarn);
-      if (closewarn && !closewarn_shown)
-        {
-          status_icon->show_balloon("closewarn",
-                                    _("Workrave is still running. "
-                                      "You can access Workrave by clicking on the white sheep icon. "
-                                      "Click on this balloon to disable this message" ));
-          closewarn_shown =  true;
-        }
+      status_icon->show_balloon("closewarn",
+                                _("Workrave is still running. "
+                                  "You can access Workrave by clicking on the white sheep icon. "
+                                  "Click on this balloon to disable this message" ));
+      closewarn_shown =  true;
     }
   TRACE_EXIT();
 }
@@ -315,26 +303,12 @@ GUI::on_timer()
 {
   std::string tip = get_timers_tooltip();
 
-  if (core != NULL)
-    {
-      core->heartbeat();
-    }
+  core->heartbeat();
+  main_window->update();
 
-  if (main_window != NULL)
-    {
-      main_window->update();
-    }
-
-  if (applet_control != NULL)
-    {
-      applet_control->heartbeat();
-      applet_control->set_tooltip(tip);
-    }
-
-  if (status_icon)
-    {
-      status_icon->set_tooltip(tip);
-    }
+  applet_control->heartbeat();
+  applet_control->set_tooltip(tip);
+  status_icon->set_tooltip(tip);
 
   heartbeat_signal();
 
@@ -783,27 +757,25 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
+  main_window->init();
+  main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed));
+  main_window->set_can_close(false);
 
   // The applet window.
   applet_control = new AppletControl();
   applet_control->init();
+  applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
-  menus->init(main_window, applet_control);
+  // Menus
+  menus->init(applet_control);
   menus->resync();
 
-  // Status icon
-  bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
-  if (!tray_icon_enabled)
-    {
-      // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
-      TimerBoxControl::set_enabled("main_window", true);
-    }
+  // Status Icon
   status_icon = new StatusIcon();
-  status_icon->set_visible(tray_icon_enabled);
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  status_icon->init();
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate));
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate));
-  status_icon->signal_changed().connect(sigc::mem_fun(*this, &GUI::on_status_icon_changed));
+  status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
@@ -999,28 +971,6 @@ GUI::config_changed_notify(const std::string &key)
       menus->locale_changed();
     }
 #endif
-  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
-    {
-      if (status_icon != NULL)
-        {
-          bool tray = GUIConfig::get_trayicon_enabled();
-          status_icon->set_visible(tray);
-
-          if (!tray)
-            {
-              TimerBoxControl::set_enabled("main_window", true);
-
-              AppletControl *applet_control = get_applet_control();
-              if (applet_control != NULL)
-                {
-                  if (!applet_control->is_visible())
-                    {
-                      open_main_window();
-                    }
-                }
-            }
-        }
-    }
 
   TRACE_EXIT();
 }
@@ -1526,7 +1476,7 @@ GUI::get_timers_tooltip()
     case OPERATION_MODE_NORMAL:
     default:
 #if !defined(PLATFORM_OS_WIN32)
-          // Win32 tip is limited in length
+      // Win32 tip is limited in length
       tip = "Workrave";
 #endif
       break;
@@ -1567,20 +1517,30 @@ GUI::get_timers_tooltip()
   return tip;
 }
 
-
-bool
-GUI::is_status_icon_visible() const
+void
+GUI::on_status_icon_balloon_activate(const std::string &id)
 {
-  bool ret = false;
-
-  if (status_icon != NULL)
+  if (id == "closewarn")
     {
-      ret = status_icon->is_embedded();
+      CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
     }
-
-  return ret;
 }
 
+void
+GUI::on_status_icon_activate()
+{
+  main_window->toggle_window();
+}
+
+void
+GUI::on_visibility_changed()
+{
+  TRACE_ENTER("GUI::on_visibility_changed");
+  TRACE_MSG(applet_control->is_visible() << " " << status_icon->is_visible());
+  bool can_close_main_window = applet_control->is_visible() || status_icon->is_visible();
+  main_window->set_can_close(can_close_main_window);
+  TRACE_EXIT();
+}
 
 #if defined(PLATFORM_OS_WIN32)
 void
@@ -1594,7 +1554,6 @@ GUI::win32_init_filter()
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
-
 
 GdkFilterReturn
 GUI::win32_filter_func (void     *xevent,
@@ -1642,10 +1601,7 @@ GUI::win32_filter_func (void     *xevent,
             {
               TRACE_MSG("Resume suspend");
               ICore *core = CoreFactory::get_core();
-              if (core != NULL)
-                {
-                  core->set_powersave(false);
-                }
+              core->set_powersave(false);
             }
             break;
 
@@ -1653,10 +1609,7 @@ GUI::win32_filter_func (void     *xevent,
             {
               TRACE_MSG("Suspend");
               ICore *core = CoreFactory::get_core();
-              if (core != NULL)
-                {
-                  core->set_powersave(true);
-                }
+              core->set_powersave(true);
             }
             break;
           }
@@ -1699,26 +1652,4 @@ GUI::win32_filter_func (void     *xevent,
   return ret;
 }
 
-
 #endif
-
-void
-GUI::on_status_icon_balloon_activate(const std::string &id)
-{
-  if (id == "closewarn")
-    {
-      CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
-    }
-}
-
-void
-GUI::on_status_icon_activate()
-{
-  main_window->activate();
-}
-
-void
-GUI::on_status_icon_changed()
-{
-  main_window->status_icon_changed();
-}

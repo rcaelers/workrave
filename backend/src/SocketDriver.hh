@@ -1,6 +1,6 @@
 // SocketDriver.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2007, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2005, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -125,6 +125,8 @@ class SocketDriver
 {
 public:
   static SocketDriver *create();
+
+  virtual ~SocketDriver() {};
 
   //! Create a new socket
   virtual ISocket *create_socket() = 0;

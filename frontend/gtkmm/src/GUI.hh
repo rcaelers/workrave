@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -97,7 +97,6 @@ public:
   void open_main_window();
   void close_main_window();
   void init_multihead();
-  void main_window_closed();
 
   // Prefs
   // Misc
@@ -108,9 +107,6 @@ public:
   void map_from_head(int &x, int &y, int head);
   bool bound_head(int &x, int &y, int width, int height, int &head);
   void interrupt_grab();
-
-  bool is_status_icon_visible() const;
-
 
 private:
   std::string get_timers_tooltip();
@@ -142,7 +138,8 @@ private:
 
   void on_status_icon_balloon_activate(const std::string &id);
   void on_status_icon_activate();
-  void on_status_icon_changed();
+  void on_visibility_changed();
+  void on_main_window_closed();
   
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();

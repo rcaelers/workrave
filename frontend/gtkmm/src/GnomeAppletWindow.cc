@@ -27,19 +27,6 @@
 #include "debug.hh"
 
 #include <gtkmm.h>
-
-#include "GnomeAppletWindow.hh"
-
-#include "AppletControl.hh"
-#include "TimerBoxGtkView.hh"
-#include "TimerBoxControl.hh"
-#include "GUI.hh"
-#include "Menus.hh"
-#include "System.hh"
-
-#include "ICore.hh"
-#include "CoreFactory.hh"
-
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 
@@ -50,6 +37,14 @@
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+
+#include "GnomeAppletWindow.hh"
+
+#include "TimerBoxGtkView.hh"
+#include "TimerBoxControl.hh"
+#include "Menus.hh"
+
+#include "CoreFactory.hh"
 
 #ifndef HAVE_DBUS_GIO
 #include "DBusGnomeApplet.hh"
@@ -69,13 +64,12 @@
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-GnomeAppletWindow::GnomeAppletWindow(AppletControl *control) :
+GnomeAppletWindow::GnomeAppletWindow() :
   view(NULL),
   plug(NULL),
   container(NULL),
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
-  control(control),
   applet_active(false),
 #ifdef HAVE_DBUS_GIO
   proxy(NULL)
@@ -262,8 +256,7 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
   TRACE_ENTER("GnomeAppletWindow::delete_event");
   (void) event;
   deactivate_applet();
-  control->set_applet_state(AppletControl::APPLET_GNOME,
-                            AppletWindow::APPLET_STATE_DISABLED);
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
   TRACE_EXIT();
   return true;
 }
@@ -274,7 +267,7 @@ void
 GnomeAppletWindow::fire_gnome_applet()
 {
   TRACE_ENTER("GnomeAppletWindow::fire_gnome_applet");
-  control->show(AppletControl::APPLET_GNOME);
+  request_activate_signal.emit();
   TRACE_EXIT();
 }
 
@@ -679,9 +672,7 @@ void
 GnomeAppletWindow::on_embedded()
 {
   TRACE_ENTER("GnomeAppletWindow::on_embedded");
-  control->set_applet_state(AppletControl::APPLET_GNOME,
-                            AppletWindow::APPLET_STATE_VISIBLE);
-
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
   TRACE_EXIT();
 }
 

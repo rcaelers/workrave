@@ -1,6 +1,6 @@
 // GnomeAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,19 +21,21 @@
 #define GNOMEAPPLETWINDOW_HH
 
 #include "preinclude.h"
-#include <stdio.h>
 
-#include "AppletWindow.hh"
+#include <stdio.h>
+#include <string>
 
 #include <gtkmm.h>
 #include <sigc++/trackable.h>
 
-#include <string>
+#include "AppletWindow.hh"
+#include "Orientation.hh"
 
 class TimerBoxGtkView;
-class AppletControl;
 class Plug;
 class org_workrave_GnomeAppletInterface;
+
+using namespace workrave;
 
 namespace Gtk
 {
@@ -45,7 +47,7 @@ class GnomeAppletWindow :
   public AppletWindow
 {
 public:
-  GnomeAppletWindow(AppletControl *control);
+  GnomeAppletWindow();
   virtual ~GnomeAppletWindow();
 
   //! Menus items to be synced.
@@ -87,9 +89,6 @@ private:
   int applet_size;
 
   //!
-  AppletControl *control;
-
-  //!
   bool applet_active;
 
 private:
@@ -119,11 +118,8 @@ private:
   
 #ifdef HAVE_DBUS_GIO
   GDBusProxy *proxy;
-
 #else
-  //!
   org_workrave_GnomeAppletInterface *applet_control;
-  
 #endif
 };
 

@@ -1,6 +1,6 @@
 // AppletControl.hh --- Applet window
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,11 @@
 #define APPLETCONTROL_HH
 
 #include "preinclude.h"
-#include "IConfiguratorListener.hh"
+
 #include "IAppletWindow.hh"
+#include "IConfiguratorListener.hh"
+
+using namespace workrave;
 
 class AppletControl :
   public IConfiguratorListener
@@ -40,46 +43,50 @@ public:
     };
 
   AppletControl();
-  ~AppletControl();
+  virtual ~AppletControl();
 
   void init();
-  void show(AppletType type);
-  bool is_visible();
-
-  // callback from appletwindow
-  void set_applet_state(AppletType type, IAppletWindow::AppletState);
-
   void heartbeat();
   void set_tooltip(std::string& tip);
+  bool is_visible();
   IAppletWindow *get_applet_window(AppletType type);
 
-protected:
+  sigc::signal<void> &signal_visibility_changed();
 
 private:
   //! All known applets
   IAppletWindow *applets[APPLET_SIZE];
 
   //! Did applet acknowledge visibility?
-  bool visible[APPLET_SIZE];
+  bool applet_visible[APPLET_SIZE];
 
+  //!
+  bool visible;
+  
   //!
   bool enabled;
 
+  //!
   int delayed_show;
 
+  //!
+  sigc::signal<void> visibility_changed_signal;
+  
 private:
   typedef IAppletWindow::AppletState AppletState;
 
   AppletState activate_applet(AppletType type);
   void deactivate_applet(AppletType type);
 
+  void on_applet_state_changed(AppletType type, IAppletWindow::AppletState state);
+  void on_applet_request_activate(AppletType type);
+  
   void config_changed_notify(const std::string &key);
   void read_configuration();
   void check_visible();
   void show();
+  void show(AppletType type);
   void hide();
-  void hide(AppletType type);
-
   bool is_visible(AppletType type);
 };
 

@@ -27,8 +27,6 @@
 
 #include "OSXAppletWindow.hh"
 #include "TimerBoxControl.hh"
-#include "GUI.hh"
-#include "Menus.hh"
 
 #import "OSXStatusBarView.h"
 
@@ -41,7 +39,6 @@ OSXAppletWindow::OSXAppletWindow()
 
   NSMenu *menu = [[NSMenu alloc] init];
   view = [[OSXStatusBarView alloc] initWithMenu:menu];
-
 
   int i;
   while ([menu numberOfItems] > 0) {

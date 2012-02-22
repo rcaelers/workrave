@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,6 @@
 #include "preinclude.h"
 
 #include <string>
-
-class GUI;
-class TimeBar;
-class NetworkLogDialog;
-class TimerBoxControl;
-class TimerBoxGtkView;
-
 #include <gtkmm/window.h>
 
 #ifdef PLATFORM_OS_WIN32
@@ -39,10 +32,8 @@ class TimerBoxGtkView;
 
 #include "IConfiguratorListener.hh"
 
-namespace Gtk
-{
-  class Menu;
-}
+class TimerBoxControl;
+class TimerBoxGtkView;
 
 using namespace workrave;
 
@@ -54,40 +45,32 @@ public:
   MainWindow();
   ~MainWindow();
 
+  void init();
+  void toggle_window();
   void open_window();
   void close_window();
-  void set_applet_active(bool a);
-
+  void set_can_close(bool can_close);
+  
   void update();
   void relocate_window(int width, int height);
 
-  void status_icon_changed();
-  void activate();
+  sigc::signal<void> &signal_closed();
   
-  static bool get_always_on_top();
-  static void set_always_on_top(bool b);
-
 protected:
   bool on_button_press_event(GdkEventButton *event);
 
 private:
-  //! Window enabled
+  //! Is the main window enabled?
   bool enabled;
 
-  //! Table containing all timer information
+  //! Can the user close the window?
+  bool can_close;
+
+  //! Controller that determines the timerbox content
   TimerBoxControl *timer_box_control;
 
-  //! Table containing all timer information
+  //! View that displays the timerbox.
   TimerBoxGtkView *timer_box_view;
-
-  //! Is the monitoring function suspended?
-  bool monitor_suspended;
-
-  //! Is the visible?
-  bool visible;
-
-  //! Applet active?
-  bool applet_active;
 
 #ifdef PLATFORM_OS_UNIX
   Gtk::Window *leader;
@@ -102,31 +85,21 @@ private:
   //! Relocated location of main window
   Gdk::Point window_relocated_location;
 
+  //! Event triggered when the main window has been closed by the user
+  sigc::signal<void> closed_signal;
+
 private:
-  //
-  void init();
   void setup();
   void config_changed_notify(const std::string &key);
   void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
 
-  // Events.
+  // UI Events.
   bool on_delete_event(GdkEventAny*);
   bool on_configure_event(GdkEventConfigure *event);
-
-public:
-  static void set_start_in_tray(bool b);
-  static bool get_start_in_tray();
-
+  
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
-
-  static const std::string CFG_KEY_MAIN_WINDOW;
-  static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
-  static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
-  static const std::string CFG_KEY_MAIN_WINDOW_X;
-  static const std::string CFG_KEY_MAIN_WINDOW_Y;
-  static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
 
 #ifdef PLATFORM_OS_WIN32
 private:
@@ -141,16 +114,8 @@ private:
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;
   int show_retry_count;
-
   sigc::connection timeout_connection;
 #endif
 };
-
-
-// inline bool
-// MainWindow::get_iconified() const
-// {
-//   return iconified;
-// }
 
 #endif // MAINWINDOW_HH

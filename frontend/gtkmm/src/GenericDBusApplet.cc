@@ -30,12 +30,9 @@
 
 #include "GenericDBusApplet.hh"
 
-#include "AppletControl.hh"
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
-
-#include "ICore.hh"
 #include "CoreFactory.hh"
 
 #include "DBus.hh"
@@ -47,8 +44,8 @@
 #define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
 
 //! Constructor.
-GenericDBusApplet::GenericDBusApplet(AppletControl *control) :
-  enabled(false), embedded(false), control(control), dbus(NULL)
+GenericDBusApplet::GenericDBusApplet() :
+  enabled(false), embedded(false), dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -146,7 +143,7 @@ GenericDBusApplet::deactivate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::deactivate_applet");
   enabled = false;
-  control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_DISABLED);
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
   TRACE_EXIT();
 }
 
@@ -233,7 +230,7 @@ void
 GenericDBusApplet::applet_command(int command)
 {
   GUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();;
+  Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }
 
@@ -248,7 +245,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
         {
           TRACE_MSG("Enabling");
           enabled = true;
-          control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_VISIBLE);
+          state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
         }
     }
   else
@@ -257,8 +254,9 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
       if (active_bus_names.size() == 0)
         {
           TRACE_MSG("Disabling");
-          control->set_applet_state(AppletControl::APPLET_GENERIC_DBUS, AppletWindow::APPLET_STATE_DISABLED);
+          state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
           dbus->unwatch(name);
+          embedded = false;
           enabled = false;
         }
     }

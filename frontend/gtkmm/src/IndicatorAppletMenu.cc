@@ -1,6 +1,6 @@
 // IndicatorAppletMenu.cc --- Menus using IndicatorApplet+
 //
-// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,8 @@
 #include "GenericDBusApplet.hh"
 #include "GUI.hh"
 #include "Menus.hh"
-#include "Util.hh"
 
 using namespace std;
-
 
 //! Constructor.
 IndicatorAppletMenu::IndicatorAppletMenu(GenericDBusApplet *applet_window)

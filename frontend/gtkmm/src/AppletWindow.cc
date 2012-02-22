@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001 - 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 #include "config.h"
 #endif
 
-#include "nls.h"
 #include "debug.hh"
 
 #include "AppletWindow.hh"
@@ -63,4 +62,16 @@ AppletWindow::update_applet()
 void
 AppletWindow::init_applet()
 {
+}
+
+sigc::signal<void, IAppletWindow::AppletState> &
+AppletWindow::signal_state_changed()
+{
+  return state_changed_signal;
+}
+
+sigc::signal<void> &
+AppletWindow::signal_request_activate()
+{
+  return request_activate_signal;
 }

@@ -1,6 +1,6 @@
 // IndicatorAppletMenu.hh --- Menu using IndicatorApplet+
 //
-// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 #include "config.h"
 
 #include <string>
-
-#include <gtk/gtk.h>
 
 #include <libdbusmenu-glib/server.h>
 #include <libdbusmenu-glib/menuitem.h>

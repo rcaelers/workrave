@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 #include "CoreConfig.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
-#include "MainWindow.hh"
+#include "GUIConfig.hh"
 #include "TimerBoxControl.hh"
 
 
@@ -137,7 +137,7 @@ TimerBoxPreferencePage::create_page()
         (new Gtk::CheckButton
          (_("The status window stays always on top of other windows")));
       ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
-      ontop_cb->set_active(MainWindow::get_always_on_top());
+      ontop_cb->set_active(GUIConfig::get_always_on_top());
     }
   else if (name == "applet")
     {
@@ -386,7 +386,7 @@ TimerBoxPreferencePage::on_cycle_time_changed()
 void
 TimerBoxPreferencePage::on_always_on_top_toggled()
 {
-  MainWindow::set_always_on_top(ontop_cb->get_active());
+  GUIConfig::set_always_on_top(ontop_cb->get_active());
 }
 
 

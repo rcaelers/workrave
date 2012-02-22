@@ -1,6 +1,6 @@
 // GenericDBusApplet.hh --- X11 Applet Window
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,11 @@
 
 #include <string>
 #include <set>
-#include <stdio.h>
 
-#include <gtk/gtk.h>
-
-#include "TimerBoxViewBase.hh"
-#include "ITimeBar.hh"
-#include "IDBusWatch.hh"
 #include "AppletWindow.hh"
-#include "Menus.hh"
+#include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
+#include "IDBusWatch.hh"
 
 class AppletControl;
 
@@ -42,7 +37,7 @@ namespace workrave
   class DBus;
 }
 
-class GenericDBusApplet : public AppletWindow , public TimerBoxViewBase, public MenuBase, public IDBusWatch
+class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public IDBusWatch
 {
 public:
   struct TimerData
@@ -76,7 +71,7 @@ public:
 
   typedef std::list<MenuItem> MenuItems;
  
-  GenericDBusApplet(AppletControl *control);
+  GenericDBusApplet();
   virtual ~GenericDBusApplet();
 
   // DBus
@@ -113,13 +108,7 @@ private:
   bool embedded;
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
-
   std::set<std::string> active_bus_names;
-  
-  //! Controller
-  AppletControl *control;
-
-  //!
   DBus *dbus;
 };
 
