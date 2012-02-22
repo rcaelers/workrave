@@ -282,7 +282,11 @@ W32AppletWindow::run_event_pipe_static( void *param )
 void
 W32AppletWindow::run_event_pipe()
 {
-	while( thread_id == GetCurrentThreadId() )
+	const DWORD current_thread_id = GetCurrentThreadId();
+
+	TRACE_ENTER_MSG( "W32AppletWindow::run_event_pipe [ id: ", current_thread_id << " ]" );
+
+	while( thread_id == current_thread_id )
 	{
 		/* JS: thread_abort_event must be first in the array of events. 
 		the index returned by WaitForMultipleObjectsEx() corresponds to the first 
@@ -294,7 +298,7 @@ W32AppletWindow::run_event_pipe()
 		DWORD wait_result = WaitForMultipleObjectsEx( events_count, events, FALSE, INFINITE, FALSE );
 
 		if( ( wait_result == WAIT_FAILED ) || ( wait_result == ( WAIT_OBJECT_0 + 0 ) ) )
-			return;
+			break;
 		
 		if( heartbeat_data.enabled && ( wait_result == ( WAIT_OBJECT_0 + 1 ) ) )
 		{
@@ -306,6 +310,8 @@ W32AppletWindow::run_event_pipe()
 			LeaveCriticalSection( &heartbeat_data_lock );
 		}
 	}
+
+	TRACE_EXIT();
 }
 
 
