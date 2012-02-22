@@ -110,6 +110,7 @@ DistributionSocketLink::heartbeat()
 {
   if (server_enabled)
     {
+      TRACE_ENTER("DistributionSocketLink::heartbeat");
       heartbeat_count++;
 
       time_t current_time = time(NULL);
@@ -151,6 +152,7 @@ DistributionSocketLink::heartbeat()
         {
           send_client_message(DCMT_MASTER);
         }
+      TRACE_EXIT();
     }
 }
 
@@ -226,6 +228,7 @@ DistributionSocketLink::get_number_of_peers()
 void
 DistributionSocketLink::connect(string url)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink::connect", url);
   if (network_enabled)
     {
       std::string::size_type pos = url.find("://");
@@ -256,6 +259,7 @@ DistributionSocketLink::connect(string url)
 
       add_client(NULL, (gchar *)host.c_str(), atoi(port.c_str()), CLIENTTYPE_DIRECT);
     }
+  TRACE_EXIT();
 }
 
 
@@ -278,6 +282,7 @@ DistributionSocketLink::disconnect(string id)
 bool
 DistributionSocketLink::disconnect_all()
 {
+  TRACE_ENTER("DistributionSocketLink::disconnect_all");
   list<Client *>::iterator i = clients.begin();
   bool ret = false;
 
@@ -292,6 +297,7 @@ DistributionSocketLink::disconnect_all()
 
   set_me_master();
 
+  TRACE_EXIT();
   return ret;
 }
 
@@ -300,6 +306,7 @@ DistributionSocketLink::disconnect_all()
 bool
 DistributionSocketLink::reconnect_all()
 {
+  TRACE_ENTER("DistributionSocketLink::reconnect_all");
   list<Client *>::iterator i = clients.begin();
   bool ret = false;
 
@@ -313,6 +320,7 @@ DistributionSocketLink::reconnect_all()
       i++;
     }
 
+  TRACE_EXIT();
   return ret;
 }
 
@@ -364,11 +372,13 @@ DistributionSocketLink::set_lock_master(bool lock)
 void
 DistributionSocketLink::set_user(string user, string pw)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink::set_user", user << " " << pw);
   g_free(username);
   g_free(password);
 
   username = g_strdup(user.c_str());
   password = g_strdup(pw.c_str());
+  TRACE_EXIT();
 }
 
 
@@ -687,6 +697,7 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id)
 void
 DistributionSocketLink::remove_client(Client *client)
 {
+  TRACE_ENTER("DistributionSocketLink::remove_client");
   list<Client *>::iterator i = clients.begin();
 
   while (i != clients.end())
@@ -714,6 +725,7 @@ DistributionSocketLink::remove_client(Client *client)
       // Client to be removed is master. Unset master client.
       master_client = NULL;
     }
+  TRACE_EXIT();
 }
 
 
@@ -827,6 +839,7 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
 
       remove_peer_clients(client);
     }
+  TRACE_EXIT();
 }
 
 
@@ -1287,6 +1300,11 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   /* int port = */ packet.unpack_ushort();
 
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
+
+  dist_manager->log(_("u1 %s."), user != NULL ? user: "Unknown");
+  dist_manager->log(_("u2 %s."), username != NULL ? username: "Unknown");
+  dist_manager->log(_("p1 %s."), pass != NULL ? pass: "Unknown");
+  dist_manager->log(_("p2 %s."), password != NULL ? password : "Unknown");
 
   if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
        (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
@@ -2200,6 +2218,7 @@ DistributionSocketLink::socket_closed(ISocket *con, void *data)
 void
 DistributionSocketLink::read_configuration()
 {
+  TRACE_ENTER("DistributionSocketLink::read_configuration");
   int old_port = server_port;
 
   const char *port = getenv("WORKRAVE_PORT");
@@ -2227,6 +2246,7 @@ DistributionSocketLink::read_configuration()
 
   str = dist_manager->get_password();
   password = str != "" ? g_strdup(str.c_str()) : NULL;
+  TRACE_EXIT();
 }
 
 
