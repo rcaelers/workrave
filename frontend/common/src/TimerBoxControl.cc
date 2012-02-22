@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -452,7 +452,7 @@ TimerBoxControl::read_configuration()
     {
       BreakId bid = (BreakId) i;
 
-      break_position[i] = get_timer_slot(name, bid);;
+      break_position[i] = get_timer_slot(name, bid);
       break_flags[i] = get_timer_flags(name, bid);
       break_imminent_time[i] = get_timer_imminent_time(name, bid);
     }

@@ -166,7 +166,7 @@ StatusIcon::on_popup_menu(guint button, guint activate_time)
   (void) button;
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }

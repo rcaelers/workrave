@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -122,7 +122,7 @@ MainGtkMenu::init()
       ui_manager->insert_action_group(action_group);
     }
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
   main_window->add_accel_group(ui_manager->get_accel_group());
 }
@@ -130,8 +130,8 @@ MainGtkMenu::init()
 void
 MainGtkMenu::create_actions()
 {
-  GUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();;
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
 
   action_group = Gtk::ActionGroup::create();
 
@@ -333,8 +333,8 @@ MainGtkMenu::on_menu_network_log()
   if (ract)
     {
       bool active = ract->get_active();
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
+      IGUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();
       menus->on_menu_network_log(active);
     }
 }
@@ -350,8 +350,8 @@ MainGtkMenu::on_menu_normal()
       bool active = ract->get_active();
       if (active)
         {
-          GUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();;
+          IGUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();
           menus->on_menu_normal();
         }
     }
@@ -368,8 +368,8 @@ MainGtkMenu::on_menu_suspend()
       bool active = ract->get_active();
       if (active)
         {
-          GUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();;
+          IGUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();
 
           menus->on_menu_suspend();
         }
@@ -387,8 +387,8 @@ MainGtkMenu::on_menu_quiet()
       bool active = ract->get_active();
       if (active)
         {
-          GUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();;
+          IGUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();
 
           menus->on_menu_quiet();
         }
@@ -404,8 +404,8 @@ MainGtkMenu::on_menu_reading()
   if (ract)
     {
       bool active = ract->get_active();
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
+      IGUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();
 
       menus->on_menu_reading(active);
     }

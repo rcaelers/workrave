@@ -409,7 +409,7 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   assert(gui != NULL);
 
 #if defined(PLATFORM_OS_WIN32)
@@ -449,8 +449,8 @@ MainWindow::on_button_press_event(GdkEventButton *event)
 
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
+      IGUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();
       menus->popup(Menus::MENU_MAINWINDOW, event->button, event->time);
       ret = true;
     }
@@ -776,7 +776,7 @@ MainWindow::relocate_window(int width, int height)
       x = window_head_location.get_x();
       y = window_head_location.get_y();
 
-      GUI *gui = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       int num_heads = gui->get_number_of_heads();
       for (int i = 0; i < num_heads; i++)
         {

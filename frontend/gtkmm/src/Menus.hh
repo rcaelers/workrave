@@ -27,7 +27,7 @@
 
 #include "ICore.hh"
 
-class GUI;
+class IGUI;
 class NetworkLogDialog;
 class NetworkJoinDialog;
 class StatisticsDialog;
@@ -133,11 +133,8 @@ public:
 #endif
 
 private:
-  //! The one and only instance
-  static Menus *instance;
-
   //! Interface to the GUI.
-  GUI *gui;
+  IGUI *gui;
 
 #ifdef HAVE_DISTRIBUTION
   NetworkLogDialog *network_log_dialog;

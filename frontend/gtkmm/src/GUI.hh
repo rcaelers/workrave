@@ -56,7 +56,32 @@ class Session;
 
 using namespace workrave;
 
+class IGUI
+{
+public:
+  virtual ~IGUI() {}
+
+  virtual sigc::signal0<void> &signal_heartbeat() = 0;
+
+  virtual Menus *get_menus() const = 0;
+  virtual MainWindow *get_main_window() const = 0;
+  virtual SoundPlayer *get_sound_player() const = 0;
+
+  virtual void open_main_window() = 0;
+  virtual void restbreak_now() = 0;
+  
+  virtual void interrupt_grab() = 0;
+
+  virtual int get_number_of_heads() const = 0;
+  virtual HeadInfo &get_head(int head) = 0;
+  virtual int map_to_head(int &x, int &y) = 0;
+  virtual void map_from_head(int &x, int &y, int head) = 0;
+  virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
+  virtual void terminate() = 0;
+};
+
 class GUI :
+  public IGUI,
   public IApp,
   public ICoreEventListener,
   public IConfiguratorListener,
@@ -66,7 +91,7 @@ public:
   GUI(int argc, char **argv);
   virtual ~GUI();
 
-  static GUI *get_instance();
+  static IGUI *get_instance();
 
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
@@ -246,7 +271,7 @@ private:
 
 
 //! Returns the only instance of GUI
-inline GUI *
+inline IGUI *
 GUI::get_instance()
 {
   return instance;

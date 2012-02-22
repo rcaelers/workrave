@@ -187,7 +187,7 @@ TimeBar::get_preferred_size(int &width, int &height) const
   // Not sure why create_pango_layout is not const...
   Glib::RefPtr<Pango::Layout> pl = const_cast<TimeBar *>(this)->create_pango_layout(bar_text);
 
-  string min_string = Text::time_to_string(-(59+59*60+9*60*60));;
+  string min_string = Text::time_to_string(-(59+59*60+9*60*60));
   Glib::RefPtr<Pango::Layout> plmin = const_cast<TimeBar *>(this)->create_pango_layout(min_string);
 
   Glib::RefPtr<Pango::Context> pcl = pl->get_context();

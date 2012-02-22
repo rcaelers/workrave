@@ -245,7 +245,7 @@ W32DirectSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
         }
     }
 
-  return true;;
+  return true;
 }
 
 void

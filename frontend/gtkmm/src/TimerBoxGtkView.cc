@@ -189,8 +189,8 @@ TimerBoxGtkView::init_widgets()
 
           b->set_tooltip_text(_("Take rest break now"));
 
-          GUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();;
+          IGUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();
 
 	        b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           b->button_pressed.connect(sigc::mem_fun(*this,
@@ -239,7 +239,7 @@ TimerBoxGtkView::init_table()
   TRACE_ENTER("TimerBoxGtkView::init_table");
 
   // Compute number of visible breaks.
-  int number_of_timers = get_number_of_timers();;
+  int number_of_timers = get_number_of_timers();
   TRACE_MSG("number_of_timers = " << number_of_timers);
 
   // Compute table dimensions.
@@ -575,8 +575,8 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 
   if (button == 3 && menu != Menus::MENU_NONE)
     {
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
+      IGUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();
       menus->popup(menu, 0 /*event->button */, 0);
       ret = true;
     }

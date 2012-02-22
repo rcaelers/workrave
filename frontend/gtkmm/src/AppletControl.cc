@@ -257,7 +257,7 @@ AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletStat
   // REFACTOR
   if (state == AppletWindow::APPLET_STATE_VISIBLE)
     {
-      GUI *gui = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->resync();
     }

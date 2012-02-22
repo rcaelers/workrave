@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,10 +30,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include <gdk/gdkkeysyms.h>
-
-#include <gdk/gdkkeysyms.h>
-
 #include "preinclude.h"
 #include "debug.hh"
 #include "nls.h"
@@ -43,11 +39,11 @@
 #endif
 
 #include <gtkmm.h>
-
 #include <math.h>
 
-#include "GUI.hh"
 #include "BreakWindow.hh"
+
+#include "GUI.hh"
 #include "IBreak.hh"
 #include "IBreakResponse.hh"
 #include "GtkUtil.hh"
@@ -98,8 +94,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   skip_button(NULL),
   lock_button(NULL),
   shutdown_button(NULL),
-  accel_group(NULL),
+  accel_group(NULL)
 #ifdef PLATFORM_OS_WIN32
+  ,
   desktop_window( NULL ),
   parent( 0 )
 #endif
@@ -389,7 +386,7 @@ BreakWindow::on_lock_button_clicked()
 {
   if (System::is_lockable())
     {
-      GUI *gui = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       assert(gui != NULL);
 
       gui->interrupt_grab();
@@ -401,7 +398,7 @@ BreakWindow::on_lock_button_clicked()
 void
 BreakWindow::on_shutdown_button_clicked()
 {
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   assert(gui != NULL);
   gui->interrupt_grab();
 

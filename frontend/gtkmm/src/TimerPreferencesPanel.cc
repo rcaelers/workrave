@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 - 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -78,7 +78,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
 
-  HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());;
+  HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());
 
   Gtk::Widget *prelude_frame = Gtk::manage(create_prelude_panel());
   Gtk::Widget *timers_frame = Gtk::manage(create_timers_panel

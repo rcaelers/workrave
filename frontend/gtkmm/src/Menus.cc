@@ -83,8 +83,6 @@
 #include "OSXGtkMenu.hh"
 #endif
 
-Menus *Menus::instance = 0;
-
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -102,8 +100,6 @@ Menus::Menus() :
 #endif
   about(NULL)
 {
-  assert(instance == 0);
-  instance = this;
   gui = GUI::get_instance();
 
   for (int i = 0; i < MENU_SIZEOF; i++)
@@ -117,7 +113,6 @@ Menus::Menus() :
 Menus::~Menus()
 {
   TRACE_ENTER("Menus::~Menus");
-  instance = 0;
   TRACE_EXIT();
 }
 

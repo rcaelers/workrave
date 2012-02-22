@@ -56,7 +56,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
   
   if (applet_window != NULL)

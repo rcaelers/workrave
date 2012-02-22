@@ -173,8 +173,8 @@ IndicatorAppletMenu::menu_item_activated(DbusmenuMenuitem *mi)
   int command = find_menu_item(mi);
   if (command != -1)
     {
-      GUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();;
+      IGUI *gui = GUI::get_instance();
+      Menus *menus = gui->get_menus();
       menus->applet_command(command);
     }
 }

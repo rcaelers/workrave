@@ -1,6 +1,6 @@
 // W32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010, 2012 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -223,7 +223,7 @@ W32SoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
         }
     }
 
-  return true;;
+  return true;
 }
 
 void

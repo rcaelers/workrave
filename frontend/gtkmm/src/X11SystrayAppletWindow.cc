@@ -270,8 +270,8 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3)
         {
-          GUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();;
+          IGUI *gui = GUI::get_instance();
+          Menus *menus = gui->get_menus();
           menus->popup(Menus::MENU_MAINAPPLET, 0 /*event->button */, event->time);
           ret = true;
         }

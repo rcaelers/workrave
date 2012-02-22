@@ -229,7 +229,7 @@ GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 void
 GenericDBusApplet::applet_command(int command)
 {
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }

@@ -334,7 +334,7 @@ PreferencesDialog::create_sounds_page()
   sound_button->set_active(idx);
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
 
   if (snd->capability(SOUND_CAP_VOLUME))
@@ -776,7 +776,7 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
     {
       Gtk::TreeRow row = *iter;
 
-      GUI *gui = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
 
       snd->set_sound_enabled((SoundEvent)(int)row[sound_model.event],
@@ -802,7 +802,7 @@ PreferencesDialog::on_sound_play()
 
       if (valid && filename != "")
         {
-          GUI *gui = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           SoundPlayer *snd = gui->get_sound_player();
           snd->play_sound(filename);
         }
@@ -814,7 +814,7 @@ PreferencesDialog::on_sound_filechooser_play()
 {
   string filename = fsbutton->get_filename();
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   snd->play_sound(filename);
 }
@@ -840,7 +840,7 @@ PreferencesDialog::on_sound_filechooser_select()
 
         TRACE_MSG(row[sound_model.label]);
 
-        GUI *gui = GUI::get_instance();
+        IGUI *gui = GUI::get_instance();
         SoundPlayer *snd = gui->get_sound_player();
         snd->set_sound_wav_file( (SoundEvent)(int)row[sound_model.event], filename);
         TRACE_MSG(filename);
@@ -892,7 +892,7 @@ PreferencesDialog::on_sound_theme_changed()
 
   SoundPlayer::Theme &theme = sound_themes[idx];
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   snd->activate_theme(theme);
 
@@ -928,7 +928,7 @@ PreferencesDialog::update_theme_selection()
   TRACE_ENTER("PreferencesDialog::update_theme_selection");
   sound_themes.erase(sound_themes.begin(), sound_themes.end());
 
-  GUI *gui = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   snd->get_sound_themes(sound_themes);
 
