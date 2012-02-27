@@ -1,6 +1,6 @@
 // W32Configurator.hh
 //
-// Copyright (C) 2002, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,17 +41,17 @@ public:
 
   virtual bool remove_key(const std::string &key);
 
-  virtual bool get_value(const std::string &key, std::string &out) const;
-  virtual bool get_value(const std::string &key, bool &out) const;
-  virtual bool get_value(const std::string &key, int &out) const;
-  virtual bool get_value(const std::string &key, long &out) const;
-  virtual bool get_value(const std::string &key, double &out) const;
+  virtual bool get_config_value(const std::string &key, std::string &out) const;
+  virtual bool get_config_value(const std::string &key, bool &out) const;
+  virtual bool get_config_value(const std::string &key, int &out) const;
+  virtual bool get_config_value(const std::string &key, long &out) const;
+  virtual bool get_config_value(const std::string &key, double &out) const;
 
-  virtual bool set_value(const std::string &key, std::string v);
-  virtual bool set_value(const std::string &key, int v);
-  virtual bool set_value(const std::string &key, long v);
-  virtual bool set_value(const std::string &key, bool v);
-  virtual bool set_value(const std::string &key, double v);
+  virtual bool set_config_value(const std::string &key, std::string v);
+  virtual bool set_config_value(const std::string &key, int v);
+  virtual bool set_config_value(const std::string &key, long v);
+  virtual bool set_config_value(const std::string &key, bool v);
+  virtual bool set_config_value(const std::string &key, double v);
 
 private:
   std::string key_win32ify(const std::string &key) const;

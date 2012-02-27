@@ -1,6 +1,6 @@
 // IConfigBackend.hh
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,17 +27,17 @@
 class ConfigBackendAdapter : public virtual IConfigBackend
 {
 public:
-  virtual bool get_value(const std::string &key, std::string &out) const = 0;
-  virtual bool get_value(const std::string &key, bool &out) const = 0;
-  virtual bool get_value(const std::string &key, int &out) const = 0;
-  virtual bool get_value(const std::string &key, long &out) const = 0;
-  virtual bool get_value(const std::string &key, double &out) const = 0;
+  virtual bool get_config_value(const std::string &key, std::string &out) const = 0;
+  virtual bool get_config_value(const std::string &key, bool &out) const = 0;
+  virtual bool get_config_value(const std::string &key, int &out) const = 0;
+  virtual bool get_config_value(const std::string &key, long &out) const = 0;
+  virtual bool get_config_value(const std::string &key, double &out) const = 0;
 
-  virtual bool set_value(const std::string &key, std::string v) = 0;
-  virtual bool set_value(const std::string &key, bool v) = 0;
-  virtual bool set_value(const std::string &key, int v) = 0;
-  virtual bool set_value(const std::string &key, long v) = 0;
-  virtual bool set_value(const std::string &key, double v) = 0;
+  virtual bool set_config_value(const std::string &key, std::string v) = 0;
+  virtual bool set_config_value(const std::string &key, bool v) = 0;
+  virtual bool set_config_value(const std::string &key, int v) = 0;
+  virtual bool set_config_value(const std::string &key, long v) = 0;
+  virtual bool set_config_value(const std::string &key, double v) = 0;
 
   virtual bool get_value(const std::string &key, VariantType type, Variant &value) const
   {
@@ -45,17 +45,17 @@ public:
     switch(type)
       {
       case VARIANT_TYPE_INT:
-        return get_value(key, value.int_value);
+        return get_config_value(key, value.int_value);
 
       case VARIANT_TYPE_BOOL:
-        return get_value(key, value.bool_value);
+        return get_config_value(key, value.bool_value);
 
       case VARIANT_TYPE_DOUBLE:
-        return get_value(key, value.double_value);
+        return get_config_value(key, value.double_value);
 
       case VARIANT_TYPE_NONE:
       case VARIANT_TYPE_STRING:
-        return get_value(key, value.string_value);
+        return get_config_value(key, value.string_value);
 
       default:
         return false;
@@ -71,16 +71,16 @@ public:
         return false;
 
       case VARIANT_TYPE_INT:
-        return set_value(key, value.int_value);
+        return set_config_value(key, value.int_value);
 
       case VARIANT_TYPE_BOOL:
-        return set_value(key, value.bool_value);
+        return set_config_value(key, value.bool_value);
 
       case VARIANT_TYPE_DOUBLE:
-        return set_value(key, value.double_value);
+        return set_config_value(key, value.double_value);
 
       case VARIANT_TYPE_STRING:
-        return set_value(key, value.string_value);
+        return set_config_value(key, value.string_value);
 
       default:
         return false;

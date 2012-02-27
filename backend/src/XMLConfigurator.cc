@@ -1,6 +1,6 @@
 // XMLConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -151,9 +151,9 @@ XMLConfigurator::remove_key(const std::string &key)
 }
 
 bool
-XMLConfigurator::get_value(const string &key, string &out) const
+XMLConfigurator::get_config_value(const string &key, string &out) const
 {
-  TRACE_ENTER_MSG("XMLConfigurator::get_value", key);
+  TRACE_ENTER_MSG("XMLConfigurator::get_config_value", key);
   bool ret = false;
   string stripped_key = key;
 
@@ -163,7 +163,7 @@ XMLConfigurator::get_value(const string &key, string &out) const
       XMLConfigurator *child = get_child(path);
       if (child != NULL)
         {
-          ret = child->get_value(stripped_key, out);
+          ret = child->get_config_value(stripped_key, out);
         }
     }
   else
@@ -183,10 +183,10 @@ XMLConfigurator::get_value(const string &key, string &out) const
 
 
 bool
-XMLConfigurator::get_value(const string &key, bool &out) const
+XMLConfigurator::get_config_value(const string &key, bool &out) const
 {
   string s;
-  bool ret = get_value(key, s);
+  bool ret = get_config_value(key, s);
 
   if (ret)
     {
@@ -200,10 +200,10 @@ XMLConfigurator::get_value(const string &key, bool &out) const
 
 
 bool
-XMLConfigurator::get_value(const string &key, int &out) const
+XMLConfigurator::get_config_value(const string &key, int &out) const
 {
   string s;
-  bool ret = get_value(key, s);
+  bool ret = get_config_value(key, s);
 
   if (ret)
     {
@@ -214,10 +214,10 @@ XMLConfigurator::get_value(const string &key, int &out) const
 
 
 bool
-XMLConfigurator::get_value(const string &key, long &out) const
+XMLConfigurator::get_config_value(const string &key, long &out) const
 {
   string s;
-  bool ret = get_value(key, s);
+  bool ret = get_config_value(key, s);
 
   if (ret)
     {
@@ -228,10 +228,10 @@ XMLConfigurator::get_value(const string &key, long &out) const
 
 
 bool
-XMLConfigurator::get_value(const string &key, double &out) const
+XMLConfigurator::get_config_value(const string &key, double &out) const
 {
   string s;
-  bool ret = get_value(key, s);
+  bool ret = get_config_value(key, s);
 
   if (ret)
     {
@@ -242,9 +242,9 @@ XMLConfigurator::get_value(const string &key, double &out) const
 
 
 bool
-XMLConfigurator::set_value(const string &key, string v)
+XMLConfigurator::set_config_value(const string &key, string v)
 {
-  TRACE_ENTER_MSG("XMLConfigurator::set_value", key  << " " << v);
+  TRACE_ENTER_MSG("XMLConfigurator::set_config_value", key  << " " << v);
   bool ret = false;
 
   string stripped_key = key;
@@ -255,14 +255,14 @@ XMLConfigurator::set_value(const string &key, string v)
       XMLConfigurator *child = get_child(path);
       if (child != NULL)
         {
-          ret = child->set_value(stripped_key, v);
+          ret = child->set_config_value(stripped_key, v);
         }
       else if (create_child(path))
         {
           child = get_child(path);
           if (child != NULL)
             {
-              ret = child->set_value(stripped_key, v);
+              ret = child->set_config_value(stripped_key, v);
             }
         }
     }
@@ -278,29 +278,29 @@ XMLConfigurator::set_value(const string &key, string v)
 
 
 bool
-XMLConfigurator::set_value(const string &key, int v)
+XMLConfigurator::set_config_value(const string &key, int v)
 {
   stringstream ss;
   ss << v;
-  set_value(key, ss.str());
+  set_config_value(key, ss.str());
 
   return true;
 }
 
 
 bool
-XMLConfigurator::set_value(const string &key, long v)
+XMLConfigurator::set_config_value(const string &key, long v)
 {
   stringstream ss;
   ss << v;
-  set_value(key, ss.str());
+  set_config_value(key, ss.str());
 
   return true;
 }
 
 
 bool
-XMLConfigurator::set_value(const string &key, bool v)
+XMLConfigurator::set_config_value(const string &key, bool v)
 {
   stringstream ss;
   if (v)
@@ -311,18 +311,18 @@ XMLConfigurator::set_value(const string &key, bool v)
     {
       ss << "0";
     }
-  set_value(key, ss.str());
+  set_config_value(key, ss.str());
 
   return true;
 }
 
 
 bool
-XMLConfigurator::set_value(const string &key, double v)
+XMLConfigurator::set_config_value(const string &key, double v)
 {
   stringstream ss;
   ss << v;
-  set_value(key, ss.str());
+  set_config_value(key, ss.str());
 
   return true;
 }
@@ -554,7 +554,7 @@ XMLConfigurator::strip_path(string &key) const
 XMLConfigurator *
 XMLConfigurator::get_child(const string &key) const
 {
-  TRACE_ENTER_MSG("XMLConfigurator::get_value_child", key << "(" << node_name << ")");
+  TRACE_ENTER_MSG("XMLConfigurator::get_config_value_child", key << "(" << node_name << ")");
 
   XMLConfigurator *ret = NULL;
 

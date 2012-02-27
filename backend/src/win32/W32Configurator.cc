@@ -1,6 +1,6 @@
 // W32Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2005, 2006, 2007, 2009 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2005, 2006, 2007, 2009, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -96,9 +96,9 @@ W32Configurator::remove_key(const std::string &key)
 
 
 bool
-W32Configurator::get_value(const string &key, string &out) const
+W32Configurator::get_config_value(const string &key, string &out) const
 {
-  TRACE_ENTER_MSG("W32Configurator::get_value", key << "," << out);
+  TRACE_ENTER_MSG("W32Configurator::get_config_value", key << "," << out);
 
   HKEY handle;
   bool rc = false;
@@ -151,10 +151,10 @@ W32Configurator::get_value(const string &key, string &out) const
 
 
 bool
-W32Configurator::get_value(const string &key, bool &out) const
+W32Configurator::get_config_value(const string &key, bool &out) const
 {
   long l;
-  bool rc = get_value(key, l);
+  bool rc = get_config_value(key, l);
   if (rc)
     {
       out = l ? true : false;
@@ -169,10 +169,10 @@ W32Configurator::get_value(const string &key, bool &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_value(const string &key, int &out) const
+W32Configurator::get_config_value(const string &key, int &out) const
 {
   long l;
-  bool rc = get_value(key, l);
+  bool rc = get_config_value(key, l);
   if (rc)
     {
       out = (int) l;
@@ -187,10 +187,10 @@ W32Configurator::get_value(const string &key, int &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_value(const string &key, long &out) const
+W32Configurator::get_config_value(const string &key, long &out) const
 {
   string s;
-  bool rc = get_value(key, s);
+  bool rc = get_config_value(key, s);
   if (rc)
     {
       int f = sscanf(s.c_str(), "%ld", &out);
@@ -206,10 +206,10 @@ W32Configurator::get_value(const string &key, long &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_value(const string &key, double &out) const
+W32Configurator::get_config_value(const string &key, double &out) const
 {
   string s;
-  bool rc = get_value(key, s);
+  bool rc = get_config_value(key, s);
   if (rc)
     {
       int f = sscanf(s.c_str(), "%lf", &out);
@@ -220,9 +220,9 @@ W32Configurator::get_value(const string &key, double &out) const
 
 
 bool
-W32Configurator::set_value(const string &key, string v)
+W32Configurator::set_config_value(const string &key, string v)
 {
-  TRACE_ENTER_MSG("W32Configurator::set_value", key << "," << v);
+  TRACE_ENTER_MSG("W32Configurator::set_config_value", key << "," << v);
 
   HKEY handle;
   bool rc = false;
@@ -250,36 +250,36 @@ W32Configurator::set_value(const string &key, string v)
 
 
 bool
-W32Configurator::set_value(const string &key, int v)
+W32Configurator::set_config_value(const string &key, int v)
 {
   char buf[32];
   sprintf(buf, "%d", v);
-  return set_value(key, string(buf));
+  return set_config_value(key, string(buf));
 }
 
 bool
-W32Configurator::set_value(const string &key, long v)
+W32Configurator::set_config_value(const string &key, long v)
 {
   char buf[32];
   sprintf(buf, "%ld", v);
-  return set_value(key, string(buf));
+  return set_config_value(key, string(buf));
 }
 
 bool
-W32Configurator::set_value(const string &key, bool v)
+W32Configurator::set_config_value(const string &key, bool v)
 {
   char buf[32];
   sprintf(buf, "%d", v ? 1 : 0);
-  return set_value(key, string(buf));
+  return set_config_value(key, string(buf));
 }
 
 
 bool
-W32Configurator::set_value(const string &key, double v)
+W32Configurator::set_config_value(const string &key, double v)
 {
   char buf[32];
   sprintf(buf, "%f", v);
-  return set_value(key, string(buf));
+  return set_config_value(key, string(buf));
 }
 
 
