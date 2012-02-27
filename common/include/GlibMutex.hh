@@ -1,6 +1,6 @@
 // GLibMutex.hh
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,12 @@
 
 #include <glib.h>
 
+#if GLIB_CHECK_VERSION(2, 32, 0)
+
 class Mutex
 {
 public:
+
   Mutex()
   {
     g_static_rec_mutex_init(&gmutex);
@@ -44,9 +47,39 @@ public:
   {
     g_static_rec_mutex_unlock(&gmutex);
   }
-
 private:
   GStaticRecMutex gmutex;
 };
+
+#else
+
+class Mutex
+{
+public:
+
+  Mutex()
+  {
+    g_rec_mutex_init(&gmutex);
+  };
+
+  ~Mutex()
+  {
+    g_rec_mutex_clear(&gmutex);
+  };
+
+  void lock()
+  {
+    g_rec_mutex_lock(&gmutex);
+  }
+
+  void unlock()
+  {
+    g_rec_mutex_unlock(&gmutex);
+  }
+private:
+  GRecMutex gmutex;
+};
+
+#endif
 
 #endif // GLIBMUTEX_HH
