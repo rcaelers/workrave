@@ -32,6 +32,7 @@ public:
     {
       APPLET_STATE_DISABLED,
       APPLET_STATE_VISIBLE,
+      APPLET_STATE_PENDING,
     };
 
   virtual ~IAppletWindow() {}

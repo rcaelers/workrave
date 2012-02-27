@@ -66,7 +66,7 @@ AppletControl::AppletControl()
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       applets[i] = NULL;
-      applet_visible[i] = false;
+      applet_state[i] = AppletWindow::APPLET_STATE_DISABLED;
     }
 }
 
@@ -229,19 +229,10 @@ void
 AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletState state)
 {
   TRACE_ENTER_MSG("AppletControl::set_applet_state", type << " " << state);
-  switch (state)
-    {
-    case AppletWindow::APPLET_STATE_DISABLED:
-      applet_visible[type] = false;
-      break;
-
-    case AppletWindow::APPLET_STATE_VISIBLE:
-      applet_visible[type] = true;
-      break;
-    }
+  applet_state[type] = state;
 
 #ifdef PLATFORM_OS_UNIX
-  if (applet_visible[type] && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
+  if (is_visible(type) && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
     {
       TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);
@@ -277,7 +268,7 @@ AppletControl::on_applet_request_activate(AppletType type)
 bool
 AppletControl::is_visible(AppletType type)
 {
-  return applet_visible[type];
+  return applet_state[type] == AppletWindow::APPLET_STATE_VISIBLE;
 }
 
 
@@ -287,9 +278,9 @@ AppletControl::is_visible()
 {
   bool ret = false;
 
-    for (int i = 0; i < APPLET_SIZE; i++)
+  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applet_visible[i])
+      if (is_visible(i))
         {
           ret = true;
         }
@@ -305,7 +296,7 @@ AppletControl::heartbeat()
   TRACE_ENTER("AppletControl::heartbeat");
   if (delayed_show < 0 && enabled && !is_visible())
     {
-      delayed_show = 60;
+      delayed_show = 30;
     }
   else if (delayed_show > 0)
     {
@@ -317,9 +308,9 @@ AppletControl::heartbeat()
       show();
     }
 
-  for (int i = 0; i < APPLET_SIZE; i++)
+  for (AppletControl::AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && applet_visible[i])
+      if (applets[i] != NULL && is_visible(i))
         {
           applets[i]->update_applet();
         }
@@ -332,9 +323,9 @@ AppletControl::heartbeat()
 void
 AppletControl::set_tooltip(std::string& tip)
 {
-  for (int i = 0; i < APPLET_SIZE; i++)
+  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && applet_visible[i])
+      if (applets[i] != NULL && is_visible(i))
         {
           applets[i]->set_applet_tooltip(tip);
         }
@@ -383,9 +374,9 @@ AppletControl::check_visible()
   TRACE_ENTER("AppletControl::check_visible");
   int count = 0;
 
-  for (int i = 0; i < APPLET_SIZE; i++)
+  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applet_visible[i])
+      if (is_visible(i))
         {
           TRACE_MSG(i << " is visible"); 
           count++;
@@ -409,18 +400,15 @@ AppletControl::check_visible()
 AppletWindow::AppletState
 AppletControl::activate_applet(AppletType type)
 {
-  AppletState r = AppletWindow::APPLET_STATE_DISABLED;
+  AppletState state = AppletWindow::APPLET_STATE_DISABLED;
 
   if (applets[type] != NULL)
     {
-      r = applets[type]->activate_applet();
-      if (r == AppletWindow::APPLET_STATE_VISIBLE)
-        {
-          applet_visible[type] = true;
-        }
+      state = applets[type]->activate_applet();
+      applet_state[type] = state;
     }
 
-  return r;
+  return state;
 }
 
 void
@@ -429,7 +417,7 @@ AppletControl::deactivate_applet(AppletType type)
  if (applets[type] != NULL)
     {
       applets[type]->deactivate_applet();
-      applet_visible[type] = false;
+      applet_state[type] = AppletWindow::APPLET_STATE_DISABLED;
     }
 }
 

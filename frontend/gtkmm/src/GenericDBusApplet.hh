@@ -105,7 +105,6 @@ private:
   
 private:
   bool enabled;
-  bool embedded;
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;

@@ -161,12 +161,12 @@ W32AppletWindow::update_view()
   {
     memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
 
-    HWND window = get_applet_window();
+    update_applet_window();
 
     if (!menu_sent)
       {
         memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
-        local_applet_window = window;
+        local_applet_window = applet_window;
         menu_sent = true;
       }
 
@@ -214,18 +214,28 @@ W32AppletWindow::update_time_bars()
   TRACE_EXIT();
 }
 
-HWND
-W32AppletWindow::get_applet_window()
+void
+W32AppletWindow::update_applet_window()
 {
   TRACE_ENTER("W32AppletWindow::get_applet_window");
+  HWND previous_applet_window = applet_window;
   if (applet_window == NULL || !IsWindow(applet_window))
     {
       HWND taskbar = FindWindow("Shell_TrayWnd",NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
       menu_sent = false;
     }
-  TRACE_RETURN((applet_window ? "Applet found" : "Applet not found"));
-  return applet_window;
+
+  if (previous_applet_window == NULL && applet_window != NULL)
+    {
+      state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
+    }
+  else if (previous_applet_window != NULL && applet_window == NULL)
+    {
+      state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+    }
+  
+  TRACE_EXIT();
 }
 
 
@@ -328,6 +338,7 @@ W32AppletWindow::init_menu(HWND hwnd)
   menu_data.command_window = HandleToLong( hwnd );
 }
 
+
 void
 W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 {
@@ -337,10 +348,12 @@ W32AppletWindow::add_menu(const char *text, short cmd, int flags)
   d->flags = flags;
 }
 
+
 AppletWindow::AppletState
 W32AppletWindow::activate_applet()
 {
-  return APPLET_STATE_VISIBLE;
+  update_applet_window();
+  return applet_window != NULL ? APPLET_STATE_VISIBLE : APPLET_STATE_DISABLED;
 }
 
 

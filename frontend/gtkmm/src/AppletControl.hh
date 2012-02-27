@@ -34,7 +34,8 @@ public:
   enum AppletType
     {
       APPLET_NONE = -1,
-      APPLET_TRAY,
+      APPLET_FIRST = 0,
+      APPLET_TRAY = APPLET_FIRST,
       APPLET_GNOME,
       APPLET_GENERIC_DBUS,
       APPLET_W32,
@@ -58,7 +59,7 @@ private:
   IAppletWindow *applets[APPLET_SIZE];
 
   //! Did applet acknowledge visibility?
-  bool applet_visible[APPLET_SIZE];
+  IAppletWindow::AppletState applet_state[APPLET_SIZE];
 
   //!
   bool visible;

@@ -45,7 +45,7 @@
 
 //! Constructor.
 GenericDBusApplet::GenericDBusApplet() :
-  enabled(false), embedded(false), dbus(NULL)
+  enabled(false), dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -132,8 +132,7 @@ GenericDBusApplet::activate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::activate_applet");
   TRACE_EXIT();
-  enabled = embedded;
-  return enabled ? AppletWindow::APPLET_STATE_VISIBLE : AppletWindow::APPLET_STATE_DISABLED;
+  return AppletWindow::APPLET_STATE_PENDING;
 }
 
 
@@ -144,6 +143,12 @@ GenericDBusApplet::deactivate_applet()
   TRACE_ENTER("GenericDBusApplet::deactivate_applet");
   enabled = false;
   state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+
+  for (std::set<std::string>::iterator i = active_bus_names.begin(); i != active_bus_names.end(); i++)
+    {
+      dbus->unwatch(*i);
+    }
+  active_bus_names.clear();
   TRACE_EXIT();
 }
 
@@ -155,7 +160,6 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
   if (sender != "")
     {
       dbus->watch(sender, this);
-      embedded = true;
     }
   // else... FIXME:
   TRACE_EXIT();
@@ -255,10 +259,9 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
         {
           TRACE_MSG("Disabling");
           state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
-          dbus->unwatch(name);
-          embedded = false;
           enabled = false;
         }
+      // TODO: unwatch or not? dbus->unwatch(name);
     }
   TRACE_EXIT();
 }
