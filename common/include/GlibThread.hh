@@ -29,8 +29,8 @@
 class Thread
 {
 public:
-  Thread(bool joinable = true);
-  Thread(Runnable *runnable, bool joinable = true);
+  Thread();
+  Thread(Runnable *runnable);
   virtual ~Thread();
 
   virtual void run();
@@ -45,7 +45,6 @@ private:
   static gpointer thread_handler(gpointer data);
 
   GThread *thread_handle;
-  bool joinable;
   Runnable *runnable;
 };
 

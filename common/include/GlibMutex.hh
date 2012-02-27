@@ -22,7 +22,36 @@
 
 #include <glib.h>
 
-#if GLIB_CHECK_VERSION(2, 32, 0)
+#if GLIB_CHECK_VERSION(2, 31, 18)
+
+class Mutex
+{
+public:
+
+  Mutex()
+  {
+    g_rec_mutex_init(&gmutex);
+  };
+
+  ~Mutex()
+  {
+    g_rec_mutex_clear(&gmutex);
+  };
+
+  void lock()
+  {
+    g_rec_mutex_lock(&gmutex);
+  }
+
+  void unlock()
+  {
+    g_rec_mutex_unlock(&gmutex);
+  }
+private:
+  GRecMutex gmutex;
+};
+
+#else
 
 class Mutex
 {
@@ -51,34 +80,6 @@ private:
   GStaticRecMutex gmutex;
 };
 
-#else
-
-class Mutex
-{
-public:
-
-  Mutex()
-  {
-    g_rec_mutex_init(&gmutex);
-  };
-
-  ~Mutex()
-  {
-    g_rec_mutex_clear(&gmutex);
-  };
-
-  void lock()
-  {
-    g_rec_mutex_lock(&gmutex);
-  }
-
-  void unlock()
-  {
-    g_rec_mutex_unlock(&gmutex);
-  }
-private:
-  GRecMutex gmutex;
-};
 
 #endif
 

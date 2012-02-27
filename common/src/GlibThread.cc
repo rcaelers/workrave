@@ -1,6 +1,6 @@
 // GlibThread.hh --- GlibThread class
 //
-// Copyright (C) 2002, 2005, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2005, 2007, 2008, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,19 +21,17 @@
 
 #include <glib.h>
 
-Thread::Thread(Runnable *runnable, bool joinable)
+Thread::Thread(Runnable *runnable)
 {
   thread_handle = NULL;
   this->runnable = runnable;
-  this->joinable = joinable;
 }
 
 
-Thread::Thread(bool joinable)
+Thread::Thread()
 {
   thread_handle = NULL;
   this->runnable = NULL;
-  this->joinable = joinable;
 }
 
 Thread::~Thread()
@@ -49,10 +47,17 @@ Thread::start()
     {
       GError *error = NULL;
 
+#if GLIB_CHECK_VERSION(2, 31, 18)
+      thread_handle = g_thread_try_new("workrave",
+                                       thread_handler,
+                                       this,
+                                       &error);
+#else
       thread_handle = g_thread_create(thread_handler,
                                       this,
-                                      joinable ? TRUE : FALSE,
+                                      TRUE,
                                       &error);
+#endif
       if (error != NULL)
         {
           g_error_free(error);
@@ -64,7 +69,7 @@ Thread::start()
 void
 Thread::wait()
 {
-  if (thread_handle != NULL && joinable)
+  if (thread_handle != NULL)
     {
       g_thread_join(thread_handle);
       thread_handle = NULL;
@@ -96,10 +101,7 @@ Thread::thread_handler(gpointer data)
   if (t != NULL)
     {
       t->internal_run();
-      if (!t->joinable)
-        {
-          delete t;
-        }
+      delete t;
     }
 
   return 0;
