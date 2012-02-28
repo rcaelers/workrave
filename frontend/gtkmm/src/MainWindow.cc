@@ -94,20 +94,28 @@ MainWindow::~MainWindow()
   TRACE_EXIT();
 }
 
+bool
+MainWindow::is_visible() const
+{
+#if defined(PLATFORM_OS_WIN32)
+  const GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  return IsWindowVisible(hwnd);
+#elif defined(HAVE_GTK3)
+  return get_visible();
+#else
+  return Gtk::Window::is_visible();
+#endif
+}
+
+
 void
 MainWindow::toggle_window()
 {
   TRACE_ENTER("MainWindow::toggle_window");
 
-#if defined(PLATFORM_OS_WIN32)
-  GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  bool visible = IsWindowVisible(hwnd);
-#else
   bool visible = is_visible();
-#endif
-
   if (visible)
     {
       close_window();
@@ -184,6 +192,7 @@ MainWindow::close_window()
     }
 #endif
 
+  GUIConfig::set_trayicon_enabled(true);
   TimerBoxControl::set_enabled("main_window", false);
   TRACE_EXIT();
 }
@@ -479,7 +488,7 @@ MainWindow::config_changed_notify(const string &key)
 void
 MainWindow::win32_show(bool b)
 {
-  TRACE_ENTER("MainWindow::win32_show");
+  TRACE_ENTER_MSG("MainWindow::win32_show", b);
   bool retry = false;
 
   // Gtk's hide() seems to quit the program.
@@ -487,7 +496,8 @@ MainWindow::win32_show(bool b)
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
-
+  visibility_changed_signal.emit();
+  
 	if (b)
 	  {
 		  present();

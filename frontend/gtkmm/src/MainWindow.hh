@@ -57,9 +57,7 @@ public:
   sigc::signal<void> &signal_closed();
   sigc::signal<void> &signal_visibility_changed();
 
-#ifdef HAVE_GTK3
-  bool is_visible() const { return get_visible(); }
-#endif
+  bool is_visible() const;
   
 protected:
   bool on_button_press_event(GdkEventButton *event);

@@ -1547,7 +1547,7 @@ GUI::on_visibility_changed()
 void
 GUI::process_visibility()
 {
-  TRACE_ENTER("GUI::process_visivility");
+  TRACE_ENTER("GUI::process_visibility");
   TRACE_MSG(main_window->is_visible() << " " << applet_control->is_visible() << " " << status_icon->is_visible());
 #ifdef PLATFORM_OS_WIN32
   if (!main_window->is_visible() && !applet_control->is_visible())
