@@ -1,6 +1,6 @@
 // debug.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,11 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
+
+#ifdef PLATFORM_OS_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h> /* for GetFileAttributes */
+#endif
 
 #include "Mutex.hh"
 #include "debug.hh"
@@ -52,7 +57,18 @@ Debug::init()
   std::string debug_filename;
 
 #if defined(WIN32) || defined(PLATFORM_OS_WIN32)
-  debug_filename = "C:\\temp\\";
+  char path_buffer[MAX_PATH];
+  
+  DWORD ret = GetTempPath(MAX_PATH, path_buffer);
+  if (ret > MAX_PATH || ret == 0)
+    {
+      debug_filename = "C:\\temp\\";
+    }
+  else
+    {
+      debug_filename = path_buffer;
+    }
+
   g_mkdir(debug_filename.c_str(), 0);
 #elif defined(PLATFORM_OS_OSX)
   debug_filename = "/tmp/";
