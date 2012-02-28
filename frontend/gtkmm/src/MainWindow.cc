@@ -63,7 +63,7 @@ using namespace std;
  */
 MainWindow::MainWindow() :
   enabled(true),
-  can_close(false),
+  can_close(true),
   timer_box_control(NULL),
   timer_box_view(NULL),
   window_location(-1, -1),
@@ -183,7 +183,7 @@ MainWindow::close_window()
       iconify();
     }
 #endif
-  GUIConfig::set_trayicon_enabled(true);
+
   TimerBoxControl::set_enabled("main_window", false);
   TRACE_EXIT();
 }

@@ -294,6 +294,7 @@ GUI::on_main_window_closed()
                                   "Click on this balloon to disable this message" ));
       closewarn_shown =  true;
     }
+
   TRACE_EXIT();
 }
 
@@ -760,7 +761,7 @@ GUI::init_gui()
   main_window = new MainWindow();
   main_window->init();
   main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed));
-  main_window->set_can_close(false);
+  main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
   // The applet window.
   applet_control = new AppletControl();
@@ -778,6 +779,8 @@ GUI::init_gui()
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate));
   status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
+  process_visibility();
+  
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
 
@@ -1537,9 +1540,24 @@ void
 GUI::on_visibility_changed()
 {
   TRACE_ENTER("GUI::on_visibility_changed");
-  TRACE_MSG(applet_control->is_visible() << " " << status_icon->is_visible());
+  process_visibility();
+  TRACE_EXIT();
+}
+
+void
+GUI::process_visibility()
+{
+  TRACE_ENTER("GUI::process_visivility");
+  TRACE_MSG(main_window->is_visible() << " " << applet_control->is_visible() << " " << status_icon->is_visible());
+#ifdef PLATFORM_OS_WIN32
+  if (!main_window->is_visible() && !applet_control->is_visible())
+    {
+      GUIConfig::set_trayicon_enabled(true);
+    }
+#else
   bool can_close_main_window = applet_control->is_visible() || status_icon->is_visible();
   main_window->set_can_close(can_close_main_window);
+#endif
   TRACE_EXIT();
 }
 

@@ -160,6 +160,7 @@ private:
 
   bool grab();
   void ungrab();
+  void process_visibility();
 
   void on_status_icon_balloon_activate(const std::string &id);
   void on_status_icon_activate();
