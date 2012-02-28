@@ -192,7 +192,6 @@ MainWindow::close_window()
     }
 #endif
 
-  GUIConfig::set_trayicon_enabled(true);
   TimerBoxControl::set_enabled("main_window", false);
   TRACE_EXIT();
 }
