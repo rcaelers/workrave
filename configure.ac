@@ -12,11 +12,6 @@ m4_define([workrave_version],
 m4_define([workrave_resource_version],
           [workrave_major_version,workrave_minor_version,workrave_micro_version,workrave_version_suffix])
 
-if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
-    git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
-    AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
-fi
-
 AC_PREREQ([2.67])
 AC_INIT([workrave],
         [workrave_version],
@@ -33,6 +28,12 @@ dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.2.1
 AC_SUBST(GNOME_SHELL_VERSION)
+
+if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
+    git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
+    AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
+fi
+
 
 dnl
 dnl Command line options.
