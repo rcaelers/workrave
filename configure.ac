@@ -272,12 +272,12 @@ then
     AC_DEFINE([_WIN32_IE],    [0x0600], [Windows version])
     AC_DEFINE([_WIN32_WINNT], [0x0600], [Windows version])
 
-    if test "x$enable_debug" != "xyes"
-    then
-        WIN32CONSOLE=-mwindows
-    else
-        WIN32CONSOLE=-mconsole
-    fi
+    #if test "x$enable_debug" != "xyes"
+    #then
+    WIN32CONSOLE=-mwindows
+    #else
+    #    WIN32CONSOLE=-mconsole
+    #fi
 
     enable_gconf=no
     enable_gnome2=no
