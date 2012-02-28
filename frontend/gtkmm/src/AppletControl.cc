@@ -207,6 +207,8 @@ AppletControl::show(AppletType type)
           activate_applet(APPLET_TRAY);
         }
     }
+#else
+  (void) specific;
 #endif
 
   check_visible();
@@ -278,9 +280,9 @@ AppletControl::is_visible()
 {
   bool ret = false;
 
-  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
+  for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (is_visible(i))
+      if (is_visible((AppletType)i))
         {
           ret = true;
         }
@@ -308,9 +310,9 @@ AppletControl::heartbeat()
       show();
     }
 
-  for (AppletControl::AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
+  for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && is_visible(i))
+      if (applets[i] != NULL && is_visible((AppletType)i))
         {
           applets[i]->update_applet();
         }
@@ -323,9 +325,9 @@ AppletControl::heartbeat()
 void
 AppletControl::set_tooltip(std::string& tip)
 {
-  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
+  for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && is_visible(i))
+      if (applets[i] != NULL && is_visible((AppletType)i))
         {
           applets[i]->set_applet_tooltip(tip);
         }
@@ -374,9 +376,9 @@ AppletControl::check_visible()
   TRACE_ENTER("AppletControl::check_visible");
   int count = 0;
 
-  for (AppletType i = APPLET_FIRST; i < APPLET_SIZE; i++)
+  for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (is_visible(i))
+      if (is_visible((AppletType)i))
         {
           TRACE_MSG(i << " is visible"); 
           count++;
