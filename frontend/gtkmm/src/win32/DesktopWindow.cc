@@ -1,6 +1,6 @@
 // DesktopWindow.cc --- Desktop window
 //
-// Copyright (C) 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2004, 2007, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,8 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
   int x = head.get_x(), y = head.get_y();
   int w = head.get_width(), h = head.get_height();
 
+  TRACE_MSG("Head: " << x << ", " << y << ", " << w << ", " << h << " " << head.monitor);
+
   POINT pt = { x, y };
   HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
   if (monitor)
@@ -48,11 +50,9 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
 		  y = info.rcMonitor.top;
 		  w = info.rcMonitor.right - x;
 		  h = info.rcMonitor.bottom - y;
-		  TRACE_MSG("Monitor dimensions: " << x << ", " << y << ", " << w << ", " << h);
+		  TRACE_MSG("Monitor: " << x << ", " << y << ", " << w << ", " << h);
 		}
 	}
-
-
 
   hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                         WINDOW_CLASS,
