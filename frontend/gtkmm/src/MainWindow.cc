@@ -104,8 +104,6 @@ MainWindow::toggle_window()
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   bool visible = IsWindowVisible(hwnd);
-#elif defined(HAVE_GTK3)
-  bool visible = get_visible();
 #else
   bool visible = is_visible();
 #endif
@@ -159,7 +157,6 @@ MainWindow::open_window()
 
       bool always_on_top = GUIConfig::get_always_on_top();
       WindowHints::set_always_on_top(this, always_on_top);
-
       TimerBoxControl::set_enabled("main_window", true);
     }
   TRACE_EXIT();
@@ -195,20 +192,25 @@ MainWindow::close_window()
 void
 MainWindow::set_can_close(bool can_close)
 {
+  TRACE_ENTER_MSG("MainWindow::set_can_close", can_close);
   this->can_close = can_close;
 
+  TRACE_MSG(enabled);
   if (!enabled)
     {
       if (can_close)
-        {
+        { 
+          TRACE_MSG("hide");
           hide();
         }
       else
         {
+          TRACE_MSG("iconify");
           iconify();
           show_all();
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -356,6 +358,8 @@ MainWindow::init()
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
+  property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
+
   TRACE_EXIT();
 }
 
@@ -385,11 +389,7 @@ MainWindow::setup()
         }
     }
 
-#ifdef HAVE_GTK3
-  bool visible = get_visible();
-#else
   bool visible = is_visible();
-#endif
 
   if (visible)
     {
@@ -833,9 +833,23 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
 #endif
 
 
+void
+MainWindow::on_visibility_changed()
+{
+  TRACE_ENTER("MainWindow::on_visibility_changed");
+  TRACE_MSG(is_visible());
+  visibility_changed_signal.emit();
+  TRACE_EXIT();
+}
+
 sigc::signal<void> &
 MainWindow::signal_closed()
 {
   return closed_signal;
 }
 
+sigc::signal<void> &
+MainWindow::signal_visibility_changed()
+{
+  return visibility_changed_signal;
+}
