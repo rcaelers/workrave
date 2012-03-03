@@ -5,7 +5,7 @@ set(SOUND_THEMES subtle default)
 # Set Workrave version
 set(VERSION_MAJOR   "1")
 set(VERSION_MINOR   "9")
-set(VERSION_RELEASE "900")
+set(VERSION_RELEASE "906")
 set(VERSION_PATCH   "0")
 if (VERSION_PATCH)
     set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
