@@ -5,6 +5,10 @@
 #cmakedefine PLATFORM_OS_WIN32 
 #cmakedefine PLATFORM_OS_WIN32_NATIVE
 
+#define VERSION "${VERSION}"
+#define PACKAGE_VERSION "${VERSION}"
+#define PACKAGE_STRING "workrave ${VERSION}"
+
 #cmakedefine DATA_PATH "${DATA_PATH}"
 
 #cmakedefine HAVE_DBUS
@@ -395,14 +399,8 @@
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "workrave"
 
-/* Define to the full name and version of this package. */
-#define PACKAGE_STRING "workrave 1.9.2"
-
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "workrave"
-
-/* Define to the version of this package. */
-#define PACKAGE_VERSION "1.9.2"
 
 /* Define if compiling for the OS X platform */
 /* #undef PLATFORM_OS_OSX */
@@ -478,9 +476,6 @@
 
 /* Define if the Win32 multithreading API can be used. */
 #define USE_WIN32_THREADS 1
-
-/* Version number of package */
-#define VERSION "1.9.2"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */
