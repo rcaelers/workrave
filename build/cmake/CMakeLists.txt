@@ -1,5 +1,9 @@
+if(WIN32)
+  set(HAVE_LANGUAGE_SELECTION TRUE)
+endif(WIN32)
 
-set(ALL_LINGUAS nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro)
+set(ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro")
+
 set(SOUND_THEMES subtle default)
 
 # Set Workrave version

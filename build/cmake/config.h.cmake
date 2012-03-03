@@ -5,6 +5,10 @@
 #cmakedefine PLATFORM_OS_WIN32 
 #cmakedefine PLATFORM_OS_WIN32_NATIVE
 
+#cmakedefine HAVE_LANGUAGE_SELECTION
+
+#cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
+
 #define VERSION "${VERSION}"
 #define PACKAGE_VERSION "${VERSION}"
 #define PACKAGE_STRING "workrave ${VERSION}"
@@ -25,7 +29,6 @@
 
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
-#define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
 
 #define HAVE_MMDEVICEAPI_H 1
 #define HAVE_ISHELLDISPATCH 1

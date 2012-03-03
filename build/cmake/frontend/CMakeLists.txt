@@ -323,7 +323,10 @@ if (GETTEXT_FOUND)
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../../
   )
 
-  FOREACH(lang ${ALL_LINGUAS})
+  #the string of all the locales must be separated by semicolons so that it is interpreted as a list
+  #eg "it tr" becomes "it;tr"
+  string(REPLACE " " ";" LANGLIST "${ALL_LINGUAS}")
+  FOREACH(lang ${LANGLIST})
     #ADD_CUSTOM_TARGET(
     #  nls-update-${lang}.po
     #  ${GETTEXT_MSGMERGE_EXECUTABLE} ${PO_SRC_DIR}/${lang}.po ${PO_BIN_DIR}/workrave.pot -o ${lang}.po --no-wrap --sort-output
