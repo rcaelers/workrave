@@ -336,9 +336,21 @@ if (GETTEXT_FOUND)
 
     FILE(MAKE_DIRECTORY "${PO_BIN_DIR}/${lang}/LC_MESSAGES")
 
+    #Languages to allow fuzzy translations for.
+    #For example to allow german and italian fuzzy translations:  -DLANG_FUZZY:STRING=de;it
+    set(OPT_USE_FUZZY "")
+    if(LANG_FUZZY)
+      FOREACH(fuzz ${LANG_FUZZY})
+        if("${fuzz}" STREQUAL "${lang}")
+          set(OPT_USE_FUZZY --use-fuzzy)
+          break()
+        endif("${fuzz}" STREQUAL "${lang}")
+      ENDFOREACH(fuzz)
+    endif(LANG_FUZZY)
+
     ADD_CUSTOM_COMMAND(
       OUTPUT ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
-      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -c -o ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo ${PO_SRC_DIR}/${lang}.po
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} ${OPT_USE_FUZZY} -c -o ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo ${PO_SRC_DIR}/${lang}.po
       DEPENDS ${PO_SRC_DIR}/${lang}.po
     )
 
