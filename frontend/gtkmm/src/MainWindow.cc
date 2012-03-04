@@ -83,6 +83,19 @@ MainWindow::MainWindow() :
 MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
+
+  if (visible_connection.connected())
+    {
+      visible_connection.disconnect();
+    }
+
+#ifdef PLATFORM_OS_WIN32
+  if (timeout_connection.connected())
+    {
+      timeout_connection.disconnect();
+    }
+#endif
+
   delete timer_box_control;
 #ifdef PLATFORM_OS_WIN32
   win32_exit();
@@ -366,7 +379,7 @@ MainWindow::init()
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
-  property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
+  visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
   TRACE_EXIT();
 }
@@ -521,7 +534,7 @@ MainWindow::win32_show(bool b)
     {
       if (show_retry_count > 0)
         {
-          Glib::signal_timeout().connect(sigc::mem_fun(*this, &MainWindow::win32_show_retry), 50);
+          timeout_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &MainWindow::win32_show_retry), 50);
         }
     }
   else

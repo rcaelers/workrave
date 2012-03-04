@@ -234,9 +234,12 @@ StatusIcon::config_changed_notify(const std::string &key)
 
   if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
     {
-      bool tray = GUIConfig::get_trayicon_enabled();
-      status_icon->set_visible(tray);
-      visibility_changed_signal.emit();
+      bool visible = GUIConfig::get_trayicon_enabled();
+      if (status_icon->get_visible() != visible)
+        {
+          visibility_changed_signal.emit();
+          status_icon->set_visible(visible);
+        }
     }
 
   TRACE_EXIT();

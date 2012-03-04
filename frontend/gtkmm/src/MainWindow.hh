@@ -96,6 +96,9 @@ private:
 
   //!
   sigc::signal<void> visibility_changed_signal;
+
+  //!
+  sigc::connection visible_connection;
   
 private:
   void setup();

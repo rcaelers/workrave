@@ -1,6 +1,6 @@
 // Variant.hh
 //
-// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -136,6 +136,46 @@ public:
     return *this;
   }
 
+  bool operator!=(const Variant &lid)
+  {
+    return !operator==(lid);
+  }
+  
+  bool operator==(const Variant &lid)
+  {
+    if (type != lid.type)
+      {
+        return false;
+      }
+    
+    switch(lid.type)
+      {
+      case VARIANT_TYPE_INT:
+        return int_value == lid.int_value;
+        break;
+        
+      case VARIANT_TYPE_LONG:
+        return long_value == lid.long_value;
+        break;
+        
+      case VARIANT_TYPE_BOOL:
+        return bool_value == lid.bool_value;
+        break;
+        
+      case VARIANT_TYPE_DOUBLE:
+        return double_value == lid.double_value;
+        break;
+        
+      case VARIANT_TYPE_STRING:
+        return string_value == lid.string_value;
+        break;
+        
+      case VARIANT_TYPE_NONE:
+      default:
+        return false;
+      }
+  }
+  
   virtual ~Variant()
   {
     type = VARIANT_TYPE_NONE;

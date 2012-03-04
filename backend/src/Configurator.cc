@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -97,16 +97,22 @@ Configurator::heartbeat()
 
       if (now >= delayed.until)
         {
+          Variant old_value;
+          bool old_value_valid = backend->get_value(delayed.key, delayed.value.type, old_value);
+
           bool b = backend->set_value(delayed.key, delayed.value);
 
           if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
             {
-              fire_configurator_event(delayed.key);
-
-              if (auto_save_time == 0)
+              if (!old_value_valid || old_value != delayed.value)
                 {
-                  ICore *core = CoreFactory::get_core();
-                  auto_save_time = core->get_time() + 30;
+                  fire_configurator_event(delayed.key);
+
+                  if (auto_save_time == 0)
+                    {
+                      ICore *core = CoreFactory::get_core();
+                      auto_save_time = core->get_time() + 30;
+                    }
                 }
             }
 
@@ -220,16 +226,22 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
   if (!skip)
     {
+      Variant old_value;
+      bool old_value_valid = backend->get_value(newkey, value.type, old_value);
+
       ret = backend->set_value(newkey, value);
 
       if (ret && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
         {
-          fire_configurator_event(newkey);
-
-          if (auto_save_time == 0)
+          if (!old_value_valid || old_value != value)
             {
-              ICore *core = CoreFactory::get_core();
-              auto_save_time = core->get_time() + 30;
+              fire_configurator_event(newkey);
+
+              if (auto_save_time == 0)
+                {
+                  ICore *core = CoreFactory::get_core();
+                  auto_save_time = core->get_time() + 30;
+                }
             }
         }
     }
