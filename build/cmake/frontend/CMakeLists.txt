@@ -342,8 +342,15 @@ if (GETTEXT_FOUND)
       DEPENDS ${PO_SRC_DIR}/${lang}.po
     )
 
+    #As seen in GUI::init_nls() if win32 workrave has gettext bind to lib/locale
+    if(WIN32)
+      set(LOCALE_DIR "lib/locale")
+    else(WIN32)
+      set(LOCALE_DIR "share/locale")
+    endif(WIN32)
+
     INSTALL(FILES ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
-            DESTINATION share/locale/${lang}/LC_MESSAGES
+            DESTINATION ${LOCALE_DIR}/${lang}/LC_MESSAGES
     )
 
     SET(LANG_TARGETS ${LANG_TARGETS} ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo)
