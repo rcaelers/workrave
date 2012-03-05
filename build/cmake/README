@@ -94,9 +94,6 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
     [use vcvars64.bat if 64 bit Python is installed]
   - Run 'easy_install-2.7-script.py Cheetah'
 
-  Note: Cheetah may need a fix if python 2.7 is used.
-        see : https://github.com/rtyler/cheetah/issues/#issue/2
-
 Install DBus (optional/experimental, needed for dbus)
 =====================================================
 

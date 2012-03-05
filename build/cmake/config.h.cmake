@@ -5,6 +5,14 @@
 #cmakedefine PLATFORM_OS_WIN32 
 #cmakedefine PLATFORM_OS_WIN32_NATIVE
 
+#cmakedefine HAVE_LANGUAGE_SELECTION
+
+#cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
+
+#define VERSION "${VERSION}"
+#define PACKAGE_VERSION "${VERSION}"
+#define PACKAGE_STRING "workrave ${VERSION}"
+
 #cmakedefine DATA_PATH "${DATA_PATH}"
 
 #cmakedefine HAVE_DBUS
@@ -21,7 +29,6 @@
 
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
-#define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
 
 #define HAVE_MMDEVICEAPI_H 1
 #define HAVE_ISHELLDISPATCH 1
@@ -395,14 +402,8 @@
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "workrave"
 
-/* Define to the full name and version of this package. */
-#define PACKAGE_STRING "workrave 1.9.2"
-
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "workrave"
-
-/* Define to the version of this package. */
-#define PACKAGE_VERSION "1.9.2"
 
 /* Define if compiling for the OS X platform */
 /* #undef PLATFORM_OS_OSX */
@@ -478,9 +479,6 @@
 
 /* Define if the Win32 multithreading API can be used. */
 #define USE_WIN32_THREADS 1
-
-/* Version number of package */
-#define VERSION "1.9.2"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */
