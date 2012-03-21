@@ -171,11 +171,10 @@ StatusIcon::on_popup_menu(guint button, guint activate_time)
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
 
-bool
+void
 StatusIcon::on_embedded_changed()
 {
   visibility_changed_signal.emit();
-  return true;
 }
 
 #ifndef HAVE_STATUSICON_SIGNAL

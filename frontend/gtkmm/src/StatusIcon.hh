@@ -71,7 +71,7 @@ private:
   void insert_icon();
   void on_activate();
   void on_popup_menu(guint button, guint activate_time);
-  bool on_embedded_changed();
+  void on_embedded_changed();
 
   void config_changed_notify(const std::string &key);
   
