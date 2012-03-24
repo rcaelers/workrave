@@ -62,7 +62,10 @@ private:
   Thread *monitor_thread;
 
   //
-	XScreenSaverInfo *screen_saver_info;
+  XScreenSaverInfo *screen_saver_info;
+
+  GMutex *mutex;
+  GCond *cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

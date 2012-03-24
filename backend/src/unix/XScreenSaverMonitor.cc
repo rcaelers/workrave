@@ -42,6 +42,8 @@ XScreenSaverMonitor::XScreenSaverMonitor() :
   screen_saver_info(NULL)
 {
   monitor_thread = new Thread(this);
+  mutex = g_mutex_new();
+  cond = g_cond_new();
 }
 
 
@@ -54,6 +56,8 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
       delete monitor_thread;
     }
 
+  g_mutex_free(mutex);
+  g_cond_free(cond);
   TRACE_EXIT();
 }
 
@@ -61,16 +65,16 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
 bool
 XScreenSaverMonitor::init()
 {
-	int event_base;
+  int event_base;
   int error_base;
 
   Bool has_extension = XScreenSaverQueryExtension(gdk_x11_display_get_xdisplay(gdk_display_get_default()), &event_base, &error_base);
 
-	if (has_extension)
-	{
+  if (has_extension)
+  {
     screen_saver_info = XScreenSaverAllocInfo();
     monitor_thread->start();
-	}
+  }
   
   return has_extension;
 }
@@ -80,7 +84,10 @@ XScreenSaverMonitor::terminate()
 {
   TRACE_ENTER("XScreenSaverMonitor::terminate");
 
+  g_mutex_lock(mutex);
   abort = true;
+  g_cond_broadcast(cond);
+  g_mutex_unlock(mutex);  
   
   monitor_thread->wait();
 
@@ -93,6 +100,7 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
+  g_mutex_lock(mutex);
   while (!abort)
     {
       XScreenSaverQueryInfo(gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
@@ -102,7 +110,11 @@ XScreenSaverMonitor::run()
           /* Notify the activity monitor */
           fire_action();
         }
+
+      gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
+      g_cond_wait_until(cond, mutex, end_time);
     }
+  g_mutex_unlock(mutex);  
   
   TRACE_EXIT();
 }
