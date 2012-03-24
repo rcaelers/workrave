@@ -6,6 +6,15 @@
     <child schema="org.workrave.monitor" name="monitor"/>
     <child schema="org.workrave.general" name="general"/>
     <child schema="org.workrave.distribution" name="distribution"/>
+    <child schema="org.workrave.advanced" name="advanced"/>
+  </schema>
+
+  <schema path="/org/workrave/advanced/" id="org.workrave.advanced" gettext-domain="workrave">
+    <key type="s" name="monitor">
+      <default>"default"</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
 
   <schema path="/org/workrave/timers/" id="org.workrave.timers" gettext-domain="workrave">

@@ -1,4 +1,4 @@
-// X11InputMonitor.hh --- ActivityMonitor for X11
+// RecordInputMonitor.hh --- ActivityMonitor for X11
 //
 // Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,13 +17,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef X11INPUTMONITOR_HH
-#define X11INPUTMONITOR_HH
+#ifndef RECORDINPUTMONITOR_HH
+#define RECORDINPUTMONITOR_HH
 
 #include <string>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+
+#include <X11/extensions/record.h>
 
 #include "InputMonitor.hh"
 
@@ -31,16 +33,16 @@
 #include "Thread.hh"
 
 //! Activity monitor for a local X server.
-class X11InputMonitor :
+class RecordInputMonitor :
   public InputMonitor,
   public Runnable
 {
 public:
   //! Constructor.
-  X11InputMonitor(const std::string &display_name);
+  RecordInputMonitor(const std::string &display_name);
 
   //! Destructor.
-  virtual ~X11InputMonitor();
+  virtual ~RecordInputMonitor();
 
   //! Initialize
   virtual bool init();
@@ -49,27 +51,27 @@ public:
   virtual void terminate();
 
 private:
+
   //! The monitor's execution thread.
   virtual void run();
 
   void error_trap_enter();
   void error_trap_exit();
 
-private:
-  //! Internal X magic
-  void set_event_mask(Window window);
+  //! Initialize
+  bool init_xrecord();
 
-  //! Internal X magic
-  void set_all_events(Window window);
+  //! Stop the capturing.
+  bool stop_xrecord();
 
-  //! Handle a key press event.
-  void handle_keypress(XEvent *event);
+  void handle_xrecord_handle_key_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_button_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data);
+  void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
 
-  //! Handle a window creation event.
-  void handle_create(XEvent *event);
-
-  //! Handle a mouse button event.
-  void handle_button(XEvent *event);
+  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
 
 private:
   //! The X11 display name.
@@ -78,14 +80,23 @@ private:
   //! The X11 display handle.
   Display *x11_display;
 
-  //! The X11 root window handle.
-  Window root_window;
-
   //! Abort the main loop
   bool abort;
 
   //! The activity monitor thread.
   Thread *monitor_thread;
+
+  //! Is the X Record extension used ?
+  bool use_xrecord;
+
+  //! XRecord context. Defines clients and events to capture.
+  XRecordContext xrecord_context;
+
+  //! X Connection for event capturing.
+  Display *xrecord_datalink;
+
+  // Event base for Xinput events
+  static int xi_event_base;
 };
 
-#endif // X11INPUTMONITOR_HH
+#endif // RECORDINPUTMONITOR_HH

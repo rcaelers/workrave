@@ -268,6 +268,10 @@ private:
 
   //
   bool closewarn_shown;
+
+  // UI Event connections
+  std::list<sigc::connection> event_connections;
+  
 };
 
 

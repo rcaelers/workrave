@@ -89,6 +89,10 @@
 #include <Carbon/Carbon.h>
 #endif
 
+#if defined(PLATFORM_OS_UNIX)
+#include <X11/Xlib.h>
+#endif
+
 #if defined(HAVE_GCONF)
 #include <gconf/gconf-client.h>
 #endif
@@ -190,6 +194,10 @@ GUI::main()
 
   Glib::OptionContext option_ctx;
 
+#ifdef PLATFORM_OS_UNIX
+  XInitThreads();
+#endif
+  
   if (!Glib::thread_supported())
     Glib::thread_init();
 
@@ -229,6 +237,11 @@ GUI::main()
 
   cleanup_session();
 
+  for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
+    {
+      i->disconnect();
+    }
+    
   delete main_window;
   main_window = NULL;
 
@@ -236,7 +249,6 @@ GUI::main()
   applet_control = NULL;
 
   delete kit;
-
 
   TRACE_EXIT();
 }
@@ -760,13 +772,10 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
   main_window->init();
-  main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed));
-  main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
   // The applet window.
   applet_control = new AppletControl();
   applet_control->init();
-  applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
 
   // Menus
   menus->init(applet_control);
@@ -775,9 +784,14 @@ GUI::init_gui()
   // Status Icon
   status_icon = new StatusIcon();
   status_icon->init();
-  status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate));
-  status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate));
-  status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed));
+
+  // Events
+  event_connections.push_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed)));
+  event_connections.push_back(main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.push_back(applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.push_back(status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate)));
+  event_connections.push_back(status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate)));
+  event_connections.push_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
   process_visibility();
   

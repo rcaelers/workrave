@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009, 2010, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -8,7 +8,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-backend-unix.la
 
 if PLATFORM_OS_UNIX
-sourcesxinput = 	X11InputMonitor.cc UnixInputMonitorFactory.cc
+sourcesxinput = 	UnixInputMonitorFactory.cc X11InputMonitor.cc RecordInputMonitor.cc XScreenSaverMonitor.cc
 X11LIBS = 		@X_LIBS@
 endif
 

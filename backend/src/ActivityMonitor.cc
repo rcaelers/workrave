@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -76,7 +76,10 @@ ActivityMonitor::ActivityMonitor() :
   idle_threshold.tv_usec = 0;
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
-  input_monitor->subscribe_activity(this);
+  if (input_monitor != NULL)
+    {
+      input_monitor->subscribe_activity(this);
+    }
 
   TRACE_EXIT();
 }
@@ -99,7 +102,10 @@ ActivityMonitor::terminate()
 {
   TRACE_ENTER("ActivityMonitor::terminate");
 
-  input_monitor->terminate();
+  if (input_monitor != NULL)
+    {
+      input_monitor->terminate();
+    }
 
   TRACE_EXIT();
 }

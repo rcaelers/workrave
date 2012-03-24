@@ -1,6 +1,6 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001-2007, 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -82,8 +82,6 @@
 using namespace std;
 using namespace workrave;
 
-int X11InputMonitor::xi_event_base = 0;
-
 #ifndef HAVE_APP_GTK
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
 #endif
@@ -101,7 +99,6 @@ errorHandler(Display *dpy, XErrorEvent *error)
 }
 #endif
 
-#ifdef HAVE_XRECORD_FALLBACK
 //! Obtains the next X11 event with specified timeout.
 static Bool
 XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
@@ -146,16 +143,11 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
         }
     }
 }
-#endif
 
 X11InputMonitor::X11InputMonitor(const string &display_name) :
   x11_display(NULL),
   abort(false)
 {
-  use_xrecord = false;
-  xrecord_context = 0;
-  xrecord_datalink = NULL;
-
   x11_display_name = display_name;
   monitor_thread = new Thread(this);
 }
@@ -171,10 +163,6 @@ X11InputMonitor::~X11InputMonitor()
       delete monitor_thread;
     }
 
-  if (xrecord_datalink != NULL)
-    {
-      XCloseDisplay(xrecord_datalink);
-    }
   TRACE_EXIT();
 }
 
@@ -191,11 +179,6 @@ X11InputMonitor::terminate()
 {
   TRACE_ENTER("X11InputMonitor::terminate");
 
-  if (use_xrecord)
-    {
-      stop_xrecord();
-    }
-
   abort = true;
   monitor_thread->wait();
 
@@ -209,23 +192,6 @@ X11InputMonitor::run()
   TRACE_ENTER("X11InputMonitor::run");
 
   if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == NULL)
-    {
-      return;
-    }
-
-  run_xrecord();
-
-  TRACE_EXIT();
-}
-
-#ifdef HAVE_XRECORD_FALLBACK
-
-void
-X11InputMonitor::run_events()
-{
-  TRACE_ENTER("X11InputMonitor::run_events");
-
-  if (x11_display == NULL)
     {
       return;
     }
@@ -388,8 +354,6 @@ X11InputMonitor::handle_button(XEvent *event)
     }
 }
 
-#endif // HAVE_XRECORD_FALLBACK
-
 void
 X11InputMonitor::error_trap_enter()
 {
@@ -410,284 +374,4 @@ X11InputMonitor::error_trap_exit()
 #else
   XSetErrorHandler(old_handler);
 #endif
-}
-
-
-void
-X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
-{
-  (void) data;
-  fire_keyboard(false);
-}
-
-void
-X11InputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
-{
-  xEvent *event = (xEvent *)data->data;
-
-  if (event != NULL)
-    {
-      int x = event->u.keyButtonPointer.rootX;
-      int y = event->u.keyButtonPointer.rootY;
-
-      fire_mouse(x, y, 0);
-    }
-  else
-    {
-      fire_action();
-    }
-}
-
-void
-X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
-{
-  xEvent *event = (xEvent *)data->data;
-
-  if (event != NULL)
-    {
-      fire_button(event->u.u.type == ButtonPress);
-    }
-  else
-    {
-      fire_action();
-    }
-}
-
-void
-X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data)
-{
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
-  static int detail = 0;
-  static int state = 0;
-
-  if (press)
-    {
-      if (event->time != lastTime)
-        {
-          lastTime = event->time;
-
-          fire_keyboard(state == event->state && detail == event->detail);
-
-          detail = event->detail;
-          state = event->state;
-        }
-    }
-  else
-    {
-      detail = 0;
-      state = 0;
-    }
-}
-
-void
-X11InputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData *data)
-{
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
-
-  if (event->time != lastTime)
-    {
-      lastTime = event->time;
-      int x = event->root_x;
-      int y = event->root_y;
-
-      fire_mouse(x, y, 0);
-    }
-}
-
-void
-X11InputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData *data)
-{
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
-
-  if (event->time != lastTime)
-    {
-      lastTime = event->time;
-
-      fire_button(event->type == xi_event_base + XI_DeviceButtonPress);
-    }
-}
-
-void
-X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData * data)
-{
-  xEvent *  event;
-  X11InputMonitor *monitor = (X11InputMonitor *) closure;
-
-  switch (data->category)
-    {
-    case XRecordStartOfData:
-    case XRecordFromClient:
-    case XRecordClientStarted:
-    case XRecordClientDied:
-    case XRecordEndOfData:
-      break;
-
-    case XRecordFromServer:
-      event = (xEvent *)data->data;
-
-      if (event->u.u.type == KeyPress)
-        monitor->handle_xrecord_handle_key_event(data);
-      else if (event->u.u.type == ButtonPress || event->u.u.type == ButtonRelease)
-        monitor->handle_xrecord_handle_button_event(data);
-      else if (event->u.u.type == MotionNotify)
-        monitor->handle_xrecord_handle_motion_event(data);
-      else if (xi_event_base != 0)
-        {
-          if (event->u.u.type == xi_event_base + XI_DeviceMotionNotify)
-            {
-              monitor->handle_xrecord_handle_device_motion_event(data);
-            }
-          else if (event->u.u.type == xi_event_base + XI_DeviceKeyPress)
-            {
-              monitor->handle_xrecord_handle_device_key_event(true, data);
-            }
-          else if (event->u.u.type == xi_event_base + XI_DeviceKeyRelease)
-            {
-              monitor->handle_xrecord_handle_device_key_event(false, data);
-            }
-          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress ||
-                   event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
-            {
-              monitor->handle_xrecord_handle_device_button_event(data);
-            }
-        }
-      break;
-    }
-
-  if (data != NULL)
-    {
-      XRecordFreeData(data);
-    }
-}
-
-
-void
-X11InputMonitor::run_xrecord()
-{
-  TRACE_ENTER("X11InputMonitor::run_xrecord");
-
-  init_xrecord();
-
-  error_trap_enter();
-
-  if (use_xrecord &&
-      XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
-    {
-      error_trap_exit();
-      xrecord_datalink = NULL;
-    }
-  else
-    {
-#ifdef HAVE_XRECORD_FALLBACK
-      error_trap_exit();
-      TRACE_MSG("Fallback to run events");
-      use_xrecord = false;
-      run_events();
-#else
-      g_idle_add(static_report_failure, NULL);
-#endif
-    }
-  TRACE_EXIT();
-}
-
-
-//! Initialize the XRecord monitoring.
-bool
-X11InputMonitor::init_xrecord()
-{
-  TRACE_ENTER("X11InputMonitor::init_xrecord");
-  use_xrecord = false;
-
-  int major, minor;
-
-  if (XRecordQueryVersion(x11_display, &major, &minor))
-    {
-      xrecord_context = 0;
-      xrecord_datalink = NULL;
-      use_xrecord = true;
-
-      // Receive from ALL clients, including future clients.
-      XRecordClientSpec client = XRecordAllClients;
-
-      // Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease and
-      // MotionNotify events.
-      XRecordRange *recordRange = XRecordAllocRange();
-      if (recordRange != NULL)
-        {
-          memset(recordRange, 0, sizeof(XRecordRange));
-
-          int dummy = 0;
-          Bool have_xi =  XQueryExtension(x11_display, "XInputExtension",
-                                          &dummy, &xi_event_base, &dummy);
-
-          if (have_xi && xi_event_base != 0)
-            {
-              TRACE_MSG("Using XI Events");
-              recordRange->device_events.first = xi_event_base + XI_DeviceKeyPress;
-              recordRange->device_events.last  = xi_event_base + XI_DeviceMotionNotify;
-            }
-          else
-            {
-              TRACE_MSG("Using Core Events");
-              recordRange->device_events.first = KeyPress;
-              recordRange->device_events.last  = MotionNotify;
-            }
-
-          // And create the XRECORD context.
-          xrecord_context = XRecordCreateContext(x11_display, 0, &client,  1, &recordRange, 1);
-
-          XFree(recordRange);
-        }
-
-      if (xrecord_context != 0)
-        {
-          XSync(x11_display, True);
-
-          xrecord_datalink = XOpenDisplay(x11_display_name.c_str());
-        }
-
-      if (xrecord_datalink == NULL)
-        {
-          XRecordFreeContext(x11_display, xrecord_context);
-          xrecord_context = 0;
-          use_xrecord = false;
-        }
-    }
-
-  TRACE_MSG("use_xrecord= " << use_xrecord);
-  TRACE_EXIT();
-  return use_xrecord;
-}
-
-//! Stop the XRecord activity monitoring.
-bool
-X11InputMonitor::stop_xrecord()
-{
-  TRACE_ENTER("X11InputMonitor::stop_xrecord");
-  if (use_xrecord)
-    {
-      XRecordDisableContext(xrecord_datalink, xrecord_context);
-      XRecordFreeContext(x11_display, xrecord_context);
-      XFlush(xrecord_datalink);
-      XCloseDisplay(x11_display);
-      x11_display = NULL;
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-
-gboolean
-X11InputMonitor::static_report_failure(void *data)
-{
-  (void) data;
-
-  Core *core = Core::get_instance();
-  core->post_event(CORE_EVENT_MONITOR_FAILURE);
-
-  return FALSE;
 }
