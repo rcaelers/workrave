@@ -18,6 +18,11 @@ http://www.workrave.org
 ** On Windows, Workrave does not stay in the 'suspended' mode after
    resuming from hibernate/sleep.
 
+** On Unix, Workrave adds a new activity monitoring method that can be
+   used instead of the XRECORD based monitoring. XRECORD monitoring
+   appear be causing X crashes for some people
+   (See http://issues.workrave.org/show_bug.cgi?id=1066)
+
 ** Infrastructure update. Workrave now supports:
    - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
    - Configuration in GSettings (instead of GConf)
