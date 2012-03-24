@@ -61,8 +61,6 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
 bool
 XScreenSaverMonitor::init()
 {
-  monitor_thread->start();
-
 	int event_base;
   int error_base;
 
@@ -71,6 +69,7 @@ XScreenSaverMonitor::init()
 	if (has_extension)
 	{
     screen_saver_info = XScreenSaverAllocInfo();
+    monitor_thread->start();
 	}
   
   return has_extension;
@@ -82,6 +81,7 @@ XScreenSaverMonitor::terminate()
   TRACE_ENTER("XScreenSaverMonitor::terminate");
 
   abort = true;
+  
   monitor_thread->wait();
 
   TRACE_EXIT();
