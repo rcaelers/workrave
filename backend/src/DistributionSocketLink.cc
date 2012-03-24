@@ -1027,7 +1027,14 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
       if (c != client && c->socket != NULL)
         {
           int bytes_written = 0;
-          c->socket->write(packet.get_buffer(), size, bytes_written);
+          try
+            {
+              c->socket->write(packet.get_buffer(), size, bytes_written);
+            }
+          catch (SocketException)
+            {
+              TRACE_MSG("Failed to send");
+            }
         }
       i++;
     }
@@ -1081,7 +1088,14 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
       packet.poke_ushort(0, size);
 
       int bytes_written = 0;
-      client->socket->write(packet.get_buffer(), size, bytes_written);
+      try
+        {
+          client->socket->write(packet.get_buffer(), size, bytes_written);
+        }
+      catch (SocketException)
+        {
+          TRACE_MSG("Failed to send");
+        }
     }
 
   TRACE_EXIT();
