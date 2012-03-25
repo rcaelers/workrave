@@ -111,8 +111,12 @@ XScreenSaverMonitor::run()
           fire_action();
         }
 
+#if GLIB_CHECK_VERSION(2, 32, 0)
       gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
       g_cond_wait_until(cond, mutex, end_time);
+#else
+      g_usleep(500000);
+#endif      
     }
   g_mutex_unlock(mutex);  
   
