@@ -83,6 +83,7 @@ _workraveButton.prototype = {
                                 false, // no auto launch
                                 Lang.bind(this, this._onWorkraveAppeared),
                                 Lang.bind(this, this._onWorkraveVanished));
+        DBus.session.start_service('org.workrave.Workrave');
     },
  
     _onDestroy: function() 
