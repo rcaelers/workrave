@@ -132,7 +132,7 @@ GenericDBusApplet::activate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::activate_applet");
   TRACE_EXIT();
-  return AppletWindow::APPLET_STATE_PENDING;
+  return enabled ? AppletWindow::APPLET_STATE_VISIBLE : AppletWindow::APPLET_STATE_PENDING;
 }
 
 
