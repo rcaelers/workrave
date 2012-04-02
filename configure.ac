@@ -5,7 +5,7 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [908])
+m4_define([workrave_micro_version], [909])
 m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
@@ -52,8 +52,8 @@ AC_ARG_ENABLE(xml,
                               [compile without XML support])])
 
 AC_ARG_ENABLE(gconf,
-              [AS_HELP_STRING([--disable-gconf],
-                              [compile without Gnome gconf2 support])])
+              [AS_HELP_STRING([--enable-gconf],
+                              [compile with Gnome gconf2 support])])
 
 AC_ARG_ENABLE(gsettings,
               [AS_HELP_STRING([--disable-gsettings],
