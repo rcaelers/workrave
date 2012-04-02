@@ -1315,11 +1315,6 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
 
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
 
-  dist_manager->log(_("u1 %s."), user != NULL ? user: "Unknown");
-  dist_manager->log(_("u2 %s."), username != NULL ? username: "Unknown");
-  dist_manager->log(_("p1 %s."), pass != NULL ? pass: "Unknown");
-  dist_manager->log(_("p2 %s."), password != NULL ? password : "Unknown");
-
   if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
        (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
     {
