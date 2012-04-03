@@ -89,6 +89,7 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
+  operation_mode_regular(OPERATION_MODE_NORMAL),
   usage_mode(USAGE_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
@@ -527,112 +528,209 @@ Core::get_distribution_manager() const
 OperationMode
 Core::get_operation_mode()
 {
-  return operation_mode;
+    return operation_mode;
 }
 
+//! Retrieves the regular operation mode.
+OperationMode
+Core::get_operation_mode_regular()
+{
+    /* operation_mode_regular is the same as operation_mode unless there's an 
+    override in place, in which case operation_mode is the current override mode and 
+    operation_mode_regular is the mode that will be restored once all overrides are removed
+    */
+    return operation_mode_regular;
+}
 
-//! Sets the operation mode
+//! Checks if operation_mode is an override.
+bool
+Core::is_operation_mode_an_override()
+{
+    return !!operation_mode_overrides.size();
+}
+
+//! Sets the operation mode.
 void
 Core::set_operation_mode(OperationMode mode)
 {
-  set_operation_mode_internal(mode, true);
+    set_operation_mode_internal( mode, true );
 }
 
-//! Sets the operation mode
+//! Temporarily overrides the operation mode.
 void
-Core::set_operation_mode_internal(OperationMode mode, bool persistent)
+Core::set_operation_mode_override( OperationMode mode, const std::string &id )
 {
-  TRACE_ENTER_MSG("Core::set_operation_mode",
-                  (mode == OPERATION_MODE_NORMAL ? "normal" :
-                   mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                   mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+    if( !id.size() )
+        return;
 
-  OperationMode previous_mode = operation_mode;
+    set_operation_mode_internal( mode, false, id );
+}
 
-  TRACE_MSG("Previous " << (previous_mode == OPERATION_MODE_NORMAL ? "normal" :
-                            previous_mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                            previous_mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+//! Removes the overriden operation mode.
+void
+Core::remove_operation_mode_override( const std::string &id )
+{
+    if( !id.size() || !operation_mode_overrides.count( id ) )
+        return;
+
+    operation_mode_overrides.erase( id );
+
+    /* If there are no overrides now and operation_mode_regular is the same 
+    as the current operation mode then just signal the mode has changed. During 
+    overrides the signal is not sent so it needs to be sent now. Because the 
+    modes are the same it would not be called by set_operation_mode_internal().
+    */
+    if( !operation_mode_overrides.size()
+        && ( operation_mode_regular == operation_mode )
+        )
+    {
+        if( core_event_listener )
+            core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
+    }
+    else
+        set_operation_mode_internal( operation_mode_regular, false );
+}
+
+//! Set the operation mode.
+void
+Core::set_operation_mode_internal(
+    OperationMode mode, 
+    bool persistent, 
+    const std::string &override_id /* default param: empty string */
+    )
+{
+  TRACE_ENTER_MSG("Core::set_operation_mode", ( persistent ? "persistent" : "" ) );
+
+  if( override_id.size() )
+  {
+      TRACE_MSG( "override_id: " << override_id );
+  }
+
+  TRACE_MSG( "Incoming/requested mode is "
+      << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
+            mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
+                mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+      << ( override_id.size() ? " (override)" : " (regular)" )
+      );
+
+  TRACE_MSG( "Current mode is "
+      << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
+            mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
+                mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+      << ( operation_mode_overrides.size() ? " (override)" : " (regular)" )
+      );
+  
+  if( ( mode != OPERATION_MODE_NORMAL )
+      && ( mode != OPERATION_MODE_QUIET )
+      && ( mode != OPERATION_MODE_SUSPENDED )
+      )
+  {
+      TRACE_RETURN( "No change: incoming invalid" );
+      return;
+  }
+
+  /* If the incoming operation mode is regular and the current operation mode is an 
+  override then save the incoming operation mode and return.
+  */
+  if( !override_id.size() && operation_mode_overrides.size() )
+  {
+      operation_mode_regular = mode;
+
+      int cm;
+      if( persistent 
+          && ( !get_configurator()->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
+              || ( cm != mode ) )
+          )
+          get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, mode );
+
+      TRACE_RETURN( "No change: current is an override type but incoming is regular" );
+      return;
+  }
+  
+  // If the incoming operation mode is tagged as an override
+  if( override_id.size() )
+  {
+      // Add this override to the map
+      operation_mode_overrides[ override_id ] = mode;
+
+      /* Find the most important override. Override modes in order of importance:
+      OPERATION_MODE_SUSPENDED, OPERATION_MODE_QUIET, OPERATION_MODE_NORMAL
+      */
+      for( map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
+          ( i != operation_mode_overrides.end() );
+          ++i
+          )
+      {
+          if( i->second == OPERATION_MODE_SUSPENDED )
+          {
+              mode = OPERATION_MODE_SUSPENDED;
+              break;
+          }
+
+          if( ( i->second == OPERATION_MODE_QUIET )
+              && ( mode == OPERATION_MODE_NORMAL )
+              )
+          {
+              mode = OPERATION_MODE_QUIET;
+          }
+      }
+  }
+
 
   if (operation_mode != mode)
-    {
+  {
+      OperationMode previous_mode = operation_mode;
+
       operation_mode = mode;
 
+      if( !operation_mode_overrides.size() )
+          operation_mode_regular = operation_mode;
+
       if (operation_mode == OPERATION_MODE_SUSPENDED)
-        {
+      {
           TRACE_MSG("Force idle");
           force_idle();
           monitor->suspend();
           stop_all_breaks();
 
           for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
-            {
+          {
               if (breaks[i].is_enabled())
-                {
+              {
                   breaks[i].get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
-                }
-            }
-        }
+              }
+          }
+      }
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
-        {
+      {
           // stop_all_breaks again will reset insensitive mode (that is good)
           stop_all_breaks();
           monitor->resume();
-        }
+      }
 
       if (operation_mode == OPERATION_MODE_QUIET)
-        {
+      {
           stop_all_breaks();
-        }
+      }
 
-      if (persistent)
-        {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
-        }
-      
-      if (core_event_listener != NULL)
-        {
-          core_event_listener->core_event_operation_mode_changed(mode);
-        }
-    }
-}
+      if( !operation_mode_overrides.size() )
+      {
+          /* The two functions in this block will trigger signals that can call back into this function.
+          Only if there are no overrides in place will that reentrancy be ok from here.
+          Otherwise the regular/user mode to restore would be overwritten.
+          */
 
-//! Sets the operation mode
-void
-Core::override_operation_mode(OperationMode mode, std::string id, bool enable)
-{
-  TRACE_ENTER_MSG("Core::override_operation_mode", id << " " <<
-                  (mode == OPERATION_MODE_NORMAL ? "normal" :
-                   mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                   mode == OPERATION_MODE_QUIET ? "quiet" : "???")
-                  << " " << enable);
+          if( persistent )
+              get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode );
 
-  if (enable)
-    {
-      operation_mode_overrides[id] = mode;
-    }
-  else
-    {
-      operation_mode_overrides.erase(id);
-    }
+          if( core_event_listener )
+              core_event_listener->core_event_operation_mode_changed( operation_mode );
+      }
+  }
 
-  OperationMode opmode = OPERATION_MODE_NORMAL;
-  for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
-       i != operation_mode_overrides.end(); i++)
-    {
-      TRACE_MSG(i->first << " : " << i->second);
-      OperationMode m = i->second;
-      if (opmode == OPERATION_MODE_NORMAL)
-        {
-          opmode = m;
-        }
-      else if (opmode == OPERATION_MODE_QUIET && m == OPERATION_MODE_SUSPENDED)
-        {
-          opmode = m;
-        }
-    }
-  set_operation_mode_internal(opmode, false);
   TRACE_EXIT();
 }
+
 
 //! Retrieves the usage mode.
 UsageMode
@@ -640,7 +738,6 @@ Core::get_usage_mode()
 {
   return usage_mode;
 }
-
 
 //! Sets the usage mode.
 void
@@ -747,7 +844,7 @@ Core::set_powersave(bool down)
       if (!powersave)
         {
           // Computer is going down
-          override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", true);
+          set_operation_mode_override( OPERATION_MODE_SUSPENDED, "powersave" );
           powersave_resume_time = 0;
           powersave = true;
         }
@@ -767,7 +864,7 @@ Core::set_powersave(bool down)
         }
 
       TRACE_MSG("resume time " << powersave_resume_time);
-      override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", false);
+      remove_operation_mode_override( "powersave" );
     }
   TRACE_EXIT();
 }
@@ -1242,7 +1339,7 @@ Core::process_timewarp()
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
-              override_operation_mode(OPERATION_MODE_SUSPENDED, "powersave", false);
+              remove_operation_mode_override( "powersave" );
             }
         }
       
