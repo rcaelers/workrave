@@ -570,25 +570,43 @@ Core::set_operation_mode_override( OperationMode mode, const std::string &id )
 void
 Core::remove_operation_mode_override( const std::string &id )
 {
+    TRACE_ENTER( "Core::remove_operation_mode_override" );
+
     if( !id.size() || !operation_mode_overrides.count( id ) )
         return;
 
     operation_mode_overrides.erase( id );
 
-    /* If there are no overrides now and operation_mode_regular is the same 
-    as the current operation mode then just signal the mode has changed. During 
-    overrides the signal is not sent so it needs to be sent now. Because the 
-    modes are the same it would not be called by set_operation_mode_internal().
+    /* If there are other overrides still in the queue then pass in the first 
+    override in the map. set_operation_mode_internal() will then search the 
+    map for the most important override and set it as the active operation mode.
     */
-    if( !operation_mode_overrides.size()
-        && ( operation_mode_regular == operation_mode )
-        )
+    if( operation_mode_overrides.size() )
     {
-        if( core_event_listener )
-            core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
+        set_operation_mode_internal( 
+            operation_mode_overrides.begin()->second, 
+            false, 
+            operation_mode_overrides.begin()->first
+            );
     }
     else
-        set_operation_mode_internal( operation_mode_regular, false );
+    {
+        /* if operation_mode_regular is the same as the active operation mode then just 
+        signal the mode has changed. During overrides the signal is not sent so it needs to 
+        be sent now. Because the modes are the same it would not be called by 
+        set_operation_mode_internal().
+        */
+        if( operation_mode_regular == operation_mode )
+        {
+            TRACE_MSG( "Only calling core_event_operation_mode_changed()." );
+            if( core_event_listener )
+                core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
+        }
+        else
+            set_operation_mode_internal( operation_mode_regular, false );
+    }
+
+    TRACE_EXIT();
 }
 
 //! Set the operation mode.
@@ -679,6 +697,12 @@ Core::set_operation_mode_internal(
 
   if (operation_mode != mode)
   {
+      TRACE_MSG( "Changing active operation mode to "
+          << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
+                mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
+                    mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+          );
+
       OperationMode previous_mode = operation_mode;
 
       operation_mode = mode;
