@@ -99,7 +99,7 @@ StatusIcon::insert_icon()
 {
   // Create status icon
   ICore *core = CoreFactory::get_core();
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON
   status_icon = new W32StatusIcon();
