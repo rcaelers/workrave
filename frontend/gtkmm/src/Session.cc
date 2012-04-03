@@ -78,7 +78,7 @@ Session::set_idle(bool new_idle)
           TRACE_MSG("taking " << taking);
           if (!taking)
             {
-              core->override_operation_mode(OPERATION_MODE_SUSPENDED, "screensaver", true);
+              core->set_operation_mode_override( OPERATION_MODE_SUSPENDED, "screensaver" );
             }
         }
       else if (!new_idle && is_idle && !taking)
@@ -86,7 +86,7 @@ Session::set_idle(bool new_idle)
           TRACE_MSG("No longer idle");
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
-          core->override_operation_mode(OPERATION_MODE_SUSPENDED, "screensaver", false);
+          core->remove_operation_mode_override( "screensaver" );
           if (core->get_operation_mode() == OPERATION_MODE_NORMAL &&
               rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()

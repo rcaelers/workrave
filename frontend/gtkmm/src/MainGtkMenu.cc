@@ -301,14 +301,14 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       break;
     }
 
-  if (menu_name != NULL)
-    {
-      item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget(menu_name));
-      if (item != NULL)
-        {
-          item->set_active(true);
-        }
-    }
+  if( menu_name )
+  {
+      item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( menu_name ) );
+      if( item && !item->get_active() )
+      {
+          item->set_active();
+      }
+  }
 
   item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Network/ShowLog"));
   if (item != NULL)
@@ -316,11 +316,14 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       item->set_active(show_log);
     }
 
-  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Reading"));
-  if (item != NULL)
-    {
-      item->set_active(usage == USAGE_MODE_READING);
-    }
+  item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( "/Menu/Reading" ) );
+  if( item )
+  {
+      bool reading = ( usage == USAGE_MODE_READING );
+
+      if( reading != item->get_active() )
+          item->set_active( reading );
+  }
 }
 
 

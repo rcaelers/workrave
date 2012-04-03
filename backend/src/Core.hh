@@ -109,8 +109,11 @@ public:
   void post_event(CoreEvent event);
 
   OperationMode get_operation_mode();
+  OperationMode get_operation_mode_regular();
+  bool is_operation_mode_an_override();
   void set_operation_mode(OperationMode mode);
-  void override_operation_mode(OperationMode mode, std::string id, bool enable);
+  void set_operation_mode_override( OperationMode mode, const std::string &id );
+  void remove_operation_mode_override( const std::string &id );
 
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
@@ -185,7 +188,8 @@ private:
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
-  void set_operation_mode_internal(OperationMode mode, bool persistent);
+  void Core::set_operation_mode_internal( 
+      OperationMode mode, bool persistent, const std::string &override_id = "" );
   void set_usage_mode_internal(UsageMode mode, bool persistent);
   
 #ifdef HAVE_DISTRIBUTION
@@ -257,8 +261,8 @@ private:
   //! Current operation mode.
   OperationMode operation_mode;
 
-  //! OperationMode before override
-  OperationMode user_operation_mode;
+  //! The same as operation_mode unless operation_mode is an override mode.
+  OperationMode operation_mode_regular;
 
   //! Active operation mode overrides.
   std::map<std::string, OperationMode> operation_mode_overrides;

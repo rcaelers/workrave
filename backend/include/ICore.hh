@@ -108,14 +108,23 @@ namespace workrave {
     //! Is the user currently active?
     virtual bool is_user_active() const = 0;
 
-    //! Return the current operational mode.
+    //! Retrieves the operation mode.
     virtual OperationMode get_operation_mode() = 0;
 
-    //! Set the operational mode.
+    //! Retrieves the regular operation mode.
+    virtual OperationMode get_operation_mode_regular() = 0;
+
+    //! Checks if operation_mode is an override.
+    virtual bool is_operation_mode_an_override() = 0;
+
+    //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
 
-    //! Temporarily override the operational mode.
-    virtual void override_operation_mode(OperationMode mode, std::string id, bool enable) = 0;
+    //! Temporarily overrides the operation mode.
+    virtual void set_operation_mode_override( OperationMode mode, const std::string &id ) = 0;
+
+    //! Removes the overriden operation mode.
+    virtual void remove_operation_mode_override( const std::string &id ) = 0;
 
     //! Return the current usage mode.
     virtual UsageMode get_usage_mode() = 0;
