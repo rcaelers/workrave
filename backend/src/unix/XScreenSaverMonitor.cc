@@ -53,7 +53,6 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
   if (monitor_thread != NULL)
     {
       monitor_thread->wait();
-      delete monitor_thread;
     }
 
   g_mutex_free(mutex);
@@ -90,7 +89,8 @@ XScreenSaverMonitor::terminate()
   g_mutex_unlock(mutex);  
   
   monitor_thread->wait();
-
+  monitor_thread = NULL;
+  
   TRACE_EXIT();
 }
 
