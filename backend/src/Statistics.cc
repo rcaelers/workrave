@@ -135,6 +135,40 @@ Statistics::update()
 }
 
 
+bool 
+Statistics::delete_all_history()
+{
+    update();
+
+    string histfile = Util::get_home_directory() + "historystats";
+    if( Util::file_exists( histfile.c_str() ) && std::remove( histfile.c_str() ) )
+    {
+        return false;
+    }
+    else
+    {
+        for( vector<DailyStatsImpl *>::iterator i = history.begin(); ( i != history.end() ); delete *i++ )
+            ;
+
+        history.clear();
+    }
+
+    string todayfile = Util::get_home_directory() + "todaystats";
+    if( Util::file_exists( todayfile.c_str() ) && std::remove( todayfile.c_str() ) )
+    {
+        return false;
+    }
+    else
+    {
+        delete current_day;
+        current_day = NULL;
+        start_new_day();
+   }
+
+    return true;
+}
+
+
 //! Starts a new day and archive current any (if exists)
 void
 Statistics::start_new_day()
