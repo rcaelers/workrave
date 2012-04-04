@@ -474,7 +474,9 @@ GUI::init_nls()
   const char *locale_dir;
 
 #if defined(PLATFORM_OS_WIN32)
-  string dir = Util::get_application_directory() + "\\lib\\locale";
+  string dir = Util::get_application_directory();
+  // Use the pre-install locale location if workrave is running from its MSVC build directory.
+  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
   locale_dir = dir.c_str();
 #elif defined(PLATFORM_OS_OSX)
   char locale_path[MAXPATHLEN * 4];
