@@ -147,6 +147,11 @@ StatisticsDialog::init_gui()
   browsebox->add(*btnbox);
   browsebox->add(*calendar);
 
+  // Delete button
+  delete_btn = Gtk::manage( GtkUtil::create_custom_stock_button( _("Delete all statistics history"), Gtk::Stock::DELETE ) );
+  delete_btn->signal_clicked().connect( sigc::mem_fun( *this, &StatisticsDialog::on_history_delete_all ) );
+  browsebox->add( *delete_btn );
+
   // Stats box
   HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());
   HigCategoryPanel *statbox = Gtk::manage(new HigCategoryPanel(_("Statistics")));
@@ -577,6 +582,62 @@ StatisticsDialog::on_history_goto_first()
 {
   int size = statistics->get_history_size();
   set_calendar_day_index(size);
+}
+
+
+void 
+StatisticsDialog::on_history_delete_all()
+{
+    /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is 
+    triggered while the message boxes are shown. The user would have no way to interact 
+    with the break window without closing out the dialog which may be hidden behind it.
+    Temporarily override operation mode to avoid catastrophe, and remove the 
+    override before any return.
+    */
+    const char funcname[] = "StatisticsDialog::on_history_delete_all";
+    CoreFactory::get_core()->set_operation_mode_override( OPERATION_MODE_SUSPENDED, funcname );
+
+    // Confirm the user's intention
+    string msg = HigUtil::create_alert_text( 
+        _("Warning"), 
+        _("You have chosen to delete your statistics history. Continue?")
+        );
+    Gtk::MessageDialog mb_ask( *this, msg, true, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_YES_NO, false );
+    mb_ask.set_title( _("Warning") );
+    mb_ask.get_widget_for_response( Gtk::RESPONSE_NO )->grab_default();
+    if( mb_ask.run() == Gtk::RESPONSE_YES )
+    {
+        mb_ask.hide();
+
+        // Try to delete statistics history files
+        for( ;; )
+        {
+            if( statistics->delete_all_history() )
+            {
+                msg = HigUtil::create_alert_text( 
+                    _("Files deleted!"), 
+                    _("The files containing your statistics history have been deleted.")
+                    );
+                Gtk::MessageDialog mb_info( *this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false );
+                mb_info.set_title( _("Info") );
+                mb_info.run();
+                break;
+            }
+
+            msg = HigUtil::create_alert_text( 
+                _("File deletion failed!"), 
+                _("The files containing your statistics history could not be deleted. Try again?")
+                );
+            Gtk::MessageDialog mb_error( *this, msg, true, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_YES_NO, false );
+            mb_error.set_title( _("Error") );
+            mb_error.get_widget_for_response( Gtk::RESPONSE_NO )->grab_default();
+            if( mb_error.run() != Gtk::RESPONSE_YES )
+                break;
+        }
+    }
+
+    // Remove this function's operation mode override
+    CoreFactory::get_core()->remove_operation_mode_override( funcname );
 }
 
 

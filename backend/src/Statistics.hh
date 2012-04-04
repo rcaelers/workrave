@@ -118,6 +118,8 @@ public:
   //! Destructor
   virtual ~Statistics();
 
+  bool delete_all_history();
+
 public:
   void init(Core *core);
   void update();
