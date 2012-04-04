@@ -39,6 +39,10 @@
 #include "EventImage.hh"
 #include "HeadInfo.hh"
 
+#ifdef PLATFORM_OS_WIN32
+#include <shellapi.h>
+#endif
+
 Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");
 
 bool
@@ -385,3 +389,143 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
         }
     }
 }
+
+
+/* unwrap utf8 text. mainly for pre-wrapped gettext translation strings:
+"Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
+"achter de computer. Als je werkdag nog niet voorbij is,\n"
+"ga dan iets anders doen, bv. documenten reviewen."
+*/
+Glib::ustring
+GtkUtil::unwrap_txt( const Glib::ustring &txt )
+{
+	Glib::ustring ustr;
+	ustr.reserve( txt.capacity() );
+
+	gunichar prev = '\n';
+	for( Glib::ustring::const_iterator it = txt.begin(); 
+        ( it < txt.end() ); 
+        ustr.push_back( *it ), prev = *it++ 
+        )
+	{
+        if( ( *it != '\n' ) || ( prev == '\n' ) )
+            continue;
+
+        ++it;
+
+        if( it >= txt.end() )
+        {
+            ustr.push_back( '\n' );
+            break;
+        }
+
+        if( *it == '\n' )
+        {
+            ustr.push_back( '\n' );
+            continue;
+        }
+
+        /* 
+        "\n"
+        "just testing\n"
+        "\n"
+        "this is a test. this is\n"
+        "only a test.\n"
+        "test123"
+        should become "\njust testing\n\nthis is a test. this is only a test. test123"
+        */
+        if( ( *it != ' ' ) && ( prev != ' ' ) ) //&& ( prev != '-' ) )
+            ustr.push_back( ' ' );
+    }
+
+	return ustr;
+}
+
+
+/* open a uri. returns false on error, true on success.
+
+On win32 this opens the URI on the desktop last associated with the app that opens the uri.
+On other this opens the URI on the passed in screen or the default screen if screen == NULL (default).
+Use gtk_widget_get_screen( this->gobj() ) to get the input widget's screen.
+
+An error message box will be shown if the URI function fails and show_errmsg == true (default).
+The error message box is not modal and will not block the GUI.
+
+GtkUtil::open_uri( "http://www.workrave.org" );
+GtkUtil::open_uri( "http://www.workrave.org", false, gtk_widget_get_screen( this->gobj() ) );
+*/
+bool
+GtkUtil::open_uri( 
+    const Glib::ustring& uri, 
+    bool show_errmsg, /* default param: true */ 
+    GdkScreen *screen /* default param: NULL */ 
+    )
+{
+    GError *g = NULL;
+    GError err = { 0, 0, NULL };
+    
+#ifdef PLATFORM_OS_WIN32
+    err.code = (gint)ShellExecuteA( NULL, "open", uri.c_str(), NULL, NULL, SW_SHOWNORMAL );
+
+    if( err.code <= 32 )  // "If the function succeeds, it returns a value greater than 32."
+    {
+        switch( err.code )
+        {
+            case 0: err.message = "The operating system is out of memory or resources."; break;
+            case ERROR_FILE_NOT_FOUND: err.message = "The specified file was not found."; break;
+            case ERROR_PATH_NOT_FOUND: err.message = "The specified path was not found."; break;
+            case ERROR_BAD_FORMAT: err.message = "The .exe file is invalid (non-Win32 .exe or error in .exe image)."; break;
+            case SE_ERR_ACCESSDENIED: err.message = "The operating system denied access to the specified file."; break;
+            case SE_ERR_ASSOCINCOMPLETE: err.message = "The file name association is incomplete or invalid."; break;
+            case SE_ERR_DDEBUSY: err.message = "The DDE transaction could not be completed because other DDE transactions were being processed."; break;
+            case SE_ERR_DDEFAIL: err.message = "The DDE transaction failed."; break;
+            case SE_ERR_DDETIMEOUT: err.message = "The DDE transaction could not be completed because the request timed out."; break;
+            case SE_ERR_DLLNOTFOUND: err.message = "The specified DLL was not found."; break;
+            case SE_ERR_NOASSOC: err.message = "There is no application associated with the given file name extension."; break;
+            case SE_ERR_OOM: err.message = "There was not enough memory to complete the operation."; break;
+            case SE_ERR_SHARE: err.message = "A sharing violation occurred."; break;
+            default: err.message = "An unknown error has occurred."; break;
+        }
+    }
+#else
+    if( !gtk_show_uri( screen, uri.c_str(), gtk_get_current_event_time(), &g ) )
+    {
+        if( g )
+            err = *g;
+
+        if( !err.message || !*err.message )
+            err.message = "An unknown error has occurred.";
+    }
+#endif
+
+    /* FYI
+    the error code can be 0 even if the uri function fails. example using gtk_show_uri():
+    err.code: 0
+    err.message: "HEAD request failed: WinHttp error: CONNECTION_ERROR"
+
+    if( err.message ) is what should be tested for from this point on. err.message is always set on error in any case.
+    */
+
+    if( err.message && show_errmsg )
+    {
+        stringstream message;
+        message << err.message << "\n";
+        message << "Error code: " << err.code << "\n";
+        message << "Error domain: " << err.domain << "\n";
+        message << "URI: " << uri << "\n";
+        Gtk::MessageDialog *mb = new Gtk::MessageDialog( message.str(), false, Gtk::MESSAGE_ERROR );
+        mb->set_title( "Error" );
+
+        // Delete the message box on any user response.
+        mb->signal_response().connect( 
+            sigc::bind( sigc::group( sigc::ptr_fun( &GtkUtil::delete_widget ), sigc::_2 ), mb ) );
+
+        mb->show_all();
+    }
+
+    if( g )
+        g_error_free( g );
+
+    return( err.message ? false : true );
+}
+

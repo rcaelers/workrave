@@ -91,6 +91,13 @@ public:
 
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
 
+  static Glib::ustring unwrap_txt( const Glib::ustring &txt );
+
+  static bool open_uri( const Glib::ustring& uri, bool show_errmsg = true, GdkScreen *screen = NULL );
+
+  /* Connect to this function for a quick way to kill a modal-less Gtk::Dialog */
+  static void delete_widget( Gtk::Widget *widget ) { delete widget; }
+  
 private:
   static Glib::Quark *label_quark;
 };
