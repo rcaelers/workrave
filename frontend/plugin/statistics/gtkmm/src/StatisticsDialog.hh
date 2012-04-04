@@ -78,6 +78,10 @@ private:
   /** First button */
   Gtk::Button *first_btn;
 
+  /** Delete button */
+  Gtk::Button *delete_btn;
+  void on_history_delete_all();
+
   void init_gui();
   void select_day(int day);
 
