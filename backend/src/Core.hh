@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -188,8 +188,7 @@ private:
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
-  void Core::set_operation_mode_internal( 
-      OperationMode mode, bool persistent, const std::string &override_id = "" );
+  void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
   
 #ifdef HAVE_DISTRIBUTION
