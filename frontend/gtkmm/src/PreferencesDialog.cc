@@ -230,7 +230,11 @@ PreferencesDialog::create_gui_page()
         }
 
       string txt = languages_current_locale[code].language_name;
-      if (languages_current_locale[code].country_name != "")
+      if( txt.empty() )
+      {
+          txt = "Unrecognized language: (" + code + ")";
+      }
+      else if (languages_current_locale[code].country_name != "")
         {
           txt += " (" + languages_current_locale[code].country_name + ")";
         }

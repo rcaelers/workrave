@@ -2,7 +2,16 @@ if(WIN32)
   set(HAVE_LANGUAGE_SELECTION TRUE)
 endif(WIN32)
 
-set(ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro")
+set(ALL_LINGUAS "")
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/../../po/LINGUAS" pofile)
+FOREACH(line ${pofile})
+  if("${line}" MATCHES "^[a-zA-Z]")
+    set(ALL_LINGUAS "${ALL_LINGUAS}${line} ")
+  endif("${line}" MATCHES "^[a-zA-Z]")
+ENDFOREACH(line)
+#strip the trailing whitespace. earlier versions of cmake don't have string(STRIP
+STRING(REGEX REPLACE  "[ ]+$" "" ALL_LINGUAS "${ALL_LINGUAS}" )
+#message(STATUS "ALL_LINGUAS = ${ALL_LINGUAS}")
 
 set(SOUND_THEMES subtle default)
 
