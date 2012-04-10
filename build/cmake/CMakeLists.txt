@@ -9,6 +9,8 @@ FOREACH(line ${pofile})
     set(ALL_LINGUAS "${ALL_LINGUAS}${line} ")
   endif("${line}" MATCHES "^[a-zA-Z]")
 ENDFOREACH(line)
+#strip the trailing whitespace. earlier versions of cmake don't have string(STRIP
+STRING(REGEX REPLACE  "[ ]+$" "" ALL_LINGUAS "${ALL_LINGUAS}" )
 #message(STATUS "ALL_LINGUAS = ${ALL_LINGUAS}")
 
 set(SOUND_THEMES subtle default)
