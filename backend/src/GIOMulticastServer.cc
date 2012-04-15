@@ -24,12 +24,11 @@
 #if defined(HAVE_GIO_NET)
 
 #include "debug.hh"
-#include "GIOMulticastServer.hh"
 #include "SocketException.hh"
+#include "GIOMulticastServer.hh"
+#include "NetlinkNetworkInterfaceMonitor.hh"
 
 using namespace std;
-
-#include "NetlinkNetworkInterfaceMonitor.hh"
 
 GIOMulticastServer::GIOMulticastServer(const std::string &multicast_ipv4, const std::string &multicast_ipv6, int multicast_port)
 {
@@ -52,6 +51,17 @@ GIOMulticastServer::~GIOMulticastServer()
   for (list<Connection *>::iterator i = connections.begin(); i != connections.end(); i++)
     {
       delete (*i)->socket;
+      delete *i;
+    }
+
+  if (multicast_address_ipv4 != NULL)
+    {
+      g_object_unref(multicast_address_ipv4);
+    }
+  
+  if (multicast_address_ipv6 != NULL)
+    {
+      g_object_unref(multicast_address_ipv6);
     }
 }
 
@@ -75,8 +85,10 @@ GIOMulticastServer::on_multicast_data(Connection *connection, int size, void *da
 {
   if (size == 0 && data == NULL)
     {
-      delete connection->socket;
+      // TODO: retry? create new socket?
       connections.remove(connection);
+      delete connection->socket;
+      delete connection;
     }
   else
     {
@@ -113,6 +125,7 @@ GIOMulticastServer::on_interface_changed(const INetworkInterfaceMonitor::Network
           if (change.name == (*i)->adapter_name && g_inet_address_equal(change.address, (*i)->local_address))
             {
               delete (*i)->socket;
+              delete *i;
               connections.erase(i);
               break;
             }
@@ -190,9 +203,11 @@ GIOMulticastSocket::~GIOMulticastSocket()
   TRACE_ENTER("GIOMulticastSocket::~GIOMulticastSocket");
   if (socket != NULL)
     {
+      g_socket_shutdown(socket, TRUE, TRUE, NULL);
+      g_socket_close(socket, NULL);
       g_object_unref(socket);
     }
-
+      
   if (source != NULL)
     {
       g_source_destroy(source);
@@ -269,21 +284,6 @@ GIOMulticastSocket::send(const gchar *buf, gsize count)
   return num_written == count;
 }
 
-
-//! Close the connection.
-void
-GIOMulticastSocket::close()
-{
-  TRACE_ENTER("GIOMulticastSocket::close");
-  GError *error = NULL;
-  if (socket != NULL)
-    {
-      g_socket_shutdown(socket, TRUE, TRUE, &error);
-      g_socket_close(socket, &error);
-      socket = NULL;
-    }
-  TRACE_EXIT();
-}
 
 sigc::signal<void, int, void *> &
 GIOMulticastSocket::signal_multicast_data()

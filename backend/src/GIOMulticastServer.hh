@@ -37,24 +37,17 @@ public:
 
   bool init();
   bool send(const gchar *buf, gsize count);
-
   sigc::signal<void, int, void *> &signal_multicast_data();
 
-protected:
-  
 private:
-  void close();
-
   static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
 
 private:
   std::string adapter;
   GInetAddress *local_address;
   GSocketAddress *multicast_address;
-  
   GSocket *socket;
   GSource *source;
-
   sigc::signal<void, int, void *> multicast_data_signal;
 };
 
@@ -85,9 +78,7 @@ private:
 private:
   GSocketAddress *multicast_address_ipv4;
   GSocketAddress *multicast_address_ipv6;
-
   INetworkInterfaceMonitor *monitor;
-  
   std::list<Connection *> connections;
 };
 
