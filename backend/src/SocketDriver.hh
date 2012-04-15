@@ -23,7 +23,7 @@
 class ISocket;
 class ISocketServer;
 
-#include "Exception.hh"
+#include "SocketException.hh"
 
 using namespace workrave;
 
@@ -133,21 +133,6 @@ public:
 
   //! Create a new listen socket
   virtual ISocketServer *create_server() = 0;
-};
-
-
-//! Socket exception
-class SocketException : public Exception
-{
-public:
-  explicit SocketException(const std::string &detail) :
-    Exception(detail)
-  {
-  }
-
-  virtual ~SocketException() throw()
-  {
-  }
 };
 
 #include "SocketDriver.icc"

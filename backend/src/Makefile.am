@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid)
@@ -27,7 +27,10 @@ sources = 		ActivityMonitor.cc \
 			Timer.cc \
 			DayTimePred.cc \
 			Test.cc \
-			TimePredFactory.cc
+			TimePredFactory.cc \
+			GIOMulticastServer.cc \
+			UnixNetworkInterfaceMonitor.cc \
+			NetlinkNetworkInterfaceMonitor.cc
 
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
@@ -122,7 +125,7 @@ libworkrave_backend_la_CFLAGS = \
 			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
 			@GCONF_CFLAGS@
 
-libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
+libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
 
 libworkrave_backend_la_LIBADD=${platform_ldadd}
 

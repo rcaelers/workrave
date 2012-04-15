@@ -616,6 +616,13 @@ fi
 AM_CONDITIONAL(HAVE_GSETTINGS, test "x$config_gsettings" = "xyes")
 
 dnl
+dnl SigC++
+dnl
+
+PKG_CHECK_MODULES(SIGC, sigc++-2.0 >= 2.2.4.2)
+
+
+dnl
 dnl GTK+
 dnl
 
