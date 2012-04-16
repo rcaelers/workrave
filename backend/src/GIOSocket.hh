@@ -25,32 +25,7 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-#include "SocketDriver.hh"
-
-using namespace workrave;
-
-//! Listen socket implementation using GIO
-class GIOSocketServer
-  : public ISocketServer
-{
-public:
-  GIOSocketServer();
-  virtual ~GIOSocketServer();
-
-  // ISocketServer  interface
-  virtual void listen(int port);
-
-private:
-  static gboolean static_socket_incoming(GSocketService *service,
-                                         GSocketConnection *connection,
-                                         GObject *src_object,
-                                         gpointer user_data);
-
-
-private:
-  GSocketService *service;
-};
-
+#include "ISocket.hh"
 
 //! Socket implementation based on GIO
 class GIOSocket
@@ -86,16 +61,6 @@ private:
   GResolver *resolver;
   GSource *source;
   int port;
-};
-
-class GIOSocketDriver
-  : public SocketDriver
-{
-  //! Create a new socket
-  ISocket *create_socket();
-
-  //! Create a new listen socket
-  ISocketServer *create_server();
 };
 
 #endif

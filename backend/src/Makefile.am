@@ -27,6 +27,8 @@ sources = 		ActivityMonitor.cc \
 			DayTimePred.cc \
 			Test.cc \
 			TimePredFactory.cc \
+			GIOSocket.cc \
+			GIOSocketServer.cc \
 			GIOMulticastServer.cc \
 			UnixNetworkInterfaceMonitor.cc \
 			NetlinkNetworkInterfaceMonitor.cc
@@ -40,9 +42,7 @@ endif
 
 if HAVE_DISTRIBUTION
 sourcesdistribution = 	Network.cc \
-			ByteStream.cc \
-			SocketDriver.cc \
-			GIOSocketDriver.cc
+			ByteStream.cc
 endif
 
 

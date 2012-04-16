@@ -1,4 +1,4 @@
-// SocketDriver.hh
+// ISocket.hh
 //
 // Copyright (C) 2002, 2003, 2005, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,15 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOCKETDRIVER_HH
-#define SOCKETDRIVER_HH
+#ifndef ISOCKET_HH
+#define ISOCKET_HH
 
 class ISocket;
-class ISocketServer;
-
-#include "SocketException.hh"
-
-using namespace workrave;
 
 //! Asynchronous socket callbacks.
 class ISocketListener
@@ -42,18 +37,6 @@ public:
 
   //! The specified socket closed its connection.
   virtual void socket_closed(ISocket *con, void *data) = 0;
-};
-
-
-//! Asynchronous server socket callbacks.
-class ISocketServerListener
-{
-public:
-  ISocketServerListener() {}
-  virtual ~ISocketServerListener() {}
-
-  //! The specified server socket has accepted a new connection
-  virtual void socket_accepted(ISocketServer *server, ISocket *con) = 0;
 };
 
 
@@ -94,47 +77,4 @@ protected:
   void *user_data;
 };
 
-
-//! TCP Listen ISocket.
-class ISocketServer
-{
-public:
-  ISocketServer() :
-    listener(NULL)
-  {
-  }
-
-  virtual ~ISocketServer() {};
-
-  //! Listen at the specified port.
-  /*! \pre set_listener called
-   */
-  virtual void listen(int port) = 0;
-
-  //! Sets the callback listener for asynchronous events.
-  void set_listener(ISocketServerListener *l);
-
-protected:
-  //! Listener that receives notification of accepted connections.
-  ISocketServerListener *listener;
-};
-
-
-//! TCP Socket abstraction.
-class SocketDriver
-{
-public:
-  static SocketDriver *create();
-
-  virtual ~SocketDriver() {};
-
-  //! Create a new socket
-  virtual ISocket *create_socket() = 0;
-
-  //! Create a new listen socket
-  virtual ISocketServer *create_server() = 0;
-};
-
-#include "SocketDriver.icc"
-
-#endif // SOCKETDRIVER_HH
+#endif // ISOCKET_HH

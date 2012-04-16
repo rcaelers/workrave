@@ -24,81 +24,10 @@
 #if defined(HAVE_GIO_NET)
 
 #include "debug.hh"
-#include "GIOSocketDriver.hh"
+#include "GIOSocket.hh"
+#include "SocketException.hh"
 
 using namespace std;
-
-
-//! Creates a new listen socket.
-GIOSocketServer::GIOSocketServer() :
-  service(NULL)
-{
-}
-
-
-//! Destructs the listen socket.
-GIOSocketServer::~GIOSocketServer()
-{
-  if (service != NULL)
-    {
-      g_socket_service_stop(service);
-      g_object_unref(service);
-      service = NULL;
-    }
-}
-
-
-//! Listen at the specified port.
-void
-GIOSocketServer::listen(int port)
-{
-  GError *error = NULL;
-
-  service = g_socket_service_new();
-  if (service == NULL)
-    {
-      throw SocketException("Failed to create server");
-    }
-
-  gboolean rc = g_socket_listener_add_inet_port(G_SOCKET_LISTENER(service), port, NULL, &error);
-  if (!rc)
-    {
-      g_object_unref(service);
-      service = NULL;
-
-      throw SocketException(string("Failed to listen: ") + error->message);
-    }
-
-  g_signal_connect(service, "incoming", G_CALLBACK(static_socket_incoming), this);
-  g_socket_service_start(service);
-
-}
-
-gboolean
-GIOSocketServer::static_socket_incoming(GSocketService *service,
-                                        GSocketConnection *connection,
-                                        GObject *src_object,
-                                        gpointer user_data)
-{
-  TRACE_ENTER("GIOSocketServer::static_socket_incoming");
-  (void) service;
-  (void) src_object;
-
-  try
-    {
-      GIOSocketServer *ss = (GIOSocketServer *) user_data;
-      GIOSocket *socket =  new GIOSocket(connection);
-      ss->listener->socket_accepted(ss, socket);
-    }
-  catch(...)
-    {
-      // Make sure that no exception reach the glib mainloop.
-    }
-
-  TRACE_EXIT();
-	return FALSE;
-}
-
 
 
 void
@@ -365,21 +294,6 @@ GIOSocket::close()
       socket = NULL;
     }
   TRACE_EXIT();
-}
-
-//! Create a new socket
-ISocket *
-GIOSocketDriver::create_socket()
-{
-  return new GIOSocket();
-}
-
-
-//! Create a new listen socket
-ISocketServer *
-GIOSocketDriver::create_server()
-{
-  return new GIOSocketServer();
 }
 
 #endif

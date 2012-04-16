@@ -28,9 +28,6 @@
 #include <gio/gio.h>
 
 #include "NetworkInterfaceMonitorBase.hh"
-#include "SocketDriver.hh"
-
-using namespace workrave;
 
 //! Listen socket implementation using GIO
 class NetlinkNetworkInterfaceMonitor : public NetworkInterfaceMonitorBase
