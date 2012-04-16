@@ -1,6 +1,6 @@
 // NetworkLogDialog.cc --- NetworkLog dialog
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,6 @@
 
 #include "ICore.hh"
 #include "CoreFactory.hh"
-#include "IDistributionManager.hh"
 #include "Util.hh"
 
 NetworkLogDialog::NetworkLogDialog()
@@ -82,12 +81,6 @@ NetworkLogDialog::NetworkLogDialog()
 NetworkLogDialog::~NetworkLogDialog()
 {
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->remove_log_listener(this);
-    }
   TRACE_EXIT();
 }
 
@@ -108,21 +101,18 @@ NetworkLogDialog::distribution_log(std::string msg)
 void
 NetworkLogDialog::init()
 {
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-
   Gtk::TextIter iter = text_buffer->end();
 
-  if (dist_manager != NULL)
+  //if (dist_manager != NULL)
     {
-      list<string> logs = dist_manager->get_logs();
+      list<string> logs; // FIXME: = dist_manager->get_logs();
 
       for (list<string>::iterator i = logs.begin(); i != logs.end(); i++)
         {
           iter = text_buffer->insert(iter, (*i));
         }
 
-      dist_manager->add_log_listener(this);
+      // FIXME: dist_manager->add_log_listener(this);
 #ifdef HAVE_GTK3
       Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
 #else
@@ -149,12 +139,12 @@ NetworkLogDialog::on_response(int response)
 {
   (void) response;
   TRACE_ENTER("NetworkLogDialog::on_response")
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->remove_log_listener(this);
-    }
+  //ICore *core = CoreFactory::get_core();
+  //IDistributionManager *dist_manager = core->get_distribution_manager();
+  //if (dist_manager != NULL)
+  //  {
+  //    dist_manager->remove_log_listener(this);
+  //  }
   TRACE_EXIT();
 }
 

@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ namespace workrave {
   class IStatistics;
   class ICoreEventListener;
   class INetwork;
-  class IDistributionManager;
 
   //! ID of a break.
   enum BreakId
@@ -99,11 +98,6 @@ namespace workrave {
 
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
-
-#ifdef HAVE_DISTRIBUTION
-    //! Returns the distribution manager (if available).
-    virtual IDistributionManager *get_distribution_manager() const = 0;
-#endif
 
     //! Is the user currently active?
     virtual bool is_user_active() const = 0;

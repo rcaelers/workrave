@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
+#if defined(HAVE_GIO_NET)
 
 #include "debug.hh"
 #include "GIOSocketDriver.hh"

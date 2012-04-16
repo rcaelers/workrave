@@ -31,14 +31,48 @@
 #include "UnixNetworkInterfaceMonitor.hh"
 #include "NetlinkNetworkInterfaceMonitor.hh"
 
-static IMulticastServer *multicast_server;
-
-static gboolean
-timer(gpointer data)
+class CloudTest
 {
-  (void) data;
+public:
+
+  void start();
+
+  void on_multicast_data(int size, void *data);
+  static gboolean static_on_timer(gpointer data);
   
-  multicast_server->send("Boe\n", 5);
+private:
+  IMulticastServer *multicast_server;
+  
+};
+
+void
+CloudTest::start()
+{
+  multicast_server = new GIOMulticastServer("239.160.181.73", "ff15::1:145", 27273);
+  multicast_server->init();
+  multicast_server->signal_multicast_data().connect(sigc::mem_fun(*this, &CloudTest::on_multicast_data));
+
+	// UnixNetworkInterfaceMonitor *u = new UnixNetworkInterfaceMonitor();
+  // u->init();
+  
+  g_timeout_add_seconds(10, static_on_timer, this);
+
+}
+
+void
+CloudTest::on_multicast_data(int size, void *data)
+{
+  (void) size;
+  printf(">> %s", data);
+}
+
+
+gboolean
+CloudTest::static_on_timer(gpointer data)
+{
+  CloudTest *self = (CloudTest *)data;
+  
+  self->multicast_server->send("Boe\n", 5);
 
   return G_SOURCE_CONTINUE;
 }
@@ -53,20 +87,16 @@ main(int argc, char **argv)
   Debug::init();
 #endif
 
-  GMainLoop *loop;
+  ;
 
   g_type_init();
+  GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  loop = g_main_loop_new(NULL, FALSE);
+  CloudTest cloud;
 
-	// UnixNetworkInterfaceMonitor *u = new UnixNetworkInterfaceMonitor();
-  // u->init();
-    
-  multicast_server = new GIOMulticastServer("239.160.181.73", "ff15::1:145", 27273);
-  multicast_server->init();
-
-  g_timeout_add_seconds(10, timer, NULL);
-  g_main_loop_run (loop);
+  cloud.start();
+  
+  g_main_loop_run(loop);
   
   return 0;
 }

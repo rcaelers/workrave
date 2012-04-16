@@ -54,9 +54,7 @@ resource.rc: resource.rc.in
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
-sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
+sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc
 
 # Additional exercises sources.
 EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises

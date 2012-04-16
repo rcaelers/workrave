@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,18 +43,9 @@ class IInputMonitor;
 using namespace workrave;
 using namespace std;
 
-#ifdef HAVE_DISTRIBUTION
-#include "IDistributionClientMessage.hh"
-#include "PacketBuffer.hh"
-#endif
-
-class Statistics :
-  public IStatistics,
-  public IInputMonitorListener
-#ifdef HAVE_DISTRIBUTION
-  ,
-  public IDistributionClientMessage
-#endif
+class Statistics
+  : public IStatistics,
+    public IInputMonitorListener
 {
 private:
   enum StatsMarker
@@ -157,14 +148,6 @@ private:
   void day_to_remote_history(DailyStatsImpl *stats);
 
   void add_history(DailyStatsImpl *stats);
-
-#ifdef HAVE_DISTRIBUTION
-  void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                      PacketBuffer &buffer);
-  bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
-#endif
 
 private:
   //! Interface to the core_control.

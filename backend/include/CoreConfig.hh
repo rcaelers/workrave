@@ -1,6 +1,6 @@
 // CoreConfig.hh --- Configuration keys of the core.
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,17 +47,6 @@ public:
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;
-
-  static const std::string CFG_KEY_DISTRIBUTION;
-  static const std::string CFG_KEY_DISTRIBUTION_ENABLED;
-  static const std::string CFG_KEY_DISTRIBUTION_LISTENING;
-  static const std::string CFG_KEY_DISTRIBUTION_PEERS;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_PORT;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
 
   static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
 };

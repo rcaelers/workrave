@@ -156,12 +156,12 @@ MainGtkMenu::create_actions()
   // Networking menu
 #ifdef HAVE_DISTRIBUTION
   action_group->add(Gtk::Action::create("Network", _("_Network")));
-  action_group->add(Gtk::Action::create("Join", _("_Connect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_join));
-  action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
-  action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
+  // action_group->add(Gtk::Action::create("Join", _("_Connect")),
+  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_join));
+  // action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
+  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
+  // action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
+  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
   action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
 #endif

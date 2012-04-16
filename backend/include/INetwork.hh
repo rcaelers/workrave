@@ -1,6 +1,6 @@
-// DistributionListener.hh
+// INetwork.hh -- Interface to the networking facility
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,20 +16,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+// $Id: INetwork.hh 1090 2006-10-01 20:49:47Z dotsphinx $
+//
 
-#ifndef DISTRIBUTIONLISTENER_HH
-#define DISTRIBUTIONLISTENER_HH
+#ifndef INETWORK_HH
+#define INETWORK_HH
 
-class DistributionListener
+namespace workrave
 {
-public:
-  virtual ~DistributionListener() {}
+  //! Interface to the networking facility of Workrave.
+  class INetwork
+  {
+  public:
+    virtual ~INetwork() {};
+  };
+}
 
-  //! A remote client has signed on.
-  virtual void signon_remote_client(string client_id) = 0;
-
-  //! A remote client has signed off.
-  virtual void signoff_remote_client(string client_id) = 0;
-};
-
-#endif // DISTRIBUTIONLISTENER_HH
+#endif // INETWORK_HH

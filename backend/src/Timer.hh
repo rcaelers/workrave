@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -102,20 +102,6 @@ struct TimerInfo
 class Timer
 {
 public:
-  struct TimerStateData
-  {
-    time_t current_time;
-    time_t elapsed_time;
-    time_t elapsed_idle_time;
-    time_t last_pred_reset_time;
-    time_t total_overdue_time;
-    time_t last_limit_time;
-    time_t last_limit_elapsed;
-    bool snooze_inhibited;
-  };
-
-
-public:
   // Construction/Destruction.
   Timer();
   virtual ~Timer();
@@ -160,10 +146,6 @@ public:
   std::string serialize_state() const;
   bool deserialize_state(const std::string &state, int version);
   void set_state(int elapsed, int idle, int overdue = -1);
-
-  void set_state_data(const TimerStateData &data);
-  void get_state_data(TimerStateData &data);
-  void set_values(int elapsed, int idle);
 
   // Misc
   time_t get_snooze() const;

@@ -19,7 +19,7 @@
 #ifndef GIOSOCKETDRIVER_HH
 #define GIOSOCKETDRIVER_HH
 
-#if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
+#if defined(HAVE_GIO_NET)
 
 #include <glib.h>
 #include <glib-object.h>

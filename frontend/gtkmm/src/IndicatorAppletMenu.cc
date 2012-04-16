@@ -123,9 +123,9 @@ IndicatorAppletMenu::init()
 
   DbusmenuMenuitem *network_menu = menu_item_append(root, _("_Network"));
 
-  menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
-  menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
-  menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
+  //menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
+  //menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
+  //menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
   menu_item_append(network_menu, _("Show _log"), Check, Menus::MENU_COMMAND_NETWORK_LOG);
 
   menu_item_append(root, _("Reading mode"), Check, Menus::MENU_COMMAND_MODE_READING);

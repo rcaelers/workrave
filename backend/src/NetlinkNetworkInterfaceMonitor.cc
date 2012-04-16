@@ -73,7 +73,7 @@ NetlinkNetworkInterfaceMonitor::init()
     }
 
   struct sockaddr_nl sa;
-  memset(&sa, 0, sizeof (sa));
+  memset(&sa, 0, sizeof(sa));
   sa.nl_family = AF_NETLINK;
   sa.nl_groups = RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
   sa.nl_pid = getpid();
@@ -255,10 +255,10 @@ NetlinkNetworkInterfaceMonitor::process_newlink(struct nlmsghdr* header)
   NetworkAdapter &adapter = adapters[ifi->ifi_index];
 
   adapter.valid = ( ifi->ifi_flags & IFF_UP &&
-                  !(ifi->ifi_flags & IFF_LOOPBACK) &&
-                  ifi->ifi_flags & IFF_MULTICAST &&
-                  !(ifi->ifi_flags & IFF_POINTOPOINT)
-                  );
+                    !(ifi->ifi_flags & IFF_LOOPBACK) &&
+                    ifi->ifi_flags & IFF_MULTICAST &&
+                    !(ifi->ifi_flags & IFF_POINTOPOINT)
+                    );
   
   struct rtattr *rta = IFLA_RTA(ifi);
   uint32_t rtalen = IFLA_PAYLOAD(header);
@@ -375,8 +375,7 @@ NetlinkNetworkInterfaceMonitor::verify_network_adapter(NetworkAdapter &network_h
 void
 NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &network_interface)
 {
-  bool valid = ( network_interface.adapter->valid &&
-                 network_interface.address != NULL);
+  bool valid = network_interface.adapter->valid && network_interface.address != NULL;
 
   if (network_interface.valid != valid)
     {
@@ -389,8 +388,6 @@ NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &netwo
       event.valid = valid;
   
       interface_changed_signal.emit(event);
-  
-      gchar *a = g_inet_address_to_string(network_interface.address);
     }
 }
 
@@ -402,4 +399,4 @@ NetlinkNetworkInterfaceMonitor::create_inet_address(GSocketFamily family, struct
       return g_inet_address_new_from_bytes((guint8 *)RTA_DATA(rta), family);
     }
   return NULL;
- }
+}

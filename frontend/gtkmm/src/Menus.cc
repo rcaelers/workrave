@@ -45,8 +45,6 @@
 #include "IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "IDistributionManager.hh"
-#include "NetworkJoinDialog.hh"
 #include "NetworkLogDialog.hh"
 #endif
 
@@ -91,7 +89,6 @@
 Menus::Menus() :
 #ifdef HAVE_DISTRIBUTION
   network_log_dialog(NULL),
-  network_join_dialog(NULL),
 #endif
   statistics_dialog(NULL),
   preferences_dialog(NULL),
@@ -413,69 +410,6 @@ Menus::on_about_response(int response)
 }
 
 void
-Menus::on_menu_network_join()
-{
-#ifdef HAVE_DISTRIBUTION
-  if (network_join_dialog == NULL)
-    {
-      network_join_dialog = new NetworkJoinDialog();
-      network_join_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_network_join_response));
-    }
-  network_join_dialog->present();
-#endif
-}
-
-#ifdef HAVE_DISTRIBUTION
-void
-Menus::on_network_join_response(int response)
-{
-  (void) response;
-
-  assert(network_join_dialog != NULL);
-  network_join_dialog->hide();
-
-  if (response == Gtk::RESPONSE_OK)
-    {
-      ICore *core = CoreFactory::get_core();
-      IDistributionManager *dist_manager
-        = core->get_distribution_manager();
-      std::string peer = network_join_dialog->get_connect_url();
-      dist_manager->connect(peer);
-      CoreFactory::get_configurator()->save();
-    }
-
-  delete network_join_dialog;
-  network_join_dialog = NULL;
-}
-#endif
-
-void
-Menus::on_menu_network_leave()
-{
-#ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->disconnect_all();
-    }
-#endif
-}
-
-void
-Menus::on_menu_network_reconnect()
-{
-#ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->reconnect_all();
-    }
-#endif
-}
-
-void
 Menus::on_menu_network_log(bool active)
 {
 #ifdef HAVE_DISTRIBUTION
@@ -583,18 +517,9 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_MODE_SUSPENDED:
       on_menu_suspend();
       break;
-    case MENU_COMMAND_NETWORK_CONNECT:
-      on_menu_network_join();
-      break;
-    case MENU_COMMAND_NETWORK_DISCONNECT:
-      on_menu_network_leave();
-      break;
 #ifdef HAVE_DISTRIBUTION
     case MENU_COMMAND_NETWORK_LOG:
       on_menu_network_log(network_log_dialog == NULL);
-      break;
-    case MENU_COMMAND_NETWORK_RECONNECT:
-      on_menu_network_reconnect();
       break;
 #endif
     case MENU_COMMAND_STATISTICS:

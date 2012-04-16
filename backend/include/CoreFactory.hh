@@ -1,6 +1,6 @@
 // CoreFactory.hh --- The main access point to the Core
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,9 @@ namespace workrave
 
     //! Returns the interface to the core's configurator.
     static IConfigurator *get_configurator();
+
+    //! Returns the interface to the networking facility.
+    static INetwork *get_networking();
 
     //! Returns the interface to the DBUS facility.
     static DBus *get_dbus();

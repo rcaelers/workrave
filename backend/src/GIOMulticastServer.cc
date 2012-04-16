@@ -32,9 +32,6 @@ using namespace std;
 
 GIOMulticastServer::GIOMulticastServer(const std::string &multicast_ipv4, const std::string &multicast_ipv6, int multicast_port)
 {
-  monitor = new NetlinkNetworkInterfaceMonitor();
-  monitor->signal_interface_changed().connect(sigc::mem_fun(*this, &GIOMulticastServer::on_interface_changed));
-
   GInetAddress *inet_address = g_inet_address_new_from_string(multicast_ipv4.c_str());
   multicast_address_ipv4 = g_inet_socket_address_new(inet_address, multicast_port);
   g_object_unref(inet_address);
@@ -68,6 +65,8 @@ GIOMulticastServer::~GIOMulticastServer()
 void
 GIOMulticastServer::init()
 {
+  monitor = new NetlinkNetworkInterfaceMonitor();
+  monitor->signal_interface_changed().connect(sigc::mem_fun(*this, &GIOMulticastServer::on_interface_changed));
   monitor->init();
 }
 
@@ -173,7 +172,7 @@ GIOMulticastSocket::static_data_callback(GSocket *socket,
         }
       else
         {
-          printf("%s", buffer);
+          g_debug("Recv %s: %s", giosocket->adapter.c_str(), buffer);
           giosocket->multicast_data_signal.emit(num_read, buffer);
         }
     }
@@ -273,6 +272,7 @@ GIOMulticastSocket::send(const gchar *buf, gsize count)
   gsize num_written = 0;
   if (socket != NULL)
     {
+      g_debug("Send %s: %s", adapter.c_str(), buf);
       num_written = g_socket_send_to(socket, multicast_address, (char *)buf, count, NULL, &error);
       if (error != NULL)
         {

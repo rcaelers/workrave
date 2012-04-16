@@ -1,6 +1,6 @@
 // CoreFactory.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,20 @@ CoreFactory::get_configurator()
   return core->get_configurator();
 }
 
+
+//! Returns the interface to the networking facility
+INetwork *
+CoreFactory::get_networking()
+{
+#ifdef HAVE_DISTRIBUTION
+  Core *core = Core::get_instance();
+  assert(core != NULL);
+
+  return (INetwork *)core->get_networking();
+#else
+  return NULL;
+#endif
+}
 
 //! Returns the interface to the D-BUS facility
 DBus *

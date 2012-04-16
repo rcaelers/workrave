@@ -1,6 +1,6 @@
 // CoreConfig.cc --- The WorkRave Core Configuration
 //
-// Copyright (C) 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -54,18 +54,6 @@ const string CoreConfig::CFG_KEY_MONITOR_IDLE              = "monitor/idle";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR           = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE            = "general/operation-mode";
 const string CoreConfig::CFG_KEY_USAGE_MODE                = "general/usage-mode";
-
-const string CoreConfig::CFG_KEY_DISTRIBUTION              = "distribution";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED      = "distribution/enabled";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING    = "distribution/listening";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_PEERS        = "distribution/peers";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP          = "distribution/tcp";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT     = "distribution/port";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "distribution/username";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "distribution/password";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "distribution/reconnect_attempts";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/reconnect_interval";
-
 
 bool
 CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)

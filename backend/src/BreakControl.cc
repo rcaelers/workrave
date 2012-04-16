@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,6 @@
 #include "ActivityMonitorListener.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
-
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#endif
 
 #ifdef HAVE_DBUS
 #include "DBus.hh"
@@ -672,42 +668,6 @@ BreakControl::action_notify()
   core->stop_prelude(break_id);
   TRACE_EXIT();
   return false;   // false: kill listener.
-}
-
-
-//! Initializes this control to the specified state.
-void
-BreakControl::set_state_data(bool active, const BreakStateData &data)
-{
-  (void) active;
-  TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
-
-  TRACE_MSG("forced = " << data.forced_break <<
-            " prelude = " << data.prelude_count <<
-            " stage = " <<  data.break_stage <<
-            " final = " << reached_max_prelude <<
-            " total preludes = " << postponable_count <<
-            " time = " << data.prelude_time);
-
-  forced_break = data.forced_break;
-  prelude_count = data.prelude_count;
-  prelude_time = data.prelude_time;
-  postponable_count = data.postponable_count;
-
-  TRACE_EXIT();
-}
-
-
-//! Returns the state of this control.
-void
-BreakControl::get_state_data(BreakStateData &data)
-{
-  data.forced_break = forced_break;
-  data.prelude_count = prelude_count;
-  data.break_stage = break_stage;
-  data.reached_max_prelude = reached_max_prelude;
-  data.prelude_time = prelude_time;
-  data.postponable_count = postponable_count;
 }
 
 

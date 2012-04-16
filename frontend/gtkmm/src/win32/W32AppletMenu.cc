@@ -100,16 +100,16 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
-      w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Disconnect"),
-                      Menus::MENU_COMMAND_NETWORK_DISCONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
+      // w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
+      //                 W32AppletWindow::MENU_FLAG_TOGGLE
+      //                 |W32AppletWindow::MENU_FLAG_POPUP);
+      // w32aw->add_menu(_("_Disconnect"),
+      //                 Menus::MENU_COMMAND_NETWORK_DISCONNECT,
+      //                 W32AppletWindow::MENU_FLAG_TOGGLE
+      //                 |W32AppletWindow::MENU_FLAG_POPUP);
+      // w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
+      //                 W32AppletWindow::MENU_FLAG_TOGGLE
+      //                 |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("Show _log"), Menus::MENU_COMMAND_NETWORK_LOG,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP

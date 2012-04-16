@@ -57,12 +57,6 @@
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "NetworkPreferencePage.hh"
-#endif
-
-// #include "PluginsPreferencePage.hh"
-
 #define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 using namespace std;
@@ -106,14 +100,14 @@ PreferencesDialog::PreferencesDialog()
 #endif
 
 #ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *network_page = Gtk::manage(create_network_page());
+  // FIXME: Gtk::Widget *network_page = Gtk::manage(create_network_page());
 #endif
 
   // Notebook
   add_page(_("Timers"), "time.png", *timer_page);
   add_page(_("User interface"), "display.png", *gui_page);
 #ifdef HAVE_DISTRIBUTION
-  add_page(_("Network"), "network.png", *network_page);
+  // FIXME: add_page(_("Network"), "network.png", *network_page);
 #endif
 
   // Gtk::Widget *plugins_page = Gtk::manage( new PluginsPreferencePage() );
@@ -570,7 +564,7 @@ PreferencesDialog::create_applet_page()
 Gtk::Widget *
 PreferencesDialog::create_network_page()
 {
-  return new NetworkPreferencePage();
+  return NULL; // FIXME: new NetworkPreferencePage();
 }
 #endif
 

@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002 - 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2008, 2010, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,10 +38,6 @@
 #include "InputMonitorFactory.hh"
 #include "IInputMonitor.hh"
 #include "timeutil.h"
-
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#endif
 
 const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 4;
@@ -93,10 +89,6 @@ Statistics::init(Core *control)
     {
       input_monitor->subscribe_statistics(this);
     }
-
-#ifdef HAVE_DISTRIBUTION
-  init_distribution_manager();
-#endif
 
   current_day = NULL;
   bool ok = load_current_day();
@@ -232,23 +224,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 void
 Statistics::day_to_remote_history(DailyStatsImpl *stats)
 {
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != NULL)
-    {
-      PacketBuffer state_packet;
-      state_packet.create();
-
-      state_packet.pack_byte(STATS_MARKER_HISTORY);
-      pack_stats(state_packet, stats);
-      state_packet.pack_byte(STATS_MARKER_END);
-
-      dist_manager->broadcast_client_message(DCM_STATS, state_packet);
-    }
-#else
   (void) stats;
-#endif
 }
 
 
@@ -732,233 +708,9 @@ Statistics::update_current_day(bool active)
           set_break_counter(((BreakId)i),
                             Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
         }
-
-
     }
 }
 
-
-#ifdef HAVE_DISTRIBUTION
-// Create the monitor based on the specified configuration.
-void
-Statistics::init_distribution_manager()
-{
-  DistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != NULL)
-    {
-      dist_manager->register_client_message(DCM_STATS, DCMT_MASTER, this);
-    }
-}
-
-bool
-Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
-{
-  TRACE_ENTER("Statistics::request_client_message");
-  (void) id;
-
-  update_current_day(false);
-  dump();
-
-  buffer.pack_byte(STATS_MARKER_TODAY);
-  pack_stats(buffer, current_day);
-  buffer.pack_byte(STATS_MARKER_END);
-
-  TRACE_EXIT();
-  return true;
-}
-
-
-bool
-Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
-{
-  TRACE_ENTER("Statistics::pack_stats");
-
-  int pos = 0;
-
-  buf.pack_byte(STATS_MARKER_STARTTIME);
-  buf.reserve_size(pos);
-  buf.pack_byte(stats->start.tm_mday);
-  buf.pack_byte(stats->start.tm_mon);
-  buf.pack_ushort(stats->start.tm_year);
-  buf.pack_byte(stats->start.tm_hour);
-  buf.pack_byte(stats->start.tm_min);
-  buf.update_size(pos);
-
-  buf.pack_byte(STATS_MARKER_STOPTIME);
-  buf.reserve_size(pos);
-  buf.pack_byte(stats->stop.tm_mday);
-  buf.pack_byte(stats->stop.tm_mon);
-  buf.pack_ushort(stats->stop.tm_year);
-  buf.pack_byte(stats->stop.tm_hour);
-  buf.pack_byte(stats->stop.tm_min);
-  buf.update_size(pos);
-
-  for(int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      BreakStats &bs = current_day->break_stats[i];
-
-      buf.pack_byte(STATS_MARKER_BREAK_STATS);
-      buf.reserve_size(pos);
-      buf.pack_byte(i);
-      buf.pack_ushort(STATS_BREAKVALUE_SIZEOF);
-
-      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
-        {
-          buf.pack_ulong(bs[j]);
-        }
-      buf.update_size(pos);
-    }
-
-  buf.pack_byte(STATS_MARKER_MISC_STATS);
-  buf.reserve_size(pos);
-  buf.pack_ushort(STATS_VALUE_SIZEOF);
-
-  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
-    {
-      buf.pack_ulong(current_day->misc_stats[j]);
-    }
-  buf.update_size(pos);
-
-  TRACE_EXIT();
-  return true;
-}
-
-bool
-Statistics::client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                           PacketBuffer &buffer)
-{
-  TRACE_ENTER("Statistics::client_message");
-
-  (void) id;
-  (void) master;
-  (void) client_id;
-
-  return false;
-
-  DailyStatsImpl *stats = NULL;
-  int pos = 0;
-  bool stats_to_history = false;
-
-  while (buffer.bytes_available() > 0)
-    {
-      StatsMarker marker = (StatsMarker) buffer.unpack_byte();
-      TRACE_MSG("Marker = " << marker);
-      switch (marker)
-        {
-        case STATS_MARKER_TODAY:
-          stats = current_day;
-          break;
-
-        case STATS_MARKER_HISTORY:
-          stats = new DailyStatsImpl();
-          stats_to_history = true;
-          break;
-
-        case STATS_MARKER_STARTTIME:
-          {
-            int size = buffer.unpack_ushort();
-            (void) size;
-
-            stats->start.tm_mday = buffer.unpack_byte();
-            stats->start.tm_mon = buffer.unpack_byte();
-            stats->start.tm_year = buffer.unpack_ushort();
-            stats->start.tm_hour = buffer.unpack_byte();
-            stats->start.tm_min = buffer.unpack_byte();
-          }
-          break;
-
-        case STATS_MARKER_STOPTIME:
-          {
-            int size = buffer.unpack_ushort();
-            (void) size;
-
-            stats->stop.tm_mday = buffer.unpack_byte();
-            stats->stop.tm_mon = buffer.unpack_byte();
-            stats->stop.tm_year = buffer.unpack_ushort();
-            stats->stop.tm_hour = buffer.unpack_byte();
-            stats->stop.tm_min = buffer.unpack_byte();
-          }
-          break;
-
-        case STATS_MARKER_BREAK_STATS:
-          {
-            int size = buffer.read_size(pos);
-            int bt = buffer.unpack_byte();
-            (void) size;
-
-            BreakStats &bs = stats->break_stats[bt];
-
-            int count = buffer.unpack_ushort();
-
-            if (count > STATS_BREAKVALUE_SIZEOF)
-              {
-                count = STATS_BREAKVALUE_SIZEOF;
-              }
-
-            for(int j = 0; j < count; j++)
-              {
-                bs[j] = buffer.unpack_ulong();
-              }
-
-            buffer.skip_size(pos);
-          }
-          break;
-
-        case STATS_MARKER_MISC_STATS:
-          {
-            int size = buffer.read_size(pos);
-            int count = buffer.unpack_ushort();
-            (void) size;
-
-            if (count > STATS_VALUE_SIZEOF)
-              {
-                count = STATS_VALUE_SIZEOF;
-              }
-
-            for(int j = 0; j < count; j++)
-              {
-                stats->misc_stats[j] = buffer.unpack_ulong();
-              }
-
-            buffer.skip_size(pos);
-          }
-          break;
-
-        case STATS_MARKER_END:
-          if (stats_to_history)
-            {
-              TRACE_MSG("Save to history");
-              day_to_history(stats);
-              stats_to_history = false;
-            }
-          break;
-
-        default:
-          {
-            TRACE_MSG("Unknown marker");
-            int size = buffer.read_size(pos);
-            (void) size;
-            buffer.skip_size(pos);
-          }
-        }
-    }
-
-  if (stats_to_history)
-    {
-      // this should not happend. but just to avoid a potential memory leak...
-      TRACE_MSG("Save to history");
-      day_to_history(stats);
-      stats_to_history = false;
-    }
-
-  dump();
-
-  TRACE_EXIT();
-  return true;
-}
-
-#endif
 
 bool
 Statistics::DailyStatsImpl::starts_at_date(int y, int m, int d)
