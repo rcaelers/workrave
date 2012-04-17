@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GIOSOCKETDRIVER_HH
-#define GIOSOCKETDRIVER_HH
+#ifndef GIOSOCKET_HH
+#define GIOSOCKET_HH
 
 #if defined(HAVE_GIO_NET)
 
@@ -64,4 +64,4 @@ private:
 };
 
 #endif
-#endif // GIOSOCKETDRIVER_HH
+#endif // GIOSOCKET_HH

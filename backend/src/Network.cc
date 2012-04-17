@@ -28,6 +28,7 @@
 #include "debug.hh"
 
 #include "Network.hh"
+#include "NetworkAnnounce.hh"
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -38,14 +39,18 @@ using namespace std;
 using namespace workrave;
 
 //! Constructs a network wrapper
-Network::Network()
+Network::Network() 
 {
+  init_my_id();
+
+  announcer = new NetworkAnnounce(my_id);
 }
 
 
 //! Destructs the network wrapper
 Network::~Network()
 {
+  delete announcer;
 }
 
 
@@ -55,26 +60,7 @@ Network::init()
 {
   TRACE_ENTER("Network::init");
 
-  IConfigurator *config = CoreFactory::get_configurator();
-  config->set_delay("networking/port", 2);
-
-  // Convert old settings.
-
-  config->set_value("networking/enabled", false, CONFIG_FLAG_DEFAULT);
-  config->set_value("networking/port", 2773, CONFIG_FLAG_DEFAULT);
-  config->set_value("networking/username", "", CONFIG_FLAG_DEFAULT);
-  config->set_value("networking/secret", "", CONFIG_FLAG_DEFAULT);
-
-  config->add_listener("networking", this);
-
-  config->get_value("networking/enabled", enabled);
-  config->get_value("networking/port", port);
-
-  if (enabled)
-    {
-    }
-
-  init_my_id();
+  announcer->init();
   
   TRACE_EXIT();
 }
@@ -123,13 +109,6 @@ void
 Network::terminate()
 {
   TRACE_ENTER("Network::terminate");
-
-  //report_active(false);
-  //for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-  //  {
-  //    report_timer_state(i, false);
-  //  }
-
   TRACE_EXIT();
 }
 
@@ -138,64 +117,5 @@ Network::terminate()
 void
 Network::heartbeat()
 {
-}
-
-
-//! Networking configuration changed.
-void
-Network::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("Network::config_changed_notify", key);
-
-  if (key == "networking/port")
-    {
-      on_port_changed();
-    }
-  else if (key == "networking/enabled")
-    {
-      on_enabled_changed();
-    }
-  TRACE_EXIT();
-}
-
-
-//! The networking enabled configuration changed.
-void
-Network::on_enabled_changed()
-{
-  bool new_enabled;
-  IConfigurator *config = CoreFactory::get_configurator();
-  bool ok = config->get_value("networking/enabled", new_enabled);
-  if (ok && enabled != new_enabled)
-    {
-      if (new_enabled)
-        {
-          // listen(port);
-        }
-      else
-        {
-          // stop_listening();
-        }
-
-      enabled = new_enabled;
-    }
-}
-
-
-//! The listen port configuration changed.
-void
-Network::on_port_changed()
-{
-  if (enabled)
-    {
-      int new_port = 0;
-      IConfigurator *config = CoreFactory::get_configurator();
-      bool ok = config->get_value("networking/port", new_port);
-      if (ok && port != new_port)
-        {
-          //stop_listening();
-          //listen(new_port);
-        }
-      port = new_port;
-    }
+  announcer->heartbeat();
 }

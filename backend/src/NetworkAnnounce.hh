@@ -1,6 +1,6 @@
-// Network.hh --- Networking link server
+// NetworkAnnounce.hh --- Network Announcements
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORK_HH
-#define NETWORK_HH
+#ifndef NETWORKANNOUNCE_HH
+#define NETWORKANNOUNCE_HH
 
 #include <string>
-
-#include "INetwork.hh"
-#include "IConfiguratorListener.hh"
 
 #include "WRID.hh"
 
@@ -31,21 +28,19 @@
 namespace workrave
 {
   class WRID;
-  class ICore;
 }
 using namespace workrave;
 
 
 // Forward declarion of internal interfaces.
-class NetworkAnnounce;
+class IMulticastServer;
 
 //! Main entry point of all networking functionality.
-class Network
-  : public INetwork
+class NetworkAnnounce
 {
 public:
-  Network();
-  virtual ~Network();
+  NetworkAnnounce(const WRID &my_id);
+  virtual ~NetworkAnnounce();
 
   // Core internal
   void init();
@@ -53,18 +48,14 @@ public:
   void heartbeat();
 
 private:
-  void init_my_id();
+  void on_multicast_data(int size, void *data);
 
 private:
   //! My ID
   WRID my_id;
 
-  //! Workrave announcer
-  NetworkAnnounce *announcer;
-  
-#ifdef HAVE_TESTS
-  friend class Test;
-#endif
+  //!
+  IMulticastServer *multicast_server;
 };
 
-#endif // NETWORK_HH
+#endif // NETWORKANNOUNCE_HH

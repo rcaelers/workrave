@@ -29,9 +29,8 @@ sources = 		ActivityMonitor.cc \
 			TimePredFactory.cc \
 			GIOSocket.cc \
 			GIOSocketServer.cc \
-			GIOMulticastServer.cc \
-			UnixNetworkInterfaceMonitor.cc \
-			NetlinkNetworkInterfaceMonitor.cc
+			GIOMulticastSocket.cc \
+			GIOMulticastServer.cc
 
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
@@ -42,6 +41,7 @@ endif
 
 if HAVE_DISTRIBUTION
 sourcesdistribution = 	Network.cc \
+			NetworkAnnounce.cc \
 			ByteStream.cc
 endif
 

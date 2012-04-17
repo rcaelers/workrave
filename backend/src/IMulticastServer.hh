@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MULTICASTSERVER_HH
-#define MULTICASTSERVER_HH
+#ifndef IMULTICASTSERVER_HH
+#define IMULTICASTSERVER_HH
 
 #include <sigc++/sigc++.h>
 
@@ -38,18 +38,4 @@ public:
   virtual sigc::signal<void, int, void *> &signal_multicast_data() = 0;
 };
 
-class MulticastServerBase : public IMulticastServer
-{
-public:
-  virtual ~MulticastServerBase() {}
-  
-  virtual sigc::signal<void, int, void *> &signal_multicast_data()
-  {
-    return multicast_data_signal;
-  }
-
-protected:
-  sigc::signal<void, int, void *> multicast_data_signal;
-};
-
-#endif // MULTICASTSERVER_HH
+#endif // IMULTICASTSERVER_HH

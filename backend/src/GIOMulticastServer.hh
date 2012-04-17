@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002, 2003, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,34 +25,13 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-#include "MulticastServer.hh"
+#include "IMulticastServer.hh"
 #include "INetworkInterfaceMonitor.hh"
 
-//! Multicast socket implementation based on GIO
-class GIOMulticastSocket
-{
-public:
-  GIOMulticastSocket(GSocketAddress *multicast_address, const std::string &adapter, GInetAddress *local_address);
-  virtual ~GIOMulticastSocket();
-
-  bool init();
-  bool send(const gchar *buf, gsize count);
-  sigc::signal<void, int, void *> &signal_multicast_data();
-
-private:
-  static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
-
-private:
-  std::string adapter;
-  GInetAddress *local_address;
-  GSocketAddress *multicast_address;
-  GSocket *socket;
-  GSource *source;
-  sigc::signal<void, int, void *> multicast_data_signal;
-};
+class GIOMulticastSocket;
 
 //! 
-class GIOMulticastServer : public MulticastServerBase
+class GIOMulticastServer : public IMulticastServer
 {
 public:
   GIOMulticastServer(const std::string &multicast_ipv4, const std::string &multicast_ipv6, int multicast_port);
@@ -61,6 +40,7 @@ public:
   // IMulticastServer interface
   virtual void init();
   virtual void send(const gchar *buf, gsize count);
+  virtual sigc::signal<void, int, void *> &signal_multicast_data();
 
 private:
   class Connection
@@ -80,6 +60,7 @@ private:
   GSocketAddress *multicast_address_ipv6;
   INetworkInterfaceMonitor *monitor;
   std::list<Connection *> connections;
+  sigc::signal<void, int, void *> multicast_data_signal;
 };
 
 
