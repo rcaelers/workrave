@@ -264,7 +264,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
-			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) $(indicatorflags) \
@@ -297,10 +297,10 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
+			@GTK_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
-			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
+			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS) @PROTOBUF_LIBS@
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
 	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in

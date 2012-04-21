@@ -16,39 +16,50 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GIOMULTICASTSOCKET_HH
-#define GIOMULTICASTSOCKET_HH
+#ifndef NETWORKINTERFACEMONITOR_HH
+#define NETWORKINTERFACEMONITOR_HH
 
-#if defined(HAVE_GIO_NET)
+#include <map>
+#include <string>
+#include <sigc++/sigc++.h>
 
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
 
-#include <sigc++/sigc++.h>
+#include <boost/shared_ptr.hpp>
 
-//! Multicast socket implementation based on GIO
-class GIOMulticastSocket
+#include "GIONetworkAddress.hh"
+
+//! 
+class NetworkInterfaceMonitor
 {
 public:
-  GIOMulticastSocket(GSocketAddress *multicast_address, const std::string &adapter, GInetAddress *local_address);
-  virtual ~GIOMulticastSocket();
+  typedef boost::shared_ptr<NetworkInterfaceMonitor> Ptr;
 
-  bool init();
-  bool send(const gchar *buf, gsize count);
-  sigc::signal<void, int, void *> &signal_multicast_data();
+public:
+  virtual ~NetworkInterfaceMonitor() {}
+
+  class NetworkInterfaceInfo
+  {
+  public:
+    NetworkInterfaceInfo() {}
+    
+    std::string name;
+    GIONetworkAddress::Ptr address;
+    bool valid;
+
+  private:
+    NetworkInterfaceInfo(const NetworkInterfaceInfo &other);
+    NetworkInterfaceInfo &operator=(const NetworkInterfaceInfo &);
+  };
+
+  static NetworkInterfaceMonitor::Ptr create();
+  
+  virtual bool init() = 0;
+  virtual sigc::signal<void,  const NetworkInterfaceInfo &> &signal_interface_changed() = 0;
 
 private:
-  static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
-
-private:
-  std::string adapter;
-  GInetAddress *local_address;
-  GSocketAddress *multicast_address;
-  GSocket *socket;
-  GSource *source;
-  sigc::signal<void, int, void *> multicast_data_signal;
 };
 
 #endif
-#endif // GIOMULTICASTSOCKET_HH

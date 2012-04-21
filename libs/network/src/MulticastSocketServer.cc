@@ -1,6 +1,6 @@
-// SocketDriver.hh
+// UnixNetworkInterfaceMonitor.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOCKETEXCEPTION_HH
-#define SOCKETEXCEPTION_HH
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include "Exception.hh"
+#include "GIOMulticastSocketServer.hh"
 
-using namespace workrave;
+using namespace workrave::network;
 
-//! Socket exception
-class SocketException : public Exception
+MulticastSocketServer::Ptr
+MulticastSocketServer::create()
 {
-public:
-  explicit SocketException(const std::string &detail) :
-    Exception(detail)
-  {
-  }
-
-  virtual ~SocketException() throw()
-  {
-  }
-};
-
-#endif // SOCKETEXCEPTION_HH
+  return MulticastSocketServer::Ptr(new GIOMulticastSocketServer());
+}

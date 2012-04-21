@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 
@@ -17,7 +17,7 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-SUBDIRS =      m4 po common backend frontend 
+SUBDIRS =      m4 po common libs backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.xml

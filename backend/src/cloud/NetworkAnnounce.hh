@@ -1,6 +1,6 @@
-// MulticastServer.hh
+// NetworkAnnounce.hh --- Network Announcements
 //
-// Copyright (C) 2002, 2003, 2005, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IMULTICASTSERVER_HH
-#define IMULTICASTSERVER_HH
+#ifndef NETWORKANNOUNCE_HH
+#define NETWORKANNOUNCE_HH
 
-#include <sigc++/sigc++.h>
+#include <string>
 
-//! Multicast Server.
-class IMulticastServer
+#include "WRID.hh"
+#include "MulticastSocketServer.hh"
+
+using namespace workrave;
+using namespace workrave::network;
+
+
+//! Main entry point of all networking functionality.
+class NetworkAnnounce
 {
 public:
-  virtual ~IMulticastServer() {};
+  NetworkAnnounce(const WRID &my_id);
+  virtual ~NetworkAnnounce();
 
-  //! Initializes multicast server
-  virtual void init() = 0;
+  // Core internal
+  void init();
+  void terminate();
+  void heartbeat();
 
-  //! Multicast data.
-  virtual void send(const gchar *buf, gsize count) = 0;
+private:
+  void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
+
+private:
+  //! My ID
+  WRID my_id;
 
   //!
-  virtual sigc::signal<void, int, void *> &signal_multicast_data() = 0;
+  MulticastSocketServer::Ptr multicast_server;
 };
 
-#endif // IMULTICASTSERVER_HH
+#endif // NETWORKANNOUNCE_HH

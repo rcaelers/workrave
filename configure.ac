@@ -767,27 +767,24 @@ AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
 
 
 dnl
-dnl GIO/GNet2 networking
+dnl GIO networking
 dnl
 
 config_distribution=no
-have_gnet=no
 
 if test "x$enable_distribution" != "xno"
 then
+  PKG_CHECK_MODULES([PROTOBUF], [protobuf >= 2.4])
+  AC_PATH_PROG([PROTOC], [protoc], [AC_MSG_ERROR([protoc is not found])])
+  
   PKG_CHECK_MODULES([GIO],
                     [gio-2.0 >= 2.22.0],
                     [config_distribution=yes
+		     have_gio_net=yes
                      AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
-                    [PKG_CHECK_MODULES([GNET],
-                                       [gnet-2.0],
-                                       [config_distribution=yes
-                                        have_gnet=yes
-                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available])
-                                        AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
-                                       [if test "x$enable_distribution" = "xyes"; then
-                                          AC_MSG_ERROR([GIO/GNet development headers not found.])
-                                        fi])])
+ 		     [if test "x$enable_distribution" = "xyes"; then
+                     	  AC_MSG_ERROR([GIO development headers not found.])
+                     fi])
 fi
 
 if test $config_distribution = yes
@@ -796,7 +793,17 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
-AM_CONDITIONAL(HAVE_GNET, test $have_gnet = yes)
+AM_CONDITIONAL(HAVE_GIO_NET, test $have_gio_net = yes)
+
+AC_CHECK_HEADER(linux/netlink.h,
+have_netlink=yes
+AC_DEFINE([HAVE_NETLINK],[],[Define for Linux Netlink is available])
+, [], [
+#include <sys/socket.h>
+#include <asm/types.h>
+])
+
+AM_CONDITIONAL(HAVE_NETLINK, test x"$have_netlink" = "xyes")
 
 
 dnl
@@ -984,9 +991,16 @@ dnl Makefile output
 dnl
 
 AC_CONFIG_FILES([Makefile
+             libs/Makefile
+             libs/network/Makefile
+             libs/network/include/Makefile
+             libs/network/src/Makefile
+             libs/network/src/unix/Makefile
+             libs/network/src/win32/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
+             backend/src/cloud/Makefile
 	     backend/src/org.workrave.gschema.xml.in
              backend/src/unix/Makefile
              backend/src/osx/Makefile

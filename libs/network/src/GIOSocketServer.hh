@@ -25,18 +25,21 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-#include "ISocketServer.hh"
+#include "SocketServer.hh"
 
 //! Listen socket implementation using GIO
-class GIOSocketServer
-  : public ISocketServer
+class GIOSocketServer : public workrave::network::SocketServer
 {
+public:
+  typedef boost::shared_ptr<GIOSocketServer> Ptr;
+  
 public:
   GIOSocketServer();
   virtual ~GIOSocketServer();
 
-  // ISocketServer interface
-  virtual void listen(int port);
+  // SocketServer interface
+  virtual bool init(int port);
+  virtual sigc::signal<void, workrave::network::Socket::Ptr> &signal_accepted();
 
 private:
   static gboolean static_socket_incoming(GSocketService *service,
@@ -44,9 +47,9 @@ private:
                                          GObject *src_object,
                                          gpointer user_data);
 
-
 private:
   GSocketService *service;
+  sigc::signal<void, workrave::network::Socket::Ptr> accepted_signal;
 };
 
 #endif

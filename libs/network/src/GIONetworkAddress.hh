@@ -1,3 +1,4 @@
+// NetworkAddress.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,41 +17,44 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef INETWORKINTERFACEMONITOR_HH
-#define INETWORKINTERFACEMONITOR_HH
+#ifndef GIONETWORKADDRESS_HH
+#define GIONETWORKADDRESS_HH
 
-#include <map>
 #include <string>
-#include <sigc++/sigc++.h>
 
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
 
-//! 
-class INetworkInterfaceMonitor
+#include <boost/shared_ptr.hpp>
+
+#include <sigc++/sigc++.h>
+
+#include "NetworkAddress.hh"
+
+class GIONetworkAddress : public workrave::network::NetworkAddress
 {
 public:
-  virtual ~INetworkInterfaceMonitor() {}
+  typedef boost::shared_ptr<GIONetworkAddress> Ptr;
 
-  class NetworkInterfaceChange
-  {
-  public:
-    NetworkInterfaceChange() {}
-    
-    std::string name;
-    GInetAddress *address;
-    bool valid;
+public:
+  GIONetworkAddress();
+  GIONetworkAddress(const std::string &ip, int port);
+  GIONetworkAddress(GSocketAddress *address);
+  GIONetworkAddress(GInetAddress *inet_address);
+  GIONetworkAddress(const GIONetworkAddress &other);
+  ~GIONetworkAddress();
 
-  private:
-    NetworkInterfaceChange(const NetworkInterfaceChange &other);
-    NetworkInterfaceChange &operator=(const NetworkInterfaceChange &);
-  };
+  GSocketAddress *address() const;
+  GInetAddress *inet_address() const;
+  int port() const;
+  GSocketFamily family() const;
   
-  virtual bool init() = 0;
-  virtual sigc::signal<void,  const NetworkInterfaceChange &> &signal_interface_changed() = 0;
-
+  bool operator==(const NetworkAddress &other);
+  GIONetworkAddress& operator=(const GIONetworkAddress &other);
+  
 private:
+  GSocketAddress *socket_address;
 };
 
 #endif

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2009, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		
@@ -18,7 +18,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
 			@GTK_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -43,7 +43,7 @@ $(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
+			@GTK_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@DBUS_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE}
 endif

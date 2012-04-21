@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2004, 2006, 2009, 2010 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2004, 2006, 2009, 2010, 2012 Rob Caelers & Raymond Penners
 #
 #
 
@@ -28,7 +28,6 @@ EXTRA_DIST =	cmake/CMakeLists.txt \
 		win32/README \
 		win32/crossbuilder/build-cross.sh \
 		win32/crossbuilder/build-packages.sh \
-		win32/crossbuilder/gnet-2.0.8.diff \
 		win32/crossbuilder/mingw-utils-0.3.diff \
 		win32/crossbuilder/mingw32 \
 		win32/tinderbox/Makefile \

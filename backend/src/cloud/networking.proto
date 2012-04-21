@@ -1,0 +1,6 @@
+package networking;
+
+message Hello
+{
+	required string address = 1;
+}

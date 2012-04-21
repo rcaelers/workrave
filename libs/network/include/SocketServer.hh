@@ -1,5 +1,6 @@
+// SocketServer.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,26 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKINTERFACEMONITORBASE_HH
-#define NETWORKINTERFACEMONITORBASE_HH
+#ifndef SOCKETSERVER_HH
+#define SOCKETSERVER_HH
 
-#include <map>
+#include <sigc++/sigc++.h>
+#include <boost/shared_ptr.hpp>
 
-#include "INetworkInterfaceMonitor.hh"
+#include "Socket.hh"
 
-//! 
-class NetworkInterfaceMonitorBase : public INetworkInterfaceMonitor
+namespace workrave
 {
-public:
-  virtual ~NetworkInterfaceMonitorBase() {}
-  
-  virtual sigc::signal<void, const NetworkInterfaceChange &> &signal_interface_changed()
+  namespace network
   {
-    return interface_changed_signal;
+    class SocketServer
+    {
+    public:
+      typedef boost::shared_ptr<SocketServer> Ptr;
+  
+    public:
+      static Ptr create();
+
+      virtual ~SocketServer() {};
+     
+      virtual bool init(int port) = 0;
+      virtual sigc::signal<void, Socket::Ptr> &signal_accepted() = 0;
+    };
   }
+}
 
-protected:
-  sigc::signal<void, const NetworkInterfaceChange &> interface_changed_signal;
-};
-
-#endif
+#endif // SOCKETSERVER_HH

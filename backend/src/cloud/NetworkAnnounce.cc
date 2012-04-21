@@ -29,21 +29,20 @@
 
 #include "NetworkAnnounce.hh"
 
-#include "GIOMulticastServer.hh"
-#include "UnixNetworkInterfaceMonitor.hh"
-#include "NetlinkNetworkInterfaceMonitor.hh"
-
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 #include "Util.hh"
 
+#include "networking.pb.h"
+
 using namespace std;
 using namespace workrave;
+using namespace workrave::network;
 
 //! Constructs a network announcer
 NetworkAnnounce::NetworkAnnounce(const WRID &my_id) : my_id(my_id)
 {
-  multicast_server = new GIOMulticastServer("239.160.181.73", "ff15::1:145", 27273);
+  multicast_server = MulticastSocketServer::create();
 }
 
 //! Destructs the network announcer
@@ -56,8 +55,8 @@ void
 NetworkAnnounce::init()
 {
   TRACE_ENTER("NetworkAnnounce::init");
-  multicast_server->init();
-  multicast_server->signal_multicast_data().connect(sigc::mem_fun(*this, &NetworkAnnounce::on_multicast_data));
+  multicast_server->init("239.160.181.73", "ff15::1:145", 27273);
+  multicast_server->signal_data().connect(sigc::mem_fun(*this, &NetworkAnnounce::on_data));
   TRACE_EXIT();
 }
 
@@ -71,20 +70,29 @@ NetworkAnnounce::terminate()
 }
 
 
-//! Periodic heartbear from the core.
+//! Periodic heartbeart from the core.
 void
 NetworkAnnounce::heartbeat()
 {
   TRACE_ENTER("NetworkAnnounce::heartbeat");
-  multicast_server->send("Boe\n", 5);
+
+  networking::Hello hello;
+
+  hello.set_address("foo");
+  TRACE_MSG(hello.ByteSize());
+
+  multicast_server->send(hello.SerializeAsString().c_str(), hello.ByteSize());
   TRACE_EXIT();
 }
 
 
 //!
 void
-NetworkAnnounce::on_multicast_data(int size, void *data)
+NetworkAnnounce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
 {
-  (void) size;
-  printf(">> %s", data);
+  (void) na;
+  networking::Hello hello;
+
+  hello.ParseFromArray(data, size);
+  printf(">> %s", hello.address().c_str());
 }

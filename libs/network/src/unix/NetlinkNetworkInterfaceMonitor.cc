@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "debug.hh"
+#include "GIONetworkAddress.hh"
 #include "NetlinkNetworkInterfaceMonitor.hh"
 
 using namespace std;
@@ -247,6 +248,7 @@ NetlinkNetworkInterfaceMonitor::next_state()
     }
 }
 
+
 void
 NetlinkNetworkInterfaceMonitor::process_newlink(struct nlmsghdr* header)
 {
@@ -275,21 +277,15 @@ NetlinkNetworkInterfaceMonitor::process_newlink(struct nlmsghdr* header)
         }
     }
 
-  g_debug("NETLINK: new link: family %d, type %d, index %d, flags %x, change %d, name %s",
-          ifi->ifi_family, ifi->ifi_type, ifi->ifi_index, ifi->ifi_flags, ifi->ifi_change, adapter.name.c_str());
-  
-  
   verify_network_adapter(adapter);
 }
+
 
 void
 NetlinkNetworkInterfaceMonitor::process_dellink(struct nlmsghdr* header)
 {
   struct ifinfomsg *ifi = (struct ifinfomsg *) NLMSG_DATA(header);
 
-  // g_debug("NETLINK: remove link: family %d, type %d, index %d, flags %dm chnge %d",
-  //         ifi->ifi_family, ifi->ifi_type, ifi->ifi_index, ifi->ifi_flags, ifi->ifi_change);
-  
   NetworkAdapter &adapter = adapters[ifi->ifi_index];
   adapter.valid = false;
   verify_network_adapter(adapter);
@@ -297,14 +293,12 @@ NetlinkNetworkInterfaceMonitor::process_dellink(struct nlmsghdr* header)
   adapters.erase(ifi->ifi_index);
 }
 
+
 void
 NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
 {
   struct ifaddrmsg *ifa = (struct ifaddrmsg *) NLMSG_DATA(header);  
 
-  // g_debug("NETLINK: address: family %d, prefixlen %d, flags %dm, scope %d, index %d",
-  //         ifa->ifa_family, ifa->ifa_prefixlen, ifa->ifa_flags, ifa->ifa_scope, ifa->ifa_index);
-    
   struct rtattr *rta_address = NULL;
   struct rtattr *rta = IFA_RTA(ifa);
   uint32_t rtalen = IFA_PAYLOAD(header);
@@ -363,6 +357,7 @@ NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
     }
 }
 
+
 void
 NetlinkNetworkInterfaceMonitor::verify_network_adapter(NetworkAdapter &network_hardware)
 {
@@ -371,6 +366,7 @@ NetlinkNetworkInterfaceMonitor::verify_network_adapter(NetworkAdapter &network_h
       verify_network_interface(i->second);
     }
 }
+
 
 void
 NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &network_interface)
@@ -381,15 +377,16 @@ NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &netwo
     {
       network_interface.valid = valid;
     
-      NetworkInterfaceChange event;
+      NetworkInterfaceInfo event;
   
-      event.address = network_interface.address;
+      event.address = GIONetworkAddress::Ptr(new GIONetworkAddress(network_interface.address));
       event.name = network_interface.adapter->name;
       event.valid = valid;
   
       interface_changed_signal.emit(event);
     }
 }
+
 
 GInetAddress *
 NetlinkNetworkInterfaceMonitor::create_inet_address(GSocketFamily family, struct rtattr *rta)

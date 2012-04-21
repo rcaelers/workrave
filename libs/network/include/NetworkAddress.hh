@@ -1,4 +1,4 @@
-// NetworkAnnounce.hh --- Network Announcements
+// NetworkAddress.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,45 +17,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKANNOUNCE_HH
-#define NETWORKANNOUNCE_HH
+#ifndef NETWORKADDRESS_HH
+#define NETWORKADDRESS_HH
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 
-#include "WRID.hh"
-
-// Forward declarion of external interfaces.
 namespace workrave
 {
-  class WRID;
+  namespace network
+  {
+    class NetworkAddress
+    {
+    public:
+      typedef boost::shared_ptr<NetworkAddress> Ptr;
+  
+    public:
+      static Ptr create(const std::string &host, int port = 0);
+
+      virtual ~NetworkAddress() {}
+
+      virtual bool operator==(const NetworkAddress &other) = 0;
+    };
+  }
 }
-using namespace workrave;
 
-
-// Forward declarion of internal interfaces.
-class IMulticastServer;
-
-//! Main entry point of all networking functionality.
-class NetworkAnnounce
-{
-public:
-  NetworkAnnounce(const WRID &my_id);
-  virtual ~NetworkAnnounce();
-
-  // Core internal
-  void init();
-  void terminate();
-  void heartbeat();
-
-private:
-  void on_multicast_data(int size, void *data);
-
-private:
-  //! My ID
-  WRID my_id;
-
-  //!
-  IMulticastServer *multicast_server;
-};
-
-#endif // NETWORKANNOUNCE_HH
+#endif

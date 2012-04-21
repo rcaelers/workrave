@@ -26,10 +26,9 @@
 #include "debug.hh"
 #include "GIOSocketServer.hh"
 #include "GIOSocket.hh"
-#include "SocketException.hh"
 
 using namespace std;
-
+using namespace workrave::network;
 
 //! Creates a new listen socket.
 GIOSocketServer::GIOSocketServer() :
@@ -51,30 +50,34 @@ GIOSocketServer::~GIOSocketServer()
 
 
 //! Listen at the specified port.
-void
-GIOSocketServer::listen(int port)
+bool
+GIOSocketServer::init(int port)
 {
   GError *error = NULL;
-
   service = g_socket_service_new();
-  if (service == NULL)
+  
+  g_socket_listener_add_inet_port(G_SOCKET_LISTENER(service), port, NULL, &error);
+  if (error != NULL)
     {
-      throw SocketException("Failed to create server");
-    }
-
-  gboolean rc = g_socket_listener_add_inet_port(G_SOCKET_LISTENER(service), port, NULL, &error);
-  if (!rc)
-    {
+      g_error_free(error);
       g_object_unref(service);
       service = NULL;
-
-      throw SocketException(string("Failed to listen: ") + error->message);
+      return false;
     }
 
   g_signal_connect(service, "incoming", G_CALLBACK(static_socket_incoming), this);
   g_socket_service_start(service);
 
+  return true;
 }
+
+
+sigc::signal<void, Socket::Ptr> &
+GIOSocketServer::signal_accepted()
+{
+  return accepted_signal;
+}
+
 
 gboolean
 GIOSocketServer::static_socket_incoming(GSocketService *service,
@@ -86,16 +89,11 @@ GIOSocketServer::static_socket_incoming(GSocketService *service,
   (void) service;
   (void) src_object;
 
-  try
-    {
-      GIOSocketServer *ss = (GIOSocketServer *) user_data;
-      GIOSocket *socket =  new GIOSocket(connection);
-      ss->listener->socket_accepted(ss, socket);
-    }
-  catch(...)
-    {
-      // Make sure that no exception reach the glib mainloop.
-    }
+  GIOSocketServer *self = (GIOSocketServer *) user_data;
+  GIOSocket::Ptr socket =  GIOSocket::Ptr(new GIOSocket());
+  socket->init(connection);
+  
+  self->accepted_signal(socket);
 
   TRACE_EXIT();
 	return FALSE;

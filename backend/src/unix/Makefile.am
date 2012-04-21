@@ -11,9 +11,7 @@ if PLATFORM_OS_UNIX
 sourcesxinput = 	UnixInputMonitorFactory.cc \
 			X11InputMonitor.cc \
 			RecordInputMonitor.cc \
-			XScreenSaverMonitor.cc \
-			UnixNetworkInterfaceMonitor.cc \
-			NetlinkNetworkInterfaceMonitor.cc
+			XScreenSaverMonitor.cc
 
 X11LIBS = 		@X_LIBS@
 endif

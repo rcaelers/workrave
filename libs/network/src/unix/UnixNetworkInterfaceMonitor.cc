@@ -32,6 +32,7 @@
 
 #include "debug.hh"
 #include "UnixNetworkInterfaceMonitor.hh"
+#include "GIONetworkAddress.hh"
 
 using namespace std;
 
