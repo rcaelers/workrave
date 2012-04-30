@@ -52,7 +52,8 @@ public:
   virtual bool send(const gchar *buf, gsize count);
   virtual bool receive(gchar *buf, gsize count, gsize &bytes_read, workrave::network::NetworkAddress::Ptr &address);
   virtual void close();
-
+  virtual workrave::network::NetworkAddress::Ptr get_remote_address();
+  
   virtual sigc::signal<void> &signal_io();
   virtual sigc::signal<void> &signal_connected();
   virtual sigc::signal<void> &signal_disconnected();

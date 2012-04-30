@@ -51,10 +51,22 @@ main(int argc, char **argv)
   g_type_init();
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  Network network;
-  network.init();
+  Network network1;
+  network1.init(2701);
 
-  g_timeout_add_seconds(1, on_timer, &network);
+  Network network2;
+  network2.init(2702);
+  network2.connect("localhost", 2701);
+  
+  Network network3;
+  network3.init(2703);
+  network3.connect("localhost", 2701);
+
+  Network network4;
+  network4.init(2704);
+  network4.connect("localhost", 2703);
+  
+  g_timeout_add_seconds(1, on_timer, &network1);
   g_main_loop_run(loop);
   
   return 0;

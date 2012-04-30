@@ -100,6 +100,8 @@ GIOSocket::init(GSocketConnection *connection)
   g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
   g_source_attach(source, NULL);
   g_source_unref(source);
+
+  remote_address = g_socket_get_remote_address(socket, NULL);
 }
 
 
@@ -368,7 +370,7 @@ GIOSocket::static_connected_callback(GObject *source_object, GAsyncResult *resul
 
       g_socket_set_blocking(self->socket, FALSE);
       g_socket_set_keepalive(self->socket, TRUE);
-      
+
       self->connected_signal.emit();
     }
   TRACE_EXIT();
@@ -430,5 +432,10 @@ GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpoin
   TRACE_EXIT();
 }
 
+NetworkAddress::Ptr
+GIOSocket::get_remote_address()
+{
+  return NetworkAddress::Ptr(new GIONetworkAddress(remote_address));
+}
 
 #endif

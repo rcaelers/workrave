@@ -37,7 +37,7 @@ using namespace workrave;
 
 
 // Forward declarion of internal interfaces.
-class NetworkAnnounce;
+class NetworkRouter;
 
 //! Main entry point of all networking functionality.
 class Network
@@ -48,7 +48,8 @@ public:
   virtual ~Network();
 
   // Core internal
-  void init();
+  void init(int port);
+  void connect(std::string host, int port);
   void terminate();
   void heartbeat();
 
@@ -59,8 +60,10 @@ private:
   //! My ID
   WRID my_id;
 
-  //! Workrave announcer
-  NetworkAnnounce *announcer;
+  //! Workrave router
+  NetworkRouter *router;
+
+  int port;
   
 #ifdef HAVE_TESTS
   friend class Test;

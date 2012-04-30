@@ -38,6 +38,7 @@ namespace workrave
       virtual ~NetworkAddress() {}
 
       virtual bool operator==(const NetworkAddress &other) = 0;
+      virtual const std::string str() = 0;
     };
   }
 }

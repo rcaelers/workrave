@@ -24,11 +24,12 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "debug.hh"
 
 #include "Network.hh"
-#include "NetworkAnnounce.hh"
+#include "NetworkRouter.hh"
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -39,30 +40,54 @@ using namespace std;
 using namespace workrave;
 
 //! Constructs a network wrapper
-Network::Network() 
+Network::Network() : router(NULL)
 {
-  init_my_id();
-
-  announcer = new NetworkAnnounce(my_id);
 }
 
 
 //! Destructs the network wrapper
 Network::~Network()
 {
-  delete announcer;
+  delete router;
 }
 
 
 //! Initializes the network wrapper.
 void
-Network::init()
+Network::init(int port)
 {
   TRACE_ENTER("Network::init");
 
-  announcer->init();
+  this->port = port;
+  init_my_id();
+
+  router = new NetworkRouter(my_id);
+  
+  router->init(port);
   
   TRACE_EXIT();
+}
+
+//! Connects to a remote workrave.
+void
+Network::connect(string host, int port)
+{
+  return router->connect(host, port);
+}
+
+//! Terminates the networking
+void
+Network::terminate()
+{
+  TRACE_ENTER("Network::terminate");
+  TRACE_EXIT();
+}
+
+//! Periodic heartbear from the core.
+void
+Network::heartbeat()
+{
+  router->heartbeat();
 }
 
 //! Initializes the network wrapper.
@@ -71,7 +96,10 @@ Network::init_my_id()
 {
   TRACE_ENTER("Network::init_my_id");
   bool ok = false;
-  string idfilename = Util::get_home_directory() + "id";
+  stringstream ss;
+
+  ss << Util::get_home_directory() << "id-" << port << ends;
+  string idfilename = ss.str();
 
   if (Util::file_exists(idfilename))
     {
@@ -102,20 +130,3 @@ Network::init_my_id()
   TRACE_EXIT();
 }
 
-
-
-//! Terminates the networking
-void
-Network::terminate()
-{
-  TRACE_ENTER("Network::terminate");
-  TRACE_EXIT();
-}
-
-
-//! Periodic heartbear from the core.
-void
-Network::heartbeat()
-{
-  announcer->heartbeat();
-}

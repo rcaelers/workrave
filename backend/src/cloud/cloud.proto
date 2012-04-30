@@ -1,0 +1,111 @@
+package cloud;
+
+message Domain
+{
+    extensions 100 to max;
+}
+
+
+message ActivityState
+{
+    extend Domain
+    {
+        required Domain type = 100;
+    }
+    
+    required int32 state = 1;
+}
+
+message Break
+{
+    extend Domain
+    {
+        required Domain type = 101;
+    }
+
+    enum BreakEvent
+    {
+        // No event
+        BREAK_EVENT_NONE = 1;
+
+        // The user choose to postpone a break
+        BREAK_EVENT_USER_POSTPONE = 2;
+
+        // The user choose to skip a break
+        BREAK_EVENT_USER_SKIP = 3;
+
+        // The user chooses to start the break manually
+        BREAK_EVENT_USER_FORCE_BREAK = 4;
+
+        // The system force a break upon the user
+        BREAK_EVENT_SYST_FORCE_BREAK = 5;
+
+        // The prelude windows was removed prematurely
+        BREAK_EVENT_SYST_STOP_PRELUDE = 6;
+    }
+
+
+    required int32 break_id = 1;
+
+    required BreakEvent break_event = 2;
+}
+
+message Configuration
+{
+    extend Domain
+    {
+        required Domain type = 102;
+    }
+
+    enum Reason
+    {
+      INITIAL = 1;
+      USER = 2;
+      RESOLVED = 3;
+    }
+    
+    message Setting
+    {
+        required string key = 1;
+        required string value = 2;
+    }
+
+    repeated Setting changes = 1;
+    required Reason reason = 2;
+}
+
+message Core
+{
+    extend Domain
+    {
+        required Domain type = 103;
+    }
+
+    enum CoreEvent
+     {
+      //! No event
+      CORE_EVENT_NONE = 1;
+
+      //! Operation mode change to suspended
+      CORE_EVENT_MODE_SUSPENDED = 2;
+
+      //! Operation mode change to quiet
+      CORE_EVENT_MODE_QUIET = 3;
+
+      //! Operation mode change to normal
+      CORE_EVENT_MODE_NORMAL = 4;
+    };
+
+    required CoreEvent event = 1;
+}
+
+message Timer
+{
+    extend Domain
+    {
+        required Domain type = 104;
+    }
+
+    repeated int32 idle_times = 1;
+    repeated int32 active_times = 2;
+}

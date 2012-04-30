@@ -264,11 +264,10 @@ Core::init_bus()
 void
 Core::init_networking()
 {
-#ifdef HAVE_DISTRIBUTION
-  network = new Network();
-  network->init();
-
 #ifdef HAVE_BROKEN_DISTRIBUTION  
+  network = new Network();
+  network->init(27273);
+
   network->subscribe("breaklinkevent", this);
   network->subscribe("corelinkevent", this);
   network->subscribe("timerstatelinkevent", this);
@@ -278,7 +277,6 @@ Core::init_networking()
     {
       network->report_timer_state(i, false);
     }
-#endif  
 #endif
 }
 

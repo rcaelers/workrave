@@ -23,6 +23,8 @@
 
 #if defined(HAVE_GIO_NET)
 
+#include <sstream>
+
 #include "debug.hh"
 #include "GIONetworkAddress.hh"
 
@@ -126,5 +128,20 @@ GIONetworkAddress::operator=(const GIONetworkAddress &other)
     }
   return *this;
 
+}
+
+const string
+GIONetworkAddress::str()
+{
+  string ret;
+  
+  gchar *addr = g_inet_address_to_string(inet_address());
+
+  stringstream ss;
+  ss << addr << ":" << port() << ends;
+  ret = ss.str();
+
+  //g_free(addr);
+  return ret;
 }
 #endif

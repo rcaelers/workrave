@@ -160,7 +160,7 @@ CLEANFILES = org.workrave.Workrave.service
 dbussources = DBusGUI.cc DBusGUI.hh
 
 if HAVE_DBUS_GIO
-dbussources += 	GenericDBusApplet.cc
+extrasources += 	GenericDBusApplet.cc
 endif
 
 BUILT_SOURCES = $(dbussources)

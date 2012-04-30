@@ -18,50 +18,53 @@
 //
 //
 
+static const char rcsid[] = "$Id$";
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include <iostream>
-#include <fstream>
+#include <string>
+#include <boost/shared_ptr.hpp>
 
 #include "debug.hh"
 
 #include "NetworkAnnounce.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "Util.hh"
-
-#include "networking.pb.h"
-
 using namespace std;
-using namespace workrave;
-using namespace workrave::network;
 
-//! Constructs a network announcer
-NetworkAnnounce::NetworkAnnounce(const WRID &my_id) : my_id(my_id)
+NetworkAnnounce::Ptr
+NetworkAnnounce::create()
 {
-  multicast_server = MulticastSocketServer::create();
+  return NetworkAnnounce::Ptr(new NetworkAnnounce());
 }
 
-//! Destructs the network announcer
+
+NetworkAnnounce::NetworkAnnounce()
+{
+  TRACE_ENTER("NetworkAnnounce::NetworkAnnounce");
+  multicast_server = MulticastSocketServer::create();
+  TRACE_EXIT();
+}
+
+
 NetworkAnnounce::~NetworkAnnounce()
 {
+  TRACE_ENTER("NetworkAnnounce::~NetworkAnnounce");
+  TRACE_EXIT();
 }
 
-//! Initializes the network announcer.
+
 void
-NetworkAnnounce::init()
+NetworkAnnounce::init(int port)
 {
   TRACE_ENTER("NetworkAnnounce::init");
-  multicast_server->init("239.160.181.73", "ff15::1:145", 27273);
+  multicast_server->init("239.160.181.73", "ff15::1:145", port);
   multicast_server->signal_data().connect(sigc::mem_fun(*this, &NetworkAnnounce::on_data));
   TRACE_EXIT();
 }
 
 
-//! Terminates the network announcer.
 void
 NetworkAnnounce::terminate()
 {
@@ -70,29 +73,25 @@ NetworkAnnounce::terminate()
 }
 
 
-//! Periodic heartbeart from the core.
 void
-NetworkAnnounce::heartbeat()
+NetworkAnnounce::send_message(const std::string &message)
 {
-  TRACE_ENTER("NetworkAnnounce::heartbeat");
-
-  networking::Hello hello;
-
-  hello.set_address("foo");
-  TRACE_MSG(hello.ByteSize());
-
-  multicast_server->send(hello.SerializeAsString().c_str(), hello.ByteSize());
+  TRACE_ENTER("NetworkAnnounce::send_message");
+  multicast_server->send(message.c_str(), message.length());
   TRACE_EXIT();
 }
-
 
 //!
 void
 NetworkAnnounce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
 {
-  (void) na;
-  networking::Hello hello;
+  TRACE_ENTER("NetworkRouter::on_multicast_data");
+  data_signal.emit(size, data, na);
+  TRACE_EXIT();
+}
 
-  hello.ParseFromArray(data, size);
-  printf(">> %s", hello.address().c_str());
+sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &
+NetworkAnnounce::signal_data()
+{
+  return data_signal;
 }

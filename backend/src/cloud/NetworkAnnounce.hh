@@ -1,6 +1,6 @@
-// NetworkAnnounce.hh --- Network Announcements
+// NetworkAnnounce.hh --- Networking network server
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,35 +21,42 @@
 #define NETWORKANNOUNCE_HH
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 
-#include "WRID.hh"
 #include "MulticastSocketServer.hh"
 
 using namespace workrave;
 using namespace workrave::network;
 
-
-//! Main entry point of all networking functionality.
 class NetworkAnnounce
 {
 public:
-  NetworkAnnounce(const WRID &my_id);
+  typedef boost::shared_ptr<NetworkAnnounce> Ptr;
+
+public:
+  static Ptr create();
+
+  NetworkAnnounce();
   virtual ~NetworkAnnounce();
 
   // Core internal
-  void init();
+  void init(int port);
   void terminate();
-  void heartbeat();
 
+  void send_message(const std::string &message);
+ 
+  sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &signal_data();
+ 
 private:
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
-
+  
 private:
-  //! My ID
-  WRID my_id;
+  //! Default server
+  MulticastSocketServer::Ptr multicast_server;
 
   //!
-  MulticastSocketServer::Ptr multicast_server;
+  sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> data_signal;
 };
+
 
 #endif // NETWORKANNOUNCE_HH

@@ -53,6 +53,8 @@ namespace workrave
       //! Closes the connection.
       virtual void close() = 0;
 
+      virtual NetworkAddress::Ptr get_remote_address() = 0;
+      
       virtual sigc::signal<void> &signal_io() = 0;
       virtual sigc::signal<void> &signal_connected() = 0;
       virtual sigc::signal<void> &signal_disconnected() = 0;

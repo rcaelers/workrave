@@ -8,16 +8,20 @@ MAINTAINERCLEANFILES = 	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-backend-cloud.la
 
 if HAVE_DISTRIBUTION
-sources	 = 		Network.cc \
+sources	 = 		ByteStream.cc \
+			Network.cc \
+			NetworkRouter.cc \
+			NetworkDirectLink.cc \
 			NetworkAnnounce.cc \
-			networking.pb.cc
+			workrave.pb.cc \
+			cloud.pb.cc
 
 SUFFIXES = .proto .pb.cc
 
 .proto.pb.cc:
 			$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
 
-BUILT_SOURCES = networking.pb.cc networking.pb.h
+BUILT_SOURCES = cloud.pb.cc cloud.pb.h workrave.pb.cc workrave.pb.h
 
 endif
 

@@ -1,0 +1,14 @@
+package workrave;
+
+message Header
+{
+    required string source = 1;
+
+    optional string destination = 2;
+
+    optional int32 domain = 3 [default = 1];
+
+    required int32 payload = 4;
+
+    optional int32 priority = 16 [default = 100];
+}
