@@ -42,7 +42,7 @@ public:
   virtual ~ByteStream();
 
   void init(gsize len);
-  void rewind();
+  void reset();
   gchar *get_write_buffer();
   gchar *get_read_buffer();
   void advance_read_buffer(gsize size);
@@ -50,7 +50,6 @@ public:
   gsize get_read_buffer_size() const;
   gsize get_write_buffer_size() const;
   void resize(gsize new_size);
-  void reserve(gsize resevered_size);
   
   // implements ZeroCopyInputStream
   virtual bool Next(const void **data, int *size);

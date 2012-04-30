@@ -86,11 +86,16 @@ void
 NetworkAnnounce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
 {
   TRACE_ENTER("NetworkRouter::on_multicast_data");
-  data_signal.emit(size, data, na);
+
+  NetworkClient::Ptr info = NetworkClient::create(NetworkClient::SCOPE_MULTICAST);
+  info->state = NetworkClient::CONNECTION_STATE_CONNECTED;
+  info->address = na;
+
+  data_signal.emit(size, data, info);
   TRACE_EXIT();
 }
 
-sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &
+sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &
 NetworkAnnounce::signal_data()
 {
   return data_signal;

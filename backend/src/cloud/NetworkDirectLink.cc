@@ -31,12 +31,18 @@
 
 using namespace std;
 
+NetworkDirectLink::NetworkDirectLinkClient::Ptr
+NetworkDirectLink::NetworkDirectLinkClient::create(NetworkClient::Scope scope)
+{
+  return NetworkDirectLink::NetworkDirectLinkClient::Ptr(new NetworkDirectLink::NetworkDirectLinkClient(scope));
+}
+
+
 NetworkDirectLink::Ptr
 NetworkDirectLink::create()
 {
   return NetworkDirectLink::Ptr(new NetworkDirectLink());
 }
-
 
 NetworkDirectLink::NetworkDirectLink()
 {
@@ -79,17 +85,11 @@ NetworkDirectLink::connect(const string &host, int port)
   Socket::Ptr socket = Socket::create();
   socket->connect(host, port);
 
-  ConnectionInfo::Ptr info(new ConnectionInfo());
-  info->state = CONNECTION_STATE_CONNECTING;
-  info->socket = socket;
-  info->address = socket->get_remote_address();
-  info->stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
-  connections.push_back(info);
-
+  NetworkDirectLinkClient::Ptr info = create_info_for_socket(socket, NetworkClient::CONNECTION_STATE_CONNECTING);
+  
   socket->signal_io().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_data), info));
   socket->signal_connected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_connected), info));
   socket->signal_disconnected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_disconnected), info));
-
   
   TRACE_EXIT();
 }
@@ -105,10 +105,59 @@ NetworkDirectLink::send_message(const string &message)
   // Send to remote workraves.
   for (ConnectionIter i = connections.begin(); i != connections.end(); i++)
     {
-      boost::shared_ptr<ConnectionInfo> info = *i;
+      boost::shared_ptr<NetworkDirectLinkClient> info = *i;
 
+      TRACE_MSG("send");
       info->socket->write((gchar *) (&length), 2);
       info->socket->write(message.c_str(), message.length());
+    }
+  TRACE_EXIT();
+}
+
+
+// TODO: merge with send_message
+void
+NetworkDirectLink::send_message_to(const std::string &message, NetworkClient::Ptr client)
+{
+  TRACE_ENTER("NetworkDirectLink::send_message_to");
+
+  guint16 length = GINT16_TO_BE(message.length());
+
+  // Send to remote workraves.
+  for (ConnectionIter i = connections.begin(); i != connections.end(); i++)
+    {
+      boost::shared_ptr<NetworkDirectLinkClient> info = *i;
+
+      if (info == client)
+        {
+          TRACE_MSG("send");
+          info->socket->write((gchar *) (&length), 2);
+          info->socket->write(message.c_str(), message.length());
+        }
+    }
+  TRACE_EXIT();
+}
+
+
+// TODO: merge with send_message
+void
+NetworkDirectLink::send_message_except(const std::string &message, NetworkClient::Ptr client)
+{
+  TRACE_ENTER("NetworkDirectLink::send_message_except");
+
+  guint16 length = GINT16_TO_BE(message.length());
+
+  // Send to remote workraves.
+  for (ConnectionIter i = connections.begin(); i != connections.end(); i++)
+    {
+      boost::shared_ptr<NetworkDirectLinkClient> info = *i;
+
+      if (info != client)
+        {
+          TRACE_MSG("send");
+          info->socket->write((gchar *) (&length), 2);
+          info->socket->write(message.c_str(), message.length());
+        }
     }
   TRACE_EXIT();
 }
@@ -119,12 +168,7 @@ void
 NetworkDirectLink::on_accepted(Socket::Ptr socket)
 {
   TRACE_ENTER("NetworkDirectLink::on_accepted");
-  ConnectionInfo::Ptr info(new ConnectionInfo());
-  info->state = CONNECTION_STATE_CONNECTED;
-  info->socket = socket;
-  info->address = socket->get_remote_address();
-  info->stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
-  connections.push_back(info);
+  NetworkDirectLinkClient::Ptr info = create_info_for_socket(socket, NetworkClient::CONNECTION_STATE_CONNECTED);
 
   socket->signal_io().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_data), info));
   socket->signal_connected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_connected), info));
@@ -134,27 +178,28 @@ NetworkDirectLink::on_accepted(Socket::Ptr socket)
 
 
 void
-NetworkDirectLink::on_connected(ConnectionInfo::Ptr info)
+NetworkDirectLink::on_connected(NetworkDirectLinkClient::Ptr info)
 {
   TRACE_ENTER("NetworkDirectLink::on_connected");
-  info->state = CONNECTION_STATE_CONNECTED;
   info->address = info->socket->get_remote_address();
+  info->state = NetworkClient::CONNECTION_STATE_CONNECTED;
+  client_update_signal.emit(info);
   TRACE_EXIT();
 }
 
 
 void
-NetworkDirectLink::on_disconnected(ConnectionInfo::Ptr info)
+NetworkDirectLink::on_disconnected(NetworkDirectLinkClient::Ptr info)
 {
   TRACE_ENTER("NetworkDirectLink::on_disconnected");
-  info->state = CONNECTION_STATE_CLOSING;
   close(info);
   TRACE_EXIT();
 }
 
+
 //!
 void
-NetworkDirectLink::on_data(ConnectionInfo::Ptr info)
+NetworkDirectLink::on_data(NetworkDirectLinkClient::Ptr info)
 {
   TRACE_ENTER("NetworkDirectLink::on_data");
   
@@ -198,7 +243,7 @@ NetworkDirectLink::on_data(ConnectionInfo::Ptr info)
       
       if (packet_size > 0 && packet_size + header_size == info->stream->get_read_buffer_size())
         {
-          data_signal.emit(packet_size, info->stream->get_read_buffer() + header_size, info->address);
+          data_signal.emit(packet_size, info->stream->get_read_buffer() + header_size, info);
           info->stream->init(1024);
         }
     }
@@ -210,7 +255,6 @@ NetworkDirectLink::on_data(ConnectionInfo::Ptr info)
 
   if (error)
     {
-      info->socket->close();
       close(info);
     }
 
@@ -218,16 +262,42 @@ NetworkDirectLink::on_data(ConnectionInfo::Ptr info)
 }
 
 
+NetworkDirectLink::NetworkDirectLinkClient::Ptr
+NetworkDirectLink::create_info_for_socket(Socket::Ptr socket, NetworkClient::State state)
+{
+  NetworkDirectLinkClient::Ptr info = NetworkDirectLinkClient::create(NetworkClient::SCOPE_DIRECT);
+  info->state = state;
+  info->socket = socket;
+  info->address = socket->get_remote_address();
+  info->stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
+  connections.push_back(info);
+  client_update_signal.emit(info);
+  
+  return info;
+}
+
+
 void
-NetworkDirectLink::close(ConnectionInfo::Ptr info)
+NetworkDirectLink::close(NetworkDirectLinkClient::Ptr info)
 {
   TRACE_ENTER("NetworkDirectLink::close");
+  info->state = NetworkClient::CONNECTION_STATE_CLOSED;
+  info->socket->close();
   connections.remove(info);
+  client_update_signal.emit(info);
   TRACE_EXIT()
 }
 
-sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &
+
+sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &
 NetworkDirectLink::signal_data()
 {
   return data_signal;
+}
+
+
+sigc::signal<void, NetworkClient::Ptr> &
+NetworkDirectLink::signal_client_update()
+{
+  return client_update_signal;
 }

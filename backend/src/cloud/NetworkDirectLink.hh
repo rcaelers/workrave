@@ -25,10 +25,11 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "NetworkClient.hh"
+
 #include "SocketServer.hh"
 #include "NetworkAddress.hh"
 #include "ByteStream.hh"
-#include "WRID.hh"
 
 using namespace workrave;
 using namespace workrave::network;
@@ -49,43 +50,40 @@ public:
 
   void connect(const std::string &host, int port);
   void send_message(const std::string &message);
+  void send_message_to(const std::string &message, NetworkClient::Ptr client);
+  void send_message_except(const std::string &message, NetworkClient::Ptr client);
 
-  sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &signal_data();
+  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &signal_data();
+  sigc::signal<void, NetworkClient::Ptr> &signal_client_update();
   
 private:
-  enum ConnectionState
+  class NetworkDirectLinkClient : public NetworkClient
     {
-      CONNECTION_STATE_INVALID,
-      CONNECTION_STATE_CONNECTING,
-      CONNECTION_STATE_CONNECTED,
-      CONNECTION_STATE_AUTHENTICATED,
-      CONNECTION_STATE_CLOSING,
-    };
-    
-  struct ConnectionInfo
-  {
-    typedef boost::shared_ptr<ConnectionInfo> Ptr;
+    public:
+      typedef boost::shared_ptr<NetworkDirectLinkClient> Ptr;
 
-    ConnectionInfo() : state(CONNECTION_STATE_INVALID) {}
+      static Ptr create(Scope scope);
+
+      NetworkDirectLinkClient(Scope scope) : NetworkClient(scope)
+      {
+        stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
+      }
     
-    NetworkAddress::Ptr address;
-    Socket::Ptr socket;
-    boost::shared_ptr<ByteStream> stream;
-    WRID id;
-    ConnectionState state;
+      Socket::Ptr socket;
+      boost::shared_ptr<ByteStream> stream;
   };
     
-  typedef std::list<ConnectionInfo::Ptr> Connections;
-  typedef std::list<ConnectionInfo::Ptr>::iterator ConnectionIter;
-  typedef std::list<ConnectionInfo::Ptr>::const_iterator ConnectionCIter;
+  typedef std::list<NetworkDirectLinkClient::Ptr> Connections;
+  typedef std::list<NetworkDirectLinkClient::Ptr>::iterator ConnectionIter;
+  typedef std::list<NetworkDirectLinkClient::Ptr>::const_iterator ConnectionCIter;
 
   void on_accepted(Socket::Ptr socket);
-  void on_connected(ConnectionInfo::Ptr info);
-  void on_disconnected(ConnectionInfo::Ptr info);
-  void on_data(ConnectionInfo::Ptr info);
+  void on_connected(NetworkDirectLinkClient::Ptr info);
+  void on_disconnected(NetworkDirectLinkClient::Ptr info);
+  void on_data(NetworkDirectLinkClient::Ptr info);
 
-  void close(ConnectionInfo::Ptr info);
-  
+  void close(NetworkDirectLinkClient::Ptr info);
+  NetworkDirectLinkClient::Ptr create_info_for_socket(Socket::Ptr socket, NetworkClient::State state);
   
 private:
   //! Default server
@@ -95,7 +93,10 @@ private:
   Connections connections;
 
   //!
-  sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> data_signal;
+  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> data_signal;
+
+  //!
+  sigc::signal<void, NetworkClient::Ptr> client_update_signal;
 };
 
 

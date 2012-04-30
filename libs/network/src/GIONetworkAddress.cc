@@ -37,17 +37,23 @@ GIONetworkAddress::GIONetworkAddress()
 {
 }
 
-GIONetworkAddress::GIONetworkAddress(const std::string &ip, int port)
+GIONetworkAddress::GIONetworkAddress(const std::string &ip, int port) : socket_address(NULL)
 {
   GInetAddress *inet_address = g_inet_address_new_from_string(ip.c_str());
-  socket_address = g_inet_socket_address_new(inet_address, port);
-  g_object_unref(inet_address);
+  if (inet_address != NULL)
+    {
+      socket_address = g_inet_socket_address_new(inet_address, port);
+      g_object_unref(inet_address);
+    }
 }
 
 GIONetworkAddress::GIONetworkAddress(GSocketAddress *socket_address)
   : socket_address(socket_address)
 {
-  g_object_ref(socket_address);
+  if (socket_address != NULL)
+    {
+      g_object_ref(socket_address);
+    }
 }
 
 GIONetworkAddress::GIONetworkAddress(GInetAddress *inet_address)
@@ -58,7 +64,10 @@ GIONetworkAddress::GIONetworkAddress(GInetAddress *inet_address)
 GIONetworkAddress::GIONetworkAddress(const GIONetworkAddress &other)
 {
   socket_address = other.socket_address;
-  g_object_ref(socket_address);
+  if (socket_address != NULL)
+    {
+      g_object_ref(socket_address);
+    }
 }
 
 GIONetworkAddress::~GIONetworkAddress()
@@ -78,19 +87,31 @@ GIONetworkAddress::address() const
 GInetAddress *
 GIONetworkAddress::inet_address() const
 {
-  return g_inet_socket_address_get_address(G_INET_SOCKET_ADDRESS(socket_address));
+  if (socket_address != NULL)
+    {
+      return g_inet_socket_address_get_address(G_INET_SOCKET_ADDRESS(socket_address));
+    }
+  return NULL; // TODO: return 0.0.0.0
 }
 
 int
 GIONetworkAddress::port() const
 {
-  return g_inet_socket_address_get_port(G_INET_SOCKET_ADDRESS(socket_address));
+  if (socket_address != NULL)
+    {
+      return g_inet_socket_address_get_port(G_INET_SOCKET_ADDRESS(socket_address));
+    }
+  return 0;
 }
 
 GSocketFamily
 GIONetworkAddress::family() const
 {
-  return g_inet_address_get_family(inet_address());
+  if (socket_address != NULL)
+    {
+      return g_inet_address_get_family(inet_address());
+    }
+  return (GSocketFamily)0;
 }
 
 bool
@@ -101,6 +122,7 @@ GIONetworkAddress::operator==(const NetworkAddress &other)
 
   if (otherGio != NULL)
     {
+      // TODO: check NULL
       ret = ( g_inet_address_equal(g_inet_socket_address_get_address(G_INET_SOCKET_ADDRESS(otherGio->socket_address)),
                                    g_inet_socket_address_get_address(G_INET_SOCKET_ADDRESS(socket_address)))  &&
               g_inet_socket_address_get_port(G_INET_SOCKET_ADDRESS(otherGio->socket_address)) ==
@@ -133,15 +155,20 @@ GIONetworkAddress::operator=(const GIONetworkAddress &other)
 const string
 GIONetworkAddress::str()
 {
-  string ret;
-  
-  gchar *addr = g_inet_address_to_string(inet_address());
-
   stringstream ss;
-  ss << addr << ":" << port() << ends;
-  ret = ss.str();
+  GInetAddress *addr = inet_address();
 
-  //g_free(addr);
-  return ret;
+  if (addr != NULL)
+    {
+      gchar *addrstr = g_inet_address_to_string(addr);
+      ss << addrstr << ":";
+      g_free(addrstr);
+    }
+  else
+    {
+      ss << "UNKNOWN:";
+    }
+  ss << port() << ends;
+  return ss.str();
 }
 #endif

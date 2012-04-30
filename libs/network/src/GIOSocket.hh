@@ -68,8 +68,6 @@ private:
   static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
 
 private:
-  const GIONetworkAddress address;
-  
   GResolver *resolver;
   GSocketClient *socket_client;
   GSocketConnection *connection;

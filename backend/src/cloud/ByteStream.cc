@@ -74,6 +74,15 @@ ByteStream::init(gsize size)
   last_returned_size = 0;
 }
 
+//! Initialize the buffer
+void
+ByteStream::reset()
+{
+  read_pos = 0;
+  write_pos = 0;
+  last_returned_size = 0;
+}
+
 bool
 ByteStream::Next(const void** data, int* size)
 {
@@ -196,10 +205,4 @@ ByteStream::resize(gsize new_size)
       data = (gchar*) g_realloc(data, new_size);
       max_size = new_size;
     }
-}
-
-void
-ByteStream::reserve(gsize resevered_size)
-{
-  resize(write_pos +  resevered_size);
 }

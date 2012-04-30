@@ -112,8 +112,6 @@ GIOMulticastSocketServer::on_interface_changed(const NetworkInterfaceMonitor::Ne
       GIOSocket::Ptr socket(new GIOSocket());
       Connection::Ptr connection(new Connection());
 
-      TRACE_MSG(string("Add multicast socket:") << change.name.c_str() << " " << g_inet_address_to_string(change.address->inet_address()));
-      
       connection->adapter_name = change.name;
       connection->local_address = change.address->inet_address();
       connection->socket = socket;

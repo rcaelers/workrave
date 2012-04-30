@@ -40,8 +40,6 @@ using namespace workrave::network;
 class NetworkRouter
 {
 public:
-  enum Scope { SCOPE_DIRECT = 1, SCOPE_MULTICAST = 2, SCOPE_CLOUD = 4 };
-
   NetworkRouter(const WRID &my_id);
   virtual ~NetworkRouter();
 
@@ -51,7 +49,9 @@ public:
   void heartbeat();
 
   void connect(const std::string &host, int port);
-  void send_message(google::protobuf::Message &message, Scope scope);
+  void send_message(google::protobuf::Message &message, NetworkClient::Scope scope);
+  void send_message_to(google::protobuf::Message &message, NetworkClient::Ptr client);
+  void send_message_except(google::protobuf::Message &message, NetworkClient::Ptr client);
 
 private:
   const std::string marshall_message(google::protobuf::Message &message);
@@ -61,7 +61,12 @@ private:
 
   std::string get_namespace_of_domain(int domain);
 
-  void on_data(Scope scope, gsize size, const gchar *data, NetworkAddress::Ptr na);
+  void on_data(gsize size, const gchar *data, NetworkClient::Ptr client);
+  void on_client_changed(NetworkClient::Ptr client);
+  
+  typedef std::list<NetworkClient::Ptr> Clients;
+  typedef std::list<NetworkClient::Ptr>::iterator ClientIter;
+  typedef std::list<NetworkClient::Ptr>::const_iterator ClientCIter;
   
 private:
   //! My ID
@@ -72,6 +77,9 @@ private:
 
   //! 
   NetworkDirectLink::Ptr direct_links;
+
+  //!
+  Clients clients;
 };
 
 

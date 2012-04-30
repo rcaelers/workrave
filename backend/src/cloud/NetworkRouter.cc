@@ -68,8 +68,9 @@ NetworkRouter::init(int port)
   announce->init(port);
   direct_links->init(port);
 
-  announce->signal_data().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkRouter::on_data), SCOPE_MULTICAST));
-  direct_links->signal_data().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkRouter::on_data), SCOPE_DIRECT));
+  announce->signal_data().connect(sigc::mem_fun(*this, &NetworkRouter::on_data));
+  direct_links->signal_data().connect(sigc::mem_fun(*this, &NetworkRouter::on_data));
+  direct_links->signal_client_update().connect(sigc::mem_fun(*this, &NetworkRouter::on_client_changed));
   
   TRACE_EXIT();
 }
@@ -89,14 +90,19 @@ void
 NetworkRouter::heartbeat()
 {
   TRACE_ENTER("NetworkRouter::heartbeat");
-
-  // TODO: debugging code.
-  cloud::Break b;
-  b.set_break_id(1);
-  b.set_break_event(cloud::Break_BreakEvent_BREAK_EVENT_NONE);
+  static bool once = false;
 
   
-  send_message(b, SCOPE_DIRECT);
+  // TODO: debugging code.
+  if (!once)
+    {
+      cloud::Break b;
+      b.set_break_id(1);
+      b.set_break_event(cloud::Break_BreakEvent_BREAK_EVENT_NONE);
+      send_message(b, NetworkClient::SCOPE_DIRECT);
+
+      once = true;
+    }
   
   TRACE_EXIT();
 }
@@ -110,17 +116,17 @@ NetworkRouter::connect(const string &host, int port)
 }
 
 void
-NetworkRouter::send_message(google::protobuf::Message &message, Scope scope)
+NetworkRouter::send_message(google::protobuf::Message &message, NetworkClient::Scope scope)
 {
   TRACE_ENTER_MSG("NetworkRouter::send_message", scope << " (" << my_id.str() << ")");
   string str = marshall_message(message);
   
-  if ((scope & SCOPE_DIRECT) == SCOPE_DIRECT)
+  if ((scope & NetworkClient::SCOPE_DIRECT) == NetworkClient::SCOPE_DIRECT)
     {
       direct_links->send_message(str);
     }
   
-  if ((scope & SCOPE_MULTICAST) == SCOPE_MULTICAST)
+  if ((scope & NetworkClient::SCOPE_MULTICAST) == NetworkClient::SCOPE_MULTICAST)
     {
       announce->send_message(str);
     }
@@ -128,9 +134,30 @@ NetworkRouter::send_message(google::protobuf::Message &message, Scope scope)
   TRACE_EXIT();
 }
 
+void
+NetworkRouter::send_message_to(google::protobuf::Message &message, NetworkClient::Ptr client)
+{
+  TRACE_ENTER_MSG("NetworkRouter::send_message_to", "(" << my_id.str() << ")");
+  string str = marshall_message(message);
+  
+  direct_links->send_message_to(str, client);
+      
+  TRACE_EXIT();
+}
 
 void
-NetworkRouter::on_data(Scope scope, gsize size, const gchar *data, NetworkAddress::Ptr na)
+NetworkRouter::send_message_except(google::protobuf::Message &message, NetworkClient::Ptr client)
+{
+  TRACE_ENTER_MSG("NetworkRouter::send_message_except", "(" << my_id.str() << ")");
+  string str = marshall_message(message);
+  
+  direct_links->send_message_except(str, client);
+      
+  TRACE_EXIT();
+}
+
+void
+NetworkRouter::on_data(gsize size, const gchar *data, NetworkClient::Ptr client)
 {
   TRACE_ENTER_MSG("NetworkRouter::on_data", " (" << my_id.str() << ")");
   boost::shared_ptr<google::protobuf::Message> message;
@@ -139,10 +166,13 @@ NetworkRouter::on_data(Scope scope, gsize size, const gchar *data, NetworkAddres
   bool ok = unmarshall_message(size, data, message, header);
   if (ok)
     {
-      TRACE_MSG(scope);
-      TRACE_MSG(na->str());
+      TRACE_MSG(client);
+      TRACE_MSG(client->address->str());
       TRACE_MSG(header.DebugString());
       TRACE_MSG(message->DebugString());
+
+      // TODO: only when authenticated.
+      send_message_except(*message.get(), client);
     }
   TRACE_EXIT();
 }
@@ -266,6 +296,28 @@ NetworkRouter::get_namespace_of_domain(int domain)
     }
 
   return "";
+}
+
+
+void
+NetworkRouter::on_client_changed(NetworkClient::Ptr client)
+{
+  TRACE_ENTER_MSG("NetworkRouter::on_client_changed", "(" << my_id.str() << ")");
+  ClientIter it = find(clients.begin(), clients.end(), client);
+
+  if (client->state == NetworkClient::CONNECTION_STATE_CLOSED &&
+      it != clients.end())
+    {
+      clients.erase(it);
+      TRACE_MSG("closed");
+    }
+  else if (it == clients.end())
+    {
+      clients.push_back(client);
+      TRACE_MSG("new");
+    }
+  TRACE_MSG(client->address->str());
+  TRACE_EXIT();
 }
 
 // //! Connect to a remote workrave
