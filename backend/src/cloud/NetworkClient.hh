@@ -26,7 +26,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "NetworkAddress.hh"
-#include "WRID.hh"
 
 using namespace workrave;
 using namespace workrave::network;
@@ -49,7 +48,6 @@ class NetworkClient
     CONNECTION_STATE_INVALID,
     CONNECTION_STATE_CONNECTING,
     CONNECTION_STATE_CONNECTED,
-    CONNECTION_STATE_AUTHENTICATED,
     CONNECTION_STATE_CLOSED,
   };
   
@@ -62,8 +60,9 @@ class NetworkClient
   NetworkClient(Scope scope) : scope(scope), state(CONNECTION_STATE_INVALID)
   {
   }
-    
-  WRID id;
+
+  bool authenticated;
+  //WRID id;
   Scope scope;
   State state;
   NetworkAddress::Ptr address;

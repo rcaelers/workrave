@@ -31,7 +31,6 @@ namespace workrave {
   class IApp;
   class IStatistics;
   class ICoreEventListener;
-  class INetwork;
 
   //! ID of a break.
   enum BreakId

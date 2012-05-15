@@ -55,7 +55,6 @@ using namespace workrave;
 namespace workrave {
   class ISoundPlayer;
   class IApp;
-  class INetwork;
   class DBus;
 }
 

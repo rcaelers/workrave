@@ -8,11 +8,11 @@ MAINTAINERCLEANFILES = 	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-backend-cloud.la
 
 if HAVE_DISTRIBUTION
-sources	 = 		ByteStream.cc \
-			Network.cc \
-			NetworkRouter.cc \
+sources	 =		NetworkRouter.cc \
+			NetworkMessage.cc \
 			NetworkDirectLink.cc \
 			NetworkAnnounce.cc \
+			NetworkActivityMonitor.cc \
 			workrave.pb.cc \
 			cloud.pb.cc
 

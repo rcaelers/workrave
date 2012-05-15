@@ -24,23 +24,27 @@
 #include <map>
 #include <string>
 
+#include <sigc++/sigc++.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <google/protobuf/message.h>
 
+#include "INetwork.hh"
 #include "NetworkAnnounce.hh"
 #include "NetworkDirectLink.hh"
-#include "WRID.hh"
 
 #include "workrave.pb.h"
 
 using namespace workrave;
 using namespace workrave::network;
 
-class NetworkRouter
+class NetworkRouter : public INetwork
 {
 public:
-  NetworkRouter(const WRID &my_id);
+  
+public:  
+  NetworkRouter(std::string username, std::string secret);
   virtual ~NetworkRouter();
 
   // Core internal
@@ -48,30 +52,50 @@ public:
   void terminate();
   void heartbeat();
 
-  void connect(const std::string &host, int port);
-  void send_message(google::protobuf::Message &message, NetworkClient::Scope scope);
-  void send_message_to(google::protobuf::Message &message, NetworkClient::Ptr client);
-  void send_message_except(google::protobuf::Message &message, NetworkClient::Ptr client);
+  virtual void connect(const std::string &host, int port);
+  virtual void send_message(NetworkMessageBase::Ptr msg);
+
+  MessageSignal &signal_message(int domain, int id);
 
 private:
-  const std::string marshall_message(google::protobuf::Message &message);
-  bool unmarshall_message(gsize size, const gchar *data,
+  void process_message(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message);
+
+  const std::string marshall_message(NetworkMessageBase::Ptr message);
+  const std::string marshall_message(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message);
+  bool unmarshall_message(gsize size, const gchar *data, NetworkClient::Ptr client,
                           boost::shared_ptr<google::protobuf::Message> &result_message,
-                          workrave::Header &result_header);
+                          boost::shared_ptr<workrave::Header> &result_header);
 
   std::string get_namespace_of_domain(int domain);
+  void init_myid(int instanceid);
+  const std::string get_nonce() const;
+  bool check_message_authentication(boost::shared_ptr<workrave::Header> header, NetworkClient::Ptr client);
+  void add_message_authentication(boost::shared_ptr<workrave::Header> header);
 
   void on_data(gsize size, const gchar *data, NetworkClient::Ptr client);
   void on_client_changed(NetworkClient::Ptr client);
+
+  void fire_message_signal(int domain, int id, NetworkMessageBase::Ptr);
+
+  void send_message_except(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message, NetworkClient::Ptr client);
   
   typedef std::list<NetworkClient::Ptr> Clients;
   typedef std::list<NetworkClient::Ptr>::iterator ClientIter;
   typedef std::list<NetworkClient::Ptr>::const_iterator ClientCIter;
-  
+
+  typedef std::map<std::pair<int, int>, MessageSignal> MessageSignalMap;
+  typedef MessageSignalMap::iterator MessageSignalMapIter;
+
 private:
   //! My ID
-  const WRID my_id;
+  UUID myid;
 
+  //!
+  std::string username;
+
+  //!
+  std::string secret;
+  
   //! 
   NetworkAnnounce::Ptr announce;
 
@@ -80,6 +104,9 @@ private:
 
   //!
   Clients clients;
+
+  //!
+  MessageSignalMap message_signals;
 };
 
 

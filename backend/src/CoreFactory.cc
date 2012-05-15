@@ -46,19 +46,19 @@ CoreFactory::get_configurator()
 }
 
 
-//! Returns the interface to the networking facility
-INetwork *
-CoreFactory::get_networking()
-{
-#ifdef HAVE_DISTRIBUTION
-  Core *core = Core::get_instance();
-  assert(core != NULL);
+// //! Returns the interface to the networking facility
+// INetwork *
+// CoreFactory::get_networking()
+// {
+// #ifdef HAVE_DISTRIBUTION
+//   Core *core = Core::get_instance();
+//   assert(core != NULL);
 
-  return (INetwork *)core->get_networking();
-#else
-  return NULL;
-#endif
-}
+//   return (INetwork *)core->get_networking();
+// #else
+//   return NULL;
+// #endif
+// }
 
 //! Returns the interface to the D-BUS facility
 DBus *

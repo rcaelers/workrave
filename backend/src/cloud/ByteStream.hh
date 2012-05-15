@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: ByteStream.hh 687 2004-01-28 12:16:46Z dotsphinx $
-//
 
 #ifndef BYTESTREAM_HH
 #define BYTESTREAM_HH
@@ -26,40 +24,145 @@
 #include <glib.h>
 
 #include <boost/shared_ptr.hpp>
-
-#include "WRID.hh"
-#include "Exception.hh"
-
-using namespace workrave;
-
 #include <google/protobuf/io/zero_copy_stream.h>
 
-class ByteStream  : public google::protobuf::io::ZeroCopyInputStream
+#define BYTESTREAM_GROW_SIZE (1024)
+
+template<class T>
+class ByteStreamImpl
 {
 public:
-  ByteStream(gsize size, gchar *data);
-  ByteStream(gsize len);
-  virtual ~ByteStream();
+  ByteStreamImpl(T *data, gsize size) : data(data), data_owned(false), max_size(size), position(0)
+  {
+  }
 
-  void init(gsize len);
-  void reset();
-  gchar *get_write_buffer();
-  gchar *get_read_buffer();
-  void advance_read_buffer(gsize size);
-  void advance_write_buffer(gsize size);
-  gsize get_read_buffer_size() const;
-  gsize get_write_buffer_size() const;
-  void resize(gsize new_size);
+  ByteStreamImpl(gsize size) : data_owned(true), max_size(size), position(0)
+  {
+    data = (T *)g_malloc(size * sizeof(T));
+  }
   
-  // implements ZeroCopyInputStream
-  virtual bool Next(const void **data, int *size);
-  virtual void BackUp(int count);
-  virtual bool Skip(int count);
-  virtual google::protobuf::int64 ByteCount() const;
+  virtual ~ByteStreamImpl()
+  {
+    if (data_owned && data != NULL)
+      {
+        g_free((void *)data);
+      }
+  }
+
+  void init(gsize size)
+  {
+    if (max_size != size)
+      {
+        if (data_owned && data != NULL)
+          {
+            g_free((void *)data);
+          }
+
+        data = (T *)g_malloc(size * sizeof(T));
+        data_owned = true;
+        max_size = size;
+      }
+    position = 0;
+  }
+
+  void resize(gsize new_size)
+  {
+    if (new_size > max_size)
+      {
+        data = (T *) g_realloc((void *)data, new_size);
+        max_size = new_size;
+      }
+  }
   
-private:
+  void rewind()
+  {
+    position = 0;
+  }
+  
+  T *get_start()
+  {
+    return data;
+  }
+
+  T *get_ptr()
+  {
+    if ((gsize) position < max_size)
+      {
+        return (T *)(data + position);
+      }
+  
+    return NULL;
+  }
+  
+  gsize get_available() const
+  { 
+    return max_size - position;
+  }
+
+  gsize get_max_size() const
+  { 
+    return max_size;
+  }
+
+  gsize get_position() const
+  { 
+    return position;
+  }
+  
+  void advance_buffer(gsize size)
+  {
+    if (position + size <= max_size)
+      {
+        position += size;
+      }
+    else
+      {
+        position = max_size;
+      }
+  }
+  
+  const std::string get_buffer_as_string()
+  {
+    return std::string((const char *)(data), position * sizeof(T));
+  }
+
+  bool read_u16(guint16 &value, int offset = -1)
+  {
+    bool peek = true;
+    if (offset == -1)
+      {
+        offset = position;
+        peek = false;
+      }
+
+    bool ok = max_size - offset >= sizeof(guint16);
+  
+    if (ok)
+      {
+        value = GINT16_FROM_BE(*((guint16 *)(data + offset)));
+        if (!peek)
+          {
+            position += sizeof(guint16);
+          }
+      }
+
+    return ok;
+  }
+  
+  void write_u16(guint16 value)
+  {
+    if (get_available() < sizeof(guint16))
+      {
+        resize(max_size + BYTESTREAM_GROW_SIZE);
+      }
+      
+    *((guint16 *)(data + position)) = GINT16_TO_BE(value);
+    position += sizeof(guint16);
+  }
+  
+protected:
   //! Start of the bytestream buffer
-  gchar *data;
+  T *data;
 
   //! Whether we own the data
   bool data_owned;
@@ -67,14 +170,116 @@ private:
   //! Total size of the buffer
   gsize max_size;
 
-  //! Number of byte stored in the the buffer
-  int write_pos;
+  //! Position in the the buffer
+  int position;
+};
 
-  //! Current position in the buffer
-  int read_pos;
+class ByteStream : public ByteStreamImpl<char>
+{
+public:
+  ByteStream(gsize size) : ByteStreamImpl(size)
+  {
+  }
+};
 
-  //!  Number of bytes returned in last  Next() call.
+
+class ByteStreamOutput : public ByteStreamImpl<char>, public google::protobuf::io::ZeroCopyOutputStream
+{
+public:
+  
+  ByteStreamOutput(gsize size) : ByteStreamImpl(size), last_returned_size(0)
+  {
+  }
+  
+  bool Next(void** ptr, int* size)
+  {
+    if (max_size - position < BYTESTREAM_GROW_SIZE)
+      {
+        resize(max_size + BYTESTREAM_GROW_SIZE);
+      }
+    
+    last_returned_size = max_size - position;
+    *ptr = data + position;
+    *size = last_returned_size;
+    position += last_returned_size;
+    return true;
+  }
+  
+  void BackUp(int count)
+  {
+    if (last_returned_size > 0 && count <= last_returned_size && count >= 0)
+      {
+        position -= count;
+        last_returned_size = 0;
+      }
+  }
+  
+
+  google::protobuf::int64 ByteCount() const
+  {
+    return position;
+  }
+  
+private:
+  int last_returned_size;
+};
+
+class ByteStreamInput : public ByteStreamImpl<const char>, public google::protobuf::io::ZeroCopyInputStream
+{
+public:
+  ByteStreamInput(const char *data, gsize size) : ByteStreamImpl(data, size), last_returned_size(0)
+  {
+  }
+  
+  bool Next(const void** ptr, int* size)
+  {
+    if ((gsize)position < max_size)
+      {
+        last_returned_size = max_size - position;
+        *ptr = data + position;
+        *size = last_returned_size;
+        position += last_returned_size;
+        return true;
+      }
+    else
+      {
+        last_returned_size = 0;
+        return false;
+      }
+  }
+  
+  void BackUp(int count)
+  {
+    if (last_returned_size > 0 && count <= last_returned_size && count >= 0)
+      {
+        position -= count;
+        last_returned_size = 0;
+      }
+  }
+  
+  google::protobuf::int64 ByteCount() const
+  {
+    return position;
+  }
+  
+
+  bool Skip(int count)
+  {
+    if ((gsize)(position + count) <= max_size)
+      {
+        position += count;
+        return true;
+      }
+    else
+      {
+        position = max_size;
+        return false;
+      }
+  }
+
+private:
   int last_returned_size;
 };
 
 #endif
+

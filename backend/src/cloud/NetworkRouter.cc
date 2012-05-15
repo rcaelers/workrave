@@ -18,12 +18,11 @@
 //
 //
 
-static const char rcsid[] = "$Id$";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+#include <string.h>
 #include <string>
 #include <sstream>
 
@@ -32,6 +31,8 @@ static const char rcsid[] = "$Id$";
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 
+#include <glib.h>
+
 #include "debug.hh"
 
 #include "NetworkRouter.hh"
@@ -39,13 +40,14 @@ static const char rcsid[] = "$Id$";
 #include "workrave.pb.h"
 #include "cloud.pb.h"
 
+#include "Util.hh"
+
 using namespace std;
 
 //! Constructs a new network router
-NetworkRouter::NetworkRouter(const WRID &my_id)
-  : my_id(my_id)
+NetworkRouter::NetworkRouter(string username, string secret) : username(username), secret(secret)
 {
-  TRACE_ENTER_MSG("NetworkRouter::NetworkRouter", my_id.str());
+  TRACE_ENTER("NetworkRouter::NetworkRouter");
   announce = NetworkAnnounce::create();
   direct_links = NetworkDirectLink::create();
   TRACE_EXIT();
@@ -65,6 +67,9 @@ void
 NetworkRouter::init(int port)
 {
   TRACE_ENTER("NetworkRouter::init");
+
+  init_myid(port);
+
   announce->init(port);
   direct_links->init(port);
 
@@ -91,15 +96,17 @@ NetworkRouter::heartbeat()
 {
   TRACE_ENTER("NetworkRouter::heartbeat");
   static bool once = false;
-
   
   // TODO: debugging code.
   if (!once)
     {
-      cloud::Break b;
-      b.set_break_id(1);
-      b.set_break_event(cloud::Break_BreakEvent_BREAK_EVENT_NONE);
-      send_message(b, NetworkClient::SCOPE_DIRECT);
+      NetworkMessage<cloud::ActivityState>::Ptr as = NetworkMessage<cloud::ActivityState>::create();
+      as->scope = NetworkClient::SCOPE_DIRECT;
+      as->authenticated = true;
+
+      boost::shared_ptr<cloud::ActivityState> a = as->msg();
+      //as->msg()->set_state(1);
+      send_message(as);
 
       once = true;
     }
@@ -107,26 +114,29 @@ NetworkRouter::heartbeat()
   TRACE_EXIT();
 }
 
+
 void
 NetworkRouter::connect(const string &host, int port)
 {
-  TRACE_ENTER_MSG("NetworkRouter::connect", host << " " << port << " (" << my_id.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::connect", host << " " << port << " (" << myid.str() << ")");
   direct_links->connect(host, port);
   TRACE_EXIT();
 }
 
+
 void
-NetworkRouter::send_message(google::protobuf::Message &message, NetworkClient::Scope scope)
+NetworkRouter::send_message(NetworkMessageBase::Ptr base)
 {
-  TRACE_ENTER_MSG("NetworkRouter::send_message", scope << " (" << my_id.str() << ")");
-  string str = marshall_message(message);
+  TRACE_ENTER_MSG("NetworkRouter::send_message", base->scope << " (" << myid.str() << ")");
   
-  if ((scope & NetworkClient::SCOPE_DIRECT) == NetworkClient::SCOPE_DIRECT)
+  string str = marshall_message(base);
+  
+  if ((base->scope & NetworkClient::SCOPE_DIRECT) == NetworkClient::SCOPE_DIRECT)
     {
       direct_links->send_message(str);
     }
   
-  if ((scope & NetworkClient::SCOPE_MULTICAST) == NetworkClient::SCOPE_MULTICAST)
+  if ((base->scope & NetworkClient::SCOPE_MULTICAST) == NetworkClient::SCOPE_MULTICAST)
     {
       announce->send_message(str);
     }
@@ -135,55 +145,169 @@ NetworkRouter::send_message(google::protobuf::Message &message, NetworkClient::S
 }
 
 void
-NetworkRouter::send_message_to(google::protobuf::Message &message, NetworkClient::Ptr client)
+NetworkRouter::send_message_except(boost::shared_ptr<workrave::Header> header,
+                                   boost::shared_ptr<google::protobuf::Message> message,
+                                   NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::send_message_to", "(" << my_id.str() << ")");
-  string str = marshall_message(message);
-  
-  direct_links->send_message_to(str, client);
-      
-  TRACE_EXIT();
-}
-
-void
-NetworkRouter::send_message_except(google::protobuf::Message &message, NetworkClient::Ptr client)
-{
-  TRACE_ENTER_MSG("NetworkRouter::send_message_except", "(" << my_id.str() << ")");
-  string str = marshall_message(message);
+  TRACE_ENTER_MSG("NetworkRouter::send_message_except", "(" << myid.str() << ")");
+  string str = marshall_message(header, message);
   
   direct_links->send_message_except(str, client);
       
   TRACE_EXIT();
 }
 
+
+NetworkRouter::MessageSignal &
+NetworkRouter::signal_message(int domain, int id)
+{
+  return message_signals[std::make_pair(domain, id)];
+}
+
+
 void
 NetworkRouter::on_data(gsize size, const gchar *data, NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::on_data", " (" << my_id.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::on_data", " (" << myid.str() << ")");
   boost::shared_ptr<google::protobuf::Message> message;
-  workrave::Header header;
+  boost::shared_ptr<workrave::Header> header;
   
-  bool ok = unmarshall_message(size, data, message, header);
+  bool ok = unmarshall_message(size, data, client, message, header);
   if (ok)
     {
       TRACE_MSG(client);
       TRACE_MSG(client->address->str());
-      TRACE_MSG(header.DebugString());
+      TRACE_MSG(header->DebugString());
       TRACE_MSG(message->DebugString());
+      TRACE_MSG(client->authenticated);
 
-      // TODO: only when authenticated.
-      send_message_except(*message.get(), client);
+      if (myid == UUID::from_raw(header->source()))
+        {
+          // TODO: Handle cycle
+          TRACE_MSG("cycle!");
+          ok = false;
+        }
+    }
+
+  if (ok && client->authenticated)
+    {
+      NetworkMessageBase::Ptr m = NetworkMessageBase::create(header, message); 
+      
+      fire_message_signal(header->domain(), header->payload(), m);
+      send_message_except(header, message, client);
     }
   TRACE_EXIT();
 }
 
 
-const string
-NetworkRouter::marshall_message(google::protobuf::Message &message)
+void
+NetworkRouter::process_message(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message)
 {
+  (void) header;
+  (void) message;
+}
+
+
+const string
+NetworkRouter::get_nonce() const
+{
+  static bool random_seeded = 1;
+  const int nonce_size = 32;
+  const char *valid_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const int valid_chars_count = strlen(valid_chars);
+  char nonce[nonce_size + 1] = { 0, };
+  
+  if (!random_seeded)
+    {
+      g_random_set_seed(time(NULL));
+      random_seeded = true;
+    }
+
+  for (int i = 0; i < nonce_size; i++)
+    {
+      nonce[i] = valid_chars[g_random_int_range(0, valid_chars_count)];
+    }
+
+  return nonce;
+}
+
+
+bool
+NetworkRouter::check_message_authentication(boost::shared_ptr<workrave::Header> header, NetworkClient::Ptr client)
+{
+  TRACE_ENTER("NetworkRouter::check_message_authentication");
+  bool ret = true;
+
+  if (header->has_auth())
+    {
+      int hash_len = g_checksum_type_get_length(G_CHECKSUM_SHA256);
+      string nonce = header->auth().nonce();
+      string remote_username = header->auth().username();
+      string remote_hash = header->auth().hash();
+      
+      string auth = nonce + ":" + username + ":" + secret;
+      char *hash = g_compute_checksum_for_data(G_CHECKSUM_SHA256, (const guchar*) auth.c_str(), auth.length());
+      
+      TRACE_MSG(auth);
+      
+      ret = (memcmp(hash, remote_hash.c_str(), hash_len) == 0) && remote_username == username;
+
+      client->authenticated = ret;
+      g_free(hash);
+    }
+
+  TRACE_EXIT();
+  return ret;
+}
+
+
+void
+NetworkRouter::add_message_authentication(boost::shared_ptr<workrave::Header> header)
+{
+  TRACE_ENTER("NetworkRouter::add_message_authentication");
+  int hash_len = g_checksum_type_get_length(G_CHECKSUM_SHA256);
+  string nonce = get_nonce();
+  string auth = nonce + ":" + username + ":" + secret;
+
+  TRACE_MSG(auth);
+  
+  char *hash = g_compute_checksum_for_data(G_CHECKSUM_SHA256, (const guchar*) auth.c_str(), auth.length());
+
+  header->mutable_auth()->set_nonce(nonce);
+  header->mutable_auth()->set_username(username);
+  header->mutable_auth()->set_hash(string(hash, hash_len));
+
+  g_free(hash);
+  TRACE_EXIT();
+}
+
+const string
+NetworkRouter::marshall_message(NetworkMessageBase::Ptr message)
+{
+  TRACE_ENTER("NetworkRouter::marshall_message");
+  string ret;
+
+  boost::shared_ptr<workrave::Header> header(new workrave::Header());
+  
+  header->set_source(myid.str());
+
+  if (message->authenticated)
+    {
+      add_message_authentication(header);
+    }
+
+  ret = marshall_message(header, message->msg());
+  TRACE_EXIT();
+  return ret;
+}
+
+const string
+NetworkRouter::marshall_message(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message)
+{
+  TRACE_ENTER("NetworkRouter::marshall_message");
   string ret;
   
-  const google::protobuf::Descriptor *ext = message.GetDescriptor();
+  const google::protobuf::Descriptor *ext = message->GetDescriptor();
   if (ext != NULL)
     {
       const google::protobuf::FieldDescriptor *fd = ext->extension(0);
@@ -191,73 +315,84 @@ NetworkRouter::marshall_message(google::protobuf::Message &message)
         {
           int num = fd->number();
 
-          workrave::Header header;
-          header.set_source(my_id.str());
-          header.set_payload(num);
-          header.set_domain(1);
+          header->set_payload(num);
+          header->set_domain(1);
 
-          stringstream s(ios_base::in | ios_base::out | ios_base::binary);
+          boost::shared_ptr<ByteStreamOutput> output(new ByteStreamOutput(1024));
 
-          boost::shared_ptr<google::protobuf::io::OstreamOutputStream> output(new google::protobuf::io::OstreamOutputStream(&s));
-          boost::shared_ptr<google::protobuf::io::CodedOutputStream> coded(new google::protobuf::io::CodedOutputStream(output.get()));
-
-          coded->WriteVarint32(header.ByteSize());
-          coded->WriteVarint32(message.ByteSize());
+          output->write_u16(header->ByteSize());
+          output->write_u16(message->ByteSize());
       
-          header.SerializeToCodedStream(coded.get());
-          message.SerializeToCodedStream(coded.get());
+          header->SerializeToZeroCopyStream(output.get());
 
-          coded.reset();
+          const gchar *payload = output->get_ptr();
+          message->SerializeToZeroCopyStream(output.get());
+          gsize payload_size = output->get_ptr() - payload;
+
+          // TODO:
+          GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
+          g_checksum_update(checksum, (const guchar *)payload, payload_size);
+          g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
+          const gchar *hash = g_checksum_get_string(checksum);
+
+          TRACE_MSG(hash);
+          
+          TRACE_MSG(output->get_position());
+          ret = output->get_buffer_as_string();
+          TRACE_MSG(ret.length());
           output.reset();
-      
-          ret = s.str();
         }
     }
-  
+
+  TRACE_EXIT();
   return ret;
 }
 
 
 bool
-NetworkRouter::unmarshall_message(gsize size, const gchar *data,
+NetworkRouter::unmarshall_message(gsize size, const gchar *data, NetworkClient::Ptr client,
                                   boost::shared_ptr<google::protobuf::Message> &message,
-                                  workrave::Header &header)
+                                  boost::shared_ptr<workrave::Header> &header)
 {
-  TRACE_ENTER_MSG("NetworkRouter::unmarshall_message", " (" << my_id.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::unmarshall_message", " (" << myid.str() << ")");
   bool result = false;
   
   try
     {
-      stringstream s(std::string(data, size), ios_base::in | ios_base::out | ios_base::binary);
-
-      boost::shared_ptr<google::protobuf::io::IstreamInputStream> input(new google::protobuf::io::IstreamInputStream(&s));
-      boost::shared_ptr<google::protobuf::io::CodedInputStream> coded(new google::protobuf::io::CodedInputStream(input.get()));
+      boost::shared_ptr<ByteStreamInput> input(new ByteStreamInput(data, size));
 
       bool header_ok = true;;
-      google::protobuf::uint32 header_size;
-      google::protobuf::uint32 msg_size;
+      guint16 header_size;
+      guint16 msg_size;
       const google::protobuf::Descriptor *base = NULL;
       const google::protobuf::FieldDescriptor *field = NULL;
       const google::protobuf::Descriptor *ext = NULL;
 
-      header_ok = header_ok && coded->ReadVarint32(&header_size);
-      header_ok = header_ok && coded->ReadVarint32(&msg_size);
+      header_ok = header_ok && input->read_u16(header_size);
+      header_ok = header_ok && input->read_u16(msg_size);
 
+      TRACE_MSG(header_size);
+      TRACE_MSG(msg_size);
+      
       if (header_ok)
         {
-          coded.reset();
-          header_ok = header.ParseFromBoundedZeroCopyStream(input.get(), header_size);
+          header_ok = header->ParseFromBoundedZeroCopyStream(input.get(), header_size);
+        }
+      
+      if (header_ok)
+        {
+          header_ok = check_message_authentication(header, client);
         }
       
       if (header_ok && size >= header_size + msg_size)
         {
-          const string domain_name = get_namespace_of_domain(header.domain()) + ".Domain";
+          const string domain_name = get_namespace_of_domain(header->domain()) + ".Domain";
           base = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(domain_name);
         }
 
       if (base != NULL)
         {
-          field = google::protobuf::DescriptorPool::generated_pool()->FindExtensionByNumber(base, header.payload());
+          field = google::protobuf::DescriptorPool::generated_pool()->FindExtensionByNumber(base, header->payload());
         }
       
       if (field != NULL)
@@ -268,7 +403,15 @@ NetworkRouter::unmarshall_message(gsize size, const gchar *data,
       if (ext != NULL)
         {
           google::protobuf::Message *msg = google::protobuf::MessageFactory::generated_factory()->GetPrototype(ext)->New();
-          
+
+          // TODO:
+          GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
+          g_checksum_update(checksum, (const guchar *)input.get()->get_ptr(), msg_size);
+          g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
+          const gchar *hash = g_checksum_get_string(checksum);
+
+          TRACE_MSG(hash);
+
           if (msg->ParseFromBoundedZeroCopyStream(input.get(), msg_size))
             {
               message = boost::shared_ptr<google::protobuf::Message>(msg);
@@ -283,7 +426,6 @@ NetworkRouter::unmarshall_message(gsize size, const gchar *data,
   return result;
   TRACE_EXIT();
 }
-
 
 
 string
@@ -302,7 +444,7 @@ NetworkRouter::get_namespace_of_domain(int domain)
 void
 NetworkRouter::on_client_changed(NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::on_client_changed", "(" << my_id.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::on_client_changed", "(" << myid.str() << ")");
   ClientIter it = find(clients.begin(), clients.end(), client);
 
   if (client->state == NetworkClient::CONNECTION_STATE_CLOSED &&
@@ -320,384 +462,51 @@ NetworkRouter::on_client_changed(NetworkClient::Ptr client)
   TRACE_EXIT();
 }
 
-// //! Connect to a remote workrave
-// void
-// NetworkRouter::connect(string url)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::connect", url);
-//   std::string::size_type pos = url.find("://");
-//   std::string hostport;
+
+void
+NetworkRouter::init_myid(int instanceid)
+{
+  TRACE_ENTER("Network::init_myid");
+  bool ok = false;
+  stringstream ss;
+
+  ss << Util::get_home_directory() << "id-" << instanceid << ends;
+  string idfilename = ss.str();
+
+  if (Util::file_exists(idfilename))
+    {
+      ifstream file(idfilename.c_str());
       
-//   if (pos == std::string::npos)
-//     {
-//       hostport = url;
-//     }
-//   else
-//     {
-//       hostport = url.substr(pos + 3);
-//     }
-  
-//   pos = hostport.find(":");
-//   std::string host;
-//   std::string port = "0";
-  
-//   if (pos == std::string::npos)
-//     {
-//       host = hostport;
-//     }
-//   else
-//     {
-//       host = hostport.substr(0, pos);
-//       port = hostport.substr(pos + 1);
-//     }
-  
-//   string linkid;
-//   connect(host.c_str(), atoi(port.c_str()), linkid);
-
-//   TRACE_EXIT();
-// }
-
-
-// //! Disconnect the all links
-// void
-// NetworkRouter::disconnect_all()
-// {
-//   TRACE_ENTER("NetworkRouter::disconnect_all");
-
-//   NetworkIter i = links.begin();
-//   while (i != links.end())
-//     {
-//       NetworkIter next = i;
-//       next++;
-
-//       NetworkInfo &info = i->second;
-//       delete info.link;
-
-//       link_down(info.link->get_link_id());
-
-//       i = next;
-//     }
-
-//   TRACE_EXIT();
-// }
-
-
-// bool
-// NetworkRouter::listen(int port)
-// {
-//   TcpNetworkServer *server = new TcpNetworkServer(port, this);
-//   default_link = server;
-
-//   return server->init();
-// }
-
-
-// void
-// NetworkRouter::stop_listening()
-// {
-//   default_link->terminate();
-//   delete default_link;
-//   default_link = NULL;
-
-// }
-
-
-
-// bool
-// NetworkRouter::disconnect(const string &link_id)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::disconnect", link_id);
-//   bool ret = false;
-//   WRID id(link_id);
-
-//   NetworkIter it = links.find(id);
-//   if (it != links.end())
-//     {
-//       ret = true;
-
-//       NetworkInfo &info = it->second;
-
-//       delete info.link;
-
-//       link_down(id);
-//     }
-
-//   TRACE_EXIT();
-//   return ret;
-// }
-
-
-// bool
-// NetworkRouter::send_event(NetworkEvent *event)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::send_event", event->str());
-//   bool rc = true;
-
-//   try
-//     {
-//       event->set_source(my_id);
-
-//       // Fire event internally. FIXME: why removed?
-//       // fire_event(event);
-
-//       // Fire to remote workraves.
-//       for (NetworkIter i = links.begin(); i != links.end(); i++)
-//         {
-//           NetworkInfo &info = i->second;
-
-//           if (info.state == LINK_UP)
-//             {
-//               TRACE_MSG("send to " << info.id.str());
-//               info.link->send_event(event);
-//             }
-//         }
-//     }
-//   catch(Exception &e)
-//     {
-//       TRACE_MSG("Exception " << e.details());
-//       rc = false;
-//     }
-
-//   TRACE_EXIT();
-//   return rc;
-// }
-
-
-// bool
-// NetworkRouter::send_event_to_link(const WRID &link_id, NetworkEvent *event)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::send_event_to_link", link_id.str() << " " << event->str());
-//   bool rc = true;
-
-//   try
-//     {
-//       event->set_source(my_id);
-
-//       // Fire to remote workraves.
-//       NetworkIter it = links.find(link_id);
-//       if (it != links.end())
-//         {
-//           NetworkInfo &info = it->second;
-
-//           if (info.state == LINK_UP)
-//             {
-//               TRACE_MSG("send to " << info.id.str());
-//               info.link->send_event(event);
-//             }
-//         }
-//     }
-//   catch(Exception &e)
-//     {
-//       TRACE_MSG("Exception " << e.details());
-//       rc = false;
-//     }
-
-//   TRACE_EXIT();
-//   return rc;
-// }
-
-
-// bool
-// NetworkRouter::send_event_locally(NetworkEvent *event)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::send_event_locally", event->str());
-//   bool rc = true;
-
-//   try
-//     {
-//       event->set_source(my_id);
-
-//       // Fire event internally.
-//       fire_event(event);
-//     }
-//   catch(Exception &e)
-//     {
-//       TRACE_MSG("Exception " << e.details());
-//       rc = false;
-//     }
-
-//   TRACE_EXIT();
-//   return rc;
-// }
-
-
-// void
-// NetworkRouter::new_link(INetwork *link)
-// {
-//   TRACE_ENTER("NetworkRouter::new_link");
-
-//   WRID id = link->get_link_id();
-//   NetworkInfo info(id, link);
-
-//   TRACE_MSG("id " << id.str());
-
-//   info.state = LINK_DOWN;
-
-//   links[id] = info;
-
-//   link->set_link_listener(this);
-
-//   TRACE_EXIT();
-// }
-
-
-// void
-// NetworkRouter::event_received(const WRID &id, NetworkEvent *event)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::event_received", id.str()
-//                   << event->str());
-
-//   TRACE_MSG("event " << event->get_source().str());
-//   TRACE_MSG("me " << my_id.str());
-
-//   const WRID &event_id = event->get_source();
-//   if (my_id != event_id)
-//     {
-//       fire_event(event);
-
-//       NetworkIter it = links.find(id);
-//       if (it != links.end() && it->second.state == LINK_UP)
-//         {
-//           for (NetworkIter i = links.begin(); i != links.end(); i++)
-//             {
-//               NetworkInfo &info = i->second;
-
-//               if (info.id != id && info.state == LINK_UP)
-//                 {
-//                   TRACE_MSG("forward to " << info.id.str());
-//                   info.link->send_event(event);
-//                 }
-//             }
-//         }
-//       else
-//         {
-//           TRACE_MSG("link not found or not authenticated");
-//         }
-//     }
-//   else
-//     {
-//       TRACE_MSG("FIXME: handle cycle");
-//     }
-//   TRACE_EXIT();
-// }
-
-
-// void
-// NetworkRouter::link_down(const WRID &id)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::link_down", id.str());
-
-//   NetworkIter it = links.find(id);
-//   if (it != links.end())
-//     {
-//       NetworkInfo &info = it->second;
-
-//       info.state = LINK_GARBAGE;
-//       // FIXME: cleanup
-
-//       NetworkStateNetworkEvent event(id, NetworkStateNetworkEvent::LINKSTATE_DOWN);
-//       fire_event(&event);
-//     }
-
-//   links.erase(id);
-//   TRACE_EXIT()
-// }
-
-
-// void
-// NetworkRouter::link_up(const WRID &id)
-// {
-//   TRACE_ENTER_MSG("NetworkRouter::link_up", id.str());
-
-//   NetworkIter it = links.find(id);
-//   if (it != links.end())
-//     {
-//       NetworkInfo &info = it->second;
-
-//       info.state = LINK_UP;
-
-//       NetworkStateNetworkEvent event(id, NetworkStateNetworkEvent::LINKSTATE_UP);
-//       fire_event(&event);
-//     }
-
-//   TRACE_EXIT()
-// }
-
-
-// //! Subscribe to the specified link event.
-// bool
-// NetworkRouter::subscribe(string eventid, INetworkEventListener *listener)
-// {
-//   bool ret = true;
-
-//   ListenerIter i = listeners.begin();
-//   while (ret && i != listeners.end())
-//     {
-//       if (eventid == i->first && listener == i->second)
-//         {
-//           // Already added. Skip
-//           ret = false;
-//         }
-
-//       i++;
-//     }
-
-//   if (ret)
-//     {
-//       // not found -> add
-//       listeners.push_back(make_pair(eventid, listener));
-//     }
-
-//   return ret;
-// }
-
-
-// //! Unsubscribe from the specified link event
-// bool
-// NetworkRouter::unsubscribe(string eventid, INetworkEventListener *listener)
-// {
-//   bool ret = false;
-
-//   ListenerIter i = listeners.begin();
-//   while (i != listeners.end())
-//     {
-//       if (eventid == i->first && listener == i->second)
-//         {
-//           // Found. Remove
-//           i = listeners.erase(i);
-//           ret = true;
-//         }
-//       else
-//         {
-//           i++;
-//         }
-//     }
-
-//   return ret;
-// }
-
-
-// //! Fires a link event.
-// void
-// NetworkRouter::fire_event(NetworkEvent *event)
-// {
-//   TRACE_ENTER("NetworkEvent::fire_event");
-//   string eventid = event->get_eventid();
-
-//   ListenerIter i = listeners.begin();
-//   while (i != listeners.end())
-//     {
-//       if (eventid == i->first)
-//         {
-//           INetworkEventListener *l = i->second;
-//           if (l != NULL)
-//             {
-//               l->event_received(event);
-//             }
-//         }
-
-//       i++;
-//     }
-//   TRACE_EXIT();
-// }
-
+      if (file)
+        {
+          string id_str;
+          file >> id_str;
+
+          myid = UUID::from_str(id_str);              
+
+          file.close();
+        }
+    }
+
+  if (! ok)
+    {
+      ofstream file(idfilename.c_str());
+
+      file << myid.str() << endl;
+      file.close();
+    }
+
+
+  TRACE_EXIT();
+}
+
+
+void
+NetworkRouter::fire_message_signal(int domain, int id, NetworkMessageBase::Ptr message)
+{
+  MessageSignalMapIter it = message_signals.find(std::make_pair(domain, id));
+  if (it != message_signals.end())
+    {
+      it->second.emit(message);
+    }
+}

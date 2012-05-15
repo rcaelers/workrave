@@ -1,6 +1,6 @@
-// CoreFactory.hh --- The main access point to the Core
+// INetwork.hh
 //
-// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef COREFACTORY_HH
-#define COREFACTORY_HH
+#ifndef INETWORK_HH
+#define INETWORK_HH
 
-namespace workrave
+#include <list>
+#include <map>
+#include <string>
+
+#include <sigc++/sigc++.h>
+
+#include <boost/shared_ptr.hpp>
+#include <google/protobuf/message.h>
+
+#include "NetworkMessage.hh"
+#include "workrave.pb.h"
+
+using namespace workrave;
+
+class INetwork
 {
-  // Forward declarion of external interfaces.
-  class ICore;
-  class IConfigurator;
-  class DBus;
+public:
+  typedef boost::shared_ptr<INetwork> Ptr;
+  typedef sigc::signal<void, NetworkMessageBase::Ptr> MessageSignal;
 
-  //! Main access points to the Core.
-  class CoreFactory
-  {
-  public:
-    //! Returns the interface to the core.
-    static ICore *get_core();
+  virtual ~INetwork() {}
 
-    //! Returns the interface to the core's configurator.
-    static IConfigurator *get_configurator();
+  virtual void send_message(NetworkMessageBase::Ptr msg) = 0;
+  virtual MessageSignal &signal_message(int domain, int id) = 0;
+};
 
-    //! Returns the interface to the DBUS facility.
-    static DBus *get_dbus();
-  };
-}
 
-#endif // COREFACTORY_HH
+#endif // INETWORK_HH

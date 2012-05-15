@@ -1,4 +1,4 @@
-// INetwork.hh -- Interface to the networking facility
+// NetworkMessage.cc
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,20 +16,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: INetwork.hh 1090 2006-10-01 20:49:47Z dotsphinx $
 //
 
-#ifndef INETWORK_HH
-#define INETWORK_HH
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-namespace workrave
+#include <string>
+#include <boost/shared_ptr.hpp>
+
+#include "debug.hh"
+
+#include "NetworkMessage.hh"
+
+using namespace std;
+
+NetworkMessageBase::Ptr
+NetworkMessageBase::create(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message)
 {
-  //! Interface to the networking facility of Workrave.
-  class INetwork
-  {
-  public:
-    virtual ~INetwork() {};
-  };
+  Ptr ret = Ptr(new NetworkMessage<google::protobuf::Message>(message));
+  ret->source = UUID::from_raw(header->source());
+  return ret;
 }
-
-#endif // INETWORK_HH

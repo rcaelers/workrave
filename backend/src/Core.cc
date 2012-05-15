@@ -67,7 +67,7 @@
 #endif
 #endif
 
-#ifdef HAVE_DISTRIBUTION
+#ifdef HAVE_BROKEN_DISTRIBUTION
 #include "Network.hh"
 #endif
 
@@ -140,7 +140,7 @@ Core::~Core()
   delete fake_monitor;
 #endif
 
-#ifdef HAVE_DISTRIBUTION
+#ifdef HAVE_BROKEN_DISTRIBUTION
   if (network != NULL)
     {
       network->terminate();
@@ -1079,7 +1079,7 @@ Core::heartbeat()
         }
     }
 
-#ifdef HAVE_DISTRIBUTION
+#ifdef HAVE_BROKEN_DISTRIBUTION
   network->heartbeat();
 #endif
 

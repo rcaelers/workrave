@@ -109,7 +109,7 @@ NetworkDirectLink::send_message(const string &message)
 
       TRACE_MSG("send");
       info->socket->write((gchar *) (&length), 2);
-      info->socket->write(message.c_str(), message.length());
+      info->socket->write(message.data(), message.length());
     }
   TRACE_EXIT();
 }
@@ -132,7 +132,7 @@ NetworkDirectLink::send_message_to(const std::string &message, NetworkClient::Pt
         {
           TRACE_MSG("send");
           info->socket->write((gchar *) (&length), 2);
-          info->socket->write(message.c_str(), message.length());
+          info->socket->write(message.data(), message.length());
         }
     }
   TRACE_EXIT();
@@ -156,7 +156,7 @@ NetworkDirectLink::send_message_except(const std::string &message, NetworkClient
         {
           TRACE_MSG("send");
           info->socket->write((gchar *) (&length), 2);
-          info->socket->write(message.c_str(), message.length());
+          info->socket->write(message.data(), message.length());
         }
     }
   TRACE_EXIT();
@@ -210,24 +210,24 @@ NetworkDirectLink::on_data(NetworkDirectLinkClient::Ptr info)
       const gsize header_size = sizeof(guint16);
       gsize bytes_read = 0;
       gsize bytes_to_read = 2;
-      gsize packet_size = 0;
+      guint16 packet_size = 0;
 
-      TRACE_MSG(info->stream->get_read_buffer_size());
+      TRACE_MSG(info->stream->get_position());
       
-      if (info->stream->get_read_buffer_size() >= header_size)
+      if (info->stream->get_position() >= header_size)
         {
-          packet_size = GINT16_FROM_BE(*((guint16 *)(info->stream->get_read_buffer())));
+          info->stream->read_u16(packet_size, 0);
           
-          bytes_to_read = packet_size - info->stream->get_read_buffer_size() + header_size;
+          bytes_to_read = header_size + packet_size - info->stream->get_position();
 
-          info->stream->resize(packet_size + header_size);
+          info->stream->resize(header_size + packet_size);
         }
 
       TRACE_MSG(bytes_to_read);
       
       if (bytes_to_read > 0)
         {
-          info->socket->read(info->stream->get_write_buffer(), bytes_to_read, bytes_read);
+          info->socket->read(info->stream->get_ptr(), bytes_to_read, bytes_read);
           if (bytes_read == 0)
             {
               TRACE_MSG("socket closed");
@@ -236,14 +236,14 @@ NetworkDirectLink::on_data(NetworkDirectLinkClient::Ptr info)
           else
             {
               g_assert(bytes_read > 0);
-              info->stream->advance_write_buffer(bytes_read);
+              info->stream->advance_buffer(bytes_read);
             }
           TRACE_MSG(bytes_read);
         }
       
-      if (packet_size > 0 && packet_size + header_size == info->stream->get_read_buffer_size())
+      if (packet_size > 0 && header_size + packet_size == info->stream->get_position())
         {
-          data_signal.emit(packet_size, info->stream->get_read_buffer() + header_size, info);
+          data_signal.emit(packet_size, info->stream->get_start() + header_size, info);
           info->stream->init(1024);
         }
     }
