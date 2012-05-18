@@ -1,5 +1,6 @@
+// TimeSource.hh --- The Time
 //
-// Copyright (C) 2007, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,22 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef TIMESOURCE_HH
+#define TIMESOURCE_HH
 
-#include "debug.hh"
+#include "ITimeSource.hh"
 
-#include "TimeSource.hh"
-
-ITimeSource *TimeSource::source = NULL;
-
-time_t
-TimeSource::get_time()
+namespace workrave
 {
-  if (source != NULL)
+  namespace utils
+  {
+    //! A source of time.
+    class TimeSource
     {
-      return source->get_time();
-    }
-  return time(NULL);
+    public:
+      //! Returns the time of this source.
+      static time_t get_time();
+
+    public:
+      static ITimeSource *source;
+    };
+  }
 }
+
+#endif // TIMESOURCE_HH

@@ -96,6 +96,7 @@ libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} \
+			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			 @WR_COMMON_INCLUDES@ \
@@ -106,6 +107,7 @@ libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
 
 libworkrave_backend_la_LIBADD= \
 			${platform_ldadd} \
+			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			cloud/libworkrave-backend-cloud.la

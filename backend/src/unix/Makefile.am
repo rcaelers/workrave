@@ -25,6 +25,7 @@ libworkrave_backend_unix_la_SOURCES = \
 
 libworkrave_backend_unix_la_CXXFLAGS = \
 			-W -I${top_srcdir}/backend/src -I${top_srcdir}/backend/include @X_CFLAGS@ \
+			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \

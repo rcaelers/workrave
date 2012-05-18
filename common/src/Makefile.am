@@ -29,7 +29,6 @@ libworkrave_common_la_SOURCES =  \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
-			TimeSource.cc \
 			${dbussources} \
 			${localesources}
 

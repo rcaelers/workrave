@@ -3,16 +3,17 @@
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		unix win32
+SUBDIRS = 		
 
 noinst_LTLIBRARIES = 	libworkrave-utils.la
 
-libworkrave_utils_la_SOURCES = 
+libworkrave_utils_la_SOURCES = TimeSource.cc
 
 libworkrave_utils_la_LIBADD = 
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@  \
-			-I$(top_srcdir)/common/include
+			-I$(top_srcdir)/common/include \
+			-I$(top_srcdir)/libs/utils/include
 
 
 
