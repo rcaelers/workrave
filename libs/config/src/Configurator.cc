@@ -32,6 +32,8 @@
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::utils;
 
 
 // Constructs a new configurator.

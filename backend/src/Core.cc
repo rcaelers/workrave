@@ -80,7 +80,6 @@ const int SAVESTATETIME = 60;
 //! Constructs a new Core.
 Core::Core() :
   last_process_time(0),
-  configurator(NULL),
   monitor(NULL),
   application(NULL),
   statistics(NULL),
@@ -133,7 +132,6 @@ Core::~Core()
 
   delete statistics;
   delete monitor;
-  delete configurator;
 
 #ifdef HAVE_TESTS
   delete fake_monitor;
@@ -244,7 +242,7 @@ Core::init_bus()
       init_DBusWorkrave(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator);
+      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE);
       
 #ifdef HAVE_TESTS
@@ -459,7 +457,7 @@ Core::get_timer(string name) const
 
 
 //! Returns the configurator.
-IConfigurator *
+IConfigurator::Ptr
 Core::get_configurator() const
 {
   return configurator;
@@ -1057,7 +1055,7 @@ Core::heartbeat()
   bool warped = process_timewarp();
 
   // Process configuration
-  // FIXME: configurator->heartbeat();
+  configurator->heartbeat();
 
   if (!warped)
     {

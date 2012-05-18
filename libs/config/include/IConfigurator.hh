@@ -20,12 +20,14 @@
 #ifndef ICONFIGURATOR_HH
 #define ICONFIGURATOR_HH
 
+#include <boost/shared_ptr.hpp>
+
 #include <string>
 #include <list>
 #include <map>
 
-namespace workrave {
-
+namespace workrave
+{
   namespace config
   {
     // Forward declaratons
@@ -49,10 +51,14 @@ namespace workrave {
     class IConfigurator
     {
     public:
+      typedef boost::shared_ptr<IConfigurator> Ptr;
+  
+    public:
       virtual ~IConfigurator() {}
 
       virtual void set_delay(const std::string &key, int delay) = 0;
 
+      virtual void heartbeat() = 0;
       virtual bool load(std::string filename) = 0;
       virtual bool save(std::string filename) = 0;
       virtual bool save() = 0;

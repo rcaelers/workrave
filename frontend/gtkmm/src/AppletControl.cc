@@ -122,7 +122,7 @@ AppletControl::init()
     }
   
   // Read configuration and start monitoring it.
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
 
   read_configuration();

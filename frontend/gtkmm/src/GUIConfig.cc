@@ -54,7 +54,7 @@ const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/hea
 void
 GUIConfig::init()
 {
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {

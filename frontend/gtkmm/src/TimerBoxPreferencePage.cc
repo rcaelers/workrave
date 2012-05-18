@@ -54,7 +54,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   enable_buttons();
   init_page_callbacks();
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -74,7 +74,7 @@ TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->remove_listener(this);
 
   TRACE_EXIT();

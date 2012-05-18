@@ -46,7 +46,7 @@
 #endif
 
 //! Creates a configurator of the specified type.
-IConfigurator *
+IConfigurator::Ptr
 ConfiguratorFactory::create(Format fmt)
 {
   Configurator *c =  NULL;
@@ -106,5 +106,5 @@ ConfiguratorFactory::create(Format fmt)
       c = new Configurator(b);
     }
 
-  return c;
+  return IConfigurator::Ptr(c);
 }

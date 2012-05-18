@@ -21,6 +21,7 @@
 #define BREAK_HH
 
 #include "ICore.hh"
+#include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "IBreak.hh"
 #include "Timer.hh"
@@ -32,11 +33,6 @@ using namespace workrave::config;
 namespace workrave {
   class IApp;
   class IBreak;
-
-  namespace config
-  {
-    class IConfigurator;
-  }
 }
 
 class BreakControl;
@@ -56,7 +52,7 @@ private:
   std::string break_prefix;
 
   //! The Configurator
-  IConfigurator *config;
+  IConfigurator::Ptr config;
 
   //!
   IApp *application;

@@ -36,7 +36,7 @@ CoreFactory::get_core()
 
 
 //! Returns the interface to the configurator
-IConfigurator *
+IConfigurator::Ptr
 CoreFactory::get_configurator()
 {
   Core *core = Core::get_instance();

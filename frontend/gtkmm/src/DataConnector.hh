@@ -86,7 +86,7 @@ private:
   Widgets connections;
 
   //!
-  workrave::config::IConfigurator *config;
+  workrave::config::IConfigurator::Ptr config;
 };
 
 
@@ -105,7 +105,7 @@ public:
 
 protected:
 
-  workrave::config::IConfigurator *config;
+  workrave::config::IConfigurator::Ptr config;
   std::string key;
   dc::Flags flags;
 };

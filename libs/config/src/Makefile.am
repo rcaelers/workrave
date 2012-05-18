@@ -39,6 +39,7 @@ libworkrave_config_la_LIBADD = \
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ @GDOME_CFLAGS@ \
 			${cflags_platform} \
+			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/common/include
 

@@ -44,12 +44,14 @@
 #include "IActivityMonitor.hh"
 #include "ICore.hh"
 #include "ICoreEventListener.hh"
+#include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "ITimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -81,7 +83,7 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id);
   Break *get_break(std::string name);
-  IConfigurator *get_configurator() const;
+  IConfigurator::Ptr get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const;
 
@@ -210,7 +212,7 @@ private:
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  IConfigurator *configurator;
+  IConfigurator::Ptr configurator;
 
   //! The activity monitor
   ActivityMonitor *monitor;

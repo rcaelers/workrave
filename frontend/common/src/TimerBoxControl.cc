@@ -66,8 +66,7 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
 //! Destructor.
 TimerBoxControl::~TimerBoxControl()
 {
-  IConfigurator *config = CoreFactory::get_configurator();
-  config->remove_listener(this);
+  CoreFactory::get_configurator()->remove_listener(this);
 }
 
 
@@ -140,7 +139,7 @@ TimerBoxControl::init()
   TRACE_ENTER("TimerBoxControl::init");
 
   // Listen for configugration changes.
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)

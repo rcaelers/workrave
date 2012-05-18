@@ -278,7 +278,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 
   inside = true;
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
   if (write)
     {
       int mp;
@@ -345,7 +345,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 bool
 TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 {
-  IConfigurator *config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
 
   if (write)
     {

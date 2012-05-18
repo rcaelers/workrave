@@ -38,7 +38,7 @@ namespace workrave
         };
       
       //! Creates a link server of the specified type.
-      static IConfigurator *create(Format fmt);
+      static IConfigurator::Ptr create(Format fmt);
     };
   }
 }

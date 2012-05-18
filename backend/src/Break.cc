@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -78,7 +78,6 @@ struct Defaults
 //! Constucts a new Break
 Break::Break() :
   break_id(BREAK_ID_NONE),
-  config(NULL),
   application(NULL),
   timer(NULL),
   break_control(NULL),
