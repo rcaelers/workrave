@@ -41,7 +41,7 @@ const GDBusInterfaceVTable DBus::interface_vtable =
   &DBus::on_method_call,
   &DBus::on_get_property,
   &DBus::on_set_property,
-  NULL,
+  { NULL, }
 };
 
 //! Construct a new D-BUS bridge
