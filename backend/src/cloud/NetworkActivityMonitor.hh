@@ -29,27 +29,13 @@
 
 using namespace workrave;
 
-// Forward declarion of external interface.
-namespace workrave {
-  class ICore;
-}
-
 class NetworkActivityMonitor
 {
-private:
+public:
+  typedef boost::shared_ptr<NetworkActivityMonitor> Ptr;
 
-  struct RemoteState
-  {
-    UUID id;
-    ActivityState state;
-    time_t lastupdate;
-    time_t since;
-  };
-
-  // Known states
-  typedef std::map<UUID, RemoteState> States;
-  typedef States::iterator StateIter;
-  typedef States::const_iterator StateCIter;
+public:
+  static Ptr create(INetwork::Ptr network);
 
 public:
   NetworkActivityMonitor(INetwork::Ptr network);
@@ -65,12 +51,24 @@ public:
   bool is_active(const UUID &remote, time_t &since);
 
 private:
+
+  struct RemoteState
+  {
+    UUID id;
+    ActivityState state;
+    time_t lastupdate;
+    time_t since;
+  };
+
+  // Known states
+  typedef std::map<UUID, RemoteState> States;
+  typedef States::iterator StateIter;
+  typedef States::const_iterator StateCIter;
+
+private:
   void on_activity_message(NetworkMessageBase::Ptr);
   
 private:
-  //!
-  ICore *core;
-  
   //! The networking core
   INetwork::Ptr network;
 

@@ -25,20 +25,26 @@
 
 #include "NetworkActivityMonitor.hh"
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
 #include "INetwork.hh"
+#include "TimeSource.hh"
 
 #include "cloud.pb.h"
 
 using namespace std;
+using namespace workrave::utils;
+
+NetworkActivityMonitor::Ptr
+NetworkActivityMonitor::create(INetwork::Ptr network)
+{
+  return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(network));
+}
+
 
 NetworkActivityMonitor::NetworkActivityMonitor(INetwork::Ptr network)
   : network(network),
     suspended(false),
     state(ACTIVITY_IDLE)
 {
-  core = CoreFactory::get_core();
 }
 
 
@@ -50,51 +56,52 @@ NetworkActivityMonitor::~NetworkActivityMonitor()
 void
 NetworkActivityMonitor::init()
 {
+  TRACE_ENTER("NetworkActivityMonitor::init");
   network->signal_message(1, cloud::ActivityState::kTypeFieldNumber)
     .connect(sigc::mem_fun(*this, &NetworkActivityMonitor::on_activity_message));
+  TRACE_EXIT()
 }
 
 void
 NetworkActivityMonitor::on_activity_message(NetworkMessageBase::Ptr message)
 {
   TRACE_ENTER("NetworkActivityMonitor::on_activity_message");
-
-  //NetworkMessage<cloud::ActivityState> x(message);
-
-  boost::shared_ptr<cloud::ActivityState> as = message->cast<cloud::ActivityState>();
-  TRACE_MSG("as " << as);
-
-  boost::shared_ptr<cloud::Break> b = message->cast<cloud::Break>();
-  TRACE_MSG("b " << b);
+  // NetworkMessage<cloud::ActivityState>::Ptr as = boost::dynamic_pointer_cast<NetworkMessage<cloud::ActivityState> >(message);
   
-  // const UUID &remote_id = message->source;
-  // const ActivityState state = message->msg()->state();
+  boost::shared_ptr<cloud::ActivityState> a = message->as<cloud::ActivityState>();
 
-  //     StateIter i = states.find(remote_id);
-  //     if (i != states.end())
-  //       {
-  //         RemoteState &rs = i->second;
+  if (a)
+    {
+      const UUID &remote_id = message->source;
+      const ActivityState state = (ActivityState) a->state();
 
-  //         rs.lastupdate = core->get_time();
+      TRACE_MSG("state " << state << " from" << remote_id.str());
+      
+      StateIter i = states.find(remote_id);
+      if (i != states.end())
+        {
+          RemoteState &rs = i->second;
+
+          rs.lastupdate = TimeSource::get_time();
           
-  //         if (rs.state != state)
-  //           {
-  //             rs.since = rs.lastupdate;
-  //           }
+          if (rs.state != state)
+            {
+              rs.since = rs.lastupdate;
+            }
           
-  //         rs.state = state;
-  //       }
-  //     else
-  //       {
-  //         RemoteState rs;
-  //         rs.id == remote_id;
-  //         rs.state = state;
-  //         rs.lastupdate = core->get_time();
-  //         rs.since = rs.lastupdate;
+          rs.state = state;
+        }
+      else
+        {
+          RemoteState rs;
+          rs.id = remote_id;
+          rs.state = state;
+          rs.lastupdate = TimeSource::get_time();
+          rs.since = rs.lastupdate;
           
-  //         states[remote_id] = rs;
-  //       }
-  //   }
+          states[remote_id] = rs;
+        }
+    }
 
   TRACE_EXIT();
 }
@@ -106,7 +113,7 @@ NetworkActivityMonitor::get_active()
 {
   TRACE_ENTER("NetworkActivityMonitor::get_active");
 
-  time_t current_time = core->get_time();
+  time_t current_time = TimeSource::get_time();
   int num_active = 0;
 
   StateIter i = states.begin();
@@ -144,16 +151,16 @@ NetworkActivityMonitor::is_active(const UUID &remote_id, time_t &since)
   TRACE_ENTER("NetworkActivityMonitor::is_active");
   bool ret = false;
   
-  // since = -1;
+  since = -1;
   
-  // StateIter i = states.find(remote_id);
-  // if (i != states.end())
-  //   {
-  //     RemoteState &rs = i->second;
+  StateIter i = states.find(remote_id);
+  if (i != states.end())
+    {
+      RemoteState &rs = i->second;
 
-  //     ret = rs.state == ACTIVITY_ACTIVE;
-  //     since = rs.since;
-  //   }
+      ret = rs.state == ACTIVITY_ACTIVE;
+      since = rs.since;
+    }
   
   TRACE_EXIT();
   return ret;

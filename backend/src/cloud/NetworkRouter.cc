@@ -44,8 +44,15 @@
 
 using namespace std;
 
+NetworkRouter::Ptr
+NetworkRouter::create()
+{
+  return NetworkRouter::Ptr(new NetworkRouter());
+}
+
+
 //! Constructs a new network router
-NetworkRouter::NetworkRouter(string username, string secret) : username(username), secret(secret)
+NetworkRouter::NetworkRouter()
 {
   TRACE_ENTER("NetworkRouter::NetworkRouter");
   announce = NetworkAnnounce::create();
@@ -64,10 +71,12 @@ NetworkRouter::~NetworkRouter()
 
 //! Initializes the network router.
 void
-NetworkRouter::init(int port)
+NetworkRouter::init(int port, string username, string secret)
 {
   TRACE_ENTER("NetworkRouter::init");
-
+  this->username = username;
+  this->secret = secret;
+  
   init_myid(port);
 
   announce->init(port);
@@ -86,31 +95,6 @@ void
 NetworkRouter::terminate()
 {
   TRACE_ENTER("NetworkRouter::terminate");
-  TRACE_EXIT();
-}
-
-
-//! Periodic heartbeart from the core.
-void
-NetworkRouter::heartbeat()
-{
-  TRACE_ENTER("NetworkRouter::heartbeat");
-  static bool once = false;
-  
-  // TODO: debugging code.
-  if (!once)
-    {
-      NetworkMessage<cloud::ActivityState>::Ptr as = NetworkMessage<cloud::ActivityState>::create();
-      as->scope = NetworkClient::SCOPE_DIRECT;
-      as->authenticated = true;
-
-      boost::shared_ptr<cloud::ActivityState> a = as->msg();
-      //as->msg()->set_state(1);
-      send_message(as);
-
-      once = true;
-    }
-  
   TRACE_EXIT();
 }
 
@@ -376,6 +360,7 @@ NetworkRouter::unmarshall_message(gsize size, const gchar *data, NetworkClient::
       
       if (header_ok)
         {
+          header = boost::shared_ptr<workrave::Header>(new workrave::Header());
           header_ok = header->ParseFromBoundedZeroCopyStream(input.get(), header_size);
         }
       

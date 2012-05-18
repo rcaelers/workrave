@@ -42,15 +42,17 @@ using namespace workrave::network;
 class NetworkRouter : public INetwork
 {
 public:
+  typedef boost::shared_ptr<NetworkRouter> Ptr;
+  
+public:
+  static Ptr create();
   
 public:  
-  NetworkRouter(std::string username, std::string secret);
+  NetworkRouter();
   virtual ~NetworkRouter();
 
-  // Core internal
-  void init(int port);
+  void init(int port, std::string username, std::string secret);
   void terminate();
-  void heartbeat();
 
   virtual void connect(const std::string &host, int port);
   virtual void send_message(NetworkMessageBase::Ptr msg);

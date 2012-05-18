@@ -1,4 +1,4 @@
-// NetworkAnnounce.hh --- Networking network server
+// Cloud.hh --- Networking network server
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,46 +17,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKANNOUNCE_HH
-#define NETWORKANNOUNCE_HH
+#ifndef CLOUD_HH
+#define CLOUD_HH
 
+#include <list>
+#include <map>
 #include <string>
+
+#include <sigc++/sigc++.h>
+
 #include <boost/shared_ptr.hpp>
 
-#include "MulticastSocketServer.hh"
-#include "NetworkClient.hh"
+#include "IConfigurator.hh"
+
+#include "INetwork.hh"
+#include "NetworkConfigurationManager.hh"
+#include "NetworkActivityMonitor.hh"
 
 using namespace workrave;
 using namespace workrave::network;
+using namespace workrave::config;
 
-class NetworkAnnounce
+class Cloud
 {
 public:
-  typedef boost::shared_ptr<NetworkAnnounce> Ptr;
-
-public:
-  static Ptr create();
-
-  NetworkAnnounce();
-  virtual ~NetworkAnnounce();
-
-  void init(int port);
-  void terminate();
-
-  void send_message(const std::string &message);
- 
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &signal_data();
- 
-private:
-  void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
+  typedef boost::shared_ptr<Cloud> Ptr;
   
+public:
+  static Ptr create(INetwork::Ptr network, IConfigurator::Ptr configurator);
+
+public:  
+  Cloud(INetwork::Ptr network, IConfigurator::Ptr configurator);
+  virtual ~Cloud();
+
+  void init();
+  void terminate();
+  void heartbeat();
+
 private:
-  //! Default server
-  MulticastSocketServer::Ptr multicast_server;
+  //! 
+  INetwork::Ptr network;
 
   //!
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> data_signal;
+  IConfigurator::Ptr configurator;
+  
+  //! 
+  NetworkConfigurationManager::Ptr configuration_manager;
+
+  //!
+  NetworkActivityMonitor::Ptr activity_monitor;
 };
 
 
-#endif // NETWORKANNOUNCE_HH
+#endif // CLOUD_HH

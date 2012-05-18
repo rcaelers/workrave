@@ -27,13 +27,17 @@
 
 #include <glib-object.h>
 
+#include "ConfiguratorFactory.hh"
+
+#include "IConfigurator.hh"
 #include "NetworkRouter.hh"
+#include "Cloud.hh"
 
 static gboolean on_timer(gpointer data)
 {
-  NetworkRouter *network = (NetworkRouter *)data;
+  Cloud *c = (Cloud *)data;
   
-  network->heartbeat();
+  c->heartbeat();
 
   return G_SOURCE_CONTINUE;
 }
@@ -51,22 +55,32 @@ main(int argc, char **argv)
   g_type_init();
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  NetworkRouter network1("rob@workrave", "kjsdapkidszahf");
-  network1.init(2701);
-
-  NetworkRouter network2("rob@workrave", "kjsdapkidszahf");
-  network2.init(2702);
-  network2.connect("localhost", 2701);
+  IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
   
-  NetworkRouter network3("rob@workrave", "kjsdapkidszahf");
-  network3.init(2703);
-  network3.connect("localhost", 2701);
+  NetworkRouter::Ptr network1 = NetworkRouter::create();
+  Cloud::Ptr cloud1 = Cloud::create(network1, configurator);
+  network1->init(2701, "rob@workrave", "kjsdapkidszahf");
+  cloud1->init();
 
-  NetworkRouter network4("rob@workrave", "kjsdapkidszahf");
-  network4.init(2704);
-  network4.connect("localhost", 2703);
+  NetworkRouter::Ptr network2 = NetworkRouter::create();
+  Cloud::Ptr cloud2 = Cloud::create(network2, configurator);
+  network2->init(2702, "rob@workrave", "kjsdapkidszahf");
+  network2->connect("localhost", 2701);
+  cloud2->init();
   
-  g_timeout_add_seconds(2, on_timer, &network1);
+  NetworkRouter::Ptr network3 = NetworkRouter::create();
+  Cloud::Ptr cloud3 = Cloud::create(network3, configurator);
+  network3->init(2703, "rob@workrave", "kjsdapkidszahf");
+  network3->connect("localhost", 2701);
+  cloud3->init();
+
+  NetworkRouter::Ptr network4 = NetworkRouter::create();
+  Cloud::Ptr cloud4 = Cloud::create(network4, configurator);
+  network4->init(2704, "rob@workrave", "kjsdapkidszahf");
+  network4->connect("localhost", 2703);
+  cloud4->init();
+  
+  g_timeout_add_seconds(2, on_timer, cloud1.get());
   g_main_loop_run(loop);
   
   return 0;

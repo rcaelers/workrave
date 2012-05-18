@@ -13,6 +13,8 @@ sources	 =		NetworkRouter.cc \
 			NetworkDirectLink.cc \
 			NetworkAnnounce.cc \
 			NetworkActivityMonitor.cc \
+			NetworkConfigurationManager.cc \
+			Cloud.cc \
 			workrave.pb.cc \
 			cloud.pb.cc
 
@@ -29,7 +31,9 @@ libworkrave_backend_cloud_la_SOURCES = ${sources}
 
 libworkrave_backend_cloud_la_CXXFLAGS = \
 			-W \
+			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
+			-I$(top_srcdir)/libs/config/include \
 			-I${top_srcdir}/backend/src \
 			-I${top_srcdir}/backend/include \
 			@X_CFLAGS@ \

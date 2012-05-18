@@ -24,16 +24,17 @@
 #include <string>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
 
 #include "workrave.pb.h"
 
 #include "NetworkClient.hh"
 #include "UUID.hh"
 
-template <class T>
+template<class T>
 class NetworkMessage;
 
-class NetworkMessageBase
+class NetworkMessageBase : public boost::noncopyable
 {
 public:
   typedef boost::shared_ptr<NetworkMessageBase> Ptr;
@@ -55,11 +56,11 @@ public:
   {
     return message;
   }
-
-  template <class X>
-  boost::shared_ptr<X> cast()
+  
+  template<class T>
+  boost::shared_ptr<T> as()
   {
-    return  boost::dynamic_pointer_cast<X>(message);
+    return boost::dynamic_pointer_cast<T>(message);
   }
   
 public:
@@ -69,25 +70,27 @@ public:
   UUID source;
 };
 
-template <class T>
-class NetworkMessage : public NetworkMessageBase
+
+template<>
+class NetworkMessage<google::protobuf::Message> : public NetworkMessageBase
 {
 public:
-  typedef boost::shared_ptr<NetworkMessage <T> > Ptr;
+  typedef boost::shared_ptr<google::protobuf::Message> MessagePtr;
+
+  explicit NetworkMessage(MessagePtr message) : NetworkMessageBase(message)
+  {
+  }
+};
+
+
+template<class T>
+class NetworkMessage : public NetworkMessage<google::protobuf::Message>
+{
+public:
+  typedef boost::shared_ptr<NetworkMessage<T> > Ptr;
   typedef boost::shared_ptr<T> MessagePtr;
 
-  static Ptr create()
-  {
-    MessagePtr m(new T());
-    Ptr ret = Ptr(new NetworkMessage<T>(m));
-    return ret;
-  }
-  
-  NetworkMessage(MessagePtr message) : NetworkMessageBase(message)
-  {
-  }
-
-  virtual ~NetworkMessage()
+  explicit NetworkMessage(MessagePtr message) : NetworkMessage<google::protobuf::Message>(message)
   {
   }
 
@@ -96,7 +99,13 @@ public:
     return boost::dynamic_pointer_cast<T>(message);
   }
 
-public:
+  static Ptr create()
+  {
+    MessagePtr m(new T());
+    Ptr ret = Ptr(new NetworkMessage<T>(m));
+    return ret;
+  }
 };
+
 
 #endif // NETWORKMESSAGE_HH
