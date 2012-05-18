@@ -1,6 +1,6 @@
 // IConfigurator.hh -- Interface to the Workrave configuration
 //
-// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,62 +26,65 @@
 
 namespace workrave {
 
-  // Forward declaratons
-  class IConfiguratorListener;
-
-  //! Hints on how to set a configuration value.
-  enum ConfigFlags
-    {
-      //! No special hints.
-      CONFIG_FLAG_NONE = 0,
-
-      //! The default value is set.
-      CONFIG_FLAG_DEFAULT = 1,
-
-      //! The value must be set immediately, without delay.
-      CONFIG_FLAG_IMMEDIATE = 2,
-    };
-
-
-  //! Interface to access the configuration.
-  class IConfigurator
+  namespace config
   {
-  public:
-    virtual ~IConfigurator() {}
+    // Forward declaratons
+    class IConfiguratorListener;
 
-    virtual void set_delay(const std::string &key, int delay) = 0;
+    //! Hints on how to set a configuration value.
+    enum ConfigFlags
+      {
+        //! No special hints.
+        CONFIG_FLAG_NONE = 0,
 
-    virtual bool load(std::string filename) = 0;
-    virtual bool save(std::string filename) = 0;
-    virtual bool save() = 0;
+        //! The default value is set.
+        CONFIG_FLAG_DEFAULT = 1,
 
-    virtual bool remove_key(const std::string &key) const = 0;
-    virtual bool rename_key(const std::string &key, const std::string &new_key) = 0;
+        //! The value must be set immediately, without delay.
+        CONFIG_FLAG_IMMEDIATE = 2,
+      };
 
-    virtual bool get_value(const std::string &key, std::string &out) const = 0;
-    virtual bool get_value(const std::string &key, bool &out) const = 0;
-    virtual bool get_value(const std::string &key, int &out) const = 0;
-    virtual bool get_value(const std::string &key, double &out) const = 0;
 
-    virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
-    virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const = 0;
-    virtual void get_value_with_default(const std::string &key, int &out, const int def) const = 0;
-    virtual void get_value_with_default(const std::string &key, double &out, const double def) const = 0;
+    //! Interface to access the configuration.
+    class IConfigurator
+    {
+    public:
+      virtual ~IConfigurator() {}
 
-    virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual void set_delay(const std::string &key, int delay) = 0;
 
-    virtual bool get_typed_value(const std::string &key, std::string &t) const = 0;
-    virtual bool set_typed_value(const std::string &key, const std::string &t) = 0;
+      virtual bool load(std::string filename) = 0;
+      virtual bool save(std::string filename) = 0;
+      virtual bool save() = 0;
 
-    virtual bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
-    virtual bool remove_listener(IConfiguratorListener *listener) = 0;
-    virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
-    virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const = 0;
-  };
+      virtual bool remove_key(const std::string &key) const = 0;
+      virtual bool rename_key(const std::string &key, const std::string &new_key) = 0;
+
+      virtual bool get_value(const std::string &key, std::string &out) const = 0;
+      virtual bool get_value(const std::string &key, bool &out) const = 0;
+      virtual bool get_value(const std::string &key, int &out) const = 0;
+      virtual bool get_value(const std::string &key, double &out) const = 0;
+
+      virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
+      virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const = 0;
+      virtual void get_value_with_default(const std::string &key, int &out, const int def) const = 0;
+      virtual void get_value_with_default(const std::string &key, double &out, const double def) const = 0;
+
+      virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+
+      virtual bool get_typed_value(const std::string &key, std::string &t) const = 0;
+      virtual bool set_typed_value(const std::string &key, const std::string &t) = 0;
+
+      virtual bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
+      virtual bool remove_listener(IConfiguratorListener *listener) = 0;
+      virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
+      virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const = 0;
+    };
+  }
 }
 
 #endif // ICONFIGURATOR_HH

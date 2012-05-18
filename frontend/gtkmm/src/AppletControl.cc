@@ -55,6 +55,7 @@
 #include "IConfigurator.hh"
 
 using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 //! Constructor.

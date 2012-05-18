@@ -46,6 +46,7 @@
 #endif
 
 using namespace workrave;
+using namespace workrave::config;
 
 class W32StatusIcon;
 

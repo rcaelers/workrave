@@ -36,7 +36,6 @@
 
 #include "IActivityMonitor.hh"
 
-class TimeSource;
 class TimePred;
 class DataNode;
 

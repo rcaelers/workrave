@@ -26,6 +26,7 @@
 #include "IConfiguratorListener.hh"
 
 using namespace workrave;
+using namespace workrave::config;
 
 class AppletControl :
   public IConfiguratorListener

@@ -48,6 +48,7 @@
 #include "DataConnector.hh"
 
 using namespace std;
+using namespace workrave::config;
 
 TimerPreferencesPanel::TimerPreferencesPanel
 (BreakId t,
@@ -177,7 +178,7 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_REST_BREAK)
     {
       exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
-      hig->add(_("Number of exercises:"), *exercises_spin);
+      hig->add_label(_("Number of exercises:"), *exercises_spin);
     }
 #endif
   if (break_id == BREAK_ID_REST_BREAK)
@@ -220,7 +221,7 @@ TimerPreferencesPanel::create_timers_panel
 
   // Limit time
   limit_tim = Gtk::manage(new TimeEntry());
-  Gtk::Label *limit_lab = hig->add(break_id == BREAK_ID_DAILY_LIMIT
+  Gtk::Label *limit_lab = hig->add_label(break_id == BREAK_ID_DAILY_LIMIT
            ? _("Time before end:")
            : _("Time between breaks:"), *limit_tim);
   hsize_group->add_widget(*limit_lab);
@@ -235,7 +236,7 @@ TimerPreferencesPanel::create_timers_panel
 
       Gtk::Label *auto_reset_lab = Gtk::manage(new Gtk::Label(auto_reset_txt));
       hsize_group->add_widget(*auto_reset_lab);
-      hig->add(*auto_reset_lab, *auto_reset_tim);
+      hig->add_label(*auto_reset_lab, *auto_reset_tim);
     }
   else
     {
@@ -244,7 +245,7 @@ TimerPreferencesPanel::create_timers_panel
 
   // Snooze time
   snooze_tim = Gtk::manage(new TimeEntry());
-  Gtk::Label *snooze_lab = hig->add(_("Postpone time:"), *snooze_tim);
+  Gtk::Label *snooze_lab = hig->add_label(_("Postpone time:"), *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 
   vsize_group->add_widget(*hig);

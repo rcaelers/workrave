@@ -74,15 +74,15 @@ HigCategoryPanel::init(Gtk::Widget &lab, bool fill)
 }
 
 Gtk::Label *
-HigCategoryPanel::add(const char *text, Gtk::Widget &widget, bool expand, bool fill)
+HigCategoryPanel::add_label(const char *text, Gtk::Widget &widget, bool expand, bool fill)
 {
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
-  add(*lab, widget, expand, fill);
+  add_label(*lab, widget, expand, fill);
   return lab;
 }
 
 void
-HigCategoryPanel::add(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
+HigCategoryPanel::add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
 {
   label.set_alignment(0.0);
   size_group->add_widget(label);
@@ -94,7 +94,7 @@ HigCategoryPanel::add(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool 
 }
 
 void
-HigCategoryPanel::add(Gtk::Widget &widget, bool expand, bool fill)
+HigCategoryPanel::add_widget(Gtk::Widget &widget, bool expand, bool fill)
 {
   options_box->pack_start(widget, expand, fill, 0);
 }

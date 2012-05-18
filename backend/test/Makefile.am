@@ -18,7 +18,8 @@ cloud_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) $(eggcflags) -I$(top_srcdir)/backend/src -I$(top_srcdir)/backend/src/cloud \
-			-I${top_srcdir}/libs/network/include
+			-I${top_srcdir}/libs/network/include \
+			-I${top_srcdir}/libs/config/include
 
 cloud_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 

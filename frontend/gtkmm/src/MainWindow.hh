@@ -36,6 +36,7 @@ class TimerBoxControl;
 class TimerBoxGtkView;
 
 using namespace workrave;
+using namespace workrave::config;
 
 class MainWindow :
   public Gtk::Window,

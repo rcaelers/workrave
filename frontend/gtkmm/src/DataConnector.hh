@@ -1,6 +1,6 @@
 // DataConnector.hh --- Connect widget with the configurator
 //
-// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,9 @@
 #include <list>
 #include <sigc++/sigc++.h>
 
+#include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "ICore.hh"
-
-namespace workrave
-{
-  class IConfigurator;
-}
 
 class TimeEntry;
 
@@ -90,13 +86,13 @@ private:
   Widgets connections;
 
   //!
-  workrave::IConfigurator *config;
+  workrave::config::IConfigurator *config;
 };
 
 
 
 class DataConnection
-  : public workrave::IConfiguratorListener
+  : public workrave::config::IConfiguratorListener
 {
 public:
   DataConnection();
@@ -109,7 +105,7 @@ public:
 
 protected:
 
-  workrave::IConfigurator *config;
+  workrave::config::IConfigurator *config;
   std::string key;
   dc::Flags flags;
 };

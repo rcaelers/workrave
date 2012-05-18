@@ -271,7 +271,8 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
-			-I${EXERCISES_HOME}/common/src
+			-I${EXERCISES_HOME}/common/src \
+			-I$(top_srcdir)/libs/config/include
 
 if PLATFORM_OS_OSX
 AM_CPPFLAGS =		-xobjective-c++

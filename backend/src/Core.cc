@@ -38,15 +38,13 @@
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
 #include "ConfiguratorFactory.hh"
-#include "Configurator.hh"
+#include "IConfigurator.hh"
 #include "CoreConfig.hh"
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
-#include "TimePredFactory.hh"
-#include "TimePred.hh"
-#include "TimeSource.hh"
 #include "InputMonitorFactory.hh"
+#include "TimeSource.hh"
 
 #ifdef HAVE_TESTS
 #include "FakeActivityMonitor.hh"
@@ -100,7 +98,8 @@ Core::Core() :
 {
   TRACE_ENTER("Core::Core");
   current_time = time(NULL);
-
+  TimeSource::source = this;
+  
   assert(! instance);
   instance = this;
 
@@ -460,7 +459,7 @@ Core::get_timer(string name) const
 
 
 //! Returns the configurator.
-Configurator *
+IConfigurator *
 Core::get_configurator() const
 {
   return configurator;
@@ -1058,7 +1057,7 @@ Core::heartbeat()
   bool warped = process_timewarp();
 
   // Process configuration
-  configurator->heartbeat();
+  // FIXME: configurator->heartbeat();
 
   if (!warped)
     {

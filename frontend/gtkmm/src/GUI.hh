@@ -28,6 +28,7 @@
 
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
+#include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "IApp.hh"
 #include "BreakWindow.hh"
@@ -35,7 +36,6 @@
 
 namespace workrave {
   class IBreakResponse;
-  class IConfigurator;
 }
 
 // GTKMM classes
@@ -55,6 +55,7 @@ class SoundPlayer;
 class Session;
 
 using namespace workrave;
+using namespace workrave::config;
 
 class IGUI
 {

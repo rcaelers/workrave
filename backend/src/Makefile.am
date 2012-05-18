@@ -105,7 +105,10 @@ libworkrave_backend_la_CFLAGS = \
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
 
 libworkrave_backend_la_LIBADD= \
-			${platform_ldadd} $(top_builddir)/libs/network/src/libworkrave-network.la cloud/libworkrave-backend-cloud.la
+			${platform_ldadd} \
+			$(top_builddir)/libs/config/src/libworkrave-config.la \
+			$(top_builddir)/libs/network/src/libworkrave-network.la \
+			cloud/libworkrave-backend-cloud.la
 
 DISTCLEANFILES = org.workrave.gschema.xml
 

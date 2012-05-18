@@ -45,7 +45,7 @@
 #include "ICore.hh"
 #include "ICoreEventListener.hh"
 #include "IConfiguratorListener.hh"
-#include "TimeSource.hh"
+#include "ITimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 
@@ -59,7 +59,6 @@ namespace workrave {
 }
 
 class ActivityMonitor;
-class Configurator;
 class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
@@ -67,7 +66,7 @@ class BreakControl;
 class Network;
 
 class Core :
-  public TimeSource,
+  public ITimeSource,
   public ICore,
   public IConfiguratorListener,
   public IBreakResponse
@@ -82,7 +81,7 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id);
   Break *get_break(std::string name);
-  Configurator *get_configurator() const;
+  IConfigurator *get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const;
 
@@ -211,7 +210,7 @@ private:
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  Configurator *configurator;
+  IConfigurator *configurator;
 
   //! The activity monitor
   ActivityMonitor *monitor;

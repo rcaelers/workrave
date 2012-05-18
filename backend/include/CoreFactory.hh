@@ -24,9 +24,13 @@ namespace workrave
 {
   // Forward declarion of external interfaces.
   class ICore;
-  class IConfigurator;
   class DBus;
 
+  namespace config
+  {
+    class IConfigurator;
+  }
+  
   //! Main access points to the Core.
   class CoreFactory
   {
@@ -35,7 +39,7 @@ namespace workrave
     static ICore *get_core();
 
     //! Returns the interface to the core's configurator.
-    static IConfigurator *get_configurator();
+    static config::IConfigurator *get_configurator();
 
     //! Returns the interface to the DBUS facility.
     static DBus *get_dbus();

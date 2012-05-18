@@ -37,6 +37,8 @@
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
 
+using namespace workrave::config;
+
 UnixInputMonitorFactory::UnixInputMonitorFactory()
   : error_reported(false)
 {

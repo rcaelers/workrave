@@ -156,15 +156,15 @@ TimerBoxPreferencePage::create_page()
       hig->add(*ontop_cb);
     }
 
-  hig->add(_("Placement:"), *place_button);
-  hig->add(_("Cycle time:"), *cycle_entry);
+  hig->add_label(_("Placement:"), *place_button);
+  hig->add_label(_("Cycle time:"), *cycle_entry);
 
   hig->add_caption(_("Timers"));
 
   // Layout
-  hig->add(_("Micro-break:"), *timer_display_button[0]);
-  hig->add(_("Rest break:"), *timer_display_button[1]);
-  hig->add(_("Daily limit:"), *timer_display_button[2]);
+  hig->add_label(_("Micro-break:"), *timer_display_button[0]);
+  hig->add_label(_("Rest break:"), *timer_display_button[1]);
+  hig->add_label(_("Daily limit:"), *timer_display_button[2]);
 
   pack_end(*hig, true, true, 0);
 

@@ -1,6 +1,6 @@
 // ConfiguratorFactory.cc
 //
-// Copyright (C) 2007, 2008, 2011 Rob Caelers
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@
 #endif
 
 //! Creates a configurator of the specified type.
-Configurator *
+IConfigurator *
 ConfiguratorFactory::create(Format fmt)
 {
   Configurator *c =  NULL;

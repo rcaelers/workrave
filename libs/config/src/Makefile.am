@@ -10,7 +10,6 @@ noinst_LTLIBRARIES = 	libworkrave-config.la
 
 sources =		Configurator.cc \
 			ConfiguratorFactory.cc \
-			CoreFactory.cc \
 			GlibIniConfigurator.cc \
 			GSettingsConfigurator.cc
 

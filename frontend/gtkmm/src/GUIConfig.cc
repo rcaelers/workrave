@@ -32,6 +32,7 @@
 #include "IBreak.hh"
 
 using namespace std;
+using namespace workrave::config;
 
 const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";

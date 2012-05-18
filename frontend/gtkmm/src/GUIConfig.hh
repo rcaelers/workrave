@@ -64,10 +64,8 @@ public:
 
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
-
-  
+ 
 private:
-
   static std::string expand(const std::string &str, BreakId id);
 };
 

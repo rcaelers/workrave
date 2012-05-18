@@ -23,8 +23,8 @@
 
 #include <assert.h>
 
+#include "IConfigurator.hh"
 #include "CoreFactory.hh"
-#include "Configurator.hh"
 #include "Core.hh"
 
 //! Returns the interface to the core.

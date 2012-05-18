@@ -1,6 +1,6 @@
 // IConfigBackend.hh
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,14 @@
 
 namespace workrave
 {
-  class IConfiguratorListener;
+  namespace config
+  {
+    class IConfiguratorListener;
+  }
 }
 
 using namespace workrave;
+using namespace workrave::config;
 
 #include "Variant.hh"
 

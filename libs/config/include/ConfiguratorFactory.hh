@@ -1,6 +1,6 @@
-// configuratorfactory.hh
+// ConfiguratorFactory.hh
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,22 +20,27 @@
 #ifndef CONFIGURATORFACTORY_HH
 #define CONFIGURATORFACTORY_HH
 
-// Forward declarion of internal interfaces.
-class Configurator;
+#include "IConfigurator.hh"
 
-//! Factory that creates configurators
-class ConfiguratorFactory
+namespace workrave
 {
-public:
-  enum Format
+  namespace config
+  {
+    //! Factory that creates configurators
+    class ConfiguratorFactory
     {
-      FormatIni,
-      FormatXml,
-      FormatNative
+    public:
+      enum Format
+        {
+          FormatIni,
+          FormatXml,
+          FormatNative
+        };
+      
+      //! Creates a link server of the specified type.
+      static IConfigurator *create(Format fmt);
     };
-
-  //! Creates a link server of the specified type.
-  static Configurator *create(Format fmt);
-};
+  }
+}
 
 #endif // CONFIGURATORFACTORY_HH

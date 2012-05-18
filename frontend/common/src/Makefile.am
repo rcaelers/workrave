@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -43,4 +43,5 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-I$(top_srcdir)/frontend/common/src/osx \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
-			-I$(top_srcdir)/common/win32/harpoon/include
+			-I$(top_srcdir)/common/win32/harpoon/include \
+			-I$(top_srcdir)/libs/config/include

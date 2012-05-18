@@ -1,6 +1,6 @@
 // Configurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 //
 // All rights reserved.
@@ -30,17 +30,11 @@
 #include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
-
-using namespace workrave;
-using namespace std;
-
-// Forward declarion of external interface.
-namespace workrave {
-  class IConfiguratorListener;
-}
 #include "Variant.hh"
 
-class IConfigBackend;
+using namespace workrave;
+using namespace workrave::config;
+using namespace std;
 
 class Configurator : public IConfigurator, public IConfiguratorListener
 {
