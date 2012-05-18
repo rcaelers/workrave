@@ -423,7 +423,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 
         cairo_surface_destroy(surface);
         gdk_flush();
-        gdk_error_trap_pop();
+        (void) gdk_error_trap_pop();
       }
       break;
       
