@@ -997,6 +997,12 @@ AC_CONFIG_FILES([Makefile
              libs/network/src/Makefile
              libs/network/src/unix/Makefile
              libs/network/src/win32/Makefile
+             libs/config/Makefile
+             libs/config/include/Makefile
+             libs/config/src/Makefile
+             libs/config/src/unix/Makefile
+             libs/config/src/win32/Makefile
+             libs/config/src/osx/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile

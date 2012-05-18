@@ -1,6 +1,6 @@
 // GSettingsConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@
 #ifdef HAVE_GSETTINGS
 
 #include "debug.hh"
+#include <string.h>
 
 #include "GSettingsConfigurator.hh"
 #include "Configurator.hh"
-#include "Core.hh"
 #include "StringUtil.hh"
 
 using namespace workrave;

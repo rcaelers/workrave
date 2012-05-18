@@ -12,13 +12,9 @@ noinst_LTLIBRARIES = 	libworkrave-backend.la
 sources = 		ActivityMonitor.cc \
 			Break.cc \
 			BreakControl.cc \
-			Configurator.cc \
-			ConfiguratorFactory.cc \
 			Core.cc \
 			CoreConfig.cc \
 			CoreFactory.cc \
-			GlibIniConfigurator.cc \
-			GSettingsConfigurator.cc \
 			InputMonitor.cc \
 			InputMonitorFactory.cc \
 			Statistics.cc \
@@ -30,11 +26,6 @@ sources = 		ActivityMonitor.cc \
 
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
-
-if HAVE_GDOME
-sourcesgdome = 		XMLConfigurator.cc
-endif
-
 
 
 if PLATFORM_OS_WIN32
@@ -106,9 +97,10 @@ libworkrave_backend_la_CFLAGS = \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} \
 			-I$(top_srcdir)/libs/network/include \
+			-I$(top_srcdir)/libs/config/include \
 			 @WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @PROTOBUF_CFLAGS@ -I$(top_srcdir)/backend/src/cloud
+			@GLIB_CFLAGS@@DBUS_CFLAGS@ \
+			@PROTOBUF_CFLAGS@ -I$(top_srcdir)/backend/src/cloud
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
 

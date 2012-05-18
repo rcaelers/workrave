@@ -25,11 +25,9 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "TimeSource.hh"
 #include "Configurator.hh"
-
 #include "IConfigBackend.hh"
-#include "ICore.hh"
-#include "CoreFactory.hh"
 #include "IConfiguratorListener.hh"
 
 using namespace std;
@@ -85,8 +83,7 @@ Configurator::save()
 void
 Configurator::heartbeat()
 {
-  ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
+  time_t now = TimeSource::get_time();
 
   DelayedListIter it = delayed_config.begin();
   while (it != delayed_config.end())
@@ -110,8 +107,7 @@ Configurator::heartbeat()
 
                   if (auto_save_time == 0)
                     {
-                      ICore *core = CoreFactory::get_core();
-                      auto_save_time = core->get_time() + 30;
+                      auto_save_time = TimeSource::get_time() + 30;
                     }
                 }
             }
@@ -212,12 +208,10 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
         {
           if (setting.delay)
             {
-              ICore *core = CoreFactory::get_core();
-
               DelayedConfig &d = delayed_config[key];
               d.key = (string)key;
               d.value = value;
-              d.until = core->get_time() + setting.delay;
+              d.until = TimeSource::get_time() + setting.delay;
 
               skip = true;
             }
@@ -239,8 +233,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
               if (auto_save_time == 0)
                 {
-                  ICore *core = CoreFactory::get_core();
-                  auto_save_time = core->get_time() + 30;
+                  auto_save_time = TimeSource::get_time() + 30;
                 }
             }
         }
