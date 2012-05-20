@@ -22,28 +22,28 @@
 #include "config.h"
 #endif
 
+#define TRACE_EXTRA " (" << myid.str() << ")"
+#include "debug.hh"
+
 #include <string.h>
 #include <string>
 #include <sstream>
 
 #include <boost/shared_ptr.hpp>
-
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
-
 #include <glib.h>
 
-#include "debug.hh"
-
 #include "NetworkRouter.hh"
+#include "Util.hh"
 
 #include "workrave.pb.h"
 #include "cloud.pb.h"
 
-#include "Util.hh"
-
 using namespace std;
 
+
+//! Create a new network router
 NetworkRouter::Ptr
 NetworkRouter::create()
 {
@@ -90,7 +90,7 @@ NetworkRouter::init(int port, string username, string secret)
 }
 
 
-//! Terminates the network announcer.
+//! Terminates the network router.
 void
 NetworkRouter::terminate()
 {
@@ -102,7 +102,7 @@ NetworkRouter::terminate()
 void
 NetworkRouter::connect(const string &host, int port)
 {
-  TRACE_ENTER_MSG("NetworkRouter::connect", host << " " << port << " (" << myid.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::connect", host << " " << port);
   direct_links->connect(host, port);
   TRACE_EXIT();
 }
@@ -111,7 +111,7 @@ NetworkRouter::connect(const string &host, int port)
 void
 NetworkRouter::send_message(NetworkMessageBase::Ptr base)
 {
-  TRACE_ENTER_MSG("NetworkRouter::send_message", base->scope << " (" << myid.str() << ")");
+  TRACE_ENTER_MSG("NetworkRouter::send_message", base->scope);
   
   string str = marshall_message(base);
   
@@ -128,12 +128,13 @@ NetworkRouter::send_message(NetworkMessageBase::Ptr base)
   TRACE_EXIT();
 }
 
+
 void
 NetworkRouter::send_message_except(boost::shared_ptr<workrave::Header> header,
                                    boost::shared_ptr<google::protobuf::Message> message,
                                    NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::send_message_except", "(" << myid.str() << ")");
+  TRACE_ENTER("NetworkRouter::send_message_except");
   string str = marshall_message(header, message);
   
   direct_links->send_message_except(str, client);
@@ -156,7 +157,7 @@ NetworkRouter::signal_message(int domain, int id)
 void
 NetworkRouter::on_data(gsize size, const gchar *data, NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::on_data", " (" << myid.str() << ")");
+  TRACE_ENTER("NetworkRouter::on_data");
   boost::shared_ptr<google::protobuf::Message> message;
   boost::shared_ptr<workrave::Header> header;
   
@@ -342,7 +343,7 @@ NetworkRouter::unmarshall_message(gsize size, const gchar *data, NetworkClient::
                                   boost::shared_ptr<google::protobuf::Message> &message,
                                   boost::shared_ptr<workrave::Header> &header)
 {
-  TRACE_ENTER_MSG("NetworkRouter::unmarshall_message", " (" << myid.str() << ")");
+  TRACE_ENTER("NetworkRouter::unmarshall_message");
   bool result = false;
   
   try
@@ -433,7 +434,7 @@ NetworkRouter::get_namespace_of_domain(int domain)
 void
 NetworkRouter::on_client_changed(NetworkClient::Ptr client)
 {
-  TRACE_ENTER_MSG("NetworkRouter::on_client_changed", "(" << myid.str() << ")");
+  TRACE_ENTER("NetworkRouter::on_client_changed");
   ClientIter it = find(clients.begin(), clients.end(), client);
 
   if (client->state == NetworkClient::CONNECTION_STATE_CLOSED &&

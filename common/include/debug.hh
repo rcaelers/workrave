@@ -1,6 +1,6 @@
 // debug.hh
 //
-// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -49,14 +49,18 @@ public:
   static std::string trace_get_time();
 };
 
+#ifndef TRACE_EXTRA
+#define TRACE_EXTRA ""
+#endif
+
 #define TRACE_ENTER(x   ) g_log_mutex.lock(); \
                           const char *_trace_method_name = x;   \
-                          std::cerr << Debug::trace_get_time() << ">>> " << x << std::endl; \
+                          std::cerr << Debug::trace_get_time() << ">>> " << x << TRACE_EXTRA << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_ENTER_MSG(x, y) g_log_mutex.lock(); \
                           const char *_trace_method_name = x; \
-                          std::cerr  << Debug::trace_get_time() << ">>> " << x << " " << y << std::endl; \
+                          std::cerr << Debug::trace_get_time() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_RETURN(y)   g_log_mutex.lock(); \
