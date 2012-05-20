@@ -383,7 +383,7 @@ NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &netwo
       event.name = network_interface.adapter->name;
       event.valid = valid;
   
-      interface_changed_signal.emit(event);
+      interface_changed_signal(event);
     }
 }
 

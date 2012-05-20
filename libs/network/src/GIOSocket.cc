@@ -326,19 +326,19 @@ GIOSocket::close()
 }
 
 
-sigc::signal<void> &
+boost::signals2::signal<void()> &
 GIOSocket::signal_io()
 {
   return io_signal;
 }
 
-sigc::signal<void> &
+boost::signals2::signal<void()> &
 GIOSocket::signal_connected()
 {
   return connected_signal;
 }
 
-sigc::signal<void> &
+boost::signals2::signal<void()> &
 GIOSocket::signal_disconnected()
 {
   return disconnected_signal;
@@ -371,7 +371,7 @@ GIOSocket::static_connected_callback(GObject *source_object, GAsyncResult *resul
       g_socket_set_blocking(self->socket, FALSE);
       g_socket_set_keepalive(self->socket, TRUE);
 
-      self->connected_signal.emit();
+      self->connected_signal();
     }
   TRACE_EXIT();
 }
@@ -390,14 +390,14 @@ GIOSocket::static_data_callback(GSocket *socket, GIOCondition condition, gpointe
   // check for socket error
   if (condition & (G_IO_ERR | G_IO_HUP | G_IO_NVAL))
     {
-      self->disconnected_signal.emit();
+      self->disconnected_signal();
       ret = FALSE;
     }
 
   // process input
   if (ret && (condition & G_IO_IN))
     {
-      self->io_signal.emit();
+      self->io_signal();
     }
 
   TRACE_EXIT();
@@ -426,7 +426,7 @@ GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpoin
 
   if (!result)
     {
-      self->disconnected_signal.emit();
+      self->disconnected_signal();
     }
 
   TRACE_EXIT();

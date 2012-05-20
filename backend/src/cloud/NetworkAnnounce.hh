@@ -45,7 +45,7 @@ public:
 
   void send_message(const std::string &message);
  
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &signal_data();
+  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &signal_data();
  
 private:
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
@@ -55,7 +55,7 @@ private:
   MulticastSocketServer::Ptr multicast_server;
 
   //!
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> data_signal;
+  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> data_signal;
 };
 
 

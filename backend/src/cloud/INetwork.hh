@@ -24,9 +24,10 @@
 #include <map>
 #include <string>
 
-#include <sigc++/sigc++.h>
-
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
+
 #include <google/protobuf/message.h>
 
 #include "NetworkMessage.hh"
@@ -38,7 +39,7 @@ class INetwork
 {
 public:
   typedef boost::shared_ptr<INetwork> Ptr;
-  typedef sigc::signal<void, NetworkMessageBase::Ptr> MessageSignal;
+  typedef boost::signals2::signal<void(NetworkMessageBase::Ptr)> MessageSignal;
 
   virtual ~INetwork() {}
 

@@ -82,9 +82,9 @@ NetworkRouter::init(int port, string username, string secret)
   announce->init(port);
   direct_links->init(port);
 
-  announce->signal_data().connect(sigc::mem_fun(*this, &NetworkRouter::on_data));
-  direct_links->signal_data().connect(sigc::mem_fun(*this, &NetworkRouter::on_data));
-  direct_links->signal_client_update().connect(sigc::mem_fun(*this, &NetworkRouter::on_client_changed));
+  announce->signal_data().connect(boost::bind(&NetworkRouter::on_data, this, _1, _2, _3));
+  direct_links->signal_data().connect(boost::bind(&NetworkRouter::on_data, this, _1, _2, _3));
+  direct_links->signal_client_update().connect(boost::bind(&NetworkRouter::on_client_changed, this, _1));
   
   TRACE_EXIT();
 }
@@ -145,7 +145,11 @@ NetworkRouter::send_message_except(boost::shared_ptr<workrave::Header> header,
 NetworkRouter::MessageSignal &
 NetworkRouter::signal_message(int domain, int id)
 {
-  return message_signals[std::make_pair(domain, id)];
+  if (message_signals[std::make_pair(domain, id)] == NULL)
+    {
+      message_signals[std::make_pair(domain, id)].reset(new MessageSignal);
+    }
+  return *message_signals[std::make_pair(domain, id)].get();
 }
 
 
@@ -492,6 +496,9 @@ NetworkRouter::fire_message_signal(int domain, int id, NetworkMessageBase::Ptr m
   MessageSignalMapIter it = message_signals.find(std::make_pair(domain, id));
   if (it != message_signals.end())
     {
-      it->second.emit(message);
+      MessageSignal &m = *it->second;
+      m(message);
+    }
+}
     }
 }

@@ -21,8 +21,10 @@
 #define MULTICASTSERVER_HH
 
 #include <string>
+
 #include <boost/shared_ptr.hpp>
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 
 #include "NetworkAddress.hh"
 
@@ -48,7 +50,7 @@ namespace workrave
       virtual void send(const gchar *buf, gsize count) = 0;
 
       //! Incoming multicast data event.
-      virtual sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &signal_data() = 0;
+      virtual boost::signals2::signal<void(gsize, const gchar *, NetworkAddress::Ptr)> &signal_data() = 0;
     };
   }
 }

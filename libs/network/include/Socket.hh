@@ -21,8 +21,10 @@
 #define SOCKET_HH
 
 #include <string>
+
 #include <boost/shared_ptr.hpp>
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 
 #include "NetworkAddress.hh"
 
@@ -55,9 +57,9 @@ namespace workrave
 
       virtual NetworkAddress::Ptr get_remote_address() = 0;
       
-      virtual sigc::signal<void> &signal_io() = 0;
-      virtual sigc::signal<void> &signal_connected() = 0;
-      virtual sigc::signal<void> &signal_disconnected() = 0;
+      virtual boost::signals2::signal<void()> &signal_io() = 0;
+      virtual boost::signals2::signal<void()> &signal_connected() = 0;
+      virtual boost::signals2::signal<void()> &signal_disconnected() = 0;
     };
   }
 }

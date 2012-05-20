@@ -46,7 +46,7 @@ public:
   // MulticastSocketServer interface
   virtual bool init(const std::string &address_ipv4, const std::string &address_ipv6, int port);
   virtual void send(const gchar *buf, gsize count);
-  virtual sigc::signal<void, gsize, const gchar *, workrave::network::NetworkAddress::Ptr> &signal_data();
+  boost::signals2::signal<void(gsize, const gchar *, workrave::network::NetworkAddress::Ptr)> &signal_data();
 
 private:
   class Connection
@@ -74,7 +74,7 @@ private:
   GIONetworkAddress::Ptr address_ipv6;
   NetworkInterfaceMonitor::Ptr monitor;
   std::list<Connection::Ptr> connections;
-  sigc::signal<void, gsize, const gchar *, workrave::network::NetworkAddress::Ptr> data_signal;
+  boost::signals2::signal<void(gsize, const gchar *, workrave::network::NetworkAddress::Ptr)> data_signal;
 };
 
 

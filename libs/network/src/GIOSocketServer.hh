@@ -39,7 +39,7 @@ public:
 
   // SocketServer interface
   virtual bool init(int port);
-  virtual sigc::signal<void, workrave::network::Socket::Ptr> &signal_accepted();
+  boost::signals2::signal<void(workrave::network::Socket::Ptr)> &signal_accepted();
 
 private:
   static gboolean static_socket_incoming(GSocketService *service,
@@ -49,7 +49,7 @@ private:
 
 private:
   GSocketService *service;
-  sigc::signal<void, workrave::network::Socket::Ptr> accepted_signal;
+  boost::signals2::signal<void(workrave::network::Socket::Ptr)> accepted_signal;
 };
 
 #endif

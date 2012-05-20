@@ -114,10 +114,10 @@ namespace workrave {
     virtual void set_operation_mode(OperationMode mode) = 0;
 
     //! Temporarily overrides the operation mode.
-    virtual void set_operation_mode_override( OperationMode mode, const std::string &id ) = 0;
+    virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
 
     //! Removes the overriden operation mode.
-    virtual void remove_operation_mode_override( const std::string &id ) = 0;
+    virtual void remove_operation_mode_override(const std::string &id) = 0;
 
     //! Return the current usage mode.
     virtual UsageMode get_usage_mode() = 0;

@@ -58,7 +58,7 @@ NetworkActivityMonitor::init()
 {
   TRACE_ENTER("NetworkActivityMonitor::init");
   network->signal_message(1, cloud::ActivityState::kTypeFieldNumber)
-    .connect(sigc::mem_fun(*this, &NetworkActivityMonitor::on_activity_message));
+    .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1));
   TRACE_EXIT()
 }
 

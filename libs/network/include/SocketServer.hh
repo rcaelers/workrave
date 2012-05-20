@@ -20,7 +20,8 @@
 #ifndef SOCKETSERVER_HH
 #define SOCKETSERVER_HH
 
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "Socket.hh"
@@ -40,7 +41,7 @@ namespace workrave
       virtual ~SocketServer() {};
      
       virtual bool init(int port) = 0;
-      virtual sigc::signal<void, Socket::Ptr> &signal_accepted() = 0;
+      virtual boost::signals2::signal<void(Socket::Ptr)> &signal_accepted() = 0;
     };
   }
 }

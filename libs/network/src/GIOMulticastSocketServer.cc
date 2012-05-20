@@ -51,7 +51,7 @@ GIOMulticastSocketServer::init(const std::string &address_ipv4, const std::strin
   this->address_ipv4 = GIONetworkAddress::Ptr(new GIONetworkAddress(address_ipv4, port));
   this->address_ipv6 = GIONetworkAddress::Ptr(new GIONetworkAddress(address_ipv6, port));
 
-  monitor->signal_interface_changed().connect(sigc::mem_fun(*this, &GIOMulticastSocketServer::on_interface_changed));
+  monitor->signal_interface_changed().connect(boost::bind(&GIOMulticastSocketServer::on_interface_changed, this, _1));
   return monitor->init();
   TRACE_EXIT();
 }
@@ -69,7 +69,7 @@ GIOMulticastSocketServer::send(const gchar *buf, gsize count)
 }
 
 
-sigc::signal<void, gsize, const gchar *, NetworkAddress::Ptr> &
+boost::signals2::signal<void(gsize, const gchar *, NetworkAddress::Ptr)> &
 GIOMulticastSocketServer::signal_data()
 {
   return data_signal;
@@ -93,7 +93,7 @@ GIOMulticastSocketServer::on_data(Connection::Ptr connection)
     }
   else
     {
-      data_signal.emit(bytes_read, buffer, address);
+      data_signal(bytes_read, buffer, address);
     }
   TRACE_EXIT();
 }
@@ -117,7 +117,7 @@ GIOMulticastSocketServer::on_interface_changed(const NetworkInterfaceMonitor::Ne
       connection->socket = socket;
       
       connections.push_back(connection);
-      socket->signal_io().connect(sigc::bind<0>(sigc::mem_fun(*this, &GIOMulticastSocketServer::on_data), connection));
+      socket->signal_io().connect(boost::bind(&GIOMulticastSocketServer::on_data, this, connection));
       socket->join_multicast(multicast_address, change.name, change.address);
     }
   else

@@ -24,8 +24,8 @@
 #include <map>
 #include <string>
 
-#include <sigc++/sigc++.h>
-
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "IConfigurator.hh"

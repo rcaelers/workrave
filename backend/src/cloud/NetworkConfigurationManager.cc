@@ -58,7 +58,7 @@ void
 NetworkConfigurationManager::init()
 {
   network->signal_message(1, cloud::Configuration::kTypeFieldNumber)
-    .connect(sigc::mem_fun(*this, &NetworkConfigurationManager::on_configuration_message));
+    .connect(boost::bind(&NetworkConfigurationManager::on_configuration_message, this, _1));
 
   configurator->add_listener("", this);
 

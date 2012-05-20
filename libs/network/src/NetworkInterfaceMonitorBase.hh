@@ -29,13 +29,13 @@ class NetworkInterfaceMonitorBase : public NetworkInterfaceMonitor
 public:
   virtual ~NetworkInterfaceMonitorBase() {}
   
-  virtual sigc::signal<void, const NetworkInterfaceInfo &> &signal_interface_changed()
+  boost::signals2::signal<void(const NetworkInterfaceInfo &)> &signal_interface_changed()
   {
     return interface_changed_signal;
   }
 
 protected:
-  sigc::signal<void, const NetworkInterfaceInfo &> interface_changed_signal;
+  boost::signals2::signal<void(const NetworkInterfaceInfo &)> interface_changed_signal;
 };
 
 #endif

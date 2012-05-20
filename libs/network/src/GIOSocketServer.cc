@@ -72,7 +72,7 @@ GIOSocketServer::init(int port)
 }
 
 
-sigc::signal<void, Socket::Ptr> &
+boost::signals2::signal<void(Socket::Ptr)> &
 GIOSocketServer::signal_accepted()
 {
   return accepted_signal;

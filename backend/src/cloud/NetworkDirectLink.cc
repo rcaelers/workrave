@@ -64,7 +64,7 @@ NetworkDirectLink::init(int port)
 {
   TRACE_ENTER("NetworkDirectLink::init");
   unicast_server->init(port);
-  unicast_server->signal_accepted().connect(sigc::mem_fun(*this, &NetworkDirectLink::on_accepted));
+  unicast_server->signal_accepted().connect(boost::bind(&NetworkDirectLink::on_accepted, this, _1));
   TRACE_EXIT();
 }
 
@@ -87,9 +87,9 @@ NetworkDirectLink::connect(const string &host, int port)
 
   NetworkDirectLinkClient::Ptr info = create_info_for_socket(socket, NetworkClient::CONNECTION_STATE_CONNECTING);
   
-  socket->signal_io().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_data), info));
-  socket->signal_connected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_connected), info));
-  socket->signal_disconnected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_disconnected), info));
+  socket->signal_io().connect(boost::bind(&NetworkDirectLink::on_data, this, info));
+  socket->signal_connected().connect(boost::bind(&NetworkDirectLink::on_connected, this, info));
+  socket->signal_disconnected().connect(boost::bind(&NetworkDirectLink::on_disconnected, this, info));
   
   TRACE_EXIT();
 }
@@ -170,9 +170,9 @@ NetworkDirectLink::on_accepted(Socket::Ptr socket)
   TRACE_ENTER("NetworkDirectLink::on_accepted");
   NetworkDirectLinkClient::Ptr info = create_info_for_socket(socket, NetworkClient::CONNECTION_STATE_CONNECTED);
 
-  socket->signal_io().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_data), info));
-  socket->signal_connected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_connected), info));
-  socket->signal_disconnected().connect(sigc::bind<0>(sigc::mem_fun(*this, &NetworkDirectLink::on_disconnected), info));
+  socket->signal_io().connect(boost::bind(&NetworkDirectLink::on_data, this, info));
+  socket->signal_connected().connect(boost::bind(&NetworkDirectLink::on_connected, this, info));
+  socket->signal_disconnected().connect(boost::bind(&NetworkDirectLink::on_disconnected, this, info));
   TRACE_EXIT();
 }
 
@@ -183,7 +183,7 @@ NetworkDirectLink::on_connected(NetworkDirectLinkClient::Ptr info)
   TRACE_ENTER("NetworkDirectLink::on_connected");
   info->address = info->socket->get_remote_address();
   info->state = NetworkClient::CONNECTION_STATE_CONNECTED;
-  client_update_signal.emit(info);
+  client_update_signal(info);
   TRACE_EXIT();
 }
 
@@ -243,7 +243,7 @@ NetworkDirectLink::on_data(NetworkDirectLinkClient::Ptr info)
       
       if (packet_size > 0 && header_size + packet_size == info->stream->get_position())
         {
-          data_signal.emit(packet_size, info->stream->get_start() + header_size, info);
+          data_signal(packet_size, info->stream->get_start() + header_size, info);
           info->stream->init(1024);
         }
     }
@@ -271,7 +271,7 @@ NetworkDirectLink::create_info_for_socket(Socket::Ptr socket, NetworkClient::Sta
   info->address = socket->get_remote_address();
   info->stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
   connections.push_back(info);
-  client_update_signal.emit(info);
+  client_update_signal(info);
   
   return info;
 }
@@ -284,19 +284,19 @@ NetworkDirectLink::close(NetworkDirectLinkClient::Ptr info)
   info->state = NetworkClient::CONNECTION_STATE_CLOSED;
   info->socket->close();
   connections.remove(info);
-  client_update_signal.emit(info);
+  client_update_signal(info);
   TRACE_EXIT()
 }
 
 
-sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &
+boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &
 NetworkDirectLink::signal_data()
 {
   return data_signal;
 }
 
 
-sigc::signal<void, NetworkClient::Ptr> &
+boost::signals2::signal<void(NetworkClient::Ptr)> &
 NetworkDirectLink::signal_client_update()
 {
   return client_update_signal;

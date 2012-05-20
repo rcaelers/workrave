@@ -25,7 +25,8 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 
 #include "Socket.hh"
 
@@ -54,9 +55,9 @@ public:
   virtual void close();
   virtual workrave::network::NetworkAddress::Ptr get_remote_address();
   
-  virtual sigc::signal<void> &signal_io();
-  virtual sigc::signal<void> &signal_connected();
-  virtual sigc::signal<void> &signal_disconnected();
+  virtual boost::signals2::signal<void()> &signal_io();
+  virtual boost::signals2::signal<void()> &signal_connected();
+  virtual boost::signals2::signal<void()> &signal_disconnected();
   
 private:
   void connect(GSocketAddress *address);
@@ -84,9 +85,9 @@ private:
   //! Local address.
   GInetAddress *local_address;
 
-  sigc::signal<void> io_signal;
-  sigc::signal<void> connected_signal;
-  sigc::signal<void> disconnected_signal;
+  boost::signals2::signal<void()> io_signal;
+  boost::signals2::signal<void()> connected_signal;
+  boost::signals2::signal<void()> disconnected_signal;
 };
 
 #endif

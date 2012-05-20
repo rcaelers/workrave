@@ -24,8 +24,8 @@
 #include <map>
 #include <string>
 
-#include <sigc++/sigc++.h>
-
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <google/protobuf/message.h>
@@ -85,7 +85,9 @@ private:
   typedef std::list<NetworkClient::Ptr>::iterator ClientIter;
   typedef std::list<NetworkClient::Ptr>::const_iterator ClientCIter;
 
-  typedef std::map<std::pair<int, int>, MessageSignal> MessageSignalMap;
+  typedef boost::shared_ptr<MessageSignal> MessageSignalPtr;
+  
+  typedef std::map<std::pair<int, int>, MessageSignalPtr> MessageSignalMap;
   typedef MessageSignalMap::iterator MessageSignalMapIter;
 
 private:

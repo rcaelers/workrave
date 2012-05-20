@@ -53,8 +53,8 @@ public:
   void send_message_to(const std::string &message, NetworkClient::Ptr client);
   void send_message_except(const std::string &message, NetworkClient::Ptr client);
 
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &signal_data();
-  sigc::signal<void, NetworkClient::Ptr> &signal_client_update();
+  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &signal_data();
+  boost::signals2::signal<void(NetworkClient::Ptr)> &signal_client_update();
   
 private:
   class NetworkDirectLinkClient : public NetworkClient
@@ -93,10 +93,10 @@ private:
   Connections connections;
 
   //!
-  sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> data_signal;
+  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> data_signal;
 
   //!
-  sigc::signal<void, NetworkClient::Ptr> client_update_signal;
+  boost::signals2::signal<void(NetworkClient::Ptr)> client_update_signal;
 };
 
 

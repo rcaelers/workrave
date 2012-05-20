@@ -58,7 +58,7 @@ NetworkAnnounce::init(int port)
 {
   TRACE_ENTER("NetworkAnnounce::init");
   multicast_server->init("239.160.181.73", "ff15::1:145", port);
-  multicast_server->signal_data().connect(sigc::mem_fun(*this, &NetworkAnnounce::on_data));
+  multicast_server->signal_data().connect(boost::bind(&NetworkAnnounce::on_data, this, _1, _2, _3));
   TRACE_EXIT();
 }
 
@@ -89,11 +89,11 @@ NetworkAnnounce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
   info->state = NetworkClient::CONNECTION_STATE_CONNECTED;
   info->address = na;
 
-  data_signal.emit(size, data, info);
+  data_signal(size, data, info);
   TRACE_EXIT();
 }
 
-sigc::signal<void, gsize, const gchar *, NetworkClient::Ptr> &
+boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &
 NetworkAnnounce::signal_data()
 {
   return data_signal;

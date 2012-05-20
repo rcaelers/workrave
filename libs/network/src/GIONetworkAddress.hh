@@ -27,8 +27,8 @@
 #include <gio/gio.h>
 
 #include <boost/shared_ptr.hpp>
-
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 
 #include "NetworkAddress.hh"
 

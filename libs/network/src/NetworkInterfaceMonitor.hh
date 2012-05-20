@@ -21,13 +21,14 @@
 
 #include <map>
 #include <string>
-#include <sigc++/sigc++.h>
 
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
 
 #include "GIONetworkAddress.hh"
 
@@ -57,7 +58,7 @@ public:
   static NetworkInterfaceMonitor::Ptr create();
   
   virtual bool init() = 0;
-  virtual sigc::signal<void,  const NetworkInterfaceInfo &> &signal_interface_changed() = 0;
+  virtual boost::signals2::signal<void(const NetworkInterfaceInfo &)> &signal_interface_changed() = 0;
 
 private:
 };
