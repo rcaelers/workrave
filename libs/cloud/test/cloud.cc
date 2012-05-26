@@ -27,18 +27,27 @@
 
 #include <glib-object.h>
 
-#include "ConfiguratorFactory.hh"
-
-#include "IConfigurator.hh"
-#include "Router.hh"
 #include "Cloud.hh"
+#include "Router.hh"
+
+#include "test.pb.h"
 
 static gboolean on_timer(gpointer data)
 {
-  Cloud *c = (Cloud *)data;
+  TRACE_ENTER("Networking::heartbeat");
+  static bool once = false;
+  ICloud *network = (ICloud *) data;
   
-  c->heartbeat();
+  // TODO: debugging code.
+  if (!once)
+    {
+      boost::shared_ptr<workrave::cloud::test::ActivityState> a(new workrave::cloud::test::ActivityState());
+      a->set_state(1);
+      network->send_message(a, MessageParams::create());
+      once = true;
+    }
 
+  TRACE_EXIT();
   return G_SOURCE_CONTINUE;
 }
 
@@ -55,32 +64,22 @@ main(int argc, char **argv)
   g_type_init();
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
-  
   Router::Ptr network1 = Router::create();
-  Cloud::Ptr cloud1 = Cloud::create(network1, configurator);
   network1->init(2701, "rob@workrave", "kjsdapkidszahf");
-  cloud1->init();
 
   Router::Ptr network2 = Router::create();
-  Cloud::Ptr cloud2 = Cloud::create(network2, configurator);
   network2->init(2702, "rob@workrave", "kjsdapkidszahf");
   network2->connect("localhost", 2701);
-  cloud2->init();
   
   Router::Ptr network3 = Router::create();
-  Cloud::Ptr cloud3 = Cloud::create(network3, configurator);
   network3->init(2703, "rob@workrave", "kjsdapkidszahf");
   network3->connect("localhost", 2701);
-  cloud3->init();
 
   Router::Ptr network4 = Router::create();
-  Cloud::Ptr cloud4 = Cloud::create(network4, configurator);
   network4->init(2704, "rob@workrave", "kjsdapkidszahf");
   network4->connect("localhost", 2703);
-  cloud4->init();
   
-  g_timeout_add_seconds(2, on_timer, cloud1.get());
+  g_timeout_add_seconds(2, on_timer, network1.get());
   g_main_loop_run(loop);
   
   return 0;

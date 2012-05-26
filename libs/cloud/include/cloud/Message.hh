@@ -1,4 +1,4 @@
-// MessageContext.hh
+// Message.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,36 +17,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MESSAGECONTEXT_HH
-#define MESSAGECONTEXT_HH
+#ifndef MESSAGE_HH
+#define MESSAGE_HH
 
-#include <boost/shared_ptr.hpp>
-#include <boost/utility.hpp>
-
-#include "Types.hh"
-#include "UUID.hh"
+#include <google/protobuf/message.h>
 
 namespace workrave
 {
   namespace cloud
   {
-    class MessageContext : public boost::noncopyable
+    class Message
     {
-      MessageContext() : valid_signature(false), scope(workrave::cloud::SCOPE_DIRECT) {}
-
     public:
-      typedef boost::shared_ptr<MessageContext> Ptr;
-
-      static Ptr create()
-      {
-        return Ptr(new MessageContext());
-      }
-      
-      bool valid_signature;
-      workrave::cloud::Scope scope;
-      UUID source;
+      typedef boost::shared_ptr<google::protobuf::Message> Ptr;
     };
   }
 }
 
-#endif // MESSAGECONTEXT_HH
+#endif // MESSAGE_HH

@@ -1,4 +1,4 @@
-// Cloud.hh --- Networking network server
+// Networking.hh --- Networking network server
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CLOUD_HH
-#define CLOUD_HH
+#ifndef NETWORKING_HH
+#define NETWORKING_HH
 
 #include <list>
 #include <map>
@@ -30,24 +30,24 @@
 
 #include "IConfigurator.hh"
 
-#include "INetwork.hh"
+#include "Cloud.hh"
 #include "NetworkConfigurationManager.hh"
 #include "NetworkActivityMonitor.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 
-class Cloud
+class Networking
 {
 public:
-  typedef boost::shared_ptr<Cloud> Ptr;
+  typedef boost::shared_ptr<Networking> Ptr;
   
 public:
-  static Ptr create(INetwork::Ptr network, IConfigurator::Ptr configurator);
+  static Ptr create(ICloud::Ptr network, IConfigurator::Ptr configurator);
 
 public:  
-  Cloud(INetwork::Ptr network, IConfigurator::Ptr configurator);
-  virtual ~Cloud();
+  Networking(ICloud::Ptr network, IConfigurator::Ptr configurator);
+  virtual ~Networking();
 
   void init();
   void terminate();
@@ -55,7 +55,7 @@ public:
 
 private:
   //! 
-  INetwork::Ptr network;
+  ICloud::Ptr network;
 
   //!
   IConfigurator::Ptr configurator;
@@ -68,4 +68,4 @@ private:
 };
 
 
-#endif // CLOUD_HH
+#endif // NETWORKING_HH

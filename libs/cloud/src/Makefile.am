@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-noinst_LTLIBRARIES = 	libworkrave-backend-cloud.la
+noinst_LTLIBRARIES = 	libworkrave-cloud.la
 
 if HAVE_DISTRIBUTION
 sources	 =		Router.cc \
@@ -14,10 +14,6 @@ sources	 =		Router.cc \
 			DirectLinkManager.cc \
 			DirectLink.cc \
 			Announce.cc \
-			NetworkActivityMonitor.cc \
-			NetworkConfigurationManager.cc \
-			Cloud.cc \
-			workrave.pb.cc \
 			cloud.pb.cc
 
 SUFFIXES = .proto .pb.cc
@@ -25,21 +21,26 @@ SUFFIXES = .proto .pb.cc
 .proto.pb.cc:
 			$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
 
-BUILT_SOURCES = cloud.pb.cc cloud.pb.h workrave.pb.cc workrave.pb.h
+BUILT_SOURCES = cloud.pb.cc cloud.pb.h
 
 endif
 
-libworkrave_backend_cloud_la_SOURCES = ${sources}
+libworkrave_cloud_la_SOURCES = ${sources}
 
-libworkrave_backend_cloud_la_CXXFLAGS = \
+libworkrave_cloud_la_CXXFLAGS = \
 			-W \
 			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
-			-I$(top_srcdir)/libs/config/include \
-			-I${top_srcdir}/backend/src \
-			-I${top_srcdir}/backend/include \
+			-I$(top_srcdir)/libs/cloud/include \
 			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@ @SIGC_CFLAGS@ 
+			-D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
+
+libworkrave_cloud_la_LIBADD = \
+			@GLIB_LIBS@ @PROTOBUF_LIBS@
+
+#			$(top_builddir)/common/src/libworkrave-common.la \
+#			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
+#			$(top_builddir)/libs/network/src/libworkrave-network.la
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

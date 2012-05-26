@@ -29,9 +29,10 @@ cflags_platform =	-I$(top_srcdir)/libs/network/src/win32
 endif
 
 libworkrave_network_la_LIBADD = \
-			${ldadd_platform}
+			${ldadd_platform} \
+			@GLIB_LIBS@ @GIO_LIBS@
 
-AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ \
+AM_CPPFLAGS = 		@GLIB_CFLAGS@ @GIO_CFLAGS@ \
 			${cflags_platform} \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/common/include

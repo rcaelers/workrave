@@ -1,4 +1,4 @@
-// Cloud.cc
+// Networking.cc
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -32,24 +32,24 @@
 
 #include "debug.hh"
 
-#include "Cloud.hh"
+#include "Networking.hh"
 #include "Util.hh"
 
 #include "workrave.pb.h"
 
 using namespace std;
 
-Cloud::Ptr
-Cloud::create(INetwork::Ptr network, IConfigurator::Ptr configurator)
+Networking::Ptr
+Networking::create(ICloud::Ptr network, IConfigurator::Ptr configurator)
 {
-  return Cloud::Ptr(new Cloud(network, configurator));
+  return Networking::Ptr(new Networking(network, configurator));
 }
 
 
 //! Constructs a cloud
-Cloud::Cloud(INetwork::Ptr network, IConfigurator::Ptr configurator) : network(network), configurator(configurator)
+Networking::Networking(ICloud::Ptr network, IConfigurator::Ptr configurator) : network(network), configurator(configurator)
 {
-  TRACE_ENTER("Cloud::Cloud");
+  TRACE_ENTER("Networking::Networking");
   configuration_manager = NetworkConfigurationManager::create(network, configurator);
   activity_monitor = NetworkActivityMonitor::create(network);
   TRACE_EXIT();
@@ -57,18 +57,18 @@ Cloud::Cloud(INetwork::Ptr network, IConfigurator::Ptr configurator) : network(n
 
 
 //! Destructs the workrave cloud.
-Cloud::~Cloud()
+Networking::~Networking()
 {
-  TRACE_ENTER("Cloud::~Cloud");
+  TRACE_ENTER("Networking::~Networking");
   TRACE_EXIT();
 }
 
 
 //! Initializes the workrave cloud.
 void
-Cloud::init()
+Networking::init()
 {
-  TRACE_ENTER("Cloud::init");
+  TRACE_ENTER("Networking::init");
   configuration_manager->init();
   activity_monitor->init();
   TRACE_EXIT();
@@ -77,18 +77,18 @@ Cloud::init()
 
 //! Terminates the network announcer.
 void
-Cloud::terminate()
+Networking::terminate()
 {
-  TRACE_ENTER("Cloud::terminate");
+  TRACE_ENTER("Networking::terminate");
   TRACE_EXIT();
 }
 
 
 //! Periodic heartbeart from the core.
 void
-Cloud::heartbeat()
+Networking::heartbeat()
 {
-  TRACE_ENTER("Cloud::heartbeat");
+  TRACE_ENTER("Networking::heartbeat");
   static bool once = false;
   
   // TODO: debugging code.

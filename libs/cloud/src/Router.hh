@@ -30,17 +30,17 @@
 
 #include <google/protobuf/message.h>
 
-#include "INetwork.hh"
+#include "Cloud.hh"
+
 #include "Announce.hh"
 #include "DirectLinkManager.hh"
 #include "DirectLink.hh"
 
-#include "workrave.pb.h"
-
 using namespace workrave;
 using namespace workrave::network;
+using namespace workrave::cloud;
 
-class Router : public INetwork
+class Router : public ICloud
 {
 public:
   typedef boost::shared_ptr<Router> Ptr;

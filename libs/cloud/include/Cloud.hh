@@ -1,6 +1,6 @@
-// Types.hh
+// Cloud.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TYPES_HH
-#define TYPES_HH
+#ifndef CLOUD_HH
+#define CLOUD_HH
 
-#include <google/protobuf/message.h>
-#include "cloud.pb.h"
+#include "cloud/ICloud.hh"
+#include "cloud/UUID.hh"
 
-namespace workrave
-{
-  namespace cloud
-  {
-    class Message
-    {
-    public:
-      typedef boost::shared_ptr<google::protobuf::Message> Ptr;
-    };
-
-    class Header
-    {
-    public:
-      typedef boost::shared_ptr<proto::Header> Ptr;
-    };
-
-    enum Scope
-      {
-        SCOPE_INVALID = 0,
-        SCOPE_DIRECT = 1,
-        SCOPE_MULTICAST = 2
-      };
-  }
-}
-
-#endif // TYPES_HH
+#endif // CLOUD_HH

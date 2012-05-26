@@ -26,45 +26,51 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 
-class UUID : public boost::uuids::uuid
+namespace workrave
 {
-public:
-  UUID() : boost::uuids::uuid(boost::uuids::random_generator()())
+  namespace cloud
   {
-  }
-
-  static UUID from_raw(const std::string &raw)
-  {
-    boost::uuids::uuid uuid;
-    if (raw.size() == uuid.size())
+    class UUID : public boost::uuids::uuid
+    {
+    public:
+      UUID() : boost::uuids::uuid(boost::uuids::random_generator()())
       {
-        memcpy(&uuid, raw.data(), uuid.size());
       }
-    return UUID(uuid);
-  }
 
-  static UUID from_str(const std::string &str)
-  {
-    boost::uuids::uuid uuid;
-    std::stringstream in(str);
-    in >> uuid;
-    return UUID(uuid);
-  }
+      static UUID from_raw(const std::string &raw)
+      {
+        boost::uuids::uuid uuid;
+        if (raw.size() == uuid.size())
+          {
+            memcpy(&uuid, raw.data(), uuid.size());
+          }
+        return UUID(uuid);
+      }
 
-  std::string raw() const
-  {
-    return std::string(reinterpret_cast<const char*>(data), sizeof(data));
-  }
+      static UUID from_str(const std::string &str)
+      {
+        boost::uuids::uuid uuid;
+        std::stringstream in(str);
+        in >> uuid;
+        return UUID(uuid);
+      }
 
-  std::string str() const
-  {
-    std::stringstream out;
-    out << *this;
-    return out.str();
-  }
+      std::string raw() const
+      {
+        return std::string(reinterpret_cast<const char*>(data), sizeof(data));
+      }
 
-private:
-  explicit UUID(const boost::uuids::uuid& uuid) : boost::uuids::uuid(uuid) {}
-};
+      std::string str() const
+      {
+        std::stringstream out;
+        out << *this;
+        return out.str();
+      }
+
+    private:
+      explicit UUID(const boost::uuids::uuid& uuid) : boost::uuids::uuid(uuid) {}
+    };
+  }
+}
 
 #endif // UUID_HH

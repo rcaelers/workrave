@@ -1,4 +1,4 @@
-// MessageParams.hh
+// Types.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,34 +17,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MESSAGEPARAMS_HH
-#define MESSAGEPARAMS_HH
+#ifndef TYPES_HH
+#define TYPES_HH
 
-#include <boost/shared_ptr.hpp>
-#include <boost/utility.hpp>
+#include <google/protobuf/message.h>
+#include "cloud.pb.h"
 
-#include "Types.hh"
-
-namespace workrave
+class Header
 {
-  namespace cloud
-  {
-    class MessageParams : public boost::noncopyable
-    {
-      MessageParams() : sign(true), scope(workrave::cloud::SCOPE_DIRECT) {}
-      
-    public:
-      typedef boost::shared_ptr<MessageParams> Ptr;
-      
-      static Ptr create()
-      {
-        return Ptr(new MessageParams());
-      }
-      
-      bool sign;
-      workrave::cloud::Scope scope;
-    };
-  }
-}
+public:
+  typedef boost::shared_ptr<workrave::cloud::proto::Header> Ptr;
+};
 
-#endif // MESSAGEPARAMS_HH
+#endif // TYPES_HH

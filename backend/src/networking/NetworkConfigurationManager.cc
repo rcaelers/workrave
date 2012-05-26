@@ -36,13 +36,13 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkConfigurationManager::Ptr
-NetworkConfigurationManager::create(INetwork::Ptr network, IConfigurator::Ptr configurator)
+NetworkConfigurationManager::create(ICloud::Ptr network, IConfigurator::Ptr configurator)
 {
   return NetworkConfigurationManager::Ptr(new NetworkConfigurationManager(network, configurator));
 }
 
 
-NetworkConfigurationManager::NetworkConfigurationManager(INetwork::Ptr network, IConfigurator::Ptr configurator)
+NetworkConfigurationManager::NetworkConfigurationManager(ICloud::Ptr network, IConfigurator::Ptr configurator)
   : network(network), configurator(configurator)
 {
 }

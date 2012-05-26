@@ -23,7 +23,7 @@
 #include <map>
 
 #include "IActivityMonitor.hh"
-#include "INetwork.hh"
+#include "Cloud.hh"
 
 using namespace workrave;
 using namespace workrave::cloud;
@@ -34,10 +34,10 @@ public:
   typedef boost::shared_ptr<NetworkActivityMonitor> Ptr;
 
 public:
-  static Ptr create(INetwork::Ptr network);
+  static Ptr create(ICloud::Ptr network);
 
 public:
-  NetworkActivityMonitor(INetwork::Ptr network);
+  NetworkActivityMonitor(ICloud::Ptr network);
   virtual ~NetworkActivityMonitor();
 
   //! Initializes the monitor
@@ -69,7 +69,7 @@ private:
   
 private:
   //! The networking core
-  INetwork::Ptr network;
+  ICloud::Ptr network;
 
   //! Monitor suspended?
   bool suspended;

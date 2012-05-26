@@ -2,6 +2,5 @@
 #
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
-MAINTAINERCLEANFILES = 	Makefile.in 
 
-EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h)
+SUBDIRS=src include test

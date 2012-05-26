@@ -21,40 +21,43 @@
 #define PACKET_HH
 
 #include <google/protobuf/message.h>
-#include "workrave.pb.h"
+#include "cloud.pb.h"
 
 #include "Types.hh"
-#include "MessageParams.hh"
-#include "MessageContext.hh"
+#include "cloud/Message.hh"
+#include "cloud/MessageParams.hh"
+#include "cloud/MessageContext.hh"
+
+using namespace workrave::cloud;
 
 class Packet
 {
-  Packet(workrave::cloud::Header::Ptr header, workrave::cloud::Message::Ptr message)
+  Packet(Header::Ptr header, Message::Ptr message)
     : header(header), message(message) { }
   
-  Packet(workrave::cloud::Header::Ptr header, workrave::cloud::Message::Ptr message, workrave::cloud::MessageParams::Ptr params)
+  Packet(Header::Ptr header, Message::Ptr message, MessageParams::Ptr params)
     : header(header), message(message), params(params) { }
   
 public:
   typedef boost::shared_ptr<Packet> Ptr;
 
-  static Ptr create(workrave::cloud::Header::Ptr header, workrave::cloud::Message::Ptr message)
+  static Ptr create(Header::Ptr header, Message::Ptr message)
   {
     return Ptr(new Packet(header, message));
   }
 
-  static Ptr create(workrave::cloud::Message::Ptr message, workrave::cloud::MessageParams::Ptr params)
+  static Ptr create(Message::Ptr message, MessageParams::Ptr params)
   {
-    workrave::cloud::Header::Ptr header(new workrave::cloud::proto::Header);
+    Header::Ptr header(new workrave::cloud::proto::Header);
     
     return Ptr(new Packet(header, message, params));
   }
   
 public:
-  workrave::cloud::Header::Ptr header;
-  workrave::cloud::Message::Ptr message;
-  workrave::cloud::MessageParams::Ptr params;
-  workrave::cloud::MessageContext::Ptr context;
+  Header::Ptr header;
+  Message::Ptr message;
+  MessageParams::Ptr params;
+  MessageContext::Ptr context;
 };
 
 #endif // PACKET_HH

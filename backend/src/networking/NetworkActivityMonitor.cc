@@ -25,7 +25,7 @@
 
 #include "NetworkActivityMonitor.hh"
 
-#include "INetwork.hh"
+#include "Cloud.hh"
 #include "TimeSource.hh"
 
 #include "workrave.pb.h"
@@ -34,13 +34,13 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkActivityMonitor::Ptr
-NetworkActivityMonitor::create(INetwork::Ptr network)
+NetworkActivityMonitor::create(ICloud::Ptr network)
 {
   return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(network));
 }
 
 
-NetworkActivityMonitor::NetworkActivityMonitor(INetwork::Ptr network)
+NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr network)
   : network(network),
     suspended(false),
     state(ACTIVITY_IDLE)

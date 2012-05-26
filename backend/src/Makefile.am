@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid) $(wildcard $(srcdir)/*.pb.cc) $(wildcard $(srcdir)/*.pb.h)
 
-SUBDIRS = 		unix win32 osx cloud
+SUBDIRS = 		unix win32 osx networking
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
@@ -97,11 +97,11 @@ libworkrave_backend_la_CFLAGS = \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/network/include \
+			-I$(top_srcdir)/libs/networks/include \
 			-I$(top_srcdir)/libs/config/include \
 			 @WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@@DBUS_CFLAGS@ \
-			@PROTOBUF_CFLAGS@ -I$(top_srcdir)/backend/src/cloud
+			@PROTOBUF_CFLAGS@ -I$(top_srcdir)/backend/src/networking
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
 
@@ -110,7 +110,8 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
-			cloud/libworkrave-backend-cloud.la
+			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
+			networking/libworkrave-backend-networking.la
 
 DISTCLEANFILES = org.workrave.gschema.xml
 

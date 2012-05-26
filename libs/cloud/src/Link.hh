@@ -28,7 +28,7 @@
 #include "NetworkAddress.hh"
 #include "Packet.hh"
 #include "Marshaller.hh"
-#include "UUID.hh"
+#include "cloud/UUID.hh"
 
 using namespace workrave;
 using namespace workrave::network;

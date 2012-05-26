@@ -1727,34 +1727,6 @@ Core::is_user_active() const
 /********************************************************************************/
 
 #ifdef HAVE_BROKEN_DISTRIBUTION
-//! Process event from remote Workrave.
-void
-Core::event_received(LinkEvent *event)
-{
-  TRACE_ENTER_MSG("Core::event_received", event->str());
-
-  const BreakLinkEvent *ble = dynamic_cast<const BreakLinkEvent *>(event);
-  if (ble != NULL)
-    {
-      break_event_received(ble);
-    }
-
-  const CoreLinkEvent *cle = dynamic_cast<const CoreLinkEvent *>(event);
-  if (cle != NULL)
-    {
-      core_event_received(cle);
-    }
-
-  const TimerStateLinkEvent *tsle = dynamic_cast<const TimerStateLinkEvent *>(event);
-  if (tsle != NULL)
-    {
-      timer_state_event_received(tsle);
-    }
-  
-  TRACE_EXIT();
-}
-
-
 //! Process Break event
 void
 Core::break_event_received(const BreakLinkEvent *event)

@@ -23,7 +23,7 @@
 #include <list>
 #include <map>
 
-#include "INetwork.hh"
+#include "Cloud.hh"
 #include "IConfigurator.hh" 
 #include "IConfiguratorListener.hh"
 
@@ -48,13 +48,13 @@ public:
   typedef boost::shared_ptr<NetworkConfigurationManager> Ptr;
 
 public:
-  static Ptr create(INetwork::Ptr network, IConfigurator::Ptr configurator);
+  static Ptr create(ICloud::Ptr network, IConfigurator::Ptr configurator);
 
 public:
-  NetworkConfigurationManager(INetwork::Ptr network, IConfigurator::Ptr configurator);
+  NetworkConfigurationManager(ICloud::Ptr network, IConfigurator::Ptr configurator);
   virtual ~NetworkConfigurationManager();
 
-  // from INetwork
+  // from ICloud
   void monitor_config(const std::string &key);
   
   //! Initializes the monitor
@@ -77,7 +77,7 @@ private:
   
 private:
   //! The networking core
-  INetwork::Ptr network;
+  ICloud::Ptr network;
 
   //! The main configurator.
   IConfigurator::Ptr configurator;

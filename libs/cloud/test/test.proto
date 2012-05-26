@@ -1,0 +1,18 @@
+package workrave.cloud.test;
+
+message Domain
+{
+    extensions 100 to max;
+}
+
+
+message ActivityState
+{
+    extend Domain
+    {
+        required Domain type = 100;
+    }
+    
+    required int32 state = 1;
+}
+

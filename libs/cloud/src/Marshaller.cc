@@ -38,7 +38,6 @@
 #include "Marshaller.hh"
 #include "Util.hh"
 
-#include "workrave.pb.h"
 #include "cloud.pb.h"
 
 using namespace std;
