@@ -30,7 +30,7 @@
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 
-#include "cloud.pb.h"
+#include "workrave.pb.h"
 
 using namespace std;
 using namespace workrave::utils;
@@ -57,8 +57,8 @@ NetworkConfigurationManager::~NetworkConfigurationManager()
 void
 NetworkConfigurationManager::init()
 {
-  network->signal_message(1, cloud::Configuration::kTypeFieldNumber)
-    .connect(boost::bind(&NetworkConfigurationManager::on_configuration_message, this, _1));
+  network->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
+    .connect(boost::bind(&NetworkConfigurationManager::on_configuration_message, this, _1, _2));
 
   configurator->add_listener("", this);
 
@@ -97,27 +97,25 @@ NetworkConfigurationManager::monitor_config(const std::string &key)
 
 
 void
-NetworkConfigurationManager::on_configuration_message(NetworkMessageBase::Ptr message)
+NetworkConfigurationManager::on_configuration_message(Message::Ptr message, MessageContext::Ptr context)
 {
   TRACE_ENTER("NetworkConfigurationManager::on_configuration_message");
-  // NetworkMessage<cloud::ActivityState>::Ptr as = boost::dynamic_pointer_cast<NetworkMessage<cloud::ActivityState> >(message);
-  
-  boost::shared_ptr<cloud::Configuration> a = message->as<cloud::Configuration>();
+  boost::shared_ptr<workrave::networking::Configuration> a = boost::dynamic_pointer_cast<workrave::networking::Configuration>(message);
 
   if (a)
     {
-      cloud::Configuration_Reason reason = a->reason();
+      workrave::networking::Configuration_Reason reason = a->reason();
 
-      if (reason == cloud::Configuration_Reason_INITIAL)
+      if (reason == workrave::networking::Configuration_Reason_INITIAL)
         {
           TRACE_MSG("Asking user");
           // TODO:
         }
-      else if (reason == cloud::Configuration_Reason_USER)
+      else if (reason == workrave::networking::Configuration_Reason_USER)
         {
-          google::protobuf::RepeatedPtrField<cloud::Configuration_Setting> changes = a->changes();
+          google::protobuf::RepeatedPtrField<workrave::networking::Configuration_Setting> changes = a->changes();
 
-          for (google::protobuf::RepeatedPtrField<cloud::Configuration_Setting>::iterator i = changes.begin(); i != changes.end(); i++)
+          for (google::protobuf::RepeatedPtrField<workrave::networking::Configuration_Setting>::iterator i = changes.begin(); i != changes.end(); i++)
             {
               configurator->set_typed_value(i->key(), i->value());
             }
@@ -132,8 +130,8 @@ void
 NetworkConfigurationManager::send_initial()
 {
   TRACE_ENTER("NetworkConfigurationManager::send_initial");
-  NetworkMessage<cloud::Configuration>::Ptr m = NetworkMessage<cloud::Configuration>::create();
-  m->msg()->set_reason(cloud::Configuration_Reason_INITIAL);
+  boost::shared_ptr<workrave::networking::Configuration> m(new workrave::networking::Configuration);
+  m->set_reason(workrave::networking::Configuration_Reason_INITIAL);
 
   for (ConfigWatchIter i = watches.begin(); i != watches.end(); i++)
     {
@@ -144,13 +142,13 @@ NetworkConfigurationManager::send_initial()
       TRACE_MSG("key " << key << " " << value);
       if (b)
         {
-          cloud::Configuration_Setting *c = m->msg()->add_changes();
+          workrave::networking::Configuration_Setting *c = m->add_changes();
           c->set_key(key);
           c->set_value(value);
         }
     }
   
-  network->send_message(m);
+  network->send_message(m, MessageParams::create());
 
   TRACE_EXIT();
 }
@@ -170,14 +168,14 @@ NetworkConfigurationManager::config_changed_notify(const std::string &key)
       bool b = configurator->get_typed_value(key, value);
       if (b)
         {
-          NetworkMessage<cloud::Configuration>::Ptr m = NetworkMessage<cloud::Configuration>::create();
-          m->msg()->set_reason(cloud::Configuration_Reason_USER);
+          boost::shared_ptr<workrave::networking::Configuration> m(new workrave::networking::Configuration);
+          m->set_reason(workrave::networking::Configuration_Reason_USER);
 
-          cloud::Configuration_Setting *c = m->msg()->add_changes();
+          workrave::networking::Configuration_Setting *c = m->add_changes();
           c->set_key(key);
           c->set_value(value);
                            
-          network->send_message(m);
+          network->send_message(m, MessageParams::create());
           TRACE_MSG("sending " << key << " " << value);
         }
     }

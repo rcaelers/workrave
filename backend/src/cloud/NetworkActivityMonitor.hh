@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: NetworkActivityMonitor.hh 1090 2006-10-01 20:49:47Z dotsphinx $
-//
 
 #ifndef NETWORKACTIVITYMONITOR_HH
 #define NETWORKACTIVITYMONITOR_HH
@@ -28,6 +26,7 @@
 #include "INetwork.hh"
 
 using namespace workrave;
+using namespace workrave::cloud;
 
 class NetworkActivityMonitor
 {
@@ -66,7 +65,7 @@ private:
   typedef States::const_iterator StateCIter;
 
 private:
-  void on_activity_message(NetworkMessageBase::Ptr);
+  void on_activity_message(Message::Ptr, MessageContext::Ptr);
   
 private:
   //! The networking core

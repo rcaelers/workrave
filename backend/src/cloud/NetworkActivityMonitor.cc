@@ -1,4 +1,4 @@
-// NetworkActivityMonitor.cc --- Network (networked) ActivityMonitor
+// NetworkActivityMonitor.cc ---  (networked) NetworkActivityMonitor
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -28,7 +28,7 @@
 #include "INetwork.hh"
 #include "TimeSource.hh"
 
-#include "cloud.pb.h"
+#include "workrave.pb.h"
 
 using namespace std;
 using namespace workrave::utils;
@@ -57,22 +57,21 @@ void
 NetworkActivityMonitor::init()
 {
   TRACE_ENTER("NetworkActivityMonitor::init");
-  network->signal_message(1, cloud::ActivityState::kTypeFieldNumber)
-    .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1));
+  network->signal_message(1, workrave::networking::ActivityState::kTypeFieldNumber)
+    .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1, _2));
   TRACE_EXIT()
 }
 
 void
-NetworkActivityMonitor::on_activity_message(NetworkMessageBase::Ptr message)
+NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext::Ptr context)
 {
   TRACE_ENTER("NetworkActivityMonitor::on_activity_message");
-  // NetworkMessage<cloud::ActivityState>::Ptr as = boost::dynamic_pointer_cast<NetworkMessage<cloud::ActivityState> >(message);
-  
-  boost::shared_ptr<cloud::ActivityState> a = message->as<cloud::ActivityState>();
+
+  boost::shared_ptr<workrave::networking::ActivityState> a = boost::dynamic_pointer_cast<workrave::networking::ActivityState>(message);
 
   if (a)
     {
-      const UUID &remote_id = message->source;
+      const UUID &remote_id = context->source;
       const ActivityState state = (ActivityState) a->state();
 
       TRACE_MSG("state " << state << " from" << remote_id.str());

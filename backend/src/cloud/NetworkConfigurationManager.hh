@@ -28,6 +28,7 @@
 #include "IConfiguratorListener.hh"
 
 using namespace workrave;
+using namespace workrave::cloud;
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -72,7 +73,7 @@ private:
   typedef Changes::iterator ChangesIter;
 
 private:
-  void on_configuration_message(NetworkMessageBase::Ptr);
+  void on_configuration_message(Message::Ptr, MessageContext::Ptr);
   
 private:
   //! The networking core

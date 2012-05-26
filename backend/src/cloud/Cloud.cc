@@ -35,7 +35,7 @@
 #include "Cloud.hh"
 #include "Util.hh"
 
-#include "cloud.pb.h"
+#include "workrave.pb.h"
 
 using namespace std;
 
@@ -94,14 +94,9 @@ Cloud::heartbeat()
   // TODO: debugging code.
   if (!once)
     {
-      NetworkMessage<cloud::ActivityState>::Ptr as = NetworkMessage<cloud::ActivityState>::create();
-      as->scope = NetworkClient::SCOPE_DIRECT;
-      as->authenticated = true;
-
-      boost::shared_ptr<cloud::ActivityState> a = as->msg();
-      as->msg()->set_state(1);
-      network->send_message(as);
-
+      boost::shared_ptr<workrave::networking::ActivityState> a(new workrave::networking::ActivityState());
+      a->set_state(1);
+      network->send_message(a, MessageParams::create());
       once = true;
     }
   

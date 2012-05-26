@@ -1,4 +1,4 @@
-// INetwork.hh
+// NetworkLink.cc
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,39 +16,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+//
 
-#ifndef INETWORK_HH
-#define INETWORK_HH
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <list>
-#include <map>
-#include <string>
+#include "debug.hh"
 
-#include <boost/signals2.hpp>
-#include <boost/bind.hpp>
-#include <boost/shared_ptr.hpp>
+#include "Link.hh"
 
-#include "Types.hh"
-#include "MessageParams.hh"
-#include "MessageContext.hh"
+using namespace std;
 
-namespace workrave
+//! Constructs a new network link
+Link::Link() : state(CONNECTION_STATE_INVALID)
 {
-  namespace cloud
-  {
-    class INetwork
-    {
-    public:
-      typedef boost::shared_ptr<INetwork> Ptr;
-      typedef boost::signals2::signal<void(Message::Ptr, MessageContext::Ptr)> MessageSignal;
-      
-      virtual ~INetwork() {}
-      
-      virtual void send_message(Message::Ptr msg, MessageParams::Ptr param) = 0;
-      virtual MessageSignal &signal_message(int domain, int id) = 0;
-    };
-  }
+  TRACE_ENTER("Link::Link");
+  TRACE_EXIT();
 }
 
 
-#endif // INETWORK_HH
+//! Destructs the network link.
+Link::~Link()
+{
+  TRACE_ENTER("Link::~Link");
+  TRACE_EXIT();
+}

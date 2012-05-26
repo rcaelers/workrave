@@ -1,4 +1,4 @@
-// NetworkClient.hh
+// Marshaller.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKCLIENT_HH
-#define NETWORKCLIENT_HH
+#ifndef MARSHALLER_HH
+#define MARSHALLER_HH
 
 #include <map>
 #include <string>
@@ -26,46 +26,43 @@
 #include <boost/shared_ptr.hpp>
 
 #include "NetworkAddress.hh"
+#include "Packet.hh"
+#include "UUID.hh"
 
 using namespace workrave;
 using namespace workrave::network;
+using namespace workrave::cloud;
 
-class NetworkClient
+class Marshaller
 {
- public:
-  typedef boost::shared_ptr<NetworkClient> Ptr;
+public:
+  typedef boost::shared_ptr<Marshaller> Ptr;
 
-  enum Scope
-    {
-      SCOPE_INVALID = 0,
-      SCOPE_DIRECT = 1,
-      SCOPE_MULTICAST = 2,
-      SCOPE_CLOUD = 4
-    };
+public:
+  static Ptr create();
 
-  enum State
-  {
-    CONNECTION_STATE_INVALID,
-    CONNECTION_STATE_CONNECTING,
-    CONNECTION_STATE_CONNECTED,
-    CONNECTION_STATE_CLOSED,
-  };
+  Marshaller();
+  virtual ~Marshaller();
+
+  void set_id(UUID &id);
+  void set_credentials(const std::string &username, const std::string &secret);
   
- public:
-  static Ptr create(Scope scope)
-  {
-    return NetworkClient::Ptr(new NetworkClient(scope));
-  }
+  Packet::Ptr unmarshall(gsize size, const gchar *data);
+  const std::string marshall(Packet::Ptr message);
+  
+private:
+  std::string get_namespace_of_domain(int domain);
+  int get_domain_of_namespace(const std::string &ns);
+  
+  const std::string get_nonce() const;
+  bool check_authentication(Header::Ptr header);
+  void add_authentication(Header::Ptr header);
 
-  NetworkClient(Scope scope) : scope(scope), state(CONNECTION_STATE_INVALID)
-  {
-  }
-
-  bool authenticated;
-  //WRID id;
-  Scope scope;
-  State state;
-  NetworkAddress::Ptr address;
+public:  
+  UUID myid;
+  std::string username;
+  std::string secret;
 };
-    
-#endif // NETWORKCLIENT_HH
+
+  
+#endif // MARSHALLER_HH

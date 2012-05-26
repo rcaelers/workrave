@@ -1,4 +1,4 @@
-// Cloud.hh --- Networking network server
+// DirectLinkManager.hh --- ing network server
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,55 +17,52 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CLOUD_HH
-#define CLOUD_HH
+#ifndef DIRECTLINKMANAGER_HH
+#define DIRECTLINKMANAGER_HH
 
-#include <list>
 #include <map>
 #include <string>
 
-#include <boost/signals2.hpp>
-#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "IConfigurator.hh"
+#include "DirectLink.hh"
 
-#include "INetwork.hh"
-#include "NetworkConfigurationManager.hh"
-#include "NetworkActivityMonitor.hh"
+#include "SocketServer.hh"
+#include "NetworkAddress.hh"
+#include "ByteStream.hh"
+#include "Marshaller.hh"
 
 using namespace workrave;
-using namespace workrave::config;
+using namespace workrave::network;
 
-class Cloud
+class DirectLinkManager
 {
 public:
-  typedef boost::shared_ptr<Cloud> Ptr;
-  
+  typedef boost::shared_ptr<DirectLinkManager> Ptr;
+
 public:
-  static Ptr create(INetwork::Ptr network, IConfigurator::Ptr configurator);
+  static Ptr create(Marshaller::Ptr marshaller);
 
-public:  
-  Cloud(INetwork::Ptr network, IConfigurator::Ptr configurator);
-  virtual ~Cloud();
+  DirectLinkManager(Marshaller::Ptr marshaller);
+  virtual ~DirectLinkManager();
 
-  void init();
+  void init(int port);
   void terminate();
-  void heartbeat();
 
-private:
-  //! 
-  INetwork::Ptr network;
-
-  //!
-  IConfigurator::Ptr configurator;
+  boost::signals2::signal<void(DirectLink::Ptr)> &signal_new_link();
   
-  //! 
-  NetworkConfigurationManager::Ptr configuration_manager;
+private:
+  void on_accepted(Socket::Ptr socket);
+ 
+private:
+  Marshaller::Ptr marshaller;
+  
+  //! Default server
+  SocketServer::Ptr unicast_server;
 
   //!
-  NetworkActivityMonitor::Ptr activity_monitor;
+  boost::signals2::signal<void(DirectLink::Ptr)> new_link_signal;
 };
 
 
-#endif // CLOUD_HH
+#endif // DIRECTLINKMANAGER_HH

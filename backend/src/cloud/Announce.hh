@@ -1,4 +1,4 @@
-// NetworkAnnounce.hh --- Networking network server
+// Announce.hh --- ing network server
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,46 +17,52 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKANNOUNCE_HH
-#define NETWORKANNOUNCE_HH
+#ifndef ANNOUNCE_HH
+#define ANNOUNCE_HH
 
 #include <string>
 #include <boost/shared_ptr.hpp>
 
+#include "Marshaller.hh"
+#include "NetworkAddress.hh"
 #include "MulticastSocketServer.hh"
-#include "NetworkClient.hh"
+#include "Link.hh"
 
 using namespace workrave;
 using namespace workrave::network;
+using namespace workrave::cloud;
 
-class NetworkAnnounce
+class Announce
 {
 public:
-  typedef boost::shared_ptr<NetworkAnnounce> Ptr;
+  typedef boost::shared_ptr<Announce> Ptr;
 
 public:
-  static Ptr create();
+  static Ptr create(Marshaller::Ptr marshaller);
 
-  NetworkAnnounce();
-  virtual ~NetworkAnnounce();
+  Announce(Marshaller::Ptr marshaller);
+  virtual ~Announce();
 
   void init(int port);
   void terminate();
 
   void send_message(const std::string &message);
  
-  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &signal_data();
+  boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> &signal_data();
  
 private:
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
   
 private:
+  //!
+  Marshaller::Ptr marshaller;
+  
   //! Default server
   MulticastSocketServer::Ptr multicast_server;
 
   //!
-  boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> data_signal;
+  boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> data_signal;
 };
 
 
-#endif // NETWORKANNOUNCE_HH
+#endif // ANNOUNCE_HH

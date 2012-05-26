@@ -30,7 +30,7 @@
 #include "ConfiguratorFactory.hh"
 
 #include "IConfigurator.hh"
-#include "NetworkRouter.hh"
+#include "Router.hh"
 #include "Cloud.hh"
 
 static gboolean on_timer(gpointer data)
@@ -57,24 +57,24 @@ main(int argc, char **argv)
 
   IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
   
-  NetworkRouter::Ptr network1 = NetworkRouter::create();
+  Router::Ptr network1 = Router::create();
   Cloud::Ptr cloud1 = Cloud::create(network1, configurator);
   network1->init(2701, "rob@workrave", "kjsdapkidszahf");
   cloud1->init();
 
-  NetworkRouter::Ptr network2 = NetworkRouter::create();
+  Router::Ptr network2 = Router::create();
   Cloud::Ptr cloud2 = Cloud::create(network2, configurator);
   network2->init(2702, "rob@workrave", "kjsdapkidszahf");
   network2->connect("localhost", 2701);
   cloud2->init();
   
-  NetworkRouter::Ptr network3 = NetworkRouter::create();
+  Router::Ptr network3 = Router::create();
   Cloud::Ptr cloud3 = Cloud::create(network3, configurator);
   network3->init(2703, "rob@workrave", "kjsdapkidszahf");
   network3->connect("localhost", 2701);
   cloud3->init();
 
-  NetworkRouter::Ptr network4 = NetworkRouter::create();
+  Router::Ptr network4 = Router::create();
   Cloud::Ptr cloud4 = Cloud::create(network4, configurator);
   network4->init(2704, "rob@workrave", "kjsdapkidszahf");
   network4->connect("localhost", 2703);

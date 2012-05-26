@@ -1,4 +1,4 @@
-// NetworkMessage.cc
+// MessageParams.hh
 //
 // Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,25 +16,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef MESSAGEPARAMS_HH
+#define MESSAGEPARAMS_HH
 
-#include <string>
 #include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
 
-#include "debug.hh"
+#include "Types.hh"
 
-#include "NetworkMessage.hh"
-
-using namespace std;
-
-NetworkMessageBase::Ptr
-NetworkMessageBase::create(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message)
+namespace workrave
 {
-  Ptr ret = Ptr(new NetworkMessage<google::protobuf::Message>(message));
-  ret->source = UUID::from_raw(header->source());
-  return ret;
+  namespace cloud
+  {
+    class MessageParams : public boost::noncopyable
+    {
+      MessageParams() : sign(true), scope(workrave::cloud::SCOPE_DIRECT) {}
+      
+    public:
+      typedef boost::shared_ptr<MessageParams> Ptr;
+      
+      static Ptr create()
+      {
+        return Ptr(new MessageParams());
+      }
+      
+      bool sign;
+      workrave::cloud::Scope scope;
+    };
+  }
 }
+
+#endif // MESSAGEPARAMS_HH

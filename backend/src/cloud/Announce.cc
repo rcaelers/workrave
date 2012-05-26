@@ -1,4 +1,4 @@
-// NetworkAnnounce.cc
+// Announce.cc
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -27,74 +27,79 @@
 
 #include "debug.hh"
 
-#include "NetworkAnnounce.hh"
+#include "Announce.hh"
 
 using namespace std;
 
-NetworkAnnounce::Ptr
-NetworkAnnounce::create()
+Announce::Ptr
+Announce::create(Marshaller::Ptr marshaller)
 {
-  return NetworkAnnounce::Ptr(new NetworkAnnounce());
+  return Announce::Ptr(new Announce(marshaller));
 }
 
 
-NetworkAnnounce::NetworkAnnounce()
+Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller)
 {
-  TRACE_ENTER("NetworkAnnounce::NetworkAnnounce");
+  TRACE_ENTER("Announce::Announce");
   multicast_server = MulticastSocketServer::create();
   TRACE_EXIT();
 }
 
 
-NetworkAnnounce::~NetworkAnnounce()
+Announce::~Announce()
 {
-  TRACE_ENTER("NetworkAnnounce::~NetworkAnnounce");
+  TRACE_ENTER("Announce::~Announce");
   TRACE_EXIT();
 }
 
 
 void
-NetworkAnnounce::init(int port)
+Announce::init(int port)
 {
-  TRACE_ENTER("NetworkAnnounce::init");
+  TRACE_ENTER("Announce::init");
   multicast_server->init("239.160.181.73", "ff15::1:145", port);
-  multicast_server->signal_data().connect(boost::bind(&NetworkAnnounce::on_data, this, _1, _2, _3));
+  multicast_server->signal_data().connect(boost::bind(&Announce::on_data, this, _1, _2, _3));
   TRACE_EXIT();
 }
 
 
 void
-NetworkAnnounce::terminate()
+Announce::terminate()
 {
-  TRACE_ENTER("NetworkAnnounce::terminate");
+  TRACE_ENTER("Announce::terminate");
   TRACE_EXIT();
 }
 
 
 void
-NetworkAnnounce::send_message(const std::string &message)
+Announce::send_message(const std::string &message)
 {
-  TRACE_ENTER("NetworkAnnounce::send_message");
+  TRACE_ENTER("Announce::send_message");
   multicast_server->send(message.c_str(), message.length());
   TRACE_EXIT();
 }
 
 //!
 void
-NetworkAnnounce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
+Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
 {
-  TRACE_ENTER("NetworkRouter::on_multicast_data");
+  TRACE_ENTER("Router::on_multicast_data");
 
-  NetworkClient::Ptr info = NetworkClient::create(NetworkClient::SCOPE_MULTICAST);
-  info->state = NetworkClient::CONNECTION_STATE_CONNECTED;
-  info->address = na;
+  EphemeralLink::Ptr link = EphemeralLink::create();
+  link->state = Link::CONNECTION_STATE_CONNECTED;
+  link->address = na;
 
-  data_signal(size, data, info);
+  Packet::Ptr packet = marshaller->unmarshall(size, data);
+  if (packet)
+    {
+      data_signal(packet, link);
+    }
+  
   TRACE_EXIT();
 }
 
-boost::signals2::signal<void(gsize, const gchar *, NetworkClient::Ptr)> &
-NetworkAnnounce::signal_data()
+boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> &
+Announce::signal_data()
 {
   return data_signal;
 }
