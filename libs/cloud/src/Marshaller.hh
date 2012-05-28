@@ -47,8 +47,8 @@ public:
   void set_id(UUID &id);
   void set_credentials(const std::string &username, const std::string &secret);
   
-  Packet::Ptr unmarshall(gsize size, const gchar *data);
-  const std::string marshall(Packet::Ptr message);
+  PacketIn::Ptr unmarshall(gsize size, const gchar *data);
+  const std::string marshall(PacketOut::Ptr message);
   
 private:
   std::string get_namespace_of_domain(int domain);

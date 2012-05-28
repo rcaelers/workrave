@@ -48,7 +48,7 @@ public:
 
   void send_message(const std::string &message);
  
-  boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> &signal_data();
+  boost::signals2::signal<bool(PacketIn::Ptr, Link::Ptr)> &signal_data();
  
 private:
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
@@ -61,7 +61,7 @@ private:
   MulticastSocketServer::Ptr multicast_server;
 
   //!
-  boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> data_signal;
+  boost::signals2::signal<bool(PacketIn::Ptr, Link::Ptr)> data_signal;
 };
 
 

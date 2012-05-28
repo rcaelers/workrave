@@ -89,7 +89,7 @@ Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
   link->state = Link::CONNECTION_STATE_CONNECTED;
   link->address = na;
 
-  Packet::Ptr packet = marshaller->unmarshall(size, data);
+  PacketIn::Ptr packet = marshaller->unmarshall(size, data);
   if (packet)
     {
       data_signal(packet, link);
@@ -98,7 +98,7 @@ Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
   TRACE_EXIT();
 }
 
-boost::signals2::signal<void(Packet::Ptr, Link::Ptr)> &
+boost::signals2::signal<bool(PacketIn::Ptr, Link::Ptr)> &
 Announce::signal_data()
 {
   return data_signal;

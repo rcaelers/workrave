@@ -154,16 +154,18 @@ Marshaller::add_authentication(Header::Ptr header)
 
 
 const string
-Marshaller::marshall(Packet::Ptr packet)
+Marshaller::marshall(PacketOut::Ptr packet)
 {
   TRACE_ENTER("Marshaller::marshall_message");
   string ret;
 
-  packet->header->set_source(myid.str());
+  Header::Ptr header(new proto::Header);
 
-  if (packet->params->sign)
+  header->set_source(packet->source.raw());
+
+  if (packet->sign)
     {
-      add_authentication(packet->header);
+      add_authentication(header);
     }
   
   const google::protobuf::Descriptor *ext = packet->message->GetDescriptor();
@@ -175,26 +177,26 @@ Marshaller::marshall(Packet::Ptr packet)
           int num = fd->number();
 
           const string &full_name = ext->full_name();
-          std:: string::size_type pos = full_name.find('.');
+          std:: string::size_type pos = full_name.rfind('.');
           if (pos != std::string::npos)
             {
               TRACE_MSG(full_name.substr(0, pos));
-              packet->header->set_domain(get_domain_of_namespace(full_name.substr(0, pos)));
+              header->set_domain(get_domain_of_namespace(full_name.substr(0, pos)));
             }
           else
             {
-              packet->header->set_domain(1);
+              header->set_domain(1);
             }
 
       
-          packet->header->set_payload(num);
+          header->set_payload(num);
 
           boost::shared_ptr<ByteStreamOutput> output(new ByteStreamOutput(1024));
 
-          output->write_u16(packet->header->ByteSize());
+          output->write_u16(header->ByteSize());
           output->write_u16(packet->message->ByteSize());
       
-          packet->header->SerializeToZeroCopyStream(output.get());
+          header->SerializeToZeroCopyStream(output.get());
 
           const gchar *payload = output->get_ptr();
           packet->message->SerializeToZeroCopyStream(output.get());
@@ -220,11 +222,10 @@ Marshaller::marshall(Packet::Ptr packet)
 }
 
 
-Packet::Ptr
+PacketIn::Ptr
 Marshaller::unmarshall(gsize size, const gchar *data)
 {
   TRACE_ENTER("Marshaller::unmarshall_message");
-
   
   try
     {
@@ -241,35 +242,38 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       header_ok = header_ok && input->read_u16(header_size);
       header_ok = header_ok && input->read_u16(msg_size);
 
+      TRACE_MSG(header_ok << " " << header_size << " " << msg_size << " " << size);
+      
       if (header_ok)
         {
           header = Header::Ptr(new proto::Header());
           header_ok = header->ParseFromBoundedZeroCopyStream(input.get(), header_size);
+          TRACE_MSG(header_ok);
         }
-      
-      // if (header_ok)
-      //   {
-      //     header_ok = 
-      //   }
       
       if (header_ok && size >= header_size + msg_size)
         {
           const string domain_name = get_namespace_of_domain(header->domain()) + ".Domain";
+          TRACE_MSG(domain_name);
           base = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(domain_name);
+          TRACE_MSG(base);
         }
 
       if (base != NULL)
         {
+          TRACE_MSG("OK Base" <<  header->payload());
           field = google::protobuf::DescriptorPool::generated_pool()->FindExtensionByNumber(base, header->payload());
         }
       
       if (field != NULL)
         {
+          TRACE_MSG("OK Field");
           ext = field->extension_scope();
         }
       
       if (ext != NULL)
         {
+          TRACE_MSG("OK EXT");
           boost::shared_ptr<google::protobuf::Message> message(google::protobuf::MessageFactory::generated_factory()->GetPrototype(ext)->New());
           
           // TODO:
@@ -285,9 +289,10 @@ Marshaller::unmarshall(gsize size, const gchar *data)
               TRACE_MSG(header->DebugString());
               TRACE_MSG(message->DebugString());
               
-              Packet::Ptr ret = Packet::create(header, message);
+              PacketIn::Ptr ret = PacketIn::create(header, message);
               
-              ret->context->valid_signature = check_authentication(header);
+              ret->authentic = check_authentication(header);
+              ret->source = UUID::from_raw(header->source());
 
               return ret;
             }
@@ -298,7 +303,7 @@ Marshaller::unmarshall(gsize size, const gchar *data)
     }
   
   TRACE_EXIT();
-  return Packet::Ptr();
+  return PacketIn::Ptr();
 }
 
 
@@ -308,10 +313,10 @@ Marshaller::get_namespace_of_domain(int domain)
   switch (domain)
     {
     case 0:
-      return "workrave";
+      return "workrave.cloud.proto";
 
     case 1:
-      return "cloud";
+      return "workrave.networking";
     }
 
   return "";
@@ -320,11 +325,11 @@ Marshaller::get_namespace_of_domain(int domain)
 int
 Marshaller::get_domain_of_namespace(const string &ns)
 {
-  if (ns == "workrave")
+  if (ns == "workrave.cloud.proto")
     {
       return 0;
     }
-  else if (ns == "cloud")
+  else if (ns == "workrave.networking")
     {
       return 1;
     }

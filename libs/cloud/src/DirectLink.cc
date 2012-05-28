@@ -176,17 +176,22 @@ DirectLink::on_data()
       
       if (packet_size > 0 && header_size + packet_size == stream->get_position())
         {
-          Packet::Ptr packet = marshaller->unmarshall(packet_size, stream->get_start() + header_size);
+          PacketIn::Ptr packet = marshaller->unmarshall(packet_size, stream->get_start() + header_size);
 
           if (packet)
             {
-              if (packet->context->valid_signature)
+              if (packet->authentic)
                 {
                   authenticated = true;
-                  id = packet->context->source;
+                  id = packet->source;
                 }
 
-              data_signal(packet);
+              boost::optional<bool> r = data_signal(packet);
+              TRACE_MSG("signal result" << r << " " << (*r));
+              if (!(*r))
+              {
+                error = true;
+              }
             }
           
           stream->init(1024);
@@ -218,7 +223,7 @@ DirectLink::close()
 }
 
 
-boost::signals2::signal<void(Packet::Ptr)> &
+boost::signals2::signal<bool(PacketIn::Ptr), DirectLink::BoolOrCombiner> &
 DirectLink::signal_data()
 {
   return data_signal;

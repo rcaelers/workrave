@@ -30,34 +30,47 @@
 
 using namespace workrave::cloud;
 
-class Packet
+class PacketIn
 {
-  Packet(Header::Ptr header, Message::Ptr message)
-    : header(header), message(message) { }
-  
-  Packet(Header::Ptr header, Message::Ptr message, MessageParams::Ptr params)
-    : header(header), message(message), params(params) { }
+  PacketIn(Header::Ptr header, Message::Ptr message)
+    : header(header), message(message)
+  {
+  }
   
 public:
-  typedef boost::shared_ptr<Packet> Ptr;
+  typedef boost::shared_ptr<PacketIn> Ptr;
 
   static Ptr create(Header::Ptr header, Message::Ptr message)
   {
-    return Ptr(new Packet(header, message));
+    return Ptr(new PacketIn(header, message));
   }
 
-  static Ptr create(Message::Ptr message, MessageParams::Ptr params)
-  {
-    Header::Ptr header(new workrave::cloud::proto::Header);
-    
-    return Ptr(new Packet(header, message, params));
-  }
-  
 public:
   Header::Ptr header;
   Message::Ptr message;
-  MessageParams::Ptr params;
-  MessageContext::Ptr context;
+  bool authentic;
+  UUID source;
+};
+
+class PacketOut
+{
+  PacketOut(Message::Ptr message)
+    : message(message)
+  {
+  }
+  
+public:
+  typedef boost::shared_ptr<PacketOut> Ptr;
+
+  static Ptr create(Message::Ptr message)
+  {
+    return Ptr(new PacketOut(message));
+  }
+
+public:
+  Message::Ptr message;
+  UUID source;
+  bool sign;
 };
 
 #endif // PACKET_HH

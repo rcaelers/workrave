@@ -38,6 +38,21 @@ class DirectLink : public Link
 public:
   typedef boost::shared_ptr<DirectLink> Ptr;
 
+  struct BoolOrCombiner
+  {
+    typedef bool result_type;
+    template <typename InputIterator>
+    result_type operator()(InputIterator first, InputIterator last) const
+    {
+        result_type val = true;
+        for (; first != last && val; first++)
+          {
+            val = *first;            
+          }
+        return val;
+    }
+  };
+  
 public:
   static Ptr create(Marshaller::Ptr marshaller);
   static Ptr create(Marshaller::Ptr marshaller, Socket::Ptr socket);
@@ -52,18 +67,20 @@ public:
   void connect(const std::string &host, int port);
   void send_message(const std::string &message);
   
-  boost::signals2::signal<void(Packet::Ptr)> &signal_data();
+  boost::signals2::signal<bool(PacketIn::Ptr), BoolOrCombiner> &signal_data();
   boost::signals2::signal<void()> &signal_state();
   
 private:
   void on_connected();
   void on_disconnected();
   void on_data();
-
   void close();
+  
 private:
+
+  
   //!
-  boost::signals2::signal<void(Packet::Ptr)> data_signal;
+  boost::signals2::signal<bool(PacketIn::Ptr), BoolOrCombiner> data_signal;
 
   //!
   boost::signals2::signal<void()> state_signal;

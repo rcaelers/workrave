@@ -49,6 +49,14 @@ Router::create()
   return Router::Ptr(new Router());
 }
 
+// TODO: move to factory
+//! Create a new network router
+ICloud::Ptr
+ICloud::create()
+{
+  return Router::create();
+}
+
 
 //! Constructs a new network router
 Router::Router()
@@ -85,7 +93,7 @@ Router::init(int port, string username, string secret)
   announce->init(port);
   direct_link_manager->init(port);
 
-  announce->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2));
+  announce->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_MULTICAST));
   direct_link_manager->signal_new_link().connect(boost::bind(&Router::on_direct_link_created, this, _1));
 
   TRACE_EXIT();
@@ -108,7 +116,7 @@ Router::connect(const string &host, int port)
 
   DirectLink::Ptr link = DirectLink::create(marshaller);
   link->connect(host, port);
-  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link));
+  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link, SCOPE_DIRECT));
   link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, link));
   
   links.push_back(link);
@@ -122,7 +130,10 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
 {
   TRACE_ENTER("Router::send_message");
 
-  Packet::Ptr packet = Packet::create(message, params);
+  PacketOut::Ptr packet = PacketOut::create(message);
+  packet->sign = params->sign;
+  packet->source = myid;
+  
   string msg_str = marshaller->marshall(packet);
 
   Scope scope = params->scope;
@@ -148,30 +159,25 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
 
 
 void
-Router::forward_message(Packet::Ptr packet)
+Router::forward_message(PacketIn::Ptr packet)
 {
-  TRACE_ENTER_MSG("Router::forward_message", packet->context->scope);
+  TRACE_ENTER("Router::forward_message");
 
-  string msg_str = marshaller->marshall(packet);
-  Scope scope = packet->context->scope;
+  PacketOut::Ptr packet_out(PacketOut::create(packet->message));
+  packet_out->sign = packet->authentic;
+  packet_out->source = packet->source;
   
-  if ((scope & SCOPE_DIRECT) == SCOPE_DIRECT)
+  string msg_str = marshaller->marshall(packet_out);
+
+  for (LinkIter it = links.begin(); it != links.end(); it++)
     {
-      for (LinkIter it = links.begin(); it != links.end(); it++)
+      if ((*it)->state == Link::CONNECTION_STATE_CONNECTED &&
+          (*it)->id != packet->source)
         {
-          if ((*it)->state == Link::CONNECTION_STATE_CONNECTED &&
-              (*it)->id != packet->context->source)
-            {
-              (*it)->send_message(msg_str);
-            }
+          (*it)->send_message(msg_str);
         }
     }
-  
-  if ((scope & SCOPE_MULTICAST) == SCOPE_MULTICAST)
-    {
-      announce->send_message(msg_str);
-    }
-      
+
   TRACE_EXIT();
 }
 
@@ -186,23 +192,28 @@ Router::signal_message(int domain, int id)
 }
 
 
-void
-Router::on_data(Packet::Ptr packet, Link::Ptr link)
+bool
+Router::on_data(PacketIn::Ptr packet, Link::Ptr link, Scope scope)
 {
   TRACE_ENTER("Router::on_data");
-
+  bool ret = true;
+  
   if (packet)
     {
       TRACE_MSG("packet " << link->authenticated);
-      if (myid == packet->context->source)
+      if (myid == packet->source)
         {
-          // TODO: Handle cycle
           TRACE_MSG("cycle!");
+          ret = false;
         }
 
-      if (link->authenticated)
+      if (ret && link->authenticated)
         {
-          fire_message_signal(packet->header->domain(), packet->header->payload(), packet->message, packet->context);
+          MessageContext::Ptr context(MessageContext::create());
+          context->source = packet->source;
+          context->scope = scope;
+          
+          fire_message_signal(packet->header->domain(), packet->header->payload(), packet->message, context);
           forward_message(packet);
           
           if (packet->header->domain() == 0 && packet->header->payload() == proto::Alive::kTypeFieldNumber)
@@ -211,16 +222,10 @@ Router::on_data(Packet::Ptr packet, Link::Ptr link)
             }
         }
     }
-  TRACE_EXIT();
+  TRACE_RETURN(ret);
+  return ret;
 }
 
-
-// void
-// Router::process_message(boost::shared_ptr<workrave::Header> header, boost::shared_ptr<google::protobuf::Message> message)
-// {
-//   (void) header;
-//   (void) message;
-// }
 
 void
 Router::on_direct_link_created(DirectLink::Ptr link)
@@ -228,7 +233,7 @@ Router::on_direct_link_created(DirectLink::Ptr link)
   TRACE_ENTER("Router::on_direct_link_created");
   TRACE_MSG(link->address->str());
 
-  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link));
+  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link, SCOPE_DIRECT));
   link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, link));
   
   links.push_back(link);
@@ -315,7 +320,7 @@ Router::send_alive()
 
 
 void
-Router::process_alive(Link::Ptr link, Packet::Ptr packet)
+Router::process_alive(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::process_alive");
   
@@ -329,7 +334,7 @@ Router::process_alive(Link::Ptr link, Packet::Ptr packet)
           TRACE_MSG("cl " << (*it)->address->str());
           if ((*it)->state == Link::CONNECTION_STATE_CONNECTED &&
               (*it)->authenticated &&
-              (*it)->id == packet->context->source)
+              (*it)->id == packet->source)
             {
               TRACE_MSG("have");
               seen = true;

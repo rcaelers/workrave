@@ -52,27 +52,25 @@ public:
   Router();
   virtual ~Router();
 
-  void init(int port, std::string username, std::string secret);
-  void terminate();
-
+  virtual void init(int port, std::string username, std::string secret);
+  virtual void terminate();
   virtual void connect(const std::string &host, int port);
   virtual void send_message(Message::Ptr message, MessageParams::Ptr params);
-
-  MessageSignal &signal_message(int domain, int id);
+  virtual MessageSignal &signal_message(int domain, int id);
 
 private:
   void init_myid(int instanceid);
 
-  void on_data(Packet::Ptr packet, Link::Ptr link);
+  bool on_data(PacketIn::Ptr packet, Link::Ptr link, Scope scope);
   void on_direct_link_created(DirectLink::Ptr link);
   void on_direct_link_state_changed(DirectLink::Ptr link);
 
   void fire_message_signal(int domain, int id, Message::Ptr, MessageContext::Ptr);
 
-  void forward_message(Packet::Ptr packet);
+  void forward_message(PacketIn::Ptr packet);
   
   void send_alive();
-  void process_alive(Link::Ptr link, Packet::Ptr packet);
+  void process_alive(Link::Ptr link, PacketIn::Ptr packet);
   
   typedef std::list<Link::Ptr> Links;
   typedef std::list<Link::Ptr>::iterator LinkIter;

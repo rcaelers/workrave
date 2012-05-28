@@ -44,8 +44,13 @@ namespace workrave
       
       virtual ~ICloud() {}
       
+      virtual void init(int port, std::string username, std::string secret) = 0;
+      virtual void terminate() = 0;
+      virtual void connect(const std::string &host, int port) = 0;
       virtual void send_message(Message::Ptr msg, MessageParams::Ptr param) = 0;
       virtual MessageSignal &signal_message(int domain, int id) = 0;
+
+      static Ptr create();
     };
   }
 }

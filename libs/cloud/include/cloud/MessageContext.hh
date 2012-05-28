@@ -32,7 +32,7 @@ namespace workrave
   {
     class MessageContext : public boost::noncopyable
     {
-      MessageContext() : valid_signature(false), scope(workrave::cloud::SCOPE_DIRECT) {}
+      MessageContext() : scope(workrave::cloud::SCOPE_DIRECT) {}
 
     public:
       typedef boost::shared_ptr<MessageContext> Ptr;
@@ -42,7 +42,6 @@ namespace workrave
         return Ptr(new MessageContext());
       }
       
-      bool valid_signature;
       workrave::cloud::Scope scope;
       workrave::cloud::UUID source;
     };
