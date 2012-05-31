@@ -3,4 +3,4 @@
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS=src include
+SUBDIRS=src include bin

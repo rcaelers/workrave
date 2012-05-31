@@ -1,6 +1,6 @@
 // GstSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,8 @@
 
 #include "debug.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
+
 #include "ICore.hh"
 #include "CoreFactory.hh"
 

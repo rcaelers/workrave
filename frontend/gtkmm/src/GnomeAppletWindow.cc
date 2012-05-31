@@ -50,8 +50,8 @@
 #include "DBusGnomeApplet.hh"
 #endif
 
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
 
 #include "Plug.hh"
 

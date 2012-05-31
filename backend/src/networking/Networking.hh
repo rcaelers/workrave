@@ -28,9 +28,8 @@
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "IConfigurator.hh"
-
-#include "Cloud.hh"
+#include "config/Config.hh"
+#include "cloud/Cloud.hh"
 #include "NetworkConfigurationManager.hh"
 #include "NetworkActivityMonitor.hh"
 
@@ -44,6 +43,7 @@ public:
   
 public:
   static Ptr create(ICloud::Ptr network, IConfigurator::Ptr configurator);
+  static Ptr create(IConfigurator::Ptr configurator);
 
 public:  
   Networking(ICloud::Ptr network, IConfigurator::Ptr configurator);

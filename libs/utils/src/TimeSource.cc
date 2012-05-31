@@ -22,7 +22,7 @@
 
 #include "debug.hh"
 
-#include "TimeSource.hh"
+#include "utils/TimeSource.hh"
 
 using namespace workrave::utils;
 

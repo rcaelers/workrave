@@ -41,7 +41,7 @@
 #include <gtkmm.h>
 
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"

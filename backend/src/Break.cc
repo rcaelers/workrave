@@ -25,7 +25,7 @@
 
 #include "Break.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 

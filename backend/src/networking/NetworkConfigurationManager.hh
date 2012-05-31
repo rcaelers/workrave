@@ -23,9 +23,8 @@
 #include <list>
 #include <map>
 
-#include "Cloud.hh"
-#include "IConfigurator.hh" 
-#include "IConfiguratorListener.hh"
+#include "cloud/Cloud.hh"
+#include "config/Config.hh" 
 
 using namespace workrave;
 using namespace workrave::cloud;

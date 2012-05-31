@@ -26,8 +26,9 @@
 #include <time.h>
 #include <string.h>
 
+#include "input-monitor/IInputMonitorListener.hh"
+
 #include "IStatistics.hh"
-#include "IInputMonitorListener.hh"
 #include "Mutex.hh"
 
 // Forward declarion of external interface.

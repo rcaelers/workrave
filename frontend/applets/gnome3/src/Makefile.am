@@ -45,10 +45,11 @@ xmlui_DATA  			= workrave-gnome-applet-menu.xml
 
 AM_CPPFLAGS 			= -I$(srcdir)
 
-FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \
-	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
+	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
+				  -I$(top_srcdir)/libs/utils/include
 
 libexec_PROGRAMS 		= workrave-applet
 

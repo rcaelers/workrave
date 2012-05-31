@@ -24,9 +24,9 @@
 #include "cloud.pb.h"
 
 #include "Types.hh"
-#include "cloud/Message.hh"
-#include "cloud/MessageParams.hh"
-#include "cloud/MessageContext.hh"
+#include "Message.hh"
+#include "MessageParams.hh"
+#include "MessageContext.hh"
 
 using namespace workrave::cloud;
 

@@ -23,8 +23,9 @@
 
 #if defined(HAVE_GIO_NET)
 
-#include "debug.hh"
 #include "GIOMulticastSocketServer.hh"
+
+#include "debug.hh"
 #include "GIONetworkAddress.hh"
 #include "GIOSocket.hh"
 #include "NetworkInterfaceMonitor.hh"

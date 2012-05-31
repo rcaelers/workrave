@@ -23,9 +23,10 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
+#include "network/NetworkAddress.hh"
+#include "network/MulticastSocketServer.hh"
+
 #include "Marshaller.hh"
-#include "NetworkAddress.hh"
-#include "MulticastSocketServer.hh"
 #include "Link.hh"
 
 using namespace workrave;

@@ -39,7 +39,7 @@
 
 #include "GUI.hh"
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "Menus.hh"
 #include "Util.hh"

@@ -25,8 +25,8 @@
 
 #include "NetworkActivityMonitor.hh"
 
-#include "Cloud.hh"
-#include "TimeSource.hh"
+#include "cloud/Cloud.hh"
+#include "utils/TimeSource.hh"
 
 #include "workrave.pb.h"
 

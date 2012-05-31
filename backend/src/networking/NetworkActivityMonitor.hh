@@ -22,8 +22,9 @@
 
 #include <map>
 
+#include "cloud/Cloud.hh"
+
 #include "IActivityMonitor.hh"
-#include "Cloud.hh"
 
 using namespace workrave;
 using namespace workrave::cloud;

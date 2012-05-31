@@ -55,7 +55,7 @@
 #include "DataConnector.hh"
 
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 #define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 

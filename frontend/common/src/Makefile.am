@@ -36,12 +36,13 @@ EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 
 libworkrave_frontend_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			-W -I$(top_srcdir)/frontend/common/src/ \
+			-D_XOPEN_SOURCE=600 @X_CFLAGS@ -W \
+			@WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ @GTK_CFLAGS@ \
+			@GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
+			-I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/common/src/win32 \
 			-I$(top_srcdir)/frontend/common/src/osx \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
-			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include \
-			-I$(top_srcdir)/libs/config/include
+			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/utils/include

@@ -52,7 +52,7 @@
 #include "Menus.hh" // REFACTOR
 
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 using namespace workrave::config;

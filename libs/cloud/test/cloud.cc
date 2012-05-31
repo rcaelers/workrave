@@ -27,7 +27,7 @@
 
 #include <glib-object.h>
 
-#include "Cloud.hh"
+#include "cloud/Cloud.hh"
 #include "Router.hh"
 
 #include "test.pb.h"

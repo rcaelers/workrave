@@ -43,11 +43,13 @@
 
 #include "GUI.hh"
 
+// Library includes
+#include "config/IConfigurator.hh"
+
 // Backend includes.
 #include "IBreak.hh"
 #include "IBreakResponse.hh"
 #include "IBreakWindow.hh"
-#include "IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 
@@ -101,8 +103,8 @@
 #if defined(interface)
 #undef interface
 #endif
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
 #endif
 
 GUI *GUI::instance = NULL;

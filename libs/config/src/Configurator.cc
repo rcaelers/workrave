@@ -25,10 +25,12 @@
 #include <cstdlib>
 #include <sstream>
 
-#include "TimeSource.hh"
 #include "Configurator.hh"
-#include "IConfigBackend.hh"
+
+#include "utils/TimeSource.hh"
+
 #include "IConfiguratorListener.hh"
+#include "IConfigBackend.hh"
 
 using namespace std;
 using namespace workrave;

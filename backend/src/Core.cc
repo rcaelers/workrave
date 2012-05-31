@@ -31,20 +31,21 @@
 
 #include "Core.hh"
 
+#include "config/ConfiguratorFactory.hh"
+#include "config/IConfigurator.hh"
+#include "utils/TimeSource.hh"
+
 #include "Util.hh"
 #include "IApp.hh"
 #include "ICoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
-#include "ConfiguratorFactory.hh"
-#include "IConfigurator.hh"
 #include "CoreConfig.hh"
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
 #include "InputMonitorFactory.hh"
-#include "TimeSource.hh"
 
 #ifdef HAVE_TESTS
 #include "FakeActivityMonitor.hh"
@@ -58,15 +59,15 @@
 #if defined(PLATFORM_OS_WIN32_NATIVE)
 #undef interface
 #endif
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
 #ifdef HAVE_TESTS
 #include "Test.hh"
 #endif
 #endif
 
-#ifdef HAVE_BROKEN_DISTRIBUTION
-#include "Network.hh"
+#ifdef HAVE_DISTRIBUTION
+#include "Networking.hh"
 #endif
 
 Core *Core::instance = NULL;

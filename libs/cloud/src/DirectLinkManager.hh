@@ -20,15 +20,16 @@
 #ifndef DIRECTLINKMANAGER_HH
 #define DIRECTLINKMANAGER_HH
 
+#include "DirectLink.hh"
+
 #include <map>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
 
-#include "DirectLink.hh"
+#include "network/SocketServer.hh"
+#include "network/NetworkAddress.hh"
 
-#include "SocketServer.hh"
-#include "NetworkAddress.hh"
 #include "ByteStream.hh"
 #include "Marshaller.hh"
 

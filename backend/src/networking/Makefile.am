@@ -33,7 +33,7 @@ libworkrave_backend_networking_la_CXXFLAGS = \
 			-I${top_srcdir}/backend/src \
 			-I${top_srcdir}/backend/include \
 			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
+			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

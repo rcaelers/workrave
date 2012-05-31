@@ -25,10 +25,10 @@
 
 #include "debug.hh"
 
-#include "TimeSource.hh"
+#include "utils/TimeSource.hh"
+#include "config/Config.hh"
+
 #include "NetworkConfigurationManager.hh"
-#include "IConfigurator.hh"
-#include "CoreFactory.hh"
 
 #include "workrave.pb.h"
 
@@ -99,6 +99,8 @@ NetworkConfigurationManager::monitor_config(const std::string &key)
 void
 NetworkConfigurationManager::on_configuration_message(Message::Ptr message, MessageContext::Ptr context)
 {
+  (void) context;
+
   TRACE_ENTER("NetworkConfigurationManager::on_configuration_message");
   boost::shared_ptr<workrave::networking::Configuration> a = boost::dynamic_pointer_cast<workrave::networking::Configuration>(message);
 

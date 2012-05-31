@@ -35,8 +35,8 @@
 #include "Menus.hh"
 #include "CoreFactory.hh"
 
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
 #include "DBusGUI.hh"
 
 #define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"

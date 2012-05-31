@@ -26,10 +26,10 @@
 #include <glibmm.h>
 #include "eggsmclient.h"
 
+#include "config/Config.hh"
+
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"

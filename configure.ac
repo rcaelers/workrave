@@ -912,24 +912,15 @@ then
 fi
 
 WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
-WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
 WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
 
-for v in $variant; do
-    if test -d common/src/$v
-    then
-       WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/common/include/$v"
-    fi
-done
-
-WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
-WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src"
+WR_LDADD="-lworkrave-backend -lworkrave-frontend-common"
+WR_LDFLAGS="-L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src"
 
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
 
 AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
-AC_SUBST(WR_COMMON_INCLUDES)
 AC_SUBST(WR_BACKEND_INCLUDES)
 
 
@@ -994,6 +985,7 @@ AC_CONFIG_FILES([Makefile
              libs/Makefile
              libs/network/Makefile
              libs/network/include/Makefile
+             libs/network/include/network/Makefile
              libs/network/src/Makefile
              libs/network/src/unix/Makefile
              libs/network/src/win32/Makefile
@@ -1004,28 +996,34 @@ AC_CONFIG_FILES([Makefile
              libs/cloud/test/Makefile
              libs/config/Makefile
              libs/config/include/Makefile
+             libs/config/include/config/Makefile
              libs/config/src/Makefile
              libs/config/src/unix/Makefile
              libs/config/src/win32/Makefile
              libs/config/src/osx/Makefile
              libs/utils/Makefile
+             libs/utils/bin/Makefile
              libs/utils/include/Makefile
+             libs/utils/include/utils/Makefile
              libs/utils/src/Makefile
+             libs/utils/src/win32/Makefile
+             libs/dbus/Makefile
+             libs/dbus/bin/Makefile
+             libs/dbus/include/Makefile
+             libs/dbus/include/dbus/Makefile
+             libs/dbus/src/Makefile
+             libs/dbus/data/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
+             backend/src/input-monitor/Makefile
+             backend/src/input-monitor/unix/Makefile
+             backend/src/input-monitor/win32/Makefile
+             backend/src/input-monitor/osx/Makefile
              backend/src/networking/Makefile
 	     backend/src/org.workrave.gschema.xml.in
-             backend/src/unix/Makefile
-             backend/src/osx/Makefile
-             backend/src/win32/Makefile
              backend/include/Makefile
              common/Makefile
-             common/bin/Makefile
-             common/src/Makefile
-             common/src/win32/Makefile
-             common/include/Makefile
-             common/include/win32/Makefile
              common/win32/Makefile
              common/win32/harpoon/Makefile
              common/win32/harpoon/include/Makefile

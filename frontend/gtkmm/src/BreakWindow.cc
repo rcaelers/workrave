@@ -43,6 +43,8 @@
 
 #include "BreakWindow.hh"
 
+#include "config/IConfigurator.hh"
+
 #include "GUI.hh"
 #include "IBreak.hh"
 #include "IBreakResponse.hh"
@@ -52,7 +54,6 @@
 #include "System.hh"
 #include "Util.hh"
 #include "ICore.hh"
-#include "IConfigurator.hh"
 #include "CoreFactory.hh"
 
 #if defined(PLATFORM_OS_WIN32)

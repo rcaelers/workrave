@@ -15,7 +15,7 @@ workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc M
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I. @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
 			@GTK_CFLAGS@ @DBUS_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
@@ -27,7 +27,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/common/src 
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I. @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@  @GSTREAMER_CFLAGS@\
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -37,7 +37,6 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			$(win32cflags)
 
 $(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
-			${top_srcdir}/common/src/libworkrave-common.la \
 			${top_srcdir}/frontend/common/src/libworkrave-frontend-common.la
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}

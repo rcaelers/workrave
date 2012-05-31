@@ -23,8 +23,9 @@
 
 #include <stdlib.h>
 
-#include "Configurator.hh"
+#include "IConfigurator.hh"
 #include "ConfiguratorFactory.hh"
+#include "Configurator.hh"
 
 #ifdef HAVE_GLIB
 #include "GlibIniConfigurator.hh"

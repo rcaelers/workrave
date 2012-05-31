@@ -26,10 +26,10 @@
 #include <list>
 #include <map>
 
-#include "Mutex.hh"
 #include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
+#include "Mutex.hh"
 #include "Variant.hh"
 
 using namespace workrave;

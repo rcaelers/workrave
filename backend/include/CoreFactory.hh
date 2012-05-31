@@ -20,7 +20,7 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
-#include "IConfigurator.hh"
+#include "config/Config.hh"
 
 namespace workrave
 {

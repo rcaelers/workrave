@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 
+#include "NetworkAddress.hh"
 #include "GIONetworkAddress.hh"
 
 using namespace workrave::network;

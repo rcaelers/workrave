@@ -70,10 +70,10 @@ if HAVE_PYTHON_CHEETAH
 GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
 
 DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.cc \
-		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+		    	$(top_srcdir)/libs/dbus/data/DBus-client-template-freedesktop.cc \
+		    	$(top_srcdir)/libs/dbus/data/DBus-client-template-freedesktop.hh
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
 
 endif
 
@@ -175,16 +175,16 @@ if HAVE_PYTHON_CHEETAH
 
 if HAVE_DBUS_GIO
 DBusGUI.cc: 		workrave-gui.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-gio.cc \
-			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
+			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 else
 DBusGUI.cc: 		workrave-gui.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.cc \
+			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.hh
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 endif
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
@@ -262,7 +262,7 @@ nodist_workrave_SOURCES = \
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
@@ -272,7 +272,9 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src \
-			-I$(top_srcdir)/libs/config/include
+			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/dbus/include \
+			-I$(top_srcdir)/libs/utils/include
 
 if PLATFORM_OS_OSX
 AM_CPPFLAGS =		-xobjective-c++
@@ -280,19 +282,19 @@ endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@\
 			-D_XOPEN_SOURCE=600  $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src \
+			-I$(top_srcdir)/libs/utils/include \
 			$(win32cflags)
 
 endif
 
 $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
-			$(top_builddir)/common/src/libworkrave-common.la \
 			$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}

@@ -21,8 +21,7 @@
 #define BREAK_HH
 
 #include "ICore.hh"
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
+#include "config/Config.hh"
 #include "IBreak.hh"
 #include "Timer.hh"
 

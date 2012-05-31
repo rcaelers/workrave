@@ -26,8 +26,10 @@
 #include "debug.hh"
 
 #include "GUIConfig.hh"
+
+#include "config/IConfigurator.hh"
+
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
 #include "ICore.hh"
 #include "IBreak.hh"
 

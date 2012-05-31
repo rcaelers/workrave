@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ const int TIMEOUT = 1000;
 #include "Frame.hh"
 
 #include "ICore.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "CoreFactory.hh"
 
 #ifdef HAVE_EXERCISES

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -25,24 +25,19 @@ libworkrave_frontend_gtkmm_osx_la_OBJCFLAGS = \
 			@X_CFLAGS@ -xobjective-c++ \
 			-W  -I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I$(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ \
-                        -I $(top_srcdir)/common/include/osx \
-                        -I $(top_srcdir)/common/include
+			-I$(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@
 
 libworkrave_frontend_gtkmm_osx_la_CFLAGS = \
 			@X_CFLAGS@ \
 			-W  -I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ \
-                        -I $(top_srcdir)/common/include/osx \
-                        -I $(top_srcdir)/common/include
+			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@
 
 libworkrave_frontend_gtkmm_osx_la_CXXFLAGS = \
 			@X_CFLAGS@ -xobjective-c++ \
 			-W  -I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ @IGE_CFLAGS@ \
-                        -I $(top_srcdir)/common/include/osx \
-                        -I $(top_srcdir)/common/include
+			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ @IGE_CFLAGS@
+
 
 endif

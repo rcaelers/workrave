@@ -22,8 +22,9 @@
 
 #include "preinclude.h"
 
+#include "config/IConfiguratorListener.hh"
+
 #include "IAppletWindow.hh"
-#include "IConfiguratorListener.hh"
 
 using namespace workrave;
 using namespace workrave::config;

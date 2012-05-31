@@ -3,4 +3,4 @@
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS=utils config network cloud
+SUBDIRS=utils config network cloud dbus

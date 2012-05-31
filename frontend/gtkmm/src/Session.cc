@@ -28,7 +28,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "CoreFactory.hh"
 #include "IBreak.hh"

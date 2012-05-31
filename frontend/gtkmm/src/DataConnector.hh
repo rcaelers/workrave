@@ -24,8 +24,7 @@
 #include <list>
 #include <sigc++/sigc++.h>
 
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
+#include "config/Config.hh"
 #include "ICore.hh"
 
 class TimeEntry;

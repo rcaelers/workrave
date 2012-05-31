@@ -3,17 +3,32 @@
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		
+SUBDIRS = 		win32
 
 noinst_LTLIBRARIES = 	libworkrave-utils.la
 
-libworkrave_utils_la_SOURCES = TimeSource.cc
+if HAVE_LANGUAGE_SELECTION
+localesources = 	Locale.cc
+endif
 
-libworkrave_utils_la_LIBADD = 
+libworkrave_utils_la_SOURCES = \
+			GlibThread.cc \
+			StringUtil.cc \
+			TimeSource.cc \
+			Util.cc \
+			debug.cc \
+			${localesources}
 
-AM_CPPFLAGS = 		@GLIB_CFLAGS@  \
-			-I$(top_srcdir)/common/include \
+if PLATFORM_OS_WIN32
+ldadd_platform = 	win32/libworkrave-utils-win32.la
+endif
+
+libworkrave_utils_la_LIBADD = ${ldadd_platform}
+
+AM_CPPFLAGS = 		@GLIB_CFLAGS@ -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 			-I$(top_srcdir)/libs/utils/include
 
+Locale.cc:		locale.inc
 
-
+locale.inc:
+			$(PYTHON) $(top_srcdir)/libs/utils/bin/create_locale.py > locale.inc

@@ -25,7 +25,8 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Socket.hh"
+#include "network/Socket.hh"
+
 #include "Link.hh"
 #include "ByteStream.hh"
 

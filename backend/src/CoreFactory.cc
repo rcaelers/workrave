@@ -23,7 +23,7 @@
 
 #include <assert.h>
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "Core.hh"
 

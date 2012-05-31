@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -20,6 +20,6 @@ libworkrave_frontend_common_x11_la_CXXFLAGS = \
 			-D_XOPEN_SOURCE=600 \
 			-W -I$(top_srcdir)/frontend/common/src \
 			-I$(top_srcdir)/frontend/common/include \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@  
+			@WR_BACKEND_INCLUDES@  
 
 endif

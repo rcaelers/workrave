@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 
+#include "MulticastSocketServer.hh"
 #include "GIOMulticastSocketServer.hh"
 
 using namespace workrave::network;

@@ -25,10 +25,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "NetworkAddress.hh"
+#include "network/NetworkAddress.hh"
+#include "cloud/UUID.hh"
+
 #include "Packet.hh"
 #include "Marshaller.hh"
-#include "cloud/UUID.hh"
 
 using namespace workrave;
 using namespace workrave::network;

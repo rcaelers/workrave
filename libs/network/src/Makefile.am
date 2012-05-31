@@ -34,8 +34,8 @@ libworkrave_network_la_LIBADD = \
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ @GIO_CFLAGS@ \
 			${cflags_platform} \
-			-I$(top_srcdir)/libs/network/include \
-			-I$(top_srcdir)/common/include
-
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/network/include/network \
+			-I$(top_srcdir)/libs/network/include
 
 

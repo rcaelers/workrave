@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "debug.hh"
+
 #include "GIONetworkAddress.hh"
 #include "NetlinkNetworkInterfaceMonitor.hh"
 

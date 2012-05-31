@@ -38,7 +38,7 @@
 #include "Statistics.hh"
 
 #ifdef HAVE_DBUS
-#include "DBus.hh"
+#include "dbus/DBus.hh"
 #include "DBusWorkrave.hh"
 #endif
 

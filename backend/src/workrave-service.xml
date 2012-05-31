@@ -104,7 +104,7 @@
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
 
     <import>
-      <include name="IConfigurator.hh"/>
+      <include name="config/IConfigurator.hh"/>
       <namespace name="workrave"/>
     </import>
     

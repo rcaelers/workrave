@@ -28,7 +28,7 @@
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
-#include "IDBusWatch.hh"
+#include "dbus/IDBusWatch.hh"
 
 class AppletControl;
 

@@ -30,7 +30,7 @@
 #include "TimerBoxControl.hh"
 #endif
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 
 class TimerBoxControl;
 class TimerBoxGtkView;

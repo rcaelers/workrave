@@ -10,7 +10,6 @@ libworkrave_network_unix_la_SOURCES =  \
 			UnixNetworkInterfaceMonitor.cc
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ @SIGC_CFLAGS@ \
+			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
-			-I$(top_srcdir)/libs/network/src \
-			-I$(top_srcdir)/common/include
-
+			-I$(top_srcdir)/libs/network/src

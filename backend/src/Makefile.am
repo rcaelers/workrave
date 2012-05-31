@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid) $(wildcard $(srcdir)/*.pb.cc) $(wildcard $(srcdir)/*.pb.h)
 
-SUBDIRS = 		unix win32 osx networking
+SUBDIRS = 		networking input-monitor
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
@@ -15,8 +15,6 @@ sources = 		ActivityMonitor.cc \
 			Core.cc \
 			CoreConfig.cc \
 			CoreFactory.cc \
-			InputMonitor.cc \
-			InputMonitorFactory.cc \
 			Statistics.cc \
 			TimePredFactory.cc \
 			Timer.cc \
@@ -27,19 +25,6 @@ sources = 		ActivityMonitor.cc \
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
 
-
-if PLATFORM_OS_WIN32
-platform_ldadd = 	win32/libworkrave-backend-win32.la
-platform_cflags = 	-I$(top_srcdir)/backend/src/win32
-endif
-if PLATFORM_OS_OSX
-platform_ldadd = 	osx/libworkrave-backend-osx.la
-platform_cflags = 	-I$(top_srcdir)/backend/src/osx
-endif
-if PLATFORM_OS_UNIX
-platform_ldadd = 	unix/libworkrave-backend-unix.la
-platform_cflags = 	-I$(top_srcdir)/backend/src/unix
-endif
 
 # DBus service file
 if HAVE_DBUS
@@ -52,16 +37,16 @@ if HAVE_PYTHON_CHEETAH
 
 if HAVE_DBUS_GIO
 DBusWorkrave.cc:	workrave-service.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-gio.cc \
-			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
+			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
 else
 DBusWorkrave.cc:	workrave-service.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py -s -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.cc \
+			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.hh
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
 endif
 
 DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
@@ -86,8 +71,6 @@ gsettings_SCHEMAS = org.workrave.gschema.xml
 
 endif
 
-network_cflags = 	
-
 libworkrave_backend_la_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesdistribution} \
 			${dbussources} 
@@ -96,14 +79,17 @@ libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} \
+			-I$(top_srcdir)/libs/dbus/include \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/networks/include \
+			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
-			 @WR_COMMON_INCLUDES@ \
+			-I$(top_srcdir)/libs/cloud/include \
 			@GLIB_CFLAGS@@DBUS_CFLAGS@ \
-			@PROTOBUF_CFLAGS@ -I$(top_srcdir)/backend/src/networking
+			@PROTOBUF_CFLAGS@ \
+			-I$(top_srcdir)/backend/src/networking \
+			-I$(top_srcdir)/backend/src/input-monitor
 
-libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS} @SIGC_CFLAGS@
+libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
 libworkrave_backend_la_LIBADD= \
 			${platform_ldadd} \
@@ -111,7 +97,9 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
-			networking/libworkrave-backend-networking.la
+			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
+			networking/libworkrave-backend-networking.la \
+			input-monitor/libworkrave-backend-input-monitor.la
 
 DISTCLEANFILES = org.workrave.gschema.xml
 

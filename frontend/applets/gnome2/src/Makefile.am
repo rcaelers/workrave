@@ -25,7 +25,7 @@ server_DATA     = $(server_in_files:.server.in=.server)
 AM_CPPFLAGS  			= -I$(srcdir)
 
 FLAGS				= @GNOME2_CFLAGS@ @DBUSGLIB_CFLAGS@ \
-				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
@@ -68,9 +68,9 @@ endif
 if HAVE_PYTHON_CHEETAH
 
 DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml
-	$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --language=xml $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml DBusGUI
+	$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --language=xml $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml DBusGUI
 
 DBusGnomeApplet.xml: gnome-applet.xml
-	$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --language=xml $(srcdir)/gnome-applet.xml DBusGnomeApplet
+	$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --language=xml $(srcdir)/gnome-applet.xml DBusGnomeApplet
 
 endif

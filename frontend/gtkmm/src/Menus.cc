@@ -42,7 +42,7 @@
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkLogDialog.hh"

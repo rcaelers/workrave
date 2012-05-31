@@ -29,18 +29,15 @@ libworkrave_cloud_la_SOURCES = ${sources}
 
 libworkrave_cloud_la_CXXFLAGS = \
 			-W \
+			-I$(top_srcdir)/libs/cloud/include/cloud \
 			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
 			-I$(top_srcdir)/libs/cloud/include \
 			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
+			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@
 
 libworkrave_cloud_la_LIBADD = \
 			@GLIB_LIBS@ @PROTOBUF_LIBS@
-
-#			$(top_builddir)/common/src/libworkrave-common.la \
-#			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
-#			$(top_builddir)/libs/network/src/libworkrave-network.la
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

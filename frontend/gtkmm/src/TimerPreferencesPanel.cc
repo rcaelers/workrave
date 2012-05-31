@@ -35,7 +35,7 @@
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "IBreak.hh"
 
 #include "TimeEntry.hh"

@@ -27,11 +27,11 @@
 
 #include <glib-object.h>
 
-#include "ConfiguratorFactory.hh"
+#include "config/ConfiguratorFactory.hh"
+#include "config/IConfigurator.hh"
+#include "cloud/Cloud.hh"
 
-#include "IConfigurator.hh"
 #include "Networking.hh"
-#include "Cloud.hh"
 
 static gboolean on_timer(gpointer data)
 {

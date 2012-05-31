@@ -39,14 +39,14 @@
 #include <string>
 #include <map>
 
+#include "utils/ITimeSource.hh"
+#include "config/Config.hh"
+
 #include "Break.hh"
 #include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "ICore.hh"
 #include "ICoreEventListener.hh"
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
-#include "ITimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 

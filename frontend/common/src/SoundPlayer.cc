@@ -39,7 +39,8 @@
 #include "ISoundDriver.hh"
 #include "IMixer.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
+
 #include "CoreFactory.hh"
 #include "Util.hh"
 

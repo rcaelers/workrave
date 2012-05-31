@@ -31,7 +31,7 @@
 #include "TimerBoxPreferencePage.hh"
 
 #include "IBreak.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "ICore.hh"
 #include "CoreConfig.hh"

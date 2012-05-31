@@ -30,7 +30,7 @@
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>
 
-#include "NetworkAddress.hh"
+#include "network/NetworkAddress.hh"
 
 class GIONetworkAddress : public workrave::network::NetworkAddress
 {

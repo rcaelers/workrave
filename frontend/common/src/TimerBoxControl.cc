@@ -27,10 +27,13 @@
 
 #include <iostream>
 
+#include "TimerBoxControl.hh"
+
 #include "nls.h"
 #include "debug.hh"
 
-#include "TimerBoxControl.hh"
+#include "config/IConfigurator.hh"
+
 #include "ITimeBar.hh"
 #include "Util.hh"
 #include "Text.hh"
@@ -38,7 +41,6 @@
 #include "CoreFactory.hh"
 #include "CoreConfig.hh"
 #include "IBreak.hh"
-#include "IConfigurator.hh"
 
 using namespace workrave;
 

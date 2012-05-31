@@ -11,7 +11,5 @@ libworkrave_config_osx_la_SOURCES = OSXConfigurator.cc
 
 AM_CPPFLAGS = 		-xobjective-c++ @GLIB_CFLAGS@ @SIGC_CFLAGS@ \
 			-I$(top_srcdir)/libs/config/include \
-			-I$(top_srcdir)/libs/config/src \
-			-I$(top_srcdir)/common/include
-
+			-I$(top_srcdir)/libs/config/src
 endif
