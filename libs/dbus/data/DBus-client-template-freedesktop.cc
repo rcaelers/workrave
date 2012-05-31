@@ -27,7 +27,7 @@
 \#include <deque>
 
 \#include "dbus/DBusBinding.hh"
-\#include "DBusException.hh"
+\#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
 using namespace std;

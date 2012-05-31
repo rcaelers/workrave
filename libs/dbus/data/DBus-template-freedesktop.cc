@@ -28,7 +28,7 @@
 
 \#include "dbus/DBus-freedesktop.hh"
 \#include "dbus/DBusBinding-freedesktop.hh"
-\#include "DBusException.hh"
+\#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
 using namespace std;

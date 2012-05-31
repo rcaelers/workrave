@@ -5,7 +5,7 @@
 \#define DBUS__${model.name}_HH
 
 \#include <sigc++/sigc++.h>
-\#include "DBus.hh"
+\#include "dbus/DBus.hh"
 \#include <string>
 
 namespace workrave

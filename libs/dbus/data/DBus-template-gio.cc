@@ -31,7 +31,7 @@
 
 \#include "dbus/DBus-gio.hh"
 \#include "dbus/DBusBinding-gio.hh"
-\#include "DBusException.hh"
+\#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
 using namespace std;
