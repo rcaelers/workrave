@@ -30,11 +30,12 @@
 
 #include <google/protobuf/message.h>
 
-#include "Cloud.hh"
+#include "cloud/Cloud.hh"
 
 #include "Announce.hh"
 #include "DirectLinkManager.hh"
 #include "DirectLink.hh"
+#include "Client.hh"
 
 using namespace workrave;
 using namespace workrave::network;
@@ -67,14 +68,16 @@ private:
 
   void fire_message_signal(int domain, int id, Message::Ptr, MessageContext::Ptr);
 
-  void forward_message(PacketIn::Ptr packet);
+  void forward_message(PacketIn::Ptr packet, Link::Ptr link);
   
   void send_alive();
   void process_alive(Link::Ptr link, PacketIn::Ptr packet);
+
+  Client::Ptr find_client(Link::Ptr link);
   
-  typedef std::list<Link::Ptr> Links;
-  typedef std::list<Link::Ptr>::iterator LinkIter;
-  typedef std::list<Link::Ptr>::const_iterator LinkCIter;
+  typedef std::list<Client::Ptr> Clients;
+  typedef std::list<Client::Ptr>::iterator ClientIter;
+  typedef std::list<Client::Ptr>::const_iterator ClientCIter;
 
   typedef boost::shared_ptr<MessageSignal> MessageSignalPtr;
   
@@ -101,7 +104,7 @@ private:
   Marshaller::Ptr marshaller;
   
   //!
-  Links links;
+  Clients clients;
 
   //!
   MessageSignalMap message_signals;

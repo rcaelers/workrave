@@ -37,4 +37,6 @@ message Alive
     }
 
     required string hi = 1;
+
+    repeated bytes path = 2;
 }

@@ -49,18 +49,12 @@ public:
 
   
 public:
-  static Ptr create();
-
   Link();
   virtual ~Link();
 
   virtual void send_message(const std::string &message) = 0;
   
-private:
-
 public:  
-  bool authenticated;
-  UUID id;
   State state;
   NetworkAddress::Ptr address;
 };

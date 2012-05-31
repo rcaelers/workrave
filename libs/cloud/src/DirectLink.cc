@@ -180,12 +180,6 @@ DirectLink::on_data()
 
           if (packet)
             {
-              if (packet->authentic)
-                {
-                  authenticated = true;
-                  id = packet->source;
-                }
-
               boost::optional<bool> r = data_signal(packet);
               TRACE_MSG("signal result" << r << " " << (*r));
               if (!(*r))
