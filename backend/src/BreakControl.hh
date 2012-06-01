@@ -20,8 +20,7 @@
 #ifndef BREAKCONTROL_HH
 #define BREAKCONTROL_HH
 
-#include "ICore.hh"
-#include "ICoreEventListener.hh"
+#include "ICoreInternal.hh"
 #include "IBreak.hh"
 #include "IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"
@@ -34,7 +33,6 @@ namespace workrave {
   class IApp;
 }
 
-class Core;
 class PreludeWindow;
 class Timer;
 
@@ -56,7 +54,7 @@ public:
     int prelude_time;
   };
 
-  BreakControl(BreakId id, IApp *app, Timer *timer);
+  BreakControl(BreakId id, ICoreInternal *core, IApp *app, Timer *timer);
   virtual ~BreakControl();
 
   // BreakInterface
@@ -103,7 +101,7 @@ private:
   BreakId break_id;
 
   //! The Controller.
-  Core *core;
+  ICoreInternal *core;
 
   //! GUI Factory used to create the break/prelude windows.
   IApp *application;

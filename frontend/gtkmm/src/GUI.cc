@@ -800,7 +800,7 @@ GUI::init_gui()
   process_visibility();
   
 #ifdef HAVE_DBUS
-  DBus *dbus = CoreFactory::get_dbus();
+  workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
     {
@@ -824,7 +824,7 @@ void
 GUI::init_dbus()
 {
 #if defined(HAVE_DBUS)
-  DBus *dbus = CoreFactory::get_dbus();
+  workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
     {
@@ -850,10 +850,10 @@ GUI::init_dbus()
           dbus->register_service("org.workrave.Workrave");
 #endif
           
-          extern void init_DBusGUI(DBus *dbus);
+          extern void init_DBusGUI(workrave::dbus::DBus *dbus);
           init_DBusGUI(dbus);
         }
-      catch (DBusException &)
+      catch (workrave::dbus::DBusException &)
         {
         }
     }

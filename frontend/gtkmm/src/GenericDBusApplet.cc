@@ -121,7 +121,7 @@ GenericDBusApplet::init_applet()
                         this);
         }
     }
-  catch (DBusException)
+  catch (workrave::dbus::DBusException)
     {
     }
 }

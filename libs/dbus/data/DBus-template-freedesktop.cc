@@ -32,6 +32,7 @@
 \#include "${model.include_filename}"
 
 using namespace std;
+using namespace workrave::dbus;
 
 #for interface in $model.interfaces
 

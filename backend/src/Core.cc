@@ -34,6 +34,7 @@
 #include "config/ConfiguratorFactory.hh"
 #include "config/IConfigurator.hh"
 #include "utils/TimeSource.hh"
+#include "input-monitor/InputMonitorFactory.hh"
 
 #include "Util.hh"
 #include "IApp.hh"
@@ -45,11 +46,6 @@
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
-#include "InputMonitorFactory.hh"
-
-#ifdef HAVE_TESTS
-#include "FakeActivityMonitor.hh"
-#endif
 
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
@@ -61,22 +57,24 @@
 #endif
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
-#ifdef HAVE_TESTS
-#include "Test.hh"
-#endif
 #endif
 
 #ifdef HAVE_DISTRIBUTION
 #include "Networking.hh"
 #endif
 
-Core *Core::instance = NULL;
-
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 60;
 
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
+
+using namespace workrave::dbus;
+
+ICore *ICore::create()
+{
+  return new Core();
+}
 
 //! Constructs a new Core.
 Core::Core() :
@@ -93,27 +91,14 @@ Core::Core() :
   insist_policy(ICore::INSIST_POLICY_HALT),
   active_insist_policy(ICore::INSIST_POLICY_INVALID),
   resume_break(BREAK_ID_NONE),
-  local_state(ACTIVITY_IDLE),
   monitor_state(ACTIVITY_UNKNOWN)
 {
   TRACE_ENTER("Core::Core");
   current_time = time(NULL);
   TimeSource::source = this;
   
-  assert(! instance);
-  instance = this;
-
-#ifdef HAVE_TESTS
-  fake_monitor = NULL;
-  manual_clock = false;
-
-  const char *env = getenv("WORKRAVE_TEST");
-  if (env != NULL)
-    {
-      current_time = 1000;
-      manual_clock = true;
-    }
-#endif
+  // assert(! instance);
+  // instance = this;
 
   TRACE_EXIT();
 }
@@ -134,16 +119,11 @@ Core::~Core()
   delete statistics;
   delete monitor;
 
-#ifdef HAVE_TESTS
-  delete fake_monitor;
-#endif
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
+#ifdef HAVE_DISTRIBUTION
   if (network != NULL)
     {
       network->terminate();
     }
-  delete network;
 #endif
 
   TRACE_EXIT();
@@ -245,11 +225,6 @@ Core::init_bus()
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE);
-      
-#ifdef HAVE_TESTS
-      dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
-      dbus->register_object_path("/org/workrave/Workrave/Debug");
-#endif
     }
   catch (DBusException &)
     {
@@ -262,19 +237,9 @@ Core::init_bus()
 void
 Core::init_networking()
 {
-#ifdef HAVE_BROKEN_DISTRIBUTION  
-  network = new Network();
-  network->init(27273);
-
-  network->subscribe("breaklinkevent", this);
-  network->subscribe("corelinkevent", this);
-  network->subscribe("timerstatelinkevent", this);
-  
-  network->report_active(false);
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      network->report_timer_state(i, false);
-    }
+#ifdef HAVE_DISTRIBUTION  
+  network = Networking::create(configurator);
+  network->init();
 #endif
 }
 
@@ -283,16 +248,7 @@ Core::init_networking()
 void
 Core::init_monitor(const string &display_name)
 {
-#ifdef HAVE_TESTS
-  fake_monitor = NULL;
-  const char *env = getenv("WORKRAVE_FAKE");
-  if (env != NULL)
-    {
-      fake_monitor = new FakeActivityMonitor();
-    }
-#endif
-
-  InputMonitorFactory::init(display_name);
+  InputMonitorFactory::init(configurator, display_name);
 
   monitor = new ActivityMonitor();
   load_monitor_config();
@@ -307,7 +263,7 @@ Core::init_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].init(BreakId(i), application);
+      breaks[i].init(BreakId(i), this, application);
     }
   application->set_break_response(this);
 }
@@ -787,22 +743,8 @@ Core::set_core_events_listener(ICoreEventListener *l)
 void
 Core::force_break(BreakId id, BreakHint break_hint)
 {
-  do_force_break(id, break_hint);
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-  BreakLinkEvent event(id, ((break_hint & BREAK_HINT_USER_INITIATED) != 0) ?
-                       BreakLinkEvent::BREAK_EVENT_USER_FORCE_BREAK :
-                       BreakLinkEvent::BREAK_EVENT_SYST_FORCE_BREAK) ;
-  network->send_event(&event);
-#endif
-}
-
-
-//! Forces the start of the specified break.
-void
-Core::do_force_break(BreakId id, BreakHint break_hint)
-{
-  TRACE_ENTER_MSG("Core::do_force_break", id);
+  TRACE_ENTER_MSG("Core::force_break", id << " " << break_hint);
+  
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
   BreakControl *breaker = breaks[id].get_break_control();
 
@@ -825,7 +767,7 @@ Core::time_changed()
 {
   TRACE_ENTER("Core::time_changed");
 
-  // In case out timezone changed..
+  // In case our timezone changed..
   tzset();
 
   // A change of system time idle handled by process_timewarp.
@@ -903,27 +845,18 @@ Core::set_insist_policy(ICore::InsistPolicy p)
 }
 
 
-//! Gets the insist policy.
-ICore::InsistPolicy
-Core::get_insist_policy() const
-{
-  return insist_policy;
-}
-
-
-
-// ! Forces all monitors to be idle.
+//! Forces all monitors to be idle.
 void
 Core::force_idle()
 {
   TRACE_ENTER("Core::force_idle");
-  force_idle(BREAK_ID_NONE);
+  force_break_idle(BREAK_ID_NONE);
   TRACE_EXIT();
 }
 
 
 void
-Core::force_idle(BreakId break_id)
+Core::force_break_idle(BreakId break_id)
 {
   TRACE_ENTER("Core::force_idle_for_break");
   
@@ -954,7 +887,11 @@ Core::force_idle(BreakId break_id)
 void
 Core::postpone_break(BreakId break_id)
 {
-  do_postpone_break(break_id);
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->postpone_break();
+    }
 
 #ifdef HAVE_BROKEN_DISTRIBUTION
   BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_POSTPONE);
@@ -967,7 +904,11 @@ Core::postpone_break(BreakId break_id)
 void
 Core::skip_break(BreakId break_id)
 {
-  do_skip_break(break_id);
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->skip_break();
+    }
 
 #ifdef HAVE_BROKEN_DISTRIBUTION
   BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_SKIP);
@@ -981,51 +922,17 @@ void
 Core::stop_prelude(BreakId break_id)
 {
   TRACE_ENTER_MSG("Core::stop_prelude", break_id);
-  do_stop_prelude(break_id);
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->stop_prelude();
+    }
 
 #ifdef HAVE_BROKEN_DISTRIBUTION
   BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_SYST_STOP_PRELUDE);
   network->send_event(&event);
 #endif
 
-  TRACE_EXIT();
-}
-
-
-//! User postpones the specified break.
-void
-Core::do_postpone_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->postpone_break();
-    }
-}
-
-
-//! User skips the specified break.
-void
-Core::do_skip_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->skip_break();
-    }
-}
-
-
-//!
-void
-Core::do_stop_prelude(BreakId break_id)
-{
-  TRACE_ENTER_MSG("Core::do_stop_prelude", break_id);
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->stop_prelude();
-    }
   TRACE_EXIT();
 }
 
@@ -1041,15 +948,8 @@ Core::heartbeat()
   TRACE_ENTER("Core::heartbeat");
   assert(application != NULL);
 
-#ifdef HAVE_TESTS
-  if (!manual_clock)
-    {
-      current_time = time(NULL);
-    }
-#else
   // Set current time.
   current_time = time(NULL);
-#endif
   TRACE_MSG("Time = " << current_time);
 
   // Performs timewarp checking.
@@ -1077,7 +977,7 @@ Core::heartbeat()
         }
     }
 
-#ifdef HAVE_BROKEN_DISTRIBUTION
+#ifdef HAVE_DISTRIBUTION
   network->heartbeat();
 #endif
 
@@ -1101,7 +1001,7 @@ void
 Core::process_state()
 {
   // Default
-  local_state = monitor->get_current_state();
+  ActivityState local_state = monitor->get_current_state();
 
   map<std::string, time_t>::iterator i = external_activity.begin();
   while (i != external_activity.end())
@@ -1122,13 +1022,6 @@ Core::process_state()
     }
 
   monitor_state = local_state;
-
-#ifdef HAVE_TESTS
-  if (fake_monitor != NULL)
-    {
-      monitor_state = fake_monitor->get_current_state();
-    }
-#endif
 }
 
 
@@ -1227,12 +1120,6 @@ Core::process_timers()
         {
           breaks[i].get_timer()->process(monitor_state, infos[i]);
         }
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-      TimerState timer_state = breaks[i].get_timer()->get_state();
-      TRACE_MSG("break" << i << " time" << current_time << " timer state " << timer_state);
-      network->report_timer_state(i, timer_state == STATE_RUNNING);
-#endif
     }
 
 
@@ -1268,14 +1155,6 @@ Core::process_timewarp()
   bool ret = false;
 
   TRACE_ENTER("Core::process_timewarp");
-#ifdef HAVE_TESTS
-  if (manual_clock)
-    {
-      // Don't to warping is manual clock mode
-      TRACE_EXIT();
-      return;
-    }
-#endif
 
   if (last_process_time != 0)
     {
@@ -1469,6 +1348,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
         }
     }
 
+  // FIXME: resume_break not used!
   // If break 'break_id' ends, and break 'resume_this_break' is still
   // active, resume it...
   resume_break = resume_this_break;
@@ -1723,150 +1603,13 @@ Core::is_user_active() const
 }
 
 
-/********************************************************************************/
-/**** Networking support                                                   ******/
-/********************************************************************************/
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-//! Process Break event
-void
-Core::break_event_received(const BreakLinkEvent *event)
-{
-  TRACE_ENTER_MSG("Core::break_event_received", event->str());
-
-  BreakId break_id = event->get_break_id();
-  BreakLinkEvent::BreakEvent break_event = event->get_break_event();
-
-  switch(break_event)
-    {
-    case BreakLinkEvent::BREAK_EVENT_USER_POSTPONE:
-      do_postpone_break(break_id);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_USER_SKIP:
-      do_skip_break(break_id);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_USER_FORCE_BREAK:
-      do_force_break(break_id, BREAK_HINT_USER_INITIATED);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_SYST_FORCE_BREAK:
-      do_force_break(break_id, (BreakHint)0);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_SYST_STOP_PRELUDE:
-      do_stop_prelude(break_id);
-      break;
-
-    default:
-      break;
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Process Core event
-void
-Core::core_event_received(const CoreLinkEvent *event)
-{
-  TRACE_ENTER_MSG("Core::core_event_received", event->str());
-
-  CoreLinkEvent::CoreEvent core_event = event->get_core_event();
-
-  switch(core_event)
-    {
-    case CoreLinkEvent::CORE_EVENT_MODE_SUSPENDED:
-      set_operation_mode_no_event(OPERATION_MODE_SUSPENDED);
-      break;
-
-    case CoreLinkEvent::CORE_EVENT_MODE_QUIET:
-      set_operation_mode_no_event(OPERATION_MODE_QUIET);
-      break;
-
-    case CoreLinkEvent::CORE_EVENT_MODE_NORMAL:
-      set_operation_mode_no_event(OPERATION_MODE_NORMAL);
-      break;
-
-    default:
-      break;
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Process Timer state event
-void
-Core::timer_state_event_received(const TimerStateLinkEvent *event)
-{
-  TRACE_ENTER_MSG("Core::timer_state_event_received", event->str());
-
-  const std::vector<int> &idle_times = event->get_idle_times();
-  const std::vector<int> &active_times = event->get_active_times();
-    
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer *timer = breaks[i].get_timer();
-
-      time_t old_idle = timer->get_elapsed_idle_time();
-      time_t old_active = timer->get_elapsed_time();
-
-      int idle = idle_times[i];
-      int active = active_times[i];
-
-      TRACE_MSG("Timer " << i <<
-                " idle " <<  idle << " " << old_idle <<
-                " active" << active << " " << old_active); 
-
-      time_t remote_active_since = 0;
-      bool remote_active = network->is_remote_active(event->get_source(),
-                                                        remote_active_since);
-      
-      if (abs((int)(idle - old_idle)) >= 2 ||
-          abs((int)(active - old_active)) >= 2 ||
-          /* Remote party is active, and became active after us */
-          (remote_active && remote_active_since > active_since))
-        {
-          timer->set_state(active, idle);
-        }
-    }
- 
-  TRACE_EXIT();
-}
-
-
-//! Broadcast current timer state.
-void
-Core::broadcast_state()
-{
-  std::vector<int> idle_times;
-  std::vector<int> active_times;
-  
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer *timer = breaks[i].get_timer();
-
-      idle_times.push_back((int)timer->get_elapsed_idle_time());
-      active_times.push_back((int)timer->get_elapsed_time());
-    }
-
-  TimerStateLinkEvent event(idle_times, active_times);
-  network->send_event(&event);
-}
-
-#endif
-
 namespace workrave
 {
   std::string operator%(const string &key, BreakId id)
   {
-    IBreak *b = Core::get_instance()->get_break(id);
-
     string str = key;
     string::size_type pos = 0;
-    string name = b->get_name();
+    string name = Break::get_name(id);
 
     while ((pos = str.find("%b", pos)) != string::npos)
       {

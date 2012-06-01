@@ -1,6 +1,6 @@
 // TimePred.hh --- Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,18 +20,6 @@
 #ifndef TIMEPRED_HH
 #define TIMEPRED_HH
 
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
-
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
  *  a certain time-predicate. This is used for, for example, daily limits.
@@ -46,10 +34,7 @@ public:
   virtual ~TimePred() {}
 
   //! Set the last time the predicate matched.
-  virtual void set_last(time_t lastTime)
-  {
-    last_time = lastTime;
-  }
+  virtual void set_last(time_t lastTime, time_t now) = 0;
 
   //! Computes the next time the predicate matches given the time of the previous match.
   virtual time_t get_next() = 0;
@@ -58,8 +43,6 @@ public:
   virtual std::string to_string() const = 0;
 
 protected:
-  //! Last time the predicate matched.
-  time_t last_time;
 };
 
 #endif // TIMEPRED_HH

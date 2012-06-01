@@ -26,6 +26,7 @@
 #include <time.h>
 #include <string.h>
 
+#include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
 #include "IStatistics.hh"
@@ -36,12 +37,10 @@ namespace workrave {
   class IBreak;
 }
 
-class TimePred;
-class PacketBuffer;
-class Core;
-class IInputMonitor;
+class ICoreInternal;
 
 using namespace workrave;
+using namespace workrave::input_monitor;
 using namespace std;
 
 class Statistics
@@ -113,7 +112,7 @@ public:
   bool delete_all_history();
 
 public:
-  void init(Core *core);
+  void init(ICoreInternal *core);
   void update();
   void dump();
   void start_new_day();
@@ -152,7 +151,7 @@ private:
 
 private:
   //! Interface to the core_control.
-  Core *core;
+  ICoreInternal *core;
 
   //! Mouse/Keyboard monitoring.
   IInputMonitor *input_monitor;

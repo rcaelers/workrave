@@ -28,8 +28,7 @@
 #include <math.h>
 #include <time.h>
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
+#include "ICoreInternal.hh"
 
 #include "Timer.hh"
 #include "TimePredFactory.hh"
@@ -52,7 +51,7 @@ static int timezone = 0;
 /*!
  *  \param time_source source of the current time that will be used by the timer.
  */
-Timer::Timer() :
+Timer::Timer(ICoreInternal *core) :
   timer_enabled(false),
   timer_frozen(false),
   activity_state(ACTIVITY_UNKNOWN),
@@ -77,11 +76,11 @@ Timer::Timer() :
   next_pred_reset_time(0),
   next_limit_time(0),
   total_overdue_time(0),
+  core(core),
   activity_monitor(NULL),
   activity_sensitive(true),
   insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
 {
-  core = CoreFactory::get_core();
 }
 
 
@@ -391,7 +390,7 @@ Timer::compute_next_predicate_reset_time()
           last_pred_reset_time = core->get_time();
         }
 
-      autoreset_interval_predicate->set_last(last_pred_reset_time);
+      autoreset_interval_predicate->set_last(last_pred_reset_time, core->get_time());
       next_pred_reset_time = autoreset_interval_predicate->get_next();
     }
 }

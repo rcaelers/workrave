@@ -35,8 +35,8 @@
 #include "Util.hh"
 #include "Timer.hh"
 #include "TimePred.hh"
-#include "InputMonitorFactory.hh"
-#include "IInputMonitor.hh"
+#include "input-monitor/InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
 #include "timeutil.h"
 
 const char *WORKRAVESTATS="WorkRaveStats";
@@ -80,7 +80,7 @@ Statistics::~Statistics()
 
 //! Initializes the Statistics.
 void
-Statistics::init(Core *control)
+Statistics::init(ICoreInternal *control)
 {
   core = control;
 

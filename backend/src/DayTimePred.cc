@@ -1,6 +1,6 @@
 // DayTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,21 +25,15 @@
 #include <string>
 #include <stdio.h>
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
 #include "DayTimePred.hh"
 
 using namespace std;
-using namespace workrave;
 
 //! Sets the last time the predicate matched.
 void
-DayTimePred::set_last(time_t lastTime)
+DayTimePred::set_last(time_t lastTime, time_t now)
 {
   last_time = lastTime;
-
-  ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
 
   if (last_time == 0)
     {
@@ -121,11 +115,11 @@ DayTimePred::days_in_month(int month, int year)
 }
 
 
-time_t
-DayTimePred::get_time_offset()
-{
-  return pred_hour*60*60 + pred_min*60;
-}
+// time_t
+// DayTimePred::get_time_offset()
+// {
+//   return pred_hour*60*60 + pred_min*60;
+// }
 
 
 time_t

@@ -71,6 +71,7 @@ const char *SoundPlayer::CFG_KEY_SOUND_EVENTS = "sound/events/";
 const char *SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
 using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] =

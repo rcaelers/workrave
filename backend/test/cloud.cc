@@ -33,6 +33,8 @@
 
 #include "Networking.hh"
 
+#include <boost/signals2.hpp>
+
 static gboolean on_timer(gpointer data)
 {
   Networking *c = (Networking *)data;
@@ -41,6 +43,33 @@ static gboolean on_timer(gpointer data)
 
   return G_SOURCE_CONTINUE;
 }
+
+// class Aa
+// {
+// public:
+//   void perform()
+//   {
+//     signal();
+//   }
+  
+//   boost::signals2::signal<void()> signal;
+// };
+
+// struct HelloWorld
+// {
+//   void operator()() const
+//   {
+//     std::cout << "Hello, World!" << std::endl;
+//   }
+// };
+
+// struct HelloWorld2
+// {
+//   void operator()() const
+//   {
+//     std::cout << "Hello, World2!" << std::endl;
+//   }
+// };
 
 int
 main(int argc, char **argv)
@@ -53,6 +82,8 @@ main(int argc, char **argv)
 #endif
 
   g_type_init();
+
+  
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
   IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);

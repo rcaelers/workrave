@@ -1013,6 +1013,13 @@ AC_CONFIG_FILES([Makefile
              libs/dbus/include/dbus/Makefile
              libs/dbus/src/Makefile
              libs/dbus/data/Makefile
+             libs/input-monitor/Makefile
+             libs/input-monitor/include/Makefile
+             libs/input-monitor/include/input-monitor/Makefile
+             libs/input-monitor/src/Makefile
+             libs/input-monitor/src/unix/Makefile
+             libs/input-monitor/src/win32/Makefile
+             libs/input-monitor/src/osx/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile

@@ -20,8 +20,8 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include "ICore.hh"
 #include "config/Config.hh"
+
 #include "IBreak.hh"
 #include "Timer.hh"
 
@@ -35,44 +35,17 @@ namespace workrave {
 }
 
 class BreakControl;
+class ICoreInternal;
 
 class Break :
   public IBreak,
   public IConfiguratorListener
 {
-private:
-  //! ID of the break.
-  BreakId break_id;
-
-  //! Name of the break (used in configuration)
-  std::string break_name;
-
-  //! Break config prefix
-  std::string break_prefix;
-
-  //! The Configurator
-  IConfigurator::Ptr config;
-
-  //!
-  IApp *application;
-
-  //! Interface pointer to the timer.
-  Timer *timer;
-
-  //! Interface pointer to the break controller.
-  BreakControl *break_control;
-
-  //! Break enabled?
-  bool enabled;
-
-  //!
-  UsageMode usage_mode;
-
 public:
   Break();
   virtual ~Break();
 
-  void init(BreakId id, IApp *app);
+  void init(BreakId id, ICoreInternal *core, IApp *app);
 
   static std::string expand(const std::string &str, BreakId id);
   static std::string get_name(BreakId id);
@@ -114,6 +87,37 @@ private:
   void load_break_control_config();
 
   bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
+
+private:
+  //! Core
+  ICoreInternal *core;
+  
+  //! ID of the break.
+  BreakId break_id;
+
+  //! Name of the break (used in configuration)
+  std::string break_name;
+
+  //! Break config prefix
+  std::string break_prefix;
+
+  //! The Configurator
+  IConfigurator::Ptr config;
+
+  //!
+  IApp *application;
+
+  //! Interface pointer to the timer.
+  Timer *timer;
+
+  //! Interface pointer to the break controller.
+  BreakControl *break_control;
+
+  //! Break enabled?
+  bool enabled;
+
+  //!
+  UsageMode usage_mode;
 };
 
 #endif // TIMERDATA_HH

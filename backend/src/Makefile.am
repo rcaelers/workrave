@@ -5,22 +5,20 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid) $(wildcard $(srcdir)/*.pb.cc) $(wildcard $(srcdir)/*.pb.h)
 
-SUBDIRS = 		networking input-monitor
+SUBDIRS = 		networking
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
-sources = 		ActivityMonitor.cc \
+sources =  		ActivityMonitor.cc \
 			Break.cc \
 			BreakControl.cc \
 			Core.cc \
 			CoreConfig.cc \
-			CoreFactory.cc \
+			DayTimePred.cc \
 			Statistics.cc \
 			TimePredFactory.cc \
 			Timer.cc \
-			DayTimePred.cc \
-			Test.cc \
-			TimePredFactory.cc
+			TimerActivityMonitor.cc
 
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
@@ -84,22 +82,22 @@ libworkrave_backend_la_CFLAGS = \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/cloud/include \
+			-I$(top_srcdir)/libs/input-monitor/include \
 			@GLIB_CFLAGS@@DBUS_CFLAGS@ \
 			@PROTOBUF_CFLAGS@ \
-			-I$(top_srcdir)/backend/src/networking \
-			-I$(top_srcdir)/backend/src/input-monitor
+			-I$(top_srcdir)/backend/src/networking
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
 libworkrave_backend_la_LIBADD= \
 			${platform_ldadd} \
+			$(top_builddir)/libs/input-monitor/src/libworkrave-input-monitor.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
 			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
-			networking/libworkrave-backend-networking.la \
-			input-monitor/libworkrave-backend-input-monitor.la
+			networking/libworkrave-backend-networking.la
 
 DISTCLEANFILES = org.workrave.gschema.xml
 

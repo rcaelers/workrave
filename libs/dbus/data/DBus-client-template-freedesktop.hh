@@ -10,7 +10,10 @@
 
 namespace workrave
 {
-  class DBus;
+  namespace dbus
+  {
+    class DBus;
+  }
 }
 
 #for $interface in $model.interfaces
@@ -35,7 +38,7 @@ using namespace std;
 class $interface.qname
 {
 public:
-  static $interface.qname *instance(workrave::DBus *dbus, const std::string &service, const std::string &path);
+  static $interface.qname *instance(workrave::dbus::DBus *dbus, const std::string &service, const std::string &path);
 
   #for $m in interface.methods
   typedef sigc::slot<void, DBusError * #slurp

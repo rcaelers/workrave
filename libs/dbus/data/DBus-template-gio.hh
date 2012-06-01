@@ -34,7 +34,7 @@ class $interface.qname
 public:
   virtual ~${interface.qname}() {}
 
-  static $interface.qname *instance(const DBus *dbus);
+  static $interface.qname *instance(const workrave::dbus::DBus *dbus);
 
 #for $m in interface.signals
   virtual void ${m.qname}(const string &path, #slurp

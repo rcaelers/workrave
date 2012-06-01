@@ -43,8 +43,8 @@
 # include <unistd.h>
 #endif
 
-#include "IInputMonitor.hh"
-#include "InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/InputMonitorFactory.hh"
 
 using namespace std;
 

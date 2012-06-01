@@ -1,6 +1,6 @@
 // DBusException.hh --- DBUS interface
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,89 +24,91 @@
 
 namespace workrave
 {
-
-  class DBusException : public workrave::Exception
+  namespace dbus
   {
-  public:
-    explicit DBusException(const std::string &id, const std::string &detail)
-      : Exception(detail), dbus_id(id)
+    class DBusException : public workrave::Exception
     {
-    }
+    public:
+      explicit DBusException(const std::string &id, const std::string &detail)
+        : Exception(detail), dbus_id(id)
+      {
+      }
 
-    explicit DBusException(const std::string &detail)
-      : Exception(detail), dbus_id("org.workrave.Error")
+      explicit DBusException(const std::string &detail)
+        : Exception(detail), dbus_id("org.workrave.Error")
+      {
+      }
+
+      virtual ~DBusException() throw()
+      {
+      }
+
+      std::string id() const
+      {
+        return dbus_id;
+      }
+
+    private:
+      std::string dbus_id;
+    };
+
+
+    class DBusSystemException : public DBusException
     {
-    }
+    public:
+      explicit DBusSystemException(const std::string &id, const std::string &detail)
+        : DBusException(id, detail)
+      {
+      }
 
-    virtual ~DBusException() throw()
+      explicit DBusSystemException(const std::string &detail)
+        : DBusException("org.workrave.SystemError", detail)
+      {
+      }
+
+      virtual ~DBusSystemException() throw()
+      {
+      }
+    };
+
+
+    class DBusTypeException : public DBusException
     {
-    }
+    public:
+      explicit DBusTypeException(const std::string &id, const std::string &detail)
+        : DBusException(id, detail)
+      {
+      }
 
-    std::string id() const
+      explicit DBusTypeException(const std::string &detail)
+        : DBusException("org.workrave.TypeError", detail)
+      {
+      }
+
+      virtual ~DBusTypeException() throw()
+      {
+      }
+    };
+
+
+    class DBusUsageException : public DBusException
     {
-      return dbus_id;
-    }
+    public:
+      explicit DBusUsageException(const std::string &id, const std::string &detail)
+        : DBusException(id, detail)
+      {
+      }
 
-  private:
-    std::string dbus_id;
-  };
+      explicit DBusUsageException(const std::string &detail)
+        : DBusException("org.workrave.UsageError", detail)
+      {
+      }
 
-
-  class DBusSystemException : public DBusException
-  {
-  public:
-    explicit DBusSystemException(const std::string &id, const std::string &detail)
-      : DBusException(id, detail)
-    {
-    }
-
-    explicit DBusSystemException(const std::string &detail)
-      : DBusException("org.workrave.SystemError", detail)
-    {
-    }
-
-    virtual ~DBusSystemException() throw()
-    {
-    }
-  };
-
-
-  class DBusTypeException : public DBusException
-  {
-  public:
-    explicit DBusTypeException(const std::string &id, const std::string &detail)
-      : DBusException(id, detail)
-    {
-    }
-
-    explicit DBusTypeException(const std::string &detail)
-      : DBusException("org.workrave.TypeError", detail)
-    {
-    }
-
-    virtual ~DBusTypeException() throw()
-    {
-    }
-  };
-
-
-  class DBusUsageException : public DBusException
-  {
-  public:
-    explicit DBusUsageException(const std::string &id, const std::string &detail)
-      : DBusException(id, detail)
-    {
-    }
-
-    explicit DBusUsageException(const std::string &detail)
-      : DBusException("org.workrave.UsageError", detail)
-    {
-    }
-
-    virtual ~DBusUsageException() throw()
-    {
-    }
-  };
+      virtual ~DBusUsageException() throw()
+      {
+      }
+    };
+  }
 }
 
 #endif // DBUSEXCEPTION_HH

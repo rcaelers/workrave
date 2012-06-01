@@ -37,12 +37,7 @@
 #include "IActivityMonitor.hh"
 
 class TimePred;
-class DataNode;
-
-namespace workrave
-{
-  class ICore;
-}
+class ICoreInternal;
 
 enum TimerState
   {
@@ -102,7 +97,7 @@ class Timer
 {
 public:
   // Construction/Destruction.
-  Timer();
+  Timer(ICoreInternal *core);
   virtual ~Timer();
 
   // Control
@@ -246,7 +241,7 @@ private:
   std::string timer_id;
 
   //! Core
-  workrave::ICore *core;
+  ICoreInternal *core;
 
   //! Activity Mobnitor to use.
   IActivityMonitor *activity_monitor;

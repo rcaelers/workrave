@@ -27,7 +27,6 @@
 
 #include "config/IConfigurator.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
 
 #include "BreakControl.hh"
 #include "Timer.hh"
@@ -77,6 +76,7 @@ struct Defaults
 
 //! Constucts a new Break
 Break::Break() :
+  core(NULL),
   break_id(BREAK_ID_NONE),
   application(NULL),
   timer(NULL),
@@ -91,20 +91,21 @@ Break::Break() :
 
 //! Initializes the break.
 void
-Break::init(BreakId id, IApp *app)
+Break::init(BreakId id, ICoreInternal *c, IApp *app)
 {
   TRACE_ENTER("Break::init");
 
+  core = c;
   break_id = id;
-  config = CoreFactory::get_configurator();
+  config = core->get_configurator();
   application = app;
 
   Defaults &def = default_config[break_id];
 
   break_name = def.name;
-  timer = new Timer();
+  timer = new Timer(core);
   timer->set_id(break_name);
-  break_control = new BreakControl(break_id, app, timer);
+  break_control = new BreakControl(break_id, core, app, timer);
 
   init_timer();
   init_break_control();
@@ -302,12 +303,12 @@ Break::load_timer_config()
   TRACE_MSG(ret << " " << monitor_name);
   if (ret && monitor_name != "")
     {
-      Core *core = Core::get_instance();
       Timer *master = core->get_timer(monitor_name);
       if (master != NULL)
         {
           TRACE_MSG("found master timer");
-          TimerActivityMonitor *am = new TimerActivityMonitor(master);
+          IActivityMonitor *monitor = core->get_activity_monitor();
+          TimerActivityMonitor *am = new TimerActivityMonitor(monitor, master);
           timer->set_activity_monitor(am);
         }
     }

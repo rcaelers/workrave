@@ -29,6 +29,7 @@
 #include "dbus/DBusException.hh"
 
 using namespace workrave;
+using namespace workrave::dbus;
 
 
 DBusBindingBase::DBusBindingBase(DBus *dbus)

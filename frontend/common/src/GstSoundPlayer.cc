@@ -28,8 +28,8 @@
 #include "config/IConfigurator.hh"
 
 #include "ICore.hh"
-#include "CoreFactory.hh"
 
+#include "CoreFactory.hh"
 #include "GstSoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Sound.hh"

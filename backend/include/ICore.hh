@@ -24,12 +24,20 @@
 
 #include "enum.h"
 
+#include "config/IConfigurator.hh"
+
 namespace workrave {
 
   // Forward declaratons
   class IBreak;
   class IApp;
   class IStatistics;
+
+  namespace dbus
+  {
+    class DBus;
+  }
+
   class ICoreEventListener;
 
   //! ID of a break.
@@ -42,17 +50,17 @@ namespace workrave {
       BREAK_ID_SIZEOF
     };
 
-    enum BreakHint
-      {
-        BREAK_HINT_NONE = 0,
+  enum BreakHint
+    {
+      BREAK_HINT_NONE = 0,
 
-        // Break was started on user request
-        BREAK_HINT_USER_INITIATED = 1,
+      // Break was started on user request
+      BREAK_HINT_USER_INITIATED = 1,
 
-        // Natural break.
-        BREAK_HINT_NATURAL_BREAK = 2,
+      // Natural break.
+      BREAK_HINT_NATURAL_BREAK = 2,
 
-      };
+    };
 
 
   //! Main interface of the backend.
@@ -61,6 +69,14 @@ namespace workrave {
   public:
     virtual ~ICore() {}
 
+    static ICore *create();
+
+    virtual config::IConfigurator::Ptr get_configurator() const = 0;
+
+#ifdef HAVE_DBUS
+    virtual dbus::DBus *get_dbus() = 0;
+#endif  
+    
     //! The way a break is insisted.
     enum InsistPolicy
       {
@@ -93,7 +109,7 @@ namespace workrave {
     virtual IBreak *get_break(BreakId id) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak *get_break(std::string name) = 0;
+    //virtual IBreak *get_break(std::string name) = 0;
 
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
@@ -137,6 +153,7 @@ namespace workrave {
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
+    // TODO: remove from interface.
     //! Return the current time
     virtual time_t get_time() const = 0;
 

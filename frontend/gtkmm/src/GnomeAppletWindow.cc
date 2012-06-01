@@ -97,7 +97,7 @@ GnomeAppletWindow::init_applet()
 {
   try
     {
-      DBus *dbus = CoreFactory::get_dbus();
+      workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
       if (dbus != NULL && dbus->is_available())
         {
           dbus->connect("/org/workrave/Workrave/UI",
@@ -107,7 +107,7 @@ GnomeAppletWindow::init_applet()
 
       init_dbus();
     }
-  catch (DBusException)
+  catch (workrave::dbus::DBusException)
     {
       cleanup_dbus();
     }
@@ -156,7 +156,7 @@ GnomeAppletWindow::activate_applet()
           set_menu_active(network_command, network_command_status);
 #endif
         }
-      catch (DBusException)
+      catch (workrave::dbus::DBusException)
         {
           TRACE_MSG("exception");
           ok = false;
@@ -299,7 +299,7 @@ GnomeAppletWindow::set_menu_status(int menu, bool active)
           break;
         }
     }
-  catch(DBusException)
+  catch(workrave::dbus::DBusException)
     {
     }
 
@@ -736,7 +736,7 @@ GnomeAppletWindow::get_socketid()
       if (error != NULL)
         {
           g_error_free(error);
-          throw DBusException("Cannot get socket id");
+          throw workrave::dbus::DBusException("Cannot get socket id");
         }
 
       g_variant_get(result, "(u)", &ret);
@@ -762,7 +762,7 @@ GnomeAppletWindow::get_size()
       if (error != NULL)
         {
           g_error_free(error);
-          throw DBusException("Cannot get size");
+          throw workrave::dbus::DBusException("Cannot get size");
         }
 
       g_variant_get(result, "(u)", &ret);
@@ -788,7 +788,7 @@ GnomeAppletWindow::get_orientation()
       if (error != NULL)
         {
           g_error_free(error);
-          throw DBusException("Cannot get socket id");
+          throw workrave::dbus::DBusException("Cannot get socket id");
         }
 
       g_variant_get(result, "(u)", &ret);
@@ -813,7 +813,7 @@ GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
       if (error != NULL)
         {
           g_error_free(error);
-          throw DBusException("Cannot set menu status");
+          throw workrave::dbus::DBusException("Cannot set menu status");
         }
 
       g_variant_unref(result);
@@ -836,7 +836,7 @@ GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
       if (error != NULL)
         {
           g_error_free(error);
-          throw DBusException("Cannot set menu active");
+          throw workrave::dbus::DBusException("Cannot set menu active");
         }
       g_variant_unref(result);
     }

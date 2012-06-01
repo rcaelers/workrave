@@ -1,6 +1,6 @@
 // ActivityMonitor.hh --- ActivityMonitor functionality
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,8 @@
 #define ACTIVITYMONITOR_HH
 
 #include "IActivityMonitor.hh"
-#include "IInputMonitorListener.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
 #include "Mutex.hh"
 
 #if TIME_WITH_SYS_TIME
@@ -36,7 +37,8 @@
 #endif
 
 class ActivityListener;
-class IInputMonitor;
+
+using namespace workrave::input_monitor;
 
 class ActivityMonitor :
   public IInputMonitorListener,

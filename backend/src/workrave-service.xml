@@ -83,24 +83,6 @@
     </signal>
   </interface>
 
-  <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_TESTS)">
-
-    <import>
-      <include name="Test.hh"/>
-      <namespace name="workrave"/>
-    </import>
-
-    <enum name="break_id" csymbol="BreakId">
-      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
-    </enum>
-
-    <method name="Quit" csymbol="quit">
-    </method>
-    
-  </interface>
-
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
 
     <import>

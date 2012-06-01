@@ -43,6 +43,7 @@
 #endif
 
 using namespace std;
+using namespace workrave::dbus;
 
 //! Construct a new Break Controller.
 /*!
@@ -52,8 +53,9 @@ using namespace std;
  *          windows.
  *  \param timer pointer to the interface of the timer that belongs to this break.
  */
-BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
+BreakControl::BreakControl(BreakId id, ICoreInternal *core, IApp *app, Timer *timer) :
   break_id(id),
+  core(core),
   application(app),
   break_timer(timer),
   break_stage(STAGE_NONE),
@@ -70,8 +72,6 @@ BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
 {
   assert(break_timer != NULL);
   assert(application != NULL);
-
-  core = Core::get_instance();
 }
 
 
@@ -301,7 +301,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         // "Innocent until proven guilty".
         TRACE_MSG("Force idle");
-        core->force_idle(break_id);
+        core->force_break_idle(break_id);
         break_timer->stop_timer();
 
         // Start the break.
@@ -404,7 +404,7 @@ BreakControl::start_break()
 
       // Idle until proven guilty.
       TRACE_MSG("Force idle");
-      core->force_idle(break_id);
+      core->force_break_idle(break_id);
       break_timer->stop_timer();
 
       // Update statistics.
@@ -453,7 +453,7 @@ BreakControl::force_start_break(BreakHint hint)
   if (!break_timer->get_activity_sensitive())
     {
       TRACE_MSG("Forcing idle");
-      core->force_idle(break_id);
+      core->force_break_idle(break_id);
     }
 
   goto_stage(STAGE_TAKING);

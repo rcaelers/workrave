@@ -1,6 +1,6 @@
 // IDBusWatch.hh --- DBUS bus watch interface
 //
-// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,15 @@
 
 namespace workrave
 {
-  class IDBusWatch
+  namespace dbus
   {
-  public:
-    virtual ~IDBusWatch() {}
-    virtual void bus_name_presence(const std::string &name, bool present) = 0;
-  };
+    class IDBusWatch
+    {
+    public:
+      virtual ~IDBusWatch() {}
+      virtual void bus_name_presence(const std::string &name, bool present) = 0;
+    };
+  }
 }
 
 #endif // IDBUSWATCH_HH

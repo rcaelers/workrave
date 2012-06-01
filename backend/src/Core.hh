@@ -45,10 +45,12 @@
 #include "Break.hh"
 #include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
-#include "ICore.hh"
+#include "ICoreInternal.hh"
 #include "ICoreEventListener.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
+
+#include "Networking.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -57,7 +59,10 @@ using namespace workrave::utils;
 namespace workrave {
   class ISoundPlayer;
   class IApp;
-  class DBus;
+  namespace dbus
+  {
+    class DBus;
+  }
 }
 
 class ActivityMonitor;
@@ -65,11 +70,10 @@ class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
-class Network;
 
 class Core :
   public ITimeSource,
-  public ICore,
+  public ICoreInternal,
   public IConfiguratorListener,
   public IBreakResponse
 {
@@ -77,24 +81,34 @@ public:
   Core();
   virtual ~Core();
 
-  static Core *get_instance();
+  // IBreakResponse
 
-  Timer *get_timer(std::string name) const;
-  Timer *get_timer(BreakId id) const;
-  Break *get_break(BreakId id);
-  Break *get_break(std::string name);
-  IConfigurator::Ptr get_configurator() const;
-  IActivityMonitor *get_activity_monitor() const;
-  bool is_user_active() const;
+  void postpone_break(BreakId break_id);
+  void skip_break(BreakId break_id);
 
-  Statistics *get_statistics() const;
-  void set_core_events_listener(ICoreEventListener *l);
-  void force_break(BreakId id, BreakHint break_hint);
-  void time_changed();
-  void set_powersave(bool down);
-
+  // ITimeSource
+  
   time_t get_time() const;
-  void post_event(CoreEvent event);
+
+  // ICore
+
+
+#ifdef HAVE_DBUS
+  dbus::DBus *get_dbus()
+  {
+    return dbus;
+  }
+#endif
+
+  IConfigurator::Ptr get_configurator() const;
+  
+  void init(int argc, char **argv, IApp *application, const std::string &display_name);
+  void heartbeat();
+
+  void force_break(BreakId id, BreakHint break_hint);
+  Break *get_break(BreakId id);
+  Statistics *get_statistics() const;
+  bool is_user_active() const;
 
   OperationMode get_operation_mode();
   OperationMode get_operation_mode_regular();
@@ -106,18 +120,26 @@ public:
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
 
-  void set_freeze_all_breaks(bool freeze);
+  void set_powersave(bool down);
+  void time_changed();
 
-  void stop_prelude(BreakId break_id);
-  void do_force_break(BreakId id, BreakHint break_hint);
-
-  void freeze();
-  void defrost();
-
+  void set_insist_policy(ICore::InsistPolicy p);
+  
   void force_idle();
-  void force_idle(BreakId break_id);
 
+  // ICoreInternal
   ActivityState get_current_monitor_state() const;
+  IActivityMonitor *get_activity_monitor() const;
+  Timer *get_timer(std::string name) const;
+  Timer *get_timer(BreakId id) const;
+  Break *get_break(std::string name);
+
+  void defrost();
+  void freeze();
+
+  void force_break_idle(BreakId break_id);
+  void stop_prelude(BreakId break_id);
+  void post_event(CoreEvent event);
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
@@ -125,43 +147,11 @@ public:
   void get_timer_elapsed(BreakId id,int *value);
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id,int *value);
+
+private:  
+  boost::signals2::signal<void(CoreEvent)> &signal_core_event();
   
-#ifdef HAVE_DISTRIBUTION
-  Network *get_networking()
-  {
-    return (Network *)network;
-  }
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-  void event_received(LinkEvent *event);  
-  void break_event_received(const BreakLinkEvent *event);
-  void core_event_received(const CoreLinkEvent *event);
-  void timer_state_event_received(const TimerStateLinkEvent *event);
-  void broadcast_state();
-#endif
-#endif
-  
-  // BreakResponseInterface
-  void postpone_break(BreakId break_id);
-  void skip_break(BreakId break_id);
-
-#ifdef HAVE_DBUS
-  DBus *get_dbus()
-  {
-    return dbus;
-  }
-#endif
-
 private:
-
-#ifndef NDEBUG
-  enum ScriptCommand
-    {
-      SCRIPT_START = 1,
-    };
-#endif
-
-  void init(int argc, char **argv, IApp *application, const std::string &display_name);
   void init_breaks();
   void init_configurator();
   void init_monitor(const std::string &display_name);
@@ -171,7 +161,6 @@ private:
 
   void load_monitor_config();
   void config_changed_notify(const std::string &key);
-  void heartbeat();
   void timer_action(BreakId id, TimerInfo info);
   void process_state();
   bool process_timewarp();
@@ -182,20 +171,12 @@ private:
   void save_state() const;
   void load_state();
   void load_misc();
-  void do_postpone_break(BreakId break_id);
-  void do_skip_break(BreakId break_id);
-  void do_stop_prelude(BreakId break_id);
-
-  void set_insist_policy(ICore::InsistPolicy p);
-  ICore::InsistPolicy get_insist_policy() const;
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
+  void set_freeze_all_breaks(bool freeze);
   
 private:
-  //! The one and only instance
-  static Core *instance;
-
   //! Number of command line arguments passed to the program.
   int argc;
 

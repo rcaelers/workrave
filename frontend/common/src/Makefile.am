@@ -10,6 +10,7 @@ noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
 SUBDIRS = 		win32 x11 osx
 
 libworkrave_frontend_common_la_SOURCES = \
+			CoreFactory.cc \
 			Text.cc \
 			SoundPlayer.cc \
 			GstSoundPlayer.cc \
