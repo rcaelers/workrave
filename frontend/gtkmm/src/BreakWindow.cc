@@ -97,10 +97,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   shutdown_button(NULL),
   accel_group(NULL)
 #ifdef PLATFORM_OS_WIN32
-  ,
-  desktop_window( NULL ),
+  , desktop_window( NULL ),
   parent( 0 )
 #endif
+  
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
@@ -123,7 +123,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
   // THEN position it. So:
-	HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
+	HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
 	SetFocus(hwnd);
 	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 #endif
@@ -137,8 +137,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // trace window handles:
   // FIXME: debug, remove later
 #ifdef PLATFORM_OS_WIN32
-  HWND _hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
-  HWND _scope = (HWND) GDK_WINDOW_HWND( GTK_WIDGET( this->gobj() )->window );
+  HWND _hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  HWND _scope = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET( this->gobj())));
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();

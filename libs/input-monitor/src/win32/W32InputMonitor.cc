@@ -29,10 +29,8 @@
 #include "debug.hh"
 #include "W32InputMonitor.hh"
 
-#include "config/IConfigurator.hh"
-
 #include "timeutil.h"
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 
 #ifndef HAVE_STRUCT_MOUSEHOOKSTRUCT
 typedef struct tagMOUSEHOOKSTRUCT {
@@ -52,7 +50,7 @@ typedef struct {
 
 W32InputMonitor *W32InputMonitor::singleton = NULL;
 
-W32InputMonitor::W32InputMonitor()
+W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config) : config(config)
 {
 }
 
@@ -68,7 +66,7 @@ W32InputMonitor::init()
   if (singleton == NULL)
     {
       singleton = this;
-      return Harpoon::init(on_harpoon_event);
+      return Harpoon::init(config, on_harpoon_event);
     }
   else
     {

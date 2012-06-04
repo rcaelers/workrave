@@ -69,28 +69,22 @@ gsettings_SCHEMAS = org.workrave.gschema.xml
 
 endif
 
-libworkrave_backend_la_SOURCES = \
-			${sources} ${sourcesgdome} ${sourcesdistribution} \
-			${dbussources} 
+libworkrave_backend_la_SOURCES = ${sources} ${dbussources} 
 
 libworkrave_backend_la_CFLAGS = \
-			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			${platform_cflags} \
+			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+			@X_CFLAGS@ @GLIB_CFLAGS@ @DBUS_CFLAGS@ @PROTOBUF_CFLAGS@ \
 			-I$(top_srcdir)/libs/dbus/include \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/cloud/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
-			@GLIB_CFLAGS@@DBUS_CFLAGS@ \
-			@PROTOBUF_CFLAGS@ \
 			-I$(top_srcdir)/backend/src/networking
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
 libworkrave_backend_la_LIBADD= \
-			${platform_ldadd} \
 			$(top_builddir)/libs/input-monitor/src/libworkrave-input-monitor.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
@@ -99,7 +93,7 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
 			networking/libworkrave-backend-networking.la
 
-DISTCLEANFILES = org.workrave.gschema.xml
+DISTCLEANFILES = 	org.workrave.gschema.xml
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \

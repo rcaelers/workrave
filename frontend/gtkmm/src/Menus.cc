@@ -373,7 +373,7 @@ Menus::on_menu_about()
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32) && !defined(HAVE_GTK3)
       about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
 #endif
 

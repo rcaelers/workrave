@@ -13,12 +13,10 @@ bin_PROGRAMS = 		workrave
 workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc \
 			main.cc
 
-workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
+workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DATADIR="\"${datadir}\""  \
 			-I. @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ \
-			@GTK_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
+			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @GCONF_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -29,7 +27,6 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@  @GSTREAMER_CFLAGS@\
-			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \

@@ -28,13 +28,11 @@ endif
 libworkrave_cloud_la_SOURCES = ${sources}
 
 libworkrave_cloud_la_CXXFLAGS = \
-			-W \
+			@X_CFLAGS@ @GLIB_CFLAGS@ \
 			-I$(top_srcdir)/libs/cloud/include/cloud \
 			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
-			-I$(top_srcdir)/libs/cloud/include \
-			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@
+			-I$(top_srcdir)/libs/cloud/include
 
 libworkrave_cloud_la_LIBADD = \
 			@GLIB_LIBS@ @PROTOBUF_LIBS@

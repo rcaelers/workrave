@@ -19,13 +19,12 @@ endif
 libworkrave_input_monitor_win32_la_SOURCES = ${sources} 
 
 libworkrave_input_monitor_win32_la_CXXFLAGS = \
-			-W -D_XOPEN_SOURCE=600 -D_WIN32_WINNT=0x0501 \
 			-I${top_srcdir}/libs/input-monitor/src \
 			-I${top_srcdir}/libs/input-monitor/include \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/config/include
-			-I$(top_srcdir)/common/win32/harpoon/include/ \
-			-I$(top_srcdir)/common/win32/harpoonHelper/include/ \
+			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/hooks/harpoon/include \
+			-I$(top_srcdir)/libs/hooks/harpoonHelper/include/ \
 		  	@GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \

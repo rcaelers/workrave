@@ -24,8 +24,7 @@ libworkrave_input_monitor_unix_la_SOURCES = \
 			${sourcesxinput} ${sourcesdummy}
 
 libworkrave_input_monitor_unix_la_CXXFLAGS = \
-			-W @X_CFLAGS@ -D_XOPEN_SOURCE=600 \
-			@GLIB_CFLAGS@ @GTK_CFLAGS@ \
+			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ \
 			-I${top_srcdir}/libs/input-monitor/src \
 			-I${top_srcdir}/libs/input-monitor/include \
 			-I$(top_srcdir)/libs/utils/include \

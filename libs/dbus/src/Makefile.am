@@ -22,8 +22,7 @@ libworkrave_dbus_la_SOURCES = ${dbussources}
 
 libworkrave_dbus_la_LIBADD = 
 
-AM_CPPFLAGS = 		-D_XOPEN_SOURCE=600 \
-			@GLIB_CFLAGS@  @DBUS_CFLAGS@  \
+AM_CPPFLAGS =		@GLIB_CFLAGS@  @DBUS_CFLAGS@  \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/dbus/include
 

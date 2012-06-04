@@ -258,7 +258,4 @@ private:
   void compute_next_predicate_reset_time();
 };
 
-#include "Timer.icc"
-
-
 #endif // TIMER_HH

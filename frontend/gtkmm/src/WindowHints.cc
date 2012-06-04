@@ -1,6 +1,6 @@
 // WindowHints.cc
 //
-// Copyright (C) 2001 - 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 #include <windows.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkwin32.h>
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif
@@ -56,7 +56,7 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 {
 #if defined(PLATFORM_OS_WIN32)
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(GTK_WIDGET(window->gobj())->window);
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
   W32Compat::SetWindowOnTop(hwnd, on_top);
 
 #else

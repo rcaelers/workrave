@@ -17,40 +17,11 @@ if HAVE_APP_GTKMM
 
 bin_PROGRAMS = 		workrave
 
-endif
-
-eggcflags = 
-
-DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-			-I$(top_srcdir)/intl
-
+extraflags =
 extrasources =
 extranodistsources = 
 
-# Additional Gnome applet sources
-sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc  Plug.cc 
-
-if !HAVE_DBUS_GIO
-sourcesgnome2 += DBusGnomeApplet.cc
-endif
-
-# Additional Indicator applet sources
-sourcesindicator = 	IndicatorAppletMenu.cc
-
-# Additional X11 sources.
-if HAVE_GTK3
-sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon3.c
-else
-sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon.c
-endif
-
-# Additional Win32 sources.
-sourceswin32 = 		resource.rc
-
-resource.rc: resource.rc.in
-	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
-	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
-		$(srcdir)/$@.in > $@
+## DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -62,7 +33,7 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
 			${EXERCISES_HOME}/common/src/Exercise.cc
 
-# Statistics.
+# Additional Statistics sources.
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
@@ -80,32 +51,66 @@ endif
 DBusGnomeApplet.hh:	DBusGnomeApplet.cc
 GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 
-if HAVE_APP_GTKMM
+## Gnome Panel
 
 if HAVE_PANELAPPLET
-extrasources +=		$(sourcesgnome2)
+extrasources +=		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
+
+if !HAVE_DBUS_GIO
+extrasources += 	DBusGnomeApplet.cc
+endif
 endif
 
 if HAVE_INDICATOR
-extrasources += 	$(sourcesindicator)
-indicatorflags = 	-I$(top_srcdir)/frontend/applets/indicator/include
+extrasources += 	IndicatorAppletMenu.cc
+extraflags +=	 	-I$(top_srcdir)/frontend/applets/indicator/include
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-xsmp.c
-eggcflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP
+extrasources +=		eggdesktopfile.c eggsmclient-xsmp.c
 
-includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
+if HAVE_GTK3
+extrasources +=		X11SystrayAppletWindow.cc gtktrayicon3.c
+else
+extrasources +=		X11SystrayAppletWindow.cc gtktrayicon.c
+endif
+
+extraflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP \
+	 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
+ldadd = 		-lworkrave-frontend-gtkmm-unix -lX11
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		$(sourceswin32) eggsmclient-win32.c
-includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
+extrasources +=		resource.rc eggsmclient-win32.c
+extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
+			-I$(top_srcdir)/libs/input-monitor/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
-			-I$(top_srcdir)/frontend/applets/win32/include
+			-I$(top_srcdir)/frontend/applets/win32/include \
+			-I$(top_srcdir)/libs/hooks/harpoon/include
+
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600
+
+ldadd =  		$(top_builddir)/libs/hooks/harpoon/src/Release/harpoon.dll \
+			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la
+
+WINDRES ?= 		"windres"
+.rc.o:
+			${WINDRES} -o $@ $<
+
+resource.rc: resource.rc.in
+			sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
+	    		    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
+				$(srcdir)/$@.in > $@
+endif
+
+if PLATFORM_OS_OSX
+extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
+ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
+ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
+extrasources +=	        eggsmclient-osx.c
+
+AM_CPPFLAGS =		-xobjective-c++
 endif
 
 if HAVE_DISTRIBUTION
@@ -117,32 +122,6 @@ extrasources +=		$(sourcesexercises)
 endif
 
 extrasources +=		$(sourcesstatistics) 
-
-
-if PLATFORM_OS_WIN32
-WINDRES ?= 		"windres"
-.rc.o:
-	${WINDRES} -o $@ $<
-
-includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
-WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
-			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
-			-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32
-
-WIN32LDFLAGS = 		-static-libgcc -static-libstdc++
-endif
-
-if PLATFORM_OS_UNIX
-X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11
-endif
-
-if PLATFORM_OS_OSX
-includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
-ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
-OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c
-endif
-
 
 # DBus service file
 if HAVE_DBUS
@@ -157,7 +136,7 @@ $(service_DATA): $(service_in_files) Makefile
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES = org.workrave.Workrave.service
 
-dbussources = DBusGUI.cc DBusGUI.hh
+extrasources += 	DBusGUI.cc DBusGUI.hh
 
 if HAVE_DBUS_GIO
 extrasources += 	GenericDBusApplet.cc
@@ -218,8 +197,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-workrave_SOURCES = \
-			AppletControl.cc \
+workrave_SOURCES = 	AppletControl.cc \
 			AppletWindow.cc \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
@@ -252,22 +230,18 @@ workrave_SOURCES = \
 			WindowHints.cc \
 			eggsmclient.c \
 			main.cc \
-			$(extrasources) \
-			${dbussources}
+			$(extrasources) 
 
 nodist_workrave_SOURCES = \
 			$(extranodistsources)
 
-
-workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
+workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
-			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
+			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
-			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
-			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) $(indicatorflags) \
+			@INDICATOR_CFLAGS@ ${extraflags} \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -276,35 +250,31 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I$(top_srcdir)/libs/dbus/include \
 			-I$(top_srcdir)/libs/utils/include
 
-if PLATFORM_OS_OSX
-AM_CPPFLAGS =		-xobjective-c++
-endif
-
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
 			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@\
-			-D_XOPEN_SOURCE=600  $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src \
 			-I$(top_srcdir)/libs/utils/include \
-			$(win32cflags)
-
-endif
-
-$(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
-			$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la
+			$(extraflags)
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
-workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
-			@GTK_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
+workrave_LDADD =	$(top_builddir)/libs/utils/src/libworkrave-utils.la \
+			${ldadd} \
+			@WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
+			@GTK_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@  @PROTOBUF_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
-			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
-			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS) @PROTOBUF_LIBS@
+			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
+			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
-EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
-	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
+$(bin_PROGRAMS):	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
+			$(top_builddir)/backend/src/libworkrave-backend.la
+endif
+
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
+	     		workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 

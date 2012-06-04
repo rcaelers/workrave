@@ -995,3 +995,138 @@ Timer::set_state(int elapsed, int idle, int overdue)
 
   TRACE_EXIT();
 }
+
+
+//! Does this timer have a limit set?
+bool
+Timer::is_limit_enabled() const
+{
+  return limit_enabled;
+}
+
+
+//! Returns the limit.
+time_t
+Timer::get_limit() const
+{
+  return limit_interval;
+}
+
+
+//! Returns the time the limit will be reached.
+time_t
+Timer::get_next_limit_time() const
+{
+  return next_limit_time;
+}
+
+
+//! Does this timer have an auto reset?
+bool
+Timer::is_auto_reset_enabled() const
+{
+  return autoreset_enabled;
+}
+
+
+//! Returns the auto reset interval.
+time_t
+Timer::get_auto_reset() const
+{
+  return autoreset_interval;
+}
+
+
+//! Returns the auto reset predicate.
+TimePred *
+Timer::get_auto_reset_predicate() const
+{
+  return autoreset_interval_predicate;
+}
+
+
+//! Returns the time the timer will reset.
+time_t
+Timer::get_next_reset_time() const
+{
+  return next_reset_time;
+}
+
+
+//! Returns the snooze interval.
+time_t
+Timer::get_snooze() const
+{
+  return snooze_interval;
+}
+
+
+//! Sets ID of this timer.
+void
+Timer::set_id(std::string id)
+{
+  timer_id = id;
+}
+
+
+//! Gets ID of this timer.
+std::string
+Timer::get_id() const
+{
+  return timer_id;
+}
+
+
+//! Returns the enabled state.
+/*!
+ *  The timer only responds to activity events when enabled.
+ *
+ *  \retval true the timer is enabled
+ *  \retval false otherwise.
+ */
+bool
+Timer::is_enabled() const
+{
+  return timer_enabled;
+}
+
+
+//! Returns the timer state.
+TimerState
+Timer::get_state() const
+{
+  return timer_state;
+}
+
+
+//! Sets the activity monitor to be used for this timer.
+void
+Timer::set_activity_monitor(IActivityMonitor *am)
+{
+  delete activity_monitor;
+  activity_monitor = am;
+}
+
+
+//! Returns the activity monitor to be used for this timer.
+IActivityMonitor *
+Timer::get_activity_monitor() const
+{
+  return activity_monitor;
+}
+
+//! Does this timer have its own activity monitor?
+bool
+Timer::has_activity_monitor() const
+{
+  return activity_monitor != NULL;
+}
+
+
+//! Is this timer activity sensitive?
+bool
+Timer::get_activity_sensitive()
+{
+  return activity_sensitive;
+}
+

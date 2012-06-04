@@ -175,6 +175,8 @@ AppletControl::show()
       rc = activate_applet(APPLET_TRAY);
       TRACE_MSG("X11 act " << rc);
     }
+#else
+  (void) specific;
 #endif
   check_visible();
 

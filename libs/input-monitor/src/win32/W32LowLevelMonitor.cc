@@ -61,7 +61,7 @@ jay satiro, workrave project, september 2007
 #include "debug.hh"
 #include <sstream>
 #include "W32LowLevelMonitor.hh"
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
@@ -80,7 +80,7 @@ MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
 
 
-W32LowLevelMonitor::W32LowLevelMonitor()
+W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config) : config(config)
 {
   TRACE_ENTER( "W32LowLevelMonitor::W32LowLevelMonitor" );
 
@@ -162,7 +162,7 @@ bool W32LowLevelMonitor::init()
       return false;
     }
 
-  Harpoon::init(NULL);
+  Harpoon::init(config, NULL);
 
   TRACE_EXIT();
   return true;

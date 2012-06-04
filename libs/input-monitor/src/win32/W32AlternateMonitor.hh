@@ -23,7 +23,11 @@
 
 #include <assert.h>
 #include <windows.h>
-#include "input-monitor/InputMonitor.hh"
+
+#include "InputMonitor.hh"
+#include "config/IConfigurator.hh"
+
+using namespace workrave::config;
 
 class W32AlternateMonitor :
   public InputMonitor

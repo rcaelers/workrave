@@ -1,6 +1,6 @@
 // W32Mixer.cc --- W32Audio mixer
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include <mmsystem.h>
 #include "debug.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 

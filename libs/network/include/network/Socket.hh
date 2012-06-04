@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include <glib.h>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>

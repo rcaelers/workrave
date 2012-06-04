@@ -21,10 +21,13 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32StatusIcon.cc
 
 libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
-			-W  -I$(top_srcdir)/frontend/common/include \
+			@GTK_CFLAGS@ \
+			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/applets/win32/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@
+			-I$(top_srcdir)/frontend/gtkmm/src
 
 libworkrave_frontend_gtkmm_win32_la_CXXFLAGS = \
 			$(libworkrave_frontend_gtkmm_win32_la_CFLAGS)

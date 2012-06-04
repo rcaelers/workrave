@@ -24,10 +24,10 @@ libworkrave_frontend_common_win32_la_SOURCES = \
 
 libworkrave_frontend_common_win32_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 \
-			-W -I$(top_srcdir)/frontend/common/src \
+			@WR_BACKEND_INCLUDES@ @GLIB_CFLAGS@ \
+			-I$(top_srcdir)/frontend/common/src \
 			-I$(top_srcdir)/frontend/common/include \
-			@WR_BACKEND_INCLUDES@ \
-			@GLIB_CFLAGS@
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/config/include
 
 endif

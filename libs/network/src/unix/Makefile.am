@@ -5,9 +5,13 @@
 
 noinst_LTLIBRARIES = 	libworkrave-network-unix.la
 
+if PLATFORM_OS_UNIX
+
 libworkrave_network_unix_la_SOURCES =  \
 			NetlinkNetworkInterfaceMonitor.cc \
 			UnixNetworkInterfaceMonitor.cc
+
+endif
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ @SIGC_CFLAGS@ \
 			-I$(top_srcdir)/libs/utils/include \

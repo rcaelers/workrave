@@ -31,7 +31,7 @@
 #include <process.h>
 #include <mmsystem.h>
 #include <mmreg.h>
-#include <dxerr.h>
+#include <dxerr8.h>
 #ifndef DXGetErrorString8
 #define DXGetErrorString8 DXGetErrorString
 #endif
@@ -41,7 +41,7 @@
 #include "W32DirectSoundPlayer.hh"
 
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "SoundPlayer.hh"
 #include "Exception.hh"
 #include "Util.hh"
@@ -396,7 +396,7 @@ SoundClip::init()
       throw Exception(string("IDirectSoundBuffer_CreateSoundBuffer") + DXGetErrorString8(hr));
     }
 
-  LPDIRECTSOUNDNOTIFY8 notify;
+  LPDIRECTSOUNDNOTIFY notify;
   hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID*)&notify);
   if (FAILED(hr) || notify == NULL)
     {

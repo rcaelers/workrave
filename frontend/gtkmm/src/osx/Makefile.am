@@ -22,22 +22,22 @@ libworkrave_frontend_gtkmm_osx_la_SOURCES = \
 			OSXTimeBar.m
 
 libworkrave_frontend_gtkmm_osx_la_OBJCFLAGS = \
-			@X_CFLAGS@ -xobjective-c++ \
-			-W  -I$(top_srcdir)/frontend/common/include \
+			@X_CFLAGS@  @GTK_CFLAGS@ -xobjective-c++ \
+			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I$(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@
+			-I$(top_srcdir)/frontend/gtkmm/src
 
 libworkrave_frontend_gtkmm_osx_la_CFLAGS = \
-			@X_CFLAGS@ \
-			-W  -I$(top_srcdir)/frontend/common/include \
+			@X_CFLAGS@ @GTK_CFLAGS@ \
+			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@
+			-I$(top_srcdir)/frontend/gtkmm/src 
 
 libworkrave_frontend_gtkmm_osx_la_CXXFLAGS = \
-			@X_CFLAGS@ -xobjective-c++ \
-			-W  -I$(top_srcdir)/frontend/common/include \
+			@X_CFLAGS@  @GTK_CFLAGS@ @IGE_CFLAGS@ -xobjective-c++ \
+			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ @IGE_CFLAGS@
+			-I$(top_srcdir)/frontend/gtkmm/src
 
 
 endif

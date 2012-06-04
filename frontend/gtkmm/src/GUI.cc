@@ -539,7 +539,7 @@ GUI::init_core()
 
   core = CoreFactory::get_core();
   core->init(argc, argv, this, display_name);
-  core->set_core_events_listener(this);
+  // TODO: core->set_core_events_listener(this);
 
   GUIConfig::init();
 }
@@ -1584,7 +1584,7 @@ void
 GUI::win32_init_filter()
 {
   GtkWidget *window = (GtkWidget *)main_window->gobj();
-  GdkWindow *gdk_window = window->window;
+  GdkWindow *gdk_window = gtk_widget_get_window(window);
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);

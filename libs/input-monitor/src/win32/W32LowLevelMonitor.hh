@@ -19,11 +19,14 @@
 
 #include "InputMonitor.hh"
 
+#include "config/IConfigurator.hh"
+using namespace workrave::config;
+
 class W32LowLevelMonitor :
   public InputMonitor
 {
 public:
-  W32LowLevelMonitor();
+  W32LowLevelMonitor(IConfigurator::Ptr config);
   virtual ~W32LowLevelMonitor();
   bool init();
   void terminate();
@@ -34,7 +37,8 @@ protected:
   static DWORD WINAPI thread_Callback( LPVOID );
 
 private:
-
+  IConfigurator::Ptr config;
+  
   struct thread_struct
     {
       volatile bool active;

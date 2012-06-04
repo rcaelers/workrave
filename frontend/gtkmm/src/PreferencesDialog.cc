@@ -271,7 +271,7 @@ PreferencesDialog::create_gui_page()
 
   languages_combo.set_active(selected);
 
-  panel->add(_("Language:"), languages_combo);
+  panel->add_label(_("Language:"), languages_combo);
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
@@ -505,7 +505,7 @@ PreferencesDialog::create_timer_page()
   Gtk::Widget *monitoring_page = create_monitoring_page();
   
 #ifdef HAVE_GTK3
-  tnotebook->append_page(*monitoriing_page , *box);
+  tnotebook->append_page(*monitoring_page , *box);
 #else
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
 #endif

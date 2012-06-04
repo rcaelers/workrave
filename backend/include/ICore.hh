@@ -71,12 +71,6 @@ namespace workrave {
 
     static ICore *create();
 
-    virtual config::IConfigurator::Ptr get_configurator() const = 0;
-
-#ifdef HAVE_DBUS
-    virtual dbus::DBus *get_dbus() = 0;
-#endif  
-    
     //! The way a break is insisted.
     enum InsistPolicy
       {
@@ -107,9 +101,6 @@ namespace workrave {
 
     //! Return the break interface of the specified type.
     virtual IBreak *get_break(BreakId id) = 0;
-
-    //! Return the break interface of the specified type.
-    //virtual IBreak *get_break(std::string name) = 0;
 
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
@@ -159,6 +150,14 @@ namespace workrave {
 
     //! Return the current time
     virtual void force_idle() = 0;
+
+    //! Return configuration
+    virtual config::IConfigurator::Ptr get_configurator() const = 0;
+
+#ifdef HAVE_DBUS
+    //! Return DBUs remoting interface.
+    virtual dbus::DBus *get_dbus() = 0;
+#endif  
   };
 
   std::string operator%(const std::string &key, BreakId id);

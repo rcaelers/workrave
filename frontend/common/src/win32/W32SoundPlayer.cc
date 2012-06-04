@@ -34,7 +34,7 @@
 #include "W32SoundPlayer.hh"
 
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "SoundPlayer.hh"
 #include "Exception.hh"
 #include "Util.hh"

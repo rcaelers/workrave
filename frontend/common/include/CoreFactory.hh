@@ -20,7 +20,7 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
-#include "config/Config.hh"
+#include "config/IConfigurator.hh"
 
 // Forward declarion of external interfaces.
 namespace workrave

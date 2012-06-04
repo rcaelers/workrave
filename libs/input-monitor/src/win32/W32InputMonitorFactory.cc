@@ -25,8 +25,6 @@
 
 #include "debug.hh"
 
-#include "config/IConfigurator.hh"
-
 #include "W32InputMonitorFactory.hh"
 #include "W32InputMonitor.hh"
 #include "W32LowLevelMonitor.hh"
@@ -35,7 +33,7 @@
 using namespace std;
 using namespace workrave;
 
-W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config) config(config)
+W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config) : config(config)
 {
   activity_monitor = NULL;
   statistics_monitor = NULL;
@@ -102,7 +100,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor = new W32LowLevelMonitor();
+              monitor = new W32LowLevelMonitor(config);
               initialized = monitor->init();
 
               if (!initialized)
@@ -117,7 +115,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor = new W32AlternateMonitor();
+              monitor = new W32AlternateMonitor(config);
               initialized = monitor->init();
 
               if (!initialized)
@@ -132,7 +130,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
-              monitor = new W32InputMonitor();
+              monitor = new W32InputMonitor(config);
               initialized = monitor->init();
 
               if (!initialized)
@@ -202,7 +200,7 @@ W32InputMonitorFactory::create_statistics_monitor()
 
   if (actual_monitor_method == "nohook")
     {
-      IInputMonitor *monitor = new W32LowLevelMonitor();
+      IInputMonitor *monitor = new W32LowLevelMonitor(config);
       bool initialized = monitor->init();
 
       if (!initialized)

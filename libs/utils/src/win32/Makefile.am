@@ -18,7 +18,8 @@ libworkrave_utils_win32_la_CXXFLAGS = @GLIB_CFLAGS@
 
 endif
 
-AM_CPPFLAGS  = 		-W -D_XOPEN_SOURCE=600 -I. -I$(top_srcdir)/utils/include
+AM_CPPFLAGS  = 		-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/hooks/harpoon/include
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.c) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

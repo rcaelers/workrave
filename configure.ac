@@ -263,6 +263,8 @@ dnl
 
 have_dsound=no
 LIBSTDCPP_LIBS=
+WIN32LIBS=
+WIN32LDFLAGS=
 WIN32CONSOLE=
 DIRECTSOUNDLIBS=
 
@@ -273,6 +275,9 @@ then
     AC_DEFINE([_WIN32_IE],    [0x0600], [Windows version])
     AC_DEFINE([_WIN32_WINNT], [0x0600], [Windows version])
 
+    WIN32LIBS="-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32"
+    WIN32LDFLAGS="-static-libgcc -static-libstdc++"
+    
     #if test "x$enable_debug" != "xyes"
     #then
     WIN32CONSOLE=-mwindows
@@ -306,6 +311,8 @@ fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
 AC_SUBST(WIN32CONSOLE)
+AC_SUBST(WIN32LDFLAGS)
+AC_SUBST(WIN32LIBS)
 AC_SUBST(DIRECTSOUNDLIBS)
 
 AM_CONDITIONAL(HAVE_DSOUND, test "x$have_dsound" = "xyes")
@@ -349,6 +356,8 @@ if test "x$platform_os_unix" = "xyes"
 then
     AC_PATH_X
     AC_PATH_XTRA
+
+    AC_DEFINE([_XOPEN_SOURCE],    [600], [XOpen version])
 
     if test x$have_x != xyes ; then
        AC_MSG_ERROR(X11 required on Unix platform)
@@ -1020,24 +1029,19 @@ AC_CONFIG_FILES([Makefile
              libs/input-monitor/src/unix/Makefile
              libs/input-monitor/src/win32/Makefile
              libs/input-monitor/src/osx/Makefile
+             libs/hooks/Makefile
+             libs/hooks/harpoon/Makefile
+             libs/hooks/harpoon/include/Makefile
+             libs/hooks/harpoon/src/Makefile
+             libs/hooks/harpoonHelper/Makefile
+             libs/hooks/harpoonHelper/include/Makefile
+             libs/hooks/harpoonHelper/src/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
-             backend/src/input-monitor/Makefile
-             backend/src/input-monitor/unix/Makefile
-             backend/src/input-monitor/win32/Makefile
-             backend/src/input-monitor/osx/Makefile
              backend/src/networking/Makefile
 	     backend/src/org.workrave.gschema.xml.in
              backend/include/Makefile
-             common/Makefile
-             common/win32/Makefile
-             common/win32/harpoon/Makefile
-             common/win32/harpoon/include/Makefile
-             common/win32/harpoon/src/Makefile
-             common/win32/harpoonHelper/Makefile
-             common/win32/harpoonHelper/include/Makefile
-             common/win32/harpoonHelper/src/Makefile
              frontend/Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile

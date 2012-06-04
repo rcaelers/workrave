@@ -23,6 +23,7 @@
 #include <map>
 #include <string>
 
+#include <glib.h>
 #include <boost/shared_ptr.hpp>
 
 #include "network/NetworkAddress.hh"

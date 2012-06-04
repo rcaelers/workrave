@@ -17,7 +17,7 @@ SUFFIXES = .proto .pb.cc
 
 BUILT_SOURCES = 	test.pb.cc test.pb.h
 
-cloud_CXXFLAGS = 	@GLIB_CFLAGS@ -D_XOPEN_SOURCE=600 \
+cloud_CXXFLAGS = 	@GLIB_CFLAGS@ \
 			-I$(top_srcdir)/libs/utils/include \
 			-I${top_srcdir}/libs/config/include \
 			-I${top_srcdir}/libs/network/include \
@@ -30,5 +30,5 @@ cloud_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 cloud_LDADD    =        $(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
-			$(top_builddir)/libs/config/src/libworkrave-config.la
-			@GLIB_LIBS@ @PROTOBUF_LIBS@
+			$(top_builddir)/libs/config/src/libworkrave-config.la \
+			@GLIB_LIBS@ @PROTOBUF_LIBS@ ${WIN32LIBS}

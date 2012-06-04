@@ -17,8 +17,7 @@ libworkrave_input_monitor_osx_la_SOURCES = \
 			${sourcesosx}
 
 libworkrave_input_monitor_osx_la_CXXFLAGS = \
-			-W \
-			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@ @OSX_CFLAGS@ \
+			@GLIB_CFLAGS@ @OSX_CFLAGS@ \
 			-I${top_srcdir}/libs/input-monitor/src \
 			-I${top_srcdir}/libs/input-monitor/include \
 			-I$(top_srcdir)/libs/utils/include \

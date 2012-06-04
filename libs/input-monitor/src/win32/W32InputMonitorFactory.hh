@@ -24,6 +24,11 @@
 #include <string>
 
 #include "input-monitor/IInputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "config/IConfigurator.hh"
+
+using namespace workrave::config;
+using namespace workrave::input_monitor;
 
 //! Factory to create input monitors.
 class W32InputMonitorFactory : public IInputMonitorFactory
@@ -39,6 +44,7 @@ private:
 
 
 private:
+  IConfigurator::Ptr config;
   IInputMonitor *activity_monitor;
   IInputMonitor *statistics_monitor;
 

@@ -234,52 +234,23 @@ private:
   //! Resumes this break if current break ends.
   BreakId resume_break;
 
-  //! Current local monitor state.
-  ActivityState local_state;
-
   //! Current overall monitor state.
   ActivityState monitor_state;
 
-  //! Current overall monitor state.
-  time_t active_since;
-  
 #ifdef HAVE_DBUS
   //! DBUS bridge
-  DBus *dbus;
+  dbus::DBus *dbus;
 #endif
   
-#ifdef HAVE_TESTS
-  //! A fake activity monitor for testing puposes.
-  FakeActivityMonitor *fake_monitor;
-#endif
-
 #ifdef HAVE_DISTRIBUTION
-  Network *network;
+  Networking::Ptr network;
 #endif
 
   //! External activity
   std::map<std::string, time_t> external_activity;
 
-#ifdef HAVE_TESTS
-  friend class Test;
-
-  // Manual clock
-  bool manual_clock;
-#endif
 };
 
-
-//! Returns the singleton Core instance.
-inline Core *
-Core::get_instance()
-{
-  if (instance == NULL)
-    {
-      instance = new Core();
-    }
-
-  return instance;
-}
 
 //!
 inline ActivityState

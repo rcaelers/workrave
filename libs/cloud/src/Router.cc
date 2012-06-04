@@ -28,6 +28,7 @@
 #include <string.h>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include <boost/shared_ptr.hpp>
 #include <google/protobuf/descriptor.h>

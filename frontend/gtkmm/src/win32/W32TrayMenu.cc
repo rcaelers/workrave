@@ -36,10 +36,10 @@
 #include <gtkmm/menu.h>
 #include <gtkmm/menushell.h>
 
-#include <gtk/gtkmenu.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
-#include "gdk/gdkwindow.h"
-#include <glib/gmain.h>
 
 #include "Util.hh"
 

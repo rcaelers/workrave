@@ -34,16 +34,16 @@
 #include <tchar.h>
 
 #include "debug.hh"
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 
-#include "config/IConfigurator.hh"
-#include "utils/Util.hh"
+#include "Util.hh"
 
 #include "timeutil.h"
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 
 using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
@@ -62,16 +62,15 @@ Harpoon::~Harpoon()
 
 
 bool
-Harpoon::init(HarpoonHookFunc func)
+Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 {
   TRACE_ENTER("Harpoon::init");
   assert( HARPOON_MAX_UNBLOCKED_APPS );
-  init_critical_filename_list();
+  init_critical_filename_list(config);
 
   bool debug, mouse_lowlevel, keyboard_lowlevel;
 
-  CoreFactory::get_configurator()->
-    get_value_with_default( "advanced/harpoon/debug", debug, false );
+  config->get_value_with_default( "advanced/harpoon/debug", debug, false );
 
   bool default_mouse_lowlevel = false;
   if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
@@ -79,11 +78,9 @@ Harpoon::init(HarpoonHookFunc func)
       default_mouse_lowlevel = true;
     }
 
-  CoreFactory::get_configurator()->
-    get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
+  config->get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
 
-  CoreFactory::get_configurator()->
-    get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
+  config->get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
@@ -158,7 +155,7 @@ Harpoon::unblock_input()
 }
 
 void
-Harpoon::init_critical_filename_list()
+Harpoon::init_critical_filename_list(IConfigurator::Ptr config)
 {
   int i, filecount;
 
@@ -173,16 +170,14 @@ Harpoon::init_critical_filename_list()
       critical_filename_list[ i ][ 0 ] = '\0';
 
   filecount = 0;
-  if( !CoreFactory::get_configurator()->
-      get_value( "advanced/critical_files/filecount", filecount) || !filecount )
+  if( !config->get_value( "advanced/critical_files/filecount", filecount) || !filecount )
           return;
 
   if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
   // This shouldn't happen
     {
       filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
-      CoreFactory::get_configurator()->
-          set_value( "advanced/critical_files/filecount", filecount );
+      config->set_value( "advanced/critical_files/filecount", filecount );
     }
 
   char loc[40];
@@ -190,8 +185,7 @@ Harpoon::init_critical_filename_list()
   for( i = 1; i <= filecount; ++i )
     {
       sprintf( loc, "advanced/critical_files/file%d", i );
-      if( CoreFactory::get_configurator()->
-          get_value( loc, buffer) )
+      if( config->get_value( loc, buffer) )
         {
           strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
           critical_filename_list[ i ][ 510 ] = '\0';

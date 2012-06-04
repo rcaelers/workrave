@@ -33,12 +33,11 @@ libworkrave_input_monitor_la_LIBADD = \
 libworkrave_input_monitor_la_SOURCES = ${sources}
 
 libworkrave_input_monitor_la_CXXFLAGS = \
-			-W ${cflags_platform} \
+			${cflags_platform} \
 			-I${top_srcdir}/libs/input-monitor/include/ \
 			-I${top_srcdir}/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \
-			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@
+			@X_CFLAGS@ @GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

@@ -25,15 +25,13 @@ endif
 libworkrave_backend_networking_la_SOURCES = ${sources}
 
 libworkrave_backend_networking_la_CXXFLAGS = \
-			-W \
+			@X_CFLAGS@ @GLIB_CFLAGS@ \
 			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I${top_srcdir}/libs/cloud/include \
 			-I${top_srcdir}/backend/src \
-			-I${top_srcdir}/backend/include \
-			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@
+			-I${top_srcdir}/backend/include
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

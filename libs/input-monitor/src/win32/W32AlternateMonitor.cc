@@ -40,8 +40,7 @@
 #endif
 
 #include "W32AlternateMonitor.hh"
-#include "Harpoon.hh"
-#include "config/IConfigurator.hh"
+#include "input-monitor/Harpoon.hh"
 
 using namespace workrave;
 
@@ -96,7 +95,7 @@ bool W32AlternateMonitor::init()
 		goto cleanup;
 	}
 
-	Harpoon::init( NULL );
+	Harpoon::init( config, NULL );
 	
 	initialized = true;
 

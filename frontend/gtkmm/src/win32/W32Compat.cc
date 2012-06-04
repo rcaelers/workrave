@@ -2,7 +2,7 @@
 
 #include "W32Compat.hh"
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 
