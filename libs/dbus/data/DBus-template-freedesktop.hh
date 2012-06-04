@@ -4,10 +4,6 @@
 \#ifndef DBUS__HH
 \#define DBUS__HH
 
-\#ifdef HAVE_CONFIG_H
-\#include "config.h"
-\#endif
-
 \#include "dbus/DBusBinding-freedesktop.hh"
 
 #for $interface in $model.interfaces

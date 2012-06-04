@@ -4,10 +4,6 @@
 \#ifndef DBUS_${model.name}_HH
 \#define DBUS_${model.name}_HH
 
-\#ifdef HAVE_CONFIG_H
-\#include "config.h"
-\#endif
-
 \#include "dbus/DBusBinding-gio.hh"
 
 #for $interface in $model.interfaces

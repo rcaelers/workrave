@@ -20,8 +20,6 @@
 #ifndef MENUS_HH
 #define MENUS_HH
 
-#include "config.h"
-
 #include <sigc++/trackable.h>
 #include <gtkmm/aboutdialog.h>
 

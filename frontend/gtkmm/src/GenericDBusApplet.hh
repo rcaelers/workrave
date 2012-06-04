@@ -20,8 +20,6 @@
 #ifndef GENERICDBUSAPPLET_HH
 #define GENERICDBUSAPPLET_HH
 
-#include "config.h"
-
 #include <string>
 #include <set>
 

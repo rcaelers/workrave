@@ -20,8 +20,6 @@
 #ifndef INDICATORAPPLETMENU_HH
 #define INDICATORAPPLETMENU_HH
 
-#include "config.h"
-
 #include <string>
 
 #include <libdbusmenu-glib/server.h>

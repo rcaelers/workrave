@@ -1,6 +1,6 @@
 // Thread.hh
 //
-// Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,6 @@
 
 #ifndef THREAD_HH
 #define THREAD_HH
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #if defined(HAVE_GLIB)
 #include "GlibThread.hh"

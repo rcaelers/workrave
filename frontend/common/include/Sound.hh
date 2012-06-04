@@ -1,6 +1,6 @@
 // Sound.hh --- Sound class
 //
-// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,6 @@
 
 #ifndef SOUND_HH
 #define SOUND_HH
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #ifdef PLATFORM_OS_UNIX
 #include <X11/Xlib.h>

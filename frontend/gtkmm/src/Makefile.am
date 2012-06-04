@@ -21,7 +21,7 @@ extraflags =
 extrasources =
 extranodistsources = 
 
-## DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
+## DEFS = 			@DEFS@ 
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -76,6 +76,7 @@ extrasources +=		X11SystrayAppletWindow.cc gtktrayicon.c
 endif
 
 extraflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP \
+			-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 ldadd = 		-lworkrave-frontend-gtkmm-unix -lX11

@@ -1,6 +1,6 @@
 // Session.cc --- Monitor the gnome session
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,6 @@
 
 #ifndef SESSION_HH
 #define SESSION_HH
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #if defined(HAVE_DBUS_GIO)
 #include <gio/gio.h>
