@@ -421,8 +421,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
                                                          sound_registry[idx].id,
                                                          current_filename);
 
-      if (valid && current_filename != "" &&
-          !g_file_test(current_filename.c_str(), G_FILE_TEST_IS_REGULAR))
+      if (valid && !g_file_test(current_filename.c_str(), G_FILE_TEST_IS_REGULAR))
         {
           valid = false;
         }
