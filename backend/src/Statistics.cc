@@ -160,8 +160,11 @@ Statistics::delete_all_history()
     }
     else
     {
-        delete current_day;
-        current_day = NULL;
+        if( current_day )
+        {
+            delete current_day;
+            current_day = NULL;
+        }
         start_new_day();
    }
 
