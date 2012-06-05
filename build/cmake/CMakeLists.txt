@@ -93,13 +93,19 @@ if(DEVELOPMENT_MODE)
   set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 endif(DEVELOPMENT_MODE)
 
+option(FIND_DBUS "Find DBUS" ON)
+
 ######################################################################
 ## Find packages
 ######################################################################
 
 include(FindGlib)
 include(FindGtkmm)
+
+if(FIND_DBUS)
 include(FindDbus)
+endif(FIND_DBUS)
+
 include(FindGettext)
 #include(FindGnet)
 
