@@ -48,8 +48,6 @@ public:
   virtual void freeze() = 0;
   virtual void force_break_idle(workrave::BreakId id) = 0;
   virtual Statistics *get_statistics() const = 0;
-  virtual void stop_prelude(BreakId break_id) = 0;
-  virtual void post_event(CoreEvent event) = 0;
 };
 
 #endif // ICOREINTERNAL_HH

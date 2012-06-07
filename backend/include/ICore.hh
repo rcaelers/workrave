@@ -21,6 +21,7 @@
 #define ICORE_HH
 
 #include <string>
+#include <boost/signals2.hpp>
 
 #include "enum.h"
 
@@ -37,8 +38,6 @@ namespace workrave {
   {
     class DBus;
   }
-
-  class ICoreEventListener;
 
   //! ID of a break.
   enum BreakId
@@ -59,7 +58,6 @@ namespace workrave {
 
       // Natural break.
       BREAK_HINT_NATURAL_BREAK = 2,
-
     };
 
 
@@ -90,6 +88,9 @@ namespace workrave {
         INSIST_POLICY_SIZEOF
       };
 
+    virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed() = 0;
+    virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed() = 0;
+    
     //! Initialize the Core. Must be called first.
     virtual void init(int argc, char **argv, IApp *app, const std::string &display) = 0;
 
@@ -132,9 +133,6 @@ namespace workrave {
     //! Set the usage mode.
     virtual void set_usage_mode(UsageMode mode) = 0;
 
-    //! Set the callback for activity monitor events.
-    virtual void set_core_events_listener(ICoreEventListener *l) = 0;
-
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
     virtual void set_powersave(bool down) = 0;
 
@@ -144,7 +142,6 @@ namespace workrave {
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
-    // TODO: remove from interface.
     //! Return the current time
     virtual time_t get_time() const = 0;
 

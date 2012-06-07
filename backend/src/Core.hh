@@ -46,7 +46,6 @@
 #include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "ICoreInternal.hh"
-#include "ICoreEventListener.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 
@@ -69,7 +68,6 @@ class ActivityMonitor;
 class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
-class BreakControl;
 
 class Core :
   public ITimeSource,
@@ -138,8 +136,6 @@ public:
   void freeze();
 
   void force_break_idle(BreakId break_id);
-  void stop_prelude(BreakId break_id);
-  void post_event(CoreEvent event);
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
@@ -148,8 +144,8 @@ public:
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id,int *value);
 
-private:  
-  boost::signals2::signal<void(CoreEvent)> &signal_core_event();
+  boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
+  boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
   
 private:
   void init_breaks();
@@ -216,9 +212,6 @@ private:
   //! Current usage mode.
   UsageMode usage_mode;
 
-  //! Where to send core events to?
-  ICoreEventListener *core_event_listener;
-
   //! Did the OS announce a powersave?
   bool powersave;
 
@@ -230,9 +223,6 @@ private:
 
   //! Policy currently in effect.
   ICore::InsistPolicy active_insist_policy;
-
-  //! Resumes this break if current break ends.
-  BreakId resume_break;
 
   //! Current overall monitor state.
   ActivityState monitor_state;
@@ -249,6 +239,8 @@ private:
   //! External activity
   std::map<std::string, time_t> external_activity;
 
+  boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
+  boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
 };
 
 

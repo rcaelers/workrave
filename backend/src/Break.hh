@@ -1,4 +1,4 @@
-// Break.hh
+// Break.hh --- controller for a single break
 //
 // Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -24,41 +24,42 @@
 
 #include "IBreak.hh"
 #include "Timer.hh"
+#include "IBreakResponse.hh"
+#include "ActivityMonitorListener.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 
 // Forward declarion of external interface.
 namespace workrave {
+  class IActivityMonitorListener;
   class IApp;
-  class IBreak;
 }
 
-class BreakControl;
 class ICoreInternal;
+class TimePred;
 
 class Break :
   public IBreak,
-  public IConfiguratorListener
+  public IConfiguratorListener,
+  public ActivityMonitorListener
 {
 public:
   Break();
   virtual ~Break();
 
   void init(BreakId id, ICoreInternal *core, IApp *app);
-
-  static std::string expand(const std::string &str, BreakId id);
-  static std::string get_name(BreakId id);
-
-  std::string expand(const std::string &str);
-  std::string get_name() const;
-  BreakId get_id() const;
+  void heartbeat();
 
   Timer *get_timer() const;
-  BreakControl *get_break_control();
+  void set_usage_mode(UsageMode mode);
+  void override(BreakId id);
+  bool get_timer_activity_sensitive() const;
 
   // IBreak
-  virtual bool is_enabled() const;
+  virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
+  virtual std::string get_name() const; 
+  virtual bool is_enabled() const; 
   virtual bool is_running() const;
   virtual time_t get_elapsed_time() const;
   virtual time_t get_elapsed_idle_time() const;
@@ -66,58 +67,110 @@ public:
   virtual bool is_auto_reset_enabled() const;
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
+  virtual time_t get_total_overdue_time() const;
   virtual bool is_taking() const;
+  virtual bool is_active() const;
+  
+  // 
+  void postpone_break();
+  void skip_break();
+  void start_break();
+  void force_start_break(BreakHint break_hint);
+  void stop_break();
 
-  void set_usage_mode(UsageMode mode);
+  // ActivityMonitorListener
+  bool action_notify();
 
-  bool get_timer_activity_sensitive() const;
-
-  void override(BreakId id);
+  // Configuration
+  void set_max_preludes(int m);
 
 private:
-  void config_changed_notify(const std::string &key);
-
-private:
-  void init_defaults();
+  void break_window_start();
+  void prelude_window_start();
+  void stop_prelude();
 
   void init_timer();
   void load_timer_config();
-
   void init_break_control();
   void load_break_control_config();
+  TimePred *create_time_pred(std::string spec);
+  
+private:
+  enum BreakStage { STAGE_NONE,
+                    STAGE_SNOOZED,
+                    STAGE_PRELUDE,
+                    STAGE_TAKING,
+                    STAGE_DELAYED
+  };
 
-  bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
+  void update_prelude_window();
+  void update_break_window();
+  void goto_stage(BreakStage stage);
+  void suspend_break();
+  void send_signal(BreakStage stage);
+
+  void config_changed_notify(const std::string &key);
 
 private:
-  //! Core
-  ICoreInternal *core;
-  
-  //! ID of the break.
+  //! ID of the break controlled by this Break.
   BreakId break_id;
 
-  //! Name of the break (used in configuration)
-  std::string break_name;
-
-  //! Break config prefix
-  std::string break_prefix;
+  //! The Controller.
+  ICoreInternal *core;
 
   //! The Configurator
   IConfigurator::Ptr config;
 
-  //!
+  //! GUI Factory used to create the break/prelude windows.
   IApp *application;
 
-  //! Interface pointer to the timer.
-  Timer *timer;
+  //! Interface to the timer controlling the break.
+  Timer *break_timer;
 
-  //! Interface pointer to the break controller.
-  BreakControl *break_control;
+  //! Current stage in the break.
+  BreakStage break_stage;
+
+  //! This is a final prelude prompt, forcing break after this prelude
+  bool reached_max_prelude;
+
+  //! How long is the prelude active.
+  int prelude_time;
+
+  //! forced break (i.e. RestBreak now, or screenlock)
+  bool forced_break;
+
+  //! How many times have we preluded (since the limit was reached)
+  int prelude_count;
+
+  //! After how many preludes do we force a break or give up?
+  int max_number_of_preludes;
+
+  //! Is this a break that is not controlled by the timer.
+  bool fake_break;
+
+  //! Fake break counter.
+  time_t fake_break_count;
+
+  //! Break will be stopped because the user pressed postpone/skip.
+  bool user_abort;
+
+  //! User became active during delayed break.
+  bool delayed_abort;
+
+  //! Break hint if break has been started.
+  BreakHint break_hint;
+
+  //! Name of the break (used in configuration)
+  std::string break_name;
 
   //! Break enabled?
   bool enabled;
 
   //!
   UsageMode usage_mode;
+
+  //!
+  boost::signals2::signal<void(BreakEvent)> break_event_signal;
 };
 
-#endif // TIMERDATA_HH
+#endif // BREAK_HH

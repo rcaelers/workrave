@@ -21,10 +21,15 @@
 #define CORECONFIG_HH
 
 #include "ICore.hh"
+#include "config/IConfigurator.hh"
 
 class CoreConfig
 {
 public:
+  static const std::string CFG_KEY_MICRO_BREAK;
+  static const std::string CFG_KEY_REST_BREAK;
+  static const std::string CFG_KEY_DAILY_LIMIT;
+
   static const std::string CFG_KEY_TIMERS;
   static const std::string CFG_KEY_TIMER;
 
@@ -48,7 +53,10 @@ public:
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;
 
+  static void init(workrave::config::IConfigurator::Ptr config);
+  static bool starts_with(const std::string &key, std::string prefix, std::string &name);
   static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
+  static std::string get_break_name(workrave::BreakId id);
 };
 
 #endif

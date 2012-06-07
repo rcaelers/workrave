@@ -118,7 +118,6 @@ public:
   // Auto-resetting.
   void set_auto_reset(int t);
   void set_auto_reset(TimePred *predicate);
-  void set_auto_reset(std::string predicate);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
   time_t get_auto_reset() const;

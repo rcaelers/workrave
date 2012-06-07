@@ -31,9 +31,7 @@
 #include "ICoreInternal.hh"
 
 #include "Timer.hh"
-#include "TimePredFactory.hh"
 #include "TimePred.hh"
-//#include "ITimeSource.hh"
 #include "timeutil.h"
 
 using namespace std;
@@ -222,10 +220,10 @@ Timer::set_auto_reset(int reset_time)
  * \param predicate auto-reset predicate.
  */
 void
-Timer::set_auto_reset(string predicate)
+Timer::set_auto_reset(TimePred *predicate)
 {
   delete autoreset_interval_predicate;
-  autoreset_interval_predicate = TimePredFactory::create_time_pred(predicate);
+  autoreset_interval_predicate = predicate;
   compute_next_predicate_reset_time();
 }
 
@@ -1114,6 +1112,7 @@ Timer::get_activity_monitor() const
 {
   return activity_monitor;
 }
+
 
 //! Does this timer have its own activity monitor?
 bool

@@ -11,12 +11,10 @@ noinst_LTLIBRARIES = 	libworkrave-backend.la
 
 sources =  		ActivityMonitor.cc \
 			Break.cc \
-			BreakControl.cc \
 			Core.cc \
 			CoreConfig.cc \
 			DayTimePred.cc \
 			Statistics.cc \
-			TimePredFactory.cc \
 			Timer.cc \
 			TimerActivityMonitor.cc
 

@@ -1,6 +1,6 @@
 // IBreak.hh -- Interface of a break.
 //
-// Copyright (C) 2001 - 2007, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 
 #include "ICore.hh"
 
+#include <boost/signals2.hpp>
 #include <string.h>
 
 namespace workrave {
@@ -32,17 +33,20 @@ namespace workrave {
   public:
     virtual ~IBreak() {}
 
+    enum BreakEvent {
+      BREAK_EVENT_PRELUDE_STARTED,
+      BREAK_EVENT_BREAK_IGNORED,
+      BREAK_EVENT_BREAK_STARTED,
+      BREAK_EVENT_BREAK_ENDED,
+    };
+    
+    virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event() = 0;
+
     //! Returns the name of the break.
     virtual std::string get_name() const = 0;
 
-    //! Returns the ID of the break.
-    virtual BreakId get_id() const = 0;
-
     //! Is this break currently enabled?
     virtual bool is_enabled() const = 0;
-
-    //! Returns the current time state.
-    virtual bool is_running() const = 0;
 
     //! Returns the elasped active time.
     virtual time_t get_elapsed_time() const = 0;
@@ -62,8 +66,17 @@ namespace workrave {
     //! Is the limit enabled.
     virtual bool is_limit_enabled() const = 0;
 
+    //!
+    virtual time_t get_total_overdue_time() const = 0;
+    
+    //! Returns the current time state.
+    virtual bool is_running() const = 0;
+
     //! Is the break window visible.
     virtual bool is_taking() const = 0;
+
+    //!
+    virtual bool is_active() const = 0;
   };
 }
 

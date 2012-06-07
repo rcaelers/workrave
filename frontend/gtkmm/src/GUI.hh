@@ -29,7 +29,7 @@
 #include "config/Config.hh"
 
 #include "HeadInfo.hh"
-#include "ICoreEventListener.hh"
+#include "IBreak.hh"
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
@@ -84,7 +84,6 @@ public:
 class GUI :
   public IGUI,
   public IApp,
-  public ICoreEventListener,
   public IConfiguratorListener,
   public sigc::trackable
 {
@@ -114,9 +113,6 @@ public:
   virtual void terminate();
 
   //
-  void core_event_notify(const CoreEvent event);
-  void core_event_operation_mode_changed(const OperationMode m);
-  void core_event_usage_mode_changed(const UsageMode m);
 
   // Internal public methods
   void restbreak_now();
@@ -167,6 +163,10 @@ private:
   void on_status_icon_activate();
   void on_visibility_changed();
   void on_main_window_closed();
+
+  void on_break_event(BreakId break_id, IBreak::BreakEvent event);
+  void on_operation_mode_changed(const OperationMode m);
+  void on_usage_mode_changed(const UsageMode m);
   
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();

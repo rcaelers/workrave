@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,13 +38,11 @@
 
 #include "Util.hh"
 #include "IApp.hh"
-#include "ICoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
 #include "CoreConfig.hh"
 #include "Statistics.hh"
-#include "BreakControl.hh"
 #include "Timer.hh"
 
 #ifdef HAVE_GCONF
@@ -76,6 +74,7 @@ ICore *ICore::create()
   return new Core();
 }
 
+
 //! Constructs a new Core.
 Core::Core() :
   last_process_time(0),
@@ -85,21 +84,15 @@ Core::Core() :
   operation_mode(OPERATION_MODE_NORMAL),
   operation_mode_regular(OPERATION_MODE_NORMAL),
   usage_mode(USAGE_MODE_NORMAL),
-  core_event_listener(NULL),
   powersave(false),
   powersave_resume_time(0),
   insist_policy(ICore::INSIST_POLICY_HALT),
   active_insist_policy(ICore::INSIST_POLICY_INVALID),
-  resume_break(BREAK_ID_NONE),
   monitor_state(ACTIVITY_UNKNOWN)
 {
   TRACE_ENTER("Core::Core");
   current_time = time(NULL);
   TimeSource::source = this;
-  
-  // assert(! instance);
-  // instance = this;
-
   TRACE_EXIT();
 }
 
@@ -208,6 +201,7 @@ Core::init_configurator()
       Util::set_home_directory(home);
     }
 }
+
 
 //! Initializes the communication bus.
 void
@@ -383,6 +377,19 @@ Core::get_time() const
 /**** Core Interface                                                       ******/
 /********************************************************************************/
 
+boost::signals2::signal<void(OperationMode)> &
+Core::signal_operation_mode_changed()
+{
+  return operation_mode_changed_signal;
+}
+
+
+boost::signals2::signal<void(UsageMode)> &
+Core::signal_usage_mode_changed()
+{
+  return usage_mode_changed_signal;
+}
+
 //! Returns the specified timer.
 Timer *
 Core::get_timer(BreakId id) const
@@ -445,6 +452,7 @@ Core::get_break(BreakId id)
   return &breaks[id];
 }
 
+
 //! Returns the specified break controller.
 Break *
 Core::get_break(std::string name)
@@ -467,6 +475,7 @@ Core::get_operation_mode()
     return operation_mode;
 }
 
+
 //! Retrieves the regular operation mode.
 OperationMode
 Core::get_operation_mode_regular()
@@ -478,6 +487,7 @@ Core::get_operation_mode_regular()
     return operation_mode_regular;
 }
 
+
 //! Checks if operation_mode is an override.
 bool
 Core::is_operation_mode_an_override()
@@ -485,12 +495,14 @@ Core::is_operation_mode_an_override()
     return !!operation_mode_overrides.size();
 }
 
+
 //! Sets the operation mode.
 void
 Core::set_operation_mode(OperationMode mode)
 {
     set_operation_mode_internal( mode, true );
 }
+
 
 //! Temporarily overrides the operation mode.
 void
@@ -501,6 +513,7 @@ Core::set_operation_mode_override( OperationMode mode, const std::string &id )
 
     set_operation_mode_internal( mode, false, id );
 }
+
 
 //! Removes the overriden operation mode.
 void
@@ -535,8 +548,8 @@ Core::remove_operation_mode_override( const std::string &id )
         if( operation_mode_regular == operation_mode )
         {
             TRACE_MSG( "Only calling core_event_operation_mode_changed()." );
-            if( core_event_listener )
-                core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
+
+            operation_mode_changed_signal(operation_mode_regular);
         }
         else
             set_operation_mode_internal( operation_mode_regular, false );
@@ -544,6 +557,7 @@ Core::remove_operation_mode_override( const std::string &id )
 
     TRACE_EXIT();
 }
+
 
 //! Set the operation mode.
 void
@@ -683,13 +697,13 @@ Core::set_operation_mode_internal(
           if( persistent )
               get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode );
 
-          if( core_event_listener )
-              core_event_listener->core_event_operation_mode_changed( operation_mode );
+          operation_mode_changed_signal(operation_mode);
       }
   }
 
   TRACE_EXIT();
 }
+
 
 //! Retrieves the usage mode.
 UsageMode
@@ -705,6 +719,7 @@ Core::set_usage_mode(UsageMode mode)
 {
   set_usage_mode_internal(mode, true);
 }
+
 
 //! Sets the usage mode.
 void
@@ -724,18 +739,8 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
           get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
         }
 
-      if (core_event_listener != NULL)
-        {
-          core_event_listener->core_event_usage_mode_changed(mode);
-        }
+      usage_mode_changed_signal(mode);
     }
-}
-
-//! Sets the listener for core events.
-void
-Core::set_core_events_listener(ICoreEventListener *l)
-{
-  core_event_listener = l;
 }
 
 
@@ -745,18 +750,13 @@ Core::force_break(BreakId id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("Core::force_break", id << " " << break_hint);
   
-  BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
-  BreakControl *breaker = breaks[id].get_break_control();
-
-  if (id == BREAK_ID_REST_BREAK &&
-      (microbreak_control->get_break_state() == BreakControl::BREAK_ACTIVE))
+  if (id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK].is_active())
     {
-      microbreak_control->stop_break(false);
-      resume_break = BREAK_ID_MICRO_BREAK;
+      breaks[BREAK_ID_MICRO_BREAK].stop_break();
       TRACE_MSG("Resuming Micro break");
     }
 
-  breaker->force_start_break(break_hint);
+  breaks[id].force_start_break(break_hint);
   TRACE_EXIT();
 }
 
@@ -889,14 +889,8 @@ Core::postpone_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->postpone_break();
+      breaks[break_id].postpone_break();
     }
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-  BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_POSTPONE);
-  network->send_event(&event);
-#endif
 }
 
 
@@ -906,34 +900,8 @@ Core::skip_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->skip_break();
+      breaks[break_id].skip_break();
     }
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-  BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_SKIP);
-  network->send_event(&event);
-#endif
-}
-
-
-//! User stops the prelude.
-void
-Core::stop_prelude(BreakId break_id)
-{
-  TRACE_ENTER_MSG("Core::stop_prelude", break_id);
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      BreakControl *bc = breaks[break_id].get_break_control();
-      bc->stop_prelude();
-    }
-
-#ifdef HAVE_BROKEN_DISTRIBUTION
-  BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_SYST_STOP_PRELUDE);
-  network->send_event(&event);
-#endif
-
-  TRACE_EXIT();
 }
 
 
@@ -970,11 +938,7 @@ Core::heartbeat()
   // Send heartbeats to other components.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      BreakControl *bc = breaks[i].get_break_control();
-      if (bc != NULL && bc->need_heartbeat())
-        {
-          bc->heartbeat();
-        }
+      breaks[i].heartbeat();
     }
 
 #ifdef HAVE_DISTRIBUTION
@@ -1253,15 +1217,14 @@ Core::timer_action(BreakId id, TimerInfo info)
       return;
     }
 
-  BreakControl *breaker = breaks[id].get_break_control();
   Timer *timer = breaks[id].get_timer();
 
-  assert(breaker != NULL && timer != NULL);
+  assert(timer != NULL);
 
   switch (info.event)
     {
     case TIMER_EVENT_LIMIT_REACHED:
-      if (breaker->get_break_state() == BreakControl::BREAK_INACTIVE)
+      if (!breaks[id].is_active())
         {
           start_break(id);
         }
@@ -1272,9 +1235,9 @@ Core::timer_action(BreakId id, TimerInfo info)
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
-      if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
+      if (breaks[id].is_active())
         {
-          breaker->stop_break();
+          breaks[id].stop_break();
         }
       break;
 
@@ -1294,7 +1257,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // Don't show MB when RB is active, RB when DL is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
-      if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
+      if (breaks[bi].is_active())
         {
           return;
         }
@@ -1342,19 +1305,13 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // restbreak should be advanced.
   for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
-      if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
+      if (breaks[bi].is_active())
         {
-          breaks[bi].get_break_control()->stop_break(false);
+          breaks[bi].stop_break();
         }
     }
 
-  // FIXME: resume_break not used!
-  // If break 'break_id' ends, and break 'resume_this_break' is still
-  // active, resume it...
-  resume_break = resume_this_break;
-
-  BreakControl *breaker = breaks[break_id].get_break_control();
-  breaker->start_break();
+  breaks[break_id].start_break();
 }
 
 
@@ -1380,9 +1337,7 @@ Core::stop_all_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      BreakControl *bc = breaks[i].get_break_control();
-      assert(bc != NULL);
-      bc->stop_break(false);
+      breaks[i].stop_break();
     }
 }
 
@@ -1516,17 +1471,6 @@ Core::load_state()
 }
 
 
-//! Post an event.
-void
-Core::post_event(CoreEvent event)
-{
-  if (core_event_listener != NULL)
-    {
-      core_event_listener->core_event_notify(event);
-    }
-}
-
-
 //! Excecute the insist policy.
 void
 Core::freeze()
@@ -1600,23 +1544,4 @@ bool
 Core::is_user_active() const
 {
   return monitor_state == ACTIVITY_ACTIVE;
-}
-
-
-namespace workrave
-{
-  std::string operator%(const string &key, BreakId id)
-  {
-    string str = key;
-    string::size_type pos = 0;
-    string name = Break::get_name(id);
-
-    while ((pos = str.find("%b", pos)) != string::npos)
-      {
-        str.replace(pos, 2, name);
-        pos++;
-      }
-
-    return str;
-  }
 }

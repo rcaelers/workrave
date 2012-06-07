@@ -539,7 +539,15 @@ GUI::init_core()
 
   core = CoreFactory::get_core();
   core->init(argc, argv, this, display_name);
-  // TODO: core->set_core_events_listener(this);
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      IBreak *b = core->get_break(BreakId(i));
+      b->signal_break_event().connect(boost::bind(&GUI::on_break_event, this, BreakId(i), _1));
+    }
+
+  core->signal_operation_mode_changed().connect(boost::bind(&GUI::on_operation_mode_changed, this, _1)); 
+  core->signal_usage_mode_changed().connect(boost::bind(&GUI::on_usage_mode_changed, this, _1));
 
   GUIConfig::init();
 }
@@ -916,53 +924,72 @@ GUI::init_sound_player()
 
 
 void
-GUI::core_event_notify(const CoreEvent event)
+GUI::on_break_event(BreakId break_id, IBreak::BreakEvent event)
 {
-  TRACE_ENTER_MSG("GUI::core_event_sound_notify", event);
+  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << event);
+
+  struct EventMap
+  {
+    BreakId id;
+    IBreak::BreakEvent break_event;
+    SoundEvent sound_event;
+  } event_map[] =
+      {
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_MICRO_BREAK_STARTED },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_ENDED,     SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_REST_BREAK_STARTED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_ENDED,     SOUND_REST_BREAK_ENDED },
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE},
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED},
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_MICRO_BREAK_ENDED },
+      };
 
   if (sound_player != NULL)
     {
-      if (event >= CORE_EVENT_SOUND_FIRST &&
-          event <= CORE_EVENT_SOUND_LAST)
+      for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
         {
-          bool mute = false;
-          SoundEvent snd = (SoundEvent) ( (int)event - CORE_EVENT_SOUND_FIRST);
-          TRACE_MSG("play " << event);
-
-          if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED ||
-              event == CORE_EVENT_SOUND_DAILY_LIMIT)
+          if (event_map[i].id == break_id && event_map[i].break_event == event)
             {
+              bool mute = false;
+              SoundEvent snd = event_map[i].sound_event;
+              TRACE_MSG("play " << event);
+
               CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
               if (mute)
                 {
                   muted = true;
                 }
+              TRACE_MSG("Mute after playback " << mute);
+              sound_player->play_sound(snd, mute);
             }
-          TRACE_MSG("Mute after playback " << mute);
-          sound_player->play_sound(snd, mute);
         }
     }
-
-  if (event == CORE_EVENT_MONITOR_FAILURE)
-    {
-      string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
-
-#ifdef PLATFORM_OS_UNIX
-      msg += _("Make sure that the RECORD extension is enabled in the X server.");
-#endif
-      Gtk::MessageDialog dialog(_("Workrave failed to start"),
-                                false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-      dialog.set_secondary_text(msg);
-      dialog.show();
-      dialog.run();
-      terminate();
-    }
-  TRACE_EXIT();
 }
+
+//   if (event == CORE_EVENT_MONITOR_FAILURE)
+//     {
+//       string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
+
+// #ifdef PLATFORM_OS_UNIX
+//       msg += _("Make sure that the RECORD extension is enabled in the X server.");
+// #endif
+//       Gtk::MessageDialog dialog(_("Workrave failed to start"),
+//                                 false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+//       dialog.set_secondary_text(msg);
+//       dialog.show();
+//       dialog.run();
+//       terminate();
+//     }
+//   TRACE_EXIT();
+// }
 
 
 void
-GUI::core_event_operation_mode_changed(const OperationMode m)
+GUI::on_operation_mode_changed(const OperationMode m)
 {
   if (status_icon)
     {
@@ -973,7 +1000,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 }
 
 void
-GUI::core_event_usage_mode_changed(const UsageMode m)
+GUI::on_usage_mode_changed(const UsageMode m)
 {
   (void) m;
   menus->resync();
