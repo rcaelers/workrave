@@ -514,32 +514,21 @@ bool W32ActiveSetup::update(
 
     vector<WCHAR> buffer( data.begin(), data.end() );
     buffer.push_back( L'\0' );
-    
-    STARTUPINFOW si = { sizeof( si ), };
-    PROCESS_INFORMATION pi = { INVALID_HANDLE_VALUE, };
 
-    BOOL ret = CreateProcessW(
-        NULL,
-        &buffer[ 0 ],
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        get_user_profile_dir(),
-        &si,
-        &pi
-        );
+    HANDLE thread = CreateThread( NULL, 0, create_process, &buffer[ 0 ], 0, NULL );
+    if( thread )
+    {
+        WaitForSingleObject( thread, INFINITE );
+        CloseHandle( thread );
+        thread = NULL;
+    }
 
     /* Active Setup only attempts to run the StubPath, it doesn't record whether or not it was 
     successful in doing so.
     */
 
-    if( ret && ( pi.hProcess != INVALID_HANDLE_VALUE ) )
-        WaitForSingleObject( pi.hProcess, INFINITE );
-
     return true;
- }
+}
 
 
 
@@ -552,4 +541,77 @@ bool W32ActiveSetup::update_all()
 {
     /* For now there's only one entry, for setting up Workrave's autorun for each user */
     return update( W32ActiveSetup::guid_autorun );
+}
+
+
+
+/* W32ActiveSetup::create_process()
+
+This is the starting function for a thread that creates a process and waits for it to terminate.
+*/
+DWORD WINAPI W32ActiveSetup::create_process(
+    LPVOID lpParam
+    )
+{
+    DWORD exit_code = ((DWORD) -1);
+    WCHAR *command = (WCHAR *)lpParam;
+    STARTUPINFOW si = { sizeof( si ), };
+    PROCESS_INFORMATION pi = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, };
+
+    if( !command || !*command )
+        return exit_code;
+
+
+    void *OldValue = NULL;
+    bool wow64_disabled = false;
+    BOOL ( WINAPI *pWow64DisableWow64FsRedirection )( void ** ) = NULL;
+    BOOL ( WINAPI *pWow64RevertWow64FsRedirection )( void * ) = NULL;
+
+    if( W32ActiveSetup::is_os_64() )
+    {
+        pWow64DisableWow64FsRedirection = ( BOOL ( WINAPI * )( void ** ) )
+            GetProcAddress( GetModuleHandleA( "kernel32" ), "Wow64DisableWow64FsRedirection" );
+
+        pWow64RevertWow64FsRedirection = ( BOOL ( WINAPI * )( void * ) )
+            GetProcAddress( GetModuleHandleA( "kernel32" ), "Wow64RevertWow64FsRedirection" );
+    }
+
+
+    if( pWow64DisableWow64FsRedirection && pWow64RevertWow64FsRedirection )
+        wow64_disabled = !!pWow64DisableWow64FsRedirection( &OldValue );
+
+    BOOL ret = CreateProcessW(
+        NULL,
+        command,
+        NULL,
+        NULL,
+        FALSE,
+        0,
+        NULL,
+        get_user_profile_dir(),
+        &si,
+        &pi
+        );
+
+    if( wow64_disabled && pWow64DisableWow64FsRedirection && pWow64RevertWow64FsRedirection )
+        wow64_disabled = !pWow64RevertWow64FsRedirection( OldValue );
+
+
+    if( ret )
+    {
+        if( pi.hProcess != INVALID_HANDLE_VALUE )
+        {
+            WaitForSingleObject( pi.hProcess, INFINITE );
+
+            if( !GetExitCodeProcess( pi.hProcess, &exit_code ) )
+                exit_code = ((DWORD) -1);
+
+            CloseHandle( pi.hProcess );
+        }
+
+        if( pi.hThread != INVALID_HANDLE_VALUE )
+            CloseHandle( pi.hThread );
+    }
+
+    return exit_code;
 }

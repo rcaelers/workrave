@@ -76,6 +76,10 @@ private:
         const std::wstring &guid,
         const std::vector<DWORD> &version
         );
+
+    static DWORD WINAPI W32ActiveSetup::create_process(
+        LPVOID lpParam
+        );
 };
 
 #endif // W32ACTIVESETUP_HH
