@@ -12,7 +12,7 @@ cloud_SOURCES = 	cloud.cc
 
 cloud_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
-			@WR_BACKEND_INCLUDES@ \
+			-I$(top_srcdir)/backend/include \
 			@X_CFLAGS@ @GLIB_CFLAGS@ @SIGC_CFLAGS@ 	@GCONF_CFLAGS@ \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @IGE_CFLAGS@ \
 			-I$(top_srcdir)/backend/src \
@@ -23,9 +23,9 @@ cloud_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I${top_srcdir}/libs/cloud/include \
 			-I${top_srcdir}/libs/config/include
 
-cloud_LDFLAGS = 	@WR_LDFLAGS@ ${WIN32LDFLAGS}
+cloud_LDFLAGS = 	${WIN32LDFLAGS}
 
-cloud_LDADD    =        -lworkrave-backend \
+cloud_LDADD    =        $(top_builddir)/backend/src/libworkrave-backend.la \
 			@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			@GTK_LIBS@ @PROTOBUF_LIBS@ @DIRECTSOUNDLIBS@ \

@@ -78,8 +78,7 @@ endif
 extraflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP \
 			-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
-ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
-ldadd = 		-lworkrave-frontend-gtkmm-unix -lX11
+ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
 endif
 
 if PLATFORM_OS_WIN32
@@ -89,8 +88,6 @@ extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/applets/win32/include \
 			-I$(top_srcdir)/libs/hooks/harpoon/include
-
-ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
 
 ldadd =  		$(top_builddir)/libs/hooks/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la
@@ -107,7 +104,6 @@ endif
 
 if PLATFORM_OS_OSX
 extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
-ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
 extrasources +=	        eggsmclient-osx.c
 
@@ -239,7 +235,8 @@ nodist_workrave_SOURCES = \
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
-			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I$(top_srcdir)/backend/include \
+			-I$(top_srcdir)/frontend/common/include \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			@INDICATOR_CFLAGS@ ${extraflags} \
@@ -252,9 +249,10 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/libs/utils/include
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
-			@WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@\
+			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			-I$(top_srcdir)/backend/include \
+			-I$(top_srcdir)/frontend/common/include \
+			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@ \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -262,11 +260,13 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/libs/utils/include \
 			$(extraflags)
 
-workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
+workrave_LDFLAGS = 	${WIN32LDFLAGS}
 
-workrave_LDADD =	$(top_builddir)/libs/utils/src/libworkrave-utils.la \
+workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
+			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
+			$(top_builddir)/backend/src/libworkrave-backend.la \
 			${ldadd} \
-			@WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
+			@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@  @PROTOBUF_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \

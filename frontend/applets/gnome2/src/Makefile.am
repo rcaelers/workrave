@@ -25,7 +25,8 @@ server_DATA     = $(server_in_files:.server.in=.server)
 AM_CPPFLAGS  			= -I$(srcdir)
 
 FLAGS				= @GNOME2_CFLAGS@ @DBUSGLIB_CFLAGS@ \
-				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+				  -I$(top_srcdir)/frontend/common/include \
+				   -I$(top_srcdir)/backend/include \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 

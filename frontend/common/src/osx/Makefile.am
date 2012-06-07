@@ -18,8 +18,9 @@ libworkrave_frontend_common_osx_la_SOURCES = \
 
 libworkrave_frontend_common_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			@WR_BACKEND_INCLUDES@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
+			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/src \
-			-I$(top_srcdir)/frontend/common/include
+			-I$(top_srcdir)/frontend/common/include \
+			@GTK_CFLAGS@ @GLIB_CFLAGS@
 
 endif

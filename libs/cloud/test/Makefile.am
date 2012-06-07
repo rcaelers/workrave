@@ -25,10 +25,13 @@ cloud_CXXFLAGS = 	@GLIB_CFLAGS@ \
 			-I${top_srcdir}/libs/cloud/include/cloud \
 			-I${top_srcdir}/libs/cloud/src
 
-cloud_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
+cloud_LDFLAGS = 	-L$(top_builddir)/backend/src/ \
+			-L$(top_builddir)/frontend/common/src \
+			${ldflags} \
+			@WIN32LDFLAGS@
 
 cloud_LDADD    =        $(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
-			@GLIB_LIBS@ @PROTOBUF_LIBS@ ${WIN32LIBS}
+			@GLIB_LIBS@ @PROTOBUF_LIBS@ @WIN32LIBS@

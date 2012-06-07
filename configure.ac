@@ -904,36 +904,6 @@ AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" = "xyes")
 
 
 dnl
-dnl What variant to build
-dnl
-
-variant=""
-
-if test "x$platform_os_win32" = "xyes"
-then
-   variant="$variant win32"
-elif test "x$platform_os_osx" = "xyes"
-then
-   variant="$variant osx unix"
-elif test "x$platform_os_unix" = "xyes"
-then
-   variant="$variant x11 unix"
-fi
-
-WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
-WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
-
-WR_LDADD="-lworkrave-backend -lworkrave-frontend-common"
-WR_LDFLAGS="-L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src"
-
-AC_SUBST(WR_LDADD)
-AC_SUBST(WR_LDFLAGS)
-
-AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
-AC_SUBST(WR_BACKEND_INCLUDES)
-
-
-dnl
 dnl Defines
 dnl
 
@@ -957,14 +927,6 @@ if test "x$enable_experimental" = "xyes"; then
    AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
 fi
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
-
-config_text=no
-if test "x$enable_app_text" = "xyes"; then
-   config_text=yes
-   AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
-fi
-AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_text" = "xyes")
-
 
 dnl
 dnl Generate language list.

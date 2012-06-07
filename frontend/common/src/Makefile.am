@@ -23,9 +23,11 @@ ldadd_platform=
 if PLATFORM_OS_WIN32
 ldadd_platform += 	win32/libworkrave-frontend-common-win32.la
 endif
+
 if PLATFORM_OS_OSX
 ldadd_platform += 	osx/libworkrave-frontend-common-osx.la
 endif
+
 if PLATFORM_OS_UNIX
 ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
 endif
@@ -37,7 +39,8 @@ EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 
 libworkrave_frontend_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			@X_CFLAGS@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
+			@X_CFLAGS@ @PULSE_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
+			-I$(top_srcdir)/backend/include  \
 			-I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/common/src/win32 \
