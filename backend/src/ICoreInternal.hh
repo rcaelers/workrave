@@ -39,15 +39,15 @@ public:
   //! Return the current time
   virtual time_t get_time() const = 0;
 
-  virtual ActivityState get_current_monitor_state() const = 0;
+  virtual Statistics *get_statistics() const = 0;
   virtual IActivityMonitor *get_activity_monitor() const = 0;
+  
   virtual Timer *get_timer(workrave::BreakId id) const = 0;
   virtual Timer *get_timer(std::string name) const = 0;
   virtual Break *get_break(workrave::BreakId id) = 0;
   virtual void defrost() = 0;
   virtual void freeze() = 0;
   virtual void force_break_idle(workrave::BreakId id) = 0;
-  virtual Statistics *get_statistics() const = 0;
 };
 
 #endif // ICOREINTERNAL_HH

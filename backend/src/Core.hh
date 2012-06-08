@@ -121,7 +121,6 @@ public:
   void force_idle();
 
   // ICoreInternal
-  ActivityState get_current_monitor_state() const;
   IActivityMonitor *get_activity_monitor() const;
   Timer *get_timer(std::string name) const;
   Timer *get_timer(BreakId id) const;
@@ -239,13 +238,5 @@ private:
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
 };
-
-
-//!
-inline ActivityState
-Core::get_current_monitor_state() const
-{
-  return monitor_state;
-}
 
 #endif // CORE_HH

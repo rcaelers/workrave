@@ -126,8 +126,7 @@ Break::heartbeat()
   else
     {
       // Unless the timer has its own activity monitor.
-      ActivityState activity_state = core->get_current_monitor_state();
-      is_idle = (activity_state != ACTIVITY_ACTIVE);
+      is_idle = !core->is_user_active();
     }
 
   TRACE_MSG("stage = " << break_stage);
