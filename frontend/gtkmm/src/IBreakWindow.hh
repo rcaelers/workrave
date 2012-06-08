@@ -1,6 +1,6 @@
 // IBreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,6 @@
 #define IBREAKWINDOW_HH
 
 #include <stdio.h>
-
-namespace workrave {
-  class IBreakResponse;
-}
 
 using namespace workrave;
 
@@ -53,9 +49,6 @@ public:
 
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
-
-  //! Sets the response callback.
-  virtual void set_response(IBreakResponse *bri) = 0;
 
   //
   virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;

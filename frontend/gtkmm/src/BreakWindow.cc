@@ -47,7 +47,6 @@
 
 #include "GUI.hh"
 #include "IBreak.hh"
-#include "IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -87,7 +86,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   block_mode(mode),
   break_flags(break_flags),
   frame(NULL),
-  break_response(NULL),
   gui(NULL),
   visible(false),
   accel_added(false),
@@ -419,24 +417,18 @@ BreakWindow::on_delete_event(GdkEventAny *)
 }
 
 
-//! Break response
-inline void
-BreakWindow::set_response(IBreakResponse *bri)
-{
-  break_response = bri;
-}
-
-
 //! The postpone button was clicked.
 void
 BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  if (break_response != NULL)
-    {
-      break_response->postpone_break(break_id);
-      resume_non_ignorable_break();
-    }
+  ICore *core = CoreFactory::get_core();
+  IBreak *b = core->get_break(break_id);
+  assert(b != NULL);
+  
+  b->postpone_break();
+  resume_non_ignorable_break();
+
   TRACE_EXIT();
 }
 
@@ -446,11 +438,15 @@ BreakWindow::on_postpone_button_clicked()
 void
 BreakWindow::on_skip_button_clicked()
 {
-  if (break_response != NULL)
-    {
-      break_response->skip_break(break_id);
-      resume_non_ignorable_break();
-    }
+  TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
+  ICore *core = CoreFactory::get_core();
+  IBreak *b = core->get_break(break_id);
+  assert(b != NULL);
+
+  b->skip_break();
+  resume_non_ignorable_break();
+
+  TRACE_EXIT();
 }
 
 

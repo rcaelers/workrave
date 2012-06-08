@@ -48,7 +48,6 @@ const int TIMEOUT = 1000;
 #include "WindowHints.hh"
 
 #include "IBreak.hh"
-#include "IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 

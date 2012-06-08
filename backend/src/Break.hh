@@ -24,7 +24,6 @@
 
 #include "IBreak.hh"
 #include "Timer.hh"
-#include "IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"
 
 using namespace workrave;

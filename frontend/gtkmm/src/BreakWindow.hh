@@ -36,11 +36,6 @@
 class DesktopWindow;
 #endif
 
-namespace workrave
-{
-  class IBreakResponse;
-}
-
 namespace Gtk
 {
   class Button;
@@ -69,8 +64,6 @@ public:
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
   virtual ~BreakWindow();
-
-  void set_response(IBreakResponse *bri);
 
   virtual void init();
   virtual void start();
@@ -115,9 +108,6 @@ protected:
   Gtk::Button *create_shutdown_button();
 
 private:
-  //! Send response to this interface.
-  IBreakResponse *break_response;
-
   //! Break ID
   BreakId break_id;
 

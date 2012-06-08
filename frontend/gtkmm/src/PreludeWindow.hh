@@ -1,6 +1,6 @@
 // PreludeWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,6 @@ public:
   void set_progress(int value, int max_value);
   void set_stage(IApp::PreludeStage stage);
   void set_progress_text(IApp::PreludeProgressText text);
-  void set_response(IBreakResponse *pri);
 
 private:
   void on_frame_flash(bool frame_visible);
@@ -112,16 +111,6 @@ private:
 
   //! Head
   HeadInfo head;
-
-  //! Send response to this interface.
-  IBreakResponse *prelude_response;
 };
-
-
-inline void
-PreludeWindow::set_response(IBreakResponse *pri)
-{
-  prelude_response = pri;
-}
 
 #endif // PRELUDEWINDOW_HH

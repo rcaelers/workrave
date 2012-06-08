@@ -35,7 +35,6 @@
 #include "CoreFactory.hh"
 #include "ICore.hh"
 
-#include "IBreakResponse.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -61,8 +60,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     image_icon(NULL),
     progress_value(0),
     progress_max_value(0),
-    flash_visible(false),
-    prelude_response(NULL)
+    flash_visible(false)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
   Gtk::Window::set_border_width(0);

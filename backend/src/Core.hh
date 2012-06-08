@@ -43,7 +43,6 @@
 #include "config/Config.hh"
 
 #include "Break.hh"
-#include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "ICoreInternal.hh"
 #include "Timer.hh"
@@ -72,17 +71,13 @@ class IdleLogManager;
 class Core :
   public ITimeSource,
   public ICoreInternal,
-  public IConfiguratorListener,
-  public IBreakResponse
+  public IConfiguratorListener
 {
 public:
   Core();
   virtual ~Core();
 
   // IBreakResponse
-
-  void postpone_break(BreakId break_id);
-  void skip_break(BreakId break_id);
 
   // ITimeSource
   
@@ -143,6 +138,8 @@ public:
   void get_timer_elapsed(BreakId id,int *value);
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id,int *value);
+  void postpone_break(BreakId break_id);
+  void skip_break(BreakId break_id);
 
   boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();

@@ -259,7 +259,6 @@ Core::init_breaks()
     {
       breaks[i].init(BreakId(i), this, application);
     }
-  application->set_break_response(this);
 }
 
 
@@ -376,6 +375,27 @@ Core::get_time() const
 /********************************************************************************/
 /**** Core Interface                                                       ******/
 /********************************************************************************/
+
+//! User postpones the specified break.
+void
+Core::postpone_break(BreakId break_id)
+{
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      breaks[break_id].postpone_break();
+    }
+}
+
+
+//! User skips the specified break.
+void
+Core::skip_break(BreakId break_id)
+{
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      breaks[break_id].skip_break();
+    }
+}
 
 boost::signals2::signal<void(OperationMode)> &
 Core::signal_operation_mode_changed()
@@ -883,26 +903,6 @@ Core::force_break_idle(BreakId break_id)
 /**** Break Response                                                       ******/
 /********************************************************************************/
 
-//! User postpones the specified break.
-void
-Core::postpone_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      breaks[break_id].postpone_break();
-    }
-}
-
-
-//! User skips the specified break.
-void
-Core::skip_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      breaks[break_id].skip_break();
-    }
-}
 
 
 /********************************************************************************/

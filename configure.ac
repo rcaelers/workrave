@@ -39,14 +39,6 @@ dnl
 dnl Command line options.
 dnl
 
-AC_ARG_ENABLE(app-gtk,
-              [AS_HELP_STRING([--disable-app-gtk],
-                              [compile without Gtk support (NOT recommended)])])
-
-AC_ARG_ENABLE(app-text,
-              [AS_HELP_STRING([--enable-app-text],
-                              [compile with dummy text GUI support (NOT recommended)])])
-
 AC_ARG_ENABLE(xml,
               [AS_HELP_STRING([--disable-xml],
                               [compile without XML support])])
@@ -1053,8 +1045,6 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
-             frontend/text/Makefile
-             frontend/text/src/Makefile
              frontend/plugin/Makefile
              frontend/plugin/distribution/Makefile
              frontend/plugin/distribution/gtkmm/Makefile

@@ -1,6 +1,6 @@
 // IPreludeWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -50,9 +50,6 @@ public:
 
   //! Sets the progress text of the prelude window.
   virtual void set_progress_text(IApp::PreludeProgressText text) = 0;
-
-  //! Sets the response callback.
-  virtual void set_response(IBreakResponse *pri) = 0;
 };
 
 #endif // IRESTPRELUDEWINDOW_HH

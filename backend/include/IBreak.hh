@@ -77,6 +77,12 @@ namespace workrave {
 
     //!
     virtual bool is_active() const = 0;
+
+    //! Request to postpone the break.
+    virtual void postpone_break() = 0;
+
+    //! Request to skip the break.
+    virtual void skip_break() = 0;
   };
 }
 

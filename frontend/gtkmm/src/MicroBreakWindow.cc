@@ -36,7 +36,6 @@
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
-#include "IBreakResponse.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
 #include "Text.hh"

@@ -29,7 +29,7 @@
 #include "Break.hh"
 
 #include "IBreak.hh"
-#include "Core.hh"
+#include "ICoreInternal.hh"
 #include "Statistics.hh"
 #include "IApp.hh"
 #include "IActivityMonitor.hh"

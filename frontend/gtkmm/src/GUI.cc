@@ -48,7 +48,6 @@
 
 // Backend includes.
 #include "IBreak.hh"
-#include "IBreakResponse.hh"
 #include "IBreakWindow.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
@@ -123,7 +122,6 @@ GUI::GUI(int argc, char **argv) :
   prelude_windows(NULL),
   active_break_count(0),
   active_prelude_count(0),
-  response(NULL),
   active_break_id(BREAK_ID_NONE),
   main_window(NULL),
   menus(0),
@@ -1024,14 +1022,6 @@ GUI::config_changed_notify(const std::string &key)
   TRACE_EXIT();
 }
 
-
-void
-GUI::set_break_response(IBreakResponse *rep)
-{
-  response = rep;
-}
-
-
 void
 GUI::create_prelude_window(BreakId break_id)
 {
@@ -1043,7 +1033,6 @@ GUI::create_prelude_window(BreakId break_id)
   for (int i = 0; i < num_heads; i++)
     {
       prelude_windows[i] = new PreludeWindow(heads[i], break_id);
-      prelude_windows[i]->set_response(response);
     }
 
   active_prelude_count = num_heads;
@@ -1085,8 +1074,6 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
       IBreakWindow *break_window = create_break_window(heads[i], break_id, break_flags);
 
       break_windows[i] = break_window;
-
-      break_window->set_response(response);
       break_window->init();
     }
 

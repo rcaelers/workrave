@@ -34,10 +34,6 @@
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 
-namespace workrave {
-  class IBreakResponse;
-}
-
 // GTKMM classes
 class MainWindow;
 class MicroBreakWindow;
@@ -101,7 +97,6 @@ public:
   void main();
 
   // GUIFactoryInterface methods
-  virtual void set_break_response(IBreakResponse *rep);
   virtual void create_prelude_window(BreakId break_id);
   virtual void create_break_window(BreakId break_id, BreakHint break_hint);
   virtual void hide_break_window();
@@ -204,9 +199,6 @@ private:
 
   //! Number of active prelude windows;
   int active_prelude_count;
-
-  //! Reponse interface for breaks
-  IBreakResponse *response;
 
   //! Current active break.
   BreakId active_break_id;
