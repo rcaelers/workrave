@@ -12,8 +12,8 @@ cloud_SOURCES = 	cloud.cc test.pb.cc
 
 SUFFIXES = .proto .pb.cc
 
-.proto.pb.cc:
-			$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
+%.pb.cc %.pb.h: %.proto
+			$(AM_V_GEN)$(PROTOC) $(PROTOCFLAGS) --cpp_out=. -I$(srcdir) $^
 
 BUILT_SOURCES = 	test.pb.cc test.pb.h
 

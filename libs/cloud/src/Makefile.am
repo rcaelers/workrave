@@ -16,10 +16,10 @@ sources	 =		Router.cc \
 			Announce.cc \
 			cloud.pb.cc
 
-SUFFIXES = .proto .pb.cc
+SUFFIXES = .proto .pb.cc .pb.h
 
-.proto.pb.cc:
-			$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
+%.pb.cc %.pb.h: %.proto
+			$(AM_V_GEN)$(PROTOC) $(PROTOCFLAGS) --cpp_out=. -I$(srcdir) $^
 
 BUILT_SOURCES = cloud.pb.cc cloud.pb.h
 

@@ -15,8 +15,8 @@ sources	 =		NetworkActivityMonitor.cc \
 
 SUFFIXES = .proto .pb.cc
 
-.proto.pb.cc:
-			$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
+%.pb.cc %.pb.h: %.proto
+			$(AM_V_GEN)$(PROTOC) $(PROTOCFLAGS) --cpp_out=. -I$(srcdir) $^
 
 BUILT_SOURCES = workrave.pb.cc workrave.pb.h
 
