@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 
+#include "Statistics.hh"
 
 #include <cstring>
 #include <sstream>
@@ -29,9 +30,7 @@
 
 #include "debug.hh"
 
-#include "Statistics.hh"
-
-#include "Core.hh"
+#include "ICoreInternal.hh"
 #include "Util.hh"
 #include "Timer.hh"
 #include "TimePred.hh"
@@ -44,9 +43,15 @@ const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
+Statistics::Ptr
+Statistics::create(ICoreInternal::Ptr core)
+{
+  return Ptr(new Statistics(core));
+}
+
 //! Constructor
-Statistics::Statistics() :
-  core(NULL),
+Statistics::Statistics(ICoreInternal::Ptr core) :
+  core(core),
   current_day(NULL),
   been_active(false),
   prev_x(-1),
@@ -80,10 +85,8 @@ Statistics::~Statistics()
 
 //! Initializes the Statistics.
 void
-Statistics::init(ICoreInternal *control)
+Statistics::init()
 {
-  core = control;
-
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
   if (input_monitor != NULL)
     {
@@ -107,10 +110,8 @@ Statistics::update()
 {
   TRACE_ENTER("Statistics::update");
 
-  IActivityMonitor *monitor = core->get_activity_monitor();
-  ActivityState state = monitor->get_current_state();
-
-  if (state == ACTIVITY_ACTIVE && !been_active)
+  bool active = core->is_user_active();
+  if (active && !been_active)
     {
       const time_t now = core->get_time();
       struct tm *tmnow = localtime(&now);
@@ -121,7 +122,7 @@ Statistics::update()
       been_active = true;
     }
 
-  update_current_day(state == ACTIVITY_ACTIVE);
+  update_current_day(active);
   save_day(current_day);
   TRACE_EXIT();
 }
@@ -689,26 +690,13 @@ Statistics::update_current_day(bool active)
 {
   if (core != NULL)
     {
-      // Collect total active time from dialy limit timer.
-      IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
-      current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = (int)b->get_elapsed_time();
-
-      if (active)
+     if (active)
         {
           const time_t now = core->get_time();
           struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }
 
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          IBreak *b = core->get_break(BreakId(i));
-
-          time_t overdue = b->get_total_overdue_time();
-
-          set_break_counter(((BreakId)i),
-                            Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
-        }
     }
 }
 

@@ -32,10 +32,10 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::dbus;
 
-ICore *CoreFactory::core = NULL;
+ICore::Ptr CoreFactory::core;
 
 //! Returns the interface to the core.
-ICore *
+ICore::Ptr
 CoreFactory::get_core()
 {
   if (core == NULL)

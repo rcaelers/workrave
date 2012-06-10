@@ -189,7 +189,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
 #endif
 
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   assert(core != NULL);
   core->set_insist_policy(initial_ignore_activity ?
                           ICore::INSIST_POLICY_IGNORE :
@@ -422,8 +422,8 @@ void
 BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore *core = CoreFactory::get_core();
-  IBreak *b = core->get_break(break_id);
+  ICore::Ptr core = CoreFactory::get_core();
+  IBreak::Ptr b = core->get_break(break_id);
   assert(b != NULL);
   
   b->postpone_break();
@@ -439,8 +439,8 @@ void
 BreakWindow::on_skip_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore *core = CoreFactory::get_core();
-  IBreak *b = core->get_break(break_id);
+  ICore::Ptr core = CoreFactory::get_core();
+  IBreak::Ptr b = core->get_break(break_id);
   assert(b != NULL);
 
   b->skip_break();
@@ -465,10 +465,10 @@ BreakWindow::resume_non_ignorable_break()
             {
               TRACE_MSG("Break " << id << " not ignorable");
 
-              ICore *core = CoreFactory::get_core();
+              ICore::Ptr core = CoreFactory::get_core();
               assert(core != NULL);
 
-              IBreak *b = core->get_break(BreakId(id));
+              IBreak::Ptr b = core->get_break(BreakId(id));
               assert(b != NULL);
 
               if (b->get_elapsed_time() > b->get_limit())

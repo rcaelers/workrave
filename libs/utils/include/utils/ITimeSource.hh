@@ -20,6 +20,8 @@
 #ifndef ITIMESOURCE_HH
 #define ITIMESOURCE_HH
 
+#include <boost/shared_ptr.hpp>
+
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
 # include <time.h>
@@ -39,6 +41,8 @@ namespace workrave
     class ITimeSource
     {
     public:
+      typedef boost::shared_ptr<ITimeSource> Ptr;
+    
       virtual ~ITimeSource() {}
 
       //! Returns the time of this source.

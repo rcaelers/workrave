@@ -20,12 +20,12 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
+#include "ICore.hh"
 #include "config/IConfigurator.hh"
 
 // Forward declarion of external interfaces.
 namespace workrave
 {
-  class ICore;
   namespace dbus
   {
     class DBus;
@@ -37,7 +37,7 @@ class CoreFactory
 {
 public:
   //! Returns the interface to the core.
-  static workrave::ICore *get_core();
+  static workrave::ICore::Ptr get_core();
   
   //! Returns the interface to the core's configurator.
   static workrave::config::IConfigurator::Ptr get_configurator();
@@ -46,7 +46,7 @@ public:
   static workrave::dbus::DBus *get_dbus();
 
   //! The one and only core instance
-  static workrave::ICore *core;
+  static workrave::ICore::Ptr core;
 };
 
 #endif // COREFACTORY_HH

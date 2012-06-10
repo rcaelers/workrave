@@ -1,6 +1,6 @@
 // IActivityMonitor.hh --- Interface definition for the Activity Monitor
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,9 @@
 #ifndef IACTIVITYMONITOR_HH
 #define IACTIVITYMONITOR_HH
 
-class ActivityMonitorListener;
+#include <boost/shared_ptr.hpp>
+
+#include "IActivityMonitorListener.hh"
 
 //! State of the activity monitor.
 enum ActivityState
@@ -36,6 +38,8 @@ enum ActivityState
 class IActivityMonitor
 {
 public:
+  typedef boost::shared_ptr<IActivityMonitor> Ptr;
+
   virtual ~IActivityMonitor() {}
 
   //! Stops the activity monitoring.
@@ -54,7 +58,7 @@ public:
   virtual void force_idle() = 0;
 
   //! Sets the callback for activity monitor events.
-  virtual void set_listener(ActivityMonitorListener *l) = 0;
+  virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 
 #endif // IACTIVITYMONITOR_HH

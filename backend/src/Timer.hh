@@ -32,12 +32,14 @@
 #endif
 
 #include <string>
-#include <list>
+
+#include "utils/ITimeSource.hh"
 
 #include "IActivityMonitor.hh"
 
 class TimePred;
-class ICoreInternal;
+
+using namespace workrave::utils;
 
 enum TimerState
   {
@@ -96,8 +98,13 @@ struct TimerInfo
 class Timer
 {
 public:
+  typedef boost::shared_ptr<Timer> Ptr;
+
+public:
+  static Ptr create(ITimeSource::Ptr time_source);
+
   // Construction/Destruction.
-  Timer(ICoreInternal *core);
+  Timer(ITimeSource::Ptr time_source);
   virtual ~Timer();
 
   // Control
@@ -144,8 +151,8 @@ public:
   time_t get_snooze() const;
   void set_snooze_interval(time_t time);
   void inhibit_snooze();
-  void set_activity_monitor(IActivityMonitor *am);
-  IActivityMonitor *get_activity_monitor() const;
+  void set_activity_monitor(IActivityMonitor::Ptr am);
+  IActivityMonitor::Ptr get_activity_monitor() const;
   bool has_activity_monitor() const;
 
   time_t get_total_overdue_time() const;
@@ -240,10 +247,10 @@ private:
   std::string timer_id;
 
   //! Core
-  ICoreInternal *core;
+  ITimeSource::Ptr time_source;
 
   //! Activity Mobnitor to use.
-  IActivityMonitor *activity_monitor;
+  IActivityMonitor::Ptr activity_monitor;
 
   //!  Is this timer sensitive for activity
   bool activity_sensitive;

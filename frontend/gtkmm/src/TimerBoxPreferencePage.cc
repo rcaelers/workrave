@@ -59,7 +59,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore *core = CoreFactory::get_core();
+      ICore::Ptr core = CoreFactory::get_core();
       assert(core != NULL);
 
       config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
@@ -337,10 +337,10 @@ TimerBoxPreferencePage::enable_buttons(void)
       place_button->set_sensitive(on && count != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore *core = CoreFactory::get_core();
+          ICore::Ptr core = CoreFactory::get_core();
           assert(core != NULL);
 
-          IBreak *b = core->get_break(BreakId(i));
+          IBreak::Ptr b = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
           timer_display_button[i]->set_sensitive(on && timer_on);
@@ -352,10 +352,10 @@ TimerBoxPreferencePage::enable_buttons(void)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore *core = CoreFactory::get_core();
+          ICore::Ptr core = CoreFactory::get_core();
           assert(core != NULL);
 
-          IBreak *b = core->get_break(BreakId(i));
+          IBreak::Ptr b = core->get_break(BreakId(i));
           timer_display_button[i]->set_sensitive(b->is_enabled());
         }
       if (count == 3)

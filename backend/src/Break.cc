@@ -33,7 +33,7 @@
 #include "Statistics.hh"
 #include "IApp.hh"
 #include "IActivityMonitor.hh"
-#include "ActivityMonitorListener.hh"
+#include "IActivityMonitorListener.hh"
 #include "TimerActivityMonitor.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
@@ -48,19 +48,35 @@
 using namespace std;
 using namespace workrave::dbus;
 
+
+Break::Ptr
+Break::create(BreakId id,
+              IApp *app,
+              ICoreInternal::Ptr core, 
+              ITimeSource::Ptr time_source,
+              IActivityMonitor::Ptr activity_monitor,
+              Statistics::Ptr statistics,
+              IConfigurator::Ptr configurator)
+{
+  return Ptr(new Break(id, app, core, time_source, activity_monitor, statistics, configurator));
+}
+
+
 //! Construct a new Break Controller.
-/*!
- *  \param id ID of the break this Break controls.
- *  \param c pointer to control interface.
- *  \param factory pointer to the GUI window factory used to create the break
- *          windows.
- *  \param timer pointer to the interface of the timer that belongs to this break.
- */
-Break::Break() :
-  break_id(BREAK_ID_NONE),
-  core(NULL),
-  application(NULL),
-  break_timer(NULL),
+Break::Break(BreakId id,
+             IApp *app,
+             ICoreInternal::Ptr core, 
+             ITimeSource::Ptr time_source,
+             IActivityMonitor::Ptr activity_monitor,
+             Statistics::Ptr statistics,
+             IConfigurator::Ptr configurator) :
+  break_id(id),
+  application(app),
+  core(core),
+  time_source(time_source),
+  activity_monitor(activity_monitor),
+  statistics(statistics),
+  configurator(configurator),
   break_stage(STAGE_NONE),
   reached_max_prelude(false),
   prelude_time(0),
@@ -81,22 +97,17 @@ Break::Break() :
 Break::~Break()
 {
   application->hide_break_window();
-  delete break_timer;
 }
 
 
 //! Initializes the break.
 void
-Break::init(BreakId id, ICoreInternal *c, IApp *app)
+Break::init()
 {
   TRACE_ENTER("Break::init");
 
-  core = c;
-  application = app;
-  config = core->get_configurator();
-
   break_name = CoreConfig::get_break_name(break_id);
-  break_timer = new Timer(core);
+  break_timer = Timer::create(time_source);
   break_timer->set_id(break_name);
   
   init_timer();
@@ -216,6 +227,8 @@ Break::heartbeat()
       break;
     }
 
+  update_statistics();
+  
   TRACE_EXIT();
 }
 
@@ -232,9 +245,7 @@ Break::goto_stage(BreakStage stage)
     {
     case STAGE_DELAYED:
       {
-        IActivityMonitor *monitor = core->get_activity_monitor();
-        monitor->set_listener(this);
-
+        activity_monitor->set_listener(shared_from_this());
         break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
@@ -249,11 +260,7 @@ Break::goto_stage(BreakStage stage)
         if (break_id == BREAK_ID_MICRO_BREAK &&
             core->get_usage_mode() == USAGE_MODE_READING)
           {
-            for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
-              {
-                Timer *break_timer = core->get_timer(BreakId(i));
-                break_timer->force_active();
-              }
+            core->resume_reading_mode_timers();
           }
 
         if (break_stage == STAGE_TAKING && !fake_break)
@@ -268,8 +275,7 @@ Break::goto_stage(BreakStage stage)
                 // natural break end.
 
                 // Update stats.
-                Statistics *stats = core->get_statistics();
-                stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
+                statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
 
                 break_event_signal(BREAK_EVENT_BREAK_ENDED);
               }
@@ -404,12 +410,11 @@ Break::start_break()
       break_timer->stop_timer();
 
       // Update statistics.
-      Statistics *stats = core->get_statistics();
-      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
+      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
 
       if (prelude_count == 0)
         {
-          stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
+          statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
         }
 
       // Start prelude.
@@ -500,7 +505,7 @@ Break::signal_break_event()
 }
 
 //! Returns the timer.
-Timer *
+Timer::Ptr
 Break::get_timer() const
 {
   return break_timer;
@@ -547,8 +552,7 @@ Break::postpone_break()
             }
 
           // Update stats.
-          Statistics *stats = core->get_statistics();
-          stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
+          statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
         }
 
       // This is to avoid a skip sound...
@@ -584,8 +588,7 @@ Break::skip_break()
         }
 
       // Update stats.
-      Statistics *stats = core->get_statistics();
-      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
 
       // and stop the break.
       stop_break();
@@ -727,12 +730,12 @@ void
 Break::override(BreakId id)
 {
   int max_preludes;
-  config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+  configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
 
   if (break_id != id)
     {
       int max_preludes_other;
-      config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % id, max_preludes_other);
+      configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % id, max_preludes_other);
       if (max_preludes_other != -1 && max_preludes_other < max_preludes)
         {
           max_preludes = max_preludes_other;
@@ -836,6 +839,17 @@ Break::set_usage_mode(UsageMode mode)
 }
 
 
+void
+Break::update_statistics()
+{
+  if (break_id == BREAK_ID_DAILY_LIMIT)
+    {
+      statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)get_elapsed_time());
+    }
+  
+  statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)get_total_overdue_time());
+}
+
 // Initialize the timer based.
 void
 Break::init_timer()
@@ -845,7 +859,7 @@ Break::init_timer()
   break_timer->enable();
   break_timer->stop_timer();
 
-  config->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
 }
 
 
@@ -856,19 +870,19 @@ Break::load_timer_config()
   TRACE_ENTER("Break::load_timer_config");
   // Read break limit.
   int limit;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
+  configurator->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
   break_timer->set_limit(limit);
   break_timer->set_limit_enabled(limit > 0);
 
   // Read autoreset interval
   int autoreset;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, autoreset);
+  configurator->get_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, autoreset);
   break_timer->set_auto_reset(autoreset);
   break_timer->set_auto_reset_enabled(autoreset > 0);
 
   // Read reset predicate
   string reset_pred;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
+  configurator->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
   if (reset_pred != "")
     {
       TimePred *pred = create_time_pred(reset_pred);
@@ -880,29 +894,27 @@ Break::load_timer_config()
 
   // Read the snooze time.
   int snooze;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
+  configurator->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
   break_timer->set_snooze_interval(snooze);
 
   // Load the monitor setting for the timer.
   string monitor_name;
 
-  bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
+  bool ret = configurator->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
   TRACE_MSG(ret << " " << monitor_name);
   if (ret && monitor_name != "")
     {
-      Timer *master = core->get_timer(monitor_name);
-      if (master != NULL)
+      IActivityMonitor::Ptr am = core->create_timer_activity_monitor(monitor_name);
+
+      if (am)
         {
-          TRACE_MSG("found master timer");
-          IActivityMonitor *monitor = core->get_activity_monitor();
-          TimerActivityMonitor *am = new TimerActivityMonitor(monitor, master);
           break_timer->set_activity_monitor(am);
         }
     }
   else
     {
-      break_timer->set_activity_monitor(NULL);
+      break_timer->set_activity_monitor(IActivityMonitor::Ptr());
     }
   TRACE_EXIT();
 }
@@ -944,7 +956,7 @@ void
 Break::init_break_control()
 {
   load_break_control_config();
-  config->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
 }
 
 
@@ -954,12 +966,12 @@ Break::load_break_control_config()
 {
   // Maximum number of prelude windows.
   int max_preludes;
-  config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+  configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
   set_max_preludes(max_preludes);
 
   // Break enabled?
   enabled = true;
-  config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
+  configurator->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
 }
 
 

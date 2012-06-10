@@ -76,7 +76,7 @@ TimerBoxControl::~TimerBoxControl()
 void
 TimerBoxControl::update()
 {
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (reconfigure)
@@ -176,8 +176,8 @@ TimerBoxControl::update_widgets()
 {
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      ICore *core = CoreFactory::get_core();
-      IBreak *b = core->get_break((BreakId)count);
+      ICore::Ptr core = CoreFactory::get_core();
+      IBreak::Ptr b = core->get_break((BreakId)count);
 
       std::string text;
       ITimeBar::ColorId primary_color;
@@ -308,8 +308,8 @@ TimerBoxControl::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore *core = CoreFactory::get_core();
-      IBreak *b = core->get_break(BreakId(i));
+      ICore::Ptr core = CoreFactory::get_core();
+      IBreak::Ptr b = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
 
@@ -330,8 +330,8 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      ICore *core = CoreFactory::get_core();
-      IBreak *b = core->get_break((BreakId)i);
+      ICore::Ptr core = CoreFactory::get_core();
+      IBreak::Ptr b = core->get_break((BreakId)i);
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
@@ -502,8 +502,8 @@ TimerBoxControl::set_cycle_time(string name, int time)
 const string
 TimerBoxControl::get_timer_config_key(string name, BreakId timer, const string &key)
 {
-  ICore *core = CoreFactory::get_core();
-  IBreak *break_data = core->get_break(BreakId(timer));
+  ICore::Ptr core = CoreFactory::get_core();
+  IBreak::Ptr break_data = core->get_break(BreakId(timer));
 
   return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;
 }

@@ -56,11 +56,10 @@
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false),
-    statistics(NULL),
     daily_usage_label(NULL),
     date_label(NULL)
 {
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   statistics = core->get_statistics();
 
   for (int i = 0; i < 5; i++)

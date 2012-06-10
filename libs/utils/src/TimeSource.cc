@@ -26,7 +26,7 @@
 
 using namespace workrave::utils;
 
-ITimeSource *TimeSource::source = NULL;
+ITimeSource::Ptr TimeSource::source;
 
 time_t
 TimeSource::get_time()

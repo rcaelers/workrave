@@ -22,10 +22,7 @@
 #endif
 
 #include "ActivityMonitor.hh"
-#include "ActivityMonitorListener.hh"
 
-#include "debug.hh"
-#include "timeutil.h"
 #include <assert.h>
 #include <math.h>
 
@@ -46,17 +43,29 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 
+#include "IActivityMonitorListener.hh"
+#include "CoreConfig.hh"
+#include "debug.hh"
+#include "timeutil.h"
+
 using namespace std;
 
+ActivityMonitor::Ptr
+ActivityMonitor::create(IConfigurator::Ptr configurator)
+{
+  return Ptr(new ActivityMonitor(configurator));
+}
+
+    
 //! Constructor.
-ActivityMonitor::ActivityMonitor() :
+ActivityMonitor::ActivityMonitor(IConfigurator::Ptr configurator) :
+  configurator(configurator),
   activity_state(ACTIVITY_IDLE),
   prev_x(-10),
   prev_y(-10),
   click_x(-1),
   click_y(-1),
-  button_is_pressed(false),
-  listener(NULL)
+  button_is_pressed(false)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
@@ -75,12 +84,6 @@ ActivityMonitor::ActivityMonitor() :
   idle_threshold.tv_sec = 5;
   idle_threshold.tv_usec = 0;
 
-  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
-  if (input_monitor != NULL)
-    {
-      input_monitor->subscribe_activity(this);
-    }
-
   TRACE_EXIT();
 }
 
@@ -89,9 +92,28 @@ ActivityMonitor::ActivityMonitor() :
 ActivityMonitor::~ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::~ActivityMonitor");
-
   delete input_monitor;
+  TRACE_EXIT();
+}
 
+
+//! Initializes the monitor.
+void
+ActivityMonitor::init(const string &display_name)
+{
+  TRACE_ENTER("ActivityMonitor::init");
+
+  InputMonitorFactory::init(configurator, display_name);
+
+  load_config();
+  configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
+
+  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
+  if (input_monitor != NULL)
+    {
+      input_monitor->subscribe_activity(this);
+    }
+  
   TRACE_EXIT();
 }
 
@@ -183,7 +205,6 @@ ActivityMonitor::get_current_state()
 }
 
 
-
 //! Sets the operation parameters.
 void
 ActivityMonitor::set_parameters(int noise, int activity, int idle)
@@ -200,7 +221,6 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle)
   // The easy way out.
   activity_state = ACTIVITY_IDLE;
 }
-
 
 
 //! Sets the operation parameters.
@@ -235,7 +255,7 @@ ActivityMonitor::shift_time(int delta)
 
 //! Sets the callback listener.
 void
-ActivityMonitor::set_listener(ActivityMonitorListener *l)
+ActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
 {
   lock.lock();
   listener = l;
@@ -354,7 +374,7 @@ ActivityMonitor::keyboard_notify(bool repeat)
 void
 ActivityMonitor::call_listener()
 {
-  ActivityMonitorListener *l = NULL;
+  IActivityMonitorListener::Ptr l;
 
   lock.lock();
   l = listener;
@@ -367,8 +387,73 @@ ActivityMonitor::call_listener()
         {
           // Remove listener.
           lock.lock();
-          listener = NULL;
+          listener.reset();
           lock.unlock();
         }
     }
+}
+
+//! Notification that the configuration has changed.
+void
+ActivityMonitor::config_changed_notify(const string &key)
+{
+  TRACE_ENTER_MSG("ActivityMonitor::config_changed_notify", key);
+  string::size_type pos = key.find('/');
+  string path;
+
+  if (pos != string::npos)
+    {
+      path = key.substr(0, pos);
+    }
+
+  if (path == CoreConfig::CFG_KEY_MONITOR)
+    {
+      load_config();
+    }
+  TRACE_EXIT();
+}
+
+
+//! Loads the configuration of the monitor.
+void
+ActivityMonitor::load_config()
+{
+  TRACE_ENTER("ActivityMonitor::load_config");
+
+  int noise;
+  int activity;
+  int idle;
+
+  assert(configurator != NULL);
+
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
+    noise = 9000;
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
+    activity = 1000;
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
+    idle = 5000;
+
+  // Pre 1.0 compatibility...
+  if (noise < 50)
+    {
+      noise *= 1000;
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise);
+    }
+
+  if (activity < 50)
+    {
+      activity *= 1000;
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity);
+    }
+
+  if (idle < 50)
+    {
+      idle *= 1000;
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
+    }
+
+  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
+
+  set_parameters(noise, activity, idle);
+  TRACE_EXIT();
 }

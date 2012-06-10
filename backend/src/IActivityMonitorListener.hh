@@ -1,6 +1,6 @@
-// TimeSource.hh --- The Time
+// IActivityMonitorListener.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,26 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMESOURCE_HH
-#define TIMESOURCE_HH
+#ifndef IACTIVITYMONITORLISTENER_HH
+#define IACTIVITYMONITORLISTENER_HH
 
-#include "ITimeSource.hh"
-
-namespace workrave
+//! Listener for user activity from the Activity Monitor
+class IActivityMonitorListener
 {
-  namespace utils
-  {
-    //! A source of time.
-    class TimeSource
-    {
-    public:
-      //! Returns the time of this source.
-      static time_t get_time();
+public:
+  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
 
-    public:
-      static ITimeSource::Ptr source;
-    };
-  }
-}
+  virtual ~IActivityMonitorListener() {}
 
-#endif // TIMESOURCE_HH
+  // Notification that the user is currently active.
+  virtual bool action_notify() = 0;
+};
+
+#endif // IACTIVITYMONITORLISTENER_HH

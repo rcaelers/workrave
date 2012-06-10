@@ -178,7 +178,7 @@ GUIConfig::set_locale(std::string locale)
 string
 GUIConfig::expand(const string &key, BreakId id)
 {
-  IBreak *b = CoreFactory::get_core()->get_break(id);
+  IBreak::Ptr b = CoreFactory::get_core()->get_break(id);
 
   string str = key;
   string::size_type pos = 0;

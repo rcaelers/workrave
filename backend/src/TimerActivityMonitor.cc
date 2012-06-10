@@ -21,10 +21,17 @@
 #include "config.h"
 #endif
 
-#include "debug.hh"
 #include "TimerActivityMonitor.hh"
 
-TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor *monitor, Timer *timer) :
+#include "debug.hh"
+
+TimerActivityMonitor::Ptr
+TimerActivityMonitor::create(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
+{
+  return Ptr(new TimerActivityMonitor(monitor, timer));
+}
+
+TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer) :
   monitor(monitor),
   timer(timer),
   suspended(false),
@@ -115,7 +122,7 @@ TimerActivityMonitor::force_idle()
 
 
 void
-TimerActivityMonitor::set_listener(ActivityMonitorListener *l)
+TimerActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
 {
   (void)l;
 }

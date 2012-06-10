@@ -35,15 +35,16 @@
 # include <unistd.h>
 #endif
 
-#include <iostream>
 #include <string>
 #include <map>
+
+#include <boost/enable_shared_from_this.hpp>
 
 #include "utils/ITimeSource.hh"
 #include "config/Config.hh"
 
 #include "Break.hh"
-#include "IActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 #include "ICoreInternal.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
@@ -55,7 +56,6 @@ using namespace workrave::utils;
 
 // Forward declarion of external interface.
 namespace workrave {
-  class ISoundPlayer;
   class IApp;
   namespace dbus
   {
@@ -63,21 +63,15 @@ namespace workrave {
   }
 }
 
-class ActivityMonitor;
-class Statistics;
-class FakeActivityMonitor;
-class IdleLogManager;
-
 class Core :
   public ITimeSource,
   public ICoreInternal,
-  public IConfiguratorListener
+  public IConfiguratorListener,
+  public boost::enable_shared_from_this<Core>
 {
 public:
   Core();
   virtual ~Core();
-
-  // IBreakResponse
 
   // ITimeSource
   
@@ -93,14 +87,17 @@ public:
   }
 #endif
 
-  IConfigurator::Ptr get_configurator() const;
+
+  boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
+  boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
   
   void init(int argc, char **argv, IApp *application, const std::string &display_name);
   void heartbeat();
 
   void force_break(BreakId id, BreakHint break_hint);
-  Break *get_break(BreakId id);
-  Statistics *get_statistics() const;
+  IBreak::Ptr get_break(BreakId id);
+  IStatistics::Ptr get_statistics() const;
+  IConfigurator::Ptr get_configurator() const;
   bool is_user_active() const;
 
   OperationMode get_operation_mode();
@@ -121,15 +118,13 @@ public:
   void force_idle();
 
   // ICoreInternal
-  IActivityMonitor *get_activity_monitor() const;
-  Timer *get_timer(std::string name) const;
-  Timer *get_timer(BreakId id) const;
-  Break *get_break(std::string name);
-
+  //IActivityMonitor::Ptr get_activity_monitor() const;
+  // Break::Ptr get_break(std::string name);
+  void resume_reading_mode_timers();
   void defrost();
   void freeze();
-
   void force_break_idle(BreakId break_id);
+  IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
@@ -140,8 +135,6 @@ public:
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
 
-  boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
-  boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
   
 private:
   void init_breaks();
@@ -151,7 +144,6 @@ private:
   void init_bus();
   void init_statistics();
 
-  void load_monitor_config();
   void config_changed_notify(const std::string &key);
   void timer_action(BreakId id, TimerInfo info);
   void process_state();
@@ -167,6 +159,9 @@ private:
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
   void set_freeze_all_breaks(bool freeze);
+
+  Timer::Ptr get_timer(std::string name) const;
+  //Timer::Ptr get_timer(BreakId id) const;
   
 private:
   //! Number of command line arguments passed to the program.
@@ -182,19 +177,19 @@ private:
   time_t last_process_time;
 
   //! List of breaks.
-  Break breaks[BREAK_ID_SIZEOF];
+  Break::Ptr breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
   IConfigurator::Ptr configurator;
 
   //! The activity monitor
-  ActivityMonitor *monitor;
+  ActivityMonitor::Ptr monitor;
 
   //! GUI Widget factory.
   IApp *application;
 
   //! The statistics collector.
-  Statistics *statistics;
+  Statistics::Ptr statistics;
 
   //! Current operation mode.
   OperationMode operation_mode;

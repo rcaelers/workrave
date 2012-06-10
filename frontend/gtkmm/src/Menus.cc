@@ -208,7 +208,7 @@ Menus::on_menu_restbreak_now()
 void
 Menus::set_operation_mode(OperationMode m)
 {
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   core->set_operation_mode(m);
   resync();
 }
@@ -217,7 +217,7 @@ Menus::set_operation_mode(OperationMode m)
 void
 Menus::set_usage_mode(UsageMode m)
 {
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   core->set_usage_mode(m);
   resync();
 }
@@ -318,8 +318,8 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == NULL)
     {
-      ICore *core = CoreFactory::get_core();
-      IStatistics *stats = core->get_statistics();
+      ICore::Ptr core = CoreFactory::get_core();
+      IStatistics::Ptr stats = core->get_statistics();
       stats->update();
 
       statistics_dialog = new StatisticsDialog();
@@ -530,7 +530,7 @@ Menus::applet_command(short cmd)
       break;
     case MENU_COMMAND_MODE_READING:
       {
-        ICore *core = CoreFactory::get_core();
+        ICore::Ptr core = CoreFactory::get_core();
         on_menu_reading(core->get_usage_mode() == USAGE_MODE_NORMAL);
       }
       break;
@@ -553,7 +553,7 @@ Menus::resync()
     {
       if (menus[i] != NULL)
         {
-          ICore *core = CoreFactory::get_core();
+          ICore::Ptr core = CoreFactory::get_core();
 
           /* Use operation_mode_regular here to show the mode that will be restored 
           if an override is in place. That is also necessary because if get_operation_mode() 

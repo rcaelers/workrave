@@ -136,7 +136,7 @@ PreferencesDialog::~PreferencesDialog()
   GUIConfig::set_locale(code);
 #endif
 
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   core->remove_operation_mode_override( "preferences" );
 
   delete connector;
@@ -659,7 +659,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
-      ICore *core = CoreFactory::get_core();
+      ICore::Ptr core = CoreFactory::get_core();
 
       OperationMode mode = core->get_operation_mode();
       if (mode == OPERATION_MODE_NORMAL)
@@ -676,7 +676,7 @@ bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
 {
   TRACE_ENTER("PreferencesDialog::focus_out");
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
 
   core->remove_operation_mode_override( "preferences" );
   TRACE_EXIT();

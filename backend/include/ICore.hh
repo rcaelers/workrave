@@ -21,33 +21,25 @@
 #define ICORE_HH
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
-#include "enum.h"
+#include "CoreTypes.hh"
 
 #include "config/IConfigurator.hh"
+
+#include "IBreak.hh"
+#include "IStatistics.hh"
 
 namespace workrave {
 
   // Forward declaratons
-  class IBreak;
   class IApp;
-  class IStatistics;
 
   namespace dbus
   {
     class DBus;
   }
-
-  //! ID of a break.
-  enum BreakId
-    {
-      BREAK_ID_NONE = -1,
-      BREAK_ID_MICRO_BREAK = 0,
-      BREAK_ID_REST_BREAK,
-      BREAK_ID_DAILY_LIMIT,
-      BREAK_ID_SIZEOF
-    };
 
   enum BreakHint
     {
@@ -65,9 +57,11 @@ namespace workrave {
   class ICore
   {
   public:
+    typedef boost::shared_ptr<ICore> Ptr;
+    
     virtual ~ICore() {}
 
-    static ICore *create();
+    static ICore::Ptr create();
 
     //! The way a break is insisted.
     enum InsistPolicy
@@ -101,10 +95,10 @@ namespace workrave {
     virtual void force_break(BreakId id, BreakHint break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak *get_break(BreakId id) = 0;
+    virtual IBreak::Ptr get_break(BreakId id) = 0;
 
     //! Return the statistics interface.
-    virtual IStatistics *get_statistics() const = 0;
+    virtual IStatistics::Ptr get_statistics() const = 0;
 
     //! Is the user currently active?
     virtual bool is_user_active() const = 0;

@@ -23,31 +23,23 @@
 #include <string>
 
 #include "ICore.hh"
-
-#include "Timer.hh"
-#include "Break.hh"
 #include "IActivityMonitor.hh"
-#include "Statistics.hh"
-
-class Statistics;
 
 class ICoreInternal : public workrave::ICore
 {
 public:
+  typedef boost::shared_ptr<ICoreInternal> Ptr;
+
   virtual ~ICoreInternal() {}
   
   //! Return the current time
   virtual time_t get_time() const = 0;
 
-  virtual Statistics *get_statistics() const = 0;
-  virtual IActivityMonitor *get_activity_monitor() const = 0;
-  
-  virtual Timer *get_timer(workrave::BreakId id) const = 0;
-  virtual Timer *get_timer(std::string name) const = 0;
-  virtual Break *get_break(workrave::BreakId id) = 0;
   virtual void defrost() = 0;
   virtual void freeze() = 0;
   virtual void force_break_idle(workrave::BreakId id) = 0;
+  virtual void resume_reading_mode_timers() = 0;
+  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
 };
 
 #endif // ICOREINTERNAL_HH

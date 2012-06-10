@@ -116,7 +116,6 @@ GUI *GUI::instance = NULL;
  */
 GUI::GUI(int argc, char **argv) :
   configurator(NULL),
-  core(NULL),
   sound_player(NULL),
   break_windows(NULL),
   prelude_windows(NULL),
@@ -162,7 +161,7 @@ GUI::~GUI()
 
   ungrab();
 
-  delete core;
+  core.reset();
   delete main_window;
 
   delete applet_control;
@@ -540,7 +539,7 @@ GUI::init_core()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      IBreak *b = core->get_break(BreakId(i));
+      IBreak::Ptr b = core->get_break(BreakId(i));
       b->signal_break_event().connect(boost::bind(&GUI::on_break_event, this, BreakId(i), _1));
     }
 
@@ -1520,7 +1519,7 @@ GUI::get_timers_tooltip()
 
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      IBreak *b = core->get_break(BreakId(count));
+      IBreak::Ptr b = core->get_break(BreakId(count));
       bool on = b->is_enabled();
 
       if (b != NULL && on)

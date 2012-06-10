@@ -21,9 +21,6 @@
 #define ACTIVITYMONITOR_HH
 
 #include "IActivityMonitor.hh"
-#include "input-monitor/IInputMonitor.hh"
-#include "input-monitor/IInputMonitorListener.hh"
-#include "Mutex.hh"
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -36,18 +33,32 @@
 # endif
 #endif
 
-class ActivityListener;
+#include "config/Config.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "Mutex.hh"
 
+#include "IActivityMonitorListener.hh"
+
+
+using namespace workrave::config;
 using namespace workrave::input_monitor;
 
 class ActivityMonitor :
+  public IActivityMonitor,
   public IInputMonitorListener,
-  public IActivityMonitor
+  public IConfiguratorListener
 {
 public:
-  ActivityMonitor();
+  typedef boost::shared_ptr<ActivityMonitor> Ptr;
+
+public:
+  static Ptr create(IConfigurator::Ptr configurator);
+
+  ActivityMonitor(IConfigurator::Ptr configurator);
   virtual ~ActivityMonitor();
 
+  void init(const std::string &display_name);
   void terminate();
   void suspend();
   void resume();
@@ -59,7 +70,7 @@ public:
   void set_parameters(int noise, int activity, int idle);
   void get_parameters(int &noise, int &activity, int &idle);
 
-  void set_listener(ActivityMonitorListener *l);
+  void set_listener(IActivityMonitorListener::Ptr l);
 
   void action_notify();
   void mouse_notify(int x, int y, int wheel = 0);
@@ -69,7 +80,13 @@ public:
 private:
   void call_listener();
 
+  void load_config();
+  void config_changed_notify(const std::string &key);
+  
 private:
+  //! The Configurator.
+  IConfigurator::Ptr configurator;
+
   //! The actual monitoring driver.
   IInputMonitor *input_monitor;
 
@@ -110,7 +127,7 @@ private:
   GTimeVal idle_threshold;
 
   //! Activity listener.
-  ActivityMonitorListener *listener;
+  IActivityMonitorListener::Ptr listener;
 };
 
 #endif // ACTIVITYMONITOR_HH

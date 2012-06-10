@@ -353,8 +353,8 @@ TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 
       if (monitor_cb->get_active())
         {
-          ICore *core = CoreFactory::get_core();
-          IBreak *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
+          ICore::Ptr core = CoreFactory::get_core();
+          IBreak::Ptr mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
           val = mp_break->get_name();
         }
 

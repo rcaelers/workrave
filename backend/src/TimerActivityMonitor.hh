@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,10 @@
 #ifndef TIMERACTIVITYMONITOR_HH
 #define TIMERACTIVITYMONITOR_HH
 
-#include "IActivityMonitor.hh"
+#include <boost/shared_ptr.hpp>
 
+#include "IActivityMonitor.hh"
+#include "IActivityMonitorListener.hh"
 #include "Timer.hh"
 
 //! An Activity Monitor that takes its activity state from a timer.
@@ -31,8 +33,12 @@
 class TimerActivityMonitor : public IActivityMonitor
 {
 public:
-  //! Constructs an activity monitor that depends on specified timer.
-  TimerActivityMonitor(IActivityMonitor *m, Timer *t);
+  typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
+
+public:
+  static Ptr create(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
+
+  TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
   virtual ~TimerActivityMonitor();
 
   void terminate();
@@ -40,14 +46,14 @@ public:
   void resume();
   ActivityState get_current_state();
   void force_idle();
-  void set_listener(ActivityMonitorListener *l);
+  void set_listener(IActivityMonitorListener::Ptr l);
 
 private:
   //! Reference monitor
-  IActivityMonitor *monitor;
+  IActivityMonitor::Ptr monitor;
 
   //! Reference timer.
-  Timer *timer;
+  Timer::Ptr timer;
 
   //! Monitor suspended?
   bool suspended;

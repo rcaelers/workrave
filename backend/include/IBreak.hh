@@ -20,7 +20,7 @@
 #ifndef IBREAK_HH
 #define IBREAK_HH
 
-#include "ICore.hh"
+#include "CoreTypes.hh"
 
 #include <boost/signals2.hpp>
 #include <string.h>
@@ -31,6 +31,8 @@ namespace workrave {
   class IBreak
   {
   public:
+    typedef boost::shared_ptr<IBreak> Ptr;
+
     virtual ~IBreak() {}
 
     enum BreakEvent {

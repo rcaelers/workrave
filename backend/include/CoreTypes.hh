@@ -1,6 +1,6 @@
-// ActivityMonitorListener.hh
+// CoreTypes.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ACTIVITYMONITORLISTENER_HH
-#define ACTIVITYMONITORLISTENER_HH
+#ifndef CORETYPES_HH
+#define CORETYPES_HH
 
-//! Listener for user activity from the Activity Monitor
-class ActivityMonitorListener
-{
-public:
-  virtual ~ActivityMonitorListener() {}
+#include "enum.h"
 
-  // Notification that the user is currently active.
-  virtual bool action_notify() = 0;
+namespace workrave {
+
+  //! ID of a break.
+  enum BreakId
+    {
+      BREAK_ID_NONE = -1,
+      BREAK_ID_MICRO_BREAK = 0,
+      BREAK_ID_REST_BREAK,
+      BREAK_ID_DAILY_LIMIT,
+      BREAK_ID_SIZEOF
+    };
 };
 
-#endif // ACTIVITYMONITORLISTENER_HH
+#endif // CORETYPES_HH

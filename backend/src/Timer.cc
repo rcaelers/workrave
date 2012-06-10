@@ -21,6 +21,10 @@
 #include "config.h"
 #endif
 
+#include "Timer.hh"
+
+#include <boost/shared_ptr.hpp>
+
 #include "debug.hh"
 
 #include <sstream>
@@ -28,9 +32,6 @@
 #include <math.h>
 #include <time.h>
 
-#include "ICoreInternal.hh"
-
-#include "Timer.hh"
 #include "TimePred.hh"
 #include "timeutil.h"
 
@@ -45,11 +46,15 @@ extern long timezone;
 static int timezone = 0;
 #endif
 
+Timer::Ptr
+Timer::create(ITimeSource::Ptr time_source)
+{
+  return Ptr(new Timer(time_source));
+}
+
+
 //! Constructs a new break timer.
-/*!
- *  \param time_source source of the current time that will be used by the timer.
- */
-Timer::Timer(ICoreInternal *core) :
+Timer::Timer(ITimeSource::Ptr time_source) :
   timer_enabled(false),
   timer_frozen(false),
   activity_state(ACTIVITY_UNKNOWN),
@@ -74,8 +79,7 @@ Timer::Timer(ICoreInternal *core) :
   next_pred_reset_time(0),
   next_limit_time(0),
   total_overdue_time(0),
-  core(core),
-  activity_monitor(NULL),
+  time_source(time_source),
   activity_sensitive(true),
   insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
 {
@@ -86,7 +90,6 @@ Timer::Timer(ICoreInternal *core) :
 Timer::~Timer()
 {
   delete autoreset_interval_predicate;
-  delete activity_monitor;
 }
 
 
@@ -112,7 +115,7 @@ Timer::enable()
       if (limit_enabled && get_elapsed_time() >= limit_interval)
         {
           // Break is overdue, force a snooze.
-          last_limit_time = core->get_time();
+          last_limit_time = time_source->get_time();
           last_limit_elapsed = 0;
           compute_next_limit_time();
         }
@@ -385,10 +388,10 @@ Timer::compute_next_predicate_reset_time()
         {
           // The timer did not reach a predicate reset before. Just take
           // the current time as the last reset time...
-          last_pred_reset_time = core->get_time();
+          last_pred_reset_time = time_source->get_time();
         }
 
-      autoreset_interval_predicate->set_last(last_pred_reset_time, core->get_time());
+      autoreset_interval_predicate->set_last(last_pred_reset_time, time_source->get_time());
       next_pred_reset_time = autoreset_interval_predicate->get_next();
     }
 }
@@ -419,14 +422,14 @@ Timer::reset_timer()
   elapsed_time = 0;
   last_limit_time = 0;
   last_limit_elapsed = 0;
-  last_reset_time = core->get_time();
+  last_reset_time = time_source->get_time();
   snooze_inhibited = false;
   snooze_on_active = true;
 
   if (timer_state == STATE_RUNNING)
     {
       // The timer is reset while running, Pretend the timer just started.
-      last_start_time = core->get_time();
+      last_start_time = time_source->get_time();
       last_stop_time = 0;
 
       compute_next_limit_time();
@@ -443,7 +446,7 @@ Timer::reset_timer()
       if (autoreset_enabled && autoreset_interval != 0)
         {
           elapsed_idle_time = autoreset_interval;
-          last_stop_time = core->get_time();
+          last_stop_time = time_source->get_time();
         }
     }
 
@@ -466,7 +469,7 @@ Timer::start_timer()
         {
           TRACE_MSG("!Frozen");
           // Timer is not frozen, so let's start.
-          last_start_time = core->get_time();
+          last_start_time = time_source->get_time();
           elapsed_idle_time = 0;
         }
       else
@@ -475,7 +478,7 @@ Timer::start_timer()
           // Instead, update the elapsed idle time.
           if (last_stop_time != 0)
             {
-              elapsed_idle_time += (core->get_time() - last_stop_time);
+              elapsed_idle_time += (time_source->get_time() - last_stop_time);
             }
           last_start_time = 0;
         }
@@ -506,7 +509,7 @@ Timer::stop_timer()
       TRACE_MSG("last_start_time = " <<  last_start_time);
 
       // Update last stop time.
-      last_stop_time = core->get_time();
+      last_stop_time = time_source->get_time();
 
       // Update elapsed time.
       if (last_start_time != 0)
@@ -549,7 +552,7 @@ Timer::snooze_timer()
       snooze_on_active = true;
 
       next_limit_time = 0;
-      last_limit_time = core->get_time();
+      last_limit_time = time_source->get_time();
       last_limit_elapsed = get_elapsed_time();
       compute_next_limit_time();
 
@@ -578,7 +581,7 @@ Timer::freeze_timer(bool freeze)
           // freeze timer.
           if (last_start_time != 0 && timer_state == STATE_RUNNING)
             {
-              elapsed_time += (core->get_time() - last_start_time);
+              elapsed_time += (time_source->get_time() - last_start_time);
               last_start_time = 0;
             }
         }
@@ -587,7 +590,7 @@ Timer::freeze_timer(bool freeze)
           // defrost timer.
           if (timer_state == STATE_RUNNING)
             {
-              last_start_time = core->get_time();
+              last_start_time = time_source->get_time();
               elapsed_idle_time = 0;
 
               compute_next_limit_time();
@@ -598,7 +601,7 @@ Timer::freeze_timer(bool freeze)
   //test fix for Bug 746 -  Micro-break not counting down
   if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
-      last_start_time = core->get_time();
+      last_start_time = time_source->get_time();
       elapsed_idle_time = 0;
       compute_next_limit_time();
     }
@@ -616,7 +619,7 @@ Timer::get_elapsed_idle_time() const
 
   if (timer_enabled && last_stop_time != 0)
     {
-      ret += (core->get_time() - last_stop_time);
+      ret += (time_source->get_time() - last_stop_time);
     }
 
   return ret;
@@ -630,11 +633,11 @@ Timer::get_elapsed_time() const
   TRACE_ENTER("Timer::get_elapsed_time");
   time_t ret = elapsed_time;
 
-  TRACE_MSG(ret << " " << core->get_time() << " " <<  last_start_time);
+  TRACE_MSG(ret << " " << time_source->get_time() << " " <<  last_start_time);
 
   if (timer_enabled && last_start_time != 0)
     {
-      ret += (core->get_time() - last_start_time);
+      ret += (time_source->get_time() - last_start_time);
     }
 
   return ret;
@@ -710,7 +713,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
   (void) TRACE;
 
-  time_t current_time= core->get_time();
+  time_t current_time= time_source->get_time();
 
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
@@ -805,7 +808,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       // So reset the timer and send a reset event.
       reset_timer();
 
-      last_pred_reset_time = core->get_time();
+      last_pred_reset_time = time_source->get_time();
       next_pred_reset_time = 0;
 
       compute_next_predicate_reset_time();
@@ -822,7 +825,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
-      last_limit_time = core->get_time();
+      last_limit_time = time_source->get_time();
       last_limit_elapsed = get_elapsed_time();
 
       snooze_on_active = true;
@@ -868,7 +871,7 @@ Timer::serialize_state() const
   stringstream ss;
 
   ss << timer_id << " "
-     << core->get_time() << " "
+     << time_source->get_time() << " "
      << get_elapsed_time() << " "
      << last_pred_reset_time << " "
      << total_overdue_time << " "
@@ -891,7 +894,7 @@ Timer::deserialize_state(const std::string &state, int version)
   time_t elapsed = 0;
   time_t lastReset = 0;
   time_t overdue = 0;
-  time_t now = core->get_time();
+  time_t now = time_source->get_time();
   time_t llt = 0;
   time_t lle = 0;
   time_t tz = 0;
@@ -965,12 +968,12 @@ Timer::set_state(int elapsed, int idle, int overdue)
 
   if (last_start_time != 0)
     {
-      last_start_time = core->get_time();
+      last_start_time = time_source->get_time();
     }
 
   if (last_stop_time != 0)
     {
-      last_stop_time = core->get_time();
+      last_stop_time = time_source->get_time();
     }
 
   if (elapsed_idle_time > autoreset_interval && autoreset_enabled)
@@ -1099,15 +1102,14 @@ Timer::get_state() const
 
 //! Sets the activity monitor to be used for this timer.
 void
-Timer::set_activity_monitor(IActivityMonitor *am)
+Timer::set_activity_monitor(IActivityMonitor::Ptr am)
 {
-  delete activity_monitor;
   activity_monitor = am;
 }
 
 
 //! Returns the activity monitor to be used for this timer.
-IActivityMonitor *
+IActivityMonitor::Ptr
 Timer::get_activity_monitor() const
 {
   return activity_monitor;

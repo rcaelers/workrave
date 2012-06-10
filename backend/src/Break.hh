@@ -20,37 +20,61 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include "config/Config.hh"
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
+#include "config/Config.hh"
+#include "utils/ITimeSource.hh"
+
+#include "ICoreInternal.hh"
+#include "IActivityMonitor.hh"
+#include "IActivityMonitorListener.hh"
+#include "Statistics.hh"
 #include "IBreak.hh"
 #include "Timer.hh"
-#include "ActivityMonitorListener.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 
 // Forward declarion of external interface.
 namespace workrave {
-  class IActivityMonitorListener;
   class IApp;
 }
 
-class ICoreInternal;
+// Forward declarion of internals.
 class TimePred;
 
 class Break :
   public IBreak,
   public IConfiguratorListener,
-  public ActivityMonitorListener
+  public IActivityMonitorListener,
+  public boost::enable_shared_from_this<Break>
 {
 public:
-  Break();
+  typedef boost::shared_ptr<Break> Ptr;
+
+public:
+  static Ptr create(BreakId id,
+                    IApp *app,
+                    ICoreInternal::Ptr core,
+                    ITimeSource::Ptr time_source,
+                    IActivityMonitor::Ptr activity_monitor,
+                    Statistics::Ptr statistics,
+                    IConfigurator::Ptr configurator);
+
+  Break(BreakId id,
+        IApp *app,
+        ICoreInternal::Ptr core, 
+        ITimeSource::Ptr time_source,
+        IActivityMonitor::Ptr activity_monitor,
+        Statistics::Ptr statistics,
+        IConfigurator::Ptr configurator);
   virtual ~Break();
 
-  void init(BreakId id, ICoreInternal *core, IApp *app);
+  void init();
   void heartbeat();
 
-  Timer *get_timer() const;
+  Timer::Ptr get_timer() const;
   void set_usage_mode(UsageMode mode);
   void override(BreakId id);
   bool get_timer_activity_sensitive() const;
@@ -77,7 +101,7 @@ public:
   void force_start_break(BreakHint break_hint);
   void stop_break();
 
-  // ActivityMonitorListener
+  // IActivityMonitorListener
   bool action_notify();
 
   // Configuration
@@ -93,6 +117,7 @@ private:
   void init_break_control();
   void load_break_control_config();
   TimePred *create_time_pred(std::string spec);
+  void update_statistics();
   
 private:
   enum BreakStage { STAGE_NONE,
@@ -114,17 +139,26 @@ private:
   //! ID of the break controlled by this Break.
   BreakId break_id;
 
-  //! The Controller.
-  ICoreInternal *core;
-
-  //! The Configurator
-  IConfigurator::Ptr config;
-
   //! GUI Factory used to create the break/prelude windows.
   IApp *application;
 
+  //! The Controller.
+  ICoreInternal::Ptr core;
+
+  //
+  ITimeSource::Ptr time_source;
+    
+  //!
+  IActivityMonitor::Ptr activity_monitor;
+  
+  //!
+  Statistics::Ptr statistics;
+  
+  //! The Configurator
+  IConfigurator::Ptr configurator;
+
   //! Interface to the timer controlling the break.
-  Timer *break_timer;
+  Timer::Ptr break_timer;
 
   //! Current stage in the break.
   BreakStage break_stage;

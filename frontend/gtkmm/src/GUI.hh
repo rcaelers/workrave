@@ -183,7 +183,7 @@ private:
   IConfigurator *configurator;
 
   //! The Core controller
-  ICore *core;
+  ICore::Ptr core;
 
   //! The sound player
   SoundPlayer *sound_player;

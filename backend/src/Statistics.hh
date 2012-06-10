@@ -20,6 +20,8 @@
 #ifndef STATISTICS_HH
 #define STATISTICS_HH
 
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -28,16 +30,10 @@
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-
-#include "IStatistics.hh"
 #include "Mutex.hh"
 
-// Forward declarion of external interface.
-namespace workrave {
-  class IBreak;
-}
-
-class ICoreInternal;
+#include "ICoreInternal.hh"
+#include "IStatistics.hh"
 
 using namespace workrave;
 using namespace workrave::input_monitor;
@@ -47,6 +43,12 @@ class Statistics
   : public IStatistics,
     public IInputMonitorListener
 {
+public:
+  typedef boost::shared_ptr<Statistics> Ptr;
+
+public:
+  static Ptr create(ICoreInternal::Ptr core);
+
 private:
   enum StatsMarker
     {
@@ -104,7 +106,7 @@ private:
 
 public:
   //! Constructor.
-  Statistics();
+  Statistics(ICoreInternal::Ptr core);
 
   //! Destructor
   virtual ~Statistics();
@@ -112,7 +114,7 @@ public:
   bool delete_all_history();
 
 public:
-  void init(ICoreInternal *core);
+  void init();
   void update();
   void dump();
   void start_new_day();
@@ -120,7 +122,7 @@ public:
   void increment_break_counter(BreakId, StatsBreakValueType st);
   void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
   void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
-
+  
   DailyStatsImpl *get_current_day() const;
   DailyStatsImpl *get_day(int day) const;
   void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
@@ -151,7 +153,7 @@ private:
 
 private:
   //! Interface to the core_control.
-  ICoreInternal *core;
+  ICoreInternal::Ptr core;
 
   //! Mouse/Keyboard monitoring.
   IInputMonitor *input_monitor;

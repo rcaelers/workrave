@@ -69,18 +69,18 @@ const int SAVESTATETIME = 60;
 
 using namespace workrave::dbus;
 
-ICore *ICore::create()
+ICore::Ptr
+ICore::create()
 {
-  return new Core();
+  return Ptr(new Core());
 }
-
 
 //! Constructs a new Core.
 Core::Core() :
+  argc(0),
+  argv(NULL),
   last_process_time(0),
-  monitor(NULL),
   application(NULL),
-  statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
   operation_mode_regular(OPERATION_MODE_NORMAL),
   usage_mode(USAGE_MODE_NORMAL),
@@ -92,7 +92,7 @@ Core::Core() :
 {
   TRACE_ENTER("Core::Core");
   current_time = time(NULL);
-  TimeSource::source = this;
+  TimeSource::source = shared_from_this();
   TRACE_EXIT();
 }
 
@@ -108,9 +108,6 @@ Core::~Core()
     {
       monitor->terminate();
     }
-
-  delete statistics;
-  delete monitor;
 
 #ifdef HAVE_DISTRIBUTION
   if (network != NULL)
@@ -242,12 +239,8 @@ Core::init_networking()
 void
 Core::init_monitor(const string &display_name)
 {
-  InputMonitorFactory::init(configurator, display_name);
-
-  monitor = new ActivityMonitor();
-  load_monitor_config();
-
-  configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
+  monitor = ActivityMonitor::create(configurator);
+  monitor->init(display_name);
 }
 
 
@@ -257,7 +250,8 @@ Core::init_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].init(BreakId(i), this, application);
+      breaks[i] = Break::create(BreakId(i), application, shared_from_this(), shared_from_this(), monitor, statistics, configurator);
+      breaks[i]->init();
     }
 }
 
@@ -266,54 +260,8 @@ Core::init_breaks()
 void
 Core::init_statistics()
 {
-  statistics = new Statistics();
-  statistics->init(this);
-}
-
-
-//! Loads the configuration of the monitor.
-void
-Core::load_monitor_config()
-{
-  TRACE_ENTER("Core::load_monitor_config");
-
-  int noise;
-  int activity;
-  int idle;
-
-  assert(configurator != NULL);
-  assert(monitor != NULL);
-
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
-    noise = 9000;
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
-    activity = 1000;
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
-    idle = 5000;
-
-  // Pre 1.0 compatibility...
-  if (noise < 50)
-    {
-      noise *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise);
-    }
-
-  if (activity < 50)
-    {
-      activity *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity);
-    }
-
-  if (idle < 50)
-    {
-      idle *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
-    }
-
-  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
-
-  monitor->set_parameters(noise, activity, idle);
-  TRACE_EXIT();
+  statistics = Statistics::create(shared_from_this());
+  statistics->init();
 }
 
 
@@ -328,11 +276,6 @@ Core::config_changed_notify(const string &key)
   if (pos != string::npos)
     {
       path = key.substr(0, pos);
-    }
-
-  if (path == CoreConfig::CFG_KEY_MONITOR)
-    {
-      load_monitor_config();
     }
 
   if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
@@ -382,7 +325,7 @@ Core::postpone_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
-      breaks[break_id].postpone_break();
+      breaks[break_id]->postpone_break();
     }
 }
 
@@ -393,7 +336,7 @@ Core::skip_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
-      breaks[break_id].skip_break();
+      breaks[break_id]->skip_break();
     }
 }
 
@@ -410,33 +353,27 @@ Core::signal_usage_mode_changed()
   return usage_mode_changed_signal;
 }
 
-//! Returns the specified timer.
-Timer *
-Core::get_timer(BreakId id) const
-{
-  if (id >= 0 && id < BREAK_ID_SIZEOF)
-    {
-      return breaks[id].get_timer();
-    }
-  else
-    {
-      return NULL;
-    }
-}
+// //! Returns the specified timer.
+// Timer::Ptr
+// Core::get_timer(BreakId id) const
+// {
+//   assert(id >= 0 && id < BREAK_ID_SIZEOF);
+//   return breaks[id]->get_timer();
+// }
 
 
 //! Returns the specified timer.
-Timer *
+Timer::Ptr
 Core::get_timer(string name) const
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (breaks[i].get_name() == name)
+      if (breaks[i]->get_name() == name)
         {
-          return breaks[i].get_timer();
+          return breaks[i]->get_timer();
         }
     }
-  return NULL;
+  return Timer::Ptr();
 }
 
 
@@ -448,16 +385,8 @@ Core::get_configurator() const
 }
 
 
-//! Returns the activity monitor.
-IActivityMonitor *
-Core::get_activity_monitor() const
-{
-  return monitor;
-}
-
-
 //! Returns the statistics.
-Statistics *
+IStatistics::Ptr
 Core::get_statistics() const
 {
   return statistics;
@@ -465,27 +394,27 @@ Core::get_statistics() const
 
 
 //! Returns the specified break controller.
-Break *
+IBreak::Ptr
 Core::get_break(BreakId id)
 {
   assert(id >= 0 && id < BREAK_ID_SIZEOF);
-  return &breaks[id];
+  return breaks[id];
 }
 
 
 //! Returns the specified break controller.
-Break *
-Core::get_break(std::string name)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (breaks[i].get_name() == name)
-        {
-          return &breaks[i];
-        }
-    }
-  return NULL;
-}
+// Break::Ptr
+// Core::get_break(std::string name)
+// {
+//   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+//     {
+//       if (breaks[i]->get_name() == name)
+//         {
+//           return breaks[i];
+//         }
+//     }
+//   return Break::Ptr();
+// }
 
 
 //! Retrieves the operation mode.
@@ -689,9 +618,9 @@ Core::set_operation_mode_internal(
 
           for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
           {
-              if (breaks[i].is_enabled())
+              if (breaks[i]->is_enabled())
               {
-                  breaks[i].get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+                  breaks[i]->get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
               }
           }
       }
@@ -751,7 +680,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          breaks[i].set_usage_mode(mode);
+          breaks[i]->set_usage_mode(mode);
         }
 
       if (persistent)
@@ -770,16 +699,38 @@ Core::force_break(BreakId id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("Core::force_break", id << " " << break_hint);
   
-  if (id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK].is_active())
+  if (id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
     {
-      breaks[BREAK_ID_MICRO_BREAK].stop_break();
+      breaks[BREAK_ID_MICRO_BREAK]->stop_break();
       TRACE_MSG("Resuming Micro break");
     }
 
-  breaks[id].force_start_break(break_hint);
+  breaks[id]->force_start_break(break_hint);
   TRACE_EXIT();
 }
 
+
+void
+Core::resume_reading_mode_timers()
+{
+  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+    {
+      Timer::Ptr break_timer = breaks[i]->get_timer();
+      break_timer->force_active();
+    }
+}
+
+
+IActivityMonitor::Ptr
+Core::create_timer_activity_monitor(const string &break_name)
+{
+  Timer::Ptr master = get_timer(break_name);
+  if (master)
+    {
+      return TimerActivityMonitor::create(monitor, master);
+    }
+  return IActivityMonitor::Ptr();
+}
 
 //! Announces a change in time.
 void
@@ -794,7 +745,7 @@ Core::time_changed()
   // This is used to handle a change in timezone on windows.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].get_timer()->shift_time(0);
+      breaks[i]->get_timer()->shift_time(0);
     }
 
   TRACE_EXIT();
@@ -886,14 +837,14 @@ Core::force_break_idle(BreakId break_id)
     {
       if (break_id == BREAK_ID_NONE || i == break_id)
         {
-          IActivityMonitor *am = breaks[i].get_timer()->get_activity_monitor();
+          IActivityMonitor::Ptr am = breaks[i]->get_timer()->get_activity_monitor();
           if (am != NULL)
             {
               am->force_idle();
             }
         }
       
-      breaks[i].get_timer()->force_idle();
+      breaks[i]->get_timer()->force_idle();
     }
   TRACE_EXIT();
 }
@@ -938,7 +889,7 @@ Core::heartbeat()
   // Send heartbeats to other components.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].heartbeat();
+      breaks[i]->heartbeat();
     }
 
 #ifdef HAVE_DISTRIBUTION
@@ -1008,7 +959,7 @@ Core::report_external_activity(std::string who, bool act)
 void
 Core::is_timer_running(BreakId id, bool &value)
 {
-  Timer *timer = get_timer(id);
+  Timer::Ptr timer = breaks[id]->get_timer();
   value = timer->get_state() == STATE_RUNNING;
 }
 
@@ -1016,7 +967,7 @@ Core::is_timer_running(BreakId id, bool &value)
 void
 Core::get_timer_idle(BreakId id, int *value)
 {
-  Timer *timer = get_timer(id);
+  Timer::Ptr timer = breaks[id]->get_timer();
   *value = (int) timer->get_elapsed_idle_time();
 }
 
@@ -1024,7 +975,7 @@ Core::get_timer_idle(BreakId id, int *value)
 void
 Core::get_timer_elapsed(BreakId id, int *value)
 {
-  Timer *timer = get_timer(id);
+  Timer::Ptr timer = breaks[id]->get_timer();
   *value = (int) timer->get_elapsed_time();
 }
 
@@ -1032,7 +983,7 @@ Core::get_timer_elapsed(BreakId id, int *value)
 void
 Core::get_timer_overdue(BreakId id, int *value)
 {
-  Timer *timer = get_timer(id);
+  Timer::Ptr timer = breaks[id]->get_timer();
   *value = (int) timer->get_total_overdue_time();
 }
 
@@ -1046,9 +997,9 @@ Core::process_timers()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer *timer = breaks[i].get_timer();
+      Timer::Ptr timer = breaks[i]->get_timer();
       
-      infos[i].enabled = breaks[i].is_enabled();
+      infos[i].enabled = breaks[i]->is_enabled();
       if (infos[i].enabled)
         {
           timer->enable();
@@ -1080,9 +1031,9 @@ Core::process_timers()
   // And process timer with activity monitor.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (breaks[i].get_timer()->has_activity_monitor())
+      if (breaks[i]->get_timer()->has_activity_monitor())
         {
-          breaks[i].get_timer()->process(monitor_state, infos[i]);
+          breaks[i]->get_timer()->process(monitor_state, infos[i]);
         }
     }
 
@@ -1091,7 +1042,7 @@ Core::process_timers()
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
       TimerInfo &info = infos[i];
-      if (breaks[i].is_enabled())
+      if (breaks[i]->is_enabled())
         {
           timer_action((BreakId)i, info);
         }
@@ -1217,14 +1168,14 @@ Core::timer_action(BreakId id, TimerInfo info)
       return;
     }
 
-  Timer *timer = breaks[id].get_timer();
+  Timer::Ptr timer = breaks[id]->get_timer();
 
   assert(timer != NULL);
 
   switch (info.event)
     {
     case TIMER_EVENT_LIMIT_REACHED:
-      if (!breaks[id].is_active())
+      if (!breaks[id]->is_active())
         {
           start_break(id);
         }
@@ -1235,9 +1186,9 @@ Core::timer_action(BreakId id, TimerInfo info)
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
-      if (breaks[id].is_active())
+      if (breaks[id]->is_active())
         {
-          breaks[id].stop_break();
+          breaks[id]->stop_break();
         }
       break;
 
@@ -1257,7 +1208,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // Don't show MB when RB is active, RB when DL is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
-      if (breaks[bi].is_active())
+      if (breaks[bi]->is_active())
         {
           return;
         }
@@ -1266,15 +1217,15 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // Advance restbreak if it follows within 30s after the end of a microbreak
   if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
     {
-      breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_REST_BREAK);
+      breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_REST_BREAK);
     }
 
-  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
+  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
     {
-      Timer *rb_timer = breaks[BREAK_ID_REST_BREAK].get_timer();
+      Timer::Ptr rb_timer = breaks[BREAK_ID_REST_BREAK]->get_timer();
       assert(rb_timer != NULL);
 
-      bool activity_sensitive = breaks[BREAK_ID_REST_BREAK].get_timer_activity_sensitive();
+      bool activity_sensitive = breaks[BREAK_ID_REST_BREAK]->get_timer_activity_sensitive();
 
       // Only advance when
       // 0. It is activity sensitive
@@ -1282,14 +1233,14 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
       if (activity_sensitive &&
           rb_timer->get_next_limit_time() > 0)
         {
-          Timer *timer = breaks[break_id].get_timer();
+          Timer::Ptr timer = breaks[break_id]->get_timer();
 
           time_t duration = timer->get_auto_reset();
           time_t now = get_time();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
-              breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_MICRO_BREAK);
+              breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_MICRO_BREAK);
 
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
 
@@ -1305,13 +1256,13 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // restbreak should be advanced.
   for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
-      if (breaks[bi].is_active())
+      if (breaks[bi]->is_active())
         {
-          breaks[bi].stop_break();
+          breaks[bi]->stop_break();
         }
     }
 
-  breaks[break_id].start_break();
+  breaks[break_id]->start_break();
 }
 
 
@@ -1321,7 +1272,7 @@ Core::set_freeze_all_breaks(bool freeze)
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer *t = breaks[i].get_timer();
+      Timer::Ptr t = breaks[i]->get_timer();
       assert(t != NULL);
       if (!t->has_activity_monitor())
         {
@@ -1337,7 +1288,7 @@ Core::stop_all_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].stop_break();
+      breaks[i]->stop_break();
     }
 }
 
@@ -1353,7 +1304,7 @@ Core::daily_reset()
   TRACE_ENTER("Core::daily_reset");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer *t = breaks[i].get_timer();
+      Timer::Ptr t = breaks[i]->get_timer();
       assert(t != NULL);
 
       time_t overdue = t->get_total_overdue_time();
@@ -1385,7 +1336,7 @@ Core::save_state() const
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      string stateStr = breaks[i].get_timer()->serialize_state();
+      string stateStr = breaks[i]->get_timer()->serialize_state();
 
       stateFile << stateStr << endl;
     }
@@ -1458,12 +1409,12 @@ Core::load_state()
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          if (breaks[i].get_timer()->get_id() == id)
+          if (breaks[i]->get_timer()->get_id() == id)
             {
               string state;
               getline(stateFile, state);
 
-              breaks[i].get_timer()->deserialize_state(state, version);
+              breaks[i]->get_timer()->deserialize_state(state, version);
               break;
             }
         }
