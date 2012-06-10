@@ -57,7 +57,7 @@ endif # HAVE_DBUS
 if HAVE_GSETTINGS
 
 gsettings_ENUM_NAMESPACE = org.workrave
-gsettings_ENUM_FILES = $(srcdir)/../include/enum.h
+gsettings_ENUM_FILES = $(srcdir)/../include/CoreTypes.hh
 
 gsettings_SCHEMAS = org.workrave.gschema.xml
 

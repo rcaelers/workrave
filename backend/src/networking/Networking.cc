@@ -40,27 +40,35 @@
 using namespace std;
 
 Networking::Ptr
-Networking::create(ICloud::Ptr network, IConfigurator::Ptr configurator)
+Networking::create(ICore::Ptr core)
 {
-  return Networking::Ptr(new Networking(network, configurator));
-}
-
-Networking::Ptr
-Networking::create(IConfigurator::Ptr configurator)
-{
-  ICloud::Ptr cloud = ICloud::create();
-  // FIXME:
-  cloud->init(2701, "rob@workrave", "kjsdapkidszahf");
-  return Networking::Ptr(new Networking(cloud, configurator));
+  return Networking::Ptr(new Networking(core));
 }
 
 
 //! Constructs a cloud
-Networking::Networking(ICloud::Ptr network, IConfigurator::Ptr configurator) : network(network), configurator(configurator)
+Networking::Networking(ICore::Ptr core) : core(core)
 {
   TRACE_ENTER("Networking::Networking");
-  configuration_manager = NetworkConfigurationManager::create(network, configurator);
-  activity_monitor = NetworkActivityMonitor::create(network);
+  configurator = core->get_configurator();
+
+  cloud = ICloud::create();
+
+  configurator = core->get_configurator();
+  
+  string user;
+  configurator->get_value("plugins/networking/user", user);
+
+  string secret;
+  configurator->get_value("plugins/networking/secret", secret);
+
+  int port;
+  configurator->get_value("plugins/networking/port", port);
+  
+  cloud->init(port, user, secret);
+  
+  configuration_manager = NetworkConfigurationManager::create(cloud, core);
+  activity_monitor = NetworkActivityMonitor::create(cloud, core);
   TRACE_EXIT();
 }
 
@@ -116,13 +124,19 @@ Networking::heartbeat()
     {
       boost::shared_ptr<workrave::networking::ActivityState> a(new workrave::networking::ActivityState());
       a->set_state(1);
-      network->send_message(a, MessageParams::create());
+      cloud->send_message(a, MessageParams::create());
       once = true;
     }
   
   TRACE_EXIT();
 }
 
+
+void
+Networking::connect(const std::string host, int port)
+{
+  cloud->connect(host, port);
+}
 
 /********************************************************************************/
 /**** Networking support                                                   ******/

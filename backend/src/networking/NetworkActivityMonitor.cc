@@ -34,14 +34,15 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkActivityMonitor::Ptr
-NetworkActivityMonitor::create(ICloud::Ptr network)
+NetworkActivityMonitor::create(ICloud::Ptr cloud, ICore::Ptr core)
 {
-  return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(network));
+  return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(cloud, core));
 }
 
 
-NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr network)
-  : network(network),
+NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr cloud, ICore::Ptr core)
+  : cloud(cloud),
+    core(core),
     suspended(false),
     state(ACTIVITY_IDLE)
 {
@@ -57,7 +58,7 @@ void
 NetworkActivityMonitor::init()
 {
   TRACE_ENTER("NetworkActivityMonitor::init");
-  network->signal_message(1, workrave::networking::ActivityState::kTypeFieldNumber)
+  cloud->signal_message(1, workrave::networking::ActivityState::kTypeFieldNumber)
     .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1, _2));
   TRACE_EXIT()
 }

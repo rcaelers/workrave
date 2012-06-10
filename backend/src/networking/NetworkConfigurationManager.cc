@@ -36,14 +36,14 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkConfigurationManager::Ptr
-NetworkConfigurationManager::create(ICloud::Ptr network, IConfigurator::Ptr configurator)
+NetworkConfigurationManager::create(ICloud::Ptr cloud, ICore::Ptr core)
 {
-  return NetworkConfigurationManager::Ptr(new NetworkConfigurationManager(network, configurator));
+  return NetworkConfigurationManager::Ptr(new NetworkConfigurationManager(cloud, core));
 }
 
 
-NetworkConfigurationManager::NetworkConfigurationManager(ICloud::Ptr network, IConfigurator::Ptr configurator)
-  : network(network), configurator(configurator)
+NetworkConfigurationManager::NetworkConfigurationManager(ICloud::Ptr cloud, ICore::Ptr core)
+  : cloud(cloud), core(core)
 {
 }
 
@@ -57,7 +57,9 @@ NetworkConfigurationManager::~NetworkConfigurationManager()
 void
 NetworkConfigurationManager::init()
 {
-  network->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
+  configurator =  core->get_configurator();
+  
+  cloud->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
     .connect(boost::bind(&NetworkConfigurationManager::on_configuration_message, this, _1, _2));
 
   configurator->add_listener("", this);
@@ -150,7 +152,7 @@ NetworkConfigurationManager::send_initial()
         }
     }
   
-  network->send_message(m, MessageParams::create());
+  cloud->send_message(m, MessageParams::create());
 
   TRACE_EXIT();
 }
@@ -177,7 +179,7 @@ NetworkConfigurationManager::config_changed_notify(const std::string &key)
           c->set_key(key);
           c->set_value(value);
                            
-          network->send_message(m, MessageParams::create());
+          cloud->send_message(m, MessageParams::create());
           TRACE_MSG("sending " << key << " " << value);
         }
     }

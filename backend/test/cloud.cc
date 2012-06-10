@@ -27,49 +27,19 @@
 
 #include <glib-object.h>
 
-#include "config/ConfiguratorFactory.hh"
-#include "config/IConfigurator.hh"
-#include "cloud/Cloud.hh"
-
-#include "Networking.hh"
+#include "Workrave.hh"
 
 #include <boost/signals2.hpp>
 
 static gboolean on_timer(gpointer data)
 {
-  Networking *c = (Networking *)data;
+  Workrave *w = (Workrave *)data;
   
-  c->heartbeat();
+  w->heartbeat();
 
   return G_SOURCE_CONTINUE;
 }
 
-// class Aa
-// {
-// public:
-//   void perform()
-//   {
-//     signal();
-//   }
-  
-//   boost::signals2::signal<void()> signal;
-// };
-
-// struct HelloWorld
-// {
-//   void operator()() const
-//   {
-//     std::cout << "Hello, World!" << std::endl;
-//   }
-// };
-
-// struct HelloWorld2
-// {
-//   void operator()() const
-//   {
-//     std::cout << "Hello, World2!" << std::endl;
-//   }
-// };
 
 int
 main(int argc, char **argv)
@@ -83,36 +53,25 @@ main(int argc, char **argv)
 
   g_type_init();
 
-  
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+  Workrave::Ptr workrave1 = Workrave::create();
   
-  ICloud::Ptr network1 = ICloud::create();
-  Networking::Ptr cloud1 = Networking::create(network1, configurator);
-  network1->init(2701, "rob@workrave", "kjsdapkidszahf");
-  cloud1->init();
+  Workrave::Ptr workrave2 = Workrave::create();
+  workrave2->connect("localhost", 2701);
 
-  ICloud::Ptr network2 = ICloud::create();
-  Networking::Ptr cloud2 = Networking::create(network2, configurator);
-  network2->init(2702, "rob@workrave", "kjsdapkidszahf");
-  network2->connect("localhost", 2701);
-  cloud2->init();
-  
-  ICloud::Ptr network3 = ICloud::create();
-  Networking::Ptr cloud3 = Networking::create(network3, configurator);
-  network3->init(2703, "rob@workrave", "kjsdapkidszahf");
-  network3->connect("localhost", 2701);
-  cloud3->init();
+  Workrave::Ptr workrave3 =  Workrave::create();
+  workrave3->connect("localhost", 2701);
 
-  ICloud::Ptr network4 = ICloud::create();
-  Networking::Ptr cloud4 = Networking::create(network4, configurator);
-  network4->init(2704, "rob@workrave", "kjsdapkidszahf");
-  network4->connect("localhost", 2703);
-  network4->connect("localhost", 2701);
-  cloud4->init();
+  Workrave::Ptr workrave4 =  Workrave::create();
+  workrave4->connect("localhost", 2703);
+  workrave4->connect("localhost", 2701);
   
-  g_timeout_add_seconds(2, on_timer, cloud1.get());
+  g_timeout_add_seconds(1, on_timer, workrave1.get());
+  g_timeout_add_seconds(1, on_timer, workrave2.get());
+  g_timeout_add_seconds(1, on_timer, workrave3.get());
+  g_timeout_add_seconds(1, on_timer, workrave4.get());
+  
   g_main_loop_run(loop);
   
   return 0;

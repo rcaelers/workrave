@@ -31,8 +31,8 @@
 #include "IBreak.hh"
 #include "IStatistics.hh"
 
-namespace workrave {
-
+namespace workrave
+{
   // Forward declaratons
   class IApp;
 

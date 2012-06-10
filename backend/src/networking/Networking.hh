@@ -30,6 +30,9 @@
 
 #include "config/Config.hh"
 #include "cloud/Cloud.hh"
+
+#include "ICore.hh"
+
 #include "NetworkConfigurationManager.hh"
 #include "NetworkActivityMonitor.hh"
 
@@ -42,20 +45,23 @@ public:
   typedef boost::shared_ptr<Networking> Ptr;
   
 public:
-  static Ptr create(ICloud::Ptr network, IConfigurator::Ptr configurator);
-  static Ptr create(IConfigurator::Ptr configurator);
+  static Ptr create(ICore::Ptr core);
 
 public:  
-  Networking(ICloud::Ptr network, IConfigurator::Ptr configurator);
+  Networking(ICore::Ptr core);
   virtual ~Networking();
 
   void init();
   void terminate();
   void heartbeat();
+  void connect(const std::string host, int port);
 
 private:
   //! 
-  ICloud::Ptr network;
+  ICloud::Ptr cloud;
+
+  //!
+  ICore::Ptr core;
 
   //!
   IConfigurator::Ptr configurator;

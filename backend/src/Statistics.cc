@@ -30,7 +30,7 @@
 
 #include "debug.hh"
 
-#include "ICoreInternal.hh"
+#include "ICore.hh"
 #include "Util.hh"
 #include "Timer.hh"
 #include "TimePred.hh"
@@ -44,13 +44,13 @@ const int STATSVERSION = 4;
 #define MAX_JUMP (10000)
 
 Statistics::Ptr
-Statistics::create(ICoreInternal::Ptr core)
+Statistics::create(ICore::Ptr core)
 {
   return Ptr(new Statistics(core));
 }
 
 //! Constructor
-Statistics::Statistics(ICoreInternal::Ptr core) :
+Statistics::Statistics(ICore::Ptr core) :
   core(core),
   current_day(NULL),
   been_active(false),

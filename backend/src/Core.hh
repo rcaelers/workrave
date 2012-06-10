@@ -43,9 +43,10 @@
 #include "utils/ITimeSource.hh"
 #include "config/Config.hh"
 
+#include "ICore.hh"
+#include "IBreakSupport.hh"
 #include "Break.hh"
 #include "ActivityMonitor.hh"
-#include "ICoreInternal.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 
@@ -65,7 +66,8 @@ namespace workrave {
 
 class Core :
   public ITimeSource,
-  public ICoreInternal,
+  public ICore,
+  public IBreakSupport,
   public IConfiguratorListener,
   public boost::enable_shared_from_this<Core>
 {
@@ -128,19 +130,18 @@ public:
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
-  void is_timer_running(BreakId id, bool &value);
-  void get_timer_elapsed(BreakId id,int *value);
-  void get_timer_idle(BreakId id, int *value);
-  void get_timer_overdue(BreakId id,int *value);
-  void postpone_break(BreakId break_id);
-  void skip_break(BreakId break_id);
+  // void is_timer_running(BreakId id, bool &value);
+  // void get_timer_elapsed(BreakId id,int *value);
+  // void get_timer_idle(BreakId id, int *value);
+  // void get_timer_overdue(BreakId id,int *value);
+  // void postpone_break(BreakId break_id);
+  // void skip_break(BreakId break_id);
 
   
 private:
   void init_breaks();
   void init_configurator();
   void init_monitor(const std::string &display_name);
-  void init_networking();
   void init_bus();
   void init_statistics();
 
@@ -223,10 +224,6 @@ private:
   dbus::DBus *dbus;
 #endif
   
-#ifdef HAVE_DISTRIBUTION
-  Networking::Ptr network;
-#endif
-
   //! External activity
   std::map<std::string, time_t> external_activity;
 

@@ -32,7 +32,7 @@
 #include "input-monitor/IInputMonitorListener.hh"
 #include "Mutex.hh"
 
-#include "ICoreInternal.hh"
+#include "ICore.hh"
 #include "IStatistics.hh"
 
 using namespace workrave;
@@ -47,7 +47,7 @@ public:
   typedef boost::shared_ptr<Statistics> Ptr;
 
 public:
-  static Ptr create(ICoreInternal::Ptr core);
+  static Ptr create(ICore::Ptr core);
 
 private:
   enum StatsMarker
@@ -106,7 +106,7 @@ private:
 
 public:
   //! Constructor.
-  Statistics(ICoreInternal::Ptr core);
+  Statistics(ICore::Ptr core);
 
   //! Destructor
   virtual ~Statistics();
@@ -153,7 +153,7 @@ private:
 
 private:
   //! Interface to the core_control.
-  ICoreInternal::Ptr core;
+  ICore::Ptr core;
 
   //! Mouse/Keyboard monitoring.
   IInputMonitor *input_monitor;

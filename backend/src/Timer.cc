@@ -60,7 +60,6 @@ Timer::Timer(ITimeSource::Ptr time_source) :
   activity_state(ACTIVITY_UNKNOWN),
   timer_state(STATE_INVALID),
   snooze_interval(60),
-  snooze_on_active(true),
   snooze_inhibited(false),
   limit_enabled(true),
   limit_interval(600),
@@ -97,13 +96,12 @@ Timer::~Timer()
 void
 Timer::enable()
 {
-  TRACE_ENTER_MSG("Timer::enable", timer_id << timer_enabled);
+  TRACE_ENTER_MSG("Timer::enable", timer_id << " " << timer_enabled);
 
   if (!timer_enabled)
     {
       timer_enabled = true;
       snooze_inhibited = false;
-      snooze_on_active = true;
       stop_timer();
 
       if (autoreset_enabled && autoreset_interval != 0 && get_elapsed_time() == 0)
@@ -131,7 +129,7 @@ Timer::enable()
 void
 Timer::disable()
 {
-  TRACE_ENTER_MSG("Timer::disable", timer_id << timer_enabled);
+  TRACE_ENTER_MSG("Timer::disable", timer_id << " " << timer_enabled);
 
   if (timer_enabled)
     {
@@ -146,96 +144,33 @@ Timer::disable()
 
       timer_state = STATE_INVALID;
     }
+  
   TRACE_EXIT();
 }
 
 
-//! Enables or disables limiting
-/*!
- * \param b indicates whether the timer limit must be enabled (\c true) or
- *          disabled (\c false).
- */
+//! Snoozes the timer.
 void
-Timer::set_limit_enabled(bool b)
+Timer::snooze_timer()
 {
-  if (limit_enabled != b)
+  TRACE_ENTER_MSG("Timer::snooze_timer", timer_id);
+
+  if (timer_enabled)
     {
-      limit_enabled = b;
+      // recompute.
+      next_limit_time = 0;
+      last_limit_time = time_source->get_time();
+      last_limit_elapsed = get_elapsed_time();
       compute_next_limit_time();
+
+      if (!activity_sensitive)
+        {
+          // Start the clock in case of insensitive timer.
+          activity_state = ACTIVITY_ACTIVE;
+        }
     }
-}
-
-
-//! Sets the limit time in seconds.
-/*!
- * \param limit_time time at which this timer reaches its limit.
- *
- */
-void
-Timer::set_limit(int limit_time)
-{
-  limit_interval = limit_time;
-
-  if (get_elapsed_time() < limit_time)
-    {
-      // limit increased, pretend there was no limit-reached yet.
-      last_limit_time = 0;
-      last_limit_elapsed = 0;
-    }
-
-  compute_next_limit_time();
-}
-
-
-//! Enables or disables auto-reset.
-/*!
- * \param b indicates whether the timer auto-reset must be enabled (\c true)
- *          or disabled (\c false).
- */
-void
-Timer::set_auto_reset_enabled(bool b)
-{
-  autoreset_enabled = b;
-  compute_next_reset_time();
-}
-
-
-//! Sets auto-reset time period.
-/*!
- * \param resetTime after this amount of idle time the timer will reset itself.
- */
-void
-Timer::set_auto_reset(int reset_time)
-{
-  if (reset_time > autoreset_interval)
-    {
-      // increasing reset_time, re-enable limit-reached snoozing.
-      snooze_inhibited = false;
-    }
-
-  autoreset_interval = reset_time;
-  compute_next_reset_time();
-}
-
-
-//! Sets the auto-reset predicate.
-/*!
- * \param predicate auto-reset predicate.
- */
-void
-Timer::set_auto_reset(TimePred *predicate)
-{
-  delete autoreset_interval_predicate;
-  autoreset_interval_predicate = predicate;
-  compute_next_predicate_reset_time();
-}
-
-
-//! Sets the snooze interval of the timer.
-void
-Timer::set_snooze_interval(time_t t)
-{
-  snooze_interval = t;
+  
+  TRACE_EXIT();
 }
 
 
@@ -243,165 +178,85 @@ Timer::set_snooze_interval(time_t t)
 void
 Timer::inhibit_snooze()
 {
+  TRACE_ENTER_MSG("Timer::inhibit_snooze", timer_id);
   snooze_inhibited = true;
-}
-
-
-//! Marks timer sensitive or insensitive for activity
-void
-Timer::set_activity_sensitive(bool a)
-{
-  TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
-
-  activity_sensitive = a;
-  activity_state = ACTIVITY_UNKNOWN;
-
-  if (!activity_sensitive)
-    {
-      // If timer is made insensitive, start it if
-      // it has some elasped time. Otherwise a daily limit
-      // will never start (well, not until it resets...)
-      time_t elasped = get_elapsed_time();
-      if (elasped > 0 && (elasped < limit_interval || !limit_enabled))
-        {
-          activity_state = ACTIVITY_ACTIVE;
-        }
-    }
-  TRACE_EXIT();
-}
-
-//! Sets the activity insensitive mode
-void
-Timer::set_insensitive_mode(InsensitiveMode mode)
-{
-  insensitive_mode = mode;
-}
-
-
-//! Forces a activity insensitive timer to become idle
-void
-Timer::force_idle()
-{
-  TRACE_ENTER("Timer::force_idle");
-  if (!activity_sensitive)
-    {
-      TRACE_MSG("Forcing idle");
-      activity_state = ACTIVITY_IDLE;
-    }
   TRACE_EXIT();
 }
 
 
-//! Forces a activity insensitive timer to become active
+//! Starts the timer.
 void
-Timer::force_active()
+Timer::start_timer()
 {
-  if (!activity_sensitive)
+  TRACE_ENTER_MSG("Timer::start_timer", timer_id << " " << timer_state);
+
+  if (timer_state != STATE_RUNNING)
     {
-      activity_state = ACTIVITY_ACTIVE;
-    }
-}
-
-
-//! Computes the time the limit will be reached.
-void
-Timer::compute_next_limit_time()
-{
-  // default action. No next limit.
-  next_limit_time = 0;
-
-  if (timer_enabled)
-    {
-      if (last_limit_time > 0 && !snooze_on_active)
+      // Set last start and stop times.
+      if (!timer_frozen)
         {
-          // The timer already reached its limit. We need to re-send the
-          // limit-reached event 'snooze_interval' seconds after the previous
-          // event. Unless snoozing is inhibted. This is independent of
-          // user activity.
-
-          if (!snooze_inhibited)
+          // Timer is not frozen, so let's start.
+          last_start_time = time_source->get_time();
+          elapsed_idle_time = 0;
+        }
+      else
+        {
+          TRACE_MSG("Timer is frozen");
+          // The timer is frozen, so we don't start counting 'active' time.
+          // Instead, update the elapsed idle time.
+          if (last_stop_time != 0)
             {
-              next_limit_time = last_limit_time + snooze_interval;
+              elapsed_idle_time += (time_source->get_time() - last_stop_time);
             }
+          last_start_time = 0;
         }
-      else if (timer_state == STATE_RUNNING && last_start_time != 0 &&
-               limit_enabled && limit_interval != 0)
-        {
-          // The timer is running and a limit != 0 is set.
 
-          if (last_limit_time > 0)
-            {
-              // The timer already reached its limit. We need to re-send the
-              // limit-reached event after 'snooze_interval' seconds of
-              // activity after the previous event. Unless snoozing is
-              // inhibted. This is dependent of user activity.
-              if (snooze_on_active && !snooze_inhibited)
-                {
-                  next_limit_time = (last_start_time - elapsed_time +
-                                     last_limit_elapsed + snooze_interval);
-                }
-            }
-          else
-            {
-              // The timer did not yet reaches its limit.
-              // new limit = last start time + limit - elapsed.
-              next_limit_time = last_start_time + limit_interval - elapsed_time;
-            }
-        }
+      // Reset values that are only used when the timer is not running.
+      last_stop_time = 0;
+      next_reset_time = 0;
+
+      // update state.
+      timer_state = STATE_RUNNING;
+
+      // When to generate a limit-reached-event.
+      compute_next_limit_time();
     }
+  TRACE_EXIT();
 }
 
 
-//! Computes the time the auto-reset must take place.
+//! Stops the timer.
 void
-Timer::compute_next_reset_time()
+Timer::stop_timer()
 {
-  // default action. No next reset.
-  next_reset_time = 0;
+  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state);
 
-  if (timer_enabled &&
-      timer_state == STATE_STOPPED && last_stop_time != 0 &&
-      autoreset_enabled && autoreset_interval != 0)
+  if (timer_state != STATE_STOPPED)
     {
-      // We are enabled, not running and a reset time != 0 was set.
+      // Update last stop time.
+      last_stop_time = time_source->get_time();
 
-      // next reset time = last stop time + auto reset
-      next_reset_time = last_stop_time + autoreset_interval - elapsed_idle_time;
-
-      if (next_reset_time <= last_reset_time)
+      // Update elapsed time.
+      if (last_start_time != 0)
         {
-          // Just is sanity check, can't reset before the previous one..
-          next_reset_time = 0;
-        }
-    }
-}
-
-
-void
-Timer::compute_next_predicate_reset_time()
-{
-  // This one ALWAYS sends a reset, also when the timer is disabled.
-
-  if (autoreset_interval_predicate)
-    {
-      if (last_pred_reset_time == 0)
-        {
-          // The timer did not reach a predicate reset before. Just take
-          // the current time as the last reset time...
-          last_pred_reset_time = time_source->get_time();
+          // But only if we are running...
+          elapsed_time += (last_stop_time - last_start_time);
         }
 
-      autoreset_interval_predicate->set_last(last_pred_reset_time, time_source->get_time());
-      next_pred_reset_time = autoreset_interval_predicate->get_next();
+      // Reset last start time.
+      last_start_time = 0;
+
+      // Update state.
+      timer_state = STATE_STOPPED;
+
+      // When to reset the timer.
+      compute_next_reset_time();
+
+      // When to re-send a limit reached?
+      // (in case of !snooze_on_active)
+      // compute_next_limit_time(); // TODO: if is really not needed
     }
-}
-
-
-//! Daily Reset.
-void
-Timer::daily_reset_timer()
-{
-  total_overdue_time = 0;
+  TRACE_EXIT();
 }
 
 
@@ -409,7 +264,7 @@ Timer::daily_reset_timer()
 void
 Timer::reset_timer()
 {
-  TRACE_ENTER_MSG("Timer::reset", timer_id << timer_state);
+  TRACE_ENTER_MSG("Timer::reset", timer_id << " " << timer_state);
 
   // Update total overdue.
   time_t elapsed = get_elapsed_time();
@@ -424,7 +279,6 @@ Timer::reset_timer()
   last_limit_elapsed = 0;
   last_reset_time = time_source->get_time();
   snooze_inhibited = false;
-  snooze_on_active = true;
 
   if (timer_state == STATE_RUNNING)
     {
@@ -453,115 +307,6 @@ Timer::reset_timer()
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
   TRACE_EXIT();
-}
-
-
-//! Starts the timer.
-void
-Timer::start_timer()
-{
-  TRACE_ENTER_MSG("Timer::start_timer", timer_id << timer_state);
-
-  if (timer_state != STATE_RUNNING)
-    {
-      // Set last start and stop times.
-      if (!timer_frozen)
-        {
-          TRACE_MSG("!Frozen");
-          // Timer is not frozen, so let's start.
-          last_start_time = time_source->get_time();
-          elapsed_idle_time = 0;
-        }
-      else
-        {
-          // The timer is frozen, so we don't start counting 'active' time.
-          // Instead, update the elapsed idle time.
-          if (last_stop_time != 0)
-            {
-              elapsed_idle_time += (time_source->get_time() - last_stop_time);
-            }
-          last_start_time = 0;
-        }
-
-      // Reset values that are only used when the timer is not running.
-      last_stop_time = 0;
-      next_reset_time = 0;
-
-      // update state.
-      timer_state = STATE_RUNNING;
-
-      // When to generate a limit-reached-event.
-      TRACE_MSG("Compute");
-      compute_next_limit_time();
-    }
-  TRACE_EXIT();
-}
-
-
-//! Stops the timer.
-void
-Timer::stop_timer()
-{
-  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state);
-
-  if (timer_state != STATE_STOPPED)
-    {
-      TRACE_MSG("last_start_time = " <<  last_start_time);
-
-      // Update last stop time.
-      last_stop_time = time_source->get_time();
-
-      // Update elapsed time.
-      if (last_start_time != 0)
-        {
-          // But only if we are running...
-          elapsed_time += (last_stop_time - last_start_time);
-        }
-
-      TRACE_MSG("elapsed_idle_time = " << elapsed_idle_time);
-      TRACE_MSG("elapsed_time = " << elapsed_time);
-
-      // Reset last start time.
-      last_start_time = 0;
-
-      // Update state.
-      timer_state = STATE_STOPPED;
-
-      // When to reset the timer.
-      compute_next_reset_time();
-
-      // When to re-send a limit reached?
-      // (in case of !snooze_on_active)
-      compute_next_limit_time();
-    }
-  TRACE_EXIT();
-}
-
-
-//! Snoozes the timer.
-/*!
- *  When the limit of this timer was reached, the limit reached event will be
- *  re-sent.
- */
-void
-Timer::snooze_timer()
-{
-  if (timer_enabled)
-    {
-      // recompute.
-      snooze_on_active = true;
-
-      next_limit_time = 0;
-      last_limit_time = time_source->get_time();
-      last_limit_elapsed = get_elapsed_time();
-      compute_next_limit_time();
-
-      if (!activity_sensitive)
-        {
-          // Start the clock in case of insensitive timer.
-          activity_state = ACTIVITY_ACTIVE;
-        }
-    }
 }
 
 
@@ -611,99 +356,32 @@ Timer::freeze_timer(bool freeze)
 }
 
 
-//! Returns the elapsed idle time.
-time_t
-Timer::get_elapsed_idle_time() const
-{
-  time_t ret = elapsed_idle_time;
-
-  if (timer_enabled && last_stop_time != 0)
-    {
-      ret += (time_source->get_time() - last_stop_time);
-    }
-
-  return ret;
-}
-
-
-//! Returns the elapsed time.
-time_t
-Timer::get_elapsed_time() const
-{
-  TRACE_ENTER("Timer::get_elapsed_time");
-  time_t ret = elapsed_time;
-
-  TRACE_MSG(ret << " " << time_source->get_time() << " " <<  last_start_time);
-
-  if (timer_enabled && last_start_time != 0)
-    {
-      ret += (time_source->get_time() - last_start_time);
-    }
-
-  return ret;
-}
-
-
-//! Returns the total overdue time of the timer.
-time_t
-Timer::get_total_overdue_time() const
-{
-  TRACE_ENTER("Timer::get_total_overdue_time");
-  time_t ret = total_overdue_time;
-  time_t elapsed = get_elapsed_time();
-
-  TRACE_MSG(ret << " " << elapsed);
-
-  if (limit_enabled && elapsed > limit_interval)
-    {
-      ret += (elapsed - limit_interval);
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-
-//! Ajusts the timer when the system clock time changed.
+//! Forces a activity insensitive timer to become idle
 void
-Timer::shift_time(int delta)
+Timer::force_idle()
 {
-  if (last_limit_time > 0)
+  TRACE_ENTER("Timer::force_idle");
+  if (!activity_sensitive)
     {
-      last_limit_time += delta;
+      TRACE_MSG("Forcing idle");
+      activity_state = ACTIVITY_IDLE;
     }
+  TRACE_EXIT();
+}
 
-  if (last_start_time > 0)
+
+//! Forces a activity insensitive timer to become active
+void
+Timer::force_active()
+{
+  if (!activity_sensitive)
     {
-      last_start_time += delta;
+      activity_state = ACTIVITY_ACTIVE;
     }
-
-  if (last_reset_time > 0)
-    {
-      last_reset_time += delta;
-    }
-
-  if (last_pred_reset_time > 0)
-    {
-      last_pred_reset_time += delta;
-    }
-
-  if (last_stop_time > 0)
-    {
-      last_stop_time += delta;
-    }
-
-  compute_next_limit_time();
-  compute_next_reset_time();
-  compute_next_predicate_reset_time();
 }
 
 
 //! Perform timer processing.
-/*! \param new_activity_state the current activity state as reported by the
- *         (global) activity monitor.
- *  \param info returns the state of the timer.
- */
 void
 Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
@@ -828,8 +506,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       last_limit_time = time_source->get_time();
       last_limit_elapsed = get_elapsed_time();
 
-      snooze_on_active = true;
-
       compute_next_limit_time();
 
       info.event = TIMER_EVENT_LIMIT_REACHED;
@@ -862,6 +538,271 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
         }
     }
   TRACE_EXIT();
+}
+
+
+//! Returns the elapsed time.
+time_t
+Timer::get_elapsed_time() const
+{
+  TRACE_ENTER("Timer::get_elapsed_time");
+  time_t ret = elapsed_time;
+
+  TRACE_MSG(ret << " " << time_source->get_time() << " " <<  last_start_time);
+
+  if (timer_enabled && last_start_time != 0)
+    {
+      ret += (time_source->get_time() - last_start_time);
+    }
+
+  return ret;
+}
+
+
+//! Returns the elapsed idle time.
+time_t
+Timer::get_elapsed_idle_time() const
+{
+  time_t ret = elapsed_idle_time;
+
+  if (timer_enabled && last_stop_time != 0)
+    {
+      ret += (time_source->get_time() - last_stop_time);
+    }
+
+  return ret;
+}
+
+
+//! Returns the timer state.
+TimerState
+Timer::get_state() const
+{
+  return timer_state;
+}
+
+
+
+//! Returns the enabled state.
+bool
+Timer::is_enabled() const
+{
+  return timer_enabled;
+}
+
+
+//! Sets auto-reset time period.
+void
+Timer::set_auto_reset(int reset_time)
+{
+  if (reset_time > autoreset_interval)
+    {
+      // increasing reset_time, re-enable limit-reached snoozing.
+      snooze_inhibited = false;
+    }
+
+  autoreset_interval = reset_time;
+  compute_next_reset_time();
+}
+
+
+//! Sets the auto-reset predicate.
+void
+Timer::set_auto_reset(TimePred *predicate)
+{
+  delete autoreset_interval_predicate;
+  autoreset_interval_predicate = predicate;
+  compute_next_predicate_reset_time();
+}
+
+
+
+//! Enables or disables auto-reset.
+void
+Timer::set_auto_reset_enabled(bool b)
+{
+  autoreset_enabled = b;
+  compute_next_reset_time();
+}
+
+
+
+//! Does this timer have an auto reset?
+bool
+Timer::is_auto_reset_enabled() const
+{
+  return autoreset_enabled;
+}
+
+
+//! Returns the auto reset interval.
+time_t
+Timer::get_auto_reset() const
+{
+  return autoreset_interval;
+}
+
+
+
+
+//! Returns the time the timer will reset.
+time_t
+Timer::get_next_reset_time() const
+{
+  return next_reset_time;
+}
+
+
+
+
+//! Sets the limit time in seconds.
+void
+Timer::set_limit(int limit_time)
+{
+  limit_interval = limit_time;
+
+  if (get_elapsed_time() < limit_time)
+    {
+      // limit increased, pretend there was no limit-reached yet.
+      last_limit_time = 0;
+      last_limit_elapsed = 0;
+    }
+
+  compute_next_limit_time();
+}
+
+//! Enables or disables limiting
+void
+Timer::set_limit_enabled(bool b)
+{
+  if (limit_enabled != b)
+    {
+      limit_enabled = b;
+      compute_next_limit_time();
+    }
+}
+
+
+//! Does this timer have a limit set?
+bool
+Timer::is_limit_enabled() const
+{
+  return limit_enabled;
+}
+
+
+//! Returns the limit.
+time_t
+Timer::get_limit() const
+{
+  return limit_interval;
+}
+
+
+//! Returns the time the limit will be reached.
+time_t
+Timer::get_next_limit_time() const
+{
+  return next_limit_time;
+}
+
+
+
+
+//! Sets the snooze interval of the timer.
+void
+Timer::set_snooze(time_t t)
+{
+  snooze_interval = t;
+}
+
+
+//! Returns the snooze interval.
+time_t
+Timer::get_snooze() const
+{
+  return snooze_interval;
+}
+
+
+
+
+//! Marks timer sensitive or insensitive for activity
+void
+Timer::set_activity_sensitive(bool a)
+{
+  TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
+
+  activity_sensitive = a;
+  activity_state = ACTIVITY_UNKNOWN;
+
+  if (!activity_sensitive)
+    {
+      // If timer is made insensitive, start it if
+      // it has some elasped time. Otherwise a daily limit
+      // will never start (well, not until it resets...)
+      time_t elasped = get_elapsed_time();
+      if (elasped > 0 && (elasped < limit_interval || !limit_enabled))
+        {
+          activity_state = ACTIVITY_ACTIVE;
+        }
+    }
+  TRACE_EXIT();
+}
+
+
+//! Is this timer activity sensitive?
+bool
+Timer::is_activity_sensitive()
+{
+  return activity_sensitive;
+}
+
+
+//! Sets the activity insensitive mode
+void
+Timer::set_insensitive_mode(InsensitiveMode mode)
+{
+  insensitive_mode = mode;
+}
+
+
+//! Sets ID of this timer.
+void
+Timer::set_id(std::string id)
+{
+  timer_id = id;
+}
+
+
+//! Gets ID of this timer.
+std::string
+Timer::get_id() const
+{
+  return timer_id;
+}
+
+//! Sets the activity monitor to be used for this timer.
+void
+Timer::set_activity_monitor(IActivityMonitor::Ptr am)
+{
+  activity_monitor = am;
+}
+
+
+//! Returns the activity monitor to be used for this timer.
+IActivityMonitor::Ptr
+Timer::get_activity_monitor() const
+{
+  return activity_monitor;
+}
+
+
+//! Does this timer have its own activity monitor?
+bool
+Timer::has_activity_monitor() const
+{
+  return activity_monitor != NULL;
 }
 
 
@@ -998,136 +939,141 @@ Timer::set_state(int elapsed, int idle, int overdue)
 }
 
 
-//! Does this timer have a limit set?
-bool
-Timer::is_limit_enabled() const
-{
-  return limit_enabled;
-}
-
-
-//! Returns the limit.
+//! Returns the total overdue time of the timer.
 time_t
-Timer::get_limit() const
+Timer::get_total_overdue_time() const
 {
-  return limit_interval;
+  time_t ret = total_overdue_time;
+  time_t elapsed = get_elapsed_time();
+
+  if (limit_enabled && elapsed > limit_interval)
+    {
+      ret += (elapsed - limit_interval);
+    }
+
+  return ret;
 }
 
 
-//! Returns the time the limit will be reached.
-time_t
-Timer::get_next_limit_time() const
-{
-  return next_limit_time;
-}
-
-
-//! Does this timer have an auto reset?
-bool
-Timer::is_auto_reset_enabled() const
-{
-  return autoreset_enabled;
-}
-
-
-//! Returns the auto reset interval.
-time_t
-Timer::get_auto_reset() const
-{
-  return autoreset_interval;
-}
-
-
-//! Returns the auto reset predicate.
-TimePred *
-Timer::get_auto_reset_predicate() const
-{
-  return autoreset_interval_predicate;
-}
-
-
-//! Returns the time the timer will reset.
-time_t
-Timer::get_next_reset_time() const
-{
-  return next_reset_time;
-}
-
-
-//! Returns the snooze interval.
-time_t
-Timer::get_snooze() const
-{
-  return snooze_interval;
-}
-
-
-//! Sets ID of this timer.
+//! Daily Reset.
 void
-Timer::set_id(std::string id)
+Timer::daily_reset_timer()
 {
-  timer_id = id;
+  total_overdue_time = 0;
 }
 
 
-//! Gets ID of this timer.
-std::string
-Timer::get_id() const
-{
-  return timer_id;
-}
-
-
-//! Returns the enabled state.
-/*!
- *  The timer only responds to activity events when enabled.
- *
- *  \retval true the timer is enabled
- *  \retval false otherwise.
- */
-bool
-Timer::is_enabled() const
-{
-  return timer_enabled;
-}
-
-
-//! Returns the timer state.
-TimerState
-Timer::get_state() const
-{
-  return timer_state;
-}
-
-
-//! Sets the activity monitor to be used for this timer.
+//! Ajusts the timer when the system clock time changed.
 void
-Timer::set_activity_monitor(IActivityMonitor::Ptr am)
+Timer::shift_time(int delta)
 {
-  activity_monitor = am;
+  if (last_limit_time > 0)
+    {
+      last_limit_time += delta;
+    }
+
+  if (last_start_time > 0)
+    {
+      last_start_time += delta;
+    }
+
+  if (last_reset_time > 0)
+    {
+      last_reset_time += delta;
+    }
+
+  if (last_pred_reset_time > 0)
+    {
+      last_pred_reset_time += delta;
+    }
+
+  if (last_stop_time > 0)
+    {
+      last_stop_time += delta;
+    }
+
+  compute_next_limit_time();
+  compute_next_reset_time();
+  compute_next_predicate_reset_time();
 }
 
 
-//! Returns the activity monitor to be used for this timer.
-IActivityMonitor::Ptr
-Timer::get_activity_monitor() const
+//! Computes the time the limit will be reached.
+void
+Timer::compute_next_limit_time()
 {
-  return activity_monitor;
+  // default action. No next limit.
+  next_limit_time = 0;
+
+  if (timer_enabled)
+    {
+      if (timer_state == STATE_RUNNING && last_start_time > 0 &&
+          limit_enabled && limit_interval != 0)
+        {
+          // The timer is running and a limit != 0 is set.
+
+          if (last_limit_time > 0)
+            {
+              // The timer already reached its limit. We need to re-send the
+              // limit-reached event after 'snooze_interval' seconds of
+              // activity after the previous event. Unless snoozing is
+              // inhibted. This is dependent of user activity.
+              if (!snooze_inhibited)
+                {
+                  next_limit_time = (last_start_time - elapsed_time +
+                                     last_limit_elapsed + snooze_interval);
+                }
+            }
+          else
+            {
+              // The timer did not yet reaches its limit.
+              // new limit = last start time + limit - elapsed.
+              next_limit_time = last_start_time + limit_interval - elapsed_time;
+            }
+        }
+    }
 }
 
 
-//! Does this timer have its own activity monitor?
-bool
-Timer::has_activity_monitor() const
+//! Computes the time the auto-reset must take place.
+void
+Timer::compute_next_reset_time()
 {
-  return activity_monitor != NULL;
+  // default action. No next reset.
+  next_reset_time = 0;
+
+  if (timer_enabled && timer_state == STATE_STOPPED &&
+      last_stop_time != 0 &&
+      autoreset_enabled && autoreset_interval != 0)
+    {
+      // We are enabled, not running and a reset time != 0 was set.
+
+      // next reset time = last stop time + auto reset
+      next_reset_time = last_stop_time + autoreset_interval - elapsed_idle_time;
+
+      if (next_reset_time <= last_reset_time)
+        {
+          // Just is sanity check, can't reset before the previous one..
+          next_reset_time = 0;
+        }
+    }
 }
 
 
-//! Is this timer activity sensitive?
-bool
-Timer::get_activity_sensitive()
+void
+Timer::compute_next_predicate_reset_time()
 {
-  return activity_sensitive;
-}
+  // This one ALWAYS sends a reset, also when the timer is disabled.
 
+  if (autoreset_interval_predicate)
+    {
+      if (last_pred_reset_time == 0)
+        {
+          // The timer did not reach a predicate reset before. Just take
+          // the current time as the last reset time...
+          last_pred_reset_time = time_source->get_time();
+        }
+
+      next_pred_reset_time = autoreset_interval_predicate->get_next(last_pred_reset_time);
+    }
+}

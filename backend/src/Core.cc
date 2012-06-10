@@ -64,7 +64,7 @@
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 60;
 
-#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/Core"
+#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
 using namespace workrave::dbus;
@@ -92,7 +92,6 @@ Core::Core() :
 {
   TRACE_ENTER("Core::Core");
   current_time = time(NULL);
-  TimeSource::source = shared_from_this();
   TRACE_EXIT();
 }
 
@@ -108,13 +107,6 @@ Core::~Core()
     {
       monitor->terminate();
     }
-
-#ifdef HAVE_DISTRIBUTION
-  if (network != NULL)
-    {
-      network->terminate();
-    }
-#endif
 
   TRACE_EXIT();
 }
@@ -133,11 +125,12 @@ Core::init(int argc, char **argv, IApp *app, const string &display_name)
   this->argc = argc;
   this->argv = argv;
 
+  TimeSource::source = shared_from_this();
+  
   init_configurator();
   init_monitor(display_name);
-  init_breaks();
   init_statistics();
-  init_networking();
+  init_breaks();
   init_bus();
 
   load_state();
@@ -213,24 +206,20 @@ Core::init_bus()
       extern void init_DBusWorkrave(DBus *dbus);
       init_DBusWorkrave(dbus);
 
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
+      dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
+      dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.ConfigInterface", configurator.get());
+      dbus->register_object_path(DBUS_PATH_WORKRAVE "Core");
+
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          string path = string(DBUS_PATH_WORKRAVE) + "Break/" + breaks[i]->get_name();
+          dbus->connect(path, "org.workrave.BreakInterface", breaks[i].get());
+          dbus->register_object_path(path);
+        }
     }
   catch (DBusException &)
     {
     }
-#endif
-}
-
-
-//! Initializes the network facility.
-void
-Core::init_networking()
-{
-#ifdef HAVE_DISTRIBUTION  
-  network = Networking::create(configurator);
-  network->init();
 #endif
 }
 
@@ -319,27 +308,6 @@ Core::get_time() const
 /**** Core Interface                                                       ******/
 /********************************************************************************/
 
-//! User postpones the specified break.
-void
-Core::postpone_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      breaks[break_id]->postpone_break();
-    }
-}
-
-
-//! User skips the specified break.
-void
-Core::skip_break(BreakId break_id)
-{
-  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
-    {
-      breaks[break_id]->skip_break();
-    }
-}
-
 boost::signals2::signal<void(OperationMode)> &
 Core::signal_operation_mode_changed()
 {
@@ -352,14 +320,6 @@ Core::signal_usage_mode_changed()
 {
   return usage_mode_changed_signal;
 }
-
-// //! Returns the specified timer.
-// Timer::Ptr
-// Core::get_timer(BreakId id) const
-// {
-//   assert(id >= 0 && id < BREAK_ID_SIZEOF);
-//   return breaks[id]->get_timer();
-// }
 
 
 //! Returns the specified timer.
@@ -400,21 +360,6 @@ Core::get_break(BreakId id)
   assert(id >= 0 && id < BREAK_ID_SIZEOF);
   return breaks[id];
 }
-
-
-//! Returns the specified break controller.
-// Break::Ptr
-// Core::get_break(std::string name)
-// {
-//   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-//     {
-//       if (breaks[i]->get_name() == name)
-//         {
-//           return breaks[i];
-//         }
-//     }
-//   return Break::Ptr();
-// }
 
 
 //! Retrieves the operation mode.
@@ -851,12 +796,6 @@ Core::force_break_idle(BreakId break_id)
 
 
 /********************************************************************************/
-/**** Break Response                                                       ******/
-/********************************************************************************/
-
-
-
-/********************************************************************************/
 /**** Break handling                                                       ******/
 /********************************************************************************/
 
@@ -891,10 +830,6 @@ Core::heartbeat()
     {
       breaks[i]->heartbeat();
     }
-
-#ifdef HAVE_DISTRIBUTION
-  network->heartbeat();
-#endif
 
   // Make state persistent.
   if (current_time % SAVESTATETIME == 0)
@@ -955,37 +890,6 @@ Core::report_external_activity(std::string who, bool act)
   TRACE_EXIT();
 }
 
-
-void
-Core::is_timer_running(BreakId id, bool &value)
-{
-  Timer::Ptr timer = breaks[id]->get_timer();
-  value = timer->get_state() == STATE_RUNNING;
-}
-
-
-void
-Core::get_timer_idle(BreakId id, int *value)
-{
-  Timer::Ptr timer = breaks[id]->get_timer();
-  *value = (int) timer->get_elapsed_idle_time();
-}
-
-
-void
-Core::get_timer_elapsed(BreakId id, int *value)
-{
-  Timer::Ptr timer = breaks[id]->get_timer();
-  *value = (int) timer->get_elapsed_time();
-}
-
-
-void
-Core::get_timer_overdue(BreakId id, int *value)
-{
-  Timer::Ptr timer = breaks[id]->get_timer();
-  *value = (int) timer->get_total_overdue_time();
-}
 
 //! Processes all timers.
 void

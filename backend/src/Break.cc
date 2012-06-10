@@ -29,7 +29,7 @@
 #include "Break.hh"
 
 #include "IBreak.hh"
-#include "ICoreInternal.hh"
+#include "IBreakSupport.hh"
 #include "Statistics.hh"
 #include "IApp.hh"
 #include "IActivityMonitor.hh"
@@ -52,27 +52,27 @@ using namespace workrave::dbus;
 Break::Ptr
 Break::create(BreakId id,
               IApp *app,
-              ICoreInternal::Ptr core, 
+              IBreakSupport::Ptr break_support, 
               ITimeSource::Ptr time_source,
               IActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
               IConfigurator::Ptr configurator)
 {
-  return Ptr(new Break(id, app, core, time_source, activity_monitor, statistics, configurator));
+  return Ptr(new Break(id, app, break_support, time_source, activity_monitor, statistics, configurator));
 }
 
 
 //! Construct a new Break Controller.
 Break::Break(BreakId id,
              IApp *app,
-             ICoreInternal::Ptr core, 
+             IBreakSupport::Ptr break_support, 
              ITimeSource::Ptr time_source,
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
              IConfigurator::Ptr configurator) :
   break_id(id),
   application(app),
-  core(core),
+  break_support(break_support),
   time_source(time_source),
   activity_monitor(activity_monitor),
   statistics(statistics),
@@ -100,6 +100,10 @@ Break::~Break()
 }
 
 
+/********************************************************************************/
+/**** Internal Interface                                                   ******/
+/********************************************************************************/
+
 //! Initializes the break.
 void
 Break::init()
@@ -110,12 +114,19 @@ Break::init()
   break_timer = Timer::create(time_source);
   break_timer->set_id(break_name);
   
-  init_timer();
-  init_break_control();
+  load_timer_config();
 
+  break_timer->enable();
+  break_timer->stop_timer();
+
+  load_break_control_config();
+  
+  configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
   
   TRACE_EXIT();
 }
+
 
 //! Periodic heartbeat.
 void
@@ -137,7 +148,7 @@ Break::heartbeat()
   else
     {
       // Unless the timer has its own activity monitor.
-      is_idle = !core->is_user_active();
+      is_idle = !break_support->is_user_active();
     }
 
   TRACE_MSG("stage = " << break_stage);
@@ -169,7 +180,6 @@ Break::heartbeat()
         assert(application != NULL);
 
         TRACE_MSG("prelude time = " << prelude_time);
-
 
         update_prelude_window();
         application->refresh_break_window();
@@ -233,153 +243,6 @@ Break::heartbeat()
 }
 
 
-//! Initiates the specified break stage.
-void
-Break::goto_stage(BreakStage stage)
-{
-  TRACE_ENTER_MSG("Break::goto_stage", break_id << " " << stage);
-
-  send_signal(stage);
-
-  switch (stage)
-    {
-    case STAGE_DELAYED:
-      {
-        activity_monitor->set_listener(shared_from_this());
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
-      }
-      break;
-
-    case STAGE_NONE:
-      {
-        // Teminate the break.
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
-        application->hide_break_window();
-        core->defrost();
-
-        if (break_id == BREAK_ID_MICRO_BREAK &&
-            core->get_usage_mode() == USAGE_MODE_READING)
-          {
-            core->resume_reading_mode_timers();
-          }
-
-        if (break_stage == STAGE_TAKING && !fake_break)
-          {
-            // Update statistics and play sound if the break end
-            // was "natural"
-            time_t idle = break_timer->get_elapsed_idle_time();
-            time_t reset = break_timer->get_auto_reset();
-
-            if (idle >= reset && !user_abort)
-              {
-                // natural break end.
-
-                // Update stats.
-                statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
-
-                break_event_signal(BREAK_EVENT_BREAK_ENDED);
-              }
-          }
-      }
-      break;
-
-    case STAGE_SNOOZED:
-      {
-        application->hide_break_window();
-        if (!forced_break)
-          {
-            break_event_signal(BREAK_EVENT_BREAK_IGNORED);
-          }
-        core->defrost();
-      }
-      break;
-
-    case STAGE_PRELUDE:
-      {
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
-        prelude_count++;
-        prelude_time = 0;
-        application->hide_break_window();
-
-        prelude_window_start();
-        application->refresh_break_window();
-        break_event_signal(BREAK_EVENT_PRELUDE_STARTED);
-      }
-      break;
-
-    case STAGE_TAKING:
-      {
-        // Break timer should always idle.
-        // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
-
-        // Remove the prelude window, if necessary.
-        application->hide_break_window();
-
-        // "Innocent until proven guilty".
-        TRACE_MSG("Force idle");
-        core->force_break_idle(break_id);
-        break_timer->stop_timer();
-
-        // Start the break.
-        break_window_start();
-
-        // Play sound
-        if (!forced_break)
-          {
-            break_event_signal(BREAK_EVENT_BREAK_STARTED);
-          }
-
-        core->freeze();
-      }
-      break;
-    }
-
-  break_stage = stage;
-  TRACE_EXIT();
-}
-
-
-//! Updates the contents of the prelude window.
-void
-Break::update_prelude_window()
-{
-  application->set_break_progress(prelude_time, 29);
-}
-
-
-//! Updates the contents of the break window.
-void
-Break::update_break_window()
-{
-  assert(break_timer != NULL);
-  time_t duration = break_timer->get_auto_reset();
-  time_t idle = 0;
-
-  if (fake_break)
-    {
-      idle = duration - fake_break_count;
-      if (fake_break_count <= 0)
-        {
-          stop_break();
-        }
-
-      fake_break_count--;
-    }
-  else
-    {
-      idle = break_timer->get_elapsed_idle_time();
-    }
-
-  if (idle > duration)
-    {
-      idle = duration;
-    }
-
-  application->set_break_progress((int)idle, (int)duration);
-}
-
-
 //! Starts the break.
 void
 Break::start_break()
@@ -406,7 +269,7 @@ Break::start_break()
 
       // Idle until proven guilty.
       TRACE_MSG("Force idle");
-      core->force_break_idle(break_id);
+      break_support->force_break_idle(break_id);
       break_timer->stop_timer();
 
       // Update statistics.
@@ -451,10 +314,10 @@ Break::force_start_break(BreakHint hint)
         }
     }
 
-  if (!break_timer->get_activity_sensitive())
+  if (!break_timer->is_activity_sensitive())
     {
       TRACE_MSG("Forcing idle");
-      core->force_break_idle(break_id);
+      break_support->force_break_idle(break_id);
     }
 
   goto_stage(STAGE_TAKING);
@@ -464,45 +327,18 @@ Break::force_start_break(BreakHint hint)
 
 
 //! Stops the break.
-/*!
- *  Stopping a break will reset the "number of presented preludes" counter. So,
- *  wrt, "max-preludes", the break will start over when it comes back.
- */
 void
 Break::stop_break()
 {
   TRACE_ENTER("Break::stop_break");
 
-  suspend_break();
+  break_hint = BREAK_HINT_NONE;
+  goto_stage(STAGE_NONE);
   prelude_count = 0;
 
   TRACE_EXIT();
 }
 
-
-//! Suspend the break.
-/*!
- *  A suspended break will come back after snooze time. The number of times the
- *  break will come back can be defined with set_max_preludes.
- */
-void
-Break::suspend_break()
-{
-  TRACE_ENTER_MSG("Break::suspend_break", break_id);
-
-  break_hint = BREAK_HINT_NONE;
-
-  goto_stage(STAGE_NONE);
-
-  TRACE_EXIT();
-}
-
-
-boost::signals2::signal<void(IBreak::BreakEvent)> &
-Break::signal_break_event()
-{
-  return break_event_signal;
-}
 
 //! Returns the timer.
 Timer::Ptr
@@ -511,220 +347,35 @@ Break::get_timer() const
   return break_timer;
 }
 
-//! Returns the name of the break (used in configuration)
-string
-Break::get_name() const
-{
-  return break_name;
-}
-
-
-//! Is the break active ?
-bool
-Break::is_active() const
-{
-  return break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED;
-}
 
 bool
-Break::is_taking() const
+Break::get_timer_activity_sensitive() const
 {
-  return break_stage == STAGE_TAKING;
+  return break_timer->is_activity_sensitive();
 }
 
 
-//! Postpones the active break.
-/*!
- *  Postponing a break does not reset the break timer. The break prelude window
- *  will re-appear after snooze time.
- */
 void
-Break::postpone_break()
+Break::set_usage_mode(UsageMode mode)
 {
-  if (break_stage == STAGE_TAKING)
+  TRACE_ENTER_MSG("Break::set_usage_mode", mode);
+  if (usage_mode != mode)
     {
-      if (!forced_break)
+      usage_mode = mode;
+
+      TRACE_MSG("changing");
+      if (mode == USAGE_MODE_NORMAL)
         {
-          if (!fake_break)
-            {
-              // Snooze the timer.
-              break_timer->snooze_timer();
-            }
-
-          // Update stats.
-          statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
+          break_timer->set_activity_sensitive(true);
         }
-
-      // This is to avoid a skip sound...
-      user_abort = true;
-
-      // and stop the break.
-      stop_break();
+      else if (mode == USAGE_MODE_READING)
+        {
+          break_timer->set_activity_sensitive(false);
+        }
     }
-}
-
-
-//! Skips the active break.
-/*!
- *  Skipping a break resets the break timer.
- */
-void
-Break::skip_break()
-{
-  // This is to avoid a skip sound...
-  if (break_stage == STAGE_TAKING)
-    {
-      user_abort = true;
-
-      if (break_id == BREAK_ID_DAILY_LIMIT)
-        {
-          // Make sure the daily limit remains silent after skipping.
-          break_timer->inhibit_snooze();
-        }
-      else
-        {
-          // Reset the restbreak timer.
-          break_timer->reset_timer();
-        }
-
-      // Update stats.
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
-
-      // and stop the break.
-      stop_break();
-    }
-}
-
-void
-Break::stop_prelude()
-{
-  delayed_abort = true;
-}
-
-
-//! Sets the maximum number of preludes.
-/*!
- *  After the maximum number of preludes, the break either stops bothering the
- *  user, or forces a break. This can be set with set_force_after_preludes.
- */
-void
-Break::set_max_preludes(int m)
-{
-  max_number_of_preludes = m;
-}
-
-//! Creates and shows the break window.
-void
-Break::break_window_start()
-{
-  TRACE_ENTER_MSG("Break::break_window_start", break_id);
-
-  application->create_break_window(break_id, break_hint);
-  update_break_window();
-  application->show_break_window();
-
   TRACE_EXIT();
 }
 
-
-//! Creates and shows the prelude window.
-void
-Break::prelude_window_start()
-{
-  TRACE_ENTER_MSG("Break::prelude_window_start", break_id);
-
-  application->create_prelude_window(break_id);
-
-  application->set_prelude_stage(IApp::STAGE_INITIAL);
-
-  if (!reached_max_prelude)
-    {
-      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_DISAPPEARS_IN);
-    }
-  else
-    {
-      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
-    }
-
-  update_prelude_window();
-
-  application->show_break_window();
-
-  TRACE_EXIT();
-}
-
-
-bool
-Break::action_notify()
-{
-  TRACE_ENTER("GUI::action_notify");
-  stop_prelude();
-  TRACE_EXIT();
-  return false;   // false: kill listener.
-}
-
-
-//! Send DBus signal when break stage changes.
-void
-Break::send_signal(BreakStage stage)
-{
-  (void) stage;
-
-#ifdef HAVE_DBUS
-  const char *progress = NULL;
-
-  switch (stage)
-    {
-    case STAGE_NONE:
-      progress = "none";
-      break;
-
-    case STAGE_SNOOZED:
-      progress = "none";
-      break;
-
-    case STAGE_DELAYED:
-      // Do not send this stage.
-      break;
-
-    case STAGE_PRELUDE:
-      progress = "prelude";
-      break;
-
-    case STAGE_TAKING:
-      progress = "break";
-      break;
-    }
-
-  if (progress != NULL)
-    {
-      DBus *dbus = core->get_dbus();
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-
-      if (iface != NULL)
-        {
-          switch (break_id)
-            {
-            case BREAK_ID_MICRO_BREAK:
-              iface->MicrobreakChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            case BREAK_ID_REST_BREAK:
-              iface->RestbreakChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            case BREAK_ID_DAILY_LIMIT:
-              iface->DailylimitChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            default:
-              break;
-            }
-        }
-    }
-
-#endif
-}
 
 void
 Break::override(BreakId id)
@@ -742,17 +393,30 @@ Break::override(BreakId id)
         }
     }
 
-  set_max_preludes(max_preludes);
+  max_number_of_preludes = max_preludes;
 }
 
 
-bool
-Break::get_timer_activity_sensitive() const
+/********************************************************************************/
+/**** IBreak                                                               ******/
+/********************************************************************************/
+
+boost::signals2::signal<void(IBreak::BreakEvent)> &
+Break::signal_break_event()
 {
-  return break_timer->get_activity_sensitive();
+  return break_event_signal;
 }
 
 
+//! Returns the name of the break.
+string
+Break::get_name() const
+{
+  return break_name;
+}
+
+
+//! Is this break currently enabled?
 bool
 Break::is_enabled() const
 {
@@ -765,6 +429,21 @@ Break::is_running() const
 {
   TimerState state = break_timer->get_state();
   return state == STATE_RUNNING;
+}
+
+
+bool
+Break::is_taking() const
+{
+  return break_stage == STAGE_TAKING;
+}
+
+
+//! Is the break active ?
+bool
+Break::is_active() const
+{
+  return break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED;
 }
 
 
@@ -817,27 +496,330 @@ Break::get_total_overdue_time() const
 }
 
 
+//! Postpones the active break.
+/*!
+ *  Postponing a break does not reset the break timer. The break prelude window
+ *  will re-appear after snooze time.
+ */
 void
-Break::set_usage_mode(UsageMode mode)
+Break::postpone_break()
 {
-  TRACE_ENTER_MSG("Break::set_usage_mode", mode);
-  if (usage_mode != mode)
+  if (break_stage == STAGE_TAKING)
     {
-      usage_mode = mode;
+      if (!forced_break)
+        {
+          if (!fake_break)
+            {
+              // Snooze the timer.
+              break_timer->snooze_timer();
+            }
 
-      TRACE_MSG("changing");
-      if (mode == USAGE_MODE_NORMAL)
-        {
-          break_timer->set_activity_sensitive(true);
+          // Update stats.
+          statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
         }
-      else if (mode == USAGE_MODE_READING)
-        {
-          break_timer->set_activity_sensitive(false);
-        }
+
+      // This is to avoid a skip sound...
+      user_abort = true;
+
+      // and stop the break.
+      stop_break();
     }
+}
+
+
+//! Skips the active break.
+void
+Break::skip_break()
+{
+  // This is to avoid a skip sound...
+  if (break_stage == STAGE_TAKING)
+    {
+      user_abort = true;
+
+      if (break_id == BREAK_ID_DAILY_LIMIT)
+        {
+          // Make sure the daily limit remains silent after skipping.
+          break_timer->inhibit_snooze();
+        }
+      else
+        {
+          // Reset the restbreak timer.
+          break_timer->reset_timer();
+        }
+
+      // Update stats.
+      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+
+      // and stop the break.
+      stop_break();
+    }
+}
+
+
+/********************************************************************************/
+/**** Internal                                                             ******/
+/********************************************************************************/
+
+//! Initiates the specified break stage.
+void
+Break::goto_stage(BreakStage stage)
+{
+  TRACE_ENTER_MSG("Break::goto_stage", break_id << " " << stage);
+
+  switch (stage)
+    {
+    case STAGE_DELAYED:
+      {
+        activity_monitor->set_listener(shared_from_this());
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+      }
+      break;
+
+    case STAGE_NONE:
+      {
+        // Teminate the break.
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+        application->hide_break_window();
+        break_support->defrost();
+
+        if (break_id == BREAK_ID_MICRO_BREAK && usage_mode == USAGE_MODE_READING)
+          {
+            break_support->resume_reading_mode_timers();
+          }
+
+        if (break_stage == STAGE_TAKING && !fake_break)
+          {
+            // Update statistics and play sound if the break end
+            // was "natural"
+            time_t idle = break_timer->get_elapsed_idle_time();
+            time_t reset = break_timer->get_auto_reset();
+
+            if (idle >= reset && !user_abort)
+              {
+                // natural break end.
+
+                // Update stats.
+                statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
+
+                break_event_signal(BREAK_EVENT_BREAK_ENDED);
+              }
+          }
+        //break_event_signal(BREAK_EVENT_BREAK_IDLE);
+      }
+      break;
+
+    case STAGE_SNOOZED:
+      {
+        application->hide_break_window();
+        if (!forced_break)
+          {
+            break_event_signal(BREAK_EVENT_BREAK_IGNORED);
+          }
+        break_support->defrost();
+        //break_event_signal(BREAK_EVENT_BREAK_IDLE);
+      }
+      break;
+
+    case STAGE_PRELUDE:
+      {
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
+        prelude_count++;
+        prelude_time = 0;
+        application->hide_break_window();
+
+        prelude_window_start();
+        application->refresh_break_window();
+        break_event_signal(BREAK_EVENT_PRELUDE_STARTED);
+      }
+      break;
+
+    case STAGE_TAKING:
+      {
+        // Break timer should always idle.
+        // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+
+        // Remove the prelude window, if necessary.
+        application->hide_break_window();
+
+        // "Innocent until proven guilty".
+        TRACE_MSG("Force idle");
+        break_support->force_break_idle(break_id);
+        break_timer->stop_timer();
+
+        // Start the break.
+        break_window_start();
+
+        break_support->freeze();
+
+        // Report state change.
+        break_event_signal(forced_break
+                           ? BREAK_EVENT_BREAK_STARTED
+                           : BREAK_EVENT_BREAK_STARTED_FORCED);
+
+      }
+      break;
+    }
+
+  break_stage = stage;
   TRACE_EXIT();
 }
 
+
+//! Creates and shows the break window.
+void
+Break::break_window_start()
+{
+  TRACE_ENTER_MSG("Break::break_window_start", break_id);
+
+  application->create_break_window(break_id, break_hint);
+  update_break_window();
+  application->show_break_window();
+
+  TRACE_EXIT();
+}
+
+
+//! Creates and shows the prelude window.
+void
+Break::prelude_window_start()
+{
+  TRACE_ENTER_MSG("Break::prelude_window_start", break_id);
+
+  application->create_prelude_window(break_id);
+
+  application->set_prelude_stage(IApp::STAGE_INITIAL);
+
+  if (!reached_max_prelude)
+    {
+      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_DISAPPEARS_IN);
+    }
+  else
+    {
+      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
+    }
+
+  update_prelude_window();
+
+  application->show_break_window();
+
+  TRACE_EXIT();
+}
+
+
+//! Updates the contents of the break window.
+void
+Break::update_break_window()
+{
+  assert(break_timer != NULL);
+  time_t duration = break_timer->get_auto_reset();
+  time_t idle = 0;
+
+  if (fake_break)
+    {
+      idle = duration - fake_break_count;
+      if (fake_break_count <= 0)
+        {
+          stop_break();
+        }
+
+      fake_break_count--;
+    }
+  else
+    {
+      idle = break_timer->get_elapsed_idle_time();
+    }
+
+  if (idle > duration)
+    {
+      idle = duration;
+    }
+
+  application->set_break_progress((int)idle, (int)duration);
+}
+
+
+//! Updates the contents of the prelude window.
+void
+Break::update_prelude_window()
+{
+  application->set_break_progress(prelude_time, 29);
+}
+
+
+//!
+bool
+Break::action_notify()
+{
+  TRACE_ENTER("GUI::action_notify");
+  delayed_abort = true;
+  TRACE_EXIT();
+  return false;   // false: kill listener.
+}
+
+
+//! Send DBus signal when break stage changes.
+void
+Break::send_signal(BreakStage stage)
+{
+  (void) stage;
+
+#ifdef HAVE_DBUS
+  const char *progress = NULL;
+
+  switch (stage)
+    {
+    case STAGE_NONE:
+      progress = "none";
+      break;
+
+    case STAGE_SNOOZED:
+      progress = "none";
+      break;
+
+    case STAGE_DELAYED:
+      // Do not send this stage.
+      break;
+
+    case STAGE_PRELUDE:
+      progress = "prelude";
+      break;
+
+    case STAGE_TAKING:
+      progress = "break";
+      break;
+    }
+
+  // TODO: 
+  // if (progress != NULL)
+  //   {
+  //     DBus *dbus = core->get_dbus();
+  //     org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+
+  //     if (iface != NULL)
+  //       {
+  //         switch (break_id)
+  //           {
+  //           case BREAK_ID_MICRO_BREAK:
+  //             iface->MicrobreakChanged("/org/workrave/Workrave/Core", progress);
+  //             break;
+
+  //           case BREAK_ID_REST_BREAK:
+  //             iface->RestbreakChanged("/org/workrave/Workrave/Core", progress);
+  //             break;
+
+  //           case BREAK_ID_DAILY_LIMIT:
+  //             iface->DailylimitChanged("/org/workrave/Workrave/Core", progress);
+  //             break;
+
+  //           default:
+  //             break;
+  //           }
+  //       }
+  //   }
+
+#endif
+}
 
 void
 Break::update_statistics()
@@ -850,16 +832,36 @@ Break::update_statistics()
   statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)get_total_overdue_time());
 }
 
-// Initialize the timer based.
-void
-Break::init_timer()
+
+TimePred *
+Break::create_time_pred(string spec)
 {
-  load_timer_config();
+  TimePred *pred = 0;
+  bool ok = false;
 
-  break_timer->enable();
-  break_timer->stop_timer();
+  std::string type;
+  std::string::size_type pos = spec.find('/');
 
-  configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
+  if (pos != std::string::npos)
+    {
+      type = spec.substr(0, pos);
+      spec = spec.substr(pos + 1);
+
+      if (type == "day")
+        {
+          DayTimePred *dayPred = new DayTimePred();
+          ok = dayPred->init(spec);
+          pred = dayPred;
+        }
+    }
+
+  if (pred && !ok)
+    {
+      delete pred;
+      pred = NULL;
+    }
+
+  return pred;
 }
 
 
@@ -895,7 +897,7 @@ Break::load_timer_config()
   // Read the snooze time.
   int snooze;
   configurator->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
-  break_timer->set_snooze_interval(snooze);
+  break_timer->set_snooze(snooze);
 
   // Load the monitor setting for the timer.
   string monitor_name;
@@ -905,7 +907,7 @@ Break::load_timer_config()
   TRACE_MSG(ret << " " << monitor_name);
   if (ret && monitor_name != "")
     {
-      IActivityMonitor::Ptr am = core->create_timer_activity_monitor(monitor_name);
+      IActivityMonitor::Ptr am = break_support->create_timer_activity_monitor(monitor_name);
 
       if (am)
         {
@@ -920,46 +922,6 @@ Break::load_timer_config()
 }
 
 
-TimePred *
-Break::create_time_pred(string spec)
-{
-  TimePred *pred = 0;
-  bool ok = false;
-
-  std::string type;
-  std::string::size_type pos = spec.find('/');
-
-  if (pos != std::string::npos)
-    {
-      type = spec.substr(0, pos);
-      spec = spec.substr(pos + 1);
-
-      if (type == "day")
-        {
-          DayTimePred *dayPred = new DayTimePred();
-          ok = dayPred->init(spec);
-          pred = dayPred;
-        }
-    }
-
-  if (pred && !ok)
-    {
-      delete pred;
-      pred = NULL;
-    }
-
-  return pred;
-}
-
-// Initialize the break control.
-void
-Break::init_break_control()
-{
-  load_break_control_config();
-  configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
-}
-
-
 //! Load the configuration of the timer.
 void
 Break::load_break_control_config()
@@ -967,7 +929,7 @@ Break::load_break_control_config()
   // Maximum number of prelude windows.
   int max_preludes;
   configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
-  set_max_preludes(max_preludes);
+  max_number_of_preludes = max_preludes;
 
   // Break enabled?
   enabled = true;
@@ -994,5 +956,3 @@ Break::config_changed_notify(const string &key)
     }
   TRACE_EXIT();
 }
-
-

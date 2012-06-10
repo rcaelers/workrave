@@ -14,13 +14,12 @@
       <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
       <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
     </enum>
-    
-    <enum name="break_id" csymbol="BreakId">
-      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
-    </enum>
 
+    <enum name="usage_mode" csymbol="UsageMode">
+      <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
+      <value name="reading" csymbol="USAGE_MODE_READING"/>
+    </enum>
+    
     <method name="SetOperationMode" csymbol="set_operation_mode">
       <arg type="operation_mode" name="mode" direction="in" />
     </method>
@@ -29,10 +28,25 @@
       <arg type="operation_mode" name="mode" direction="out" hint="return"/>
     </method>
 
+    <method name="SetUsageMode" csymbol="set_usage_mode">
+      <arg type="usage_mode" name="mode" direction="in" />
+    </method>
+
+    <method name="GetUsageMode" csymbol="get_usage_mode">
+      <arg type="usage_mode" name="mode" direction="out" hint="return"/>
+    </method>
+
     <method name="ReportActivity" csymbol="report_external_activity">
       <arg type="string" name="who" direction="in" />
       <arg type="bool" name="act" direction="in" />
     </method>
+
+    <!-- TODO: compatibility interface?
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
 
     <method name="IsTimerRunning" csymbol="is_timer_running">
       <arg type="break_id" name="timer_id" direction="in"/>
@@ -52,14 +66,6 @@
     <method name="GetTimerOverdue" csymbol="get_timer_overdue">
       <arg type="break_id" name="timer_id" direction="in"/>
       <arg type="int32"     name="value"    direction="out" hint="ptr"/>
-    </method>
-    
-    <method name="GetTime" csymbol="get_time">
-      <arg type="int32" name="value" direction="out" hint="return"/>
-    </method>
-
-    <method name="IsActive" csymbol="is_user_active">
-      <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="PostponeBreak" csymbol="postpone_break">
@@ -81,8 +87,51 @@
     <signal name="DailylimitChanged">
       <arg type="string" name="progress"/>
     </signal>
+    -->
+    
+    <method name="GetTime" csymbol="get_time">
+      <arg type="int32" name="value" direction="out" hint="return"/>
+    </method>
+
+    <method name="IsActive" csymbol="is_user_active">
+      <arg type="bool" name="value" direction="out" hint="return"/>
+    </method>
+
   </interface>
 
+  <interface name="org.workrave.BreakInterface" csymbol="Break">
+    <import>
+      <include name="Break.hh"/>
+      <namespace name="workrave"/>
+    </import>
+
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
+
+    <method name="IsTimerRunning" csymbol="is_running">
+      <arg type="bool"    name="value"    direction="out"  hint="return"/>
+    </method>
+
+    <method name="GetTimerIdle" csymbol="get_elapsed_idle_time">
+      <arg type="int32"    name="value"    direction="out" hint="return"/>
+    </method>
+
+    <method name="GetTimerElapsed" csymbol="get_elapsed_time">
+      <arg type="int32"     name="value"    direction="out" hint="return"/>
+    </method>
+    
+    <method name="GetTimerOverdue" csymbol="get_total_overdue_time">
+      <arg type="int32"     name="value"    direction="out" hint="return"/>
+    </method>
+    
+    <method name="PostponeBreak" csymbol="postpone_break"/>
+    <method name="SkipBreak" csymbol="skip_break"/>
+    
+  </interface>
+  
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
 
     <import>

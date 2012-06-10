@@ -26,7 +26,7 @@
 #include "config/Config.hh"
 #include "utils/ITimeSource.hh"
 
-#include "ICoreInternal.hh"
+#include "IBreakSupport.hh"
 #include "IActivityMonitor.hh"
 #include "IActivityMonitorListener.hh"
 #include "Statistics.hh"
@@ -56,7 +56,7 @@ public:
 public:
   static Ptr create(BreakId id,
                     IApp *app,
-                    ICoreInternal::Ptr core,
+                    IBreakSupport::Ptr break_support,
                     ITimeSource::Ptr time_source,
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
@@ -64,26 +64,34 @@ public:
 
   Break(BreakId id,
         IApp *app,
-        ICoreInternal::Ptr core, 
+        IBreakSupport::Ptr break_support, 
         ITimeSource::Ptr time_source,
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
         IConfigurator::Ptr configurator);
   virtual ~Break();
 
+  // Internal
+
   void init();
   void heartbeat();
 
+  void force_start_break(BreakHint break_hint);
+  void start_break();
+  void stop_break();
+  
   Timer::Ptr get_timer() const;
+  bool get_timer_activity_sensitive() const;
   void set_usage_mode(UsageMode mode);
   void override(BreakId id);
-  bool get_timer_activity_sensitive() const;
 
   // IBreak
   virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
   virtual std::string get_name() const; 
   virtual bool is_enabled() const; 
   virtual bool is_running() const;
+  virtual bool is_taking() const;
+  virtual bool is_active() const;
   virtual time_t get_elapsed_time() const;
   virtual time_t get_elapsed_idle_time() const;
   virtual time_t get_auto_reset() const;
@@ -91,34 +99,10 @@ public:
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
   virtual time_t get_total_overdue_time() const;
-  virtual bool is_taking() const;
-  virtual bool is_active() const;
+  virtual void postpone_break();
+  virtual void skip_break();
   
-  // 
-  void postpone_break();
-  void skip_break();
-  void start_break();
-  void force_start_break(BreakHint break_hint);
-  void stop_break();
 
-  // IActivityMonitorListener
-  bool action_notify();
-
-  // Configuration
-  void set_max_preludes(int m);
-
-private:
-  void break_window_start();
-  void prelude_window_start();
-  void stop_prelude();
-
-  void init_timer();
-  void load_timer_config();
-  void init_break_control();
-  void load_break_control_config();
-  TimePred *create_time_pred(std::string spec);
-  void update_statistics();
-  
 private:
   enum BreakStage { STAGE_NONE,
                     STAGE_SNOOZED,
@@ -127,14 +111,24 @@ private:
                     STAGE_DELAYED
   };
 
-  void update_prelude_window();
-  void update_break_window();
   void goto_stage(BreakStage stage);
-  void suspend_break();
-  void send_signal(BreakStage stage);
+  
+  void break_window_start();
+  void prelude_window_start();
+  void update_break_window();
+  void update_prelude_window();
 
+  // IActivityMonitorListener
+  bool action_notify();
+
+  void send_signal(BreakStage stage);
+  void update_statistics();
+  TimePred *create_time_pred(std::string spec);
+  void load_timer_config();
+  void load_break_control_config();
   void config_changed_notify(const std::string &key);
 
+  
 private:
   //! ID of the break controlled by this Break.
   BreakId break_id;
@@ -142,8 +136,8 @@ private:
   //! GUI Factory used to create the break/prelude windows.
   IApp *application;
 
-  //! The Controller.
-  ICoreInternal::Ptr core;
+  //! .
+  IBreakSupport::Ptr break_support;
 
   //
   ITimeSource::Ptr time_source;

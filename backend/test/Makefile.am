@@ -8,7 +8,7 @@ MAINTAINERCLEANFILES = 	*.pyc
 
 bin_PROGRAMS = 		cloud
 
-cloud_SOURCES = 	cloud.cc
+cloud_SOURCES = 	cloud.cc Workrave.cc ActivityMonitorStub.cc
 
 cloud_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \

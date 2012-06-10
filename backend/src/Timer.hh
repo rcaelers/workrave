@@ -110,8 +110,18 @@ public:
   // Control
   void enable();
   void disable();
+  
   void snooze_timer();
+  void inhibit_snooze();
+  
+  void start_timer();
+  void stop_timer();
+  void reset_timer();
+
   void freeze_timer(bool f);
+  
+  void force_idle();
+  void force_active();
 
   // Timer processing.
   void process(ActivityState activityState, TimerInfo &info);
@@ -128,8 +138,7 @@ public:
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
   time_t get_auto_reset() const;
-  TimePred *get_auto_reset_predicate() const;
-  time_t get_next_reset_time() const;
+  time_t get_next_reset_time() const; 
 
   // Limiting.
   void set_limit(int t);
@@ -138,37 +147,32 @@ public:
   time_t get_limit() const;
   time_t get_next_limit_time() const;
 
+  // Snoozing.
+  void set_snooze(time_t time);
+  time_t get_snooze() const;
+
+  // Activity sensitivity
+  void set_activity_sensitive(bool a);
+  bool is_activity_sensitive();
+  void set_insensitive_mode(InsensitiveMode mode);
+
   // Timer ID
   void set_id(std::string id);
   std::string get_id() const;
+  
+  // Activity monitors
+  void set_activity_monitor(IActivityMonitor::Ptr am);
+  IActivityMonitor::Ptr get_activity_monitor() const;
+  bool has_activity_monitor() const;
 
   // State serialization.
   std::string serialize_state() const;
   bool deserialize_state(const std::string &state, int version);
   void set_state(int elapsed, int idle, int overdue = -1);
 
-  // Misc
-  time_t get_snooze() const;
-  void set_snooze_interval(time_t time);
-  void inhibit_snooze();
-  void set_activity_monitor(IActivityMonitor::Ptr am);
-  IActivityMonitor::Ptr get_activity_monitor() const;
-  bool has_activity_monitor() const;
-
   time_t get_total_overdue_time() const;
   void daily_reset_timer();
-
   void shift_time(int delta);
-
-  void start_timer();
-  void stop_timer();
-  void reset_timer();
-
-  bool get_activity_sensitive();
-  void set_activity_sensitive(bool a);
-  void force_idle();
-  void force_active();
-  void set_insensitive_mode(InsensitiveMode mode);
 
 private:
   //! Is this timer enabled ?
@@ -185,9 +189,6 @@ private:
 
   //! Default snooze time
   time_t snooze_interval;
-
-  //! Snooze on active time instead of on actual time.
-  bool snooze_on_active;
 
   //! Don't snooze til next reset or changes.
   bool snooze_inhibited;

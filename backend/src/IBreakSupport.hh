@@ -1,4 +1,4 @@
-// ICoreInternal.hh --- The main controller interface
+// IBreakSupport.hh --- The main controller interface
 //
 // Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,24 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICOREINTERNAL_HH
-#define ICOREINTERNAL_HH
+#ifndef IBREAKSUPPORT_HH
+#define IBREAKSUPPORT_HH
 
 #include <string>
 
-#include "ICore.hh"
+#include "CoreTypes.hh"
 #include "IActivityMonitor.hh"
 
-class ICoreInternal : public workrave::ICore
+class IBreakSupport
 {
 public:
-  typedef boost::shared_ptr<ICoreInternal> Ptr;
+  typedef boost::shared_ptr<IBreakSupport> Ptr;
 
-  virtual ~ICoreInternal() {}
+  virtual ~IBreakSupport() {}
   
   //! Return the current time
-  virtual time_t get_time() const = 0;
+  //virtual time_t get_time() const = 0;
 
+  virtual bool is_user_active() const = 0;
+  
   virtual void defrost() = 0;
   virtual void freeze() = 0;
   virtual void force_break_idle(workrave::BreakId id) = 0;
@@ -42,4 +44,4 @@ public:
   virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
 };
 
-#endif // ICOREINTERNAL_HH
+#endif // IBREAKSUPPORT_HH

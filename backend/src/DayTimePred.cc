@@ -40,19 +40,6 @@
 
 using namespace std;
 
-//! Sets the last time the predicate matched.
-void
-DayTimePred::set_last(time_t lastTime, time_t now)
-{
-  last_time = lastTime;
-
-  if (last_time == 0)
-    {
-      last_time = now;
-    }
-}
-
-
 int
 DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
 {
@@ -134,7 +121,7 @@ DayTimePred::days_in_month(int month, int year)
 
 
 time_t
-DayTimePred::get_next()
+DayTimePred::get_next(time_t last_time)
 {
   struct tm *ret;
 

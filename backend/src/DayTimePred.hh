@@ -27,9 +27,7 @@ class DayTimePred : public TimePred
 public:
   bool init(std::string spec);
 
-  void set_last(time_t lastTime, time_t now);
-  time_t get_next();
-  //time_t get_time_offset();
+  time_t get_next(time_t last_time);
   std::string to_string() const;
 
 private:

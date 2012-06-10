@@ -39,6 +39,7 @@ namespace workrave {
       BREAK_EVENT_PRELUDE_STARTED,
       BREAK_EVENT_BREAK_IGNORED,
       BREAK_EVENT_BREAK_STARTED,
+      BREAK_EVENT_BREAK_STARTED_FORCED,
       BREAK_EVENT_BREAK_ENDED,
     };
     
@@ -49,6 +50,15 @@ namespace workrave {
 
     //! Is this break currently enabled?
     virtual bool is_enabled() const = 0;
+
+    //! Is the timer currently runninf?.
+    virtual bool is_running() const = 0;
+
+    //! Is the user taking the break.
+    virtual bool is_taking() const = 0;
+
+    //! Is the break currently active.
+    virtual bool is_active() const = 0;
 
     //! Returns the elasped active time.
     virtual time_t get_elapsed_time() const = 0;
@@ -68,18 +78,9 @@ namespace workrave {
     //! Is the limit enabled.
     virtual bool is_limit_enabled() const = 0;
 
-    //!
+    //! Returns the total overdue time since the last daily limit reset.
     virtual time_t get_total_overdue_time() const = 0;
     
-    //! Returns the current time state.
-    virtual bool is_running() const = 0;
-
-    //! Is the break window visible.
-    virtual bool is_taking() const = 0;
-
-    //!
-    virtual bool is_active() const = 0;
-
     //! Request to postpone the break.
     virtual void postpone_break() = 0;
 

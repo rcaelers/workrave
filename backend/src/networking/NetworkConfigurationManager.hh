@@ -26,6 +26,8 @@
 #include "cloud/Cloud.hh"
 #include "config/Config.hh" 
 
+#include "ICore.hh"
+
 using namespace workrave;
 using namespace workrave::cloud;
 
@@ -47,10 +49,10 @@ public:
   typedef boost::shared_ptr<NetworkConfigurationManager> Ptr;
 
 public:
-  static Ptr create(ICloud::Ptr network, IConfigurator::Ptr configurator);
+  static Ptr create(ICloud::Ptr cloud, ICore::Ptr core);
 
 public:
-  NetworkConfigurationManager(ICloud::Ptr network, IConfigurator::Ptr configurator);
+  NetworkConfigurationManager(ICloud::Ptr cloud, ICore::Ptr core);
   virtual ~NetworkConfigurationManager();
 
   // from ICloud
@@ -76,7 +78,10 @@ private:
   
 private:
   //! The networking core
-  ICloud::Ptr network;
+  ICloud::Ptr cloud;
+
+  //! The workrave backend.
+  ICore::Ptr core;
 
   //! The main configurator.
   IConfigurator::Ptr configurator;

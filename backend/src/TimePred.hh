@@ -33,16 +33,11 @@ class TimePred
 public:
   virtual ~TimePred() {}
 
-  //! Set the last time the predicate matched.
-  virtual void set_last(time_t lastTime, time_t now) = 0;
-
   //! Computes the next time the predicate matches given the time of the previous match.
-  virtual time_t get_next() = 0;
+  virtual time_t get_next(time_t lastTime) = 0;
 
   //! Returns the string representation of this predicate.
   virtual std::string to_string() const = 0;
-
-protected:
 };
 
 #endif // TIMEPRED_HH
