@@ -34,6 +34,7 @@
 
 #include "crashlog.h"
 #include "dll_hell.h"
+#include "W32ActiveSetup.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -41,6 +42,9 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+#ifdef PLATFORM_OS_WIN32
+    W32ActiveSetup::update_all();
+#endif
 
 #if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
 	SetUnhandledExceptionFilter(exception_filter);
