@@ -161,6 +161,7 @@ if (WIN32)
     # ${FRONTEND_DIR}/common/src/win32/Sound.cc
     
   include_directories( 
+    "${BACKEND_DIR}/src/win32"
     "${COMMON_DIR}/include/win32"
     "${COMMON_DIR}/win32/harpoon/include"
     "${FRONTEND_DIR}/common/src/win32"
