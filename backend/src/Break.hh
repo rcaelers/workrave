@@ -74,15 +74,20 @@ public:
   // Internal
 
   void init();
+  TimerEvent process(ActivityState monitor_state);
+  
   void heartbeat();
 
   void force_start_break(BreakHint break_hint);
   void start_break();
   void stop_break();
+  void freeze_break(bool freeze);
+  void force_idle(BreakId break_id);
+  void daily_reset();
   
   Timer::Ptr get_timer() const;
-  bool get_timer_activity_sensitive() const;
   void set_usage_mode(UsageMode mode);
+  void update_usage_mode();
   void override(BreakId id);
 
   // IBreak
@@ -145,6 +150,9 @@ private:
   //!
   IActivityMonitor::Ptr activity_monitor;
   
+  //!
+  IActivityMonitor::Ptr timer_activity_monitor;
+
   //!
   Statistics::Ptr statistics;
   

@@ -382,8 +382,8 @@ Timer::force_active()
 
 
 //! Perform timer processing.
-void
-Timer::process(ActivityState new_activity_state, TimerInfo &info)
+TimerEvent
+Timer::process(ActivityState new_activity_state)
 {
   TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
 
@@ -394,27 +394,15 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   time_t current_time= time_source->get_time();
 
   // Default event to return.
-  info.event = TIMER_EVENT_NONE;
-  info.idle_time = get_elapsed_idle_time();
-  info.elapsed_time = get_elapsed_time();
+  TimerEvent event = TIMER_EVENT_NONE;
 
-  TRACE_MSG("idle = " << info.idle_time);
-  TRACE_MSG("elap = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
 
-  if (activity_monitor != NULL)
-    {
-      // The timer uses its own activity monitor and ignores the 'global'
-      // activity monitor state (ie. new_activity_state). So get the state
-      // of the activity monitor used by this timer.
-      new_activity_state = activity_monitor->get_current_state();
-      TRACE_MSG("foreign activity state =" << new_activity_state);
-    }
-  else if (activity_sensitive)
+  if (activity_sensitive)
     {
       // This timer responds to the activity monitoring.
       TRACE_MSG("is activity sensitive");
@@ -490,7 +478,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       next_pred_reset_time = 0;
 
       compute_next_predicate_reset_time();
-      info.event = TIMER_EVENT_RESET;
+      event = TIMER_EVENT_RESET;
 
       if (!activity_sensitive)
         {
@@ -508,7 +496,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       compute_next_limit_time();
 
-      info.event = TIMER_EVENT_LIMIT_REACHED;
+      event = TIMER_EVENT_LIMIT_REACHED;
       // Its very unlikely (but not impossible) that this will overrule
       // the EventStarted. Hey, shit happends.
 
@@ -528,7 +516,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       reset_timer();
 
-      info.event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
+      event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
       // Idem, may overrule the EventStopped.
 
       if (!activity_sensitive)
@@ -538,6 +526,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
         }
     }
   TRACE_EXIT();
+  return event;
 }
 
 
@@ -747,6 +736,7 @@ Timer::set_activity_sensitive(bool a)
           activity_state = ACTIVITY_ACTIVE;
         }
     }
+
   TRACE_EXIT();
 }
 
@@ -781,30 +771,6 @@ Timer::get_id() const
 {
   return timer_id;
 }
-
-//! Sets the activity monitor to be used for this timer.
-void
-Timer::set_activity_monitor(IActivityMonitor::Ptr am)
-{
-  activity_monitor = am;
-}
-
-
-//! Returns the activity monitor to be used for this timer.
-IActivityMonitor::Ptr
-Timer::get_activity_monitor() const
-{
-  return activity_monitor;
-}
-
-
-//! Does this timer have its own activity monitor?
-bool
-Timer::has_activity_monitor() const
-{
-  return activity_monitor != NULL;
-}
-
 
 std::string
 Timer::serialize_state() const

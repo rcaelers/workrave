@@ -337,6 +337,13 @@ Core::get_timer(string name) const
 }
 
 
+Timer::Ptr
+Core::get_timer(int id) const
+{
+  return breaks[id]->get_timer();
+}
+
+
 //! Returns the configurator.
 IConfigurator::Ptr
 Core::get_configurator() const
@@ -565,7 +572,7 @@ Core::set_operation_mode_internal(
           {
               if (breaks[i]->is_enabled())
               {
-                  breaks[i]->get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+                  get_timer(i)->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
               }
           }
       }
@@ -660,8 +667,7 @@ Core::resume_reading_mode_timers()
 {
   for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer::Ptr break_timer = breaks[i]->get_timer();
-      break_timer->force_active();
+      get_timer(i)->force_active();
     }
 }
 
@@ -690,7 +696,7 @@ Core::time_changed()
   // This is used to handle a change in timezone on windows.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i]->get_timer()->shift_time(0);
+      get_timer(i)->shift_time(0);
     }
 
   TRACE_EXIT();
@@ -777,20 +783,11 @@ Core::force_break_idle(BreakId break_id)
   TRACE_ENTER("Core::force_idle_for_break");
   
   monitor->force_idle();
-  
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (break_id == BREAK_ID_NONE || i == break_id)
-        {
-          IActivityMonitor::Ptr am = breaks[i]->get_timer()->get_activity_monitor();
-          if (am != NULL)
-            {
-              am->force_idle();
-            }
-        }
-      
-      breaks[i]->get_timer()->force_idle();
+      breaks[i]->force_idle(break_id);
     }
+  
   TRACE_EXIT();
 }
 
@@ -897,73 +894,142 @@ Core::process_timers()
 {
   TRACE_ENTER("Core::process_timers");
 
-  TimerInfo infos[BREAK_ID_SIZEOF];
+  TimerEvent events[BREAK_ID_SIZEOF];
 
+  // Process Timers.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer::Ptr timer = breaks[i]->get_timer();
-      
-      infos[i].enabled = breaks[i]->is_enabled();
-      if (infos[i].enabled)
-        {
-          timer->enable();
-          if (i == BREAK_ID_DAILY_LIMIT)
-            {
-              timer->set_limit_enabled(timer->get_limit() > 0);
-            }
-        }
-      else
-        {
-          if (i != BREAK_ID_DAILY_LIMIT)
-            {
-              timer->disable();
-            }
-          else
-            {
-              timer->set_limit_enabled(false);
-            }
-        }
-
-      // First process only timer that do not have their
-      // own activity monitor.
-      if (!(timer->has_activity_monitor()))
-        {
-          timer->process(monitor_state, infos[i]);
-        }
+      events[i] = breaks[i]->process(monitor_state);
     }
-
-  // And process timer with activity monitor.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (breaks[i]->get_timer()->has_activity_monitor())
-        {
-          breaks[i]->get_timer()->process(monitor_state, infos[i]);
-        }
-    }
-
 
   // Process all timer events.
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
-      TimerInfo &info = infos[i];
       if (breaks[i]->is_enabled())
         {
-          timer_action((BreakId)i, info);
-        }
+          switch (events[i])
+            {
+            case TIMER_EVENT_LIMIT_REACHED:
+              if (!breaks[i]->is_active() && operation_mode == OPERATION_MODE_NORMAL)
+                {
+                  start_break((BreakId)i);
+                }
+              break;
 
-      if (i == BREAK_ID_DAILY_LIMIT &&
-          (info.event == TIMER_EVENT_NATURAL_RESET ||
-           info.event == TIMER_EVENT_RESET))
-        {
-          statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int) info.elapsed_time);
-          statistics->start_new_day();
+            case TIMER_EVENT_NATURAL_RESET:
+            case TIMER_EVENT_RESET:
+              if (breaks[i]->is_active())
+                {
+                  breaks[i]->stop_break();
+                }
+              break;
 
-          daily_reset();
+            case TIMER_EVENT_NONE:
+              break;
+            }
         }
+    }
+
+  if (events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_NATURAL_RESET ||
+      events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_RESET)
+    {
+      daily_reset();
     }
 
   TRACE_EXIT();
 }
+
+
+//! starts the specified break.
+/*!
+ *  \param break_id ID of the timer that caused the break.
+ */
+void
+Core::start_break(BreakId break_id, BreakId resume_this_break)
+{
+  // Don't show MB when RB is active, RB when DL is active.
+  for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
+    {
+      if (breaks[bi]->is_active())
+        {
+          return;
+        }
+    }
+
+  if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
+    {
+      // Reset override.
+      breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_REST_BREAK);
+    }
+
+  // Advance restbreak if it follows within 30s after the end of a microbreak
+  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
+    {
+      Timer::Ptr rb_timer = get_timer(BREAK_ID_REST_BREAK);
+      assert(rb_timer != NULL);
+
+      bool activity_sensitive = get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
+
+      // Only advance when
+      // 0. It is activity sensitive
+      // 1. we have a next limit reached time.
+      if (activity_sensitive &&
+          rb_timer->get_next_limit_time() > 0)
+        {
+          Timer::Ptr timer = get_timer(break_id);
+
+          time_t duration = timer->get_auto_reset();
+          time_t now = get_time();
+
+          if (now + duration + 30 >= rb_timer->get_next_limit_time())
+            {
+              breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_MICRO_BREAK);
+
+              start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
+
+              // Snooze timer before the limit was reached. Just to make sure
+              // that it doesn't reach its limit again when elapsed == limit
+              rb_timer->snooze_timer();
+              return;
+            }
+        }
+    }
+
+  // Stop microbreak when a restbreak starts. should not happend.
+  // restbreak should be advanced.
+  for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
+    {
+      if (breaks[bi]->is_active())
+        {
+          breaks[bi]->stop_break();
+        }
+    }
+
+  breaks[break_id]->start_break();
+}
+
+
+//! Sets the freeze state of all breaks.
+void
+Core::set_freeze_all_breaks(bool freeze)
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      breaks[i]->freeze_break(freeze);
+    }
+}
+
+
+//! Stops all breaks.
+void
+Core::stop_all_breaks()
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      breaks[i]->stop_break();
+    }
+}
+
 
 #if defined(PLATFORM_OS_WIN32)
 
@@ -992,7 +1058,7 @@ Core::process_timewarp()
               monitor->shift_time((int)gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
-                  breaks[i].get_timer()->shift_time((int)gap);
+                  get_timer(i)->shift_time((int)gap);
                 }
 
               monitor_state = ACTIVITY_IDLE;
@@ -1057,144 +1123,6 @@ Core::process_timewarp()
 
 #endif
 
-//! Notication of a timer action.
-/*!
- *  \param timerId ID of the timer that caused the action.
- *  \param action action that is performed by the timer.
-*/
-void
-Core::timer_action(BreakId id, TimerInfo info)
-{
-  // No breaks when mode is quiet,
-  if (operation_mode == OPERATION_MODE_QUIET &&
-      info.event == TIMER_EVENT_LIMIT_REACHED)
-    {
-      return;
-    }
-
-  Timer::Ptr timer = breaks[id]->get_timer();
-
-  assert(timer != NULL);
-
-  switch (info.event)
-    {
-    case TIMER_EVENT_LIMIT_REACHED:
-      if (!breaks[id]->is_active())
-        {
-          start_break(id);
-        }
-      break;
-
-    case TIMER_EVENT_NATURAL_RESET:
-      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
-      // FALLTHROUGH
-
-    case TIMER_EVENT_RESET:
-      if (breaks[id]->is_active())
-        {
-          breaks[id]->stop_break();
-        }
-      break;
-
-    default:
-      break;
-    }
-}
-
-
-//! starts the specified break.
-/*!
- *  \param break_id ID of the timer that caused the break.
- */
-void
-Core::start_break(BreakId break_id, BreakId resume_this_break)
-{
-  // Don't show MB when RB is active, RB when DL is active.
-  for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
-    {
-      if (breaks[bi]->is_active())
-        {
-          return;
-        }
-    }
-
-  // Advance restbreak if it follows within 30s after the end of a microbreak
-  if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
-    {
-      breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_REST_BREAK);
-    }
-
-  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
-    {
-      Timer::Ptr rb_timer = breaks[BREAK_ID_REST_BREAK]->get_timer();
-      assert(rb_timer != NULL);
-
-      bool activity_sensitive = breaks[BREAK_ID_REST_BREAK]->get_timer_activity_sensitive();
-
-      // Only advance when
-      // 0. It is activity sensitive
-      // 1. we have a next limit reached time.
-      if (activity_sensitive &&
-          rb_timer->get_next_limit_time() > 0)
-        {
-          Timer::Ptr timer = breaks[break_id]->get_timer();
-
-          time_t duration = timer->get_auto_reset();
-          time_t now = get_time();
-
-          if (now + duration + 30 >= rb_timer->get_next_limit_time())
-            {
-              breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_MICRO_BREAK);
-
-              start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
-
-              // Snooze timer before the limit was reached. Just to make sure
-              // that it doesn't reach its limit again when elapsed == limit
-              rb_timer->snooze_timer();
-              return;
-            }
-        }
-    }
-
-  // Stop microbreak when a restbreak starts. should not happend.
-  // restbreak should be advanced.
-  for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
-    {
-      if (breaks[bi]->is_active())
-        {
-          breaks[bi]->stop_break();
-        }
-    }
-
-  breaks[break_id]->start_break();
-}
-
-
-//! Sets the freeze state of all breaks.
-void
-Core::set_freeze_all_breaks(bool freeze)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer::Ptr t = breaks[i]->get_timer();
-      assert(t != NULL);
-      if (!t->has_activity_monitor())
-        {
-          t->freeze_timer(freeze);
-        }
-    }
-}
-
-
-//! Stops all breaks.
-void
-Core::stop_all_breaks()
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->stop_break();
-    }
-}
 
 
 /********************************************************************************/
@@ -1208,19 +1136,10 @@ Core::daily_reset()
   TRACE_ENTER("Core::daily_reset");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Timer::Ptr t = breaks[i]->get_timer();
-      assert(t != NULL);
-
-      time_t overdue = t->get_total_overdue_time();
-
-      statistics->set_break_counter(((BreakId)i),
-                                    Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
-
-      t->daily_reset_timer();
+      breaks[i]->daily_reset();
     }
 
   save_state();
-
   TRACE_EXIT();
 }
 
@@ -1240,7 +1159,7 @@ Core::save_state() const
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      string stateStr = breaks[i]->get_timer()->serialize_state();
+      string stateStr = get_timer(i)->serialize_state();
 
       stateFile << stateStr << endl;
     }
@@ -1313,12 +1232,12 @@ Core::load_state()
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          if (breaks[i]->get_timer()->get_id() == id)
+          if (get_timer(i)->get_id() == id)
             {
               string state;
               getline(stateFile, state);
 
-              breaks[i]->get_timer()->deserialize_state(state, version);
+              get_timer(i)->deserialize_state(state, version);
               break;
             }
         }

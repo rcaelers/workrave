@@ -72,23 +72,6 @@ enum TimerEvent
   };
 
 
-//! Status information of a timer.
-struct TimerInfo
-{
-  //! Is this timer enabled?
-  bool enabled;
-
-  //! Event the timer generated.
-  TimerEvent event;
-
-  //! Total idle time of the timer.
-  time_t idle_time;
-
-  //! Total elasped time of the timer.
-  time_t elapsed_time;
-};
-
-
 //! The Timer class.
 /*!
  *  The Timer receives 'active' and 'idle' events from an activity monitor.
@@ -124,7 +107,7 @@ public:
   void force_active();
 
   // Timer processing.
-  void process(ActivityState activityState, TimerInfo &info);
+  TimerEvent process(ActivityState activityState);
 
   // State inquiry
   time_t get_elapsed_time() const;
@@ -160,11 +143,6 @@ public:
   void set_id(std::string id);
   std::string get_id() const;
   
-  // Activity monitors
-  void set_activity_monitor(IActivityMonitor::Ptr am);
-  IActivityMonitor::Ptr get_activity_monitor() const;
-  bool has_activity_monitor() const;
-
   // State serialization.
   std::string serialize_state() const;
   bool deserialize_state(const std::string &state, int version);
@@ -249,9 +227,6 @@ private:
 
   //! Core
   ITimeSource::Ptr time_source;
-
-  //! Activity Mobnitor to use.
-  IActivityMonitor::Ptr activity_monitor;
 
   //!  Is this timer sensitive for activity
   bool activity_sensitive;

@@ -146,7 +146,6 @@ private:
   void init_statistics();
 
   void config_changed_notify(const std::string &key);
-  void timer_action(BreakId id, TimerInfo info);
   void process_state();
   bool process_timewarp();
   void process_timers();
@@ -162,7 +161,7 @@ private:
   void set_freeze_all_breaks(bool freeze);
 
   Timer::Ptr get_timer(std::string name) const;
-  //Timer::Ptr get_timer(BreakId id) const;
+  Timer::Ptr get_timer(int id) const;
   
 private:
   //! Number of command line arguments passed to the program.

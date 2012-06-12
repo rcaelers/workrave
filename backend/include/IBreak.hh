@@ -41,6 +41,7 @@ namespace workrave {
       BREAK_EVENT_BREAK_STARTED,
       BREAK_EVENT_BREAK_STARTED_FORCED,
       BREAK_EVENT_BREAK_ENDED,
+      BREAK_EVENT_BREAK_IDLE,
     };
     
     virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event() = 0;

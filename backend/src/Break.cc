@@ -128,6 +128,27 @@ Break::init()
 }
 
 
+TimerEvent
+Break::process(ActivityState monitor_state)
+{
+  TimerEvent event = break_timer->process(monitor_state);
+
+  if (break_id == BREAK_ID_DAILY_LIMIT &&
+      (event == TIMER_EVENT_NATURAL_RESET || event == TIMER_EVENT_RESET))
+    {
+      statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int) break_timer->get_elapsed_time());
+      statistics->start_new_day();
+    }
+
+  if (event == TIMER_EVENT_NATURAL_RESET)
+    {
+      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+    }
+
+  return event;
+}
+
+
 //! Periodic heartbeat.
 void
 Break::heartbeat()
@@ -138,7 +159,7 @@ Break::heartbeat()
 
   bool is_idle = false;
 
-  if (!break_timer->has_activity_monitor())
+  if (!timer_activity_monitor)
     {
       // Prefer the running state of the break timer as input for
       // our current activity.
@@ -340,18 +361,49 @@ Break::stop_break()
 }
 
 
+//! Freezes the break.
+void
+Break::freeze_break(bool freeze)
+{
+  TRACE_ENTER("Break::freeze_break");
+
+  if (! timer_activity_monitor)
+    {
+      break_timer->freeze_timer(freeze);
+    }
+
+  TRACE_EXIT();
+}
+
+
+//! Force the timer to become idle.
+void
+Break::force_idle(BreakId id)
+{
+  if (break_id == BREAK_ID_NONE || id == break_id)
+    {
+      if (timer_activity_monitor)
+        {
+          timer_activity_monitor->force_idle();
+        }
+    }
+      
+  break_timer->force_idle();
+}
+
+void
+Break::daily_reset()
+{
+  update_statistics();
+  break_timer->daily_reset_timer();
+}
+
+
 //! Returns the timer.
 Timer::Ptr
 Break::get_timer() const
 {
   return break_timer;
-}
-
-
-bool
-Break::get_timer_activity_sensitive() const
-{
-  return break_timer->is_activity_sensitive();
 }
 
 
@@ -362,16 +414,23 @@ Break::set_usage_mode(UsageMode mode)
   if (usage_mode != mode)
     {
       usage_mode = mode;
+      update_usage_mode();
+    }
+  TRACE_EXIT();
+}
 
-      TRACE_MSG("changing");
-      if (mode == USAGE_MODE_NORMAL)
-        {
-          break_timer->set_activity_sensitive(true);
-        }
-      else if (mode == USAGE_MODE_READING)
-        {
-          break_timer->set_activity_sensitive(false);
-        }
+
+void
+Break::update_usage_mode()
+{
+  TRACE_ENTER_MSG("Break::update_usage_mode", usage_mode);
+  if (usage_mode == USAGE_MODE_NORMAL || timer_activity_monitor)
+    {
+      break_timer->set_activity_sensitive(true);
+    }
+  else if (usage_mode == USAGE_MODE_READING)
+    {
+      break_timer->set_activity_sensitive(false);
     }
   TRACE_EXIT();
 }
@@ -600,11 +659,10 @@ Break::goto_stage(BreakStage stage)
 
                 // Update stats.
                 statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
-
                 break_event_signal(BREAK_EVENT_BREAK_ENDED);
               }
           }
-        //break_event_signal(BREAK_EVENT_BREAK_IDLE);
+        break_event_signal(BREAK_EVENT_BREAK_IDLE);
       }
       break;
 
@@ -616,7 +674,7 @@ Break::goto_stage(BreakStage stage)
             break_event_signal(BREAK_EVENT_BREAK_IGNORED);
           }
         break_support->defrost();
-        //break_event_signal(BREAK_EVENT_BREAK_IDLE);
+        break_event_signal(BREAK_EVENT_BREAK_IDLE);
       }
       break;
 
@@ -899,25 +957,20 @@ Break::load_timer_config()
   configurator->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
   break_timer->set_snooze(snooze);
 
-  // Load the monitor setting for the timer.
-  string monitor_name;
-
-  bool ret = configurator->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
-
-  TRACE_MSG(ret << " " << monitor_name);
-  if (ret && monitor_name != "")
+  // Read the monitor setting for the timer.
+  timer_activity_monitor.reset();
+  if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      IActivityMonitor::Ptr am = break_support->create_timer_activity_monitor(monitor_name);
+      string monitor_name;
+      bool ret = configurator->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
-      if (am)
+      if (ret && monitor_name != "" && monitor_name != get_name())
         {
-          break_timer->set_activity_monitor(am);
+          timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
         }
     }
-  else
-    {
-      break_timer->set_activity_monitor(IActivityMonitor::Ptr());
-    }
+  update_usage_mode();
+  
   TRACE_EXIT();
 }
 
@@ -934,6 +987,26 @@ Break::load_break_control_config()
   // Break enabled?
   enabled = true;
   configurator->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
+
+  if (enabled)
+    {
+      break_timer->enable();
+      if (break_id == BREAK_ID_DAILY_LIMIT)
+        {
+          break_timer->set_limit_enabled(break_timer->get_limit() > 0);
+        }
+    }
+  else
+    {
+      if (break_id != BREAK_ID_DAILY_LIMIT)
+        {
+          break_timer->disable();
+        }
+      else
+        {
+          break_timer->set_limit_enabled(false);
+        }
+    }
 }
 
 
