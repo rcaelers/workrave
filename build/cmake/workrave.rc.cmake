@@ -17,7 +17,7 @@ VS_VERSION_INFO VERSIONINFO
         VALUE "FileDescription", "Workrave"
         VALUE "FileVersion", "${VERSION}"
         VALUE "InternalName", "workrave"
-        VALUE "LegalCopyright", "Copyright (C) 2001-2010 The Workrave development team."
+        VALUE "LegalCopyright", "Copyright (C) 2001-2012 The Workrave development team."
         VALUE "OriginalFilename", "workrave.exe"
         VALUE "ProductName", "Workrave"
         VALUE "ProductVersion", "${VERSION}"
