@@ -381,24 +381,15 @@ endif(GETTEXT_FOUND)
 ## Installation
 ######################################################################
 
-
-file(GLOB IMAGE_FILES ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/16x16/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/24x24/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/32x32/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/48x48/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/scalable/*.svg)
-file(GLOB ICON_FILES  ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/*.ico
-	              ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/win32/*.ico)
-
-install(FILES ${IMAGE_FILES}
-        DESTINATION share/images
+install(
+DIRECTORY ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/
+DESTINATION share/images
+FILES_MATCHING
+PATTERN "*.png"
+PATTERN "*.ico"
+PATTERN "*.svg"
 )
 
-install(FILES ${ICON_FILES}
-        DESTINATION share/images
-)
-		      
 install(TARGETS workrave
         RUNTIME DESTINATION lib
 )
