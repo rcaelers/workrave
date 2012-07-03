@@ -99,7 +99,7 @@ umask(022);
 #
 # Populate data
 #
-my $source = "$ENV{HOME}/.workrave/historystats";
+my $source = ( $^O eq 'MSWin32' ) ? "$ENV{APPDATA}\\Workrave\\historystats" : "$ENV{HOME}/.workrave/historystats";
 my $first = 1;
 my ($tmdate, $break, $misc) = (undef, undef, undef);
 open(SOURCE, $source) or die "open $source: $!\n";
