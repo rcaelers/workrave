@@ -52,7 +52,7 @@ namespace workrave {
     //! Is this break currently enabled?
     virtual bool is_enabled() const = 0;
 
-    //! Is the timer currently runninf?.
+    //! Is the timer currently running?.
     virtual bool is_running() const = 0;
 
     //! Is the user taking the break.

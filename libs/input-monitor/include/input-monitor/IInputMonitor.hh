@@ -40,16 +40,10 @@ namespace workrave
       virtual void terminate() = 0;
 
       //! Subscribe for activity monitor.
-      virtual void subscribe_activity(IInputMonitorListener *listener) = 0;
-
-      //! Subscribe for statistics monitor.
-      virtual void subscribe_statistics(IInputMonitorListener *listener) = 0;
+      virtual void subscribe(IInputMonitorListener *listener) = 0;
 
       //! Unsubscribe for activity monitor.
-      virtual void unsubscribe_activity(IInputMonitorListener *listener) = 0;
-
-      //! Unsubscribe for statistics monitor.
-      virtual void unsubscribe_statistics(IInputMonitorListener *listener) = 0;
+      virtual void unsubscribe(IInputMonitorListener *listener) = 0;
     };
   }
 }

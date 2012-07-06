@@ -21,6 +21,7 @@
 #define INPUTMONITOR_HH
 
 #include <stdlib.h>
+#include <list>
 
 #include "config/IConfigurator.hh"
 
@@ -34,14 +35,8 @@ class InputMonitor
   : public IInputMonitor
 {
 public:
-  InputMonitor();
-  virtual ~InputMonitor();
-
-  // FIXME: make generic
-  virtual void subscribe_activity(IInputMonitorListener *listener);
-  virtual void subscribe_statistics(IInputMonitorListener *listener);
-  virtual void unsubscribe_activity(IInputMonitorListener *listener);
-  virtual void unsubscribe_statistics(IInputMonitorListener *listener);
+  virtual void subscribe(IInputMonitorListener *listener);
+  virtual void unsubscribe(IInputMonitorListener *listener);
 
 protected:
   void fire_action();
@@ -51,10 +46,7 @@ protected:
 
 private:
   //!
-  IInputMonitorListener *activity_listener;
-
-  //!
-  IInputMonitorListener *statistics_listener;
+  std::list<IInputMonitorListener *> listeners;
 };
 
 #include "InputMonitor.icc"

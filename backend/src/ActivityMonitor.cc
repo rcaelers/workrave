@@ -111,7 +111,7 @@ ActivityMonitor::init(const string &display_name)
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
     {
-      input_monitor->subscribe_activity(this);
+      input_monitor->subscribe(this);
     }
   
   TRACE_EXIT();

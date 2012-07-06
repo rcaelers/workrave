@@ -26,47 +26,16 @@
 #include "InputMonitor.hh"
 
 
-InputMonitor::InputMonitor()
-  : activity_listener(NULL),
-    statistics_listener(NULL)
+void
+InputMonitor::subscribe(IInputMonitorListener *listener)
 {
-}
-
-
-InputMonitor::~InputMonitor()
-{
+  listeners.push_back(listener);
 }
 
 
 void
-InputMonitor::subscribe_activity(IInputMonitorListener *listener)
+InputMonitor::unsubscribe(IInputMonitorListener *listener)
 {
-  assert(activity_listener == NULL);
-  activity_listener = listener;
+  listeners.remove(listener);
 }
 
-
-void
-InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
-{
-  assert(statistics_listener == NULL);
-  statistics_listener = listener;
-}
-
-
-void
-InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
-{
-  (void) listener;
-  assert(activity_listener != NULL);
-  activity_listener = NULL;
-}
-
-
-void
-InputMonitor::unsubscribe_statistics(IInputMonitorListener *listener)
-{
-  (void) listener;
-  assert(statistics_listener != NULL);
-  statistics_listener = NULL;
-}

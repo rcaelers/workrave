@@ -1,6 +1,6 @@
 // InputMonitor.icc
 //
-// Copyright (C) 2007, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@
 inline void
 InputMonitor::fire_action()
 {
-  if (activity_listener != NULL)
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
     {
-      activity_listener->action_notify();
+      (*i)->action_notify();
     }
 }
 
@@ -30,13 +30,9 @@ InputMonitor::fire_action()
 inline void
 InputMonitor::fire_mouse(int x, int y, int wheel)
 {
-  if (activity_listener != NULL)
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
     {
-      activity_listener->mouse_notify(x, y, wheel);
-    }
-  if (statistics_listener != NULL)
-    {
-      statistics_listener->mouse_notify(x, y, wheel);
+      (*i)->mouse_notify(x, y, wheel);
     }
 }
 
@@ -44,13 +40,9 @@ InputMonitor::fire_mouse(int x, int y, int wheel)
 inline void
 InputMonitor::fire_button(bool is_press)
 {
-  if (activity_listener != NULL)
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
     {
-      activity_listener->button_notify(is_press);
-    }
-  if (statistics_listener != NULL)
-    {
-      statistics_listener->button_notify(is_press);
+      (*i)->button_notify(is_press);
     }
 }
 
@@ -58,12 +50,8 @@ InputMonitor::fire_button(bool is_press)
 inline void
 InputMonitor::fire_keyboard(bool repeat)
 {
-  if (activity_listener != NULL)
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
     {
-      activity_listener->keyboard_notify(repeat);
-    }
-  if (statistics_listener != NULL)
-    {
-      statistics_listener->keyboard_notify(repeat);
+      (*i)->keyboard_notify(repeat);
     }
 }

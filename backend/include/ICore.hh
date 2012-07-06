@@ -139,7 +139,7 @@ namespace workrave
     //! Return the current time
     virtual time_t get_time() const = 0;
 
-    //! Return the current time
+    //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
 
     //! Return configuration

@@ -78,7 +78,7 @@ Statistics::~Statistics()
 
   if (input_monitor != NULL)
     {
-      input_monitor->unsubscribe_statistics(this);
+      input_monitor->unsubscribe(this);
     }
 }
 
@@ -90,7 +90,7 @@ Statistics::init()
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
   if (input_monitor != NULL)
     {
-      input_monitor->subscribe_statistics(this);
+      input_monitor->subscribe(this);
     }
 
   current_day = NULL;

@@ -5,4 +5,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in 
 
+SUBDIRS =		cloud
+
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h)
