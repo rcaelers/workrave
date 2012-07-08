@@ -23,12 +23,6 @@
 
 #include "debug.hh"
 
-#include <stdlib.h>
-#include <assert.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
 #include "Core.hh"
 
 #include "config/ConfiguratorFactory.hh"
@@ -39,11 +33,9 @@
 #include "Util.hh"
 #include "IApp.hh"
 #include "ActivityMonitor.hh"
-#include "TimerActivityMonitor.hh"
 #include "Break.hh"
 #include "CoreConfig.hh"
 #include "Statistics.hh"
-#include "Timer.hh"
 
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
@@ -57,13 +49,6 @@
 #include "dbus/DBusException.hh"
 #endif
 
-#ifdef HAVE_DISTRIBUTION
-#include "Networking.hh"
-#endif
-
-const char *WORKRAVESTATE="WorkRaveState";
-const int SAVESTATETIME = 60;
-
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
@@ -75,23 +60,19 @@ ICore::create()
   return Ptr(new Core());
 }
 
+
 //! Constructs a new Core.
 Core::Core() :
   argc(0),
   argv(NULL),
-  last_process_time(0),
   application(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
   operation_mode_regular(OPERATION_MODE_NORMAL),
-  usage_mode(USAGE_MODE_NORMAL),
-  powersave(false),
-  powersave_resume_time(0),
-  insist_policy(ICore::INSIST_POLICY_HALT),
-  active_insist_policy(ICore::INSIST_POLICY_INVALID),
-  monitor_state(ACTIVITY_UNKNOWN)
+  usage_mode(USAGE_MODE_NORMAL)
 {
   TRACE_ENTER("Core::Core");
-  current_time = time(NULL);
+  current_real_time = g_get_real_time();
+  current_monotonic_time = g_get_monotonic_time();
   TRACE_EXIT();
 }
 
@@ -100,8 +81,6 @@ Core::Core() :
 Core::~Core()
 {
   TRACE_ENTER("Core::~Core");
-
-  save_state();
 
   if (monitor != NULL)
     {
@@ -133,8 +112,7 @@ Core::init(int argc, char **argv, IApp *app, const string &display_name)
   init_breaks();
   init_bus();
 
-  load_state();
-  load_misc();
+  load_config();
 }
 
 
@@ -209,13 +187,6 @@ Core::init_bus()
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE "Core");
-
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          string path = string(DBUS_PATH_WORKRAVE) + "Break/" + breaks[i]->get_name();
-          dbus->connect(path, "org.workrave.BreakInterface", breaks[i].get());
-          dbus->register_object_path(path);
-        }
     }
   catch (DBusException &)
     {
@@ -237,11 +208,8 @@ Core::init_monitor(const string &display_name)
 void
 Core::init_breaks()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i] = Break::create(BreakId(i), application, shared_from_this(), shared_from_this(), monitor, statistics, configurator);
-      breaks[i]->init();
-    }
+  breaks_control = BreaksControl::create(application, monitor, statistics, configurator);
+  breaks_control->init();
 }
 
 
@@ -254,53 +222,21 @@ Core::init_statistics()
 }
 
 
-//! Notification that the configuration has changed.
-void
-Core::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("Core::config_changed_notify", key);
-  string::size_type pos = key.find('/');
-  string path;
-
-  if (pos != string::npos)
-    {
-      path = key.substr(0, pos);
-    }
-
-  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
-    {
-      int mode;
-      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
-        {
-          mode = OPERATION_MODE_NORMAL;
-        }
-      TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(OperationMode(mode), false);
-    }
-
-  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
-    {
-      int mode;
-      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
-        {
-          mode = USAGE_MODE_NORMAL;
-        }
-      TRACE_MSG("Setting usage mode");
-      set_usage_mode_internal(UsageMode(mode), false);
-    }
-  TRACE_EXIT();
-}
-
 
 /********************************************************************************/
 /**** TimeSource interface                                                 ******/
 /********************************************************************************/
 
-//! Retrieve the current time.
-time_t
-Core::get_time() const
+gint64
+Core::get_real_time()
 {
-  return current_time;
+  return current_real_time;
+}
+
+gint64
+Core::get_monotonic_time() 
+{
+  return current_monotonic_time;
 }
 
 
@@ -322,33 +258,19 @@ Core::signal_usage_mode_changed()
 }
 
 
-//! Returns the specified timer.
-Timer::Ptr
-Core::get_timer(string name) const
+//! Forces the start of the specified break.
+void
+Core::force_break(BreakId id, BreakHint break_hint)
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (breaks[i]->get_name() == name)
-        {
-          return breaks[i]->get_timer();
-        }
-    }
-  return Timer::Ptr();
+  breaks_control->force_break(id, break_hint);
 }
 
 
-Timer::Ptr
-Core::get_timer(int id) const
+//! Returns the specified break controller.
+IBreak::Ptr
+Core::get_break(BreakId id)
 {
-  return breaks[id]->get_timer();
-}
-
-
-//! Returns the configurator.
-IConfigurator::Ptr
-Core::get_configurator() const
-{
-  return configurator;
+  return breaks_control->get_break(id);
 }
 
 
@@ -360,14 +282,20 @@ Core::get_statistics() const
 }
 
 
-//! Returns the specified break controller.
-IBreak::Ptr
-Core::get_break(BreakId id)
+//! Returns the configurator.
+IConfigurator::Ptr
+Core::get_configurator() const
 {
-  assert(id >= 0 && id < BREAK_ID_SIZEOF);
-  return breaks[id];
+  return configurator;
 }
 
+
+//! Is the user currently active?
+bool
+Core::is_user_active() const
+{
+  return monitor->get_current_state() == ACTIVITY_ACTIVE;
+}
 
 //! Retrieves the operation mode.
 OperationMode
@@ -557,35 +485,28 @@ Core::set_operation_mode_internal(
       OperationMode previous_mode = operation_mode;
 
       operation_mode = mode;
-
+      breaks_control->set_operation_mode(mode);
+      
       if( !operation_mode_overrides.size() )
           operation_mode_regular = operation_mode;
 
       if (operation_mode == OPERATION_MODE_SUSPENDED)
       {
           TRACE_MSG("Force idle");
-          force_idle();
           monitor->suspend();
-          stop_all_breaks();
-
-          for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
-          {
-              if (breaks[i]->is_enabled())
-              {
-                  get_timer(i)->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
-              }
-          }
+          breaks_control->stop_all_breaks();
+          breaks_control->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
       }
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
       {
           // stop_all_breaks again will reset insensitive mode (that is good)
-          stop_all_breaks();
+          breaks_control->stop_all_breaks();
           monitor->resume();
       }
 
       if (operation_mode == OPERATION_MODE_QUIET)
       {
-          stop_all_breaks();
+          breaks_control->stop_all_breaks();
       }
 
       if( !operation_mode_overrides.size() )
@@ -630,10 +551,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
     {
       usage_mode = mode;
 
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          breaks[i]->set_usage_mode(mode);
-        }
+      breaks_control->set_usage_mode(mode);
 
       if (persistent)
         {
@@ -645,102 +563,6 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 }
 
 
-//! Forces the start of the specified break.
-void
-Core::force_break(BreakId id, BreakHint break_hint)
-{
-  TRACE_ENTER_MSG("Core::force_break", id << " " << break_hint);
-  
-  if (id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
-    {
-      breaks[BREAK_ID_MICRO_BREAK]->stop_break();
-      TRACE_MSG("Resuming Micro break");
-    }
-
-  breaks[id]->force_start_break(break_hint);
-  TRACE_EXIT();
-}
-
-
-void
-Core::resume_reading_mode_timers()
-{
-  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
-    {
-      get_timer(i)->force_active();
-    }
-}
-
-
-IActivityMonitor::Ptr
-Core::create_timer_activity_monitor(const string &break_name)
-{
-  Timer::Ptr master = get_timer(break_name);
-  if (master)
-    {
-      return TimerActivityMonitor::create(monitor, master);
-    }
-  return IActivityMonitor::Ptr();
-}
-
-//! Announces a change in time.
-void
-Core::time_changed()
-{
-  TRACE_ENTER("Core::time_changed");
-
-  // In case our timezone changed..
-  tzset();
-
-  // A change of system time idle handled by process_timewarp.
-  // This is used to handle a change in timezone on windows.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      get_timer(i)->shift_time(0);
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Announces a powersave state.
-void
-Core::set_powersave(bool down)
-{
-  TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode);
-
-  if (down)
-    {
-      if (!powersave)
-        {
-          // Computer is going down
-          set_operation_mode_override( OPERATION_MODE_SUSPENDED, "powersave" );
-          powersave_resume_time = 0;
-          powersave = true;
-        }
-      
-      save_state();
-      statistics->update();
-    }
-  else
-    {
-      // Computer is coming back
-      // leave powersave true until the timewarp is detected
-      // or until some time has passed
-      if (powersave_resume_time == 0)
-        {
-          powersave_resume_time = current_time ? current_time : 1;
-          TRACE_MSG("set resume time " << powersave_resume_time);
-        }
-
-      TRACE_MSG("resume time " << powersave_resume_time);
-      remove_operation_mode_override( "powersave" );
-    }
-  TRACE_EXIT();
-}
-
-
 //! Sets the insist policy.
 /*!
  *  The insist policy determines what to do when the user is active while
@@ -749,21 +571,7 @@ Core::set_powersave(bool down)
 void
 Core::set_insist_policy(ICore::InsistPolicy p)
 {
-  TRACE_ENTER_MSG("Core::set_insist_policy", p);
-
-  if (active_insist_policy != ICore::INSIST_POLICY_INVALID &&
-      insist_policy != p)
-    {
-      TRACE_MSG("refreeze " << active_insist_policy);
-      defrost();
-      insist_policy = p;
-      freeze();
-    }
-  else
-    {
-      insist_policy = p;
-    }
-  TRACE_EXIT();
+  breaks_control->set_insist_policy(p);
 }
 
 
@@ -771,30 +579,51 @@ Core::set_insist_policy(ICore::InsistPolicy p)
 void
 Core::force_idle()
 {
-  TRACE_ENTER("Core::force_idle");
-  force_break_idle(BREAK_ID_NONE);
-  TRACE_EXIT();
-}
-
-
-void
-Core::force_break_idle(BreakId break_id)
-{
-  TRACE_ENTER("Core::force_idle_for_break");
-  
   monitor->force_idle();
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->force_idle(break_id);
-    }
-  
-  TRACE_EXIT();
 }
 
 
 /********************************************************************************/
-/**** Break handling                                                       ******/
+/****                                                                      ******/
 /********************************************************************************/
+
+//! Notification that the configuration has changed.
+void
+Core::config_changed_notify(const string &key)
+{
+  TRACE_ENTER_MSG("Core::config_changed_notify", key);
+  string::size_type pos = key.find('/');
+  string path;
+
+  if (pos != string::npos)
+    {
+      path = key.substr(0, pos);
+    }
+
+  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+        {
+          mode = OPERATION_MODE_NORMAL;
+        }
+      TRACE_MSG("Setting operation mode");
+      set_operation_mode_internal(OperationMode(mode), false);
+    }
+
+  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+        {
+          mode = USAGE_MODE_NORMAL;
+        }
+      TRACE_MSG("Setting usage mode");
+      set_usage_mode_internal(UsageMode(mode), false);
+    }
+  TRACE_EXIT();
+}
+
 
 //! Periodic heartbeat.
 void
@@ -804,373 +633,35 @@ Core::heartbeat()
   assert(application != NULL);
 
   // Set current time.
-  current_time = time(NULL);
-  TRACE_MSG("Time = " << current_time);
-
-  // Performs timewarp checking.
-  bool warped = process_timewarp();
+  current_real_time = g_get_real_time();
+  current_monotonic_time = g_get_monotonic_time();
+  
+  TRACE_MSG("Time = " << current_real_time << " " << current_monotonic_time);
 
   // Process configuration
   configurator->heartbeat();
 
-  if (!warped)
-    {
-      // Perform state computation.
-      process_state();
-    }
+  // Perform state computation.
+  monitor->heartbeat();
 
-  // Perform timer processing.
-  process_timers();
-
-  // Send heartbeats to other components.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->heartbeat();
-    }
-
-  // Make state persistent.
-  if (current_time % SAVESTATETIME == 0)
-    {
-      statistics->update();
-      save_state();
-    }
-
-  // Done.
-  last_process_time = current_time;
+  // Process breaks
+  breaks_control->heartbeat();
 
   TRACE_EXIT();
 }
 
 
-
-//! Computes the current state.
-void
-Core::process_state()
-{
-  // Default
-  ActivityState local_state = monitor->get_current_state();
-
-  map<std::string, time_t>::iterator i = external_activity.begin();
-  while (i != external_activity.end())
-    {
-      map<std::string, time_t>::iterator next = i;
-      next++;
-
-      if (i->second >= current_time)
-        {
-          local_state = ACTIVITY_ACTIVE;
-        }
-      else
-        {
-          external_activity.erase(i);
-        }
-
-      i = next;
-    }
-
-  monitor_state = local_state;
-}
-
-
+//!
 void
 Core::report_external_activity(std::string who, bool act)
 {
-  TRACE_ENTER_MSG("Core::report_external_activity", who << " " << act);
-  if (act)
-    {
-      external_activity[who] = current_time + 10;
-    }
-  else
-    {
-      external_activity.erase(who);
-    }
-  TRACE_EXIT();
-}
-
-
-//! Processes all timers.
-void
-Core::process_timers()
-{
-  TRACE_ENTER("Core::process_timers");
-
-  TimerEvent events[BREAK_ID_SIZEOF];
-
-  // Process Timers.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      events[i] = breaks[i]->process(monitor_state);
-    }
-
-  // Process all timer events.
-  for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
-    {
-      if (breaks[i]->is_enabled())
-        {
-          switch (events[i])
-            {
-            case TIMER_EVENT_LIMIT_REACHED:
-              if (!breaks[i]->is_active() && operation_mode == OPERATION_MODE_NORMAL)
-                {
-                  start_break((BreakId)i);
-                }
-              break;
-
-            case TIMER_EVENT_NATURAL_RESET:
-            case TIMER_EVENT_RESET:
-              if (breaks[i]->is_active())
-                {
-                  breaks[i]->stop_break();
-                }
-              break;
-
-            case TIMER_EVENT_NONE:
-              break;
-            }
-        }
-    }
-
-  if (events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_NATURAL_RESET ||
-      events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_RESET)
-    {
-      daily_reset();
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! starts the specified break.
-/*!
- *  \param break_id ID of the timer that caused the break.
- */
-void
-Core::start_break(BreakId break_id, BreakId resume_this_break)
-{
-  // Don't show MB when RB is active, RB when DL is active.
-  for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
-    {
-      if (breaks[bi]->is_active())
-        {
-          return;
-        }
-    }
-
-  if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
-    {
-      // Reset override.
-      breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_REST_BREAK);
-    }
-
-  // Advance restbreak if it follows within 30s after the end of a microbreak
-  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
-    {
-      Timer::Ptr rb_timer = get_timer(BREAK_ID_REST_BREAK);
-      assert(rb_timer != NULL);
-
-      bool activity_sensitive = get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
-
-      // Only advance when
-      // 0. It is activity sensitive
-      // 1. we have a next limit reached time.
-      if (activity_sensitive &&
-          rb_timer->get_next_limit_time() > 0)
-        {
-          Timer::Ptr timer = get_timer(break_id);
-
-          time_t duration = timer->get_auto_reset();
-          time_t now = get_time();
-
-          if (now + duration + 30 >= rb_timer->get_next_limit_time())
-            {
-              breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_MICRO_BREAK);
-
-              start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
-
-              // Snooze timer before the limit was reached. Just to make sure
-              // that it doesn't reach its limit again when elapsed == limit
-              rb_timer->snooze_timer();
-              return;
-            }
-        }
-    }
-
-  // Stop microbreak when a restbreak starts. should not happend.
-  // restbreak should be advanced.
-  for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
-    {
-      if (breaks[bi]->is_active())
-        {
-          breaks[bi]->stop_break();
-        }
-    }
-
-  breaks[break_id]->start_break();
-}
-
-
-//! Sets the freeze state of all breaks.
-void
-Core::set_freeze_all_breaks(bool freeze)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->freeze_break(freeze);
-    }
-}
-
-
-//! Stops all breaks.
-void
-Core::stop_all_breaks()
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->stop_break();
-    }
-}
-
-
-#if defined(PLATFORM_OS_WIN32)
-
-//! Process a possible timewarp on Win32
-bool
-Core::process_timewarp()
-{
-  bool ret = false;
-
-  TRACE_ENTER("Core::process_timewarp");
-
-  if (last_process_time != 0)
-    {
-      time_t gap = current_time - 1 - last_process_time;
-  
-      if (abs((int)gap) > 5)
-        {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " " << current_time);
-
-          if (!powersave)
-            {
-              TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
-
-              force_idle();
-
-              monitor->shift_time((int)gap);
-              for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-                {
-                  get_timer(i)->shift_time((int)gap);
-                }
-
-              monitor_state = ACTIVITY_IDLE;
-              ret = true;
-            }
-          else
-            {
-              TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
-
-              // In case the windows message was lost. some people reported that
-              // workrave never restarted the timers...
-              remove_operation_mode_override( "powersave" );
-            }
-        }
-      
-      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
-        {
-          TRACE_MSG("End of time warp after powersave");
-
-          powersave = false;
-          powersave_resume_time = 0;
-        }
-    }
-  TRACE_EXIT();
-  return ret;
-}
-
-#else
-
-//! Process a possible timewarp On Non-Windows
-bool
-Core::process_timewarp()
-{
-  bool ret = false;
-
-  TRACE_ENTER("Core::process_timewarp");
-  if (last_process_time != 0)
-    {
-      int gap = current_time - 1 - last_process_time;
-
-      if (gap >= 30)
-        {
-          TRACE_MSG("Time warp of " << gap << " seconds. Powersafe");
-
-          force_idle();
-
-          int save_current_time = current_time;
-
-          current_time = last_process_time + 1;
-          monitor_state = ACTIVITY_IDLE;
-
-          process_timers();
-
-          current_time = save_current_time;
-          ret = true;
-        }
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-#endif
-
-
-
-/********************************************************************************/
-/**** Misc                                                                 ******/
-/********************************************************************************/
-
-//! Performs a reset when the daily limit is reached.
-void
-Core::daily_reset()
-{
-  TRACE_ENTER("Core::daily_reset");
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->daily_reset();
-    }
-
-  save_state();
-  TRACE_EXIT();
-}
-
-
-//! Saves the current state.
-void
-Core::save_state() const
-{
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "state" << ends;
-
-  ofstream stateFile(ss.str().c_str());
-
-  stateFile << "WorkRaveState 3"  << endl
-            << get_time() << endl;
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      string stateStr = get_timer(i)->serialize_state();
-
-      stateFile << stateStr << endl;
-    }
-
-  stateFile.close();
+  monitor->report_external_activity(who, act);
 }
 
 
 //! Loads miscellaneous
 void
-Core::load_misc()
+Core::load_config()
 {
   configurator->rename_key("gui/operation-mode", CoreConfig::CFG_KEY_OPERATION_MODE);
   configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
@@ -1188,134 +679,4 @@ Core::load_misc()
       mode = USAGE_MODE_NORMAL;
     }
   set_usage_mode(UsageMode(mode));
-}
-
-
-//! Loads the current state.
-void
-Core::load_state()
-{
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "state" << ends;
-
-  ifstream stateFile(ss.str().c_str());
-
-  int version = 0;
-  bool ok = stateFile.good();
-
-  if (ok)
-    {
-      string tag;
-      stateFile >> tag;
-
-      ok = (tag == WORKRAVESTATE);
-    }
-
-  if (ok)
-    {
-      stateFile >> version;
-
-      ok = (version >= 1 && version <= 3);
-    }
-
-  if (ok)
-    {
-      time_t saveTime;
-      stateFile >> saveTime;
-    }
-
-  while (ok && !stateFile.eof())
-    {
-      string id;
-      stateFile >> id;
-
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          if (get_timer(i)->get_id() == id)
-            {
-              string state;
-              getline(stateFile, state);
-
-              get_timer(i)->deserialize_state(state, version);
-              break;
-            }
-        }
-    }
-}
-
-
-//! Excecute the insist policy.
-void
-Core::freeze()
-{
-  TRACE_ENTER_MSG("Core::freeze", insist_policy);
-  ICore::InsistPolicy policy = insist_policy;
-
-  switch (policy)
-    {
-    case ICore::INSIST_POLICY_IGNORE:
-      {
-        // Ignore all activity during break by suspending the activity monitor.
-        monitor->suspend();
-      }
-      break;
-    case ICore::INSIST_POLICY_HALT:
-      {
-        // Halt timer when the user is active.
-        set_freeze_all_breaks(true);
-      }
-      break;
-    case ICore::INSIST_POLICY_RESET:
-      // reset the timer when the user becomes active.
-      // default.
-      break;
-
-    default:
-      break;
-    }
-
-  active_insist_policy = policy;
-  TRACE_EXIT();
-}
-
-
-//! Undo the insist policy.
-void
-Core::defrost()
-{
-  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
-
-  switch (active_insist_policy)
-    {
-    case ICore::INSIST_POLICY_IGNORE:
-      {
-        // Resumes the activity monitor, if not suspended.
-        if (operation_mode != OPERATION_MODE_SUSPENDED)
-          {
-            monitor->resume();
-          }
-      }
-      break;
-    case ICore::INSIST_POLICY_HALT:
-      {
-        // Desfrost timers.
-        set_freeze_all_breaks(false);
-      }
-      break;
-
-    default:
-      break;
-    }
-
-  active_insist_policy = ICore::INSIST_POLICY_INVALID;
-  TRACE_EXIT();
-}
-
-
-//! Is the user currently active?
-bool
-Core::is_user_active() const
-{
-  return monitor_state == ACTIVITY_ACTIVE;
 }

@@ -32,14 +32,11 @@
 #endif
 
 #include <string>
-
-#include "utils/ITimeSource.hh"
+#include <glib.h>
 
 #include "IActivityMonitor.hh"
 
 class TimePred;
-
-using namespace workrave::utils;
 
 enum TimerState
   {
@@ -84,10 +81,10 @@ public:
   typedef boost::shared_ptr<Timer> Ptr;
 
 public:
-  static Ptr create(ITimeSource::Ptr time_source);
+  static Ptr create();
 
   // Construction/Destruction.
-  Timer(ITimeSource::Ptr time_source);
+  Timer();
   virtual ~Timer();
 
   // Control
@@ -100,18 +97,16 @@ public:
   void start_timer();
   void stop_timer();
   void reset_timer();
+  void restart_insensitive_timer();
 
   void freeze_timer(bool f);
-  
-  void force_idle();
-  void force_active();
 
   // Timer processing.
   TimerEvent process(ActivityState activityState);
 
   // State inquiry
-  time_t get_elapsed_time() const;
-  time_t get_elapsed_idle_time() const;
+  gint64 get_elapsed_time() const;
+  gint64 get_elapsed_idle_time() const;
   TimerState get_state() const;
   bool is_enabled() const;
 
@@ -120,19 +115,19 @@ public:
   void set_auto_reset(TimePred *predicate);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
-  time_t get_auto_reset() const;
-  time_t get_next_reset_time() const; 
+  gint64 get_auto_reset() const;
+  gint64 get_next_reset_time() const; 
 
   // Limiting.
   void set_limit(int t);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
-  time_t get_limit() const;
-  time_t get_next_limit_time() const;
+  gint64 get_limit() const;
+  gint64 get_next_limit_time() const;
 
   // Snoozing.
-  void set_snooze(time_t time);
-  time_t get_snooze() const;
+  void set_snooze(gint64 time);
+  gint64 get_snooze() const;
 
   // Activity sensitivity
   void set_activity_sensitive(bool a);
@@ -148,7 +143,7 @@ public:
   bool deserialize_state(const std::string &state, int version);
   void set_state(int elapsed, int idle, int overdue = -1);
 
-  time_t get_total_overdue_time() const;
+  gint64 get_total_overdue_time() const;
   void daily_reset_timer();
   void shift_time(int delta);
 
@@ -166,7 +161,7 @@ private:
   TimerState timer_state;
 
   //! Default snooze time
-  time_t snooze_interval;
+  gint64 snooze_interval;
 
   //! Don't snooze til next reset or changes.
   bool snooze_inhibited;
@@ -175,58 +170,52 @@ private:
   bool limit_enabled;
 
   //! Timer limit interval.
-  time_t limit_interval;
+  gint64 limit_interval;
 
   //! Is the timer auto reset enabled?
   bool autoreset_enabled;
 
   //! Automatic reset time interval.
-  time_t autoreset_interval;
+  gint64 autoreset_interval;
 
   //! Auto reset time predicate. (or NULL if not used)
   TimePred *autoreset_interval_predicate;
 
   //! Elapsed time.
-  time_t elapsed_time;
-
-  //! Elapsed Idle time.
-  time_t elapsed_idle_time;
-
-  //! Last time the limit was reached.
-  time_t last_limit_time;
+  gint64 elapsed_timespan;
 
   //! The total elapsed time the last time the limit was reached.
-  time_t last_limit_elapsed;
+  gint64 elapsed_timespan_at_last_limit;
 
-  //! Time when the timer was last started.
-  time_t last_start_time;
-
-  //! Time when the timer was last reset.
-  time_t last_reset_time;
-
-  //! Time when the timer was last stopped.
-  time_t last_stop_time;
-
-  //! Next automatic reset time.
-  time_t next_reset_time;
-
-  //! Time when the timer was last reset because of a predicate.
-  time_t last_pred_reset_time;
-
-  //! Next automatic predicate reset time.
-  time_t next_pred_reset_time;
-
-  //! Next limit time.
-  time_t next_limit_time;
+  //! Elapsed Idle time.
+  gint64 elapsed_idle_timespan;
 
   //! Total overdue time.
-  time_t total_overdue_time;
+  gint64 total_overdue_timespan;
+
+  //! Time when the timer was last started.
+  gint64 last_start_time;
+
+  //! Time when the timer was last stopped.
+  gint64 last_stop_time;
+
+  //! Time when the timer was last reset.
+  gint64 last_reset_time;
+
+  //! Time when the timer was last reset because of a predicate.
+  gint64 last_pred_reset_time;
+
+  //! Next automatic reset time.
+  gint64 next_reset_time;
+
+  //! Next automatic predicate reset time.
+  gint64 next_pred_reset_time;
+
+  //! Next limit time.
+  gint64 next_limit_time;
 
   //! Id of the timer.
   std::string timer_id;
-
-  //! Core
-  ITimeSource::Ptr time_source;
 
   //!  Is this timer sensitive for activity
   bool activity_sensitive;

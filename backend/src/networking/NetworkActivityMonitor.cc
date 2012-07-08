@@ -82,7 +82,7 @@ NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext
         {
           RemoteState &rs = i->second;
 
-          rs.lastupdate = TimeSource::get_time();
+          rs.lastupdate = TimeSource::get_monotonic_time();
           
           if (rs.state != state)
             {
@@ -96,7 +96,7 @@ NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext
           RemoteState rs;
           rs.id = remote_id;
           rs.state = state;
-          rs.lastupdate = TimeSource::get_time();
+          rs.lastupdate = TimeSource::get_monotonic_time();
           rs.since = rs.lastupdate;
           
           states[remote_id] = rs;
@@ -113,7 +113,7 @@ NetworkActivityMonitor::get_active()
 {
   TRACE_ENTER("NetworkActivityMonitor::get_active");
 
-  time_t current_time = TimeSource::get_time();
+  time_t current_time = TimeSource::get_monotonic_time();
   int num_active = 0;
 
   StateIter i = states.begin();

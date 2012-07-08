@@ -600,7 +600,7 @@ dnl GLIB
 dnl
 
 PKG_CHECK_MODULES([GLIB],
-                  [glib-2.0 >= 2.10 gmodule-2.0 gthread-2.0],
+                  [glib-2.0 >= 2.28 gmodule-2.0 gthread-2.0],
                   [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
 

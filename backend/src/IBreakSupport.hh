@@ -32,16 +32,8 @@ public:
 
   virtual ~IBreakSupport() {}
   
-  //! Return the current time
-  //virtual time_t get_time() const = 0;
-
-  virtual bool is_user_active() const = 0;
-  
   virtual void defrost() = 0;
   virtual void freeze() = 0;
-  virtual void force_break_idle(workrave::BreakId id) = 0;
-  virtual void resume_reading_mode_timers() = 0;
-  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
 };
 
 #endif // IBREAKSUPPORT_HH

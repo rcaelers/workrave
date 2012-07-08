@@ -27,7 +27,7 @@ class DayTimePred : public TimePred
 public:
   bool init(std::string spec);
 
-  time_t get_next(time_t last_time);
+  gint64 get_next(gint64 last_time);
   std::string to_string() const;
 
 private:
@@ -36,7 +36,7 @@ private:
   int time_cmp(int h1, int m1, int h2, int m2);
 
   //! Last time the predicate matched.
-  time_t last_time;
+  gint64 last_time;
   
   int pred_hour;
   int pred_min;

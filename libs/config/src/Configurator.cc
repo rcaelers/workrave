@@ -87,7 +87,7 @@ Configurator::save()
 void
 Configurator::heartbeat()
 {
-  time_t now = TimeSource::get_time();
+  time_t now = TimeSource::get_monotonic_time();
 
   DelayedListIter it = delayed_config.begin();
   while (it != delayed_config.end())
@@ -111,7 +111,7 @@ Configurator::heartbeat()
 
                   if (auto_save_time == 0)
                     {
-                      auto_save_time = TimeSource::get_time() + 30;
+                      auto_save_time = TimeSource::get_monotonic_time() + 30;
                     }
                 }
             }
@@ -215,7 +215,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
               DelayedConfig &d = delayed_config[key];
               d.key = (string)key;
               d.value = value;
-              d.until = TimeSource::get_time() + setting.delay;
+              d.until = TimeSource::get_monotonic_time() + setting.delay;
 
               skip = true;
             }
@@ -237,7 +237,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
               if (auto_save_time == 0)
                 {
-                  auto_save_time = TimeSource::get_time() + 30;
+                  auto_save_time = TimeSource::get_monotonic_time() + 30;
                 }
             }
         }

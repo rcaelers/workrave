@@ -163,7 +163,6 @@ void
 NetworkConfigurationManager::config_changed_notify(const std::string &key)
 {
   TRACE_ENTER_MSG("NetworkConfigurationManager::config_changed_notify", key);
-  TRACE_MSG("current_time" << TimeSource::get_time());
   
   ConfigWatchIter i = find(watches.begin(), watches.end(), key);
   if (i != watches.end())

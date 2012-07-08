@@ -128,16 +128,16 @@ namespace workrave
     virtual void set_usage_mode(UsageMode mode) = 0;
 
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
-    virtual void set_powersave(bool down) = 0;
+    //virtual void set_powersave(bool down) = 0;
 
     //! Notify the core that the computer time has changed
-    virtual void time_changed() = 0;
+    //virtual void time_changed() = 0;
 
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
     //! Return the current time
-    virtual time_t get_time() const = 0;
+    //virtual time_t get_time() const = 0;
 
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;

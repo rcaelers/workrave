@@ -24,7 +24,6 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
-#include "utils/ITimeSource.hh"
 
 #include "IBreakSupport.hh"
 #include "IActivityMonitor.hh"
@@ -57,7 +56,6 @@ public:
   static Ptr create(BreakId id,
                     IApp *app,
                     IBreakSupport::Ptr break_support,
-                    ITimeSource::Ptr time_source,
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
                     IConfigurator::Ptr configurator);
@@ -65,7 +63,6 @@ public:
   Break(BreakId id,
         IApp *app,
         IBreakSupport::Ptr break_support, 
-        ITimeSource::Ptr time_source,
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
         IConfigurator::Ptr configurator);
@@ -74,15 +71,15 @@ public:
   // Internal
 
   void init();
-  TimerEvent process(ActivityState monitor_state);
-  
-  void heartbeat();
+
+  TimerEvent process_timer();
+  void process_break();
 
   void force_start_break(BreakHint break_hint);
   void start_break();
   void stop_break();
   void freeze_break(bool freeze);
-  void force_idle(BreakId break_id);
+  void force_idle();
   void daily_reset();
   
   Timer::Ptr get_timer() const;
@@ -97,13 +94,13 @@ public:
   virtual bool is_running() const;
   virtual bool is_taking() const;
   virtual bool is_active() const;
-  virtual time_t get_elapsed_time() const;
-  virtual time_t get_elapsed_idle_time() const;
-  virtual time_t get_auto_reset() const;
+  virtual gint64 get_elapsed_time() const;
+  virtual gint64 get_elapsed_idle_time() const;
+  virtual gint64 get_auto_reset() const;
   virtual bool is_auto_reset_enabled() const;
-  virtual time_t get_limit() const;
+  virtual gint64 get_limit() const;
   virtual bool is_limit_enabled() const;
-  virtual time_t get_total_overdue_time() const;
+  virtual gint64 get_total_overdue_time() const;
   virtual void postpone_break();
   virtual void skip_break();
   
@@ -144,9 +141,6 @@ private:
   //! .
   IBreakSupport::Ptr break_support;
 
-  //
-  ITimeSource::Ptr time_source;
-    
   //!
   IActivityMonitor::Ptr activity_monitor;
   
@@ -184,7 +178,7 @@ private:
   bool fake_break;
 
   //! Fake break counter.
-  time_t fake_break_count;
+  gint64 fake_break_count;
 
   //! Break will be stopped because the user pressed postpone/skip.
   bool user_abort;

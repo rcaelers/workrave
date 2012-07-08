@@ -10,7 +10,9 @@ SUBDIRS = 		networking
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
 sources =  		ActivityMonitor.cc \
+			LocalActivityMonitor.cc \
 			Break.cc \
+			BreaksControl.cc \
 			Core.cc \
 			CoreConfig.cc \
 			DayTimePred.cc \

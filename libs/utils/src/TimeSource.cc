@@ -20,20 +20,31 @@
 #include "config.h"
 #endif
 
-#include "debug.hh"
+#include <glib.h>
 
+#include "debug.hh"
 #include "utils/TimeSource.hh"
 
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
 
-time_t
-TimeSource::get_time()
+gint64
+TimeSource::get_real_time()
 {
   if (source != NULL)
     {
-      return source->get_time();
+      return source->get_real_time();
     }
-  return time(NULL);
+  return g_get_real_time();
+}
+
+gint64
+TimeSource::get_monotonic_time()
+{
+  if (source != NULL)
+    {
+      return source->get_monotonic_time();
+    }
+  return g_get_monotonic_time();
 }

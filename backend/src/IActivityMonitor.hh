@@ -27,12 +27,11 @@
 //! State of the activity monitor.
 enum ActivityState
   {
-    ACTIVITY_UNKNOWN,
-    ACTIVITY_SUSPENDED,
+    ACTIVITY_ACTIVE,
     ACTIVITY_IDLE,
-    ACTIVITY_NOISE,
-    ACTIVITY_ACTIVE
+    ACTIVITY_FORCED_IDLE,
   };
+
 
 //! Interface that all activity monitor implements.
 class IActivityMonitor

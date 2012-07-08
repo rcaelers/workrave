@@ -20,6 +20,8 @@
 #ifndef TIMEPRED_HH
 #define TIMEPRED_HH
 
+#include <glib.h>
+
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
  *  a certain time-predicate. This is used for, for example, daily limits.
@@ -34,7 +36,7 @@ public:
   virtual ~TimePred() {}
 
   //! Computes the next time the predicate matches given the time of the previous match.
-  virtual time_t get_next(time_t lastTime) = 0;
+  virtual gint64 get_next(gint64 lastTime) = 0;
 
   //! Returns the string representation of this predicate.
   virtual std::string to_string() const = 0;

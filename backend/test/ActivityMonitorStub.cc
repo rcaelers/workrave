@@ -66,7 +66,7 @@ ActivityMonitorStub::get_current_state()
 {
   if (suspended)
     {
-      return ACTIVITY_SUSPENDED;
+      return ACTIVITY_FORCED_IDLE;
     }
 
   return state;
@@ -76,7 +76,7 @@ ActivityMonitorStub::get_current_state()
 void
 ActivityMonitorStub::force_idle()
 {
-  state = ACTIVITY_IDLE;
+  state = ACTIVITY_FORCED_IDLE;
 }
 
 

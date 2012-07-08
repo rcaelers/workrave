@@ -37,7 +37,7 @@ GIOSocket::GIOSocket() :
   connection(NULL),
   socket(NULL),
   source(NULL),
-  port(NULL),
+  port(0),
   remote_address(NULL),
   local_address(NULL)
 {

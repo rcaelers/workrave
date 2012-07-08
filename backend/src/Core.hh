@@ -44,10 +44,8 @@
 #include "config/Config.hh"
 
 #include "ICore.hh"
-#include "IBreakSupport.hh"
-#include "Break.hh"
+#include "BreaksControl.hh"
 #include "ActivityMonitor.hh"
-#include "Timer.hh"
 #include "Statistics.hh"
 
 #include "Networking.hh"
@@ -67,7 +65,6 @@ namespace workrave {
 class Core :
   public ITimeSource,
   public ICore,
-  public IBreakSupport,
   public IConfiguratorListener,
   public boost::enable_shared_from_this<Core>
 {
@@ -76,11 +73,10 @@ public:
   virtual ~Core();
 
   // ITimeSource
-  
-  time_t get_time() const;
+  gint64 get_real_time();
+  gint64 get_monotonic_time();
 
   // ICore
-
 
 #ifdef HAVE_DBUS
   dbus::DBus *get_dbus()
@@ -88,7 +84,6 @@ public:
     return dbus;
   }
 #endif
-
 
   boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
@@ -108,35 +103,16 @@ public:
   void set_operation_mode(OperationMode mode);
   void set_operation_mode_override(OperationMode mode, const std::string &id);
   void remove_operation_mode_override(const std::string &id);
-
+ 
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
 
-  void set_powersave(bool down);
-  void time_changed();
-
-  void set_insist_policy(ICore::InsistPolicy p);
+  void set_insist_policy(InsistPolicy p);
   
   void force_idle();
 
-  // ICoreInternal
-  //IActivityMonitor::Ptr get_activity_monitor() const;
-  // Break::Ptr get_break(std::string name);
-  void resume_reading_mode_timers();
-  void defrost();
-  void freeze();
-  void force_break_idle(BreakId break_id);
-  IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
-
   // DBus functions.
   void report_external_activity(std::string who, bool act);
-  // void is_timer_running(BreakId id, bool &value);
-  // void get_timer_elapsed(BreakId id,int *value);
-  // void get_timer_idle(BreakId id, int *value);
-  // void get_timer_overdue(BreakId id,int *value);
-  // void postpone_break(BreakId break_id);
-  // void skip_break(BreakId break_id);
-
   
 private:
   void init_breaks();
@@ -146,22 +122,10 @@ private:
   void init_statistics();
 
   void config_changed_notify(const std::string &key);
-  void process_state();
-  bool process_timewarp();
-  void process_timers();
-  void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
-  void stop_all_breaks();
-  void daily_reset();
-  void save_state() const;
-  void load_state();
-  void load_misc();
+  void load_config();
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
-  void set_freeze_all_breaks(bool freeze);
-
-  Timer::Ptr get_timer(std::string name) const;
-  Timer::Ptr get_timer(int id) const;
   
 private:
   //! Number of command line arguments passed to the program.
@@ -170,14 +134,14 @@ private:
   //! Command line arguments passed to the program.
   char **argv;
 
-  //! The current time.
-  time_t current_time;
-
-  //! The time we last processed the timers.
-  time_t last_process_time;
+  //! The current wall clocl time.
+  gint64 current_real_time;
+  
+  //! The current monotonic time.
+  gint64 current_monotonic_time;
 
   //! List of breaks.
-  Break::Ptr breaks[BREAK_ID_SIZEOF];
+  BreaksControl::Ptr breaks_control;
 
   //! The Configurator.
   IConfigurator::Ptr configurator;
@@ -203,29 +167,11 @@ private:
   //! Current usage mode.
   UsageMode usage_mode;
 
-  //! Did the OS announce a powersave?
-  bool powersave;
-
-  //! Time the OS announces a resume from powersave
-  time_t powersave_resume_time;
-
-  //! What to do with activity during insisted break?
-  ICore::InsistPolicy insist_policy;
-
-  //! Policy currently in effect.
-  ICore::InsistPolicy active_insist_policy;
-
-  //! Current overall monitor state.
-  ActivityState monitor_state;
-
 #ifdef HAVE_DBUS
   //! DBUS bridge
   dbus::DBus *dbus;
 #endif
   
-  //! External activity
-  std::map<std::string, time_t> external_activity;
-
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
 };

@@ -74,29 +74,27 @@ TimerActivityMonitor::get_current_state()
       ActivityState local_state = monitor->get_current_state();
       TRACE_MSG(local_state)
 
-        if (local_state != ACTIVITY_IDLE &&
-            local_state != ACTIVITY_SUSPENDED)
+        if (local_state == ACTIVITY_ACTIVE)
           {
             forced_idle = false;
           }
-
     }
 
   if (forced_idle)
     {
       TRACE_RETURN("Idle");
-      return ACTIVITY_IDLE;
+      return ACTIVITY_FORCED_IDLE;
     }
 
   if (suspended)
     {
       TRACE_RETURN("Suspended");
-      return ACTIVITY_SUSPENDED;
+      return ACTIVITY_FORCED_IDLE;
     }
 
   TimerState state = timer->get_state();
-  time_t idle = timer->get_elapsed_idle_time();
-  time_t reset = timer->get_auto_reset();
+  gint64 idle = timer->get_elapsed_idle_time();
+  gint64 reset = timer->get_auto_reset();
 
   if (state == STATE_STOPPED && idle >= reset)
     {

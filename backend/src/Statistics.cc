@@ -113,7 +113,7 @@ Statistics::update()
   bool active = core->is_user_active();
   if (active && !been_active)
     {
-      const time_t now = core->get_time();
+      const time_t now = time(NULL);
       struct tm *tmnow = localtime(&now);
 
       current_day->start = *tmnow;
@@ -170,7 +170,7 @@ void
 Statistics::start_new_day()
 {
   TRACE_ENTER("Statistics::start_new_day");
-  const time_t now = core->get_time();
+  const time_t now = time(NULL);
   struct tm *tmnow = localtime(&now);
 
   if (current_day == NULL ||
@@ -692,7 +692,7 @@ Statistics::update_current_day(bool active)
     {
      if (active)
         {
-          const time_t now = core->get_time();
+          const time_t now = time(NULL);
           struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }

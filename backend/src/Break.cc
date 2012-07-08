@@ -53,12 +53,11 @@ Break::Ptr
 Break::create(BreakId id,
               IApp *app,
               IBreakSupport::Ptr break_support, 
-              ITimeSource::Ptr time_source,
               IActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
               IConfigurator::Ptr configurator)
 {
-  return Ptr(new Break(id, app, break_support, time_source, activity_monitor, statistics, configurator));
+  return Ptr(new Break(id, app, break_support, activity_monitor, statistics, configurator));
 }
 
 
@@ -66,14 +65,12 @@ Break::create(BreakId id,
 Break::Break(BreakId id,
              IApp *app,
              IBreakSupport::Ptr break_support, 
-             ITimeSource::Ptr time_source,
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
              IConfigurator::Ptr configurator) :
   break_id(id),
   application(app),
   break_support(break_support),
-  time_source(time_source),
   activity_monitor(activity_monitor),
   statistics(statistics),
   configurator(configurator),
@@ -111,7 +108,7 @@ Break::init()
   TRACE_ENTER("Break::init");
 
   break_name = CoreConfig::get_break_name(break_id);
-  break_timer = Timer::create(time_source);
+  break_timer = Timer::create();
   break_timer->set_id(break_name);
   
   load_timer_config();
@@ -129,9 +126,11 @@ Break::init()
 
 
 TimerEvent
-Break::process(ActivityState monitor_state)
+Break::process_timer()
 {
-  TimerEvent event = break_timer->process(monitor_state);
+  ActivityState state = activity_monitor->get_current_state();
+  
+  TimerEvent event = break_timer->process(state);
 
   if (break_id == BREAK_ID_DAILY_LIMIT &&
       (event == TIMER_EVENT_NATURAL_RESET || event == TIMER_EVENT_RESET))
@@ -151,9 +150,9 @@ Break::process(ActivityState monitor_state)
 
 //! Periodic heartbeat.
 void
-Break::heartbeat()
+Break::process_break()
 {
-  TRACE_ENTER_MSG("Break::heartbeat", break_id);
+  TRACE_ENTER_MSG("Break::process_break", break_id);
 
   prelude_time++;
 
@@ -169,7 +168,7 @@ Break::heartbeat()
   else
     {
       // Unless the timer has its own activity monitor.
-      is_idle = !break_support->is_user_active();
+      is_idle = activity_monitor->get_current_state() != ACTIVITY_ACTIVE;
     }
 
   TRACE_MSG("stage = " << break_stage);
@@ -290,7 +289,7 @@ Break::start_break()
 
       // Idle until proven guilty.
       TRACE_MSG("Force idle");
-      break_support->force_break_idle(break_id);
+      force_idle();
       break_timer->stop_timer();
 
       // Update statistics.
@@ -325,7 +324,7 @@ Break::force_start_break(BreakHint hint)
   if (break_timer->is_auto_reset_enabled())
     {
       TRACE_MSG("auto reset enabled");
-      time_t idle = break_timer->get_elapsed_idle_time();
+      gint64 idle = break_timer->get_elapsed_idle_time();
       TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
       if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
@@ -338,7 +337,7 @@ Break::force_start_break(BreakHint hint)
   if (!break_timer->is_activity_sensitive())
     {
       TRACE_MSG("Forcing idle");
-      break_support->force_break_idle(break_id);
+      force_idle();
     }
 
   goto_stage(STAGE_TAKING);
@@ -378,17 +377,13 @@ Break::freeze_break(bool freeze)
 
 //! Force the timer to become idle.
 void
-Break::force_idle(BreakId id)
+Break::force_idle()
 {
-  if (break_id == BREAK_ID_NONE || id == break_id)
+  activity_monitor->force_idle();
+  if (timer_activity_monitor)
     {
-      if (timer_activity_monitor)
-        {
-          timer_activity_monitor->force_idle();
-        }
+      timer_activity_monitor->force_idle();
     }
-      
-  break_timer->force_idle();
 }
 
 void
@@ -506,21 +501,21 @@ Break::is_active() const
 }
 
 
-time_t
+gint64
 Break::get_elapsed_time() const
 {
   return break_timer->get_elapsed_time();
 }
 
 
-time_t
+gint64
 Break::get_elapsed_idle_time() const
 {
   return break_timer->get_elapsed_idle_time();
 }
 
 
-time_t
+gint64
 Break::get_auto_reset() const
 {
   return break_timer->get_auto_reset();
@@ -534,7 +529,7 @@ Break::is_auto_reset_enabled() const
 }
 
 
-time_t
+gint64
 Break::get_limit() const
 {
   return break_timer->get_limit();
@@ -548,7 +543,7 @@ Break::is_limit_enabled() const
 }
 
 
-time_t
+gint64
 Break::get_total_overdue_time() const
 {
   return break_timer->get_total_overdue_time();
@@ -643,15 +638,15 @@ Break::goto_stage(BreakStage stage)
 
         if (break_id == BREAK_ID_MICRO_BREAK && usage_mode == USAGE_MODE_READING)
           {
-            break_support->resume_reading_mode_timers();
+            // TODO: break_support->resume_reading_mode_timers();
           }
 
         if (break_stage == STAGE_TAKING && !fake_break)
           {
             // Update statistics and play sound if the break end
             // was "natural"
-            time_t idle = break_timer->get_elapsed_idle_time();
-            time_t reset = break_timer->get_auto_reset();
+            gint64 idle = break_timer->get_elapsed_idle_time();
+            gint64 reset = break_timer->get_auto_reset();
 
             if (idle >= reset && !user_abort)
               {
@@ -702,7 +697,7 @@ Break::goto_stage(BreakStage stage)
 
         // "Innocent until proven guilty".
         TRACE_MSG("Force idle");
-        break_support->force_break_idle(break_id);
+        force_idle();
         break_timer->stop_timer();
 
         // Start the break.
@@ -770,8 +765,8 @@ void
 Break::update_break_window()
 {
   assert(break_timer != NULL);
-  time_t duration = break_timer->get_auto_reset();
-  time_t idle = 0;
+  gint64 duration = break_timer->get_auto_reset();
+  gint64 idle = 0;
 
   if (fake_break)
     {
@@ -824,7 +819,8 @@ Break::send_signal(BreakStage stage)
 
 #ifdef HAVE_DBUS
   const char *progress = NULL;
-
+  (void) progress;
+  
   switch (stage)
     {
     case STAGE_NONE:
@@ -966,7 +962,7 @@ Break::load_timer_config()
 
       if (ret && monitor_name != "" && monitor_name != get_name())
         {
-          timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
+          // TODO: timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
         }
     }
   update_usage_mode();

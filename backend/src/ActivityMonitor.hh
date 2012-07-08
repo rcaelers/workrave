@@ -20,34 +20,17 @@
 #ifndef ACTIVITYMONITOR_HH
 #define ACTIVITYMONITOR_HH
 
-#include "IActivityMonitor.hh"
-
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
 #include "config/Config.hh"
-#include "input-monitor/IInputMonitor.hh"
-#include "input-monitor/IInputMonitorListener.hh"
-#include "Mutex.hh"
 
+#include "IActivityMonitor.hh"
 #include "IActivityMonitorListener.hh"
 
+#include "LocalActivityMonitor.hh"
 
 using namespace workrave::config;
-using namespace workrave::input_monitor;
 
 class ActivityMonitor :
-  public IActivityMonitor,
-  public IInputMonitorListener,
-  public IConfiguratorListener
+  public IActivityMonitor
 {
 public:
   typedef boost::shared_ptr<ActivityMonitor> Ptr;
@@ -65,69 +48,28 @@ public:
   void force_idle();
   void shift_time(int delta);
 
+  void heartbeat();
+  void report_external_activity(std::string who, bool act);
+  
   ActivityState get_current_state();
-
-  void set_parameters(int noise, int activity, int idle);
-  void get_parameters(int &noise, int &activity, int &idle);
 
   void set_listener(IActivityMonitorListener::Ptr l);
 
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(bool is_press);
-  void keyboard_notify(bool repeat);
-
-private:
-  void call_listener();
-
-  void load_config();
-  void config_changed_notify(const std::string &key);
-  
 private:
   //! The Configurator.
   IConfigurator::Ptr configurator;
 
-  //! The actual monitoring driver.
-  IInputMonitor *input_monitor;
-
-  //! the current state.
-  ActivityState activity_state;
-
-  //! Internal locking
-  Mutex lock;
-
-  //! Previous X coordinate
-  int prev_x;
-
-  //! Previous Y coordinate
-  int prev_y;
-
-  //! Previous X-click coordinate
-  int click_x;
-
-  //! Previous Y-click coordinate
-  int click_y;
-
-  //! Is the button currently pressed?
-  bool button_is_pressed;
-
-  //! Last time activity was detected
-  GTimeVal last_action_time;
-
-  //! First time the \c ACTIVITY_IDLE state was left.
-  GTimeVal first_action_time;
-
-  //! The noise threshold
-  GTimeVal noise_threshold;
-
-  //! The activity threshold.
-  GTimeVal activity_threshold;
-
-  //! The idle threshold.
-  GTimeVal idle_threshold;
-
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
+
+  //! The activity monitor
+  LocalActivityMonitor::Ptr local_monitor;
+
+  //! External activity
+  std::map<std::string, gint64> external_activity;
+
+  //! Current overall monitor state.
+  ActivityState monitor_state;
 };
 
 #endif // ACTIVITYMONITOR_HH

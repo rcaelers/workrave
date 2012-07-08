@@ -89,9 +89,9 @@
     </signal>
     -->
     
-    <method name="GetTime" csymbol="get_time">
+    <!--method name="GetTime" csymbol="get_time">
       <arg type="int32" name="value" direction="out" hint="return"/>
-    </method>
+    </method-->
 
     <method name="IsActive" csymbol="is_user_active">
       <arg type="bool" name="value" direction="out" hint="return"/>
