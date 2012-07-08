@@ -616,7 +616,7 @@ BreakWindow::refresh()
   update_break_window();
 
 #ifdef PLATFORM_OS_WIN32
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
 
   // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
@@ -624,8 +624,7 @@ BreakWindow::refresh()
   // without ALT after the user is idle for 5s
   if (!user_active && !accel_added)
     {
-      IBreak *b = core->get_break(BreakId(break_id));
-      assert(b != NULL);
+      IBreak::Ptr b = core->get_break(BreakId(break_id));
 
       TRACE_MSG(b->get_elapsed_idle_time());
       if (b->get_elapsed_idle_time() > 5)

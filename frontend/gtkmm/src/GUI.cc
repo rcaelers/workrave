@@ -1648,18 +1648,11 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMRESUMESUSPEND:
           case PBT_APMRESUMEAUTOMATIC:
           case PBT_APMRESUMECRITICAL:
-            {
-              TRACE_MSG("Resume suspend");
-              ICore *core = CoreFactory::get_core();
-              core->set_powersave(false);
-            }
-            break;
-
           case PBT_APMSUSPEND:
             {
-              TRACE_MSG("Suspend");
-              ICore *core = CoreFactory::get_core();
-              core->set_powersave(true);
+              TRACE_MSG("Resume suspend");
+              ICore::Ptr core = CoreFactory::get_core();
+              core->force_idle();
             }
             break;
           }
@@ -1670,14 +1663,6 @@ GUI::win32_filter_func (void     *xevent,
       {
         TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
         gui->init_multihead();
-      }
-      break;
-
-    case WM_TIMECHANGE:
-      {
-        TRACE_MSG("WM_TIMECHANGE " << msg->wParam << " " << msg->lParam);
-        ICore *core = CoreFactory::get_core();
-        core->time_changed();
       }
       break;
 

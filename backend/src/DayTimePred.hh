@@ -27,7 +27,7 @@ class DayTimePred : public TimePred
 public:
   bool init(std::string spec);
 
-  gint64 get_next(gint64 last_time);
+  time_t get_next(time_t last_time);
   std::string to_string() const;
 
 private:

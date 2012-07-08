@@ -120,8 +120,8 @@ DayTimePred::days_in_month(int month, int year)
 // }
 
 
-gint64
-DayTimePred::get_next(gint64 last_time)
+time_t
+DayTimePred::get_next(time_t last_time)
 {
   struct tm *ret;
 
