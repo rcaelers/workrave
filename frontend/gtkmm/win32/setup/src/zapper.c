@@ -3,6 +3,11 @@
 
 #include "zapper.h"
 
+#pragma comment(lib, "user32.lib")
+
+#pragma warning(push)
+#pragma warning(disable:4100) //unreferenced formal parameter
+
 typedef DWORD (__stdcall *QUERYFULLPROCESSIMAGENAME)(HANDLE, DWORD, LPTSTR, PDWORD);
 typedef DWORD (__stdcall *GETMODULEFILENAMEEX)(HANDLE, HMODULE, LPTSTR, DWORD);
 typedef DWORD (__stdcall *GETMODULEBASENAME)(HANDLE, HMODULE, LPTSTR, DWORD);
@@ -20,59 +25,80 @@ static BOOL simulate = FALSE;
 
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, long lParam)
 {
-  char buf[2 * MAX_PATH] = { 0 };
+    BOOL func_retval = TRUE;
+    DWORD processid = 0;
+    HANDLE process_handle = NULL;
+    char *ptr = NULL;
+    char buf[ 2 * MAX_PATH ] = { 0, };
+    BOOL process_name_found = FALSE;
+    int n = 0;
 
-  int n = GetClassName(hwnd, (LPSTR) buf, sizeof(buf) - 1);
-  buf[n] = '\0';
+    n = GetClassName( hwnd, (LPSTR)buf, sizeof( buf ) - 1 );
+    if( n <= 0 )
+        goto cleanup;
 
-  if (strcmp(buf, "EggSmClientWindow") == 0)
+    buf[ n ] = '\0';
+
+    if( strcmp( buf, "EggSmClientWindow" ) )
+        goto cleanup;
+
+    if( !GetWindowThreadProcessId( hwnd, &processid )
+        || !processid
+        )
+        goto cleanup;
+
+    process_handle = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 0, processid );
+    if( !process_handle )
+        goto cleanup;
+
+    if( pfnQueryFullProcessImageName )
     {
-      DWORD processid = 0;
-      GetWindowThreadProcessId(hwnd, &processid);
-
-      HANDLE process_handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 0, processid);
-      if (process_handle != NULL)
-        {
-          if (pfnQueryFullProcessImageName != NULL)
-            {
-              DWORD buf_size = sizeof(buf);
-              pfnQueryFullProcessImageName(process_handle, 0, buf, &buf_size);
-            }
-          else if (pfnGetModuleFileNameEx != NULL)
-            {
-              pfnGetModuleFileNameEx(process_handle, NULL, buf, sizeof(buf));
-            }
-
-          CloseHandle(process_handle);
-        }
-
-      char *ptr = strrchr(buf, '\\');
-      if (ptr != NULL && stricmp(ptr + 1, "Workrave.exe") == 0)
-        {
-          if (! simulate)
-            {
-              PostMessage(hwnd, WM_ENDSESSION, 1, 0);
-            }
-
-          success = TRUE;
-          return FALSE;
-        }
+        DWORD buf_size = sizeof( buf );
+        if( pfnQueryFullProcessImageName( process_handle, 0, buf, &buf_size ) )
+            process_name_found = TRUE;
     }
 
-  return TRUE;
+    if( !process_name_found && pfnGetModuleFileNameEx )
+    {
+        if( pfnGetModuleFileNameEx( process_handle, NULL, buf, sizeof( buf ) ) )
+            process_name_found = TRUE;
+    }
+
+    if( !process_name_found )
+        goto cleanup;
+
+    ptr = strrchr( buf, '\\' );
+    if( !ptr
+        || _stricmp( ptr + 1, "Workrave.exe" )
+        )
+        goto cleanup;
+
+    if( !simulate )
+        PostMessage( hwnd, WM_ENDSESSION, 1, 0 );
+
+    success = TRUE;
+    func_retval = FALSE;
+
+cleanup:
+
+    if( process_handle )
+        CloseHandle( process_handle );
+
+    return func_retval;
 }
 
 
 static void
 FindOrZapWorkrave()
 {
+  HINSTANCE psapi = NULL;
   HINSTANCE kernel32 = LoadLibrary("kernel32.dll");
+
   if (kernel32 != NULL)
     {
       pfnQueryFullProcessImageName = (QUERYFULLPROCESSIMAGENAME)GetProcAddress(kernel32, "QueryFullProcessImageNameA");
     }
 
-  HINSTANCE psapi = NULL;
   if (pfnQueryFullProcessImageName == NULL)
     {
       psapi = LoadLibrary("psapi.dll");
@@ -130,7 +156,7 @@ KillProcess(char *proces_name_to_kill)
 
   if (pfnEnumProcesses != NULL && pfnGetModuleBaseName != NULL && pfnEnumProcessModules != NULL)
     {
-      int i = 0;
+      DWORD i = 0;
       DWORD count = 0;
       DWORD needed = 0;
       DWORD *pids = NULL;
@@ -151,14 +177,15 @@ KillProcess(char *proces_name_to_kill)
           for (i = 0; i < count; i++)
             {
               DWORD pid = pids[i];
+              HANDLE process_handle = NULL;
+              char process_name[MAX_PATH] = "";
+
               if (pid == 0)
                 {
                   continue;
                 }
 
-              char process_name[MAX_PATH] = "";
-
-              HANDLE process_handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+              process_handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
               if (process_handle != NULL)
                 {
                   HMODULE module_handle;
@@ -169,9 +196,9 @@ KillProcess(char *proces_name_to_kill)
                       pfnGetModuleBaseName(process_handle, module_handle, process_name, sizeof(process_name)/sizeof(char));
                     }
 
-                  if (stricmp(process_name, proces_name_to_kill) == 0)
+                  if (_stricmp(process_name, proces_name_to_kill) == 0)
                     {
-                      TerminateProcess(process_handle, -1);
+                      TerminateProcess(process_handle, (UINT)-1);
                       CloseHandle(process_handle);
                       break;
                     }
@@ -191,3 +218,5 @@ KillProcess(char *proces_name_to_kill)
 
   return ret;
 }
+
+#pragma warning(pop)
