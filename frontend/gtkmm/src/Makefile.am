@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		win32 unix osx
@@ -105,7 +105,8 @@ if PLATFORM_OS_WIN32
 extrasources +=		$(sourceswin32) eggsmclient-win32.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
-			-I$(top_srcdir)/frontend/applets/win32/include
+			-I$(top_srcdir)/frontend/applets/win32/include \
+			-I$(top_srcdir)/backend/src/win32
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
 win32cflags		= -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600
 endif
