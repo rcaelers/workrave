@@ -47,6 +47,7 @@ const char *workrave_translators =
  /* eo */           "Eric lesh <eclesh@pacbell.net>\n"
  /* es */           "Pablo Rodriguez <ousia@gmx.net>\n"
  /* et */           "Marko Väljaots <aatomik@hotmail.com>\n"
+ /* fi */           "Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi>\n"
  /* fr 1 */         "Thomas Basset <thomas.basset@netcourrier.com>\n"
  /* fr 2 */         "Benjamin Siband <translations@wordinfrench.com>\n"
  /* fa */           "Moein Gh <tarfandkhaneh@gmail.com>\n"
