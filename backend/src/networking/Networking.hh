@@ -36,6 +36,8 @@
 #include "NetworkConfigurationManager.hh"
 #include "NetworkActivityMonitor.hh"
 
+#include "workrave.pb.h"
+
 using namespace workrave;
 using namespace workrave::config;
 
@@ -56,6 +58,22 @@ public:
   void heartbeat();
   void connect(const std::string host, int port);
 
+private:
+  void on_break_message(Message::Ptr message, MessageContext::Ptr context);
+  void on_operation_mode_message(Message::Ptr message, MessageContext::Ptr context);
+  void on_usage_mode_message(Message::Ptr message, MessageContext::Ptr context);
+  void on_timer_message(Message::Ptr message, MessageContext::Ptr context);
+
+  void send_timer_state();
+
+  void send_break_event(BreakId id, workrave::networking::Break::BreakEvent event);
+  
+  void on_break_postponed(BreakId id);
+  void on_break_skipped(BreakId id);
+  void on_break_forced(BreakId id, BreakHint hint);
+  void on_operation_mode_changed(OperationMode mode);
+  void on_usage_mode_changed(UsageMode mode);
+  
 private:
   //! 
   ICloud::Ptr cloud;

@@ -30,14 +30,14 @@
 
 #include <glib.h>
 
+#include "utils/TimeSource.hh"
 #include "debug.hh"
 
 #include "Networking.hh"
 #include "Util.hh"
 
-#include "workrave.pb.h"
-
 using namespace std;
+using namespace workrave::utils;
 
 Networking::Ptr
 Networking::create(ICore::Ptr core)
@@ -51,11 +51,8 @@ Networking::Networking(ICore::Ptr core) : core(core)
 {
   TRACE_ENTER("Networking::Networking");
   configurator = core->get_configurator();
-
   cloud = ICloud::create();
 
-  configurator = core->get_configurator();
-  
   string user;
   configurator->get_value("plugins/networking/user", user);
 
@@ -89,15 +86,26 @@ Networking::init()
   configuration_manager->init();
   activity_monitor->init();
 
-  // network->subscribe("breaklinkevent", this);
-  // network->subscribe("corelinkevent", this);
-  // network->subscribe("timerstatelinkevent", this);
-  
-  // network->report_active(false);
-  // for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-  //   {
-  //     network->report_timer_state(i, false);
-  //   }
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      IBreak::Ptr b = core->get_break((BreakId)i);
+
+      b->signal_skipped().connect(boost::bind(&Networking::on_break_skipped, this, (BreakId) i));
+      b->signal_postponed().connect(boost::bind(&Networking::on_break_postponed, this, (BreakId) i));
+      b->signal_break_forced().connect(boost::bind(&Networking::on_break_forced, this, (BreakId) i, _1));
+    }
+
+  core->signal_operation_mode_changed().connect(boost::bind(&Networking::on_operation_mode_changed, this, _1));
+  core->signal_usage_mode_changed().connect(boost::bind(&Networking::on_usage_mode_changed, this, _1));
+
+  cloud->signal_message(1, workrave::networking::Break::kTypeFieldNumber)
+    .connect(boost::bind(&Networking::on_break_message, this, _1, _2));
+  cloud->signal_message(1, workrave::networking::Timer::kTypeFieldNumber)
+    .connect(boost::bind(&Networking::on_timer_message, this, _1, _2));
+  cloud->signal_message(1, workrave::networking::OperationMode::kTypeFieldNumber)
+    .connect(boost::bind(&Networking::on_operation_mode_message, this, _1, _2));
+  cloud->signal_message(1, workrave::networking::UsageMode::kTypeFieldNumber)
+    .connect(boost::bind(&Networking::on_usage_mode_message, this, _1, _2));
   
   TRACE_EXIT();
 }
@@ -117,16 +125,10 @@ void
 Networking::heartbeat()
 {
   TRACE_ENTER("Networking::heartbeat");
-  static bool once = false;
-  
-  // TODO: debugging code.
-  if (!once)
-    {
-      boost::shared_ptr<workrave::networking::ActivityState> a(new workrave::networking::ActivityState());
-      a->set_state(1);
-      cloud->send_message(a, MessageParams::create());
-      once = true;
-    }
+
+  activity_monitor->heartbeat();
+
+  send_timer_state();
   
   TRACE_EXIT();
 }
@@ -142,134 +144,242 @@ Networking::connect(const std::string host, int port)
 /**** Networking support                                                   ******/
 /********************************************************************************/
 
-#ifdef HAVE_BROKEN_DISTRIBUTION
-//! Process Break event
 void
-Core::break_event_received(const BreakLinkEvent *event)
+Networking::send_break_event(BreakId id, workrave::networking::Break::BreakEvent event)
 {
-  TRACE_ENTER_MSG("Core::break_event_received", event->str());
+  boost::shared_ptr<workrave::networking::Break> e(new workrave::networking::Break());
+  e->set_break_id(id);
+  e->set_break_event(event);
+  cloud->send_message(e, MessageParams::create());
+}
 
-  BreakId break_id = event->get_break_id();
-  BreakLinkEvent::BreakEvent break_event = event->get_break_event();
 
-  switch(break_event)
+void
+Networking::on_break_postponed(BreakId id)
+{
+  send_break_event(id, workrave::networking::Break::BREAK_EVENT_USER_POSTPONE);
+}
+
+
+void
+Networking::on_break_skipped(BreakId id)
+{
+  send_break_event(id, workrave::networking::Break::BREAK_EVENT_USER_SKIP);
+}
+
+
+void
+Networking::on_break_forced(BreakId id, BreakHint hint)
+{
+  boost::shared_ptr<workrave::networking::Break> e(new workrave::networking::Break());
+  e->set_break_id(id);
+  e->set_break_event(workrave::networking::Break::BREAK_EVENT_FORCE_BREAK);
+  e->set_break_hint(hint);
+  cloud->send_message(e, MessageParams::create());
+}
+
+
+void
+Networking::on_operation_mode_changed(OperationMode mode)
+{
+  boost::shared_ptr<workrave::networking::OperationMode> e(new workrave::networking::OperationMode());
+
+  switch (mode)
     {
-    case BreakLinkEvent::BREAK_EVENT_USER_POSTPONE:
-      do_postpone_break(break_id);
+    case OPERATION_MODE_SUSPENDED:
+      e->set_mode(workrave::networking::OperationMode::OPERATION_MODE_SUSPENDED);
       break;
-
-    case BreakLinkEvent::BREAK_EVENT_USER_SKIP:
-      do_skip_break(break_id);
+      
+    case OPERATION_MODE_QUIET:
+      e->set_mode(workrave::networking::OperationMode::OPERATION_MODE_QUIET);
       break;
-
-    case BreakLinkEvent::BREAK_EVENT_USER_FORCE_BREAK:
-      do_force_break(break_id, BREAK_HINT_USER_INITIATED);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_SYST_FORCE_BREAK:
-      do_force_break(break_id, (BreakHint)0);
-      break;
-
-    case BreakLinkEvent::BREAK_EVENT_SYST_STOP_PRELUDE:
-      do_stop_prelude(break_id);
+      
+    case OPERATION_MODE_NORMAL:
+      e->set_mode(workrave::networking::OperationMode::OPERATION_MODE_NORMAL);
       break;
 
     default:
       break;
     }
+  cloud->send_message(e, MessageParams::create());
+}
 
+
+void
+Networking::on_usage_mode_changed(UsageMode mode)
+{
+  boost::shared_ptr<workrave::networking::UsageMode> e(new workrave::networking::UsageMode());
+  switch (mode)
+    {
+    case USAGE_MODE_NORMAL:
+      e->set_mode(workrave::networking::UsageMode::USAGE_MODE_NORMAL);
+      break;
+      
+    case USAGE_MODE_READING:
+      e->set_mode(workrave::networking::UsageMode::USAGE_MODE_READING);
+      break;
+    }
+  cloud->send_message(e, MessageParams::create());
+}
+
+
+void
+Networking::on_break_message(Message::Ptr message, MessageContext::Ptr context)
+{
+  TRACE_ENTER("Networking::on_break_message");
+
+  boost::shared_ptr<workrave::networking::Break> e = boost::dynamic_pointer_cast<workrave::networking::Break>(message);
+
+  if (e)
+    {
+      BreakId break_id = (BreakId) e->break_id();
+      workrave::networking::Break::BreakEvent break_event = e->break_event();
+
+      IBreak::Ptr b = core->get_break((BreakId)break_id);
+
+      switch(break_event)
+        {
+        case workrave::networking::Break::BREAK_EVENT_USER_POSTPONE:
+          b->postpone_break();
+          break;
+          
+        case workrave::networking::Break::BREAK_EVENT_USER_SKIP:
+          b->skip_break();
+          break;
+          
+        case workrave::networking::Break::BREAK_EVENT_FORCE_BREAK:
+          core->force_break(break_id, (BreakHint) e->break_hint());
+          break;
+          
+        default:
+          break;
+        }
+    }
+  TRACE_EXIT();
+}
+
+
+//! Process OperationMode event
+void
+Networking::on_operation_mode_message(Message::Ptr message, MessageContext::Ptr context)
+{
+  TRACE_ENTER("Networking::on_core_message");
+
+  boost::shared_ptr<workrave::networking::OperationMode> e = boost::dynamic_pointer_cast<workrave::networking::OperationMode>(message);
+
+  if (e)
+    {
+      switch(e->mode())
+        {
+        case workrave::networking::OperationMode::OPERATION_MODE_SUSPENDED:
+          core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+          break;
+      
+        case workrave::networking::OperationMode::OPERATION_MODE_QUIET:
+          core->set_operation_mode(OPERATION_MODE_QUIET);
+          break;
+      
+        case workrave::networking::OperationMode::OPERATION_MODE_NORMAL:
+          core->set_operation_mode(OPERATION_MODE_NORMAL);
+          break;
+
+        default:
+          break;
+        }
+    }
+  TRACE_EXIT();
+}
+
+
+//! Process OperationMode event
+void
+Networking::on_usage_mode_message(Message::Ptr message, MessageContext::Ptr context)
+{
+  TRACE_ENTER("Networking::on_usage_mode_message");
+  boost::shared_ptr<workrave::networking::UsageMode> e = boost::dynamic_pointer_cast<workrave::networking::UsageMode>(message);
+
+  if (e)
+    {
+      switch(e->mode())
+        {
+        case workrave::networking::UsageMode::USAGE_MODE_NORMAL:
+          core->set_usage_mode(USAGE_MODE_NORMAL);
+          break;
+      
+        case workrave::networking::UsageMode::USAGE_MODE_READING:
+          core->set_usage_mode(USAGE_MODE_READING);
+          break;
+        default:
+          break;
+        }
+    }
   TRACE_EXIT();
 }
 
 
 //! Process Core event
 void
-Core::core_event_received(const CoreLinkEvent *event)
+Networking::on_timer_message(Message::Ptr message, MessageContext::Ptr context)
 {
-  TRACE_ENTER_MSG("Core::core_event_received", event->str());
+  TRACE_ENTER("Networking::on_timer_message");
 
-  CoreLinkEvent::CoreEvent core_event = event->get_core_event();
+  boost::shared_ptr<workrave::networking::Timer> b = boost::dynamic_pointer_cast<workrave::networking::Timer>(message);
 
-  switch(core_event)
+  if (b)
     {
-    case CoreLinkEvent::CORE_EVENT_MODE_SUSPENDED:
-      set_operation_mode_no_event(OPERATION_MODE_SUSPENDED);
-      break;
+      const UUID &remote_id = context->source;
+      const google::protobuf::RepeatedField<int> idle_times = b->idle_times();
+      const google::protobuf::RepeatedField<int> active_times = b->active_times();
 
-    case CoreLinkEvent::CORE_EVENT_MODE_QUIET:
-      set_operation_mode_no_event(OPERATION_MODE_QUIET);
-      break;
-
-    case CoreLinkEvent::CORE_EVENT_MODE_NORMAL:
-      set_operation_mode_no_event(OPERATION_MODE_NORMAL);
-      break;
-
-    default:
-      break;
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Process Timer state event
-void
-Core::timer_state_event_received(const TimerStateLinkEvent *event)
-{
-  TRACE_ENTER_MSG("Core::timer_state_event_received", event->str());
-
-  const std::vector<int> &idle_times = event->get_idle_times();
-  const std::vector<int> &active_times = event->get_active_times();
-    
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer *timer = breaks[i].get_timer();
-
-      time_t old_idle = timer->get_elapsed_idle_time();
-      time_t old_active = timer->get_elapsed_time();
-
-      int idle = idle_times[i];
-      int active = active_times[i];
-
-      TRACE_MSG("Timer " << i <<
-                " idle " <<  idle << " " << old_idle <<
-                " active" << active << " " << old_active); 
-
-      time_t remote_active_since = 0;
-      bool remote_active = network->is_remote_active(event->get_source(),
-                                                        remote_active_since);
-      
-      if (abs((int)(idle - old_idle)) >= 2 ||
-          abs((int)(active - old_active)) >= 2 ||
-          /* Remote party is active, and became active after us */
-          (remote_active && remote_active_since > active_since))
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          timer->set_state(active, idle);
+          IBreak::Ptr b = core->get_break((BreakId)i);
+
+          time_t old_idle = b->get_elapsed_idle_time();
+          time_t old_active = b->get_elapsed_time();
+
+          int idle = idle_times.Get(i);
+          int active = active_times.Get(i);
+
+          TRACE_MSG("Timer " << i <<
+                    " idle " <<  idle << " " << old_idle <<
+                    " active" << active << " " << old_active); 
+
+          time_t remote_active_since = 0;
+          bool remote_active = activity_monitor->is_remote_active(remote_id, remote_active_since);
+      
+          if (abs((int)(idle - old_idle)) >= 2 ||
+              abs((int)(active - old_active)) >= 2 ||
+              /* Remote party is active, and became active after us */
+              (remote_active && remote_active_since > activity_monitor->get_local_active_since()))
+            {
+              //timer->set_state(active, idle);
+            }
         }
     }
- 
+
   TRACE_EXIT();
 }
 
 
 //! Broadcast current timer state.
 void
-Core::broadcast_state()
+Networking::send_timer_state()
 {
-  std::vector<int> idle_times;
-  std::vector<int> active_times;
-  
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  if (activity_monitor->is_local_active() &&
+      (TimeSource::get_monotonic_time() % 10 == 0))
     {
-      Timer *timer = breaks[i].get_timer();
 
-      idle_times.push_back((int)timer->get_elapsed_idle_time());
-      active_times.push_back((int)timer->get_elapsed_time());
+      boost::shared_ptr<workrave::networking::Timer> a(new workrave::networking::Timer());
+  
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          IBreak::Ptr b = core->get_break((BreakId)i);
+
+          a->add_idle_times((int)b->get_elapsed_idle_time());
+          a->add_active_times((int)b->get_elapsed_time());
+        }
+
+      cloud->send_message(a, MessageParams::create());
     }
-
-  TimerStateLinkEvent event(idle_times, active_times);
-  network->send_event(&event);
 }
-
-#endif
-

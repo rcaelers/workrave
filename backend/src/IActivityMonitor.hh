@@ -28,8 +28,8 @@
 enum ActivityState
   {
     ACTIVITY_ACTIVE,
-    ACTIVITY_IDLE,
     ACTIVITY_FORCED_IDLE,
+    ACTIVITY_IDLE,
   };
 
 
@@ -41,6 +41,9 @@ public:
 
   virtual ~IActivityMonitor() {}
 
+  //! Starts the activity monitoring.
+  virtual void init() = 0;
+
   //! Stops the activity monitoring.
   virtual void terminate() = 0;
 
@@ -51,7 +54,7 @@ public:
   virtual void resume() = 0;
 
   //! Returns the current state
-  virtual ActivityState get_current_state() = 0;
+  virtual ActivityState get_state() = 0;
 
   //! Force state to be idle.
   virtual void force_idle() = 0;

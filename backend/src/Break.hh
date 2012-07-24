@@ -89,6 +89,9 @@ public:
 
   // IBreak
   virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
+  virtual boost::signals2::signal<void()> &signal_postponed();
+  virtual boost::signals2::signal<void()> &signal_skipped() ;
+  virtual boost::signals2::signal<void(BreakHint)> &signal_break_forced();
   virtual std::string get_name() const; 
   virtual bool is_enabled() const; 
   virtual bool is_running() const;
@@ -200,6 +203,9 @@ private:
 
   //!
   boost::signals2::signal<void(BreakEvent)> break_event_signal;
+  boost::signals2::signal<void()> postponed_signal;
+  boost::signals2::signal<void()> skipped_signal;
+  boost::signals2::signal<void(BreakHint)> break_forced_signal;
 };
 
 #endif // BREAK_HH

@@ -26,40 +26,26 @@
 #include <assert.h>
 #include <math.h>
 
-#include <stdio.h>
-#include <sys/types.h>
-#if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# if HAVE_STDLIB_H
-#  include <stdlib.h>
-# endif
-#endif
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 
 #include "IActivityMonitorListener.hh"
 #include "CoreConfig.hh"
 #include "debug.hh"
-#include "timeutil.h"
 
 using namespace std;
 
 LocalActivityMonitor::Ptr
-LocalActivityMonitor::create(IConfigurator::Ptr configurator)
+LocalActivityMonitor::create(IConfigurator::Ptr configurator, const string &display_name)
 {
-  return Ptr(new LocalActivityMonitor(configurator));
+  return Ptr(new LocalActivityMonitor(configurator, display_name));
 }
 
     
 //! Constructor.
-LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator) :
+LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator, const string &display_name) :
   configurator(configurator),
+  display_name(display_name),
   state(ACTIVITY_MONITOR_IDLE),
   prev_x(-10),
   prev_y(-10),
@@ -69,20 +55,12 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator) :
 {
   TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");
 
-  first_action_time.tv_sec = 0;
-  first_action_time.tv_usec = 0;
+  first_action_time = 0;
+  last_action_time = 0;
 
-  last_action_time.tv_sec = 0;
-  last_action_time.tv_usec = 0;
-
-  noise_threshold.tv_sec = 1;
-  noise_threshold.tv_usec = 0;
-
-  activity_threshold.tv_sec = 2;
-  activity_threshold.tv_usec = 0;
-
-  idle_threshold.tv_sec = 5;
-  idle_threshold.tv_usec = 0;
+  noise_threshold = 1 * G_USEC_PER_SEC;
+  activity_threshold = 2 * G_USEC_PER_SEC;
+  idle_threshold = 5 * G_USEC_PER_SEC;
 
   TRACE_EXIT();
 }
@@ -99,7 +77,7 @@ LocalActivityMonitor::~LocalActivityMonitor()
 
 //! Initializes the monitor.
 void
-LocalActivityMonitor::init(const string &display_name)
+LocalActivityMonitor::init()
 {
   TRACE_ENTER("LocalActivityMonitor::init");
 
@@ -166,8 +144,7 @@ LocalActivityMonitor::force_idle()
   if (state != ACTIVITY_MONITOR_SUSPENDED)
     {
       state = ACTIVITY_MONITOR_FORCED_IDLE;
-      last_action_time.tv_sec = 0;
-      last_action_time.tv_usec = 0;
+      last_action_time = 0;
     }
   lock.unlock();
   TRACE_RETURN(state);
@@ -176,7 +153,7 @@ LocalActivityMonitor::force_idle()
 
 //! Returns the current state
 ActivityState
-LocalActivityMonitor::get_current_state()
+LocalActivityMonitor::get_state()
 {
   process_state();
   
@@ -207,15 +184,10 @@ LocalActivityMonitor::process_state()
   // First update the state...
   if (state == ACTIVITY_MONITOR_ACTIVE)
     {
-      GTimeVal now, tv;
+      gint64 tv = g_get_monotonic_time() - last_action_time;
 
-      g_get_current_time(&now);
-      tvSUBTIME(tv, now, last_action_time);
-
-      TRACE_MSG("Active: "
-                << tv.tv_sec << "." << tv.tv_usec << " "
-                << idle_threshold.tv_sec << " " << idle_threshold.tv_usec);
-      if (tvTIMEGT(tv, idle_threshold))
+      TRACE_MSG("Active: " << tv << " " << idle_threshold);
+      if (tv > idle_threshold)
         {
           // No longer active.
           state = ACTIVITY_MONITOR_IDLE;
@@ -231,14 +203,9 @@ LocalActivityMonitor::process_state()
 void
 LocalActivityMonitor::set_parameters(int noise, int activity, int idle)
 {
-  noise_threshold.tv_sec = noise / 1000;
-  noise_threshold.tv_usec = (noise % 1000) * 1000;
-
-  activity_threshold.tv_sec = activity / 1000;
-  activity_threshold.tv_usec = (activity % 1000) * 1000;
-
-  idle_threshold.tv_sec = idle / 1000;
-  idle_threshold.tv_usec = (idle % 1000) * 1000;
+  noise_threshold = noise * 1000;
+  activity_threshold = activity * 1000;
+  idle_threshold = idle * 1000;
 
   // The easy way out.
   state = ACTIVITY_MONITOR_IDLE;
@@ -249,29 +216,9 @@ LocalActivityMonitor::set_parameters(int noise, int activity, int idle)
 void
 LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 {
-  noise = noise_threshold.tv_sec * 1000 + noise_threshold.tv_usec / 1000;
-  activity = activity_threshold.tv_sec * 1000 + activity_threshold.tv_usec / 1000;
-  idle = idle_threshold.tv_sec * 1000 + idle_threshold.tv_usec / 1000;
-}
-
-
-//! Shifts the internal time (after system clock has been set)
-void
-LocalActivityMonitor::shift_time(int delta)
-{
-  GTimeVal d;
-
-  lock.lock();
-
-  tvSETTIME(d, delta, 0)
-
-  if (!tvTIMEEQ0(last_action_time))
-    tvADDTIME(last_action_time, last_action_time, d);
-
-  if (!tvTIMEEQ0(first_action_time))
-    tvADDTIME(first_action_time, first_action_time, d);
-
-  lock.unlock();
+  noise = noise_threshold / 1000;
+  activity = activity_threshold / 1000;
+  idle = idle_threshold / 1000;
 }
 
 
@@ -290,10 +237,8 @@ void
 LocalActivityMonitor::action_notify()
 {
   lock.lock();
-
-  GTimeVal now;
-  g_get_current_time(&now);
-
+  gint64 now = g_get_monotonic_time();
+  
   switch (state)
     {
     case ACTIVITY_MONITOR_IDLE:
@@ -302,7 +247,7 @@ LocalActivityMonitor::action_notify()
         first_action_time = now;
         last_action_time = now;
 
-        if (tvTIMEEQ0(activity_threshold))
+        if (activity_threshold == 0)
           {
             state = ACTIVITY_MONITOR_ACTIVE;
           }
@@ -315,17 +260,16 @@ LocalActivityMonitor::action_notify()
 
     case ACTIVITY_MONITOR_NOISE:
       {
-        GTimeVal tv;
+        gint64 tv = now - last_action_time;
 
-        tvSUBTIME(tv, now, last_action_time);
-        if (tvTIMEGT(tv, noise_threshold))
+        if (tv > noise_threshold)
           {
             first_action_time = now;
           }
         else
           {
-            tvSUBTIME(tv, now, first_action_time);
-            if (tvTIMEGEQ(tv, activity_threshold))
+            tv = now - first_action_time;
+            if (tv >= activity_threshold)
               {
                 state = ACTIVITY_MONITOR_ACTIVE;
               }

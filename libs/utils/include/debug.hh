@@ -46,7 +46,7 @@ class Debug
 {
 public:
   static void init();
-  static std::string trace_get_time();
+  static std::string trace_string();
 };
 
 #ifndef TRACE_EXTRA
@@ -55,24 +55,24 @@ public:
 
 #define TRACE_ENTER(x   ) g_log_mutex.lock(); \
                           const char *_trace_method_name = x;   \
-                          std::cerr << Debug::trace_get_time() << ">>> " << x << TRACE_EXTRA << std::endl; \
+                          std::cerr << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_ENTER_MSG(x, y) g_log_mutex.lock(); \
                           const char *_trace_method_name = x; \
-                          std::cerr << Debug::trace_get_time() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
+                          std::cerr << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_RETURN(y)   g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << y << std::endl; \
+                          std::cerr << Debug::trace_string() << "<<< " << _trace_method_name << y << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_EXIT()      g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << std::endl; \
+                          std::cerr << Debug::trace_string() << "<<< " << _trace_method_name << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_MSG(msg)    g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
+                          std::cerr << Debug::trace_string() << "    " << _trace_method_name << " " << msg  << std::endl; \
                           g_log_mutex.unlock();
 
 #endif // TRACING

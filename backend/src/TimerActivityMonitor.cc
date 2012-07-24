@@ -46,6 +46,12 @@ TimerActivityMonitor::~TimerActivityMonitor()
 
 
 void
+TimerActivityMonitor::init()
+{
+}
+
+
+void
 TimerActivityMonitor::terminate()
 {
 }
@@ -66,12 +72,12 @@ TimerActivityMonitor::resume()
 
 
 ActivityState
-TimerActivityMonitor::get_current_state()
+TimerActivityMonitor::get_state()
 {
   TRACE_ENTER("TimerActivityMonitor::get_current_state");
   if (forced_idle)
     {
-      ActivityState local_state = monitor->get_current_state();
+      ActivityState local_state = monitor->get_state();
       TRACE_MSG(local_state)
 
         if (local_state == ACTIVITY_ACTIVE)

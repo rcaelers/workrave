@@ -145,7 +145,6 @@ public:
 
   gint64 get_total_overdue_time() const;
   void daily_reset_timer();
-  void shift_time(int delta);
 
 private:
   //! Is this timer enabled ?

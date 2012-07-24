@@ -49,6 +49,7 @@
 #include "Statistics.hh"
 
 #include "Networking.hh"
+#include "CoreHooks.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -69,7 +70,7 @@ class Core :
   public boost::enable_shared_from_this<Core>
 {
 public:
-  Core();
+  Core(int id = 0);
   virtual ~Core();
 
   // ITimeSource
@@ -95,6 +96,7 @@ public:
   IBreak::Ptr get_break(BreakId id);
   IStatistics::Ptr get_statistics() const;
   IConfigurator::Ptr get_configurator() const;
+  ICoreHooks::Ptr get_hooks() const;
   bool is_user_active() const;
 
   OperationMode get_operation_mode();
@@ -128,6 +130,9 @@ private:
   void set_usage_mode_internal(UsageMode mode, bool persistent);
   
 private:
+  //
+  int id;
+  
   //! Number of command line arguments passed to the program.
   int argc;
 
@@ -148,6 +153,9 @@ private:
 
   //! The activity monitor
   ActivityMonitor::Ptr monitor;
+
+  //! The activity monitor
+  CoreHooks::Ptr hooks;
 
   //! GUI Widget factory.
   IApp *application;

@@ -30,6 +30,7 @@
 
 #include "IBreak.hh"
 #include "IStatistics.hh"
+#include "ICoreHooks.hh"
 
 namespace workrave
 {
@@ -41,18 +42,6 @@ namespace workrave
     class DBus;
   }
 
-  enum BreakHint
-    {
-      BREAK_HINT_NONE = 0,
-
-      // Break was started on user request
-      BREAK_HINT_USER_INITIATED = 1,
-
-      // Natural break.
-      BREAK_HINT_NATURAL_BREAK = 2,
-    };
-
-
   //! Main interface of the backend.
   class ICore
   {
@@ -61,7 +50,7 @@ namespace workrave
     
     virtual ~ICore() {}
 
-    static ICore::Ptr create();
+    static ICore::Ptr create(int id = 0);
 
     //! The way a break is insisted.
     enum InsistPolicy
@@ -145,6 +134,9 @@ namespace workrave
     //! Return configuration
     virtual config::IConfigurator::Ptr get_configurator() const = 0;
 
+    //! Return the hooks
+    virtual ICoreHooks::Ptr get_hooks() const = 0;
+    
 #ifdef HAVE_DBUS
     //! Return DBUs remoting interface.
     virtual dbus::DBus *get_dbus() = 0;

@@ -1,6 +1,6 @@
 // cloud.cc --- Main
 //
-// Copyright (C) 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,11 @@
 #include <fstream>
 #include <stdio.h>
 
+#include <X11/Xlib.h>
+
 #include <glib-object.h>
+#include <gtk/gtk.h>
+
 
 #include "Workrave.hh"
 
@@ -52,18 +56,31 @@ main(int argc, char **argv)
 #endif
 
   g_type_init();
-
+  XInitThreads();
+  
+  gtk_init(&argc, &argv);
+  
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  Workrave::Ptr workrave1 = Workrave::create();
+  boost::shared_ptr<boost::barrier> barrier(new boost::barrier(5));
+    
   
-  Workrave::Ptr workrave2 = Workrave::create();
+  Workrave::Ptr workrave1 = Workrave::create(1);
+  workrave1->init(barrier);
+  
+  Workrave::Ptr workrave2 = Workrave::create(2);
+  workrave2->init(barrier);
+
+  Workrave::Ptr workrave3 = Workrave::create(3);
+  workrave3->init(barrier);
+
+  Workrave::Ptr workrave4 = Workrave::create(4);
+  workrave4->init(barrier);
+
+  barrier->wait();
+  
   workrave2->connect("localhost", 2701);
-
-  Workrave::Ptr workrave3 =  Workrave::create();
   workrave3->connect("localhost", 2701);
-
-  Workrave::Ptr workrave4 =  Workrave::create();
   workrave4->connect("localhost", 2703);
   workrave4->connect("localhost", 2701);
   

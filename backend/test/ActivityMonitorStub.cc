@@ -42,6 +42,12 @@ ActivityMonitorStub::~ActivityMonitorStub()
 
 
 void
+ActivityMonitorStub::init()
+{
+}
+
+
+void
 ActivityMonitorStub::terminate()
 {
 }
@@ -62,7 +68,7 @@ ActivityMonitorStub::resume()
 
 
 ActivityState
-ActivityMonitorStub::get_current_state()
+ActivityMonitorStub::get_state()
 {
   if (suspended)
     {

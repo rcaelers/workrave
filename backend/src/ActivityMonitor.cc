@@ -33,36 +33,27 @@ using namespace std;
 using namespace workrave::utils;
 
 ActivityMonitor::Ptr
-ActivityMonitor::create(IConfigurator::Ptr configurator)
+ActivityMonitor::create(IConfigurator::Ptr configurator, CoreHooks::Ptr hooks, const std::string &display_name)
 {
-  return Ptr(new ActivityMonitor(configurator));
+  return Ptr(new ActivityMonitor(configurator, hooks, display_name));
 }
 
     
 //! Constructor.
-ActivityMonitor::ActivityMonitor(IConfigurator::Ptr configurator) :
-  configurator(configurator)
+ActivityMonitor::ActivityMonitor(IConfigurator::Ptr configurator, CoreHooks::Ptr hooks, const std::string &display_name) :
+  configurator(configurator), hooks(hooks), monitor_state(ACTIVITY_IDLE)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
-  local_monitor = LocalActivityMonitor::create(configurator);
+  local_monitor = LocalActivityMonitor::create(configurator, display_name);
   TRACE_EXIT();
 }
-
-
-//! Destructor.
-ActivityMonitor::~ActivityMonitor()
-{
-  TRACE_ENTER("ActivityMonitor::~ActivityMonitor");
-  TRACE_EXIT();
-}
-
 
 //! Initializes the monitor.
 void
-ActivityMonitor::init(const string &display_name)
+ActivityMonitor::init()
 {
   TRACE_ENTER("ActivityMonitor::init");
-  local_monitor->init(display_name);
+  local_monitor->init();
   TRACE_EXIT();
 }
 
@@ -109,31 +100,35 @@ ActivityMonitor::force_idle()
 
 //! Returns the current state
 ActivityState
-ActivityMonitor::get_current_state()
+ActivityMonitor::get_state()
 {
-  return ACTIVITY_IDLE;
+  return monitor_state;
 }
-
-
-//! Shifts the internal time (after system clock has been set)
-void
-ActivityMonitor::shift_time(int delta)
-{
-}
-
 
 //! Sets the callback listener.
 void
 ActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
 {
+  local_monitor->set_listener(l);
 }
+
 
 //! Computes the current state.
 void
 ActivityMonitor::heartbeat()
 {
   // Default
-  ActivityState local_state = local_monitor->get_current_state();
+  ActivityState state;
+  
+  if (!hooks->hook_local_activity_state().empty())
+    {
+      state = hooks->hook_local_activity_state()();
+    }
+  else
+    {
+      state = local_monitor->get_state();
+    }
+  
   gint64 current_time = TimeSource::get_monotonic_time();
   
   map<std::string, gint64>::iterator i = external_activity.begin();
@@ -144,7 +139,7 @@ ActivityMonitor::heartbeat()
 
       if (i->second >= current_time)
         {
-          local_state = ACTIVITY_ACTIVE;
+          state = ACTIVITY_ACTIVE;
         }
       else
         {
@@ -154,7 +149,22 @@ ActivityMonitor::heartbeat()
       i = next;
     }
 
-  monitor_state = local_state;
+  if (local_state != state)
+    {
+      local_state = state;
+      hooks->signal_local_active_changed()(local_state == ACTIVITY_ACTIVE);
+    }
+
+  monitor_state = state;
+
+  if (!hooks->hook_is_active().empty())
+    {
+      bool hook_is_active = (hooks->hook_is_active()());
+      if (hook_is_active)
+        {
+          monitor_state = ACTIVITY_ACTIVE;
+        }
+    }
 }
 
 

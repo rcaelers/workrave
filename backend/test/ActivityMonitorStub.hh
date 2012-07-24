@@ -34,10 +34,11 @@ public:
   ActivityMonitorStub();
   virtual ~ActivityMonitorStub();
 
+  void init();
   void terminate();
   void suspend();
   void resume();
-  ActivityState get_current_state();
+  ActivityState get_state();
   void force_idle();
   void set_listener(IActivityMonitorListener::Ptr l);
 

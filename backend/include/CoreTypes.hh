@@ -59,6 +59,19 @@ namespace workrave {
       BREAK_ID_SIZEOF
     };
 
+  enum BreakHint
+    {
+      BREAK_HINT_NONE = 0,
+
+      // Break was started on user request
+      BREAK_HINT_USER_INITIATED = 1,
+
+      // Natural break.
+      BREAK_HINT_NATURAL_BREAK = 2,
+    };
+
+
+  
 #ifdef __cplusplus
 }
 #endif

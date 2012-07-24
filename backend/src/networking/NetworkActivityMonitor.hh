@@ -44,30 +44,35 @@ public:
 
   //! Initializes the monitor
   void init();
+  void heartbeat();
 
   // Internal
   void report_active(bool active);
 
-  bool get_active();
-  bool is_active(const UUID &remote, time_t &since);
-
+  bool is_active();
+  bool is_remote_active(const UUID &remote, time_t &since);
+  gint64 get_local_active_since() const;
+  bool is_local_active() const;
+  
 private:
 
-  struct RemoteState
+  struct RemoteActivity
   {
     UUID id;
-    ActivityState state;
-    time_t lastupdate;
-    time_t since;
+    bool active;
+    gint64 lastupdate;
+    gint64 since;
   };
 
   // Known states
-  typedef std::map<UUID, RemoteState> States;
-  typedef States::iterator StateIter;
-  typedef States::const_iterator StateCIter;
+  typedef std::map<UUID, RemoteActivity> RemoteActivities;
+  typedef RemoteActivities::iterator RemoteActivityIter;
+  typedef RemoteActivities::const_iterator RemoteActivityCIter;
 
 private:
   void on_activity_message(Message::Ptr, MessageContext::Ptr);
+  void on_local_active_changed(bool active);
+  bool on_hook_is_active();
   
 private:
   //! The networking core
@@ -76,14 +81,17 @@ private:
   //! The core
   ICore::Ptr core;
 
-  //! Monitor suspended?
-  bool suspended;
+  //! Is the user locally active;
+  bool local_active;
 
-  //! Current state
-  ActivityState state;
-
+  //!
+  gint64 local_active_since_real;
+  
+  //!
+  gint64 local_active_since;
+  
   //! Remote states
-  States states;
+  RemoteActivities remote_activities;
 };
 
 #endif // NETWORKACTIVITYMONITOR_HH

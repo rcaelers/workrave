@@ -48,6 +48,10 @@ namespace workrave {
     
     virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event() = 0;
 
+    virtual boost::signals2::signal<void()> &signal_postponed() = 0;
+    virtual boost::signals2::signal<void()> &signal_skipped() = 0;
+    virtual boost::signals2::signal<void(BreakHint)> &signal_break_forced() = 0;
+
     //! Returns the name of the break.
     virtual std::string get_name() const = 0;
 

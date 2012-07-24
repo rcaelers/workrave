@@ -1,6 +1,6 @@
-// IBreakSupport.hh --- The main controller interface
+// ICoreTestHooks.hh
 //
-// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IBREAKSUPPORT_HH
-#define IBREAKSUPPORT_HH
+#ifndef ICORETESTHOOKS_HH
+#define ICORETESTHOOKS_HH
 
 #include <string>
+#include <map>
 
-#include "CoreTypes.hh"
+#include <boost/signals2.hpp>
+#include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+
+#include "config/IConfigurator.hh"
 #include "IActivityMonitor.hh"
 
-class IBreakSupport
+class ICoreTestHooks
 {
 public:
-  typedef boost::shared_ptr<IBreakSupport> Ptr;
+  typedef boost::shared_ptr<ICoreTestHooks> Ptr;
 
-  virtual ~IBreakSupport() {}
-  
-  virtual void defrost() = 0;
-  virtual void freeze() = 0;
-  virtual void resume_reading_mode_timers() = 0;
-  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
+  virtual boost::function<ActivityState()> &hook_local_activity_state() = 0;
+  virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
 };
 
-#endif // IBREAKSUPPORT_HH
+#endif // ICOREHOOKS_HH

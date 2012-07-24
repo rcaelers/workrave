@@ -128,7 +128,7 @@ Break::init()
 TimerEvent
 Break::process_timer()
 {
-  ActivityState state = activity_monitor->get_current_state();
+  ActivityState state = activity_monitor->get_state();
   
   TimerEvent event = break_timer->process(state);
 
@@ -168,7 +168,7 @@ Break::process_break()
   else
     {
       // Unless the timer has its own activity monitor.
-      is_idle = activity_monitor->get_current_state() != ACTIVITY_ACTIVE;
+      is_idle = activity_monitor->get_state() != ACTIVITY_ACTIVE;
     }
 
   TRACE_MSG("stage = " << break_stage);
@@ -342,6 +342,8 @@ Break::force_start_break(BreakHint hint)
 
   goto_stage(STAGE_TAKING);
 
+  break_forced_signal(hint);
+
   TRACE_EXIT();
 }
 
@@ -462,6 +464,24 @@ Break::signal_break_event()
 }
 
 
+boost::signals2::signal<void()> &
+Break::signal_postponed()
+{
+  return postponed_signal;
+}
+
+boost::signals2::signal<void()> &
+Break::signal_skipped()
+{
+  return skipped_signal;
+}
+
+boost::signals2::signal<void(BreakHint)> &
+Break::signal_break_forced()
+{
+  return break_forced_signal;
+}
+
 //! Returns the name of the break.
 string
 Break::get_name() const
@@ -577,6 +597,8 @@ Break::postpone_break()
 
       // and stop the break.
       stop_break();
+
+      postponed_signal();
     }
 }
 
@@ -606,6 +628,8 @@ Break::skip_break()
 
       // and stop the break.
       stop_break();
+
+      skipped_signal();
     }
 }
 
@@ -638,7 +662,7 @@ Break::goto_stage(BreakStage stage)
 
         if (break_id == BREAK_ID_MICRO_BREAK && usage_mode == USAGE_MODE_READING)
           {
-            // TODO: break_support->resume_reading_mode_timers();
+            break_support->resume_reading_mode_timers();
           }
 
         if (break_stage == STAGE_TAKING && !fake_break)
@@ -962,7 +986,7 @@ Break::load_timer_config()
 
       if (ret && monitor_name != "" && monitor_name != get_name())
         {
-          // TODO: timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
+          timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
         }
     }
   update_usage_mode();

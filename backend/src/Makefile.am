@@ -14,6 +14,7 @@ sources =  		ActivityMonitor.cc \
 			Break.cc \
 			BreaksControl.cc \
 			Core.cc \
+			CoreHooks.cc \
 			CoreConfig.cc \
 			DayTimePred.cc \
 			Statistics.cc \

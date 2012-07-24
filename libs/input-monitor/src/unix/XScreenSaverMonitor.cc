@@ -60,10 +60,24 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
 bool
 XScreenSaverMonitor::init()
 {
+  TRACE_ENTER("XScreenSaverMonitor::init");
   int event_base;
   int error_base;
 
-  Bool has_extension = XScreenSaverQueryExtension(gdk_x11_display_get_xdisplay(gdk_display_get_default()), &event_base, &error_base);
+  GdkDisplay *display = gdk_display_get_default();
+  Display *xdisplay = NULL;
+  if (display != NULL)
+    {
+      TRACE_MSG("display ok");
+      xdisplay = gdk_x11_display_get_xdisplay(display);
+    }
+
+  Bool has_extension = False;
+  if (xdisplay != NULL)
+    {
+      TRACE_MSG("xdisplay ok");
+      has_extension = XScreenSaverQueryExtension(xdisplay, &event_base, &error_base);
+    }
 
   if (has_extension)
   {
@@ -71,6 +85,7 @@ XScreenSaverMonitor::init()
     monitor_thread->start();
   }
   
+  TRACE_RETURN(has_extension);
   return has_extension;
 }
 

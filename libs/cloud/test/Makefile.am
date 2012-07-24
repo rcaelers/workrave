@@ -34,4 +34,4 @@ cloud_LDADD    =        $(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
-			@GLIB_LIBS@ @PROTOBUF_LIBS@ @WIN32LIBS@
+			@GLIB_LIBS@ @PROTOBUF_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @WIN32LIBS@ 

@@ -20,17 +20,22 @@
 #include "config.h"
 #endif
 
+#include "debug.hh"
+
 #include "Workrave.hh"
+
 #include "ICore.hh"
+#include "ICoreHooks.hh"
+#include "ICoreTestHooks.hh"
 
 Workrave::Ptr
-Workrave::create()
+Workrave::create(int id)
 {
-  return Ptr(new Workrave());
+  return Ptr(new Workrave(id));
 }
 
 
-Workrave::Workrave()
+Workrave::Workrave(int id) : id(id)
 {
 }
 
@@ -40,36 +45,108 @@ Workrave::~Workrave()
 }
 
 
-void
-Workrave::init()
+ActivityState
+Workrave::on_local_activity_state()
 {
-  core = ICore::create();
+  return ACTIVITY_IDLE;
+}
+
+
+IConfigurator::Ptr
+Workrave::on_create_configurator()
+{
+  IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+
+  configurator->set_value("plugins/networking/user", "robc@workrave");
+  configurator->set_value("plugins/networking/secret", "HelloWorld");
+  configurator->set_value("plugins/networking/port", 2700 + id);
+
+  return configurator;
+}
+
+void
+Workrave::init(boost::shared_ptr<boost::barrier> barrier)
+{
+  this->barrier = barrier;
+  thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Workrave::run, this)));
+}
+
+
+void
+Workrave::run()
+{
+  TRACE_ENTER_MSG("Workrave::run", id);
+  core = ICore::create(id);
 
   char *argv[] = { (char *)"workrave" };
+
+  context = g_main_context_new();
+  //g_main_context_push_thread_default(context);
+  loop = g_main_loop_new(context, FALSE);
   
+  ICoreHooks::Ptr hooks = core->get_hooks();
+  ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
+
+  test_hooks->hook_local_activity_state() = boost::bind(&Workrave::on_local_activity_state, this);
+  test_hooks->hook_create_configurator() = boost::bind(&Workrave::on_create_configurator, this);
+
   core->init(1, argv, this, "");
-
-  // for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-  //   {
-  //     IBreak::Ptr b = core->get_break(BreakId(i));
-  //     b->signal_break_event().connect(boost::bind(&GUI::on_break_event, this, BreakId(i), _1));
-  //   }
-
-  // core->signal_operation_mode_changed().connect(boost::bind(&GUI::on_operation_mode_changed, this, _1)); 
-  // core->signal_usage_mode_changed().connect(boost::bind(&GUI::on_usage_mode_changed, this, _1));
   
   networking = Networking::create(core);
+  networking->init();
+
+  GSource *source = g_timeout_source_new_seconds(1);
+  g_source_set_callback(source, static_on_timer, this, NULL);
+  g_source_attach(source, context);
+  
+  TRACE_MSG("Loop run");
+  barrier->wait();
+  g_main_loop_run(loop);
+  TRACE_EXIT();
 }
 
 void
 Workrave::connect(const std::string host, int port)
 {
+  TRACE_ENTER_MSG("Workrave::connect", host << " " << port);
   networking->connect(host, port);
+  TRACE_EXIT();
 }
 
 void
 Workrave::heartbeat()
 {
+  TRACE_ENTER_MSG("Workrave::heartbeat", id);
   networking->heartbeat();
+  TRACE_EXIT();
 }
 
+
+ICore::Ptr
+Workrave::get_core() const
+{
+  return core;
+}
+
+
+gpointer
+Workrave::static_workrave_thread(gpointer data)
+{
+  Workrave *w = (Workrave *) data;
+  if (w != NULL)
+    {
+      w->run();
+    }
+
+  return 0;
+}
+
+gboolean
+Workrave::static_on_timer(gpointer data)
+{
+  Workrave *w = (Workrave *)data;
+  
+  w->heartbeat();
+  
+  return G_SOURCE_CONTINUE;
+}

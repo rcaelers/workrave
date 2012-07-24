@@ -22,17 +22,6 @@
 
 #include "IActivityMonitor.hh"
 
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
 #include "config/Config.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
@@ -53,19 +42,18 @@ public:
   typedef boost::shared_ptr<LocalActivityMonitor> Ptr;
 
 public:
-  static Ptr create(IConfigurator::Ptr configurator);
-
-  LocalActivityMonitor(IConfigurator::Ptr configurator);
+  static Ptr create(IConfigurator::Ptr configurator, const std::string &display_name);
+  
+  LocalActivityMonitor(IConfigurator::Ptr configurator, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
-  void init(const std::string &display_name);
+  void init();
   void terminate();
   void suspend();
   void resume();
   void force_idle();
-  void shift_time(int delta);
 
-  ActivityState get_current_state();
+  ActivityState get_state();
 
   void set_parameters(int noise, int activity, int idle);
   void get_parameters(int &noise, int &activity, int &idle);
@@ -100,6 +88,9 @@ private:
   //! The Configurator.
   IConfigurator::Ptr configurator;
 
+  //! 
+  std::string display_name;
+  
   //! The actual monitoring driver.
   IInputMonitor *input_monitor;
 
@@ -125,19 +116,19 @@ private:
   bool button_is_pressed;
 
   //! Last time activity was detected
-  GTimeVal last_action_time;
+  gint64 last_action_time;
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  GTimeVal first_action_time;
+  gint64 first_action_time;
 
   //! The noise threshold
-  GTimeVal noise_threshold;
+  gint64 noise_threshold;
 
   //! The activity threshold.
-  GTimeVal activity_threshold;
+  gint64 activity_threshold;
 
   //! The idle threshold.
-  GTimeVal idle_threshold;
+  gint64 idle_threshold;
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;

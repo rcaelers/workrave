@@ -1,6 +1,6 @@
 // IniConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2005, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@
 using namespace std;
 
 GlibIniConfigurator::GlibIniConfigurator()
-  : config(NULL)
 {
+  config = g_key_file_new();
 }
 
 
@@ -58,13 +58,13 @@ GlibIniConfigurator::load(string filename)
   last_filename = filename;
 
   TRACE_ENTER_MSG("GlibIniConfigurator::load", filename)
-    config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, filename.c_str(),
                                 G_KEY_FILE_KEEP_COMMENTS, &error);
 
   if (r)
     {
+      // TODO:
     }
 
   if (error != NULL)

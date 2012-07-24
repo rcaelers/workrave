@@ -21,6 +21,9 @@
 #include "config.h"
 #endif
 
+#define TRACE_EXTRA id 
+
+
 #include "debug.hh"
 
 #include "Core.hh"
@@ -55,14 +58,15 @@
 using namespace workrave::dbus;
 
 ICore::Ptr
-ICore::create()
+ICore::create(int id)
 {
-  return Ptr(new Core());
+  return Ptr(new Core(id));
 }
 
 
 //! Constructs a new Core.
-Core::Core() :
+Core::Core(int id) :
+  id(id),
   argc(0),
   argv(NULL),
   application(NULL),
@@ -73,6 +77,7 @@ Core::Core() :
   TRACE_ENTER("Core::Core");
   current_real_time = g_get_real_time();
   current_monotonic_time = g_get_monotonic_time();
+  hooks = CoreHooks::create();
   TRACE_EXIT();
 }
 
@@ -105,7 +110,7 @@ Core::init(int argc, char **argv, IApp *app, const string &display_name)
   this->argv = argv;
 
   TimeSource::source = shared_from_this();
-  
+
   init_configurator();
   init_monitor(display_name);
   init_statistics();
@@ -122,7 +127,12 @@ Core::init_configurator()
 {
   string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
 
-  if (Util::file_exists(ini_file))
+  if (!hooks->hook_create_configurator().empty())
+    {
+      configurator = hooks->hook_create_configurator()();
+    }
+  
+  else if (Util::file_exists(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);
@@ -199,8 +209,8 @@ Core::init_bus()
 void
 Core::init_monitor(const string &display_name)
 {
-  monitor = ActivityMonitor::create(configurator);
-  monitor->init(display_name);
+  monitor = ActivityMonitor::create(configurator, hooks, display_name);
+  monitor->init();
 }
 
 
@@ -290,17 +300,26 @@ Core::get_configurator() const
 }
 
 
+//!
+ICoreHooks::Ptr
+Core::get_hooks() const
+{
+  return hooks;
+}
+
 //! Is the user currently active?
 bool
 Core::is_user_active() const
 {
-  return monitor->get_current_state() == ACTIVITY_ACTIVE;
+  return monitor->get_state() == ACTIVITY_ACTIVE;
 }
 
 //! Retrieves the operation mode.
 OperationMode
 Core::get_operation_mode()
 {
+    TRACE_ENTER("Core::get_operation_mode");
+    TRACE_EXIT();
     return operation_mode;
 }
 
@@ -411,9 +430,9 @@ Core::set_operation_mode_internal(
       );
 
   TRACE_MSG( "Current mode is "
-      << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-            mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+      << ( operation_mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
+            operation_mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
+                operation_mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
       << ( operation_mode_overrides.size() ? " (override)" : " (regular)" )
       );
   
@@ -433,6 +452,8 @@ Core::set_operation_mode_internal(
   {
       operation_mode_regular = mode;
 
+      operation_mode_changed_signal(operation_mode);
+      
       int cm;
       if( persistent 
           && ( !get_configurator()->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
@@ -519,6 +540,7 @@ Core::set_operation_mode_internal(
           if( persistent )
               get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode );
 
+          TRACE_MSG("Send event");
           operation_mode_changed_signal(operation_mode);
       }
   }

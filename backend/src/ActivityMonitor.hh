@@ -26,6 +26,7 @@
 #include "IActivityMonitorListener.hh"
 
 #include "LocalActivityMonitor.hh"
+#include "CoreHooks.hh"
 
 using namespace workrave::config;
 
@@ -36,37 +37,41 @@ public:
   typedef boost::shared_ptr<ActivityMonitor> Ptr;
 
 public:
-  static Ptr create(IConfigurator::Ptr configurator);
+  static Ptr create(IConfigurator::Ptr configurator, CoreHooks::Ptr hooks, const std::string &display_name);
 
-  ActivityMonitor(IConfigurator::Ptr configurator);
-  virtual ~ActivityMonitor();
+  ActivityMonitor(IConfigurator::Ptr configurator, CoreHooks::Ptr hooks, const std::string &display_name);
 
-  void init(const std::string &display_name);
+  void init();
   void terminate();
   void suspend();
   void resume();
   void force_idle();
-  void shift_time(int delta);
 
   void heartbeat();
   void report_external_activity(std::string who, bool act);
   
-  ActivityState get_current_state();
-
+  ActivityState get_state();
+  
   void set_listener(IActivityMonitorListener::Ptr l);
 
 private:
   //! The Configurator.
   IConfigurator::Ptr configurator;
 
+  //! Hooks
+  CoreHooks::Ptr hooks;
+
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
 
   //! The activity monitor
-  LocalActivityMonitor::Ptr local_monitor;
+  IActivityMonitor::Ptr local_monitor;
 
   //! External activity
   std::map<std::string, gint64> external_activity;
+
+  //! Current overall monitor state.
+  ActivityState local_state;
 
   //! Current overall monitor state.
   ActivityState monitor_state;

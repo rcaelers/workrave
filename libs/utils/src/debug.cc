@@ -23,6 +23,10 @@
 
 #ifdef TRACING
 
+#include <sstream>
+
+#include <boost/thread.hpp>
+
 #include <glib.h>
 #include <glib/gstdio.h>
 
@@ -40,15 +44,18 @@ Mutex g_log_mutex;
 std::ofstream g_log_stream;
 
 std::string
-Debug::trace_get_time()
+Debug::trace_string()
 {
-  char logtime[128];
+  char logtime[256];
   time_t ltime;
 
   time(&ltime);
   struct tm *tmlt = localtime(&ltime);
-  strftime(logtime, 128, "%d%b%Y %H:%M:%S ", tmlt);
-  return logtime;
+  strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
+
+  stringstream ss;
+  ss << logtime << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
+  return ss.str();
 }
 
 void

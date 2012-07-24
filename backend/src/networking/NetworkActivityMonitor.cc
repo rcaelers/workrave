@@ -43,8 +43,8 @@ NetworkActivityMonitor::create(ICloud::Ptr cloud, ICore::Ptr core)
 NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr cloud, ICore::Ptr core)
   : cloud(cloud),
     core(core),
-    suspended(false),
-    state(ACTIVITY_IDLE)
+    local_active(false),
+    local_active_since(0)
 {
 }
 
@@ -58,48 +58,89 @@ void
 NetworkActivityMonitor::init()
 {
   TRACE_ENTER("NetworkActivityMonitor::init");
-  cloud->signal_message(1, workrave::networking::ActivityState::kTypeFieldNumber)
+  ICoreHooks::Ptr hooks = core->get_hooks();
+
+  hooks->hook_is_active().connect(boost::bind(&NetworkActivityMonitor::on_hook_is_active, this));
+  hooks->signal_local_active_changed().connect(boost::bind(&NetworkActivityMonitor::on_local_active_changed, this, _1));
+    
+  cloud->signal_message(1, workrave::networking::Activity::kTypeFieldNumber)
     .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1, _2));
   TRACE_EXIT()
 }
+
+
+void
+NetworkActivityMonitor::heartbeat()
+{
+  TRACE_ENTER("NetworkActivityMonitor::heartbeat");
+  if (local_active &&
+      (TimeSource::get_monotonic_time() > local_active_since) &&
+      (TimeSource::get_monotonic_time() - local_active_since) % 5 == 0)
+    {
+      boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
+      a->set_active(local_active);
+      cloud->send_message(a, MessageParams::create());
+    }
+  TRACE_EXIT()
+}
+
+
+bool
+NetworkActivityMonitor::on_hook_is_active()
+{
+  return is_active();
+}
+
+
+void
+NetworkActivityMonitor::on_local_active_changed(bool active)
+{
+  local_active = active;
+  local_active_since_real = active ? TimeSource::get_real_time() : 0;
+  local_active_since = active ? TimeSource::get_monotonic_time() : 0;
+  
+  boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
+  a->set_active(active);
+  cloud->send_message(a, MessageParams::create());
+}
+
 
 void
 NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext::Ptr context)
 {
   TRACE_ENTER("NetworkActivityMonitor::on_activity_message");
 
-  boost::shared_ptr<workrave::networking::ActivityState> a = boost::dynamic_pointer_cast<workrave::networking::ActivityState>(message);
+  boost::shared_ptr<workrave::networking::Activity> a = boost::dynamic_pointer_cast<workrave::networking::Activity>(message);
 
   if (a)
     {
       const UUID &remote_id = context->source;
-      const ActivityState state = (ActivityState) a->state();
-
-      TRACE_MSG("state " << state << " from" << remote_id.str());
+      bool active = a->active();
       
-      StateIter i = states.find(remote_id);
-      if (i != states.end())
+      TRACE_MSG("Active " << active << " from" << remote_id.str());
+      
+      RemoteActivityIter i = remote_activities.find(remote_id);
+      if (i != remote_activities.end())
         {
-          RemoteState &rs = i->second;
+          RemoteActivity &ra = i->second;
 
-          rs.lastupdate = TimeSource::get_monotonic_time();
+          ra.active = active;
+          ra.lastupdate = TimeSource::get_monotonic_time();
           
-          if (rs.state != state)
+          if (ra.active != active)
             {
-              rs.since = rs.lastupdate;
+              ra.since = ra.lastupdate;
             }
-          
-          rs.state = state;
         }
       else
         {
-          RemoteState rs;
-          rs.id = remote_id;
-          rs.state = state;
-          rs.lastupdate = TimeSource::get_monotonic_time();
-          rs.since = rs.lastupdate;
+          RemoteActivity ra;
+          ra.id = remote_id;
+          ra.active = active;
+          ra.lastupdate = TimeSource::get_monotonic_time();
+          ra.since = ra.lastupdate;
           
-          states[remote_id] = rs;
+          remote_activities[remote_id] = ra;
         }
     }
 
@@ -109,27 +150,27 @@ NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext
 
 //! Returns the current state
 bool
-NetworkActivityMonitor::get_active()
+NetworkActivityMonitor::is_active()
 {
-  TRACE_ENTER("NetworkActivityMonitor::get_active");
+  TRACE_ENTER("NetworkActivityMonitor::is_active");
 
-  time_t current_time = TimeSource::get_monotonic_time();
+  gint64 current_time = TimeSource::get_monotonic_time();
   int num_active = 0;
 
-  StateIter i = states.begin();
-  while (i != states.end())
+  RemoteActivityIter i = remote_activities.begin();
+  while (i != remote_activities.end())
     {
-      RemoteState &rs = i->second;
-      StateIter next = i;
+      RemoteActivity &ra = i->second;
+      RemoteActivityIter next = i;
       next++;
       
-      if (rs.lastupdate + 30 < current_time)
+      if (ra.lastupdate + 30 < current_time)
         {
-          states.erase(i);
+          remote_activities.erase(i);
         }
       else
         {
-          if (rs.state == ACTIVITY_ACTIVE)
+          if (ra.active)
             {
               num_active++;
             }
@@ -146,22 +187,33 @@ NetworkActivityMonitor::get_active()
 
 //! Returns the current state
 bool
-NetworkActivityMonitor::is_active(const UUID &remote_id, time_t &since)
+NetworkActivityMonitor::is_remote_active(const UUID &remote_id, time_t &since)
 {
-  TRACE_ENTER("NetworkActivityMonitor::is_active");
+  TRACE_ENTER("NetworkActivityMonitor::is_remote_active");
   bool ret = false;
   
   since = -1;
   
-  StateIter i = states.find(remote_id);
-  if (i != states.end())
+  RemoteActivityCIter i = remote_activities.find(remote_id);
+  if (i != remote_activities.end())
     {
-      RemoteState &rs = i->second;
-
-      ret = rs.state == ACTIVITY_ACTIVE;
-      since = rs.since;
+      const RemoteActivity &ra = i->second;
+      ret = ra.active;
+      since = ra.since;
     }
   
   TRACE_EXIT();
   return ret;
+}
+
+gint64
+NetworkActivityMonitor::get_local_active_since() const
+{
+  return local_active_since;
+}
+
+bool
+NetworkActivityMonitor::is_local_active() const
+{
+  return local_active;
 }
