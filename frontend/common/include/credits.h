@@ -69,6 +69,7 @@ const char *workrave_translators =
  /* ru */           "Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
  /* ru */           "FreeWe <free@asdasd.ru>\n"
  /* ru */           "Igor Zinovik <zinovik.igor@gmail.com>\n"
+ /* ru */           "Andrey Bondrov <abondrov@rosalab.ru>\n"
  /* sk */           "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>\n"
  /* sl */           "Vanja Cvelbar <cvelbar@gmail.com>\n"
  /* sv */           "Daniel Nylander <info@danielnylander.se>\n"
