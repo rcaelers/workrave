@@ -34,14 +34,21 @@ using namespace workrave::network;
 GIOSocket::GIOSocket() :
   resolver(NULL),
   socket_client(NULL),
-  connection(NULL),
   socket(NULL),
+  iostream(NULL),
+  istream(NULL),
+  ostream(NULL),
   source(NULL),
   port(0),
   remote_address(NULL),
-  local_address(NULL)
+  local_address(NULL),
+  tls(false),
+  connected(false)
 {
   TRACE_ENTER("GIOSocket::GIOSocket()");
+
+  GTlsBackend *b = g_tls_backend_get_default();
+  TRACE_MSG(g_tls_backend_supports_tls(b));
   TRACE_EXIT();
 }
 
@@ -50,22 +57,22 @@ GIOSocket::GIOSocket() :
 GIOSocket::~GIOSocket()
 {
   TRACE_ENTER("GIOSocket::~GIOSocket");
-
-  if (socket != NULL)
-    {
-      g_socket_shutdown(socket, TRUE, TRUE, NULL);
-      g_socket_close(socket, NULL);
-      g_object_unref(socket);
-    }
-      
-  if (connection != NULL)
-    {
-      g_object_unref(connection);
-    }
+  TRACE_MSG(port);
 
   if (source != NULL)
     {
       g_source_destroy(source);
+    }
+  
+  if (socket != NULL)
+    {
+      g_socket_shutdown(socket, TRUE, TRUE, NULL);
+      g_socket_close(socket, NULL);
+    }
+      
+  if (iostream != NULL)
+    {
+      g_object_unref(iostream);
     }
 
   if (resolver != NULL)
@@ -88,28 +95,57 @@ GIOSocket::~GIOSocket()
 
 
 void
-GIOSocket::init(GSocketConnection *connection)
+GIOSocket::init(GSocketConnection *connection, bool tls)
 {
+  TRACE_ENTER_MSG("GIOSocket::init", tls);
+  this->tls = tls;
+  
   socket = g_socket_connection_get_socket(connection);
-  g_object_ref(connection);
-
   g_socket_set_blocking(socket, FALSE);
   g_socket_set_keepalive(socket, TRUE);
-
-  source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
-  g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
-  g_source_attach(source, NULL);
-  g_source_unref(source);
-
   remote_address = g_socket_get_remote_address(socket, NULL);
+
+  if (!tls)
+    {
+      iostream = G_IO_STREAM(connection);
+      g_object_ref(iostream);
+
+      prepare_connection();
+      connected = true;
+      connection_state_changed_signal();
+    }
+  else
+    {
+      TRACE_MSG("TLS");
+      GError *error = NULL;
+
+      GTlsDatabase *database = g_tls_file_database_new("/home/robc/ca.pem", &error);
+      g_assert_no_error(error);
+
+      GTlsCertificate *cert = g_tls_certificate_new_from_file("/home/robc/server-keys.pem", &error);
+      g_assert_no_error(error);
+
+      iostream = g_tls_server_connection_new(G_IO_STREAM(connection), cert, &error);
+      g_assert_no_error(error);
+      g_object_unref(cert);
+
+      //prepare_connection();
+      
+      g_tls_connection_set_database(G_TLS_CONNECTION(iostream), database);
+      g_object_set(iostream, "authentication-mode", G_TLS_AUTHENTICATION_NONE, NULL);
+      g_signal_connect(iostream, "accept-certificate", G_CALLBACK(static_accept_certificate), this);
+      g_tls_connection_handshake_async(G_TLS_CONNECTION(iostream), G_PRIORITY_DEFAULT, NULL, static_tls_handshake_callback, this);
+      ref();
+    }
+  TRACE_EXIT();
 }
 
-
 void
-GIOSocket::connect(const string &host_name, int port)
+GIOSocket::connect(const string &host_name, int port, bool tls)
 {
-  TRACE_ENTER_MSG("GIOSocket::connect", host_name << " " << port);
+  TRACE_ENTER_MSG("GIOSocket::connect", host_name << " " << port << " " <<  tls);
   this->port = port;
+  this->tls = tls;
   
   GInetAddress *inet_addr = g_inet_address_new_from_string(host_name.c_str());
   
@@ -122,6 +158,7 @@ GIOSocket::connect(const string &host_name, int port)
     {
       resolver = g_resolver_get_default();
       g_resolver_lookup_by_name_async(resolver, host_name.c_str(), NULL, static_resolve_ready, this);
+      ref();
     }
   
   TRACE_EXIT();
@@ -136,66 +173,15 @@ GIOSocket::connect(GSocketAddress *address)
   this->remote_address = address;
 
   socket_client = g_socket_client_new();
-      
+
   g_socket_client_connect_async(socket_client,
                                 G_SOCKET_CONNECTABLE(remote_address),
                                 NULL,
                                 static_connected_callback,
                                 this);
+  ref();
 
   TRACE_EXIT();
-}
-
-
-//! Connects to the specified host.
-bool
-GIOSocket::join_multicast(const GIONetworkAddress::Ptr multicast_address, const std::string &adapter, const GIONetworkAddress::Ptr local_address)
-{
-  TRACE_ENTER("GIOSocket::join_multicast");
-  GError *error = NULL;
-
-  this->remote_address = multicast_address->address();
-  this->adapter = adapter;
-  this->local_address = g_inet_socket_address_get_address(G_INET_SOCKET_ADDRESS(local_address->address()));
-  
-  GInetAddress *inet_address = multicast_address->inet_address();
-  GSocketFamily family = multicast_address->family();
-  
-  socket = g_socket_new(family, G_SOCKET_TYPE_DATAGRAM, G_SOCKET_PROTOCOL_UDP, &error);
-  
-  if (error == NULL)
-    {
-      g_socket_set_broadcast(socket, TRUE);
-      g_socket_set_multicast_ttl(socket, 1);
-      g_socket_set_multicast_loopback(socket, TRUE);
-      g_socket_set_blocking(socket, FALSE);
-      g_socket_set_keepalive(socket, TRUE);
-      g_socket_bind(socket, remote_address, TRUE, &error);
-    }
-
-  if (error == NULL)
-    {
-      g_socket_join_multicast_group(socket, inet_address, FALSE, adapter.c_str(), &error);
-    }
-
-  if (error == NULL)
-    {
-      source = g_socket_create_source(socket, (GIOCondition)(G_IO_IN | G_IO_ERR), NULL);
-      g_source_set_callback(source, (GSourceFunc) static_data_callback, (void *) this, NULL);
-      g_source_attach(source, g_main_context_get_thread_default());
-      g_source_unref(source);
-    }
-
-  if (error != NULL)
-    {
-      TRACE_MSG(string("Cannot create multicast socket: ") + error->message);
-      g_error_free(error);
-      TRACE_EXIT();
-      return false;
-    }
-  
-  TRACE_EXIT();
-  return true;
 }
 
 
@@ -209,52 +195,29 @@ GIOSocket::read(gchar *buf, gsize count, gsize &bytes_read)
   gsize num_read = 0;
   bool ret = true;
 
-  if (socket != NULL)
+  if (istream != NULL)
     {
-      num_read = g_socket_receive(socket, (char *)buf, count, NULL, &error);
-      if (error != NULL)
+      num_read = g_pollable_input_stream_read_nonblocking(G_POLLABLE_INPUT_STREAM(istream),
+                                                          (char *)buf, count, NULL, &error);
+
+      if (num_read > 0)
         {
-          g_error_free(error);
-          num_read = 0;
+          bytes_read = (int) num_read;
+        }
+      else if (num_read == 0)
+        {
+          bytes_read = (int) num_read;
           ret = false;
+        }
+      else if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK))
+        {
+          bytes_read = 0;
         }
     }
 
-  bytes_read = (int)num_read;
-  TRACE_RETURN(bytes_read);
-  return ret;
-}
-
-
-
-//! Read from the connection.
-bool
-GIOSocket::receive(gchar *buf, gsize count, gsize &bytes_read, NetworkAddress::Ptr &address)
-{
-  TRACE_ENTER_MSG("GIOSocket::receive", count);
-
-  GError *error = NULL;
-  gsize num_read = 0;
-  GSocketAddress *src_address = NULL;
-  bool ret = true;
-     
-  if (socket != NULL)
-    {
-      num_read = g_socket_receive_from(socket, &src_address, buf, count, NULL, &error);
-      if (error != NULL)
-        {
-          g_error_free(error);
-          num_read = 0;
-          ret = false;
-        }
-      else if (src_address != NULL)
-        {
-          address = NetworkAddress::Ptr(new GIONetworkAddress(src_address));
-          g_object_unref(src_address);
-        }
-    }
-
-  bytes_read = (int)num_read;
+  TRACE_GERROR(error);
+  g_clear_error(&error);
+  
   TRACE_RETURN(bytes_read);
   return ret;
 }
@@ -268,42 +231,18 @@ GIOSocket::write(const gchar *buf, gsize count)
 
   GError *error = NULL;
   gsize num_written = 0;
-  if (socket != NULL)
+  if (ostream != NULL)
     {
-      num_written = g_socket_send(socket, (char *)buf, count, NULL, &error);
-      if (error != NULL)
-        {
-          g_error_free(error);
-          num_written = 0;
-        }
+      num_written = g_pollable_output_stream_write_nonblocking(G_POLLABLE_OUTPUT_STREAM(ostream),
+                                                               (char *)buf, count, NULL, &error);
     }
-  TRACE_RETURN(num_written);
-  return num_written == count;
-}
 
-
-//! Write to the connection.
-bool
-GIOSocket::send(const gchar *buf, gsize count)
-{
-  TRACE_ENTER_MSG("GIOSocket::send", count);
-
-  GError *error = NULL;
-  gsize num_written = 0;
-  if (socket != NULL)
-    {
-      num_written = g_socket_send_to(socket, remote_address, (char *)buf, count, NULL, &error);
-      if (error != NULL)
-        {
-          g_error_free(error);
-          num_written = 0;
-        }
-    }
+  TRACE_GERROR(error);
+  g_clear_error(&error);
 
   TRACE_RETURN(num_written);
   return num_written == count;
 }
-
 
 
 //! Close the connection.
@@ -311,6 +250,7 @@ void
 GIOSocket::close()
 {
   TRACE_ENTER("GIOSocket::close");
+  TRACE_MSG(port);
   GError *error = NULL;
   if (socket != NULL)
     {
@@ -326,91 +266,102 @@ GIOSocket::close()
 }
 
 
-boost::signals2::signal<void()> &
+GIOSocket::io_signal_type &
 GIOSocket::signal_io()
 {
   return io_signal;
 }
 
-boost::signals2::signal<void()> &
-GIOSocket::signal_connected()
+
+GIOSocket::connection_state_changed_signal_type &
+GIOSocket::signal_connection_state_changed()
 {
-  return connected_signal;
+  return connection_state_changed_signal;
 }
 
-boost::signals2::signal<void()> &
-GIOSocket::signal_disconnected()
-{
-  return disconnected_signal;
-}
 
 void
-GIOSocket::static_connected_callback(GObject *source_object, GAsyncResult *result, gpointer user_data)
+GIOSocket::connected_callback(GObject *source_object, GAsyncResult *result)
 {
-  TRACE_ENTER("GIOSocket::static_connected_callback");
+  TRACE_ENTER("GIOSocket::connected_callback");
+  TRACE_MSG(port);
 
-  GIOSocket *self = (GIOSocket *)user_data;
   GError *error = NULL;
-
-  GSocketConnection *socket_connection = g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
-
-  if (error != NULL)
+  GSocketConnection *connection = g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
+  if (connection != NULL)
     {
-      TRACE_MSG("failed to connect");
-      g_error_free(error);
+      if (tls)
+        {
+          iostream = g_tls_client_connection_new(G_IO_STREAM(connection), NULL, &error);
+          if (iostream)
+            {
+              socket = g_socket_connection_get_socket(connection);
+              g_socket_set_blocking(socket, FALSE);
+              g_socket_set_keepalive(socket, TRUE);
+
+              GTlsDatabase *database = g_tls_file_database_new("/home/robc/ca.pem", &error);
+              g_assert_no_error(error);
+              
+              //prepare_connection();
+              GTlsCertificate *cert = g_tls_certificate_new_from_file("/home/robc/client-keys.pem", &error);
+              g_assert_no_error(error);
+              g_tls_connection_set_certificate(G_TLS_CONNECTION(iostream), cert);
+              
+              GTlsCertificateFlags flags;
+              flags = (GTlsCertificateFlags) (G_TLS_CERTIFICATE_VALIDATE_ALL); // &
+              //                                              ~(G_TLS_CERTIFICATE_UNKNOWN_CA | G_TLS_CERTIFICATE_BAD_IDENTITY));
+
+              g_tls_connection_set_database(G_TLS_CONNECTION(iostream), database);
+              g_tls_client_connection_set_validation_flags(G_TLS_CLIENT_CONNECTION(iostream), flags);
+              g_tls_connection_handshake_async(G_TLS_CONNECTION(iostream),
+                                               G_PRIORITY_DEFAULT,
+                                               NULL,
+                                               static_tls_handshake_callback,
+                                               this);
+              ref();
+              g_object_unref(connection);
+            }
+        }
+      else
+        {
+          iostream = G_IO_STREAM(connection);
+          
+          socket = g_socket_connection_get_socket(connection);
+          g_socket_set_blocking(socket, FALSE);
+          g_socket_set_keepalive(socket, TRUE);
+
+          prepare_connection();
+          connected = true;
+          connection_state_changed_signal();
+        }
     }
-  else if (socket_connection != NULL)
-    {
-      self->connection = socket_connection;
-      self->socket = g_socket_connection_get_socket(self->connection);
-      self->source = g_socket_create_source(self->socket, (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP), NULL);
 
-      g_source_set_callback(self->source, (GSourceFunc) static_data_callback, (void*)self, NULL);
-      g_source_attach(self->source, NULL);
+  TRACE_GERROR(error);
+  g_clear_error(&error);
+  unref();
 
-      g_socket_set_blocking(self->socket, FALSE);
-      g_socket_set_keepalive(self->socket, TRUE);
-
-      self->connected_signal();
-    }
   TRACE_EXIT();
 }
 
 
 gboolean
-GIOSocket::static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data)
+GIOSocket::data_callback(GObject *pollable)
 {
-  TRACE_ENTER_MSG("GIOSocket::static_data_callback", (int)condition);
+  TRACE_ENTER("GIOSocket::data_callback");
+  TRACE_MSG(port);
 
-  GIOSocket *self = (GIOSocket *) user_data;
-  gboolean ret = TRUE;
-
-  (void) socket;
-
-  // check for socket error
-  if (condition & (G_IO_ERR | G_IO_HUP | G_IO_NVAL))
-    {
-      self->disconnected_signal();
-      ret = FALSE;
-    }
-
-  // process input
-  if (ret && (condition & G_IO_IN))
-    {
-      self->io_signal();
-    }
+  io_signal();
 
   TRACE_EXIT();
-  return ret;
+  return TRUE;
 }
 
 
 void
-GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpointer user_data)
+GIOSocket::resolve_ready(GObject *source_object, GAsyncResult *res)
 {
-  TRACE_ENTER("GIOSocket::static_resolve_ready");
+  TRACE_ENTER("GIOSocket::resolve_ready");
   bool result = false;
-  GIOSocket *self = (GIOSocket *)user_data;
   GList *addresses = g_resolver_lookup_by_name_finish((GResolver *)source_object, res, NULL);
 
   if (addresses != NULL)
@@ -418,7 +369,7 @@ GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpoin
       // Take first result
       if (addresses->data != NULL)
         {
-          self->connect(g_inet_socket_address_new((GInetAddress *) addresses->data, self->port));
+          connect(g_inet_socket_address_new((GInetAddress *) addresses->data, port));
           result = true;
         }
        g_resolver_free_addresses(addresses);
@@ -426,16 +377,100 @@ GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpoin
 
   if (!result)
     {
-      self->disconnected_signal();
+      connected = false;
+      connection_state_changed_signal();      
     }
 
+  unref();
   TRACE_EXIT();
 }
+
+
+void
+GIOSocket::static_connected_callback(GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+  GIOSocket *self = (GIOSocket *)user_data;
+  self->connected_callback(source_object, result);
+}
+
+
+gboolean
+GIOSocket::static_data_callback(GObject *pollable, gpointer user_data)
+{
+  GIOSocket *self = (GIOSocket *)user_data;
+  return self->data_callback(pollable);
+}
+
+
+void
+GIOSocket::static_resolve_ready(GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GIOSocket *self = (GIOSocket *)user_data;
+  self->resolve_ready(source_object, res);
+}
+
+
+gboolean
+GIOSocket::static_accept_certificate(GTlsClientConnection *conn, GTlsCertificate *cert,
+                                     GTlsCertificateFlags errors, gpointer user_data)
+{
+  TRACE_ENTER_MSG("GIOSocket::static_accept_certificate", errors);
+  TRACE_EXIT()
+  //GIOSocket *self = (GIOSocket *)user_data;
+  return errors == 0;
+}
+
+
+void
+GIOSocket::static_tls_handshake_callback(GObject *object, GAsyncResult *result, gpointer user_data)
+{
+  TRACE_ENTER("GIOSocket::static_tls_handshake_callback");
+  GIOSocket *self = (GIOSocket *)user_data;
+  GError *error = NULL;
+
+  TRACE_MSG(self->port);
+  
+  self->connected = g_tls_connection_handshake_finish(G_TLS_CONNECTION(object), result, &error);
+  TRACE_MSG("connected " << self->connected);
+  TRACE_GERROR(error);
+
+  if (self->connected)
+    {
+      self->prepare_connection();
+    }
+
+  self->connection_state_changed_signal();
+
+  g_clear_error(&error);
+  self->unref();
+  TRACE_EXIT();
+}
+
+
+void
+GIOSocket::prepare_connection()
+{
+  istream = g_io_stream_get_input_stream(iostream);
+  ostream = g_io_stream_get_output_stream(iostream);
+
+  source = g_pollable_input_stream_create_source(G_POLLABLE_INPUT_STREAM(istream), NULL);
+  g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
+  g_source_attach(source, g_main_context_get_thread_default());
+  g_source_unref(source);
+}
+
 
 NetworkAddress::Ptr
 GIOSocket::get_remote_address()
 {
   return NetworkAddress::Ptr(new GIONetworkAddress(remote_address));
+}
+
+
+bool
+GIOSocket::is_connected() const
+{
+  return connected;
 }
 
 #endif

@@ -11,6 +11,7 @@ libworkrave_network_la_SOURCES =  \
 			GIOMulticastSocketServer.cc \
 			GIONetworkAddress.cc \
 			GIOSocket.cc \
+			GIOMulticastSocket.cc \
 			GIOSocketServer.cc \
 			NetworkAddress.cc \
 			NetworkInterfaceMonitor.cc \

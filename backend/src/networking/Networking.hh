@@ -73,6 +73,12 @@ private:
   void on_break_forced(BreakId id, BreakHint hint);
   void on_operation_mode_changed(OperationMode mode);
   void on_usage_mode_changed(UsageMode mode);
+
+  boost::signals2::connection operation_mode_connection;
+  boost::signals2::connection usage_mode_connection;
+  boost::signals2::connection break_postponed_connection[BREAK_ID_SIZEOF];
+  boost::signals2::connection break_skipped_connection[BREAK_ID_SIZEOF];
+  boost::signals2::connection break_forced_connection[BREAK_ID_SIZEOF];
   
 private:
   //! 

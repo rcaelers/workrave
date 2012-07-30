@@ -73,12 +73,14 @@ Marshaller::set_id(UUID &id)
   myid = id;
 }
 
+
 void
 Marshaller::set_credentials(const std::string &username, const std::string &secret)
 {
   this->username = username;
   this->secret = secret;
 }
+
 
 const string
 Marshaller::get_nonce() const
@@ -171,6 +173,7 @@ Marshaller::marshall(PacketOut::Ptr packet)
   const google::protobuf::Descriptor *ext = packet->message->GetDescriptor();
   if (ext != NULL)
     {
+      TRACE_MSG("Msg type " << ext->full_name());
       const google::protobuf::FieldDescriptor *fd = ext->extension(0);
       if (fd != NULL)
         {
@@ -180,14 +183,13 @@ Marshaller::marshall(PacketOut::Ptr packet)
           std:: string::size_type pos = full_name.rfind('.');
           if (pos != std::string::npos)
             {
-              TRACE_MSG(full_name.substr(0, pos));
+              TRACE_MSG("Domain " <<  num << " " << full_name.substr(0, pos));
               header->set_domain(get_domain_of_namespace(full_name.substr(0, pos)));
             }
           else
             {
               header->set_domain(1);
             }
-
       
           header->set_payload(num);
 
@@ -198,21 +200,17 @@ Marshaller::marshall(PacketOut::Ptr packet)
       
           header->SerializeToZeroCopyStream(output.get());
 
-          const gchar *payload = output->get_ptr();
+          //const gchar *payload = output->get_ptr();
           packet->message->SerializeToZeroCopyStream(output.get());
-          gsize payload_size = output->get_ptr() - payload;
+          //gsize payload_size = output->get_ptr() - payload;
 
           // TODO:
-          GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
-          g_checksum_update(checksum, (const guchar *)payload, payload_size);
-          g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
-          const gchar *hash = g_checksum_get_string(checksum);
+          //GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
+          //g_checksum_update(checksum, (const guchar *)payload, payload_size);
+          //g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
+          //const gchar *hash = g_checksum_get_string(checksum);
 
-          TRACE_MSG(hash);
-          
-          TRACE_MSG(output->get_position());
           ret = output->get_buffer_as_string();
-          TRACE_MSG(ret.length());
           output.reset();
         }
     }
@@ -242,26 +240,22 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       header_ok = header_ok && input->read_u16(header_size);
       header_ok = header_ok && input->read_u16(msg_size);
 
-      TRACE_MSG(header_ok << " " << header_size << " " << msg_size << " " << size);
-      
       if (header_ok)
         {
           header = Header::Ptr(new proto::Header());
           header_ok = header->ParseFromBoundedZeroCopyStream(input.get(), header_size);
-          TRACE_MSG(header_ok);
         }
       
       if (header_ok && size >= header_size + msg_size)
         {
           const string domain_name = get_namespace_of_domain(header->domain()) + ".Domain";
-          TRACE_MSG(domain_name);
+          TRACE_MSG("Domain: " << domain_name);
           base = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(domain_name);
-          TRACE_MSG(base);
         }
 
       if (base != NULL)
         {
-          TRACE_MSG("OK Base" <<  header->payload());
+          TRACE_MSG("OK Base, payload:" <<  header->payload() << " name: " << base->full_name());
           field = google::protobuf::DescriptorPool::generated_pool()->FindExtensionByNumber(base, header->payload());
         }
       
@@ -273,9 +267,12 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       
       if (ext != NULL)
         {
-          TRACE_MSG("OK EXT");
+          TRACE_MSG("OK Ext");
           boost::shared_ptr<google::protobuf::Message> message(google::protobuf::MessageFactory::generated_factory()->GetPrototype(ext)->New());
-          
+
+          const google::protobuf::Descriptor *d = message->GetDescriptor();
+          TRACE_MSG("Msg type " << d->full_name());
+  
           // TODO:
           GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
           g_checksum_update(checksum, (const guchar *)input->get_ptr(), msg_size);

@@ -43,34 +43,28 @@ struct Fixture
 {
   Fixture()
   {
-    BOOST_TEST_MESSAGE("global setup fixture");
-
 #ifdef TRACING
-    Debug::init();
+    Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
+    Debug::name(string("main"));
 #endif
 
-    g_type_init();
     XInitThreads();
-    
+    g_type_init();
     gtk_init(0, 0);
 
-    boost::shared_ptr<boost::barrier> barrier(new boost::barrier(num_workraves + 1));
+    system("netstat -nat");
+    BOOST_TEST_MESSAGE("constructing cores");
+    
+    barrier = boost::shared_ptr<boost::barrier>(new boost::barrier(num_workraves + 1));
 
     for (int i = 0; i < num_workraves; i++)
       {
         workraves[i] = Workrave::create(i);
         workraves[i]->init(barrier);
       }
+
     barrier->wait();
-    
-    // boost::function<void ()> f3 = [](){ std::cout<<"f3()"<<std::endl; };
-
-    workraves[1]->invoke(boost::bind(&Workrave::connect, workraves[1], "localhost", 2701));
-    workraves[2]->invoke(boost::bind(&Workrave::connect, workraves[2], "localhost", 2701));
-    workraves[3]->invoke(boost::bind(&Workrave::connect, workraves[3], "localhost", 2703));
-    workraves[3]->invoke(boost::bind(&Workrave::connect, workraves[3], "localhost", 2701));
-
-    sleep(5);
+    BOOST_TEST_MESSAGE("constructing cores...done");
     
     for (int i = 0; i < num_workraves; i++)
       {
@@ -80,99 +74,145 @@ struct Fixture
   
   ~Fixture()
   {
-    BOOST_TEST_MESSAGE("global teardown fixture");
-  }
+    BOOST_TEST_MESSAGE("destructing cores");
+  
+    for (int i = 0; i < num_workraves; i++)
+      {
+        //workraves[i]->invoke_sync(boost::bind(&Workrave::terminate, workraves[i]));
+        workraves[i]->terminate();
+      }
+    sleep(5);
+    
+    //barrier->wait();
+    BOOST_TEST_MESSAGE("destructing cores...done");
+   }
 
-  //GMainLoop *loop;
-  const static int num_workraves = 4;
+protected:
+  void connect_all()
+  {
+    /*   /---\
+       | 0 |
+       \---/
+         |
+         |------|
+         |      |
+       /---\  /---\
+       | 1 |  | 2 |
+       \---/  \---/
+         |      |
+         |      |
+       /---\  /---\
+       | 3 |  | 4 |
+       \---/  \---/
+         |
+         |
+       /---\
+       | 5 |
+       \---/
+         |
+         |------|
+         |      |
+       /---\  /---\
+       | 6 |  | 7 |
+       \---/  \---/
+    */
+
+    BOOST_TEST_MESSAGE("connecting cores...");
+    
+    workraves[1]->invoke(boost::bind(&Workrave::connect, workraves[1], "localhost", 2700));
+    workraves[2]->invoke(boost::bind(&Workrave::connect, workraves[2], "localhost", 2700));
+    
+    workraves[3]->invoke(boost::bind(&Workrave::connect, workraves[3], "localhost", 2701));
+    workraves[4]->invoke(boost::bind(&Workrave::connect, workraves[4], "localhost", 2702));
+
+    workraves[5]->invoke(boost::bind(&Workrave::connect, workraves[5], "localhost", 2703));
+    
+    workraves[6]->invoke(boost::bind(&Workrave::connect, workraves[6], "localhost", 2705));
+    workraves[7]->invoke(boost::bind(&Workrave::connect, workraves[7], "localhost", 2705));
+    sleep(5);
+    BOOST_TEST_MESSAGE("connecting cores...done");
+  } 
+  
+  const static int num_workraves = 8;
   Workrave::Ptr workraves[num_workraves];
   ICore::Ptr cores[num_workraves];
+  boost::shared_ptr<boost::barrier> barrier;
 };
 
 BOOST_FIXTURE_TEST_SUITE(s, Fixture)
 
-BOOST_AUTO_TEST_CASE(test_case1)
+BOOST_AUTO_TEST_CASE(test_propagate_operation_mode)
 {
-  OperationMode mode = cores[0]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
-
-  mode = cores[1]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
-
-  mode = cores[2]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
-
-  mode = cores[3]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
-
-  OperationMode m = workraves[0]->invoke_sync(boost::bind(&ICore::get_operation_mode, cores[0]));
+  connect_all();
   
+  BOOST_TEST_MESSAGE("checking initial...");
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      OperationMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_operation_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
+    }
+  
+  BOOST_TEST_MESSAGE("set operation mode to suspended");
   workraves[0]->invoke_sync(boost::bind(&ICore::set_operation_mode, cores[0], OPERATION_MODE_SUSPENDED));
+  sleep(2);
 
-  sleep(5);
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      OperationMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_operation_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, OPERATION_MODE_SUSPENDED);
+    }
 
-  mode = cores[0]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_SUSPENDED);
+  BOOST_TEST_MESSAGE("set operation mode to quiet");
+  workraves[0]->invoke_sync(boost::bind(&ICore::set_operation_mode, cores[0], OPERATION_MODE_QUIET));
+  sleep(2);
 
-  mode = cores[1]->get_operation_mode();
-  BOOST_CHECK_EQUAL(mode, OPERATION_MODE_SUSPENDED);
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      OperationMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_operation_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, OPERATION_MODE_QUIET);
+    }
 
-  // mode = cores[2]->get_operation_mode();
-  // BOOST_CHECK_EQUAL(mode, OPERATION_MODE_SUSPENDED);
+  BOOST_TEST_MESSAGE("set operation mode to normal");
+  workraves[0]->invoke_sync(boost::bind(&ICore::set_operation_mode, cores[0], OPERATION_MODE_NORMAL));
+  sleep(2);
 
-  // mode = cores[3]->get_operation_mode();
-  // BOOST_CHECK_EQUAL(mode, OPERATION_MODE_SUSPENDED);
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      OperationMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_operation_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, OPERATION_MODE_NORMAL);
+    }
+  BOOST_TEST_MESSAGE("done");
 }
 
-// BOOST_AUTO_TEST_CASE(test_case2)
-// {
-//   //    BOOST_CHECK_EQUAL( i, 0 );
-// }
+
+BOOST_AUTO_TEST_CASE(test_propagate_usage_mode)
+{
+  connect_all();
+  
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      UsageMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_usage_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, USAGE_MODE_NORMAL);
+    }
+  
+  workraves[0]->invoke_sync(boost::bind(&ICore::set_usage_mode, cores[0], USAGE_MODE_READING));
+  sleep(2);
+
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      UsageMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_usage_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, USAGE_MODE_READING);
+    }
+
+  workraves[0]->invoke_sync(boost::bind(&ICore::set_usage_mode, cores[0], USAGE_MODE_NORMAL));
+  sleep(2);
+
+  for (int i = 0; i <  num_workraves; i++)
+    {
+      UsageMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_usage_mode, cores[i]));
+      BOOST_CHECK_EQUAL(mode, USAGE_MODE_NORMAL);
+    }
+  
+}
 
 BOOST_AUTO_TEST_SUITE_END()
-
-
-
-// #include <fstream>
-// #include <stdio.h>
-
-
-
-
-
-
-// int
-// main(int argc, char **argv)
-// {
-//   (void) argc;
-//   (void) argv;
-  
-// #ifdef TRACING
-//   Debug::init();
-// #endif
-
-//   g_type_init();
-
-//   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
-
-//   Workrave::Ptr workrave[0] = Workrave::create();
-  
-//   Workrave::Ptr workrave[1] = Workrave::create();
-//   workrave[1]->connect("localhost", 2701);
-
-//   Workrave::Ptr workrave[2] = Workrave::create();
-//   workrave[2]->connect("localhost", 2701);
-
-//   Workrave::Ptr workrave[3] = Workrave::create();
-//   workrave[3]->connect("localhost", 2703);
-//   workrave[3]->connect("localhost", 2701);
-  
-//   g_timeout_add_seconds(1, on_timer, workrave[0].get());
-//   g_timeout_add_seconds(1, on_timer, workrave[1].get());
-//   g_timeout_add_seconds(1, on_timer, workrave[2].get());
-//   g_timeout_add_seconds(1, on_timer, workrave[3].get());
-  
-//   g_main_loop_run(loop);
-  
-//   return 0;
-// }

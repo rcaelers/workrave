@@ -43,7 +43,11 @@ public:
   }
 
   Client() : authenticated(false) {}
-  virtual ~Client() {}
+  virtual ~Client()
+  {
+    TRACE_ENTER("Client::~Client");
+    TRACE_EXIT();
+  }
 
 public:
   Link::Ptr link;

@@ -40,7 +40,7 @@ namespace workrave
 
       virtual ~SocketServer() {};
      
-      virtual bool init(int port) = 0;
+      virtual bool init(int port, bool tls = false) = 0;
       virtual boost::signals2::signal<void(Socket::Ptr)> &signal_accepted() = 0;
     };
   }

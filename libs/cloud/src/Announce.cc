@@ -92,13 +92,13 @@ Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
   PacketIn::Ptr packet = marshaller->unmarshall(size, data);
   if (packet)
     {
-      data_signal(packet, link);
+      data_signal(link, packet);
     }
   
   TRACE_EXIT();
 }
 
-boost::signals2::signal<bool(PacketIn::Ptr, Link::Ptr)> &
+Announce::data_signal_type &
 Announce::signal_data()
 {
   return data_signal;

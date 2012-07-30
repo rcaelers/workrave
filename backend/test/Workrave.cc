@@ -22,6 +22,8 @@
 
 #include "debug.hh"
 
+#include <boost/lexical_cast.hpp>
+
 #include "Workrave.hh"
 
 #include "ICore.hh"
@@ -42,6 +44,8 @@ Workrave::Workrave(int id) : id(id)
 
 Workrave::~Workrave()
 {
+  TRACE_ENTER_MSG("Workrave::~Workrave", id);
+  TRACE_EXIT();
 }
 
 
@@ -71,17 +75,28 @@ Workrave::init(boost::shared_ptr<boost::barrier> barrier)
   thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Workrave::run, this)));
 }
 
+void
+Workrave::terminate()
+{
+  g_main_loop_quit(loop);
+  //barrier->wait();
+}
+
 
 void
 Workrave::run()
 {
+#ifdef TRACING
+  Debug::name(std::string("core-") + boost::lexical_cast<std::string>(id));
+#endif
+
   TRACE_ENTER_MSG("Workrave::run", id);
   core = ICore::create(id);
 
   char *argv[] = { (char *)"workrave" };
-
+  
   context = g_main_context_new();
-  //g_main_context_push_thread_default(context);
+  g_main_context_push_thread_default(context);
   loop = g_main_loop_new(context, FALSE);
   
   ICoreHooks::Ptr hooks = core->get_hooks();

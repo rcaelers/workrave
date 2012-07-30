@@ -40,25 +40,33 @@ GIOSocketServer::GIOSocketServer() :
 //! Destructs the listen socket.
 GIOSocketServer::~GIOSocketServer()
 {
+  TRACE_ENTER("GIOSocketServer::~GIOSocketServer");
   if (service != NULL)
     {
+      g_socket_listener_close(G_SOCKET_LISTENER(service));
       g_socket_service_stop(service);
       g_object_unref(service);
       service = NULL;
+      TRACE_MSG("stopping");
     }
+  TRACE_EXIT();
 }
 
 
 //! Listen at the specified port.
 bool
-GIOSocketServer::init(int port)
+GIOSocketServer::init(int port, bool tls)
 {
+  TRACE_ENTER_MSG("GIOSocketServer::init", port);
+  this->tls = tls;
+  
   GError *error = NULL;
   service = g_socket_service_new();
   
   g_socket_listener_add_inet_port(G_SOCKET_LISTENER(service), port, NULL, &error);
   if (error != NULL)
     {
+      TRACE_MSG("error" << error->message);
       g_error_free(error);
       g_object_unref(service);
       service = NULL;
@@ -68,6 +76,7 @@ GIOSocketServer::init(int port)
   g_signal_connect(service, "incoming", G_CALLBACK(static_socket_incoming), this);
   g_socket_service_start(service);
 
+  TRACE_EXIT();
   return true;
 }
 
@@ -91,12 +100,38 @@ GIOSocketServer::static_socket_incoming(GSocketService *service,
 
   GIOSocketServer *self = (GIOSocketServer *) user_data;
   GIOSocket::Ptr socket =  GIOSocket::Ptr(new GIOSocket());
-  socket->init(connection);
+
+  boost::signals2::connection c = socket->signal_connection_state_changed()
+    .connect(boost::bind(&GIOSocketServer::on_initialized, self, GIOSocket::WeakPtr(socket)));
   
-  self->accepted_signal(socket);
+  self->waiting[socket] = c;
+  
+  TRACE_MSG(string("use ") << socket.use_count());
+  socket->init(connection, self->tls);
+  TRACE_MSG(string("use ") << socket.use_count());
 
   TRACE_EXIT();
 	return FALSE;
 }
+
+void
+GIOSocketServer::on_initialized(GIOSocket::WeakPtr weak_socket)
+{
+  GIOSocket::Ptr socket = weak_socket.lock();
+    
+  TRACE_ENTER("GIOSocketServer::on_initialized");
+  TRACE_MSG(string("use ") << socket.use_count());
+  boost::signals2::connection c = waiting[socket];
+  c.disconnect();
+  TRACE_MSG(string("use ") << socket.use_count());
+  waiting.erase(socket);
+  TRACE_MSG(string("use ") << socket.use_count());
+  if (socket->is_connected())
+    {
+      accepted_signal(socket);
+    }
+  TRACE_EXIT();
+}
+
 
 #endif

@@ -60,11 +60,14 @@ DirectLink::DirectLink(Marshaller::Ptr marshaller, Socket::Ptr socket) : marshal
 {
   TRACE_ENTER("DirectLink::DirectLink");
   stream = boost::shared_ptr<ByteStream>(new ByteStream(1024));
-  this->state = CONNECTION_STATE_CONNECTED;
-  this->address = socket->get_remote_address();
+  state = CONNECTION_STATE_CONNECTED;
+  address = socket->get_remote_address();
 
-  socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
-  socket->signal_disconnected().connect(boost::bind(&DirectLink::on_disconnected, this));
+  con1 = socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
+  con2 = socket->signal_connection_state_changed().connect(boost::bind(&DirectLink::on_connection_state_changed, this));
+
+  // socket->signal_io().connect(Socket::io_signal_type::slot_type(&DirectLink::on_data, this).track(shared_from_this()));
+  // socket->signal_connection_state_changed().connect(Socket::connection_state_changed_signal_type::slot_type(&DirectLink::on_connection_state_changed, this).track(shared_from_this()));
   TRACE_EXIT();
 }
 
@@ -82,13 +85,14 @@ DirectLink::connect(const string &host, int port)
   TRACE_ENTER_MSG("DirectLink::connect", host << " " << port);
 
   state = CONNECTION_STATE_CONNECTING;
-  socket->connect(host, port);
+  socket->connect(host, port, true);
 
-  socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
-  socket->signal_connected().connect(boost::bind(&DirectLink::on_connected, this));
-  socket->signal_disconnected().connect(boost::bind(&DirectLink::on_disconnected, this));
+  // socket->signal_io().connect(Socket::io_signal_type::slot_type(&DirectLink::on_data, this).track(shared_from_this()));
+  // socket->signal_connection_state_changed().connect(Socket::connection_state_changed_signal_type::slot_type(&DirectLink::on_connection_state_changed, this).track(shared_from_this()));
+  con1 = socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
+  con2 = socket->signal_connection_state_changed().connect(boost::bind(&DirectLink::on_connection_state_changed, this));
   
-  state_signal();
+  state_signal(boost::dynamic_pointer_cast<DirectLink>(shared_from_this()));
   TRACE_EXIT();
 }
 
@@ -111,21 +115,19 @@ DirectLink::send_message(const string &message)
 
 
 void
-DirectLink::on_connected()
+DirectLink::on_connection_state_changed()
 {
-  TRACE_ENTER("DirectLink::on_connected");
-  address = socket->get_remote_address();
-  state = Link::CONNECTION_STATE_CONNECTED;
-  state_signal();
-  TRACE_EXIT();
-}
-
-
-void
-DirectLink::on_disconnected()
-{
-  TRACE_ENTER("DirectLink::on_disconnected");
-  close();
+  TRACE_ENTER("DirectLink::on_connection_state_changed");
+  if (socket->is_connected())
+    {
+      address = socket->get_remote_address();
+      state = Link::CONNECTION_STATE_CONNECTED;
+      state_signal(boost::dynamic_pointer_cast<DirectLink>(shared_from_this()));
+    }
+  else
+    {
+      close();
+    }
   TRACE_EXIT();
 }
 
@@ -136,7 +138,7 @@ DirectLink::on_data()
 {
   TRACE_ENTER("DirectLink::on_data");
   
-  bool error = false;
+  bool ok = true;
   
   try
     {
@@ -145,7 +147,7 @@ DirectLink::on_data()
       gsize bytes_to_read = 2;
       guint16 packet_size = 0;
 
-      TRACE_MSG(stream->get_position());
+      TRACE_MSG("pos " << stream->get_position());
       
       if (stream->get_position() >= header_size)
         {
@@ -156,22 +158,17 @@ DirectLink::on_data()
           stream->resize(header_size + packet_size);
         }
 
-      TRACE_MSG(bytes_to_read);
+      TRACE_MSG("to read " << bytes_to_read);
       
       if (bytes_to_read > 0)
         {
-          socket->read(stream->get_ptr(), bytes_to_read, bytes_read);
-          if (bytes_read == 0)
-            {
-              TRACE_MSG("socket closed");
-              error = true;
-            }
-          else
+          ok = socket->read(stream->get_ptr(), bytes_to_read, bytes_read);
+          if (ok && bytes_read != 0)
             {
               g_assert(bytes_read > 0);
               stream->advance_buffer(bytes_read);
             }
-          TRACE_MSG(bytes_read);
+          TRACE_MSG("read " << bytes_read);
         }
       
       if (packet_size > 0 && header_size + packet_size == stream->get_position())
@@ -180,11 +177,11 @@ DirectLink::on_data()
 
           if (packet)
             {
-              boost::optional<bool> r = data_signal(packet);
+              boost::optional<bool> r = data_signal(shared_from_this(), packet);
               TRACE_MSG("signal result" << r << " " << (*r));
               if (!(*r))
               {
-                error = true;
+                ok = false;
               }
             }
           
@@ -194,10 +191,10 @@ DirectLink::on_data()
   catch(...)
     {
       TRACE_MSG("Exception");
-      error = true;
+      ok = false;
     }
 
-  if (error)
+  if (!ok)
     {
       close();
     }
@@ -212,19 +209,19 @@ DirectLink::close()
   TRACE_ENTER("DirectLink::close");
   state = Link::CONNECTION_STATE_CLOSED;
   socket->close();
-  state_signal();
+  state_signal(boost::dynamic_pointer_cast<DirectLink>(shared_from_this()));
   TRACE_EXIT()
 }
 
 
-boost::signals2::signal<bool(PacketIn::Ptr), DirectLink::BoolOrCombiner> &
+DirectLink::data_signal_type &
 DirectLink::signal_data()
 {
   return data_signal;
 }
 
 
-boost::signals2::signal<void()> &
+DirectLink::state_signal_type &
 DirectLink::signal_state()
 {
   return state_signal;

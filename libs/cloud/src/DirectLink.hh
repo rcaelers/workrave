@@ -24,6 +24,7 @@
 #include <string>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 #include "network/Socket.hh"
 
@@ -38,6 +39,7 @@ class DirectLink : public Link
 {
 public:
   typedef boost::shared_ptr<DirectLink> Ptr;
+  typedef boost::weak_ptr<DirectLink> WeakPtr;
 
   struct BoolOrCombiner
   {
@@ -67,28 +69,31 @@ public:
 
   void connect(const std::string &host, int port);
   void send_message(const std::string &message);
+
+  typedef boost::signals2::signal<bool(Link::Ptr, PacketIn::Ptr), BoolOrCombiner> data_signal_type;
+  typedef boost::signals2::signal<void(DirectLink::Ptr)> state_signal_type;
   
-  boost::signals2::signal<bool(PacketIn::Ptr), BoolOrCombiner> &signal_data();
-  boost::signals2::signal<void()> &signal_state();
+  data_signal_type &signal_data();
+  state_signal_type &signal_state();
   
 private:
-  void on_connected();
-  void on_disconnected();
+  void on_connection_state_changed();
   void on_data();
   void close();
   
 private:
-
-  
   //!
-  boost::signals2::signal<bool(PacketIn::Ptr), BoolOrCombiner> data_signal;
+  data_signal_type data_signal;
 
   //!
-  boost::signals2::signal<void()> state_signal;
+  state_signal_type state_signal;
 
   Marshaller::Ptr marshaller;
   Socket::Ptr socket;
   boost::shared_ptr<ByteStream> stream;
+
+  boost::signals2::scoped_connection con1;
+  boost::signals2::scoped_connection con2;
 };
 
 

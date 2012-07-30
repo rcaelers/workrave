@@ -27,7 +27,7 @@
 
 #include "debug.hh"
 #include "GIONetworkAddress.hh"
-#include "GIOSocket.hh"
+#include "GIOMulticastSocket.hh"
 #include "NetworkInterfaceMonitor.hh"
 
 using namespace std;
@@ -110,7 +110,7 @@ GIOMulticastSocketServer::on_interface_changed(const NetworkInterfaceMonitor::Ne
       GIONetworkAddress::Ptr multicast_address ( family == G_SOCKET_FAMILY_IPV4 ? address_ipv4 :
                                                  family == G_SOCKET_FAMILY_IPV6 ? address_ipv6 : address_ipv6);
                               
-      GIOSocket::Ptr socket(new GIOSocket());
+      GIOMulticastSocket::Ptr socket(new GIOMulticastSocket());
       Connection::Ptr connection(new Connection());
 
       connection->adapter_name = change.name;

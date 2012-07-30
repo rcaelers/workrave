@@ -58,7 +58,7 @@ public:
   void set_break_progress(int value, int max_value)  { }
   void set_prelude_stage(PreludeStage stage)  { }
   void set_prelude_progress_text(PreludeProgressText text)  { }
-  void terminate()  { }
+  void terminate();
 
   template<typename Functor>
   struct Closure

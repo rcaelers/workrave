@@ -21,11 +21,16 @@
 
 #if defined(HAVE_GIO_NET)
 
+#include <map>
+
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
 
+#include <boost/signals2.hpp>
+
 #include "SocketServer.hh"
+#include "GIOSocket.hh"
 
 //! Listen socket implementation using GIO
 class GIOSocketServer : public workrave::network::SocketServer
@@ -38,7 +43,7 @@ public:
   virtual ~GIOSocketServer();
 
   // SocketServer interface
-  virtual bool init(int port);
+  virtual bool init(int port, bool tls = false);
   boost::signals2::signal<void(workrave::network::Socket::Ptr)> &signal_accepted();
 
 private:
@@ -47,8 +52,12 @@ private:
                                          GObject *src_object,
                                          gpointer user_data);
 
+  void on_initialized(GIOSocket::WeakPtr socket);
+  
 private:
   GSocketService *service;
+  bool tls;
+  std::map<workrave::network::Socket::Ptr, boost::signals2::connection> waiting;
   boost::signals2::signal<void(workrave::network::Socket::Ptr)> accepted_signal;
 };
 

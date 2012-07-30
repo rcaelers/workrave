@@ -39,6 +39,8 @@ namespace workrave
     {
     public:
       typedef boost::shared_ptr<Socket> Ptr;
+      typedef boost::signals2::signal<void()> io_signal_type;
+      typedef boost::signals2::signal<void()> connection_state_changed_signal_type;
   
     public:
       static Ptr create();
@@ -46,8 +48,11 @@ namespace workrave
       virtual ~Socket() {};
 
       //! Creates a connection to the specified address.
-      virtual void connect(const std::string &host_name, int port) = 0;
-  
+      virtual void connect(const std::string &host_name, int port, bool tls) = 0;
+
+      //!
+      virtual bool is_connected() const = 0;
+      
       //! Reads data from the connection.
       virtual bool read(gchar *data, gsize count, gsize &bytes_read) = 0;
 
@@ -58,10 +63,9 @@ namespace workrave
       virtual void close() = 0;
 
       virtual NetworkAddress::Ptr get_remote_address() = 0;
-      
-      virtual boost::signals2::signal<void()> &signal_io() = 0;
-      virtual boost::signals2::signal<void()> &signal_connected() = 0;
-      virtual boost::signals2::signal<void()> &signal_disconnected() = 0;
+
+      virtual io_signal_type &signal_io() = 0;
+      virtual connection_state_changed_signal_type &signal_connection_state_changed() = 0;
     };
   }
 }

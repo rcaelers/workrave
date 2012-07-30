@@ -31,7 +31,7 @@
 #include "NetworkAddress.hh"
 #include "NetworkInterfaceMonitor.hh"
 
-#include "GIOSocket.hh"
+#include "GIOMulticastSocket.hh"
 
 //! 
 class GIOMulticastSocketServer : public workrave::network::MulticastSocketServer
@@ -62,7 +62,7 @@ private:
     }
     std::string adapter_name;
     GInetAddress *local_address;
-    GIOSocket::Ptr socket;
+    GIOMulticastSocket::Ptr socket;
   };
   
 private:

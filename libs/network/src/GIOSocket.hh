@@ -25,8 +25,12 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
+
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>
+
+#include "utils/Object.hh"
 
 #include "Socket.hh"
 
@@ -34,60 +38,74 @@
 
 //! Socket implementation based on GIO
 class GIOSocket
-  : public workrave::network::Socket
+  : public workrave::network::Socket,
+    public workrave::utils::Object // ,
+    //public boost::enable_shared_from_this<GIOSocket>
 {
 public:
   typedef boost::shared_ptr<GIOSocket> Ptr;
-  
+  typedef boost::weak_ptr<GIOSocket> WeakPtr;
+
 public:
   GIOSocket();
   virtual ~GIOSocket();
 
-  void init(GSocketConnection *connection);
+  void init(GSocketConnection *connection, bool tls);
   
   // Socket interface
-  virtual void connect(const std::string &host_name, int port);
-  virtual bool join_multicast(const GIONetworkAddress::Ptr multicast_address, const std::string &adapter, const GIONetworkAddress::Ptr local_address);
+  virtual void connect(const std::string &host_name, int port, bool tls);
+  virtual bool is_connected() const;
   virtual bool read(gchar *data, gsize count, gsize &bytes_read);
   virtual bool write(const gchar *data, gsize count);
-  virtual bool send(const gchar *buf, gsize count);
-  virtual bool receive(gchar *buf, gsize count, gsize &bytes_read, workrave::network::NetworkAddress::Ptr &address);
   virtual void close();
   virtual workrave::network::NetworkAddress::Ptr get_remote_address();
   
-  virtual boost::signals2::signal<void()> &signal_io();
-  virtual boost::signals2::signal<void()> &signal_connected();
-  virtual boost::signals2::signal<void()> &signal_disconnected();
-  
+  virtual io_signal_type &signal_io();
+  virtual connection_state_changed_signal_type &signal_connection_state_changed();
+
 private:
   void connect(GSocketAddress *address);
 
   void on_resolve_ready(bool result);
 
+  void resolve_ready(GObject *source_object, GAsyncResult *res);
+  void connected_callback(GObject *source_object, GAsyncResult *result);
+  gboolean data_callback(GObject *pollable);
+  gboolean accept_certificate (GTlsClientConnection *conn, GTlsCertificate *cert, GTlsCertificateFlags errors);
+
+  void prepare_connection();
+  
   static void static_resolve_ready(GObject *source_object, GAsyncResult *res, gpointer user_data);
   static void static_connected_callback(GObject *source_object, GAsyncResult *result, gpointer user_data);
-  static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
+  static gboolean static_data_callback(GObject *pollable, gpointer data);
+  static gboolean static_accept_certificate(GTlsClientConnection *conn, GTlsCertificate *cert, GTlsCertificateFlags errors, gpointer user_data);
+  static void static_tls_handshake_callback(GObject *object, GAsyncResult *result, gpointer user_data);
+
 
 private:
   GResolver *resolver;
   GSocketClient *socket_client;
-  GSocketConnection *connection;
   GSocket *socket;
+  GIOStream *iostream;
+  GInputStream *istream;
+  GOutputStream *ostream;
   GSource *source;
   int port;
 
   //! Remote address
   GSocketAddress *remote_address;
 
-  //! Adapter to use for multicast
-  std::string adapter;
-
   //! Local address.
   GInetAddress *local_address;
 
-  boost::signals2::signal<void()> io_signal;
-  boost::signals2::signal<void()> connected_signal;
-  boost::signals2::signal<void()> disconnected_signal;
+  //!
+  bool tls;
+
+  //!
+  bool connected;
+  
+  io_signal_type io_signal;
+  connection_state_changed_signal_type connection_state_changed_signal;
 };
 
 #endif

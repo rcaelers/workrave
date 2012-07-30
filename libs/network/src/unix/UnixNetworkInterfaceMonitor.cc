@@ -66,7 +66,7 @@ UnixNetworkInterfaceMonitor::init()
       if (!(ifa->ifa_flags & IFF_POINTOPOINT) &&
            (ifa->ifa_flags & IFF_UP))
         {
-          g_debug("ifaddr %s ", ifa->ifa_name);
+          // g_debug("ifaddr %s ", ifa->ifa_name);
         }
     }
   freeifaddrs(ifa_list);

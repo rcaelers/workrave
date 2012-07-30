@@ -22,7 +22,7 @@
 #include "config.h"
 #endif
 
-#define TRACE_EXTRA " (" << myid.str() << ")"
+//#define TRACE_EXTRA " (" << myid.str() << ")"
 #include "debug.hh"
 
 #include <string.h>
@@ -115,12 +115,14 @@ Router::connect(const string &host, int port)
 {
   TRACE_ENTER_MSG("Router::connect", host << " " << port);
 
+  Client::Ptr client = Client::create();
+  
   DirectLink::Ptr link = DirectLink::create(marshaller);
   link->connect(host, port);
-  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link, SCOPE_DIRECT));
-  link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, link));
 
-  Client::Ptr client = Client::create();
+  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_DIRECT));
+  link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, _1));
+  
   client->link = link;
   
   clients.push_back(client);
@@ -146,6 +148,7 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
     {
       for (ClientIter it = clients.begin(); it != clients.end(); it++)
         {
+          TRACE_MSG((*it)->link->state);
           if ((*it)->link->state == Link::CONNECTION_STATE_CONNECTED)
             {
               (*it)->link->send_message(msg_str);
@@ -163,7 +166,7 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
 
 
 void
-Router::forward_message(PacketIn::Ptr packet, Link::Ptr link)
+Router::forward_message(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::forward_message");
 
@@ -197,7 +200,7 @@ Router::signal_message(int domain, int id)
 
 
 bool
-Router::on_data(PacketIn::Ptr packet, Link::Ptr link, Scope scope)
+Router::on_data(Link::Ptr link, PacketIn::Ptr packet, Scope scope)
 {
   TRACE_ENTER("Router::on_data");
   bool ret = true;
@@ -227,7 +230,7 @@ Router::on_data(PacketIn::Ptr packet, Link::Ptr link, Scope scope)
             }
           else
             {
-              forward_message(packet, link);
+              forward_message(link, packet);
             }
         }
     }
@@ -242,10 +245,11 @@ Router::on_direct_link_created(DirectLink::Ptr link)
   TRACE_ENTER("Router::on_direct_link_created");
   TRACE_MSG(link->address->str());
 
-  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, link, SCOPE_DIRECT));
-  link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, link));
-
   Client::Ptr client = Client::create();
+  
+  link->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_DIRECT));
+  link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, _1));
+
   client->link = link;
   
   clients.push_back(client);
@@ -258,7 +262,7 @@ Router::on_direct_link_created(DirectLink::Ptr link)
 void
 Router::on_direct_link_state_changed(DirectLink::Ptr link)
 {
-  TRACE_ENTER("Router::on_direct_link_closed");
+  TRACE_ENTER("Router::on_direct_link_state_changed");
 
   for (ClientIter it = clients.begin(); it != clients.end(); it++)
     {
@@ -340,13 +344,17 @@ Router::send_alive()
   TRACE_EXIT();
 }
 
+
 Client::Ptr
 Router::find_client(Link::Ptr link)
 {
   TRACE_ENTER("Router::find_client");
   for (ClientIter it = clients.begin(); it != clients.end(); it++)
     {
-      TRACE_MSG("cl " << (*it)->link->address->str());
+      NetworkAddress::Ptr a = (*it)->link->address;
+      if (a) {
+        TRACE_MSG("cl " << a->str());
+      }
       if ((*it)->link == link)
         {
           return *it;
@@ -403,7 +411,7 @@ Router::process_alive(Link::Ptr link, PacketIn::Ptr packet)
 
       string *c = a->add_path();
       *c = myid.raw();
-      forward_message(packet, link);
+      forward_message(link, packet);
     }
   TRACE_EXIT();
 }

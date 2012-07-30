@@ -23,7 +23,9 @@
 #include <map>
 #include <string>
 
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 #include "network/NetworkAddress.hh"
 #include "cloud/UUID.hh"
@@ -34,10 +36,11 @@
 using namespace workrave;
 using namespace workrave::network;
 
-class Link
+class Link : public boost::enable_shared_from_this<Link>
 {
 public:
   typedef boost::shared_ptr<Link> Ptr;
+  typedef boost::weak_ptr<Link> WeakPtr;
 
   enum State
     {

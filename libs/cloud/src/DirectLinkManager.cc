@@ -57,7 +57,7 @@ void
 DirectLinkManager::init(int port)
 {
   TRACE_ENTER("DirectLinkManager::init");
-  unicast_server->init(port);
+  unicast_server->init(port, true);
   unicast_server->signal_accepted().connect(boost::bind(&DirectLinkManager::on_accepted, this, _1));
   TRACE_EXIT();
 }
@@ -76,8 +76,11 @@ void
 DirectLinkManager::on_accepted(Socket::Ptr socket)
 {
   TRACE_ENTER("DirectLinkManager::on_accepted");
-  DirectLink::Ptr info = DirectLink::create(marshaller, socket);
-  new_link_signal(info);
+  {
+    DirectLink::Ptr info = DirectLink::create(marshaller, socket);
+    new_link_signal(info);
+  }
+  
   TRACE_EXIT();
 }
 

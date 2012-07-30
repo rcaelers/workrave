@@ -25,10 +25,10 @@
 
 #include <sstream>
 
-#include <boost/thread.hpp>
-
 #include <glib.h>
 #include <glib/gstdio.h>
+
+#include <boost/thread/tss.hpp>
 
 #ifdef PLATFORM_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -41,7 +41,10 @@
 using namespace std;
 
 Mutex g_log_mutex;
-std::ofstream g_log_stream;
+std::map<boost::thread::id, std::ofstream *> g_log_streams;
+
+static boost::thread_specific_ptr<std::string> g_thread_name;
+static std::string g_prefix;
 
 std::string
 Debug::trace_string()
@@ -59,46 +62,78 @@ Debug::trace_string()
 }
 
 void
-Debug::init()
+Debug::init(const std::string &name)
 {
-  std::string debug_filename;
+  g_prefix = name;
+}
+
+void
+Debug::name(const std::string &name)
+{
+  g_log_mutex.lock();
+  if (g_log_streams.find(boost::this_thread::get_id()) != g_log_streams.end())
+    {
+      g_log_streams[boost::this_thread::get_id()]->close();
+      delete g_log_streams[boost::this_thread::get_id()];
+      g_log_streams.erase(boost::this_thread::get_id());
+    }
+  
+  g_thread_name.reset(new std::string(g_prefix + name));
+  g_log_mutex.unlock();
+}
+
+std::ofstream &
+Debug::stream()
+{
+  g_log_mutex.lock();
+  if (g_log_streams.find(boost::this_thread::get_id()) == g_log_streams.end())
+    {
+      std::string debug_filename;
 
 #if defined(WIN32) || defined(PLATFORM_OS_WIN32)
-  char path_buffer[MAX_PATH];
+      char path_buffer[MAX_PATH];
   
-  DWORD ret = GetTempPath(MAX_PATH, path_buffer);
-  if (ret > MAX_PATH || ret == 0)
-    {
-      debug_filename = "C:\\temp\\";
-    }
-  else
-    {
-      debug_filename = path_buffer;
-    }
-
-  g_mkdir(debug_filename.c_str(), 0);
+      DWORD ret = GetTempPath(MAX_PATH, path_buffer);
+      if (ret > MAX_PATH || ret == 0)
+        {
+          debug_filename = "C:\\temp\\";
+        }
+      else
+        {
+          debug_filename = path_buffer;
+        }
+      
+      g_mkdir(debug_filename.c_str(), 0);
 #elif defined(PLATFORM_OS_OSX)
-  debug_filename = "/tmp/";
+      debug_filename = "/tmp/";
 #elif defined(PLATFORM_OS_UNIX)
-  debug_filename = "/tmp/";
+      debug_filename = "/tmp/";
 #else
 #error Unknown platform.
 #endif
+      
+      char logfile[128];
+      time_t ltime;
+      
+      time(&ltime);
+      struct tm *tmlt = localtime(&ltime);
+      strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
 
-  char logfile[128];
-  time_t ltime;
+      stringstream ss;
+      ss << debug_filename << logfile << "-" <<  boost::this_thread::get_id();
 
-  time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
-  strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
+      if (g_thread_name.get() != NULL)
+        {
+          ss << "-" << *g_thread_name;
+        }
 
-  debug_filename += logfile;
-
-  g_log_stream.open(debug_filename.c_str(), std::ios::app);
-  if (g_log_stream.is_open())
-    {
-      std::cerr.rdbuf(g_log_stream.rdbuf());
+      g_log_streams[boost::this_thread::get_id()] = new std::ofstream();
+      g_log_streams[boost::this_thread::get_id()]->open(ss.str(), std::ios::app);
     }
+
+  std::ofstream *ret = g_log_streams[boost::this_thread::get_id()];
+  g_log_mutex.unlock();
+  return *ret;
 }
 
 #endif

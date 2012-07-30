@@ -62,13 +62,14 @@ public:
 private:
   void init_myid(int instanceid);
 
-  bool on_data(PacketIn::Ptr packet, Link::Ptr link, Scope scope);
+  bool on_data(Link::Ptr link, PacketIn::Ptr packet, Scope scope);
+
   void on_direct_link_created(DirectLink::Ptr link);
   void on_direct_link_state_changed(DirectLink::Ptr link);
 
   void fire_message_signal(int domain, int id, Message::Ptr, MessageContext::Ptr);
 
-  void forward_message(PacketIn::Ptr packet, Link::Ptr link);
+  void forward_message(Link::Ptr link, PacketIn::Ptr packet);
   
   void send_alive();
   void process_alive(Link::Ptr link, PacketIn::Ptr packet);

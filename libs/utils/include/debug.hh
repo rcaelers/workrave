@@ -29,7 +29,7 @@
 #define TRACE_RETURN(x)
 #define TRACE_EXIT()
 #define TRACE_MSG(x)
-
+#define TRACE_GERROR(x)
 #else
 
 #include <iostream>
@@ -37,16 +37,21 @@
 #include <fstream>
 #include <ctime>
 
+#include <boost/thread.hpp>
+
+
 #include "Mutex.hh"
 
 extern Mutex g_log_mutex;
-extern std::ofstream g_log_stream;
+extern std::map<boost::thread::id, std::ofstream *> g_log_streams;
 
 class Debug
 {
 public:
-  static void init();
+  static void init(const std::string &name = "");
+  static void name(const std::string &name = "");
   static std::string trace_string();
+  static std::ofstream &stream();
 };
 
 #ifndef TRACE_EXTRA
@@ -55,24 +60,31 @@ public:
 
 #define TRACE_ENTER(x   ) g_log_mutex.lock(); \
                           const char *_trace_method_name = x;   \
-                          std::cerr << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << std::endl; \
+                          Debug::stream() << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_ENTER_MSG(x, y) g_log_mutex.lock(); \
                           const char *_trace_method_name = x; \
-                          std::cerr << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
+                          Debug::stream() << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_RETURN(y)   g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_string() << "<<< " << _trace_method_name << y << std::endl; \
+                          Debug::stream() << Debug::trace_string() << "<<< " << _trace_method_name << y << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_EXIT()      g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_string() << "<<< " << _trace_method_name << std::endl; \
+                          Debug::stream() << Debug::trace_string() << "<<< " << _trace_method_name << std::endl; \
                           g_log_mutex.unlock();
 
 #define TRACE_MSG(msg)    g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_string() << "    " << _trace_method_name << " " << msg  << std::endl; \
+                          Debug::stream() << Debug::trace_string() << "    " << _trace_method_name << " " << msg  << std::endl; \
+                          g_log_mutex.unlock();
+
+#define TRACE_GERROR(err) g_log_mutex.lock(); \
+                          if (err != NULL) \
+                          { \
+                             Debug::stream() << Debug::trace_string() << "    " << _trace_method_name << " error:" << err->message << std::endl; \
+                          } \
                           g_log_mutex.unlock();
 
 #endif // TRACING

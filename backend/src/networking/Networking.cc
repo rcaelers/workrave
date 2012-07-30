@@ -90,14 +90,19 @@ Networking::init()
     {
       IBreak::Ptr b = core->get_break((BreakId)i);
 
-      b->signal_skipped().connect(boost::bind(&Networking::on_break_skipped, this, (BreakId) i));
-      b->signal_postponed().connect(boost::bind(&Networking::on_break_postponed, this, (BreakId) i));
-      b->signal_break_forced().connect(boost::bind(&Networking::on_break_forced, this, (BreakId) i, _1));
+      break_skipped_connection[i] =
+        b->signal_skipped().connect(boost::bind(&Networking::on_break_skipped, this, (BreakId) i));
+      break_postponed_connection[i] =
+        b->signal_postponed().connect(boost::bind(&Networking::on_break_postponed, this, (BreakId) i));
+      break_forced_connection[i] =
+        b->signal_break_forced().connect(boost::bind(&Networking::on_break_forced, this, (BreakId) i, _1));
     }
-
-  core->signal_operation_mode_changed().connect(boost::bind(&Networking::on_operation_mode_changed, this, _1));
-  core->signal_usage_mode_changed().connect(boost::bind(&Networking::on_usage_mode_changed, this, _1));
-
+  
+  operation_mode_connection =
+    core->signal_operation_mode_changed().connect(boost::bind(&Networking::on_operation_mode_changed, this, _1));
+  usage_mode_connection =
+    core->signal_usage_mode_changed().connect(boost::bind(&Networking::on_usage_mode_changed, this, _1));
+  
   cloud->signal_message(1, workrave::networking::Break::kTypeFieldNumber)
     .connect(boost::bind(&Networking::on_break_message, this, _1, _2));
   cloud->signal_message(1, workrave::networking::Timer::kTypeFieldNumber)
@@ -240,15 +245,24 @@ Networking::on_break_message(Message::Ptr message, MessageContext::Ptr context)
       switch(break_event)
         {
         case workrave::networking::Break::BREAK_EVENT_USER_POSTPONE:
-          b->postpone_break();
+          {
+            boost::signals2::shared_connection_block block(break_postponed_connection[break_id]);
+            b->postpone_break();
+          }
           break;
           
         case workrave::networking::Break::BREAK_EVENT_USER_SKIP:
-          b->skip_break();
+          {
+            boost::signals2::shared_connection_block block(break_skipped_connection[break_id]);
+            b->skip_break();
+          }
           break;
           
         case workrave::networking::Break::BREAK_EVENT_FORCE_BREAK:
-          core->force_break(break_id, (BreakHint) e->break_hint());
+          {
+            boost::signals2::shared_connection_block block(break_forced_connection[break_id]);
+            core->force_break(break_id, (BreakHint) e->break_hint());
+          }
           break;
           
         default:
@@ -269,6 +283,8 @@ Networking::on_operation_mode_message(Message::Ptr message, MessageContext::Ptr 
 
   if (e)
     {
+      boost::signals2::shared_connection_block block(operation_mode_connection);
+  
       switch(e->mode())
         {
         case workrave::networking::OperationMode::OPERATION_MODE_SUSPENDED:
@@ -300,6 +316,8 @@ Networking::on_usage_mode_message(Message::Ptr message, MessageContext::Ptr cont
 
   if (e)
     {
+      boost::signals2::shared_connection_block block(usage_mode_connection);
+
       switch(e->mode())
         {
         case workrave::networking::UsageMode::USAGE_MODE_NORMAL:
@@ -309,6 +327,7 @@ Networking::on_usage_mode_message(Message::Ptr message, MessageContext::Ptr cont
         case workrave::networking::UsageMode::USAGE_MODE_READING:
           core->set_usage_mode(USAGE_MODE_READING);
           break;
+          
         default:
           break;
         }
