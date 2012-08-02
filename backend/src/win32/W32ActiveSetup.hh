@@ -27,13 +27,13 @@ public:
     static const wchar_t component_path[];
     static const wchar_t guid_autorun[];
 
-    static const WCHAR *W32ActiveSetup::get_user_profile_dir();
+    static const WCHAR *get_user_profile_dir();
 
-    static bool W32ActiveSetup::update(
+    static bool update(
         const std::wstring &guid
         );
 
-    static bool W32ActiveSetup::update_all();
+    static bool update_all();
 
 private:
     enum reg
@@ -42,42 +42,42 @@ private:
         HKLM
     };
 
-    static bool W32ActiveSetup::is_os_64();
+    static bool is_os_64();
 
-    static bool W32ActiveSetup::check_guid(
+    static bool check_guid(
         const enum reg reg, // HKLM or HKCU
         const std::wstring &guid
         );
 
-    static bool W32ActiveSetup::is_guid_enabled(
+    static bool is_guid_enabled(
         const std::wstring &guid
         );
 
-    static bool W32ActiveSetup::read_from_registry_value( 
+    static bool read_from_registry_value( 
         const enum reg reg, // HKLM or HKCU
         const std::wstring &guid,
         const std::wstring &value,
         std::wstring &data // out
         );
 
-    static bool W32ActiveSetup::write_to_registry_value(
+    static bool write_to_registry_value(
         const std::wstring &guid,
         const std::wstring &value,
         const std::wstring &data
         );
 
-    static bool W32ActiveSetup::get_version(
+    static bool get_version(
         const enum reg reg, // HKLM or HKCU
         const std::wstring &guid,
         std::vector<DWORD> &version // out
         );
 
-    static bool W32ActiveSetup::set_version(
+    static bool set_version(
         const std::wstring &guid,
         const std::vector<DWORD> &version
         );
 
-    static DWORD WINAPI W32ActiveSetup::create_process(
+    static DWORD WINAPI create_process(
         LPVOID lpParam
         );
 };
