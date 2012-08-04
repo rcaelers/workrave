@@ -132,7 +132,7 @@ GIOSocket::init(GSocketConnection *connection, bool tls)
       //prepare_connection();
       
       g_tls_connection_set_database(G_TLS_CONNECTION(iostream), database);
-      g_object_set(iostream, "authentication-mode", G_TLS_AUTHENTICATION_NONE, NULL);
+      g_object_set(iostream, "authentication-mode", G_TLS_AUTHENTICATION_REQUIRED, NULL);
       g_signal_connect(iostream, "accept-certificate", G_CALLBACK(static_accept_certificate), this);
       g_tls_connection_handshake_async(G_TLS_CONNECTION(iostream), G_PRIORITY_DEFAULT, NULL, static_tls_handshake_callback, this);
       ref();
@@ -192,7 +192,7 @@ GIOSocket::read(gchar *buf, gsize count, gsize &bytes_read)
   TRACE_ENTER_MSG("GIOSocket::read", count);
 
   GError *error = NULL;
-  gsize num_read = 0;
+  gssize num_read = 0;
   bool ret = true;
 
   if (istream != NULL)
@@ -202,16 +202,24 @@ GIOSocket::read(gchar *buf, gsize count, gsize &bytes_read)
 
       if (num_read > 0)
         {
+          TRACE_MSG("num_read > 0 : " <<  num_read);
           bytes_read = (int) num_read;
         }
       else if (num_read == 0)
         {
+          TRACE_MSG("num_read == 0");
           bytes_read = (int) num_read;
           ret = false;
         }
       else if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK))
         {
+          TRACE_MSG("would block");
           bytes_read = 0;
+        }
+      else
+        {
+          TRACE_MSG("error");
+          ret = false;
         }
     }
 
@@ -230,7 +238,7 @@ GIOSocket::write(const gchar *buf, gsize count)
   TRACE_ENTER_MSG("GIOSocket::write", count);
 
   GError *error = NULL;
-  gsize num_written = 0;
+  gssize num_written = 0;
   if (ostream != NULL)
     {
       num_written = g_pollable_output_stream_write_nonblocking(G_POLLABLE_OUTPUT_STREAM(ostream),

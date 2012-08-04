@@ -116,6 +116,12 @@ Networking::init()
 }
 
 
+void
+Networking::start_announce()
+{
+  boost::dynamic_pointer_cast<ICloudTest>(cloud)->start_announce();
+}
+
 //! Terminates the network announcer.
 void
 Networking::terminate()
@@ -131,6 +137,7 @@ Networking::heartbeat()
 {
   TRACE_ENTER("Networking::heartbeat");
 
+  cloud->heartbeat();
   activity_monitor->heartbeat();
 
   send_timer_state();

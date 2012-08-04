@@ -238,13 +238,13 @@ Core::init_statistics()
 /********************************************************************************/
 
 gint64
-Core::get_real_time()
+Core::get_real_time_usec()
 {
   return current_real_time;
 }
 
 gint64
-Core::get_monotonic_time() 
+Core::get_monotonic_time_usec() 
 {
   return current_monotonic_time;
 }

@@ -49,6 +49,7 @@ public:
   void connect(const std::string host, int port);
 
   ICore::Ptr get_core() const;
+  ICloud::Ptr get_cloud() const;
   
   void create_prelude_window(BreakId break_id)  { }
   void create_break_window(BreakId break_id, BreakHint break_hint)  { }
@@ -149,24 +150,6 @@ public:
     TRACE_EXIT();
   }
   
-  // template<typename Functor>
-  // typename boost::result_of<Functor()>::type
-  // invoke_sync(Functor functor)
-  // {
-  //   typedef typename boost::result_of<Functor()>::type result_type;
-
-  //   Closure<Functor> *c = new Closure<Functor>(functor);
-  
-  //   g_main_context_invoke_full(context,
-  //                              G_PRIORITY_DEFAULT_IDLE,
-  //                              Closure<Functor>::invoke,
-  //                              c,
-  //                              NULL);
-    
-  //   c->future.wait();
-  //   return c->get();
-  // }
-  
 private:
   ActivityState on_local_activity_state();
   IConfigurator::Ptr on_create_configurator();
@@ -180,15 +163,14 @@ private:
   
   ICore::Ptr core;
 
-  //! Current state
   Networking::Ptr networking;
+  ICloud::Ptr cloud;
 
   boost::shared_ptr<boost::thread> thread;
   boost::shared_ptr<boost::barrier> barrier;
   
   GMainContext *context;
   GMainLoop *loop;
-  //GThread *thread;
 };
 
 #endif // WORKRAVE_HH

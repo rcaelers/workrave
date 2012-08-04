@@ -110,6 +110,8 @@ Workrave::run()
   networking = Networking::create(core);
   networking->init();
 
+  cloud = networking->get_cloud();
+    
   GSource *source = g_timeout_source_new_seconds(1);
   g_source_set_callback(source, static_on_timer, this, NULL);
   g_source_attach(source, context);
@@ -143,6 +145,11 @@ Workrave::get_core() const
   return core;
 }
 
+ICloud::Ptr
+Workrave::get_cloud() const
+{
+  return cloud;
+}
 
 gpointer
 Workrave::static_workrave_thread(gpointer data)

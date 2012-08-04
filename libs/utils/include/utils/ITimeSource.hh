@@ -37,10 +37,10 @@ namespace workrave
       virtual ~ITimeSource() {}
 
       //! Returns the system wall-clock time.
-      virtual gint64 get_real_time() = 0;
+      virtual gint64 get_real_time_usec() = 0;
 
       //! Returns the system monotonic time, if available.
-      virtual gint64 get_monotonic_time() = 0;
+      virtual gint64 get_monotonic_time_usec() = 0;
     };
   }
 }

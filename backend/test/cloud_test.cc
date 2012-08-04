@@ -69,6 +69,9 @@ struct Fixture
     for (int i = 0; i < num_workraves; i++)
       {
         cores[i] = workraves[i]->get_core();
+
+        cloud[i] = workraves[i]->get_cloud();
+        cloud_test[i] = boost::dynamic_pointer_cast<ICloudTest>(cloud[i]);
       }
   }
   
@@ -88,54 +91,111 @@ struct Fixture
    }
 
 protected:
+  /*   /---\
+   *   | 0 |
+   *   \---/
+   *     |
+   *     |------|
+   *     |      |
+   *   /---\  /---\
+   *   | 1 |  | 2 |
+   *   \---/  \---/
+   *     |      |
+   *     |      |
+   *   /---\  /---\
+   *   | 3 |  | 4 |
+   *   \---/  \---/
+   *     |
+   *     |
+   *   /---\
+   *   | 5 |
+   *   \---/
+   *     |
+   *     |------|
+   *     |      |
+   *   /---\  /---\
+   *   | 6 |  | 7 |
+   *   \---/  \---/
+   */
+
   void connect_all()
   {
-    /*   /---\
-       | 0 |
-       \---/
-         |
-         |------|
-         |      |
-       /---\  /---\
-       | 1 |  | 2 |
-       \---/  \---/
-         |      |
-         |      |
-       /---\  /---\
-       | 3 |  | 4 |
-       \---/  \---/
-         |
-         |
-       /---\
-       | 5 |
-       \---/
-         |
-         |------|
-         |      |
-       /---\  /---\
-       | 6 |  | 7 |
-       \---/  \---/
-    */
-
     BOOST_TEST_MESSAGE("connecting cores...");
-    
-    workraves[1]->invoke(boost::bind(&Workrave::connect, workraves[1], "localhost", 2700));
-    workraves[2]->invoke(boost::bind(&Workrave::connect, workraves[2], "localhost", 2700));
-    
-    workraves[3]->invoke(boost::bind(&Workrave::connect, workraves[3], "localhost", 2701));
-    workraves[4]->invoke(boost::bind(&Workrave::connect, workraves[4], "localhost", 2702));
-
-    workraves[5]->invoke(boost::bind(&Workrave::connect, workraves[5], "localhost", 2703));
-    
-    workraves[6]->invoke(boost::bind(&Workrave::connect, workraves[6], "localhost", 2705));
-    workraves[7]->invoke(boost::bind(&Workrave::connect, workraves[7], "localhost", 2705));
+    for (int i = 0; i <= 6; i++)
+      {
+        connect_one(i);
+      }
     sleep(5);
     BOOST_TEST_MESSAGE("connecting cores...done");
+  }
+
+  void connect_all_delayed()
+  {
+    BOOST_TEST_MESSAGE("connecting cores...");
+    for (int i = 0; i <= 6; i++)
+      {
+        connect_one(i);
+        g_usleep(G_USEC_PER_SEC);
+      }
+    sleep(5);
+    BOOST_TEST_MESSAGE("connecting cores...done");
+  }
+  
+  void connect_all_shuffled()
+  {
+    BOOST_TEST_MESSAGE("connecting cores...");
+    int order[] = { 5,2,4,3,6,0,1 };
+    
+    for (int i = 0; i <= 6; i++)
+      {
+        connect_one(order[i]);
+        g_usleep(G_USEC_PER_SEC);
+      }
+    sleep(5);
+    BOOST_TEST_MESSAGE("connecting cores...done");
+  }
+  
+  void connect_one(int c)
+  {
+    BOOST_TEST_MESSAGE("connect " + boost::lexical_cast<string>(c));
+    switch(c)
+      {
+      case 0:
+        workraves[1]->invoke(boost::bind(&Workrave::connect, workraves[1], "localhost", 2700));
+        break;
+
+      case 1:
+        workraves[2]->invoke(boost::bind(&Workrave::connect, workraves[2], "localhost", 2700));
+        break;
+
+      case 2:
+        workraves[3]->invoke(boost::bind(&Workrave::connect, workraves[3], "localhost", 2701));
+        break;
+
+      case 3:
+        workraves[4]->invoke(boost::bind(&Workrave::connect, workraves[4], "localhost", 2702));
+        break;
+
+      case 4:
+        workraves[5]->invoke(boost::bind(&Workrave::connect, workraves[5], "localhost", 2703));
+        break;
+
+      case 5:
+        workraves[6]->invoke(boost::bind(&Workrave::connect, workraves[6], "localhost", 2705));
+        break;
+        
+      case 6:
+        workraves[7]->invoke(boost::bind(&Workrave::connect, workraves[7], "localhost", 2705));
+        break;
+      }
+   
   } 
   
   const static int num_workraves = 8;
   Workrave::Ptr workraves[num_workraves];
   ICore::Ptr cores[num_workraves];
+  ICloud::Ptr cloud[num_workraves];
+  ICloudTest::Ptr cloud_test[num_workraves];
   boost::shared_ptr<boost::barrier> barrier;
 };
 
@@ -214,5 +274,62 @@ BOOST_AUTO_TEST_CASE(test_propagate_usage_mode)
     }
   
 }
+
+
+BOOST_AUTO_TEST_CASE(test_connect_delayed)
+{
+  connect_all_delayed();
+
+  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[1]));
+
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 7);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(test_connect_simultaneuously)
+{
+  connect_all();
+
+  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[1]));
+
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 7);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(test_connect_shuffled)
+{
+  connect_all_shuffled();
+
+  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[1]));
+
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 7);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(test_disconnect)
+{
+  connect_all();
+
+  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[1]));
+
+  workraves[3]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[3], id));
+  sleep(5);
+
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 3);
+    }
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()

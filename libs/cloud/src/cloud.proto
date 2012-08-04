@@ -29,6 +29,7 @@ message Domain
     extensions 100 to max;
 }
 
+
 message Alive
 {
     extend Domain
@@ -36,7 +37,16 @@ message Alive
         required Domain type = 101;
     }
 
-    required string hi = 1;
-
     repeated bytes path = 2;
+}
+
+
+message Signoff
+{
+    extend Domain
+    {
+        required Domain type = 102;
+    }
+
+    repeated bytes id = 1;
 }

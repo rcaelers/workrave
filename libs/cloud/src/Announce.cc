@@ -29,7 +29,11 @@
 
 #include "Announce.hh"
 
+#include "utils/TimeSource.hh"
+
+
 using namespace std;
+using namespace workrave::utils;
 
 Announce::Ptr
 Announce::create(Marshaller::Ptr marshaller)
@@ -42,6 +46,9 @@ Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller)
 {
   TRACE_ENTER("Announce::Announce");
   multicast_server = MulticastSocketServer::create();
+
+  state = ANNOUNCE_STATE_IDLE;
+
   TRACE_EXIT();
 }
 
@@ -54,11 +61,14 @@ Announce::~Announce()
 
 
 void
-Announce::init(int port)
+Announce::init(int port, UUID &id)
 {
   TRACE_ENTER("Announce::init");
+  myid = id;
+  
   multicast_server->init("239.160.181.73", "ff15::1:145", port);
   multicast_server->signal_data().connect(boost::bind(&Announce::on_data, this, _1, _2, _3));
+  
   TRACE_EXIT();
 }
 
@@ -72,12 +82,140 @@ Announce::terminate()
 
 
 void
+Announce::heartbeat()
+{
+  TRACE_ENTER("Announce::heartbeat");
+
+  switch(state)
+    {
+    case ANNOUNCE_STATE_IDLE:
+      break;
+
+    case ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE:
+      if (TimeSource::get_monotonic_time() > wait_until_time)
+        {
+          goto_state(ANNOUNCE_STATE_ANNOUNCING);
+        }
+      break;
+      
+    case ANNOUNCE_STATE_ANNOUNCING:
+      if (announce_left > 0)
+        {
+          announce_left--;
+          send_announce();
+        }
+      else
+        {
+          goto_state(ANNOUNCE_STATE_CONNECTING);
+        }
+      break;
+      
+    case ANNOUNCE_STATE_CONNECTING:
+      break;
+    }
+  TRACE_EXIT();
+}
+
+
+void
+Announce::start()
+{
+  TRACE_ENTER("Announce::start");
+  goto_state(ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE);
+
+  GSource *source = g_timeout_source_new(500);
+  g_source_set_callback(source, static_on_timer, this, NULL);
+  g_source_attach(source, g_main_context_get_thread_default());
+  
+  TRACE_EXIT();
+}
+
+
+void
+Announce::goto_state(AnnounceState new_state)
+{
+  switch(new_state)
+    {
+    case ANNOUNCE_STATE_IDLE:
+      break;
+              
+    case ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE:
+      wait_until_time = TimeSource::get_monotonic_time() + 5 * TimeSource::USEC_PER_SEC;
+      break;
+
+    case ANNOUNCE_STATE_ANNOUNCING:
+      announce_left = 5;
+      wait_until_time = TimeSource::get_monotonic_time() + TimeSource::USEC_PER_SEC;
+      break;
+
+    case ANNOUNCE_STATE_CONNECTING:
+      break;
+    }
+  state = new_state;
+}
+
+
+void
+Announce::send_announce()
+{
+  TRACE_ENTER("Announce::send_announce");
+
+  TRACE_EXIT();
+}
+
+
+void
 Announce::send_message(const std::string &message)
 {
   TRACE_ENTER("Announce::send_message");
   multicast_server->send(message.c_str(), message.length());
   TRACE_EXIT();
 }
+
+
+void
+Announce::process_announce(Link::Ptr link, PacketIn::Ptr packet)
+{
+  TRACE_ENTER("Router::process_announce");
+  
+  // boost::shared_ptr<proto::Announce> a = boost::dynamic_pointer_cast<proto::Announce>(packet->message);
+
+  // if (a)
+  //   {
+  //     //google::protobuf::RepeatedPtrField<string> known = a->known();
+
+  //     TRACE_MSG("Source " << packet->source.str());
+  //     // for (google::protobuf::RepeatedPtrField<string>::iterator i = path.begin(); i != path.end(); i++)
+  //     //   {
+  //     //     TRACE_MSG("Known " << UUID::from_raw(*i).str());
+  //     //   }
+
+  //     switch(state)
+  //       {
+  //       case ANNOUNCE_STATE_IDLE:
+  //         break;
+              
+  //       case ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE:
+  //         goto_state(ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE);
+  //         break;
+
+  //       case ANNOUNCE_STATE_ANNOUNCING:
+  //         if (packet->source > myid)
+  //           {
+  //             goto_state(ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE);
+  //             break;
+  //           }
+  //         else
+  //           {
+  //             if (accounce_left < 2 )
+  //               {
+  //                 accounce_left = 2;
+  //               }
+  //           }
+  //       }
+  TRACE_EXIT();
+}
+
 
 //!
 void
@@ -92,7 +230,23 @@ Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
   PacketIn::Ptr packet = marshaller->unmarshall(size, data);
   if (packet)
     {
-      data_signal(link, packet);
+      bool handled = false;
+      
+      TRACE_MSG("Source " << packet->source.str());
+
+      if (packet->authentic)
+        {
+          if (packet->header->domain() == 0 && packet->header->payload() == proto::Alive::kTypeFieldNumber)
+            {
+              process_announce(link, packet);
+              handled = true;
+            }
+        }
+
+      if (!handled)
+        {
+          data_signal(link, packet);
+        }
     }
   
   TRACE_EXIT();
@@ -103,3 +257,15 @@ Announce::signal_data()
 {
   return data_signal;
 }
+
+
+gboolean
+Announce::static_on_timer(gpointer data)
+{
+  Announce *self = (Announce *)data;
+  
+  self->heartbeat();
+  
+  return G_SOURCE_CONTINUE;
+}
+ 

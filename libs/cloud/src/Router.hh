@@ -41,10 +41,14 @@ using namespace workrave;
 using namespace workrave::network;
 using namespace workrave::cloud;
 
-class Router : public ICloud
+class Router : public ICloud, public ICloudTest
 {
 public:
   typedef boost::shared_ptr<Router> Ptr;
+
+  typedef std::list<Client::Ptr> Clients;
+  typedef std::list<Client::Ptr>::iterator ClientIter;
+  typedef std::list<Client::Ptr>::const_iterator ClientCIter;
   
 public:
   static Ptr create();
@@ -55,10 +59,17 @@ public:
 
   virtual void init(int port, std::string username, std::string secret);
   virtual void terminate();
+  virtual void start_announce();
+  virtual void heartbeat();
   virtual void connect(const std::string &host, int port);
   virtual void send_message(Message::Ptr message, MessageParams::Ptr params);
+
   virtual MessageSignal &signal_message(int domain, int id);
 
+  virtual std::list<UUID> get_clients() const;
+  virtual UUID get_id() const;
+  virtual void disconnect(UUID id);
+  
 private:
   void init_myid(int instanceid);
 
@@ -70,15 +81,16 @@ private:
   void fire_message_signal(int domain, int id, Message::Ptr, MessageContext::Ptr);
 
   void forward_message(Link::Ptr link, PacketIn::Ptr packet);
-  
-  void send_alive();
+
+  void send_message(Link::Ptr link, Message::Ptr message, MessageParams::Ptr params);
+    
+  void send_alive(Link::Ptr link = Link::Ptr());
+  void send_signoff(std::list<UUID> ids);
   void process_alive(Link::Ptr link, PacketIn::Ptr packet);
+  void process_signoff(Link::Ptr link, PacketIn::Ptr packet);
 
   Client::Ptr find_client(Link::Ptr link);
-  
-  typedef std::list<Client::Ptr> Clients;
-  typedef std::list<Client::Ptr>::iterator ClientIter;
-  typedef std::list<Client::Ptr>::const_iterator ClientCIter;
+  Client::Ptr find_client(UUID id);
 
   typedef boost::shared_ptr<MessageSignal> MessageSignalPtr;
   

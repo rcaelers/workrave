@@ -44,8 +44,10 @@ public:
   Announce(Marshaller::Ptr marshaller);
   virtual ~Announce();
 
-  void init(int port);
+  void init(int port, UUID &id);
   void terminate();
+  void heartbeat();
+  void start();
 
   void send_message(const std::string &message);
 
@@ -54,9 +56,23 @@ public:
   data_signal_type &signal_data();
  
 private:
+  enum AnnounceState {
+    ANNOUNCE_STATE_IDLE,
+    ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE,
+    ANNOUNCE_STATE_ANNOUNCING,
+    ANNOUNCE_STATE_CONNECTING,
+  };
+
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
+
+  void send_announce();
+  void process_announce(Link::Ptr link, PacketIn::Ptr packet);
+  void goto_state(AnnounceState new_state);
+
+  static gboolean static_on_timer(gpointer data);
   
 private:
+    
   //!
   Marshaller::Ptr marshaller;
   
@@ -65,6 +81,13 @@ private:
 
   //!
   data_signal_type data_signal;
+
+  AnnounceState state;
+  
+  gint64 wait_until_time;
+  int announce_left;
+
+  UUID myid;
 };
 
 

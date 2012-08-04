@@ -22,7 +22,7 @@
 #include "config.h"
 #endif
 
-//#define TRACE_EXTRA " (" << myid.str() << ")"
+
 #include "debug.hh"
 
 #include <string.h>
@@ -91,7 +91,7 @@ Router::init(int port, string username, string secret)
   marshaller->set_id(myid);
   marshaller->set_credentials(username, secret);
   
-  announce->init(port);
+  announce->init(port, myid);
   direct_link_manager->init(port);
 
   announce->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_MULTICAST));
@@ -111,6 +111,19 @@ Router::terminate()
 
 
 void
+Router::heartbeat()
+{
+}
+
+
+void
+Router::start_announce()
+{
+  announce->start();
+}
+
+
+void
 Router::connect(const string &host, int port)
 {
   TRACE_ENTER_MSG("Router::connect", host << " " << port);
@@ -124,12 +137,48 @@ Router::connect(const string &host, int port)
   link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, _1));
   
   client->link = link;
-  
+
+  TRACE_MSG("Add client " << client.get());
   clients.push_back(client);
 
   TRACE_EXIT();
 }
 
+
+void
+Router::disconnect(UUID id)
+{
+  TRACE_ENTER("Router::disconnect");
+  Client::Ptr client = find_client(id);
+  if (client)
+    {
+      DirectLink::Ptr link = boost::dynamic_pointer_cast<DirectLink>(client->link);
+      if (link)
+        {
+          link->close();
+        }
+      TRACE_MSG("closed");
+    }
+  TRACE_EXIT();
+}
+
+
+UUID
+Router::get_id() const
+{
+  return myid;
+}
+
+std::list<UUID>
+Router::get_clients() const
+{
+  std::list<UUID> ids;
+  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
+    {
+      ids.push_back((*it)->id);
+    }
+  return ids;
+}
 
 void
 Router::send_message(Message::Ptr message, MessageParams::Ptr params)
@@ -148,7 +197,7 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
     {
       for (ClientIter it = clients.begin(); it != clients.end(); it++)
         {
-          TRACE_MSG((*it)->link->state);
+          TRACE_MSG((*it).get());
           if ((*it)->link->state == Link::CONNECTION_STATE_CONNECTED)
             {
               (*it)->link->send_message(msg_str);
@@ -166,6 +215,25 @@ Router::send_message(Message::Ptr message, MessageParams::Ptr params)
 
 
 void
+Router::send_message(Link::Ptr link, Message::Ptr message, MessageParams::Ptr params)
+{
+  TRACE_ENTER("Router::send_message");
+
+  PacketOut::Ptr packet = PacketOut::create(message);
+  packet->sign = params->sign;
+  packet->source = myid;
+  
+  string msg_str = marshaller->marshall(packet);
+
+  if (link->state == Link::CONNECTION_STATE_CONNECTED)
+    {
+      link->send_message(msg_str);
+    }
+      
+  TRACE_EXIT();
+}
+
+void
 Router::forward_message(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::forward_message");
@@ -178,9 +246,12 @@ Router::forward_message(Link::Ptr link, PacketIn::Ptr packet)
 
   for (ClientIter it = clients.begin(); it != clients.end(); it++)
     {
+      TRACE_MSG((*it).get());
+
       if ((*it)->link->state == Link::CONNECTION_STATE_CONNECTED &&
           (*it)->link != link)
         {
+          TRACE_MSG("forwarding");
           (*it)->link->send_message(msg_str);
         }
     }
@@ -223,12 +294,22 @@ Router::on_data(Link::Ptr link, PacketIn::Ptr packet, Scope scope)
           context->scope = scope;
           
           fire_message_signal(packet->header->domain(), packet->header->payload(), packet->message, context);
-          
-          if (packet->header->domain() == 0 && packet->header->payload() == proto::Alive::kTypeFieldNumber)
+
+          bool need_to_forward = true;
+          if (packet->header->domain() == 0)
             {
-              process_alive(link, packet);
+              if (packet->header->payload() == proto::Alive::kTypeFieldNumber)
+                {
+                  process_alive(link, packet);
+                  need_to_forward = false;
+                }
+              else if (packet->header->payload() == proto::Signoff::kTypeFieldNumber)
+                {
+                  process_signoff(link, packet);
+                }
             }
-          else
+           
+          if (need_to_forward)
             {
               forward_message(link, packet);
             }
@@ -243,7 +324,7 @@ void
 Router::on_direct_link_created(DirectLink::Ptr link)
 {
   TRACE_ENTER("Router::on_direct_link_created");
-  TRACE_MSG(link->address->str());
+  TRACE_MSG(link);
 
   Client::Ptr client = Client::create();
   
@@ -253,6 +334,7 @@ Router::on_direct_link_created(DirectLink::Ptr link)
   client->link = link;
   
   clients.push_back(client);
+  TRACE_MSG("Add client " << client.get());
   send_alive();
   
   TRACE_EXIT();
@@ -264,16 +346,44 @@ Router::on_direct_link_state_changed(DirectLink::Ptr link)
 {
   TRACE_ENTER("Router::on_direct_link_state_changed");
 
-  for (ClientIter it = clients.begin(); it != clients.end(); it++)
+  Client::Ptr client = find_client(link);
+  if (client)
     {
-      if ((*it)->link == link)
+      NetworkAddress::Ptr a = link->address;
+      if (a)
         {
-          if (link->state == Link::CONNECTION_STATE_CLOSED && it != clients.end())
+          TRACE_MSG("cl " << a->str());
+        }
+
+      list<UUID> ids;
+
+      ids.push_back(client->id);
+      
+      if (link->state == Link::CONNECTION_STATE_CLOSED)
+        {
+          clients.remove(client);
+          TRACE_MSG("closed");
+
+          for (ClientIter it = clients.begin(); it != clients.end(); )
             {
-              clients.erase(it);
-              TRACE_MSG("closed");
+              ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
+              if (via && via->via == link)
+                {
+                  ids.push_back((*it)->id);
+                  it = clients.erase(it);
+                }
+              else
+                {
+                  it++;
+                }
             }
-          break;
+
+          send_signoff(ids);
+        }
+      else if (link->state == Link::CONNECTION_STATE_CONNECTED)
+        {
+          TRACE_MSG("connected");
+          send_alive(link);
         }
     }
   
@@ -331,17 +441,58 @@ Router::fire_message_signal(int domain, int id, Message::Ptr message, MessageCon
 
 
 void
-Router::send_alive()
+Router::send_alive(Link::Ptr link)
 {
   TRACE_ENTER("Router::send_alive");
   boost::shared_ptr<proto::Alive> a(new proto::Alive());
-  a->set_hi("yo");
 
   string *c = a->add_path();
   *c = myid.raw();
 
-  send_message(a, MessageParams::create());
+  if (link)
+    {
+      send_message(link, a, MessageParams::create());
+    }
+  else
+    {
+      send_message(a, MessageParams::create());
+    }
+  
   TRACE_EXIT();
+}
+
+void
+Router::send_signoff(list<UUID> ids)
+{
+  TRACE_ENTER("Router::send_signoff");
+  boost::shared_ptr<proto::Signoff> a(new proto::Signoff());
+
+  for (list<UUID>::iterator it = ids.begin(); it != ids.end(); it++)
+    {
+      string *new_id = a->add_id();
+      *new_id = (*it).raw();
+    }
+
+  send_message(a, MessageParams::create());
+
+  TRACE_EXIT();
+}
+
+
+Client::Ptr
+Router::find_client(UUID id)
+{
+  TRACE_ENTER_MSG("Router::find_client", id.str());
+  for (ClientIter it = clients.begin(); it != clients.end(); it++)
+    {
+      TRACE_MSG("checking " << (*it).get());
+      if ((*it)->id == id)
+        {
+          return *it;
+        }
+    }
+  TRACE_EXIT();
+  return Client::Ptr();
 }
 
 
@@ -351,10 +502,8 @@ Router::find_client(Link::Ptr link)
   TRACE_ENTER("Router::find_client");
   for (ClientIter it = clients.begin(); it != clients.end(); it++)
     {
-      NetworkAddress::Ptr a = (*it)->link->address;
-      if (a) {
-        TRACE_MSG("cl " << a->str());
-      }
+      TRACE_MSG("checking " << (*it).get());
+
       if ((*it)->link == link)
         {
           return *it;
@@ -375,43 +524,109 @@ Router::process_alive(Link::Ptr link, PacketIn::Ptr packet)
   if (a)
     {
       google::protobuf::RepeatedPtrField<string> path = a->path();
-
+      UUID &id = packet->source;
+      
       TRACE_MSG("Source " << packet->source.str());
       for (google::protobuf::RepeatedPtrField<string>::iterator i = path.begin(); i != path.end(); i++)
         {
           TRACE_MSG("Path " << UUID::from_raw(*i).str());
         }
 
-      Client::Ptr client = find_client(link);
+      Client::Ptr client;
+
+      if (a->path_size() == 1)
+        {
+          TRACE_MSG("Direct connection");
+          client = find_client(link);
+        }
+      else
+        {
+          TRACE_MSG("Via connection");
+          client = find_client(id);
+
+          if (!client)
+            {
+              ViaLink::Ptr via_link = ViaLink::create(link);
+              via_link->state = Link::CONNECTION_STATE_CONNECTED;
+
+              TRACE_MSG(via_link.get());
+              client = Client::create();
+              client->link = via_link;
+              client->id = id;
+          
+              // link->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_DIRECT));
+              // link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, _1));
+              
+              clients.push_back(client);
+              TRACE_MSG("Add client " << client.get());
+              send_alive();
+            }
+        }
+        
       if (client)
         {
-          TRACE_MSG("have client " << UUID::from_raw(a->path(a->path_size() - 1)).str());
+          TRACE_MSG("have client " << UUID::from_raw(a->path(0)).str());
               
           if (!client->authenticated)
             {
               client->authenticated = true;
-              client->id = UUID::from_raw(a->path(a->path_size() - 1));
+              client->id = UUID::from_raw(a->path(0));
             }
           else
             {
-              if (client->id != UUID::from_raw(a->path(a->path_size() - 1)))
+              if (client->id != UUID::from_raw(a->path(0)))
                 {
                   TRACE_MSG("Illegal change of ID ");
                 }
             }
+
+          string *c = a->add_path();
+          *c = myid.raw();
+          forward_message(link, packet);
         }
       else
         {
-          ViaLink::Ptr info = ViaLink::create(link);
-          info->state = Link::CONNECTION_STATE_CONNECTED;
-          info->address = link->address;
-          info->via = link;
-          TRACE_MSG("indirect");
+          TRACE_MSG("Unknown client");
         }
 
-      string *c = a->add_path();
-      *c = myid.raw();
-      forward_message(link, packet);
     }
   TRACE_EXIT();
+}
+
+
+void
+Router::process_signoff(Link::Ptr link, PacketIn::Ptr packet)
+{
+  TRACE_ENTER("Router::process_signoff");
+  
+  boost::shared_ptr<proto::Signoff> a = boost::dynamic_pointer_cast<proto::Signoff>(packet->message);
+
+  if (a)
+    {
+      google::protobuf::RepeatedPtrField<string> signedoff_ids = a->id();
+      
+      TRACE_MSG("Source " << packet->source.str());
+      for (google::protobuf::RepeatedPtrField<string>::iterator i = signedoff_ids.begin(); i != signedoff_ids.end(); i++)
+        {
+          const UUID &id = UUID::from_raw(*i);
+          TRACE_MSG("Signoff " << id);
+          Client::Ptr client = find_client(id);
+          if (client)
+            {
+              ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>(client->link);
+              if (via)
+                {
+                  clients.remove(client);
+                }
+              else
+                {
+                  TRACE_MSG("Not removing non-via link" << client.get());
+                }
+            }
+          else
+            {
+              TRACE_MSG("Signoff for unknown client");
+            }
+        }
+    }
 }

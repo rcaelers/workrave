@@ -66,8 +66,6 @@ DirectLink::DirectLink(Marshaller::Ptr marshaller, Socket::Ptr socket) : marshal
   con1 = socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
   con2 = socket->signal_connection_state_changed().connect(boost::bind(&DirectLink::on_connection_state_changed, this));
 
-  // socket->signal_io().connect(Socket::io_signal_type::slot_type(&DirectLink::on_data, this).track(shared_from_this()));
-  // socket->signal_connection_state_changed().connect(Socket::connection_state_changed_signal_type::slot_type(&DirectLink::on_connection_state_changed, this).track(shared_from_this()));
   TRACE_EXIT();
 }
 
@@ -87,8 +85,6 @@ DirectLink::connect(const string &host, int port)
   state = CONNECTION_STATE_CONNECTING;
   socket->connect(host, port, true);
 
-  // socket->signal_io().connect(Socket::io_signal_type::slot_type(&DirectLink::on_data, this).track(shared_from_this()));
-  // socket->signal_connection_state_changed().connect(Socket::connection_state_changed_signal_type::slot_type(&DirectLink::on_connection_state_changed, this).track(shared_from_this()));
   con1 = socket->signal_io().connect(boost::bind(&DirectLink::on_data, this));
   con2 = socket->signal_connection_state_changed().connect(boost::bind(&DirectLink::on_connection_state_changed, this));
   
@@ -196,6 +192,7 @@ DirectLink::on_data()
 
   if (!ok)
     {
+      TRACE_MSG("Communication error closing link");
       close();
     }
 
@@ -226,3 +223,18 @@ DirectLink::signal_state()
 {
   return state_signal;
 }
+
+ostream& operator<< (ostream &out, DirectLink *link)
+{
+  Link *base = (Link *)link;
+
+ NetworkAddress::Ptr addr = link->address;
+  if (addr)
+    {
+      out << "addr=" << addr->str();
+    }
+  out << "(DirectLink " << base << ")";
+
+  return out;
+}
+

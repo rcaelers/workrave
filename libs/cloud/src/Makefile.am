@@ -11,6 +11,7 @@ if HAVE_DISTRIBUTION
 sources	 =		Router.cc \
 			Marshaller.cc \
 			Link.cc \
+			Client.cc \
 			DirectLinkManager.cc \
 			DirectLink.cc \
 			Announce.cc \

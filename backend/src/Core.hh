@@ -74,8 +74,8 @@ public:
   virtual ~Core();
 
   // ITimeSource
-  gint64 get_real_time();
-  gint64 get_monotonic_time();
+  gint64 get_real_time_usec();
+  gint64 get_monotonic_time_usec();
 
   // ICore
 

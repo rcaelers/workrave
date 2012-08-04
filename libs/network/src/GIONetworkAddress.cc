@@ -168,7 +168,7 @@ GIONetworkAddress::str()
     {
       ss << "UNKNOWN:";
     }
-  ss << port() << ends;
+  ss << port();
   return ss.str();
 }
 #endif

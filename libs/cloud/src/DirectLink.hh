@@ -68,6 +68,7 @@ public:
   void terminate();
 
   void connect(const std::string &host, int port);
+  void close();
   void send_message(const std::string &message);
 
   typedef boost::signals2::signal<bool(Link::Ptr, PacketIn::Ptr), BoolOrCombiner> data_signal_type;
@@ -79,8 +80,10 @@ public:
 private:
   void on_connection_state_changed();
   void on_data();
-  void close();
-  
+
+public:
+  NetworkAddress::Ptr address;
+
 private:
   //!
   data_signal_type data_signal;
@@ -96,5 +99,6 @@ private:
   boost::signals2::scoped_connection con2;
 };
 
+std::ostream& operator<< (std::ostream &out, DirectLink *link);
 
 #endif // DIRECTLINK_HH

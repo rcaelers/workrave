@@ -46,11 +46,23 @@ namespace workrave
       
       virtual void init(int port, std::string username, std::string secret) = 0;
       virtual void terminate() = 0;
+      virtual void heartbeat() = 0;
       virtual void connect(const std::string &host, int port) = 0;
       virtual void send_message(Message::Ptr msg, MessageParams::Ptr param) = 0;
       virtual MessageSignal &signal_message(int domain, int id) = 0;
 
       static Ptr create();
+    };
+
+    class ICloudTest
+    {
+    public:
+      typedef boost::shared_ptr<ICloudTest> Ptr;
+
+      virtual UUID get_id() const = 0;
+      virtual std::list<UUID> get_clients() const = 0;
+      virtual void start_announce() = 0;
+      virtual void disconnect(UUID id) = 0;
     };
   }
 }

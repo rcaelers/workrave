@@ -42,3 +42,25 @@ Link::~Link()
   TRACE_ENTER("Link::~Link");
   TRACE_EXIT();
 }
+
+ostream& operator<< (ostream &out, Link *link)
+{
+ out << "(Link ";
+
+  out << "state=" << link->state;
+  out << ")";
+  
+  return out;
+}
+
+ostream& operator<< (ostream &out, ViaLink * link)
+{
+  Link *base = (Link *)link;
+  
+  out << "(ViaLink ";
+  out << base;
+  out << " via=";
+  out << link->via << ")";
+
+  return out;
+}

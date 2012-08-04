@@ -30,12 +30,20 @@ namespace workrave
     class TimeSource
     {
     public:
+      static const gint64 USEC_PER_SEC = G_USEC_PER_SEC;
+      
+      //! Returns the system wall-clock time.
+      static gint64 get_real_time_usec();
+
+      //! Returns the system monotonic time, if available.
+      static gint64 get_monotonic_time_usec();
+
       //! Returns the system wall-clock time.
       static gint64 get_real_time();
 
       //! Returns the system monotonic time, if available.
       static gint64 get_monotonic_time();
-
+      
     public:
       static ITimeSource::Ptr source;
     };

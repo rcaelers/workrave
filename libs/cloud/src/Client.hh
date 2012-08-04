@@ -55,4 +55,6 @@ public:
   UUID id;
 };
 
+std::ostream& operator<< (std::ostream &out, Client *client);
+
 #endif // CLIENT_HH

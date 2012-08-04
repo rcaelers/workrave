@@ -22,6 +22,7 @@
 
 #include <map>
 #include <string>
+#include <ostream>
 
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
@@ -59,7 +60,7 @@ public:
   
 public:  
   State state;
-  NetworkAddress::Ptr address;
+  //NetworkAddress::Ptr address;
 };
 
 class EphemeralLink : public Link
@@ -77,6 +78,8 @@ public:
   }
 
   void send_message(const std::string &) {}
+
+  NetworkAddress::Ptr address;
 };
 
 class ViaLink : public Link
@@ -97,5 +100,8 @@ public:
   
   Link::Ptr via;
 };
+
+std::ostream& operator<< (std::ostream &out, Link *link);
+std::ostream& operator<< (std::ostream &out, ViaLink *link);
 
 #endif // LINK_HH

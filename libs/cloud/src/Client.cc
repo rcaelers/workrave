@@ -1,5 +1,6 @@
+// Client.cc
 //
-// Copyright (C) 2007, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,48 +16,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+//
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include <glib.h>
-
 #include "debug.hh"
-#include "utils/TimeSource.hh"
 
-using namespace workrave::utils;
+#include "Client.hh"
 
-ITimeSource::Ptr TimeSource::source;
+using namespace std;
 
-gint64
-TimeSource::get_real_time_usec()
+ostream& operator<< (ostream &out, Client *client)
 {
-  if (source != NULL)
-    {
-      return source->get_real_time_usec();
-    }
-  return g_get_real_time();
+  out << "(Client ";
+
+  out << "link=" << client->link.get();
+  out << " id=" << client->id.str();
+  out << ")";
+  
+  return out;
 }
 
-gint64
-TimeSource::get_monotonic_time_usec()
-{
-  if (source != NULL)
-    {
-      return source->get_monotonic_time_usec();
-    }
-  return g_get_monotonic_time();
-}
-
-gint64
-TimeSource::get_real_time()
-{
-  return get_real_time_usec() / G_USEC_PER_SEC;
-}
-
-gint64
-TimeSource::get_monotonic_time()
-{
-  return get_monotonic_time_usec() / G_USEC_PER_SEC;
-}
