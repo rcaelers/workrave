@@ -8,7 +8,7 @@
 # instalacji KDE SC.
 #
 # Author: Mirosław „Minio” Zalewski <miniopl@gmail.com> http://minio.xt.pl
-# Last modified: pią, 03 sie 2012 01:31:44 +0200
+# Last modified: Fri, 03 Aug 2012 18:04:46 +0200
 # License: None
 ##########################################################################
 
@@ -63,12 +63,19 @@ case $LANG in
 	;;
 esac
 
+PID_FILE="/tmp/workrave-kde.sh-is-running-${USER}"
+
+clean_up() {
+	rm -f "$PID_FILE" >/dev/null 2>&1
+}
+
 try() {
 	if [ -z "$1" ]; then
 		exit
 	fi
 	if ! ret=$(qdbus $SESSION_BUS $@) ; then
-		kdialog --error "$(echo "$ERROR\n$1")"
+		kdialog --error "$(echo "$ERROR\n$@")"
+		clean_up
 		kill $$
 	fi
 	echo $ret
@@ -84,6 +91,17 @@ seconds_to_readable() {
 	fi
 	echo "$m:$s"
 }
+
+if [ -e "$PID_FILE" ]; then
+	if which wmctrl >/dev/null 2>&1 ; then
+		wmctrl -R "$WIN_TITLE"
+	fi
+	exit
+fi
+echo $$ > "$PID_FILE"
+
+trap clean_up 0
+trap "exit 2" 1 2 3 15
 
 SESSION_BUS="org.workrave.Workrave"
 METHOD_ROOT="/org/workrave/Workrave"
@@ -138,3 +156,4 @@ case "$action" in
 	stats) try "$CONTROL_INTERFACE.Statistics";;
 	*) kdialog --error "$FATAL_ERROR";;
 esac
+clean_up
