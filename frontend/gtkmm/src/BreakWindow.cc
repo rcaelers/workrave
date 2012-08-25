@@ -457,7 +457,13 @@ void
 BreakWindow::resume_non_ignorable_break()
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED))
+  ICore *core = CoreFactory::get_core();
+  OperationMode mode = core->get_operation_mode();
+
+  TRACE_MSG("break flags " << break_flags);
+  
+  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
+      mode == OPERATION_MODE_NORMAL)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
@@ -467,9 +473,6 @@ BreakWindow::resume_non_ignorable_break()
           if (!ignorable)
             {
               TRACE_MSG("Break " << id << " not ignorable");
-
-              ICore *core = CoreFactory::get_core();
-              assert(core != NULL);
 
               IBreak *b = core->get_break(BreakId(id));
               assert(b != NULL);
