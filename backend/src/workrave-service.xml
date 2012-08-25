@@ -14,6 +14,11 @@
       <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
       <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
     </enum>
+
+    <enum name="usage_mode" csymbol="UsageMode">
+      <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
+      <value name="reading"   csymbol="USAGE_MODE_READING"/>
+    </enum>
     
     <enum name="break_id" csymbol="BreakId">
       <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
@@ -27,6 +32,14 @@
 
     <method name="GetOperationMode" csymbol="get_operation_mode">
       <arg type="operation_mode" name="mode" direction="out" hint="return"/>
+    </method>
+
+    <method name="SetUsageMode" csymbol="set_usage_mode">
+      <arg type="usage_mode" name="mode" direction="in" />
+    </method>
+
+    <method name="GetUsageMode" csymbol="get_usage_mode">
+      <arg type="usage_mode" name="mode" direction="out" hint="return"/>
     </method>
 
     <method name="ReportActivity" csymbol="report_external_activity">
