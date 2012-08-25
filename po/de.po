@@ -1,5 +1,5 @@
 # Johannes Rohr translation of Workrave.
-# Copyright (C) 2003, 2004 Rob Caelers & Raymond Penners
+# Copyright (C) 2003, 2004, 2012 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the Workrave package.
 # Johannes Rohr <j.rohr@comlink.apc.org>, 2003.
 #
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-10-22 18:27+0200\n"
-"PO-Revision-Date: 2011-02-16 19:21+0100\n"
+"PO-Revision-Date: 2012-08-25 15:25+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: \n"
@@ -263,7 +263,7 @@ msgstr "Ö_ffnen"
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 msgid "_Preferences"
-msgstr "_Vorlieben"
+msgstr "Einstellungen"
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
@@ -564,7 +564,7 @@ msgstr "Ö_ffnen"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "Preferences"
-msgstr "Vorlieben"
+msgstr "Einstellungen"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
@@ -734,7 +734,7 @@ msgstr "Zeitmesser"
 # src/app/gtkmm/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
-msgstr "Benutzervorlieben"
+msgstr "Benutzereinstellungen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:167
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:171
