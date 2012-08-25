@@ -1032,10 +1032,15 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
 
-  if ( (break_hint & BREAK_HINT_USER_INITIATED) && !ignorable)
+  if (break_hint & BREAK_HINT_USER_INITIATED)
     {
       break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
                       BreakWindow::BREAK_FLAGS_USER_INITIATED);
+
+      if (ignorable)
+        {
+          break_flags |=  BreakWindow::BREAK_FLAGS_SKIPPABLE;
+        }
     }
   else if (ignorable)
     {
