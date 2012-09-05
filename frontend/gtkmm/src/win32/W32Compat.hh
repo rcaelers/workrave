@@ -38,9 +38,6 @@
 class W32Compat
 {
 public:
-  static BOOL EnumDisplayMonitors(HDC hdc,LPCRECT rect,MONITORENUMPROC proc,LPARAM lparam);
-  static BOOL GetMonitorInfo(HMONITOR monitor, LPMONITORINFO info);
-  static HMONITOR MonitorFromPoint(POINT pt, DWORD dwFlags);
   static VOID SwitchToThisWindow( HWND, BOOL );
   static bool get_force_focus_value();
   static void SetWindowOnTop( HWND, BOOL );
@@ -58,14 +55,8 @@ private:
   static bool reset_window_always;
   static bool reset_window_never;
 
-  typedef BOOL (WINAPI *ENUMDISPLAYMONITORSPROC)(HDC,LPCRECT,MONITORENUMPROC,LPARAM);
-  typedef BOOL (WINAPI *GETMONITORINFOPROC)(HMONITOR monitor, LPMONITORINFO info);
-  typedef HMONITOR (WINAPI *MONITORFROMPOINTPROC)(POINT pt, DWORD dwFlags);
   typedef VOID (WINAPI *SWITCHTOTHISWINDOWPROC)( HWND, BOOL );
 
-  static ENUMDISPLAYMONITORSPROC enum_display_monitors_proc;
-  static GETMONITORINFOPROC get_monitor_info_proc;
-  static MONITORFROMPOINTPROC monitor_from_point_proc;
   static SWITCHTOTHISWINDOWPROC switch_to_this_window_proc;
 
 };
