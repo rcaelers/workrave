@@ -39,6 +39,7 @@ namespace workrave
 
       virtual bool operator==(const NetworkAddress &other) = 0;
       virtual const std::string str() = 0;
+      virtual const std::string addr_str() = 0;
     };
   }
 }

@@ -33,6 +33,8 @@
 
 #include "debug.hh"
 
+//#include <gio/gunixcredentialsmessage.h>
+
 #include "GIONetworkAddress.hh"
 #include "NetlinkNetworkInterfaceMonitor.hh"
 
@@ -68,9 +70,12 @@ NetlinkNetworkInterfaceMonitor::~NetlinkNetworkInterfaceMonitor()
 bool
 NetlinkNetworkInterfaceMonitor::init()
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::init");
+  
   int fd = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_ROUTE);
   if (fd == -1)
     {
+      TRACE_RETURN("socket failed");
       return false;
     }
 
@@ -78,30 +83,43 @@ NetlinkNetworkInterfaceMonitor::init()
   memset(&sa, 0, sizeof(sa));
   sa.nl_family = AF_NETLINK;
   sa.nl_groups = RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
-  sa.nl_pid = getpid();
+  sa.nl_pid = 0; //getpid();
+  sa.nl_pad = 0;
   
   int result = bind(fd, (struct sockaddr *) &sa, sizeof(sa));
   if (result == -1)
     {
       close(fd);
+      TRACE_RETURN("bind failed");
       return false;
     }
 
+  // gint val = 1;
+  // if (setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &val, sizeof(val)) != 0)
+  //   {
+  //     close(fd);
+  //     TRACE_RETURN("setsockopt SO_PASSCRED");
+  //     return false;
+  //   }
+ 
   GError *error = NULL;
   netlink_socket = g_socket_new_from_fd(fd, &error);
   if (netlink_socket == NULL)
     {
       close(fd);
+      TRACE_RETURN("no socket");
       return false;
     }
 
-  netlink_source = g_socket_create_source(netlink_socket, (GIOCondition)(G_IO_IN | G_IO_PRI), NULL);
-  g_source_attach(netlink_source, g_main_context_get_thread_default());
-  g_source_set_callback(netlink_source, (GSourceFunc) static_netlink_data, this, NULL);
   g_socket_set_blocking(netlink_socket, FALSE);
+  
+  netlink_source = g_socket_create_source(netlink_socket, (GIOCondition)G_IO_IN, NULL);
+  g_source_set_callback(netlink_source, (GSourceFunc) static_netlink_data, this, NULL);
+  g_source_attach(netlink_source, g_main_context_get_thread_default());
 
   next_state();
   
+  TRACE_RETURN("ok");
   return true;
 }
 
@@ -109,6 +127,7 @@ NetlinkNetworkInterfaceMonitor::init()
 void
 NetlinkNetworkInterfaceMonitor::send_request(guint netlink_message, guint flags)
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::send_request");
   struct sockaddr_nl addr;
   memset(&addr, 0, sizeof(addr));
   addr.nl_family = AF_NETLINK;
@@ -141,12 +160,15 @@ NetlinkNetworkInterfaceMonitor::send_request(guint netlink_message, guint flags)
     {
       g_warning("Could not send netlink message: %s", strerror(errno));
     }
+  TRACE_EXIT();
 }
 
 
 gboolean
 NetlinkNetworkInterfaceMonitor::static_netlink_data(GSocket *socket, GIOCondition condition, gpointer user_data)
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::static_netlink_data");
+  
   gboolean ret = TRUE;
 
   (void) socket;
@@ -161,10 +183,12 @@ NetlinkNetworkInterfaceMonitor::static_netlink_data(GSocket *socket, GIOConditio
   // process input
   if (ret && (condition & G_IO_IN))
     {
+      TRACE_MSG("in");
       NetlinkNetworkInterfaceMonitor *self = (NetlinkNetworkInterfaceMonitor *)user_data;
       self->process_reply();
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -172,9 +196,44 @@ NetlinkNetworkInterfaceMonitor::static_netlink_data(GSocket *socket, GIOConditio
 void
 NetlinkNetworkInterfaceMonitor::process_reply()
 {
-  static char buf[8192];
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::process_reply");
+  char buf[8192]; // FIXME: allocate on heap
   GError *error = NULL;
 
+  // GInputVector iv;
+  // iv.buffer = NULL;
+  // iv.size = 0;
+ 
+  // gint flags = MSG_PEEK | MSG_TRUNC;
+  // gssize len = g_socket_receive_message(netlink_socket, NULL, &iv, 1, NULL, NULL, &flags, NULL, &error);
+  // if (len < 0)
+  //   {
+  //     g_warning ("Error on netlink socket1: %s", error->message);
+  //     g_error_free(error);
+  //     return;
+  //   }
+
+  // GSocketControlMessage **cmsgs = NULL;
+  // gint num_cmsgs = 0;
+  // iv.buffer = g_malloc(len);
+  // iv.size = len;
+  // len = g_socket_receive_message(netlink_socket, NULL, &iv, 1, &cmsgs, &num_cmsgs, NULL, NULL, &error);
+  // if (len < 0)
+  //   {
+  //     g_warning("Error on netlink socket: %s", error->message);
+  //     g_error_free(error);
+  //     return;
+  //   }
+
+  //  if (num_cmsgs == 1 && G_IS_UNIX_CREDENTIALS_MESSAGE (cmsgs[0]))
+  //    {
+  //      GCredentials *creds = g_unix_credentials_message_get_credentials (G_UNIX_CREDENTIALS_MESSAGE (cmsgs[0]));
+  //      uid_t sender = g_credentials_get_unix_user(creds, NULL);
+  //      if (sender != 0)
+  //        {
+  //        }
+  //    }
+   
   int len = g_socket_receive(netlink_socket, buf, sizeof(buf), NULL, &error);
   if (len == -1)
     {
@@ -182,6 +241,7 @@ NetlinkNetworkInterfaceMonitor::process_reply()
         {
           g_warning ("Error receiving netlink message: %s", error->message);
         }
+      TRACE_RETURN("receive failed");
       return;
     }
 
@@ -216,6 +276,16 @@ NetlinkNetworkInterfaceMonitor::process_reply()
         }
     }
   }
+
+  // for (int i = 0; i < num_cmsgs; i++)
+  //   {
+  //     g_object_unref(cmsgs[i]);
+  //   }
+  // g_free(cmsgs);
+
+  // g_free(iv.buffer);
+  
+  TRACE_EXIT();
 }
 
 
@@ -253,6 +323,7 @@ NetlinkNetworkInterfaceMonitor::next_state()
 void
 NetlinkNetworkInterfaceMonitor::process_newlink(struct nlmsghdr* header)
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::process_newlink");
   struct ifinfomsg *ifi = (struct ifinfomsg *) NLMSG_DATA(header);
 
   NetworkAdapter &adapter = adapters[ifi->ifi_index];
@@ -273,12 +344,15 @@ NetlinkNetworkInterfaceMonitor::process_newlink(struct nlmsghdr* header)
           if (adapter.name != "")
             {
               g_warning("Unsupport network interface name change: %s %s", adapter.name.c_str(), (char*)RTA_DATA(rta)); 
+              TRACE_MSG("Unsupport network interface name change:" <<  adapter.name.c_str() << " " << (char*)RTA_DATA(rta));
             }
           adapter.name = (char*)RTA_DATA(rta);
+          TRACE_MSG("name " << adapter.name);
         }
     }
 
   verify_network_adapter(adapter);
+  TRACE_EXIT();
 }
 
 
@@ -298,6 +372,7 @@ NetlinkNetworkInterfaceMonitor::process_dellink(struct nlmsghdr* header)
 void
 NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
 {
+  TRACE_ENTER_MSG("NetlinkNetworkInterfaceMonitor::process_addr", add);
   struct ifaddrmsg *ifa = (struct ifaddrmsg *) NLMSG_DATA(header);  
 
   struct rtattr *rta_address = NULL;
@@ -306,9 +381,11 @@ NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
 
   for (; RTA_OK(rta, rtalen); rta = RTA_NEXT(rta, rtalen))
     {
+      TRACE_MSG("entty");
       switch (rta->rta_type)
         {
         case IFA_ADDRESS:
+          TRACE_MSG("address");
           if (rta_address == NULL)
             {
               rta_address = rta;
@@ -316,6 +393,7 @@ NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
           break;
 
         case IFA_LOCAL:
+          TRACE_MSG("local");
           rta_address = rta;
           break;
 
@@ -356,24 +434,29 @@ NetlinkNetworkInterfaceMonitor::process_addr(struct nlmsghdr* header, bool add)
           verify_network_interface(interface);
         }
     }
+  TRACE_EXIT();
 }
 
 
 void
 NetlinkNetworkInterfaceMonitor::verify_network_adapter(NetworkAdapter &network_hardware)
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::verify_network_adapter");
   for (NetworkInterfacesByFamilyList::iterator i = network_hardware.interfaces.begin(); i != network_hardware.interfaces.end(); i++)
     {
       verify_network_interface(i->second);
     }
+  TRACE_EXIT();
 }
 
 
 void
 NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &network_interface)
 {
+  TRACE_ENTER("NetlinkNetworkInterfaceMonitor::verify_network_interface");
   bool valid = network_interface.adapter->valid && network_interface.address != NULL;
 
+  TRACE_MSG("valid " << valid << " " << network_interface.valid);
   if (network_interface.valid != valid)
     {
       network_interface.valid = valid;
@@ -383,9 +466,11 @@ NetlinkNetworkInterfaceMonitor::verify_network_interface(NetworkInterface &netwo
       event.address = GIONetworkAddress::Ptr(new GIONetworkAddress(network_interface.address));
       event.name = network_interface.adapter->name;
       event.valid = valid;
-  
+
+      TRACE_MSG("name " << event.name);
       interface_changed_signal(event);
     }
+  TRACE_EXIT();
 }
 
 

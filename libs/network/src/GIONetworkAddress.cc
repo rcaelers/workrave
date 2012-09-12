@@ -171,4 +171,19 @@ GIONetworkAddress::str()
   ss << port();
   return ss.str();
 }
+
+const string
+GIONetworkAddress::addr_str()
+{
+  stringstream ss;
+  GInetAddress *addr = inet_address();
+
+  if (addr != NULL)
+    {
+      gchar *addrstr = g_inet_address_to_string(addr);
+      ss << addrstr;
+      g_free(addrstr);
+    }
+  return ss.str();
+}
 #endif

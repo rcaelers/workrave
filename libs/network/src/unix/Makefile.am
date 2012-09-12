@@ -13,7 +13,7 @@ libworkrave_network_unix_la_SOURCES =  \
 
 endif
 
-AM_CPPFLAGS = 		@GLIB_CFLAGS@ @SIGC_CFLAGS@ \
+AM_CPPFLAGS = 		@GLIB_CFLAGS@ @SIGC_CFLAGS@ @GIO_CFLAGS@ \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/network/src

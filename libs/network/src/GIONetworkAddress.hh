@@ -54,6 +54,7 @@ public:
   GIONetworkAddress& operator=(const GIONetworkAddress &other);
 
   const std::string str();
+  const std::string addr_str();
   
 private:
   GSocketAddress *socket_address;

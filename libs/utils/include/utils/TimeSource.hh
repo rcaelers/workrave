@@ -38,10 +38,10 @@ namespace workrave
       //! Returns the system monotonic time, if available.
       static gint64 get_monotonic_time_usec();
 
-      //! Returns the system wall-clock time.
+      //! Returns the system wall-clock time synchronized with core in seconds.
       static gint64 get_real_time();
 
-      //! Returns the system monotonic time, if available.
+      //! Returns the system monotonic time synchronized with core in seconds, if available.
       static gint64 get_monotonic_time();
       
     public:

@@ -88,17 +88,18 @@ public:
   typedef boost::shared_ptr<ViaLink> Ptr;
   
 public:
-  ViaLink(Link::Ptr via) : via(via) {}
+  ViaLink(Link::Ptr link) : link(link) {}
   virtual ~ViaLink() {}
   
-  static Ptr create(Link::Ptr via)
+  static Ptr create(Link::Ptr link)
   {
-    return ViaLink::Ptr(new ViaLink(via));
+    return ViaLink::Ptr(new ViaLink(link));
   }
 
   void send_message(const std::string &) {}
   
-  Link::Ptr via;
+  Link::Ptr link;
+  UUID id;
 };
 
 std::ostream& operator<< (std::ostream &out, Link *link);

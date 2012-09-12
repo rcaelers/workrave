@@ -195,11 +195,14 @@ Marshaller::marshall(PacketOut::Ptr packet)
 
           boost::shared_ptr<ByteStreamOutput> output(new ByteStreamOutput(1024));
 
+          TRACE_MSG("header : " << header->ByteSize() << " msg: " << packet->message->ByteSize());
           output->write_u16(header->ByteSize());
           output->write_u16(packet->message->ByteSize());
       
           header->SerializeToZeroCopyStream(output.get());
 
+          TRACE_MSG("packet : " << output->get_position());
+          
           //const gchar *payload = output->get_ptr();
           packet->message->SerializeToZeroCopyStream(output.get());
           //gsize payload_size = output->get_ptr() - payload;
@@ -211,6 +214,7 @@ Marshaller::marshall(PacketOut::Ptr packet)
           //const gchar *hash = g_checksum_get_string(checksum);
 
           ret = output->get_buffer_as_string();
+          TRACE_MSG("packet str: " << ret.size());
           output.reset();
         }
     }
@@ -230,7 +234,7 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       Header::Ptr header;
       boost::shared_ptr<ByteStreamInput> input(new ByteStreamInput(data, size));
 
-      bool header_ok = true;;
+      bool header_ok = true;
       guint16 header_size;
       guint16 msg_size;
       const google::protobuf::Descriptor *base = NULL;
@@ -240,14 +244,22 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       header_ok = header_ok && input->read_u16(header_size);
       header_ok = header_ok && input->read_u16(msg_size);
 
+      TRACE_MSG("size: " << size << " header: " << header_size << " msg: " << msg_size);
+      TRACE_MSG("available: " << input->get_available() << " " << input->get_position());
+      
       if (header_ok)
         {
           header = Header::Ptr(new proto::Header());
           header_ok = header->ParseFromBoundedZeroCopyStream(input.get(), header_size);
         }
       
+      TRACE_MSG("available: " << input->get_available() << " " << input->get_position());
+
       if (header_ok && size >= header_size + msg_size)
         {
+          TRACE_MSG("Header: " << header->DebugString());
+          TRACE_MSG("Source: " << UUID::from_raw(header->source()).str());
+
           const string domain_name = get_namespace_of_domain(header->domain()) + ".Domain";
           TRACE_MSG("Domain: " << domain_name);
           base = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(domain_name);
@@ -272,19 +284,27 @@ Marshaller::unmarshall(gsize size, const gchar *data)
 
           const google::protobuf::Descriptor *d = message->GetDescriptor();
           TRACE_MSG("Msg type " << d->full_name());
-  
-          // TODO:
-          GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
-          g_checksum_update(checksum, (const guchar *)input->get_ptr(), msg_size);
-          g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
-          const gchar *hash = g_checksum_get_string(checksum);
 
-          TRACE_MSG(hash);
+          TRACE_MSG("Checksum size " << msg_size << " " << secret.size());
+
+          // TODO:
+          // GChecksum *checksum = g_checksum_new(G_CHECKSUM_SHA256);
+          // if (msg_size > 0)
+          //   {
+          //     g_checksum_update(checksum, (const guchar *)input->get_ptr(), msg_size);
+          //   }
+          // if (secret.size() > 0)
+          //   {
+          //     g_checksum_update(checksum, (const guchar *)secret.data(), secret.size());
+          //   }
+          // const gchar *hash = g_checksum_get_string(checksum);
+
+          // TRACE_MSG(hash);
 
           if (message->ParseFromBoundedZeroCopyStream(input.get(), msg_size))
             {
-              TRACE_MSG(header->DebugString());
-              TRACE_MSG(message->DebugString());
+              TRACE_MSG("available: " << input->get_available() << " " << input->get_position());
+              TRACE_MSG("Message: " << message->DebugString());
               
               PacketIn::Ptr ret = PacketIn::create(header, message);
               

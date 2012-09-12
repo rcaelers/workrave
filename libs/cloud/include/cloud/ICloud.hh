@@ -61,6 +61,8 @@ namespace workrave
 
       virtual UUID get_id() const = 0;
       virtual std::list<UUID> get_clients() const = 0;
+      virtual std::list<UUID> get_direct_clients() const = 0;
+      virtual int get_cycle_failures() const = 0;
       virtual void start_announce() = 0;
       virtual void disconnect(UUID id) = 0;
     };

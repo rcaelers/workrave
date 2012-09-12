@@ -1,4 +1,4 @@
-// NetworkLink.cc
+// IRouter.hh
 //
 // Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,53 +16,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef IROUTER_HH
+#define IROUTER_HH
 
-#include "debug.hh"
+#include <list>
+#include <map>
+#include <string>
 
-#include "Link.hh"
+#include <boost/signals2.hpp>
+#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
 
-using namespace std;
+#include "network/NetworkAddress.hh"
+#include "UUID.hh"
 
-//! Constructs a new network link
-Link::Link() : state(CONNECTION_STATE_INVALID)
+using namespace workrave::network;
+
+namespace workrave
 {
-  TRACE_ENTER("Link::Link");
-  TRACE_EXIT();
+  namespace cloud
+  {
+    struct ClientInfo
+    {
+      UUID id;
+      UUID via;
+    };
+      
+    class IRouter
+    {
+    public:
+      typedef boost::shared_ptr<IRouter> Ptr;
+      
+      virtual ~IRouter() {}
+      
+      virtual std::list<ClientInfo> get_client_infos() const = 0;
+      virtual void connect(NetworkAddress::Ptr host, int port) = 0;
+    };
+  }
 }
 
 
-//! Destructs the network link.
-Link::~Link()
-{
-  TRACE_ENTER("Link::~Link");
-  TRACE_EXIT();
-}
-
-ostream& operator<< (ostream &out, Link *link)
-{
- out << "(Link ";
-
-  out << "state=" << link->state;
-  out << ")";
-  
-  return out;
-}
-
-ostream& operator<< (ostream &out, ViaLink * link)
-{
-  Link *base = (Link *)link;
-  
-  out << "(ViaLink ";
-  out << base;
-  out << " ia=";
-  out << link->id;
-  out << " via=";
-  out << link->link << ")";
-
-  return out;
-}
+#endif // IROUTER_HH

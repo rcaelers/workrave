@@ -68,7 +68,7 @@ GIOMulticastSocket::~GIOMulticastSocket()
 bool
 GIOMulticastSocket::join_multicast(const GIONetworkAddress::Ptr multicast_address, const std::string &adapter, const GIONetworkAddress::Ptr local_address)
 {
-  TRACE_ENTER("GIOMulticastSocket::join_multicast");
+  TRACE_ENTER_MSG("GIOMulticastSocket::join_multicast", adapter);
   GError *error = NULL;
 
   this->remote_address = multicast_address->address();

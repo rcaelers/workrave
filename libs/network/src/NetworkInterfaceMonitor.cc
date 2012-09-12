@@ -42,19 +42,11 @@ NetworkInterfaceMonitor::create()
 #if defined(PLATFORM_OS_UNIX)
 #  if defined(HAVE_NETLINK)
   ret = NetworkInterfaceMonitor::Ptr(new NetlinkNetworkInterfaceMonitor());
-  if (ret->init())
-    {
-      return ret;
-    }
-#endif
+#  else
   ret = NetworkInterfaceMonitor::Ptr(new UnixNetworkInterfaceMonitor());
-  if (ret->init())
-    {
-      return ret;
-    }
+#endif
 #endif
 
-  ret.reset();
   return ret;
 }
 

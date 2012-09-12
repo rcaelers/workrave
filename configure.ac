@@ -472,7 +472,7 @@ have_python_cheetah=no
 
 if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes"
 then
-PKG_CHECK_MODULES([GIO],
+PKG_CHECK_MODULES([GIODBUS],
                   [gio-2.0 >= 2.26.0],
                   [config_dbus_gio=yes
 		   config_dbus=yes
@@ -782,9 +782,12 @@ if test "x$enable_distribution" != "xno"
 then
   PKG_CHECK_MODULES([PROTOBUF], [protobuf >= 2.4])
   AC_PATH_PROG([PROTOC], [protoc], [AC_MSG_ERROR([protoc is not found])])
-  
+
+  if test "x$platform_os_unix" == "xyes"; then
+   giounix="gio-unix-2.0 >= 2.32"
+  fi
   PKG_CHECK_MODULES([GIO],
-                    [gio-2.0 >= 2.22.0],
+                    [gio-2.0 >= 2.32.0 ${giounix}],
                     [config_distribution=yes
 		     have_gio_net=yes
                      AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],

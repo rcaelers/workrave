@@ -50,3 +50,32 @@ message Signoff
 
     repeated bytes id = 1;
 }
+
+
+message Discover
+{
+    extend Domain
+    {
+        required Domain type = 103;
+    }
+}
+
+
+message RoutingData
+{
+    extend Domain
+    {
+        required Domain type = 104;
+    }
+
+    message Route
+    {
+        required bytes id = 1;
+    
+        optional bytes via = 2;
+    }
+
+    required int32 port = 1;
+    
+    repeated Route route = 2;
+}

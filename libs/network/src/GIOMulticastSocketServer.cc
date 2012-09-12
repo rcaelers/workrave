@@ -53,8 +53,9 @@ GIOMulticastSocketServer::init(const std::string &address_ipv4, const std::strin
   this->address_ipv6 = GIONetworkAddress::Ptr(new GIONetworkAddress(address_ipv6, port));
 
   monitor->signal_interface_changed().connect(boost::bind(&GIOMulticastSocketServer::on_interface_changed, this, _1));
-  return monitor->init();
+  bool ret = monitor->init();
   TRACE_EXIT();
+  return ret;
 }
 
 
@@ -81,14 +82,14 @@ void
 GIOMulticastSocketServer::on_data(Connection::Ptr connection)
 {
   TRACE_ENTER("GIOMulticastSocketServer::on_data");
-  static gchar buffer[1024];
+  gchar buffer[1024]; // FIXME: 
   
   gsize bytes_read = 0;
   NetworkAddress::Ptr address;
   bool ok = connection->socket->receive(buffer, sizeof(buffer), bytes_read, address);
   if (!ok)
     {
-      // TODO: check with monitor is link is still and retry.
+      // TODO: check with monitor if link is still up and retry.
       connection->socket->close();
       connections.remove(connection);
     }

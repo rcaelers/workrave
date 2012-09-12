@@ -22,7 +22,6 @@
 #include "config.h"
 #endif
 
-
 #include "debug.hh"
 
 #include <string.h>
@@ -47,7 +46,9 @@ using namespace workrave::cloud;
 Router::Ptr
 Router::create()
 {
-  return Router::Ptr(new Router());
+  Router::Ptr router = Router::Ptr(new Router());
+  router->post_construct();
+  return router;
 }
 
 // TODO: move to factory
@@ -60,15 +61,20 @@ ICloud::create()
 
 
 //! Constructs a new network router
-Router::Router()
+Router::Router() : cycle_failures(0)
 {
   TRACE_ENTER("Router::Router");
-  marshaller = Marshaller::create();
-  announce = Announce::create(marshaller);
-  direct_link_manager = DirectLinkManager::create(marshaller);
   TRACE_EXIT();
 }
 
+
+void
+Router::post_construct()
+{
+  marshaller = Marshaller::create();
+  announce = Announce::create(shared_from_this(), marshaller);
+  direct_link_manager = DirectLinkManager::create(marshaller);
+}
 
 //! Destructs the network router.
 Router::~Router()
@@ -91,7 +97,7 @@ Router::init(int port, string username, string secret)
   marshaller->set_id(myid);
   marshaller->set_credentials(username, secret);
   
-  announce->init(port, myid);
+  announce->init(7272, myid, port);
   direct_link_manager->init(port);
 
   announce->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_MULTICAST));
@@ -119,7 +125,9 @@ Router::heartbeat()
 void
 Router::start_announce()
 {
+  TRACE_ENTER("Router::start_announce");
   announce->start();
+  TRACE_EXIT();
 }
 
 
@@ -144,6 +152,16 @@ Router::connect(const string &host, int port)
   TRACE_EXIT();
 }
 
+
+void
+Router::connect(NetworkAddress::Ptr host, int port)
+{
+  TRACE_ENTER_MSG("Router::connect", host << " " << port);
+
+  connect(host->addr_str(),  port);
+
+  TRACE_EXIT();
+}
 
 void
 Router::disconnect(UUID id)
@@ -178,6 +196,49 @@ Router::get_clients() const
       ids.push_back((*it)->id);
     }
   return ids;
+}
+
+
+std::list<UUID>
+Router::get_direct_clients() const
+{
+  std::list<UUID> ids;
+  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
+    {
+      ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
+      if (!via)
+        {
+          ids.push_back((*it)->id);
+        }
+    }
+  return ids;
+}
+
+int
+Router::get_cycle_failures() const
+{
+  return cycle_failures;
+}
+
+
+
+list<workrave::cloud::ClientInfo>
+Router::get_client_infos() const
+{
+  list<workrave::cloud::ClientInfo> ret;
+
+  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
+    {
+      ClientInfo info;
+      info.id = (*it)->id;
+
+      ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
+      bool x = via;
+      info.via = x ? via->id : info.id;
+            
+      ret.push_back(info);
+    }
+  return ret;
 }
 
 void
@@ -284,6 +345,7 @@ Router::on_data(Link::Ptr link, PacketIn::Ptr packet, Scope scope)
       if (myid == packet->source)
         {
           TRACE_MSG("cycle!");
+          cycle_failures++;
           ret = false;
         }
 
@@ -367,7 +429,7 @@ Router::on_direct_link_state_changed(DirectLink::Ptr link)
           for (ClientIter it = clients.begin(); it != clients.end(); )
             {
               ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
-              if (via && via->via == link)
+              if (via && via->link == link)
                 {
                   ids.push_back((*it)->id);
                   it = clients.erase(it);
@@ -554,9 +616,6 @@ Router::process_alive(Link::Ptr link, PacketIn::Ptr packet)
               client->link = via_link;
               client->id = id;
           
-              // link->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_DIRECT));
-              // link->signal_state().connect(boost::bind(&Router::on_direct_link_state_changed, this, _1));
-              
               clients.push_back(client);
               TRACE_MSG("Add client " << client.get());
               send_alive();
@@ -630,3 +689,4 @@ Router::process_signoff(Link::Ptr link, PacketIn::Ptr packet)
         }
     }
 }
+

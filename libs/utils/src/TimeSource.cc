@@ -32,31 +32,31 @@ ITimeSource::Ptr TimeSource::source;
 gint64
 TimeSource::get_real_time_usec()
 {
-  if (source != NULL)
-    {
-      return source->get_real_time_usec();
-    }
   return g_get_real_time();
 }
 
 gint64
 TimeSource::get_monotonic_time_usec()
 {
-  if (source != NULL)
-    {
-      return source->get_monotonic_time_usec();
-    }
   return g_get_monotonic_time();
 }
 
 gint64
 TimeSource::get_real_time()
 {
-  return get_real_time_usec() / G_USEC_PER_SEC;
+  if (source != NULL)
+    {
+      return source->get_real_time();
+    }
+  return g_get_real_time() / G_USEC_PER_SEC;
 }
 
 gint64
 TimeSource::get_monotonic_time()
 {
-  return get_monotonic_time_usec() / G_USEC_PER_SEC;
+  if (source != NULL)
+    {
+      return source->get_monotonic_time();
+    }
+  return g_get_monotonic_time() / G_USEC_PER_SEC;
 }

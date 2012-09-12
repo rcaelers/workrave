@@ -21,11 +21,13 @@
 #define ANNOUNCE_HH
 
 #include <string>
+#include <set>
 #include <boost/shared_ptr.hpp>
 
 #include "network/NetworkAddress.hh"
 #include "network/MulticastSocketServer.hh"
 
+#include "IRouter.hh"
 #include "Marshaller.hh"
 #include "Link.hh"
 
@@ -39,12 +41,12 @@ public:
   typedef boost::shared_ptr<Announce> Ptr;
 
 public:
-  static Ptr create(Marshaller::Ptr marshaller);
+  static Ptr create(IRouter::Ptr router, Marshaller::Ptr marshaller);
 
-  Announce(Marshaller::Ptr marshaller);
+  Announce(IRouter::Ptr router, Marshaller::Ptr marshaller);
   virtual ~Announce();
 
-  void init(int port, UUID &id);
+  void init(int announce_port, UUID &id, int direct_link_port);
   void terminate();
   void heartbeat();
   void start();
@@ -57,22 +59,53 @@ public:
  
 private:
   enum AnnounceState {
-    ANNOUNCE_STATE_IDLE,
-    ANNOUNCE_STATE_WAIT_FOR_ANNOUNCE,
-    ANNOUNCE_STATE_ANNOUNCING,
-    ANNOUNCE_STATE_CONNECTING,
+    ANNOUNCE_STATE_HOLD,
+    ANNOUNCE_STATE_MONITORING,
+    ANNOUNCE_STATE_DISCOVER,
+    ANNOUNCE_STATE_BUILD,
   };
 
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
 
-  void send_announce();
-  void process_announce(Link::Ptr link, PacketIn::Ptr packet);
-  void goto_state(AnnounceState new_state);
+  void send_discover();
+  void send_routing_data();
+
+  void send_message(Message::Ptr message, MessageParams::Ptr params);
+  
+  void process_discover(EphemeralLink::Ptr link, PacketIn::Ptr packet);
+  void process_routing_data(EphemeralLink::Ptr link, PacketIn::Ptr packet);
+  void connect_to_clients();
+  
+  void goto_monitoring();
+  void goto_hold();
+  void goto_discover(bool immediate);
+  void goto_build();
 
   static gboolean static_on_timer(gpointer data);
+
+private:
+  typedef std::set<UUID> UUIDSet;
+  typedef UUIDSet::iterator UUIDSetIter;
+
+
+  class RemoteClient
+  {
+  public:
+    NetworkAddress::Ptr address;
+    int port;
+    UUIDSet direct_connections;
+    UUIDSet all_connections;
+  };
+
+  typedef std::map<UUID, RemoteClient> RemoteClientMap;
+  typedef RemoteClientMap::iterator RemoteClientMapIter;
+  typedef RemoteClientMap::const_iterator RemoteClientMapCIter;
   
 private:
-    
+
+  //!
+  IRouter::Ptr router;
+  
   //!
   Marshaller::Ptr marshaller;
   
@@ -88,6 +121,10 @@ private:
   int announce_left;
 
   UUID myid;
+
+  RemoteClientMap remote_clients;
+
+  int direct_link_port;
 };
 
 

@@ -249,7 +249,7 @@ GIOSocket::write(const gchar *buf, gsize count)
   g_clear_error(&error);
 
   TRACE_RETURN(num_written);
-  return num_written == count;
+  return num_written == (gssize)count;
 }
 
 
