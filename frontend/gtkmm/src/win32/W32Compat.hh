@@ -39,9 +39,7 @@ class W32Compat
 {
 public:
   static VOID SwitchToThisWindow( HWND, BOOL );
-  static bool get_force_focus_value();
   static void SetWindowOnTop( HWND, BOOL );
-  static bool ForceWindowFocus( HWND );
   static void ResetWindow( HWND, bool );
   static void IMEWindowMagic( HWND );
 
@@ -50,7 +48,6 @@ private:
   static void init_once();
 
   static bool run_once;
-  static bool force_focus;
   static bool ime_magic;
   static bool reset_window_always;
   static bool reset_window_never;

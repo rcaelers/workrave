@@ -25,6 +25,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include "W32Compat.hh"
+#include "W32ForceFocus.hh"
 #include <gdk/gdkwin32.h>
 #endif
 
@@ -98,6 +99,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   ,
   desktop_window( NULL ),
+  force_focus_on_break_start( false ),
   parent( 0 )
 #endif
 {
@@ -135,7 +137,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
   // trace window handles:
   // FIXME: debug, remove later
-#ifdef PLATFORM_OS_WIN32
+#if defined( PLATFORM_OS_WIN32 ) && defined( TRACING )
   HWND _hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
   HWND _scope = (HWND) GDK_WINDOW_HWND( GTK_WIDGET( this->gobj() )->window );
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
@@ -183,11 +185,14 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
 
 #ifdef PLATFORM_OS_WIN32
-  if( W32Compat::get_force_focus_value() )
-    {
+  if( W32ForceFocus::GetForceFocusValue() )
       initial_ignore_activity = true;
-    }
 
+  CoreFactory::get_configurator()->get_value_with_default(
+    "advanced/force_focus_on_break_start",
+    force_focus_on_break_start,
+    false
+    );
 #endif
 
   ICore *core = CoreFactory::get_core();
@@ -565,6 +570,19 @@ BreakWindow::start()
   set_skip_taskbar_hint(true);
   WindowHints::set_always_on_top(this, true);
   raise();
+
+#ifdef PLATFORM_OS_WIN32
+  if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
+  {
+    GtkWidget *widget = GTK_WIDGET( this->gobj() );
+    if( widget )
+    {
+      HWND hwnd = (HWND)GDK_WINDOW_HWND( widget->window );
+      bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
+      bool this_is_a_dummy_var_to_fool_visual_studio = focused;
+    }
+  }
+#endif
 
   // In case the show_all resized the window...
   center();

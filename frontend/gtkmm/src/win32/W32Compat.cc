@@ -1,5 +1,6 @@
 #include "debug.hh"
 
+#include "W32ForceFocus.hh"
 #include "W32Compat.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -7,7 +8,6 @@
 using namespace workrave;
 
 bool W32Compat::run_once = true; //initialization
-bool W32Compat::force_focus = false;
 bool W32Compat::ime_magic = false;
 bool W32Compat::reset_window_always = false;
 bool W32Compat::reset_window_never = false;
@@ -37,12 +37,6 @@ W32Compat::init_once()
 		switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC) GetProcAddress(user_lib, "SwitchToThisWindow");
 	}
 
-	// Should SetWindowOnTop() call ForceWindowFocus() ?
-	if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", force_focus ) )
-	{
-		force_focus = false;
-	}
-
 	// Should SetWindowOnTop() call IMEWindowMagic() ?
 	if( !CoreFactory::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
 	{
@@ -68,14 +62,6 @@ W32Compat::init_once()
 
 }
 
-bool
-W32Compat::get_force_focus_value()
-{
-	init();
-
-	return force_focus;
-}
-
 
 void
 W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
@@ -92,75 +78,17 @@ W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
 		IMEWindowMagic( hwnd );
 	}
 
-	if( force_focus && topmost )
+	if( W32ForceFocus::GetForceFocusValue() && topmost )
 	{
-		ForceWindowFocus( hwnd );
+		W32ForceFocus::ForceWindowFocus( hwnd );
 	}
 
 	return;
 }
 
 
-// ForceWindowFocus() code was written in 2007 for Vista UIPI
-// troubleshooting. It appears to no longer be useful, but I've
-// cleaned it up should it possibly serve some other use.
-// In 2008 the hack to undo admin focus stopped working.
-// if all else fails request user enable advanced/force_focus = "1"
-bool
-W32Compat::ForceWindowFocus( HWND hwnd )
-{
-	init();
-
-	if( !IsWindow( hwnd ) )
-		return false;
-
-	/* FYI:
-	* GetForegroundWindow returns NULL if there is no window in focus.
-	*/
-
-	if( GetForegroundWindow() != hwnd )
-	{
-		// SwitchToThisWindow() should activate and set focus
-		// set 'TRUE' to emulate alt+tab ordering. no return value.
-		SwitchToThisWindow( hwnd, TRUE );
-	}
-
-
-	if( GetForegroundWindow() != hwnd )
-	/*
-	If the foreground window is still not our window, we can try
-	to AttachThreadInput on the current foreground window as a
-	last resort. This method has been in use since Windows 98.
-	.
-	This method doesn't work on foreground console windows,
-	or windows of a higher integrity level (Vista).
-	.
-	Attaching input can cause deadlock.
-	Please do not use this as inspiration for your own code.
-	.
-	This block is a last resort for force_focus troubleshooting only.
-	*/
-	{
-		DWORD dThisThread, dForeThread, dForePID;
-
-		dThisThread = GetCurrentThreadId();
-		dForeThread = GetWindowThreadProcessId( GetForegroundWindow(), &dForePID );
-
-		if( AttachThreadInput( dThisThread, dForeThread, TRUE ) )
-		{
-			BringWindowToTop( hwnd );
-			SetForegroundWindow( hwnd );
-
-			AttachThreadInput( dThisThread, dForeThread, FALSE );
-		}
-	}
-
-	return GetForegroundWindow() == hwnd;
-}
-
-
 // Bug 587 -  Vista: Workrave not modal / coming to front
-// http://issues.workrave.org/cgi-bin/bugzilla/show_bug.cgi?id=587
+// http://issues.workrave.org/show_bug.cgi?id=587
 // There is an issue with IME and window z-ordering.
 //
 // hwnd == window to "reset" in z-order
@@ -201,6 +129,7 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 			reset = true;
 	}
 
+#ifdef BREAKAGE
 	// GetWindowInfo() and GetWindowLong() extended style info can differ.
 	// Compare the two results but filter valid values only.
 	valid_exstyle_diff = ( gwl_exstyle ^ gwi.dwExStyle ) & ~0xF1A08802;
@@ -210,7 +139,6 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 		// e.g. gwl returned ws_ex_toolwindow but gwi didn't
 		reset = true;
 
-#ifdef BREAKAGE
 		// attempt to sync differences:
 		DWORD swl_exstyle = ( valid_exstyle_diff | gwl_exstyle ) & ~0xF1A08802;
 
@@ -226,8 +154,8 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 		ShowWindow( hwnd, SW_HIDE );
 		SetWindowLong( hwnd, GWL_EXSTYLE, (LONG)swl_exstyle );
 		ShowWindow( hwnd, SW_SHOWNA );
-#endif
 	}
+#endif
 
 	// "reset" window position in z-order.
 	// if the window is supposed to be topmost but is really not:
@@ -251,7 +179,7 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 
 
 // Bug 587 -  Vista: Workrave not modal / coming to front
-// http://issues.workrave.org/cgi-bin/bugzilla/show_bug.cgi?id=587
+// http://issues.workrave.org/show_bug.cgi?id=587
 // There is an issue with IME and window z-ordering.
 //
 // ResetWindow() tests sufficient. This code is for troubleshooting.
