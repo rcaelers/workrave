@@ -37,7 +37,7 @@ public:
     static bool MinimizeRestore( HWND hwnd );
 
     // Create a worker thread that runs any of the above hacks in an attempt to make hwnd foreground
-    static bool ForceWindowFocus( HWND hwnd );
+    static bool ForceWindowFocus( HWND hwnd, DWORD milliseconds_to_block = 200 );
 
     // Check the user preference advanced/force_focus
     static bool GetForceFocusValue();

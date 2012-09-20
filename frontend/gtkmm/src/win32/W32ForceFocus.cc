@@ -37,6 +37,7 @@
 #include "StringUtil.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
+#include "W32CriticalSection.hh"
 #include "W32ForceFocus.hh"
 
 
@@ -52,6 +53,11 @@ using namespace workrave;
 HANDLE W32ForceFocus::thread_handle;
 struct W32ForceFocus::thread_info W32ForceFocus::ti;
 bool W32ForceFocus::force_focus;
+
+
+// Critical section objects for each function that needs one
+static W32CriticalSection cs_GetForceFocusValue;
+static W32CriticalSection cs_GetFunctions;
 
 
 
@@ -72,7 +78,7 @@ enum functions
 
 
 
-/* W32ForceFocus::get_functions()
+/* W32ForceFocus::GetFunctions()
 
 Check for an existing configuration preference at advanced/force_focus_functions specifying which 
 functions we should use to try to force window focus. 
@@ -90,14 +96,14 @@ returns the functions specified in the config or if no config found returns ALL_
 */
 DWORD W32ForceFocus::GetFunctions()
 {
-    static DWORD flags = 0;
-    static LONG func_initialized = false;
+    W32CriticalSection::Guard guard( cs_GetFunctions );
 
-    /// TODO: put in a critsec
-    /* 
+    static bool func_initialized = false;
+    static DWORD flags = 0;
+
     if( func_initialized )
         return flags;
-        */
+
     string str;
 
     if( CoreFactory::get_configurator()->get_value( "advanced/force_focus_functions", str ) )
@@ -145,7 +151,12 @@ returns force_focus
 */
 bool W32ForceFocus::GetForceFocusValue()
 {
-    /// TODO: cache this and put in a critsec
+    W32CriticalSection::Guard guard( cs_GetForceFocusValue );
+
+    static bool func_initialized = false;
+
+    if( func_initialized )
+        return force_focus;
 
     CoreFactory::get_configurator()->get_value_with_default(
         "advanced/force_focus",
@@ -153,6 +164,7 @@ bool W32ForceFocus::GetForceFocusValue()
         false
         );
 
+    func_initialized = true;
     return force_focus;
 }
 
@@ -191,7 +203,7 @@ bool W32ForceFocus::AltKeypress( HWND hwnd )
         keybd_event( VK_MENU, 0, KEYEVENTF_EXTENDEDKEY, 0 );
     }
 
- 	BringWindowToTop( hwnd );
+    BringWindowToTop( hwnd );
     SetForegroundWindow( hwnd );
 
 cleanup:
@@ -245,8 +257,8 @@ bool W32ForceFocus::AttachInput( HWND hwnd )
     attached = ( target_pid != GetCurrentProcessId() )
         && AttachThreadInput( GetCurrentThreadId(), target_tid, TRUE );
 
-	BringWindowToTop( hwnd );
-	SetForegroundWindow( hwnd );
+    BringWindowToTop( hwnd );
+    SetForegroundWindow( hwnd );
 
 cleanup:
     if( attached )
@@ -284,7 +296,7 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
         L"Message",
         L"Workrave Focus Helper",
         ( WS_DLGFRAME | WS_DISABLED | WS_POPUP | WS_MINIMIZE ),
-		0,   // X
+        0,   // X
         0,   // Y
         0,   // nWidth
         0,   // nHeight
@@ -299,8 +311,8 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
     ShowWindow( message_hwnd, SW_MINIMIZE );
     ShowWindow( message_hwnd, SW_RESTORE );
 
-	BringWindowToTop( hwnd );
-	SetForegroundWindow( hwnd );
+    BringWindowToTop( hwnd );
+    SetForegroundWindow( hwnd );
 
 cleanup:
     if( message_hwnd )
@@ -317,11 +329,18 @@ Create a sacrificial worker thread that attempts to run any of the focus hacks:
 AltKeypress(), AttachInput(), MinimizeRestore()
 
 Which of those will be run by the worker thread depend on the value returned by GetFunctions(), 
-which checks the preference advanced/force_focus_functions. Review its comment block for more.
+which caches the preference advanced/force_focus_functions. Review its comment block for more.
+
+You can optionally specify how many 'milliseconds_to_block' waiting for the worker thread to exit.
+By default this function waits for 200 milliseconds and then returns. If the worker thread is still 
+running then it may set 'hwnd' as the foreground window after this function has returned.
 
 returns true on success: ( GetForegroundWindow() == hwnd )
 */
-bool W32ForceFocus::ForceWindowFocus( HWND hwnd )
+bool W32ForceFocus::ForceWindowFocus(
+    HWND hwnd,
+    DWORD milliseconds_to_block /* default: 200 */
+    )
 {
     if( !IsWindowVisible( hwnd ) )
         return false;
@@ -333,7 +352,7 @@ bool W32ForceFocus::ForceWindowFocus( HWND hwnd )
         return true;
 
     BringWindowToTop( hwnd );
-	SetForegroundWindow( hwnd );
+    SetForegroundWindow( hwnd );
 
     if( GetForegroundWindow() == hwnd )
         return true;
@@ -375,7 +394,7 @@ bool W32ForceFocus::ForceWindowFocus( HWND hwnd )
     /* We can wait a very short time but not indefinitely because it's possible one of the hacks 
     caused our sacrificial worker thread to hang and also we don't want to interrupt our GUI thread.
     */
-    if( WaitForSingleObject( thread_handle, 200 ) == WAIT_OBJECT_0 )
+    if( WaitForSingleObject( thread_handle, milliseconds_to_block ) == WAIT_OBJECT_0 )
     {
         CloseHandle( thread_handle );
         thread_handle = NULL;
