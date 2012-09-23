@@ -573,15 +573,11 @@ BreakWindow::start()
 
 #ifdef PLATFORM_OS_WIN32
   if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
-  {
-    GtkWidget *widget = GTK_WIDGET( this->gobj() );
-    if( widget )
     {
-      HWND hwnd = (HWND)GDK_WINDOW_HWND( widget->window );
+      HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
       bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
-      bool this_is_a_dummy_var_to_fool_visual_studio = focused;
+      bool this_is_a_dummy_var_to_fool_visual_studio_debugger = focused;
     }
-  }
 #endif
 
   // In case the show_all resized the window...
@@ -671,11 +667,22 @@ BreakWindow::refresh()
         }
     }
 
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
-    {
-      WindowHints::set_always_on_top(this, true);
-    }
-#endif
+  /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every 
+  refresh because the user might have multiple break windows and if force_focus is enabled then the 
+  focus is forced on each break window on each refresh. This results in the focus continuously 
+  being switched between every break window on every monitor approximately every second, making 
+  interaction very difficult. While we can enforce topmost via W32Compat::ResetWindow() for all 
+  break windows we can only force focus -- if it's enabled -- on the first window (head.count == 0).
+  */
+  HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+  W32Compat::ResetWindow( hwnd, true );
+
+  if( W32ForceFocus::GetForceFocusValue() && head.valid && ( head.count == 0 ) )
+  {
+      W32ForceFocus::ForceWindowFocus( hwnd, 0 );   // try without blocking
+  }
+
+#endif // PLATFORM_OS_WIN32
   TRACE_EXIT();
 }
 
