@@ -80,7 +80,7 @@ public:
     ~AdvancedGuard();
 
     bool TryLock( W32CriticalSection &cs );
-    bool TryLockFor( W32CriticalSection &cs, DWORD milliseconds );
+    bool TryLockFor( W32CriticalSection &cs, const DWORD milliseconds );
     void Lock( W32CriticalSection &cs );
     void Unlock( W32CriticalSection &cs );
 

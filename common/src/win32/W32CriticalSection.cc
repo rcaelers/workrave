@@ -156,12 +156,14 @@ bool W32CriticalSection::AdvancedGuard::TryLock( W32CriticalSection &cs )
 
 // Try to lock 'cs' once by blocking for it only for a specific number of 'milliseconds'.
 // Returns true if acquired.
-bool W32CriticalSection::AdvancedGuard::TryLockFor( W32CriticalSection &cs, DWORD milliseconds )
+bool W32CriticalSection::AdvancedGuard::TryLockFor(
+    W32CriticalSection &cs,
+    const DWORD milliseconds
+    )
 {
     const int spin = ( milliseconds ? 4000 : 1 );
     const DWORD start = GetTickCount();
-    const DWORD stop = start + milliseconds;
-    DWORD timeleft = milliseconds;
+    DWORD remaining = milliseconds;
 
     for( DWORD interval = 1; /**/; interval *= 2 )
     {
@@ -174,22 +176,18 @@ bool W32CriticalSection::AdvancedGuard::TryLockFor( W32CriticalSection &cs, DWOR
                 return true;
             }
 
-            DWORD current = GetTickCount();
+            if( milliseconds != INFINITE )
+            {
+                DWORD elapsed = GetTickCount() - start;
 
-            if( start <= stop )
-                timeleft = ( ( ( current >= start ) && ( current <= stop ) ) ? ( stop - current ) : 0 );
-            else if( current >= start )
-                timeleft = ( ( (DWORD)-1 ) - current ) + stop;
-            else if( current <= stop )
-                timeleft = stop - current;
-            else
-                timeleft = 0;
+                if( elapsed >= milliseconds )
+                    return false;
 
-            if( !timeleft )
-                return false;
+                remaining = milliseconds - elapsed;
+            }
         }
 
-        if( ( interval > 128 ) || ( interval > timeleft ) )
+        if( ( interval > 128 ) || ( interval > remaining ) )
             interval = 1;
 
         Sleep( interval );
