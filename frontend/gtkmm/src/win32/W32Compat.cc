@@ -1,13 +1,18 @@
 #include "debug.hh"
 
-#include "W32ForceFocus.hh"
-#include "W32Compat.hh"
+#include <windows.h>
+#include <tchar.h>
+#include <wtsapi32.h>
+
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
+#include "W32ForceFocus.hh"
+#include "W32CriticalSection.hh"
+#include "W32Compat.hh"
+
 
 using namespace workrave;
 
-bool W32Compat::run_once = true; //initialization
 bool W32Compat::ime_magic = false;
 bool W32Compat::reset_window_always = false;
 bool W32Compat::reset_window_never = false;
@@ -15,10 +20,60 @@ bool W32Compat::reset_window_never = false;
 W32Compat::SWITCHTOTHISWINDOWPROC W32Compat::switch_to_this_window_proc = NULL;
 
 
+
+typedef BOOLEAN (WINAPI * PWINSTATIONQUERYINFORMATIONW)(
+    HANDLE, ULONG, INT, PVOID, ULONG, PULONG );
+namespace { PWINSTATIONQUERYINFORMATIONW dyn_WinStationQueryInformationW; }
+
+/* W32Compat::WinStationQueryInformationW()
+
+Query information about our winstation.
+http://msdn.microsoft.com/en-us/library/windows/desktop/aa383827.aspx
+
+This API is deprecated so its use is limited. Some queries are problematic on x64:
+http://www.remkoweijnen.nl/blog/2011/01/29/querying-a-user-token-under-64-bit-version-of-2003xp/
+
+Help for WinStationInformationClass info:
+http://msdn.microsoft.com/en-us/library/cc248604.aspx
+http://msdn.microsoft.com/en-us/library/cc248834.aspx
+
+returns whatever the API returns.
+if the API is unavailable this function returns FALSE and last error is set ERROR_INVALID_FUNCTION.
+*/
+BOOLEAN W32Compat::WinStationQueryInformationW(
+    HANDLE hServer,   // use WTS_CURRENT_SERVER_HANDLE
+    ULONG LogonId,   // use WTS_CURRENT_SESSION
+    INT WinStationInformationClass,   // review msdn links in comment block
+    PVOID pWinStationInformation,
+    ULONG WinStationInformationLength,
+    PULONG pReturnLength
+)
+{
+    init();
+
+    if( !dyn_WinStationQueryInformationW )
+    {
+        SetLastError( ERROR_INVALID_FUNCTION );
+        return FALSE;
+    }
+
+    return dyn_WinStationQueryInformationW(
+        hServer,
+        LogonId,
+        WinStationInformationClass,
+        pWinStationInformation,
+        WinStationInformationLength,
+        pReturnLength
+        );
+}
+
+
+
 VOID
 W32Compat::SwitchToThisWindow( HWND hwnd, BOOL emulate_alt_tab )
 {
   init();
+
   if ( switch_to_this_window_proc != NULL )
     {
       ( *switch_to_this_window_proc )( hwnd, emulate_alt_tab );
@@ -26,40 +81,63 @@ W32Compat::SwitchToThisWindow( HWND hwnd, BOOL emulate_alt_tab )
   return;
 }
 
-void
-W32Compat::init_once()
+
+
+static W32CriticalSection cs__init;
+volatile LONG W32Compat::_initialized = 0;
+
+/* W32Compat::_init()
+
+Initialize the W32Compat class. The functions should call init(), which is inline, instead of this.
+A call to init() should be the first line in each of the other functions in this class.
+*/
+void W32Compat::_init()
 {
-	run_once = false;
+    W32CriticalSection::Guard guard( cs__init );
 
-	HMODULE user_lib = GetModuleHandleA( "user32.dll" );
-	if( user_lib )
-	{
-		switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC) GetProcAddress(user_lib, "SwitchToThisWindow");
-	}
+    if( _initialized )
+        return;
 
-	// Should SetWindowOnTop() call IMEWindowMagic() ?
-	if( !CoreFactory::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
-	{
-		ime_magic = false;
-	}
+    HMODULE user_lib = GetModuleHandleA( "user32.dll" );
+    if( user_lib )
+    {
+        switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC) GetProcAddress(user_lib, "SwitchToThisWindow");
+    }
 
-	// As of writing SetWindowOnTop() always calls ResetWindow()
-	// ResetWindow() determines whether to "reset" when both
-	// reset_window_always and reset_window_never are false.
-	//
-	// If reset_window_always is true, and if ResetWindow() is continually
-	// passed the same hwnd, hwnd will flicker as a result of the continual
-	// z-order position changes / resetting.
-	if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
-	{
-		reset_window_always = false;
-	}
-	// ResetWindow() will always abort when reset_window_never is true.
-	if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
-	{
-		reset_window_never = false;
-	}
+    HMODULE winsta_lib = LoadLibraryA( "winsta" );
+    if( winsta_lib )
+    {
+        dyn_WinStationQueryInformationW = 
+            (PWINSTATIONQUERYINFORMATIONW)GetProcAddress( 
+            winsta_lib,
+            "WinStationQueryInformationW"
+            );
+    }
 
+    // Should SetWindowOnTop() call IMEWindowMagic() ?
+    if( !CoreFactory::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
+    {
+        ime_magic = false;
+    }
+
+    // As of writing SetWindowOnTop() always calls ResetWindow()
+    // ResetWindow() determines whether to "reset" when both
+    // reset_window_always and reset_window_never are false.
+    //
+    // If reset_window_always is true, and if ResetWindow() is continually
+    // passed the same hwnd, hwnd will flicker as a result of the continual
+    // z-order position changes / resetting.
+    if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
+    {
+        reset_window_always = false;
+    }
+    // ResetWindow() will always abort when reset_window_never is true.
+    if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
+    {
+        reset_window_never = false;
+    }
+
+    InterlockedExchange( &_initialized, 1 );
 }
 
 
@@ -187,8 +265,6 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 void
 W32Compat::IMEWindowMagic( HWND hwnd )
 {
-	TRACE_ENTER( "W32Compat::IMEWindowMagic" );
-
 	init();
 
 	if( !IsWindow( hwnd ) )
@@ -200,6 +276,169 @@ W32Compat::IMEWindowMagic( HWND hwnd )
 
 	SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER |
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+}
 
-	TRACE_EXIT();
+
+
+/* W32Compat::IsOurWinStationConnected()
+
+Check if our winstation is connected by querying terminal services.
+
+Note: Terminal services API can cause a harmless exception that it handles and should be ignored:
+First-chance exception at 0x7656fc56 in workrave.exe: 0x000006BA: The RPC server is unavailable.
+
+returns true if our winstation is connected
+*/
+bool W32Compat::IsOurWinStationConnected()
+{
+	init();
+
+    bool func_retval = false;
+    DWORD bytes_returned = 0;
+    enum WTS_INFO_CLASS *state = NULL;
+
+    if( WTSQuerySessionInformation( 
+            WTS_CURRENT_SERVER_HANDLE,
+            WTS_CURRENT_SESSION,
+            WTSConnectState,
+            reinterpret_cast<LPTSTR*>(&state),
+            &bytes_returned
+            )
+            && state
+        )
+    {
+        if( ( bytes_returned == sizeof( *state ) )
+            && ( ( *state == WTSActive )
+                || ( *state == WTSConnected ) )
+            )
+        {
+            func_retval = true;
+        }
+
+        WTSFreeMemory( state );
+    }
+
+    return func_retval;
+}
+
+
+
+/* W32Compat::IsOurWinStationLocked()
+
+Check if our winstation is locked by querying terminal services.
+
+Note: Terminal services API can cause a harmless exception that it handles and should be ignored:
+First-chance exception at 0x7656fc56 in workrave.exe: 0x000006BA: The RPC server is unavailable.
+
+returns true if our winstation is locked
+*/
+bool W32Compat::IsOurWinStationLocked()
+{
+	init();
+
+    BOOL locked = FALSE;
+    DWORD bytes_returned = 0;
+
+    if( !WinStationQueryInformationW(
+            WTS_CURRENT_SERVER_HANDLE,   // SERVERNAME_CURRENT
+            WTS_CURRENT_SESSION,   // LOGONID_CURRENT
+            28,   // WinStationLockedState
+            &locked,
+            sizeof( locked ),
+            &bytes_returned
+            )
+        || ( bytes_returned != sizeof( locked ) )
+        )
+    {
+        return false;
+    }
+
+    return !!locked;
+}
+
+
+
+/* W32Compat::IsOurDesktopVisible()
+
+Check if our desktop can be viewed by the user: Check that our process' window station is connected 
+and its input desktop is the same as our calling thread's desktop.
+
+If our desktop is visible that implies that this process' workstation is unlocked.
+
+returns true if our desktop is visible
+*/
+bool W32Compat::IsOurDesktopVisible()
+{
+	init();
+
+    bool func_retval = false;
+
+    HDESK input_desktop_handle = NULL;
+    HDESK our_desktop_handle = NULL;
+
+    wchar_t input_desktop_name[ MAX_PATH ] = { L'\0', };
+    wchar_t our_desktop_name[ MAX_PATH ] = { L'\0', };
+
+    BOOL ret = 0;
+    DWORD nLengthNeeded = 0;
+
+
+    /*
+    Get the input desktop name
+    */
+    input_desktop_handle = OpenInputDesktop( 0, false, GENERIC_READ );
+    if( !input_desktop_handle )
+        goto cleanup;
+
+    nLengthNeeded = 0;
+    ret = GetUserObjectInformationW(
+        input_desktop_handle,
+        UOI_NAME,
+        input_desktop_name,
+        sizeof( input_desktop_name ),
+        &nLengthNeeded
+        );
+
+    if( !ret || ( nLengthNeeded > MAX_PATH ) )
+        goto cleanup;
+
+
+    /*
+    Get our calling thread's desktop name
+    */
+    our_desktop_handle = GetThreadDesktop( GetCurrentThreadId() );
+    if( !our_desktop_handle )
+        goto cleanup;
+
+    nLengthNeeded = 0;
+    ret = GetUserObjectInformationW(
+        our_desktop_handle,
+        UOI_NAME,
+        our_desktop_name,
+        sizeof( our_desktop_name ),
+        &nLengthNeeded
+        );
+    if( !ret || ( nLengthNeeded > MAX_PATH ) )
+        goto cleanup;
+
+
+    // If the desktop names are different then our thread is not associated with the input desktop
+    if( _wcsnicmp( input_desktop_name, our_desktop_name, MAX_PATH ) )
+        goto cleanup;
+
+
+    // If our winstation is not connected then our desktop is not visible
+    if( !IsOurWinStationConnected() )
+        goto cleanup;
+
+
+    func_retval = true;
+cleanup:
+    if( input_desktop_handle )
+        CloseHandle( input_desktop_handle );
+
+    if( our_desktop_handle )
+        CloseHandle( our_desktop_handle );
+
+    return func_retval;
 }

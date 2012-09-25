@@ -37,6 +37,7 @@
 #include "StringUtil.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
+#include "W32Compat.hh"
 #include "W32CriticalSection.hh"
 #include "W32ForceFocus.hh"
 
@@ -423,6 +424,13 @@ DWORD WINAPI W32ForceFocus::thread_Worker( LPVOID recursive )
     ti.retval = 0;
 
     if( !ti.flags || !ti.hwnd )
+        return 0;
+
+    /* If our desktop is not visible to the user then do not try to force the focus.
+    This call is in the worker thread because it might be more expensive in milliseconds if it has 
+    to check with an RPC and we don't want to disrupt the GUI thread.
+    */
+    if( !W32Compat::IsOurDesktopVisible() )
         return 0;
 
 
