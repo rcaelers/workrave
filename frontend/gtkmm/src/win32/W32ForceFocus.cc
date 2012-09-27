@@ -171,6 +171,46 @@ bool W32ForceFocus::GetForceFocusValue()
 
 
 
+/* W32ForceFocus::GetForegroundWindowTryHarder()
+
+Call GetForegroundWindow() repeatedly to get the foreground window. Try up to 'max_retries'.
+
+While the window manager is switching the foreground window it sets it as NULL temporarily. In some 
+cases the functions in this class cannot succeed without the current foreground window so that 
+value is unacceptable. We will use this function to wait a bit for any pending transition to 
+complete.
+
+Empirical testing in my virtual machines shows an average transition takes two dozen retries. 
+However my development Vista x86 machine shows an average transition takes 150 retries. Not sure 
+why there's such a big discrepancy there, but maybe it's because I have so many windows open on 
+this computer. For now I'm setting the default 'max_retries' to 200 to cover even heavy use cases.
+
+returns the foreground window or NULL if the window could not be found after 'max_retries'
+*/
+HWND W32ForceFocus::GetForegroundWindowTryHarder(
+    DWORD max_retries   // default: 200
+    )
+{
+    for( int i = 0; i < max_retries; ++i )
+    {
+        /* GetForegroundWindow() returns NULL when:
+        1. There is no foreground window.
+        2. The foreground window is in transition.
+        3. Our calling thread's desktop is not the input desktop.
+        4. Our process' window station is locked (see #3) or not connected.
+        */
+        HWND hwnd = GetForegroundWindow();
+        if( hwnd )
+            return hwnd;
+
+        Sleep( 1 );
+    }
+
+    return NULL;
+}
+
+
+
 /* W32ForceFocus::AltKeypress()
 
 Simulate an ALT keypress while setting 'hwnd' as the foreground window.
@@ -194,7 +234,7 @@ bool W32ForceFocus::AltKeypress( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindow() == hwnd )
+    if( GetForegroundWindowTryHarder() == hwnd )
         return true;
 
     // If the user isn't already pressing down an ALT key then simulate one
@@ -211,7 +251,8 @@ cleanup:
     if( simulated )
         keybd_event( VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
 
-    return ( GetForegroundWindow() == hwnd );
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    return ( foreground_hwnd == hwnd );
 }
 
 
@@ -243,11 +284,8 @@ bool W32ForceFocus::AttachInput( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindow() == hwnd )
-        return true;
-
-    HWND target_hwnd = GetForegroundWindow();
-    if( !target_hwnd )
+    HWND target_hwnd = GetForegroundWindowTryHarder();
+    if( !target_hwnd || ( target_hwnd == hwnd ) )
         goto cleanup;
 
     DWORD target_pid = 0;
@@ -265,7 +303,8 @@ cleanup:
     if( attached )
         AttachThreadInput( GetCurrentThreadId(), target_tid, FALSE );
 
-    return ( GetForegroundWindow() == hwnd );
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    return ( foreground_hwnd == hwnd );
 }
 
 
@@ -289,7 +328,7 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindow() == hwnd )
+    if( GetForegroundWindowTryHarder() == hwnd )
         return true;
 
     message_hwnd = CreateWindowExW(
@@ -319,7 +358,8 @@ cleanup:
     if( message_hwnd )
         DestroyWindow( message_hwnd );
 
-    return ( GetForegroundWindow() == hwnd );
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    return ( foreground_hwnd == hwnd );
 }
 
 
@@ -340,7 +380,7 @@ returns true on success: ( GetForegroundWindow() == hwnd )
 */
 bool W32ForceFocus::ForceWindowFocus(
     HWND hwnd,
-    DWORD milliseconds_to_block /* default: 200 */
+    DWORD milliseconds_to_block   // default: 200
     )
 {
     if( !IsWindowVisible( hwnd ) )
@@ -401,7 +441,8 @@ bool W32ForceFocus::ForceWindowFocus(
         thread_handle = NULL;
     }
 
-    return ( GetForegroundWindow() == hwnd );
+    HWND foreground_hwnd = GetForegroundWindow();
+    return ( foreground_hwnd == hwnd );
 }
 
 

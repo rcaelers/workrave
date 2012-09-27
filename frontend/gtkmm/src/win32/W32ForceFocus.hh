@@ -46,6 +46,9 @@ private:
     // Get the flags of functions that should be used to make hwnd foreground
     static DWORD GetFunctions();
 
+    // Retry the GetForegroundWindow() function if it fails
+    static HWND GetForegroundWindowTryHarder( DWORD max_retries = 200 );
+
     // This is the ThreadProc called by CreateThread to create the worker thread
     static DWORD WINAPI thread_Worker( LPVOID lpParameter );
 
