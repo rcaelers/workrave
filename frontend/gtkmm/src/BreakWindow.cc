@@ -675,6 +675,7 @@ BreakWindow::refresh()
   break windows we can only force focus -- if it's enabled -- on the first window (head.count == 0).
   */
   HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
   W32Compat::ResetWindow( hwnd, true );
 
   if( W32ForceFocus::GetForceFocusValue() && head.valid && ( head.count == 0 ) )
