@@ -191,7 +191,7 @@ HWND W32ForceFocus::GetForegroundWindowTryHarder(
     DWORD max_retries   // default: 200
     )
 {
-    for( int i = 0; i < max_retries; ++i )
+    for( DWORD i = 0; i < max_retries; ++i )
     {
         /* GetForegroundWindow() returns NULL when:
         1. There is no foreground window.
@@ -234,7 +234,8 @@ bool W32ForceFocus::AltKeypress( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindowTryHarder() == hwnd )
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    if( foreground_hwnd == hwnd )
         return true;
 
     // If the user isn't already pressing down an ALT key then simulate one
@@ -247,11 +248,10 @@ bool W32ForceFocus::AltKeypress( HWND hwnd )
     BringWindowToTop( hwnd );
     SetForegroundWindow( hwnd );
 
-cleanup:
     if( simulated )
         keybd_event( VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
 
-    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    foreground_hwnd = GetForegroundWindowTryHarder();
     return ( foreground_hwnd == hwnd );
 }
 
@@ -284,26 +284,27 @@ bool W32ForceFocus::AttachInput( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    HWND target_hwnd = GetForegroundWindowTryHarder();
-    if( !target_hwnd || ( target_hwnd == hwnd ) )
-        goto cleanup;
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    if( foreground_hwnd == hwnd )
+        return true;
 
-    DWORD target_pid = 0;
-    DWORD target_tid = GetWindowThreadProcessId( target_hwnd, &target_pid );
-    if( !target_tid )
-        goto cleanup;
-
-    attached = ( target_pid != GetCurrentProcessId() )
-        && AttachThreadInput( GetCurrentThreadId(), target_tid, TRUE );
+    DWORD foreground_pid = 0, foreground_tid = 0;
+    if( foreground_hwnd )
+    {
+        foreground_tid = GetWindowThreadProcessId( foreground_hwnd, &foreground_pid );
+        if( foreground_tid && foreground_pid && ( foreground_pid != GetCurrentProcessId() ) )
+        {
+            attached = !!AttachThreadInput( GetCurrentThreadId(), foreground_tid, TRUE );
+        }
+    }
 
     BringWindowToTop( hwnd );
     SetForegroundWindow( hwnd );
 
-cleanup:
     if( attached )
-        AttachThreadInput( GetCurrentThreadId(), target_tid, FALSE );
+        AttachThreadInput( GetCurrentThreadId(), foreground_tid, FALSE );
 
-    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    foreground_hwnd = GetForegroundWindowTryHarder();
     return ( foreground_hwnd == hwnd );
 }
 
@@ -320,7 +321,14 @@ returns true on success: ( GetForegroundWindow() == hwnd )
 */
 bool W32ForceFocus::MinimizeRestore( HWND hwnd )
 {
-    HWND message_hwnd = NULL;
+    WINDOWPLACEMENT wp = { 
+        sizeof( wp ),
+        WPF_SETMINPOSITION,
+        SW_MINIMIZE,
+        { -32768, -32768 },   // ptMinPosition: x, y
+        { -32768, -32768 },   // ptMaxPosition: x, y
+        { -32768, -32768, -32768, -32768 },   // rcNormalPosition: left, top, right, bottom
+    };
 
     if( !IsWindowVisible( hwnd ) )
         return false;
@@ -328,16 +336,17 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindowTryHarder() == hwnd )
+    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    if( foreground_hwnd == hwnd )
         return true;
 
-    message_hwnd = CreateWindowExW(
+    HWND message_hwnd = CreateWindowExW(
         WS_EX_TOOLWINDOW,
         L"Message",
         L"Workrave Focus Helper",
-        ( WS_DLGFRAME | WS_DISABLED | WS_POPUP | WS_MINIMIZE ),
-        0,   // X
-        0,   // Y
+        ( WS_DLGFRAME | WS_DISABLED | WS_POPUP ),
+        wp.rcNormalPosition.left,   // X
+        wp.rcNormalPosition.top,   // Y
         0,   // nWidth
         0,   // nHeight
         NULL,   // hWndParent
@@ -345,20 +354,32 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
         GetModuleHandle( NULL ),
         NULL
         );
-    if( !message_hwnd )
-        goto cleanup;
 
-    ShowWindow( message_hwnd, SW_MINIMIZE );
-    ShowWindow( message_hwnd, SW_RESTORE );
+    if( message_hwnd )
+    {
+        // minimize and restore our dummy window off screen so that it's not visible to the user
+        wp.showCmd = SW_MINIMIZE;
+        SetWindowPlacement( message_hwnd, &wp );
+
+        wp.showCmd = SW_RESTORE;
+        SetWindowPlacement( message_hwnd, &wp );
+
+        /* wait for message_hwnd to become the foreground window. we'll continue regardless of 
+        whether or not it actually is because we're trying SetForegroundWindow() in any case.
+        */
+        foreground_hwnd = GetForegroundWindowTryHarder();
+    }
 
     BringWindowToTop( hwnd );
     SetForegroundWindow( hwnd );
 
-cleanup:
     if( message_hwnd )
+    {
         DestroyWindow( message_hwnd );
+        message_hwnd = NULL;
+    }
 
-    HWND foreground_hwnd = GetForegroundWindowTryHarder();
+    foreground_hwnd = GetForegroundWindowTryHarder();
     return ( foreground_hwnd == hwnd );
 }
 
@@ -389,13 +410,11 @@ bool W32ForceFocus::ForceWindowFocus(
     if( IsIconic( hwnd ) )
         ShowWindow( hwnd, SW_RESTORE );
 
-    if( GetForegroundWindow() == hwnd )
-        return true;
-
     BringWindowToTop( hwnd );
     SetForegroundWindow( hwnd );
 
-    if( GetForegroundWindow() == hwnd )
+    HWND foreground_hwnd = GetForegroundWindow();
+    if( foreground_hwnd == hwnd )
         return true;
     
     /* Check if thread_handle is still open from a prior call.
@@ -441,7 +460,7 @@ bool W32ForceFocus::ForceWindowFocus(
         thread_handle = NULL;
     }
 
-    HWND foreground_hwnd = GetForegroundWindow();
+    foreground_hwnd = GetForegroundWindow();
     return ( foreground_hwnd == hwnd );
 }
 
