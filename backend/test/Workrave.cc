@@ -69,17 +69,21 @@ Workrave::on_create_configurator()
 }
 
 void
-Workrave::init(boost::shared_ptr<boost::barrier> barrier)
+Workrave::init(boost::shared_ptr<boost::barrier> barrier, bool auto_heartbeat)
 {
   this->barrier = barrier;
+  this->auto_heartbeat = auto_heartbeat;
   thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Workrave::run, this)));
 }
 
 void
 Workrave::terminate()
 {
+  TRACE_ENTER_MSG("Workrave::terminate", id);
+  networking->terminate();
   g_main_loop_quit(loop);
   //barrier->wait();
+  TRACE_EXIT();
 }
 
 
@@ -111,10 +115,16 @@ Workrave::run()
   networking->init();
 
   cloud = networking->get_cloud();
-    
-  GSource *source = g_timeout_source_new_seconds(1);
-  g_source_set_callback(source, static_on_timer, this, NULL);
-  g_source_attach(source, context);
+
+  current_real_time = g_get_real_time();
+  current_monotonic_time = g_get_monotonic_time();
+
+  if (auto_heartbeat)
+    {
+      GSource *source = g_timeout_source_new_seconds(1);
+      g_source_set_callback(source, static_on_timer, this, NULL);
+      g_source_attach(source, context);
+    }
   
   TRACE_MSG("Loop run");
   barrier->wait();
@@ -171,4 +181,28 @@ Workrave::static_on_timer(gpointer data)
   w->heartbeat();
   
   return G_SOURCE_CONTINUE;
+}
+
+
+gint64
+Workrave::get_real_time_usec()
+{
+  return current_real_time;
+}
+
+gint64
+Workrave::get_monotonic_time_usec() 
+{
+  return current_monotonic_time;
+}
+
+void
+Workrave::tick(gint64 ticks, bool beat)
+{
+  current_monotonic_time += ticks;
+  current_real_time += ticks;
+  if (beat)
+    {
+      heartbeat();
+    }
 }

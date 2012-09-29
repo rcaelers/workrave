@@ -31,9 +31,12 @@
 #include "ICore.hh"
 #include "Networking.hh"
 
-using namespace workrave;
+#include "utils/ITimeSource.hh"
 
-class Workrave : public IApp
+using namespace workrave;
+using namespace workrave::utils;
+
+class Workrave : public IApp, public ITimeSource
 {
 public:
   typedef boost::shared_ptr<Workrave> Ptr;
@@ -44,7 +47,7 @@ public:
   Workrave(int id);
   virtual ~Workrave();
 
-  void init(boost::shared_ptr<boost::barrier> barrier);
+  void init(boost::shared_ptr<boost::barrier> barrier, bool auto_heartbeat);
   void heartbeat();
   void connect(const std::string host, int port);
 
@@ -61,6 +64,12 @@ public:
   void set_prelude_progress_text(PreludeProgressText text)  { }
   void terminate();
 
+  // ITimeSource
+  gint64 get_real_time_usec();
+  gint64 get_monotonic_time_usec();
+
+  void tick(gint64 ticks, bool beat);
+  
   template<typename Functor>
   struct Closure
   {
@@ -74,7 +83,9 @@ public:
     
     Closure(Functor f) : functor(f), task(new task_type(f))
     {
+      TRACE_ENTER("Closure::Closure");
       future = task->get_future();
+      TRACE_EXIT();
     }
     
     static gboolean invoke(gpointer data)
@@ -88,8 +99,10 @@ public:
     
     static void destroy(gpointer data)
     {
+      TRACE_ENTER("Closure::destroy");
       Closure *c = (Closure *)data;
       delete c;
+      TRACE_EXIT();
     }
   };
   
@@ -97,6 +110,7 @@ public:
   boost::unique_future<typename boost::result_of<Functor()>::type>
   invoke(Functor functor)
   {
+    TRACE_ENTER("Workrave::invoke");
     typedef typename boost::result_of<Functor()>::type result_type;
 
     Closure<Functor> *c = new Closure<Functor>(functor);
@@ -106,7 +120,8 @@ public:
                                Closure<Functor>::invoke,
                                c,
                                Closure<Functor>::destroy);
-    
+
+    TRACE_EXIT();
     return boost::move(c->future);
   }
 
@@ -128,7 +143,9 @@ public:
     
     c->future.wait();
     TRACE_EXIT();
-    return c->future.get();
+    result_type ret = c->future.get();
+    delete c;
+    return ret;
   }
 
   template<class Functor>
@@ -147,6 +164,7 @@ public:
                                NULL);
     
     c->future.wait();
+    delete c;
     TRACE_EXIT();
   }
   
@@ -168,6 +186,15 @@ private:
 
   boost::shared_ptr<boost::thread> thread;
   boost::shared_ptr<boost::barrier> barrier;
+
+  //!
+  bool auto_heartbeat;
+  
+  //! The current wall clocl time.
+  gint64 current_real_time;
+  
+  //! The current monotonic time.
+  gint64 current_monotonic_time;
   
   GMainContext *context;
   GMainLoop *loop;

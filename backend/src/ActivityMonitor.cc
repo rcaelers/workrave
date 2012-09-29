@@ -129,7 +129,7 @@ ActivityMonitor::heartbeat()
       state = local_monitor->get_state();
     }
   
-  gint64 current_time = TimeSource::get_monotonic_time();
+  gint64 current_time = TimeSource::get_monotonic_time_sec();
   
   map<std::string, gint64>::iterator i = external_activity.begin();
   while (i != external_activity.end())
@@ -174,7 +174,7 @@ ActivityMonitor::report_external_activity(std::string who, bool act)
   TRACE_ENTER_MSG("ActivityMonitor::report_external_activity", who << " " << act);
   if (act)
     {
-      external_activity[who] = TimeSource::get_monotonic_time() + 10;
+      external_activity[who] = TimeSource::get_monotonic_time_sec() + 10;
     }
   else
     {

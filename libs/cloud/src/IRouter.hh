@@ -47,6 +47,7 @@ namespace workrave
     {
     public:
       typedef boost::shared_ptr<IRouter> Ptr;
+      typedef boost::weak_ptr<IRouter> WeakPtr;
       
       virtual ~IRouter() {}
       

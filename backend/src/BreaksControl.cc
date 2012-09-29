@@ -234,7 +234,7 @@ BreaksControl::heartbeat()
     }
 
   // Make state persistent.
-  if (TimeSource::get_monotonic_time() % SAVESTATETIME == 0)
+  if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
     {
       statistics->update();
       save_state();
@@ -336,7 +336,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
           Timer::Ptr timer = get_timer(break_id);
 
           gint64 duration = timer->get_auto_reset();
-          gint64 now = TimeSource::get_monotonic_time();
+          gint64 now = TimeSource::get_monotonic_time_sync();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -518,7 +518,7 @@ BreaksControl::save_state() const
   ofstream stateFile(ss.str().c_str());
 
   stateFile << "WorkRaveState 3"  << endl
-            << TimeSource::get_real_time() << endl;
+            << TimeSource::get_real_time_sec() << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {

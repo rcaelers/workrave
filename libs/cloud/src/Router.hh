@@ -78,7 +78,6 @@ public:
   
 private:
   Router();
-  void post_construct();
   
   void init_myid(int instanceid);
 

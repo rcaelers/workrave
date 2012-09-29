@@ -56,6 +56,7 @@
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
 using namespace workrave::dbus;
+using namespace workrave::utils;
 
 ICore::Ptr
 ICore::create(int id)
@@ -75,8 +76,7 @@ Core::Core(int id) :
   usage_mode(USAGE_MODE_NORMAL)
 {
   TRACE_ENTER("Core::Core");
-  current_real_time = g_get_real_time();
-  current_monotonic_time = g_get_monotonic_time();
+  TimeSource::sync();
   hooks = CoreHooks::create();
   TRACE_EXIT();
 }
@@ -108,8 +108,6 @@ Core::init(int argc, char **argv, IApp *app, const string &display_name)
   application = app;
   this->argc = argc;
   this->argv = argv;
-
-  TimeSource::source = shared_from_this();
 
   init_configurator();
   init_monitor(display_name);
@@ -214,15 +212,6 @@ Core::init_monitor(const string &display_name)
 }
 
 
-//! Initializes all breaks.
-void
-Core::init_breaks()
-{
-  breaks_control = BreaksControl::create(application, monitor, statistics, configurator);
-  breaks_control->init();
-}
-
-
 //! Initializes the statistics.
 void
 Core::init_statistics()
@@ -232,21 +221,12 @@ Core::init_statistics()
 }
 
 
-
-/********************************************************************************/
-/**** TimeSource interface                                                 ******/
-/********************************************************************************/
-
-gint64
-Core::get_real_time()
+//! Initializes all breaks.
+void
+Core::init_breaks()
 {
-  return current_real_time / G_USEC_PER_SEC;
-}
-
-gint64
-Core::get_monotonic_time() 
-{
-  return current_monotonic_time / G_USEC_PER_SEC;
+  breaks_control = BreaksControl::create(application, monitor, statistics, configurator);
+  breaks_control->init();
 }
 
 
@@ -654,12 +634,8 @@ Core::heartbeat()
   TRACE_ENTER("Core::heartbeat");
   assert(application != NULL);
 
-  // Set current time.
-  current_real_time = g_get_real_time();
-  current_monotonic_time = g_get_monotonic_time();
+  TimeSource::sync();
   
-  TRACE_MSG("Time = " << current_real_time << " " << current_monotonic_time);
-
   // Process configuration
   configurator->heartbeat();
 

@@ -52,7 +52,7 @@ message Signoff
 }
 
 
-message Discover
+message Announce
 {
     extend Domain
     {
@@ -61,11 +61,20 @@ message Discover
 }
 
 
-message RoutingData
+message Discover
 {
     extend Domain
     {
         required Domain type = 104;
+    }
+}
+
+
+message DiscoverReply
+{
+    extend Domain
+    {
+        required Domain type = 105;
     }
 
     message Route

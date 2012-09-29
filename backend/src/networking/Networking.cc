@@ -127,6 +127,7 @@ void
 Networking::terminate()
 {
   TRACE_ENTER("Networking::terminate");
+  cloud->terminate();
   TRACE_EXIT();
 }
 
@@ -393,9 +394,8 @@ void
 Networking::send_timer_state()
 {
   if (activity_monitor->is_local_active() &&
-      (TimeSource::get_monotonic_time() % 10 == 0))
+      (TimeSource::get_monotonic_time_sec() % 10 == 0))
     {
-
       boost::shared_ptr<workrave::networking::Timer> a(new workrave::networking::Timer());
   
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)

@@ -193,7 +193,7 @@ Timer::start_timer()
       if (!timer_frozen)
         {
           // Timer is not frozen, so let's start.
-          last_start_time = TimeSource::get_monotonic_time();
+          last_start_time = TimeSource::get_monotonic_time_sync();
           elapsed_idle_timespan = 0;
         }
       else
@@ -203,7 +203,7 @@ Timer::start_timer()
           // Instead, update the elapsed idle time.
           if (last_stop_time != 0)
             {
-              elapsed_idle_timespan += (TimeSource::get_monotonic_time() - last_stop_time);
+              elapsed_idle_timespan += (TimeSource::get_monotonic_time_sync() - last_stop_time);
             }
           last_start_time = 0;
         }
@@ -231,7 +231,7 @@ Timer::stop_timer()
   if (timer_state != STATE_STOPPED)
     {
       // Update last stop time.
-      last_stop_time = TimeSource::get_monotonic_time();
+      last_stop_time = TimeSource::get_monotonic_time_sync();
 
       // Update elapsed time.
       if (last_start_time != 0)
@@ -273,13 +273,13 @@ Timer::reset_timer()
   // Full reset.
   elapsed_timespan = 0;
   elapsed_timespan_at_last_limit = 0;
-  last_reset_time = TimeSource::get_monotonic_time();
+  last_reset_time = TimeSource::get_monotonic_time_sync();
   snooze_inhibited = false;
 
   if (timer_state == STATE_RUNNING)
     {
       // The timer is reset while running, Pretend the timer just started.
-      last_start_time = TimeSource::get_monotonic_time();
+      last_start_time = TimeSource::get_monotonic_time_sync();
       last_stop_time = 0;
 
       compute_next_limit_time();
@@ -296,7 +296,7 @@ Timer::reset_timer()
       if (autoreset_enabled && autoreset_interval != 0)
         {
           elapsed_idle_timespan = autoreset_interval;
-          last_stop_time = TimeSource::get_monotonic_time();
+          last_stop_time = TimeSource::get_monotonic_time_sync();
         }
     }
 
@@ -322,7 +322,7 @@ Timer::freeze_timer(bool freeze)
           // freeze timer.
           if (last_start_time != 0 && timer_state == STATE_RUNNING)
             {
-              elapsed_timespan += (TimeSource::get_monotonic_time() - last_start_time);
+              elapsed_timespan += (TimeSource::get_monotonic_time_sync() - last_start_time);
               last_start_time = 0;
             }
         }
@@ -331,7 +331,7 @@ Timer::freeze_timer(bool freeze)
           // defrost timer.
           if (timer_state == STATE_RUNNING)
             {
-              last_start_time = TimeSource::get_monotonic_time();
+              last_start_time = TimeSource::get_monotonic_time_sync();
               elapsed_idle_timespan = 0;
 
               compute_next_limit_time();
@@ -342,7 +342,7 @@ Timer::freeze_timer(bool freeze)
   //test fix for Bug 746 -  Micro-break not counting down
   if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
-      last_start_time = TimeSource::get_monotonic_time();
+      last_start_time = TimeSource::get_monotonic_time_sync();
       elapsed_idle_timespan = 0;
       compute_next_limit_time();
     }
@@ -387,7 +387,7 @@ Timer::process(ActivityState new_activity_state)
   bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
   (void) TRACE;
 
-  gint64 current_time= TimeSource::get_monotonic_time();
+  gint64 current_time= TimeSource::get_monotonic_time_sync();
 
   // Default event to return.
   TimerEvent event = TIMER_EVENT_NONE;
@@ -466,13 +466,13 @@ Timer::process(ActivityState new_activity_state)
   TRACE_MSG("activity_state = " << activity_state);
 
   if (autoreset_interval_predicate &&
-      next_pred_reset_time != 0 && TimeSource::get_real_time() >= next_pred_reset_time)
+      next_pred_reset_time != 0 && TimeSource::get_real_time_sync() >= next_pred_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
       // So reset the timer and send a reset event.
       reset_timer();
 
-      last_pred_reset_time = TimeSource::get_real_time();
+      last_pred_reset_time = TimeSource::get_real_time_sync();
       next_pred_reset_time = 0;
 
       compute_next_predicate_reset_time();
@@ -535,7 +535,7 @@ Timer::get_elapsed_time() const
 
   if (timer_enabled && last_start_time != 0)
     {
-      ret += (TimeSource::get_monotonic_time() - last_start_time);
+      ret += (TimeSource::get_monotonic_time_sync() - last_start_time);
     }
 
   return ret;
@@ -550,7 +550,7 @@ Timer::get_elapsed_idle_time() const
 
   if (timer_enabled && last_stop_time != 0)
     {
-      ret += (TimeSource::get_monotonic_time() - last_stop_time);
+      ret += (TimeSource::get_monotonic_time_sync() - last_stop_time);
     }
 
   return ret;
@@ -771,7 +771,7 @@ Timer::serialize_state() const
   stringstream ss;
 
   ss << timer_id << " "
-     << TimeSource::get_real_time() << " "
+     << TimeSource::get_real_time_sync() << " "
      << get_elapsed_time() << " "
      << last_pred_reset_time << " "
      << total_overdue_timespan << " "
@@ -830,13 +830,13 @@ Timer::deserialize_state(const std::string &state, int version)
   last_start_time = 0;
   last_stop_time = 0;
 
-  bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (TimeSource::get_real_time() - save_time >  autoreset_interval));
+  bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (TimeSource::get_real_time_sync() - save_time >  autoreset_interval));
 
   if (! tooOld)
     {
       if (autoreset_enabled)
         {
-          next_reset_time = TimeSource::get_monotonic_time() + autoreset_interval;
+          next_reset_time = TimeSource::get_monotonic_time_sync() + autoreset_interval;
         }
       elapsed_timespan = elapsed;
       snooze_inhibited = si;
@@ -866,12 +866,12 @@ Timer::set_state(int elapsed, int idle, int overdue)
 
   if (last_start_time != 0)
     {
-      last_start_time = TimeSource::get_monotonic_time();
+      last_start_time = TimeSource::get_monotonic_time_sync();
     }
 
   if (last_stop_time != 0)
     {
-      last_stop_time = TimeSource::get_monotonic_time();
+      last_stop_time = TimeSource::get_monotonic_time_sync();
     }
 
   if (elapsed_idle_timespan > autoreset_interval && autoreset_enabled)
@@ -993,7 +993,7 @@ Timer::compute_next_predicate_reset_time()
         {
           // The timer did not reach a predicate reset before. Just take
           // the current time as the last reset time...
-          last_pred_reset_time = TimeSource::get_real_time();
+          last_pred_reset_time = TimeSource::get_real_time_sync();
         }
 
       next_pred_reset_time = autoreset_interval_predicate->get_next(last_pred_reset_time);

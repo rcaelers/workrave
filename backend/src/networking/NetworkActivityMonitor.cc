@@ -46,11 +46,15 @@ NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr cloud, ICore::Ptr cor
     local_active(false),
     local_active_since(0)
 {
+  TRACE_ENTER("Networking::NetworkActivityMonitor");
+  TRACE_EXIT();
 }
 
 
 NetworkActivityMonitor::~NetworkActivityMonitor()
 {
+  TRACE_ENTER("Networking::~NetworkActivityMonitor");
+  TRACE_EXIT();
 }
 
 
@@ -74,8 +78,8 @@ NetworkActivityMonitor::heartbeat()
 {
   TRACE_ENTER("NetworkActivityMonitor::heartbeat");
   if (local_active &&
-      (TimeSource::get_monotonic_time() > local_active_since) &&
-      (TimeSource::get_monotonic_time() - local_active_since) % 5 == 0)
+      (TimeSource::get_monotonic_time_sec() > local_active_since) &&
+      (TimeSource::get_monotonic_time_sec() - local_active_since) % 5 == 0)
     {
       boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
       a->set_active(local_active);
@@ -96,8 +100,8 @@ void
 NetworkActivityMonitor::on_local_active_changed(bool active)
 {
   local_active = active;
-  local_active_since_real = active ? TimeSource::get_real_time() : 0;
-  local_active_since = active ? TimeSource::get_monotonic_time() : 0;
+  local_active_since_real = active ? TimeSource::get_real_time_sec() : 0;
+  local_active_since = active ? TimeSource::get_monotonic_time_sec() : 0;
   
   boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
   a->set_active(active);
@@ -125,7 +129,7 @@ NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext
           RemoteActivity &ra = i->second;
 
           ra.active = active;
-          ra.lastupdate = TimeSource::get_monotonic_time();
+          ra.lastupdate = TimeSource::get_monotonic_time_sec();
           
           if (ra.active != active)
             {
@@ -137,7 +141,7 @@ NetworkActivityMonitor::on_activity_message(Message::Ptr message, MessageContext
           RemoteActivity ra;
           ra.id = remote_id;
           ra.active = active;
-          ra.lastupdate = TimeSource::get_monotonic_time();
+          ra.lastupdate = TimeSource::get_monotonic_time_sec();
           ra.since = ra.lastupdate;
           
           remote_activities[remote_id] = ra;
@@ -154,7 +158,7 @@ NetworkActivityMonitor::is_active()
 {
   TRACE_ENTER("NetworkActivityMonitor::is_active");
 
-  gint64 current_time = TimeSource::get_monotonic_time();
+  gint64 current_time = TimeSource::get_monotonic_time_sec();
   int num_active = 0;
 
   RemoteActivityIter i = remote_activities.begin();

@@ -28,35 +28,57 @@
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
+gint64 TimeSource::synced_real_time = 0;
+gint64 TimeSource::synced_monotonic_time = 0;
 
 gint64
 TimeSource::get_real_time_usec()
 {
+  if (source != NULL)
+    {
+      return source->get_real_time_usec();
+    }
   return g_get_real_time();
 }
 
 gint64
 TimeSource::get_monotonic_time_usec()
 {
+  if (source != NULL)
+    {
+      return source->get_monotonic_time_usec();
+    }
   return g_get_monotonic_time();
 }
 
 gint64
-TimeSource::get_real_time()
+TimeSource::get_real_time_sec()
 {
-  if (source != NULL)
-    {
-      return source->get_real_time();
-    }
-  return g_get_real_time() / G_USEC_PER_SEC;
+  return get_real_time_usec() / G_USEC_PER_SEC;
 }
 
 gint64
-TimeSource::get_monotonic_time()
+TimeSource::get_monotonic_time_sec()
 {
-  if (source != NULL)
-    {
-      return source->get_monotonic_time();
-    }
-  return g_get_monotonic_time() / G_USEC_PER_SEC;
+  return get_monotonic_time_usec() / G_USEC_PER_SEC;
 }
+
+gint64
+TimeSource::get_real_time_sync()
+{
+  return synced_real_time / G_USEC_PER_SEC;
+}
+
+gint64
+TimeSource::get_monotonic_time_sync()
+{
+  return synced_monotonic_time / G_USEC_PER_SEC;
+}
+
+void
+TimeSource::sync()
+{
+  synced_monotonic_time = get_monotonic_time_usec();
+  synced_real_time = get_real_time_usec();
+}
+

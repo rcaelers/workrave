@@ -40,7 +40,6 @@
 
 #include <boost/enable_shared_from_this.hpp>
 
-#include "utils/ITimeSource.hh"
 #include "config/Config.hh"
 
 #include "ICore.hh"
@@ -52,7 +51,6 @@
 #include "CoreHooks.hh"
 
 using namespace workrave;
-using namespace workrave::utils;
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -64,7 +62,6 @@ namespace workrave {
 }
 
 class Core :
-  public ITimeSource,
   public ICore,
   public IConfiguratorListener,
   public boost::enable_shared_from_this<Core>
@@ -72,10 +69,6 @@ class Core :
 public:
   Core(int id = 0);
   virtual ~Core();
-
-  // ITimeSource
-  gint64 get_real_time();
-  gint64 get_monotonic_time();
 
   // ICore
 
@@ -138,12 +131,6 @@ private:
 
   //! Command line arguments passed to the program.
   char **argv;
-
-  //! The current wall clocl time.
-  gint64 current_real_time;
-  
-  //! The current monotonic time.
-  gint64 current_monotonic_time;
 
   //! List of breaks.
   BreaksControl::Ptr breaks_control;

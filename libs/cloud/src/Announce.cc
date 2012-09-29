@@ -37,18 +37,18 @@ using namespace workrave::utils;
 using namespace workrave::cloud;
 
 Announce::Ptr
-Announce::create(IRouter::Ptr router, Marshaller::Ptr marshaller)
+Announce::create(Marshaller::Ptr marshaller)
 {
-  return Announce::Ptr(new Announce(router, marshaller));
+  return Announce::Ptr(new Announce(marshaller));
 }
 
 
-Announce::Announce(IRouter::Ptr router, Marshaller::Ptr marshaller) : router(router), marshaller(marshaller)
+Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller)
 {
   TRACE_ENTER("Announce::Announce");
   multicast_server = MulticastSocketServer::create();
 
-  goto_monitoring();
+  goto_off();
 
   TRACE_EXIT();
 }
@@ -62,9 +62,10 @@ Announce::~Announce()
 
 
 void
-Announce::init(int announce_port, UUID &id, int direct_link_port)
+Announce::init(IRouter::WeakPtr router, int announce_port, UUID &id, int direct_link_port)
 {
   TRACE_ENTER("Announce::init");
+  this->router_weak = router;
   this->myid = id;
   this->direct_link_port = direct_link_port;
   
@@ -87,25 +88,33 @@ void
 Announce::heartbeat()
 {
   TRACE_ENTER("Announce::heartbeat");
-
+  TRACE_MSG("time: " << TimeSource::get_monotonic_time_usec() << " until: " << wait_until_time);
   switch(state)
     {
-    case ANNOUNCE_STATE_MONITORING:
-      TRACE_MSG("state = monitor");
+    case ANNOUNCE_STATE_OFF:
+      TRACE_MSG("state = off");
       break;
 
     case ANNOUNCE_STATE_HOLD:
       TRACE_MSG("state = hold");
-      if (TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("resume monitoring");
           goto_monitoring();
         }
       break;
 
+    case ANNOUNCE_STATE_MONITORING:
+      TRACE_MSG("state = monitor");
+      if (TimeSource::get_monotonic_time_sec() % 30)
+        {
+          send_announce();
+        }
+      break;
+
     case ANNOUNCE_STATE_DISCOVER:
       TRACE_MSG("state = discover");
-      if (TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("discover left = " << announce_left);
           if (announce_left > 0)
@@ -125,7 +134,7 @@ Announce::heartbeat()
       
     case ANNOUNCE_STATE_BUILD: 
       TRACE_MSG("state = build");
-      if (TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("building");
           connect_to_clients();
@@ -162,14 +171,25 @@ Announce::goto_monitoring()
 
 
 void
-Announce::goto_hold()
+Announce::goto_hold(int delay)
 {
   TRACE_ENTER("Announce::goto_monitoring");
   state = ANNOUNCE_STATE_HOLD;
-  wait_until_time = TimeSource::get_monotonic_time_usec() + 30 * TimeSource::USEC_PER_SEC;
+    
+  wait_until_time = delay == -1 ? -1 : TimeSource::get_monotonic_time_usec() + 30 * TimeSource::USEC_PER_SEC;
+  
   TRACE_EXIT();
 }
 
+
+void
+Announce::goto_off()
+{
+  TRACE_ENTER("Announce::goto_off");
+  state = ANNOUNCE_STATE_OFF;
+  wait_until_time = -1;
+  TRACE_EXIT();
+}
 
 void
 Announce::goto_discover(bool immediate)
@@ -217,19 +237,32 @@ Announce::send_discover()
 
 
 void
-Announce::send_routing_data()
+Announce::send_announce()
 {
-  TRACE_ENTER("Announce::send_routing_data");
+  TRACE_ENTER("Announce::send_announce");
 
-  boost::shared_ptr<proto::RoutingData> a(new proto::RoutingData());
+  boost::shared_ptr<proto::Announce> a(new proto::Announce());
+
+  send_message(a, MessageParams::create());
+  
+  TRACE_EXIT();
+}
+
+void
+Announce::send_discover_reply()
+{
+  TRACE_ENTER("Announce::send_discover_reply");
+
+  boost::shared_ptr<proto::DiscoverReply> a(new proto::DiscoverReply());
 
   a->set_port(direct_link_port);
   
+  IRouter::Ptr router = router_weak.lock();
   list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
   for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &client = *i;
-      proto::RoutingData::Route *r = a->add_route();
+      proto::DiscoverReply::Route *r = a->add_route();
 
       TRACE_MSG("Route " << client.id.str());
 
@@ -281,9 +314,13 @@ Announce::process_discover(EphemeralLink::Ptr link, PacketIn::Ptr packet)
       
       switch(state)
         {
+        case ANNOUNCE_STATE_OFF:
+          TRACE_MSG("state = off");
+          break;
+
         case ANNOUNCE_STATE_HOLD:
           TRACE_MSG("state = hold");
-          send_routing_data();
+          send_discover_reply();
           break;
             
         case ANNOUNCE_STATE_MONITORING:
@@ -295,7 +332,7 @@ Announce::process_discover(EphemeralLink::Ptr link, PacketIn::Ptr packet)
             }
           else
             {
-              send_routing_data();
+              send_discover_reply();
             }
           break;
               
@@ -318,11 +355,11 @@ Announce::process_discover(EphemeralLink::Ptr link, PacketIn::Ptr packet)
 
 
 void
-Announce::process_routing_data(EphemeralLink::Ptr link, PacketIn::Ptr packet)
+Announce::process_discover_reply(EphemeralLink::Ptr link, PacketIn::Ptr packet)
 {
-  TRACE_ENTER("Announce::process_routing_data");
+  TRACE_ENTER("Announce::process_discover_reply");
   
-  boost::shared_ptr<proto::RoutingData> a = boost::dynamic_pointer_cast<proto::RoutingData>(packet->message);
+  boost::shared_ptr<proto::DiscoverReply> a = boost::dynamic_pointer_cast<proto::DiscoverReply>(packet->message);
 
   if (a)
     {
@@ -337,10 +374,10 @@ Announce::process_routing_data(EphemeralLink::Ptr link, PacketIn::Ptr packet)
       client.address = link->address;
       client.port = a->port();
       
-      google::protobuf::RepeatedPtrField<proto::RoutingData::Route> routes = a->route();
-      for (google::protobuf::RepeatedPtrField<proto::RoutingData::Route>::iterator i = routes.begin(); i != routes.end(); i++)
+      google::protobuf::RepeatedPtrField<proto::DiscoverReply::Route> routes = a->route();
+      for (google::protobuf::RepeatedPtrField<proto::DiscoverReply::Route>::iterator i = routes.begin(); i != routes.end(); i++)
         {
-          proto::RoutingData::Route &route = *i;
+          proto::DiscoverReply::Route &route = *i;
           const UUID &id = UUID::from_raw(route.id());
           TRACE_MSG("Route " << id.str());
 
@@ -361,6 +398,46 @@ Announce::process_routing_data(EphemeralLink::Ptr link, PacketIn::Ptr packet)
 
   TRACE_EXIT();
 }
+
+
+void
+Announce::process_announce(EphemeralLink::Ptr link, PacketIn::Ptr packet)
+{
+  TRACE_ENTER("Announce::process_discover_reply");
+  
+  boost::shared_ptr<proto::DiscoverReply> a = boost::dynamic_pointer_cast<proto::DiscoverReply>(packet->message);
+
+  if (a)
+    {
+      UUID &source_id = packet->source;
+
+      if (source_id != myid && state == ANNOUNCE_STATE_MONITORING)
+        {
+          IRouter::Ptr router = router_weak.lock();
+          
+          bool found = false;
+          list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
+          for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
+            {
+              ClientInfo &client = *i;
+              if (client.id == source_id)
+                {
+                  TRACE_MSG("Found " << client.id.str());
+                  found = true;
+                  break;
+                }
+            }
+
+          if (!found)
+            {
+              goto_discover(true);
+            }
+        }
+    }
+
+  TRACE_EXIT();
+}
+
 
 //!
 void
@@ -396,9 +473,14 @@ Announce::on_data(gsize size, const gchar *data, NetworkAddress::Ptr na)
                   process_discover(link, packet);
                   handled = true;
                 }
-              else if (packet->header->payload() == proto::RoutingData::kTypeFieldNumber)
+              else if (packet->header->payload() == proto::DiscoverReply::kTypeFieldNumber)
                 {
-                  process_routing_data(link, packet);
+                  process_discover_reply(link, packet);
+                  handled = true;
+                }
+              else if (packet->header->payload() == proto::Announce::kTypeFieldNumber)
+                {
+                  process_announce(link, packet);
                   handled = true;
                 }
             }
@@ -420,15 +502,13 @@ Announce::connect_to_clients()
   TRACE_ENTER("Announce::connect_to_clients");
   set<UUID> known;
   
+  IRouter::Ptr router = router_weak.lock();
   list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
   for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &client = *i;
-      if (client.id != client.via)
-        {
-          TRACE_MSG("Known by me:" << myid.str());
-          known.insert(client.id);
-        }
+      TRACE_MSG("Known by me:" << client.id.str());
+      known.insert(client.id);
     }
 
   for (RemoteClientMapIter i = remote_clients.begin(); i != remote_clients.end(); i++)

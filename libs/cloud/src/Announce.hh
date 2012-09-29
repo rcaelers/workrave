@@ -41,12 +41,12 @@ public:
   typedef boost::shared_ptr<Announce> Ptr;
 
 public:
-  static Ptr create(IRouter::Ptr router, Marshaller::Ptr marshaller);
+  static Ptr create(Marshaller::Ptr marshaller);
 
-  Announce(IRouter::Ptr router, Marshaller::Ptr marshaller);
+  Announce(Marshaller::Ptr marshaller);
   virtual ~Announce();
 
-  void init(int announce_port, UUID &id, int direct_link_port);
+  void init(IRouter::WeakPtr router, int announce_port, UUID &id, int direct_link_port);
   void terminate();
   void heartbeat();
   void start();
@@ -59,6 +59,7 @@ public:
  
 private:
   enum AnnounceState {
+    ANNOUNCE_STATE_OFF,
     ANNOUNCE_STATE_HOLD,
     ANNOUNCE_STATE_MONITORING,
     ANNOUNCE_STATE_DISCOVER,
@@ -66,18 +67,21 @@ private:
   };
 
   void on_data(gsize size, const gchar *data, NetworkAddress::Ptr na);
-
+ 
+  void send_announce();
   void send_discover();
-  void send_routing_data();
+  void send_discover_reply();
 
   void send_message(Message::Ptr message, MessageParams::Ptr params);
   
   void process_discover(EphemeralLink::Ptr link, PacketIn::Ptr packet);
-  void process_routing_data(EphemeralLink::Ptr link, PacketIn::Ptr packet);
+  void process_discover_reply(EphemeralLink::Ptr link, PacketIn::Ptr packet);
+  void process_announce(EphemeralLink::Ptr link, PacketIn::Ptr packet);
   void connect_to_clients();
   
+  void goto_off();
+  void goto_hold(int delay = -1);
   void goto_monitoring();
-  void goto_hold();
   void goto_discover(bool immediate);
   void goto_build();
 
@@ -104,7 +108,7 @@ private:
 private:
 
   //!
-  IRouter::Ptr router;
+  IRouter::WeakPtr router_weak;
   
   //!
   Marshaller::Ptr marshaller;

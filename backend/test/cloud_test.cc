@@ -60,7 +60,7 @@ struct Fixture
     for (int i = 0; i < num_workraves; i++)
       {
         workraves[i] = Workrave::create(i);
-        workraves[i]->init(barrier);
+        workraves[i]->init(barrier, true);
       }
 
     barrier->wait();
@@ -81,7 +81,6 @@ struct Fixture
   
     for (int i = 0; i < num_workraves; i++)
       {
-        //workraves[i]->invoke_sync(boost::bind(&Workrave::terminate, workraves[i]));
         workraves[i]->terminate();
       }
     sleep(5);
@@ -272,7 +271,6 @@ BOOST_AUTO_TEST_CASE(test_propagate_usage_mode)
       UsageMode mode = workraves[i]->invoke_sync(boost::bind(&ICore::get_usage_mode, cores[i]));
       BOOST_CHECK_EQUAL(mode, USAGE_MODE_NORMAL);
     }
-  
 }
 
 
@@ -391,6 +389,97 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_partial2)
 
   sleep(10);
 
+  int total_direct = 0;
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 7);
+
+      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      BOOST_CHECK_EQUAL(cycles, 0);
+
+      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+    }
+  BOOST_CHECK_EQUAL(total_direct, 14);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_auto_connect_already_connected)
+{
+  connect_all();
+  
+  for (int i = 0; i < num_workraves; i++)
+    {
+      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+    }
+
+  sleep(10);
+
+  int total_direct = 0;
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), 7);
+
+      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      BOOST_CHECK_EQUAL(cycles, 0);
+
+      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+    }
+  BOOST_CHECK_EQUAL(total_direct, 14);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_auto_connect_stages)
+{
+  for (int i = 0; i < 3; i++)
+    {
+      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+    }
+
+  sleep(10);
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), i < 3 ? 2 : 0);
+
+      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      BOOST_CHECK_EQUAL(cycles, 0);
+    }
+  
+  for (int i = 3; i < 5; i++)
+    {
+      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+    }
+
+  sleep(10);
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), i < 5 ? 4 : 0);
+
+      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      BOOST_CHECK_EQUAL(cycles, 0);
+    }
+
+  for (int i = 4; i < 7; i++)
+    {
+      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+    }
+
+  sleep(10);
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      BOOST_CHECK_EQUAL(ids.size(), i < 7 ? 6 : 0);
+
+      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      BOOST_CHECK_EQUAL(cycles, 0);
+    }
+
+  workraves[7]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[7]));
+  sleep(10);
+ 
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {

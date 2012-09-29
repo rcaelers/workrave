@@ -53,6 +53,7 @@ CoreHooks::hook_create_configurator()
   return create_configurator_hook;
 }
 
+
 boost::signals2::signal<void(bool)> &
 CoreHooks::signal_local_active_changed()
 {

@@ -45,11 +45,15 @@ NetworkConfigurationManager::create(ICloud::Ptr cloud, ICore::Ptr core)
 NetworkConfigurationManager::NetworkConfigurationManager(ICloud::Ptr cloud, ICore::Ptr core)
   : cloud(cloud), core(core)
 {
+  TRACE_ENTER("Networking::NetworkConfigurationManager");
+  TRACE_EXIT();
 }
 
 
 NetworkConfigurationManager::~NetworkConfigurationManager()
 {
+  TRACE_ENTER("Networking::~NetworkConfigurationManager");
+  TRACE_EXIT();
 }
 
 
@@ -57,6 +61,7 @@ NetworkConfigurationManager::~NetworkConfigurationManager()
 void
 NetworkConfigurationManager::init()
 {
+  TRACE_ENTER("Networking::init");
   configurator =  core->get_configurator();
   
   cloud->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
@@ -87,6 +92,7 @@ NetworkConfigurationManager::init()
   monitor_config("breaks/micro_pause/max_preludes");
   monitor_config("breaks/rest_break/max_preludes");
   monitor_config("breaks/daily_limit/max_preludes");
+  TRACE_EXIT();
 }
 
 

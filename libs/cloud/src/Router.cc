@@ -46,9 +46,7 @@ using namespace workrave::cloud;
 Router::Ptr
 Router::create()
 {
-  Router::Ptr router = Router::Ptr(new Router());
-  router->post_construct();
-  return router;
+  return Router::Ptr(new Router());
 }
 
 // TODO: move to factory
@@ -64,17 +62,12 @@ ICloud::create()
 Router::Router() : cycle_failures(0)
 {
   TRACE_ENTER("Router::Router");
+  marshaller = Marshaller::create();
+  announce = Announce::create(marshaller);
+  direct_link_manager = DirectLinkManager::create(marshaller);
   TRACE_EXIT();
 }
 
-
-void
-Router::post_construct()
-{
-  marshaller = Marshaller::create();
-  announce = Announce::create(shared_from_this(), marshaller);
-  direct_link_manager = DirectLinkManager::create(marshaller);
-}
 
 //! Destructs the network router.
 Router::~Router()
@@ -91,13 +84,14 @@ Router::init(int port, string username, string secret)
   TRACE_ENTER("Router::init");
   this->username = username;
   this->secret = secret;
-  
+
+    
   init_myid(port);
 
   marshaller->set_id(myid);
   marshaller->set_credentials(username, secret);
   
-  announce->init(7272, myid, port);
+  announce->init(IRouter::WeakPtr(shared_from_this()), 7272, myid, port);
   direct_link_manager->init(port);
 
   announce->signal_data().connect(boost::bind(&Router::on_data, this, _1, _2, SCOPE_MULTICAST));
@@ -126,8 +120,8 @@ void
 Router::start_announce()
 {
   TRACE_ENTER("Router::start_announce");
-  announce->start();
-  TRACE_EXIT();
+    announce->start();
+    TRACE_EXIT();
 }
 
 
@@ -135,7 +129,7 @@ void
 Router::connect(const string &host, int port)
 {
   TRACE_ENTER_MSG("Router::connect", host << " " << port);
-
+  
   Client::Ptr client = Client::create();
   
   DirectLink::Ptr link = DirectLink::create(marshaller);
@@ -157,7 +151,7 @@ void
 Router::connect(NetworkAddress::Ptr host, int port)
 {
   TRACE_ENTER_MSG("Router::connect", host << " " << port);
-
+  
   connect(host->addr_str(),  port);
 
   TRACE_EXIT();
@@ -245,7 +239,7 @@ void
 Router::send_message(Message::Ptr message, MessageParams::Ptr params)
 {
   TRACE_ENTER("Router::send_message");
-
+  
   PacketOut::Ptr packet = PacketOut::create(message);
   packet->sign = params->sign;
   packet->source = myid;
@@ -279,7 +273,7 @@ void
 Router::send_message(Link::Ptr link, Message::Ptr message, MessageParams::Ptr params)
 {
   TRACE_ENTER("Router::send_message");
-
+  
   PacketOut::Ptr packet = PacketOut::create(message);
   packet->sign = params->sign;
   packet->source = myid;
@@ -298,7 +292,7 @@ void
 Router::forward_message(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::forward_message");
-
+  
   PacketOut::Ptr packet_out(PacketOut::create(packet->message));
   packet_out->sign = packet->authentic;
   packet_out->source = packet->source;
@@ -407,7 +401,7 @@ void
 Router::on_direct_link_state_changed(DirectLink::Ptr link)
 {
   TRACE_ENTER("Router::on_direct_link_state_changed");
-
+  
   Client::Ptr client = find_client(link);
   if (client)
     {
@@ -580,7 +574,7 @@ void
 Router::process_alive(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::process_alive");
-  
+    
   boost::shared_ptr<proto::Alive> a = boost::dynamic_pointer_cast<proto::Alive>(packet->message);
 
   if (a)
@@ -657,7 +651,7 @@ void
 Router::process_signoff(Link::Ptr link, PacketIn::Ptr packet)
 {
   TRACE_ENTER("Router::process_signoff");
-  
+    
   boost::shared_ptr<proto::Signoff> a = boost::dynamic_pointer_cast<proto::Signoff>(packet->message);
 
   if (a)
@@ -688,5 +682,6 @@ Router::process_signoff(Link::Ptr link, PacketIn::Ptr packet)
             }
         }
     }
+  TRACE_EXIT();
 }
 
