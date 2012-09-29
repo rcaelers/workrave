@@ -380,7 +380,7 @@ bool W32Compat::IsOurDesktopVisible()
     wchar_t our_desktop_name[ MAX_PATH ] = { L'\0', };
 
     BOOL ret = 0;
-    DWORD nLengthNeeded = 0;
+    DWORD bytes_needed = 0;
 
 
     /*
@@ -390,16 +390,16 @@ bool W32Compat::IsOurDesktopVisible()
     if( !input_desktop_handle )
         goto cleanup;
 
-    nLengthNeeded = 0;
+    bytes_needed = 0;
     ret = GetUserObjectInformationW(
         input_desktop_handle,
         UOI_NAME,
         input_desktop_name,
         sizeof( input_desktop_name ),
-        &nLengthNeeded
+        &bytes_needed
         );
 
-    if( !ret || ( nLengthNeeded > MAX_PATH ) )
+    if( !ret || ( bytes_needed > sizeof( input_desktop_name ) ) )
         goto cleanup;
 
 
@@ -410,15 +410,15 @@ bool W32Compat::IsOurDesktopVisible()
     if( !our_desktop_handle )
         goto cleanup;
 
-    nLengthNeeded = 0;
+    bytes_needed = 0;
     ret = GetUserObjectInformationW(
         our_desktop_handle,
         UOI_NAME,
         our_desktop_name,
         sizeof( our_desktop_name ),
-        &nLengthNeeded
+        &bytes_needed
         );
-    if( !ret || ( nLengthNeeded > MAX_PATH ) )
+    if( !ret || ( bytes_needed > sizeof( our_desktop_name ) ) )
         goto cleanup;
 
 
