@@ -704,7 +704,7 @@ with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
 AS_IF([test "x$with_localinstall" = "xyes"],
-    INDICATORDIR="${libdir}/indicators3/6"
+    INDICATORDIR="${libdir}/indicators3/7"
     INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
     INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4 | sed -e 's%/$%%'`
