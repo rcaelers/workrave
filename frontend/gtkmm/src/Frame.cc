@@ -125,7 +125,6 @@ Frame::on_timer()
 void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
-  Gtk::Bin::on_size_allocate(allocation);
 
   Gtk::Widget *widget = get_child();
   guint b = get_border_width() + frame_width;
@@ -135,7 +134,10 @@ Frame::on_size_allocate(Gtk::Allocation &allocation)
   alloc.set_y(allocation.get_y() + b);
   alloc.set_width(allocation.get_width() - 2*b);
   alloc.set_height(allocation.get_height() - 2*b);
+
   widget->size_allocate(alloc);
+  set_allocation(allocation);
+
 }
 
 #ifdef HAVE_GTK3
@@ -147,44 +149,52 @@ Frame::get_request_mode_vfunc() const
 
 void
 Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
-{
+{ 
+  TRACE_ENTER("Frame::get_preferred_width_vfunc");
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_width(minimum_width, natural_width);
 
   guint d = 2*(get_border_width()+frame_width);
   minimum_width += d;
   natural_width += d;
+  TRACE_MSG(minimum_width << " " << natural_width);
+  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_height_vfunc(int &minimum_height, int &natural_height) const
 {
+  TRACE_ENTER("Frame::get_preferred_height_vfunc");
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_height(minimum_height, natural_height);
 
   guint d = 2*(get_border_width()+frame_width);
   minimum_height += d;
   natural_height += d;
+  TRACE_MSG(minimum_height << " " << natural_height);
+  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_width_for_height_vfunc(int /* height */, int &minimum_width, int &natural_width) const
 {
+  TRACE_ENTER("Frame::get_preferred_width_for_height_vfunc");
   get_preferred_width_vfunc(minimum_width, natural_width);
+  TRACE_EXIT();
 }
 
 void
 Frame::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_height, int &natural_height) const
 {
+  TRACE_ENTER("Frame::get_preferred_height_for_width_vfunc");
   get_preferred_height_vfunc(minimum_height, natural_height);
+  TRACE_EXIT();
 }
 
 bool
 Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 {
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-  style_context->set_state(Gtk::STATE_FLAG_ACTIVE);
-  Gdk::RGBA back_color = style_context->get_background_color();
 
   // Physical width/height
   Gtk::Allocation allocation = get_allocation();
@@ -197,20 +207,16 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
       if (frame_visible)
         {
           set_color(cr, frame_color);
-        }
-      else
-        {
-          set_color(cr, back_color);
-        }
 
-      cr->rectangle(0, 0, frame_width, height);
-      cr->fill();
-      cr->rectangle(0+width-frame_width, 0, frame_width, height);
-      cr->fill();
-      cr->rectangle(0+frame_width, 0, width-2*frame_width, frame_width);
-      cr->fill();
-      cr->rectangle(0+frame_width, 0+height-frame_width, width-2*frame_width, frame_width);
-      cr->fill();
+          cr->rectangle(0, 0, frame_width, height);
+          cr->fill();
+          cr->rectangle(0+width-frame_width, 0, frame_width, height);
+          cr->fill();
+          cr->rectangle(0+frame_width, 0, width-2*frame_width, frame_width);
+          cr->fill();
+          cr->rectangle(0+frame_width, 0+height-frame_width, width-2*frame_width, frame_width);
+          cr->fill();
+        }    
       break;
 
     case STYLE_BREAK_WINDOW:
