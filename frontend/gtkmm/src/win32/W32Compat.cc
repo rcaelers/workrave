@@ -1,11 +1,44 @@
+// W32Compat.cc --- W32 compatibility
+//
+// Copyright (C) 2004, 2007, 2010, 2012 Rob Caelers, Raymond Penners, Ray Satiro
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "debug.hh"
 
 #include <windows.h>
 #include <tchar.h>
 #include <wtsapi32.h>
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
+#endif
+
+#include <gtkmm.h>
+#include <gdk/gdkwin32.h>
+
+#include "IBreak.hh"
+#include "BreakWindow.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
+#include "GtkUtil.hh"
 #include "W32ForceFocus.hh"
 #include "W32CriticalSection.hh"
 #include "W32Compat.hh"
@@ -441,4 +474,72 @@ cleanup:
         CloseHandle( our_desktop_handle );
 
     return func_retval;
+}
+
+
+
+/* W32Compat::RefreshBreakWindow()
+
+Refresh a BreakWindow:
+- Make keyboard shortcuts available without pressing ALT after five seconds of inactivity
+- Set our window topmost unless a tooltip is visible (tooltips are topmost when visible)
+- Make sure the window manager has not disabled our topmost status; reset if necessary
+- Force focus to the main break window if the preference advanced/force_focus is true
+*/
+void W32Compat::RefreshBreakWindow( BreakWindow &window )
+{
+    ICore *core = CoreFactory::get_core();
+    bool user_active = core->is_user_active();
+
+    // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
+    // to be non-standard behaviour on windows, so make shortcuts available
+    // without ALT after the user is idle for 5s
+    if ( !user_active && !window.accel_added )
+    {
+        IBreak *b = core->get_break( BreakId( window.break_id ) );
+        assert( b != NULL );
+
+        //TRACE_MSG(b->get_elapsed_idle_time());
+        if( b->get_elapsed_idle_time() > 5 )
+        {
+            if( window.postpone_button != NULL )
+            {
+                GtkUtil::update_mnemonic( window.postpone_button, window.accel_group );
+            }
+            if( window.skip_button != NULL )
+            {
+                GtkUtil::update_mnemonic( window.skip_button, window.accel_group );
+            }
+            if( window.shutdown_button != NULL )
+            {
+                GtkUtil::update_mnemonic( window.shutdown_button, window.accel_group );
+            }
+            if( window.lock_button != NULL )
+            {
+                GtkUtil::update_mnemonic( window.lock_button, window.accel_group );
+            }
+            window.accel_added = true;
+        }
+    }
+
+    /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every 
+    refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
+    */
+
+    HWND hwnd = (HWND)GDK_WINDOW_HWND( window.Gtk::Widget::gobj()->window );
+    if( !hwnd )
+        return;
+
+    SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+
+    // this checks if the window manager has disabled our topmost ability and resets it if necessary
+    W32Compat::ResetWindow( hwnd, true );
+
+    /* If there are multiple break windows only force focus on the first, otherwise focus would be 
+    continuously switched to each break window on every refresh, making interaction very difficult.
+    */
+    if( W32ForceFocus::GetForceFocusValue() && window.head.valid && ( window.head.count == 0 ) )
+    {
+        W32ForceFocus::ForceWindowFocus( hwnd, 0 );   // try without blocking
+    }
 }

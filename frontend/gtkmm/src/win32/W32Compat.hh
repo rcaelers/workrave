@@ -35,6 +35,7 @@
 #endif
 
 
+class BreakWindow;
 class W32Compat
 {
 public:
@@ -53,6 +54,7 @@ public:
   static bool IsOurWinStationConnected();
   static bool IsOurWinStationLocked();
   static bool IsOurDesktopVisible();
+  static void RefreshBreakWindow( BreakWindow &window );
 
 private:
   static volatile LONG _initialized;

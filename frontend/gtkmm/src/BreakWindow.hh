@@ -53,6 +53,8 @@ class BreakWindow :
   public Gtk::Window,
   public IBreakWindow
 {
+    friend class W32Compat;
+
 public:
   enum BreakFlags
     {

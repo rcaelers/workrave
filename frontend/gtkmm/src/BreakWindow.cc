@@ -633,57 +633,8 @@ BreakWindow::refresh()
   update_break_window();
 
 #ifdef PLATFORM_OS_WIN32
-  ICore *core = CoreFactory::get_core();
-  bool user_active = core->is_user_active();
-
-  // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
-  // to be non-standard behaviour on windows, so make shortcuts available
-  // without ALT after the user is idle for 5s
-  if (!user_active && !accel_added)
-    {
-      IBreak *b = core->get_break(BreakId(break_id));
-      assert(b != NULL);
-
-      TRACE_MSG(b->get_elapsed_idle_time());
-      if (b->get_elapsed_idle_time() > 5)
-        {
-          if (postpone_button != NULL)
-            {
-              GtkUtil::update_mnemonic(postpone_button, accel_group);
-            }
-          if (skip_button != NULL)
-            {
-              GtkUtil::update_mnemonic(skip_button, accel_group);
-            }
-          if (shutdown_button != NULL)
-            {
-              GtkUtil::update_mnemonic(shutdown_button, accel_group);
-            }
-          if (lock_button != NULL)
-            {
-              GtkUtil::update_mnemonic(lock_button, accel_group);
-            }
-          accel_added = true;
-        }
-    }
-
-  /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every 
-  refresh because the user might have multiple break windows and if force_focus is enabled then the 
-  focus is forced on each break window on each refresh. This results in the focus continuously 
-  being switched between every break window on every monitor approximately every second, making 
-  interaction very difficult. While we can enforce topmost via W32Compat::ResetWindow() for all 
-  break windows we can only force focus -- if it's enabled -- on the first window (head.count == 0).
-  */
-  HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
-  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-  W32Compat::ResetWindow( hwnd, true );
-
-  if( W32ForceFocus::GetForceFocusValue() && head.valid && ( head.count == 0 ) )
-  {
-      W32ForceFocus::ForceWindowFocus( hwnd, 0 );   // try without blocking
-  }
-
-#endif // PLATFORM_OS_WIN32
+  W32Compat::RefreshBreakWindow( *this );
+#endif
   TRACE_EXIT();
 }
 
