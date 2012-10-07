@@ -530,7 +530,9 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
     if( !hwnd )
         return;
 
-    SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+    // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
+    if( !GtkUtil::get_visible_tooltip_window() )
+        SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
 
     // this checks if the window manager has disabled our topmost ability and resets it if necessary
     W32Compat::ResetWindow( hwnd, true );

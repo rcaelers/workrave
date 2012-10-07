@@ -91,6 +91,8 @@ public:
 
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
 
+  static GtkWindow *GtkUtil::get_visible_tooltip_window();
+
 private:
   static Glib::Quark *label_quark;
 };
