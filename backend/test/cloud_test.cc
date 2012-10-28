@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#define BOOST_TEST_MODULE example
+#define BOOST_TEST_MODULE workrave
 #include <boost/test/included/unit_test.hpp>
 
 #include <glib.h>
@@ -37,7 +37,11 @@
 #include <boost/thread/barrier.hpp>
 #include <boost/signals2.hpp>
 
+#include "utils/Timer.hh"
+
+
 using namespace std;
+using namespace workrave::utils;
 
 struct Fixture
 {
@@ -52,15 +56,22 @@ struct Fixture
     g_type_init();
     gtk_init(0, 0);
 
-    //system("netstat -nat");
     BOOST_TEST_MESSAGE("constructing cores");
+
+    const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
+    for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+      {
+        g_log_set_handler(domains[i],
+                          (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
+                          my_log_handler, NULL);
+      }
     
     barrier = boost::shared_ptr<boost::barrier>(new boost::barrier(num_workraves + 1));
 
     for (int i = 0; i < num_workraves; i++)
       {
         workraves[i] = Workrave::create(i);
-        workraves[i]->init(barrier, true);
+        workraves[i]->init(barrier);
       }
 
     barrier->wait();
@@ -89,6 +100,13 @@ struct Fixture
     BOOST_TEST_MESSAGE("destructing cores...done");
    }
 
+  static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
+                             const gchar *message, gpointer user_data)
+  {
+    TRACE_LOG("GLIB ERROR" << message);
+    cerr << message << endl;
+  }
+  
 protected:
   /*   /---\
    *   | 0 |
@@ -189,6 +207,44 @@ protected:
       }
    
   } 
+
+  void log(const string &txt)
+  {
+    for (int i = 0; i <  num_workraves; i++)
+      {
+        workraves[i]->invoke_sync(boost::bind(&Workrave::log, workraves[i], txt));
+      }
+  }
+
+
+  void forall(int max, const std::string &msg, std::function<bool (int)> func)
+  {
+    int count = max;
+    bool result = false;
+    while (count > 0)
+      {
+        Timer::get()->simulate(1 * G_USEC_PER_SEC, G_USEC_PER_SEC / 2);
+
+        result = false;
+        for (int i = 0; i < num_workraves; i++)
+          {
+            result = workraves[i]->invoke_sync(boost::bind(func, i));
+            if (!result)
+              {
+                break;
+              }
+          }
+
+        if (result)
+          {
+            BOOST_TEST_MESSAGE(msg + " reached in " + boost::lexical_cast<string>(max-count+1));
+            break;
+          }
+        count--;
+      }
+
+    BOOST_CHECK_MESSAGE(result, msg);
+  }
   
   const static int num_workraves = 8;
   Workrave::Ptr workraves[num_workraves];
@@ -492,6 +548,100 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_stages)
       total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_auto_reconnect)
+{
+  Timer::get()->set_simulated(true);
+
+  connect_all();
+  
+  for (int i = 0; i < num_workraves; i++)
+    {
+      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+    }
+
+  sleep(1);
+  Timer::get()->simulate(30 * G_USEC_PER_SEC);
+
+  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[3]));
+  workraves[5]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[5], id));
+
+  id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[2]));
+  workraves[4]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[4], id));
+
+  sleep(1);
+  Timer::get()->simulate(10 * G_USEC_PER_SEC);
+  
+  int total_direct = 0;
+  for (int i = 0; i < num_workraves; i++)
+    {
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));
+      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+    }
+  BOOST_CHECK_EQUAL(total_direct, 10);
+
+  const int max = 120;
+  int count = max;
+  while (count > 0)
+    {
+      Timer::get()->simulate(1 * G_USEC_PER_SEC);
+
+      total_direct = 0;
+      for (int i = 0; i < num_workraves; i++)
+        {
+          total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+        }
+      if (total_direct == 14)
+        {
+          break;
+        }
+      count--;
+    }
+  BOOST_TEST_MESSAGE("reconnected in " << (max - count));
+  BOOST_CHECK_PREDICATE(std::not_equal_to<int>(), (count)(0) ); 
+}
+
+
+BOOST_AUTO_TEST_CASE(test_activity)
+{
+  const gint64 delay = G_USEC_PER_SEC / 2;
+  connect_all();
+
+  forall(5, "Initially all", [&](int w) { return !cores[w]->is_user_active(); });
+
+  Timer::get()->set_simulated(true);
+
+  workraves[3]->set_active(true);
+  g_usleep(delay);
+
+  forall(5, "all active (1)", [&](int w) { return cores[w]->is_user_active(); });
+  
+  workraves[3]->set_active(false);
+  g_usleep(delay);
+
+  forall(5, "all idle (2)", [&](int w) { return !cores[w]->is_user_active(); });
+
+  workraves[4]->set_active(true);
+  g_usleep(delay);
+  
+  forall(5, "all active (3)", [&](int w) { return cores[w]->is_user_active(); });
+
+  workraves[5]->set_active(true);
+  g_usleep(delay);
+
+  forall(5, "all active (4)", [&](int w) { return cores[w]->is_user_active(); });
+
+  workraves[4]->set_active(false);
+  g_usleep(delay);
+
+  forall(5, "all active (5)", [&](int w) { return cores[w]->is_user_active(); });
+
+  workraves[5]->set_active(false);
+  g_usleep(delay);
+
+  forall(5, "all idle (5)", [&](int w) { return !cores[w]->is_user_active(); });
 }
 
 BOOST_AUTO_TEST_SUITE_END()

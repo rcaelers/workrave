@@ -28,12 +28,14 @@
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"
+#include "utils/TimeSource.hh"
 
 #include "IActivityMonitorListener.hh"
 #include "CoreConfig.hh"
 #include "debug.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
 LocalActivityMonitor::Ptr
 LocalActivityMonitor::create(IConfigurator::Ptr configurator, const string &display_name)
@@ -184,7 +186,7 @@ LocalActivityMonitor::process_state()
   // First update the state...
   if (state == ACTIVITY_MONITOR_ACTIVE)
     {
-      gint64 tv = g_get_monotonic_time() - last_action_time;
+      gint64 tv = TimeSource::get_monotonic_time_usec() - last_action_time;
 
       TRACE_MSG("Active: " << tv << " " << idle_threshold);
       if (tv > idle_threshold)
@@ -237,7 +239,7 @@ void
 LocalActivityMonitor::action_notify()
 {
   lock.lock();
-  gint64 now = g_get_monotonic_time();
+  gint64 now = TimeSource::get_monotonic_time_usec();
   
   switch (state)
     {

@@ -48,7 +48,6 @@ public:
 
   void init(IRouter::WeakPtr router, int announce_port, UUID &id, int direct_link_port);
   void terminate();
-  void heartbeat();
   void start();
 
   void send_message(const std::string &message);
@@ -85,7 +84,9 @@ private:
   void goto_discover(bool immediate);
   void goto_build();
 
-  static gboolean static_on_timer(gpointer data);
+  //static gboolean static_on_timer(gpointer data);
+  void heartbeat();
+  void set_heartbear_timer(gint64 interval);
 
 private:
   typedef std::set<UUID> UUIDSet;
@@ -106,7 +107,6 @@ private:
   typedef RemoteClientMap::const_iterator RemoteClientMapCIter;
   
 private:
-
   //!
   IRouter::WeakPtr router_weak;
   
@@ -119,6 +119,12 @@ private:
   //!
   data_signal_type data_signal;
 
+  //!
+  GSource *timer_source;
+
+  //!
+  int timer_interval;
+  
   AnnounceState state;
   
   gint64 wait_until_time;

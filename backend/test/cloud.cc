@@ -66,16 +66,16 @@ main(int argc, char **argv)
     
   
   Workrave::Ptr workrave1 = Workrave::create(1);
-  workrave1->init(barrier, true);
+  workrave1->init(barrier);
   
   Workrave::Ptr workrave2 = Workrave::create(2);
-  workrave2->init(barrier, true);
+  workrave2->init(barrier);
 
   Workrave::Ptr workrave3 = Workrave::create(3);
-  workrave3->init(barrier, true);
+  workrave3->init(barrier);
 
   Workrave::Ptr workrave4 = Workrave::create(4);
-  workrave4->init(barrier, true);
+  workrave4->init(barrier);
 
   barrier->wait();
   

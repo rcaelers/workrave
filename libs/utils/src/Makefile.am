@@ -15,6 +15,7 @@ libworkrave_utils_la_SOURCES = \
 			GlibThread.cc \
 			StringUtil.cc \
 			TimeSource.cc \
+			Timer.cc \
 			Util.cc \
 			debug.cc \
 			${localesources}

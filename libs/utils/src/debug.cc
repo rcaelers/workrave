@@ -37,8 +37,10 @@
 
 #include "Mutex.hh"
 #include "debug.hh"
+#include "utils/TimeSource.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
 Mutex g_log_mutex;
 std::map<boost::thread::id, std::ofstream *> g_log_streams;
@@ -50,15 +52,38 @@ std::string
 Debug::trace_string()
 {
   char logtime[256];
-  time_t ltime;
 
-  time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
+#ifdef HAVE_TESTS
+  time_t t = (time_t) TimeSource::get_real_time_sec();
+  struct tm *tmlt = localtime(&t);
+  strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
+
+  stringstream ss;
+  ss << logtime;
+  
+  if (TimeSource::source != NULL)
+    {
+      gint64 ut = g_get_real_time();
+      t = (time_t) (ut / G_USEC_PER_SEC);
+      tmlt = localtime(&t);
+
+      strftime(logtime, 256, "%H:%M:%S", tmlt);
+      ss << " " << logtime << "." << (ut % G_USEC_PER_SEC) / 1000;
+    }
+
+  ss << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
+  return ss.str();
+
+#else
+  
+  time_t t = (time_t) TimeSource::get_real_time_sec();
+  struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 
   stringstream ss;
   ss << logtime << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
   return ss.str();
+#endif  
 }
 
 void

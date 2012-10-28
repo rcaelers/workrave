@@ -87,6 +87,10 @@ public:
                           } \
                           g_log_mutex.unlock();
 
+#define TRACE_LOG(err)    g_log_mutex.lock(); \
+                          Debug::stream() << Debug::trace_string() << "    " << err << std::endl; \
+                          g_log_mutex.unlock();
+
 #endif // TRACING
 
 #endif // WORKRAVE_UTILS_DEBUG_HH

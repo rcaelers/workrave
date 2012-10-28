@@ -266,6 +266,15 @@ GIOSocket::close()
       g_socket_close(socket, &error);
       socket = NULL;
     }
+
+  if (iostream != NULL)
+    {
+      g_object_unref(iostream);
+      iostream = NULL;
+      istream = NULL;
+      ostream = NULL;
+    }
+
   if (error != NULL)
     {
       g_error_free(error);

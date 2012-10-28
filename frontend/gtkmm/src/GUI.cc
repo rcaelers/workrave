@@ -230,9 +230,7 @@ GUI::main()
   TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
-  gdk_threads_enter();
   Gtk::Main::run();
-  gdk_threads_leave();
 
   cleanup_session();
 

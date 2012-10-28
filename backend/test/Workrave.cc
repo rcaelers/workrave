@@ -30,6 +30,10 @@
 #include "ICoreHooks.hh"
 #include "ICoreTestHooks.hh"
 
+#include "utils/Timer.hh"
+
+using namespace workrave::utils;
+
 Workrave::Ptr
 Workrave::create(int id)
 {
@@ -39,6 +43,7 @@ Workrave::create(int id)
 
 Workrave::Workrave(int id) : id(id)
 {
+  activity_state = ACTIVITY_IDLE;
 }
 
 
@@ -52,7 +57,9 @@ Workrave::~Workrave()
 ActivityState
 Workrave::on_local_activity_state()
 {
-  return ACTIVITY_IDLE;
+  TRACE_ENTER("Workrave::on_local_activity_state");
+  TRACE_RETURN(activity_state);
+  return activity_state;
 }
 
 
@@ -69,10 +76,9 @@ Workrave::on_create_configurator()
 }
 
 void
-Workrave::init(boost::shared_ptr<boost::barrier> barrier, bool auto_heartbeat)
+Workrave::init(boost::shared_ptr<boost::barrier> barrier)
 {
   this->barrier = barrier;
-  this->auto_heartbeat = auto_heartbeat;
   thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Workrave::run, this)));
 }
 
@@ -119,12 +125,7 @@ Workrave::run()
   current_real_time = g_get_real_time();
   current_monotonic_time = g_get_monotonic_time();
 
-  if (auto_heartbeat)
-    {
-      GSource *source = g_timeout_source_new_seconds(1);
-      g_source_set_callback(source, static_on_timer, this, NULL);
-      g_source_attach(source, context);
-    }
+  Timer::get()->create("workrave.Workrave", TimeSource::USEC_PER_SEC, boost::bind(&Workrave::heartbeat, this));
   
   TRACE_MSG("Loop run");
   barrier->wait();
@@ -145,6 +146,7 @@ Workrave::heartbeat()
 {
   TRACE_ENTER_MSG("Workrave::heartbeat", id);
   networking->heartbeat();
+  core->heartbeat();
   TRACE_EXIT();
 }
 
@@ -161,6 +163,22 @@ Workrave::get_cloud() const
   return cloud;
 }
 
+void
+Workrave::set_active(bool on)
+{
+  TRACE_ENTER_MSG("Workrave::set_active", on);
+  activity_state = on ? ACTIVITY_ACTIVE : ACTIVITY_IDLE;
+  TRACE_EXIT();
+}
+
+
+void
+Workrave::log(const std::string &txt)
+{
+  TRACE_LOG("TEST: " << txt);
+}
+
+
 gpointer
 Workrave::static_workrave_thread(gpointer data)
 {
@@ -173,17 +191,6 @@ Workrave::static_workrave_thread(gpointer data)
   return 0;
 }
 
-gboolean
-Workrave::static_on_timer(gpointer data)
-{
-  Workrave *w = (Workrave *)data;
-  
-  w->heartbeat();
-  
-  return G_SOURCE_CONTINUE;
-}
-
-
 gint64
 Workrave::get_real_time_usec()
 {
@@ -194,15 +201,4 @@ gint64
 Workrave::get_monotonic_time_usec() 
 {
   return current_monotonic_time;
-}
-
-void
-Workrave::tick(gint64 ticks, bool beat)
-{
-  current_monotonic_time += ticks;
-  current_real_time += ticks;
-  if (beat)
-    {
-      heartbeat();
-    }
 }

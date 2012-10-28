@@ -24,7 +24,6 @@
 #include <boost/thread.hpp>
 #include <boost/thread/future.hpp>
 #include <boost/thread/barrier.hpp>
-
 #include <boost/function.hpp>
 
 #include "IApp.hh"
@@ -47,10 +46,13 @@ public:
   Workrave(int id);
   virtual ~Workrave();
 
-  void init(boost::shared_ptr<boost::barrier> barrier, bool auto_heartbeat);
+  void init(boost::shared_ptr<boost::barrier> barrier);
   void heartbeat();
   void connect(const std::string host, int port);
 
+  void set_active(bool on);
+  void log(const std::string &txt);
+  
   ICore::Ptr get_core() const;
   ICloud::Ptr get_cloud() const;
   
@@ -68,8 +70,6 @@ public:
   gint64 get_real_time_usec();
   gint64 get_monotonic_time_usec();
 
-  void tick(gint64 ticks, bool beat);
-  
   template<typename Functor>
   struct Closure
   {
@@ -105,7 +105,8 @@ public:
       TRACE_EXIT();
     }
   };
-  
+
+
   template<typename Functor>
   boost::unique_future<typename boost::result_of<Functor()>::type>
   invoke(Functor functor)
@@ -173,7 +174,6 @@ private:
   IConfigurator::Ptr on_create_configurator();
 
   static gpointer static_workrave_thread(gpointer data);
-  static gboolean static_on_timer(gpointer data);
   void run();
   
 private:
@@ -187,14 +187,13 @@ private:
   boost::shared_ptr<boost::thread> thread;
   boost::shared_ptr<boost::barrier> barrier;
 
-  //!
-  bool auto_heartbeat;
-  
   //! The current wall clocl time.
   gint64 current_real_time;
   
   //! The current monotonic time.
   gint64 current_monotonic_time;
+
+  ActivityState activity_state;
   
   GMainContext *context;
   GMainLoop *loop;

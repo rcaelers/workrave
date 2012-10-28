@@ -24,12 +24,15 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <glib.h>
+#include <glib-object.h>
 
 #include "debug.hh"
 
 #include "Announce.hh"
 
 #include "utils/TimeSource.hh"
+#include "utils/Timer.hh"
 
 
 using namespace std;
@@ -43,7 +46,7 @@ Announce::create(Marshaller::Ptr marshaller)
 }
 
 
-Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller)
+Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller), timer_source(NULL), timer_interval(0)
 {
   TRACE_ENTER("Announce::Announce");
   multicast_server = MulticastSocketServer::create();
@@ -97,7 +100,7 @@ Announce::heartbeat()
 
     case ANNOUNCE_STATE_HOLD:
       TRACE_MSG("state = hold");
-      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time == -1 || TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("resume monitoring");
           goto_monitoring();
@@ -105,16 +108,13 @@ Announce::heartbeat()
       break;
 
     case ANNOUNCE_STATE_MONITORING:
-      TRACE_MSG("state = monitor");
-      if (TimeSource::get_monotonic_time_sec() % 30)
-        {
-          send_announce();
-        }
+      TRACE_MSG("state = monitor" << TimeSource::get_monotonic_time_sec());
+      send_announce();
       break;
 
     case ANNOUNCE_STATE_DISCOVER:
       TRACE_MSG("state = discover");
-      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time == -1 || TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("discover left = " << announce_left);
           if (announce_left > 0)
@@ -134,7 +134,7 @@ Announce::heartbeat()
       
     case ANNOUNCE_STATE_BUILD: 
       TRACE_MSG("state = build");
-      if (wait_until_time != -1 && TimeSource::get_monotonic_time_usec() > wait_until_time)
+      if (wait_until_time == -1 || TimeSource::get_monotonic_time_usec() > wait_until_time)
         {
           TRACE_MSG("building");
           connect_to_clients();
@@ -151,14 +151,14 @@ Announce::start()
 {
   TRACE_ENTER("Announce::start");
   goto_discover(false);
-
-  GSource *source = g_timeout_source_new(500);
-  g_source_set_callback(source, static_on_timer, this, NULL);
-  g_source_attach(source, g_main_context_get_thread_default());
-  
   TRACE_EXIT();
 }
 
+void
+Announce::set_heartbear_timer(gint64 interval)
+{
+  Timer::get()->create("workrave.cloud.Announce", interval, boost::bind(&Announce::heartbeat, this));
+}
 
 void
 Announce::goto_monitoring()
@@ -166,6 +166,8 @@ Announce::goto_monitoring()
   TRACE_ENTER("Announce::goto_monitoring");
   state = ANNOUNCE_STATE_MONITORING;
   wait_until_time = 0;
+  set_heartbear_timer(30 * TimeSource::USEC_PER_SEC);
+  send_announce();
   TRACE_EXIT();
 }
 
@@ -173,10 +175,11 @@ Announce::goto_monitoring()
 void
 Announce::goto_hold(int delay)
 {
-  TRACE_ENTER("Announce::goto_monitoring");
+  TRACE_ENTER("Announce::goto_hold");
   state = ANNOUNCE_STATE_HOLD;
     
-  wait_until_time = delay == -1 ? -1 : TimeSource::get_monotonic_time_usec() + 30 * TimeSource::USEC_PER_SEC;
+  wait_until_time = delay == -1 ? -1 : TimeSource::get_monotonic_time_usec() + 29 * TimeSource::USEC_PER_SEC;
+  set_heartbear_timer(30 * TimeSource::USEC_PER_SEC);
   
   TRACE_EXIT();
 }
@@ -188,6 +191,7 @@ Announce::goto_off()
   TRACE_ENTER("Announce::goto_off");
   state = ANNOUNCE_STATE_OFF;
   wait_until_time = -1;
+  set_heartbear_timer(60 * TimeSource::USEC_PER_SEC);
   TRACE_EXIT();
 }
 
@@ -209,6 +213,7 @@ Announce::goto_discover(bool immediate)
       // TODO: add random time.
       wait_until_time = TimeSource::get_monotonic_time_usec() + 2 * TimeSource::USEC_PER_SEC;
     }
+  set_heartbear_timer(TimeSource::USEC_PER_SEC / 2);
   TRACE_EXIT();
 }
 
@@ -219,6 +224,7 @@ Announce::goto_build()
   TRACE_ENTER("Announce::goto_build");
   state = ANNOUNCE_STATE_BUILD;
   wait_until_time = TimeSource::get_monotonic_time_usec() + TimeSource::USEC_PER_SEC;
+  set_heartbear_timer(TimeSource::USEC_PER_SEC / 2);
   TRACE_EXIT();
 }
 
@@ -403,9 +409,9 @@ Announce::process_discover_reply(EphemeralLink::Ptr link, PacketIn::Ptr packet)
 void
 Announce::process_announce(EphemeralLink::Ptr link, PacketIn::Ptr packet)
 {
-  TRACE_ENTER("Announce::process_discover_reply");
+  TRACE_ENTER("Announce::process_announce");
   
-  boost::shared_ptr<proto::DiscoverReply> a = boost::dynamic_pointer_cast<proto::DiscoverReply>(packet->message);
+  boost::shared_ptr<proto::Announce> a = boost::dynamic_pointer_cast<proto::Announce>(packet->message);
 
   if (a)
     {
@@ -538,15 +544,3 @@ Announce::signal_data()
 {
   return data_signal;
 }
-
-
-gboolean
-Announce::static_on_timer(gpointer data)
-{
-  Announce *self = (Announce *)data;
-  
-  self->heartbeat();
-  
-  return G_SOURCE_CONTINUE;
-}
- 
