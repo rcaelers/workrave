@@ -20,6 +20,8 @@
 #ifndef ICORETESTHOOKS_HH
 #define ICORETESTHOOKS_HH
 
+#ifdef HAVE_TESTS
+
 #include <string>
 #include <map>
 
@@ -39,5 +41,7 @@ public:
   virtual boost::function<ActivityState()> &hook_local_activity_state() = 0;
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
 };
+
+#endif
 
 #endif // ICOREHOOKS_HH

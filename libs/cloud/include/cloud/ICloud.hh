@@ -54,6 +54,7 @@ namespace workrave
       static Ptr create();
     };
 
+#ifdef HAVE_TESTS    
     class ICloudTest
     {
     public:
@@ -66,6 +67,7 @@ namespace workrave
       virtual void start_announce() = 0;
       virtual void disconnect(UUID id) = 0;
     };
+#endif    
   }
 }
 

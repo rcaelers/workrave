@@ -56,11 +56,12 @@ public:
   void init();
   void terminate();
   void heartbeat();
-  void start_announce();
   void connect(const std::string host, int port);
 
-  // TODO: for testing only
+#ifdef HAVE_TESTS
+  void start_announce();
   ICloud::Ptr get_cloud() const { return cloud; }
+#endif
   
 private:
   void on_break_message(Message::Ptr message, MessageContext::Ptr context);

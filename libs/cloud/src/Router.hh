@@ -43,7 +43,10 @@ using namespace workrave;
 using namespace workrave::network;
 using namespace workrave::cloud;
 
-class Router : public ICloud, public ICloudTest, public IRouter, public boost::enable_shared_from_this<Router>
+class Router : public ICloud, public IRouter, public boost::enable_shared_from_this<Router>
+#ifdef HAVE_TESTS
+             ,public ICloudTest
+#endif               
 {
 public:
   typedef boost::shared_ptr<Router> Ptr;
@@ -68,13 +71,14 @@ public:
 
   virtual std::list<workrave::cloud::ClientInfo> get_client_infos() const;
   
+#ifdef HAVE_TESTS
   virtual UUID get_id() const;
   virtual std::list<UUID> get_clients() const;
   virtual std::list<UUID> get_direct_clients() const;
   virtual int get_cycle_failures() const;
   virtual void start_announce();
   virtual void disconnect(UUID id);
-
+#endif
   
 private:
   Router();

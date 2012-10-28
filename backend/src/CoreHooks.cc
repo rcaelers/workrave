@@ -40,6 +40,7 @@ CoreHooks::CoreHooks()
 }
 
 
+#ifdef HAVE_TESTS
 boost::function<ActivityState()> &
 CoreHooks::hook_local_activity_state()
 {
@@ -52,7 +53,7 @@ CoreHooks::hook_create_configurator()
 {
   return create_configurator_hook;
 }
-
+#endif
 
 boost::signals2::signal<void(bool)> &
 CoreHooks::signal_local_active_changed()

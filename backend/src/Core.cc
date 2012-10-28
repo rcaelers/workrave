@@ -125,12 +125,15 @@ Core::init_configurator()
 {
   string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
 
+#ifdef HAVE_TESTS
   if (!hooks->hook_create_configurator().empty())
     {
       configurator = hooks->hook_create_configurator()();
     }
-  
-  else if (Util::file_exists(ini_file))
+  else
+#endif
+    
+    if (Util::file_exists(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);

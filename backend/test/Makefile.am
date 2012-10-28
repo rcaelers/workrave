@@ -6,6 +6,8 @@
 
 MAINTAINERCLEANFILES = 	*.pyc
 
+if HAVE_TESTS
+
 bin_PROGRAMS = 		cloud cloud_test
 
 cloud_SOURCES = 	cloud.cc Workrave.cc
@@ -39,3 +41,7 @@ cloud_test_LDADD =	${cloud_LDADD}
 
 
 $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la
+
+endif
+
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh)

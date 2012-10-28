@@ -84,7 +84,6 @@ Router::init(int port, string username, string secret)
   TRACE_ENTER("Router::init");
   this->username = username;
   this->secret = secret;
-
     
   init_myid(port);
 
@@ -113,15 +112,6 @@ Router::terminate()
 void
 Router::heartbeat()
 {
-}
-
-
-void
-Router::start_announce()
-{
-  TRACE_ENTER("Router::start_announce");
-    announce->start();
-    TRACE_EXIT();
 }
 
 
@@ -155,63 +145,6 @@ Router::connect(NetworkAddress::Ptr host, int port)
   connect(host->addr_str(),  port);
 
   TRACE_EXIT();
-}
-
-void
-Router::disconnect(UUID id)
-{
-  TRACE_ENTER("Router::disconnect");
-  Client::Ptr client = find_client(id);
-  if (client)
-    {
-      DirectLink::Ptr link = boost::dynamic_pointer_cast<DirectLink>(client->link);
-      if (link)
-        {
-          link->close();
-        }
-      TRACE_MSG("closed");
-    }
-  TRACE_EXIT();
-}
-
-
-UUID
-Router::get_id() const
-{
-  return myid;
-}
-
-std::list<UUID>
-Router::get_clients() const
-{
-  std::list<UUID> ids;
-  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
-    {
-      ids.push_back((*it)->id);
-    }
-  return ids;
-}
-
-
-std::list<UUID>
-Router::get_direct_clients() const
-{
-  std::list<UUID> ids;
-  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
-    {
-      ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
-      if (!via)
-        {
-          ids.push_back((*it)->id);
-        }
-    }
-  return ids;
-}
-
-int
-Router::get_cycle_failures() const
-{
-  return cycle_failures;
 }
 
 
@@ -684,4 +617,74 @@ Router::process_signoff(Link::Ptr link, PacketIn::Ptr packet)
     }
   TRACE_EXIT();
 }
+
+
+
+#ifdef HAVE_TESTS
+
+void
+Router::start_announce()
+{
+  TRACE_ENTER("Router::start_announce");
+  announce->start();
+  TRACE_EXIT();
+}
+
+UUID
+Router::get_id() const
+{
+  return myid;
+}
+
+std::list<UUID>
+Router::get_clients() const
+{
+  std::list<UUID> ids;
+  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
+    {
+      ids.push_back((*it)->id);
+    }
+  return ids;
+}
+
+
+std::list<UUID>
+Router::get_direct_clients() const
+{
+  std::list<UUID> ids;
+  for (ClientCIter it = clients.begin(); it != clients.end(); it++)
+    {
+      ViaLink::Ptr via = boost::dynamic_pointer_cast<ViaLink>((*it)->link);
+      if (!via)
+        {
+          ids.push_back((*it)->id);
+        }
+    }
+  return ids;
+}
+
+int
+Router::get_cycle_failures() const
+{
+  return cycle_failures;
+}
+
+void
+Router::disconnect(UUID id)
+{
+  TRACE_ENTER("Router::disconnect");
+  Client::Ptr client = find_client(id);
+  if (client)
+    {
+      DirectLink::Ptr link = boost::dynamic_pointer_cast<DirectLink>(client->link);
+      if (link)
+        {
+          link->close();
+        }
+      TRACE_MSG("closed");
+    }
+  TRACE_EXIT();
+}
+#endif
+
 

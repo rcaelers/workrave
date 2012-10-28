@@ -6,6 +6,8 @@
 
 MAINTAINERCLEANFILES = 	*.pyc
 
+if HAVE_TESTS
+
 bin_PROGRAMS = 		cloud
 
 cloud_SOURCES = 	cloud.cc test.pb.cc
@@ -35,3 +37,8 @@ cloud_LDADD    =        $(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			@GLIB_LIBS@ @PROTOBUF_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @WIN32LIBS@ 
+
+endif
+
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.proto) 
+

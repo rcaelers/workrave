@@ -120,11 +120,13 @@ ActivityMonitor::heartbeat()
   // Default
   ActivityState state;
   
+#ifdef HAVE_TESTS
   if (!hooks->hook_local_activity_state().empty())
     {
       state = hooks->hook_local_activity_state()();
     }
   else
+#endif
     {
       state = local_monitor->get_state();
     }

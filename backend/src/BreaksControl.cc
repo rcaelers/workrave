@@ -91,7 +91,7 @@ BreaksControl::~BreaksControl()
 /********************************************************************************/
 
 
-//! Initializes the core.
+//! Initializes the breaks controller.
 void
 BreaksControl::init()
 {

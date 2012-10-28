@@ -115,13 +115,6 @@ Networking::init()
   TRACE_EXIT();
 }
 
-
-void
-Networking::start_announce()
-{
-  boost::dynamic_pointer_cast<ICloudTest>(cloud)->start_announce();
-}
-
 //! Terminates the network announcer.
 void
 Networking::terminate()
@@ -409,3 +402,12 @@ Networking::send_timer_state()
       cloud->send_message(a, MessageParams::create());
     }
 }
+
+#ifdef HAVE_TESTS
+void
+Networking::start_announce()
+{
+  boost::dynamic_pointer_cast<ICloudTest>(cloud)->start_announce();
+}
+#endif
+
