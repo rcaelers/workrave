@@ -1,6 +1,6 @@
 // Util.hh --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2010, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UTIL_HH
-#define UTIL_HH
+#ifndef WORKRAVE_UTILS_UTIL_HH
+#define WORKRAVE_UTILS_UTIL_HH
 
 #include <string>
 #include <set>
@@ -58,4 +58,4 @@ private:
   static string home_directory;
 };
 
-#endif // UTIL_HH
+#endif // WORKRAVE_UTILS_UTIL_HH

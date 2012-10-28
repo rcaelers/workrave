@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICORE_HH
-#define ICORE_HH
+#ifndef WORKRAVE_BACKEND_ICORE_HH
+#define WORKRAVE_BACKEND_ICORE_HH
 
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -146,4 +146,4 @@ namespace workrave
   std::string operator%(const std::string &key, BreakId id);
 };
 
-#endif // ICORE_HH
+#endif // WORKRAVE_BACKEND_ICORE_HH

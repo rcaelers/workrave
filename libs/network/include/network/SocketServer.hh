@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOCKETSERVER_HH
-#define SOCKETSERVER_HH
+#ifndef WORKRAVE_NETWORK_SOCKETSERVER_HH
+#define WORKRAVE_NETWORK_SOCKETSERVER_HH
 
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>
@@ -46,4 +46,4 @@ namespace workrave
   }
 }
 
-#endif // SOCKETSERVER_HH
+#endif // WORKRAVE_NETWORK_SOCKETSERVER_HH

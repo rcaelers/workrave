@@ -14,8 +14,8 @@
 // GNU General Public License for more details.
 //
 
-#ifndef ICONFIGURATORLISTENER_HH
-#define ICONFIGURATORLISTENER_HH
+#ifndef WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH
+#define WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH
 
 #include <string>
 
@@ -35,4 +35,4 @@ namespace workrave
   }
 }
 
-#endif // ICONFIGURATORLISTENER_HH
+#endif // WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH

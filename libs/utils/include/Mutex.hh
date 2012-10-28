@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MUTEX_HH
-#define MUTEX_HH
+#ifndef WORKRAVE_UTILS_MUTEX_HH
+#define WORKRAVE_UTILS_MUTEX_HH
 
 #if defined(HAVE_GLIB)
 #include "GlibMutex.hh"
@@ -26,4 +26,4 @@
 #error Port missing
 #endif
 
-#endif // MUTEX_HH
+#endif // WORKRAVE_UTILS_MUTEX_HH

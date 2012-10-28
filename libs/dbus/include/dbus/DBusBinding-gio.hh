@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUSBINDINGGIO_HH
-#define DBUSBINDINGGIO_HH
+#ifndef WORKRAVE_DBUS_DBUSBINDINGGIO_HH
+#define WORKRAVE_DBUS_DBUSBINDINGGIO_HH
 
 #include <string>
 #include <gio/gio.h>
@@ -70,4 +70,4 @@ namespace workrave
   }
 }
 
-#endif // DBUSBINDINGGIO_HH
+#endif // WORKRAVE_DBUS_DBUSBINDINGGIO_HH

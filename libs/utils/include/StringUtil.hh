@@ -1,6 +1,6 @@
 // StringUtil.hh --- General purpose string utility functions
 //
-// Copyright (C) 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef STRINGUTIL_HH
-#define STRINGUTIL_HH
+#ifndef WORKRAVE_UTILS_STRINGUTIL_HH
+#define WORKRAVE_UTILS_STRINGUTIL_HH
 
 #include <string>
 #include <vector>
@@ -30,4 +30,4 @@ public:
   static std::string search_replace(const std::string &in, const std::string &search, const std::string &replace);
 };
 
-#endif // STRINGUTIL_HH
+#endif // WORKRAVE_UTILS_STRINGUTIL_HH

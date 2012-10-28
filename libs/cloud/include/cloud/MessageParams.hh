@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MESSAGEPARAMS_HH
-#define MESSAGEPARAMS_HH
+#ifndef WORKRAVE_CLOUD_MESSAGEPARAMS_HH
+#define WORKRAVE_CLOUD_MESSAGEPARAMS_HH
 
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
@@ -47,4 +47,4 @@ namespace workrave
   }
 }
 
-#endif // MESSAGEPARAMS_HH
+#endif // WORKRAVE_CLOUD_MESSAGEPARAMS_HH

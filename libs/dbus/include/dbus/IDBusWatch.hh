@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IDBUSWATCH_HH
-#define IDBUSWATCH_HH
+#ifndef WORKRAVE_DBUS_IDBUSWATCH_HH
+#define WORKRAVE_DBUS_IDBUSWATCH_HH
 
 #include <string>
 
@@ -35,4 +35,4 @@ namespace workrave
   }
 }
 
-#endif // IDBUSWATCH_HH
+#endif // WORKRAVE_DBUS_IDBUSWATCH_HH

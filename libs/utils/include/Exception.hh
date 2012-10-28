@@ -1,6 +1,6 @@
 // Exception.hh --- Base exception
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef EXCEPTION_HH
-#define EXCEPTION_HH
+#ifndef WORKRAVE_UTILS_EXCEPTION_HH
+#define WORKRAVE_UTILS_EXCEPTION_HH
 
 
 #include <string>
@@ -54,4 +54,4 @@ namespace workrave
   };
 };
 
-#endif // EXCEPTION_HH
+#endif // WORKRAVE_UTILS_EXCEPTION_HH

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOCKET_HH
-#define SOCKET_HH
+#ifndef WORKRAVE_NETWORK_SOCKET_HH
+#define WORKRAVE_NETWORK_SOCKET_HH
 
 #include <string>
 
@@ -70,4 +70,4 @@ namespace workrave
   }
 }
 
-#endif // SOCKET_HH
+#endif // WORKRAVE_NETWORK_SOCKET_HH

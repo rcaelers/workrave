@@ -1,5 +1,5 @@
-#ifndef OBJECT_HH
-#define OBJECT_HH
+#ifndef WORKRAVE_UTILS_OBJECT_HH
+#define WORKRAVE_UTILS_OBJECT_HH
 
 #include "debug.hh"
 

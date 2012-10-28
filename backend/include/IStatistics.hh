@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ISTATISTICS_HH
-#define ISTATISTICS_HH
+#ifndef WORKRAVE_BACKEND_ISTATISTICS_HH
+#define WORKRAVE_BACKEND_ISTATISTICS_HH
 
 #include <time.h>
 
@@ -91,4 +91,4 @@ namespace workrave {
   };
 }
 
-#endif // ISTATISTICS_HH
+#endif // WORKRAVE_BACKEND_ISTATISTICS_HH

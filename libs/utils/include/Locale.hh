@@ -1,6 +1,6 @@
 // Locale.hh
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef LOCALE_HH
-#define LOCALE_HH
+#ifndef WORKRAVE_UTILS_LOCALE_HH
+#define WORKRAVE_UTILS_LOCALE_HH
 
 #include <map>
 #include <string>
@@ -59,4 +59,4 @@ private:
 
 };
 
-#endif // LOCALE_HH
+#endif // WORKRAVE_UTILS_LOCALE_HH

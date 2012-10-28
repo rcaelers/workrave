@@ -17,10 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CLOUD_HH
-#define CLOUD_HH
+#ifndef WORKRAVE_CLOUD_CLOUD_HH
+#define WORKRAVE_CLOUD_CLOUD_HH
 
 #include "cloud/ICloud.hh"
 #include "cloud/UUID.hh"
 
-#endif // CLOUD_HH
+#endif // WORKRAVE_CLOUD_CLOUD_HH

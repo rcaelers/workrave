@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMESOURCE_HH
-#define TIMESOURCE_HH
+#ifndef WORKRAVE_UTILS_TIMESOURCE_HH
+#define WORKRAVE_UTILS_TIMESOURCE_HH
 
 #include "ITimeSource.hh"
 
@@ -61,4 +61,4 @@ namespace workrave
   }
 }
 
-#endif // TIMESOURCE_HH
+#endif // WORKRAVE_UTILS_TIMESOURCE_HH

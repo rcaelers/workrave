@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUS_HH
-#define DBUS_HH
+#ifndef WORKRAVE_DBUS_DBUS_HH
+#define WORKRAVE_DBUS_DBUS_HH
 
 #ifdef HAVE_DBUS_GIO
 #include "dbus/DBus-gio.hh"
@@ -26,4 +26,4 @@
 #include "dbus/DBus-freedesktop.hh"
 #endif
 
-#endif // DBUS_HH
+#endif // WORKRAVE_DBUS_DBUS_HH

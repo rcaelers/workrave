@@ -20,8 +20,8 @@
 
 //
 
-#ifndef HARPOON_HH
-#define HARPOON_HH
+#ifndef WORKRAVE_INPUT_MONITOR_HARPOON_HH
+#define WORKRAVE_INPUT_MONITOR_HARPOON_HH
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -70,4 +70,4 @@ private:
   static bool helper_started;
   static char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 };
-#endif // HARPOON_HH
+#endif // WORKRAVE_INPUT_MONITOR_HARPOON_HH

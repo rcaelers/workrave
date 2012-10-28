@@ -1,6 +1,6 @@
 // Runnable.hh --- Runnable interface
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef RUNNABLE_HH
-#define RUNNABLE_HH
+#ifndef WORKRAVE_UTILS_RUNNABLE_HH
+#define WORKRAVE_UTILS_RUNNABLE_HH
 
 class Runnable
 {
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif // RUNNABLE_HH
+#endif // WORKRAVE_UTILS_RUNNABLE_HH

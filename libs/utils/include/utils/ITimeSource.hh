@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ITIMESOURCE_HH
-#define ITIMESOURCE_HH
+#ifndef WORKRAVE_UTILS_ITIMESOURCE_HH
+#define WORKRAVE_UTILS_ITIMESOURCE_HH
 
 #include <boost/shared_ptr.hpp>
 
@@ -45,4 +45,4 @@ namespace workrave
   }
 }
 
-#endif // ITIMESOURCE_HH
+#endif // WORKRAVE_UTILS_ITIMESOURCE_HH

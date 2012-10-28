@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CORECONFIG_HH
-#define CORECONFIG_HH
+#ifndef WORKRAVE_BACKEND_CORECONFIG_HH
+#define WORKRAVE_BACKEND_CORECONFIG_HH
 
 #include "ICore.hh"
 #include "config/IConfigurator.hh"

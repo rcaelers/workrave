@@ -17,11 +17,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CONFIGURATOR_HH
-#define CONFIGURATOR_HH
+#ifndef WORKRAVE_CONFIG_CONFIGURATOR_HH
+#define WORKRAVE_CONFIG_CONFIGURATOR_HH
 
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "config/ConfiguratorFactory.hh"
 
-#endif // CONFIGURATOR_HH
+#endif // WORKRAVE_CONFIG_CONFIGURATOR_HH

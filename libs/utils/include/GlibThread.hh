@@ -1,6 +1,6 @@
 // GlibThread.hh --- GLib Thread class
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GLIBTHREAD_HH
-#define GLIBTHREAD_HH
+#ifndef WORKRAVE_UTILS_GLIBTHREAD_HH
+#define WORKRAVE_UTILS_GLIBTHREAD_HH
 
 #include "Runnable.hh"
 #include <glib.h>
@@ -49,4 +49,4 @@ private:
 };
 
 
-#endif // GLIBTHREAD_HH
+#endif // WORKRAVE_UTILS_GLIBTHREAD_HH

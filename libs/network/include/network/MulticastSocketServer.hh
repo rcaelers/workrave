@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MULTICASTSERVER_HH
-#define MULTICASTSERVER_HH
+#ifndef WORKRAVE_NETWORK_MULTICASTSERVER_HH
+#define WORKRAVE_NETWORK_MULTICASTSERVER_HH
 
 #include <string>
 
@@ -57,4 +57,4 @@ namespace workrave
   }
 }
 
-#endif // MULTICASTSERVER_HH
+#endif // WORKRAVE_NETWORK_MULTICASTSERVER_HH

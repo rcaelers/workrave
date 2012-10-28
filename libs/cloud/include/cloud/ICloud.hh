@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICLOUD_HH
-#define ICLOUD_HH
+#ifndef WORKRAVE_CLOUD_ICLOUD_HH
+#define WORKRAVE_CLOUD_ICLOUD_HH
 
 #include <list>
 #include <map>
@@ -70,4 +70,4 @@ namespace workrave
 }
 
 
-#endif // ICLOUD_HH
+#endif // WORKRAVE_CLOUD_ICLOUD_HH

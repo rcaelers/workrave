@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CONFIGURATORFACTORY_HH
-#define CONFIGURATORFACTORY_HH
+#ifndef WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH
+#define WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH
 
 #include "IConfigurator.hh"
 
@@ -43,4 +43,4 @@ namespace workrave
   }
 }
 
-#endif // CONFIGURATORFACTORY_HH
+#endif // WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH

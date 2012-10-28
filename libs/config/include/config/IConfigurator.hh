@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICONFIGURATOR_HH
-#define ICONFIGURATOR_HH
+#ifndef WORKRAVE_CONFIG_ICONFIGURATOR_HH
+#define WORKRAVE_CONFIG_ICONFIGURATOR_HH
 
 #include <boost/shared_ptr.hpp>
 
@@ -93,4 +93,4 @@ namespace workrave
   }
 }
 
-#endif // ICONFIGURATOR_HH
+#endif // WORKRAVE_CONFIG_ICONFIGURATOR_HH

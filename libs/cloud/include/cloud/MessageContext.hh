@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MESSAGECONTEXT_HH
-#define MESSAGECONTEXT_HH
+#ifndef WORKRAVE_CLOUD_MESSAGECONTEXT_HH
+#define WORKRAVE_CLOUD_MESSAGECONTEXT_HH
 
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
@@ -48,4 +48,4 @@ namespace workrave
   }
 }
 
-#endif // MESSAGECONTEXT_HH
+#endif // WORKRAVE_CLOUD_MESSAGECONTEXT_HH

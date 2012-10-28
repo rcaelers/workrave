@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SCOPE_HH
-#define SCOPE_HH
+#ifndef WORKRAVE_CLOUD_SCOPE_HH
+#define WORKRAVE_CLOUD_SCOPE_HH
 
 #include <google/protobuf/message.h>
 
@@ -35,4 +35,4 @@ namespace workrave
   }
 }
 
-#endif // SCOPE_HH
+#endif // WORKRAVE_CLOUD_SCOPE_HH

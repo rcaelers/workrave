@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UUID_HH
-#define UUID_HH
+#ifndef WORKRAVE_CLOUD_UUID_HH
+#define WORKRAVE_CLOUD_UUID_HH
 
 #include <sstream>
 
@@ -73,4 +73,4 @@ namespace workrave
   }
 }
 
-#endif // UUID_HH
+#endif // WORKRAVE_CLOUD_UUID_HH

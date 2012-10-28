@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MESSAGE_HH
-#define MESSAGE_HH
+#ifndef WORKRAVE_CLOUD_MESSAGE_HH
+#define WORKRAVE_CLOUD_MESSAGE_HH
 
 #include <google/protobuf/message.h>
 
@@ -34,4 +34,4 @@ namespace workrave
   }
 }
 
-#endif // MESSAGE_HH
+#endif // WORKRAVE_CLOUD_MESSAGE_HH

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUSEXCEPTION_HH
-#define DBUSEXCEPTION_HH
+#ifndef WORKRAVE_DBUS_DBUSEXCEPTION_HH
+#define WORKRAVE_DBUS_DBUSEXCEPTION_HH
 
 #include "Exception.hh"
 
@@ -111,4 +111,4 @@ namespace workrave
   }
 }
 
-#endif // DBUSEXCEPTION_HH
+#endif // WORKRAVE_DBUS_DBUSEXCEPTION_HH

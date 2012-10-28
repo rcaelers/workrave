@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GLIBMUTEX_HH
-#define GLIBMUTEX_HH
+#ifndef WORKRAVE_UTILS_GLIBMUTEX_HH
+#define WORKRAVE_UTILS_GLIBMUTEX_HH
 
 #include <glib.h>
 
@@ -83,4 +83,4 @@ private:
 
 #endif
 
-#endif // GLIBMUTEX_HH
+#endif // WORKRAVE_UTILS_GLIBMUTEX_HH

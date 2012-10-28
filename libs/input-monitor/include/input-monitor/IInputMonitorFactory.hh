@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IINPUTMONITORFACTORY_HH
-#define IINPUTMONITORFACTORY_HH
+#ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
+#define WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 
 #include <stdlib.h>
 #include <string>
@@ -46,4 +46,4 @@ namespace workrave
     };
   }
 }
-#endif // IINPUTMONITORFACTORY_HH
+#endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH

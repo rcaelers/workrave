@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NETWORKADDRESS_HH
-#define NETWORKADDRESS_HH
+#ifndef WORKRAVE_NETWORK_NETWORKADDRESS_HH
+#define WORKRAVE_NETWORK_NETWORKADDRESS_HH
 
 #include <string>
 #include <boost/shared_ptr.hpp>

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICOREHOOKS_HH
-#define ICOREHOOKS_HH
+#ifndef WORKRAVE_BACKEND_ICOREHOOKS_HH
+#define WORKRAVE_BACKEND_ICOREHOOKS_HH
 
 #include <string>
 #include <map>
@@ -55,4 +55,4 @@ public:
   virtual boost::signals2::signal<void(bool)> &signal_local_active_changed() = 0;
 };
 
-#endif // ICOREHOOKS_HH
+#endif // WORKRAVE_BACKEND_ICOREHOOKS_HH

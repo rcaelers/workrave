@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef THREAD_HH
-#define THREAD_HH
+#ifndef WORKRAVE_UTILS_THREAD_HH
+#define WORKRAVE_UTILS_THREAD_HH
 
 #if defined(HAVE_GLIB)
 #include "GlibThread.hh"
@@ -26,4 +26,4 @@
 #error Port missing
 #endif
 
-#endif // THREAD_HH
+#endif // WORKRAVE_UTILS_THREAD_HH

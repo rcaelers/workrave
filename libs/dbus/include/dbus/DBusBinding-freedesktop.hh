@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUSBINDINGFREEDESKTOP_HH
-#define DBUSBINDINGFREEDESKTOP_HH
+#ifndef WORKRAVE_DBUS_DBUSBINDINGFREEDESKTOP_HH
+#define WORKRAVE_DBUS_DBUSBINDINGFREEDESKTOP_HH
 
 #include <dbus/dbus.h>
 #include <glib.h>
@@ -89,4 +89,4 @@ namespace workrave
   }
 }
 
-#endif // DBUSBINDINGFREEDESKTOP_HH
+#endif // WORKRAVE_DBUS_DBUSBINDINGFREEDESKTOP_HH

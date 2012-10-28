@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CORETYPES_HH
-#define CORETYPES_HH
+#ifndef WORKRAVE_BACKEND_CORETYPES_HH
+#define WORKRAVE_BACKEND_CORETYPES_HH
 
 #ifdef __cplusplus
 namespace workrave {
@@ -76,4 +76,4 @@ namespace workrave {
 }
 #endif
 
-#endif // CORETYPES_HH
+#endif // WORKRAVE_BACKEND_CORETYPES_HH

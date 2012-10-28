@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IINPUTMONITOR_HH
-#define IINPUTMONITOR_HH
+#ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
+#define WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 
 namespace workrave
 {
@@ -48,4 +48,4 @@ namespace workrave
   }
 }
 
-#endif // IINPUTMONITOR_HH
+#endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH

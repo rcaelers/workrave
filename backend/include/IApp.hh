@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IAPP_HH
-#define IAPP_HH
+#ifndef WORKRAVE_BACKEND_IAPP_HH
+#define WORKRAVE_BACKEND_IAPP_HH
 
 #include "ICore.hh"
 
@@ -77,4 +77,4 @@ namespace workrave
   };
 }
 
-#endif // IAPP_HH
+#endif // WORKRAVE_BACKEND_IAPP_HH
