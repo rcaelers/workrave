@@ -1,0 +1,70 @@
+# -*- mode: python -*-
+# This code is licensed under the GPLv2 License
+# Derived work from the original freedesktop.org example.jhbuildrc
+#
+# This jhbuildrc file is created for the purpose of cross compile Gtk+
+# with Mingw32 under Linux.
+#
+# Author:      Alberto Ruiz <aruiz@gnome.org>
+#
+# modified by: Rolf Gebhardt <rg@klige.de>
+# 
+
+moduleset = os.environ['PWD'] + '/mingw.moduleset'
+
+modules = ['protobuf']
+
+flavour = os.environ['BUILD_FLAVOUR']
+
+if flavour == 'rls':
+        flavour_ext = 'rls'
+        flavour_opt = '--enable-debug=no'
+else:
+        flavour_ext = 'dbg'
+        flavour_opt = "--enable-debug=yes CFLAGS='-g -O0' CXXFLAGS='-g -O0'"
+
+
+# checkoutroot: path to download packages elsewhere
+# prefix:       target path to install the compiled binaries
+checkoutroot = os.environ['PWD'] + '/checkout.' + flavour_ext + '/'
+prefix = os.environ['PWD'] + '/usr/i686-w64-mingw32/sys-root/mingw/'
+
+os.environ['prefix'] = prefix
+os.environ['SYSROOT'] = prefix
+
+os.environ['PKG_CONFIG_DIR'] = ''
+os.environ['PKG_CONFIG_LIBDIR'] = prefix + '/lib/pkgconfig'
+os.environ['PKG_CONFIG_PATH'] = prefix + '/share/pkgconfig'
+os.environ['PKG_CONFIG_SYSROOT_DIR'] = prefix
+os.environ['PKG_CONFIG'] = 'pkg-config --define-variable=prefix=' + prefix
+
+os.environ['HOST'] = 'i686-w64-mingw32'
+os.environ['TARGET'] = 'i686-w64-mingw32'
+
+os.environ['CFLAGS']   = '-mms-bitfields -march=i686 -I' + prefix + '/include'
+os.environ['CXXFLAGS'] = '-mms-bitfields -march=i686 -I' + prefix + '/include'
+os.environ['CPPFLAGS'] = '-I' + prefix + '/include'
+os.environ['LDFLAGS']  = '-L' + prefix + '/lib'
+os.environ['ARFLAGS']  = '-ar rcs'
+#os.environ['INSTALL']  = os.path.expanduser('~/bin/install-check')
+
+#os.environ['INCLUDE_PATH'] = prefix+'/include'
+#os.environ['LIBRARY_PATH'] = prefix+'/lib'
+#os.environ['BINARY_PATH']  = prefix+'/bin'
+
+# always autogen because otherwise freetype will not build
+alwaysautogen = True
+use_lib64 = False
+
+#Populating autogenargs
+autogenargs  = ' --build=' + os.environ['HOST']
+autogenargs += ' --host=' + os.environ['TARGET']
+autogenargs += ' --target=' + os.environ['TARGET']
+autogenargs += ' --disable-docs'
+autogenargs += ' --disable-tests'
+autogenargs += ' --enable-all-warnings'
+autogenargs += ' --enable-maintainer-mode'
+autogenargs += ' --disable-static'
+autogenargs += ' ' + flavour_opt
+
+module_autogenargs['protobuf']    = autogenargs + """ --with-protoc=/usr/bin/protoc"""
