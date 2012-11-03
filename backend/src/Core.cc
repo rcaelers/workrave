@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -1547,6 +1547,17 @@ Core::set_freeze_all_breaks(bool freeze)
         {
           t->freeze_timer(freeze);
         }
+    }
+}
+
+void
+Core::set_insensitive_mode_all_breaks(InsensitiveMode mode)
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      Timer *t = breaks[i].get_timer();
+      assert(t != NULL);
+      t->set_insensitive_mode(mode);
     }
 }
 

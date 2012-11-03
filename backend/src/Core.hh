@@ -119,6 +119,7 @@ public:
   void set_usage_mode(UsageMode mode);
 
   void set_freeze_all_breaks(bool freeze);
+  void set_insensitive_mode_all_breaks(InsensitiveMode mode);
 
   void stop_prelude(BreakId break_id);
   void do_force_break(BreakId id, BreakHint break_hint);

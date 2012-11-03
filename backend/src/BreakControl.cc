@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -216,14 +216,14 @@ BreakControl::goto_stage(BreakStage stage)
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
 
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+        core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+        core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
@@ -282,7 +282,7 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
+        core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -298,7 +298,8 @@ BreakControl::goto_stage(BreakStage stage)
       {
         // Break timer should always idle.
         // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+        // core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_IDLE_ALWAYS);
+        core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_FOLLOW_IDLE);
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();

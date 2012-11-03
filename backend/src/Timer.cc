@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001 - 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -467,13 +467,13 @@ Timer::start_timer()
       // Set last start and stop times.
       if (!timer_frozen)
         {
-          TRACE_MSG("!Frozen");
           // Timer is not frozen, so let's start.
           last_start_time = core->get_time();
           elapsed_idle_time = 0;
         }
       else
         {
+          TRACE_MSG("timer is frozen.");
           // The timer is frozen, so we don't start counting 'active' time.
           // Instead, update the elapsed idle time.
           if (last_stop_time != 0)
@@ -491,7 +491,6 @@ Timer::start_timer()
       timer_state = STATE_RUNNING;
 
       // When to generate a limit-reached-event.
-      TRACE_MSG("Compute");
       compute_next_limit_time();
     }
   TRACE_EXIT();
@@ -720,8 +719,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
 
-  TRACE_MSG("idle = " << info.idle_time);
-  TRACE_MSG("elap = " << info.elapsed_time);
+  TRACE_MSG("idle_time = " << info.idle_time);
+  TRACE_MSG("elapsed_time = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
@@ -748,9 +747,9 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       TRACE_MSG("is not activity sensitive");
       if (activity_state != ACTIVITY_UNKNOWN)
         {
-          TRACE_MSG("as = "   << activity_state <<
-                    " nas = " << new_activity_state <<
-                    " el ="   << get_elapsed_time());
+          TRACE_MSG("activity_state = "   << activity_state <<
+                    " new_activity_state = " << new_activity_state <<
+                    " elapsed_time ="   << get_elapsed_time());
 
           if (insensitive_mode == INSENSITIVE_MODE_IDLE_ALWAYS)
             // Forces ACTIVITY_IDLE every time, regardless of sensitivity
@@ -763,19 +762,14 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
             {
               if (insensitive_mode == INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
                 {
+                  TRACE_MSG("MODE_IDLE_ON_LIMIT_REACHED");
                   new_activity_state = activity_state;
                 }
 
-              TRACE_MSG("new state2 = " << activity_state << " " << new_activity_state);
+              TRACE_MSG("new_activity_state = " << new_activity_state);
             }
 
-          TRACE_MSG("state = " << new_activity_state);
-          TRACE_MSG("time, next limit "
-                    << current_time << " "
-                    << next_limit_time << " "
-                    << limit_interval << " "
-                    << (next_limit_time - current_time)
-                    );
+          TRACE_MSG("activity_state = " << new_activity_state);
         }
     }
 
@@ -834,7 +828,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       info.event = TIMER_EVENT_LIMIT_REACHED;
       // Its very unlikely (but not impossible) that this will overrule
-      // the EventStarted. Hey, shit happends.
+      // the EventStarted. Hey, shit happens.
 
       if (!activity_sensitive)
         {
