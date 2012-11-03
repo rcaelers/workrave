@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-DIST_SUBDIRS = plot send_dbus_command send_menu_command
+EXTRA_DIST = 		workrave-kde.sh

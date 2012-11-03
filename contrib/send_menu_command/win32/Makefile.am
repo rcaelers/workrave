@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-DIST_SUBDIRS = plot send_dbus_command send_menu_command
+EXTRA_DIST = 		send_workrave_command.c Send\ Command\ to\ Workrave\ Example.cs README.txt

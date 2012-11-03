@@ -1065,7 +1065,11 @@ AC_CONFIG_FILES([Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile
-             build/Makefile
+	     contrib/send_menu_command/Makefile
+	     contrib/send_menu_command/win32/Makefile
+	     contrib/send_dbus_command/Makefile
+	     contrib/send_dbus_command/kde/Makefile
+	     build/Makefile
              m4/Makefile
 ])
 
