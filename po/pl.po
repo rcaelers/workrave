@@ -4,23 +4,25 @@
 # mikolaj &lt;mikolaj@localhost&gt;, 2004.
 # Copyright (C) YEAR Rob Caelers &amp; Raymond Penners.
 # Mikolaj Machowski <mikmach@wp.pl>, 2005.
-#
+# s120801-translate <s120801-translate@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-10-22 18:27+0200\n"
-"PO-Revision-Date: 2011-02-16 19:25+0100\n"
-"Last-Translator: Mikolaj Machowski <mikmach@wp.pl>\n"
-"Language-Team: Polish <kde-transl@mer.chemia.polsl.gliwice.pl>\n"
+"PO-Revision-Date: 2012-11-12 21:56+0200\n"
+"Last-Translator: s120801-translate <s120801-translate@yahoo.com>\n"
+"Language-Team: s120801-translate\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
 msgstr "Ponowne łączenie z %s."
 
@@ -35,25 +37,25 @@ msgstr "Wyłączanie operacji sieciowych."
 
 #: ../backend/src/DistributionSocketLink.cc:546
 #: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
 msgstr "Łączenie z %s."
 
 #: ../backend/src/DistributionSocketLink.cc:700
 #: ../backend/src/DistributionSocketLink.cc:732
-#, fuzzy, c-format
+#, c-format
 msgid "Removing client %s."
 msgstr "Usuwanie klienta %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:781
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Rozłączanie %s."
+msgstr "Rozłączanie z %s"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:950
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is now master."
 msgstr "Klient %s jest teraz nadrzędny."
 
@@ -65,7 +67,7 @@ msgstr "Jestem nadrzędny."
 #. gchar *name =
 #. int port =
 #: ../backend/src/DistributionSocketLink.cc:1288
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s saying hello."
 msgstr "Klient %s pozdrawia."
 
@@ -73,54 +75,54 @@ msgstr "Klient %s pozdrawia."
 #: ../backend/src/DistributionSocketLink.cc:1303
 #: ../backend/src/DistributionSocketLink.cc:1433
 #: ../backend/src/DistributionSocketLink.cc:1677
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
 msgstr "Klient %s jest duplikatem."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1313
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
 msgstr "Dostęp do klienta %s niemożliwy."
 
 #: ../backend/src/DistributionSocketLink.cc:1382
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
 msgstr "Klient %s odłączony."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1472
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
 msgstr "Klient %s wita."
 
 #: ../backend/src/DistributionSocketLink.cc:1713
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
-msgstr "Żądanie przejęcia kontroli od %s."
+msgstr "Żądanie przejęcia roli nadrzędnego od %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1727
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
 msgstr "Przekroczenie czasu przez %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1749
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Odrzucenie żądania nadrzędnego przez %s."
+msgstr "Odrzucenie żądania nadrzędnego przez klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1755
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Akceptacja prośby nadrzędnego przez %s."
+msgstr "Akceptacja żądanie nadrzędnego przez klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "Zwykły klient %s odrzucił żądanie nadrzędnego."
 
 #: ../backend/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Klient %s odrzucił żądanie nadrzędnego, opóźnienie."
 
@@ -139,25 +141,25 @@ msgid "Accepted new client."
 msgstr "Nowy klient zaakceptowany."
 
 #: ../backend/src/DistributionSocketLink.cc:2104
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
 msgstr "%s - błąd odczytu, zamykam."
 
 #: ../backend/src/DistributionSocketLink.cc:2110
 #: ../backend/src/DistributionSocketLink.cc:2183
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s zamknął połączenie."
 
 #: ../backend/src/DistributionSocketLink.cc:2151
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s connected."
-msgstr "Klient %s połączony."
+msgstr "Klient %s jest połączony."
 
 #: ../backend/src/DistributionSocketLink.cc:2189
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
-msgstr "Połączenie z klientem %s niemożliwe."
+msgstr "Nie można połączyć się z klientem %s."
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
@@ -165,7 +167,7 @@ msgstr "Połączenie z klientem %s niemożliwe."
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "Reading mode"
-msgstr ""
+msgstr "Tryb czytania"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_About..."
@@ -277,30 +279,27 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Program pomaga w zapobieganiu RSI (Repetitive Strain Injury)\n"
-"oraz wspomaga rekonwalescencję."
+"Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
+"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
-msgstr ""
+msgstr "_Dołącz"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#, fuzzy
 msgid "_About"
-msgstr "_O programie..."
+msgstr "_O programie"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
-#, fuzzy
 msgid "Show log"
-msgstr "_Pokaż log"
+msgstr "Pokaż log"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
 msgid "Normal"
-msgstr "_Normalny"
+msgstr "Normalny"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
 #: ../frontend/gtkmm/src/GUI.cc:1519
@@ -354,13 +353,12 @@ msgid "Exercises ended"
 msgstr "Ćwiczenia zakończone"
 
 #: ../frontend/common/src/SoundPlayer.cc:135
-#, fuzzy
 msgid "Exercise change"
-msgstr "Ćwiczenie zakończone"
+msgstr "Zmiana ćwiczenia"
 
 #: ../frontend/common/src/SoundPlayer.cc:608
 msgid "Custom"
-msgstr ""
+msgstr "Własne"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -378,22 +376,18 @@ msgid "%s%d seconds"
 msgstr "%s%d sekund"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:309
-#, fuzzy
 msgid "_Lock"
 msgstr "_Zablokuj"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
-#, fuzzy
 msgid "Shut _down"
 msgstr "_Wyłącz"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:353
-#, fuzzy
 msgid "_Skip"
 msgstr "_Pomiń"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:370
-#, fuzzy
 msgid "_Postpone"
 msgstr "_Opóźnij"
 
@@ -404,42 +398,44 @@ msgid ""
 "find something else to do, such as reviewing a document."
 msgstr ""
 "Osiągnąłeś swój dzienny limit. Lepiej nie siedź już\n"
-"przed komputerem. Jeśli Twój dzień pracy jeszcze się nie\n"
-"skończył znajdź coś innego do roboty, np. przeglądanie\n"
-"dokumentów."
+"przed komputerem. Jeśli Twój dzień pracy jeszcze się nie skończył\n"
+"znajdź coś innego do roboty, np. przeglądanie dokumentów."
 
 #: ../frontend/gtkmm/src/GUI.cc:302
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave dalej pracuje. Możesz uzyskać dostęp do Workrave klikając na ikonę "
+"białej owieczki. Kliknij ten dymek, aby wyłączyć tę wiadomość"
 
 #: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
-#, fuzzy
 msgid "Workrave failed to start"
-msgstr "Aplet Workrave"
+msgstr "Nie udało się uruchomić Workrave"
 
 #: ../frontend/gtkmm/src/GUI.cc:846
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Czy Workrave jest już uruchomiony?"
 
 #: ../frontend/gtkmm/src/GUI.cc:954
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave nie może monitorować aktywność klawiatury i myszy.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:957
 msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
+msgstr "Upewnij się, że rozszerzenie RECORD jest włączone w X serwerze."
 
 #: ../frontend/gtkmm/src/GUI.cc:1378
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
+"Workrave jest w trybie zawieszenia. Aktywność myszy i klawiatury nie będą "
+"monitorowane."
 
 #: ../frontend/gtkmm/src/GUI.cc:1384
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -460,13 +456,12 @@ msgstr "Odpoczynek"
 
 #: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
 msgid "Mode: "
-msgstr "Tryb:"
+msgstr "Tryb: "
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#, fuzzy
 msgid "Open"
-msgstr "_Otwórz"
+msgstr "Otwórz"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
@@ -485,9 +480,8 @@ msgstr "Ćwiczenia"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#, fuzzy
 msgid "Mode"
-msgstr "_Tryb"
+msgstr "Tryb"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
@@ -496,19 +490,16 @@ msgid "Network"
 msgstr "Sieć"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#, fuzzy
 msgid "Connect"
-msgstr "_Połącz"
+msgstr "Połącz"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
-#, fuzzy
 msgid "Disconnect"
-msgstr "_Rozłącz"
+msgstr "Rozłącz"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#, fuzzy
 msgid "Reconnect"
-msgstr "P_ołącz znowu"
+msgstr "Połącz ponownie"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
@@ -548,16 +539,15 @@ msgstr "_Połącz"
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Show _log"
-msgstr "_Pokaż log"
+msgstr "Pokaż log"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
-#, fuzzy
 msgid "Quit"
-msgstr "_Zakończ"
+msgstr "Zamknij"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
-msgstr ""
+msgstr "_Tryb czytania"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 msgid "Please relax for a few seconds"
@@ -581,7 +571,7 @@ msgstr "Dzienny limit upłynie za %s"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:269
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "Dzienny limit przekroczony o %s"
+msgstr "Dzienny limit został przekroczony o %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
@@ -638,11 +628,11 @@ msgstr "Tryb blokowania:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
-msgstr ""
+msgstr "Domyślny systemu"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
-msgstr ""
+msgstr "(czcionka niedostępna)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
@@ -650,17 +640,16 @@ msgstr "Język:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Uruchom Workrave podczas uruchamiana systemu"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Pokaż ikonę na pasku zadań"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:314
-#, fuzzy
 msgid "Sound Options"
-msgstr "Opcje"
+msgstr "Opcje dźwięku"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:324
@@ -670,12 +659,12 @@ msgstr "Bez dźwięku"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:325
 msgid "Play sounds using sound card"
-msgstr "przy pomocy karty dźwiękowej"
+msgstr "Przy pomocy karty dźwiękowej"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:326
 msgid "Play sounds using built-in speaker"
-msgstr "za pomocą głośniczka w komputerze"
+msgstr "Za pomocą głośniczka w komputerze"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Volume:"
@@ -686,48 +675,46 @@ msgid "Sound:"
 msgstr "Dźwięk:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:360
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Umieść odpoczynek i limit dzienny w jednym miejscu"
+msgstr "Wycisz dźwięki podczas przerwy na odpoczynek i dziennego limitu"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Events"
-msgstr ""
+msgstr "Dźwięki zdarzeń"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:378
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "Dźwięk:"
+msgstr "Motyw dźwiękowy:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:401
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:419
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:449
 msgid "Play"
-msgstr ""
+msgstr "Odtwórz"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:406
 msgid "Event"
 msgstr "Zdarzenie"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:422
-#, fuzzy
 msgid "Choose a sound"
-msgstr "Bez dźwięku"
+msgstr "Wybór dźwięku"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:434
 msgid "Wavefiles"
-msgstr ""
+msgstr "Pliki wave"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Użyj alternatywnego monitora"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
 "Enable this option if Workrave fails to detect when you are using you "
 "computer"
 msgstr ""
+"Włącz tą opcję jeśli Workrave błędnie wykrywa kiedy pracujesz na komputerze"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
@@ -762,14 +749,12 @@ msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:218
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Naturalnych przerw"
+msgstr "Naturalnych odpoczynków"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:219
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Potrzebujesz odpoczynku..."
+msgstr "To jest twój naturalny odpoczynek."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
@@ -782,9 +767,8 @@ msgstr ""
 "kilka prostych ćwiczeń, rozciągnij się, zrelaksuj."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
-#, fuzzy
 msgid "Take rest break now"
-msgstr "Następny odpoczynek za %s"
+msgstr "Rozpocznij przerwę teraz"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
@@ -839,7 +823,7 @@ msgstr "Uaktywnij aplet"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
 msgid "Display"
-msgstr "Display"
+msgstr "Wyświetlanie"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:159
 msgid "Placement:"
@@ -898,7 +882,7 @@ msgstr "Liczba ćwiczeń:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Rozpocznij przerwę kiedy ekran jest zablokowany"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Time before end:"
@@ -917,12 +901,11 @@ msgid "Postpone time:"
 msgstr "Opóźnienie trwa:"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"Program pomaga w zapobieganiu RSI (Repetitive Strain Injury)\n"
-"oraz wspomaga rekonwalescencję."
+"Pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
+"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
@@ -964,7 +947,7 @@ msgstr "Hasło:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Zezwól na przychodzące połączenia"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -1017,7 +1000,7 @@ msgid ""
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
 "Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie nie "
-"docierało do nich światło.  Teraz otwórz oczy i spójrz w ciemność. To "
+"docierało do nich światło. Teraz otwórz oczy i spójrz w ciemność. To "
 "ćwiczenie przynosi większą ulgę niż zwykłe zamknięcie oczu."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
@@ -1052,8 +1035,8 @@ msgid ""
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
 "Spójrz na górny lewy róg monitora. Powoli przesuwaj wzrok do górnego prawego "
-"rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób monitora "
-"dwukrotnie. Następnie odwróć kierunek ćwiczenia."
+"rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób "
+"monitora dwukrotnie. Następnie odwróć kierunek ćwiczenia."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
@@ -1063,10 +1046,11 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem. Po paru "
-"sekundach zogniskuj wzrok na krawędzi monitora. Powtórz to. Jeśli nie możesz "
-"patrzeć daleko od monitora, użyj na przykład ołówka i trzymaj go w takiej "
-"samej odległości co monitor."
+"Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem i skup na nim "
+"zwrok. Po paru sekundach zogniskuj wzrok na krawędzi monitora. Powtórz to. "
+"Jeśli nie możesz patrzeć daleko za monitorem obróć się w stronę z najdłuższą "
+"perspektywą. Następnie przeność wzrok między odległym punktem i np. "
+"ołówkiem trzymanym w takiej samej odległości od oczu co twój monitor."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -1147,7 +1131,7 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Obróć głowę w lewo i trzymaj tak 2 sekundy.  Następnie obróć głowę w prawo i "
+"Obróć głowę w lewo i trzymaj tak 2 sekundy. Następnie obróć głowę w prawo i "
 "też wytrzymaj 2 sekundy."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
@@ -1156,7 +1140,7 @@ msgstr "Ćwiczenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
-msgstr ""
+msgstr "Poprzednie ćwiczenie"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Next exercise"
@@ -1173,11 +1157,11 @@ msgstr "Zakończ ćwiczenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
 msgid "Resume"
-msgstr "Przywróć"
+msgstr "Wznów"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
 msgid "Pause"
-msgstr "Przerwa"
+msgstr "Wstrzymaj"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
 msgid "Resume exercises"
