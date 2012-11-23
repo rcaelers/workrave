@@ -35,37 +35,40 @@
 #endif
 
 
+class BreakWindow;
 class W32Compat
 {
 public:
-  static BOOL EnumDisplayMonitors(HDC hdc,LPCRECT rect,MONITORENUMPROC proc,LPARAM lparam);
-  static BOOL GetMonitorInfo(HMONITOR monitor, LPMONITORINFO info);
-  static HMONITOR MonitorFromPoint(POINT pt, DWORD dwFlags);
+  static BOOLEAN WinStationQueryInformationW(
+    HANDLE hServer,   // use WTS_CURRENT_SERVER_HANDLE
+    ULONG LogonId,   // use WTS_CURRENT_SESSION
+    INT WinStationInformationClass,   // http://msdn.microsoft.com/en-us/library/cc248834.aspx
+    PVOID pWinStationInformation,
+    ULONG WinStationInformationLength,
+    PULONG pReturnLength
+    );
   static VOID SwitchToThisWindow( HWND, BOOL );
-  static bool get_force_focus_value();
   static void SetWindowOnTop( HWND, BOOL );
-  static bool ForceWindowFocus( HWND );
   static void ResetWindow( HWND, bool );
   static void IMEWindowMagic( HWND );
+  static bool IsOurWinStationConnected();
+  static bool IsOurWinStationLocked();
+  static bool IsOurDesktopVisible();
+  static void RefreshBreakWindow( BreakWindow &window );
 
 private:
-  static inline void init() { if(run_once) init_once(); }
-  static void init_once();
+  static volatile LONG _initialized;
+  static void _init();
+  // A call to init() should be the first line in each of the other functions in this class
+  static inline void init() { if( !_initialized ) _init(); }
 
   static bool run_once;
-  static bool force_focus;
   static bool ime_magic;
   static bool reset_window_always;
   static bool reset_window_never;
 
-  typedef BOOL (WINAPI *ENUMDISPLAYMONITORSPROC)(HDC,LPCRECT,MONITORENUMPROC,LPARAM);
-  typedef BOOL (WINAPI *GETMONITORINFOPROC)(HMONITOR monitor, LPMONITORINFO info);
-  typedef HMONITOR (WINAPI *MONITORFROMPOINTPROC)(POINT pt, DWORD dwFlags);
   typedef VOID (WINAPI *SWITCHTOTHISWINDOWPROC)( HWND, BOOL );
 
-  static ENUMDISPLAYMONITORSPROC enum_display_monitors_proc;
-  static GETMONITORINFOPROC get_monitor_info_proc;
-  static MONITORFROMPOINTPROC monitor_from_point_proc;
   static SWITCHTOTHISWINDOWPROC switch_to_this_window_proc;
 
 };

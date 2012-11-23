@@ -53,6 +53,8 @@ class BreakWindow :
   public Gtk::Window,
   public IBreakWindow
 {
+    friend class W32Compat;
+
 public:
   enum BreakFlags
     {
@@ -129,7 +131,7 @@ private:
 
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
-
+  bool force_focus_on_break_start;
   long parent;
 #endif
 
