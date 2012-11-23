@@ -31,6 +31,7 @@ const int TIMEOUT = 1000;
 
 #ifdef PLATFORM_OS_WIN32
 #include "W32Compat.hh"
+#include "W32ForceFocus.hh"
 #endif
 
 #include <gtkmm/button.h>
@@ -331,7 +332,7 @@ RestBreakWindow::set_ignore_activity(bool i)
   assert(core != NULL);
 
 #ifdef PLATFORM_OS_WIN32
-  if( W32Compat::get_force_focus_value() )
+  if( W32ForceFocus::GetForceFocusValue() )
     {
       i = true;
     }

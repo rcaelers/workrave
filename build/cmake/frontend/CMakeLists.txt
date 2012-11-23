@@ -148,6 +148,8 @@ if (WIN32)
     ${FRONTEND_DIR}/gtkmm/src/win32/W32AppletWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32Compat.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/W32Compat.hh
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32ForceFocus.cc
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32ForceFocus.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.cc
