@@ -132,6 +132,10 @@ AC_CHECK_PROGS(M4, gm4 m4, m4)
 
 AC_CHECK_PROGS(WINDRES, ${target_or_host}-windres,false)
 
+# Libtool
+LT_PREREQ([2.2])
+LT_INIT([dlopen])
+
 dnl
 dnl checks for compiler characteristics
 dnl
@@ -155,6 +159,11 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
 AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
 AC_CHECK_MEMBER(MOUSEHOOKSTRUCTEX.mouseData,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCTEX,,[struct MOUSEHOOKSTRUCTEX]),, [#include <windows.h>])
+
+AC_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_SIZE_T
+AC_TYPE_UINT8_T
 
 have_ishelldispatch=no
 AC_MSG_CHECKING([IShellDispatch])
@@ -853,6 +862,37 @@ fi
 
 AM_CONDITIONAL(CONFIG_PULSE, test "x$config_pulse" = "xyes")
 
+dnl
+dnl Soup
+dnl
+
+PKG_CHECK_MODULES([SOUP],
+                  [ libsoup-2.4 >= 2.38.1 ]
+		 )
+
+dnl
+dnl Libsecret
+dnl
+		 
+PKG_CHECK_MODULES([SECRET],
+                  [ libsecret-1 >= 0.12 ]
+		 )
+
+dnl
+dnl Gcrypt
+dnl
+		 
+GCRYPT_VERSION=1.5.0
+GCRYPT_LIBVER=1
+
+AM_PATH_LIBGCRYPT($GCRYPT_LIBVER:$GCRYPT_VERSION,,
+	                  AC_MSG_ERROR([[
+***
+*** libgcrypt was not found. You may want to get it from
+*** ftp://ftp.gnupg.org/gcrypt/libgcrypt/
+***
+	                  ]]))
+
 
 dnl
 dnl Internationalization
@@ -960,6 +1000,12 @@ AC_CONFIG_FILES([Makefile
              libs/network/src/Makefile
              libs/network/src/unix/Makefile
              libs/network/src/win32/Makefile
+             libs/rest/Makefile
+             libs/rest/include/Makefile
+             libs/rest/include/rest/Makefile
+             libs/rest/include/json/Makefile
+             libs/rest/src/Makefile
+             libs/rest/test/Makefile
              libs/cloud/Makefile
              libs/cloud/include/Makefile
              libs/cloud/include/cloud/Makefile

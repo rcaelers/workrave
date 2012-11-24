@@ -2,5 +2,6 @@
 #
 # Copyright (C) 2012 Rob Caelers & Raymond Penners
 #
+MAINTAINERCLEANFILES = 	Makefile.in 
 
-SUBDIRS=utils config network cloud dbus hooks input-monitor rest
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h)
