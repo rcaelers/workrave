@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2012-02-08 00:45+0100\n"
+"POT-Creation-Date: 2012-10-28 16:23+0100\n"
 "PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
@@ -18,248 +18,102 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../backend/src/DistributionSocketLink.cc:129
-#, c-format
-msgid "Reconnecting to %s."
-msgstr "Újrakapcsolódás ehhez: %s."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:421
-msgid "Could not enable network operation."
-msgstr "Nem engedélyezhetőek a hálózati műveletek."
-
-#: ../backend/src/DistributionSocketLink.cc:430
-msgid "Disabling network operation."
-msgstr "Hálózati műveletek tiltása."
-
-#: ../backend/src/DistributionSocketLink.cc:546
-#: ../backend/src/DistributionSocketLink.cc:583
-#, c-format
-msgid "Connecting to %s."
-msgstr "Kapcsolódás: %s."
-
-#: ../backend/src/DistributionSocketLink.cc:700
-#: ../backend/src/DistributionSocketLink.cc:732
-#, c-format
-msgid "Removing client %s."
-msgstr "%s kliens eltávolítása."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:781
-#, c-format
-msgid "Disconnecting %s"
-msgstr "%s kapcsolatának bontása"
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:950
-#, c-format
-msgid "Client %s is now master."
-msgstr "A következő kliens az elsődleges: %s."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:957
-msgid "I'm now master."
-msgstr "Én vagyok az elsődleges."
-
-#. gchar *name =
-#. int port =
-#: ../backend/src/DistributionSocketLink.cc:1288
-#, c-format
-msgid "Client %s saying hello."
-msgstr "%s kliens „hello”-t küldött."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1303
-#: ../backend/src/DistributionSocketLink.cc:1433
-#: ../backend/src/DistributionSocketLink.cc:1677
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "A következő kliens többször szerepel: %s."
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1313
-#, c-format
-msgid "Client %s access denied."
-msgstr "%s kliens hozzáférése megtagadva."
-
-#: ../backend/src/DistributionSocketLink.cc:1382
-#, c-format
-msgid "Client %s signed off."
-msgstr "%s kliens kijelentkezett."
-
-#. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1472
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "%s kliens üdvözöl minket."
-
-#: ../backend/src/DistributionSocketLink.cc:1713
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "Elsődleges állapot igénylése a következőtől: %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1727
-#, c-format
-msgid "Client timeout from %s."
-msgstr "%s kliens túllépte az időkorlátot."
-
-#: ../backend/src/DistributionSocketLink.cc:1749
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr "%s kliens elsődlegességi kérelme elutasítva."
-
-#: ../backend/src/DistributionSocketLink.cc:1755
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "%s kliens elsődlegességi kérelme elfogadva."
-
-#: ../backend/src/DistributionSocketLink.cc:1806
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
-
-#: ../backend/src/DistributionSocketLink.cc:1811
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1882
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "%s kliens az elsődleges."
-
-#: ../backend/src/DistributionSocketLink.cc:2009
-msgid "Network operation started."
-msgstr "Hálózati műveletek elkezdve."
-
-#: ../backend/src/DistributionSocketLink.cc:2030
-msgid "Accepted new client."
-msgstr "Új kliens elfogadva."
-
-#: ../backend/src/DistributionSocketLink.cc:2104
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "%s kliensen olvasási hiba történt, befejezés."
-
-#: ../backend/src/DistributionSocketLink.cc:2110
-#: ../backend/src/DistributionSocketLink.cc:2183
-#, c-format
-msgid "Client %s closed connection."
-msgstr "%s kliens befejezte a kapcsolatot."
-
-#: ../backend/src/DistributionSocketLink.cc:2151
-#, c-format
-msgid "Client %s connected."
-msgstr "%s kliens kapcsolódott."
-
-#: ../backend/src/DistributionSocketLink.cc:2189
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "Sikertelen kapcsolódás %s klienshez."
-
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
-msgid "Reading mode"
-msgstr "Olvasási mód"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
-msgid "_About..."
-msgstr "_Névjegy…"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Connect..."
-msgstr "_Csatlakozás…"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Disconnect"
-msgstr "_Kapcsolat bontása"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
-msgid "_Exercises"
-msgstr "_Gyakorlatok"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
-msgid "_Mode"
-msgstr "_Mód"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
-msgid "_Network"
-msgstr "_Hálózat"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-msgid "_Normal"
-msgstr "_Általános"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:73
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 msgid "_Preferences"
 msgstr "_Beállítások"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-msgid "_Quiet"
-msgstr "_Csendes"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-msgid "_Quit"
-msgstr "_Kilépés"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-msgid "_Reconnect"
-msgstr "Ú_jracsatlakozás"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
 msgid "_Restbreak"
 msgstr "_Pihenőidő tartása"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+msgid "_Exercises"
+msgstr "_Gyakorlatok"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+msgid "_Mode"
+msgstr "_Mód"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "_Normal"
+msgstr "_Általános"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Quiet"
+msgstr "_Csendes"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
+msgid "_Suspended"
+msgstr "_Felfüggesztett"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+msgid "_Network"
+msgstr "_Hálózat"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Connect..."
+msgstr "_Csatlakozás…"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+msgid "_Disconnect"
+msgstr "_Kapcsolat bontása"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+msgid "_Reconnect"
+msgstr "Ú_jracsatlakozás"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Show Log..."
 msgstr "Nap_ló..."
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
+msgid "Reading mode"
+msgstr "Olvasási mód"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
 msgid "_Statistics"
 msgstr "_Statisztika"
 
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_About..."
+msgstr "_Névjegy…"
+
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "_Suspended"
-msgstr "_Felfüggesztett"
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
+msgid "_Quit"
+msgstr "_Kilépés"
 
 #: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
@@ -271,7 +125,7 @@ msgstr "Workrave kisalkalmazás"
 
 #: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:384
+#: ../frontend/gtkmm/src/Menus.cc:371
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -288,72 +142,75 @@ msgstr "_Csatlakozás"
 msgid "_About"
 msgstr "_Névjegy"
 
+#. add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
+#. add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
+#. add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
 msgid "Show log"
 msgstr "Napló megjelenítése"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
 msgid "Normal"
 msgstr "Általános"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1519
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:184
+#: ../frontend/gtkmm/src/GUI.cc:1502
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Suspended"
 msgstr "Felfüggesztett"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1523
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:186
+#: ../frontend/gtkmm/src/GUI.cc:1506
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
 msgid "Quiet"
 msgstr "Csendes"
 
-#: ../frontend/common/src/SoundPlayer.cc:80
+#: ../frontend/common/src/SoundPlayer.cc:82
 msgid "Break prompt"
 msgstr "Felszólítás szünetre"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
+#: ../frontend/common/src/SoundPlayer.cc:88
 msgid "Break ignored"
 msgstr "Szünet figyelmen kívül hagyása"
 
-#: ../frontend/common/src/SoundPlayer.cc:92
+#: ../frontend/common/src/SoundPlayer.cc:94
 msgid "Rest break started"
 msgstr "Pihenőidő kezdete"
 
-#: ../frontend/common/src/SoundPlayer.cc:99
+#: ../frontend/common/src/SoundPlayer.cc:101
 msgid "Rest break ended"
 msgstr "Pihenőidő vége"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
+#: ../frontend/common/src/SoundPlayer.cc:107
 msgid "Micro-break started"
 msgstr "Rövid pihenő kezdete"
 
-#: ../frontend/common/src/SoundPlayer.cc:111
+#: ../frontend/common/src/SoundPlayer.cc:113
 msgid "Micro-break ended"
 msgstr "Rövid pihenő vége"
 
-#: ../frontend/common/src/SoundPlayer.cc:117
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
+#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Napi korlátozás"
 
-#: ../frontend/common/src/SoundPlayer.cc:123
+#: ../frontend/common/src/SoundPlayer.cc:125
 msgid "Exercise ended"
 msgstr "Gyakorlat vége"
 
-#: ../frontend/common/src/SoundPlayer.cc:129
+#: ../frontend/common/src/SoundPlayer.cc:131
 msgid "Exercises ended"
 msgstr "Gyakorlatok vége"
 
-#: ../frontend/common/src/SoundPlayer.cc:135
+#: ../frontend/common/src/SoundPlayer.cc:137
 msgid "Exercise change"
 msgstr "Új gyakorlat"
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:609
 msgid "Custom"
 msgstr "Egyéb"
 
@@ -372,23 +229,23 @@ msgstr "%s%d perc és %02d másodperc"
 msgid "%s%d seconds"
 msgstr "%s%d másodperc"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:309
+#: ../frontend/gtkmm/src/BreakWindow.cc:308
 msgid "_Lock"
 msgstr "_Zárolás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#: ../frontend/gtkmm/src/BreakWindow.cc:331
 msgid "Shut _down"
 msgstr "_Leállítás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:353
+#: ../frontend/gtkmm/src/BreakWindow.cc:352
 msgid "_Skip"
 msgstr "_Kihagyás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:370
+#: ../frontend/gtkmm/src/BreakWindow.cc:369
 msgid "_Postpone"
 msgstr "_Elhalasztás"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -399,7 +256,7 @@ msgstr ""
 "munkaidejének, keressen valami más tennivalót, például nézzen át\n"
 "egy iratot."
 
-#: ../frontend/gtkmm/src/GUI.cc:302
+#: ../frontend/gtkmm/src/GUI.cc:301
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -407,25 +264,15 @@ msgstr ""
 "A Workrave továbbra is fut. A Workravet elérheti a fehér bárány ikonra "
 "kattintással. Ezen üzenet kikapcsolásához kattintson erre a buborékra."
 
-#: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
+#: ../frontend/gtkmm/src/GUI.cc:841
 msgid "Workrave failed to start"
 msgstr "A Workrave indítása sikertelen"
 
-#: ../frontend/gtkmm/src/GUI.cc:846
+#: ../frontend/gtkmm/src/GUI.cc:843
 msgid "Is Workrave already running?"
 msgstr "A Workrave már fut?"
 
-#: ../frontend/gtkmm/src/GUI.cc:954
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "A Workrave nem tudta figyelni a billentyűzet- és egéraktivitást.\n"
-
-#: ../frontend/gtkmm/src/GUI.cc:957
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-"Győződjön meg róla, hogy a RECORD kiterjesztés engedélyezett az X "
-"kiszolgálón."
-
-#: ../frontend/gtkmm/src/GUI.cc:1378
+#: ../frontend/gtkmm/src/GUI.cc:1361
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -433,115 +280,115 @@ msgstr ""
 "A Workrave felfüggesztett módban van. Az egér- és billentyűzetaktivitás nem "
 "lesz figyelve."
 
-#: ../frontend/gtkmm/src/GUI.cc:1384
+#: ../frontend/gtkmm/src/GUI.cc:1367
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "A Workrave csendes módban van. Nem jelennek meg a szünet ablakok."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
+#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1512
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/GUI.cc:1495
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:223
 msgid "Rest break"
 msgstr "Pihenőidő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
+#: ../frontend/gtkmm/src/GUI.cc:1502 ../frontend/gtkmm/src/GUI.cc:1506
 msgid "Mode: "
 msgstr "Mód: "
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
 msgid "Open"
 msgstr "Megnyitás"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
 msgstr "Beállítások"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Gyakorlatok"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
 msgid "Mode"
 msgstr "Mód"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 msgid "Network"
 msgstr "Hálózat"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-msgid "Connect"
-msgstr "Kapcsolódás"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
-msgid "Disconnect"
-msgstr "Leválasztás"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-msgid "Reconnect"
-msgstr "Újracsatlakozás"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
 msgid "Statistics"
 msgstr "Statisztika"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:135
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "About..."
 msgstr "Névjegy…"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_Pihenőidő"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "_Csendes"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
-msgid "_Connect"
-msgstr "C_satlakozás"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
+#. menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
+#. menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
+#. menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
+#. action_group->add(Gtk::Action::create("Join", _("_Connect")),
+#. sigc::mem_fun(*menus, &Menus::on_menu_network_join));
+#. action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
+#. sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
+#. action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
+#. sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
+#. w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
+#. W32AppletWindow::MENU_FLAG_TOGGLE
+#. |W32AppletWindow::MENU_FLAG_POPUP);
+#. w32aw->add_menu(_("_Disconnect"),
+#. Menus::MENU_COMMAND_NETWORK_DISCONNECT,
+#. W32AppletWindow::MENU_FLAG_TOGGLE
+#. |W32AppletWindow::MENU_FLAG_POPUP);
+#. w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
+#. W32AppletWindow::MENU_FLAG_TOGGLE
+#. |W32AppletWindow::MENU_FLAG_POPUP);
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "Show _log"
 msgstr "Nap_ló"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
 msgid "Quit"
 msgstr "Kilépés"
 
@@ -549,215 +396,215 @@ msgstr "Kilépés"
 msgid "_Reading mode"
 msgstr "_Olvasási mód"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:238
 msgid "Please relax for a few seconds"
 msgstr "Kérem, lazítson pár másodpercig"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
 #, c-format
 msgid "Next rest break in %s"
 msgstr "A következő pihenőidő %s múlva lesz"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:251
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "A pihenőidő %s késésben van"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
 #, c-format
 msgid "Daily limit in %s"
 msgstr "A napi korlátozásból %s van hátra"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:269
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "A napi korlátozás %s túllépésben van"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
 msgid "General"
 msgstr "Általános"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
 msgid "Sounds"
 msgstr "Hangok"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
 msgid "Status Window"
 msgstr "Állapotjelző ablak"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 msgid "Applet"
 msgstr "Kisalkalmazás"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Timers"
 msgstr "Időzítők"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "User interface"
 msgstr "Felhasználói felület"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "Korlátozás nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input"
 msgstr "A bemenetek tiltása"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:170
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "A bemenetek és a képernyő tiltása"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Options"
 msgstr "Opciók"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:192
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "Korlátozás:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:212
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr "Rendszer alapértelmezése"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:252
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
 msgid "(font not available)"
 msgstr "(nem érhető el a betűtípus)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:277
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
 msgid "Language:"
 msgstr "Nyelv:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:281
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Start Workrave on Windows startup"
 msgstr "Workrave indítása a Windows elindulásakor"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:293
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
 msgid "Show system tray icon"
 msgstr "Tálcaikon megjelenítése"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:311
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Sound Options"
 msgstr "Hangbeállítások"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
 msgid "No sounds"
 msgstr "Hangok nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
 msgid "Play sounds using sound card"
 msgstr "Hangok lejátszása a hangkártyán keresztül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:323
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "Play sounds using built-in speaker"
 msgstr "Hangok lejátszása a beépített hangszórón"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Volume:"
 msgstr "Hangerő:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Sound:"
 msgstr "Hang:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Hangok némítása a pihenőidő és a napi korlátozás során"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:367
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:364
 msgid "Sound Events"
 msgstr "Hangesemények"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:375
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:372
 msgid "Sound Theme:"
 msgstr "Hangtéma:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:446
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:395
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:443
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:403
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:400
 msgid "Event"
 msgstr "Esemény"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
 msgid "Choose a sound"
 msgstr "Válasszon hangot"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:431
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
 msgstr "Hangfájlok"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:524
 msgid "Use alternate monitor"
 msgstr "Másik monitor használata"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#, fuzzy
 msgid ""
-"Enable this option if Workrave fails to detect when you are using you "
+"Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 "Engedélyezze ezt a beállítást, ha a Workrave nem ismeri fel, hogy mikor "
 "használja a számítógépet."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:108
+#: ../frontend/gtkmm/src/PreludeWindow.cc:105
 msgid "Time for a micro-break?"
 msgstr "Van ideje egy rövid pihenőre?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/gtkmm/src/PreludeWindow.cc:109
 msgid "You need a rest break..."
 msgstr "Tartson pihenőt…"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/gtkmm/src/PreludeWindow.cc:113
 msgid "You should stop for today..."
 msgstr "Be kellene fejezni a számítógépes munkát mára…"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/gtkmm/src/PreludeWindow.cc:317
 #, c-format
 msgid "Break in %s"
 msgstr "Szünet ennyi idő múlva: %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:321
 #, c-format
 msgid "Disappears in %s"
 msgstr "Eltűnik ennyi idő múlva: %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:325
 #, c-format
 msgid "Silent in %s"
 msgstr "Csend ennyi idő múlva: %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:175
 #, c-format
 msgid "Rest break for %s"
 msgstr "Még %s van hátra a pihenőidőből"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
 msgid "Natural rest break"
 msgstr "Természetes szünet"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
 msgid "This is your natural rest break."
 msgstr "Ez az Ön természetes pihenője."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -766,11 +613,11 @@ msgstr ""
 "Ez az Ön pihenőideje. Álljon föl, sétáljon el a számítógéptől.\n"
 "Lazítson, nyújtózzon, sétáljon pár percig."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
 msgid "Take rest break now"
 msgstr "Tartson pihenőt"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
 msgid "Wait"
 msgstr "Várakozás"
 
@@ -847,56 +694,56 @@ msgid "Daily limit:"
 msgstr "Napi korlátozás:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
 msgid "Enable timer"
 msgstr "Időzítés engedélyezése"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
 msgid "Break prompting"
 msgstr "Felszólítás szünet tartására"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Prompt before breaking"
 msgstr "Felszólítás a szünet előtt"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
 msgid "Maximum number of prompts:"
 msgstr "Felszólítások maximális száma:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "„Elhalasztás” és „Kihagyás” gombok megjelenítése"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
 msgid "Suspend timer when inactive"
 msgstr "Időzítés felfüggesztése, ha a felhasználó inaktív"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
 msgid "Regard micro-breaks as activity"
 msgstr "Rövid pihenők tekintése aktivitásnak"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
 msgid "Number of exercises:"
 msgstr "Gyakorlatok száma:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
 msgid "Start restbreak when screen is locked"
 msgstr "Pihenőidő megkezdése a képernyő zárolásakor"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
 msgid "Time before end:"
 msgstr "Napi géphasználati korlát:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Time between breaks:"
 msgstr "Szünetek közti idő:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Break duration:"
 msgstr "Szünet időtartama:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:248
 msgid "Postpone time:"
 msgstr "Elhalasztás hossza:"
 
@@ -907,117 +754,16 @@ msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
 "repetitive strain injury) megelőzésében és az abból való felépülésben"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
-msgid "Network connect"
-msgstr "Hálózati csatlakozás"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Adja meg annak a számítógépnek az adatait,\n"
-"amelyhez csatlakozni szeretne."
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
-msgid "Host name:"
-msgstr "Gépnév:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
-msgid "Port:"
-msgstr "Port:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:51
 msgid "Network log"
 msgstr "Hálózati napló"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
-msgid "Enable networking"
-msgstr "Hálózatkezelés engedélyezése"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
-msgid "Username:"
-msgstr "Felhasználónév:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
-msgid "Password:"
-msgstr "Jelszó:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
-msgid "Allow incoming connections"
-msgstr "Bejövő kapcsolatok engedélyezése"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
-msgid "Server settings"
-msgstr "Kiszolgálóbeállítások"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
-msgid "Server port:"
-msgstr "Kiszolgáló portja:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
-msgid "Reconnect attempts:"
-msgstr "Újracsatlakozási próbálkozások száma:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
-msgid "Reconnect interval:"
-msgstr "Újracsatlakozási próbálkozások közti várakozás:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
-msgid "Advanced"
-msgstr "Haladó"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"A következő felsorolás azokat a gépeket tartalmazza, amelyekhez a Workrave\n"
-"csatlakozik induláskor. Kattintson a gépnévre vagy a portra a módosításhoz."
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Host name"
-msgstr "Gépnév"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
-msgid "Port"
-msgstr "Port"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
-msgid "Hosts"
-msgstr "Gépek"
-
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Backward shoulder stretch"
-msgstr "Hátsó vállnyújtás"
+msgid "Shoulder-arm stretch"
+msgstr "Váll-kar nyújtás"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Takarja el a tenyerével a szemeit úgy, hogy még ki tudja nyitni azokat. Most "
-"nyissa ki a szemeit és nézze a tenyerei sötétségét. Ez a módszer jobban "
-"nyugtatja szemeit, mintha csak egyszerűen becsukná őket."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "Ujjnyújtás"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Kulcsolja össze ujjait a háta mögött. Ezután óvatosan közelítse egymáshoz "
-"könyökeit, amíg ki nem egyenesednek karjai. Tartsa ezt a helyzetet 5–15 "
-"másodpercig, majd ismételje meg a gyakorlatot kétszer."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -1029,7 +775,56 @@ msgstr ""
 "Tartsa így rövid ideig karját és ismételje meg a gyakorlatot a másik "
 "karjával."
 
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Ujjnyújtás"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Távolítsa el egymástól és nyújtsa ki ujjait amíg nem érzi, hogy "
+"megfeszülnek. Tartsa ezt az állapotot 10 másodpercig. Lazítson, majd "
+"hajlítsa be ujjait az ízületeknél és tartsa ezt a helyzetet is 10 "
+"másodpercig. Ismételje meg a gyakorlatot."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid "Neck tilt stretch"
+msgstr "Fejkörzés"
+
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Tartsa fejét egy kényelmes, egyenes pozícióban. Lassan hajtsa fejét a jobb "
+"vállára, hogy enyhén megfeszüljenek bal vállának izmai. Tartsa ezt a "
+"helyzetet 5 másodpercig. Ezután hajtsa fejét balra a másik oldal "
+"nyújtásához. Mindkét oldalra kétszer végezze el a gyakorlatot."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid "Backward shoulder stretch"
+msgstr "Hátsó vállnyújtás"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Kulcsolja össze ujjait a háta mögött. Ezután óvatosan közelítse egymáshoz "
+"könyökeit, amíg ki nem egyenesednek karjai. Tartsa ezt a helyzetet 5–15 "
+"másodpercig, majd ismételje meg a gyakorlatot kétszer."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Szemkörzés"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -1040,7 +835,11 @@ msgstr ""
 "járásának irányában két körön keresztül. Ezután végezze el a gyakorlatot "
 "visszafelé."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Train focusing the eyes"
+msgstr "A szemek edzése fókuszálással"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -1053,50 +852,23 @@ msgstr ""
 "elég messze nézni a képernyőtől, válasszon egy másik irányt és váltogassa a "
 "fókuszt a távoli alak és egy a monitor távolságában tartott toll között."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Pillantás a sötétségbe"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "Szemkörzés"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid "Move the shoulders"
-msgstr "Vállkörzés"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Move the shoulders up and down"
-msgstr "Függőleges vállmozgatás"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid "Neck tilt stretch"
-msgstr "Fejkörzés"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Ülő helyzetben tegye kezeit a széke karfáira. Nyomja testét fölfele, amíg "
-"karja ki nem nyúlik. Próbálja fejét jobban kinyújtani vállai leeresztésével. "
-"Lassan ereszkedjen vissza a székébe."
-
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"Távolítsa el egymástól és nyújtsa ki ujjait amíg nem érzi, hogy "
-"megfeszülnek. Tartsa ezt az állapotot 10 másodpercig. Lazítson, majd "
-"hajlítsa be ujjait az ízületeknél és tartsa ezt a helyzetet is 10 "
-"másodpercig. Ismételje meg a gyakorlatot."
+"Takarja el a tenyerével a szemeit úgy, hogy még ki tudja nyitni azokat. Most "
+"nyissa ki a szemeit és nézze a tenyerei sötétségét. Ez a módszer jobban "
+"nyugtatja szemeit, mintha csak egyszerűen becsukná őket."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Shoulder-arm stretch"
-msgstr "Váll-kar nyújtás"
+msgid "Move the shoulders"
+msgstr "Vállkörzés"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
@@ -1108,20 +880,18 @@ msgstr ""
 "gyakorlat felénél lazíthat egyet."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Tartsa fejét egy kényelmes, egyenes pozícióban. Lassan hajtsa fejét a jobb "
-"vállára, hogy enyhén megfeszüljenek bal vállának izmai. Tartsa ezt a "
-"helyzetet 5 másodpercig. Ezután hajtsa fejét balra a másik oldal "
-"nyújtásához. Mindkét oldalra kétszer végezze el a gyakorlatot."
+msgid "Move the shoulders up and down"
+msgstr "Függőleges vállmozgatás"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid "Train focusing the eyes"
-msgstr "A szemek edzése fókuszálással"
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Ülő helyzetben tegye kezeit a széke karfáira. Nyomja testét fölfele, amíg "
+"karja ki nem nyúlik. Próbálja fejét jobban kinyújtani vállai leeresztésével. "
+"Lassan ereszkedjen vissza a székébe."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
@@ -1168,23 +938,28 @@ msgstr "Szünet"
 msgid "Resume exercises"
 msgstr "Gyakorlatok folytatása"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "Történet böngészése"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
+#. Delete button
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
 msgid "Date:"
 msgstr "Dátum:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks"
 msgstr "Szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
 msgid "Break prompts"
 msgstr "Felszólítások"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -1192,89 +967,89 @@ msgstr ""
 "A pihenésre való felszólítások száma, kivéve az egyazon szünetre való "
 "többszöri felszólításokat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "Repeated prompts"
 msgstr "Ismételt felszólítások"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Ismételt felszólítások száma szünet tartására"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "Prompted breaks taken"
 msgstr "Megtartott kért szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 "Azoknak az eseteknek a száma, amikor Ön a felszólításra szünetet tartott"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "Natural breaks taken"
 msgstr "Természetes szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 "Azoknak az eseteknek a száma, amikor Ön felszólítás nélkül tartott szünetet"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks skipped"
 msgstr "Kihagyott szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you skipped"
 msgstr "Kihagyott szünetek száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "Breaks postponed"
 msgstr "Elhalasztott szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "The number of breaks you postponed"
 msgstr "Elhalasztott szünetek száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "Overdue time"
 msgstr "Késés"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total time this break was overdue"
 msgstr "A szünetfajta adott napon történt összes késése"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
 msgid "Daily usage"
 msgstr "Napi használat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:241
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
 msgid "The total computer usage"
 msgstr "A teljes számítógép-használat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "Activity"
 msgstr "Aktivitás"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
 msgid "Mouse usage:"
 msgstr "Egérhasználat:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:324
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
 msgid "The total time you were using the mouse"
 msgstr "Az összes egérhasználattal töltött idő"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse movement:"
 msgstr "Egérmozgás:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total on-screen mouse movement"
 msgstr "A teljes (képernyőn mért) egérmozgatás"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "Effective mouse movement:"
 msgstr "Effektív egérmozgás:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1282,26 +1057,219 @@ msgstr ""
 "Az az egérmozgás, ami akkor történt volna, ha a kattintások közt egyenesen "
 "mozgatja az egeret"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
 msgid "Mouse button clicks:"
 msgstr "Egérkattintások:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:337
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
 msgid "The total number of mouse button clicks"
 msgstr "Az egérkattintások száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
 msgid "Keystrokes:"
 msgstr "Leütések:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:341
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
 msgid "The total number of keys pressed"
 msgstr "A lenyomott billentyűk száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:396
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+msgid "Warning"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+msgid "Files deleted!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+msgid "Info"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+msgid "File deletion failed!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+msgid "Error"
+msgstr ""
+
+#~ msgid "Reconnecting to %s."
+#~ msgstr "Újrakapcsolódás ehhez: %s."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "Nem engedélyezhetőek a hálózati műveletek."
+
+#~ msgid "Disabling network operation."
+#~ msgstr "Hálózati műveletek tiltása."
+
+#~ msgid "Connecting to %s."
+#~ msgstr "Kapcsolódás: %s."
+
+#~ msgid "Removing client %s."
+#~ msgstr "%s kliens eltávolítása."
+
+#~ msgid "Disconnecting %s"
+#~ msgstr "%s kapcsolatának bontása"
+
+#~ msgid "Client %s is now master."
+#~ msgstr "A következő kliens az elsődleges: %s."
+
+#~ msgid "I'm now master."
+#~ msgstr "Én vagyok az elsődleges."
+
+#~ msgid "Client %s saying hello."
+#~ msgstr "%s kliens „hello”-t küldött."
+
+#~ msgid "Client %s is duplicate."
+#~ msgstr "A következő kliens többször szerepel: %s."
+
+#~ msgid "Client %s access denied."
+#~ msgstr "%s kliens hozzáférése megtagadva."
+
+#~ msgid "Client %s signed off."
+#~ msgstr "%s kliens kijelentkezett."
+
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "%s kliens üdvözöl minket."
+
+#~ msgid "Requesting master status from %s."
+#~ msgstr "Elsődleges állapot igénylése a következőtől: %s."
+
+#~ msgid "Client timeout from %s."
+#~ msgstr "%s kliens túllépte az időkorlátot."
+
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "%s kliens elsődlegességi kérelme elutasítva."
+
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "%s kliens elsődlegességi kérelme elfogadva."
+
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
+
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés."
+
+#~ msgid "Client %s is now the new master."
+#~ msgstr "%s kliens az elsődleges."
+
+#~ msgid "Network operation started."
+#~ msgstr "Hálózati műveletek elkezdve."
+
+#~ msgid "Accepted new client."
+#~ msgstr "Új kliens elfogadva."
+
+#~ msgid "Client %s read error, closing."
+#~ msgstr "%s kliensen olvasási hiba történt, befejezés."
+
+#~ msgid "Client %s closed connection."
+#~ msgstr "%s kliens befejezte a kapcsolatot."
+
+#~ msgid "Client %s connected."
+#~ msgstr "%s kliens kapcsolódott."
+
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Sikertelen kapcsolódás %s klienshez."
+
+#~ msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+#~ msgstr "A Workrave nem tudta figyelni a billentyűzet- és egéraktivitást.\n"
+
+#~ msgid "Make sure that the RECORD extension is enabled in the X server."
+#~ msgstr ""
+#~ "Győződjön meg róla, hogy a RECORD kiterjesztés engedélyezett az X "
+#~ "kiszolgálón."
+
+#~ msgid "Connect"
+#~ msgstr "Kapcsolódás"
+
+#~ msgid "Disconnect"
+#~ msgstr "Leválasztás"
+
+#~ msgid "Reconnect"
+#~ msgstr "Újracsatlakozás"
+
+#~ msgid "_Connect"
+#~ msgstr "C_satlakozás"
+
+#~ msgid "Network connect"
+#~ msgstr "Hálózati csatlakozás"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "Adja meg annak a számítógépnek az adatait,\n"
+#~ "amelyhez csatlakozni szeretne."
+
+#~ msgid "Host name:"
+#~ msgstr "Gépnév:"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Enable networking"
+#~ msgstr "Hálózatkezelés engedélyezése"
+
+#~ msgid "Username:"
+#~ msgstr "Felhasználónév:"
+
+#~ msgid "Password:"
+#~ msgstr "Jelszó:"
+
+#~ msgid "Allow incoming connections"
+#~ msgstr "Bejövő kapcsolatok engedélyezése"
+
+#~ msgid "Server settings"
+#~ msgstr "Kiszolgálóbeállítások"
+
+#~ msgid "Server port:"
+#~ msgstr "Kiszolgáló portja:"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Újracsatlakozási próbálkozások száma:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Újracsatlakozási próbálkozások közti várakozás:"
+
+#~ msgid "Advanced"
+#~ msgstr "Haladó"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "A következő felsorolás azokat a gépeket tartalmazza, amelyekhez a "
+#~ "Workrave\n"
+#~ "csatlakozik induláskor. Kattintson a gépnévre vagy a portra a "
+#~ "módosításhoz."
+
+#~ msgid "Host name"
+#~ msgstr "Gépnév"
+
+#~ msgid "Port"
+#~ msgstr "Port"
+
+#~ msgid "Hosts"
+#~ msgstr "Gépek"
 
 #~ msgid "Orientation"
 #~ msgstr "Tájolás"

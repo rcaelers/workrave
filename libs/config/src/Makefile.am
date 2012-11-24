@@ -44,3 +44,5 @@ AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ @GDOME_CFLAGS@ \
 			-I$(top_srcdir)/libs/config/include
 
 
+
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)

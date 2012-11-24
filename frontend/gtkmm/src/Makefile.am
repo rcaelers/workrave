@@ -96,11 +96,12 @@ WINDRES ?= 		"windres"
 .rc.o:
 			${WINDRES} -o $@ $<
 
+endif
+
 resource.rc: resource.rc.in
 			sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
 	    		    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
 				$(srcdir)/$@.in > $@
-endif
 
 if PLATFORM_OS_OSX
 extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
@@ -278,5 +279,5 @@ $(bin_PROGRAMS):	$(top_builddir)/frontend/common/src/libworkrave-frontend-common
 endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
-	     		workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
+	     		workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc resource.rc.in
 

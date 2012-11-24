@@ -17,3 +17,5 @@ AM_CPPFLAGS = 		@GLIB_CFLAGS@ @SIGC_CFLAGS@ @GIO_CFLAGS@ \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/network/src
+
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)

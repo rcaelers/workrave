@@ -11,3 +11,4 @@ libworkrave_network_win32_la_LIBADD =
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ 
 
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)

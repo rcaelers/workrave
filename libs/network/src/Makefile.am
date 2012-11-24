@@ -39,4 +39,4 @@ AM_CPPFLAGS = 		@GLIB_CFLAGS@ @GIO_CFLAGS@ \
 			-I$(top_srcdir)/libs/network/include/network \
 			-I$(top_srcdir)/libs/network/include
 
-
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)
