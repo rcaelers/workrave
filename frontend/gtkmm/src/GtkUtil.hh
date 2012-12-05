@@ -1,6 +1,6 @@
 // GtkUtil.hh --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -91,10 +91,10 @@ public:
 
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
 
-  static GtkWindow *GtkUtil::get_visible_tooltip_window();
+  static GtkWindow *get_visible_tooltip_window();
 
 private:
   static Glib::Quark *label_quark;
 };
 
-#endif // GTKMMGUI_HH
+#endif // GTKUTIL_HH
