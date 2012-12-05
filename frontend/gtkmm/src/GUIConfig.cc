@@ -58,16 +58,31 @@ GUIConfig::init()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      config->set_value(CFG_KEY_BREAK_IGNORABLE % ((BreakId)i),
+      BreakId breakId = (BreakId)i;
+      
+      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId,
                         true,
                         CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CFG_KEY_BREAK_EXERCISES % ((BreakId)i),
+      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId,
                         i == BREAK_ID_REST_BREAK ? 3 : 0,
                         CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % ((BreakId)i),
+      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId,
                         false,
+                        CONFIG_FLAG_DEFAULT);
+
+      // for backward compatibility with settings of older versions, we set the default
+      // default value of `skippable` to whatever `ignorable`. This works because the old
+      // meaning of `ignorable` was "show postpone and skip"; the new meaning is
+      // "show postpone".
+      bool ignorable;
+      config->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % breakId, 
+                                     ignorable, 
+                                     true);
+
+      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, 
+                        ignorable, 
                         CONFIG_FLAG_DEFAULT);
     }
 
