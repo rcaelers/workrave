@@ -121,8 +121,13 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="skippable-break">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/breaks/micro-pause/" id="org.workrave.gui.breaks.micro-pause" gettext-domain="workrave">
     <key type="b" name="auto-natural">
       <default>false</default>
@@ -135,6 +140,11 @@
       <description></description>
     </key>
     <key type="b" name="ignorable-break">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="b" name="skippable-break">
       <default>true</default>
       <summary></summary>
       <description></description>
@@ -157,7 +167,11 @@
       <summary></summary>
       <description></description>
     </key>
-
+    <key type="b" name="skippable-break">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
     
   <schema path="/org/workrave/gui/main-window/" id="org.workrave.gui.main-window" gettext-domain="workrave">
