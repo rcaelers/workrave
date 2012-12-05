@@ -30,6 +30,9 @@
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif
+#ifdef PLATFORM_OS_WIN32
+#undef interface
+#endif
 
 #include <gtkmm.h>
 #include <gdk/gdkwin32.h>
@@ -328,8 +331,14 @@ bool W32Compat::IsOurWinStationConnected()
 
     bool func_retval = false;
     DWORD bytes_returned = 0;
-    enum WTS_INFO_CLASS *state = NULL;
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+    enum WTS_INFO_CLASS *state = NULL;
+#else
+    // TODO: check compiler warnings and native/mingw difference.
+    WTS_INFO_CLASS *state = NULL;
+#endif
+    
     if( WTSQuerySessionInformation( 
             WTS_CURRENT_SERVER_HANDLE,
             WTS_CURRENT_SESSION,
