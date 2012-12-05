@@ -148,8 +148,13 @@ TimerPreferencesPanel::create_options_panel()
 
   // Ignorable
   ignorable_cb = Gtk::manage(new Gtk::CheckButton
-                             (_("Show 'Postpone' and 'Skip' button")));
+                             (_("Show 'Postpone' button")));
   hig->add(*ignorable_cb);
+
+  // Skippable
+  skippable_cb = Gtk::manage(new Gtk::CheckButton
+                             (_("Show 'Skip' button")));
+  hig->add(*skippable_cb);
 
   // Sensitive for activity
   activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
@@ -194,6 +199,9 @@ TimerPreferencesPanel::create_options_panel()
 
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
                      dc::wrap(ignorable_cb));
+
+  connector->connect(GUIConfig::CFG_KEY_BREAK_SKIPPABLE % break_id,
+                     dc::wrap(skippable_cb));
 
 
 #ifdef HAVE_EXERCISES
@@ -391,6 +399,7 @@ TimerPreferencesPanel::enable_buttons()
   bool on = enabled_cb->get_active();
 
   ignorable_cb->set_sensitive(on);
+  skippable_cb->set_sensitive(on);
   activity_sensitive_cb->set_sensitive(on);
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
