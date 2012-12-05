@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -18,7 +18,8 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32Compat.cc \
 			W32AppletMenu.cc \
 			W32TrayMenu.cc \
-			W32StatusIcon.cc
+			W32StatusIcon.cc \
+			W32ForceFocus.cc
 
 libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 			-W  -I$(top_srcdir)/frontend/common/include \

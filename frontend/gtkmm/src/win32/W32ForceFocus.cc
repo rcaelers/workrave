@@ -109,7 +109,7 @@ DWORD W32ForceFocus::GetFunctions()
 
     if( CoreFactory::get_configurator()->get_value( "advanced/force_focus_functions", str ) )
     {
-        transform( str.begin(), str.end(), str.begin(), toupper );
+        transform( str.begin(), str.end(), str.begin(), ::toupper );
 
         vector<string> names;
         StringUtil::split( str, ',', names );
