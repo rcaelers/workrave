@@ -207,7 +207,6 @@ X11InputMonitor::run()
 
   error_trap_exit();
 
-  Window lastMouseRoot = 0;
   while (1)
     {
       XEvent event;
@@ -254,7 +253,6 @@ X11InputMonitor::run()
 
       error_trap_exit();
 
-      lastMouseRoot = root;
       fire_mouse(root_x, root_y);
     }
 
