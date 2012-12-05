@@ -1038,14 +1038,18 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
       break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
                       BreakWindow::BREAK_FLAGS_USER_INITIATED);
 
-      if (ignorable)
+      if (skippable)
         {
           break_flags |=  BreakWindow::BREAK_FLAGS_SKIPPABLE;
         }
     }
-  else if (ignorable)
-    {
-      break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
+  else
+    { 
+      if (ignorable)
+        {
+          break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;
+        }
+
       if(skippable)
         {
           break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
