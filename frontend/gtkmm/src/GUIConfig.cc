@@ -34,6 +34,7 @@
 using namespace std;
 
 const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
+const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE    = "gui/breaks/%b/skippable_break";
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
@@ -88,6 +89,18 @@ GUIConfig::get_ignorable(BreakId id)
   return rc;
 }
 
+
+//!
+bool
+GUIConfig::get_skippable(BreakId id)
+{
+  bool rc;
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_BREAK_SKIPPABLE % id,
+                             rc,
+                             true);
+  return rc;
+}
 
 //!
 void
