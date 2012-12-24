@@ -18,51 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPBACKENDSOUP_HH
-#define HTTPBACKENDSOUP_HH
+#ifndef HTTPEXECUTESTREAMINGSOUP_HH
+#define HTTPEXECUTESTREAMINGSOUP_HH
 
-#include <string>
-#include <map>
-#include <list>
 #include <boost/shared_ptr.hpp>
 
-#ifdef HAVE_SOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
-#include <libsoup/soup.h>
-#endif
+#include "rest/IHttpExecute.hh"
 
-#include "rest/IHttpBackend.hh"
+#include "HttpExecuteSoup.hh"
 
-class HttpBackendSoup : public IHttpBackend
+class HttpExecuteStreamingSoup : public IHttpExecute, public HttpExecuteSoup
 {
 public:
-  typedef boost::shared_ptr<HttpBackendSoup> Ptr;
+  typedef boost::shared_ptr<HttpExecuteStreamingSoup> Ptr;
 
-  static Ptr create();
+  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
 
-public:
- 	HttpBackendSoup();
-  virtual ~HttpBackendSoup();
+  HttpExecuteStreamingSoup(SoupSession *session, HttpRequest::Ptr request);
+  virtual ~HttpExecuteStreamingSoup();
 
-  virtual bool init(const std::string &user_agent);
-  
-  virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory);
-
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request);
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback);
-
-private:
+  virtual HttpReply::Ptr execute(IHttpExecute::HttpExecuteReady callback = 0);
+  virtual HttpRequest::Ptr get_request() const;
+  virtual bool is_sync() const;
   
 private:
-  SoupSession *sync_session;
-  SoupSession *async_session;
-  SoupURI *proxy;
-  std::string user_agent;
+  struct CallbackData
+  {
+    Ptr self;
+  };
+
+  IHttpExecute::HttpExecuteReady callback;
   
-  IHttpDecoratorFactory::Ptr decorator_factory;
+  static void reply_ready_static(SoupSession *session, SoupMessage *message, gpointer user_data);
+  void reply_ready(SoupSession *session, SoupMessage *message);
 };
 
 #endif

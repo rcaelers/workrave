@@ -155,6 +155,8 @@ OAuth2::on_authorization_grant_ready(HttpRequest::Ptr request)
 
   try
     {
+      g_debug("on_authorization_grant_ready status = %d, resp = %s", reply->status, reply->body.c_str());
+
       reply->content_type = "text/html";
       reply->body = settings.failure_html;
       
@@ -173,7 +175,14 @@ OAuth2::on_authorization_grant_ready(HttpRequest::Ptr request)
       RequestParams response_parameters;
       parse_query(request->uri, response_parameters);
 
-      // TODO: handle error
+      string error = response_parameters["error"];
+      if (error != "")
+        {
+          reply->body = settings.failure_html;
+          g_debug("Error set");
+          throw std::exception();
+        }
+      
       string code = response_parameters["code"];
 
       if (code == "")
@@ -190,6 +199,7 @@ OAuth2::on_authorization_grant_ready(HttpRequest::Ptr request)
       report_async_result(Failed);
     }
 
+  g_debug("Returning %s", reply->body.c_str());
   return reply;
 }
 
@@ -206,6 +216,8 @@ OAuth2::request_access_token(const string &code)
                                % Uri::escape(callback_uri)
                                );
 
+      g_debug("request_access_token %s", body.c_str());
+      
       HttpRequest::Ptr request = HttpRequest::create();
       request->uri = settings.token_endpoint;
       request->method = "POST";
@@ -225,6 +237,8 @@ void
 OAuth2::on_access_token_ready(HttpReply::Ptr reply)
 {
   AuthResult result = Failed;
+
+  g_debug("on_access_token_ready status = %d, resp = %s", reply->status, reply->body.c_str());
   
   try
     {
@@ -250,7 +264,7 @@ OAuth2::on_access_token_ready(HttpReply::Ptr reply)
           refresh_token = root["refresh_token"].asString();
           valid_until = root["expires_in"].asInt() + time(NULL);
           
-          g_debug("access_token : %s", access_token.c_str());
+          g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
 
           result = Ok;
         }
@@ -331,7 +345,7 @@ OAuth2::on_refresh_token_ready(HttpReply::Ptr reply)
           access_token = root["access_token"].asString();
           valid_until = root["expires_in"].asInt() + time(NULL);
           
-          g_debug("access_token : %s", access_token.c_str());
+          g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
 
           for(list<OAuth2Filter::Ptr>::iterator it = waiting_for_refresh.begin(); it != waiting_for_refresh.end(); it++)
             {
@@ -413,10 +427,11 @@ OAuth2::parse_query(const string &query, RequestParams &params) const
 void
 OAuth2::report_async_result(AuthResult result)
 {
-  if (server)
-    {
-      server->stop();
-    }
+  // TODO: do somewhere else.
+  // if (server)
+  //   {
+  //     server->stop();
+  //   }
   if (!callback.empty())
     {
       callback(result);

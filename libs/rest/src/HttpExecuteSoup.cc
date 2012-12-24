@@ -22,22 +22,14 @@
 #include "config.h"
 #endif
 
-#include "rest/HttpExecuteSoup.hh"
+#include "HttpExecuteSoup.hh"
 
-#include <boost/bind.hpp>
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
+#include <map>
+#include <string>
 
 using namespace std;
 
-HttpExecuteSoup::Ptr
-HttpExecuteSoup::create(HttpRequest::Ptr request)
-{
-  return Ptr(new HttpExecuteSoup(request));
-}
-
-
-HttpExecuteSoup::HttpExecuteSoup(HttpRequest::Ptr request) : session(NULL), request(request)
+HttpExecuteSoup::HttpExecuteSoup(SoupSession *session, HttpRequest::Ptr request) : session(session), request(request)
 {
   reply = HttpReply::create(request);
 }
@@ -47,60 +39,10 @@ HttpExecuteSoup::~HttpExecuteSoup()
 {
 }
 
-void
-HttpExecuteSoup::init(SoupSession *session, bool sync)
-{
-  this->session = session;
-  this->sync = sync;
-}
-
-
-HttpReply::Ptr
-HttpExecuteSoup::execute(IHttpExecute::HttpExecuteReady callback)
-{
-  this->callback = callback;
-
-  if (sync)
-    {
-      g_debug("request");
-
-      SoupMessage *message = create_request_message();
-      soup_session_send_message(session, message);
-      process_reply_message(message); 
-      g_object_unref(message);
-   }
-  else if (!callback.empty())
-    {
-      CallbackData *data = new CallbackData;
-      data->self = boost::dynamic_pointer_cast<HttpExecuteSoup>(shared_from_this());
-
-      SoupMessage *message = create_request_message();
-      soup_session_queue_message(session, message, reply_ready_static, data);
-    }
-
-  return reply;
-}
-
-
-HttpRequest::Ptr
-HttpExecuteSoup::get_request() const
-{
-  return request;
-}
-
-
-bool
-HttpExecuteSoup::is_sync() const
-{
-  return sync;
-}
-
 
 SoupMessage *
 HttpExecuteSoup::create_request_message()
 {
-  //apply_request_filters();
-  
   SoupMessage *message = soup_message_new(request->method.c_str(), request->uri.c_str());
   if (message == NULL)
     {
@@ -123,15 +65,6 @@ HttpExecuteSoup::create_request_message()
   return message;
 }
 
-void
-HttpExecuteSoup::reply_ready_static(SoupSession *session, SoupMessage *message, gpointer user_data)
-{
-  CallbackData *data = (CallbackData *) user_data;
-  HttpExecuteSoup::Ptr self = data->self;
-  self->reply_ready(session, message);
-  delete data;
-}
-
 
 void
 HttpExecuteSoup::process_reply_message(SoupMessage *message)
@@ -147,23 +80,6 @@ HttpExecuteSoup::process_reply_message(SoupMessage *message)
     {
       string n = name;
       string v = value;
-      //g_debug("resp header %s : %s", name, value);
       reply->headers[n] = v;
-    }
-
-}
-
-void
-HttpExecuteSoup::reply_ready(SoupSession *session, SoupMessage *message)
-{
-  (void)session;
-
-  process_reply_message(message);
-
-  g_debug("reply (async) %d", reply->status);
-
-  if (!callback.empty())
-    {
-      callback(reply);
     }
 }

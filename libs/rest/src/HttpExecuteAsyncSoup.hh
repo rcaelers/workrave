@@ -18,33 +18,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPEXECUTESOUP_HH
-#define HTTPEXECUTESOUP_HH
+#ifndef HTTPEXECUTEASYNCSOUP_HH
+#define HTTPEXECUTEASYNCSOUP_HH
 
-#include <string>
-#include <map>
 #include <boost/shared_ptr.hpp>
 
-#include <libsoup/soup.h>
+#include "rest/IHttpExecute.hh"
+#include "HttpExecuteSoup.hh"
 
-#include "rest/HttpReply.hh"
-#include "rest/IHttpBackend.hh"
-
-class HttpExecuteSoup : public IHttpExecute
+class HttpExecuteAsyncSoup : public IHttpExecute, public HttpExecuteSoup
 {
 public:
-  typedef boost::shared_ptr<HttpExecuteSoup> Ptr;
+  typedef boost::shared_ptr<HttpExecuteAsyncSoup> Ptr;
 
-  static Ptr create(HttpRequest::Ptr request);
+  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
 
-  HttpExecuteSoup(HttpRequest::Ptr request);
-  ~HttpExecuteSoup();
+  HttpExecuteAsyncSoup(SoupSession *session, HttpRequest::Ptr request);
+  virtual ~HttpExecuteAsyncSoup();
 
   virtual HttpReply::Ptr execute(IHttpExecute::HttpExecuteReady callback = 0);
   virtual HttpRequest::Ptr get_request() const;
   virtual bool is_sync() const;
-  
-  void init(SoupSession *session, bool sync);
   
 private:
   struct CallbackData
@@ -52,18 +46,10 @@ private:
     Ptr self;
   };
 
-  SoupSession *session;
   IHttpExecute::HttpExecuteReady callback;
-  HttpRequest::Ptr request;
-  HttpReply::Ptr reply;
-  bool sync;
   
-  SoupMessage *create_request_message();
-  void process_reply_message(SoupMessage *message);
-
   static void reply_ready_static(SoupSession *session, SoupMessage *message, gpointer user_data);
   void reply_ready(SoupSession *session, SoupMessage *message);
 };
-
 
 #endif

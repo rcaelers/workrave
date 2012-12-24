@@ -42,10 +42,13 @@ public:
   virtual ~IHttpBackend() {}
 
   virtual bool init(const std::string &user_agent) = 0;
+
+  // TODO: convert into add/remove with priority.
   virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory) = 0;
 
   virtual HttpReply::Ptr request(HttpRequest::Ptr request) = 0;
   virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback) = 0;
+  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback) = 0;
   virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback) = 0;
 };
 

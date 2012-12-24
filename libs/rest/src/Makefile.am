@@ -12,6 +12,9 @@ lib_LTLIBRARIES = 	libworkrave-rest.la
 libworkrave_rest_la_SOURCES = \
 			HttpBackendSoup.cc \
 			HttpExecuteSoup.cc \
+			HttpExecuteSyncSoup.cc \
+			HttpExecuteAsyncSoup.cc \
+			HttpExecuteStreamingSoup.cc \
 			HttpServerSoup.cc \
 			HttpReply.cc \
 			HttpRequest.cc \

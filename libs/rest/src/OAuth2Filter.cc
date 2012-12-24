@@ -101,5 +101,4 @@ OAuth2Filter::on_reply(HttpReply::Ptr reply)
     {
       callback(reply);
     }
-    
 }

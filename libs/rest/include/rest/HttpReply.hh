@@ -24,9 +24,8 @@
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
 
-#include "HttpRequest.hh"
+include "HttpRequest.hh"
 
 class HttpReply
 {
@@ -47,7 +46,6 @@ public:
   Headers headers;
   std::string body;
   std::string content_type;
-  //bool sync;
 };
 
 

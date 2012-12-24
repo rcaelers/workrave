@@ -18,51 +18,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPBACKENDSOUP_HH
-#define HTTPBACKENDSOUP_HH
+#ifndef HTTPEXECUTESOUP_HH
+#define HTTPEXECUTESOUP_HH
 
-#include <string>
-#include <map>
-#include <list>
-#include <boost/shared_ptr.hpp>
-
-#ifdef HAVE_SOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
 #include <libsoup/soup.h>
-#endif
 
-#include "rest/IHttpBackend.hh"
+#include "rest/HttpReply.hh"
+#include "rest/HttpRequest.hh"
 
-class HttpBackendSoup : public IHttpBackend
+class HttpExecuteSoup
 {
-public:
-  typedef boost::shared_ptr<HttpBackendSoup> Ptr;
+protected:
+  HttpExecuteSoup(SoupSession *session, HttpRequest::Ptr request);
+  virtual ~HttpExecuteSoup();
 
-  static Ptr create();
+  SoupMessage *create_request_message();
+  void process_reply_message(SoupMessage *message);
 
-public:
- 	HttpBackendSoup();
-  virtual ~HttpBackendSoup();
-
-  virtual bool init(const std::string &user_agent);
-  
-  virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory);
-
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request);
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback);
-
-private:
-  
-private:
-  SoupSession *sync_session;
-  SoupSession *async_session;
-  SoupURI *proxy;
-  std::string user_agent;
-  
-  IHttpDecoratorFactory::Ptr decorator_factory;
+protected:
+  SoupSession *session;
+  HttpRequest::Ptr request;
+  HttpReply::Ptr reply;
 };
 
 #endif

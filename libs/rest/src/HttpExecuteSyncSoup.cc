@@ -18,51 +18,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPBACKENDSOUP_HH
-#define HTTPBACKENDSOUP_HH
-
-#include <string>
-#include <map>
-#include <list>
-#include <boost/shared_ptr.hpp>
-
-#ifdef HAVE_SOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
-#include <libsoup/soup.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
-#include "rest/IHttpBackend.hh"
+#include "HttpExecuteSyncSoup.hh"
 
-class HttpBackendSoup : public IHttpBackend
+#include <boost/bind.hpp>
+#include <boost/format.hpp>
+#include <boost/algorithm/string.hpp>
+
+using namespace std;
+
+HttpExecuteSyncSoup::Ptr
+HttpExecuteSyncSoup::create(SoupSession *session, HttpRequest::Ptr request)
 {
-public:
-  typedef boost::shared_ptr<HttpBackendSoup> Ptr;
+  return Ptr(new HttpExecuteSyncSoup(session, request));
+}
 
-  static Ptr create();
 
-public:
- 	HttpBackendSoup();
-  virtual ~HttpBackendSoup();
+HttpExecuteSyncSoup::HttpExecuteSyncSoup(SoupSession *session, HttpRequest::Ptr request) : HttpExecuteSoup(session, request)
+{
+}
 
-  virtual bool init(const std::string &user_agent);
-  
-  virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory);
 
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request);
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback);
+HttpExecuteSyncSoup::~HttpExecuteSyncSoup()
+{
+}
 
-private:
-  
-private:
-  SoupSession *sync_session;
-  SoupSession *async_session;
-  SoupURI *proxy;
-  std::string user_agent;
-  
-  IHttpDecoratorFactory::Ptr decorator_factory;
-};
 
-#endif
+HttpReply::Ptr
+HttpExecuteSyncSoup::execute(IHttpExecute::HttpExecuteReady callback)
+{
+  SoupMessage *message = create_request_message();
+  soup_session_send_message(session, message);
+  process_reply_message(message); 
+  g_object_unref(message);
+
+  return reply;
+}
+
+
+HttpRequest::Ptr
+HttpExecuteSyncSoup::get_request() const
+{
+  return request;
+}
+
+
+bool
+HttpExecuteSyncSoup::is_sync() const
+{
+  return false;
+}

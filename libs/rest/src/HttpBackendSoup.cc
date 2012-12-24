@@ -22,13 +22,20 @@
 #include "config.h"
 #endif
 
+#define LIBSOUP_USE_UNSTABLE_REQUEST_API
+#include <libsoup/soup-requester.h>
+#include <libsoup/soup-request.h>
+
 #include "HttpBackendSoup.hh"
+
 
 #include <glib.h>
 
 #include "Uri.hh"
-#include "rest/HttpExecuteSoup.hh"
 #include "HttpServerSoup.hh"
+#include "HttpExecuteSyncSoup.hh"
+#include "HttpExecuteAsyncSoup.hh"
+#include "HttpExecuteStreamingSoup.hh"
 
 using namespace std;
 
@@ -75,10 +82,9 @@ HttpBackendSoup::set_decorator_factory(IHttpDecoratorFactory::Ptr factory)
 
 
 HttpReply::Ptr
-HttpBackendSoup::request(HttpRequest::Ptr request)
+HttpBackendSoup::request(HttpRequest::Ptr req)
 {
-  HttpExecuteSoup::Ptr exec = HttpExecuteSoup::create(request);
-  exec->init(sync_session, true);
+  HttpExecuteSyncSoup::Ptr exec = HttpExecuteSyncSoup::create(async_session, req);
 
   IHttpExecute::Ptr wrapped_exec = exec;
   if (decorator_factory)
@@ -91,10 +97,24 @@ HttpBackendSoup::request(HttpRequest::Ptr request)
 
 
 HttpReply::Ptr
-HttpBackendSoup::request(HttpRequest::Ptr request, IHttpExecute::HttpExecuteReady callback)
+HttpBackendSoup::request(HttpRequest::Ptr req, IHttpExecute::HttpExecuteReady callback)
 {
-  HttpExecuteSoup::Ptr exec = HttpExecuteSoup::create(request);
-  exec->init(async_session, false);
+  HttpExecuteAsyncSoup::Ptr exec = HttpExecuteAsyncSoup::create(async_session, req);
+
+  IHttpExecute::Ptr wrapped_exec = exec;
+  if (decorator_factory)
+    {
+      wrapped_exec = decorator_factory->create_decorator(exec);
+    }
+      
+  return wrapped_exec->execute(callback);
+}
+
+
+HttpReply::Ptr
+HttpBackendSoup::request_streaming(HttpRequest::Ptr req, const IHttpExecute::HttpExecuteReady callback)
+{
+  HttpExecuteStreamingSoup::Ptr exec = HttpExecuteStreamingSoup::create(async_session, req);
 
   IHttpExecute::Ptr wrapped_exec = exec;
   if (decorator_factory)
@@ -128,6 +148,7 @@ HttpBackendSoup::init(const string &user_agent)
 			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_COOKIE_JAR,
 			SOUP_SESSION_USER_AGENT, user_agent.c_str(),
 			SOUP_SESSION_ACCEPT_LANGUAGE_AUTO, TRUE,
+      SOUP_SESSION_USE_THREAD_CONTEXT, TRUE,
 			NULL);
 
   if (async_session == NULL)
@@ -135,6 +156,10 @@ HttpBackendSoup::init(const string &user_agent)
       g_debug("HttpBackendSoup::init: cannot create async session");
       return false;
     }
+
+  SoupRequester *requester = soup_requester_new();
+	soup_session_add_feature(async_session, SOUP_SESSION_FEATURE(requester));
+	g_object_unref(requester);
   
   sync_session = soup_session_sync_new_with_options (
 #ifdef HAVE_SOUP_GNOME
@@ -144,7 +169,7 @@ HttpBackendSoup::init(const string &user_agent)
 			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_COOKIE_JAR,
 			SOUP_SESSION_USER_AGENT, user_agent.c_str(),
 			SOUP_SESSION_ACCEPT_LANGUAGE_AUTO, TRUE,
-			NULL);
+      NULL);
 
   if (sync_session == NULL)
     {
