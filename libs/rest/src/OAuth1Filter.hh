@@ -25,11 +25,10 @@
 #include <map>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-#include "HttpDecorator.hh"
+#include "rest/IHttpRequestFilter.hh"
 
-class OAuth1Filter : public boost::enable_shared_from_this<OAuth1Filter>
+class OAuth1Filter
 {
 public:
   typedef boost::shared_ptr<OAuth1Filter> Ptr;
@@ -52,27 +51,36 @@ public:
                        std::string &token_secret);
 
 
-  IHttpExecute::Ptr create_decorator(IHttpExecute::Ptr executor);
-  void filter(HttpRequest::Ptr request);
+  IHttpClient::Ptr create_decorator(IHttpClient::Ptr executor);
+  void filter(IHttpRequest::Ptr request);
   
 private:
   enum ParameterMode { ParameterModeHeader, ParameterModeRequest, ParameterModeSignatureBase };
 
-  class Decorator : public HttpDecorator
+  class Decorator : public IHttpRequestFilter
   {
   public:
     typedef boost::shared_ptr<Decorator> Ptr;
 
   public:
-    static Ptr create(OAuth1Filter::Ptr filter, IHttpExecute::Ptr executor)
+    static Ptr create(OAuth1Filter::Ptr filter, IHttpClient::Ptr executor)
     {
       return Ptr(new Decorator(filter, executor));
     }
 
-    Decorator(OAuth1Filter::Ptr filter, IHttpExecute::Ptr executor) : HttpDecorator(executor)
+    virtual void filter(IHttpRequest::Ptr request, bool async, Ready callback);
     {
-      filter->filter(executor->get_request());
+      filter->filter(request);
+      callback();
     }
+    
+    Decorator(OAuth1Filter::Ptr filter, IHttpClient::Ptr executor) : executor(executor), filter(filter)
+    {
+    }
+    
+  private:
+    IHttpClient::Ptr executor;
+    OAuth1Filter::Ptr filter;
   };
   
 private:
