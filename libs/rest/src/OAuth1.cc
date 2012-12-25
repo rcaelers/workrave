@@ -37,32 +37,34 @@
 #include <crypto++/base64.h>
 #endif
 
-#include "rest/IHttpBackend.hh"
+#include "rest/RestFactory.hh"
 #include "OAuth1.hh"
 #include "Uri.hh"
 
 using namespace std;
 
 IOAuth1::Ptr
-IOAuth1::create(IHttpBackend::Ptr backend, const Settings &settings)
+IOAuth1::create(const Settings &settings)
 {
-  return OAuth1::create(backend, settings);
+  return OAuth1::create(settings);
 }
 
 OAuth1::Ptr
-OAuth1::create(IHttpBackend::Ptr backend, const Settings &settings)
+OAuth1::create(const Settings &settings)
 {
-  return Ptr(new OAuth1(backend, settings));
+  return Ptr(new OAuth1(settings));
 }
 
-OAuth1::OAuth1(IHttpBackend::Ptr backend, const OAuth1::Settings &settings)
-  : backend(backend),
-    settings(settings)
+OAuth1::OAuth1(const OAuth1::Settings &settings)
+  : settings(settings)
 {
   verified_path = "/oauth-verfied";
   filter = OAuth1Filter::create();
 
-  backend->set_decorator_factory(boost::dynamic_pointer_cast<OAuth1>(shared_from_this()));
+  client = RestFactory::create_client();
+  server = RestFactory::create_server();
+
+  client->set_request_filter(create_filter());
 }
 
 OAuth1::~OAuth1()
@@ -93,19 +95,18 @@ OAuth1::request_temporary_credentials()
   try
     {
       int port = 0;
-      server = backend->listen(verified_path, port, boost::bind(&OAuth1::on_resource_owner_authorization_ready, this, _1));
-
+      port = server->start(verified_path, boost::bind(&OAuth1::on_resource_owner_authorization_ready, this,  _1));
       oauth_callback = boost::str(boost::format("http://127.0.0.1:%1%%2%") % port % verified_path);
       
       OAuth1Filter::RequestParams parameters;
       parameters["oauth_callback"] = oauth_callback;
       filter->set_custom_headers(parameters);
 
-      HttpRequest::Ptr request = HttpRequest::create();
+      IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.temporary_request_uri;
       request->method = "POST";
       
-      backend->request(request, boost::bind(&OAuth1::on_temporary_credentials_ready, this, _1));
+      client->execute(request, boost::bind(&OAuth1::on_temporary_credentials_ready, this, _1));
     }
   catch(...)
     {
@@ -115,7 +116,7 @@ OAuth1::request_temporary_credentials()
 
 
 void
-OAuth1::on_temporary_credentials_ready(HttpReply::Ptr reply)
+OAuth1::on_temporary_credentials_ready(IHttpReply::Ptr reply)
 {
   try
     {
@@ -192,10 +193,10 @@ OAuth1::request_resource_owner_authorization()
 }
 
 
-HttpReply::Ptr
-OAuth1::on_resource_owner_authorization_ready(HttpRequest::Ptr request)
+IHttpReply::Ptr
+OAuth1::on_resource_owner_authorization_ready(IHttpRequest::Ptr request)
 {
-  HttpReply::Ptr reply = HttpReply::create(request);
+  IHttpReply::Ptr reply = IHttpReply::create();
   
   try
     {
@@ -259,11 +260,11 @@ OAuth1::request_token(const string &verifier)
         }
       filter->set_custom_headers(parameters);
 
-      HttpRequest::Ptr request = HttpRequest::create();
+      IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.token_request_uri;
       request->method = "POST";
       
-      backend->request(request, boost::bind(&OAuth1::on_token_ready, this, _1));
+      client->execute(request, boost::bind(&OAuth1::on_token_ready, this, _1));
     }
   catch(...)
     {
@@ -273,7 +274,7 @@ OAuth1::request_token(const string &verifier)
 
 
 void
-OAuth1::on_token_ready(HttpReply::Ptr reply)
+OAuth1::on_token_ready(IHttpReply::Ptr reply)
 {
   try
     {
@@ -361,9 +362,9 @@ void OAuth1::success()
 }
 
 
-IHttpExecute::Ptr
-OAuth1::create_decorator(IHttpExecute::Ptr executor)
+IHttpRequestFilter::Ptr
+OAuth1::create_filter()
 {
-  return filter->create_decorator(executor);
+  return filter->create_filter();
 }
     

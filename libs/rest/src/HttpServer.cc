@@ -22,32 +22,34 @@
 #include "config.h"
 #endif
 
-#include "HttpServerSoup.hh"
+#include "HttpServer.hh"
 
 using namespace std;
 
-HttpServerSoup::Ptr
-HttpServerSoup::create(const HttpServerCallback callback, const std::string &user_agent, const std::string &path)
+HttpServer::Ptr
+HttpServer::create(const std::string &user_agent)
 {
-  return Ptr(new HttpServerSoup(callback, user_agent, path));
+  return Ptr(new HttpServer(user_agent));
 }
 
 
-HttpServerSoup::HttpServerSoup(const HttpServerCallback callback, const std::string &user_agent, const std::string &path)
-  : callback(callback), user_agent(user_agent), path(path), server(NULL), port(0)
+HttpServer::HttpServer(const std::string &user_agent)
+  : user_agent(user_agent), server(NULL), port(0)
 {
 }
 
 
-HttpServerSoup::~HttpServerSoup()
+HttpServer::~HttpServer()
 {
   stop();
 }
 
 
 int
-HttpServerSoup::start()
+HttpServer::start(const std::string &path, IHttpServer::HttpServerCallback callback)
 {
+  this->callback = callback;
+  
   SoupAddress *addr = soup_address_new("127.0.0.1", SOUP_ADDRESS_ANY_PORT);
   soup_address_resolve_sync(addr, NULL);
 
@@ -73,7 +75,7 @@ HttpServerSoup::start()
 
 
 void
-HttpServerSoup::stop()
+HttpServer::stop()
 {
   if (server != NULL)
     {
@@ -84,16 +86,16 @@ HttpServerSoup::stop()
 
 
 void
-HttpServerSoup::server_callback_static(SoupServer *server, SoupMessage *message, const char *path,
+HttpServer::server_callback_static(SoupServer *server, SoupMessage *message, const char *path,
                                        GHashTable *query, SoupClientContext *context, gpointer data)
 {
-  HttpServerSoup *self = (HttpServerSoup *)data;
+  HttpServer *self = (HttpServer *)data;
   self->server_callback(server, message, path, query, context);
 }
 
 
 void
-HttpServerSoup::server_callback(SoupServer *, SoupMessage *message, const char *path,
+HttpServer::server_callback(SoupServer *, SoupMessage *message, const char *path,
                                 GHashTable *query, SoupClientContext *context)
 {
   (void) path;
@@ -102,13 +104,13 @@ HttpServerSoup::server_callback(SoupServer *, SoupMessage *message, const char *
 
   SoupURI *uri = soup_message_get_uri(message);
 
-  HttpRequest::Ptr request = HttpRequest::create();
+  IHttpRequest::Ptr request = IHttpRequest::create();
   request->uri = (uri != NULL && uri->query != NULL) ? uri->query : "";
   request->method = message->method;
   request->body = (message->response_body->length > 0) ? message->response_body->data : "";
   request->content_type = "";
   
-  HttpReply::Ptr reply = callback(request);
+  IHttpReply::Ptr reply = callback(request);
 
   soup_message_set_status(message, SOUP_STATUS_OK);
   soup_message_set_response(message, reply->content_type.c_str(), SOUP_MEMORY_COPY, reply->body.c_str(), reply->body.length());

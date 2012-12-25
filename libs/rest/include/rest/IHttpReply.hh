@@ -18,30 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPEXECUTE_HH
-#define IHTTPEXECUTE_HH
+#ifndef IHTTPREPLY_HH
+#define IHTTPREPLY_HH
 
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/function.hpp>
 
-#include "rest/HttpRequest.hh"
-#include "rest/HttpReply.hh"
+#include "IHttpRequest.hh"
 
-class IHttpExecute : public boost::enable_shared_from_this<IHttpExecute>
+class IHttpReply
 {
 public:
-  typedef boost::shared_ptr<IHttpExecute> Ptr;
+  typedef boost::shared_ptr<IHttpReply> Ptr;
+  typedef std::map<std::string, std::string> Headers;
 
-  typedef boost::function<void (HttpReply::Ptr reply) > HttpExecuteReady;
+  static Ptr create();
   
-  virtual HttpReply::Ptr execute(HttpExecuteReady callback = 0) = 0;
-  virtual HttpRequest::Ptr get_request() const = 0;
-  virtual bool is_sync() const = 0;
-  
-  virtual ~IHttpExecute() {}
+  virtual ~IHttpReply() {}
+
+public:
+  int status;
+  Headers headers;
+  std::string body;
+  std::string content_type;
+  bool chunked;
+  bool final;
 };
+
 
 #endif

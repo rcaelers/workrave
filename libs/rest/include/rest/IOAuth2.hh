@@ -23,11 +23,13 @@
 
 #include <string>
 #include <map>
+
+#include <boost/signals2.hpp>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-#include "IHttpBackend.hh"
+#include "rest/IHttpClient.hh"
 
 class IOAuth2 : public boost::enable_shared_from_this<IOAuth2>
 {
@@ -36,6 +38,7 @@ public:
     
   typedef boost::shared_ptr<IOAuth2> Ptr;
   typedef boost::function<void (AuthResult) > AuthReadyCallback;
+  typedef boost::signals2::signal<void(const std::string&, time_t valid_until)> CredentialsUpdatedSignal;
 
   struct Settings
   {
@@ -70,11 +73,14 @@ public:
   };
    
 public:
-  static Ptr create(IHttpBackend::Ptr backend, const Settings &settings);
+  static Ptr create(const Settings &settings);
 
+  virtual IHttpRequestFilter::Ptr create_filter() = 0;
+  
   virtual void init(AuthReadyCallback callback) = 0;
   virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthReadyCallback callback) = 0;
   virtual void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until) = 0;
+  virtual CredentialsUpdatedSignal &signal_credentials_updated() = 0;
  
 };
 

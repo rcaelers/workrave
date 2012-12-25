@@ -18,47 +18,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPDECORATOR_HH
-#define HTTPDECORATOR_HH
+#ifndef HTTPREPLY_HH
+#define HTTPREPLY_HH
 
-#include <string>
-#include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/function.hpp>
+#include "rest/IHttpReply.hh"
 
-#include "rest/IHttpExecute.hh"
-
-class HttpDecorator : public IHttpExecute
+class HttpReply : public IHttpReply
 {
 public:
-  typedef boost::shared_ptr<HttpDecorator> Ptr;
-
-  HttpDecorator(IHttpExecute::Ptr executor) : executor(executor)
-  {
-  }
-
-  virtual ~HttpDecorator()
-  {
-  }
-
-  HttpReply::Ptr execute(IHttpExecute::HttpExecuteReady callback)
-  {
-    return executor->execute(callback);
-  }
-
-  HttpRequest::Ptr get_request() const
-  {
-    return executor->get_request();
-  }
-
-  bool is_sync() const
-  {
-    return executor->is_sync();
-  }
-    
-protected:
-  IHttpExecute::Ptr executor;
+  HttpReply();
+  virtual ~HttpReply() {}
 };
 
 #endif

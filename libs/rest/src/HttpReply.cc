@@ -22,21 +22,17 @@
 #include "config.h"
 #endif
 
-#include "rest/HttpReply.hh"
+#include "HttpReply.hh"
 
-#include <boost/bind.hpp>
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
-
-using namespace std;
-
-HttpReply::Ptr
-HttpReply::create(HttpRequest::Ptr request)
+IHttpReply::Ptr
+IHttpReply::create()
 {
-  return Ptr(new HttpReply(request));
+  return Ptr(new HttpReply());
 }
 
-
-HttpReply::HttpReply(HttpRequest::Ptr request) : request(request)
+HttpReply::HttpReply()
 {
+  status = 0;
+  chunked = false;
+  final = false;
 }

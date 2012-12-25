@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,38 +18,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPEXECUTEASYNCSOUP_HH
-#define HTTPEXECUTEASYNCSOUP_HH
+#ifndef HTTPSERVER_HH
+#define HTTPSERVER_HH
 
+#include <string>
 #include <boost/shared_ptr.hpp>
 
-#include "rest/IHttpExecute.hh"
-#include "HttpExecuteSoup.hh"
+#ifdef HAVE_SOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#else
+#include <libsoup/soup.h>
+#endif
 
-class HttpExecuteAsyncSoup : public IHttpExecute, public HttpExecuteSoup
+#include "rest/IHttpServer.hh"
+
+class HttpServer : public IHttpServer
 {
 public:
-  typedef boost::shared_ptr<HttpExecuteAsyncSoup> Ptr;
+  typedef boost::shared_ptr<HttpServer> Ptr;
 
-  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
+  static Ptr create(const std::string &user_agent);
 
-  HttpExecuteAsyncSoup(SoupSession *session, HttpRequest::Ptr request);
-  virtual ~HttpExecuteAsyncSoup();
+public:
+ 	HttpServer(const std::string &user_agent);
+  virtual ~HttpServer();
 
-  virtual HttpReply::Ptr execute(IHttpExecute::HttpExecuteReady callback = 0);
-  virtual HttpRequest::Ptr get_request() const;
-  virtual bool is_sync() const;
+  virtual int start(const std::string &path, IHttpServer::HttpServerCallback callback);
+  virtual void stop();
   
 private:
-  struct CallbackData
-  {
-    Ptr self;
-  };
+  static void server_callback_static(SoupServer *server, SoupMessage *message, const char *path,
+                                     GHashTable *query, SoupClientContext *context, gpointer data);
 
-  IHttpExecute::HttpExecuteReady callback;
+  void server_callback(SoupServer *, SoupMessage *message, const char *path,
+                       GHashTable *query, SoupClientContext *context);
   
-  static void reply_ready_static(SoupSession *session, SoupMessage *message, gpointer user_data);
-  void reply_ready(SoupSession *session, SoupMessage *message);
+private:
+  HttpServerCallback callback;
+  std::string user_agent;
+  SoupServer *server;
+  int port;
 };
 
 #endif

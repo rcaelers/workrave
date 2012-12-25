@@ -27,38 +27,39 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rest/IOAuth1.hh"
-#include "rest/IHttpBackend.hh"
+#include "rest/IHttpClient.hh"
+#include "rest/IHttpServer.hh"
 #include "OAuth1Filter.hh"
 
-#include "rest/IHttpExecute.hh"
+#include "rest/IHttpClient.hh"
 
-class OAuth1 : public IOAuth1, public IHttpDecoratorFactory
+class OAuth1 : public IOAuth1
 {
 public:
-  typedef IHttpExecute::HttpExecuteReady HttpReplyCallback;
+  typedef IHttpClient::HttpBackendReady HttpReplyCallback;
   typedef boost::shared_ptr<OAuth1> Ptr;
 
 public:
-  static Ptr create(IHttpBackend::Ptr backend, const Settings &settings);
+  static Ptr create(const Settings &settings);
 
- 	OAuth1(IHttpBackend::Ptr backend, const Settings &settings);
+ 	OAuth1(const Settings &settings);
   ~OAuth1();
   
   void init(const std::string &consumer_key,
             const std::string &consumer_secret,
             SuccessCallback success_cb,
             FailedCallback failure_cb);
-  
+
 private:
   void request_temporary_credentials();
   void request_resource_owner_authorization();
   void request_token(const std::string &verifier);
 
-  void on_temporary_credentials_ready(HttpReply::Ptr reply);
-  HttpReply::Ptr on_resource_owner_authorization_ready(HttpRequest::Ptr request);
-  void on_token_ready(HttpReply::Ptr reply);
+  void on_temporary_credentials_ready(IHttpReply::Ptr reply);
+  IHttpReply::Ptr on_resource_owner_authorization_ready(IHttpRequest::Ptr request);
+  void on_token_ready(IHttpReply::Ptr reply);
 
-  IHttpExecute::Ptr create_decorator(IHttpExecute::Ptr execute);
+  IHttpRequestFilter::Ptr create_filter();
   
   void parse_query(const std::string &query, OAuth1Filter::RequestParams &params) const;
 
@@ -66,9 +67,9 @@ private:
   void success();
   
 private:  
-  IHttpBackend::Ptr backend;
-  OAuth1Filter::Ptr filter;
+  IHttpClient::Ptr client;
   IHttpServer::Ptr server;
+  OAuth1Filter::Ptr filter;
   
   Settings settings;
 

@@ -18,38 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPBACKEND_HH
-#define IHTTPBACKEND_HH
+#ifndef IHTTPREQUEST_HH
+#define IHTTPREQUEST_HH
 
 #include <string>
-#include <boost/function.hpp>
+#include <map>
 #include <boost/shared_ptr.hpp>
 
-#include "HttpRequest.hh"
-#include "HttpReply.hh"
-#include "rest/IHttpExecute.hh"
-#include "rest/IHttpServer.hh"
-#include "IHttpDecoratorFactory.hh"
-
-class IHttpBackend
+class IHttpRequest
 {
 public:
-  typedef boost::shared_ptr<IHttpBackend> Ptr;
+  typedef boost::shared_ptr<IHttpRequest> Ptr;
+  typedef std::map<std::string, std::string> Headers;
 
-public:
   static Ptr create();
 
-  virtual ~IHttpBackend() {}
-
-  virtual bool init(const std::string &user_agent) = 0;
-
-  // TODO: convert into add/remove with priority.
-  virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory) = 0;
-
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request) = 0;
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback) = 0;
-  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback) = 0;
-  virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback) = 0;
+  virtual ~IHttpRequest() {}
+  
+public:
+  std::string method;
+  std::string uri;
+  Headers headers;
+  std::string body;
+  std::string content_type;
 };
+
 
 #endif

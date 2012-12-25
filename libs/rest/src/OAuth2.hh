@@ -27,35 +27,40 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rest/IOAuth2.hh"
-#include "rest/IHttpBackend.hh"
-#include "OAuth2Filter.hh"
+#include "rest/IHttpServer.hh"
+#include "rest/IHttpClient.hh"
 
-class OAuth2 : public IOAuth2, public IHttpDecoratorFactory
+class OAuth2 : public IOAuth2
 {
 public:
   typedef boost::shared_ptr<OAuth2> Ptr;
 
 public:
-  static Ptr create(IHttpBackend::Ptr backend, const Settings &settings);
+  static Ptr create(const Settings &settings);
 
- 	OAuth2(IHttpBackend::Ptr backend, const Settings &settings);
+ 	OAuth2(const Settings &settings);
   virtual ~OAuth2();
   
   void init(AuthReadyCallback callback);
   void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthReadyCallback callback);
   void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until);
+  void refresh_access_token();
+
+  virtual CredentialsUpdatedSignal &signal_credentials_updated()
+  {
+    return credentials_updated_signal;
+  }
   
 private:
   typedef std::map<std::string, std::string> RequestParams;
 
   void request_authorization_grant();
-  HttpReply::Ptr on_authorization_grant_ready(HttpRequest::Ptr request);
+  IHttpReply::Ptr on_authorization_grant_ready(IHttpRequest::Ptr request);
 
   void request_access_token(const std::string &code);
-  void on_access_token_ready(HttpReply::Ptr reply);
+  void on_access_token_ready(IHttpReply::Ptr reply);
 
-  void request_refresh_token(bool sync = false);
-  void on_refresh_token_ready(HttpReply::Ptr reply);
+  void on_refresh_access_token_ready(IHttpReply::Ptr reply);
 
   void parse_query(const std::string &query, RequestParams &params) const;
   const std::string parameters_to_string(const RequestParams &parameters) const;
@@ -63,11 +68,10 @@ private:
 
   void report_async_result(AuthResult result);
 
-  IHttpExecute::Ptr create_decorator(IHttpExecute::Ptr execute);
-  void on_refresh_request(OAuth2Filter::Ptr filter);
-  
+  IHttpRequestFilter::Ptr create_filter();
+
 private:  
-  IHttpBackend::Ptr backend;
+  IHttpClient::Ptr client;
   IHttpServer::Ptr server;
   Settings settings;
 
@@ -77,7 +81,7 @@ private:
   time_t valid_until;
   
   AuthReadyCallback callback;
-  std::list<OAuth2Filter::Ptr> waiting_for_refresh;
+  CredentialsUpdatedSignal credentials_updated_signal;
   
   std::string callback_uri_path;
 };

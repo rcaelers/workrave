@@ -22,16 +22,10 @@
 #include "config.h"
 #endif
 
-#include "rest/HttpRequest.hh"
+#include "HttpRequest.hh"
 
-#include <boost/bind.hpp>
-#include <boost/format.hpp>
-#include <boost/algorithm/string.hpp>
-
-using namespace std;
-
-HttpRequest::Ptr
-HttpRequest::create()
+IHttpRequest::Ptr
+IHttpRequest::create()
 {
   return Ptr(new HttpRequest());
 }

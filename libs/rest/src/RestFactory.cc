@@ -18,27 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPEXECUTESOUP_HH
-#define HTTPEXECUTESOUP_HH
-
-#include <libsoup/soup.h>
-
-#include "rest/HttpReply.hh"
-#include "rest/HttpRequest.hh"
-
-class HttpExecuteSoup
-{
-protected:
-  HttpExecuteSoup(SoupSession *session, HttpRequest::Ptr request);
-  virtual ~HttpExecuteSoup();
-
-  SoupMessage *create_request_message();
-  void process_reply_message(SoupMessage *message);
-
-protected:
-  SoupSession *session;
-  HttpRequest::Ptr request;
-  HttpReply::Ptr reply;
-};
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "rest/RestFactory.hh"
+
+#define LIBSOUP_USE_UNSTABLE_REQUEST_API
+#include <libsoup/soup-requester.h>
+#include <libsoup/soup-request.h>
+
+#include <glib.h>
+
+#include "Uri.hh"
+#include "HttpServer.hh"
+#include "HttpClient.hh"
+
+using namespace std;
+
+
+IHttpClient::Ptr
+RestFactory::create_client(const std::string &user_agent)
+{
+  return HttpClient::create(user_agent);
+}
+
+IHttpServer::Ptr
+RestFactory::create_server(const std::string &user_agent)
+{
+  return HttpServer::create(user_agent);
+}

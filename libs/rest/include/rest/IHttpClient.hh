@@ -18,35 +18,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPREPLY_HH
-#define HTTPREPLY_HH
+#ifndef IHTTPCLIENT_HH
+#define IHTTPCLIENT_HH
 
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
-include "HttpRequest.hh"
+#include "rest/IHttpRequest.hh"
+#include "rest/IHttpReply.hh"
+#include "rest/IHttpRequestFilter.hh"
 
-class HttpReply
+class IHttpClient
 {
 public:
-  typedef boost::shared_ptr<HttpReply> Ptr;
+  typedef boost::shared_ptr<IHttpClient> Ptr;
+  typedef boost::function<void (IHttpReply::Ptr reply) > HttpBackendReady;
 
-  typedef std::map<std::string, std::string> Headers;
+  virtual void set_request_filter(IHttpRequestFilter::Ptr filter) = 0;
+  virtual IHttpReply::Ptr execute(IHttpRequest::Ptr request, HttpBackendReady callback) = 0;
+  virtual IHttpReply::Ptr stream(IHttpRequest::Ptr request, HttpBackendReady callback) = 0;
 
-  static Ptr create(HttpRequest::Ptr request);
-  
-  HttpReply(HttpRequest::Ptr request);
-  virtual ~HttpReply() {}
-
-public:
-  HttpRequest::Ptr request;
-
-  int status;
-  Headers headers;
-  std::string body;
-  std::string content_type;
+  virtual ~IHttpClient() {}
 };
-
 
 #endif

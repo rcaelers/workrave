@@ -18,19 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPDECORATORFACTORY_HH
-#define IHTTPDECORATORFACTORY_HH
+#ifndef IHTTPREQUESTFILTER_HH
+#define IHTTPREQUESTFILTER_HH
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
-#include "rest/IHttpExecute.hh"
+#include "rest/IHttpRequest.hh"
+#include "rest/IHttpReply.hh"
 
-class IHttpDecoratorFactory
+class IHttpRequestFilter
 {
 public:
-  typedef boost::shared_ptr<IHttpDecoratorFactory> Ptr;
+  typedef boost::shared_ptr<IHttpRequestFilter> Ptr;
+  typedef boost::function<void () > Ready;
   
-  virtual IHttpExecute::Ptr create_decorator(IHttpExecute::Ptr) = 0;
+  virtual void filter(IHttpRequest::Ptr request, Ready callback = 0) = 0;
+
+  virtual ~IHttpRequestFilter() {}
 };
 
 #endif

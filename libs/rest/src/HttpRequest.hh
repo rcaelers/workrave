@@ -18,51 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPBACKENDSOUP_HH
-#define HTTPBACKENDSOUP_HH
+#ifndef HTTPREQUEST_HH
+#define HTTPREQUEST_HH
 
-#include <string>
-#include <map>
-#include <list>
-#include <boost/shared_ptr.hpp>
+#include "rest/IHttpRequest.hh"
 
-#ifdef HAVE_SOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
-#include <libsoup/soup.h>
-#endif
-
-#include "rest/IHttpBackend.hh"
-
-class HttpBackendSoup : public IHttpBackend
+class HttpRequest : public IHttpRequest
 {
 public:
-  typedef boost::shared_ptr<HttpBackendSoup> Ptr;
-
-  static Ptr create();
-
-public:
- 	HttpBackendSoup();
-  virtual ~HttpBackendSoup();
-
-  virtual bool init(const std::string &user_agent);
-  
-  virtual void set_decorator_factory(IHttpDecoratorFactory::Ptr factory);
-
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request);
-  virtual HttpReply::Ptr request(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual HttpReply::Ptr request_streaming(HttpRequest::Ptr request, const IHttpExecute::HttpExecuteReady callback);
-  virtual IHttpServer::Ptr listen(const std::string &path, int &port, IHttpServer::HttpServerCallback callback);
-
-private:
-  
-private:
-  SoupSession *sync_session;
-  SoupSession *async_session;
-  SoupURI *proxy;
-  std::string user_agent;
-  
-  IHttpDecoratorFactory::Ptr decorator_factory;
+  virtual ~HttpRequest() {}
 };
 
 #endif

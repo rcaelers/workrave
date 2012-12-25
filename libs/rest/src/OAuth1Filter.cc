@@ -28,7 +28,6 @@
 #include <string.h>
 #include <list>
 #include <vector>
-#include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include <glib.h>
@@ -43,7 +42,7 @@
 #include <gcrypt.h>
 #include <libsoup/soup.h>
 
-#include "rest/IHttpBackend.hh"
+#include "rest/IHttpClient.hh"
 #include "Uri.hh"
 
 using namespace std;
@@ -320,7 +319,7 @@ OAuth1Filter::create_oauth_header(const string &http_method,
 
 
 void
-OAuth1Filter::filter(HttpRequest::Ptr request)
+OAuth1Filter::filter(IHttpRequest::Ptr request)
 {
   RequestParams parameters;
   string oauth_header;
@@ -337,8 +336,8 @@ OAuth1Filter::filter(HttpRequest::Ptr request)
 }
   
 
-IHttpExecute::Ptr
-OAuth1Filter::create_decorator(IHttpExecute::Ptr executor)
+IHttpRequestFilter::Ptr
+OAuth1Filter::create_filter()
 {
-  return Decorator::create(shared_from_this(), executor);
+  return Decorator::create(shared_from_this());
 }

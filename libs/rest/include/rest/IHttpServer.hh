@@ -23,20 +23,20 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/function.hpp>
 
-#include "rest/HttpRequest.hh"
-#include "rest/HttpReply.hh"
+#include "rest/IHttpRequest.hh"
+#include "rest/IHttpReply.hh"
 
-class IHttpServer : public boost::enable_shared_from_this<IHttpServer>
+class IHttpServer
 {
 public:
   typedef boost::shared_ptr<IHttpServer> Ptr;
-  typedef boost::function<HttpReply::Ptr (HttpRequest::Ptr reply) > HttpServerCallback;
+  typedef boost::function<IHttpReply::Ptr (IHttpRequest::Ptr reply) > HttpServerCallback;
   
   virtual ~IHttpServer() {}
 
+  virtual int start(const std::string &path, IHttpServer::HttpServerCallback callback) = 0;
   virtual void stop() = 0;
 };
 

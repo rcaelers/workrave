@@ -22,40 +22,42 @@
 #define OAUTH2FILTER_HH
 
 #include <string>
+#include <list>
+
 #include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "HttpDecorator.hh"
-#include "rest/HttpReply.hh"
+#include "rest/IHttpRequestFilter.hh"
+#include "rest/IHttpReply.hh"
+#include "rest/IOAuth2.hh"
 
-class OAuth2Filter : public HttpDecorator
+#include "OAuth2.hh"
+
+class OAuth2Filter : public IHttpRequestFilter
 {
 public:
   typedef boost::shared_ptr<OAuth2Filter> Ptr;
-
-  typedef boost::signals2::signal<void()> RefreshRequestSignal;
   
 public:
-  static Ptr create(IHttpExecute::Ptr);
+  static Ptr create(IOAuth2::Ptr oauth);
 
-  OAuth2Filter(IHttpExecute::Ptr executor);
-  void set_access_token(const std::string &acces_token);
+  OAuth2Filter(IOAuth2::Ptr oauth);
 
-  RefreshRequestSignal &signal_refresh_request()
-  {
-    return refresh_request_signal;
-  }
+  virtual void filter(IHttpRequest::Ptr request, Ready callback = 0);
 
-  virtual HttpReply::Ptr execute(HttpExecuteReady callback = 0);
-  
 private:
-  void filter();
-  void on_reply(HttpReply::Ptr reply);
+  void on_access_token(const std::string &acces_token, time_t valid_until);
 
+  struct RequestData
+  {
+    IHttpRequest::Ptr request;
+    IHttpRequestFilter::Ready callback;
+  };
+
+  OAuth2::Ptr oauth2;
   std::string access_token;
-  RefreshRequestSignal refresh_request_signal;
-  bool waiting;
-  HttpExecuteReady callback;
+  time_t valid_until;
+  std::list<RequestData> waiting;
 };
 
 #endif // OAUTH2FILTER_HH

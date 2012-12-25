@@ -18,26 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPEXECUTESYNCSOUP_HH
-#define HTTPEXECUTESYNCSOUP_HH
+#ifndef HTTPUTILS_HH
+#define HTTPUTILS_HH
 
-#include "rest/IHttpExecute.hh"
-#include "HttpExecuteSoup.hh"
+#ifdef HAVE_SOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#else
+#include <libsoup/soup.h>
+#endif
 
-class HttpExecuteSyncSoup : public IHttpExecute, public HttpExecuteSoup
+#include "rest/IHttpRequest.hh"
+#include "rest/IHttpReply.hh"
+
+class HttpUtils
 {
 public:
-  typedef boost::shared_ptr<HttpExecuteSyncSoup> Ptr;
-
-  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
-
-  HttpExecuteSyncSoup(SoupSession *session, HttpRequest::Ptr request);
-  virtual ~HttpExecuteSyncSoup();
-
-  virtual HttpReply::Ptr execute(IHttpExecute::HttpExecuteReady callback = 0);
-  virtual HttpRequest::Ptr get_request() const;
-  virtual bool is_sync() const;
+  static SoupMessage *create_request_message(IHttpRequest::Ptr request);
+  static void process_reply_message(IHttpReply::Ptr reply, SoupMessage *message);
 };
-
 
 #endif

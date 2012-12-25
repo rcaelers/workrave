@@ -33,26 +33,32 @@
 
 #include "Uri.hh"
 
+#include "rest/RestFactory.hh"
+
+#include "OAuth2Filter.hh"
+
 using namespace std;
 
 IOAuth2::Ptr
-IOAuth2::create(IHttpBackend::Ptr backend, const Settings &settings)
+IOAuth2::create(const Settings &settings)
 {
-  return OAuth2::create(backend, settings);
+  return OAuth2::create(settings);
 }
 
 OAuth2::Ptr
-OAuth2::create(IHttpBackend::Ptr backend, const Settings &settings)
+OAuth2::create(const Settings &settings)
 {
-  return Ptr(new OAuth2(backend, settings));
+  return Ptr(new OAuth2(settings));
 }
 
-OAuth2::OAuth2(IHttpBackend::Ptr backend, const OAuth2::Settings &settings)
-  : backend(backend),
-    settings(settings),
+OAuth2::OAuth2(const OAuth2::Settings &settings)
+  : settings(settings),
     valid_until(0)
 {
   callback_uri_path = "/oauth2";
+
+  client = RestFactory::create_client();
+  server = RestFactory::create_server();
 }
 
 
@@ -68,9 +74,9 @@ OAuth2::~OAuth2()
 void
 OAuth2::init(AuthReadyCallback callback)
 {
-  this->callback = callback;
+  client->set_request_filter(create_filter());
 
-  backend->set_decorator_factory(boost::dynamic_pointer_cast<OAuth2>(shared_from_this()));
+  this->callback = callback;
   request_authorization_grant();
 }
 
@@ -78,18 +84,20 @@ OAuth2::init(AuthReadyCallback callback)
 void
 OAuth2::init(std::string access_token, std::string refresh_token, time_t valid_until, AuthReadyCallback callback)
 {
+  g_debug("OAuth2::init(%s, %s, %ld)\n", access_token.c_str(), refresh_token.c_str(), valid_until);
   this->callback = callback;
   
   this->access_token = access_token;
   this->refresh_token = refresh_token;
   this->valid_until = valid_until;
-  
-  backend->set_decorator_factory(boost::dynamic_pointer_cast<OAuth2>(shared_from_this()));
+
+  credentials_updated_signal(access_token, valid_until);
+  client->set_request_filter(create_filter());
   
   if (valid_until + 60 < time(NULL))
     {
       g_debug("OAuth2::init: token expired");
-      request_refresh_token(false);
+      refresh_access_token();
     }
   else
     {
@@ -113,7 +121,7 @@ OAuth2::request_authorization_grant()
   try
     {
       int port = 0;
-      server = backend->listen(callback_uri_path, port, boost::bind(&OAuth2::on_authorization_grant_ready, this, _1));
+      port = server->start(callback_uri_path, boost::bind(&OAuth2::on_authorization_grant_ready, this, _1));
 
       callback_uri = boost::str(boost::format("http://localhost:%1%%2%") % port % callback_uri_path);
       
@@ -148,10 +156,10 @@ OAuth2::request_authorization_grant()
 }
 
 
-HttpReply::Ptr
-OAuth2::on_authorization_grant_ready(HttpRequest::Ptr request)
+IHttpReply::Ptr
+OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
 {
-  HttpReply::Ptr reply = HttpReply::create(request);
+  IHttpReply::Ptr reply = IHttpReply::create();
 
   try
     {
@@ -218,13 +226,13 @@ OAuth2::request_access_token(const string &code)
 
       g_debug("request_access_token %s", body.c_str());
       
-      HttpRequest::Ptr request = HttpRequest::create();
+      IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.token_endpoint;
       request->method = "POST";
       request->content_type = "application/x-www-form-urlencoded";
       request->body = body;
 
-      backend->request(request, boost::bind(&OAuth2::on_access_token_ready, this, _1));
+      client->execute(request, boost::bind(&OAuth2::on_access_token_ready, this, _1));
     }
   catch(...)
     {
@@ -234,7 +242,7 @@ OAuth2::request_access_token(const string &code)
 
 
 void
-OAuth2::on_access_token_ready(HttpReply::Ptr reply)
+OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
 {
   AuthResult result = Failed;
 
@@ -266,6 +274,7 @@ OAuth2::on_access_token_ready(HttpReply::Ptr reply)
           
           g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
 
+          credentials_updated_signal(access_token, valid_until);
           result = Ok;
         }
     }
@@ -278,9 +287,9 @@ OAuth2::on_access_token_ready(HttpReply::Ptr reply)
 
 
 void
-OAuth2::request_refresh_token(bool sync)
+OAuth2::refresh_access_token()
 {
-  g_debug("request_refresh_token");
+  g_debug("refresh_access_token");
   access_token = "";
 
   try
@@ -294,21 +303,13 @@ OAuth2::request_refresh_token(bool sync)
                                );
       g_debug("body %s", body.c_str());
 
-      HttpRequest::Ptr request = HttpRequest::create();
+      IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.token_endpoint;
       request->method = "POST";
       request->content_type = "application/x-www-form-urlencoded";
       request->body = body;
           
-      if (sync)
-        {
-          HttpReply::Ptr reply = backend->request(request);
-          on_refresh_token_ready(reply);
-        }
-      else
-        {
-          backend->request(request, boost::bind(&OAuth2::on_refresh_token_ready, this, _1));
-        }
+      client->execute(request, boost::bind(&OAuth2::on_refresh_access_token_ready, this, _1));
     }
   catch(...)
     {
@@ -318,7 +319,7 @@ OAuth2::request_refresh_token(bool sync)
 
 
 void
-OAuth2::on_refresh_token_ready(HttpReply::Ptr reply)
+OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
 {
   try
     {
@@ -346,12 +347,7 @@ OAuth2::on_refresh_token_ready(HttpReply::Ptr reply)
           valid_until = root["expires_in"].asInt() + time(NULL);
           
           g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
-
-          for(list<OAuth2Filter::Ptr>::iterator it = waiting_for_refresh.begin(); it != waiting_for_refresh.end(); it++)
-            {
-              (*it)->set_access_token(access_token);
-            }
-          waiting_for_refresh.clear();
+          credentials_updated_signal(access_token, valid_until);
         }
 
       report_async_result(Ok);
@@ -439,32 +435,8 @@ OAuth2::report_async_result(AuthResult result)
 }
 
 
-IHttpExecute::Ptr
-OAuth2::create_decorator(IHttpExecute::Ptr execute)
+IHttpRequestFilter::Ptr
+OAuth2::create_filter()
 {
-  g_debug("OAuth2::create_decorator");
-  if (access_token != "")
-    {
-      OAuth2Filter::Ptr filter = OAuth2Filter::create(execute);
-      filter->signal_refresh_request().connect(boost::bind(&OAuth2::on_refresh_request, this, filter));
-      filter->set_access_token(access_token);
-      return filter;
-    }
-  else
-    {
-      g_debug("OAuth2::create_decorator: no token");
-      return execute;
-    }
-}
-
-
-void
-OAuth2::on_refresh_request(OAuth2Filter::Ptr filter)
-{
-  waiting_for_refresh.push_back(filter);
-  if (waiting_for_refresh.size() == 1)
-    {
-      // TODO: handle sync / and mix sync+async
-      request_refresh_token(filter->is_sync());
-    }
+  return OAuth2Filter::create(shared_from_this());
 }

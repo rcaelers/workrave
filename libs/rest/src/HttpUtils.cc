@@ -22,31 +22,37 @@
 #include "config.h"
 #endif
 
-#include "HttpExecuteSoup.hh"
-
-#include <map>
-#include <string>
+#include <stdexcept>
+#include "HttpUtils.hh"
 
 using namespace std;
 
-HttpExecuteSoup::HttpExecuteSoup(SoupSession *session, HttpRequest::Ptr request) : session(session), request(request)
+void
+HttpUtils::process_reply_message(IHttpReply::Ptr reply, SoupMessage *message)
 {
-  reply = HttpReply::create(request);
-}
+  reply->status = message->status_code;
+  reply->body = (message->response_body->length > 0) ? message->response_body->data : "";
 
+  SoupMessageHeadersIter iter;
+  soup_message_headers_iter_init(&iter, message->response_headers);
 
-HttpExecuteSoup::~HttpExecuteSoup()
-{
+  const char *name, *value;
+  while (soup_message_headers_iter_next(&iter, &name, &value))
+    {
+      string n = name;
+      string v = value;
+      reply->headers[n] = v;
+    }
 }
 
 
 SoupMessage *
-HttpExecuteSoup::create_request_message()
+HttpUtils::create_request_message(IHttpRequest::Ptr request)
 {
   SoupMessage *message = soup_message_new(request->method.c_str(), request->uri.c_str());
   if (message == NULL)
     {
-      throw std::exception(); // HttpBackendException("Cannot create HTTP request: " + request->method + " " + request->uri);
+      throw std::invalid_argument("Cannot create HTTP request for: " + request->method + " " + request->uri);
     }
 
   if (request->body != "")
@@ -65,21 +71,3 @@ HttpExecuteSoup::create_request_message()
   return message;
 }
 
-
-void
-HttpExecuteSoup::process_reply_message(SoupMessage *message)
-{
-  reply->status = message->status_code;
-  reply->body = (message->response_body->length > 0) ? message->response_body->data : "";
-
-  SoupMessageHeadersIter iter;
-  const char *name, *value;
-  soup_message_headers_iter_init(&iter, message->response_headers);
-
-  while (soup_message_headers_iter_next(&iter, &name, &value))
-    {
-      string n = name;
-      string v = value;
-      reply->headers[n] = v;
-    }
-}

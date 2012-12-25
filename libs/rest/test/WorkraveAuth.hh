@@ -31,6 +31,8 @@
 
 #include "rest/IOAuth2.hh"
 
+#include "rest/IHttpClient.hh"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -57,11 +59,11 @@ public:
   void init(std::string access_token, std::string refresh_token);
   void init(AsyncAuthResult callback);
 
-  IHttpBackend::Ptr get_backend() const
+  IHttpClient::Ptr get_backend() const
   {
     return backend;
   }
-  
+
 private:
   void on_auth_result(IOAuth2::AuthResult result);
 
@@ -70,7 +72,7 @@ private:
   
 private:  
   IOAuth2::Ptr workflow;
-  IHttpBackend::Ptr backend;
+  IHttpClient::Ptr backend;
   AsyncAuthResult callback;
   IOAuth2::Settings oauth_settings;
 };

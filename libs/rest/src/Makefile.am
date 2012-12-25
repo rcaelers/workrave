@@ -10,18 +10,16 @@ MAINTAINERCLEANFILES = 	Makefile.in
 lib_LTLIBRARIES = 	libworkrave-rest.la
 
 libworkrave_rest_la_SOURCES = \
-			HttpBackendSoup.cc \
-			HttpExecuteSoup.cc \
-			HttpExecuteSyncSoup.cc \
-			HttpExecuteAsyncSoup.cc \
-			HttpExecuteStreamingSoup.cc \
-			HttpServerSoup.cc \
+			RestFactory.cc \
 			HttpReply.cc \
 			HttpRequest.cc \
-			OAuth2.cc \
-			OAuth2Filter.cc \
+			HttpClient.cc \
+			HttpServer.cc \
+			HttpUtils.cc \
 			OAuth1.cc \
 			OAuth1Filter.cc \
+			OAuth2.cc \
+			OAuth2Filter.cc \
 			Uri.cc \
 			jsoncpp.cpp
 

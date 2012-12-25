@@ -27,7 +27,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-#include "IHttpBackend.hh"
+#include "rest/IHttpClient.hh"
 
 class IOAuth1 : public boost::enable_shared_from_this<IOAuth1>
 {
@@ -64,12 +64,14 @@ public:
   };
    
 public:
-  static Ptr create(IHttpBackend::Ptr backend, const Settings &settings);
+  static Ptr create(const Settings &settings);
 
   virtual void init(const std::string &consumer_key,
                     const std::string &consumer_secret,
                     SuccessCallback success_cb,
                     FailedCallback failure_cb) = 0;
+
+  virtual IHttpRequestFilter::Ptr create_filter() = 0;
 };
 
 #endif

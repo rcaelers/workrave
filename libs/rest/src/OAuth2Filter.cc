@@ -22,83 +22,75 @@
 #include "config.h"
 #endif
 
+#include <boost/bind.hpp>
+
 #include "OAuth2Filter.hh"
 #include <glib.h>
 
 using namespace std;
 
 OAuth2Filter::Ptr
-OAuth2Filter::create(IHttpExecute::Ptr executor)
+OAuth2Filter::create(IOAuth2::Ptr oauth)
 {
-  return Ptr(new OAuth2Filter(executor));
+  return Ptr(new OAuth2Filter(oauth));
 }
 
 
-OAuth2Filter::OAuth2Filter(IHttpExecute::Ptr executor) : HttpDecorator(executor)
+OAuth2Filter::OAuth2Filter(IOAuth2::Ptr oauth)
 {
-  this->waiting = false;
+  oauth2 = boost::dynamic_pointer_cast<OAuth2>(oauth);
+
+  oauth2->signal_credentials_updated().connect(boost::bind(&OAuth2Filter::on_access_token, this, _1, _2));
+
+  string refresh_token;
+  oauth2->get_tokens(access_token, refresh_token, valid_until);
+  g_debug("OAuth2Filter credentials %s %ld", access_token.c_str(), valid_until);
 }
 
 
 void
-OAuth2Filter::set_access_token(const std::string &access_token)
+OAuth2Filter::on_access_token(const std::string &access_token, time_t valid_until)
 {
-  g_debug("OAuth2Filter::set_access_token %s", access_token.c_str());
+  g_debug("OAuth2Filter::on_new_credentials %s", access_token.c_str());
   this->access_token = access_token;
-  if (waiting)
+  this->valid_until = valid_until;
+  for (list<RequestData>::const_iterator it = waiting.begin(); it != waiting.end(); it++)
     {
-      execute(callback);
+      const RequestData &data = *it;
+
+      data.request->headers["Authorization"] = string("Bearer ") + access_token;
+      data.callback();
     }
 }
 
 
 void
-OAuth2Filter::filter()
-{
-  if (access_token != "")
-    {
-      get_request()->headers["Authorization"] = string("Bearer ") + access_token;
-    }
-}
-
-
-HttpReply::Ptr
-OAuth2Filter::execute(IHttpExecute::HttpExecuteReady callback)
+OAuth2Filter::filter(IHttpRequest::Ptr request, Ready callback)
 {
   g_debug("OAuth2Filter:execute");
-  HttpReply::Ptr reply;
+  IHttpReply::Ptr reply;
+          
+  if (access_token != "")
+    {
+      if (time(NULL) + 60 > valid_until)
+        {
+          RequestData data;
+          data.request = request;
+          data.callback = callback;
+          
+          waiting.push_back(data);
 
-  this->callback = callback;
-  this->waiting = false;
-  
-  filter();
+          if (waiting.size() == 0)
+            {
+              oauth2->refresh_access_token();
+            }
+          return;
+        }
 
-  if (is_sync())
-    {
-      g_debug("OAuth2Filter:execute sync");
-      reply = executor->execute();
-      on_reply(reply);
+      g_debug("OAuth2Filter::filter %s", access_token.c_str());
+      
+      request->headers["Authorization"] = string("Bearer ") + access_token;
     }
-  else if (!callback.empty())
-    {
-      g_debug("OAuth2Filter:execute async");
-      reply = executor->execute(boost::bind(&OAuth2Filter::on_reply, this, _1));
-    }
-  g_debug("OAuth2Filter:execute ok");
-  return reply;
-}
 
-void
-OAuth2Filter::on_reply(HttpReply::Ptr reply)
-{
-  g_debug("oauth2filter reply async : %d %s", reply->status, reply->body.c_str());
-  if (reply->status == 401)
-    {
-      waiting = true;
-      refresh_request_signal();
-    }
-  else
-    {
-      callback(reply);
-    }
+  callback();
 }

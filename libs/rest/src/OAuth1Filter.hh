@@ -25,10 +25,11 @@
 #include <map>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
 #include "rest/IHttpRequestFilter.hh"
 
-class OAuth1Filter
+class OAuth1Filter : public boost::enable_shared_from_this<OAuth1Filter>
 {
 public:
   typedef boost::shared_ptr<OAuth1Filter> Ptr;
@@ -51,7 +52,7 @@ public:
                        std::string &token_secret);
 
 
-  IHttpClient::Ptr create_decorator(IHttpClient::Ptr executor);
+  IHttpRequestFilter::Ptr create_filter();
   void filter(IHttpRequest::Ptr request);
   
 private:
@@ -63,24 +64,23 @@ private:
     typedef boost::shared_ptr<Decorator> Ptr;
 
   public:
-    static Ptr create(OAuth1Filter::Ptr filter, IHttpClient::Ptr executor)
+    static Ptr create(OAuth1Filter::Ptr filter)
     {
-      return Ptr(new Decorator(filter, executor));
+      return Ptr(new Decorator(filter));
     }
 
-    virtual void filter(IHttpRequest::Ptr request, bool async, Ready callback);
+    virtual void filter(IHttpRequest::Ptr request, Ready callback)
     {
-      filter->filter(request);
+      request_filter->filter(request);
       callback();
     }
     
-    Decorator(OAuth1Filter::Ptr filter, IHttpClient::Ptr executor) : executor(executor), filter(filter)
+    Decorator(OAuth1Filter::Ptr request_filter) : request_filter(request_filter)
     {
     }
     
   private:
-    IHttpClient::Ptr executor;
-    OAuth1Filter::Ptr filter;
+    OAuth1Filter::Ptr request_filter;
   };
   
 private:

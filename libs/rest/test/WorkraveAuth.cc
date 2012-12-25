@@ -31,8 +31,9 @@
 #include <boost/lexical_cast.hpp>
 
 #include "rest/IOAuth2.hh"
-#include "rest/IHttpBackend.hh"
-// #include "Uri.hh"
+#include "rest/IHttpClient.hh"
+
+#include "rest/RestFactory.hh"
 
 using namespace std;
 
@@ -75,11 +76,15 @@ WorkraveAuth::WorkraveAuth()
     "</html>";
 
   // TODO: 
-  oauth_settings.auth_endpoint = "http://localhost:8000/oauth2/authorize";
-  oauth_settings.token_endpoint = "http://localhost:8000/oauth2/access_token";
-  oauth_settings.client_id = "a6b44cb35e93fb4205b48af1acf5cf";
-  oauth_settings.client_secret = "5320b1e2b32b2affaa4f5fde96a162";
-  oauth_settings.scope = "full"; 
+  oauth_settings.auth_endpoint = "http://localhost:8000/oauth2/authorize/";
+  oauth_settings.token_endpoint = "http://localhost:8000/oauth2/token/";
+  // oauth_settings.client_id = "a6b44cb35e93fb4205b48af1acf5cf";
+  // oauth_settings.client_secret = "5320b1e2b32b2affaa4f5fde96a162";
+  //oauth_settings.auth_endpoint = "https://avon.home.krandor.org/oauth2/authorize/";
+  //oauth_settings.token_endpoint = "https://avon.home.krandor.org/oauth2/token/";
+  oauth_settings.client_id = "4a1cb098b443b198c8ef91bb81ab7640";
+  oauth_settings.client_secret = "e470f6a4d5292794689ab42d66a6a8f8";
+  oauth_settings.scope = "https://api.workrave.org/workrave.state https://api.workrave.org/workrave.config https://api.workrave.org/workrave.history"; 
 }
 
 
@@ -89,38 +94,16 @@ WorkraveAuth::~WorkraveAuth()
 
 
 void
-WorkraveAuth::on_auth_result(IOAuth2::AuthResult result)
-{
-  string access_token;
-  string refresh_token;
-  time_t valid_until;
-  
-  workflow->get_tokens(access_token, refresh_token, valid_until);
-  
-  string password = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
-  g_debug("on_auth_result: %s", password.c_str());
-
-  secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT, "OAuth2",
-                        password.c_str(), NULL, on_password_stored, this,
-                        NULL);
-
-  // TODO:
-  callback(true);
-}
-
-void
 WorkraveAuth::init(AsyncAuthResult callback)
 {
   g_debug("WorkraveAuth::init");
 
   this->callback = callback;
 
-  IHttpBackend::Ptr backend_soup = IHttpBackend::create();
-  backend_soup->init("Bolster");
-
-  backend = backend_soup;
+  workflow = IOAuth2::create(oauth_settings);
   
-  workflow = IOAuth2::create(backend, oauth_settings);
+  backend = RestFactory::create_client();
+  backend->set_request_filter(workflow->create_filter());
 
   secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this, NULL);
 }
@@ -176,9 +159,30 @@ WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer
 
 
 void
+WorkraveAuth::on_auth_result(IOAuth2::AuthResult result)
+{
+  string access_token;
+  string refresh_token;
+  time_t valid_until;
+  
+  workflow->get_tokens(access_token, refresh_token, valid_until);
+  
+  string password = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
+  g_debug("on_auth_result: %s", password.c_str());
+
+  // TODO: when failed
+  // callback(false);
+  
+  secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT, "OAuth2",
+                        password.c_str(), NULL, on_password_stored, this,
+                        NULL);
+
+}
+
+void
 WorkraveAuth::on_password_stored(GObject *source, GAsyncResult *result, gpointer data)
 {
-  //WorkraveAuth *self = (WorkraveAuth *)data;
+  WorkraveAuth *self = (WorkraveAuth *)data;
   GError *error = NULL;
 
   g_debug("secret_password_store");
@@ -189,4 +193,7 @@ WorkraveAuth::on_password_stored(GObject *source, GAsyncResult *result, gpointer
       g_debug("secret_password_store: %s", error->message);
       g_error_free(error);
     }
+
+  // TODO:
+  self->callback(true);
 }
