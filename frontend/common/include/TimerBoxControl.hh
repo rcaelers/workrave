@@ -118,9 +118,6 @@ private:
   OperationMode operation_mode;
 
   //!
-  int forced_cycle;
-
-  //!
   int force_duration;
 
   //! Never show any timers.

@@ -40,7 +40,6 @@ using namespace std;
 using namespace workrave;
 
 GstSoundPlayer::GstSoundPlayer() :
-  volume(0.9),
   gst_ok(false)
 {
 	GError *error = NULL;

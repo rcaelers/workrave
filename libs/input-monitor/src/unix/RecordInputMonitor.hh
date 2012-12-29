@@ -86,9 +86,6 @@ private:
   //! The activity monitor thread.
   Thread *monitor_thread;
 
-  //! Is the X Record extension used ?
-  bool use_xrecord;
-
   //! XRecord context. Defines clients and events to capture.
   XRecordContext xrecord_context;
 

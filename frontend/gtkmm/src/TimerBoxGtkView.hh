@@ -82,9 +82,6 @@ private:
   //! Reconfigure the panel.
   bool reconfigure;
 
-  //! Parent container
-  Gtk::Bin *parent;
-
   //! Array of time labels
   Gtk::Widget **labels;
 

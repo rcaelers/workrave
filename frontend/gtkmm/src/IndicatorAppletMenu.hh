@@ -33,7 +33,7 @@ class GenericDBusApplet;
 class IndicatorAppletMenu : public MenuBase
 {
 public:
-  IndicatorAppletMenu(GenericDBusApplet *applet_window);
+  IndicatorAppletMenu();
   virtual ~IndicatorAppletMenu();
 
   virtual void init();
@@ -53,8 +53,6 @@ private:
   void menu_item_activated(DbusmenuMenuitem *mi);
 
 private:
-  GenericDBusApplet *applet_window;
-
   DbusmenuServer *server;
   DbusmenuMenuitem *root;
   DbusmenuMenuitem *menu_items[Menus::MENU_COMMAND_SIZEOF];

@@ -88,7 +88,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   frame(NULL),
   gui(NULL),
   visible(false),
+#ifdef PLATFORM_OS_WIN32
   accel_added(false),
+#endif
   postpone_button(NULL),
   skip_button(NULL),
   lock_button(NULL),
@@ -497,7 +499,6 @@ BreakWindow::create_break_buttons(bool lockable,
     {
       box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
 
-      Gtk::Button *shutdown_button = NULL;
       if (shutdownable)
         {
           shutdown_button = create_shutdown_button();

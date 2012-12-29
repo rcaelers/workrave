@@ -248,7 +248,6 @@ public:
   SpeakerPlayer(short (*beeps)[2]);
   void run();
 private:
-  SoundPlayer *player;
   short (*beeps)[2];
 };
 

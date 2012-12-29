@@ -40,8 +40,7 @@
 using namespace std;
 
 //! Constructor.
-IndicatorAppletMenu::IndicatorAppletMenu(GenericDBusApplet *applet_window)
-  :applet_window(applet_window)
+IndicatorAppletMenu::IndicatorAppletMenu()
 {
 }
 

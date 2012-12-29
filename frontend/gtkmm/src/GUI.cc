@@ -115,7 +115,6 @@ GUI *GUI::instance = NULL;
  *  \param argv all command line parameters.
  */
 GUI::GUI(int argc, char **argv) :
-  configurator(NULL),
   sound_player(NULL),
   break_windows(NULL),
   prelude_windows(NULL),

@@ -58,7 +58,6 @@ private:
 
 private:
   GSocket *socket;
-  int port;
 
   //! Remote address
   GSocketAddress *remote_address;

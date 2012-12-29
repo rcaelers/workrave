@@ -179,9 +179,6 @@ private:
   //! The one and only instance
   static GUI *instance;
 
-  //! The Configurator.
-  IConfigurator *configurator;
-
   //! The Core controller
   ICore::Ptr core;
 

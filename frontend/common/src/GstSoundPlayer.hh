@@ -1,6 +1,6 @@
 // GstSoundPlayer.hh
 //
-// Copyright (C) 2008, 2009, 2010 Rob Caelers
+// Copyright (C) 2008, 2009, 2010, 2012 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,9 +45,6 @@ public:
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
-  //! Sound volue
-  float volume;
-
   //! GStreamer init OK.
   gboolean gst_ok;
 

@@ -119,12 +119,6 @@ private:
   //!
   data_signal_type data_signal;
 
-  //!
-  GSource *timer_source;
-
-  //!
-  int timer_interval;
-  
   AnnounceState state;
   
   gint64 wait_until_time;

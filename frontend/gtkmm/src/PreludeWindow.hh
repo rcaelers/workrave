@@ -75,9 +75,6 @@ private:
   //! Did we avoid the pointer?
   bool did_avoid;
 
-  //!
-  BreakId break_id;
-
   //! Time bar
   TimeBar *time_bar;
 

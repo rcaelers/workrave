@@ -51,8 +51,6 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator, cons
   state(ACTIVITY_MONITOR_IDLE),
   prev_x(-10),
   prev_y(-10),
-  click_x(-1),
-  click_y(-1),
   button_is_pressed(false)
 {
   TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");

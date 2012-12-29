@@ -149,7 +149,7 @@ Menus::init(AppletControl *applet_control)
   menus[MENU_APPLET_GENERICDBUS] = indicator_applet;
 
 #if defined(HAVE_INDICATOR)
-  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet);
+  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
 #endif
 #endif
   

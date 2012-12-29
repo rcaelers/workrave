@@ -35,9 +35,6 @@ private:
   int days_in_month(int month, int year);
   int time_cmp(int h1, int m1, int h2, int m2);
 
-  //! Last time the predicate matched.
-  gint64 last_time;
-  
   int pred_hour;
   int pred_min;
 };

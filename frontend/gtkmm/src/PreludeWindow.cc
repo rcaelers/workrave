@@ -52,7 +52,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP),
     SCREEN_MARGIN(20),
     did_avoid(false),
-    break_id(break_id),
     time_bar(NULL),
     frame(NULL),
     window_frame(NULL),

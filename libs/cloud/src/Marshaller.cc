@@ -235,8 +235,8 @@ Marshaller::unmarshall(gsize size, const gchar *data)
       boost::shared_ptr<ByteStreamInput> input(new ByteStreamInput(data, size));
 
       bool header_ok = true;
-      guint16 header_size;
-      guint16 msg_size;
+      guint16 header_size = 0;
+      guint16 msg_size = 0;
       const google::protobuf::Descriptor *base = NULL;
       const google::protobuf::FieldDescriptor *field = NULL;
       const google::protobuf::Descriptor *ext = NULL;

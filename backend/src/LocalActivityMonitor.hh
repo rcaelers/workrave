@@ -106,12 +106,6 @@ private:
   //! Previous Y coordinate
   int prev_y;
 
-  //! Previous X-click coordinate
-  int click_x;
-
-  //! Previous Y-click coordinate
-  int click_y;
-
   //! Is the button currently pressed?
   bool button_is_pressed;
 

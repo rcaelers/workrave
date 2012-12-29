@@ -33,7 +33,6 @@ using namespace workrave::network;
 //! Creates a new connection.
 GIOMulticastSocket::GIOMulticastSocket() :
   socket(NULL),
-  port(0),
   remote_address(NULL),
   local_address(NULL)
 {

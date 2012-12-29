@@ -117,7 +117,9 @@ private:
   //! Break windows visible?
   bool visible;
 
+#ifdef PLATFORM_OS_WIN32
   bool accel_added;
+#endif
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
   Gtk::Button *lock_button;

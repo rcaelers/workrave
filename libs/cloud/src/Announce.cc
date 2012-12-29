@@ -46,7 +46,7 @@ Announce::create(Marshaller::Ptr marshaller)
 }
 
 
-Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller), timer_source(NULL), timer_interval(0)
+Announce::Announce(Marshaller::Ptr marshaller) : marshaller(marshaller)
 {
   TRACE_ENTER("Announce::Announce");
   multicast_server = MulticastSocketServer::create();
