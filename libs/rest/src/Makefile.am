@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.nl>
 #
 
 SUBDIRS = 		
@@ -10,12 +10,13 @@ MAINTAINERCLEANFILES = 	Makefile.in
 lib_LTLIBRARIES = 	libworkrave-rest.la
 
 libworkrave_rest_la_SOURCES = \
-			RestFactory.cc \
+			HttpSession.cc \
 			HttpReply.cc \
 			HttpRequest.cc \
-			HttpClient.cc \
 			HttpServer.cc \
 			HttpUtils.cc \
+			HttpOperation.cc \
+			HttpStreamOperation.cc \
 			OAuth1.cc \
 			OAuth1Filter.cc \
 			OAuth2.cc \

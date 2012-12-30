@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,10 @@
 #include <boost/lexical_cast.hpp>
 
 #include "rest/IOAuth2.hh"
-#include "rest/IHttpClient.hh"
-
-#include "rest/RestFactory.hh"
+#include "rest/IHttpSession.hh"
 
 using namespace std;
+using namespace workrave::rest;
 
 const SecretSchema *
 workrave_get_schema (void)
@@ -102,8 +101,8 @@ WorkraveAuth::init(AsyncAuthResult callback)
 
   workflow = IOAuth2::create(oauth_settings);
   
-  backend = RestFactory::create_client();
-  backend->set_request_filter(workflow->create_filter());
+  session = IHttpSession::create("");
+  session->add_request_filter(workflow->create_filter());
 
   secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this, NULL);
 }
@@ -144,7 +143,7 @@ WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer
           catch(boost::bad_lexical_cast &) {}
           g_debug("secret_password_lookup: valid=%d", (int)valid_until);
           
-          self->workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, self, _1));
+          self->workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2));
           success = true;
         }
       secret_password_free(password);
@@ -153,17 +152,19 @@ WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer
   if (!success)
     {
       g_debug("secret_password_lookup: obtain access");
-      self->workflow->init(boost::bind(&WorkraveAuth::on_auth_result, self, _1));
+      self->workflow->init(boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2));
     }
 }
 
 
 void
-WorkraveAuth::on_auth_result(IOAuth2::AuthResult result)
+WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
 {
   string access_token;
   string refresh_token;
   time_t valid_until;
+
+  g_debug("on_auth_result: %d %s", result, details.c_str());
   
   workflow->get_tokens(access_token, refresh_token, valid_until);
   

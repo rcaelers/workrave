@@ -1,4 +1,4 @@
-// Copyright (C) 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPSERVER_HH
-#define IHTTPSERVER_HH
+#ifndef WORKRAVE_REST_IHTTPSERVER_HH
+#define WORKRAVE_REST_IHTTPSERVER_HH
 
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -28,16 +28,22 @@
 #include "rest/IHttpRequest.hh"
 #include "rest/IHttpReply.hh"
 
-class IHttpServer
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<IHttpServer> Ptr;
-  typedef boost::function<IHttpReply::Ptr (IHttpRequest::Ptr reply) > HttpServerCallback;
+  namespace rest
+  {
+    class IHttpServer
+    {
+    public:
+      typedef boost::shared_ptr<IHttpServer> Ptr;
+      typedef boost::function<IHttpReply::Ptr(IHttpRequest::Ptr) > RequestCallback;
   
-  virtual ~IHttpServer() {}
+      virtual ~IHttpServer() {}
 
-  virtual int start(const std::string &path, IHttpServer::HttpServerCallback callback) = 0;
-  virtual void stop() = 0;
-};
+      virtual int get_port() const = 0;
+      virtual void stop() = 0;
+    };
+  }
+}
 
 #endif

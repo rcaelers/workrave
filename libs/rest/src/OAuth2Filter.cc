@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@
 #include <glib.h>
 
 using namespace std;
+using namespace workrave::rest;
 
 OAuth2Filter::Ptr
 OAuth2Filter::create(IOAuth2::Ptr oauth)
@@ -54,12 +55,15 @@ OAuth2Filter::on_access_token(const std::string &access_token, time_t valid_unti
   g_debug("OAuth2Filter::on_new_credentials %s", access_token.c_str());
   this->access_token = access_token;
   this->valid_until = valid_until;
-  for (list<RequestData>::const_iterator it = waiting.begin(); it != waiting.end(); it++)
+  if (access_token != "")
     {
-      const RequestData &data = *it;
+      for (list<RequestData>::const_iterator it = waiting.begin(); it != waiting.end(); it++)
+        {
+          const RequestData &data = *it;
 
-      data.request->headers["Authorization"] = string("Bearer ") + access_token;
-      data.callback();
+          data.request->headers["Authorization"] = string("Bearer ") + access_token;
+          data.callback();
+        }
     }
 }
 
@@ -74,16 +78,16 @@ OAuth2Filter::filter(IHttpRequest::Ptr request, Ready callback)
     {
       if (time(NULL) + 60 > valid_until)
         {
+          g_debug("expired");
+          access_token = "";
+            
           RequestData data;
           data.request = request;
           data.callback = callback;
           
           waiting.push_back(data);
 
-          if (waiting.size() == 0)
-            {
-              oauth2->refresh_access_token();
-            }
+          oauth2->refresh_access_token();
           return;
         }
 

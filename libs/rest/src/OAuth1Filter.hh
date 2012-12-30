@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -52,13 +52,13 @@ public:
                        std::string &token_secret);
 
 
-  IHttpRequestFilter::Ptr create_filter();
-  void filter(IHttpRequest::Ptr request);
+  workrave::rest::IHttpRequestFilter::Ptr create_filter();
+  void filter(workrave::rest::IHttpRequest::Ptr request);
   
 private:
   enum ParameterMode { ParameterModeHeader, ParameterModeRequest, ParameterModeSignatureBase };
 
-  class Decorator : public IHttpRequestFilter
+  class Decorator : public workrave::rest::IHttpRequestFilter
   {
   public:
     typedef boost::shared_ptr<Decorator> Ptr;
@@ -69,7 +69,7 @@ private:
       return Ptr(new Decorator(filter));
     }
 
-    virtual void filter(IHttpRequest::Ptr request, Ready callback)
+    virtual void filter(workrave::rest::IHttpRequest::Ptr request, Ready callback)
     {
       request_filter->filter(request);
       callback();

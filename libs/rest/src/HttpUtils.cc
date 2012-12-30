@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,26 @@
 #endif
 
 #include <stdexcept>
+
+#include "rest/HttpError.hh"
 #include "HttpUtils.hh"
 
 using namespace std;
+using namespace workrave::rest;
 
-void
-HttpUtils::process_reply_message(IHttpReply::Ptr reply, SoupMessage *message)
+HttpReply::Ptr
+HttpUtils::process_reply_message(SoupMessage *message)
 {
+  HttpReply::Ptr reply = HttpReply::create();
+  
+  reply->error = HttpErrorCode::Success;
   reply->status = message->status_code;
+  if (SOUP_STATUS_IS_TRANSPORT_ERROR(reply->status))
+    {
+      // TODO: translate errors.
+      reply->error = HttpErrorCode::Transport;
+    }
+  
   reply->body = (message->response_body->length > 0) ? message->response_body->data : "";
 
   SoupMessageHeadersIter iter;
@@ -43,18 +55,28 @@ HttpUtils::process_reply_message(IHttpReply::Ptr reply, SoupMessage *message)
       string v = value;
       reply->headers[n] = v;
     }
+
+  return reply;
 }
 
 
 SoupMessage *
-HttpUtils::create_request_message(IHttpRequest::Ptr request)
+HttpUtils::create_request_message(HttpRequest::Ptr request)
 {
   SoupMessage *message = soup_message_new(request->method.c_str(), request->uri.c_str());
   if (message == NULL)
     {
-      throw std::invalid_argument("Cannot create HTTP request for: " + request->method + " " + request->uri);
+      throw HttpError(HttpErrorCode::Failure, "Cannot create SOUP message.");
     }
 
+  setup_request_message(message, request);
+  return message;
+}
+
+
+void
+HttpUtils::setup_request_message(SoupMessage *message, HttpRequest::Ptr request)
+{
   if (request->body != "")
     {
       soup_message_set_request(message, request->content_type.c_str(), SOUP_MEMORY_COPY,
@@ -67,7 +89,5 @@ HttpUtils::create_request_message(IHttpRequest::Ptr request)
     }
   
 	soup_message_set_flags(message, SOUP_MESSAGE_NO_REDIRECT);
-
-  return message;
 }
 

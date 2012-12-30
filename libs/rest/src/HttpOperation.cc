@@ -22,24 +22,70 @@
 #include "config.h"
 #endif
 
-#include "HttpReply.hh"
+#include <boost/bind.hpp>
 
+#include "HttpOperation.hh"
+#include "HttpUtils.hh"
+
+using namespace std;
 using namespace workrave::rest;
 
-IHttpReply::Ptr
-IHttpReply::create()
+HttpOperation::Ptr
+HttpOperation::create(SoupSession *session, HttpRequest::Ptr request)
 {
-  return Ptr(new HttpReply());
+  return Ptr(new HttpOperation(session, request));
 }
 
-HttpReply::Ptr
-HttpReply::create()
+
+HttpOperation::HttpOperation(SoupSession *session, HttpRequest::Ptr request)
+  : session(session),
+    request(request)
 {
-  return Ptr(new HttpReply());
 }
 
-HttpReply::HttpReply()
+
+HttpOperation::~HttpOperation()
 {
-  error = HttpErrorCode::Success;
-  status = 0;
+}
+
+
+void
+HttpOperation::start()
+{
+  request->apply_filters([&] {
+                         
+      CallbackData *data = new CallbackData;
+      data->self = shared_from_this();
+
+      SoupMessage *message = HttpUtils::create_request_message(request);
+      soup_session_queue_message(session, message, reply_ready, data);
+    });
+}
+
+
+void
+HttpOperation::cancel()
+{
+  // TODO:
+}
+
+
+void
+HttpOperation::reply_ready(SoupSession *session, SoupMessage *message, gpointer user_data)
+{
+  CallbackData *data = (CallbackData *) user_data;
+  HttpOperation::Ptr self = data->self;
+
+  IHttpReply::Ptr reply = HttpUtils::process_reply_message(message);
+  self->reply_signal(reply);
+
+  delete data;
+}
+
+
+
+HttpOperation::ReplySignal &
+HttpOperation::signal_reply()
+{
+  return reply_signal;
 }

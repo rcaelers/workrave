@@ -1,4 +1,4 @@
-// Copyright (C) 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,19 +32,21 @@
 
 #include "rest/IHttpServer.hh"
 
-class HttpServer : public IHttpServer
+class HttpServer : public workrave::rest::IHttpServer
 {
 public:
   typedef boost::shared_ptr<HttpServer> Ptr;
 
-  static Ptr create(const std::string &user_agent);
+  static Ptr create(const std::string &user_agent, const std::string &path, workrave::rest::IHttpServer::RequestCallback callback);
 
 public:
- 	HttpServer(const std::string &user_agent);
+ 	HttpServer(const std::string &user_agent, const std::string &path, workrave::rest::IHttpServer::RequestCallback callback);
   virtual ~HttpServer();
 
-  virtual int start(const std::string &path, IHttpServer::HttpServerCallback callback);
+  void start();
+  
   virtual void stop();
+  virtual int get_port() const;
   
 private:
   static void server_callback_static(SoupServer *server, SoupMessage *message, const char *path,
@@ -54,8 +56,9 @@ private:
                        GHashTable *query, SoupClientContext *context);
   
 private:
-  HttpServerCallback callback;
-  std::string user_agent;
+  const std::string &user_agent;
+  std::string path;
+  workrave::rest::IHttpServer::RequestCallback callback;
   SoupServer *server;
   int port;
 };

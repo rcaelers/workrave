@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,24 +25,26 @@
 #include <map>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
 #include "rest/IOAuth2.hh"
+#include "rest/IHttpSession.hh"
 #include "rest/IHttpServer.hh"
-#include "rest/IHttpClient.hh"
 
-class OAuth2 : public IOAuth2
+class OAuth2 : public workrave::rest::IOAuth2
 {
 public:
   typedef boost::shared_ptr<OAuth2> Ptr;
+  typedef boost::signals2::signal<void(const std::string&, time_t valid_until)> CredentialsUpdatedSignal;
 
 public:
-  static Ptr create(const Settings &settings);
+  static Ptr create(const workrave::rest::OAuth2Settings &settings);
 
- 	OAuth2(const Settings &settings);
+ 	OAuth2(const workrave::rest::OAuth2Settings &settings);
   virtual ~OAuth2();
   
-  void init(AuthReadyCallback callback);
-  void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthReadyCallback callback);
+  void init(AuthResultCallback callback);
+  void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback);
   void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until);
   void refresh_access_token();
 
@@ -53,34 +55,42 @@ public:
   
 private:
   typedef std::map<std::string, std::string> RequestParams;
-
+  enum State { Idle,
+               Error,
+               AuthorizationGrantRequest,
+               AccessTokenRequest,
+               RefreshAccessTokenRequest
+  };
+               
   void request_authorization_grant();
-  IHttpReply::Ptr on_authorization_grant_ready(IHttpRequest::Ptr request);
+  workrave::rest::IHttpReply::Ptr on_authorization_grant_ready(workrave::rest::IHttpRequest::Ptr request);
 
   void request_access_token(const std::string &code);
-  void on_access_token_ready(IHttpReply::Ptr reply);
+  void on_access_token_ready(workrave::rest::IHttpReply::Ptr reply);
 
-  void on_refresh_access_token_ready(IHttpReply::Ptr reply);
+  void on_refresh_access_token_ready(workrave::rest::IHttpReply::Ptr reply);
 
   void parse_query(const std::string &query, RequestParams &params) const;
   const std::string parameters_to_string(const RequestParams &parameters) const;
   const std::string create_login_url(const std::string &redirect_uri, const RequestParams &parameters);
 
-  void report_async_result(AuthResult result);
+  void report_result(workrave::rest::AuthErrorCode code, const std::string &details = "");
+  void report_result(const std::exception &e);
 
-  IHttpRequestFilter::Ptr create_filter();
+  workrave::rest::IHttpRequestFilter::Ptr create_filter();
 
-private:  
-  IHttpClient::Ptr client;
-  IHttpServer::Ptr server;
-  Settings settings;
+private:
+  State state;
+  workrave::rest::IHttpSession::Ptr session;
+  workrave::rest::IHttpServer::Ptr server;
+  workrave::rest::OAuth2Settings settings;
 
   std::string callback_uri;
   std::string access_token;
   std::string refresh_token;
   time_t valid_until;
   
-  AuthReadyCallback callback;
+  AuthResultCallback callback;
   CredentialsUpdatedSignal credentials_updated_signal;
   
   std::string callback_uri_path;

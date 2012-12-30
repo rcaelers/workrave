@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,15 @@
 #include <libsoup/soup.h>
 #endif
 
-#include "rest/IHttpRequest.hh"
-#include "rest/IHttpReply.hh"
+#include "HttpRequest.hh"
+#include "HttpReply.hh"
 
 class HttpUtils
 {
 public:
-  static SoupMessage *create_request_message(IHttpRequest::Ptr request);
-  static void process_reply_message(IHttpReply::Ptr reply, SoupMessage *message);
+  static SoupMessage *create_request_message(HttpRequest::Ptr request);
+  static void setup_request_message(SoupMessage *message, HttpRequest::Ptr request);
+  static HttpReply::Ptr process_reply_message(SoupMessage *message);
 };
 
 #endif

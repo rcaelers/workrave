@@ -18,36 +18,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPREQUEST_HH
-#define HTTPREQUEST_HH
+#ifndef WORKRAVE_REST_OAUTH2SETTINGS_HH
+#define WORKRAVE_REST_OAUTH2SETTINGS_HH
 
-#include <list>
+#include <string>
 
-#include "rest/IHttpRequest.hh"
-#include "rest/IHttpRequestFilter.hh"
-
-class HttpRequest : public workrave::rest::IHttpRequest
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<HttpRequest> Ptr;
-
-  HttpRequest();
-  virtual ~HttpRequest() {}
-
-  typedef boost::function<void ()> Ready;
-  typedef std::list<workrave::rest::IHttpRequestFilter::Ptr> FilterList;
-  typedef FilterList::const_iterator FilterListCIter;
-  
-  void set_filters(FilterList filters);
-  void apply_filters(Ready ready);
-
-private:
-  void step();
-  
-private:
-  FilterList filters;
-  FilterListCIter filter_iter;
-  Ready ready;
-};
+  namespace rest
+  {
+    struct OAuth2Settings
+    {
+      OAuth2Settings()
+      {
+      }
+    
+      OAuth2Settings(const std::string &auth_endpoint,
+                     const std::string &token_endpoint,
+                     const std::string &client_id,
+                     const std::string &client_secret,
+                     const std::string &scope,
+                     const std::string &success_html,
+                     const std::string &failure_html)
+        : auth_endpoint(auth_endpoint),
+          token_endpoint(token_endpoint),
+          client_id(client_id),
+          client_secret(client_secret),
+        scope(scope),
+        success_html(success_html),
+        failure_html(failure_html)
+      {
+      }
+    
+      std::string auth_endpoint;
+      std::string token_endpoint;
+      std::string client_id;
+      std::string client_secret;
+      std::string scope;
+      std::string success_html;
+      std::string failure_html;
+    };
+  }
+}
 
 #endif

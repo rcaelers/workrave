@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,33 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPREPLY_HH
-#define IHTTPREPLY_HH
+#ifndef WORKRAVE_REST_IHTTPREPLY_HH
+#define WORKRAVE_REST_IHTTPREPLY_HH
 
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
 
 #include "IHttpRequest.hh"
+#include "HttpError.hh"
 
-class IHttpReply
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<IHttpReply> Ptr;
-  typedef std::map<std::string, std::string> Headers;
+  namespace rest
+  {
+    class IHttpReply
+    {
+    public:
+      typedef boost::shared_ptr<IHttpReply> Ptr;
+      typedef std::map<std::string, std::string> Headers;
 
-  static Ptr create();
+      static Ptr create();
   
-  virtual ~IHttpReply() {}
+      virtual ~IHttpReply() {}
 
-public:
-  int status;
-  Headers headers;
-  std::string body;
-  std::string content_type;
-  bool chunked;
-  bool final;
-};
-
+    public:
+      // TODO: hide publics
+      HttpErrorCode error;
+      std::string error_detail;
+      int status;
+      Headers headers;
+      std::string body;
+      std::string content_type;
+    };
+  }
+}
 
 #endif

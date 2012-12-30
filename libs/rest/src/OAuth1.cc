@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,11 +37,11 @@
 #include <crypto++/base64.h>
 #endif
 
-#include "rest/RestFactory.hh"
 #include "OAuth1.hh"
 #include "Uri.hh"
 
 using namespace std;
+using namespace workrave::rest;
 
 IOAuth1::Ptr
 IOAuth1::create(const Settings &settings)
@@ -61,10 +61,8 @@ OAuth1::OAuth1(const OAuth1::Settings &settings)
   verified_path = "/oauth-verfied";
   filter = OAuth1Filter::create();
 
-  client = RestFactory::create_client();
-  server = RestFactory::create_server();
-
-  client->set_request_filter(create_filter());
+  session = IHttpSession::create("");
+  session->add_request_filter(create_filter());
 }
 
 OAuth1::~OAuth1()
@@ -95,7 +93,8 @@ OAuth1::request_temporary_credentials()
   try
     {
       int port = 0;
-      port = server->start(verified_path, boost::bind(&OAuth1::on_resource_owner_authorization_ready, this,  _1));
+      server = session->listen(verified_path, boost::bind(&OAuth1::on_resource_owner_authorization_ready, this,  _1));
+      port = server->get_port();
       oauth_callback = boost::str(boost::format("http://127.0.0.1:%1%%2%") % port % verified_path);
       
       OAuth1Filter::RequestParams parameters;
@@ -106,7 +105,7 @@ OAuth1::request_temporary_credentials()
       request->uri = settings.temporary_request_uri;
       request->method = "POST";
       
-      client->execute(request, boost::bind(&OAuth1::on_temporary_credentials_ready, this, _1));
+      session->send(request, boost::bind(&OAuth1::on_temporary_credentials_ready, this, _1));
     }
   catch(...)
     {
@@ -264,7 +263,7 @@ OAuth1::request_token(const string &verifier)
       request->uri = settings.token_request_uri;
       request->method = "POST";
       
-      client->execute(request, boost::bind(&OAuth1::on_token_ready, this, _1));
+      session->send(request, boost::bind(&OAuth1::on_token_ready, this, _1));
     }
   catch(...)
     {

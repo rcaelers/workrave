@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,13 @@
 
 #include "rest/IHttpReply.hh"
 
-class HttpReply : public IHttpReply
+class HttpReply : public workrave::rest::IHttpReply
 {
 public:
+  typedef boost::shared_ptr<HttpReply> Ptr;
+
+  static Ptr create();
+  
   HttpReply();
   virtual ~HttpReply() {}
 };

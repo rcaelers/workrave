@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,30 +18,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPREQUEST_HH
-#define IHTTPREQUEST_HH
+#ifndef WORKRAVE_REST_IHTTPREQUEST_HH
+#define WORKRAVE_REST_IHTTPREQUEST_HH
 
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
-class IHttpRequest
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<IHttpRequest> Ptr;
-  typedef std::map<std::string, std::string> Headers;
+  namespace rest
+  {
+    class IHttpRequest : public boost::enable_shared_from_this<IHttpRequest>
+    {
+    public:
+      typedef boost::shared_ptr<IHttpRequest> Ptr;
+      typedef std::map<std::string, std::string> Headers;
 
-  static Ptr create();
+      static Ptr create();
 
-  virtual ~IHttpRequest() {}
+      virtual ~IHttpRequest() {}
   
-public:
-  std::string method;
-  std::string uri;
-  Headers headers;
-  std::string body;
-  std::string content_type;
-};
-
+    public:
+      // TODO: hide publics
+      std::string method;
+      std::string uri;
+      Headers headers;
+      std::string body;
+      std::string content_type;
+    };
+  }
+}
 
 #endif

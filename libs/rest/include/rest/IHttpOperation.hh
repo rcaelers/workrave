@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,33 +18,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
+#ifndef WORKRAVE_REST_IHTTPOPERATION_HH
+#define WORKRAVE_REST_IHTTPOPERATION_HH
+
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
+
+#include "rest/IHttpReply.hh"
+#include "rest/IHttpRequest.hh"
+
+namespace workrave
+{
+  namespace rest
+  {
+    class IHttpOperation
+    {
+    public:
+      typedef boost::shared_ptr<IHttpOperation> Ptr;
+      typedef boost::signals2::signal<void(IHttpReply::Ptr)> ReplySignal;
+
+      virtual ~IHttpOperation() {}
+
+      virtual void start() = 0;
+      virtual void cancel() = 0;
+      virtual ReplySignal &signal_reply() = 0;
+    };
+  }
+}
+
 #endif
-
-#include "rest/RestFactory.hh"
-
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-#include <libsoup/soup-requester.h>
-#include <libsoup/soup-request.h>
-
-#include <glib.h>
-
-#include "Uri.hh"
-#include "HttpServer.hh"
-#include "HttpClient.hh"
-
-using namespace std;
-
-
-IHttpClient::Ptr
-RestFactory::create_client(const std::string &user_agent)
-{
-  return HttpClient::create(user_agent);
-}
-
-IHttpServer::Ptr
-RestFactory::create_server(const std::string &user_agent)
-{
-  return HttpServer::create(user_agent);
-}

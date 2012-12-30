@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPREQUESTFILTER_HH
-#define IHTTPREQUESTFILTER_HH
+#ifndef WORKRAVE_REST_IHTTPREQUESTFILTER_HH
+#define WORKRAVE_REST_IHTTPREQUESTFILTER_HH
 
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
@@ -27,15 +27,21 @@
 #include "rest/IHttpRequest.hh"
 #include "rest/IHttpReply.hh"
 
-class IHttpRequestFilter
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<IHttpRequestFilter> Ptr;
-  typedef boost::function<void () > Ready;
+  namespace rest
+  {
+    class IHttpRequestFilter
+    {
+    public:
+      typedef boost::shared_ptr<IHttpRequestFilter> Ptr;
+      typedef boost::function<void () > Ready;
   
-  virtual void filter(IHttpRequest::Ptr request, Ready callback = 0) = 0;
+      virtual void filter(IHttpRequest::Ptr request, Ready callback = 0) = 0;
 
-  virtual ~IHttpRequestFilter() {}
-};
+      virtual ~IHttpRequestFilter() {}
+    };
+  }
+}
 
 #endif

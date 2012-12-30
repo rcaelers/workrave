@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,10 +42,10 @@
 #include <gcrypt.h>
 #include <libsoup/soup.h>
 
-#include "rest/IHttpClient.hh"
 #include "Uri.hh"
 
 using namespace std;
+using namespace workrave::rest;
 
 OAuth1Filter::Ptr
 OAuth1Filter::create()

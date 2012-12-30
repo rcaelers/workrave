@@ -18,36 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPREQUEST_HH
-#define HTTPREQUEST_HH
+#ifndef WORKRAVE_REST_IHTTPSTREAMOPERATION_HH
+#define WORKRAVE_REST_IHTTPSTREAMOPERATION_HH
 
-#include <list>
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
+#include <boost/signals2.hpp>
 
-#include "rest/IHttpRequest.hh"
-#include "rest/IHttpRequestFilter.hh"
+#include "rest/IHttpReply.hh"
 
-class HttpRequest : public workrave::rest::IHttpRequest
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<HttpRequest> Ptr;
+  namespace rest
+  {
+    class IHttpStreamOperation
+    {
+    public:
+      typedef boost::shared_ptr<IHttpStreamOperation> Ptr;
 
-  HttpRequest();
-  virtual ~HttpRequest() {}
+      typedef boost::signals2::signal<void(IHttpReply::Ptr)> HeadersSignal;
+      typedef boost::signals2::signal<void(const std::string &)> DataSignal;
+      typedef boost::signals2::signal<void(HttpErrorCode, const std::string &)> ClosedSignal;
 
-  typedef boost::function<void ()> Ready;
-  typedef std::list<workrave::rest::IHttpRequestFilter::Ptr> FilterList;
-  typedef FilterList::const_iterator FilterListCIter;
-  
-  void set_filters(FilterList filters);
-  void apply_filters(Ready ready);
+      virtual ~IHttpStreamOperation() {}
 
-private:
-  void step();
-  
-private:
-  FilterList filters;
-  FilterListCIter filter_iter;
-  Ready ready;
-};
+      virtual void start() = 0;
+      virtual void cancel() = 0;
+
+      virtual HeadersSignal &signal_headers() = 0;
+      virtual DataSignal &signal_data() = 0;
+      virtual ClosedSignal &signal_closed() = 0;
+    };
+  }
+}
 
 #endif

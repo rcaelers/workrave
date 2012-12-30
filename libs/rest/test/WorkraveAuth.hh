@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@
 
 #include "rest/IOAuth2.hh"
 
-#include "rest/IHttpClient.hh"
+#include "rest/IHttpSession.hh"
 
 #ifdef __cplusplus
 extern "C" {
@@ -59,22 +59,22 @@ public:
   void init(std::string access_token, std::string refresh_token);
   void init(AsyncAuthResult callback);
 
-  IHttpClient::Ptr get_backend() const
+  workrave::rest::IHttpSession::Ptr get_session() const
   {
-    return backend;
+    return session;
   }
 
 private:
-  void on_auth_result(IOAuth2::AuthResult result);
+  void on_auth_result(workrave::rest::AuthErrorCode result, const std::string &details);
 
   static void on_password_lookup(GObject *source, GAsyncResult *result, gpointer data);
   static void on_password_stored(GObject *source, GAsyncResult *result, gpointer data);
   
 private:  
-  IOAuth2::Ptr workflow;
-  IHttpClient::Ptr backend;
+  workrave::rest::IOAuth2::Ptr workflow;
+  workrave::rest::IHttpSession::Ptr session;
   AsyncAuthResult callback;
-  IOAuth2::Settings oauth_settings;
+  workrave::rest::OAuth2Settings oauth_settings;
 };
 
   

@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPCLIENT_HH
-#define HTTPCLIENT_HH
+#ifndef HTTPSTREAMOPERATION_HH
+#define HTTPSTREAMOPERATION_HH
 
 #ifdef HAVE_SOUP_GNOME
 #include <libsoup/soup-gnome.h>
@@ -28,49 +28,50 @@
 #endif
 
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
-#include "rest/IHttpClient.hh"
+#include "rest/IHttpStreamOperation.hh"
 
-class HttpClient : public IHttpClient
+#include "HttpRequest.hh"
+#include "HttpReply.hh"
+
+class HttpStreamOperation : public workrave::rest::IHttpStreamOperation,
+                            public boost::enable_shared_from_this<HttpStreamOperation>
 {
 public:
-  typedef boost::shared_ptr<HttpClient> Ptr;
+  typedef boost::shared_ptr<HttpStreamOperation> Ptr;
 
-  static Ptr create(const std::string &user_agent);
+  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
 
-  HttpClient(const std::string &user_agent);
-  virtual ~HttpClient();
+  HttpStreamOperation(SoupSession *session, HttpRequest::Ptr request);
+  virtual ~HttpStreamOperation();
 
-  virtual void set_request_filter(IHttpRequestFilter::Ptr filter);
-  virtual IHttpReply::Ptr execute(IHttpRequest::Ptr request, IHttpClient::HttpBackendReady callback);
-  virtual IHttpReply::Ptr stream(IHttpRequest::Ptr request, IHttpClient::HttpBackendReady callback);
+  virtual void start();
+  virtual void cancel();
+
+  virtual HeadersSignal &signal_headers();
+  virtual DataSignal &signal_data();
+  virtual ClosedSignal &signal_closed();
   
 private:
-  typedef boost::function<void (IHttpRequest::Ptr request, IHttpClient::HttpBackendReady callback) > Execute;
+  SoupSession *session;
+  HttpRequest::Ptr request;
+  char *buffer;
+  gsize buffer_size;
 
-  struct RequestData
+  struct CallbackData
   {
-    RequestData(gsize size);
-    ~RequestData();
-  
-    IHttpReply::Ptr reply;
-    IHttpClient::HttpBackendReady callback;
-    char *buffer;
-    gsize size;
+    Ptr self;
   };
-
-  void execute(IHttpRequest::Ptr request, IHttpReply::Ptr reply, IHttpClient::HttpBackendReady callback);
-  void stream(IHttpRequest::Ptr request, IHttpReply::Ptr reply, IHttpClient::HttpBackendReady callback);
   
   static void stream_closed(GObject *source, GAsyncResult *res, gpointer user_data);
   static void send_ready(GObject *source, GAsyncResult *res, gpointer user_data);
   static void read_ready(GObject *source, GAsyncResult *res, gpointer user_data);
-
-  static void reply_ready(SoupSession *session, SoupMessage *message, gpointer user_data);
   static void got_headers(SoupMessage *msg, gpointer user_data);
 
-  SoupSession *session;
-  IHttpRequestFilter::Ptr request_filter;
+  HeadersSignal headers_signal;
+  DataSignal data_signal;
+  ClosedSignal closed_signal;
 };
 
 #endif

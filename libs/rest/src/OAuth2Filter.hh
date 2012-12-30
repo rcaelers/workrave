@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,31 +27,31 @@
 #include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "rest/IHttpRequestFilter.hh"
+#include "rest/IHttpOperation.hh"
 #include "rest/IHttpReply.hh"
 #include "rest/IOAuth2.hh"
 
 #include "OAuth2.hh"
 
-class OAuth2Filter : public IHttpRequestFilter
+class OAuth2Filter : public workrave::rest::IHttpRequestFilter
 {
 public:
   typedef boost::shared_ptr<OAuth2Filter> Ptr;
   
 public:
-  static Ptr create(IOAuth2::Ptr oauth);
+  static Ptr create(workrave::rest::IOAuth2::Ptr oauth);
 
-  OAuth2Filter(IOAuth2::Ptr oauth);
+  OAuth2Filter(workrave::rest::IOAuth2::Ptr oauth);
 
-  virtual void filter(IHttpRequest::Ptr request, Ready callback = 0);
+  virtual void filter(workrave::rest::IHttpRequest::Ptr request, Ready callback = 0);
 
 private:
   void on_access_token(const std::string &acces_token, time_t valid_until);
 
   struct RequestData
   {
-    IHttpRequest::Ptr request;
-    IHttpRequestFilter::Ready callback;
+    workrave::rest::IHttpRequest::Ptr request;
+    workrave::rest::IHttpRequestFilter::Ready callback;
   };
 
   OAuth2::Ptr oauth2;

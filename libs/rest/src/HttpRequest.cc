@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,51 @@
 #include "config.h"
 #endif
 
+#include <boost/bind.hpp>
+
 #include "HttpRequest.hh"
+
+using namespace workrave::rest;
 
 IHttpRequest::Ptr
 IHttpRequest::create()
 {
   return Ptr(new HttpRequest());
+}
+
+HttpRequest::HttpRequest() 
+{
+}
+
+void
+HttpRequest::set_filters(FilterList filters)
+{
+  this->filters = filters;
+}
+
+
+void
+HttpRequest::apply_filters(Ready ready)
+{
+  this->ready = ready;
+  
+  filter_iter = filters.begin();
+  step();
+}
+
+
+void
+HttpRequest::step()
+{
+  if (filter_iter != filters.end())
+    {
+      workrave::rest::IHttpRequestFilter::Ptr filter = *filter_iter;
+      filter_iter++;
+        
+      filter->filter(shared_from_this(), boost::bind(&HttpRequest::step, this));
+    }
+  else
+    {
+      ready();
+    }
 }

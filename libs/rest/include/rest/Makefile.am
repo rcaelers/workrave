@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2010 - 2012 Rob Caelers
 #
 MAINTAINERCLEANFILES = 	Makefile.in 
 

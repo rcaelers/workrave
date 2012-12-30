@@ -18,36 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef HTTPREQUEST_HH
-#define HTTPREQUEST_HH
+#ifndef HTTPSESSION_HH
+#define HTTPSESSION_HH
 
 #include <list>
 
-#include "rest/IHttpRequest.hh"
-#include "rest/IHttpRequestFilter.hh"
+#ifdef HAVE_SOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#else
+#include <libsoup/soup.h>
+#endif
 
-class HttpRequest : public workrave::rest::IHttpRequest
+#include <boost/shared_ptr.hpp>
+
+#include "rest/IHttpSession.hh"
+
+class HttpSession : public workrave::rest::IHttpSession
 {
 public:
-  typedef boost::shared_ptr<HttpRequest> Ptr;
+  typedef boost::shared_ptr<HttpSession> Ptr;
 
-  HttpRequest();
-  virtual ~HttpRequest() {}
+  HttpSession(const std::string &user_agent);
+  virtual ~HttpSession();
 
-  typedef boost::function<void ()> Ready;
-  typedef std::list<workrave::rest::IHttpRequestFilter::Ptr> FilterList;
-  typedef FilterList::const_iterator FilterListCIter;
-  
-  void set_filters(FilterList filters);
-  void apply_filters(Ready ready);
+  virtual void add_request_filter(workrave::rest::IHttpRequestFilter::Ptr filter);
+  virtual void remove_request_filter(workrave::rest::IHttpRequestFilter::Ptr filter);
 
-private:
-  void step();
+  virtual workrave::rest::IHttpOperation::Ptr send(workrave::rest::IHttpRequest::Ptr request, Ready ready);
+  virtual workrave::rest::IHttpOperation::Ptr request(workrave::rest::IHttpRequest::Ptr request);
+  virtual workrave::rest::IHttpStreamOperation::Ptr stream(workrave::rest::IHttpRequest::Ptr request);
+  virtual workrave::rest::IHttpServer::Ptr listen(const std::string &path, workrave::rest::IHttpServer::RequestCallback callback);
   
 private:
-  FilterList filters;
-  FilterListCIter filter_iter;
-  Ready ready;
+  SoupSession *session;
+  std::list<workrave::rest::IHttpRequestFilter::Ptr> request_filters;
+  const std::string &user_agent;
 };
 
 #endif

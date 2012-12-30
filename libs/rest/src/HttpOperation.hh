@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,29 +18,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IHTTPCLIENT_HH
-#define IHTTPCLIENT_HH
+#ifndef HTTPOPERATION_HH
+#define HTTPOPERATION_HH
 
-#include <string>
-#include <map>
+#ifdef HAVE_SOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#else
+#include <libsoup/soup.h>
+#endif
+
+#include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
-#include "rest/IHttpRequest.hh"
-#include "rest/IHttpReply.hh"
-#include "rest/IHttpRequestFilter.hh"
+#include "rest/IHttpOperation.hh"
 
-class IHttpClient
+#include "HttpRequest.hh"
+#include "HttpReply.hh"
+
+class HttpOperation : public workrave::rest::IHttpOperation, public boost::enable_shared_from_this<HttpOperation>
 {
 public:
-  typedef boost::shared_ptr<IHttpClient> Ptr;
-  typedef boost::function<void (IHttpReply::Ptr reply) > HttpBackendReady;
+  typedef boost::shared_ptr<HttpOperation> Ptr;
 
-  virtual void set_request_filter(IHttpRequestFilter::Ptr filter) = 0;
-  virtual IHttpReply::Ptr execute(IHttpRequest::Ptr request, HttpBackendReady callback) = 0;
-  virtual IHttpReply::Ptr stream(IHttpRequest::Ptr request, HttpBackendReady callback) = 0;
+  static Ptr create(SoupSession *session, HttpRequest::Ptr request);
 
-  virtual ~IHttpClient() {}
+  HttpOperation(SoupSession *session, HttpRequest::Ptr request);
+  virtual ~HttpOperation();
+
+  virtual void start();
+  virtual void cancel();
+  virtual ReplySignal &signal_reply();
+  
+private:
+  SoupSession *session;
+  HttpRequest::Ptr request;
+
+  struct CallbackData
+  {
+    Ptr self;
+  };
+  
+  static void reply_ready(SoupSession *session, SoupMessage *message, gpointer user_data);
+
+  ReplySignal reply_signal;
 };
 
 #endif

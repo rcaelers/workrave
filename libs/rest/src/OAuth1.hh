@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +27,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rest/IOAuth1.hh"
-#include "rest/IHttpClient.hh"
-#include "rest/IHttpServer.hh"
+#include "rest/IHttpSession.hh"
+
 #include "OAuth1Filter.hh"
 
-#include "rest/IHttpClient.hh"
-
-class OAuth1 : public IOAuth1
+class OAuth1 : public workrave::rest::IOAuth1
 {
 public:
-  typedef IHttpClient::HttpBackendReady HttpReplyCallback;
   typedef boost::shared_ptr<OAuth1> Ptr;
 
 public:
@@ -55,11 +52,11 @@ private:
   void request_resource_owner_authorization();
   void request_token(const std::string &verifier);
 
-  void on_temporary_credentials_ready(IHttpReply::Ptr reply);
-  IHttpReply::Ptr on_resource_owner_authorization_ready(IHttpRequest::Ptr request);
-  void on_token_ready(IHttpReply::Ptr reply);
+  void on_temporary_credentials_ready(workrave::rest::IHttpReply::Ptr reply);
+  workrave::rest::IHttpReply::Ptr on_resource_owner_authorization_ready(workrave::rest::IHttpRequest::Ptr request);
+  void on_token_ready(workrave::rest::IHttpReply::Ptr reply);
 
-  IHttpRequestFilter::Ptr create_filter();
+  workrave::rest::IHttpRequestFilter::Ptr create_filter();
   
   void parse_query(const std::string &query, OAuth1Filter::RequestParams &params) const;
 
@@ -67,8 +64,8 @@ private:
   void success();
   
 private:  
-  IHttpClient::Ptr client;
-  IHttpServer::Ptr server;
+  workrave::rest::IHttpSession::Ptr session;
+  workrave::rest::IHttpServer::Ptr server;
   OAuth1Filter::Ptr filter;
   
   Settings settings;

@@ -1,4 +1,4 @@
-// Copyright (C) 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,17 @@
 #include "HttpServer.hh"
 
 using namespace std;
+using namespace workrave::rest;
 
 HttpServer::Ptr
-HttpServer::create(const std::string &user_agent)
+HttpServer::create(const std::string &user_agent, const std::string &path, IHttpServer::RequestCallback callback)
 {
-  return Ptr(new HttpServer(user_agent));
+  return Ptr(new HttpServer(user_agent, path, callback));
 }
 
 
-HttpServer::HttpServer(const std::string &user_agent)
-  : user_agent(user_agent), server(NULL), port(0)
+HttpServer::HttpServer(const std::string &user_agent, const std::string &path, IHttpServer::RequestCallback callback)
+  : user_agent(user_agent), path(path), callback(callback), server(NULL), port(0)
 {
 }
 
@@ -45,11 +46,9 @@ HttpServer::~HttpServer()
 }
 
 
-int
-HttpServer::start(const std::string &path, IHttpServer::HttpServerCallback callback)
+void
+HttpServer::start()
 {
-  this->callback = callback;
-  
   SoupAddress *addr = soup_address_new("127.0.0.1", SOUP_ADDRESS_ANY_PORT);
   soup_address_resolve_sync(addr, NULL);
 
@@ -64,13 +63,11 @@ HttpServer::start(const std::string &path, IHttpServer::HttpServerCallback callb
       throw std::exception(); // "Cannot receive incoming connections."
     }
   
-  int port = soup_server_get_port(server);
+  port = soup_server_get_port(server);
   g_debug("Listening on %d", port);
 
   soup_server_add_handler(server, path.c_str(), server_callback_static, this, NULL);
 	soup_server_run_async(server);
-
-  return port;
 }
 
 
@@ -114,4 +111,10 @@ HttpServer::server_callback(SoupServer *, SoupMessage *message, const char *path
 
   soup_message_set_status(message, SOUP_STATUS_OK);
   soup_message_set_response(message, reply->content_type.c_str(), SOUP_MEMORY_COPY, reply->body.c_str(), reply->body.length());
+}
+
+int
+HttpServer::get_port() const
+{
+  return port;
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,70 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef IOAUTH2_HH
-#define IOAUTH2_HH
+#ifndef WORKRAVE_REST_IOAUTH2_HH
+#define WORKRAVE_REST_IOAUTH2_HH
 
 #include <string>
-#include <map>
 
-#include <boost/signals2.hpp>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-#include "rest/IHttpClient.hh"
+#include "rest/IHttpRequestFilter.hh"
+#include "rest/OAuth2Settings.hh"
 
-class IOAuth2 : public boost::enable_shared_from_this<IOAuth2>
+#include "rest/AuthError.hh"
+
+namespace workrave
 {
-public:
-  enum AuthResult { Ok, Failed };
-    
-  typedef boost::shared_ptr<IOAuth2> Ptr;
-  typedef boost::function<void (AuthResult) > AuthReadyCallback;
-  typedef boost::signals2::signal<void(const std::string&, time_t valid_until)> CredentialsUpdatedSignal;
-
-  struct Settings
+  namespace rest
   {
-    Settings()
+    class IOAuth2 : public boost::enable_shared_from_this<IOAuth2>
     {
-    }
-    
-    Settings(const std::string &auth_endpoint,
-             const std::string &token_endpoint,
-             const std::string &client_id,
-             const std::string &client_secret,
-             const std::string &scope,
-             const std::string &success_html,
-             const std::string &failure_html)
-      : auth_endpoint(auth_endpoint),
-        token_endpoint(token_endpoint),
-        client_id(client_id),
-        client_secret(client_secret),
-        scope(scope),
-        success_html(success_html),
-        failure_html(failure_html)
-    {
-    }
-    
-    std::string auth_endpoint;
-    std::string token_endpoint;
-    std::string client_id;
-    std::string client_secret;
-    std::string scope;
-    std::string success_html;
-    std::string failure_html;
-  };
-   
-public:
-  static Ptr create(const Settings &settings);
+    public:
+      typedef boost::shared_ptr<IOAuth2> Ptr;
+      typedef boost::function<void (AuthErrorCode, const std::string &) > AuthResultCallback;
 
-  virtual IHttpRequestFilter::Ptr create_filter() = 0;
+    public:
+      static Ptr create(const OAuth2Settings &settings);
+
+      virtual IHttpRequestFilter::Ptr create_filter() = 0;
   
-  virtual void init(AuthReadyCallback callback) = 0;
-  virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthReadyCallback callback) = 0;
-  virtual void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until) = 0;
-  virtual CredentialsUpdatedSignal &signal_credentials_updated() = 0;
- 
-};
+      virtual void init(AuthResultCallback callback) = 0;
+      virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback) = 0;
+
+      virtual void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until) = 0;
+    };
+  }
+}
 
 #endif

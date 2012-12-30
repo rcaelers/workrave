@@ -1,4 +1,4 @@
-// Copyright (C) 2010, 2011, 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,19 +18,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef RESTFACTORY_HH
-#define RESTFACTORY_HH
+#ifndef WORKRAVE_REST_IHTTPSESSION_HH
+#define WORKRAVE_REST_IHTTPSESSION_HH
 
 #include <string>
 
-#include "rest/IHttpClient.hh"
+#include "rest/IHttpOperation.hh"
+#include "rest/IHttpStreamOperation.hh"
 #include "rest/IHttpServer.hh"
+#include "rest/IHttpReply.hh"
+#include "rest/IHttpRequest.hh"
+#include "rest/IHttpRequestFilter.hh"
 
-class RestFactory
+namespace workrave
 {
-public:
-  static IHttpClient::Ptr create_client(const std::string &user_agent = "");
-  static IHttpServer::Ptr create_server(const std::string &user_agent = "");
-};
+  namespace rest
+  {
+    class IHttpSession
+    {
+    public:
+      typedef boost::shared_ptr<IHttpSession> Ptr;
+      typedef boost::function<void (IHttpReply::Ptr) > Ready;
+
+      static Ptr create(const std::string &user_agent);
+  
+      virtual void add_request_filter(IHttpRequestFilter::Ptr filter) = 0;
+      virtual void remove_request_filter(IHttpRequestFilter::Ptr filter) = 0;
+  
+      virtual IHttpOperation::Ptr send(IHttpRequest::Ptr request, Ready ready) = 0;
+      
+      virtual IHttpOperation::Ptr request(IHttpRequest::Ptr request) = 0;
+      virtual IHttpStreamOperation::Ptr stream(IHttpRequest::Ptr request) = 0;
+      virtual IHttpServer::Ptr listen(const std::string &path, IHttpServer::RequestCallback callback) = 0;
+
+      virtual ~IHttpSession() {}
+    };
+  }
+}
 
 #endif
