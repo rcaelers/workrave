@@ -24,7 +24,9 @@
 #include "preinclude.h"
 
 #include <gtkmm.h>
+#ifdef HAVE_GTK3      
 #include <gdkmm/devicemanager.h>
+#endif
 
 #include "debug.hh"
 #include "nls.h"
