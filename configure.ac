@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 dnl
 
 m4_define([workrave_major_version], [1])
@@ -26,7 +26,7 @@ AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
 dnl AM_SILENT_RULES([yes])
 
-GNOME_SHELL_VERSION=3.2.1
+GNOME_SHELL_VERSION=3.6.2
 AC_SUBST(GNOME_SHELL_VERSION)
 
 if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
