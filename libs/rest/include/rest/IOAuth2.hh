@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,14 @@ namespace workrave
       typedef boost::shared_ptr<IOAuth2> Ptr;
       typedef boost::function<void (AuthErrorCode, const std::string &) > AuthResultCallback;
 
+      typedef boost::function<void (const std::string &, const std::string &, IHttpReply::Ptr) > ShowUserfeedbackCallback;
+
     public:
       static Ptr create(const OAuth2Settings &settings);
 
       virtual IHttpRequestFilter::Ptr create_filter() = 0;
   
-      virtual void init(AuthResultCallback callback) = 0;
+      virtual void init(AuthResultCallback callback, ShowUserfeedbackCallback feedback) = 0;
       virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback) = 0;
 
       virtual void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until) = 0;

@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public:
  	OAuth2(const workrave::rest::OAuth2Settings &settings);
   virtual ~OAuth2();
   
-  void init(AuthResultCallback callback);
+  void init(AuthResultCallback callback, ShowUserfeedbackCallback feedback);
   void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback);
   void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until);
   void refresh_access_token();
@@ -90,6 +90,7 @@ private:
   std::string refresh_token;
   time_t valid_until;
   
+  ShowUserfeedbackCallback feedback;
   AuthResultCallback callback;
   CredentialsUpdatedSignal credentials_updated_signal;
   

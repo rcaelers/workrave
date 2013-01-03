@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,19 +32,19 @@
 
 #include "rest/IOAuth2.hh"
 #include "rest/IHttpSession.hh"
+#include "rest/AuthError.hh"
 
 using namespace std;
 using namespace workrave::rest;
+
+// TODO: move token store to rest lib.
 
 const SecretSchema *
 workrave_get_schema (void)
 {
     static const SecretSchema the_schema = {
-        "org.krandor.Password", SECRET_SCHEMA_NONE,
+        "org.workrave.Token", SECRET_SCHEMA_NONE,
         {
-            {  "number", SECRET_SCHEMA_ATTRIBUTE_INTEGER },
-            {  "string", SECRET_SCHEMA_ATTRIBUTE_STRING },
-            {  "even", SECRET_SCHEMA_ATTRIBUTE_BOOLEAN },
             {  "NULL", (SecretSchemaAttributeType)0 },
         }
     };
@@ -61,26 +61,8 @@ WorkraveAuth::create()
 
 WorkraveAuth::WorkraveAuth()
 {
-  // TODO: Make HTML response customisable
-  oauth_settings.success_html = 
-    "<html>"
-    "<head><title>Authorization</title></head>"
-    "<body><h1>Authorization OK</h1></body>"
-    "</html>";
-  
-  oauth_settings.failure_html =
-    "<html>"
-    "<head><title>Authorization</title></head>"
-    "<body><h1>Authorization FAILED</h1></body>"
-    "</html>";
-
-  // TODO: 
   oauth_settings.auth_endpoint = "http://localhost:8000/oauth2/authorize/";
   oauth_settings.token_endpoint = "http://localhost:8000/oauth2/token/";
-  // oauth_settings.client_id = "a6b44cb35e93fb4205b48af1acf5cf";
-  // oauth_settings.client_secret = "5320b1e2b32b2affaa4f5fde96a162";
-  //oauth_settings.auth_endpoint = "https://avon.home.krandor.org/oauth2/authorize/";
-  //oauth_settings.token_endpoint = "https://avon.home.krandor.org/oauth2/token/";
   oauth_settings.client_id = "4a1cb098b443b198c8ef91bb81ab7640";
   oauth_settings.client_secret = "e470f6a4d5292794689ab42d66a6a8f8";
   oauth_settings.scope = "https://api.workrave.org/workrave.state https://api.workrave.org/workrave.config https://api.workrave.org/workrave.history"; 
@@ -93,7 +75,7 @@ WorkraveAuth::~WorkraveAuth()
 
 
 void
-WorkraveAuth::init(AsyncAuthResult callback)
+WorkraveAuth::init(AuthResultCallback callback)
 {
   g_debug("WorkraveAuth::init");
 
@@ -101,7 +83,7 @@ WorkraveAuth::init(AsyncAuthResult callback)
 
   workflow = IOAuth2::create(oauth_settings);
   
-  session = IHttpSession::create("");
+  session = IHttpSession::create("Workrave");
   session->add_request_filter(workflow->create_filter());
 
   secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this, NULL);
@@ -152,10 +134,19 @@ WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer
   if (!success)
     {
       g_debug("secret_password_lookup: obtain access");
-      self->workflow->init(boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2));
+      self->workflow->init(boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2),
+                           boost::bind(&WorkraveAuth::on_auth_feedback, self, _1, _2, _3));
     }
 }
 
+
+void
+WorkraveAuth::on_auth_feedback(const string &error, const string &error_description, IHttpReply::Ptr reply)
+{
+  reply->status = 302;
+  reply->headers["Location"] = boost::str(boost::format("http://localhost:8000/feedback?error=%1%&error_description=%2%")
+                                          % error % error_description);
+}
 
 void
 WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
@@ -171,13 +162,16 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
   string password = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
   g_debug("on_auth_result: %s", password.c_str());
 
-  // TODO: when failed
-  // callback(false);
-  
-  secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT, "OAuth2",
-                        password.c_str(), NULL, on_password_stored, this,
-                        NULL);
-
+  if (result == AuthErrorCode::Success)
+    {
+      secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT, "OAuth2",
+                            password.c_str(), NULL, on_password_stored, this,
+                            NULL);
+    }
+  else
+    {
+      callback(result, details);
+    }
 }
 
 void
@@ -192,9 +186,11 @@ WorkraveAuth::on_password_stored(GObject *source, GAsyncResult *result, gpointer
   if (error != NULL)
     {
       g_debug("secret_password_store: %s", error->message);
+
+      self->callback(AuthErrorCode::Failed, "Failed to store token");
+
       g_error_free(error);
     }
 
-  // TODO:
-  self->callback(true);
+  self->callback(AuthErrorCode::Success, "");
 }

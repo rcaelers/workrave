@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,8 @@
 
 #include "HttpServer.hh"
 
+#include "rest/AuthError.hh"
+
 using namespace std;
 using namespace workrave::rest;
 
@@ -43,30 +45,37 @@ HttpServer::HttpServer(const std::string &user_agent, const std::string &path, I
 HttpServer::~HttpServer()
 {
   stop();
+  if (server)
+    {
+      g_object_unref(server);
+    }
 }
 
 
 void
 HttpServer::start()
 {
-  SoupAddress *addr = soup_address_new("127.0.0.1", SOUP_ADDRESS_ANY_PORT);
-  soup_address_resolve_sync(addr, NULL);
-
-  // TODO: server header != user agent
-  server = soup_server_new(SOUP_SERVER_SERVER_HEADER, user_agent.c_str(),
-                           SOUP_SERVER_INTERFACE, addr,
-                           NULL);
-	g_object_unref (addr);
-
-	if (server == NULL)
+  if (!server)
     {
-      throw std::exception(); // "Cannot receive incoming connections."
-    }
-  
-  port = soup_server_get_port(server);
-  g_debug("Listening on %d", port);
+      SoupAddress *addr = soup_address_new("127.0.0.1", SOUP_ADDRESS_ANY_PORT);
+      soup_address_resolve_sync(addr, NULL);
 
-  soup_server_add_handler(server, path.c_str(), server_callback_static, this, NULL);
+      // TODO: server header != user agent
+      server = soup_server_new(SOUP_SERVER_SERVER_HEADER, user_agent.c_str(),
+                               SOUP_SERVER_INTERFACE, addr,
+                               NULL);
+      g_object_unref (addr);
+
+      if (server == NULL)
+        {
+          throw AuthError(AuthErrorCode::System, "Cannot receive incoming connections.");
+        }
+  
+      port = soup_server_get_port(server);
+      g_debug("Listening on %d", port);
+
+      soup_server_add_handler(server, path.c_str(), server_callback_static, this, NULL);
+    }
 	soup_server_run_async(server);
 }
 
@@ -76,8 +85,7 @@ HttpServer::stop()
 {
   if (server != NULL)
     {
-      g_object_unref(server);
-      server = NULL;
+      soup_server_quit(server);
     }
 }
 
@@ -109,7 +117,12 @@ HttpServer::server_callback(SoupServer *, SoupMessage *message, const char *path
   
   IHttpReply::Ptr reply = callback(request);
 
-  soup_message_set_status(message, SOUP_STATUS_OK);
+  for (map<string, string>::const_iterator i = reply->headers.begin(); i != reply->headers.end(); i++)
+    {
+      soup_message_headers_append(message->response_headers, i->first.c_str(), i->second.c_str());
+    }
+  
+  soup_message_set_status(message, reply->status);
   soup_message_set_response(message, reply->content_type.c_str(), SOUP_MEMORY_COPY, reply->body.c_str(), reply->body.length());
 }
 

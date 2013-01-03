@@ -90,6 +90,7 @@ HttpStreamOperation::start()
 void
 HttpStreamOperation::cancel()
 {
+  // TODO:
 }
 
 void
@@ -108,14 +109,8 @@ HttpStreamOperation::stream_closed(GObject *source, GAsyncResult *res, gpointer 
 {
 	GInputStream *stream = G_INPUT_STREAM(source);
   CallbackData *data = (CallbackData *) user_data; 
-	GError *error = NULL;
 
-	if (!g_input_stream_close_finish(stream, res, &error))
-    {
-      g_debug("close failed: %s", error->message);
-      g_clear_error(&error);
-    }
-
+	g_input_stream_close_finish(stream, res, NULL);
   delete data;
 }
 
@@ -131,8 +126,6 @@ HttpStreamOperation::read_ready(GObject *source, GAsyncResult *res, gpointer use
 	gssize nread = g_input_stream_read_finish(stream, res, &error);
 	if (nread == -1)
     {
-      g_debug("read_async failed: %s\n", error->message);
-      g_error_free(error);
       g_input_stream_close(stream, NULL, NULL);
       g_object_unref(stream);
 
@@ -141,18 +134,16 @@ HttpStreamOperation::read_ready(GObject *source, GAsyncResult *res, gpointer use
 	}
   else if (nread == 0)
     {
-      g_debug("read_async eof\n");
       g_input_stream_close_async(stream, G_PRIORITY_DEFAULT, NULL, stream_closed, user_data);
-
       self->closed_signal(HttpErrorCode::Success, "");
     }
   else
     {
-      g_debug("read: %s\n", string(self->buffer, nread).c_str());
-
       self->data_signal(string(self->buffer, nread));
       g_input_stream_read_async(stream, self->buffer, self->buffer_size, G_PRIORITY_DEFAULT, NULL, read_ready, user_data);
     }
+  
+  g_clear_error(&error);
 }
 
 
@@ -167,14 +158,16 @@ HttpStreamOperation::send_ready(GObject *source, GAsyncResult *res, gpointer use
   if (!stream)
     {
       self->closed_signal(HttpErrorCode::Failure, error->message);
-      g_clear_error(&error);
-      
       delete data;
-      return;
     }
-
-	g_input_stream_read_async(stream, self->buffer, self->buffer_size, G_PRIORITY_DEFAULT, NULL, read_ready, user_data);
+  else
+    {
+      g_input_stream_read_async(stream, self->buffer, self->buffer_size, G_PRIORITY_DEFAULT, NULL, read_ready, user_data);
+    }
+  
+  g_clear_error(&error);
 }
+
 
 HttpStreamOperation::HeadersSignal &
 HttpStreamOperation::signal_headers()
@@ -182,11 +175,13 @@ HttpStreamOperation::signal_headers()
   return headers_signal;
 }
 
+
 HttpStreamOperation::DataSignal &
 HttpStreamOperation::signal_data()
 {
   return data_signal;
 }
+
 
 HttpStreamOperation::ClosedSignal &
 HttpStreamOperation::signal_closed()

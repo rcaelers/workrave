@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,16 +37,12 @@ namespace workrave
                      const std::string &token_endpoint,
                      const std::string &client_id,
                      const std::string &client_secret,
-                     const std::string &scope,
-                     const std::string &success_html,
-                     const std::string &failure_html)
+                     const std::string &scope)
         : auth_endpoint(auth_endpoint),
           token_endpoint(token_endpoint),
           client_id(client_id),
           client_secret(client_secret),
-        scope(scope),
-        success_html(success_html),
-        failure_html(failure_html)
+        scope(scope)
       {
       }
     
@@ -55,8 +51,6 @@ namespace workrave
       std::string client_id;
       std::string client_secret;
       std::string scope;
-      std::string success_html;
-      std::string failure_html;
     };
   }
 }

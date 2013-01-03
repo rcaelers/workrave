@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -49,7 +49,7 @@ class WorkraveAuth
 {
 public:
   typedef boost::shared_ptr<WorkraveAuth> Ptr;
-  typedef boost::function<void (bool) > AsyncAuthResult;
+  typedef boost::function<void (workrave::rest::AuthErrorCode, const std::string &) > AuthResultCallback;
 
   static Ptr create();
   
@@ -57,7 +57,7 @@ public:
   virtual ~WorkraveAuth();
   
   void init(std::string access_token, std::string refresh_token);
-  void init(AsyncAuthResult callback);
+  void init(AuthResultCallback callback);
 
   workrave::rest::IHttpSession::Ptr get_session() const
   {
@@ -66,6 +66,7 @@ public:
 
 private:
   void on_auth_result(workrave::rest::AuthErrorCode result, const std::string &details);
+  void on_auth_feedback(const std::string &error, const std::string &error_description, workrave::rest::IHttpReply::Ptr reply);
 
   static void on_password_lookup(GObject *source, GAsyncResult *result, gpointer data);
   static void on_password_stored(GObject *source, GAsyncResult *result, gpointer data);
@@ -73,7 +74,7 @@ private:
 private:  
   workrave::rest::IOAuth2::Ptr workflow;
   workrave::rest::IHttpSession::Ptr session;
-  AsyncAuthResult callback;
+  AuthResultCallback callback;
   workrave::rest::OAuth2Settings oauth_settings;
 };
 

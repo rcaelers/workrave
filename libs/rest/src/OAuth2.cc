@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -65,15 +65,11 @@ OAuth2::OAuth2(const workrave::rest::OAuth2Settings &settings)
 
 OAuth2::~OAuth2()
 {
-  if (server)
-    {
-      server->stop();
-    }
 }
 
 
 void
-OAuth2::init(AuthResultCallback callback)
+OAuth2::init(AuthResultCallback callback, ShowUserfeedbackCallback feedback)
 {
   if (state != Idle)
     {
@@ -84,6 +80,7 @@ OAuth2::init(AuthResultCallback callback)
   session->add_request_filter(create_filter());
 
   this->callback = callback;
+  this->feedback = feedback;
   request_authorization_grant();
 }
 
@@ -171,51 +168,57 @@ OAuth2::request_authorization_grant()
 IHttpReply::Ptr
 OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
 {
-  IHttpReply::Ptr reply = IHttpReply::create();
+  string error = "";
+  string error_description = "";
 
   try
     {
-      g_debug("on_authorization_grant_ready status = %d, resp = %s", reply->status, reply->body.c_str());
-
-      reply->content_type = "text/html";
-      reply->body = settings.failure_html;
+      server->stop();
       
       if (request->method != "GET")
         {
+          error = "server_error";
           throw AuthError(AuthErrorCode::Protocol, "Resource owner authorization only supports GET callback");
         }          
 
       if (request->uri == "")
         {
+          error = "server_error";
           throw AuthError(AuthErrorCode::Protocol, "Empty response for authorization grant");
         }          
 
       RequestParams response_parameters;
       parse_query(request->uri, response_parameters);
 
-      string error = response_parameters["error"];
-      if (error != "")
-        {
-          reply->body = settings.failure_html;
-          throw AuthError(AuthErrorCode::Server, error);
+      string oauth_error = response_parameters["error"];
+      if (oauth_error != "")
+        { 
+          error = oauth_error;
+          error_description = response_parameters["error_description"];
+          throw AuthError(AuthErrorCode::Server, oauth_error);
         }
       
       string code = response_parameters["code"];
-
       if (code == "")
         {
+          error = "invalid_request";
           throw AuthError(AuthErrorCode::Protocol, "No code received");
         }
       
-      reply->body = settings.success_html;
       request_access_token(code);
     }
   catch(std::exception &e)
     {
       report_result(e);
+      if (error == "")
+        {
+          error = "server_error";
+        }
     }
 
-  g_debug("Returning %s", reply->body.c_str());
+  IHttpReply::Ptr reply = IHttpReply::create();
+  feedback(error, error_description, reply);
+  g_debug("on_authorization_grant_ready returns status = %d, resp = %s", reply->status, reply->body.c_str());
   return reply;
 }
 

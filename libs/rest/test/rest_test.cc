@@ -1,6 +1,6 @@
 // main.cc --- OAuth test app
 //
-// Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2010 - 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 
 #include <string>
@@ -43,7 +43,7 @@ on_closed(HttpErrorCode error, const std::string &detail)
 }
 
 static void
-on_auth_ready(bool success, WorkraveAuth::Ptr auth)
+on_auth_ready(AuthErrorCode error, const string &detal, WorkraveAuth::Ptr auth)
 {
   g_debug("ready: test streaming");
   IHttpSession::Ptr session = auth->get_session();
@@ -70,7 +70,7 @@ main(int argc, char **argv)
   loop = g_main_loop_new(NULL, TRUE);
 
   WorkraveAuth::Ptr auth = WorkraveAuth::create();
-  auth->init(boost::bind(on_auth_ready, _1, auth));
+  auth->init(boost::bind(on_auth_ready, _1, _2, auth));
   
   g_main_loop_run(loop);
   g_main_loop_unref(loop);
