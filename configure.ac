@@ -5,7 +5,7 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [910])
+m4_define([workrave_micro_version], [911])
 m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
@@ -26,7 +26,7 @@ AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
 dnl AM_SILENT_RULES([yes])
 
-GNOME_SHELL_VERSION=3.2.1
+GNOME_SHELL_VERSION=3.6.2
 AC_SUBST(GNOME_SHELL_VERSION)
 
 if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
