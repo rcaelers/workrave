@@ -90,6 +90,8 @@ if (WIN32)
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
     ${BACKEND_DIR}/src/win32/Harpoon.cc
     ${BACKEND_DIR}/include/Harpoon.hh
+    ${BACKEND_DIR}/src/win32/W32ActiveSetup.cc
+    ${BACKEND_DIR}/src/win32/W32ActiveSetup.hh
     ${BACKEND_DIR}/src/win32/W32AlternateMonitor.cc
     ${BACKEND_DIR}/src/win32/W32AlternateMonitor.hh
     ${BACKEND_DIR}/src/win32/W32Configurator.cc

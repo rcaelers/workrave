@@ -18,7 +18,8 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32Compat.cc \
 			W32AppletMenu.cc \
 			W32TrayMenu.cc \
-			W32StatusIcon.cc
+			W32StatusIcon.cc \
+			W32ForceFocus.cc
 
 libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 			@GTK_CFLAGS@ \

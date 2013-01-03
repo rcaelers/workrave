@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -1045,16 +1045,29 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
+  bool skippable = GUIConfig::get_skippable(break_id);
 
-  if ( (break_hint & BREAK_HINT_USER_INITIATED) && !ignorable)
-    {
+  if (break_hint & BREAK_HINT_USER_INITIATED)
+  {
       break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
                       BreakWindow::BREAK_FLAGS_USER_INITIATED);
+
+      if (skippable)
+        {
+          break_flags |=  BreakWindow::BREAK_FLAGS_SKIPPABLE;
+        }
     }
-  else if (ignorable)
-    {
-      break_flags =  ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
-                       BreakWindow::BREAK_FLAGS_SKIPPABLE);
+  else
+    { 
+      if (ignorable)
+        {
+          break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;
+        }
+
+      if(skippable)
+        {
+          break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
+        }
     }
 
   if (break_hint & BREAK_HINT_NATURAL_BREAK)

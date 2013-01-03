@@ -41,14 +41,14 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
   TRACE_MSG("Head: " << x << ", " << y << ", " << w << ", " << h << " " << head.monitor);
 
   POINT pt = { x, y };
-  HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
+  HMONITOR monitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
   if (monitor)
 	{
 	  TRACE_MSG("Monitor found");
-	  MONITORINFO info;
-	  info.cbSize = sizeof(MONITORINFO);
+      MONITORINFO info = { 0, };
+	  info.cbSize = sizeof(info);
 
-	  if (W32Compat::GetMonitorInfo(monitor, &info))
+	  if (GetMonitorInfo(monitor, &info))
 		{
 		  x = info.rcMonitor.left;
 		  y = info.rcMonitor.top;

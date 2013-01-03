@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2012-10-28 16:23+0100\n"
+"POT-Creation-Date: 2011-10-22 18:27+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Prokopis Prokopidis <prokopidis@gmail.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -14,102 +14,260 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.1\n"
 
+#: ../backend/src/DistributionSocketLink.cc:129
+#, fuzzy, c-format
+msgid "Reconnecting to %s."
+msgstr "Επανασύνδεση σε %s."
+
+#  We did not succeed in starting the server. Arghh.
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:421
+msgid "Could not enable network operation."
+msgstr "Ενεργοποίηση του δικτύου αδύνατη."
+
+#: ../backend/src/DistributionSocketLink.cc:430
+msgid "Disabling network operation."
+msgstr "Απενεργοποίηση του δικτύου."
+
+#: ../backend/src/DistributionSocketLink.cc:546
+#: ../backend/src/DistributionSocketLink.cc:583
+#, fuzzy, c-format
+msgid "Connecting to %s."
+msgstr "Σύνδεση σε %s."
+
+#: ../backend/src/DistributionSocketLink.cc:700
+#: ../backend/src/DistributionSocketLink.cc:732
+#, fuzzy, c-format
+msgid "Removing client %s."
+msgstr "Αφαίρεση του πελάτη %s."
+
+#  Closing direct connection.
+#  Closing direct connection.
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:781
+#, fuzzy, c-format
+msgid "Disconnecting %s"
+msgstr "Αποσύνδεση του %s."
+
+#  It's a remote client. mark it master.
+#  It's a remote client. mark it master.
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:950
+#, fuzzy, c-format
+msgid "Client %s is now master."
+msgstr "Ο πελάτης %s είναι τώρα ο κύριος υπολογιστής."
+
+#  Its ME!
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:957
+msgid "I'm now master."
+msgstr "Εγώ είμαι τώρα ο κύριος υπολογιστής."
+
+#. gchar *name =
+#. int port =
+#: ../backend/src/DistributionSocketLink.cc:1288
+#, fuzzy, c-format
+msgid "Client %s saying hello."
+msgstr "Χαιρετισμός από τον πελάτη %s."
+
+#  Duplicate client. inform client that it's bogus and close.
+#  Duplicate client. inform client that it's bogus and close.
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1303
+#: ../backend/src/DistributionSocketLink.cc:1433
+#: ../backend/src/DistributionSocketLink.cc:1677
+#, fuzzy, c-format
+msgid "Client %s is duplicate."
+msgstr "Ο πελάτης %s υπάρχει δύο φορές στη λίστα."
+
+#  Incorrect password.
+#  Incorrect password.
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1313
+#, fuzzy, c-format
+msgid "Client %s access denied."
+msgstr "Άρνηση πρόσβασης στον πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1382
+#, fuzzy, c-format
+msgid "Client %s signed off."
+msgstr "Ο πελάτης %s αποσυνδέθηκε."
+
+#. gint port =
+#: ../backend/src/DistributionSocketLink.cc:1472
+#, fuzzy, c-format
+msgid "Client %s is welcoming us."
+msgstr "Καλωσόρισμα από τον πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1713
+#, fuzzy, c-format
+msgid "Requesting master status from %s."
+msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1727
+#, fuzzy, c-format
+msgid "Client timeout from %s."
+msgstr "Αποσύνδεση πελάτη από %s "
+
+#: ../backend/src/DistributionSocketLink.cc:1749
+#, fuzzy, c-format
+msgid "Rejecting master request from client %s."
+msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1755
+#, fuzzy, c-format
+msgid "Acknowledging master request from client %s."
+msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1806
+#, fuzzy, c-format
+msgid "Non-master client %s rejected master request."
+msgstr "Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s."
+
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, fuzzy, c-format
+msgid "Client %s rejected master request, delaying."
+msgstr ""
+"Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s. Καθυστέρηση."
+
+#  gint count =
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1882
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "Ο πελάτης %s είναι τώρα ο νέος κύριος υπολογιστής."
+
+#: ../backend/src/DistributionSocketLink.cc:2009
+msgid "Network operation started."
+msgstr "Ενεργοποίηση λειτουργίας δικτύου."
+
+#: ../backend/src/DistributionSocketLink.cc:2030
+msgid "Accepted new client."
+msgstr "Αποδοχή νέου πελάτη."
+
+#: ../backend/src/DistributionSocketLink.cc:2104
+#, fuzzy, c-format
+msgid "Client %s read error, closing."
+msgstr "Σφάλμα ανάγνωσης στον πελάτη %s. Διακοπή σύνδεσης."
+
+#: ../backend/src/DistributionSocketLink.cc:2110
+#: ../backend/src/DistributionSocketLink.cc:2183
+#, fuzzy, c-format
+msgid "Client %s closed connection."
+msgstr "Ο πελάτης %s διέκοψε τη σύνδεση."
+
+#: ../backend/src/DistributionSocketLink.cc:2151
+#, fuzzy, c-format
+msgid "Client %s connected."
+msgstr "Ο πελάτης %s συνδέθηκε."
+
+#: ../backend/src/DistributionSocketLink.cc:2189
+#, fuzzy, c-format
+msgid "Could not connect to client %s."
+msgstr "Σύνδεση με τον πελάτη %s αδύνατη."
+
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_About..."
+msgstr "_Περί......"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
+msgid "_Connect..."
+msgstr "_Σύνδεση..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+msgid "_Disconnect"
+msgstr "Α_ποσύνδεση"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+msgid "_Exercises"
+msgstr "_Ασκήσεις"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+msgid "_Mode"
+msgstr "_Λειτουργία"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+msgid "_Network"
+msgstr "_Δίκτυο"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+msgid "_Normal"
+msgstr "_Κανονικό"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "_Open"
 msgstr "_Άνοιγμα"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 msgid "_Preferences"
 msgstr "_Προτιμήσεις"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
-msgid "_Restbreak"
-msgstr "_Διάλειμμα"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
-msgid "_Exercises"
-msgstr "_Ασκήσεις"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "_Mode"
-msgstr "_Λειτουργία"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
-msgid "_Normal"
-msgstr "_Κανονικό"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quiet"
 msgstr "_Σίγηση"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
-msgid "_Suspended"
-msgstr "_Απενεργοποιημένο"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
-msgid "_Network"
-msgstr "_Δίκτυο"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
-msgid "_Connect..."
-msgstr "_Σύνδεση..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-msgid "_Disconnect"
-msgstr "Α_ποσύνδεση"
-
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-msgid "_Reconnect"
-msgstr "_Επανασύνδεση"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-msgid "_Show Log..."
-msgstr "Εμφάνιση ημερολογίου..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
-msgid "Reading mode"
-msgstr ""
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
-msgid "_Statistics"
-msgstr "_Στατιστικά"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_About..."
-msgstr "_Περί......"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
 msgid "_Quit"
 msgstr "Έ_ξοδος"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
+msgid "_Reconnect"
+msgstr "_Επανασύνδεση"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
+msgid "_Restbreak"
+msgstr "_Διάλειμμα"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
+msgid "_Show Log..."
+msgstr "Εμφάνιση ημερολογίου..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
+msgid "_Statistics"
+msgstr "_Στατιστικά"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+msgid "_Suspended"
+msgstr "_Απενεργοποιημένο"
 
 #: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
@@ -121,7 +279,7 @@ msgstr "Workrave Applet"
 
 #: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:371
+#: ../frontend/gtkmm/src/Menus.cc:384
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -139,80 +297,77 @@ msgstr ""
 msgid "_About"
 msgstr "_Περί......"
 
-#. add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
-#. add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-#. add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 #, fuzzy
 msgid "Show log"
 msgstr "Εμφάνιση _ημερολογίου"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
 #, fuzzy
 msgid "Normal"
 msgstr "_Κανονικό"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1502
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
+#: ../frontend/gtkmm/src/GUI.cc:1519
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:184
 #, fuzzy
 msgid "Suspended"
 msgstr "_Απενεργοποιημένο"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1506
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
+#: ../frontend/gtkmm/src/GUI.cc:1523
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:186
 #, fuzzy
 msgid "Quiet"
 msgstr "Σ_ιωπηλό"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
 msgstr "Προτροπή σε διάλειμμα"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break ignored"
 msgstr "Διάλειμμα που αγνοήθηκε"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Rest break started"
 msgstr "Αρχή διαλείμματος"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:99
 msgid "Rest break ended"
 msgstr "Τέλος διαλείμματος"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Micro-break started"
 msgstr "Αρχή μικρο-παύσης"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break ended"
 msgstr "Τέλος μικρο-παύσης"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/common/src/SoundPlayer.cc:117
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Ημερήσιο όριο"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercise ended"
 msgstr "Τέλος άσκησης"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercises ended"
 msgstr "Τέλος ασκήσεων"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:135
 #, fuzzy
 msgid "Exercise change"
 msgstr "Τέλος άσκησης"
 
-#: ../frontend/common/src/SoundPlayer.cc:609
+#: ../frontend/common/src/SoundPlayer.cc:608
 msgid "Custom"
 msgstr ""
 
@@ -231,27 +386,27 @@ msgstr "%s%d:%02d λεπτά"
 msgid "%s%d seconds"
 msgstr "%s%d δευτερόλεπτα"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:308
+#: ../frontend/gtkmm/src/BreakWindow.cc:309
 #, fuzzy
 msgid "_Lock"
 msgstr "_Κλείδωμα"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:331
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "Shut _down"
 msgstr "Κλείσιμο"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:352
+#: ../frontend/gtkmm/src/BreakWindow.cc:353
 #, fuzzy
 msgid "_Skip"
 msgstr "_Παράλειψη"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:369
+#: ../frontend/gtkmm/src/BreakWindow.cc:370
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Αναβολή"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -262,139 +417,150 @@ msgstr ""
 "δεν έχει ακόμη λήξει, βρείτε κάτι άλλο να κάνατε, π.χ. \n"
 "να διαβάσετε ή να διορθώσετε ένα κείμενο."
 
-#: ../frontend/gtkmm/src/GUI.cc:301
+#: ../frontend/gtkmm/src/GUI.cc:302
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:841
+#: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave Applet"
 
-#: ../frontend/gtkmm/src/GUI.cc:843
+#: ../frontend/gtkmm/src/GUI.cc:846
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1361
+#: ../frontend/gtkmm/src/GUI.cc:954
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:957
+msgid "Make sure that the RECORD extension is enabled in the X server."
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:1378
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1367
+#: ../frontend/gtkmm/src/GUI.cc:1384
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
+#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
 msgid "Micro-break"
 msgstr "Μικρο-παύση"
 
-#: ../frontend/gtkmm/src/GUI.cc:1495
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/GUI.cc:1512
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:223
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Διάλειμμα"
 
-#: ../frontend/gtkmm/src/GUI.cc:1502 ../frontend/gtkmm/src/GUI.cc:1506
+#: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
 #, fuzzy
 msgid "Mode: "
 msgstr "_Λειτουργία"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
 #, fuzzy
 msgid "Open"
 msgstr "_Άνοιγμα"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Ασκήσεις"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
 #, fuzzy
 msgid "Mode"
 msgstr "_Λειτουργία"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "Network"
 msgstr "Δίκτυο"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:206
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
+#, fuzzy
+msgid "Connect"
+msgstr "Σύν_δεση"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#, fuzzy
+msgid "Disconnect"
+msgstr "Α_ποσύνδεση"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#, fuzzy
+msgid "Reconnect"
+msgstr "_Επανασύνδεση"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "About..."
 msgstr "Περί..."
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Rest break"
 msgstr "_Διάλειμμα"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "Q_uiet"
 msgstr "Σ_ιωπηλό"
 
-#. menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
-#. menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
-#. menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
-#. action_group->add(Gtk::Action::create("Join", _("_Connect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_join));
-#. action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
-#. action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
-#. w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#. w32aw->add_menu(_("_Disconnect"),
-#. Menus::MENU_COMMAND_NETWORK_DISCONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#. w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+msgid "_Connect"
+msgstr "Σύν_δεση"
+
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Show _log"
 msgstr "Εμφάνιση _ημερολογίου"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
 #, fuzzy
 msgid "Quit"
 msgstr "Έ_ξοδος"
@@ -403,226 +569,227 @@ msgstr "Έ_ξοδος"
 msgid "_Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:238
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 msgid "Please relax for a few seconds"
 msgstr "Χαλαρώστε για μερικά δευτερόλεπτα"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Το επόμενο διάλειμμα είναι σε %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:251
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Το διάλειμμα έχει καθυστερήσει κατά %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Ημερήσιο όριο σε %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:269
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Υπέρβαση του ημερήσιου ορίου κατά %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
 msgstr "Γενικά"
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 #, fuzzy
 msgid "Sounds"
 msgstr "Ήχος:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "Παράθυρο Κατάστασης"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
 #  Notebook
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Timers"
 msgstr "Χρονόμετρα"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
 msgstr "Διεπαφή χρήστη"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "Χωρίς κλείδωμα"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "Κλείδωμα πληκτρολογίου και ποντικιού"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "Κλείδωμα πληκτρολογίου, ποντικιού και οθόνης"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
 msgid "Options"
 msgstr "Επιλογές"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:195
 msgid "Block mode:"
 msgstr "Λειτουργία κλειδώματος:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
 #, fuzzy
 msgid "Sound Options"
 msgstr "Επιλογές"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 msgid "No sounds"
 msgstr "Χωρίς ήχο"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:325
 msgid "Play sounds using sound card"
 msgstr "Αναπαραγωγή ήχων με την κάρτα ήχου"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
 msgid "Play sounds using built-in speaker"
 msgstr "Αναπαραγωγή ήχων με το ενσωματωμένο μεγάφωνο"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Volume:"
 msgstr ""
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
 msgid "Sound:"
 msgstr "Ήχος:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Τοποθέτηση διαλειμμάτων και ημερήσιου ορίου στο ίδιο σημείο"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:364
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Events"
 msgstr ""
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:372
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Ήχος:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:395
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:443
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:449
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:400
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Χωρίς ήχο"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:428
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:434
 msgid "Wavefiles"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:524
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
+"Enable this option if Workrave fails to detect when you are using you "
 "computer"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
 msgstr "Ώρα για μια μικρο-παύση;"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
 msgstr "Χρειάζεστε διάλειμμα..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
 msgstr "Θα πρέπει να σταματήσετε για σήμερα..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:317
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, fuzzy, c-format
 msgid "Break in %s"
 msgstr "Διάλειμμα σε"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:321
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, fuzzy, c-format
 msgid "Disappears in %s"
 msgstr "Απόκρυψη σε"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:325
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, fuzzy, c-format
 msgid "Silent in %s"
 msgstr "Σίγηση σε"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:175
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
 #, c-format
 msgid "Rest break for %s"
 msgstr "Διάλειμμα σε %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Φυσιολογικά διαλείμματα"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Χρειάζεστε διάλειμμα..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -632,12 +799,12 @@ msgstr ""
 "κάθισμα και απομακρυνθείτε από τον υπολογιστή.\n"
 "Περπατήστε μερικά λεπτά, τεντωθείτε και χαλαρώστε."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Το επόμενο διάλειμμα είναι σε %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "Περιμένετε"
 
@@ -716,57 +883,57 @@ msgstr "Ημερήσιο όριο:"
 
 #  Enabled/Disabled checkbox
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
 msgid "Enable timer"
 msgstr "Ενεργοποίηση χρονομέτρου"
 
 #  Prelude frame
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
 msgid "Break prompting"
 msgstr "Προτροπή πριν το διάλειμμα"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
 msgid "Prompt before breaking"
 msgstr "Προτροπή πριν το διάλειμμα"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
 msgid "Maximum number of prompts:"
 msgstr "Μέγιστος αριθμός προτροπών:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Εμφάνιση κουμπιών 'Αναβολή' και 'Παράλειψη'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
 msgid "Suspend timer when inactive"
 msgstr "Αναστολή χρονομέτρου όταν δεν εργάζεστε στον υπολογιστή"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
 msgstr "Οι μικροπαύσεις να θεωρούνται δραστηριότητα"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
 msgid "Number of exercises:"
 msgstr "Αριθμός ασκήσεων:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Time before end:"
 msgstr "Συνολικός χρόνος εργασίας:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
 msgid "Time between breaks:"
 msgstr "Χρόνος ανάμεσα σε δύο διαλείμματα:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
 msgid "Break duration:"
 msgstr "Διάρκεια διαλειμμάτων:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:248
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
 msgid "Postpone time:"
 msgstr "Διάρκεια αναβολών:"
 
@@ -778,16 +945,119 @@ msgstr ""
 "Αυτό το πρόγραμμα βοηθά στην πρόληψη και την θεραπεία των Κακώσεων λόγω "
 "Επαναλαμβανόμενης Καταπόνησης (Repetitive Strain Injury, RSI)"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:51
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
+msgid "Network connect"
+msgstr "Σύνδεση δικτύου"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr ""
+"Δώστε το όνομα και μια θύρα ενός συστήματος\n"
+" στο δίκτυο στο οποίο επιθυμείτε να συνδεθείτε"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
+msgid "Host name:"
+msgstr "Όνομα συστήματος:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
+msgid "Port:"
+msgstr "Θύρα:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
 msgid "Network log"
 msgstr "Ημερολόγιο δικτύου"
 
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
+msgid "Enable networking"
+msgstr "Ενεργοποίηση δικτύου"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
+msgid "Username:"
+msgstr "Όνομα χρήστη:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
+msgid "Password:"
+msgstr "Κωδικός:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
+msgid "Server settings"
+msgstr "Ρυθμίσεις εξυπηρετητή"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
+msgid "Server port:"
+msgstr "Θύρα εξυπηρετητή:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
+msgid "Reconnect attempts:"
+msgstr "Προσπάθειες επανασύνδεσης:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+msgid "Reconnect interval:"
+msgstr "Διάστημα ανάμεσα σε δύο επανασυνδέσεις:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
+msgid "Advanced"
+msgstr "Για προχωρημένους"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr ""
+"Ο παρακάτω κατάλογος περιέχει τα συστήματα στα οποία συνδέεται\n"
+"το Workrave κατά την εκκίνηση. Πατήστε στο σύστημα ή στον αριθμό\n"
+"θύρας για να τα αλλάξετε."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
+msgid "Host name"
+msgstr "Όνομα συστήματος"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
+msgid "Port"
+msgstr "Θύρα"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
+msgid "Hosts"
+msgstr "Συστήματα"
+
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Shoulder-arm stretch"
-msgstr "Τέντωμα ώμων και χεριών"
+msgid "Backward shoulder stretch"
+msgstr "Τέντωμα των ώμων προς τα πίσω"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Καλύψτε με τις παλάμες το πρόσωπό σας έτσι ώστε να μπορείτε να ανοίγετε τα "
+"μάτια σας. Ανοίξτε τα και κοιτάξτε μέσα στο σκοτάδι της κοιλότητας που έχουν "
+"σχηματίσει οι παλάμες σας. Με την άσκηση αυτή τα μάτια χαλαρώνουν καλύτερα "
+"από ό,τι αν τα κλείσετε απλώς."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Τεντώστε τα δάκτυλα"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά τους ώμους "
+"προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε αυτή τη στάση για "
+"περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε την άσκηση δύο φορές."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -799,57 +1069,7 @@ msgstr ""
 "ελαφρά πίεση στον ώμο σας. Κρατήστε αυτή τη θέση για λίγο, και επαναλάβετε "
 "την άσκηση με το άλλο σας χέρι."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "Τεντώστε τα δάκτυλα"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, και "
-"διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε τις "
-"αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε την "
-"άσκηση άλλη μία φορά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Neck tilt stretch"
-msgstr "Τέντωμα του λαιμού προς τα πλάγια"
-
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Αρχίστε με το κεφάλι χαλαρό και όρθιο. Ύστερα περιστρέψτε το αργά προς το "
-"δεξιό ώμο, για να τεντώσετε απαλά τους μύες στην αριστερή πλευρά του αυχένα. "
-"Κρατήστε αυτή τη θέση για περίπου 5 δευτερόλεπτα. Ύστερα περιστρέψτε το "
-"κεφάλι προς το αριστερό ώμο, για να τεντώσετε τους μύες στην δεξιά πλευρά. "
-"Επαναλάβετε δύο φορές για κάθε πλευρά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Backward shoulder stretch"
-msgstr "Τέντωμα των ώμων προς τα πίσω"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά τους ώμους "
-"προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε αυτή τη στάση για "
-"περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε την άσκηση δύο φορές."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "Κινήστε τα μάτια"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -860,11 +1080,7 @@ msgstr ""
 "μέχρι να \"γυρίσετε\" το πλαίσιο δύο φορές. Επαναλάβετε την άσκηση από τα "
 "δεξιά προς τα αριστερά."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Train focusing the eyes"
-msgstr "Εστιάζοντας σε διαφορετικά σημεία"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -878,24 +1094,51 @@ msgstr ""
 "με πιο ανοιχτή θέα, εστιάζοντας μια στο μακρινό αντικείμενο και μια σε ένα "
 "στυλό που θα απέχει από τα μάτια σας όσο και η οθόνη σας όταν εργάζεστε."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
 msgstr "Κοιτάξτε στο σκοτάδι"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Καλύψτε με τις παλάμες το πρόσωπό σας έτσι ώστε να μπορείτε να ανοίγετε τα "
-"μάτια σας. Ανοίξτε τα και κοιτάξτε μέσα στο σκοτάδι της κοιλότητας που έχουν "
-"σχηματίσει οι παλάμες σας. Με την άσκηση αυτή τα μάτια χαλαρώνουν καλύτερα "
-"από ό,τι αν τα κλείσετε απλώς."
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Κινήστε τα μάτια"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
 msgstr "Κινήστε τους ώμους"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders up and down"
+msgstr "Κινήστε τους ώμους πάνω κάτω"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Neck tilt stretch"
+msgstr "Τέντωμα του λαιμού προς τα πλάγια"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Ακουμπήστε τα χέρια σας στα μπράτσα της καρέκλας σας ενώ κάθεστε και πιέστε "
+"το σώμα σας προς τα πάνω μέχρι να τεντώσετε τα μπράτσα. Προσπαθήστε να "
+"σηκώσετε το κεφάλι σας ακόμα περισσότερο χαμηλώνοντας τους ώμους. "
+"Ξανακαθήστε σιγά σιγά στην καρέκλα σας."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, και "
+"διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε τις "
+"αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε την "
+"άσκηση άλλη μία φορά."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid "Shoulder-arm stretch"
+msgstr "Τέντωμα ώμων και χεριών"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
@@ -908,19 +1151,21 @@ msgstr ""
 "πίσω και χαλαρώστε για μερικά δευτερόλεπτα. Επαναλάβετε με το αριστερό χέρι."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Move the shoulders up and down"
-msgstr "Κινήστε τους ώμους πάνω κάτω"
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Αρχίστε με το κεφάλι χαλαρό και όρθιο. Ύστερα περιστρέψτε το αργά προς το "
+"δεξιό ώμο, για να τεντώσετε απαλά τους μύες στην αριστερή πλευρά του αυχένα. "
+"Κρατήστε αυτή τη θέση για περίπου 5 δευτερόλεπτα. Ύστερα περιστρέψτε το "
+"κεφάλι προς το αριστερό ώμο, για να τεντώσετε τους μύες στην δεξιά πλευρά. "
+"Επαναλάβετε δύο φορές για κάθε πλευρά."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Ακουμπήστε τα χέρια σας στα μπράτσα της καρέκλας σας ενώ κάθεστε και πιέστε "
-"το σώμα σας προς τα πάνω μέχρι να τεντώσετε τα μπράτσα. Προσπαθήστε να "
-"σηκώσετε το κεφάλι σας ακόμα περισσότερο χαμηλώνοντας τους ώμους. "
-"Ξανακαθήστε σιγά σιγά στην καρέκλα σας."
+msgid "Train focusing the eyes"
+msgstr "Εστιάζοντας σε διαφορετικά σημεία"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
@@ -971,28 +1216,23 @@ msgstr "Παύση"
 msgid "Resume exercises"
 msgstr "Αριθμός ασκήσεων:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Browse history"
 msgstr "Ιστορικό περιήγησης"
 
-#. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
 msgstr "Ημερομηνία:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Διαλείμματα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Προτροπές σε διάλειμμα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -1000,87 +1240,87 @@ msgstr ""
 "Ο αριθμός των προτροπών του Workrave σε διάλειμμα, εξαιρουμένων των "
 "επαναλαμβανόμενων προτροπών για το ίδιο διάλειμμα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Επαναλαμβανόμενες προτροπές"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Ο αριθμός των επαναλαμβανόμενων προτροπών σε διάλειμμα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Διαλείμματα μετά από προτροπή"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Ο αριθμός των διαλειμμάτων που κάνατε μετά από προτροπή"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Φυσιολογικά διαλείμματα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Ο αριθμός των διαλειμμάτων που κάνατε χωρίς προτροπή"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Διαλείμματα που παραλείψατε"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Ο αριθμός των διαλειμμάτων που παραλείψατε"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Διαλείμματα που αναβάλατε"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Ο αριθμός των διαλειμμάτων που αναβάλατε"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Χρόνος καθυστέρησης"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "Συνολικός χρόνος καθυστέρησης για αυτή την κατηγορία διαλειμμάτων"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
 msgid "Daily usage"
 msgstr "Ημερήσια χρήση"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:241
 msgid "The total computer usage"
 msgstr "Συνολικός χρόνος χρήσης του υπολογιστή"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Activity"
 msgstr "Δραστηριότητα"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
 msgid "Mouse usage:"
 msgstr "Χρήση του ποντικιού:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:324
 msgid "The total time you were using the mouse"
 msgstr "Συνολικός χρόνος χρήσης του ποντικιού"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse movement:"
 msgstr "Κίνηση του ποντικιού:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total on-screen mouse movement"
 msgstr "Συνολική απόσταση που διένυσε ο δείκτης του ποντικιού στην οθόνη"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "Effective mouse movement:"
 msgstr "Ουσιαστική κίνηση του ποντικιού:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1088,244 +1328,26 @@ msgstr ""
 "Η συνολική απόσταση που θα διένυε ο δείκτης του ποντικιού αν τον κινούσατε "
 "σε ευθείες γραμμές ανάμεσα σε κάθε δύο κλικ"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
 msgstr "Κλικ με το ποντίκι:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:337
 msgid "The total number of mouse button clicks"
 msgstr "Συνολικά κλικ με το ποντίκι"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
 msgid "Keystrokes:"
 msgstr "Πληκτρισμοί:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
 msgstr "Συνολικός αριθμός πληκτρισμών"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:396
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, από %s μέχρι %s"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
-msgid "Warning"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
-msgid "Files deleted!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
-msgid "Info"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
-msgid "File deletion failed!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
-msgid "Error"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Επανασύνδεση σε %s."
-
-#  We did not succeed in starting the server. Arghh.
-#~ msgid "Could not enable network operation."
-#~ msgstr "Ενεργοποίηση του δικτύου αδύνατη."
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Απενεργοποίηση του δικτύου."
-
-#, fuzzy
-#~ msgid "Connecting to %s."
-#~ msgstr "Σύνδεση σε %s."
-
-#, fuzzy
-#~ msgid "Removing client %s."
-#~ msgstr "Αφαίρεση του πελάτη %s."
-
-#  Closing direct connection.
-#  Closing direct connection.
-#, fuzzy
-#~ msgid "Disconnecting %s"
-#~ msgstr "Αποσύνδεση του %s."
-
-#  It's a remote client. mark it master.
-#  It's a remote client. mark it master.
-#, fuzzy
-#~ msgid "Client %s is now master."
-#~ msgstr "Ο πελάτης %s είναι τώρα ο κύριος υπολογιστής."
-
-#  Its ME!
-#~ msgid "I'm now master."
-#~ msgstr "Εγώ είμαι τώρα ο κύριος υπολογιστής."
-
-#, fuzzy
-#~ msgid "Client %s saying hello."
-#~ msgstr "Χαιρετισμός από τον πελάτη %s."
-
-#  Duplicate client. inform client that it's bogus and close.
-#  Duplicate client. inform client that it's bogus and close.
-#, fuzzy
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Ο πελάτης %s υπάρχει δύο φορές στη λίστα."
-
-#  Incorrect password.
-#  Incorrect password.
-#, fuzzy
-#~ msgid "Client %s access denied."
-#~ msgstr "Άρνηση πρόσβασης στον πελάτη %s."
-
-#, fuzzy
-#~ msgid "Client %s signed off."
-#~ msgstr "Ο πελάτης %s αποσυνδέθηκε."
-
-#, fuzzy
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Καλωσόρισμα από τον πελάτη %s."
-
-#, fuzzy
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s."
-
-#, fuzzy
-#~ msgid "Client timeout from %s."
-#~ msgstr "Αποσύνδεση πελάτη από %s "
-
-#, fuzzy
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s."
-
-#, fuzzy
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s."
-
-#, fuzzy
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr ""
-#~ "Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s."
-
-#, fuzzy
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr ""
-#~ "Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s. "
-#~ "Καθυστέρηση."
-
-#  gint count =
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Ο πελάτης %s είναι τώρα ο νέος κύριος υπολογιστής."
-
-#~ msgid "Network operation started."
-#~ msgstr "Ενεργοποίηση λειτουργίας δικτύου."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Αποδοχή νέου πελάτη."
-
-#, fuzzy
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Σφάλμα ανάγνωσης στον πελάτη %s. Διακοπή σύνδεσης."
-
-#, fuzzy
-#~ msgid "Client %s closed connection."
-#~ msgstr "Ο πελάτης %s διέκοψε τη σύνδεση."
-
-#, fuzzy
-#~ msgid "Client %s connected."
-#~ msgstr "Ο πελάτης %s συνδέθηκε."
-
-#, fuzzy
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Σύνδεση με τον πελάτη %s αδύνατη."
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "Σύν_δεση"
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "Α_ποσύνδεση"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Επανασύνδεση"
-
-#~ msgid "_Connect"
-#~ msgstr "Σύν_δεση"
-
-#~ msgid "Network connect"
-#~ msgstr "Σύνδεση δικτύου"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Δώστε το όνομα και μια θύρα ενός συστήματος\n"
-#~ " στο δίκτυο στο οποίο επιθυμείτε να συνδεθείτε"
-
-#~ msgid "Host name:"
-#~ msgstr "Όνομα συστήματος:"
-
-#~ msgid "Port:"
-#~ msgstr "Θύρα:"
-
-#~ msgid "Enable networking"
-#~ msgstr "Ενεργοποίηση δικτύου"
-
-#~ msgid "Username:"
-#~ msgstr "Όνομα χρήστη:"
-
-#~ msgid "Password:"
-#~ msgstr "Κωδικός:"
-
-#~ msgid "Server settings"
-#~ msgstr "Ρυθμίσεις εξυπηρετητή"
-
-#~ msgid "Server port:"
-#~ msgstr "Θύρα εξυπηρετητή:"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Προσπάθειες επανασύνδεσης:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Διάστημα ανάμεσα σε δύο επανασυνδέσεις:"
-
-#~ msgid "Advanced"
-#~ msgstr "Για προχωρημένους"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Ο παρακάτω κατάλογος περιέχει τα συστήματα στα οποία συνδέεται\n"
-#~ "το Workrave κατά την εκκίνηση. Πατήστε στο σύστημα ή στον αριθμό\n"
-#~ "θύρας για να τα αλλάξετε."
-
-#~ msgid "Host name"
-#~ msgstr "Όνομα συστήματος"
-
-#~ msgid "Port"
-#~ msgstr "Θύρα"
-
-#~ msgid "Hosts"
-#~ msgstr "Συστήματα"
 
 #~ msgid "Orientation"
 #~ msgstr "Προσανατολισμός"

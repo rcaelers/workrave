@@ -37,8 +37,10 @@ endif (HAVE_DBUS)
 
 if (WIN32)
   set (COMMON_SOURCES ${COMMON_SOURCES}
-    ${COMMON_DIR}/src/win32/crashlog.cc
     ${COMMON_DIR}/include/win32/crashlog.h
+    ${COMMON_DIR}/include/win32/W32CriticalSection.hh
+    ${COMMON_DIR}/src/win32/crashlog.cc
+    ${COMMON_DIR}/src/win32/W32CriticalSection.cc
   )
 endif (WIN32)
 

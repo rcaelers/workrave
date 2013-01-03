@@ -17,9 +17,15 @@
 
     <enum name="usage_mode" csymbol="UsageMode">
       <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
-      <value name="reading" csymbol="USAGE_MODE_READING"/>
+      <value name="reading"   csymbol="USAGE_MODE_READING"/>
     </enum>
     
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
+
     <method name="SetOperationMode" csymbol="set_operation_mode">
       <arg type="operation_mode" name="mode" direction="in" />
     </method>

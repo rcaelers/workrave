@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,8 @@ class BreakWindow :
   public Gtk::Window,
   public IBreakWindow
 {
+    friend class W32Compat;
+
 public:
   enum BreakFlags
     {
@@ -118,8 +120,12 @@ private:
   bool visible;
 
 #ifdef PLATFORM_OS_WIN32
+  DesktopWindow *desktop_window;
+  bool force_focus_on_break_start;
+  long parent;
   bool accel_added;
 #endif
+
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
   Gtk::Button *lock_button;

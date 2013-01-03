@@ -148,6 +148,8 @@ if (WIN32)
     ${FRONTEND_DIR}/gtkmm/src/win32/W32AppletWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32Compat.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/W32Compat.hh
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32ForceFocus.cc
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32ForceFocus.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.cc
@@ -161,6 +163,7 @@ if (WIN32)
     # ${FRONTEND_DIR}/common/src/win32/Sound.cc
     
   include_directories( 
+    "${BACKEND_DIR}/src/win32"
     "${COMMON_DIR}/include/win32"
     "${COMMON_DIR}/win32/harpoon/include"
     "${FRONTEND_DIR}/common/src/win32"
@@ -381,24 +384,15 @@ endif(GETTEXT_FOUND)
 ## Installation
 ######################################################################
 
-
-file(GLOB IMAGE_FILES ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/16x16/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/24x24/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/32x32/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/48x48/*.png
-                      ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/scalable/*.svg)
-file(GLOB ICON_FILES  ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/*.ico
-	              ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/win32/*.ico)
-
-install(FILES ${IMAGE_FILES}
-        DESTINATION share/images
+install(
+DIRECTORY ${CMAKE_SOURCE_DIR}/../../frontend/common/share/images/
+DESTINATION share/images
+FILES_MATCHING
+PATTERN "*.png"
+PATTERN "*.ico"
+PATTERN "*.svg"
 )
 
-install(FILES ${ICON_FILES}
-        DESTINATION share/images
-)
-		      
 install(TARGETS workrave
         RUNTIME DESTINATION lib
 )

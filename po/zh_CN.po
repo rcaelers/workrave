@@ -2,6 +2,7 @@
 # Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the WorkRave package.
 # Rex Tsai <chihchun@linux.org.tw>, 2004-2005
+# Alick Zhao <alick9188@gmail.com>, 2012
 # The Simplified translation is based on the traditional translation by Rex Tsai
 #
 #
@@ -9,111 +10,257 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2012-10-28 16:23+0100\n"
-"PO-Revision-Date: 2007-01-02 18:38+0100\n"
-"Last-Translator: Tao WEI; <weitao1979@gmail.com>\n"
+"POT-Creation-Date: 2011-10-22 18:27+0200\n"
+"PO-Revision-Date: 2012-08-23 23:03+0800\n"
+"Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../backend/src/DistributionSocketLink.cc:129
+#, c-format
+msgid "Reconnecting to %s."
+msgstr "重新连接到 %s。"
+
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:421
+msgid "Could not enable network operation."
+msgstr "无法启用网络功能"
+
+#: ../backend/src/DistributionSocketLink.cc:430
+msgid "Disabling network operation."
+msgstr "停用网络功能。"
+
+#: ../backend/src/DistributionSocketLink.cc:546
+#: ../backend/src/DistributionSocketLink.cc:583
+#, c-format
+msgid "Connecting to %s."
+msgstr "连接到 %s。"
+
+#: ../backend/src/DistributionSocketLink.cc:700
+#: ../backend/src/DistributionSocketLink.cc:732
+#, c-format
+msgid "Removing client %s."
+msgstr "移除用户端 %s。"
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:781
+#, c-format
+msgid "Disconnecting %s"
+msgstr "断开连接 %s"
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:950
+#, c-format
+msgid "Client %s is now master."
+msgstr "客户端 %s 现在是主控。"
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:957
+msgid "I'm now master."
+msgstr "我是新主控端。"
+
+#. gchar *name =
+#. int port =
+#: ../backend/src/DistributionSocketLink.cc:1288
+#, c-format
+msgid "Client %s saying hello."
+msgstr "客户端 %s 打招呼。"
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1303
+#: ../backend/src/DistributionSocketLink.cc:1433
+#: ../backend/src/DistributionSocketLink.cc:1677
+#, c-format
+msgid "Client %s is duplicate."
+msgstr "客户端 %s 重复。"
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1313
+#, c-format
+msgid "Client %s access denied."
+msgstr "客户端 %s 拒绝访问。"
+
+#: ../backend/src/DistributionSocketLink.cc:1382
+#, c-format
+msgid "Client %s signed off."
+msgstr "客户端 %s 离线。"
+
+#. gint port =
+#: ../backend/src/DistributionSocketLink.cc:1472
+#, c-format
+msgid "Client %s is welcoming us."
+msgstr "客户端 %s 欢迎我们。"
+
+#: ../backend/src/DistributionSocketLink.cc:1713
+#, fuzzy, c-format
+msgid "Requesting master status from %s."
+msgstr "向 %s 要求主控端状态。"
+
+#: ../backend/src/DistributionSocketLink.cc:1727
+#, fuzzy, c-format
+msgid "Client timeout from %s."
+msgstr "客户端 %s 超时。"
+
+#: ../backend/src/DistributionSocketLink.cc:1749
+#, fuzzy, c-format
+msgid "Rejecting master request from client %s."
+msgstr "拒绝来自客户端 %s 的主控要求"
+
+#: ../backend/src/DistributionSocketLink.cc:1755
+#, fuzzy, c-format
+msgid "Acknowledging master request from client %s."
+msgstr "确认来自客户端 %s 的主控要求。"
+
+#: ../backend/src/DistributionSocketLink.cc:1806
+#, fuzzy, c-format
+msgid "Non-master client %s rejected master request."
+msgstr "非主控客户端 %s 拒绝主控要求。"
+
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, fuzzy, c-format
+msgid "Client %s rejected master request, delaying."
+msgstr "客户端 %s 拒绝主控要求，延迟中。"
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1882
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "客户端 %s 现在是新的主控端。"
+
+#: ../backend/src/DistributionSocketLink.cc:2009
+msgid "Network operation started."
+msgstr "网络功能启动"
+
+#: ../backend/src/DistributionSocketLink.cc:2030
+msgid "Accepted new client."
+msgstr "接受新客户端"
+
+#: ../backend/src/DistributionSocketLink.cc:2104
+#, c-format
+msgid "Client %s read error, closing."
+msgstr "客户端 %s 读取错误，关闭中。"
+
+#: ../backend/src/DistributionSocketLink.cc:2110
+#: ../backend/src/DistributionSocketLink.cc:2183
+#, c-format
+msgid "Client %s closed connection."
+msgstr "客户端 %s 关闭连接。"
+
+#: ../backend/src/DistributionSocketLink.cc:2151
+#, c-format
+msgid "Client %s connected."
+msgstr "连接到用户端 %s。"
+
+#: ../backend/src/DistributionSocketLink.cc:2189
+#, c-format
+msgid "Could not connect to client %s."
+msgstr "无法连接到用户端 %s。"
+
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+msgid "Reading mode"
+msgstr "阅读模式"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_About..."
+msgstr "关于(_A)..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
+msgid "_Connect..."
+msgstr "连接(_C)..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+msgid "_Disconnect"
+msgstr "中断连接(_D)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+msgid "_Exercises"
+msgstr "体操(_E)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+msgid "_Mode"
+msgstr "模式(_M)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+msgid "_Network"
+msgstr "网络(_N)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+msgid "_Normal"
+msgstr "一般(_N)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 msgid "_Preferences"
 msgstr "首选项(_P)"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
-msgid "_Restbreak"
-msgstr "休息(_R)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
-msgid "_Exercises"
-msgstr "体操(_E)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "_Mode"
-msgstr "模式(_M)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
-msgid "_Normal"
-msgstr "一般(_N)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quiet"
 msgstr "安静(_Q)"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
-msgid "_Suspended"
-msgstr "暂停(_S)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
-msgid "_Network"
-msgstr "网络(_N)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
-msgid "_Connect..."
-msgstr "连接(_C)..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-msgid "_Disconnect"
-msgstr "中断连接(_D)"
-
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-msgid "_Reconnect"
-msgstr "重新连接(_R)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-msgid "_Show Log..."
-msgstr "显示纪录(_S)..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
-msgid "Reading mode"
-msgstr ""
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
-msgid "_Statistics"
-msgstr "统计(_S)"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_About..."
-msgstr "关于(_A)..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
 msgid "_Quit"
 msgstr "离开(_Q)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
+msgid "_Reconnect"
+msgstr "重新连接(_R)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
+msgid "_Restbreak"
+msgstr "休息(_R)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
+msgid "_Show Log..."
+msgstr "显示纪录(_S)..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
+msgid "_Statistics"
+msgstr "统计(_S)"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+msgid "_Suspended"
+msgstr "暂停(_S)"
 
 #: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
@@ -125,98 +272,93 @@ msgstr "Workrave Applet"
 
 #: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:371
+#: ../frontend/gtkmm/src/Menus.cc:384
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "这个软体是协助预防与復原重复性压力伤害 (Repetitive Strain Injury RSI)"
+msgstr "本软件有助于预防重复使力伤害症(Repetitive Strain Injury, RSI)或从中恢复。"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
-msgstr ""
+msgstr "加入"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#, fuzzy
 msgid "_About"
-msgstr "关于(_A)..."
+msgstr "关于(_A)"
 
-#. add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
-#. add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-#. add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 #, fuzzy
 msgid "Show log"
-msgstr "显示纪录(_l)"
+msgstr "显示日志(_l)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
 #, fuzzy
 msgid "Normal"
 msgstr "一般(_N)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1502
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
+#: ../frontend/gtkmm/src/GUI.cc:1519
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:184
 #, fuzzy
 msgid "Suspended"
 msgstr "暂停(_S)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1506
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
+#: ../frontend/gtkmm/src/GUI.cc:1523
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:186
 #, fuzzy
 msgid "Quiet"
 msgstr "离开(_u)"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
 msgstr "休息提示"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break ignored"
 msgstr "忽略休息"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Rest break started"
 msgstr "休息开始"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:99
 msgid "Rest break ended"
 msgstr "休息停止"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Micro-break started"
 msgstr "暂停开始"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break ended"
 msgstr "暂停结束"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/common/src/SoundPlayer.cc:117
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "每日限制"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercise ended"
-msgstr "体操停止"
+msgstr "体操结束"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercises ended"
-msgstr "体操停止"
+msgstr "全部体操结束"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
-#, fuzzy
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercise change"
-msgstr "体操停止"
+msgstr "体操改变"
 
-#: ../frontend/common/src/SoundPlayer.cc:609
+#: ../frontend/common/src/SoundPlayer.cc:608
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -233,389 +375,392 @@ msgstr "%s%d:%02d 分"
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:308
-#, fuzzy
+#: ../frontend/gtkmm/src/BreakWindow.cc:309
 msgid "_Lock"
-msgstr "锁定"
+msgstr "锁定(_L)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:331
-#, fuzzy
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
 msgid "Shut _down"
-msgstr "关闭"
+msgstr "关闭(_d)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:352
-#, fuzzy
+#: ../frontend/gtkmm/src/BreakWindow.cc:353
 msgid "_Skip"
-msgstr "略过"
+msgstr "略过(_S)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:369
-#, fuzzy
+#: ../frontend/gtkmm/src/BreakWindow.cc:370
 msgid "_Postpone"
-msgstr "延后"
+msgstr "延后(_P)"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
 "您已经达到每日限制量。请停止在电脑前工作工作。\n"
-"如果您尚未下班，找些其他的事情来做，例如检阅文件。"
+"如果您尚未下班，找些其他的事情来做，例如审阅文档。"
 
-#: ../frontend/gtkmm/src/GUI.cc:301
+#: ../frontend/gtkmm/src/GUI.cc:302
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave 仍在运行。您可以通过点击白绵羊图表打开 Workrave。"
+"点击这个气球以不再显示本消息"
 
-#: ../frontend/gtkmm/src/GUI.cc:841
-#, fuzzy
+#: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
 msgid "Workrave failed to start"
-msgstr "Workrave Applet"
+msgstr "Workrave 启动失败"
 
-#: ../frontend/gtkmm/src/GUI.cc:843
+#: ../frontend/gtkmm/src/GUI.cc:846
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Workrave 还在运行吗？"
 
-#: ../frontend/gtkmm/src/GUI.cc:1361
+#: ../frontend/gtkmm/src/GUI.cc:954
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr "Workrave 无法监视您的键盘和鼠标活动。\n"
+
+#: ../frontend/gtkmm/src/GUI.cc:957
+msgid "Make sure that the RECORD extension is enabled in the X server."
+msgstr "请确保 X 服务器启用了 RECORD 扩展。"
+
+#: ../frontend/gtkmm/src/GUI.cc:1378
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
-msgstr ""
+msgstr "Workrave 处于暂停模式。鼠标和键盘活动不会被监视。"
 
-#: ../frontend/gtkmm/src/GUI.cc:1367
+#: ../frontend/gtkmm/src/GUI.cc:1384
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrave 处于离开模式。不会弹出休息窗口。"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1495 ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
+#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
 msgid "Micro-break"
 msgstr "暂停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1495
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/GUI.cc:1512
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:223
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1502 ../frontend/gtkmm/src/GUI.cc:1506
+#: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
 #, fuzzy
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
 #, fuzzy
 msgid "Open"
 msgstr "打开(_O)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "Preferences"
 msgstr "首选项"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "体操"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
 #, fuzzy
 msgid "Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "Network"
 msgstr "网络"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:206
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
+#, fuzzy
+msgid "Connect"
+msgstr "连接(_C)"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#, fuzzy
+msgid "Disconnect"
+msgstr "中断连接(_D)"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#, fuzzy
+msgid "Reconnect"
+msgstr "重新连接(_R)"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
 msgstr "统计"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "About..."
 msgstr "关于..."
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Rest break"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "Q_uiet"
 msgstr "离开(_u)"
 
-#. menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
-#. menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
-#. menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
-#. action_group->add(Gtk::Action::create("Join", _("_Connect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_join));
-#. action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
-#. action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
-#. sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
-#. w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#. w32aw->add_menu(_("_Disconnect"),
-#. Menus::MENU_COMMAND_NETWORK_DISCONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#. w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
-#. W32AppletWindow::MENU_FLAG_TOGGLE
-#. |W32AppletWindow::MENU_FLAG_POPUP);
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
-msgid "Show _log"
-msgstr "显示纪录(_l)"
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+msgid "_Connect"
+msgstr "连接(_C)"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
+msgid "Show _log"
+msgstr "显示日志(_l)"
+
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
 #, fuzzy
 msgid "Quit"
 msgstr "离开(_Q)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
-msgstr ""
+msgstr "阅读模式(_R)"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:238
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 msgid "Please relax for a few seconds"
 msgstr "请放松几秒"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息时间 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:251
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 超时"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
 #, c-format
 msgid "Daily limit in %s"
 msgstr "每日限制 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:269
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "每日限制超过 %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
 msgstr "一般"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
-#, fuzzy
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 msgid "Sounds"
-msgstr "音效："
+msgstr "音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "状态窗口"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Timers"
 msgstr "计时器"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
 msgstr "使用者界面"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "不屏蔽"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "屏蔽输入"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "屏蔽输入和屏幕"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
 msgid "Options"
 msgstr "选项"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:195
 msgid "Block mode:"
 msgstr "屏蔽模式："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
-msgstr ""
+msgstr "系统默认"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
-msgstr ""
+msgstr "(字体不可用)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
-msgstr ""
+msgstr "语言："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Windows 启动时开启 Workrave"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
-msgstr ""
+msgstr "显示系统托盘图标"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
-#, fuzzy
-msgid "Sound Options"
-msgstr "选项"
-
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:314
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+msgid "Sound Options"
+msgstr "声音选项"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 msgid "No sounds"
 msgstr "无音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:325
 msgid "Play sounds using sound card"
-msgstr "使用音效卡播放"
+msgstr "使用声卡播放音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
 msgid "Play sounds using built-in speaker"
-msgstr "使用内建扬声器播放"
+msgstr "使用内建扬声器播放音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Volume:"
-msgstr ""
+msgstr "音量："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
 msgid "Sound:"
 msgstr "音效："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
-#, fuzzy
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 msgid "Mute sounds during rest break and daily limit"
-msgstr "将休息与日限制放在一起"
+msgstr "在休息与每日限制期间静音"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:364
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Events"
-msgstr ""
+msgstr "音效事件"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:372
-#, fuzzy
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
 msgid "Sound Theme:"
-msgstr "音效："
+msgstr "音效主题："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:395
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:443
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:449
 msgid "Play"
-msgstr ""
+msgstr "播放"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:400
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
 msgid "Event"
-msgstr ""
+msgstr "事件"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
-#, fuzzy
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
 msgid "Choose a sound"
-msgstr "无音效"
+msgstr "选择音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:428
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:434
 msgid "Wavefiles"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:524
-msgid "Use alternate monitor"
-msgstr ""
+msgstr "Wav 文件"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:530
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
+msgid "Use alternate monitor"
+msgstr "使用另一个监视器"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+msgid ""
+"Enable this option if Workrave fails to detect when you are using you "
+"computer"
+msgstr "如果 Workrave 没能检测到您何时在使用电脑，请启用本选项"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
 msgstr "暂停一下？"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
 msgstr "您需要休息一下..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
 msgstr "今天应该到此为止了..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:317
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, fuzzy, c-format
 msgid "Break in %s"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:321
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, fuzzy, c-format
 msgid "Disappears in %s"
 msgstr "自动消失 "
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:325
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, fuzzy, c-format
 msgid "Silent in %s"
 msgstr "沉默"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:175
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
 #, c-format
 msgid "Rest break for %s"
 msgstr "休息 %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
 #, fuzzy
 msgid "Natural rest break"
 msgstr "自行休息次数"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
-#, fuzzy
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
 msgid "This is your natural rest break."
-msgstr "您需要休息一下..."
+msgstr "您这次是自行休息。"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -624,12 +769,11 @@ msgstr ""
 "这是您的休息时间。确认您至少站起来，并走离您的电脑。\n"
 "只要稍微走一走，伸展筋骨并放松几分钟。"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
-#, fuzzy
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 msgid "Take rest break now"
-msgstr "下次休息时间 %s"
+msgstr "现在休息"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "等待"
 
@@ -706,83 +850,154 @@ msgid "Daily limit:"
 msgstr "每日限制"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
 msgid "Enable timer"
 msgstr "启动计时器"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
 msgid "Break prompting"
 msgstr "休息提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
 msgid "Prompt before breaking"
 msgstr "休息前显示提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
 msgid "Maximum number of prompts:"
 msgstr "最多提示次数"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "显示 '延后' 与 '略过' 按钮"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
 msgid "Suspend timer when inactive"
 msgstr "未活动时暂停计时器"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
 msgstr "将暂停视为活动"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
 msgid "Number of exercises:"
 msgstr "体操次数"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "当屏幕锁定时开始休息"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
+msgid "Time before end:"
+msgstr "结束时限："
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
-msgid "Time before end:"
-msgstr "结束时限"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Time between breaks:"
-msgstr "休息间隔"
+msgstr "休息间隔："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
 msgid "Break duration:"
-msgstr "休息耗时："
+msgstr "休息时长："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:248
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
 msgid "Postpone time:"
 msgstr "延后时间："
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "这个软体是协助预防与復原重复性压力伤害 (Repetitive Strain Injury RSI)"
+msgstr "帮助预防重复使力伤害症(Repetitive Strain Injury, RSI)或从中恢复。"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:51
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
+msgid "Network connect"
+msgstr "网络连接"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr "请输入您想连接的电脑主机名称与连接端口。"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
+msgid "Host name:"
+msgstr "主机名称："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
+msgid "Port:"
+msgstr "端口："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
 msgid "Network log"
-msgstr "网络纪录"
+msgstr "网络日志"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
+msgid "Enable networking"
+msgstr "启用网络连接"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
+msgid "Username:"
+msgstr "使用者名称："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
+msgid "Password:"
+msgstr "密码："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
+msgid "Allow incoming connections"
+msgstr "允许进入的连接"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
+msgid "Server settings"
+msgstr "服务器设定"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
+msgid "Server port:"
+msgstr "服务器端口："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
+msgid "Reconnect attempts:"
+msgstr "尝试重新连接："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+msgid "Reconnect interval:"
+msgstr "重新连接间隔："
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
+msgid "Advanced"
+msgstr "高级"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr "以下列表指定在启动时自动连结的主机。点选主机名或端口进行编辑。"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
+msgid "Host name"
+msgstr "主机名"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
+msgid "Port"
+msgstr "端口"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
+msgid "Hosts"
+msgstr "主机"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Shoulder-arm stretch"
-msgstr "肩膀肌肉延伸运动"
+msgid "Backward shoulder stretch"
+msgstr "后肩伸展"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"保持一隻手水平伸直于胸前。将另外一隻手放在这隻手上，直到您在肩膀上感觉轻微的"
-"压力。稍微保持这个姿势，然后在另外一只手重复这个动作。"
+"用您的手掌遮住双眼，要使得可以继续睁开眼睛。现在睁开双眼，并注视手掌中的"
+"黑暗。相比于直接闭上双眼，这样可以让您的眼睛得到更好的休息。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
@@ -790,59 +1005,33 @@ msgstr "指头伸展"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"分开并伸展您的手指头，直到感受到张力，然后保持这个姿势十秒鐘。放鬆，然后弯曲"
-"手指头关节，保持姿势十秒鐘。重复这个动作。"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Neck tilt stretch"
-msgstr "倾斜脖子运动"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"开始时您的头处于舒适的笔直状态。然后，缓慢的将头倾斜在右肩上，轻轻的伸展您的"
-"左边脖子，保持这个姿势五秒钟。然后，慢慢的将头倾斜到左肩，以伸展另外一边的脖"
-"子。每边各做两次。"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Backward shoulder stretch"
-msgstr "后肩伸展"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"在您的背后交叉手指头。然后将胳膊轻微的往前，以弄直手臂。保持这个姿势五到十五"
-"秒。然后重复这个动作两次。"
+"在您的背后交叉手指。然后将胳膊肘轻轻地往里收，将手臂伸直。保持这个姿势五到十五"
+"秒，然后重复这个动作两次。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "眼球运动"
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"保持一只手臂水平伸直于胸前。将另外一只手臂放在这只上，直到您在肩膀上感觉轻微的"
+"压力。稍微保持这个姿势，然后在另外一只手臂重复这个动作。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"注视您的屏幕左上角落的边框。沿著边框注视到右上脚略。继续到下个角落直到重复两"
+"注视您的屏幕左上角的边框。沿着边框注视到右上角。继续到下个角落直到环绕两"
 "次。然后反向进行。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Train focusing the eyes"
-msgstr "训练眼球焦点"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -850,26 +1039,51 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"注视萤幕后面最远的那一点。将焦点放置在远端那点。几秒后将焦点放在萤幕的边缘。"
-"重复这个动作。如果您无法注视萤幕之后遥远的距离，可以用一枝笔取代，并让它保持"
-"与萤幕一样远的距离。"
+"注视荧幕后面最远的那一点。将焦点放置在远端那点。几秒后将焦点放在荧幕的边缘。"
+"重复这个动作。如果您无法注视荧幕之后遥远的距离，可以用一只笔取代，并让它保持"
+"与荧幕一样远的距离。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
 msgstr "注视黑暗"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"用您的手掌盖住双眼，这样一来您可以继续张开眼皮。现在打开双眼，并注视手掌中的"
-"黑暗。将比直接闭上双眼，这样可以让您的眼睛得到比较好的休息。"
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "眼球运动"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
 msgstr "肩膀运动"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders up and down"
+msgstr "上下运动肩膀"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Neck tilt stretch"
+msgstr "倾斜脖子运动"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"坐在椅子上时将您的手放在椅子的扶手上，并用力举起身体，直到您的手臂挺直。"
+"放低您的肩膀试着让您的头移动得更远。缓缓的坐回椅子。"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"分开并伸展您的手指头，直到感受到张力，然后保持这个姿势十秒钟。放松，然后弯曲"
+"手指头关节，保持姿势十秒钟。再重复一次这个动作。"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid "Shoulder-arm stretch"
+msgstr "肩膀手臂拉伸运动"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
@@ -877,21 +1091,23 @@ msgid ""
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
 "with the left arm."
 msgstr ""
-"慢慢像螺旋桨一样在身体旋转您的右手。顺时针做四次，逆时针做四次然后放鬆几秒。"
-"用左手重复做一次。"
+"慢慢像螺旋桨一样在您身体一侧旋转您的右手臂。顺时针做四次，逆时针做四次然后放松几秒。"
+"用左手臂重复做一次。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Move the shoulders up and down"
-msgstr "上下运动肩膀"
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"开始时您的头处于舒适的笔直状态。然后，缓慢的将头倾斜在右肩上，轻轻的拉伸您"
+"脖子左边的肌肉，保持这个姿势五秒钟。然后，慢慢的将头倾斜到左肩，以伸展另外一边"
+"。每边各做两次。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"坐在椅子上时将您的手放在椅子的扶手上，并使力举起身体，直到您的手臂 挺直。试著"
-"让您的头不低于肩膀。缓缓的坐回椅子。"
+msgid "Train focusing the eyes"
+msgstr "训练眼球焦点"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
@@ -902,8 +1118,8 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"把您的头转向左边，并停在那裡两秒鐘。然后将您的头转回右边，并也停在那边两秒"
-"鐘。"
+"把您的头转向左边，并停在那里两秒钟。然后将您的头转到右边，并也停在那边两秒"
+"钟。"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
 msgid "Exercises player"
@@ -911,369 +1127,161 @@ msgstr "体操播放"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
-msgstr ""
+msgstr "上一个体操"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
-#, fuzzy
 msgid "Next exercise"
-msgstr "体操次数"
+msgstr "下一个体操"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
-#, fuzzy
 msgid "Pause exercises"
-msgstr "体操次数"
+msgstr "暂停体操"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-#, fuzzy
 msgid "End exercises"
-msgstr "体操"
+msgstr "结束体操"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
 msgid "Resume"
-msgstr "恢复"
+msgstr "继续"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
 msgid "Pause"
 msgstr "暂停"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
-#, fuzzy
 msgid "Resume exercises"
-msgstr "体操次数"
+msgstr "继续体操"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Browse history"
 msgstr "浏览历史记录"
 
-#. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
 msgstr "日期："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "休息"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "休息提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
-msgstr "这个数目是您休息的次数，不含重复同一次休息的重复提示"
+msgstr "这个数目是您被提示休息的次数，不含同一次休息的重复提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "重复提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "被重复提示休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "休息提示次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "经休息提示后休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "自行休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "未经休息提示自行休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "略过休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "略过休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "休息延后次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "延后休息次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "超时时间"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "这次休息的总共时间超时"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
 msgid "Daily usage"
 msgstr "日使用量"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:241
 msgid "The total computer usage"
 msgstr "总电脑使用时间"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Activity"
 msgstr "活动"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
 msgid "Mouse usage:"
 msgstr "鼠标使用："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:324
 msgid "The total time you were using the mouse"
 msgstr "统计鼠标使用时间"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse movement:"
 msgstr "鼠标移动距离："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total on-screen mouse movement"
 msgstr "总计鼠标在屏幕上的移动距离"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "Effective mouse movement:"
 msgstr "有效鼠标移动距离："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr "鼠标移动距离是纪录两次鼠标点击间的直线距离"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
 msgstr "鼠标点击次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:337
 msgid "The total number of mouse button clicks"
 msgstr "总鼠标点击次数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
 msgid "Keystrokes:"
 msgstr "键次："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
 msgstr "键盘输入的次数统计"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:396
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, 从 %s 到 %s"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
-msgid "Warning"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
-msgid "Files deleted!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
-msgid "Info"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
-msgid "File deletion failed!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
-msgid "Error"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Reconnecting to %s."
-#~ msgstr "重新连接到 %s"
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "无法启用网络功能"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "停用网络功能。"
-
-#, fuzzy
-#~ msgid "Connecting to %s."
-#~ msgstr "连接到 %s"
-
-#, fuzzy
-#~ msgid "Removing client %s."
-#~ msgstr "移除用户端 %s"
-
-#, fuzzy
-#~ msgid "Disconnecting %s"
-#~ msgstr "断线中 %s"
-
-#, fuzzy
-#~ msgid "Client %s is now master."
-#~ msgstr "客户端 %s 现在是主控。"
-
-#~ msgid "I'm now master."
-#~ msgstr "我是新主控端。"
-
-#, fuzzy
-#~ msgid "Client %s saying hello."
-#~ msgstr "客户端 %s;%d 打招呼。"
-
-#, fuzzy
-#~ msgid "Client %s is duplicate."
-#~ msgstr "客户端 %s;%d 重复。"
-
-#, fuzzy
-#~ msgid "Client %s access denied."
-#~ msgstr "客户端 %s 拒绝存取。"
-
-#, fuzzy
-#~ msgid "Client %s signed off."
-#~ msgstr "客户端 %s 离线。"
-
-#, fuzzy
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "客户端 %s 欢迎我们。"
-
-#, fuzzy
-#~ msgid "Requesting master status from %s."
-#~ msgstr "向 %s 要求主控端状态。"
-
-#, fuzzy
-#~ msgid "Client timeout from %s."
-#~ msgstr "客户端 %s 超时。"
-
-#, fuzzy
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "拒绝来自客户端 %s 的主控要求"
-
-#, fuzzy
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "确认来自客户端 %s 的主控要求。"
-
-#, fuzzy
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "非主控客户端 %s 拒绝主控要求。"
-
-#, fuzzy
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "客户端 %s 拒绝主控要求，延迟中。"
-
-#~ msgid "Client %s is now the new master."
-#~ msgstr "客户端 %s 现在是新的主控端。"
-
-#~ msgid "Network operation started."
-#~ msgstr "网络功能启动"
-
-#~ msgid "Accepted new client."
-#~ msgstr "接受新客户端"
-
-#, fuzzy
-#~ msgid "Client %s read error, closing."
-#~ msgstr "客户端 %s 读取错误，关闭中。"
-
-#, fuzzy
-#~ msgid "Client %s closed connection."
-#~ msgstr "客户端 %s 关闭连接。"
-
-#, fuzzy
-#~ msgid "Client %s connected."
-#~ msgstr "连接到用户端 %s。"
-
-#, fuzzy
-#~ msgid "Could not connect to client %s."
-#~ msgstr "无法连接到用户端 %s。"
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "连接(_C)"
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "中断连接(_D)"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "重新连接(_R)"
-
-#~ msgid "_Connect"
-#~ msgstr "连接(_C)"
-
-#~ msgid "Network connect"
-#~ msgstr "网络连接"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr "请输入您想连接的电脑主机名称与连接端口。"
-
-#~ msgid "Host name:"
-#~ msgstr "主机名称："
-
-#~ msgid "Port:"
-#~ msgstr "端口："
-
-#~ msgid "Enable networking"
-#~ msgstr "启动网络连结"
-
-#~ msgid "Username:"
-#~ msgstr "使用者名称："
-
-#~ msgid "Password:"
-#~ msgstr "密码："
-
-#~ msgid "Server settings"
-#~ msgstr "服务器设定"
-
-#~ msgid "Server port:"
-#~ msgstr "服务器连接端口："
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "尝试重新连接："
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "重新连接间隔"
-
-#~ msgid "Advanced"
-#~ msgstr "高级"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr "以下的列表指定在启动时自动连结的主机点选主机名称或端口进行编辑"
-
-#~ msgid "Host name"
-#~ msgstr "主机名称"
-
-#~ msgid "Port"
-#~ msgstr "端口"
-
-#~ msgid "Hosts"
-#~ msgstr "主机"
 
 #~ msgid "Orientation"
 #~ msgstr "方向"
@@ -1337,7 +1345,7 @@ msgstr ""
 #~ "for each time you breathe in and out. To extra relax your eyes, try "
 #~ "closing them in micro pauses too."
 #~ msgstr ""
-#~ "闭上双眼并深呼吸，直到您可以放鬆。当呼吸吸入空气时，尽可能放慢速度。试著在"
+#~ "闭上双眼并深呼吸，直到您可以放松。当呼吸吸入空气时，尽可能放慢速度。试着在"
 #~ "每次呼吸时慢慢的计算到 8。要更放松您的双眼，试着在暂停休息时也闭上双眼。"
 
 #~ msgid ""
@@ -1355,7 +1363,7 @@ msgstr ""
 #~ "Move your head the same way forward, keep this 2 seconds and relax again."
 #~ msgstr ""
 #~ "保持您的头笔直，然后让您的下巴与地板平行。把您的头转回来(做双下巴的动作)。"
-#~ "保持两秒鐘并放松。然后用同一个方法做下个动作，再保持两秒并放松。"
+#~ "保持两秒钟并放松。然后用同一个方法做下个动作，再保持两秒并放松。"
 
 #~ msgid "Move the shoulder blades"
 #~ msgstr "肩胛骨运动"

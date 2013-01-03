@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include "W32Compat.hh"
+#include "W32ForceFocus.hh"
 #include <gdk/gdkwin32.h>
 #endif
 
@@ -97,7 +98,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   shutdown_button(NULL),
   accel_group(NULL)
 #ifdef PLATFORM_OS_WIN32
-  , desktop_window( NULL ),
+  ,
+  desktop_window( NULL ),
+  force_focus_on_break_start( false ),
   parent( 0 )
 #endif
   
@@ -136,7 +139,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
   // trace window handles:
   // FIXME: debug, remove later
-#ifdef PLATFORM_OS_WIN32
+#if defined( PLATFORM_OS_WIN32 ) && defined( TRACING )
   HWND _hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   HWND _scope = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET( this->gobj())));
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
@@ -184,11 +187,14 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
 
 #ifdef PLATFORM_OS_WIN32
-  if( W32Compat::get_force_focus_value() )
-    {
+  if( W32ForceFocus::GetForceFocusValue() )
       initial_ignore_activity = true;
-    }
 
+  CoreFactory::get_configurator()->get_value_with_default(
+    "advanced/force_focus_on_break_start",
+    force_focus_on_break_start,
+    false
+    );
 #endif
 
   ICore::Ptr core = CoreFactory::get_core();
@@ -456,7 +462,13 @@ void
 BreakWindow::resume_non_ignorable_break()
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED))
+  ICore::Ptr core = CoreFactory::get_core();
+  OperationMode mode = core->get_operation_mode();
+
+  TRACE_MSG("break flags " << break_flags);
+  
+  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
+      mode == OPERATION_MODE_NORMAL)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
@@ -564,6 +576,15 @@ BreakWindow::start()
   WindowHints::set_always_on_top(this, true);
   raise();
 
+#ifdef PLATFORM_OS_WIN32
+  if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
+    {
+      HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+      bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
+      bool this_is_a_dummy_var_to_fool_visual_studio_debugger = focused;
+    }
+#endif
+
   // In case the show_all resized the window...
   center();
   TRACE_EXIT();
@@ -617,43 +638,7 @@ BreakWindow::refresh()
   update_break_window();
 
 #ifdef PLATFORM_OS_WIN32
-  ICore::Ptr core = CoreFactory::get_core();
-  bool user_active = core->is_user_active();
-
-  // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
-  // to be non-standard behaviour on windows, so make shortcuts available
-  // without ALT after the user is idle for 5s
-  if (!user_active && !accel_added)
-    {
-      IBreak::Ptr b = core->get_break(BreakId(break_id));
-
-      TRACE_MSG(b->get_elapsed_idle_time());
-      if (b->get_elapsed_idle_time() > 5)
-        {
-          if (postpone_button != NULL)
-            {
-              GtkUtil::update_mnemonic(postpone_button, accel_group);
-            }
-          if (skip_button != NULL)
-            {
-              GtkUtil::update_mnemonic(skip_button, accel_group);
-            }
-          if (shutdown_button != NULL)
-            {
-              GtkUtil::update_mnemonic(shutdown_button, accel_group);
-            }
-          if (lock_button != NULL)
-            {
-              GtkUtil::update_mnemonic(lock_button, accel_group);
-            }
-          accel_added = true;
-        }
-    }
-
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
-    {
-      WindowHints::set_always_on_top(this, true);
-    }
+  W32Compat::RefreshBreakWindow( *this );
 #endif
   TRACE_EXIT();
 }

@@ -5,7 +5,7 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [909])
+m4_define([workrave_micro_version], [910])
 m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
@@ -726,7 +726,7 @@ with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
 AS_IF([test "x$with_localinstall" = "xyes"],
-    INDICATORDIR="${libdir}/indicators3/6"
+    INDICATORDIR="${libdir}/indicators3/7"
     INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
     INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4 | sed -e 's%/$%%'`
@@ -1120,7 +1120,11 @@ AC_CONFIG_FILES([Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile
-             build/Makefile
+	     contrib/send_menu_command/Makefile
+	     contrib/send_menu_command/win32/Makefile
+	     contrib/send_dbus_command/Makefile
+	     contrib/send_dbus_command/kde/Makefile
+	     build/Makefile
              m4/Makefile
 ])
 
