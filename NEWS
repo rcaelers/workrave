@@ -1,11 +1,15 @@
 Workrave NEWS -- history of user-visible changes.  14 Feb 2012
-Copyright (C) 2001-2012 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2013 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
 * Workrave 1.10
+
+** Split "show 'postpone' and 'skip'" checkbox into two checkboxes. (Egbert Teeselink)
+
+** Add the capability to delete all stored statistics (Ray Satiro)
 
 ** Workrave now supports DBus on window.
    DBus can be used to control Workrave by an external program.
@@ -40,7 +44,10 @@ http://www.workrave.org
    - Gabor Kelemen updated the Hungarian translation.
    - Alick Zhao updated the Chinese translation.
    - Andrey Bondrov updated the Russian translation.
-      
+   - Paweł Szerszon updated the Polish translation.
+
+** Plus many small fixes and improvement (Ray Satiro, Rob Caelers)
+
 * Workrave 1.9.4
 
 ** The automatic start of a restbreak when the screen is locked is now
