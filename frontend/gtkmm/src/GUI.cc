@@ -230,9 +230,7 @@ GUI::main()
   TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
-  gdk_threads_enter();
   Gtk::Main::run();
-  gdk_threads_leave();
 
   cleanup_session();
 
@@ -1013,7 +1011,6 @@ GUI::create_prelude_window(BreakId break_id)
   for (int i = 0; i < num_heads; i++)
     {
       prelude_windows[i] = new PreludeWindow(heads[i], break_id);
-      prelude_windows[i]->set_response(response);
     }
 
   active_prelude_count = num_heads;
@@ -1594,7 +1591,7 @@ void
 GUI::win32_init_filter()
 {
   GtkWidget *window = (GtkWidget *)main_window->gobj();
-  GdkWindow *gdk_window = window->window;
+  GdkWindow *gdk_window = gtk_widget_get_window(window);
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);

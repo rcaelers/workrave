@@ -1,6 +1,6 @@
 // GnomeAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -423,7 +423,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 
         cairo_surface_destroy(surface);
         gdk_flush();
-        gdk_error_trap_pop();
+        (void) gdk_error_trap_pop();
       }
       break;
       

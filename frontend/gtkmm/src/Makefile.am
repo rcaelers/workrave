@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		win32 unix osx
@@ -166,7 +166,7 @@ if HAVE_DBUS_GIO
 dbussources += 	GenericDBusApplet.cc
 endif
 
-BUILT_SOURCES = $(dbussources)
+BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
 
 # broken: 
 # if PLATFORM_OS_UNIX

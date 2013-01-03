@@ -1,6 +1,6 @@
 // W32TrayMenu.cc --- Menus using W32Tray+
 //
-// Copyright (C) 2001 - 2008, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,9 @@
 #include <gtkmm/menu.h>
 #include <gtkmm/menushell.h>
 
-#include <gtk/gtkmenu.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
 #include "gdk/gdkwindow.h"
 #include <glib/gmain.h>

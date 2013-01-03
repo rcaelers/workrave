@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -155,8 +155,8 @@ StatisticsDialog::init_gui()
   // Stats box
   HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());
   HigCategoryPanel *statbox = Gtk::manage(new HigCategoryPanel(_("Statistics")));
-  statbox->add(_("Date:"), *date_label);
-  statbox->add(*tnotebook);
+  statbox->add_label(_("Date:"), *date_label);
+  statbox->add_widget(*tnotebook);
   navbox->add(*statbox);
 
   Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));

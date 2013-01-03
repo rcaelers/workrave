@@ -1,10 +1,6 @@
 #ifndef DESKTOP_WINDOW_H
 #define DESKTOP_WINDOW_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #ifdef PLATFORM_OS_UNIX
 
 #include <gdk/gdk.h>

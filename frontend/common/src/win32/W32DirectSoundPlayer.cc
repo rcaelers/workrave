@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2010, 2012 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2010, 2012, 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 #include <process.h>
 #include <mmsystem.h>
 #include <mmreg.h>
-#include <dxerr.h>
+#include <dxerr8.h>
 #ifndef DXGetErrorString8
 #define DXGetErrorString8 DXGetErrorString
 #endif
@@ -396,7 +396,7 @@ SoundClip::init()
       throw Exception(string("IDirectSoundBuffer_CreateSoundBuffer") + DXGetErrorString8(hr));
     }
 
-  LPDIRECTSOUNDNOTIFY8 notify;
+  LPDIRECTSOUNDNOTIFY notify;
   hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID*)&notify);
   if (FAILED(hr) || notify == NULL)
     {

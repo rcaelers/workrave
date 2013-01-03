@@ -23,9 +23,8 @@
 
 #include "preinclude.h"
 
-#include <gtkmm/label.h>
-#include <gtkmm/image.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
+#include <gdkmm/devicemanager.h>
 
 #include "debug.hh"
 #include "nls.h"
@@ -61,8 +60,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     image_icon(NULL),
     progress_value(0),
     progress_max_value(0),
-    flash_visible(false),
-    prelude_response(NULL)
+    flash_visible(false)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
   Gtk::Window::set_border_width(0);
@@ -131,8 +129,8 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   // trace window handles:
   // FIXME: debug, remove later
 #ifdef PLATFORM_OS_WIN32
-  HWND _hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
-  HWND _scope = (HWND) GDK_WINDOW_HWND( GTK_WIDGET( this->gobj() )->window );
+  HWND _hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  HWND _scope = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET( this->gobj())));
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();
@@ -286,7 +284,7 @@ PreludeWindow::refresh()
 
 #if defined(PLATFORM_OS_WIN32)
 // Vista GTK phantom toplevel parent kludge:
-  HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   if( hwnd )
     {
       HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
@@ -394,11 +392,19 @@ PreludeWindow::init_avoid_pointer()
       POINT p;
       GetCursorPos(&p);
 
+#ifdef HAVE_GTK3      
+      Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+      Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
+      Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();
+      int x, y;
+      device->get_position(x, y);
+#else
       Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
       int x, y;
       Gdk::ModifierType mod;
       display->get_pointer(x, y, mod);
-
+#endif
+      
       TRACE_MSG("p " << p.x << " " << p.y);
       TRACE_MSG("d " << x << " " << y);
 
@@ -418,7 +424,7 @@ PreludeWindow::init_avoid_pointer()
 #else
       ! is_realized()
 #endif
-      )
+     )
     {
       Gdk::EventMask events;
 

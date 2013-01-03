@@ -47,7 +47,6 @@ public:
   void set_progress(int value, int max_value);
   void set_stage(IApp::PreludeStage stage);
   void set_progress_text(IApp::PreludeProgressText text);
-  void set_response(IBreakResponse *pri);
 
 private:
   void on_frame_flash(bool frame_visible);
@@ -109,16 +108,6 @@ private:
 
   //! Head
   HeadInfo head;
-
-  //! Send response to this interface.
-  IBreakResponse *prelude_response;
 };
-
-
-inline void
-PreludeWindow::set_response(IBreakResponse *pri)
-{
-  prelude_response = pri;
-}
 
 #endif // PRELUDEWINDOW_HH

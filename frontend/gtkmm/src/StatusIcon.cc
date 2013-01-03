@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -142,7 +142,7 @@ StatusIcon::is_visible() const
 void
 StatusIcon::set_tooltip(std::string& tip)
 {
-#ifdef HAVE_GTK3
+#if defined(HAVE_GTK3) && !defined(USE_W32STATUSICON)
   status_icon->set_tooltip_text(tip);
 #else
   status_icon->set_tooltip(tip);

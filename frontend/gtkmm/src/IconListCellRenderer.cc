@@ -1,6 +1,6 @@
 // IconListCellRenderer.cc --- Icon list cell renderer
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <gtk/gtk.h>
 #include <gtkmm.h>

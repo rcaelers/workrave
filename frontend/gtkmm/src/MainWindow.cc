@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ MainWindow::is_visible() const
 {
 #if defined(PLATFORM_OS_WIN32)
   const GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
+  GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   return IsWindowVisible(hwnd);
 #elif defined(HAVE_GTK3)
@@ -505,7 +505,7 @@ MainWindow::win32_show(bool b)
 
   // Gtk's hide() seems to quit the program.
   GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
+  GdkWindow *gdk_window = gtk_widget_get_window(window);
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
   visibility_changed_signal.emit();
@@ -600,7 +600,7 @@ MainWindow::win32_init()
 
   // Reassign ownership
   GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
+  GdkWindow *gdk_window = gtk_widget_get_window(window);
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 

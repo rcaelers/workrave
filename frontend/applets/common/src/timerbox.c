@@ -1,7 +1,7 @@
 /*
  * workrave-timerbox.c
  *
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -282,8 +282,8 @@ void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, in
 /**
  * workrave_timerbox_set_slot: 
  * @self: a @WorkraveTimerbox
- * @slot:
- * @brk: 
+ * @slot: slot to set
+ * @brk: break to put in slot
  *
  */
 void
@@ -320,11 +320,11 @@ workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, WorkraveBreakId brk
 
 
 /**
-  * workrave_timerbox_update: 
-  * @self: a @WorkraveTimerbox 
-  * @image: a @GtkImage where the timerbox will be drawn into
-  *
-  */
+ * workrave_timerbox_update: 
+ * @self: a @WorkraveTimerbox 
+ * @image: a @GtkImage where the timerbox will be drawn into
+ *
+ */
 void
 workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 {
@@ -347,11 +347,11 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 }
 
 /**
-  * workrave_timerbox_draw: 
-  * @self: a @WorkraveTimerbox 
-  * @cr: a @cairo_t where the timerbox will be drawn into
-  *
-  */
+ * workrave_timerbox_draw: 
+ * @self: a @WorkraveTimerbox 
+ * @cr: a @cairo_t where the timerbox will be drawn into
+ *
+ */
 void
 workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 {
@@ -366,12 +366,12 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 }
 
 /**
-  * workrave_timerbox_get_width: 
-  * @self: a @WorkraveTimerbox 
-  *
-  * Return value: (transfer none): The width of the @WorkraveTimerbox
-  *
-  */
+ * workrave_timerbox_get_width: 
+ * @self: a @WorkraveTimerbox 
+ *
+ * Return value: (transfer none): The width of the @WorkraveTimerbox
+ *
+ */
 int
 workrave_timerbox_get_width(WorkraveTimerbox *self)
 {
@@ -383,12 +383,12 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
 
 
 /**
-  * workrave_timerbox_get_height: 
-  * @self: a @WorkraveTimerbox 
-  *
-  * Return value: (transfer none): The width of the @WorkraveTimerbox
-  *
-  */
+ * workrave_timerbox_get_height: 
+ * @self: a @WorkraveTimerbox 
+ *
+ * Return value: (transfer none): The width of the @WorkraveTimerbox
+ *
+ */
 int
 workrave_timerbox_get_height(WorkraveTimerbox *self)
 {
@@ -416,11 +416,11 @@ workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer)
 
 
 /**
-  * workrave_timerbox_set_enabled: 
-  * @self: a @WorkraveTimerbox 
-  * @enabled: 
-  *
-  */
+ * workrave_timerbox_set_enabled: 
+ * @self: a @WorkraveTimerbox 
+ * @enabled: 
+ *
+ */
 void
 workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled)
 {

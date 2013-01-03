@@ -20,10 +20,6 @@
 #ifndef SESSION_HH
 #define SESSION_HH
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #if defined(HAVE_DBUS_GIO)
 #include <gio/gio.h>
 #elif defined(HAVE_DBUSGLIB_GET_PRIVATE)

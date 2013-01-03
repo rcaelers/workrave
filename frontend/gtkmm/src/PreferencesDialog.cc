@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -188,7 +188,7 @@ PreferencesDialog::create_gui_page()
   // Options
   HigCategoryPanel *panel = Gtk::manage(new HigCategoryPanel(_("Options")));
 
-  panel->add(_("Block mode:"), *block_button);
+  panel->add_label(_("Block mode:"), *block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   string current_locale = GUIConfig::get_locale();
@@ -277,7 +277,7 @@ PreferencesDialog::create_gui_page()
 
   languages_combo.set_active(selected);
 
-  panel->add(_("Language:"), languages_combo);
+  panel->add_label(_("Language:"), languages_combo);
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
@@ -348,10 +348,10 @@ PreferencesDialog::create_sounds_page()
       sound_volume_scale->set_increments(1.0, 5.0);
       connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
 
-      hig->add(_("Volume:"), *sound_volume_scale, true, true);
+      hig->add_label(_("Volume:"), *sound_volume_scale, true, true);
     }
 
-  hig->add(_("Sound:"), *sound_button);
+  hig->add_label(_("Sound:"), *sound_button);
 
   if (snd->capability(SOUND_CAP_MUTE))
     {
@@ -361,7 +361,7 @@ PreferencesDialog::create_sounds_page()
 
       connector->connect(SoundPlayer::CFG_KEY_SOUND_MUTE, dc::wrap(mute_cb));
 
-      hig->add(*mute_cb, true, true);
+      hig->add_widget(*mute_cb, true, true);
     }
 
   if (snd->capability(SOUND_CAP_EDIT))
@@ -375,7 +375,7 @@ PreferencesDialog::create_sounds_page()
       update_theme_selection();
 
       sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_theme_changed));
-      hig->add(_("Sound Theme:"), *sound_theme_button);
+      hig->add_label(_("Sound Theme:"), *sound_theme_button);
 
       sound_store = Gtk::ListStore::create(sound_model);
       sound_treeview.set_model(sound_store);
@@ -412,7 +412,7 @@ PreferencesDialog::create_sounds_page()
       sound_scroll->set_size_request(-1, 200);
       sound_treeview.set_size_request(-1, 200);
 
-      hig->add(*sound_scroll, true, true);
+      hig->add_widget(*sound_scroll, true, true);
 
       Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
 
@@ -511,7 +511,7 @@ PreferencesDialog::create_timer_page()
   Gtk::Widget *monitoring_page = create_monitoring_page();
   
 #ifdef HAVE_GTK3
-  tnotebook->append_page(*monitoriing_page , *box);
+  tnotebook->append_page(*monitoring_page , *box);
 #else
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
 #endif

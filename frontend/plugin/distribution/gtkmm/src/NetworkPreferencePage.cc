@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -100,8 +100,8 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   HigCategoryPanel *id_frame = Gtk::manage(new HigCategoryPanel(*enabled_cb));
   username_entry = Gtk::manage(new Gtk::Entry());
   password_entry = Gtk::manage(new Gtk::Entry());
-  id_frame->add(_("Username:"), *username_entry);
-  id_frame->add(_("Password:"), *password_entry);
+  id_frame->add_label(_("Username:"), *username_entry);
+  id_frame->add_label(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
 
@@ -148,9 +148,9 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   interval_entry->set_numeric(true);
   interval_entry->set_width_chars(10);
 
-  advanced_frame->add(_("Server port:"), *port_entry);
-  advanced_frame->add(_("Reconnect attempts:"), *attempts_entry);
-  advanced_frame->add(_("Reconnect interval:"), *interval_entry);
+  advanced_frame->add_label(_("Server port:"), *port_entry);
+  advanced_frame->add_label(_("Reconnect attempts:"), *attempts_entry);
+  advanced_frame->add_label(_("Reconnect interval:"), *interval_entry);
 
   advanced_frame->set_border_width(12);
   tnotebook->append_page(*advanced_frame, _("Advanced"));

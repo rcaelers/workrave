@@ -1,6 +1,6 @@
 // W32AppletMenu.cc --- Menus using W32Applet+
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -64,8 +64,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
     {
       TRACE_MSG("ok");
 #ifndef PLATFORM_OS_WIN32_NATIVE
-      HWND cmd_win = (HWND) GDK_WINDOW_HWND(main_window
-                                             ->Gtk::Widget::gobj()->window);
+      HWND cmd_win = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
 #else
       HWND cmd_win = (HWND) GDK_WINDOW_HWND(((GtkWidget*)main_window->gobj())->window);
 #endif
