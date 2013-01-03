@@ -1,6 +1,6 @@
 // GstSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,6 @@ using namespace std;
 using namespace workrave;
 
 GstSoundPlayer::GstSoundPlayer() :
-  volume(0.9),
   gst_ok(false)
 {
 	GError *error = NULL;

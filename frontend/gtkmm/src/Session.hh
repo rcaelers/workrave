@@ -1,6 +1,6 @@
 // Session.cc --- Monitor the gnome session
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,8 +47,6 @@ public:
 public:
   void init_gnome();
 private:
-  GDBusProxy *proxy;
-  
   static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
   
 #elif defined(HAVE_DBUSGLIB_GET_PRIVATE)

@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -53,8 +53,6 @@ ActivityMonitor::ActivityMonitor() :
   activity_state(ACTIVITY_IDLE),
   prev_x(-10),
   prev_y(-10),
-  click_x(-1),
-  click_y(-1),
   button_is_pressed(false),
   listener(NULL)
 {

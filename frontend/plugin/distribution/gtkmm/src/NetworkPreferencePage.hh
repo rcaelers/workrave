@@ -1,6 +1,6 @@
 // NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2010, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -85,8 +85,6 @@ private:
 
   IDistributionManager *dist_manager;
 
-  Gtk::Label *password2_label;
-  Gtk::Entry *peers_entry;
   Gtk::Entry *username_entry;
   Gtk::Entry *password_entry;
   Gtk::CheckButton *enabled_cb;

@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -508,7 +508,6 @@ BreakWindow::create_break_buttons(bool lockable,
     {
       box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
 
-      Gtk::Button *shutdown_button = NULL;
       if (shutdownable)
         {
           shutdown_button = create_shutdown_button();

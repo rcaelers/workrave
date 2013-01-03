@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -152,7 +152,7 @@ Menus::init(AppletControl *applet_control)
   menus[MENU_APPLET_GENERICDBUS] = indicator_applet;
 
 #if defined(HAVE_INDICATOR)
-  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu(indicator_applet);
+  menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
 #endif
 #endif
   

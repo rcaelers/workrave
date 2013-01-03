@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -114,7 +114,6 @@ GUI *GUI::instance = NULL;
  *  \param argv all command line parameters.
  */
 GUI::GUI(int argc, char **argv) :
-  configurator(NULL),
   core(NULL),
   sound_player(NULL),
   break_windows(NULL),
