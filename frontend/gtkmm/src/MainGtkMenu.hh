@@ -1,6 +1,6 @@
 // MainGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

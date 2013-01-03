@@ -1,6 +1,6 @@
 // Hig.hh --- Gnome HIG stuff
 //
-// Copyright (C) 2003, 2004, 2007, 2008, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2007, 2008, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

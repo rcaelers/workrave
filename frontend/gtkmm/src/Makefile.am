@@ -140,7 +140,7 @@ if HAVE_DBUS_GIO
 extrasources += 	GenericDBusApplet.cc
 endif
 
-BUILT_SOURCES = $(dbussources)
+BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
 
 # broken: 
 # if PLATFORM_OS_UNIX
