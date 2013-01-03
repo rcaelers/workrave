@@ -45,7 +45,8 @@ workrave_get_schema (void)
     static const SecretSchema the_schema = {
         "org.workrave.Token", SECRET_SCHEMA_NONE,
         {
-            {  "NULL", (SecretSchemaAttributeType)0 },
+          {  "client_id", SECRET_SCHEMA_ATTRIBUTE_STRING },
+          {  "NULL", (SecretSchemaAttributeType)0 },
         }
     };
     return &the_schema;
@@ -86,7 +87,9 @@ WorkraveAuth::init(AuthResultCallback callback)
   session = IHttpSession::create("Workrave");
   session->add_request_filter(workflow->create_filter());
 
-  secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this, NULL);
+  secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this,
+                         "client_id", oauth_settings.client_id.c_str(),
+                         NULL);
 }
  
 
@@ -164,8 +167,10 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
 
   if (result == AuthErrorCode::Success)
     {
-      secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT, "OAuth2",
+      secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT,
+                            "Workrave",
                             password.c_str(), NULL, on_password_stored, this,
+                            "client_id", oauth_settings.client_id.c_str(),
                             NULL);
     }
   else

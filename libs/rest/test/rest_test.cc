@@ -37,9 +37,10 @@ on_data(const std::string &data)
 }
 
 static void
-on_closed(HttpErrorCode error, const std::string &detail)
+on_closed(HttpErrorCode error, const std::string &detail, IHttpStreamOperation::Ptr stream)
 {
   g_debug("streamn data : %d %s", error, detail.c_str());
+  //stream->start();
 }
 
 static void
@@ -54,7 +55,7 @@ on_auth_ready(AuthErrorCode error, const string &detal, WorkraveAuth::Ptr auth)
   
   IHttpStreamOperation::Ptr stream = session->stream(request);
   stream->signal_headers().connect(boost::bind(on_headers, _1));
-  stream->signal_closed().connect(boost::bind(on_closed, _1, _2));
+  stream->signal_closed().connect(boost::bind(on_closed, _1, _2, stream));
   stream->signal_data().connect(boost::bind(on_data, _1));
   stream->start();
 }
