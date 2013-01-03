@@ -140,7 +140,6 @@ BreakControl::heartbeat()
 
         TRACE_MSG("prelude time = " << prelude_time);
 
-
         update_prelude_window();
         application->refresh_break_window();
 

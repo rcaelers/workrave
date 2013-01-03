@@ -1,6 +1,6 @@
 // Harpoon.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010, 2013 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -369,7 +369,7 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
-      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "HarpoonHelper.exe";
+      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "WorkraveHelper.exe";
       string args = helper + " " + g_get_prgname();
 
       TRACE_MSG(install_dir.c_str());
