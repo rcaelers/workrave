@@ -1,6 +1,6 @@
 // Marshaller.cc
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 #include "Marshaller.hh"
 #include "Util.hh"
 
-#include "cloud.pb.h"
+#include "fog.pb.h"
 
 using namespace std;
 
@@ -330,7 +330,7 @@ Marshaller::get_namespace_of_domain(int domain)
   switch (domain)
     {
     case 0:
-      return "workrave.cloud.proto";
+      return "workrave.fog.proto";
 
     case 1:
       return "workrave.networking";
@@ -342,7 +342,7 @@ Marshaller::get_namespace_of_domain(int domain)
 int
 Marshaller::get_domain_of_namespace(const string &ns)
 {
-  if (ns == "workrave.cloud.proto")
+  if (ns == "workrave.fog.proto")
     {
       return 0;
     }

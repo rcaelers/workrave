@@ -1,6 +1,6 @@
 // NetworkConfigurationManager.cc --- Network (networked) ConfigurationManager
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,14 +36,14 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkConfigurationManager::Ptr
-NetworkConfigurationManager::create(ICloud::Ptr cloud, ICore::Ptr core)
+NetworkConfigurationManager::create(IFog::Ptr fog, ICore::Ptr core)
 {
-  return NetworkConfigurationManager::Ptr(new NetworkConfigurationManager(cloud, core));
+  return NetworkConfigurationManager::Ptr(new NetworkConfigurationManager(fog, core));
 }
 
 
-NetworkConfigurationManager::NetworkConfigurationManager(ICloud::Ptr cloud, ICore::Ptr core)
-  : cloud(cloud), core(core)
+NetworkConfigurationManager::NetworkConfigurationManager(IFog::Ptr fog, ICore::Ptr core)
+  : fog(fog), core(core)
 {
   TRACE_ENTER("Networking::NetworkConfigurationManager");
   TRACE_EXIT();
@@ -64,7 +64,7 @@ NetworkConfigurationManager::init()
   TRACE_ENTER("Networking::init");
   configurator =  core->get_configurator();
   
-  cloud->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::Configuration::kTypeFieldNumber)
     .connect(boost::bind(&NetworkConfigurationManager::on_configuration_message, this, _1, _2));
 
   configurator->add_listener("", this);
@@ -158,7 +158,7 @@ NetworkConfigurationManager::send_initial()
         }
     }
   
-  cloud->send_message(m, MessageParams::create());
+  fog->send_message(m, MessageParams::create());
 
   TRACE_EXIT();
 }
@@ -184,7 +184,7 @@ NetworkConfigurationManager::config_changed_notify(const std::string &key)
           c->set_key(key);
           c->set_value(value);
                            
-          cloud->send_message(m, MessageParams::create());
+          fog->send_message(m, MessageParams::create());
           TRACE_MSG("sending " << key << " " << value);
         }
     }

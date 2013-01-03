@@ -1,6 +1,6 @@
 // NetworkActivityMonitor.cc ---  (networked) NetworkActivityMonitor
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 
 #include "NetworkActivityMonitor.hh"
 
-#include "cloud/Cloud.hh"
+#include "fog/Fog.hh"
 #include "utils/TimeSource.hh"
 
 #include "workrave.pb.h"
@@ -34,14 +34,14 @@ using namespace std;
 using namespace workrave::utils;
 
 NetworkActivityMonitor::Ptr
-NetworkActivityMonitor::create(ICloud::Ptr cloud, ICore::Ptr core)
+NetworkActivityMonitor::create(IFog::Ptr fog, ICore::Ptr core)
 {
-  return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(cloud, core));
+  return NetworkActivityMonitor::Ptr(new NetworkActivityMonitor(fog, core));
 }
 
 
-NetworkActivityMonitor::NetworkActivityMonitor(ICloud::Ptr cloud, ICore::Ptr core)
-  : cloud(cloud),
+NetworkActivityMonitor::NetworkActivityMonitor(IFog::Ptr fog, ICore::Ptr core)
+  : fog(fog),
     core(core),
     local_active(false),
     local_active_since(0)
@@ -67,7 +67,7 @@ NetworkActivityMonitor::init()
   hooks->hook_is_active().connect(boost::bind(&NetworkActivityMonitor::on_hook_is_active, this));
   hooks->signal_local_active_changed().connect(boost::bind(&NetworkActivityMonitor::on_local_active_changed, this, _1));
     
-  cloud->signal_message(1, workrave::networking::Activity::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::Activity::kTypeFieldNumber)
     .connect(boost::bind(&NetworkActivityMonitor::on_activity_message, this, _1, _2));
   TRACE_EXIT()
 }
@@ -83,7 +83,7 @@ NetworkActivityMonitor::heartbeat()
     {
       boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
       a->set_active(local_active);
-      cloud->send_message(a, MessageParams::create());
+      fog->send_message(a, MessageParams::create());
     }
   TRACE_EXIT()
 }
@@ -105,7 +105,7 @@ NetworkActivityMonitor::on_local_active_changed(bool active)
   
   boost::shared_ptr<workrave::networking::Activity> a(new workrave::networking::Activity());
   a->set_active(active);
-  cloud->send_message(a, MessageParams::create());
+  fog->send_message(a, MessageParams::create());
 }
 
 

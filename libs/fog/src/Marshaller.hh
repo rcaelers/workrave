@@ -1,6 +1,6 @@
 // Marshaller.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,13 +27,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "network/NetworkAddress.hh"
-#include "cloud/UUID.hh"
+#include "fog/UUID.hh"
 
 #include "Packet.hh"
 
 using namespace workrave;
 using namespace workrave::network;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 class Marshaller
 {

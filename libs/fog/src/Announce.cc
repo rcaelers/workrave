@@ -1,6 +1,6 @@
 // Announce.cc
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 
 using namespace std;
 using namespace workrave::utils;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 Announce::Ptr
 Announce::create(Marshaller::Ptr marshaller)
@@ -157,7 +157,7 @@ Announce::start()
 void
 Announce::set_heartbear_timer(gint64 interval)
 {
-  Timer::get()->create("workrave.cloud.Announce", interval, boost::bind(&Announce::heartbeat, this));
+  Timer::get()->create("workrave.fog.Announce", interval, boost::bind(&Announce::heartbeat, this));
 }
 
 void
@@ -264,7 +264,7 @@ Announce::send_discover_reply()
   a->set_port(direct_link_port);
   
   IRouter::Ptr router = router_weak.lock();
-  list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
+  list<workrave::fog::ClientInfo> clients = router->get_client_infos();
   for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &client = *i;
@@ -422,7 +422,7 @@ Announce::process_announce(EphemeralLink::Ptr link, PacketIn::Ptr packet)
           IRouter::Ptr router = router_weak.lock();
           
           bool found = false;
-          list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
+          list<workrave::fog::ClientInfo> clients = router->get_client_infos();
           for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
             {
               ClientInfo &client = *i;
@@ -509,7 +509,7 @@ Announce::connect_to_clients()
   set<UUID> known;
   
   IRouter::Ptr router = router_weak.lock();
-  list<workrave::cloud::ClientInfo> clients = router->get_client_infos();
+  list<workrave::fog::ClientInfo> clients = router->get_client_infos();
   for (list<ClientInfo>::iterator i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &client = *i;

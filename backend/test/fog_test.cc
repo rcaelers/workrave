@@ -1,6 +1,6 @@
-// cloud_test.cc
+// fog_test.cc
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -81,8 +81,8 @@ struct Fixture
       {
         cores[i] = workraves[i]->get_core();
 
-        cloud[i] = workraves[i]->get_cloud();
-        cloud_test[i] = boost::dynamic_pointer_cast<ICloudTest>(cloud[i]);
+        fog[i] = workraves[i]->get_fog();
+        fog_test[i] = boost::dynamic_pointer_cast<IFogTest>(fog[i]);
       }
   }
   
@@ -249,8 +249,8 @@ protected:
   const static int num_workraves = 8;
   Workrave::Ptr workraves[num_workraves];
   ICore::Ptr cores[num_workraves];
-  ICloud::Ptr cloud[num_workraves];
-  ICloudTest::Ptr cloud_test[num_workraves];
+  IFog::Ptr fog[num_workraves];
+  IFogTest::Ptr fog_test[num_workraves];
   boost::shared_ptr<boost::barrier> barrier;
 };
 
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE(test_connect_delayed)
 
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
     }
 }
@@ -347,7 +347,7 @@ BOOST_AUTO_TEST_CASE(test_connect_simultaneuously)
 
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
     }
 }
@@ -358,7 +358,7 @@ BOOST_AUTO_TEST_CASE(test_connect_shuffled)
 
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
     }
 }
@@ -367,14 +367,14 @@ BOOST_AUTO_TEST_CASE(test_disconnect)
 {
   connect_all();
 
-  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[1]));
+  UUID id = workraves[1]->invoke_sync(boost::bind(&IFogTest::get_id, fog_test[1]));
 
-  workraves[3]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[3], id));
+  workraves[3]->invoke(boost::bind(&IFogTest::disconnect, fog_test[3], id));
   sleep(5);
 
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 3);
     }
 }
@@ -384,7 +384,7 @@ BOOST_AUTO_TEST_CASE(test_auto_connect)
 {
   for (int i = 0; i < num_workraves; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
@@ -392,13 +392,13 @@ BOOST_AUTO_TEST_CASE(test_auto_connect)
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
 
-      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+      total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
 }
@@ -412,7 +412,7 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_partial1)
   
   for (int i = 0; i < num_workraves; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
@@ -420,13 +420,13 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_partial1)
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
 
-       total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+       total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
 }
@@ -440,7 +440,7 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_partial2)
   
   for (int i = 0; i < num_workraves; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
@@ -448,13 +448,13 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_partial2)
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
 
-      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+      total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
 }
@@ -466,7 +466,7 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_already_connected)
   
   for (int i = 0; i < num_workraves; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
@@ -474,13 +474,13 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_already_connected)
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
 
-      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+      total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
 }
@@ -490,62 +490,62 @@ BOOST_AUTO_TEST_CASE(test_auto_connect_stages)
 {
   for (int i = 0; i < 3; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), i < 3 ? 2 : 0);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
     }
   
   for (int i = 3; i < 5; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), i < 5 ? 4 : 0);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
     }
 
   for (int i = 4; i < 7; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(10);
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), i < 7 ? 6 : 0);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
     }
 
-  workraves[7]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[7]));
+  workraves[7]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[7]));
   sleep(10);
  
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));      
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));      
       BOOST_CHECK_EQUAL(ids.size(), 7);
 
-      int cycles = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_cycle_failures, cloud_test[i]));
+      int cycles = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_cycle_failures, fog_test[i]));
       BOOST_CHECK_EQUAL(cycles, 0);
 
-      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+      total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 14);
 }
@@ -559,17 +559,17 @@ BOOST_AUTO_TEST_CASE(test_auto_reconnect)
   
   for (int i = 0; i < num_workraves; i++)
     {
-      workraves[i]->invoke_sync(boost::bind(&ICloudTest::start_announce, cloud_test[i]));
+      workraves[i]->invoke_sync(boost::bind(&IFogTest::start_announce, fog_test[i]));
     }
 
   sleep(1);
   Timer::get()->simulate(30 * G_USEC_PER_SEC);
 
-  UUID id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[3]));
-  workraves[5]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[5], id));
+  UUID id = workraves[1]->invoke_sync(boost::bind(&IFogTest::get_id, fog_test[3]));
+  workraves[5]->invoke(boost::bind(&IFogTest::disconnect, fog_test[5], id));
 
-  id = workraves[1]->invoke_sync(boost::bind(&ICloudTest::get_id, cloud_test[2]));
-  workraves[4]->invoke(boost::bind(&ICloudTest::disconnect, cloud_test[4], id));
+  id = workraves[1]->invoke_sync(boost::bind(&IFogTest::get_id, fog_test[2]));
+  workraves[4]->invoke(boost::bind(&IFogTest::disconnect, fog_test[4], id));
 
   sleep(1);
   Timer::get()->simulate(10 * G_USEC_PER_SEC);
@@ -577,8 +577,8 @@ BOOST_AUTO_TEST_CASE(test_auto_reconnect)
   int total_direct = 0;
   for (int i = 0; i < num_workraves; i++)
     {
-      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_clients, cloud_test[i]));
-      total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+      list<UUID> ids = workraves[i]->invoke_sync(boost::bind(&IFogTest::get_clients, fog_test[i]));
+      total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
     }
   BOOST_CHECK_EQUAL(total_direct, 10);
 
@@ -591,7 +591,7 @@ BOOST_AUTO_TEST_CASE(test_auto_reconnect)
       total_direct = 0;
       for (int i = 0; i < num_workraves; i++)
         {
-          total_direct += workraves[i]->invoke_sync(boost::bind(&ICloudTest::get_direct_clients, cloud_test[i])).size();
+          total_direct += workraves[i]->invoke_sync(boost::bind(&IFogTest::get_direct_clients, fog_test[i])).size();
         }
       if (total_direct == 14)
         {

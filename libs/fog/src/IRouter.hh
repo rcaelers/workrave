@@ -1,6 +1,6 @@
 // IRouter.hh
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ using namespace workrave::network;
 
 namespace workrave
 {
-  namespace cloud
+  namespace fog
   {
     struct ClientInfo
     {

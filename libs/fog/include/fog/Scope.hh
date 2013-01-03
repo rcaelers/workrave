@@ -1,6 +1,6 @@
-// Cloud.hh
+// Scope.hh
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_CLOUD_CLOUD_HH
-#define WORKRAVE_CLOUD_CLOUD_HH
+#ifndef WORKRAVE_FOG_SCOPE_HH
+#define WORKRAVE_FOG_SCOPE_HH
 
-#include "cloud/ICloud.hh"
-#include "cloud/UUID.hh"
+#include <google/protobuf/message.h>
 
-#endif // WORKRAVE_CLOUD_CLOUD_HH
+namespace workrave
+{
+  namespace fog
+  {
+    enum Scope
+      {
+        SCOPE_INVALID = 0,
+        SCOPE_DIRECT = 1,
+        SCOPE_MULTICAST = 2
+      };
+  }
+}
+
+#endif // WORKRAVE_FOG_SCOPE_HH

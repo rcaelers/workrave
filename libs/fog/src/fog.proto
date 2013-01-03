@@ -1,4 +1,4 @@
-package workrave.cloud.proto;
+package workrave.fog.proto;
 
 message Header
 {

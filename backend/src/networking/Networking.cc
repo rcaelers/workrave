@@ -1,6 +1,6 @@
 // Networking.cc
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,12 +46,12 @@ Networking::create(ICore::Ptr core)
 }
 
 
-//! Constructs a cloud
+//! Constructs a fog
 Networking::Networking(ICore::Ptr core) : core(core)
 {
   TRACE_ENTER("Networking::Networking");
   configurator = core->get_configurator();
-  cloud = ICloud::create();
+  fog = IFog::create();
 
   string user;
   configurator->get_value("plugins/networking/user", user);
@@ -62,15 +62,15 @@ Networking::Networking(ICore::Ptr core) : core(core)
   int port;
   configurator->get_value("plugins/networking/port", port);
   
-  cloud->init(port, user, secret);
+  fog->init(port, user, secret);
   
-  configuration_manager = NetworkConfigurationManager::create(cloud, core);
-  activity_monitor = NetworkActivityMonitor::create(cloud, core);
+  configuration_manager = NetworkConfigurationManager::create(fog, core);
+  activity_monitor = NetworkActivityMonitor::create(fog, core);
   TRACE_EXIT();
 }
 
 
-//! Destructs the workrave cloud.
+//! Destructs the workrave fog.
 Networking::~Networking()
 {
   TRACE_ENTER("Networking::~Networking");
@@ -78,7 +78,7 @@ Networking::~Networking()
 }
 
 
-//! Initializes the workrave cloud.
+//! Initializes the workrave fog.
 void
 Networking::init()
 {
@@ -103,13 +103,13 @@ Networking::init()
   usage_mode_connection =
     core->signal_usage_mode_changed().connect(boost::bind(&Networking::on_usage_mode_changed, this, _1));
   
-  cloud->signal_message(1, workrave::networking::Break::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::Break::kTypeFieldNumber)
     .connect(boost::bind(&Networking::on_break_message, this, _1, _2));
-  cloud->signal_message(1, workrave::networking::Timer::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::Timer::kTypeFieldNumber)
     .connect(boost::bind(&Networking::on_timer_message, this, _1, _2));
-  cloud->signal_message(1, workrave::networking::OperationMode::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::OperationMode::kTypeFieldNumber)
     .connect(boost::bind(&Networking::on_operation_mode_message, this, _1, _2));
-  cloud->signal_message(1, workrave::networking::UsageMode::kTypeFieldNumber)
+  fog->signal_message(1, workrave::networking::UsageMode::kTypeFieldNumber)
     .connect(boost::bind(&Networking::on_usage_mode_message, this, _1, _2));
   
   TRACE_EXIT();
@@ -120,7 +120,7 @@ void
 Networking::terminate()
 {
   TRACE_ENTER("Networking::terminate");
-  cloud->terminate();
+  fog->terminate();
   TRACE_EXIT();
 }
 
@@ -131,7 +131,7 @@ Networking::heartbeat()
 {
   TRACE_ENTER("Networking::heartbeat");
 
-  cloud->heartbeat();
+  fog->heartbeat();
   activity_monitor->heartbeat();
 
   send_timer_state();
@@ -143,7 +143,7 @@ Networking::heartbeat()
 void
 Networking::connect(const std::string host, int port)
 {
-  cloud->connect(host, port);
+  fog->connect(host, port);
 }
 
 /********************************************************************************/
@@ -156,7 +156,7 @@ Networking::send_break_event(BreakId id, workrave::networking::Break::BreakEvent
   boost::shared_ptr<workrave::networking::Break> e(new workrave::networking::Break());
   e->set_break_id(id);
   e->set_break_event(event);
-  cloud->send_message(e, MessageParams::create());
+  fog->send_message(e, MessageParams::create());
 }
 
 
@@ -181,7 +181,7 @@ Networking::on_break_forced(BreakId id, BreakHint hint)
   e->set_break_id(id);
   e->set_break_event(workrave::networking::Break::BREAK_EVENT_FORCE_BREAK);
   e->set_break_hint(hint);
-  cloud->send_message(e, MessageParams::create());
+  fog->send_message(e, MessageParams::create());
 }
 
 
@@ -207,7 +207,7 @@ Networking::on_operation_mode_changed(OperationMode mode)
     default:
       break;
     }
-  cloud->send_message(e, MessageParams::create());
+  fog->send_message(e, MessageParams::create());
 }
 
 
@@ -225,7 +225,7 @@ Networking::on_usage_mode_changed(UsageMode mode)
       e->set_mode(workrave::networking::UsageMode::USAGE_MODE_READING);
       break;
     }
-  cloud->send_message(e, MessageParams::create());
+  fog->send_message(e, MessageParams::create());
 }
 
 
@@ -399,7 +399,7 @@ Networking::send_timer_state()
           a->add_active_times((int)b->get_elapsed_time());
         }
 
-      cloud->send_message(a, MessageParams::create());
+      fog->send_message(a, MessageParams::create());
     }
 }
 
@@ -407,7 +407,7 @@ Networking::send_timer_state()
 void
 Networking::start_announce()
 {
-  boost::dynamic_pointer_cast<ICloudTest>(cloud)->start_announce();
+  boost::dynamic_pointer_cast<IFogTest>(fog)->start_announce();
 }
 #endif
 

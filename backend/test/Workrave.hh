@@ -1,6 +1,6 @@
 // Workrave.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@ public:
   void log(const std::string &txt);
   
   ICore::Ptr get_core() const;
-  ICloud::Ptr get_cloud() const;
+  IFog::Ptr get_fog() const;
   
   void create_prelude_window(BreakId break_id)  { }
   void create_break_window(BreakId break_id, BreakHint break_hint)  { }
@@ -182,7 +182,7 @@ private:
   ICore::Ptr core;
 
   Networking::Ptr networking;
-  ICloud::Ptr cloud;
+  IFog::Ptr fog;
 
   boost::shared_ptr<boost::thread> thread;
   boost::shared_ptr<boost::barrier> barrier;

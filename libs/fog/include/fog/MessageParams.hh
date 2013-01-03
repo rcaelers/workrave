@@ -1,6 +1,6 @@
 // MessageParams.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,21 +17,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_CLOUD_MESSAGEPARAMS_HH
-#define WORKRAVE_CLOUD_MESSAGEPARAMS_HH
+#ifndef WORKRAVE_FOG_MESSAGEPARAMS_HH
+#define WORKRAVE_FOG_MESSAGEPARAMS_HH
 
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 
-#include "cloud/Scope.hh"
+#include "fog/Scope.hh"
 
 namespace workrave
 {
-  namespace cloud
+  namespace fog
   {
     class MessageParams : public boost::noncopyable
     {
-      MessageParams() : sign(true), scope(workrave::cloud::SCOPE_DIRECT) {}
+      MessageParams() : sign(true), scope(workrave::fog::SCOPE_DIRECT) {}
       
     public:
       typedef boost::shared_ptr<MessageParams> Ptr;
@@ -42,9 +42,9 @@ namespace workrave
       }
       
       bool sign;
-      workrave::cloud::Scope scope;
+      workrave::fog::Scope scope;
     };
   }
 }
 
-#endif // WORKRAVE_CLOUD_MESSAGEPARAMS_HH
+#endif // WORKRAVE_FOG_MESSAGEPARAMS_HH

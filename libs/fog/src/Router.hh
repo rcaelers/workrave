@@ -1,6 +1,6 @@
 // Router.hh --- Networking network server
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 
 #include <google/protobuf/message.h>
 
-#include "cloud/Cloud.hh"
+#include "fog/Fog.hh"
 
 #include "Announce.hh"
 #include "DirectLinkManager.hh"
@@ -41,11 +41,11 @@
 
 using namespace workrave;
 using namespace workrave::network;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
-class Router : public ICloud, public IRouter, public boost::enable_shared_from_this<Router>
+class Router : public IFog, public IRouter, public boost::enable_shared_from_this<Router>
 #ifdef HAVE_TESTS
-             ,public ICloudTest
+             ,public IFogTest
 #endif               
 {
 public:
@@ -69,7 +69,7 @@ public:
 
   virtual MessageSignal &signal_message(int domain, int id);
 
-  virtual std::list<workrave::cloud::ClientInfo> get_client_infos() const;
+  virtual std::list<workrave::fog::ClientInfo> get_client_infos() const;
   
 #ifdef HAVE_TESTS
   virtual UUID get_id() const;

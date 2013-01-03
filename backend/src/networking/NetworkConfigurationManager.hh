@@ -1,6 +1,6 @@
 // NetworkConfigurationManager.hh
 //
-// Copyright (C) 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@
 #include <list>
 #include <map>
 
-#include "cloud/Cloud.hh"
+#include "fog/Fog.hh"
 #include "config/Config.hh" 
 
 #include "ICore.hh"
 
 using namespace workrave;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -49,13 +49,13 @@ public:
   typedef boost::shared_ptr<NetworkConfigurationManager> Ptr;
 
 public:
-  static Ptr create(ICloud::Ptr cloud, ICore::Ptr core);
+  static Ptr create(IFog::Ptr fog, ICore::Ptr core);
 
 public:
-  NetworkConfigurationManager(ICloud::Ptr cloud, ICore::Ptr core);
+  NetworkConfigurationManager(IFog::Ptr fog, ICore::Ptr core);
   virtual ~NetworkConfigurationManager();
 
-  // from ICloud
+  // from IFog
   void monitor_config(const std::string &key);
   
   //! Initializes the monitor
@@ -78,7 +78,7 @@ private:
   
 private:
   //! The networking core
-  ICloud::Ptr cloud;
+  IFog::Ptr fog;
 
   //! The workrave backend.
   ICore::Ptr core;

@@ -1,6 +1,6 @@
 // NetworkActivityMonitor.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@
 
 #include <map>
 
-#include "cloud/Cloud.hh"
+#include "fog/Fog.hh"
 
 #include "ICore.hh"
 #include "IActivityMonitor.hh"
 
 using namespace workrave;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 class NetworkActivityMonitor
 {
@@ -36,10 +36,10 @@ public:
   typedef boost::shared_ptr<NetworkActivityMonitor> Ptr;
 
 public:
-  static Ptr create(ICloud::Ptr cloud, ICore::Ptr core);
+  static Ptr create(IFog::Ptr fog, ICore::Ptr core);
 
 public:
-  NetworkActivityMonitor(ICloud::Ptr cloud, ICore::Ptr core);
+  NetworkActivityMonitor(IFog::Ptr fog, ICore::Ptr core);
   virtual ~NetworkActivityMonitor();
 
   //! Initializes the monitor
@@ -76,7 +76,7 @@ private:
   
 private:
   //! The networking core
-  ICloud::Ptr cloud;
+  IFog::Ptr fog;
 
   //! The core
   ICore::Ptr core;

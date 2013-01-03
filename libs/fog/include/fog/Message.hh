@@ -1,6 +1,6 @@
-// Types.hh
+// Message.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,16 +17,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TYPES_HH
-#define TYPES_HH
+#ifndef WORKRAVE_FOG_MESSAGE_HH
+#define WORKRAVE_FOG_MESSAGE_HH
 
 #include <google/protobuf/message.h>
-#include "cloud.pb.h"
 
-class Header
+namespace workrave
 {
-public:
-  typedef boost::shared_ptr<workrave::cloud::proto::Header> Ptr;
-};
+  namespace fog
+  {
+    class Message
+    {
+    public:
+      typedef boost::shared_ptr<google::protobuf::Message> Ptr;
+    };
+  }
+}
 
-#endif // TYPES_HH
+#endif // WORKRAVE_FOG_MESSAGE_HH

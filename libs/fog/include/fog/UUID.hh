@@ -1,6 +1,6 @@
 // UUID.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_CLOUD_UUID_HH
-#define WORKRAVE_CLOUD_UUID_HH
+#ifndef WORKRAVE_FOG_UUID_HH
+#define WORKRAVE_FOG_UUID_HH
 
 #include <sstream>
 
@@ -28,7 +28,7 @@
 
 namespace workrave
 {
-  namespace cloud
+  namespace fog
   {
     class UUID : public boost::uuids::uuid
     {
@@ -73,4 +73,4 @@ namespace workrave
   }
 }
 
-#endif // WORKRAVE_CLOUD_UUID_HH
+#endif // WORKRAVE_FOG_UUID_HH

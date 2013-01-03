@@ -1,6 +1,6 @@
 // Router.cc
 //
-// Copyright (C) 2007, 2008, 2009, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,10 +37,10 @@
 #include "Router.hh"
 #include "Util.hh"
 
-#include "cloud.pb.h"
+#include "fog.pb.h"
 
 using namespace std;
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 //! Create a new network router
 Router::Ptr
@@ -51,8 +51,8 @@ Router::create()
 
 // TODO: move to factory
 //! Create a new network router
-ICloud::Ptr
-ICloud::create()
+IFog::Ptr
+IFog::create()
 {
   return Router::create();
 }
@@ -149,10 +149,10 @@ Router::connect(NetworkAddress::Ptr host, int port)
 
 
 
-list<workrave::cloud::ClientInfo>
+list<workrave::fog::ClientInfo>
 Router::get_client_infos() const
 {
-  list<workrave::cloud::ClientInfo> ret;
+  list<workrave::fog::ClientInfo> ret;
 
   for (ClientCIter it = clients.begin(); it != clients.end(); it++)
     {

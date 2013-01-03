@@ -5,33 +5,38 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-noinst_LTLIBRARIES = 	libworkrave-backend-networking.la
+noinst_LTLIBRARIES = 	libworkrave-fog.la
 
 if HAVE_DISTRIBUTION
-sources	 =		NetworkActivityMonitor.cc \
-			NetworkConfigurationManager.cc \
-			Networking.cc \
-			workrave.pb.cc
+sources	 =		Router.cc \
+			Marshaller.cc \
+			Link.cc \
+			Client.cc \
+			DirectLinkManager.cc \
+			DirectLink.cc \
+			Announce.cc \
+			fog.pb.cc
 
-SUFFIXES = .proto .pb.cc
+SUFFIXES = .proto .pb.cc .pb.h
 
 %.pb.cc %.pb.h: %.proto
 			$(AM_V_GEN)$(PROTOC) $(PROTOCFLAGS) --cpp_out=. -I$(srcdir) $^
 
-BUILT_SOURCES = workrave.pb.cc workrave.pb.h
+BUILT_SOURCES = fog.pb.cc fog.pb.h
 
 endif
 
-libworkrave_backend_networking_la_SOURCES = ${sources}
+libworkrave_fog_la_SOURCES = ${sources}
 
-libworkrave_backend_networking_la_CXXFLAGS = \
+libworkrave_fog_la_CXXFLAGS = \
 			@X_CFLAGS@ @GLIB_CFLAGS@ \
+			-I$(top_srcdir)/libs/fog/include/fog \
 			-I${top_srcdir}/libs/utils/include \
 			-I${top_srcdir}/libs/network/include \
-			-I$(top_srcdir)/libs/config/include \
-			-I${top_srcdir}/libs/fog/include \
-			-I${top_srcdir}/backend/src \
-			-I${top_srcdir}/backend/include
+			-I$(top_srcdir)/libs/fog/include
+
+libworkrave_fog_la_LIBADD = \
+			@GLIB_LIBS@ @PROTOBUF_LIBS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

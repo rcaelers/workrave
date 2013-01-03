@@ -1,6 +1,6 @@
-// Scope.hh
+// Types.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,22 +17,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_CLOUD_SCOPE_HH
-#define WORKRAVE_CLOUD_SCOPE_HH
+#ifndef TYPES_HH
+#define TYPES_HH
 
 #include <google/protobuf/message.h>
+#include "fog.pb.h"
 
-namespace workrave
+class Header
 {
-  namespace cloud
-  {
-    enum Scope
-      {
-        SCOPE_INVALID = 0,
-        SCOPE_DIRECT = 1,
-        SCOPE_MULTICAST = 2
-      };
-  }
-}
+public:
+  typedef boost::shared_ptr<workrave::fog::proto::Header> Ptr;
+};
 
-#endif // WORKRAVE_CLOUD_SCOPE_HH
+#endif // TYPES_HH

@@ -1,6 +1,6 @@
 // Packet.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,14 @@
 #define PACKET_HH
 
 #include <google/protobuf/message.h>
-#include "cloud.pb.h"
+#include "fog.pb.h"
 
 #include "Types.hh"
 #include "Message.hh"
 #include "MessageParams.hh"
 #include "MessageContext.hh"
 
-using namespace workrave::cloud;
+using namespace workrave::fog;
 
 class PacketIn
 {

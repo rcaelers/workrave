@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid) $(wildcard $(srcdir)/*.pb.cc) $(wildcard $(srcdir)/*.pb.h)
@@ -79,7 +79,7 @@ libworkrave_backend_la_CFLAGS = \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
-			-I$(top_srcdir)/libs/cloud/include \
+			-I$(top_srcdir)/libs/fog/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
 			-I$(top_srcdir)/backend/src/networking
 
@@ -90,7 +90,7 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
-			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
+			$(top_builddir)/libs/fog/src/libworkrave-fog.la \
 			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
 			networking/libworkrave-backend-networking.la
 

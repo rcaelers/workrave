@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -120,7 +120,7 @@ Workrave::run()
   networking = Networking::create(core);
   networking->init();
 
-  cloud = networking->get_cloud();
+  fog = networking->get_fog();
 
   current_real_time = g_get_real_time();
   current_monotonic_time = g_get_monotonic_time();
@@ -157,10 +157,10 @@ Workrave::get_core() const
   return core;
 }
 
-ICloud::Ptr
-Workrave::get_cloud() const
+IFog::Ptr
+Workrave::get_fog() const
 {
-  return cloud;
+  return fog;
 }
 
 void

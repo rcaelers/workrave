@@ -1,4 +1,4 @@
-// cloud.cc --- Main
+// fog.cc --- Main
 //
 // Copyright (C) 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -27,13 +27,24 @@
 
 #include <glib-object.h>
 
+#include "fog/Fog.hh"
+#include "Router.hh"
+
+#include "test.pb.h"
+
 static gboolean on_timer(gpointer data)
 {
   TRACE_ENTER("Networking::heartbeat");
   static bool once = false;
-
+  IFog *network = (IFog *) data;
+  
+  // TODO: debugging code.
   if (!once)
     {
+      boost::shared_ptr<workrave::fog::test::ActivityState> a(new workrave::fog::test::ActivityState());
+      a->set_state(1);
+      network->send_message(a, MessageParams::create());
+      once = true;
     }
 
   TRACE_EXIT();
@@ -53,7 +64,22 @@ main(int argc, char **argv)
   g_type_init();
   GMainLoop *loop= g_main_loop_new(NULL, FALSE);
 
-  g_timeout_add_seconds(2, on_timer, NULL);
+  Router::Ptr network1 = Router::create();
+  network1->init(2701, "rob@workrave", "kjsdapkidszahf");
+
+  Router::Ptr network2 = Router::create();
+  network2->init(2702, "rob@workrave", "kjsdapkidszahf");
+  network2->connect("localhost", 2701);
+  
+  Router::Ptr network3 = Router::create();
+  network3->init(2703, "rob@workrave", "kjsdapkidszahf");
+  network3->connect("localhost", 2701);
+
+  Router::Ptr network4 = Router::create();
+  network4->init(2704, "rob@workrave", "kjsdapkidszahf");
+  network4->connect("localhost", 2703);
+  
+  g_timeout_add_seconds(2, on_timer, network1.get());
   g_main_loop_run(loop);
   
   return 0;

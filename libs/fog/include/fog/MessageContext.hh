@@ -1,6 +1,6 @@
 // MessageContext.hh
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,22 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_CLOUD_MESSAGECONTEXT_HH
-#define WORKRAVE_CLOUD_MESSAGECONTEXT_HH
+#ifndef WORKRAVE_FOG_MESSAGECONTEXT_HH
+#define WORKRAVE_FOG_MESSAGECONTEXT_HH
 
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 
-#include "cloud/Scope.hh"
-#include "cloud/UUID.hh"
+#include "fog/Scope.hh"
+#include "fog/UUID.hh"
 
 namespace workrave
 {
-  namespace cloud
+  namespace fog
   {
     class MessageContext : public boost::noncopyable
     {
-      MessageContext() : scope(workrave::cloud::SCOPE_DIRECT) {}
+      MessageContext() : scope(workrave::fog::SCOPE_DIRECT) {}
 
     public:
       typedef boost::shared_ptr<MessageContext> Ptr;
@@ -42,10 +42,10 @@ namespace workrave
         return Ptr(new MessageContext());
       }
       
-      workrave::cloud::Scope scope;
-      workrave::cloud::UUID source;
+      workrave::fog::Scope scope;
+      workrave::fog::UUID source;
     };
   }
 }
 
-#endif // WORKRAVE_CLOUD_MESSAGECONTEXT_HH
+#endif // WORKRAVE_FOG_MESSAGECONTEXT_HH

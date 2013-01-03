@@ -1,4 +1,4 @@
-package workrave.cloud.test;
+package workrave.fog.test;
 
 message Domain
 {

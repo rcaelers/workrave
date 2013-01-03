@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 dnl
 
 m4_define([workrave_major_version], [1])
@@ -1011,6 +1011,11 @@ AC_CONFIG_FILES([Makefile
              libs/cloud/include/cloud/Makefile
              libs/cloud/src/Makefile
              libs/cloud/test/Makefile
+             libs/fog/Makefile
+             libs/fog/include/Makefile
+             libs/fog/include/fog/Makefile
+             libs/fog/src/Makefile
+             libs/fog/test/Makefile
              libs/config/Makefile
              libs/config/include/Makefile
              libs/config/include/config/Makefile
