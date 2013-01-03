@@ -285,7 +285,7 @@ void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, in
  * @slot: slot to set
  * @brk: break to put in slot
  *
- **/
+ */
 void
 workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, WorkraveBreakId brk)
 {

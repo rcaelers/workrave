@@ -131,13 +131,6 @@ private:
   Gtk::Button *lock_button;
   Gtk::Button *shutdown_button;
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
-
-#ifdef PLATFORM_OS_WIN32
-  DesktopWindow *desktop_window;
-
-  long parent;
-#endif
-
 };
 
 inline BreakWindow::BreakFlags
