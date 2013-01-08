@@ -149,11 +149,11 @@ TimerBoxPreferencePage::create_page()
 
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Display")));
 
-  hig->add(*enabled_cb);
+  hig->add_widget(*enabled_cb);
 
   if (ontop_cb != NULL)
     {
-      hig->add(*ontop_cb);
+      hig->add_widget(*ontop_cb);
     }
 
   hig->add_label(_("Placement:"), *place_button);

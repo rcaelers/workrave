@@ -116,14 +116,14 @@ TimerPreferencesPanel::create_prelude_panel()
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Break prompting")));
 
   prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Prompt before breaking")));
-  hig->add(*prelude_cb);
+  hig->add_widget(*prelude_cb);
 
   Gtk::HBox *max_box = Gtk::manage(new Gtk::HBox());
   has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
   max_prelude_spin = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
-  hig->add(*max_box);
+  hig->add_widget(*max_box);
 
   connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                      dc::wrap(prelude_cb),
@@ -149,12 +149,12 @@ TimerPreferencesPanel::create_options_panel()
   // Ignorable
   ignorable_cb = Gtk::manage(new Gtk::CheckButton
                              (_("Show 'Postpone' button")));
-  hig->add(*ignorable_cb);
+  hig->add_widget(*ignorable_cb);
 
   // Skippable
   skippable_cb = Gtk::manage(new Gtk::CheckButton
                              (_("Show 'Skip' button")));
-  hig->add(*skippable_cb);
+  hig->add_widget(*skippable_cb);
 
   // Sensitive for activity
   activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
@@ -174,7 +174,7 @@ TimerPreferencesPanel::create_options_panel()
     {
       monitor_cb
         = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
-      hig->add(*monitor_cb);
+      hig->add_widget(*monitor_cb);
     }
 #endif
 
@@ -188,7 +188,7 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_REST_BREAK)
     {
       auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start restbreak when screen is locked")));
-      hig->add(*auto_natural_cb);
+      hig->add_widget(*auto_natural_cb);
 
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
                          dc::wrap(auto_natural_cb));

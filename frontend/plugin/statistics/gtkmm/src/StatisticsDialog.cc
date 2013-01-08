@@ -144,13 +144,13 @@ StatisticsDialog::init_gui()
   // Navigation box
   HigCategoryPanel *browsebox
     = Gtk::manage(new HigCategoryPanel(_("Browse history")));
-  browsebox->add(*btnbox);
-  browsebox->add(*calendar);
+  browsebox->add_widget(*btnbox);
+  browsebox->add_widget(*calendar);
 
   // Delete button
   delete_btn = Gtk::manage( GtkUtil::create_custom_stock_button( _("Delete all statistics history"), Gtk::Stock::DELETE ) );
   delete_btn->signal_clicked().connect( sigc::mem_fun( *this, &StatisticsDialog::on_history_delete_all ) );
-  browsebox->add( *delete_btn );
+  browsebox->add_widget( *delete_btn );
 
   // Stats box
   HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());

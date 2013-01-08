@@ -110,7 +110,7 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   Gtk::Label *listening_lab
     = Gtk::manage(GtkUtil::create_label(_("Allow incoming connections"), true));
   listening_cb->add(*listening_lab);
-  id_frame->add(*listening_cb);
+  id_frame->add_widget(*listening_cb);
 
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
