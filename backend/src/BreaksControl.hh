@@ -1,6 +1,6 @@
 // BreaksControl.hh --- The main controller
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -62,13 +62,13 @@ public:
 
   void set_operation_mode(OperationMode mode);
   void set_usage_mode(UsageMode mode);
-  void set_insensitive_mode(InsensitiveMode mode);
   void set_insist_policy(ICore::InsistPolicy p);
 
-  void resume_reading_mode_timers();
-  IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
-  void defrost();
-  void freeze();
+  virtual void resume_reading_mode_timers();
+  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
+  virtual void defrost();
+  virtual void freeze();
+  virtual void set_insensitive_mode(InsensitiveMode mode);
   
 private:
   void set_freeze_all_breaks(bool freeze);

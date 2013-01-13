@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -128,6 +128,7 @@ Break::init()
 TimerEvent
 Break::process_timer()
 {
+  TRACE_ENTER_MSG("Break::process_timer", break_id);
   ActivityState state = activity_monitor->get_state();
   
   TimerEvent event = break_timer->process(state);
@@ -144,6 +145,7 @@ Break::process_timer()
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
     }
 
+  TRACE_RETURN(event);
   return event;
 }
 
@@ -470,17 +472,20 @@ Break::signal_postponed()
   return postponed_signal;
 }
 
+
 boost::signals2::signal<void()> &
 Break::signal_skipped()
 {
   return skipped_signal;
 }
 
+
 boost::signals2::signal<void(BreakHint)> &
 Break::signal_break_forced()
 {
   return break_forced_signal;
 }
+
 
 //! Returns the name of the break.
 string
@@ -578,6 +583,7 @@ Break::get_total_overdue_time() const
 void
 Break::postpone_break()
 {
+  TRACE_ENTER_MSG("Break::postpone_break", break_id);
   if (break_stage == STAGE_TAKING)
     {
       if (!forced_break)
@@ -585,6 +591,7 @@ Break::postpone_break()
           if (!fake_break)
             {
               // Snooze the timer.
+              TRACE_MSG("Snoozing timer");
               break_timer->snooze_timer();
             }
 
@@ -596,8 +603,10 @@ Break::postpone_break()
       user_abort = true;
 
       // and stop the break.
+      TRACE_MSG("Stopping break");
       stop_break();
 
+      TRACE_MSG("Sending singal");
       postponed_signal();
     }
 }
@@ -649,14 +658,14 @@ Break::goto_stage(BreakStage stage)
     case STAGE_DELAYED:
       {
         activity_monitor->set_listener(shared_from_this());
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
+        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         break_support->defrost();
 
@@ -699,7 +708,7 @@ Break::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
+        break_support->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
         prelude_time = 0;
         application->hide_break_window();
@@ -714,7 +723,7 @@ Break::goto_stage(BreakStage stage)
       {
         // Break timer should always idle.
         // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();

@@ -104,7 +104,6 @@ public:
 
   void set_insist_policy(InsistPolicy p);
   
-  void set_insensitive_mode_all_breaks(InsensitiveMode mode);
   void force_idle();
 
   // DBus functions.

@@ -193,7 +193,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   CoreFactory::get_configurator()->get_value_with_default(
     "advanced/force_focus_on_break_start",
     force_focus_on_break_start,
-    false
+    true
     );
 #endif
 

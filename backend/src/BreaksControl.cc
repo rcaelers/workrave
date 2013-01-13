@@ -1,6 +1,6 @@
 // BreaksControl.cc --- The main controller
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -167,13 +167,31 @@ BreaksControl::set_insensitive_mode(InsensitiveMode mode)
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
     {
-      if (breaks[i]->is_enabled())
-        {
-          get_timer(i)->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
-        }
+      get_timer(i)->set_insensitive_mode(mode);
     }
 }
 
+
+//! Sets the freeze state of all breaks.
+void
+BreaksControl::set_freeze_all_breaks(bool freeze)
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      breaks[i]->freeze_break(freeze);
+    }
+}
+
+
+//! Stops all breaks.
+void
+BreaksControl::stop_all_breaks()
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      breaks[i]->stop_break();
+    }
+}
 
 //! Forces the start of the specified break.
 void
@@ -366,33 +384,11 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 }
 
 
-//! Sets the freeze state of all breaks.
-void
-BreaksControl::set_freeze_all_breaks(bool freeze)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->freeze_break(freeze);
-    }
-}
-
-
 //! Sets the operation mode.
 void
 BreaksControl::set_operation_mode(OperationMode mode)
 {
   operation_mode = mode;
-}
-
-
-//! Stops all breaks.
-void
-BreaksControl::stop_all_breaks()
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->stop_break();
-    }
 }
 
 

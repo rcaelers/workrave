@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -626,16 +626,12 @@ Timer::get_auto_reset() const
 }
 
 
-
-
 //! Returns the time the timer will reset.
 gint64
 Timer::get_next_reset_time() const
 {
   return next_reset_time;
 }
-
-
 
 
 //! Sets the limit time in seconds.
@@ -924,6 +920,7 @@ Timer::daily_reset_timer()
 void
 Timer::compute_next_limit_time()
 {
+  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   // default action. No next limit.
   next_limit_time = 0;
 

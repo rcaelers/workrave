@@ -1,6 +1,6 @@
 // IBreakSupport.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 
 #include "CoreTypes.hh"
 #include "IActivityMonitor.hh"
+#include "Timer.hh"
 
 class IBreakSupport
 {
@@ -35,6 +36,7 @@ public:
   virtual void defrost() = 0;
   virtual void freeze() = 0;
   virtual void resume_reading_mode_timers() = 0;
+  virtual void set_insensitive_mode(InsensitiveMode mode) = 0;
   virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
 };
 

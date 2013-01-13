@@ -1,6 +1,6 @@
 // FrameWindow.hh --- Gtk::Frame like widget
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -125,7 +125,6 @@ Frame::on_timer()
 void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
-
   Gtk::Widget *widget = get_child();
   guint b = get_border_width() + frame_width;
 
@@ -137,7 +136,6 @@ Frame::on_size_allocate(Gtk::Allocation &allocation)
 
   widget->size_allocate(alloc);
   set_allocation(allocation);
-
 }
 
 #ifdef HAVE_GTK3
