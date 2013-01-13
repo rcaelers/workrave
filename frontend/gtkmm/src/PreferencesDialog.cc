@@ -292,7 +292,7 @@ PreferencesDialog::create_gui_page()
   trayicon_cb->add(*trayicon_lab);
   connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
 
-  panel->add(*trayicon_cb);
+  panel->add_widget(*trayicon_cb);
   
   panel->set_border_width(12);
   return panel;
@@ -437,7 +437,7 @@ PreferencesDialog::create_sounds_page()
       fsbutton->add_filter(*filefilter);
 #endif
 
-      hig->add(*hbox);
+      hig->add_widget(*hbox);
 
       Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
       Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));

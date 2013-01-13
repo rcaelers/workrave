@@ -135,7 +135,7 @@ DWORD W32ForceFocus::GetFunctions()
     }
     else
     {
-        flags =  ( ATTACH_INPUT | MINIMIZE_RESTORE );
+        flags = ( ATTACH_INPUT | MINIMIZE_RESTORE );
     }
 
     func_initialized = true;
