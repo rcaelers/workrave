@@ -55,7 +55,7 @@ WorkraveAuth::WorkraveAuth()
   oauth_settings.client_secret = "e470f6a4d5292794689ab42d66a6a8f8";
   oauth_settings.scope = "https://api.workrave.org/workrave.state https://api.workrave.org/workrave.config https://api.workrave.org/workrave.history";
 
-  chain = IKeyChain::create("api.workrave.org");
+  chain = IKeyChain::create(oauth_settings.client_id, "api.workrave.org");
 }
 
 

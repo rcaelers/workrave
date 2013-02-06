@@ -404,10 +404,16 @@ OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
       access_token = root["access_token"].asString();
       valid_until = root["expires_in"].asInt() + time(NULL);
 
+      if (root.isMember("refresh_token"))
+        {
+          refresh_token = root["refresh_token"].asString();
+          g_debug("access_token : %s", refresh_token.c_str());
+        }
+
       struct tm * timeinfo = localtime(&valid_until);
       g_debug("Valid until:  %s", asctime(timeinfo));
        
-      g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
+      g_debug("access_token : %s, valid %d", access_token.c_str(), root["expires_in"].asInt());
       credentials_updated_signal(access_token, valid_until);
     }
   catch(std::exception &e)

@@ -27,10 +27,6 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#ifdef PLATFORM_OS_UNIX
-#include <libsecret/secret.h>
-#endif
-
 #include "rest/IOAuth2.hh"
 #include "rest/IKeyChain.hh"
 #include "rest/IHttpSession.hh"

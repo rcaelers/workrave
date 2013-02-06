@@ -32,13 +32,14 @@ namespace workrave
     class OSXKeyChain : public IKeyChain
     {
     public:
-      OSXKeyChain(const std::string &server);
+      OSXKeyChain(const std::string &client_id, const std::string &server);
       virtual ~OSXKeyChain();
       
       virtual void store(const std::string &username, const std::string &password, StoreResult callback);
       virtual void retrieve(const std::string &username, RetrieveResult callback);
 
     private:
+      const std::string &client_id;
       const std::string &server;
     };
   }

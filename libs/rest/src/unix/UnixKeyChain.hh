@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include <libsecret/secret.h>
+
 #include "rest/IKeyChain.hh"
 
 #ifdef __cplusplus
@@ -44,14 +46,31 @@ namespace workrave
     class UnixKeyChain : public IKeyChain
     {
     public:
-      UnixKeyChain(const std::string &server);
+      UnixKeyChain(const std::string &client_id, const std::string &server);
       virtual ~UnixKeyChain();
       
       virtual void store(const std::string &username, const std::string &password, StoreResult callback);
       virtual void retrieve(const std::string &username, RetrieveResult callback);
 
+      static void on_password_stored(GObject *source, GAsyncResult *result, gpointer data);
+      static void on_password_rerieved(GObject *source, GAsyncResult *result, gpointer data);
+      
     private:
-      const std::string &server;
+      struct StoreCallbackData
+      {
+        std::string username;
+        UnixKeyChain *self;
+        StoreResult callback;
+      };
+
+      struct RetrieveCallbackData
+      {
+        std::string username;
+        UnixKeyChain *self;
+        RetrieveResult callback;
+      };
+      
+      const std::string &client_id;
     };
   }
 }

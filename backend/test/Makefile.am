@@ -32,7 +32,7 @@ MAINTAINERCLEANFILES = 	*.pyc
 #			${X11LIBS} @WIN32LIBS@ ${WIN32CONSOLE}
 #
 #$(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la
-
-endif
+#
+#endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh)

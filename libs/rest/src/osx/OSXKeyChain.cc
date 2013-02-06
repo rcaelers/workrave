@@ -32,14 +32,14 @@ using namespace std;
 using namespace workrave::rest;
 
 IKeyChain::Ptr
-IKeyChain::create(const std::string &server)
+IKeyChain::create(const std::string &client_id, const std::string &server)
 {
-  return Ptr(new OSXKeyChain(server));
+  return Ptr(new OSXKeyChain(client_id, server));
 }
 
 
-OSXKeyChain::OSXKeyChain(const std::string &server)
-  : server(server)
+OSXKeyChain::OSXKeyChain(const std::string &client_id, const std::string &server)
+  : client_id(client_id), server(server)
 {
 }
 

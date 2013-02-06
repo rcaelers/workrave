@@ -39,7 +39,7 @@ namespace workrave
       typedef boost::function<void (bool) > StoreResult;
       typedef boost::function<void (bool, const std::string &, const std::string &) > RetrieveResult;
 
-      static Ptr create(const std::string &path);
+      static Ptr create(const std::string &client_id, const std::string &path);
       
       virtual void store(const std::string &username, const std::string &secret, StoreResult callback) = 0;
       virtual void retrieve(const std::string &username, RetrieveResult callback) = 0;
