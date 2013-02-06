@@ -23,7 +23,6 @@
 
 #define TRACE_EXTRA id 
 
-
 #include "debug.hh"
 
 #include "Core.hh"
@@ -45,9 +44,6 @@
 #endif
 
 #ifdef HAVE_DBUS
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-#undef interface
-#endif
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
 #endif
@@ -190,11 +186,11 @@ Core::init_bus()
 #ifdef HAVE_DBUS
   try
     {
-      dbus = new DBus();
+      dbus = DBus::create();
       dbus->init();
 
       extern void init_DBusWorkrave(DBus *dbus);
-      init_DBusWorkrave(dbus);
+      init_DBusWorkrave(dbus.get());
 
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.ConfigInterface", configurator.get());
@@ -291,12 +287,20 @@ Core::get_hooks() const
   return hooks;
 }
 
+dbus::DBus::Ptr
+Core::get_dbus() const
+{
+  return dbus;
+}
+
+
 //! Is the user currently active?
 bool
 Core::is_user_active() const
 {
   return monitor->get_state() == ACTIVITY_ACTIVE;
 }
+
 
 //! Retrieves the operation mode.
 OperationMode

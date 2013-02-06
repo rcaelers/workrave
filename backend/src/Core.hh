@@ -41,6 +41,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
+#include "dbus/DBus.hh"
 
 #include "ICore.hh"
 #include "BreaksControl.hh"
@@ -57,10 +58,6 @@ using namespace workrave;
 // Forward declarion of external interface.
 namespace workrave {
   class IApp;
-  namespace dbus
-  {
-    class DBus;
-  }
 }
 
 class Core :
@@ -74,13 +71,6 @@ public:
 
   // ICore
 
-#ifdef HAVE_DBUS
-  dbus::DBus *get_dbus()
-  {
-    return dbus;
-  }
-#endif
-
   boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
   
@@ -92,6 +82,7 @@ public:
   IStatistics::Ptr get_statistics() const;
   IConfigurator::Ptr get_configurator() const;
   ICoreHooks::Ptr get_hooks() const;
+  dbus::DBus::Ptr get_dbus() const;
   bool is_user_active() const;
 
   OperationMode get_operation_mode();
@@ -164,10 +155,8 @@ private:
   //! Current usage mode.
   UsageMode usage_mode;
 
-#ifdef HAVE_DBUS
   //! DBUS bridge
-  dbus::DBus *dbus;
-#endif
+  dbus::DBus::Ptr dbus;
   
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;

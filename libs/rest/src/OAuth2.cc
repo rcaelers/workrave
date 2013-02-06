@@ -309,6 +309,8 @@ OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
       valid_until = root["expires_in"].asInt() + time(NULL);
           
       g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
+      struct tm * timeinfo = localtime(&valid_until);
+      g_debug("Valid until:  %s", asctime(timeinfo));
 
       credentials_updated_signal(access_token, valid_until);
     }
@@ -401,7 +403,10 @@ OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
       
       access_token = root["access_token"].asString();
       valid_until = root["expires_in"].asInt() + time(NULL);
-          
+
+      struct tm * timeinfo = localtime(&valid_until);
+      g_debug("Valid until:  %s", asctime(timeinfo));
+       
       g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
       credentials_updated_signal(access_token, valid_until);
     }

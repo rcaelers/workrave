@@ -808,7 +808,7 @@ GUI::init_gui()
   process_visibility();
   
 #ifdef HAVE_DBUS
-  workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
+  workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
     {
@@ -832,7 +832,7 @@ void
 GUI::init_dbus()
 {
 #if defined(HAVE_DBUS)
-  workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
+  workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
     {
@@ -859,7 +859,7 @@ GUI::init_dbus()
 #endif
           
           extern void init_DBusGUI(workrave::dbus::DBus *dbus);
-          init_DBusGUI(dbus);
+          init_DBusGUI(dbus.get());
         }
       catch (workrave::dbus::DBusException &)
         {

@@ -1,6 +1,6 @@
 // CoreFactory.hh --- The main access point to the Core
 //
-// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
+#include "dbus/DBus.hh"
 
 // Forward declarion of external interfaces.
 namespace workrave
@@ -43,7 +44,7 @@ public:
   static workrave::config::IConfigurator::Ptr get_configurator();
   
   //! Returns the interface to the DBUS facility.
-  static workrave::dbus::DBus *get_dbus();
+  static workrave::dbus::DBus::Ptr get_dbus();
 
   //! The one and only core instance
   static workrave::ICore::Ptr core;

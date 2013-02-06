@@ -45,6 +45,13 @@ const GDBusInterfaceVTable DBus::interface_vtable =
   { NULL, }
 };
 
+DBus::Ptr
+DBus::create()
+{
+  return Ptr(new DBus());
+}
+
+
 //! Construct a new D-BUS bridge
 DBus::DBus()
   : connection(NULL)

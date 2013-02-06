@@ -1,6 +1,6 @@
 // DBus.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,10 @@
 
 #ifndef WORKRAVE_DBUS_DBUS_HH
 #define WORKRAVE_DBUS_DBUS_HH
+
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+#undef interface
+#endif
 
 #ifdef HAVE_DBUS_GIO
 #include "dbus/DBus-gio.hh"

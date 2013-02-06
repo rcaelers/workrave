@@ -1,6 +1,6 @@
 // DBus.c
 //
-// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,12 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
+
+DBus::Ptr
+DBus::create()
+{
+  return Ptr(new DBus());
+}
 
 //! Construct a new D-BUS bridge
 DBus::DBus()

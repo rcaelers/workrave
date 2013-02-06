@@ -951,6 +951,7 @@ Timer::compute_next_limit_time()
             }
         }
     }
+  TRACE_EXIT();
 }
 
 

@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid) $(wildcard $(srcdir)/*.pb.cc) $(wildcard $(srcdir)/*.pb.h)
 
-SUBDIRS = 		networking
+SUBDIRS =
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
@@ -83,7 +83,6 @@ libworkrave_backend_la_CFLAGS = \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
-			-I$(top_srcdir)/libs/fog/include \
 			-I$(top_srcdir)/libs/input-monitor/include
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
@@ -94,8 +93,6 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(dbuslib)
-
-			$(top_builddir)/libs/fog/src/libworkrave-fog.la
 
 DISTCLEANFILES = 	org.workrave.gschema.xml
 

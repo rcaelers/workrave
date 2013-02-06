@@ -1,6 +1,6 @@
 // DBus.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@
 #ifndef WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
 #define WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
 
+#include <boost/shared_ptr.hpp>
+
 #include <dbus/dbus.h>
 #include <glib.h>
 
@@ -36,6 +38,11 @@ namespace workrave
     class DBus
     {
     public:
+      typedef boost::shared_ptr<DBus> Ptr;
+
+    public:
+      static Ptr create();
+
       DBus();
       ~DBus();
 

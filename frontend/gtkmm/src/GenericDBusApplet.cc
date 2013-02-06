@@ -1,6 +1,6 @@
 // GenericDBusApplet.cc --- Applet info Window
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@
 
 //! Constructor.
 GenericDBusApplet::GenericDBusApplet() :
-  enabled(false), dbus(NULL)
+  enabled(false)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -100,7 +100,7 @@ GenericDBusApplet::update_view()
 {
   TRACE_ENTER("GenericDBusApplet::update_view");
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
   assert(iface != NULL);
   iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
@@ -207,7 +207,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   add_menu_item(_("About..."),     Menus::MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
 
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
   assert(iface != NULL);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
   

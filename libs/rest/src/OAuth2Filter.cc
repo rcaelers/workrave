@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -76,6 +76,8 @@ OAuth2Filter::filter(IHttpRequest::Ptr request, Ready callback)
           
   if (access_token != "")
     {
+      g_debug("OAuth2Filter::filter %ld %ld", time(NULL), valid_until);
+
       if (time(NULL) + 60 > valid_until)
         {
           g_debug("expired");

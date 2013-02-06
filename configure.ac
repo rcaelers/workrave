@@ -1028,11 +1028,6 @@ AC_CONFIG_FILES([Makefile
              libs/cloud/include/cloud/Makefile
              libs/cloud/src/Makefile
              libs/cloud/test/Makefile
-             libs/fog/Makefile
-             libs/fog/include/Makefile
-             libs/fog/include/fog/Makefile
-             libs/fog/src/Makefile
-             libs/fog/test/Makefile
              libs/config/Makefile
              libs/config/include/Makefile
              libs/config/include/config/Makefile
@@ -1069,7 +1064,6 @@ AC_CONFIG_FILES([Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
-             backend/src/networking/Makefile
 	     backend/src/org.workrave.gschema.xml.in
              backend/include/Makefile
              frontend/Makefile

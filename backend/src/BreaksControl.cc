@@ -33,9 +33,6 @@
 #include "Util.hh"
 
 #ifdef HAVE_DBUS
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-#undef interface
-#endif
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
 #endif

@@ -97,7 +97,7 @@ GnomeAppletWindow::init_applet()
 {
   try
     {
-      workrave::dbus::DBus *dbus = CoreFactory::get_dbus();
+      workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
       if (dbus != NULL && dbus->is_available())
         {
           dbus->connect("/org/workrave/Workrave/UI",

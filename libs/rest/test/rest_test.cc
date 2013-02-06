@@ -30,6 +30,7 @@ on_headers(IHttpReply::Ptr reply)
     }
 }
 
+
 static void
 on_data(const std::string &data)
 {
@@ -41,6 +42,16 @@ on_closed(HttpErrorCode error, const std::string &detail, IHttpStreamOperation::
 {
   g_debug("streamn data : %d %s", error, detail.c_str());
   //stream->start();
+}
+
+static void
+on_reply(IHttpReply::Ptr reply)
+{
+  g_debug("reply : %d %s", reply->status, reply->body.c_str());
+  for (map<string, string>::const_iterator i = reply->headers.begin(); i != reply->headers.end(); i++)
+    {
+      g_debug("replt : header %s -> %s", i->first.c_str(), i->second.c_str());
+    }
 }
 
 static void

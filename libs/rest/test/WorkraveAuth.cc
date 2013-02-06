@@ -24,6 +24,9 @@
 
 #include "WorkraveAuth.hh"
 
+#include <stdio.h>
+#include <time.h>
+
 #include <glib.h>
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
@@ -100,13 +103,16 @@ WorkraveAuth::on_password_lookup(bool ok, const std::string &username, const std
 
               workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2));
               g_debug("secret_password_lookup: valid=%d", (int)valid_until);
+
+              struct tm * timeinfo = localtime(&valid_until);
+              g_debug("Valid until:  %s", asctime(timeinfo));
             }
           catch(boost::bad_lexical_cast &) {}
           success = true;
         }
     }
 
-  if (!success)
+      if (!success)
     {
       g_debug("secret_password_lookup: obtain access");
       workflow->init(boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2),
@@ -133,10 +139,12 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
   g_debug("on_auth_result: %d %s", result, details.c_str());
   
   workflow->get_tokens(access_token, refresh_token, valid_until);
-  
   string secret = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
   g_debug("on_auth_result: %s", secret.c_str());
 
+  struct tm * timeinfo = localtime(&valid_until);
+  g_debug("Valid until:  %s", asctime(timeinfo));
+ 
   if (result == AuthErrorCode::Success)
     {
       chain->store("pietje", secret, boost::bind(&WorkraveAuth::on_password_stored, this, _1));
