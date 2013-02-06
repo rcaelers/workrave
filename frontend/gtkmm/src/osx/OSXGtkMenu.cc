@@ -1,6 +1,6 @@
 // OSXGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,23 +32,12 @@
 
 #include <string>
 
-#include <gdkmm/pixbuf.h>
-#include <gtkmm/action.h>
-#include <gtkmm/iconset.h>
-#include <gtkmm/iconsource.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/menubar.h>
-#include <gtkmm/stock.h>
+#include <gtkmm.h>
 
 #include "Menus.hh"
 #include "Util.hh"
 
 using namespace std;
-
-#include "ige-mac-menu.h"
-#include "ige-mac-dock.h"
-#include "ige-mac-bundle.h"
-
 
 //! Constructor.
 OSXGtkMenu::OSXGtkMenu(bool show_open)
@@ -70,22 +59,22 @@ OSXGtkMenu::popup(const guint button, const guint activate_time)
   (void) activate_time;
 }
 
-void
-OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
-{
-  (void) dock;
-  Menus *menus = (Menus *) data;
-  menus->on_menu_open_main_window();
-}
+// void
+// OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
+// {
+//   (void) dock;
+//   Menus *menus = (Menus *) data;
+//   menus->on_menu_open_main_window();
+// }
 
 
-void
-OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
-{
-  (void) dock;
-  Menus *menus = (Menus *) data;
-  menus->on_menu_quit();
-}
+// void
+// OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
+// {
+//   (void) dock;
+//   Menus *menus = (Menus *) data;
+//   menus->on_menu_quit();
+// }
 
 void
 OSXGtkMenu::create_ui()
@@ -130,39 +119,39 @@ OSXGtkMenu::create_ui()
       std::cerr << "building menus and toolbars failed: " <<  ex.what();
     }
 
-  IgeMacMenuGroup *group;
-  IgeMacDock      *dock;
+  // IgeMacMenuGroup *group;
+  // IgeMacDock      *dock;
 
-  Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
-  Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
+  // Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
+  // Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
 
-  ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(menu->gobj()));
+  // ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(menu->gobj()));
 
-  ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(item->gobj()));
+  // ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(item->gobj()));
 
-  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/About"));
+  // item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/About"));
 
-  group = ige_mac_menu_add_app_menu_group();
-  ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM(item->gobj()),
-                                 NULL);
+  // group = ige_mac_menu_add_app_menu_group();
+  // ige_mac_menu_add_app_menu_item(group,
+  //                                GTK_MENU_ITEM(item->gobj()),
+  //                                NULL);
 
-  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Preferences"));
+  // item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Preferences"));
 
-  group = ige_mac_menu_add_app_menu_group();
-  ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM (item->gobj()),
-                                 NULL);
+  // group = ige_mac_menu_add_app_menu_group();
+  // ige_mac_menu_add_app_menu_item(group,
+  //                                GTK_MENU_ITEM (item->gobj()),
+  //                                NULL);
 
-  dock = ige_mac_dock_new ();
-  g_signal_connect(dock,
-                   "clicked",
-                   G_CALLBACK(dock_clicked),
-                   this);
+  // dock = ige_mac_dock_new ();
+  // g_signal_connect(dock,
+  //                  "clicked",
+  //                  G_CALLBACK(dock_clicked),
+  //                  this);
 
-  g_signal_connect(dock,
-                   "quit-activate",
-                   G_CALLBACK(dock_quit),
-                   this);
+  // g_signal_connect(dock,
+  //                  "quit-activate",
+  //                  G_CALLBACK(dock_quit),
+  //                  this);
 
 }

@@ -70,6 +70,10 @@ gsettings_SCHEMAS = org.workrave.gschema.xml
 
 endif
 
+if HAVE_DBUS
+dbuslib =		$(top_builddir)/libs/dbus/src/libworkrave-dbus.la
+endif
+
 libworkrave_backend_la_SOURCES = ${sources} ${dbussources} 
 
 libworkrave_backend_la_CFLAGS = \
@@ -80,8 +84,7 @@ libworkrave_backend_la_CFLAGS = \
 			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/fog/include \
-			-I$(top_srcdir)/libs/input-monitor/include \
-			-I$(top_srcdir)/backend/src/networking
+			-I$(top_srcdir)/libs/input-monitor/include
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
@@ -90,9 +93,9 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			$(top_builddir)/libs/network/src/libworkrave-network.la \
-			$(top_builddir)/libs/fog/src/libworkrave-fog.la \
-			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
-			networking/libworkrave-backend-networking.la
+			$(dbuslib)
+
+			$(top_builddir)/libs/fog/src/libworkrave-fog.la
 
 DISTCLEANFILES = 	org.workrave.gschema.xml
 

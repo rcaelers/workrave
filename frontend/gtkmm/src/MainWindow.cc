@@ -193,7 +193,7 @@ MainWindow::close_window()
 #ifdef PLATFORM_OS_WIN32
   win32_show(false);
 #elif defined(PLATFORM_OS_OSX)
-  hide_all();
+  hide();
 #else
   if (can_close)
     {

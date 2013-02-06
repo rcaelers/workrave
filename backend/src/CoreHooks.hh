@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ public:
   static Ptr create();
 
   CoreHooks();
+  virtual ~CoreHooks();
   
 #ifdef HAVE_TESTS
   boost::function<ActivityState()> &hook_local_activity_state();

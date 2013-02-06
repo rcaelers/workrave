@@ -27,24 +27,14 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
+#ifdef PLATFORM_OS_UNIX
 #include <libsecret/secret.h>
+#endif
 
 #include "rest/IOAuth2.hh"
-
+#include "rest/IKeyChain.hh"
 #include "rest/IHttpSession.hh"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-  const SecretSchema * workrave_get_schema(void) G_GNUC_CONST;
-
-#define WORKRAVE_SCHEMA  workrave_get_schema()
-
-#ifdef __cplusplus
-}
-#endif
-  
 class WorkraveAuth
 {
 public:
@@ -68,14 +58,15 @@ private:
   void on_auth_result(workrave::rest::AuthErrorCode result, const std::string &details);
   void on_auth_feedback(const std::string &error, const std::string &error_description, workrave::rest::IHttpReply::Ptr reply);
 
-  static void on_password_lookup(GObject *source, GAsyncResult *result, gpointer data);
-  static void on_password_stored(GObject *source, GAsyncResult *result, gpointer data);
-  
+  void on_password_lookup(bool ok, const std::string &username, const std::string &secret);
+  void on_password_stored(bool ok);
+
 private:  
   workrave::rest::IOAuth2::Ptr workflow;
   workrave::rest::IHttpSession::Ptr session;
   AuthResultCallback callback;
   workrave::rest::OAuth2Settings oauth_settings;
+  workrave::rest::IKeyChain::Ptr chain;
 };
 
   

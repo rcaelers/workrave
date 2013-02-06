@@ -1,6 +1,6 @@
 // OSXAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,8 +15,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -40,7 +38,6 @@ OSXAppletWindow::OSXAppletWindow()
   NSMenu *menu = [[NSMenu alloc] init];
   view = [[OSXStatusBarView alloc] initWithMenu:menu];
 
-  int i;
   while ([menu numberOfItems] > 0) {
     [menu removeItemAtIndex:0];
   }

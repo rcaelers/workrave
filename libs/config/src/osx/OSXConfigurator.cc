@@ -1,6 +1,6 @@
 // OSXConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -132,7 +132,7 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
         }
     }
 
-  TRACE_EXIT();
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -141,6 +141,7 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
 {
   bool ret = true;
 
+  TRACE_ENTER_MSG("OSXConfigurator::get_value", key);
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
 
   switch(value.type)
@@ -173,5 +174,6 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
       ret = false;
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }

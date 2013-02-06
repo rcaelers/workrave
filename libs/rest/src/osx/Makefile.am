@@ -5,12 +5,12 @@
 
 if PLATFORM_OS_OSX
 
-noinst_LTLIBRARIES = 	libworkrave-config-osx.la
+noinst_LTLIBRARIES = 	libworkrave-rest-osx.la
 
-libworkrave_config_osx_la_SOURCES = OSXConfigurator.cc
+libworkrave_rest_osx_la_SOURCES = OSXKeyChain.cc
 
 AM_CPPFLAGS = 		-xobjective-c++ @GLIB_CFLAGS@ @SIGC_CFLAGS@ \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/config/include \
-			-I$(top_srcdir)/libs/config/src
+			-I$(top_srcdir)/libs/rest/include \
+			-I$(top_srcdir)/libs/rest/src
 endif

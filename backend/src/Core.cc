@@ -179,6 +179,7 @@ Core::init_configurator()
     {
       Util::set_home_directory(home);
     }
+  CoreConfig::init(configurator);
 }
 
 

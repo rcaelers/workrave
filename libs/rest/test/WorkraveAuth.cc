@@ -37,22 +37,6 @@
 using namespace std;
 using namespace workrave::rest;
 
-// TODO: move token store to rest lib.
-
-const SecretSchema *
-workrave_get_schema (void)
-{
-    static const SecretSchema the_schema = {
-        "org.workrave.Token", SECRET_SCHEMA_NONE,
-        {
-          {  "client_id", SECRET_SCHEMA_ATTRIBUTE_STRING },
-          {  "NULL", (SecretSchemaAttributeType)0 },
-        }
-    };
-    return &the_schema;
-}
-
-
 WorkraveAuth::Ptr
 WorkraveAuth::create()
 {
@@ -66,7 +50,9 @@ WorkraveAuth::WorkraveAuth()
   oauth_settings.token_endpoint = "http://localhost:8000/oauth2/token/";
   oauth_settings.client_id = "4a1cb098b443b198c8ef91bb81ab7640";
   oauth_settings.client_secret = "e470f6a4d5292794689ab42d66a6a8f8";
-  oauth_settings.scope = "https://api.workrave.org/workrave.state https://api.workrave.org/workrave.config https://api.workrave.org/workrave.history"; 
+  oauth_settings.scope = "https://api.workrave.org/workrave.state https://api.workrave.org/workrave.config https://api.workrave.org/workrave.history";
+
+  chain = IKeyChain::create("api.workrave.org");
 }
 
 
@@ -87,33 +73,20 @@ WorkraveAuth::init(AuthResultCallback callback)
   session = IHttpSession::create("Workrave");
   session->add_request_filter(workflow->create_filter());
 
-  secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_lookup, this,
-                         "client_id", oauth_settings.client_id.c_str(),
-                         NULL);
+  chain->retrieve("pietje", boost::bind(&WorkraveAuth::on_password_lookup, this, _1, _2, _3));
 }
  
 
 void
-WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer data)
+WorkraveAuth::on_password_lookup(bool ok, const std::string &username, const std::string &secret)
 {
-  WorkraveAuth *self = (WorkraveAuth *)data;
-  GError *error = NULL;
-
   bool success = false;
-  gchar *password = secret_password_lookup_finish(result, &error);
-
-  if (error != NULL)
+  if (ok)
     {
-      g_debug("secret_password_lookup: %s", error->message);
-      g_error_free(error);
-    }
-
-  else if (password != NULL)
-    {
-      g_debug("secret_password_lookup: passwd=%s", password);
+      g_debug("secret_password_lookup: passwd=%s", secret.c_str());
 
       vector<string> elements;
-      boost::split(elements, password, boost::is_any_of(":"));
+      boost::split(elements, secret, boost::is_any_of(":"));
   
       if (elements.size() == 3 &&
           elements[0].length() > 0 &&
@@ -124,21 +97,20 @@ WorkraveAuth::on_password_lookup(GObject *source, GAsyncResult *result, gpointer
           try
             {
               valid_until = boost::lexical_cast<int>(elements[2]);
+
+              workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2));
+              g_debug("secret_password_lookup: valid=%d", (int)valid_until);
             }
           catch(boost::bad_lexical_cast &) {}
-          g_debug("secret_password_lookup: valid=%d", (int)valid_until);
-          
-          self->workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2));
           success = true;
         }
-      secret_password_free(password);
     }
 
   if (!success)
     {
       g_debug("secret_password_lookup: obtain access");
-      self->workflow->init(boost::bind(&WorkraveAuth::on_auth_result, self, _1, _2),
-                           boost::bind(&WorkraveAuth::on_auth_feedback, self, _1, _2, _3));
+      workflow->init(boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2),
+                     boost::bind(&WorkraveAuth::on_auth_feedback, this, _1, _2, _3));
     }
 }
 
@@ -162,16 +134,12 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
   
   workflow->get_tokens(access_token, refresh_token, valid_until);
   
-  string password = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
-  g_debug("on_auth_result: %s", password.c_str());
+  string secret = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
+  g_debug("on_auth_result: %s", secret.c_str());
 
   if (result == AuthErrorCode::Success)
     {
-      secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT,
-                            "Workrave",
-                            password.c_str(), NULL, on_password_stored, this,
-                            "client_id", oauth_settings.client_id.c_str(),
-                            NULL);
+      chain->store("pietje", secret, boost::bind(&WorkraveAuth::on_password_stored, this, _1));
     }
   else
     {
@@ -180,22 +148,16 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
 }
 
 void
-WorkraveAuth::on_password_stored(GObject *source, GAsyncResult *result, gpointer data)
+WorkraveAuth::on_password_stored(bool ok)
 {
-  WorkraveAuth *self = (WorkraveAuth *)data;
-  GError *error = NULL;
-
   g_debug("secret_password_store");
-  
-  secret_password_store_finish(result, &error);
-  if (error != NULL)
+
+  if (!ok)
     {
-      g_debug("secret_password_store: %s", error->message);
-
-      self->callback(AuthErrorCode::Failed, "Failed to store token");
-
-      g_error_free(error);
+      callback(AuthErrorCode::Failed, "Failed to store token");
     }
-
-  self->callback(AuthErrorCode::Success, "");
+  else
+    {
+      callback(AuthErrorCode::Success, "");
+    }
 }
