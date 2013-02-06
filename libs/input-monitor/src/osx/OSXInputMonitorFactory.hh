@@ -1,6 +1,6 @@
 // OSXInputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,12 +26,15 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
 
+using namespace workrave::config;
+using namespace workrave::input_monitor;
+
 //! Factory to create input monitors.
 class OSXInputMonitorFactory : public IInputMonitorFactory
 {
 public:
   OSXInputMonitorFactory(IConfigurator::Ptr config);
-  void init(IConfigurator::Ptr config, const std::string &display);
+  virtual void init(const std::string &display);
   IInputMonitor *get_monitor(MonitorCapability capability);
 
 private:

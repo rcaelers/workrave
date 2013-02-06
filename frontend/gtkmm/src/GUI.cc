@@ -85,9 +85,9 @@
 #include <strings.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 #import "AppController.h"
-#include <Carbon/Carbon.h>
+//#include <Carbon/Carbon.h>
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -199,9 +199,11 @@ GUI::main()
   if (!Glib::thread_supported())
     Glib::thread_init();
 
+#ifndef PLATFORM_OS_OSX  
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
   option_ctx.add_group(*option_group);
-
+#endif
+  
   Gtk::Main *kit = NULL;
   try
     {
@@ -395,6 +397,7 @@ void
 GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
+#ifndef PLATFORM_OS_OSX  
   EggSMClient *client = NULL;
   client = egg_sm_client_get();
   if (client)
@@ -408,7 +411,8 @@ GUI::init_session()
                        G_CALLBACK(session_save_state_cb),
                        this);
     }
-
+#endif
+  
   session = new Session();
   session->init();
 
@@ -419,6 +423,7 @@ GUI::init_session()
 void
 GUI::cleanup_session()
 {
+#ifndef PLATFORM_OS_OSX  
   EggSMClient *client = NULL;
 
   client = egg_sm_client_get();
@@ -431,6 +436,7 @@ GUI::cleanup_session()
                                            (gpointer)G_CALLBACK(session_save_state_cb),
                                            this);
     }
+#endif
 }
 
 

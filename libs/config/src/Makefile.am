@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		unix win32 osx
@@ -30,7 +30,7 @@ cflags_platform =	-I$(top_srcdir)/libs/config/src/win32
 endif
 
 if PLATFORM_OS_OSX
-ldadd_platform = 	win32/libworkrave-config-osx.la
+ldadd_platform = 	osx/libworkrave-config-osx.la
 cflags_platform =	-I$(top_srcdir)/libs/config/src/osx
 endif
 
@@ -42,7 +42,5 @@ AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ @GDOME_CFLAGS@ \
 			-I$(top_srcdir)/libs/config/include/config \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include
-
-
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)

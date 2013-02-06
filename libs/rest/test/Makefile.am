@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2010 - 2013 Rob Caelers <robc@krandor.nl>
 #
 
 

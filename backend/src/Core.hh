@@ -47,7 +47,9 @@
 #include "ActivityMonitor.hh"
 #include "Statistics.hh"
 
+#if FIXME
 #include "Networking.hh"
+#endif
 #include "CoreHooks.hh"
 
 using namespace workrave;

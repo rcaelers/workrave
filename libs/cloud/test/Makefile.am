@@ -24,12 +24,12 @@ cloud_LDFLAGS = 	-L$(top_builddir)/backend/src/ \
 			${ldflags} \
 			@WIN32LDFLAGS@
 
-cloud_LDADD    =        $(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
-			$(top_builddir)/libs/rest/src/libworkrave-rest.la \
+cloud_LDADD    =        $(top_builddir)/libs/rest/src/libworkrave-rest.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			@GLIB_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @WIN32LIBS@ 
 
+#			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la
 endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) 

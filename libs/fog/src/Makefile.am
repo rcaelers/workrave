@@ -5,9 +5,11 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
+if !PLATFORM_OS_OSX
+if HAVE_DISTRIBUTION
+
 noinst_LTLIBRARIES = 	libworkrave-fog.la
 
-if HAVE_DISTRIBUTION
 sources	 =		Router.cc \
 			Marshaller.cc \
 			Link.cc \
@@ -24,7 +26,6 @@ SUFFIXES = .proto .pb.cc .pb.h
 
 BUILT_SOURCES = fog.pb.cc fog.pb.h
 
-endif
 
 libworkrave_fog_la_SOURCES = ${sources}
 
@@ -37,6 +38,9 @@ libworkrave_fog_la_CXXFLAGS = \
 
 libworkrave_fog_la_LIBADD = \
 			@GLIB_LIBS@ @PROTOBUF_LIBS@
+
+endif
+endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

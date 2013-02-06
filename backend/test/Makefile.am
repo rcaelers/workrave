@@ -6,6 +6,7 @@
 
 MAINTAINERCLEANFILES = 	*.pyc
 
+if !PLATFORM_OS_OSX
 if HAVE_TESTS
 
 bin_PROGRAMS = 		fog fog_test
@@ -42,6 +43,7 @@ fog_test_LDADD =	${fog_LDADD}
 
 $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la
 
+endif
 endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh)

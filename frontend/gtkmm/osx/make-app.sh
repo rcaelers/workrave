@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ BINARY=workrave
 PACKAGE=Workrave.app
 PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 
+export PKG_CONFIG_PATH=/Users/robc/gtk/inst/lib/pkgconfig:/Users/robc/gtk/inst/share/pkgconfig:/usr/lib/pkgconfig
+
 # ------------------------------------------------------------
 # Print usage message
 # ------------------------------------------------------------
@@ -41,7 +43,6 @@ Usage: $0 [OPTION...]
   --help, -h                 Display this help message
   --keep-symbols             Keep debugging symbols
   --link                     Create symlinks
-  --import-frameworks        Import frameworks in Workrave.app
   --gtk-dylib                Copy Gtk dynalic libraries
 "
 }
@@ -53,7 +54,6 @@ Usage: $0 [OPTION...]
 conf_strip=true
 conf_symlink=false
 conf_copy_gtk_dylib=false
-conf_import_frameworks=false
 
 while [ "$1" != "" ]
 do
@@ -66,9 +66,6 @@ do
 
 	--link)
 	    conf_symlink=true ;;
-
-        --import-frameworks)
-	    conf_import_frameworks=true ;;
 
       	-h|--help)
 	    usage
@@ -91,7 +88,6 @@ pkgrootdir=`pwd`/$PACKAGE
 pkgcontentsdir=$pkgrootdir/Contents
 pkgexecdir=$pkgcontentsdir/MacOS
 pkgresourcesdir=$pkgcontentsdir/Resources
-pkgframeworksdir=$pkgcontentsdir/Frameworks
 pkgdatadir=$pkgresourcesdir/share
 pkgetcdir=$pkgresourcesdir/etc
 pkglibdir=$pkgresourcesdir/lib
@@ -116,7 +112,6 @@ fi
 echo "Building new app directory structure"
 
 mkdir -p $pkgresourcesdir
-mkdir -p $pkgframeworksdir
 mkdir -p $pkgexecdir
 mkdir -p $pkglibdir
 
@@ -129,7 +124,7 @@ echo "Installing Workrave"
 if [ $conf_symlink = false ]; then
    INSTALL="cp"
 else
-   INSTALL="ln -s"
+   INSTALL="./install_symlink.sh"
 fi
 
 make install -C ../../../ \
@@ -139,7 +134,7 @@ make install -C ../../../ \
 
 if [ $conf_symlink = true ]; then
     rm -rf $pkgexecdir/workrave
-    ln -s ../../../frontend/gtkmm/src/workrave $pkgexecdir
+    ln -s `pwd`/../../../frontend/gtkmm/src/workrave $pkgexecdir
 fi
     
 rm -rf $pkgrootdir/lib
@@ -172,18 +167,18 @@ if [ $conf_copy_gtk_dylib = true ]; then
     
     $LIBPREFIX/bin/pango-querymodules \
         | sed "s?$LIBPREFIX/lib/pango/$pango_version/modules/?@executable_path/../Resources/lib/pango/$pango_version/modules/?" \
-        > $pkgetcdir/pango/pango.modules
+        > $pkglibdir/pango/$pango_version/modules.cache
     
-    mkdir -p $pkgetcdir/fonts
-    cp $LIBPREFIX/etc/fonts/fonts.dtd $pkgetcdir/fonts/
-    cp -r $LIBPREFIX/etc/fonts/conf.avail $pkgetcdir/fonts/
-    cp -r $LIBPREFIX/etc/fonts/conf.d $pkgetcdir/fonts/
-    cp fonts.conf $pkgetcdir/fonts
+    #mkdir -p $pkgetcdir/fonts
+    #cp $LIBPREFIX/etc/fonts/fonts.dtd $pkgetcdir/fonts/
+    #cp -r $LIBPREFIX/etc/fonts/conf.avail $pkgetcdir/fonts/
+    #cp -r $LIBPREFIX/etc/fonts/conf.d $pkgetcdir/fonts/
+    #cp fonts.conf $pkgetcdir/fonts
     
-    cat > $pkgetcdir/pango/pangorc << END
-[Pango]
-ModuleFiles=./pango.modules
-END
+#    cat > $pkgetcdir/pango/pangorc << END
+#[Pango]
+#ModuleFiles=./pango.modules
+#END
 
 fi
 
@@ -193,29 +188,31 @@ fi
 
 if [ $conf_copy_gtk_dylib = true ]; then
 
-    gtk_version=`pkg-config --variable=gtk_binary_version gtk+-2.0`
+    gtk_version=`pkg-config --variable=gtk_binary_version gtk+-3.0`
+    gdk_pixbuf_version=`pkg-config --variable=gdk_pixbuf_binary_version gdk-pixbuf-2.0`
     
-    mkdir -p $pkglibdir/gtk-2.0/$gtk_version/{engines,immodules,loaders}
-    mkdir -p $pkgetcdir/gtk-2.0
+    mkdir -p $pkglibdir/gtk-3.0/$gtk_version/{immodules,printbackends}
+    mkdir -p $pkgetcdir/gtk-3.0
+    mkdir -p $pkglibdir/gio/modules
+    mkdir -p $pkglibdir/gdk-pixbuf-2.0/$gdk_pixbuf_version/loaders
     
-    cp -r $LIBPREFIX/lib/gtk-2.0/$gtk_version/engines/* $pkglibdir/gtk-2.0/$gtk_version/engines/
-    cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/*.so $pkglibdir/gtk-2.0/$gtk_version/immodules/
-    cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/*.so $pkglibdir/gtk-2.0/$gtk_version/loaders/
+    cp $LIBPREFIX/lib/gtk-3.0/$gtk_version/immodules/*.so $pkglibdir/gtk-3.0/$gtk_version/immodules/
+    cp $LIBPREFIX/lib/gtk-3.0/$gtk_version/printbackends/*.so $pkglibdir/gtk-3.0/$gtk_version/printbackends/
+    cp $LIBPREFIX/lib/gio/modules/*.so $pkglibdir/gio/modules
+    cp $LIBPREFIX/lib/gdk-pixbuf-2.0/$gdk_pixbuf_version/loaders/*.so $pkglibdir/gdk-pixbuf-2.0/$gdk_pixbuf_version/loaders/
     
-    sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/loaders/?" \
-        < $LIBPREFIX/etc/gtk-2.0/gdk-pixbuf.loaders \
-        > $pkgetcdir/gtk-2.0/gdk-pixbuf.loaders
-    
-    sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/immodules/?" \
-        < $LIBPREFIX/etc/gtk-2.0/gtk.immodules \
-        > $pkgetcdir/gtk-2.0/gtk.immodules
-    
-    ## FIXME:
-    mkdir -p $pkgthemedir/Leopardish-normal
-    cp -r ~/.themes/Leopardish-normal/* $pkgthemedir/Leopardish-normal
-    
-    mkdir -p $pkgthemedir/Quartz
-    cp -r $LIBPREFIX/share/themes/Quartz/gtk-2.0 $pkgthemedir/Quartz
+    sed "s?$LIBPREFIX/lib/gtk-3.0/$gtk_version/immodules/?@executable_path/../Resources/lib/gtk-3.0/$gtk_version/immodules/?" \
+        < $LIBPREFIX/lib/gtk-3.0/$gtk_version/immodules.cache \
+        > $pkglibdir/gtk-3.0/$gtk_version/immodules.cache
+
+    $LIBPREFIX/bin/gdk-pixbuf-query-loaders \
+        | sed "s?$LIBPREFIX/lib/gdk-pixbuf-2.0/$gdk_pixbuf_version/loaders/?@executable_path/../Resources/lib/gdk-pixbuf-2.0/$gdk_pixbuf_version/loaders/?" \
+        > $pkglibdir/gdk-pixbuf-2.0/$gdk_pixbuf_binary_version/loaders.cache
+ 
+    mkdir -p $pkgthemedir
+    cp -r $LIBPREFIX/share/themes/* $pkgthemedir
+    mkdir -p $pkgdatadir/glib-2.0/schemas
+    cp -r $LIBPREFIX/share/glib-2.0/schemas $pkgdatadir/glib-2.0/
 fi
 
 # ------------------------------------------------------------
@@ -232,15 +229,16 @@ if [ $conf_copy_gtk_dylib = true ]; then
         LIBS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
         EXECS=`find $pkgexecdir -type f -print`
         libs="`otool -L $LIBS $EXECS 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
-        if [ x$libs != x ] ; then
+        if [ "x$libs" != "x" ] ; then
             cp -f $libs $pkglibdir
         fi
         num_files=`ls $pkglibdir | wc -l`
         if [ $num_files = $total ];
         then
-    	stop=true
+    	    stop=true
         fi
         total=$num_files
+	exit
     done
 fi
 
@@ -261,7 +259,6 @@ for f in $EXECS $LIBS; do
 	    base=`basename $lib`
 	    changes="$changes -change $lib @executable_path/../Resources/lib/$base"
 	done
-
 	if [ "x$changes" != x ];
         then
 	    if install_name_tool $changes $f ;
@@ -283,20 +280,6 @@ for f in $EXECS $LIBS; do
 done
 
 # ------------------------------------------------------------
-# Importing Frameworks
-# ------------------------------------------------------------
-
-if [ "$conf_import_frameworks" = "true" ];
-then
-    echo "Importing Frameworks"
-
-    ./import-frameworks.sh
-
-    rm -rf $pkgframeworksdir/Gtk.framework/Versions/2/Resources/share/icons/gnome
-    rm -rf $pkgframeworksdir/Gtk.framework/Versions/2/Resources/share/icons/hicolor
-fi
-
-# ------------------------------------------------------------
 # Stripping
 # ------------------------------------------------------------
 
@@ -308,13 +291,6 @@ then
         strip -x $pkglibdir/*.dylib
     fi
     strip -ur `find $pkgexecdir -type f -print`
-    strip -xS `find $pkgframeworksdir -name "*.dylib" -print`
-
-    for framework in $pkgframeworksdir/* ; do
-        base=`basename $framework .framework`
-        strip -xS $framework/$base
-    done;
-
 fi
 
 exit 0

@@ -1,6 +1,6 @@
 // OSXInputMonitor.cc --- ActivityMonitor for OSX
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,6 @@ OSXInputMonitor::OSXInputMonitor()
   : terminate_loop(false)
 {
   monitor_thread = new Thread(this);
-  io_service = NULL;
 }
 
 

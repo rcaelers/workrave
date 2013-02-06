@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009, 2010, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -23,7 +23,7 @@ cflags_platform =	-I$(top_srcdir)/libs/input-monitor/src/win32
 endif
 
 if PLATFORM_OS_OSX
-ldadd_platform = 	win32/libworkrave-input-monitor-osx.la
+ldadd_platform = 	osx/libworkrave-input-monitor-osx.la
 cflags_platform =	-I$(top_srcdir)/libs/input-monitor/src/osx
 endif
 

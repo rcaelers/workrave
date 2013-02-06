@@ -1,6 +1,6 @@
 // debug.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -153,7 +153,7 @@ Debug::stream()
         }
 
       g_log_streams[boost::this_thread::get_id()] = new std::ofstream();
-      g_log_streams[boost::this_thread::get_id()]->open(ss.str(), std::ios::app);
+      g_log_streams[boost::this_thread::get_id()]->open(ss.str().c_str(), std::ios::app);
     }
 
   std::ofstream *ret = g_log_streams[boost::this_thread::get_id()];

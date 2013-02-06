@@ -21,11 +21,13 @@ AC_INIT([workrave],
         [workrave],
         [http://www.workrave.org])
 
+AC_CANONICAL_TARGET
+
 AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
+AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules])
 dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.6.2
@@ -107,11 +109,11 @@ AC_ARG_ENABLE(monitors,
                              [comma separated list of activity monitors to use, currently support: record, screensaver, x11events (Unix Only) @<:@default=yes@:>@])])
 
 
-case x"$target" in
+case x"$target_alias" in
   xNONE | x)
-    target_or_host="$host" ;;
+    target_or_host="$host_alias" ;;
   *)
-    target_or_host="$target" ;;
+    target_or_host="$target_alias" ;;
 esac
 
 
@@ -129,6 +131,7 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AM_PROG_AR
 AC_PROG_LIBTOOL
 AC_CHECK_PROGS(M4, gm4 m4, m4)
 
@@ -165,7 +168,7 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCTEX.mouseData,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUC
 AC_HEADER_STDBOOL
 AC_C_INLINE
 AC_TYPE_SIZE_T
-AC_TYPE_UINT8_T
+dnl AC_TYPE_UINT8_T
 
 have_ishelldispatch=no
 AC_MSG_CHECKING([IShellDispatch])
@@ -212,14 +215,14 @@ platform_os_osx=no
 platform_os_unix=no
 platform_variant_x11=no
 
-case "$target_or_host" in
+case "$target_os" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
     platform_os_win32=yes
     platform_os_name="Windows"
    AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])
    AC_DEFINE(HAVE_LANGUAGE_SELECTION,,[Define if the UI language can be defined in the preferences])
     ;;
-  *-*-darwin* | *-*-rhapsody*)
+  *darwin*)
     platform_os_osx=yes
     platform_os_name="OS X"
    AC_DEFINE(PLATFORM_OS_OSX,,[Define if compiling for the OS X platform])
@@ -232,6 +235,9 @@ case "$target_or_host" in
 esac
 
 AC_MSG_RESULT([$platform_os_name])
+AC_MSG_RESULT([$target_or_host])
+AC_MSG_RESULT([$target_alias])
+AC_MSG_RESULT([$host_alias])
 
 AM_CONDITIONAL(PLATFORM_OS_WIN32, test "x$platform_os_win32" = "xyes")
 AM_CONDITIONAL(PLATFORM_OS_OSX, test "x$platform_os_osx" = "xyes")
@@ -335,21 +341,22 @@ AC_SUBST(OSX_CFLAGS)
 
 if test "x$platform_os_osx" = "xyes"
 then
-   PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
+   dnl PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
 
-   AC_CHECK_LIB(resolv, res_query)
+   dnl AC_CHECK_LIB(resolv, res_query)
 
    AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [ AC_CHECK_HEADER(IOKit/IOKitLib.h,
                                      [  AC_DEFINE(HAVE_IOKIT, 1, [Define if we have IOKit])
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
-    config_gnome2=no
-    config_gnome3=no
-    config_gconf=no
-
+    enable_gnome2=no
+    enable_gnome3=no
+    enable_gconf=no
+    enable_dbus=no
+    
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
-    LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
+    LIBS="$LIBS -framework CoreServices -framework Cocoa -framework Foundation -lc++"
     OSX_CFLAGS=""
 fi
 
@@ -791,10 +798,13 @@ config_distribution=no
 
 if test "x$enable_distribution" != "xno"
 then
-  PKG_CHECK_MODULES([PROTOBUF], [protobuf >= 2.4])
-  AC_PATH_PROG([PROTOC], [protoc], [AC_MSG_ERROR([protoc is not found])])
+  AC_SUBST(PROTOBUF_CFLAGS)
+  AC_SUBST(PROTOBUF_LIBS)
 
-  if test "x$platform_os_unix" == "xyes"; then
+  dnl PKG_CHECK_MODULES([PROTOBUF], [protobuf >= 2.4])
+  dnl AC_PATH_PROG([PROTOC], [protoc], [AC_MSG_ERROR([protoc is not found])])
+  
+   if test "x$platform_os_unix" == "xyes"; then
    giounix="gio-unix-2.0 >= 2.32"
   fi
   PKG_CHECK_MODULES([GIO],
@@ -875,10 +885,12 @@ PKG_CHECK_MODULES([SOUP],
 dnl
 dnl Libsecret
 dnl
-		 
-PKG_CHECK_MODULES([SECRET],
+
+if test "x$platform_os_unix" == "xyes"; then
+   PKG_CHECK_MODULES([SECRET],
                   [ libsecret-1 >= 0.12 ]
 		 )
+fi
 
 dnl
 dnl Gcrypt
@@ -1007,6 +1019,9 @@ AC_CONFIG_FILES([Makefile
              libs/rest/include/rest/Makefile
              libs/rest/include/json/Makefile
              libs/rest/src/Makefile
+             libs/rest/src/unix/Makefile
+             libs/rest/src/osx/Makefile
+             libs/rest/src/win32/Makefile
              libs/rest/test/Makefile
              libs/cloud/Makefile
              libs/cloud/include/Makefile

@@ -6,6 +6,7 @@
 
 MAINTAINERCLEANFILES = 	*.pyc
 
+if !PLATFORM_OS_OSX
 if HAVE_TESTS
 
 bin_PROGRAMS = 		fog
@@ -38,6 +39,7 @@ fog_LDADD    =        $(top_builddir)/libs/fog/src/libworkrave-fog.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
 			@GLIB_LIBS@ @PROTOBUF_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @WIN32LIBS@ 
 
+endif
 endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.proto) 

@@ -1,6 +1,6 @@
 // OSXSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010, 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@
 
 OSXSoundPlayer::OSXSoundPlayer()
 {
-  EnterMovies();
 }
 
 
@@ -73,58 +72,6 @@ OSXSoundPlayer::play_sound(string file)
 void
 OSXSoundPlayer::run()
 {
-  OSErr err;
-  FSSpec spec;
-  const char *fname = wav_file;
-  Movie movie;
-
-  FSRef fref;
-  err = FSPathMakeRef((const UInt8 *) fname, &fref, NULL);
-  if (err != noErr)
-    {
-      printf("FSPathMakeRef failed %d\n", err);
-      return;
-    }
-  err = FSGetCatalogInfo(&fref, kFSCatInfoNone, NULL, NULL, &spec, NULL);
-  if (err != noErr)
-    {
-      printf("FSGetCatalogInfo failed %d\n", err);
-      return;
-    }
-
-  short movieResFile = 0;
-  err = OpenMovieFile(&spec, &movieResFile, fsRdPerm);
-  if (err != noErr)
-    {
-      printf("OpenMovieFile failed %d\n", err);
-      return;
-    }
-
-  Str255 name;
-  err = NewMovieFromFile(&movie, movieResFile, NULL, name, 0, NULL);
-  if (err != noErr)
-    {
-      printf("NewMovieFromFile failed %d\n", err);
-      err = CloseMovieFile(movieResFile);
-      if (err != noErr)
-        {
-          printf("CloseMovieFile failed %d\n", err);
-        }
-      return;
-    }
-
-
-  // play the movie once thru
-  StartMovie(movie);
-
-  while (!IsMovieDone(movie))
-    {
-      MoviesTask(movie, 0);
-    }
-
-  DisposeMovie(movie);
-  free((void*)wav_file);
-  wav_file = NULL;
 }
 
 

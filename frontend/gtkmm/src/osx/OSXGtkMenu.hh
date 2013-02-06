@@ -1,6 +1,6 @@
 // OSXGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 #include "MainGtkMenu.hh"
 
-#include "ige-mac-dock.h"
+//#include "ige-mac-dock.h"
 
 
 class OSXGtkMenu
@@ -40,8 +40,8 @@ public:
   virtual void popup(const guint button, const guint activate_time);
 
 private:
-  static void dock_clicked(IgeMacDock *dock, void *data);
-  static void dock_quit(IgeMacDock *dock, void *data);
+  // static void dock_clicked(IgeMacDock *dock, void *data);
+  // static void dock_quit(IgeMacDock *dock, void *data);
 };
 
 #endif // OSXGTKMENU_HH

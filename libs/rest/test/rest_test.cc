@@ -50,7 +50,7 @@ on_auth_ready(AuthErrorCode error, const string &detal, WorkraveAuth::Ptr auth)
   IHttpSession::Ptr session = auth->get_session();
 
   IHttpRequest::Ptr request = IHttpRequest::create();
-  request->uri = "http://localhost:8000/stream1/";
+  request->uri = "http://localhost:8000/api/stream1/xx/";
   request->method = "GET";
   
   IHttpStreamOperation::Ptr stream = session->stream(request);

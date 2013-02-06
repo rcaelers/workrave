@@ -1,3 +1,4 @@
+if !PLATFORM_OS_OSX
 -include $(INTROSPECTION_MAKEFILE)
 
 INTROSPECTION_GIRS =
@@ -39,7 +40,7 @@ typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 CLEANFILES = $(gir_DATA) $(typelib_DATA)
 endif
 endif
-
+endif
 EXTRA_DIST = 
 
 

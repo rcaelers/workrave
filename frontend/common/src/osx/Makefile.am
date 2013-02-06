@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -19,6 +19,7 @@ libworkrave_frontend_common_osx_la_SOURCES = \
 libworkrave_frontend_common_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/backend/include \
+			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/frontend/common/src \
 			-I$(top_srcdir)/frontend/common/include \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@

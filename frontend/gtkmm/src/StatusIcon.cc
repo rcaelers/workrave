@@ -28,7 +28,7 @@
 #include <assert.h>
 
 #ifdef PLATFORM_OS_OSX
-#include "ige-mac-dock.h"
+//#include "ige-mac-dock.h"
 #endif
 
 #ifdef PLATFORM_OS_WIN32

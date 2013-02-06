@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -279,7 +279,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
       out.type = VARIANT_TYPE_NONE;
     }
 
-  TRACE_EXIT();
+  TRACE_RETURN(ret);
   return ret;
 }
 

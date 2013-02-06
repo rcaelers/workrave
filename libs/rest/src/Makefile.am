@@ -1,9 +1,9 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2010 - 2013 Rob Caelers <robc@krandor.nl>
 #
 
-SUBDIRS = 		
+SUBDIRS = 		unix win32 osx
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
@@ -24,11 +24,28 @@ libworkrave_rest_la_SOURCES = \
 			Uri.cc \
 			jsoncpp.cpp
 
+if PLATFORM_OS_UNIX
+ldadd_platform = 	unix/libworkrave-rest-unix.la
+cflags_platform =	-I$(top_srcdir)/libs/rest/src/unix
+endif
+
+if PLATFORM_OS_WIN32
+ldadd_platform = 	win32/libworkrave-rest-win32.la
+cflags_platform =	-I$(top_srcdir)/libs/rest/src/win32
+endif
+
+if PLATFORM_OS_OSX
+ldadd_platform = 	osx/libworkrave-rest-osx.la
+cflags_platform =	-I$(top_srcdir)/libs/rest/src/osx -xobjective-c++
+endif
+
 libworkrave_rest_la_CXXFLAGS = \
+			${cflags_platform} \
 			@GLIB_CFLAGS@ @SOUP_CFLAGS@ @LIBGCRYPT_CFLAGS@ @SECRET_CFLAGS@
 
 libworkrave_rest_la_LIBADD =  \
-			@GLIB_LIBS@ @SOUP_LIBS@ @LIBGCRYPT_LIBS@ @SECRET_LIBS@
+			${ldadd_platform} \
+			@GLIB_LIBS@ @SOUP_LIBS@ @LIBGCRYPT_LIBS@ @SECRET_LIBS@ 
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ @GIO_CFLAGS@ \
 			${cflags_platform} \

@@ -67,7 +67,8 @@ extraflags +=	 	-I$(top_srcdir)/frontend/applets/indicator/include
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		eggdesktopfile.c eggsmclient-xsmp.c
+extrasources +=		eggdesktopfile.c eggsmclient-xsmp.c \
+			eggsmclient.c
 
 if HAVE_GTK3
 extrasources +=		X11SystrayAppletWindow.cc gtktrayicon3.c
@@ -82,7 +83,8 @@ ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-uni
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		resource.rc eggsmclient-win32.c
+extrasources +=		resource.rc eggsmclient-win32.c \
+			eggsmclient.c
 extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
@@ -106,7 +108,7 @@ resource.rc: resource.rc.in
 if PLATFORM_OS_OSX
 extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c
+#extrasources +=	        eggsmclient-osx.c
 
 AM_CPPFLAGS =		-xobjective-c++
 endif
@@ -226,7 +228,6 @@ workrave_SOURCES = 	AppletControl.cc \
 			TimerBoxPreferencePage.cc \
 			TimerPreferencesPanel.cc \
 			WindowHints.cc \
-			eggsmclient.c \
 			main.cc \
 			$(extrasources) 
 

@@ -1,6 +1,6 @@
 // AppController.hh --- OSX Application Controller
 //
-// Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-
-static const char rcsid[] = "$Id: MainWindow.cc 1367 2007-10-23 19:07:55Z rcaelers $";
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

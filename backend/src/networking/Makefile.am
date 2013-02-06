@@ -5,6 +5,8 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
+if !PLATFORM_OS_OSX
+
 noinst_LTLIBRARIES = 	libworkrave-backend-networking.la
 
 if HAVE_DISTRIBUTION
@@ -32,6 +34,8 @@ libworkrave_backend_networking_la_CXXFLAGS = \
 			-I${top_srcdir}/libs/fog/include \
 			-I${top_srcdir}/backend/src \
 			-I${top_srcdir}/backend/include
+
+endif
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)
