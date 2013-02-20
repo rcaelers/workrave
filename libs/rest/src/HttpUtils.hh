@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ public:
   static SoupMessage *create_request_message(HttpRequest::Ptr request);
   static void setup_request_message(SoupMessage *message, HttpRequest::Ptr request);
   static HttpReply::Ptr process_reply_message(SoupMessage *message);
+  static void open_in_browser(const std::string &location);
 };
 
 #endif

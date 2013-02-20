@@ -35,12 +35,7 @@
 
 #include "Uri.hh"
 #include "OAuth2Filter.hh"
-
-#ifdef PLATFORM_OS_OSX
-#import <AppKit/NSWorkspace.h>
-#import <Foundation/NSString.h>
-#import <Foundation/NSURL.h>
-#endif
+#include "HttpUtils.hh"
 
 using namespace std;
 using namespace workrave::rest;
@@ -147,36 +142,7 @@ OAuth2::request_authorization_grant()
       RequestParams parameters;
       string login_uri = create_login_url(callback_uri, parameters);
 
-      // TODO: move to utils.
-      
-#if defined(PLATFORM_OS_UNIX)     
-      gchar *program = g_find_program_in_path("xdg-open");
-      if (program == NULL)
-        {
-          throw AuthError(AuthErrorCode::System, "Cannot find xdg-open");
-        }
-
-      string command = string(program) + " " + login_uri;
-
-      gint exit_code = 0;
-      GError *error = NULL;
-      if (!g_spawn_command_line_sync(command.c_str(), NULL, NULL, &exit_code, &error))
-        {
-          throw AuthError(AuthErrorCode::System, boost::str(boost::format("Failed to execute '%1%' (%2%)") % command % error->message));
-        }
-
-      if (WEXITSTATUS(exit_code) != 0)
-        {
-          throw AuthError(AuthErrorCode::System, boost::str(boost::format("xdg-open returned an error exit-code %1%") % WEXITSTATUS(exit_code)));
-        }
-#elif defined(PLATFORM_OS_OSX)
-      g_debug("Redirecting to %s", login_uri.c_str());
-      NSString* uri = [NSString stringWithCString:login_uri.c_str() encoding: NSUTF8StringEncoding];
-      [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: uri]];
-#else
-#error Not ported
-#endif
-      
+      HttpUtils::open_in_browser(login_uri);
     }
   catch(HttpError &e)
     {
