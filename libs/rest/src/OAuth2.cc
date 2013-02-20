@@ -134,6 +134,7 @@ OAuth2::get_tokens(std::string &access_token, std::string &refresh_token, time_t
 void
 OAuth2::request_authorization_grant()
 {
+  g_debug("OAuth2::request_authorization_grant");
   try
     {
       state = AuthorizationGrantRequest;
@@ -177,11 +178,15 @@ OAuth2::request_authorization_grant()
 #endif
       
     }
-  catch(std::exception &e)
+  catch(HttpError &e)
+    {
+      report_result(AuthErrorCode::System, "Failed to open login website in browser");
+    }
+  catch(AuthError &e)
     {
       report_result(e);
     }
-    }
+}
 
 
 IHttpReply::Ptr
@@ -190,6 +195,8 @@ OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
   string error = "";
   string error_description = "";
 
+  g_debug("OAuth2::on_authorization_grant_ready: uri = %s, resp = %s", request->uri.c_str(), request->body.c_str());
+  
   try
     {
       server->stop();
@@ -226,7 +233,7 @@ OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
       
       request_access_token(code);
     }
-  catch(std::exception &e)
+  catch(AuthError &e)
     {
       report_result(e);
       if (error == "")
@@ -237,7 +244,6 @@ OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
 
   IHttpReply::Ptr reply = IHttpReply::create();
   feedback(error, error_description, reply);
-  g_debug("on_authorization_grant_ready returns status = %d, resp = %s", reply->status, reply->body.c_str());
   return reply;
 }
 
@@ -245,6 +251,7 @@ OAuth2::on_authorization_grant_ready(IHttpRequest::Ptr request)
 void
 OAuth2::request_access_token(const string &code)
 {
+  g_debug("OAuth2::request_access_token");
   try
     {
       state = AccessTokenRequest;
@@ -256,8 +263,6 @@ OAuth2::request_access_token(const string &code)
                                % Uri::escape(callback_uri)
                                );
 
-      g_debug("request_access_token %s", body.c_str());
-      
       IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.token_endpoint;
       request->method = "POST";
@@ -266,7 +271,7 @@ OAuth2::request_access_token(const string &code)
 
       session->send(request, boost::bind(&OAuth2::on_access_token_ready, this, _1));
     }
-  catch(std::exception &e)
+  catch(AuthError &e)
     {
       report_result(e);
     }
@@ -276,7 +281,7 @@ OAuth2::request_access_token(const string &code)
 void
 OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
 {
-  g_debug("on_access_token_ready status = %d, resp = %s", reply->status, reply->body.c_str());
+  g_debug("OAuth2::on_access_token_ready: status = %d, resp = %s", reply->status, reply->body.c_str());
   
   try
     {
@@ -308,13 +313,13 @@ OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
       refresh_token = root["refresh_token"].asString();
       valid_until = root["expires_in"].asInt() + time(NULL);
           
-      g_debug("access_token : %sm valid %d", access_token.c_str(), root["expires_in"].asInt());
+      g_debug("OAuth2::on_access_token_ready: access_token=%sm valid=%d", access_token.c_str(), root["expires_in"].asInt());
       struct tm * timeinfo = localtime(&valid_until);
-      g_debug("Valid until:  %s", asctime(timeinfo));
+      g_debug("OAuth2::on_access_token_ready: valid until:  %s", asctime(timeinfo));
 
       credentials_updated_signal(access_token, valid_until);
     }
-  catch(std::exception &e)
+  catch(AuthError &e)
     {
       report_result(e);
       return;
@@ -327,13 +332,12 @@ OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
 void
 OAuth2::refresh_access_token()
 {
-  g_debug("refresh_access_token");
+  g_debug("OAuth2::refresh_access_token");
   access_token = "";
   credentials_updated_signal(access_token, 0);
 
   if (state == RefreshAccessTokenRequest)
     {
-      g_debug("Already refreshing");
       return;
     }
   else if (state != Idle)
@@ -353,7 +357,6 @@ OAuth2::refresh_access_token()
                                % settings.client_secret
                                % refresh_token
                                );
-      g_debug("body %s", body.c_str());
 
       IHttpRequest::Ptr request = IHttpRequest::create();
       request->uri = settings.token_endpoint;
@@ -363,7 +366,7 @@ OAuth2::refresh_access_token()
           
       session->send(request, boost::bind(&OAuth2::on_refresh_access_token_ready, this, _1));
     }
-  catch(std::exception &e)
+  catch(AuthError &e)
     {
       report_result(e);
     }
@@ -373,10 +376,9 @@ OAuth2::refresh_access_token()
 void
 OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
 {
+  g_debug("OAuth2::on_refresh_access_token_ready: status = %d, resp = %s", reply->status, reply->body.c_str());
   try
     {
-      g_debug("status = %d, resp = %s", reply->status, reply->body.c_str());
-      
       if (reply->status != 200)
         {
           throw AuthError(AuthErrorCode::Protocol, boost::str(boost::format("Refresh access token request returned HTTP error %1%") % reply->status));
@@ -407,16 +409,16 @@ OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
       if (root.isMember("refresh_token"))
         {
           refresh_token = root["refresh_token"].asString();
-          g_debug("access_token : %s", refresh_token.c_str());
+          g_debug("OAuth2::on_refresh_access_token_ready: refresh_token : %s", refresh_token.c_str());
         }
 
       struct tm * timeinfo = localtime(&valid_until);
-      g_debug("Valid until:  %s", asctime(timeinfo));
+      g_debug("OAuth2::on_refresh_access_token_ready: Valid until:  %s", asctime(timeinfo));
        
-      g_debug("access_token : %s, valid %d", access_token.c_str(), root["expires_in"].asInt());
+      g_debug("OAuth2::on_refresh_access_token_ready: access_token=%s, valid %d", access_token.c_str(), root["expires_in"].asInt());
       credentials_updated_signal(access_token, valid_until);
     }
-  catch(std::exception &e)
+  catch(AuthError &e)
     {
       report_result(e);
       return;
@@ -469,7 +471,6 @@ OAuth2::parse_query(const string &query, RequestParams &params) const
 {
   if (query != "")
     {
-      g_debug("Query: %s", query.c_str());
       vector<string> query_params;
       boost::split(query_params, query, boost::is_any_of("&"));
 
@@ -488,22 +489,16 @@ OAuth2::parse_query(const string &query, RequestParams &params) const
 
 
 void
-OAuth2::report_result(const std::exception &exp)
+OAuth2::report_result(const AuthError &error)
 {
-  try
-    {
-      const AuthError &error = dynamic_cast<const AuthError&>(exp);
-      report_result(error.code(), error.what());
-    }
-  catch(std::bad_cast)
-    {
-      report_result(AuthErrorCode::Failed, exp.what());
-    }
+  report_result(error.code(), error.what());
 }
 
 void
 OAuth2::report_result(AuthErrorCode code, const string &details)
 {
+  g_debug("OAuth2::report_result: %d %s", code, details.c_str());
+  
   if (code == AuthErrorCode::Success)
     {
       state = Idle;
