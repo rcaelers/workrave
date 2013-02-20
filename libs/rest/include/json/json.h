@@ -76,7 +76,7 @@ license you like.
 # define JSON_AMALGATED_H_INCLUDED
 /// If defined, indicates that the source file is amalgated
 /// to prevent private header inclusion.
-#define JSON_IS_AMALGATED
+#define JSON_IS_AMALGAMATION
 
 // //////////////////////////////////////////////////////////////////////
 // Beginning of content of file: include/json/config.h
@@ -108,14 +108,16 @@ license you like.
 /// Only has effects if JSON_VALUE_USE_INTERNAL_MAP is defined.
 //#  define JSON_USE_SIMPLE_INTERNAL_ALLOCATOR 1
 
-/// If defined, indicates that Json use exception to report invalid type manipulation
-/// instead of C assert macro.
+// If non-zero, the library uses exceptions to report bad input instead of C
+// assertion macros. The default is to use exceptions.
+# ifndef JSON_USE_EXCEPTION
 # define JSON_USE_EXCEPTION 1
+# endif
 
 /// If defined, indicates that the source file is amalgated
 /// to prevent private header inclusion.
 /// Remarks: it is automatically defined in the generated amalgated header.
-#define JSON_IS_AMALGAMATION
+// #define JSON_IS_AMALGAMATION
 
 
 # ifdef JSON_IN_CPPTL
@@ -466,12 +468,14 @@ namespace Json {
       /// Maximum unsigned int value that can be stored in a Json::Value.
       static const UInt maxUInt;
 
+# if defined(JSON_HAS_INT64)
       /// Minimum signed 64 bits int value that can be stored in a Json::Value.
       static const Int64 minInt64;
       /// Maximum signed 64 bits int value that can be stored in a Json::Value.
       static const Int64 maxInt64;
       /// Maximum unsigned 64 bits int value that can be stored in a Json::Value.
       static const UInt64 maxUInt64;
+#endif // defined(JSON_HAS_INT64)
 
    private:
 #ifndef JSONCPP_DOC_EXCLUDE_IMPLEMENTATION
@@ -580,8 +584,10 @@ namespace Json {
 # endif
       Int asInt() const;
       UInt asUInt() const;
+#if defined(JSON_HAS_INT64)
       Int64 asInt64() const;
       UInt64 asUInt64() const;
+#endif // if defined(JSON_HAS_INT64)
       LargestInt asLargestInt() const;
       LargestUInt asLargestUInt() const;
       float asFloat() const;
@@ -591,7 +597,9 @@ namespace Json {
       bool isNull() const;
       bool isBool() const;
       bool isInt() const;
+      bool isInt64() const;
       bool isUInt() const;
+      bool isUInt64() const;
       bool isIntegral() const;
       bool isDouble() const;
       bool isNumeric() const;
@@ -1445,7 +1453,6 @@ public: // overridden from ValueArrayAllocator
 # include <deque>
 # include <stack>
 # include <string>
-# include <iostream>
 
 namespace Json {
 
@@ -1671,7 +1678,6 @@ namespace Json {
 #endif // if !defined(JSON_IS_AMALGAMATION)
 # include <vector>
 # include <string>
-# include <iostream>
 
 namespace Json {
 
@@ -1701,6 +1707,13 @@ namespace Json {
 
       void enableYAMLCompatibility();
 
+      /** \brief Drop the "null" string from the writer's output for nullValues.
+       * Strictly speaking, this is not valid JSON. But when the output is being
+       * fed to a browser's Javascript, it makes for smaller output and the
+       * browser can handle the output just fine.
+       */
+      void dropNullPlaceholders();
+
    public: // overridden from Writer
       virtual std::string write( const Value &root );
 
@@ -1709,6 +1722,7 @@ namespace Json {
 
       std::string document_;
       bool yamlCompatiblityEnabled_;
+      bool dropNullPlaceholders_;
    };
 
    /** \brief Writes a Value in <a HREF="http://www.json.org">JSON</a> format in a human friendly way.
@@ -1846,6 +1860,51 @@ namespace Json {
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: include/json/writer.h
+// //////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// //////////////////////////////////////////////////////////////////////
+// Beginning of content of file: include/json/assertions.h
+// //////////////////////////////////////////////////////////////////////
+
+// Copyright 2007-2010 Baptiste Lepilleur
+// Distributed under MIT license, or public domain if desired and
+// recognized in your jurisdiction.
+// See file LICENSE for detail or copy at http://jsoncpp.sourceforge.net/LICENSE
+
+#ifndef CPPTL_JSON_ASSERTIONS_H_INCLUDED
+# define CPPTL_JSON_ASSERTIONS_H_INCLUDED
+
+#include <stdlib.h>
+
+#if !defined(JSON_IS_AMALGAMATION)
+# include <json/config.h>
+#endif // if !defined(JSON_IS_AMALGAMATION)
+
+#if JSON_USE_EXCEPTION
+#define JSON_ASSERT( condition ) assert( condition );  // @todo <= change this into an exception throw
+#define JSON_FAIL_MESSAGE( message ) throw std::runtime_error( message );
+#else  // JSON_USE_EXCEPTION
+#define JSON_ASSERT( condition ) assert( condition );
+
+// The call to assert() will show the failure message in debug builds. In
+// release bugs we write to invalid memory in order to crash hard, so that a
+// debugger or crash reporter gets the chance to take over. We still call exit()
+// afterward in order to tell the compiler that this macro doesn't return.
+#define JSON_FAIL_MESSAGE( message ) { assert(false && message); strcpy(reinterpret_cast<char*>(666), message); exit(123); }
+
+#endif
+
+#define JSON_ASSERT_MESSAGE( condition, message ) if (!( condition )) { JSON_FAIL_MESSAGE( message ) }
+
+#endif // CPPTL_JSON_ASSERTIONS_H_INCLUDED
+
+// //////////////////////////////////////////////////////////////////////
+// End of content of file: include/json/assertions.h
 // //////////////////////////////////////////////////////////////////////
 
 
