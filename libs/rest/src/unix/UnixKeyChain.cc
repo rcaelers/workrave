@@ -27,7 +27,6 @@
 using namespace std;
 using namespace workrave::rest;
 
-
 const SecretSchema *
 workrave_get_schema (void)
 {
@@ -35,6 +34,7 @@ workrave_get_schema (void)
         "org.workrave.Token", SECRET_SCHEMA_NONE,
         {
           {  "client_id", SECRET_SCHEMA_ATTRIBUTE_STRING },
+          {  "user_name", SECRET_SCHEMA_ATTRIBUTE_STRING },
           {  "NULL", (SecretSchemaAttributeType)0 },
         }
     };
@@ -50,9 +50,8 @@ IKeyChain::create(const std::string &client_id, const std::string &server)
 
 
 UnixKeyChain::UnixKeyChain(const std::string &client_id, const std::string &server)
-  : client_id(client_id)
+  : client_id(client_id), server(server)
 {
-  (void) server;
 }
 
 UnixKeyChain::~UnixKeyChain()
@@ -69,6 +68,7 @@ UnixKeyChain::retrieve(const std::string &username, RetrieveResult callback)
 
   secret_password_lookup(WORKRAVE_SCHEMA, NULL, on_password_rerieved, data,
                          "client_id", client_id.c_str(),
+                         "user_name", username.c_str(),
                          NULL);
 }
 
@@ -81,9 +81,10 @@ UnixKeyChain::store(const std::string &username, const std::string &secret, Stor
   data->username = username;
 
   secret_password_store(WORKRAVE_SCHEMA, SECRET_COLLECTION_DEFAULT,
-                        "Workrave",
+                        server.c_str(),
                         secret.c_str(), NULL, on_password_stored, data,
                         "client_id", client_id.c_str(),
+                        "user_name", username.c_str(),
                         NULL);
 }
 

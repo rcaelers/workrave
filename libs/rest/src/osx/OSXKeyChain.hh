@@ -39,8 +39,8 @@ namespace workrave
       virtual void retrieve(const std::string &username, RetrieveResult callback);
 
     private:
-      const std::string &client_id;
-      const std::string &server;
+      const std::string client_id;
+      const std::string server;
     };
   }
 }
