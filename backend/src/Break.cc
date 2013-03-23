@@ -43,10 +43,12 @@
 #ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
 #include "DBusWorkrave.hh"
+
+using namespace workrave::dbus;
 #endif
 
 using namespace std;
-using namespace workrave::dbus;
+
 
 
 Break::Ptr
@@ -797,7 +799,6 @@ Break::prelude_window_start()
 void
 Break::update_break_window()
 {
-  assert(break_timer != NULL);
   gint64 duration = break_timer->get_auto_reset();
   gint64 idle = 0;
 

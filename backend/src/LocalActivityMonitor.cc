@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -347,7 +347,7 @@ LocalActivityMonitor::call_listener()
   l = listener;
   lock.unlock();
 
-  if (l != NULL)
+  if (l)
     {
       // Listener is set.
       if (!l->action_notify())
@@ -390,8 +390,6 @@ LocalActivityMonitor::load_config()
   int noise;
   int activity;
   int idle;
-
-  assert(configurator != NULL);
 
   if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
     noise = 9000;

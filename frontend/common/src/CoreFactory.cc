@@ -38,7 +38,7 @@ ICore::Ptr CoreFactory::core;
 ICore::Ptr
 CoreFactory::get_core()
 {
-  if (core == NULL)
+  if (!core)
     {
       core = ICore::create();
     }
@@ -55,13 +55,11 @@ CoreFactory::get_configurator()
 }
 
 
+#ifdef HAVE_DBUS
 //! Returns the interface to the D-BUS facility
 DBus::Ptr
 CoreFactory::get_dbus()
 {
-#ifdef HAVE_DBUS
   return core->get_dbus();
-#else
-  return DBus::Ptr();
-#endif
 }
+#endif

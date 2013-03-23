@@ -67,24 +67,19 @@ extraflags +=	 	-I$(top_srcdir)/frontend/applets/indicator/include
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		eggdesktopfile.c eggsmclient-xsmp.c \
-			eggsmclient.c
-
 if HAVE_GTK3
 extrasources +=		X11SystrayAppletWindow.cc gtktrayicon3.c
 else
 extrasources +=		X11SystrayAppletWindow.cc gtktrayicon.c
 endif
 
-extraflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP \
-			-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
+extraflags += 		-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		resource.rc eggsmclient-win32.c \
-			eggsmclient.c
+extrasources +=		resource.rc 
 extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
@@ -108,7 +103,6 @@ resource.rc: resource.rc.in
 if PLATFORM_OS_OSX
 extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-#extrasources +=	        eggsmclient-osx.c
 
 AM_CPPFLAGS =		-xobjective-c++
 endif
@@ -143,12 +137,6 @@ extrasources += 	GenericDBusApplet.cc
 endif
 
 BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
-
-# broken: 
-# if PLATFORM_OS_UNIX
-# extrasources +=		eggsmclient-dbus.c
-# eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
-# endif
 
 if HAVE_PYTHON_CHEETAH
 

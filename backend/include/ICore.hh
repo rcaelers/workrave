@@ -27,7 +27,9 @@
 #include "CoreTypes.hh"
 
 #include "config/IConfigurator.hh"
+#ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
+#endif
 
 #include "IBreak.hh"
 #include "IStatistics.hh"
@@ -133,8 +135,10 @@ namespace workrave
     //! Return the hooks
     virtual ICoreHooks::Ptr get_hooks() const = 0;
     
+#ifdef HAVE_DBUS
     //! Return DBUs remoting interface.
     virtual dbus::DBus::Ptr get_dbus() const = 0;
+#endif
   };
 
   std::string operator%(const std::string &key, BreakId id);

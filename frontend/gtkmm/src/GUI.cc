@@ -85,9 +85,6 @@
 #include <strings.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
-//#import <Cocoa/Cocoa.h>
-#import "AppController.h"
-//#include <Carbon/Carbon.h>
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -199,22 +196,9 @@ GUI::main()
   if (!Glib::thread_supported())
     Glib::thread_init();
 
-#ifndef PLATFORM_OS_OSX  
-  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
-  option_ctx.add_group(*option_group);
-#endif
+  app = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
+  Gtk::Application::set_default(app);
   
-  Gtk::Main *kit = NULL;
-  try
-    {
-      kit = new Gtk::Main(argc, argv, option_ctx);
-    }
-  catch (const Glib::OptionError &e)
-    {
-      std::cout << "Failed to initialize: " << e.what() << std::endl;
-      exit(1);
-    }
-
   init_core();
   init_nls();
   init_platform();
@@ -231,7 +215,9 @@ GUI::main()
   TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
-  Gtk::Main::run();
+  app->run(*main_window);
+
+  TRACE_MSG("End event loop.");
 
   cleanup_session();
 
@@ -245,8 +231,6 @@ GUI::main()
 
   delete applet_control;
   applet_control = NULL;
-
-  delete kit;
 
   TRACE_EXIT();
 }
@@ -351,9 +335,6 @@ void
 GUI::init_platform()
 {
   TRACE_ENTER("GUI::init_platform");
-#if defined(PLATFORM_OS_OSX)
-  [ [ AppController alloc ] init ];
-#endif
 
 #if defined(PLATFORM_OS_UNIX)
   char *display = gdk_get_display();
@@ -369,50 +350,10 @@ GUI::init_platform()
 
 
 void
-GUI::session_quit_cb(EggSMClient *client, GUI *gui)
-{
-  (void) client;
-  (void) gui;
-
-  TRACE_ENTER("GUI::session_quit_cb");
-
-  CoreFactory::get_configurator()->save();
-  Gtk::Main::quit();
-
-  TRACE_EXIT();
-}
-
-
-void
-GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
-{
-  (void) client;
-  (void) key_file;
-  (void) gui;
-
-  CoreFactory::get_configurator()->save();
-}
-
-void
 GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
-#ifndef PLATFORM_OS_OSX  
-  EggSMClient *client = NULL;
-  client = egg_sm_client_get();
-  if (client)
-    {
-      g_signal_connect(client,
-                       "quit",
-                       G_CALLBACK(session_quit_cb),
-                       this);
-      g_signal_connect(client,
-                       "save-state",
-                       G_CALLBACK(session_save_state_cb),
-                       this);
-    }
-#endif
-  
+
   session = new Session();
   session->init();
 
@@ -423,20 +364,6 @@ GUI::init_session()
 void
 GUI::cleanup_session()
 {
-#ifndef PLATFORM_OS_OSX  
-  EggSMClient *client = NULL;
-
-  client = egg_sm_client_get();
-  if (client)
-    {
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_quit_cb),
-                                           this);
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_save_state_cb),
-                                           this);
-    }
-#endif
 }
 
 
@@ -1538,7 +1465,7 @@ GUI::get_timers_tooltip()
       IBreak::Ptr b = core->get_break(BreakId(count));
       bool on = b->is_enabled();
 
-      if (b != NULL && on)
+      if (on)
         {
           // Collect some data.
           time_t maxActiveTime = b->get_limit();

@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -328,7 +328,6 @@ void
 RestBreakWindow::set_ignore_activity(bool i)
 {
   ICore::Ptr core = CoreFactory::get_core();
-  assert(core != NULL);
 
 #ifdef PLATFORM_OS_WIN32
   if( W32ForceFocus::GetForceFocusValue() )

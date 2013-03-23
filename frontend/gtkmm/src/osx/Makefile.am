@@ -15,7 +15,6 @@ if PLATFORM_OS_OSX
 noinst_LTLIBRARIES = 	libworkrave-frontend-gtkmm-osx.la
 libworkrave_frontend_gtkmm_osx_la_SOURCES = \
 			OSXUtil.cc \
-			AppController.m \
 			OSXGtkMenu.cc \
 			OSXAppletWindow.cc \
 			OSXStatusBarView.m \

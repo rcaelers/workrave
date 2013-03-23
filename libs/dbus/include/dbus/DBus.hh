@@ -24,10 +24,12 @@
 #undef interface
 #endif
 
+#ifdef HAVE_DBUS
 #ifdef HAVE_DBUS_GIO
 #include "dbus/DBus-gio.hh"
 #else
 #include "dbus/DBus-freedesktop.hh"
+#endif
 #endif
 
 #endif // WORKRAVE_DBUS_DBUS_HH

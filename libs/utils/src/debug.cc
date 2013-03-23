@@ -61,7 +61,7 @@ Debug::trace_string()
   stringstream ss;
   ss << logtime;
   
-  if (TimeSource::source != NULL)
+  if (TimeSource::source)
     {
       gint64 ut = g_get_real_time();
       t = (time_t) (ut / G_USEC_PER_SEC);

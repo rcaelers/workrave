@@ -46,12 +46,14 @@
 #ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
-#endif
+
+using namespace workrave::dbus;
 
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
-using namespace workrave::dbus;
+#endif
+
 using namespace workrave::utils;
 
 ICore::Ptr
@@ -83,7 +85,7 @@ Core::~Core()
 {
   TRACE_ENTER("Core::~Core");
 
-  if (monitor != NULL)
+  if (monitor)
     {
       monitor->terminate();
     }
@@ -160,7 +162,7 @@ Core::init_configurator()
             }
         }
 #endif
-      if (configurator == NULL)
+      if (configurator)
         {
           ini_file = Util::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
@@ -287,12 +289,13 @@ Core::get_hooks() const
   return hooks;
 }
 
+#ifdef HAVE_DBUS
 dbus::DBus::Ptr
 Core::get_dbus() const
 {
   return dbus;
 }
-
+#endif
 
 //! Is the user currently active?
 bool

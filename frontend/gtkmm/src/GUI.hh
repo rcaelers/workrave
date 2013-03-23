@@ -24,7 +24,6 @@
 
 #include <sigc++/trackable.h>
 #include <glibmm.h>
-#include "eggsmclient.h"
 
 #include "config/Config.hh"
 
@@ -142,8 +141,6 @@ private:
 
   void init_gtk_multihead();
 
-  static void session_quit_cb(EggSMClient *client, GUI *gui);
-  static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
   void cleanup_session();
 
   void collect_garbage();
@@ -200,6 +197,9 @@ private:
   //! Current active break.
   BreakId active_break_id;
 
+  //! Application 
+  Glib::RefPtr<Gtk::Application> app;
+  
   //! The number of command line arguments.
   int argc;
 

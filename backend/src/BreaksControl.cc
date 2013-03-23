@@ -35,6 +35,10 @@
 #ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
+
+#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
+
+using namespace workrave::dbus;
 #endif
 
 #include "TimerActivityMonitor.hh"
@@ -42,9 +46,6 @@
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
 
-#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
-
-using namespace workrave::dbus;
 using namespace workrave::utils;
 
 BreaksControl::Ptr
@@ -338,7 +339,6 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
     {
       Timer::Ptr rb_timer = get_timer(BREAK_ID_REST_BREAK);
-      assert(rb_timer != NULL);
 
       bool activity_sensitive = get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
 

@@ -354,6 +354,7 @@ then
     enable_gnome3=no
     enable_gconf=no
     enable_dbus=no
+    enable_indicator=no
     
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
     LIBS="$LIBS -framework CoreServices -framework Cocoa -framework Foundation -lc++"
@@ -694,6 +695,7 @@ dnl
 #then
     GOBJECT_INTROSPECTION_CHECK([0.6.7])
 #fi
+#AM_CONDITIONAL(HAVE_INTROSPECTION, false)
 
 dnl
 dnl Indicator applet

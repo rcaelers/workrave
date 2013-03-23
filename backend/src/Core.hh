@@ -82,7 +82,9 @@ public:
   IStatistics::Ptr get_statistics() const;
   IConfigurator::Ptr get_configurator() const;
   ICoreHooks::Ptr get_hooks() const;
+#ifdef HAVE_DBUS
   dbus::DBus::Ptr get_dbus() const;
+#endif
   bool is_user_active() const;
 
   OperationMode get_operation_mode();
@@ -155,8 +157,10 @@ private:
   //! Current usage mode.
   UsageMode usage_mode;
 
+#ifdef HAVE_DBUS  
   //! DBUS bridge
   dbus::DBus::Ptr dbus;
+#endif
   
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;

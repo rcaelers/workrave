@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -184,11 +184,6 @@ TimerBoxControl::update_widgets()
       int primary_val, primary_max;
       ITimeBar::ColorId secondary_color;
       int secondary_val, secondary_max;
-
-      if (b == NULL)
-        {
-          continue;
-        }
 
       // Collect some data.
       time_t maxActiveTime = b->get_limit();

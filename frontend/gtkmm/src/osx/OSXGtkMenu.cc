@@ -107,21 +107,39 @@ OSXGtkMenu::create_ui()
     "  </menubar>\n"
     "</ui>\n";
 
-  ui_manager = Gtk::UIManager::create();
-  ui_manager->insert_action_group(action_group);
+  // ui_manager = Gtk::UIManager::create();
+  // ui_manager->insert_action_group(action_group);
 
-  try
-    {
-      ui_manager->add_ui_from_string(ui_info);
-    }
-  catch(const Glib::Error& ex)
-    {
-      std::cerr << "building menus and toolbars failed: " <<  ex.what();
-    }
+  // try
+  //   {
+  //     ui_manager->add_ui_from_string(ui_info);
+  //   }
+  // catch(const Glib::Error& ex)
+  //   {
+  //     std::cerr << "building menus and toolbars failed: " <<  ex.what();
+  //   }
 
-  // IgeMacMenuGroup *group;
-  // IgeMacDock      *dock;
 
+  // Glib::RefPtr<Gtk::Application> app = Gtk::Application::get_default();
+
+  // static const GActionEntry actions[] = {
+  //   { "new", new_window },
+  //   { "quit", quit }
+  // };
+  
+  // GMenu *menu;
+
+  // g_action_map_add_action_entries (G_ACTION_MAP (application), actions, G_N_ELEMENTS (actions), application);
+
+  // menu = g_menu_new ();
+  // g_menu_append (menu, "New", "app.new");
+  // g_menu_append (menu, "Quit", "app.quit");
+  // gtk_application_set_app_menu (application, G_MENU_MODEL (menu));
+  // g_object_unref (menu);  
+
+  // app->set_appmenu()
+
+    
   // Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
   // Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
 
