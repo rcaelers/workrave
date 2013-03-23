@@ -45,14 +45,14 @@ OAuth2Filter::OAuth2Filter(IOAuth2::Ptr oauth)
 
   string refresh_token;
   oauth2->get_tokens(access_token, refresh_token, valid_until);
-  g_debug("OAuth2Filter credentials %s %ld", access_token.c_str(), valid_until);
+  g_debug("OAuth2Filter::OAuth2Filter credentials %s %ld", access_token.c_str(), valid_until);
 }
 
 
 void
 OAuth2Filter::on_access_token(const std::string &access_token, time_t valid_until)
 {
-  g_debug("OAuth2Filter::on_new_credentials %s", access_token.c_str());
+  g_debug("OAuth2Filter::on_access_token %s", access_token.c_str());
   this->access_token = access_token;
   this->valid_until = valid_until;
   if (access_token != "")
@@ -71,7 +71,7 @@ OAuth2Filter::on_access_token(const std::string &access_token, time_t valid_unti
 void
 OAuth2Filter::filter(IHttpRequest::Ptr request, Ready callback)
 {
-  g_debug("OAuth2Filter:execute");
+  g_debug("OAuth2Filter::filter");
   IHttpReply::Ptr reply;
           
   if (access_token != "")
@@ -80,7 +80,7 @@ OAuth2Filter::filter(IHttpRequest::Ptr request, Ready callback)
 
       if (time(NULL) + 60 > valid_until)
         {
-          g_debug("expired");
+          g_debug("OAuth2Filter::filter expired");
           access_token = "";
             
           RequestData data;

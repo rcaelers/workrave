@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,17 @@
 
 #include <stdexcept>
 
+#include <boost/format.hpp>
+#include <boost/algorithm/string.hpp>
+
 #include "rest/HttpError.hh"
 #include "HttpUtils.hh"
+
+#ifdef PLATFORM_OS_OSX
+#import <AppKit/NSWorkspace.h>
+#import <Foundation/NSString.h>
+#import <Foundation/NSURL.h>
+#endif
 
 using namespace std;
 using namespace workrave::rest;
@@ -91,3 +100,34 @@ HttpUtils::setup_request_message(SoupMessage *message, HttpRequest::Ptr request)
 	soup_message_set_flags(message, SOUP_MESSAGE_NO_REDIRECT);
 }
 
+
+void
+HttpUtils::open_in_browser(const std::string &location)
+{
+#if defined(PLATFORM_OS_UNIX)     
+  gchar *program = g_find_program_in_path("xdg-open");
+  if (program == NULL)
+    {
+      throw HttpError(HttpErrorCode::Failure, "Cannot find xdg-open");
+    }
+
+  string command = string(program) + " " + location;
+
+  gint exit_code = 0;
+  GError *error = NULL;
+  if (!g_spawn_command_line_sync(command.c_str(), NULL, NULL, &exit_code, &error))
+    {
+      throw HttpError(HttpErrorCode::Failure, boost::str(boost::format("Failed to execute '%1%' (%2%)") % command % error->message));
+    }
+
+  if (WEXITSTATUS(exit_code) != 0)
+    {
+      throw HttpError(HttpErrorCode::Failure, boost::str(boost::format("xdg-open returned an error exit-code %1%") % WEXITSTATUS(exit_code)));
+    }
+#elif defined(PLATFORM_OS_OSX)
+  NSString* uri = [NSString stringWithCString:login_uri.c_str() encoding: NSUTF8StringEncoding];
+  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: uri]];
+#else
+#error Not ported
+#endif
+}

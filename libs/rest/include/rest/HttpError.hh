@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,15 +39,15 @@ namespace workrave
         Failure,
     };
 
-    class HttpError : public std::exception
+    class HttpError : public std::runtime_error
     {
     public:
       explicit HttpError(HttpErrorCode error_code, const std::string &detail = "")
-        : error_code(error_code), detailed_information(detail)
+        : std::runtime_error("HttpError"), error_code(error_code), detailed_information(detail)
       {
       }
 
-      virtual ~HttpError()
+      virtual ~HttpError() noexcept
       {
       }
 

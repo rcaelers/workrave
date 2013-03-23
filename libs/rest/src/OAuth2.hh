@@ -75,7 +75,7 @@ private:
   const std::string create_login_url(const std::string &redirect_uri, const RequestParams &parameters);
 
   void report_result(workrave::rest::AuthErrorCode code, const std::string &details = "");
-  void report_result(const std::exception &e);
+  void report_result(const workrave::rest::AuthError &e);
 
   workrave::rest::IHttpRequestFilter::Ptr create_filter();
 

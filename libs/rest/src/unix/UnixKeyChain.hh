@@ -70,7 +70,8 @@ namespace workrave
         RetrieveResult callback;
       };
       
-      const std::string &client_id;
+      const std::string client_id;
+      const std::string server;
     };
   }
 }

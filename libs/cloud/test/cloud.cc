@@ -27,6 +27,8 @@
 
 #include <glib-object.h>
 
+#include "CloudControl.hh"
+
 static gboolean on_timer(gpointer data)
 {
   TRACE_ENTER("Networking::heartbeat");
@@ -50,11 +52,14 @@ main(int argc, char **argv)
   Debug::init();
 #endif
 
-  g_type_init();
-  GMainLoop *loop= g_main_loop_new(NULL, FALSE);
+  GMainLoop *loop = g_main_loop_new(NULL, FALSE);
 
-  g_timeout_add_seconds(2, on_timer, NULL);
+  CloudControl::Ptr cc = CloudControl::create();
+  cc->init();
+  
+  g_timeout_add_seconds(1, on_timer, NULL);
   g_main_loop_run(loop);
+  g_main_loop_unref(loop);
   
   return 0;
 }

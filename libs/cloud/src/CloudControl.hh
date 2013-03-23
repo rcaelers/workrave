@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,30 +18,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef OSXKEYCHAIN_HH
-#define OSXKEYCHAIN_HH
+#ifndef CLOUDCONTROL_HH
+#define CLOUDCONTROL_HH
 
 #include <string>
+#include <map>
 
-#include "rest/IKeyChain.hh"
+#include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
-namespace workrave
+#include "WorkraveAuth.hh"
+#include "UUID.hh"
+
+#include "rest/AuthError.hh"
+#include "rest/IHttpReply.hh"
+
+class CloudControl
 {
-  namespace rest
-  {
-    class OSXKeyChain : public IKeyChain
-    {
-    public:
-      OSXKeyChain(const std::string &client_id, const std::string &server);
-      virtual ~OSXKeyChain();
-      
-      virtual void store(const std::string &username, const std::string &password, StoreResult callback);
-      virtual void retrieve(const std::string &username, RetrieveResult callback);
+public:
+  typedef boost::shared_ptr<CloudControl> Ptr;
 
-    private:
-      const std::string client_id;
-      const std::string server;
-    };
-  }
-}
+  static Ptr create();
+  
+ 	CloudControl();
+  virtual ~CloudControl();
+
+  void init();
+  
+private:
+  void on_auth_ready(workrave::rest::AuthErrorCode error, const std::string &detal, WorkraveAuth::Ptr auth);
+
+  void init_myid();
+  
+  void signon();
+  void on_signon_ready(workrave::rest::IHttpReply::Ptr reply);
+
+  void subscribe();
+
+  void on_event_headers(workrave::rest::IHttpReply::Ptr reply);
+  void on_event_data(const std::string &data);
+  void on_event_closed(workrave::rest::HttpErrorCode error, const std::string &detail, workrave::rest::IHttpStreamOperation::Ptr stream);
+  
+private:  
+  //! My ID
+  workrave::cloud::UUID myid;
+
+  WorkraveAuth::Ptr auth;
+  workrave::rest::IHttpSession::Ptr session;
+
+  std::string event_url;
+};
+
+  
 #endif

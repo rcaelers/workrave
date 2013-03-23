@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -48,15 +48,15 @@ namespace workrave
         Failed,
     };
 
-    class AuthError : public std::exception
+    class AuthError : public std::runtime_error
     {
     public:
       explicit AuthError(AuthErrorCode error_code, const std::string &detail = "")
-        : error_code(error_code), detailed_information(detail)
+        : std::runtime_error("AuthError"), error_code(error_code), detailed_information(detail)
       {
       }
 
-      virtual ~AuthError()
+      virtual ~AuthError() noexcept
       {
       }
 
