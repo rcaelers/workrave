@@ -50,7 +50,7 @@ namespace workrave
       virtual IHttpRequestFilter::Ptr create_filter() = 0;
   
       virtual void init(AuthResultCallback callback, ShowUserfeedbackCallback feedback) = 0;
-      virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback) = 0;
+      virtual void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback, ShowUserfeedbackCallback feedback) = 0;
 
       virtual void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until) = 0;
     };

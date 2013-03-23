@@ -46,6 +46,7 @@ HttpUtils::process_reply_message(SoupMessage *message)
   
   reply->error = HttpErrorCode::Success;
   reply->status = message->status_code;
+  
   if (SOUP_STATUS_IS_TRANSPORT_ERROR(reply->status))
     {
       // TODO: translate errors.

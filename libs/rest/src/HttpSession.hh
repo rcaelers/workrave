@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ public:
 private:
   SoupSession *session;
   std::list<workrave::rest::IHttpRequestFilter::Ptr> request_filters;
-  const std::string &user_agent;
+  std::string user_agent;
 };
 
 #endif

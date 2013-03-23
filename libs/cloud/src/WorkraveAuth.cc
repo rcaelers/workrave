@@ -100,7 +100,9 @@ WorkraveAuth::on_password_lookup(bool ok, const std::string &username, const std
           try
             {
               valid_until = boost::lexical_cast<int>(elements[2]);
-              workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2));
+              workflow->init(elements[0], elements[1], valid_until,
+                             boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2),
+                             boost::bind(&WorkraveAuth::on_auth_feedback, this, _1, _2, _3));
             }
           catch(boost::bad_lexical_cast &) {}
           success = true;
@@ -133,15 +135,15 @@ WorkraveAuth::on_auth_result(AuthErrorCode result, const string &details)
 
   g_debug("WorkraveAuth::on_auth_result: %d %s", result, details.c_str());
   
-  workflow->get_tokens(access_token, refresh_token, valid_until);
-  string secret = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
-  g_debug("WorkraveAuth::on_auth_result: %s", secret.c_str());
-
-  struct tm * timeinfo = localtime(&valid_until);
-  g_debug("WorkraveAuth::on_auth_result:  %s", asctime(timeinfo));
- 
   if (result == AuthErrorCode::Success)
     {
+      workflow->get_tokens(access_token, refresh_token, valid_until);
+      string secret = boost::str(boost::format("%1%:%2%:%3%") % access_token % refresh_token % valid_until);
+      g_debug("WorkraveAuth::on_auth_result: %s", secret.c_str());
+
+      struct tm * timeinfo = localtime(&valid_until);
+      g_debug("WorkraveAuth::on_auth_result:  %s", asctime(timeinfo));
+ 
       chain->store("pietje", secret, boost::bind(&WorkraveAuth::on_password_stored, this, _1));
     }
   else

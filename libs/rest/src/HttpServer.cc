@@ -68,7 +68,7 @@ HttpServer::start()
 
       if (server == NULL)
         {
-          throw AuthError(AuthErrorCode::System, "Cannot receive incoming connections.");
+          throw HttpError(HttpErrorCode::Failure, "Cannot receive incoming connections.");
         }
   
       port = soup_server_get_port(server);

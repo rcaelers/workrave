@@ -60,7 +60,7 @@ OAuth2::OAuth2(const workrave::rest::OAuth2Settings &settings)
     valid_until(0)
 {
   callback_uri_path = "/oauth2";
-  session = IHttpSession::create("");
+  session = IHttpSession::create("Workrave");
 }
 
 
@@ -87,7 +87,7 @@ OAuth2::init(AuthResultCallback callback, ShowUserfeedbackCallback feedback)
 
 
 void
-OAuth2::init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback)
+OAuth2::init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback, ShowUserfeedbackCallback feedback)
 {
   g_debug("OAuth2::init(%s, %s, %ld)\n", access_token.c_str(), refresh_token.c_str(), valid_until);
 
@@ -98,9 +98,10 @@ OAuth2::init(std::string access_token, std::string refresh_token, time_t valid_u
     }
 
   this->callback = callback;
-  this->access_token = access_token;
+  this->feedback = feedback;
   this->refresh_token = refresh_token;
-  this->valid_until = valid_until;
+  this->access_token = "";
+  this->valid_until = 0;
 
   credentials_updated_signal(access_token, valid_until);
   session->add_request_filter(create_filter());
@@ -112,6 +113,9 @@ OAuth2::init(std::string access_token, std::string refresh_token, time_t valid_u
     }
   else
     {
+      this->access_token = access_token;
+      this->valid_until = valid_until;
+      
       report_result(AuthErrorCode::Success);
     }
 }
@@ -146,7 +150,7 @@ OAuth2::request_authorization_grant()
     }
   catch(HttpError &e)
     {
-      report_result(AuthErrorCode::System, "Failed to open login website in browser");
+      report_result(AuthErrorCode::System, "Failed request authorization.");
     }
   catch(AuthError &e)
     {
@@ -237,6 +241,10 @@ OAuth2::request_access_token(const string &code)
 
       session->send(request, boost::bind(&OAuth2::on_access_token_ready, this, _1));
     }
+  catch(HttpError &e)
+    {
+      report_result(AuthErrorCode::Failed, "Failed to request access token");
+    }
   catch(AuthError &e)
     {
       report_result(e);
@@ -247,10 +255,15 @@ OAuth2::request_access_token(const string &code)
 void
 OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
 {
-  g_debug("OAuth2::on_access_token_ready: status = %d, resp = %s", reply->status, reply->body.c_str());
+  g_debug("OAuth2::on_access_token_ready: error = %d, status = %d, resp = %s", reply->error, reply->status, reply->body.c_str());
   
   try
     {
+      if (reply->error != HttpErrorCode::Success)
+        {
+          throw AuthError(AuthErrorCode::Transport, boost::str(boost::format("Communication with server failed")));
+        }
+
       if (reply->status != 200)
         {
           throw AuthError(AuthErrorCode::Protocol, boost::str(boost::format("Access token request returned HTTP error %1%") % reply->status));
@@ -287,6 +300,7 @@ OAuth2::on_access_token_ready(IHttpReply::Ptr reply)
     }
   catch(AuthError &e)
     {
+      credentials_updated_signal("", 0);
       report_result(e);
       return;
     }
@@ -306,7 +320,15 @@ OAuth2::refresh_access_token()
     {
       return;
     }
-  else if (state != Idle)
+  else if (state == Idle)
+    {
+      state = RefreshInitialAccessTokenRequest;
+    }
+  else if (state == Initialized)
+    {
+      state = RefreshAccessTokenRequest;
+    }
+  else
     {
       report_result(AuthErrorCode::Busy, "Cannot refresh token. OAuth operation in progress");
       return;
@@ -314,8 +336,6 @@ OAuth2::refresh_access_token()
   
   try
     {
-      state = RefreshAccessTokenRequest;
-
       RequestParams parameters;
 
       string body = boost::str(boost::format("client_id=%1%&client_secret=%2%&refresh_token=%3%&grant_type=refresh_token")
@@ -332,6 +352,10 @@ OAuth2::refresh_access_token()
           
       session->send(request, boost::bind(&OAuth2::on_refresh_access_token_ready, this, _1));
     }
+  catch(HttpError &e)
+    {
+      report_result(AuthErrorCode::Failed, "Failed to refresh access token");
+    }
   catch(AuthError &e)
     {
       report_result(e);
@@ -342,9 +366,14 @@ OAuth2::refresh_access_token()
 void
 OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
 {
-  g_debug("OAuth2::on_refresh_access_token_ready: status = %d, resp = %s", reply->status, reply->body.c_str());
+  g_debug("OAuth2::on_refresh_access_token_ready: error = %d status = %d, resp = %s", reply->error, reply->status, reply->body.c_str());
   try
     {
+      if (reply->error != HttpErrorCode::Success)
+        {
+          throw AuthError(AuthErrorCode::Transport, boost::str(boost::format("Communication with server failed")));
+        }
+
       if (reply->status != 200)
         {
           throw AuthError(AuthErrorCode::Protocol, boost::str(boost::format("Refresh access token request returned HTTP error %1%") % reply->status));
@@ -386,7 +415,16 @@ OAuth2::on_refresh_access_token_ready(IHttpReply::Ptr reply)
     }
   catch(AuthError &e)
     {
-      report_result(e);
+      if (state == RefreshInitialAccessTokenRequest &&
+          reply->error == HttpErrorCode::Success)
+        { 
+          request_authorization_grant();
+        }
+      else
+        {
+          credentials_updated_signal("", 0);
+          report_result(e);
+        }
       return;
     }
 
@@ -460,6 +498,7 @@ OAuth2::report_result(const AuthError &error)
   report_result(error.code(), error.what());
 }
 
+
 void
 OAuth2::report_result(AuthErrorCode code, const string &details)
 {
@@ -467,7 +506,7 @@ OAuth2::report_result(AuthErrorCode code, const string &details)
   
   if (code == AuthErrorCode::Success)
     {
-      state = Idle;
+      state = Initialized;
     }
   else if (code != AuthErrorCode::Busy)
     {
@@ -477,6 +516,7 @@ OAuth2::report_result(AuthErrorCode code, const string &details)
   if (!callback.empty())
     {
       callback(code, details);
+      callback.clear();
     }
 }
 

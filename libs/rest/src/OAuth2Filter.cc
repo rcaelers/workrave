@@ -55,15 +55,16 @@ OAuth2Filter::on_access_token(const std::string &access_token, time_t valid_unti
   g_debug("OAuth2Filter::on_access_token %s", access_token.c_str());
   this->access_token = access_token;
   this->valid_until = valid_until;
-  if (access_token != "")
-    {
-      for (list<RequestData>::const_iterator it = waiting.begin(); it != waiting.end(); it++)
-        {
-          const RequestData &data = *it;
 
+  for (list<RequestData>::const_iterator it = waiting.begin(); it != waiting.end(); it++)
+    {
+      const RequestData &data = *it;
+
+      if (access_token != "")
+        {
           data.request->headers["Authorization"] = string("Bearer ") + access_token;
-          data.callback();
         }
+      data.callback();
     }
 }
 

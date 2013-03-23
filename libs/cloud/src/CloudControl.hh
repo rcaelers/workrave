@@ -53,11 +53,24 @@ private:
   void signon();
   void on_signon_ready(workrave::rest::IHttpReply::Ptr reply);
 
+  void signoff();
+  void on_signoff_ready(workrave::rest::IHttpReply::Ptr reply);
+
+  void take();
+  void on_take_ready(workrave::rest::IHttpReply::Ptr reply);
+
+  void release();
+  void on_release_ready(workrave::rest::IHttpReply::Ptr reply);
+
   void subscribe();
+  void publish_state();
+  void retrieve_state();
 
   void on_event_headers(workrave::rest::IHttpReply::Ptr reply);
   void on_event_data(const std::string &data);
   void on_event_closed(workrave::rest::HttpErrorCode error, const std::string &detail, workrave::rest::IHttpStreamOperation::Ptr stream);
+  void on_publish_state_ready(workrave::rest::IHttpReply::Ptr reply);
+  void on_retrieve_state_ready(workrave::rest::IHttpReply::Ptr reply);
   
 private:  
   //! My ID
