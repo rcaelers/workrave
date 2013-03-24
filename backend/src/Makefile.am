@@ -34,19 +34,11 @@ BUILT_SOURCES = $(dbussources)
 
 if HAVE_PYTHON_CHEETAH
 
-if HAVE_DBUS_GIO
 DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
 			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
-else
-DBusWorkrave.cc:	workrave-service.xml \
-			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
-			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.cc \
-			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
-endif
 
 DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
 endif # HAVE_PYTHON_CHEETAH

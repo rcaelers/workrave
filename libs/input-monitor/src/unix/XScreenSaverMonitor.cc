@@ -1,6 +1,6 @@
 // XScreenSaverMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,8 +38,8 @@ XScreenSaverMonitor::XScreenSaverMonitor() :
   screen_saver_info(NULL)
 {
   monitor_thread = new Thread(this);
-  mutex = g_mutex_new();
-  cond = g_cond_new();
+  g_mutex_init(&mutex);
+  g_cond_init(&cond);
 }
 
 
@@ -50,9 +50,6 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
     {
       monitor_thread->wait();
     }
-
-  g_mutex_free(mutex);
-  g_cond_free(cond);
   TRACE_EXIT();
 }
 
@@ -94,10 +91,10 @@ XScreenSaverMonitor::terminate()
 {
   TRACE_ENTER("XScreenSaverMonitor::terminate");
 
-  g_mutex_lock(mutex);
+  g_mutex_lock(&mutex);
   abort = true;
-  g_cond_broadcast(cond);
-  g_mutex_unlock(mutex);  
+  g_cond_broadcast(&cond);
+  g_mutex_unlock(&mutex);  
   
   monitor_thread->wait();
   monitor_thread = NULL;
@@ -111,7 +108,7 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
-  g_mutex_lock(mutex);
+  g_mutex_lock(&mutex);
   while (!abort)
     {
       XScreenSaverQueryInfo(gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
@@ -124,12 +121,12 @@ XScreenSaverMonitor::run()
 
 #if GLIB_CHECK_VERSION(2, 32, 0)
       gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
-      g_cond_wait_until(cond, mutex, end_time);
+      g_cond_wait_until(&cond, &mutex, end_time);
 #else
       g_usleep(500000);
 #endif      
     }
-  g_mutex_unlock(mutex);  
+  g_mutex_unlock(&mutex);  
   
   TRACE_EXIT();
 }

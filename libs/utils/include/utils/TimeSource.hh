@@ -1,6 +1,6 @@
 // TimeSource.hh --- The Time
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,10 +45,10 @@ namespace workrave
       static gint64 get_monotonic_time_sec();
 
       //! Returns the system wall-clock time synchronized with core in seconds.
-      static gint64 get_real_time_sync();
+      static gint64 get_real_time_sec_sync();
 
       //! Returns the system monotonic time synchronized with core in seconds, if available.
-      static gint64 get_monotonic_time_sync();
+      static gint64 get_monotonic_time_sec_sync();
 
       //! Synchronize current time.
       static void sync();

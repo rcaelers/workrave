@@ -36,19 +36,16 @@
 #include "IActivityMonitorListener.hh"
 #include "TimerActivityMonitor.hh"
 #include "Timer.hh"
+#include "DayTimePred.hh"
 #include "Statistics.hh"
 #include "CoreConfig.hh"
-#include "DayTimePred.hh"
 
-#ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
 #include "DBusWorkrave.hh"
 
 using namespace workrave::dbus;
-#endif
-
 using namespace std;
-
 
 
 Break::Ptr
@@ -57,9 +54,10 @@ Break::create(BreakId id,
               IBreakSupport::Ptr break_support, 
               IActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
-              IConfigurator::Ptr configurator)
+              IConfigurator::Ptr configurator,
+              DBus::Ptr dbus)
 {
-  return Ptr(new Break(id, app, break_support, activity_monitor, statistics, configurator));
+  return Ptr(new Break(id, app, break_support, activity_monitor, statistics, configurator, dbus));
 }
 
 
@@ -69,13 +67,15 @@ Break::Break(BreakId id,
              IBreakSupport::Ptr break_support, 
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
-             IConfigurator::Ptr configurator) :
+             IConfigurator::Ptr configurator,
+             DBus::Ptr dbus) :
   break_id(id),
   application(app),
   break_support(break_support),
   activity_monitor(activity_monitor),
   statistics(statistics),
   configurator(configurator),
+  dbus(dbus),
   break_stage(STAGE_NONE),
   reached_max_prelude(false),
   prelude_time(0),
@@ -110,6 +110,7 @@ Break::init()
   TRACE_ENTER("Break::init");
 
   break_name = CoreConfig::get_break_name(break_id);
+
   break_timer = Timer::create();
   break_timer->set_id(break_name);
   
@@ -122,6 +123,19 @@ Break::init()
   
   configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
   configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
+
+  if (dbus)
+    {
+      try
+        {
+          string path = string("/org/workrave/Workrave/Break/" + get_name());
+          dbus->connect(path, "org.workrave.BreakInterface", this);
+          dbus->register_object_path(path);
+        }
+      catch (dbus::DBusException &)
+        {
+        }
+    }
   
   TRACE_EXIT();
 }
@@ -131,7 +145,18 @@ TimerEvent
 Break::process_timer()
 {
   TRACE_ENTER_MSG("Break::process_timer", break_id);
-  ActivityState state = activity_monitor->get_state();
+  ActivityState state;
+
+  if (timer_activity_monitor)
+    {
+      // Prefer the running state of the break timer as input for
+      // our current activity.
+      state = timer_activity_monitor->get_state();
+    }
+  else
+    {
+      state = activity_monitor->get_state();
+    }
   
   TimerEvent event = break_timer->process(state);
 
@@ -851,7 +876,6 @@ Break::send_signal(BreakStage stage)
 {
   (void) stage;
 
-#ifdef HAVE_DBUS
   const char *progress = NULL;
   (void) progress;
   
@@ -878,35 +902,15 @@ Break::send_signal(BreakStage stage)
       break;
     }
 
-  // TODO: 
-  // if (progress != NULL)
-  //   {
-  //     DBus *dbus = core->get_dbus();
-  //     org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+  if (progress != NULL && dbus)
+    {
+      org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus.get());
 
-  //     if (iface != NULL)
-  //       {
-  //         switch (break_id)
-  //           {
-  //           case BREAK_ID_MICRO_BREAK:
-  //             iface->MicrobreakChanged("/org/workrave/Workrave/Core", progress);
-  //             break;
-
-  //           case BREAK_ID_REST_BREAK:
-  //             iface->RestbreakChanged("/org/workrave/Workrave/Core", progress);
-  //             break;
-
-  //           case BREAK_ID_DAILY_LIMIT:
-  //             iface->DailylimitChanged("/org/workrave/Workrave/Core", progress);
-  //             break;
-
-  //           default:
-  //             break;
-  //           }
-  //       }
-  //   }
-
-#endif
+      if (iface != NULL)
+        {
+          iface->Changed("/org/workrave/Workrave/Break/" + get_name(), progress);
+        }
+    }
 }
 
 void
@@ -921,10 +925,10 @@ Break::update_statistics()
 }
 
 
-TimePred *
+DayTimePred *
 Break::create_time_pred(string spec)
 {
-  TimePred *pred = 0;
+  DayTimePred *pred = 0;
   bool ok = false;
 
   std::string type;
@@ -975,11 +979,8 @@ Break::load_timer_config()
   configurator->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
   if (reset_pred != "")
     {
-      TimePred *pred = create_time_pred(reset_pred);
-      if (pred != NULL)
-        {
-          break_timer->set_auto_reset(pred);
-        }
+      DayTimePred *pred = create_time_pred(reset_pred);
+      break_timer->set_daily_reset(pred);
     }
 
   // Read the snooze time.

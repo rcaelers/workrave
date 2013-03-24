@@ -1,6 +1,6 @@
 // Break.hh --- controller for a single break
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
 
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::dbus;
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -41,7 +42,7 @@ namespace workrave {
 }
 
 // Forward declarion of internals.
-class TimePred;
+class DayTimePred;
 
 class Break :
   public IBreak,
@@ -58,14 +59,16 @@ public:
                     IBreakSupport::Ptr break_support,
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
-                    IConfigurator::Ptr configurator);
+                    IConfigurator::Ptr configurator,
+                    DBus::Ptr dbus);
 
   Break(BreakId id,
         IApp *app,
         IBreakSupport::Ptr break_support, 
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
-        IConfigurator::Ptr configurator);
+        IConfigurator::Ptr configurator,
+        DBus::Ptr dbus);
   virtual ~Break();
 
   // Internal
@@ -128,11 +131,10 @@ private:
 
   void send_signal(BreakStage stage);
   void update_statistics();
-  TimePred *create_time_pred(std::string spec);
+  DayTimePred *create_time_pred(std::string spec);
   void load_timer_config();
   void load_break_control_config();
   void config_changed_notify(const std::string &key);
-
   
 private:
   //! ID of the break controlled by this Break.
@@ -156,6 +158,9 @@ private:
   //! The Configurator
   IConfigurator::Ptr configurator;
 
+  //!
+  DBus::Ptr dbus;
+  
   //! Interface to the timer controlling the break.
   Timer::Ptr break_timer;
 

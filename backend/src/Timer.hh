@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@
 
 #include "IActivityMonitor.hh"
 
-class TimePred;
+class DayTimePred;
 
 enum TimerState
   {
@@ -112,7 +112,7 @@ public:
 
   // Auto-resetting.
   void set_auto_reset(int t);
-  void set_auto_reset(TimePred *predicate);
+  void set_daily_reset(DayTimePred *daily_reset);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
   gint64 get_auto_reset() const;
@@ -147,6 +147,11 @@ public:
   void daily_reset_timer();
 
 private:
+  void compute_next_limit_time();
+  void compute_next_reset_time();
+  void compute_next_daily_reset_time();
+  
+private:
   //! Is this timer enabled ?
   bool timer_enabled;
 
@@ -177,8 +182,8 @@ private:
   //! Automatic reset time interval.
   gint64 autoreset_interval;
 
-  //! Auto reset time predicate. (or NULL if not used)
-  TimePred *autoreset_interval_predicate;
+  //! Daily auto reset checker (NULL if not used)
+  DayTimePred *daily_autoreset;
 
   //! Elapsed time.
   gint64 elapsed_timespan;
@@ -201,14 +206,14 @@ private:
   //! Time when the timer was last reset.
   gint64 last_reset_time;
 
-  //! Time when the timer was last reset because of a predicate.
-  gint64 last_pred_reset_time;
+  //! Time when the timer was last reset because of a daily reset.
+  gint64 last_daily_reset_time;
 
   //! Next automatic reset time.
   gint64 next_reset_time;
 
-  //! Next automatic predicate reset time.
-  gint64 next_pred_reset_time;
+  //! Next daily reset time.
+  gint64 next_daily_reset_time;
 
   //! Next limit time.
   gint64 next_limit_time;
@@ -221,11 +226,6 @@ private:
 
   //!
   InsensitiveMode insensitive_mode;
-
-private:
-  void compute_next_limit_time();
-  void compute_next_reset_time();
-  void compute_next_predicate_reset_time();
 };
 
 #endif // TIMER_HH

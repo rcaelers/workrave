@@ -37,21 +37,13 @@ public:
   virtual ~CoreHooks();
   
 #ifdef HAVE_TESTS
-  boost::function<ActivityState()> &hook_local_activity_state();
   boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator();
 #endif
   
-  boost::signals2::signal<void(bool)> &signal_local_active_changed();
-  boost::signals2::signal<bool(), IsActiveCombiner> &hook_is_active();
-
 private:
 #ifdef HAVE_TESTS
-  boost::function<ActivityState()> local_activity_state_hook;
   boost::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
 #endif
-  
-  boost::signals2::signal<void(bool)> local_active_changed_signal;
-  boost::signals2::signal<bool(), IsActiveCombiner> is_active_hook;
 };
 
 #endif // COREHOOKS_HH

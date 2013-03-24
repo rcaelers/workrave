@@ -25,11 +25,21 @@
 #endif
 
 #ifdef HAVE_DBUS
-#ifdef HAVE_DBUS_GIO
 #include "dbus/DBus-gio.hh"
 #else
-#include "dbus/DBus-freedesktop.hh"
-#endif
+
+namespace workrave
+{
+  namespace dbus
+  {
+    class DBus
+    {
+    public:
+      typedef boost::shared_ptr<DBus> Ptr;
+    };
+  }
+}
+
 #endif
 
 #endif // WORKRAVE_DBUS_DBUS_HH

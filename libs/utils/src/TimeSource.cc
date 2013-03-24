@@ -64,13 +64,13 @@ TimeSource::get_monotonic_time_sec()
 }
 
 gint64
-TimeSource::get_real_time_sync()
+TimeSource::get_real_time_sec_sync()
 {
   return synced_real_time / G_USEC_PER_SEC;
 }
 
 gint64
-TimeSource::get_monotonic_time_sync()
+TimeSource::get_monotonic_time_sec_sync()
 {
   return synced_monotonic_time / G_USEC_PER_SEC;
 }

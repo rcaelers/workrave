@@ -21,8 +21,6 @@ extraflags =
 extrasources =
 extranodistsources = 
 
-## DEFS = 			@DEFS@ 
-
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
 sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc
@@ -37,45 +35,26 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
-if HAVE_PYTHON_CHEETAH
-GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
-
-DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
-			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
-		    	$(top_srcdir)/libs/dbus/data/DBus-client-template-freedesktop.cc \
-		    	$(top_srcdir)/libs/dbus/data/DBus-client-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
-
+if HAVE_DISTRIBUTION
+extrasources +=		$(sourcesdistribution)
 endif
 
-DBusGnomeApplet.hh:	DBusGnomeApplet.cc
-GnomeAppletWindow.cc:   DBusGnomeApplet.hh
-
-## Gnome Panel
-
-if HAVE_PANELAPPLET
-extrasources +=		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc 
-
-if !HAVE_DBUS_GIO
-extrasources += 	DBusGnomeApplet.cc
-endif
+if HAVE_EXERCISES
+extrasources +=		$(sourcesexercises) 
 endif
 
-if HAVE_INDICATOR
-extrasources += 	IndicatorAppletMenu.cc
-extraflags +=	 	-I$(top_srcdir)/frontend/applets/indicator/include
-endif
+extrasources +=		$(sourcesstatistics) 
 
 if PLATFORM_OS_UNIX
-if HAVE_GTK3
-extrasources +=		X11SystrayAppletWindow.cc gtktrayicon3.c
-else
-extrasources +=		X11SystrayAppletWindow.cc gtktrayicon.c
+extraflags += 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
+ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
 endif
 
-extraflags += 		-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-	 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
-ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
+if PLATFORM_OS_OSX
+extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
+ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
+
+AM_CPPFLAGS =		-xobjective-c++
 endif
 
 if PLATFORM_OS_WIN32
@@ -83,8 +62,7 @@ extrasources +=		resource.rc
 extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
-			-I$(top_srcdir)/frontend/applets/win32/include \
-			-I$(top_srcdir)/libs/hooks/harpoon/include
+			-I$(top_srcdir)/frontend/applets/win32/include
 
 ldadd =  		$(top_builddir)/libs/hooks/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la
@@ -99,23 +77,6 @@ resource.rc: resource.rc.in
 			sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
 	    		    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
 				$(srcdir)/$@.in > $@
-
-if PLATFORM_OS_OSX
-extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
-ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-
-AM_CPPFLAGS =		-xobjective-c++
-endif
-
-if HAVE_DISTRIBUTION
-extrasources +=		$(sourcesdistribution)
-endif
-
-if HAVE_EXERCISES
-extrasources +=		$(sourcesexercises) 
-endif
-
-extrasources +=		$(sourcesstatistics) 
 
 # DBus service file
 if HAVE_DBUS
@@ -132,27 +93,17 @@ CLEANFILES = org.workrave.Workrave.service
 
 extrasources += 	DBusGUI.cc DBusGUI.hh
 
-if HAVE_DBUS_GIO
 extrasources += 	GenericDBusApplet.cc
-endif
 
 BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
 
 if HAVE_PYTHON_CHEETAH
 
-if HAVE_DBUS_GIO
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
 			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
-else
-DBusGUI.cc: 		workrave-gui.xml \
-			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
-			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.cc \
-			$(top_srcdir)/libs/dbus/data/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
-endif
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
 
@@ -228,8 +179,8 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
-			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
-			@INDICATOR_CFLAGS@ ${extraflags} \
+			@DBUS_CFLAGS@ \
+			${extraflags} \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -242,7 +193,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
-			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@ \
+			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@ \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -258,7 +209,7 @@ workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common
 			${ldadd} \
 			@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
-			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
+			@PULSE_LIBS@ @DBUS_LIBS@ @GSTREAMER_LIBS@ \
 			@BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)

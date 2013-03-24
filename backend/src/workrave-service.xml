@@ -47,58 +47,6 @@
       <arg type="bool" name="act" direction="in" />
     </method>
 
-    <!-- TODO: compatibility interface?
-    <enum name="break_id" csymbol="BreakId">
-      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
-    </enum>
-
-    <method name="IsTimerRunning" csymbol="is_timer_running">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="bool"    name="value"    direction="out" />
-    </method>
-
-    <method name="GetTimerIdle" csymbol="get_timer_idle">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"    name="value"    direction="out" hint="ptr"/>
-    </method>
-
-    <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
-    </method>
-    
-    <method name="GetTimerOverdue" csymbol="get_timer_overdue">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
-    </method>
-
-    <method name="PostponeBreak" csymbol="postpone_break">
-      <arg type="break_id" name="timer_id" direction="in"/>
-    </method>
-
-    <method name="SkipBreak" csymbol="skip_break">
-      <arg type="break_id" name="timer_id" direction="in"/>
-    </method>
-
-    <signal name="MicrobreakChanged">
-      <arg type="string" name="progress"/>
-    </signal>
-    
-    <signal name="RestbreakChanged">
-      <arg type="string" name="progress"/>
-    </signal>
-    
-    <signal name="DailylimitChanged">
-      <arg type="string" name="progress"/>
-    </signal>
-    -->
-    
-    <!--method name="GetTime" csymbol="get_time">
-      <arg type="int32" name="value" direction="out" hint="return"/>
-    </method-->
-
     <method name="IsActive" csymbol="is_user_active">
       <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
@@ -135,11 +83,14 @@
     
     <method name="PostponeBreak" csymbol="postpone_break"/>
     <method name="SkipBreak" csymbol="skip_break"/>
+
+    <signal name="Changed">
+      <arg type="string" name="progress"/>
+    </signal>
     
   </interface>
   
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
-
     <import>
       <include name="config/IConfigurator.hh"/>
       <namespace name="workrave"/>
@@ -194,5 +145,4 @@
     </method>
 
   </interface>
-
 </unit>

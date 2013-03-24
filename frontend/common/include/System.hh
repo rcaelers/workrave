@@ -32,7 +32,7 @@
 #include <string>
 #endif
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 #include <gio/gio.h>
 #endif
 
@@ -51,7 +51,7 @@ public:
                    );
 
 private:
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
   static GDBusProxy *lock_proxy;
 #endif
 

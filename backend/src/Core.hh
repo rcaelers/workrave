@@ -47,10 +47,6 @@
 #include "BreaksControl.hh"
 #include "ActivityMonitor.hh"
 #include "Statistics.hh"
-
-#if FIXME
-#include "Networking.hh"
-#endif
 #include "CoreHooks.hh"
 
 using namespace workrave;
@@ -66,40 +62,32 @@ class Core :
   public boost::enable_shared_from_this<Core>
 {
 public:
-  Core(int id = 0);
+  Core();
   virtual ~Core();
 
   // ICore
-
-  boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
-  boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
-  
-  void init(int argc, char **argv, IApp *application, const std::string &display_name);
-  void heartbeat();
-
-  void force_break(BreakId id, BreakHint break_hint);
-  IBreak::Ptr get_break(BreakId id);
-  IStatistics::Ptr get_statistics() const;
-  IConfigurator::Ptr get_configurator() const;
-  ICoreHooks::Ptr get_hooks() const;
-#ifdef HAVE_DBUS
-  dbus::DBus::Ptr get_dbus() const;
-#endif
-  bool is_user_active() const;
-
-  OperationMode get_operation_mode();
-  OperationMode get_operation_mode_regular();
-  bool is_operation_mode_an_override();
-  void set_operation_mode(OperationMode mode);
-  void set_operation_mode_override(OperationMode mode, const std::string &id);
-  void remove_operation_mode_override(const std::string &id);
- 
-  UsageMode get_usage_mode();
-  void set_usage_mode(UsageMode mode);
-
-  void set_insist_policy(InsistPolicy p);
-  
-  void force_idle();
+  virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
+  virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
+  virtual void init(int argc, char **argv, IApp *application, const std::string &display_name);
+  virtual void heartbeat();
+  virtual void force_break(BreakId id, BreakHint break_hint);
+  virtual IBreak::Ptr get_break(BreakId id);
+  virtual IStatistics::Ptr get_statistics() const;
+  virtual IConfigurator::Ptr get_configurator() const;
+  virtual ICoreHooks::Ptr get_hooks() const;
+  virtual dbus::DBus::Ptr get_dbus() const;
+  virtual bool is_user_active() const;
+  virtual OperationMode get_operation_mode();
+  virtual OperationMode get_operation_mode_regular();
+  virtual bool is_operation_mode_an_override();
+  virtual void set_operation_mode(OperationMode mode);
+  virtual void set_operation_mode_override(OperationMode mode, const std::string &id);
+  virtual void remove_operation_mode_override(const std::string &id);
+  virtual UsageMode get_usage_mode();
+  virtual void set_usage_mode(UsageMode mode);
+  virtual void set_powersave(bool down);
+  virtual void set_insist_policy(InsistPolicy p);
+  virtual void force_idle();
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
@@ -116,11 +104,8 @@ private:
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
-  
+
 private:
-  //
-  int id;
-  
   //! Number of command line arguments passed to the program.
   int argc;
 
@@ -136,7 +121,7 @@ private:
   //! The activity monitor
   ActivityMonitor::Ptr monitor;
 
-  //! The activity monitor
+  //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
 
   //! GUI Widget factory.
@@ -157,12 +142,16 @@ private:
   //! Current usage mode.
   UsageMode usage_mode;
 
-#ifdef HAVE_DBUS  
+  //! Did the OS announce a powersave?
+  bool powersave;
+
   //! DBUS bridge
   dbus::DBus::Ptr dbus;
-#endif
-  
+
+  //! Operation mode changed notification.
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
+
+  //! Usage mode changed notification.
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
 };
 

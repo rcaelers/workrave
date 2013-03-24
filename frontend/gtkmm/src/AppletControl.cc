@@ -27,7 +27,7 @@
 
 #include "AppletControl.hh"
 
-#if defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)
+#if defined(HAVE_PANELAPPLET4)
 #include "GnomeAppletWindow.hh"
 #endif
 
@@ -39,7 +39,7 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
 #include "GenericDBusApplet.hh"
 #endif
 
@@ -91,11 +91,11 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#if defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)
+#if defined(HAVE_PANELAPPLET4)
   applets[APPLET_GNOME] = new GnomeAppletWindow();
 #endif
 
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
   

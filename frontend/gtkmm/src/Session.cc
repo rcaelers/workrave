@@ -1,6 +1,6 @@
 // Session.cc --- Monitor the user session
 //
-// Copyright (C) 2010, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE) || defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   init_gnome();
 #endif
 }
@@ -111,7 +111,7 @@ Session::set_idle(bool new_idle)
   TRACE_EXIT();
 }
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 
 void
 Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
@@ -154,46 +154,6 @@ Session::init_gnome()
   if (error == NULL && proxy != NULL)
     {
       g_signal_connect(proxy, "g-signal", G_CALLBACK(on_signal), this);
-    }
-}
-
-#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
-
-static void
-status_changed_cb(DBusGProxy *proxy, int session_status, void *data)
-{
-  TRACE_ENTER_MSG("status_changed_cb", session_status);
-  (void) proxy;
-  Session *self = (Session *)data;
-
-  self->set_idle(session_status == 3);
-
-  TRACE_EXIT();
-}
-
-void
-Session::init_gnome()
-{
-  DBusGProxy *proxy;
-  GError *err = NULL;
-
-  connection = dbus_g_bus_get_private(DBUS_BUS_SESSION, NULL, &err);
-  if (connection == NULL)
-    {
-      g_warning("DBUS session bus not available: %s", err ? err->message : "");
-      g_error_free(err);
-      return;
-    }
-
-  proxy = dbus_g_proxy_new_for_name(connection,
-                                    "org.gnome.SessionManager",
-                                    "/org/gnome/SessionManager/Presence",
-                                    "org.gnome.SessionManager.Presence");
-
-  if (proxy != NULL)
-    {
-      dbus_g_proxy_add_signal(proxy, "StatusChanged", G_TYPE_UINT, G_TYPE_INVALID);
-      dbus_g_proxy_connect_signal(proxy, "StatusChanged", G_CALLBACK(status_changed_cb), this, NULL);
     }
 }
 

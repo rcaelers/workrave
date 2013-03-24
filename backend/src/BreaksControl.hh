@@ -23,6 +23,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
+#include "dbus/DBus.hh"
 
 #include "ActivityMonitor.hh"
 #include "Statistics.hh"
@@ -31,6 +32,7 @@
 
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::dbus;
 
 class BreaksControl :
   public IBreakSupport,
@@ -42,16 +44,19 @@ public:
   static Ptr create(IApp *app,
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
-                    IConfigurator::Ptr configurator);
+                    IConfigurator::Ptr configurator,
+                    DBus::Ptr dbus);
   
   BreaksControl(IApp *app,
                 IActivityMonitor::Ptr activity_monitor,
                 Statistics::Ptr statistics,
-                IConfigurator::Ptr configurator);
+                IConfigurator::Ptr configurator,
+                DBus::Ptr dbus);
   virtual ~BreaksControl();
 
   void init();
   void heartbeat();
+  void save_state() const;
 
   void force_break(BreakId id, BreakHint break_hint);
   void stop_all_breaks();
@@ -75,7 +80,6 @@ private:
   void process_timers();
   void daily_reset();
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
-  void save_state() const;
   void load_state();
   
 private:
@@ -91,6 +95,9 @@ private:
   //! The Configurator
   IConfigurator::Ptr configurator;
 
+  //! DBUs
+  DBus::Ptr dbus;
+  
   //! List of breaks.
   Break::Ptr breaks[BREAK_ID_SIZEOF];
 

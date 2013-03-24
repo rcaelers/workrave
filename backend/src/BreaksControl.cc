@@ -28,33 +28,30 @@
 #include <sstream>
 
 #include "BreaksControl.hh"
-
-#include "utils/TimeSource.hh"
-#include "Util.hh"
-
-#ifdef HAVE_DBUS
-#include "dbus/DBus.hh"
-#include "dbus/DBusException.hh"
-
-#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
-
-using namespace workrave::dbus;
-#endif
-
 #include "TimerActivityMonitor.hh"
+
+#include "Util.hh"
+#include "utils/TimeSource.hh"
+#include "dbus/DBus.hh"
 
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
 
 using namespace workrave::utils;
+using namespace workrave::dbus;
 
 BreaksControl::Ptr
 BreaksControl::create(IApp *app,
                       IActivityMonitor::Ptr activity_monitor,
                       Statistics::Ptr statistics,
-                      IConfigurator::Ptr configurator)
+                      IConfigurator::Ptr configurator,
+                      DBus::Ptr dbus)
 {
-  return Ptr(new BreaksControl(app, activity_monitor, statistics, configurator));
+  return Ptr(new BreaksControl(app,
+                               activity_monitor,
+                               statistics,
+                               configurator,
+                               dbus));
 }
 
 
@@ -62,11 +59,13 @@ BreaksControl::create(IApp *app,
 BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              Statistics::Ptr statistics,
-                             IConfigurator::Ptr configurator) :
+                             IConfigurator::Ptr configurator,
+                             DBus::Ptr dbus) :
   application(app),
   activity_monitor(activity_monitor),
   statistics(statistics),
   configurator(configurator),
+  dbus(dbus),
   insist_policy(ICore::INSIST_POLICY_HALT),
   active_insist_policy(ICore::INSIST_POLICY_INVALID)
 {
@@ -95,27 +94,17 @@ BreaksControl::init()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i] = Break::create(BreakId(i), application, shared_from_this(), activity_monitor, statistics, configurator);
+      breaks[i] = Break::create(BreakId(i),
+                                application,
+                                shared_from_this(),
+                                activity_monitor,
+                                statistics,
+                                configurator,
+                                dbus);
       breaks[i]->init();
     }
 
   load_state();
-  
-#ifdef HAVE_DBUS
-  try
-    {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          string path = string(DBUS_PATH_WORKRAVE) + "Break/" + breaks[i]->get_name();
-          //dbus->connect(path, "org.workrave.BreakInterface", breaks[i].get());
-          //dbus->register_object_path(path);
-        }
-  
-    }
-  catch (DBusException &)
-    {
-    }
-#endif
 }
 
 
@@ -134,6 +123,7 @@ BreaksControl::get_timer(string name) const
 }
 
 
+//! Returns the specified timer.
 Timer::Ptr
 BreaksControl::get_timer(int id) const
 {
@@ -160,6 +150,8 @@ BreaksControl::set_usage_mode(UsageMode mode)
     }
 }
 
+
+//! Sets the insensitive mode.
 void
 BreaksControl::set_insensitive_mode(InsensitiveMode mode)
 {
@@ -190,6 +182,7 @@ BreaksControl::stop_all_breaks()
       breaks[i]->stop_break();
     }
 }
+
 
 //! Forces the start of the specified break.
 void
@@ -259,6 +252,7 @@ BreaksControl::heartbeat()
   TRACE_EXIT();
 }
 
+
 //! Processes all timers.
 void
 BreaksControl::process_timers()
@@ -281,7 +275,7 @@ BreaksControl::process_timers()
           switch (events[i])
             {
             case TIMER_EVENT_LIMIT_REACHED:
-              TRACE_MSG("limi reached" << i);
+              TRACE_MSG("limit reached" << i);
               if (!breaks[i]->is_active() && operation_mode == OPERATION_MODE_NORMAL)
                 {
                   start_break((BreakId)i);
@@ -351,7 +345,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
           Timer::Ptr timer = get_timer(break_id);
 
           gint64 duration = timer->get_auto_reset();
-          gint64 now = TimeSource::get_monotonic_time_sync();
+          gint64 now = TimeSource::get_monotonic_time_sec_sync();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {

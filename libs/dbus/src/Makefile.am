@@ -11,15 +11,9 @@ noinst_LTLIBRARIES = 	libworkrave-dbus.la
 
 dbussources =
 
-if HAVE_DBUS_GIO
+if HAVE_DBUS
 dbussources += 		DBus-gio.cc \
 			DBusBinding-gio.cc
-
-
-else
-dbussources += 		DBus-freedesktop.cc \
-			DBusBinding-freedesktop.cc
-
 endif
 
 libworkrave_dbus_la_SOURCES = ${dbussources}

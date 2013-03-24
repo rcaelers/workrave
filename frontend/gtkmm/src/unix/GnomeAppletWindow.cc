@@ -46,10 +46,6 @@
 
 #include "CoreFactory.hh"
 
-#ifndef HAVE_DBUS_GIO
-#include "DBusGnomeApplet.hh"
-#endif
-
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
 
@@ -71,11 +67,7 @@ GnomeAppletWindow::GnomeAppletWindow() :
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
   applet_active(false),
-#ifdef HAVE_DBUS_GIO
   proxy(NULL)
-#else
-  applet_control(NULL)
-#endif  
 {
 }
 
@@ -120,18 +112,11 @@ GnomeAppletWindow::activate_applet()
   TRACE_ENTER("GnomeAppletWindow::activate_applet");
   bool ok = true;
 
-#ifdef HAVE_DBUS_GIO
   if (proxy == NULL)
     {
       TRACE_MSG("No proxy");
       ok = false;
     }
-#else
-  if (applet_control == NULL)
-    {
-      ok = false;
-    }
-#endif
 
   if (ok && !applet_active)
     {
@@ -679,22 +664,13 @@ GnomeAppletWindow::on_embedded()
 void
 GnomeAppletWindow::cleanup_dbus()
 {
-#ifdef HAVE_DBUS_GIO
   if (proxy != NULL)
     {
       g_object_unref(proxy);
       proxy = NULL;
     }
-#else
-  if (applet_control != NULL)
-    {
-      delete applet_control;
-      applet_control = NULL;
-    }
-#endif
 }
 
-#ifdef HAVE_DBUS_GIO
 void
 GnomeAppletWindow::init_dbus()
 {
@@ -841,71 +817,3 @@ GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
       g_variant_unref(result);
     }
 }
-
-#else
-
-void
-GnomeAppletWindow::init_dbus()
-{
-  TRACE_ENTER("GnomeAppletWindow::init_dbus");
-  DBus *dbus = CoreFactory::get_dbus();
-
-  applet_control = org_workrave_GnomeAppletInterface::instance(dbus,
-                                                               "org.workrave.Workrave.GnomeApplet",
-                                                               "/org/workrave/Workrave/GnomeApplet");
-  TRACE_EXIT();
-}
-
-guint32
-GnomeAppletWindow::get_socketid()
-{
-  guint32 ret = -1;
-  if (applet_control != NULL)
-    {
-      ret = applet_control->GetSocketId();
-    }
-  return ret;
-}
-
-guint32
-GnomeAppletWindow::get_size()
-{
-  guint32 ret = -1;
-  if (applet_control != NULL)
-    {
-      ret = applet_control->GetSize();
-    }
-  return ret;
-}
-
-Orientation
-GnomeAppletWindow::get_orientation()
-{
-  Orientation ret;
-  if (applet_control != NULL)
-    {
-      ret = (Orientation) applet_control->GetOrientation();
-    }
-  return ret;
-}
-
-void
-GnomeAppletWindow::set_menu_active(const std::string &menu, bool status)
-{
-  if (applet_control != NULL)
-    {
-      applet_control->SetMenuActive(menu, status);
-    }
-}
-
-void
-GnomeAppletWindow::set_menu_status(const std::string &menu, bool active)
-{
-  if (applet_control != NULL)
-    {
-      applet_control->SetMenuStatus(menu, active);
-    }
-}
-
-#endif
-

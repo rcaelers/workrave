@@ -1,6 +1,6 @@
 // DayTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -71,7 +71,7 @@ bool
 DayTimePred::init(std::string spec)
 {
   bool ret = false;
-  std:: string::size_type pos = spec.find(':');
+  std::string::size_type pos = spec.find(':');
 
   if (pos != std::string::npos)
     {
@@ -113,13 +113,6 @@ DayTimePred::days_in_month(int month, int year)
 }
 
 
-// time_t
-// DayTimePred::get_time_offset()
-// {
-//   return pred_hour*60*60 + pred_min*60;
-// }
-
-
 time_t
 DayTimePred::get_next(time_t last_time)
 {
@@ -156,13 +149,4 @@ DayTimePred::get_next(time_t last_time)
     {
       return 0;
     }
-}
-
-
-string
-DayTimePred::to_string() const
-{
-  char buf[16];
-  sprintf(buf, "day/%d:%02d", pred_hour, pred_min);
-  return string(buf);
 }

@@ -118,19 +118,7 @@ void
 ActivityMonitor::heartbeat()
 {
   // Default
-  ActivityState state;
-  
-#ifdef HAVE_TESTS
-  if (!hooks->hook_local_activity_state().empty())
-    {
-      state = hooks->hook_local_activity_state()();
-    }
-  else
-#endif
-    {
-      state = local_monitor->get_state();
-    }
-  
+  ActivityState state = local_monitor->get_state();
   gint64 current_time = TimeSource::get_monotonic_time_sec();
   
   map<std::string, gint64>::iterator i = external_activity.begin();
@@ -154,19 +142,9 @@ ActivityMonitor::heartbeat()
   if (local_state != state)
     {
       local_state = state;
-      hooks->signal_local_active_changed()(local_state == ACTIVITY_ACTIVE);
     }
 
   monitor_state = state;
-
-  if (!hooks->hook_is_active().empty())
-    {
-      bool hook_is_active = (hooks->hook_is_active()());
-      if (hook_is_active)
-        {
-          monitor_state = ACTIVITY_ACTIVE;
-        }
-    }
 }
 
 

@@ -1,6 +1,6 @@
 // ICoreTestHooks.hh
 //
-// Copyright (C) 2012 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,8 +37,6 @@ class ICoreTestHooks
 {
 public:
   typedef boost::shared_ptr<ICoreTestHooks> Ptr;
-
-  virtual boost::function<ActivityState()> &hook_local_activity_state() = 0;
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
 };
 

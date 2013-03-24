@@ -1,6 +1,6 @@
 // ICoreHooks.hh --- The main controller
 //
-// Copyright (C) 2012 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
 #ifndef WORKRAVE_BACKEND_ICOREHOOKS_HH
 #define WORKRAVE_BACKEND_ICOREHOOKS_HH
 
-#include <string>
-#include <map>
-
 #include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -32,27 +29,6 @@ class ICoreHooks :
 {
 public:
   typedef boost::shared_ptr<ICoreHooks> Ptr;
-
-  struct IsActiveCombiner
-  {
-    typedef bool result_type;
-
-    template<typename InputIterator>
-    bool operator()(InputIterator first, InputIterator last) const
-    {
-      bool value = false;
-      while (first != last)
-        {
-          value |= *first;
-          first++;
-        }
-
-      return value;
-    }
-  };
-
-  virtual boost::signals2::signal<bool(), IsActiveCombiner> &hook_is_active() = 0;
-  virtual boost::signals2::signal<void(bool)> &signal_local_active_changed() = 0;
 };
 
 #endif // WORKRAVE_BACKEND_ICOREHOOKS_HH

@@ -41,18 +41,16 @@ public:
 
   ActivityMonitor(IConfigurator::Ptr configurator, CoreHooks::Ptr hooks, const std::string &display_name);
 
-  void init();
-  void terminate();
-  void suspend();
-  void resume();
-  void force_idle();
-
+  virtual void init();
+  virtual void terminate();
+  virtual void suspend();
+  virtual void resume();
+  virtual void force_idle();
+  virtual ActivityState get_state();
+  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  
   void heartbeat();
   void report_external_activity(std::string who, bool act);
-  
-  ActivityState get_state();
-  
-  void set_listener(IActivityMonitorListener::Ptr l);
 
 private:
   //! The Configurator.

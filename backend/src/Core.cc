@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#define TRACE_EXTRA id 
-
 #include "debug.hh"
 
 #include "Core.hh"
@@ -43,7 +41,6 @@
 #include <gconf/gconf-client.h>
 #endif
 
-#ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
 
@@ -52,26 +49,24 @@ using namespace workrave::dbus;
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
-#endif
-
 using namespace workrave::utils;
 
 ICore::Ptr
-ICore::create(int id)
+ICore::create()
 {
-  return Ptr(new Core(id));
+  return Ptr(new Core());
 }
 
 
 //! Constructs a new Core.
-Core::Core(int id) :
-  id(id),
+Core::Core() :
   argc(0),
   argv(NULL),
   application(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
   operation_mode_regular(OPERATION_MODE_NORMAL),
-  usage_mode(USAGE_MODE_NORMAL)
+  usage_mode(USAGE_MODE_NORMAL),
+  powersave(false)
 {
   TRACE_ENTER("Core::Core");
   TimeSource::sync();
@@ -227,7 +222,7 @@ Core::init_statistics()
 void
 Core::init_breaks()
 {
-  breaks_control = BreaksControl::create(application, monitor, statistics, configurator);
+  breaks_control = BreaksControl::create(application, monitor, statistics, configurator, dbus);
   breaks_control->init();
 }
 
@@ -289,13 +284,13 @@ Core::get_hooks() const
   return hooks;
 }
 
-#ifdef HAVE_DBUS
+
 dbus::DBus::Ptr
 Core::get_dbus() const
 {
   return dbus;
 }
-#endif
+
 
 //! Is the user currently active?
 bool
@@ -593,6 +588,34 @@ void
 Core::force_idle()
 {
   monitor->force_idle();
+}
+
+
+//! Announces a powersave state.
+void
+Core::set_powersave(bool down)
+{
+  TRACE_ENTER_MSG("Core::set_powersave", down);
+  TRACE_MSG(powersave << " " << operation_mode);
+
+  if (down)
+    {
+      if (!powersave)
+        {
+          // Computer is going down
+          set_operation_mode_override(OPERATION_MODE_SUSPENDED, "powersave");
+          powersave = true;
+        }
+      
+      breaks_control->save_state();
+      statistics->update();
+    }
+  else
+    {
+      remove_operation_mode_override("powersave");
+      powersave = false;
+    }
+  TRACE_EXIT();
 }
 
 

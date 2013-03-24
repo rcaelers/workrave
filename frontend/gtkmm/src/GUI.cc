@@ -397,7 +397,7 @@ GUI::init_nls()
       g_setenv("LANGUAGE", language.c_str(), 1);
     }
 
-#  if !defined(HAVE_GNOME) && !defined(HAVE_GTK3)
+#  if !defined(HAVE_GTK3)
   gtk_set_locale();
 #  endif
   const char *locale_dir;
@@ -734,17 +734,15 @@ GUI::init_gui()
 
   process_visibility();
   
-#ifdef HAVE_DBUS
   workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
-  if (dbus != NULL && dbus->is_available())
+  if (dbus && dbus->is_available())
     {
       dbus->connect("/org/workrave/Workrave/UI",
                     "org.workrave.ControlInterface",
                     menus);
 
     }
-#endif
 
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
@@ -758,17 +756,11 @@ GUI::init_gui()
 void
 GUI::init_dbus()
 {
-#if defined(HAVE_DBUS)
   workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
-  if (dbus != NULL && dbus->is_available())
+  if (dbus && dbus->is_available())
     {
-#ifdef HAVE_DBUS_GIO
       if (dbus->is_running("org.workrave.Workrave"))
-#else      
-      dbus->register_service("org.workrave.Workrave");
-      if (!dbus->is_owner())
-#endif
         {
           Gtk::MessageDialog dialog(_("Workrave failed to start"),
                                     false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
@@ -781,9 +773,7 @@ GUI::init_dbus()
       try
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");
-#ifdef HAVE_DBUS_GIO
           dbus->register_service("org.workrave.Workrave");
-#endif
           
           extern void init_DBusGUI(workrave::dbus::DBus *dbus);
           init_DBusGUI(dbus.get());
@@ -792,7 +782,6 @@ GUI::init_dbus()
         {
         }
     }
-#endif
 }
 
 void
@@ -1591,11 +1580,18 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMRESUMESUSPEND:
           case PBT_APMRESUMEAUTOMATIC:
           case PBT_APMRESUMECRITICAL:
-          case PBT_APMSUSPEND:
             {
               TRACE_MSG("Resume suspend");
-              ICore::Ptr core = CoreFactory::get_core();
-              core->force_idle();
+              ICore *core = CoreFactory::get_core();
+              core->set_powersave(false);
+            }
+            break;
+
+          case PBT_APMSUSPEND:
+            {
+              TRACE_MSG("Suspend");
+              ICore *core = CoreFactory::get_core();
+              core->set_powersave(true);
             }
             break;
           }

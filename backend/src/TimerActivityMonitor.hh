@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,13 +41,14 @@ public:
   TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
   virtual ~TimerActivityMonitor();
 
-  void init();
-  void terminate();
-  void suspend();
-  void resume();
-  ActivityState get_state();
-  void force_idle();
-  void set_listener(IActivityMonitorListener::Ptr l);
+  // IActivityMonitor
+  virtual void init();
+  virtual void terminate();
+  virtual void suspend();
+  virtual void resume();
+  virtual ActivityState get_state();
+  virtual void force_idle();
+  virtual void set_listener(IActivityMonitorListener::Ptr l);
 
 private:
   //! Reference monitor

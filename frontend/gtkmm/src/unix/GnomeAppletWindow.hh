@@ -1,6 +1,6 @@
 // GnomeAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -116,11 +116,7 @@ private:
   void set_menu_status(const std::string &menu, bool status);
   void set_menu_active(const std::string &menu, bool active);
   
-#ifdef HAVE_DBUS_GIO
   GDBusProxy *proxy;
-#else
-  org_workrave_GnomeAppletInterface *applet_control;
-#endif
 };
 
 #endif // GNOMEAPPLETWINDOW_HH

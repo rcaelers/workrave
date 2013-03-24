@@ -55,11 +55,9 @@ CoreFactory::get_configurator()
 }
 
 
-#ifdef HAVE_DBUS
 //! Returns the interface to the D-BUS facility
 DBus::Ptr
 CoreFactory::get_dbus()
 {
   return core->get_dbus();
 }
-#endif

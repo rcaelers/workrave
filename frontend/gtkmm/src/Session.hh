@@ -20,13 +20,8 @@
 #ifndef SESSION_HH
 #define SESSION_HH
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 #include <gio/gio.h>
-#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
-#define DBUS_API_SUBJECT_TO_CHANGE
-#include <dbus/dbus.h>
-#include <dbus/dbus-glib-bindings.h>
-#include <dbus/dbus-glib-lowlevel.h>
 #endif
 
 #include "ICore.hh"
@@ -39,19 +34,13 @@ public:
 
   void set_idle(bool idle);
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 public:
   void init_gnome();
 private:
   static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
   
-#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
-public:
-  void init_gnome();
-
-private:
-  DBusGConnection *connection;
-#endif // defined(HAVE_DBUSGLIB_GET_PRIVATE)
+#endif
 
 private:
   bool is_idle;

@@ -1,6 +1,6 @@
 // DBusBinding.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,8 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
 #include "DBusBinding-gio.hh"
-#else
-#include "DBusBinding-freedesktop.hh"
 #endif
 
 #endif // WORKRAVE_DBUS_DBUSBINDING_HH

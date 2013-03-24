@@ -1,6 +1,6 @@
 // XScreenSaverMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -64,8 +64,8 @@ private:
   //
   XScreenSaverInfo *screen_saver_info;
 
-  GMutex *mutex;
-  GCond *cond;
+  GMutex mutex;
+  GCond cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

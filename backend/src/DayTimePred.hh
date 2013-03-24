@@ -1,6 +1,6 @@
 // DayTimePred.hh --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002, 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,11 @@
 #ifndef DAYTIMEPRED_HH
 #define DAYTIMEPRED_HH
 
-#include "TimePred.hh"
-
-class DayTimePred : public TimePred
+class DayTimePred
 {
 public:
   bool init(std::string spec);
-
   time_t get_next(time_t last_time);
-  std::string to_string() const;
 
 private:
   bool init(int hour, int min);

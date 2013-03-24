@@ -1,6 +1,6 @@
 // LocalActivityMonitor.hh --- LocalActivityMonitor functionality
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,29 +47,28 @@ public:
   LocalActivityMonitor(IConfigurator::Ptr configurator, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
-  void init();
-  void terminate();
-  void suspend();
-  void resume();
-  void force_idle();
+  // IActivityMonitor
+  virtual void init();
+  virtual void terminate();
+  virtual void suspend();
+  virtual void resume();
+  virtual void force_idle();
+  virtual ActivityState get_state();
+  virtual void set_listener(IActivityMonitorListener::Ptr l);
 
-  ActivityState get_state();
-
-  void set_parameters(int noise, int activity, int idle);
-  void get_parameters(int &noise, int &activity, int &idle);
-
-  void set_listener(IActivityMonitorListener::Ptr l);
-
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(bool is_press);
-  void keyboard_notify(bool repeat);
-
+  // IInputMonitorListener
+  virtual void action_notify();
+  virtual void mouse_notify(int x, int y, int wheel = 0);
+  virtual void button_notify(bool is_press);
+  virtual void keyboard_notify(bool repeat);
+  
 private:
   void call_listener();
 
   void load_config();
   void config_changed_notify(const std::string &key);
+  void set_parameters(int noise, int activity, int idle);
+  void get_parameters(int &noise, int &activity, int &idle);
 
   void process_state();
   

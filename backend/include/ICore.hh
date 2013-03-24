@@ -27,9 +27,7 @@
 #include "CoreTypes.hh"
 
 #include "config/IConfigurator.hh"
-#ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
-#endif
 
 #include "IBreak.hh"
 #include "IStatistics.hh"
@@ -48,7 +46,7 @@ namespace workrave
     
     virtual ~ICore() {}
 
-    static ICore::Ptr create(int id = 0);
+    static ICore::Ptr create();
 
     //! The way a break is insisted.
     enum InsistPolicy
@@ -115,16 +113,10 @@ namespace workrave
     virtual void set_usage_mode(UsageMode mode) = 0;
 
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
-    //virtual void set_powersave(bool down) = 0;
-
-    //! Notify the core that the computer time has changed
-    //virtual void time_changed() = 0;
+    virtual void set_powersave(bool down) = 0;
 
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
-
-    //! Return the current time
-    //virtual time_t get_time() const = 0;
 
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
@@ -135,10 +127,8 @@ namespace workrave
     //! Return the hooks
     virtual ICoreHooks::Ptr get_hooks() const = 0;
     
-#ifdef HAVE_DBUS
     //! Return DBUs remoting interface.
     virtual dbus::DBus::Ptr get_dbus() const = 0;
-#endif
   };
 
   std::string operator%(const std::string &key, BreakId id);
