@@ -100,7 +100,9 @@ WorkraveAuth::on_password_lookup(bool ok, const std::string &username, const std
           try
             {
               valid_until = boost::lexical_cast<int>(elements[2]);
-              workflow->init(elements[0], elements[1], valid_until, boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2));
+              workflow->init(elements[0], elements[1], valid_until,
+                             boost::bind(&WorkraveAuth::on_auth_result, this, _1, _2),
+                             boost::bind(&WorkraveAuth::on_auth_feedback, this, _1, _2, _3));
             }
           catch(boost::bad_lexical_cast &) {}
           success = true;

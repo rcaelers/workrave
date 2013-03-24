@@ -1,4 +1,4 @@
-// Copyright (C) 2010 - 2012 by Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010 - 2013 by Rob Caelers <robc@krandor.nl>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +72,7 @@ HttpStreamOperation::start()
 
       SoupRequester *requester = SOUP_REQUESTER(soup_session_get_feature(session, SOUP_TYPE_REQUESTER));
 
-      SoupURI *uri = soup_uri_new(request->uri.c_str());
+      SoupURI *uri = soup_uri_new(request->uri.c_str());  // TODO: validate uri
       SoupRequest *soup_request = soup_requester_request_uri(requester, uri, NULL);
       SoupMessage *message = soup_request_http_get_message(SOUP_REQUEST_HTTP(soup_request));
 

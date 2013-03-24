@@ -44,6 +44,9 @@ namespace workrave
         // OAuth server reported error.
         Server,
 
+        // OAuth server comminication failed.
+        Transport,
+
         // General failure.
         Failed,
     };

@@ -27,7 +27,7 @@ cloud_LDFLAGS = 	-L$(top_builddir)/backend/src/ \
 cloud_LDADD    =        $(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/rest/src/libworkrave-rest.la \
 			$(top_builddir)/libs/cloud/src/libworkrave-cloud.la \
-			@GLIB_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @WIN32LIBS@ 
+			@GLIB_LIBS@ @BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ @BOOST_PROGRAM_OPTIONS_LIB@ @WIN32LIBS@ 
 
 endif
 

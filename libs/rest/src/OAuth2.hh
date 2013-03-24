@@ -44,7 +44,7 @@ public:
   virtual ~OAuth2();
   
   void init(AuthResultCallback callback, ShowUserfeedbackCallback feedback);
-  void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback);
+  void init(std::string access_token, std::string refresh_token, time_t valid_until, AuthResultCallback callback, ShowUserfeedbackCallback feedback);
   void get_tokens(std::string &access_token, std::string &refresh_token, time_t &valid_until);
   void refresh_access_token();
 
@@ -56,10 +56,12 @@ public:
 private:
   typedef std::map<std::string, std::string> RequestParams;
   enum State { Idle,
+               Initialized,
                Error,
                AuthorizationGrantRequest,
                AccessTokenRequest,
-               RefreshAccessTokenRequest
+               RefreshAccessTokenRequest,
+               RefreshInitialAccessTokenRequest
   };
                
   void request_authorization_grant();
