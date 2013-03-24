@@ -878,40 +878,6 @@ fi
 AM_CONDITIONAL(CONFIG_PULSE, test "x$config_pulse" = "xyes")
 
 dnl
-dnl Soup
-dnl
-
-PKG_CHECK_MODULES([SOUP],
-                  [ libsoup-2.4 >= 2.38.1 ]
-		 )
-
-dnl
-dnl Libsecret
-dnl
-
-if test "x$platform_os_unix" == "xyes"; then
-   PKG_CHECK_MODULES([SECRET],
-                  [ libsecret-1 >= 0.12 ]
-		 )
-fi
-
-dnl
-dnl Gcrypt
-dnl
-		 
-GCRYPT_VERSION=1.5.0
-GCRYPT_LIBVER=1
-
-AM_PATH_LIBGCRYPT($GCRYPT_LIBVER:$GCRYPT_VERSION,,
-	                  AC_MSG_ERROR([[
-***
-*** libgcrypt was not found. You may want to get it from
-*** ftp://ftp.gnupg.org/gcrypt/libgcrypt/
-***
-	                  ]]))
-
-
-dnl
 dnl Internationalization
 dnl
 
@@ -1011,26 +977,6 @@ dnl
 
 AC_CONFIG_FILES([Makefile
              libs/Makefile
-             libs/network/Makefile
-             libs/network/include/Makefile
-             libs/network/include/network/Makefile
-             libs/network/src/Makefile
-             libs/network/src/unix/Makefile
-             libs/network/src/win32/Makefile
-             libs/rest/Makefile
-             libs/rest/include/Makefile
-             libs/rest/include/rest/Makefile
-             libs/rest/include/json/Makefile
-             libs/rest/src/Makefile
-             libs/rest/src/unix/Makefile
-             libs/rest/src/osx/Makefile
-             libs/rest/src/win32/Makefile
-             libs/rest/test/Makefile
-             libs/cloud/Makefile
-             libs/cloud/include/Makefile
-             libs/cloud/include/cloud/Makefile
-             libs/cloud/src/Makefile
-             libs/cloud/test/Makefile
              libs/config/Makefile
              libs/config/include/Makefile
              libs/config/include/config/Makefile

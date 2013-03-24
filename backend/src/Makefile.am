@@ -78,10 +78,9 @@ libworkrave_backend_la_SOURCES = ${sources} ${dbussources}
 
 libworkrave_backend_la_CFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			@X_CFLAGS@ @GLIB_CFLAGS@ @DBUS_CFLAGS@ @PROTOBUF_CFLAGS@ \
+			@X_CFLAGS@ @GLIB_CFLAGS@ @DBUS_CFLAGS@ \
 			-I$(top_srcdir)/libs/dbus/include \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/network/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/input-monitor/include
 
@@ -91,12 +90,10 @@ libworkrave_backend_la_LIBADD= \
 			$(top_builddir)/libs/input-monitor/src/libworkrave-input-monitor.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/libs/config/src/libworkrave-config.la \
-			$(top_builddir)/libs/network/src/libworkrave-network.la \
 			$(dbuslib)
 
 DISTCLEANFILES = 	org.workrave.gschema.xml
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in) \
-			$(wildcard $(srcdir)/*.proto)
+			org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in)

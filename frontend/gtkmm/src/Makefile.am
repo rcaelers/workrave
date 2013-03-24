@@ -257,7 +257,7 @@ workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common
 			$(top_builddir)/backend/src/libworkrave-backend.la \
 			${ldadd} \
 			@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
-			@GTK_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@  @PROTOBUF_LIBS@ \
+			@GTK_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@PULSE_LIBS@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			@BOOST_THREAD_LIB@ @BOOST_SYSTEM_LIB@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
