@@ -125,7 +125,7 @@ HttpUtils::open_in_browser(const std::string &location)
       throw HttpError(HttpErrorCode::Failure, boost::str(boost::format("xdg-open returned an error exit-code %1%") % WEXITSTATUS(exit_code)));
     }
 #elif defined(PLATFORM_OS_OSX)
-  NSString* uri = [NSString stringWithCString:login_uri.c_str() encoding: NSUTF8StringEncoding];
+  NSString* uri = [NSString stringWithCString:location.c_str() encoding: NSUTF8StringEncoding];
   [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: uri]];
 #else
 #error Not ported
