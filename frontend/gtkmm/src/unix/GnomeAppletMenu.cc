@@ -1,6 +1,6 @@
 // GnomeAppletMenu.cc --- Menus using GnomeApplet+
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ GnomeAppletMenu::~GnomeAppletMenu()
 }
 
 void
-GnomeAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
+GnomeAppletMenu::resync(OperationMode mode, UsageMode usage)
 {
   if (applet_window != NULL)
     {
@@ -79,7 +79,6 @@ GnomeAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
           break;
         }
 
-      applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_SHOW_LOG, show_log);
       applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_READING, usage == USAGE_MODE_READING);
     }
 }

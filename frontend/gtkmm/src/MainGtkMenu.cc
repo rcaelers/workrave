@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -153,19 +153,6 @@ MainGtkMenu::create_actions()
   action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
 
-  // Networking menu
-#ifdef HAVE_DISTRIBUTION
-  action_group->add(Gtk::Action::create("Network", _("_Network")));
-  // action_group->add(Gtk::Action::create("Join", _("_Connect")),
-  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_join));
-  // action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
-  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
-  // action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
-  //                   sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
-  action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
-#endif
-
   // Open
   action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),
                     sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
@@ -230,14 +217,6 @@ MainGtkMenu::create_ui()
     "      <menuitem action='Quiet'/>"
     "      <menuitem action='Suspended'/>"
     "    </menu>"
-#ifdef HAVE_DISTRIBUTION
-    "    <menu action='Network'>"
-    "      <menuitem action='Join'/>"
-    "      <menuitem action='Disconnect'/>"
-    "      <menuitem action='Reconnect'/>"
-    "      <menuitem action='ShowLog'/>"
-    "    </menu>"
-#endif
     "    <menuitem action='Reading'/>"
     "    <separator/>"
     "    <menuitem action='Preferences'/>"
@@ -278,7 +257,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 
 
 void
-MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
+MainGtkMenu::resync(OperationMode mode, UsageMode usage)
 {
   Gtk::CheckMenuItem *item = NULL;
   const char *menu_name = NULL;
@@ -310,12 +289,6 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       }
   }
 
-  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Network/ShowLog"));
-  if (item != NULL)
-    {
-      item->set_active(show_log);
-    }
-
   item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( "/Menu/Reading" ) );
   if( item )
   {
@@ -326,21 +299,6 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
   }
 }
 
-
-void
-MainGtkMenu::on_menu_network_log()
-{
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Network/ShowLog");
-  Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
-
-  if (ract)
-    {
-      bool active = ract->get_active();
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
-      menus->on_menu_network_log(active);
-    }
-}
 
 void
 MainGtkMenu::on_menu_normal()

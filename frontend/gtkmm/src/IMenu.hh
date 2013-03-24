@@ -35,7 +35,7 @@ public:
   virtual void init() = 0;
   virtual void add_accel(Gtk::Window &window) = 0;
   virtual void popup(const guint button, const guint activate_time) = 0;
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) = 0;
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage) = 0;
 };
 
 #endif // IMENU_HH

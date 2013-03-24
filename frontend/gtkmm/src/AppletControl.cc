@@ -27,7 +27,7 @@
 
 #include "AppletControl.hh"
 
-#if defined(HAVE_PANELAPPLET4)
+#ifdef HAVE_PANELAPPLET4
 #include "GnomeAppletWindow.hh"
 #endif
 
@@ -49,7 +49,7 @@
 
 #include "GUI.hh"
 #include "TimerBoxControl.hh"
-#include "Menus.hh" // REFACTOR
+#include "Menus.hh" // FIXME: REFACTOR
 
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
@@ -250,7 +250,7 @@ AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletStat
       delayed_show = 5;
     }
 
-  // REFACTOR
+  // FIXME: REFACTOR
   if (state == AppletWindow::APPLET_STATE_VISIBLE)
     {
       IGUI *gui = GUI::get_instance();
@@ -268,6 +268,7 @@ AppletControl::on_applet_request_activate(AppletType type)
 {
   show(type);
 }
+
 
 //! Is at least a single applet visible.
 bool
@@ -416,6 +417,7 @@ AppletControl::activate_applet(AppletType type)
   return state;
 }
 
+
 void
 AppletControl::deactivate_applet(AppletType type)
 {
@@ -425,6 +427,7 @@ AppletControl::deactivate_applet(AppletType type)
       applet_state[type] = AppletWindow::APPLET_STATE_DISABLED;
     }
 }
+
 
 sigc::signal<void> &
 AppletControl::signal_visibility_changed()

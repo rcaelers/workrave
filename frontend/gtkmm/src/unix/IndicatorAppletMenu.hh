@@ -37,7 +37,7 @@ public:
   virtual ~IndicatorAppletMenu();
 
   virtual void init();
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
 private:
   enum MenuItemType { Radio, Check, Normal };

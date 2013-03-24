@@ -1,6 +1,6 @@
 // IConfigurator.hh -- Interface to the Workrave configuration
 //
-// Copyright (C) 2001 - 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ namespace workrave
         CONFIG_FLAG_DEFAULT = 1,
 
         //! The value must be set immediately, without delay.
-        CONFIG_FLAG_IMMEDIATE = 2,
+        CONFIG_FLAG_IMMEDIATE = 2
       };
 
 

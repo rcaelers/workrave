@@ -1,6 +1,6 @@
 // GLibMutex.hh
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,12 +31,12 @@ public:
   Mutex()
   {
     g_rec_mutex_init(&gmutex);
-  };
+  }
 
   ~Mutex()
   {
     g_rec_mutex_clear(&gmutex);
-  };
+  }
 
   void lock()
   {

@@ -35,9 +35,11 @@ AppletWindow::AppletWindow()
 {
 }
 
+
 AppletWindow::~AppletWindow()
 {
 }
+
 
 void
 AppletWindow::set_applet_tooltip(const std::string &tip)
@@ -59,16 +61,19 @@ AppletWindow::update_applet()
   TRACE_EXIT();
 }
 
+
 void
 AppletWindow::init_applet()
 {
 }
+
 
 sigc::signal<void, IAppletWindow::AppletState> &
 AppletWindow::signal_state_changed()
 {
   return state_changed_signal;
 }
+
 
 sigc::signal<void> &
 AppletWindow::signal_request_activate()

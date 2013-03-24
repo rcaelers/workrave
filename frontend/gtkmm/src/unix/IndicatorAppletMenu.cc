@@ -120,13 +120,6 @@ IndicatorAppletMenu::init()
   menu_item_append(mode_menu, _("Q_uiet"), Radio, Menus::MENU_COMMAND_MODE_QUIET);
   menu_item_append(mode_menu, _("_Suspended"), Radio, Menus::MENU_COMMAND_MODE_SUSPENDED);
 
-  DbusmenuMenuitem *network_menu = menu_item_append(root, _("_Network"));
-
-  //menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
-  //menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
-  //menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
-  menu_item_append(network_menu, _("Show _log"), Check, Menus::MENU_COMMAND_NETWORK_LOG);
-
   menu_item_append(root, _("Reading mode"), Check, Menus::MENU_COMMAND_MODE_READING);
   menu_item_append(root, _("Statistics"), Menus::MENU_COMMAND_STATISTICS);
   menu_item_append(root, _("About..."), Menus::MENU_COMMAND_ABOUT);
@@ -134,13 +127,12 @@ IndicatorAppletMenu::init()
 }
 
 void
-IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
+IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage)
 {
   menu_item_set_checked(Menus::MENU_COMMAND_MODE_NORMAL, mode == OPERATION_MODE_NORMAL);
   menu_item_set_checked(Menus::MENU_COMMAND_MODE_QUIET, mode == OPERATION_MODE_QUIET);
   menu_item_set_checked(Menus::MENU_COMMAND_MODE_SUSPENDED, mode == OPERATION_MODE_SUSPENDED);
   menu_item_set_checked(Menus::MENU_COMMAND_MODE_READING, usage == USAGE_MODE_READING);
-  menu_item_set_checked(Menus::MENU_COMMAND_NETWORK_LOG, show_log);
 }
 
 int

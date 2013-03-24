@@ -1,6 +1,6 @@
 // IApp.hh
 //
-// Copyright (C) 2001 - 2008, 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ namespace workrave
         STAGE_INITIAL = 0,
         STAGE_MOVE_OUT,
         STAGE_WARN,
-        STAGE_ALERT,
+        STAGE_ALERT
       };
 
     //! Text that the GUI show must in the prelude window.
@@ -43,7 +43,7 @@ namespace workrave
       {
         PROGRESS_TEXT_BREAK_IN,
         PROGRESS_TEXT_DISAPPEARS_IN,
-        PROGRESS_TEXT_SILENT_IN,
+        PROGRESS_TEXT_SILENT_IN
       };
 
     virtual ~IApp() {}

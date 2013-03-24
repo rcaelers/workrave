@@ -26,8 +26,6 @@
 #include "ICore.hh"
 
 class IGUI;
-class NetworkLogDialog;
-class NetworkJoinDialog;
 class StatisticsDialog;
 class PreferencesDialog;
 class AppletControl;
@@ -95,10 +93,6 @@ private:
   void on_menu_response(int response);
   void on_about_response(int response);
 
-#ifdef HAVE_DISTRIBUTION
-  void on_network_log_response(int response);
-  void on_network_join_response(int response);
-#endif
   void on_statistics_response(int response);
   void on_preferences_response(int response);
 #ifdef HAVE_EXERCISES
@@ -130,11 +124,6 @@ public:
 private:
   //! Interface to the GUI.
   IGUI *gui;
-
-#ifdef HAVE_DISTRIBUTION
-  NetworkLogDialog *network_log_dialog;
-  NetworkJoinDialog *network_join_dialog;
-#endif
 
   // The Statistics dialog.
   StatisticsDialog *statistics_dialog;

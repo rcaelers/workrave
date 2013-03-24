@@ -100,7 +100,7 @@ private:
   virtual void bus_name_presence(const std::string &name, bool present);
   
   // Menu
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
   void add_menu_item(const char *text, int command, int flags);
   

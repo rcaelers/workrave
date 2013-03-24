@@ -166,7 +166,7 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
 }
 
 void
-GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
+GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
 {
   TRACE_ENTER("GenericDBusAppletMenu::resync");
 
@@ -188,17 +188,6 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
  
-#ifdef HAVE_DISTRIBUTION
-  add_menu_item(_("Network"),     0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
-  //add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
-  //add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-  //add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show log"),   Menus::MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
-                | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-
-  add_menu_item(_("Network"),    0,                                      MENU_ITEM_FLAG_SUBMENU_END);
-      
-#endif
   add_menu_item(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
                 | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 

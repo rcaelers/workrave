@@ -44,10 +44,6 @@
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "NetworkLogDialog.hh"
-#endif
-
 #ifdef HAVE_EXERCISES
 #include "ExercisesDialog.hh"
 #include "Exercise.hh"
@@ -87,9 +83,6 @@
  *  \param control Interface to the controller.
  */
 Menus::Menus() :
-#ifdef HAVE_DISTRIBUTION
-  network_log_dialog(NULL),
-#endif
   statistics_dialog(NULL),
   preferences_dialog(NULL),
 #ifdef HAVE_EXERCISES
@@ -410,59 +403,6 @@ Menus::on_about_response(int response)
 }
 
 void
-Menus::on_menu_network_log(bool active)
-{
-#ifdef HAVE_DISTRIBUTION
-  TRACE_ENTER("Menus::on_menu_network_log");
-
-  if (active)
-    {
-      if (network_log_dialog == NULL)
-        {
-          network_log_dialog = new NetworkLogDialog();
-          network_log_dialog->signal_response().
-            connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
-
-          resync();
-
-          network_log_dialog->run();
-        }
-    }
-  else if (network_log_dialog != NULL)
-    {
-      network_log_dialog->hide();
-      delete network_log_dialog;
-      network_log_dialog = NULL;
-      resync();
-    }
-
-
-  TRACE_EXIT();
-#endif
-}
-
-
-#ifdef HAVE_DISTRIBUTION
-void
-Menus::on_network_log_response(int response)
-{
-  TRACE_ENTER_MSG("Menus::on_network_log_response", response);
-  (void) response;
-
-  assert(network_log_dialog != NULL);
-
-  network_log_dialog->hide();
-
-  // done by gtkmm ??? delete network_log_dialog;
-  network_log_dialog = NULL;
-
-  resync();
-
-  TRACE_EXIT();
-}
-#endif
-
-void
 Menus::on_statistics_response(int response)
 {
   (void) response;
@@ -517,11 +457,6 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_MODE_SUSPENDED:
       on_menu_suspend();
       break;
-#ifdef HAVE_DISTRIBUTION
-    case MENU_COMMAND_NETWORK_LOG:
-      on_menu_network_log(network_log_dialog == NULL);
-      break;
-#endif
     case MENU_COMMAND_STATISTICS:
       on_menu_statistics();
       break;
@@ -563,13 +498,7 @@ Menus::resync()
           as a regular mode. That would erase whatever the user's regular mode was.
           */
           menus[i]->resync(core->get_operation_mode_regular(),
-                           core->get_usage_mode(),
-#ifdef HAVE_DISTRIBUTION
-                           network_log_dialog != NULL);
-#else
-                           false);
-#endif
-
+                           core->get_usage_mode());
         }
     }
 

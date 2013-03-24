@@ -135,11 +135,6 @@ GnomeAppletWindow::activate_applet()
           bool exercices_command_status(false);
           set_menu_active(exercices_command, exercices_command_status);
 #endif
-#ifndef HAVE_DISTRIBUTION
-          const std::string network_command("/commands/Network");
-          bool network_command_status(false);
-          set_menu_active(network_command, network_command_status);
-#endif
         }
       catch (workrave::dbus::DBusException)
         {
@@ -278,9 +273,6 @@ GnomeAppletWindow::set_menu_status(int menu, bool active)
           break;
         case MENUSYNC_MODE_READING:
           set_menu_status("/commands/ReadingMode", active);
-          break;
-        case MENUSYNC_SHOW_LOG:
-          set_menu_status("/commands/ShowLog", active);
           break;
         }
     }

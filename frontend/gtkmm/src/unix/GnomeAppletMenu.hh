@@ -39,7 +39,7 @@ public:
   GnomeAppletMenu(GnomeAppletWindow *applet_window);
   virtual ~GnomeAppletMenu();
 
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
 private:
   GnomeAppletWindow *applet_window;

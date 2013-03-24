@@ -9,9 +9,6 @@
 
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
-    <method name="NetworkLog"            csymbol="on_menu_network_log">
-      <arg type="bool" name="show" direction="in"/>
-    </method>
     <method name="ReadingMode"           csymbol="on_menu_reading">
       <arg type="bool" name="show" direction="in"/>
     </method>

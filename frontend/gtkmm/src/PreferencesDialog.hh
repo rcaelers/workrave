@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -63,9 +63,6 @@ private:
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
   Gtk::Widget *create_sounds_page();
-#ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *create_network_page();
-#endif
   Gtk::Widget *create_applet_page();
   Gtk::Widget *create_mainwindow_page();
   bool on_focus_in_event(GdkEventFocus *event);

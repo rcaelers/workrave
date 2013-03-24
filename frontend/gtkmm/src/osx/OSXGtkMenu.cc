@@ -97,12 +97,6 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Quiet'/>\n"
     "      <menuitem action='Suspended'/>\n"
     "    </menu>\n"
-    "    <menu action='Network'>\n"
-    "      <menuitem action='Join'/>\n"
-    "      <menuitem action='Disconnect'/>\n"
-    "      <menuitem action='Reconnect'/>\n"
-    "      <menuitem action='ShowLog'/>\n"
-    "    </menu>\n"
     "    <menuitem action='Reading mode'/>"
     "  </menubar>\n"
     "</ui>\n";

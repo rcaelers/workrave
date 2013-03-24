@@ -79,10 +79,6 @@ AC_ARG_ENABLE(debug,
               [AS_HELP_STRING([--enable-debug],
                               [compile with debugging flags set])])
 
-AC_ARG_ENABLE(distribution,
-              [AS_HELP_STRING([--disable-distribution],
-                              [compile without support for distributed operation])])
-
 AC_ARG_ENABLE(experimental,
               [AS_HELP_STRING([--enable-experimental],
                               [compile with experimental features])])
@@ -583,9 +579,9 @@ PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
    			gio-2.0 >= 2.26.0
    			gtk+-3.0 >= 3.0.0
    			gdk-3.0 >= 3.0.0
-                     sigc++-2.0 >= 2.2.4.2
-                     glibmm-2.4 >= 2.28.0
-                     gtkmm-3.0 >= 3.0.0,
+                        sigc++-2.0 >= 2.2.4.2
+                        glibmm-2.4 >= 2.28.0
+                        gtkmm-3.0 >= 3.0.0,
                      [config_gtk=yes
 		 	 config_gtk_version=3
 	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
@@ -717,36 +713,32 @@ dnl
 dnl GIO networking
 dnl
 
-config_distribution=no
+config_network=no
 
-if test "x$enable_distribution" != "xno"
+if test "x$enable_network" != "xno"
 then
-  AC_SUBST(PROTOBUF_CFLAGS)
-  AC_SUBST(PROTOBUF_LIBS)
-
+  dnl AC_SUBST(PROTOBUF_CFLAGS)
+  dnl AC_SUBST(PROTOBUF_LIBS)
   dnl PKG_CHECK_MODULES([PROTOBUF], [protobuf >= 2.4])
   dnl AC_PATH_PROG([PROTOC], [protoc], [AC_MSG_ERROR([protoc is not found])])
   
-   if test "x$platform_os_unix" == "xyes"; then
-   giounix="gio-unix-2.0 >= 2.32"
+  if test "x$platform_os_unix" == "xyes"; then
+     giounix="gio-unix-2.0 >= 2.32"
   fi
   PKG_CHECK_MODULES([GIO],
                     [gio-2.0 >= 2.32.0 ${giounix}],
-                    [config_distribution=yes
-		     have_gio_net=yes
-                     AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
- 		     [if test "x$enable_distribution" = "xyes"; then
+                    [config_network=yes],
+ 		    [if test "x$enable_network" = "xyes"; then
                      	  AC_MSG_ERROR([GIO development headers not found.])
-                     fi])
+                    fi])
 fi
 
-if test $config_distribution = yes
+if test $config_network = yes
 then
-  AC_DEFINE([HAVE_DISTRIBUTION], , [Define if network-distributed operation is available])
+  AC_DEFINE([HAVE_NETWORK], , [Define if network support is available])
 fi
 
-AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
-AM_CONDITIONAL(HAVE_GIO_NET, test $have_gio_net = yes)
+AM_CONDITIONAL(HAVE_NETWORK, test "x$config_network" = "xyes")
 
 AC_CHECK_HEADER(linux/netlink.h,
 have_netlink=yes
@@ -757,7 +749,6 @@ AC_DEFINE([HAVE_NETLINK],[],[Define for Linux Netlink is available])
 ])
 
 AM_CONDITIONAL(HAVE_NETLINK, test x"$have_netlink" = "xyes")
-
 
 dnl
 dnl GStreamer
@@ -983,9 +974,6 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
              frontend/plugin/Makefile
-             frontend/plugin/distribution/Makefile
-             frontend/plugin/distribution/gtkmm/Makefile
-             frontend/plugin/distribution/gtkmm/src/Makefile
              frontend/plugin/statistics/Makefile
              frontend/plugin/statistics/gtkmm/Makefile
              frontend/plugin/statistics/gtkmm/src/Makefile
@@ -1031,7 +1019,6 @@ echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
 echo "                 DBUS support :   ${config_dbus}"
-echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then
 echo "           Pulseaudio support :   ${config_pulse}"

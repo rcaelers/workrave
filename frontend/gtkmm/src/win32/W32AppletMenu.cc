@@ -53,9 +53,9 @@ W32AppletMenu::~W32AppletMenu()
 }
 
 void
-W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
+W32AppletMenu::resync(OperationMode mode, UsageMode usage)
 {
-  TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
+  TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << usage);
 
   IGUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
@@ -98,25 +98,6 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 
       w32aw->add_menu(_("_Mode"), 0, 0);
 
-#ifdef HAVE_DISTRIBUTION
-      // w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
-      //                 W32AppletWindow::MENU_FLAG_TOGGLE
-      //                 |W32AppletWindow::MENU_FLAG_POPUP);
-      // w32aw->add_menu(_("_Disconnect"),
-      //                 Menus::MENU_COMMAND_NETWORK_DISCONNECT,
-      //                 W32AppletWindow::MENU_FLAG_TOGGLE
-      //                 |W32AppletWindow::MENU_FLAG_POPUP);
-      // w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
-      //                 W32AppletWindow::MENU_FLAG_TOGGLE
-      //                 |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("Show _log"), Menus::MENU_COMMAND_NETWORK_LOG,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(show_log
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Network"), 0, 0);
-#endif
       w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |(usage == USAGE_MODE_READING

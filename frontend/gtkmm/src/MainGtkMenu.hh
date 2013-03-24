@@ -51,10 +51,9 @@ public:
 
   virtual void init();
   virtual void popup(const guint button, const guint activate_time);
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
 private:
-  void on_menu_network_log();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();

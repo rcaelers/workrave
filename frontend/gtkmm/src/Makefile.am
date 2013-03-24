@@ -21,10 +21,6 @@ extraflags =
 extrasources =
 extranodistsources = 
 
-# Additional distribution sources.
-DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
-sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc
-
 # Additional exercises sources.
 EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
 sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
@@ -35,10 +31,6 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
 
-if HAVE_DISTRIBUTION
-extrasources +=		$(sourcesdistribution)
-endif
-
 if HAVE_EXERCISES
 extrasources +=		$(sourcesexercises) 
 endif
@@ -46,7 +38,7 @@ endif
 extrasources +=		$(sourcesstatistics) 
 
 if PLATFORM_OS_UNIX
-extraflags += 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
+extraflags += 		-I$(top_srcdir)/frontend/gtkmm/src/unix/ -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
 endif
 
@@ -179,7 +171,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
-			@DBUS_CFLAGS@ \
+			@DBUS_CFLAGS@ @INDICATOR_CFLAGS@ \
 			${extraflags} \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
