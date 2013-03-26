@@ -187,8 +187,6 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-  Glib::OptionContext option_ctx;
-
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
 #endif
@@ -196,9 +194,17 @@ GUI::main()
   if (!Glib::thread_supported())
     Glib::thread_init();
 
-  app = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
-  Gtk::Application::set_default(app);
-  
+  Gtk::Main *kit = NULL;
+  try
+    {
+      kit = new Gtk::Main(argc, argv);
+    }
+  catch (const Glib::OptionError &e)
+    {
+      std::cout << "Failed to initialize: " << e.what() << std::endl;
+      exit(1);
+    }
+
   init_core();
   init_nls();
   init_platform();
@@ -215,9 +221,7 @@ GUI::main()
   TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
-  app->run(*main_window);
-
-  TRACE_MSG("End event loop.");
+  Gtk::Main::run();
 
   cleanup_session();
 
@@ -231,6 +235,8 @@ GUI::main()
 
   delete applet_control;
   applet_control = NULL;
+
+  delete kit;
 
   TRACE_EXIT();
 }
