@@ -62,8 +62,6 @@ public:
   void stop_all_breaks();
 
   IBreak::Ptr get_break(BreakId id);
-  Timer::Ptr get_timer(std::string name) const;
-  Timer::Ptr get_timer(int id) const;
 
   void set_operation_mode(OperationMode mode);
   void set_usage_mode(UsageMode mode);
@@ -81,6 +79,9 @@ private:
   void daily_reset();
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void load_state();
+
+  Timer::Ptr get_timer(std::string name) const;
+  Timer::Ptr get_timer(int id) const;
   
 private:
   //! GUI Factory used to create the break/prelude windows.

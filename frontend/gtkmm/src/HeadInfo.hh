@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MULTIHEAD_HH
-#define MULTIHEAD_HH
+#ifndef HEADINFO_HH
+#define HEADINFO_HH
 
 #include "preinclude.h"
 
@@ -51,4 +51,4 @@ public:
   Gdk::Rectangle geometry;
 };
 
-#endif // MULTIHEAD_HH
+#endif // HEADINFO_HH

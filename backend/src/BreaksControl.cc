@@ -87,7 +87,6 @@ BreaksControl::~BreaksControl()
 /**** Initialization                                                       ******/
 /********************************************************************************/
 
-
 //! Initializes the breaks controller.
 void
 BreaksControl::init()

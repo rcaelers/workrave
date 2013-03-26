@@ -371,8 +371,6 @@ Break::force_start_break(BreakHint hint)
 
   goto_stage(STAGE_TAKING);
 
-  break_forced_signal(hint);
-
   TRACE_EXIT();
 }
 
@@ -490,27 +488,6 @@ boost::signals2::signal<void(IBreak::BreakEvent)> &
 Break::signal_break_event()
 {
   return break_event_signal;
-}
-
-
-boost::signals2::signal<void()> &
-Break::signal_postponed()
-{
-  return postponed_signal;
-}
-
-
-boost::signals2::signal<void()> &
-Break::signal_skipped()
-{
-  return skipped_signal;
-}
-
-
-boost::signals2::signal<void(BreakHint)> &
-Break::signal_break_forced()
-{
-  return break_forced_signal;
 }
 
 
@@ -634,7 +611,6 @@ Break::postpone_break()
       stop_break();
 
       TRACE_MSG("Sending singal");
-      postponed_signal();
     }
 }
 
@@ -664,8 +640,6 @@ Break::skip_break()
 
       // and stop the break.
       stop_break();
-
-      skipped_signal();
     }
 }
 
