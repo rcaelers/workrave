@@ -77,9 +77,7 @@ Timer::Timer() :
   last_daily_reset_time(0),
   next_reset_time(0),
   next_daily_reset_time(0),
-  next_limit_time(0),
-  activity_sensitive(true),
-  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
+  next_limit_time(0)
 {
 }
 
@@ -155,16 +153,9 @@ Timer::snooze_timer()
 
   if (timer_enabled)
     {
-      // recompute.
       next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
       compute_next_limit_time();
-
-      if (!activity_sensitive)
-        {
-          // Start the clock in case of insensitive timer.
-          activity_state = ACTIVITY_ACTIVE;
-        }
     }
   
   TRACE_EXIT();
@@ -248,10 +239,6 @@ Timer::stop_timer()
 
       // When to reset the timer.
       compute_next_reset_time();
-
-      // When to re-send a limit reached?
-      // (in case of !snooze_on_active)
-      // compute_next_limit_time(); // TODO: if is really not needed
     }
   TRACE_EXIT();
 }
@@ -312,10 +299,9 @@ Timer::freeze_timer(bool freeze)
 {
   TRACE_ENTER_MSG("Timer::freeze_timer",
                   timer_id << freeze << " " <<
-                  timer_enabled << " " << activity_sensitive);
+                  timer_enabled << " ");
 
-  // Only enabled activity sensitive timers care about freezing.
-  if (timer_enabled && activity_sensitive)
+  if (timer_enabled)
     {
       if (freeze && !timer_frozen)
         {
@@ -339,41 +325,8 @@ Timer::freeze_timer(bool freeze)
         }
     }
 
-  //test fix for Bug 746 -  Micro-break not counting down
-  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
-    {
-      last_start_time = TimeSource::get_monotonic_time_sec_sync();
-      elapsed_idle_timespan = 0;
-      compute_next_limit_time();
-    }
-
   timer_frozen = freeze;
   TRACE_EXIT();
-}
-
-
-//! Forces a activity insensitive timer to become idle
-// void
-// Timer::force_idle()
-// {
-//   TRACE_ENTER("Timer::force_idle");
-//   if (!activity_sensitive)
-//     {
-//       TRACE_MSG("Forcing idle");
-//       activity_state = ACTIVITY_IDLE;
-//     }
-//   TRACE_EXIT();
-// }
-
-
-//! Forces a activity insensitive timer to become active
-void
-Timer::restart_insensitive_timer()
-{
-  if (!activity_sensitive)
-    {
-      activity_state = ACTIVITY_ACTIVE;
-    }
 }
 
 
@@ -398,51 +351,6 @@ Timer::process(ActivityState new_activity_state)
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
 
-  if (activity_sensitive)
-    {
-      // This timer responds to the activity monitoring.
-      TRACE_MSG("is activity sensitive");
-    }
-  else
-    {
-      // This timer is activity insensitive. It periodically switches between
-      // idle and active.
-      TRACE_MSG("is not activity sensitive");
-      TRACE_MSG("as = "   << activity_state <<
-                " nas = " << new_activity_state <<
-                " el ="   << get_elapsed_time());
-      
-      if (insensitive_mode == INSENSITIVE_MODE_IDLE_ALWAYS)
-        // Forces ACTIVITY_IDLE every time, regardless of sensitivity
-        {
-          TRACE_MSG("MODE_IDLE_ALWAYS: Forcing ACTIVITY_IDLE");
-          new_activity_state = activity_state = ACTIVITY_IDLE;
-        }
-
-      if (activity_state == ACTIVITY_ACTIVE)
-        {
-          if (insensitive_mode == INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
-            {
-              new_activity_state = activity_state;
-            }
-          
-          TRACE_MSG("new state2 = " << activity_state << " " << new_activity_state);
-        }
-
-      if (activity_state == ACTIVITY_FORCED_IDLE)
-        {
-          new_activity_state = ACTIVITY_IDLE;
-        }
-      
-      TRACE_MSG("state = " << new_activity_state);
-      TRACE_MSG("time, next limit "
-                << current_time << " "
-                << next_limit_time << " "
-                << limit_interval << " "
-                << (next_limit_time - current_time)
-                );
-    }
-
   // Start or stop timer.
   if (timer_enabled)
     {
@@ -457,16 +365,17 @@ Timer::process(ActivityState new_activity_state)
     }
 
   activity_state = new_activity_state;
-          TRACE_MSG("time, next limit "
-                    << current_time << " "
-                    << next_limit_time << " "
-                    << limit_interval << " "
-                    << (next_limit_time - current_time)
-                    );
+  TRACE_MSG("time, next limit "
+            << current_time << " "
+            << next_limit_time << " "
+            << limit_interval << " "
+            << (next_limit_time - current_time)
+            );
   TRACE_MSG("activity_state = " << activity_state);
 
   if (daily_autoreset &&
-      next_daily_reset_time != 0 && TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
+      next_daily_reset_time != 0 &&
+      TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
       // So reset the timer and send a reset event.
@@ -477,15 +386,9 @@ Timer::process(ActivityState new_activity_state)
 
       compute_next_daily_reset_time();
       event = TIMER_EVENT_RESET;
-
-      if (!activity_sensitive)
-        {
-          activity_state = ACTIVITY_IDLE;
-          TRACE_MSG("pred reset, setting state = IDLE");
-          stop_timer();
-        }
     }
-  else if (next_limit_time != 0 && current_time >= next_limit_time)
+  else if (next_limit_time != 0 &&
+           current_time >= next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
@@ -496,14 +399,9 @@ Timer::process(ActivityState new_activity_state)
       event = TIMER_EVENT_LIMIT_REACHED;
       // Its very unlikely (but not impossible) that this will overrule
       // the EventStarted. Hey, shit happends.
-
-      if (!activity_sensitive)
-        {
-          activity_state = ACTIVITY_IDLE;
-          TRACE_MSG("limit reached, setting state = IDLE");
-        }
     }
-  else if (next_reset_time != 0 && current_time >=  next_reset_time)
+  else if (next_reset_time != 0
+           && current_time >=  next_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
 
@@ -515,12 +413,6 @@ Timer::process(ActivityState new_activity_state)
 
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
       // Idem, may overrule the EventStopped.
-
-      if (!activity_sensitive)
-        {
-          TRACE_MSG("reset reached, setting state = IDLE");
-          activity_state = ACTIVITY_IDLE;
-        }
     }
   TRACE_EXIT();
   return event;
@@ -563,7 +455,6 @@ Timer::get_state() const
 {
   return timer_state;
 }
-
 
 
 //! Returns the enabled state.
@@ -701,47 +592,6 @@ Timer::get_snooze() const
 }
 
 
-//! Marks timer sensitive or insensitive for activity
-void
-Timer::set_activity_sensitive(bool a)
-{
-  TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
-
-  activity_sensitive = a;
-  activity_state = ACTIVITY_IDLE;
-
-  if (!activity_sensitive)
-    {
-      // If timer is made insensitive, start it if
-      // it has some elasped time. Otherwise a daily limit
-      // will never start (well, not until it resets...)
-      gint64 elasped = get_elapsed_time();
-      if (elasped > 0 && (elasped < limit_interval || !limit_enabled))
-        {
-          activity_state = ACTIVITY_ACTIVE;
-        }
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Is this timer activity sensitive?
-bool
-Timer::is_activity_sensitive()
-{
-  return activity_sensitive;
-}
-
-
-//! Sets the activity insensitive mode
-void
-Timer::set_insensitive_mode(InsensitiveMode mode)
-{
-  insensitive_mode = mode;
-}
-
-
 //! Sets ID of this timer.
 void
 Timer::set_id(std::string id)
@@ -810,8 +660,6 @@ Timer::deserialize_state(const std::string &state, int version)
     {
       last_reset = save_time;
     }
-
-  // last_reset -= tz;
 
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);

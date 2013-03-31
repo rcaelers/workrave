@@ -19,7 +19,8 @@ sources =  		ActivityMonitor.cc \
 			DayTimePred.cc \
 			Statistics.cc \
 			Timer.cc \
-			TimerActivityMonitor.cc
+			TimerActivityMonitor.cc \
+			ReadingActivityMonitor.cc
 
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include

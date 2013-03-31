@@ -20,6 +20,7 @@
 #ifndef BREAKSCONTROL_HH
 #define BREAKSCONTROL_HH
 
+#include <vector>
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
@@ -29,6 +30,7 @@
 #include "Statistics.hh"
 #include "Break.hh"
 #include "IBreakSupport.hh"
+#include "ReadingActivityMonitor.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -67,11 +69,7 @@ public:
   void set_usage_mode(UsageMode mode);
   void set_insist_policy(ICore::InsistPolicy p);
 
-  virtual void resume_reading_mode_timers();
   virtual IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
-  virtual void defrost();
-  virtual void freeze();
-  virtual void set_insensitive_mode(InsensitiveMode mode);
   
 private:
   void set_freeze_all_breaks(bool freeze);
@@ -79,7 +77,11 @@ private:
   void daily_reset();
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void load_state();
+  void defrost();
+  void freeze();
 
+  void on_break_event(BreakId break_id, IBreak::BreakEvent event);
+  
   Timer::Ptr get_timer(std::string name) const;
   Timer::Ptr get_timer(int id) const;
   
@@ -103,8 +105,13 @@ private:
   Break::Ptr breaks[BREAK_ID_SIZEOF];
 
   //!
+  ReadingActivityMonitor::Ptr reading_activity_monitor;
+  
+  //!
   OperationMode operation_mode;
 
+  UsageMode usage_mode;
+  
   //! What to do with activity during insisted break?
   ICore::InsistPolicy insist_policy;
 

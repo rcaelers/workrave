@@ -75,7 +75,7 @@ public:
 
   void init();
 
-  TimerEvent process_timer();
+  TimerEvent process_timer(ActivityState state);
   void process_break();
 
   void force_start_break(BreakHint break_hint);
@@ -86,8 +86,8 @@ public:
   void daily_reset();
   
   Timer::Ptr get_timer() const;
-  void set_usage_mode(UsageMode mode);
-  void update_usage_mode();
+  //  void set_usage_mode(UsageMode mode);
+  //  void update_usage_mode();
   void override(BreakId id);
 
   // IBreak
@@ -107,7 +107,6 @@ public:
   virtual gint64 get_total_overdue_time() const;
   virtual void postpone_break();
   virtual void skip_break();
-  
 
 private:
   enum BreakStage { STAGE_NONE,
@@ -120,9 +119,9 @@ private:
   void goto_stage(BreakStage stage);
   
   void break_window_start();
+  void break_window_update();
   void prelude_window_start();
-  void update_break_window();
-  void update_prelude_window();
+  void prelude_window_update();
 
   // IActivityMonitorListener
   bool action_notify();
@@ -200,9 +199,6 @@ private:
 
   //! Break enabled?
   bool enabled;
-
-  //!
-  UsageMode usage_mode;
 
   //!
   boost::signals2::signal<void(BreakEvent)> break_event_signal;

@@ -101,8 +101,12 @@ BreaksControl::init()
                                 configurator,
                                 dbus);
       breaks[i]->init();
+      breaks[i]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, BreakId(i), _1));
     }
-
+  
+  reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor);
+  reading_activity_monitor->init();
+  
   load_state();
 }
 
@@ -136,28 +140,6 @@ BreaksControl::get_break(BreakId id)
 {
   assert(id >= 0 && id < BREAK_ID_SIZEOF);
   return breaks[id];
-}
-
-
-//! Sets the usage mode.
-void
-BreaksControl::set_usage_mode(UsageMode mode)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      breaks[i]->set_usage_mode(mode);
-    }
-}
-
-
-//! Sets the insensitive mode.
-void
-BreaksControl::set_insensitive_mode(InsensitiveMode mode)
-{
-  for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
-    {
-      get_timer(i)->set_insensitive_mode(mode);
-    }
 }
 
 
@@ -197,16 +179,6 @@ BreaksControl::force_break(BreakId id, BreakHint break_hint)
 
   breaks[id]->force_start_break(break_hint);
   TRACE_EXIT();
-}
-
-
-void
-BreaksControl::resume_reading_mode_timers()
-{
-  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
-    {
-      get_timer(i)->restart_insensitive_timer();
-    }
 }
 
 
@@ -258,12 +230,22 @@ BreaksControl::process_timers()
 {
   TRACE_ENTER("BreaksControl::process_timers");
 
+  ActivityState state;
+  if (usage_mode == USAGE_MODE_READING)
+    {
+      state = reading_activity_monitor->get_state();
+    }
+  else
+    {
+      state = activity_monitor->get_state();
+    }
+  
   TimerEvent events[BREAK_ID_SIZEOF];
 
   // Process Timers.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      events[i] = breaks[i]->process_timer();
+      events[i] = breaks[i]->process_timer(state);
     }
 
   // Process all timer events.
@@ -333,7 +315,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
     {
       Timer::Ptr rb_timer = get_timer(BREAK_ID_REST_BREAK);
 
-      bool activity_sensitive = get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
+      bool activity_sensitive = true; // get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
 
       // Only advance when
       // 0. It is activity sensitive
@@ -379,6 +361,14 @@ void
 BreaksControl::set_operation_mode(OperationMode mode)
 {
   operation_mode = mode;
+}
+
+
+//! Sets the usage mode.
+void
+BreaksControl::set_usage_mode(UsageMode mode)
+{
+  usage_mode = mode;
 }
 
 
@@ -489,6 +479,32 @@ BreaksControl::daily_reset()
     }
 
   save_state();
+  TRACE_EXIT();
+}
+
+
+void
+BreaksControl::on_break_event(BreakId break_id, IBreak::BreakEvent event)
+{
+  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << event);
+  switch(event)
+    {
+    case IBreak::BREAK_EVENT_BREAK_IDLE:
+      defrost();
+      break;
+
+    case IBreak::BREAK_EVENT_BREAK_STARTED:
+    case IBreak::BREAK_EVENT_BREAK_STARTED_FORCED:
+      freeze();
+      break;
+
+    case IBreak::BREAK_EVENT_BREAK_IGNORED:
+    case IBreak::BREAK_EVENT_BREAK_ENDED:
+    case IBreak::BREAK_EVENT_PRELUDE_STARTED:
+      break;
+    }
+
+  reading_activity_monitor->handle_break_event(break_id, event);
   TRACE_EXIT();
 }
 

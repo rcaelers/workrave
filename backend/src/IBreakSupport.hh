@@ -33,10 +33,6 @@ public:
 
   virtual ~IBreakSupport() {}
   
-  virtual void defrost() = 0;
-  virtual void freeze() = 0;
-  virtual void resume_reading_mode_timers() = 0;
-  virtual void set_insensitive_mode(InsensitiveMode mode) = 0;
   virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
 };
 

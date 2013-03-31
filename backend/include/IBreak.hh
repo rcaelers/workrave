@@ -1,6 +1,6 @@
 // IBreak.hh -- Interface of a break.
 //
-// Copyright (C) 2001 - 2007, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,9 @@ namespace workrave {
 
     enum BreakEvent {
       BREAK_EVENT_PRELUDE_STARTED,
-      BREAK_EVENT_BREAK_IGNORED,
       BREAK_EVENT_BREAK_STARTED,
       BREAK_EVENT_BREAK_STARTED_FORCED,
+      BREAK_EVENT_BREAK_IGNORED,
       BREAK_EVENT_BREAK_ENDED,
       BREAK_EVENT_BREAK_IDLE,
     };

@@ -86,8 +86,7 @@ Break::Break(BreakId id,
   user_abort(false),
   delayed_abort(false),
   break_hint(BREAK_HINT_NONE),
-  enabled(true),
-  usage_mode(USAGE_MODE_NORMAL)
+  enabled(true)
 {
 }
 
@@ -142,20 +141,15 @@ Break::init()
 
 
 TimerEvent
-Break::process_timer()
+Break::process_timer(ActivityState state)
 {
   TRACE_ENTER_MSG("Break::process_timer", break_id);
-  ActivityState state;
 
   if (timer_activity_monitor)
     {
       // Prefer the running state of the break timer as input for
       // our current activity.
       state = timer_activity_monitor->get_state();
-    }
-  else
-    {
-      state = activity_monitor->get_state();
     }
   
   TimerEvent event = break_timer->process(state);
@@ -230,7 +224,7 @@ Break::process_break()
 
         TRACE_MSG("prelude time = " << prelude_time);
 
-        update_prelude_window();
+        prelude_window_update();
         application->refresh_break_window();
 
         if (is_idle)
@@ -280,7 +274,7 @@ Break::process_break()
     case STAGE_TAKING:
       {
         // refresh the break window.
-        update_break_window();
+        break_window_update();
         application->refresh_break_window();
       }
       break;
@@ -317,9 +311,7 @@ Break::start_break()
       // Starting break with prelude.
 
       // Idle until proven guilty.
-      TRACE_MSG("Force idle");
       force_idle();
-      break_timer->stop_timer();
 
       // Update statistics.
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
@@ -363,12 +355,6 @@ Break::force_start_break(BreakHint hint)
         }
     }
 
-  if (!break_timer->is_activity_sensitive())
-    {
-      TRACE_MSG("Forcing idle");
-      force_idle();
-    }
-
   goto_stage(STAGE_TAKING);
 
   TRACE_EXIT();
@@ -408,11 +394,14 @@ Break::freeze_break(bool freeze)
 void
 Break::force_idle()
 {
+  TRACE_ENTER("Break::Force_idle");
   activity_monitor->force_idle();
   if (timer_activity_monitor)
     {
       timer_activity_monitor->force_idle();
     }
+  break_timer->stop_timer();
+  TRACE_EXIT();
 }
 
 void
@@ -428,35 +417,6 @@ Timer::Ptr
 Break::get_timer() const
 {
   return break_timer;
-}
-
-
-void
-Break::set_usage_mode(UsageMode mode)
-{
-  TRACE_ENTER_MSG("Break::set_usage_mode", mode);
-  if (usage_mode != mode)
-    {
-      usage_mode = mode;
-      update_usage_mode();
-    }
-  TRACE_EXIT();
-}
-
-
-void
-Break::update_usage_mode()
-{
-  TRACE_ENTER_MSG("Break::update_usage_mode", usage_mode);
-  if (usage_mode == USAGE_MODE_NORMAL || timer_activity_monitor)
-    {
-      break_timer->set_activity_sensitive(true);
-    }
-  else if (usage_mode == USAGE_MODE_READING)
-    {
-      break_timer->set_activity_sensitive(false);
-    }
-  TRACE_EXIT();
 }
 
 
@@ -607,10 +567,7 @@ Break::postpone_break()
       user_abort = true;
 
       // and stop the break.
-      TRACE_MSG("Stopping break");
       stop_break();
-
-      TRACE_MSG("Sending singal");
     }
 }
 
@@ -659,21 +616,13 @@ Break::goto_stage(BreakStage stage)
     case STAGE_DELAYED:
       {
         activity_monitor->set_listener(shared_from_this());
-        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
-        break_support->defrost();
-
-        if (break_id == BREAK_ID_MICRO_BREAK && usage_mode == USAGE_MODE_READING)
-          {
-            break_support->resume_reading_mode_timers();
-          }
 
         if (break_stage == STAGE_TAKING && !fake_break)
           {
@@ -684,9 +633,7 @@ Break::goto_stage(BreakStage stage)
 
             if (idle >= reset && !user_abort)
               {
-                // natural break end.
-
-                // Update stats.
+                // Breaks end without user skip/postponing it.
                 statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
                 break_event_signal(BREAK_EVENT_BREAK_ENDED);
               }
@@ -702,14 +649,12 @@ Break::goto_stage(BreakStage stage)
           {
             break_event_signal(BREAK_EVENT_BREAK_IGNORED);
           }
-        break_support->defrost();
         break_event_signal(BREAK_EVENT_BREAK_IDLE);
       }
       break;
 
     case STAGE_PRELUDE:
       {
-        break_support->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
         prelude_time = 0;
         application->hide_break_window();
@@ -722,28 +667,19 @@ Break::goto_stage(BreakStage stage)
 
     case STAGE_TAKING:
       {
-        // Break timer should always idle.
-        // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_support->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
-
         // Remove the prelude window, if necessary.
         application->hide_break_window();
 
         // "Innocent until proven guilty".
-        TRACE_MSG("Force idle");
         force_idle();
-        break_timer->stop_timer();
 
         // Start the break.
         break_window_start();
-
-        break_support->freeze();
 
         // Report state change.
         break_event_signal(forced_break
                            ? BREAK_EVENT_BREAK_STARTED
                            : BREAK_EVENT_BREAK_STARTED_FORCED);
-
       }
       break;
     }
@@ -760,12 +696,11 @@ Break::break_window_start()
   TRACE_ENTER_MSG("Break::break_window_start", break_id);
 
   application->create_break_window(break_id, break_hint);
-  update_break_window();
+  break_window_update();
   application->show_break_window();
 
   TRACE_EXIT();
 }
-
 
 //! Creates and shows the prelude window.
 void
@@ -786,7 +721,7 @@ Break::prelude_window_start()
       application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
     }
 
-  update_prelude_window();
+  prelude_window_update();
 
   application->show_break_window();
 
@@ -796,7 +731,7 @@ Break::prelude_window_start()
 
 //! Updates the contents of the break window.
 void
-Break::update_break_window()
+Break::break_window_update()
 {
   gint64 duration = break_timer->get_auto_reset();
   gint64 idle = 0;
@@ -827,7 +762,7 @@ Break::update_break_window()
 
 //! Updates the contents of the prelude window.
 void
-Break::update_prelude_window()
+Break::prelude_window_update()
 {
   application->set_break_progress(prelude_time, 29);
 }
@@ -886,6 +821,7 @@ Break::send_signal(BreakStage stage)
         }
     }
 }
+
 
 void
 Break::update_statistics()
@@ -974,7 +910,6 @@ Break::load_timer_config()
           timer_activity_monitor = break_support->create_timer_activity_monitor(monitor_name);
         }
     }
-  update_usage_mode();
   
   TRACE_EXIT();
 }

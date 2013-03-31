@@ -502,7 +502,6 @@ Core::set_operation_mode_internal(
           TRACE_MSG("Force idle");
           monitor->suspend();
           breaks_control->stop_all_breaks();
-          breaks_control->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
       }
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
       {
