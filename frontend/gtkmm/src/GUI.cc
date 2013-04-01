@@ -1588,7 +1588,7 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMRESUMECRITICAL:
             {
               TRACE_MSG("Resume suspend");
-              ICore *core = CoreFactory::get_core();
+              ICore::Ptr core = CoreFactory::get_core();
               core->set_powersave(false);
             }
             break;
@@ -1596,7 +1596,7 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMSUSPEND:
             {
               TRACE_MSG("Suspend");
-              ICore *core = CoreFactory::get_core();
+              ICore::Ptr core = CoreFactory::get_core();
               core->set_powersave(true);
             }
             break;

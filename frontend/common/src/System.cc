@@ -146,8 +146,7 @@ System::is_lockable()
   return ret;
 }
 
-#ifdef PLATFORM_OS_UNIX
-static bool
+#if defined(PLATFORM_OS_UNIX)
 invoke(const gchar* command, bool async = false)
 {
   GError *error = NULL;
@@ -177,7 +176,7 @@ invoke(const gchar* command, bool async = false)
 #endif
 
 
-#ifdef HAVE_DBUS
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS)
 void
 System::init_kde_lock()
 {

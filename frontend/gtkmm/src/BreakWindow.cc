@@ -90,6 +90,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   gui(NULL),
   visible(false),
 #ifdef PLATFORM_OS_WIN32
+  desktop_window( NULL ),
+  force_focus_on_break_start( false ),
+  parent( 0 ),
   accel_added(false),
 #endif
   postpone_button(NULL),
@@ -97,13 +100,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   lock_button(NULL),
   shutdown_button(NULL),
   accel_group(NULL)
-#ifdef PLATFORM_OS_WIN32
-  ,
-  desktop_window( NULL ),
-  force_focus_on_break_start( false ),
-  parent( 0 )
-#endif
-  
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
@@ -573,7 +569,7 @@ BreakWindow::start()
 #ifdef PLATFORM_OS_WIN32
   if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
     {
-      HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+      HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
       bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
       bool this_is_a_dummy_var_to_fool_visual_studio_debugger = focused;
     }

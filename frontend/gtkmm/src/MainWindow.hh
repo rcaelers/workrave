@@ -39,7 +39,7 @@ using namespace workrave;
 using namespace workrave::config;
 
 class MainWindow :
-  public Gtk::ApplicationWindow,
+  public Gtk::Window,
   public IConfiguratorListener
 {
 public:

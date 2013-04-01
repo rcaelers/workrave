@@ -9,7 +9,7 @@ set(SRC
   )
 
 if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} src/win32/crashlog.cc)
+  set(SRC ${SRC} src/win32/crashlog.cc src/win32/W32ActiveSetup.cc W32CriticalSection.cc)
 endif()
 
 add_definitions(
@@ -24,3 +24,5 @@ include_directories(
 
 add_library(workrave-libs-utils STATIC ${SRC})
 
+
+# TODO: Generate locale.inc

@@ -1,6 +1,6 @@
 // W32ForceFocus.cc --- Collection of hacks to force win32 window focus
 //
-// Copyright (C) 2012 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2012, 2013 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@
 
 #include "StringUtil.hh"
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "W32Compat.hh"
 #include "W32CriticalSection.hh"
 #include "W32ForceFocus.hh"

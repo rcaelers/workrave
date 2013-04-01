@@ -144,7 +144,7 @@ AC_C_CONST
 
 AC_COMPILE_STDCXX_11
 
-AX_BOOST_BASE([1.50])
+AX_BOOST_BASE([1.49])
 AX_BOOST_THREAD
 AX_BOOST_SYSTEM
 AX_BOOST_PROGRAM_OPTIONS
@@ -209,7 +209,7 @@ platform_os_unix=no
 platform_variant_x11=no
 
 case "$target_os" in
-  *-*mingw*|*-*-mingw*|*-*-cygwin*)
+  *mingw*)
     platform_os_win32=yes
     platform_os_name="Windows"
    AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])
@@ -228,7 +228,7 @@ case "$target_os" in
 esac
 
 AC_MSG_RESULT([$platform_os_name])
-AC_MSG_RESULT([$target_or_host])
+AC_MSG_RESULT([$target_os])
 AC_MSG_RESULT([$target_alias])
 AC_MSG_RESULT([$host_alias])
 
@@ -575,6 +575,8 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
+if test "x$platform_os_win32" = "no"
+then
 PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
    			gio-2.0 >= 2.26.0
    			gtk+-3.0 >= 3.0.0
@@ -586,6 +588,7 @@ PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
 		 	 config_gtk_version=3
 	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
+fi
 
 if test x$config_gtk = xno
 then

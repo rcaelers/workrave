@@ -214,10 +214,8 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 	if( !IsWindow( hwnd ) || reset_window_never )
 		return;
 
-	const bool DEBUG = false;
 	bool reset = false;
 	DWORD gwl_exstyle = 0;
-	DWORD valid_exstyle_diff = 0;
 
 	WINDOWINFO gwi;
 	ZeroMemory( &gwi, sizeof( gwi ) );
@@ -243,6 +241,9 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 	}
 
 #ifdef BREAKAGE
+	const bool DEBUG = false;
+	DWORD valid_exstyle_diff = 0;
+
 	// GetWindowInfo() and GetWindowLong() extended style info can differ.
 	// Compare the two results but filter valid values only.
 	valid_exstyle_diff = ( gwl_exstyle ^ gwi.dwExStyle ) & ~0xF1A08802;
@@ -496,7 +497,7 @@ Refresh a BreakWindow:
 */
 void W32Compat::RefreshBreakWindow( BreakWindow &window )
 {
-    ICore *core = CoreFactory::get_core();
+    ICore::Ptr core = CoreFactory::get_core();
     bool user_active = core->is_user_active();
 
     // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
@@ -504,7 +505,7 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
     // without ALT after the user is idle for 5s
     if ( !user_active && !window.accel_added )
     {
-        IBreak *b = core->get_break( BreakId( window.break_id ) );
+        IBreak::Ptr b = core->get_break( BreakId( window.break_id ) );
         assert( b != NULL );
 
         //TRACE_MSG(b->get_elapsed_idle_time());
@@ -534,7 +535,7 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
     refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
     */
 
-    HWND hwnd = (HWND)GDK_WINDOW_HWND( window.Gtk::Widget::gobj()->window );
+  	HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
     if( !hwnd )
         return;
 

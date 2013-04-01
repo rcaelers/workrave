@@ -1,4 +1,4 @@
-export SYSROOT="/mnt/bulk/sources/wr-runtime/usr/i686-w64-mingw32/sys-root/mingw/"
+export SYSROOT="/mnt/bulk/sources/workrave/runtime/usr/i686-w64-mingw32/sys-root/mingw/"
 
 export CC=i686-w64-mingw32-gcc
 export CXX=i686-w64-mingw32-g++
@@ -8,7 +8,6 @@ export PKG_CONFIG_LIBDIR=$SYSROOT/lib/pkgconfig
 export PKG_CONFIG_PATH=$SYSROOT/share/pkgconfig
 #export PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
 export PKG_CONFIG="pkg-config --define-variable=prefix=$SYSROOT"
-
 
 export CFLAGS="-I$SYSROOT/include"
 export CXXFLAGS="-I$SYSROOT/include"

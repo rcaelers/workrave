@@ -509,7 +509,7 @@ SoundClip::play()
       fill_buffer();
     }
 
-  HRESULT hr = sound_buffer->Play(0, 0, 0);
+  sound_buffer->Play(0, 0, 0);
 
   WaitForSingleObject(stop_event, INFINITE);
   if (events != NULL)

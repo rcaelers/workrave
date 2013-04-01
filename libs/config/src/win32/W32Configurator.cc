@@ -79,9 +79,8 @@ W32Configurator::remove_key(const std::string &key)
   err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
   if (err == ERROR_SUCCESS)
     {
-      DWORD size;
       char buf[256]; // FIXME: yuck, should be dynamic.
-      size = sizeof(buf);
+      DWORD size = sizeof(buf);
       err = RegDeleteKey(handle, c.c_str());
       if (err == ERROR_SUCCESS)
         {

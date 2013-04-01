@@ -197,9 +197,6 @@ private:
   //! Current active break.
   BreakId active_break_id;
 
-  //! Application 
-  Glib::RefPtr<Gtk::Application> app;
-  
   //! The number of command line arguments.
   int argc;
 

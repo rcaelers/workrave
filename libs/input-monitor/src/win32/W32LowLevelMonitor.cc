@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010, 2012 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010, 2012, 2013 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -429,7 +429,7 @@ LRESULT CALLBACK W32LowLevelMonitor::k_hook_callback(
 LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
     int nCode, WPARAM wParam, LPARAM lParam )
 {
-  DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
+  // DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
 
 
   if( !nCode ) // && !( flags & LLMHF_INJECTED ) )

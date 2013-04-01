@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -29,6 +29,7 @@ libworkrave_frontend_common_win32_la_CXXFLAGS = \
 			-I$(top_srcdir)/frontend/common/src \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/config/include
+			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/dbus/include
 
 endif

@@ -413,7 +413,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   // If the exception was an access violation, print out some additional information, to the error log and the debugger.
   if(exception_record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && exception_record->NumberParameters >= 2)
-    fprintf(log, " %s location %08x\n\n", exception_record->ExceptionInformation[0] ? "writing to" : "reading from", exception_record->ExceptionInformation[1]);
+    fprintf(log, " %s location %08lx\n\n", exception_record->ExceptionInformation[0] ? "writing to" : "reading from", exception_record->ExceptionInformation[1]);
 
   DWORD pid = GetCurrentProcessId();
   HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
