@@ -12,7 +12,6 @@ backend/src/Timer.cc
 backend/src/TimerActivityMonitor.cc
 backend/src/org.workrave.Workrave.service.in
 backend/src/org.workrave.gschema.xml.in.in
-backend/src/win32/W32ActiveSetup.cc
 backend/test/Workrave.cc
 contrib/send_menu_command/win32/send_workrave_command.c
 frontend/applets/common/src/timebar.c
@@ -135,8 +134,9 @@ libs/utils/src/StringUtil.cc
 libs/utils/src/TimeSource.cc
 libs/utils/src/Timer.cc
 libs/utils/src/Util.cc
-libs/utils/src/W32CriticalSection.cc
 libs/utils/src/WRID.cc
 libs/utils/src/debug.cc
 libs/utils/src/win32/crashlog.c
 libs/utils/src/win32/crashlog.cc
+libs/utils/src/win32/W32ActiveSetup.cc
+libs/utils/src/win32/W32CriticalSection.cc
