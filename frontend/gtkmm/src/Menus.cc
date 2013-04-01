@@ -37,6 +37,7 @@
 #include "Util.hh"
 
 #include "PreferencesDialog.hh"
+
 #include "StatisticsDialog.hh"
 #include "IStatistics.hh"
 

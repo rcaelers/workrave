@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003, 2004, 2005, 2007, 2010, 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2003, 2004, 2005, 2007, 2010, 2011, 2013 Rob Caelers <robc@krandor.nl>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
@@ -256,20 +256,8 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #ifdef HAVE_EXERCISES
           "EXERCISES "
 #endif
-#ifdef HAVE_GCONF
-          "GCONF?? "
-#endif
 #ifdef HAVE_GDOME
           "GDOME "
-#endif
-#ifdef HAVE_GNET
-          "GNET "
-#endif
-#ifdef HAVE_GNET2
-          "GNET2 "
-#endif
-#ifdef HAVE_XRECORD
-          "XRECORD?? "
 #endif
 #ifndef NDEBUG
           "DEBUG "

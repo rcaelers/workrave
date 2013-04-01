@@ -1,0 +1,38 @@
+#cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
+
+#cmakedefine HAVE_GDOME
+#cmakedefine HAVE_GSETTINGS
+#cmakedefine HAVE_GLIB
+#cmakedefine HAVE_GTK
+#cmakedefine HAVE_GTK3
+#cmakedefine HAVE_APP_GTK
+
+#cmakedefine HAVE_QT5
+#cmakedefine HAVE_APP_QT5
+
+#cmakedefine HAVE_DBUS
+#cmakedefine HAVE_PULSE
+#cmakedefine HAVE_GSTREAMER
+#cmakedefine HAVE_STATISTICS
+#cmakedefine HAVE_EXERCISES
+#cmakedefine HAVE_LANGUAGE_SELECTION
+
+#cmakedefine HAVE_UNISTD_H 1
+#cmakedefine HAVE_SYS_STAT_H
+#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine HAVE_SYS_TIME_H
+#cmakedefine HAVE_SYS_SELECT_H
+#cmakedefine STDC_HEADERS
+#cmakedefine HAVE_STDLIB_H
+
+#cmakedefine HAVE_NANOSLEEP
+
+#cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
+
+#cmakedefine PACKAGE_VERSION "${PACKAGE_VERSION}"
+#cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
+#cmakedefine ENABLE_NLS
+
+#cmakedefine PLATFORM_OS_OSX
+#cmakedefine PLATFORM_OS_UNIX
+#cmakedefine PLATFORM_OS_WIN32

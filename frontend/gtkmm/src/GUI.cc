@@ -448,9 +448,9 @@ GUI::init_nls()
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
 #endif
 
-  bindtextdomain(PACKAGE, locale_dir);
-  bind_textdomain_codeset(PACKAGE, "UTF-8");
-  textdomain(PACKAGE);
+  bindtextdomain(GETTEXT_PACKAGE, locale_dir);
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
 
 #endif
 }

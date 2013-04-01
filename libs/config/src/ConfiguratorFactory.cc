@@ -1,6 +1,6 @@
 // ConfiguratorFactory.cc
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ ConfiguratorFactory::create(Format fmt)
   else
 #endif
 
-#if HAVE_GSETTINGS
+#ifdef HAVE_GSETTINGS
   if (fmt == FormatNative)
     {
       b = new GSettingsConfigurator();

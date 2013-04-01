@@ -1,6 +1,6 @@
 // PulseMixer.cc --- PulseAudio mixer
 //
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 
 #include "debug.hh"
 
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 

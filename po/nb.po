@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-10-22 18:27+0200\n"
+"POT-Creation-Date: 2013-04-01 18:27+0200\n"
 "PO-Revision-Date: 2011-02-16 19:25+0100\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -17,764 +17,829 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
-msgid "Reconnecting to %s."
-msgstr "Gjenopprett tilkobling til %s."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:421
-msgid "Could not enable network operation."
-msgstr "Kunne ikke aktivere nettverksfunksjonen."
-
-#: ../backend/src/DistributionSocketLink.cc:430
-msgid "Disabling network operation."
-msgstr "Avbryter nettverksfunksjonen."
-
-#: ../backend/src/DistributionSocketLink.cc:546
-#: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
-msgid "Connecting to %s."
-msgstr "Kobler til %s."
-
-#: ../backend/src/DistributionSocketLink.cc:700
-#: ../backend/src/DistributionSocketLink.cc:732
-#, fuzzy, c-format
-msgid "Removing client %s."
-msgstr "Fjerner klient %s."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:781
-#, fuzzy, c-format
-msgid "Disconnecting %s"
-msgstr "Avbryter %s."
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:950
-#, fuzzy, c-format
-msgid "Client %s is now master."
-msgstr "Klienten %s er nå 'master'"
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:957
-msgid "I'm now master."
-msgstr "Jeg er nå 'master'"
-
-#. gchar *name =
-#. int port =
-#: ../backend/src/DistributionSocketLink.cc:1288
-#, fuzzy, c-format
-msgid "Client %s saying hello."
-msgstr "Klient %s sier 'hei'."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1303
-#: ../backend/src/DistributionSocketLink.cc:1433
-#: ../backend/src/DistributionSocketLink.cc:1677
-#, fuzzy, c-format
-msgid "Client %s is duplicate."
-msgstr "Klient %s er duplikat."
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1313
-#, fuzzy, c-format
-msgid "Client %s access denied."
-msgstr "Klient %s nektet adgang."
-
-#: ../backend/src/DistributionSocketLink.cc:1382
-#, fuzzy, c-format
-msgid "Client %s signed off."
-msgstr "Klient %s logget av."
-
-#. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1472
-#, fuzzy, c-format
-msgid "Client %s is welcoming us."
-msgstr "Klient %s ønsker oss velkommen."
-
-#: ../backend/src/DistributionSocketLink.cc:1713
-#, fuzzy, c-format
-msgid "Requesting master status from %s."
-msgstr "Anmodning om master status fra %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1727
-#, fuzzy, c-format
-msgid "Client timeout from %s."
-msgstr "Klient tidsavbrudd fra %s.."
-
-#: ../backend/src/DistributionSocketLink.cc:1749
-#, fuzzy, c-format
-msgid "Rejecting master request from client %s."
-msgstr "Avviser master anmodning fra klient %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1755
-#, fuzzy, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "Bekrefter master anmodning fra klient %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "Ikke-master klient %s avviste master anmodning."
-
-#: ../backend/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s avviste master anmodning, utsetter."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1882
+#: ../frontend/common/src/Text.cc:86
 #, c-format
-msgid "Client %s is now the new master."
-msgstr "Klient %s er nå ny master."
-
-#: ../backend/src/DistributionSocketLink.cc:2009
-msgid "Network operation started."
-msgstr "Nettverksfunksjon startet"
-
-#: ../backend/src/DistributionSocketLink.cc:2030
-msgid "Accepted new client."
-msgstr "Aksepterte ny klient."
-
-#: ../backend/src/DistributionSocketLink.cc:2104
-#, fuzzy, c-format
-msgid "Client %s read error, closing."
-msgstr "Klient %s lesefeil, lukker."
-
-#: ../backend/src/DistributionSocketLink.cc:2110
-#: ../backend/src/DistributionSocketLink.cc:2183
-#, fuzzy, c-format
-msgid "Client %s closed connection."
-msgstr "Klient %s avbrøt forbindelsen."
-
-#: ../backend/src/DistributionSocketLink.cc:2151
-#, fuzzy, c-format
-msgid "Client %s connected."
-msgstr "Klient %s tilkoblet."
-
-#: ../backend/src/DistributionSocketLink.cc:2189
-#, fuzzy, c-format
-msgid "Could not connect to client %s."
-msgstr "Kunne ikke koble til klient %s."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
-msgid "Reading mode"
-msgstr ""
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
-msgid "_About..."
-msgstr "Om..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Connect..."
-msgstr "_Koble til..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Disconnect"
-msgstr "_Frakoble"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
-msgid "_Exercises"
-msgstr "_Øvelser"
-
-#  Mode menu item
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
-msgid "_Mode"
-msgstr "_Modus"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
-msgid "_Network"
-msgstr "_Nettverk"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:73
-msgid "_Open"
-msgstr "Å_pne"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-msgid "_Preferences"
-msgstr "_Innstillinger"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-msgid "_Quiet"
-msgstr "St_ille"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-msgid "_Quit"
-msgstr "_Avslutt"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-msgid "_Reconnect"
-msgstr "_Gjenopprett forbindelse"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
-msgid "_Restbreak"
-msgstr "_Hvilepause"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
-msgid "_Show Log..."
-msgstr "_Vis historikk"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
-msgid "_Statistics"
-msgstr "_Statistikk"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
-msgid "_Suspended"
-msgstr "_Suspendert"
-
-#: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:2
-msgid "Workrave Applet"
-msgstr "Workrave-Tilleggsprogram"
-
-#: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:384
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain "
-"Injury)."
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
-msgid "_Join"
-msgstr ""
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#, fuzzy
-msgid "_About"
-msgstr "Om..."
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
-#, fuzzy
-msgid "Show log"
-msgstr "_Vis loggfil"
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
-msgid "Normal"
-msgstr "_Normal"
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1519
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:184
-#, fuzzy
-msgid "Suspended"
-msgstr "_Suspendert"
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1523
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:186
-#, fuzzy
-msgid "Quiet"
-msgstr "St_ille"
-
-#: ../frontend/common/src/SoundPlayer.cc:80
-msgid "Break prompt"
-msgstr "Pause påminnelse"
-
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break ignored"
-msgstr "Pause ignoreret"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Rest break started"
-msgstr "Hvilepause startet"
-
-#: ../frontend/common/src/SoundPlayer.cc:99
-msgid "Rest break ended"
-msgstr "Hvilepause avsluttet"
-
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Micro-break started"
-msgstr "Mikropause startet"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break ended"
-msgstr "Mikropause avsluttet"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
-msgid "Daily limit"
-msgstr "Daglig grense"
-
-#: ../frontend/common/src/SoundPlayer.cc:123
-msgid "Exercise ended"
-msgstr "Øvelse avsluttet"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercises ended"
-msgstr "Øvelser avsluttet"
-
-#: ../frontend/common/src/SoundPlayer.cc:135
-#, fuzzy
-msgid "Exercise change"
-msgstr "Øvelse avsluttet"
-
-#: ../frontend/common/src/SoundPlayer.cc:608
-msgid "Custom"
-msgstr ""
-
-#: ../frontend/common/src/Text.cc:78
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d timer"
+msgid "%s%d seconds"
+msgstr "%s%d sekunder"
 
 #: ../frontend/common/src/Text.cc:82
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minutter"
 
-#: ../frontend/common/src/Text.cc:86
+#: ../frontend/common/src/Text.cc:78
 #, c-format
-msgid "%s%d seconds"
-msgstr "%s%d sekunder"
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d timer"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:309
-#, fuzzy
-msgid "_Lock"
-msgstr "_Lås"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, fra %s til %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:332
-#, fuzzy
-msgid "Shut _down"
-msgstr "_Steng"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:353
-#, fuzzy
-msgid "_Skip"
-msgstr "_Hopp over"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:370
-#, fuzzy
-msgid "_Postpone"
-msgstr "_Utsett"
-
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"Du har nådd din daglige grense. Vennligst stopp arbeidet \n"
-"ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
-"på noe annet å gjøre, som gjennomlesning av et dokument."
-
-#: ../frontend/gtkmm/src/GUI.cc:302
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:242
+msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "Workrave-Tilleggsprogram"
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+msgid "About..."
+msgstr "Om..."
 
-#: ../frontend/gtkmm/src/GUI.cc:846
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "Activity"
+msgstr "Aktivitet"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+msgid "Applet"
+msgstr "Tilleggsprogram"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:142
+msgid "Applet enabled"
+msgstr "Tilleggsprogram aktiveret"
+
+#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
+#, fuzzy
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain "
+"Injury)."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid "Backward shoulder stretch"
+msgstr "Bakover skulderstrekk"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:151
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:155
+msgid "Block input"
+msgstr "Blokker tastatur/mus"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+msgid "Block input and screen"
+msgstr "Blokker tastatur/mus og skjerm"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+msgid "Block mode:"
+msgstr "Blokkering:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+msgid "Break duration:"
+msgstr "Pauselengde:"
+
+#: ../frontend/common/src/SoundPlayer.cc:88
+msgid "Break ignored"
+msgstr "Pause ignoreret"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:318
+#, c-format
+msgid "Break in %s"
+msgstr "Pause om %s"
+
+#: ../frontend/common/src/SoundPlayer.cc:82
+msgid "Break prompt"
+msgstr "Pause påminnelse"
+
+#. Prelude frame
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+msgid "Break prompting"
+msgstr "Pausepåminnelser"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+msgid "Break prompts"
+msgstr "Pause anmodninger"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+msgid "Breaks"
+msgstr "Pauser"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+msgid "Breaks postponed"
+msgstr "Pauser utsatt"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+msgid "Breaks skipped"
+msgstr "Pauser hoppet over"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+msgid "Browse history"
+msgstr "Se gjennom historikk"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:409
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Ingen lyd"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Skjul øynene dine med håndflatene slik at du fortsatt kan åpne øyelokkene. "
+"Åpne nå øynene og se inn i mørket i håndflatene. Denne øvelsen gir bedre "
+"avlastning for øyene sammenlignet med bare å lukke de."
+
+#: ../frontend/common/src/SoundPlayer.cc:608
+msgid "Custom"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
+msgid "Cycle time:"
+msgstr "Tidssyklus:"
+
+#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
+#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+msgid "Daily limit"
+msgstr "Daglig grense"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Daglig grense overskredet med %s"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#, c-format
+msgid "Daily limit in %s"
+msgstr "Daglig grense om %s"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+msgid "Daily limit:"
+msgstr "Daglig grense:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+msgid "Daily usage"
+msgstr "Daglig bruk"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+msgid "Date:"
+msgstr "Dato:"
+
+#. Delete button
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:322
+#, c-format
+msgid "Disappears in %s"
+msgstr "Forsvinner om %s"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:148
+msgid "Display"
+msgstr "Vis"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+msgid "Effective mouse movement:"
+msgstr "Effektiv musbeveglese:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:523
+msgid ""
+"Enable this option if Workrave fails to detect when you are using your "
+"computer"
+msgstr ""
+
+#. Enabled/Disabled checkbox
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+msgid "Enable timer"
+msgstr "Aktiver tidtaker"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
+#, fuzzy
+msgid "End exercises"
+msgstr "Øvelser"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+msgid "Error"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+msgid "Event"
+msgstr ""
+
+#: ../frontend/common/src/SoundPlayer.cc:137
+#, fuzzy
+msgid "Exercise change"
+msgstr "Øvelse avsluttet"
+
+#: ../frontend/common/src/SoundPlayer.cc:125
+msgid "Exercise ended"
+msgstr "Øvelse avsluttet"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:175
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
+msgid "Exercises"
+msgstr "Øvelser"
+
+#: ../frontend/common/src/SoundPlayer.cc:131
+msgid "Exercises ended"
+msgstr "Øvelser avsluttet"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
+msgid "Exercises player"
+msgstr "Øvelser"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+msgid "File deletion failed!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+msgid "Files deleted!"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Fingerutstrekning"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+msgid "General"
+msgstr "Generelt"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
+msgid "Hide"
+msgstr "Skjul"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+msgid "Info"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Flett fingrene bak ryggen. Drei albuene forsiktig innover, mens du strekker "
+"armene. Hold denne stillingen i 5 til 15 sekunder. Gjenta øvelsen 2 ganger."
+
+#: ../frontend/gtkmm/src/GUI.cc:773
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:954
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:957
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:1378
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Strekk ut en arm rett ut foran brystkassen. Dytt denne armen med den andre "
+"mot deg inntil du merker en lett strekk i skulderen. Hold denne posisjonen "
+"en kort stund og gjenta hele øvelsen med den andre armen."
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+msgid "Keystrokes:"
+msgstr "Tastetrykk:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:267
+msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1384
-msgid "Workrave is in quiet mode. No break windows will appear."
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
 msgstr ""
+"Se på øverste venstre hjørne av den ytterste kanten på skjermen din. Følg "
+"kanten langsomt med øynene til det øvre høyre hjørnet. Gjenta til du når "
+"neste hjørne osv, inntil du har nådd rundt hele veien to ganger. Gjenta "
+"øvelsen den motsatte veien rundt."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"Fokuser på det fjerneste punktet du kan se bak skjermen din. Etter et par "
+"sekunder, fokuser på kanten av skjermen. Hvis du ikke kan se noe særlig bak "
+"skjermen din, snu deg i en annen retning med bedre utsikt og bytt fokus "
+"mellom et fjernt objekt og en penn holdt i samme avstand som mellom øynene "
+"og skjermen din."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid "Look into the darkness"
+msgstr "Se inn i mørket"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+msgid "Maximum number of prompts:"
+msgstr "Maks antall påminnelser:"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
+#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "Mikropause"
 
-#: ../frontend/gtkmm/src/GUI.cc:1512
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/common/src/SoundPlayer.cc:113
+msgid "Micro-break ended"
+msgstr "Mikropause avsluttet"
+
+#: ../frontend/common/src/SoundPlayer.cc:107
+msgid "Micro-break started"
+msgstr "Mikropause startet"
+
+#. Layout
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+msgid "Micro-break:"
+msgstr "Mikropause:"
+
+#  Mode menu item
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#, fuzzy
+msgid "Mode"
+msgstr "_Modus"
+
+#  Mode menu item
+#: ../frontend/gtkmm/src/GUI.cc:1442 ../frontend/gtkmm/src/GUI.cc:1446
+#, fuzzy
+msgid "Mode: "
+msgstr "_Modus"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+msgid "Mouse button clicks:"
+msgstr "Klikk på musknapper:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+msgid "Mouse movement:"
+msgstr "Musbevegelser:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+msgid "Mouse usage:"
+msgstr "Bruk av mus:"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Beveg øynene"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid "Move the shoulders"
+msgstr "Beveg skuldrene"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+msgid "Move the shoulders up and down"
+msgstr "Beveg skuldrene opp og ned"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
+#, fuzzy
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Plasser hvilepauser og daglig grense på samme sted"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+msgid "Natural breaks taken"
+msgstr "Naturlige pauser avholdt"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#, fuzzy
+msgid "Natural rest break"
+msgstr "Naturlige pauser avholdt"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid "Neck tilt stretch"
+msgstr "Utstrekking av nakken"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#, fuzzy
+msgid "Next exercise"
+msgstr "Antall øvelser:"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Neste hvilepause om %s"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:150
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+msgid "No blocking"
+msgstr "Ingen blokkering"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:311
+msgid "No sounds"
+msgstr "Ingen lyd"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
+#, fuzzy
+msgid "Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+msgid "Number of exercises:"
+msgstr "Antall øvelser:"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#, fuzzy
+msgid "Open"
+msgstr "Å_pne"
+
+#  Options
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+msgid "Options"
+msgstr "Alternativer"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+msgid "Overdue time"
+msgstr "Overskredet tid"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+msgid "Pause"
+msgstr "Pause"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Antall øvelser:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
+msgid "Place all timers in one spot"
+msgstr "Plasser alle pauser på samme sted"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:95
+msgid "Place micro-break and rest break in one spot"
+msgstr "Plasser mikropauser og hvilepauser på samme sted"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+msgid "Place rest break and daily limit in one spot"
+msgstr "Plasser hvilepauser og daglig grense på samme sted"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
+msgid "Place timers next to each other"
+msgstr "Plasser tidene ved siden av hverandre"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+msgid "Placement:"
+msgstr "Plassering:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:436
+msgid "Play"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
+msgid "Play sounds using built-in speaker"
+msgstr "Spill av lyd med den innebygde høytaleren"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
+msgid "Play sounds using sound card"
+msgstr "Spill av lyd gjennom lydkortet"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:238
+msgid "Please relax for a few seconds"
+msgstr "Benytt denne pausen til å slappe av litt."
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:251
+msgid "Postpone time:"
+msgstr "Utsettetelsesperiode:"
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+msgid "Preferences"
+msgstr "Innstillinger"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+msgid "Prompt before breaking"
+msgstr "Påminnelse før pauser"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+msgid "Prompted breaks taken"
+msgstr "Anmodede pauser avhold"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Ta tak i armlenene på stolen din mens du sitter og press kroppen opp inntil "
+"armene er strukket. Forsøk å flytte hodet enda lenger ved å senke skuldrene. "
+"Beveg deg sakte tilbake på plass i stolen."
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
+msgid "Q_uiet"
+msgstr "St_ille"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
+#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
+#, fuzzy
+msgid "Quiet"
+msgstr "St_ille"
+
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#, fuzzy
+msgid "Quit"
+msgstr "_Avslutt"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:101
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+msgid "Regard micro-breaks as activity"
+msgstr "Anse mikropauser som aktiviteter"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+msgid "Repeated prompts"
+msgstr "Repeterende anmodninger"
+
+#: ../frontend/gtkmm/src/GUI.cc:1435
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Hvilepause"
 
-#  Mode menu item
-#: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
-#, fuzzy
-msgid "Mode: "
-msgstr "_Modus"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#, fuzzy
-msgid "Open"
-msgstr "Å_pne"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
-msgid "Preferences"
-msgstr "Innstillinger"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
-msgid "Exercises"
-msgstr "Øvelser"
-
-#  Mode menu item
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#, fuzzy
-msgid "Mode"
-msgstr "_Modus"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
-msgid "Network"
-msgstr "Nettverk"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#, fuzzy
-msgid "Connect"
-msgstr "_Tilkoble"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
-#, fuzzy
-msgid "Disconnect"
-msgstr "_Frakoble"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#, fuzzy
-msgid "Reconnect"
-msgstr "_Gjenopprett forbindelse"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
-msgid "Statistics"
-msgstr "Statistikk"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:135
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
-msgid "About..."
-msgstr "Om..."
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
-msgid "_Rest break"
-msgstr "_Hvilepause"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "Q_uiet"
-msgstr "St_ille"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
-msgid "_Connect"
-msgstr "_Tilkoble"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
-msgid "Show _log"
-msgstr "_Vis loggfil"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
-#, fuzzy
-msgid "Quit"
-msgstr "_Avslutt"
-
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
-msgid "_Reading mode"
-msgstr ""
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
-msgid "Please relax for a few seconds"
-msgstr "Benytt denne pausen til å slappe av litt."
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
-#, c-format
-msgid "Next rest break in %s"
-msgstr "Neste hvilepause om %s"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:251
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Daglig grense om %s"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:269
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "Daglig grense overskredet med %s"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
-msgid "General"
-msgstr "Generelt"
-
-#  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
-#, fuzzy
-msgid "Sounds"
-msgstr "Lyd:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
-msgid "Status Window"
-msgstr "Statusvindu"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
-msgid "Applet"
-msgstr "Tilleggsprogram"
-
-#  Notebook
-#. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
-msgid "Timers"
-msgstr "Tidtakere"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
-msgid "User interface"
-msgstr "Brukergrensesnitt"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:171
-msgid "No blocking"
-msgstr "Ingen blokkering"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
-msgid "Block input"
-msgstr "Blokker tastatur/mus"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:173
-msgid "Block input and screen"
-msgstr "Blokker tastatur/mus og skjerm"
-
-#  Options
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Options"
-msgstr "Alternativer"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:195
-msgid "Block mode:"
-msgstr "Blokkering:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:215
-msgid "System default"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
-msgid "(font not available)"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
-msgid "Language:"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
-msgid "Start Workrave on Windows startup"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
-msgid "Show system tray icon"
-msgstr ""
-
-#  Options
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
-#, fuzzy
-msgid "Sound Options"
-msgstr "Alternativer"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
-msgid "No sounds"
-msgstr "Ingen lyd"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:325
-msgid "Play sounds using sound card"
-msgstr "Spill av lyd gjennom lydkortet"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
-msgid "Play sounds using built-in speaker"
-msgstr "Spill av lyd med den innebygde høytaleren"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
-msgid "Volume:"
-msgstr ""
-
-#  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
-msgid "Sound:"
-msgstr "Lyd:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
-#, fuzzy
-msgid "Mute sounds during rest break and daily limit"
-msgstr "Plasser hvilepauser og daglig grense på samme sted"
-
-#. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
-msgid "Sound Events"
-msgstr ""
-
-#  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
-#, fuzzy
-msgid "Sound Theme:"
-msgstr "Lyd:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:449
-msgid "Play"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
-msgid "Event"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
-#, fuzzy
-msgid "Choose a sound"
-msgstr "Ingen lyd"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:434
-msgid "Wavefiles"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
-msgid ""
-"Enable this option if Workrave fails to detect when you are using you "
-"computer"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:108
-msgid "Time for a micro-break?"
-msgstr "Tid til en mikropause?"
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
-msgid "You need a rest break..."
-msgstr "Du trenger en hvilepause..."
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
-msgid "You should stop for today..."
-msgstr "Du bør stoppe for i dag..."
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
-#, c-format
-msgid "Break in %s"
-msgstr "Pause om %s"
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
-#, c-format
-msgid "Disappears in %s"
-msgstr "Forsvinner om %s"
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
-#, c-format
-msgid "Silent in %s"
-msgstr "Stille om %s"
+#: ../frontend/common/src/SoundPlayer.cc:101
+msgid "Rest break ended"
+msgstr "Hvilepause avsluttet"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:176
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/common/src/SoundPlayer.cc:94
+msgid "Rest break started"
+msgstr "Hvilepause startet"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+msgid "Rest break:"
+msgstr "Hvilepause:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+msgid "Resume"
+msgstr "Fortsett"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
 #, fuzzy
-msgid "Natural rest break"
-msgstr "Naturlige pauser avholdt"
+msgid "Resume exercises"
+msgstr "Antall øvelser:"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Strekk ut og spre fingrene til du merker en lett strekk. Hold i 10 sekunder. "
+"Slapp av og knyt så sammen fingrene og hold igjen for 10 sekunder. Gjenta "
+"øvelsen en gang til."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+msgid "Shoulder-arm stretch"
+msgstr "Skulder-/arm-utstrekking"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:121
+msgid "Show"
+msgstr "Vis"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "Vis knappene 'Utsett' og 'Hopp over'"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Vis knappene 'Utsett' og 'Hopp over'"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
+#, fuzzy
+msgid "Show log"
+msgstr "_Vis loggfil"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
+msgid "Show only when this timer is first due"
+msgstr "Vis kun første gang perioden utløper"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:131
+msgid "Show status window"
+msgstr "Vis statusvindu"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:283
+msgid "Show system tray icon"
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#, fuzzy
+msgid "Shut _down"
+msgstr "_Steng"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:326
+#, c-format
+msgid "Silent in %s"
+msgstr "Stille om %s"
+
+#. Sound themes
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+msgid "Sound Events"
+msgstr ""
+
+#  Options
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:301
+#, fuzzy
+msgid "Sound Options"
+msgstr "Alternativer"
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Lyd:"
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
+msgid "Sound:"
+msgstr "Lyd:"
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+#, fuzzy
+msgid "Sounds"
+msgstr "Lyd:"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"Sving langsomt høyre arm rundt i store sirkler som en propell på et fly. "
+"Gjørdette 4 ganger forover, 4 ganger bakover og slapp av i noen sekunder. "
+"Gjenta så det hele med venstre arm."
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
+msgid "Start Workrave on Windows startup"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+msgid "Start restbreak when screen is locked"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Se rett frem og finn en behagelig posisjon med hodet. Legg så høyre øre "
+"sakte mot høyre skulder slik at du forsiktig strekker musklene på venstre "
+"side av nakken. Hold i 5 sekunder. Gjenta så hele øvelsen med venstre øre "
+"mot venstre skulder. Gjenta begge øvelsene 2 ganger til hver side."
+
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+msgid "Statistics"
+msgstr "Statistikk"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+msgid "Status Window"
+msgstr "Statusvindu"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+msgid "Suspend timer when inactive"
+msgstr "Utsett tidtakere ved inaktivitet"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
+#: ../frontend/gtkmm/src/GUI.cc:1442
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
+#, fuzzy
+msgid "Suspended"
+msgstr "_Suspendert"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:198
+msgid "System default"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Neste hvilepause om %s"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+msgid "The number of breaks you postponed"
+msgstr "Antall pauser du har utsatt"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+msgid "The number of breaks you skipped"
+msgstr "Antall pauser som ble hoppet over"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+msgid "The number of times you took a break when being prompted"
+msgstr "Antall ganger pauser ble avholdt ved anmoding"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+msgid "The number of times you took a break without being prompted"
+msgstr "Antall ganger pauser ble avholdt uten anmodning"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr ""
+"Antall ganger du ble anmodet om å ta hvilepauser, untatt repeterende "
+"anmodninger for den samme pausen"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Antall ganger anmodninger om pauser ble repetert"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
+msgid "The status window stays always on top of other windows"
+msgstr "Statusvinduet er altid øverst"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+msgid "The total computer usage"
+msgstr "Total datamaskinbruk"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Den totale musbevegelse du ville hatt dersom du hadde flyttet musen  i en "
+"rett linje mellom klikkene"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+msgid "The total number of keys pressed"
+msgstr "Totalt antall tastetrykk"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+msgid "The total number of mouse button clicks"
+msgstr "Totalt antall klikk på musknapper"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+msgid "The total on-screen mouse movement"
+msgstr "Den totale bevegelse av musen på skjermen"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+msgid "The total time this break was overdue"
+msgstr "Den totale tiden denne pausen har vært forsinket"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+msgid "The total time you were using the mouse"
+msgstr "Den totale tiden du har brukt musen"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:219
 #, fuzzy
@@ -791,361 +856,36 @@ msgstr ""
 "fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
 "par minutter, strekk ut og slapp av."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
-#, fuzzy
-msgid "Take rest break now"
-msgstr "Neste hvilepause om %s"
-
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
-msgid "Wait"
-msgstr "Vent"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place timers next to each other"
-msgstr "Plasser tidene ved siden av hverandre"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
-msgid "Place micro-break and rest break in one spot"
-msgstr "Plasser mikropauser og hvilepauser på samme sted"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Place rest break and daily limit in one spot"
-msgstr "Plasser hvilepauser og daglig grense på samme sted"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
-msgid "Place all timers in one spot"
-msgstr "Plasser alle pauser på samme sted"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
-msgid "Hide"
-msgstr "Skjul"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:119
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
-msgid "Show"
-msgstr "Vis"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Show only when this timer is first due"
-msgstr "Vis kun første gang perioden utløper"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Show status window"
-msgstr "Vis statusvindu"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
-msgid "The status window stays always on top of other windows"
-msgstr "Statusvinduet er altid øverst"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
-msgid "Applet enabled"
-msgstr "Tilleggsprogram aktiveret"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
-msgid "Display"
-msgstr "Vis"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:159
-msgid "Placement:"
-msgstr "Plassering:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-msgid "Cycle time:"
-msgstr "Tidssyklus:"
-
-#. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-msgid "Micro-break:"
-msgstr "Mikropause:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
-msgid "Rest break:"
-msgstr "Hvilepause:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
-msgid "Daily limit:"
-msgstr "Daglig grense:"
-
-#. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
-msgid "Enable timer"
-msgstr "Aktiver tidtaker"
-
-#. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
-msgid "Break prompting"
-msgstr "Pausepåminnelser"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
-msgid "Prompt before breaking"
-msgstr "Påminnelse før pauser"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
-msgid "Maximum number of prompts:"
-msgstr "Maks antall påminnelser:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Vis knappene 'Utsett' og 'Hopp over'"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
-msgid "Suspend timer when inactive"
-msgstr "Utsett tidtakere ved inaktivitet"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
-msgid "Regard micro-breaks as activity"
-msgstr "Anse mikropauser som aktiviteter"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
-msgid "Number of exercises:"
-msgstr "Antall øvelser:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
-msgid "Start restbreak when screen is locked"
-msgstr ""
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
-msgid "Time before end:"
-msgstr "Tid før slutt:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
-msgid "Time between breaks:"
-msgstr "Tid mellom pauser:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
-msgid "Break duration:"
-msgstr "Pauselengde:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
-msgid "Postpone time:"
-msgstr "Utsettetelsesperiode:"
-
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-#, fuzzy
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
+#: ../frontend/gtkmm/src/Menus.cc:365
 msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
 msgstr ""
 "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain "
 "Injury)."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
-msgid "Network connect"
-msgstr "Nettverksforbindelse"
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:228
+msgid "Time before end:"
+msgstr "Tid før slutt:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Oppgi navn og portnummer til en datamaskin i \n"
-"nettverket som du ønsker å koble deg til."
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:229
+msgid "Time between breaks:"
+msgstr "Tid mellom pauser:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
-msgid "Host name:"
-msgstr "Vertsnavn:"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:106
+msgid "Time for a micro-break?"
+msgstr "Tid til en mikropause?"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
-msgid "Port:"
-msgstr "Port:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "Netteverkslogg"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
-msgid "Enable networking"
-msgstr "Aktiver nettverk"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
-msgid "Username:"
-msgstr "Brukernavn:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
-msgid "Password:"
-msgstr "Passord:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
-msgid "Allow incoming connections"
-msgstr ""
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
-msgid "Server settings"
-msgstr "Server innstillinger"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
-msgid "Server port:"
-msgstr "Serverport:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
-msgid "Reconnect attempts:"
-msgstr "Tilknytningsforsøk:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
-msgid "Reconnect interval:"
-msgstr "Tilknytningsintervall:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
-msgid "Advanced"
-msgstr "Avansert"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Følgende liste viser de vertsnavnene Workrave kobler seg til ved \n"
-"oppstart. Klikk på vertsnavn eller portnummer for å redigere."
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Host name"
-msgstr "Vertsnavn"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
-msgid "Port"
-msgstr "Port"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
-msgid "Hosts"
-msgstr "Vertssystem"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Backward shoulder stretch"
-msgstr "Bakover skulderstrekk"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Skjul øynene dine med håndflatene slik at du fortsatt kan åpne øyelokkene. "
-"Åpne nå øynene og se inn i mørket i håndflatene. Denne øvelsen gir bedre "
-"avlastning for øyene sammenlignet med bare å lukke de."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "Fingerutstrekning"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Flett fingrene bak ryggen. Drei albuene forsiktig innover, mens du strekker "
-"armene. Hold denne stillingen i 5 til 15 sekunder. Gjenta øvelsen 2 ganger."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Strekk ut en arm rett ut foran brystkassen. Dytt denne armen med den andre "
-"mot deg inntil du merker en lett strekk i skulderen. Hold denne posisjonen "
-"en kort stund og gjenta hele øvelsen med den andre armen."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Se på øverste venstre hjørne av den ytterste kanten på skjermen din. Følg "
-"kanten langsomt med øynene til det øvre høyre hjørnet. Gjenta til du når "
-"neste hjørne osv, inntil du har nådd rundt hele veien to ganger. Gjenta "
-"øvelsen den motsatte veien rundt."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Fokuser på det fjerneste punktet du kan se bak skjermen din. Etter et par "
-"sekunder, fokuser på kanten av skjermen. Hvis du ikke kan se noe særlig bak "
-"skjermen din, snu deg i en annen retning med bedre utsikt og bytt fokus "
-"mellom et fjernt objekt og en penn holdt i samme avstand som mellom øynene "
-"og skjermen din."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid "Look into the darkness"
-msgstr "Se inn i mørket"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "Beveg øynene"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid "Move the shoulders"
-msgstr "Beveg skuldrene"
+#  Notebook
+#. Notebook
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
+msgid "Timers"
+msgstr "Tidtakere"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Move the shoulders up and down"
-msgstr "Beveg skuldrene opp og ned"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid "Neck tilt stretch"
-msgstr "Utstrekking av nakken"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Ta tak i armlenene på stolen din mens du sitter og press kroppen opp inntil "
-"armene er strukket. Forsøk å flytte hodet enda lenger ved å senke skuldrene. "
-"Beveg deg sakte tilbake på plass i stolen."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Strekk ut og spre fingrene til du merker en lett strekk. Hold i 10 sekunder. "
-"Slapp av og knyt så sammen fingrene og hold igjen for 10 sekunder. Gjenta "
-"øvelsen en gang til."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Shoulder-arm stretch"
-msgstr "Skulder-/arm-utstrekking"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Sving langsomt høyre arm rundt i store sirkler som en propell på et fly. "
-"Gjørdette 4 ganger forover, 4 ganger bakover og slapp av i noen sekunder. "
-"Gjenta så det hele med venstre arm."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Se rett frem og finn en behagelig posisjon med hodet. Legg så høyre øre "
-"sakte mot høyre skulder slik at du forsiktig strekker musklene på venstre "
-"side av nakken. Hold i 5 sekunder. Gjenta så hele øvelsen med venstre øre "
-"mot venstre skulder. Gjenta begge øvelsene 2 ganger til hver side."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
 msgstr "Tren øye fokusering"
 
@@ -1161,236 +901,238 @@ msgstr ""
 "Snu hodet mot venstre og hold det der i 2 sekunder. Snu deretter hodet mot "
 "høyre og hold det der i 2 sekunder."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
-msgid "Exercises player"
-msgstr "Øvelser"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-msgid "Previous exercise"
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:517
+msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:104
+msgid "User interface"
+msgstr "Brukergrensesnitt"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:338
+msgid "Volume:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
+msgid "Wait"
+msgstr "Vent"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+msgid "Warning"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:421
+msgid "Wavefiles"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:771
 #, fuzzy
-msgid "Next exercise"
-msgstr "Antall øvelser:"
+msgid "Workrave failed to start"
+msgstr "Workrave-Tilleggsprogram"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
-#, fuzzy
-msgid "Pause exercises"
-msgstr "Antall øvelser:"
+#: ../frontend/gtkmm/src/GUI.cc:1307
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-#, fuzzy
-msgid "End exercises"
-msgstr "Øvelser"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
-msgid "Resume"
-msgstr "Fortsett"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
-msgid "Pause"
-msgstr "Pause"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
-#, fuzzy
-msgid "Resume exercises"
-msgstr "Antall øvelser:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
-msgid "Browse history"
-msgstr "Se gjennom historikk"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
-msgid "Date:"
-msgstr "Dato:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
-msgid "Breaks"
-msgstr "Pauser"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
-msgid "Break prompts"
-msgstr "Pause anmodninger"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/gtkmm/src/GUI.cc:1301
 msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
+"Workrave is in suspended mode. Mouse and keyboard activity will not be "
+"monitored."
 msgstr ""
-"Antall ganger du ble anmodet om å ta hvilepauser, untatt repeterende "
-"anmodninger for den samme pausen"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
-msgid "Repeated prompts"
-msgstr "Repeterende anmodninger"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Antall ganger anmodninger om pauser ble repetert"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
-msgid "Prompted breaks taken"
-msgstr "Anmodede pauser avhold"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
-msgid "The number of times you took a break when being prompted"
-msgstr "Antall ganger pauser ble avholdt ved anmoding"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
-msgid "Natural breaks taken"
-msgstr "Naturlige pauser avholdt"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
-msgid "The number of times you took a break without being prompted"
-msgstr "Antall ganger pauser ble avholdt uten anmodning"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
-msgid "Breaks skipped"
-msgstr "Pauser hoppet over"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
-msgid "The number of breaks you skipped"
-msgstr "Antall pauser som ble hoppet over"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
-msgid "Breaks postponed"
-msgstr "Pauser utsatt"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
-msgid "The number of breaks you postponed"
-msgstr "Antall pauser du har utsatt"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
-msgid "Overdue time"
-msgstr "Overskredet tid"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
-msgid "The total time this break was overdue"
-msgstr "Den totale tiden denne pausen har vært forsinket"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
-msgid "Daily usage"
-msgstr "Daglig bruk"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:241
-msgid "The total computer usage"
-msgstr "Total datamaskinbruk"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
-msgid "Activity"
-msgstr "Aktivitet"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
-msgid "Mouse usage:"
-msgstr "Bruk av mus:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:324
-msgid "The total time you were using the mouse"
-msgstr "Den totale tiden du har brukt musen"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
-msgid "Mouse movement:"
-msgstr "Musbevegelser:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
-msgid "The total on-screen mouse movement"
-msgstr "Den totale bevegelse av musen på skjermen"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
-msgid "Effective mouse movement:"
-msgstr "Effektiv musbeveglese:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
+#: ../frontend/gtkmm/src/GUI.cc:292
 msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
+"Workrave is still running. You can access Workrave by clicking on the white "
+"sheep icon. Click on this balloon to disable this message"
 msgstr ""
-"Den totale musbevegelse du ville hatt dersom du hadde flyttet musen  i en "
-"rett linje mellom klikkene"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
-msgid "Mouse button clicks:"
-msgstr "Klikk på musknapper:"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:337
-msgid "The total number of mouse button clicks"
-msgstr "Totalt antall klikk på musknapper"
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Du har nådd din daglige grense. Vennligst stopp arbeidet \n"
+"ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
+"på noe annet å gjøre, som gjennomlesning av et dokument."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
-msgid "Keystrokes:"
-msgstr "Tastetrykk:"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:110
+msgid "You need a rest break..."
+msgstr "Du trenger en hvilepause..."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:341
-msgid "The total number of keys pressed"
-msgstr "Totalt antall tastetrykk"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:114
+msgid "You should stop for today..."
+msgstr "Du bør stoppe for i dag..."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:396
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, fra %s til %s"
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:185
+#, fuzzy
+msgid "_About"
+msgstr "Om..."
 
-#~ msgid "Orientation"
-#~ msgstr "Orientering"
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+msgid "_Disconnect"
+msgstr "_Frakoble"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+msgid "_Exercises"
+msgstr "_Øvelser"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
+msgid "_Join"
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#, fuzzy
+msgid "_Lock"
+msgstr "_Lås"
+
+#  Mode menu item
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+msgid "_Mode"
+msgstr "_Modus"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+msgid "_Network"
+msgstr "_Nettverk"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+msgid "_Open"
+msgstr "Å_pne"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#, fuzzy
+msgid "_Postpone"
+msgstr "_Utsett"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
+msgid "_Preferences"
+msgstr "_Innstillinger"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:190
+msgid "_Quit"
+msgstr "_Avslutt"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+msgid "_Reading mode"
+msgstr ""
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+msgid "_Reconnect"
+msgstr "_Gjenopprett forbindelse"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:164
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:114
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+msgid "_Rest break"
+msgstr "_Hvilepause"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
+msgid "_Restbreak"
+msgstr "_Hvilepause"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#, fuzzy
+msgid "_Skip"
+msgstr "_Hopp over"
+
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
+msgid "_Statistics"
+msgstr "_Statistikk"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
+msgid "_Suspended"
+msgstr "_Suspendert"
+
+#~ msgid "About %s"
+#~ msgstr "Om %s"
+
+#~ msgid "Accepted new client."
+#~ msgstr "Aksepterte ny klient."
 
 #, fuzzy
-#~ msgid "The orientation of the tray"
-#~ msgstr "Orienteringen av systemområdet"
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "Bekrefter master anmodning fra klient %s."
 
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Du har nå hvilepause. Husk å reise deg opp og gå vekk \n"
-#~ "fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
-#~ "par minutter, strekk ut og slapp av."
+#~ msgid "Advanced"
+#~ msgstr "Avansert"
 
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Stille om %s"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Kan ikke finne maskinens nettverksnavn. Deaktiverer distribusjon."
+#~ msgid "Block inndata og skjerm"
+#~ msgstr "Blokker alt"
 
 #, fuzzy
 #~ msgid "Break in"
 #~ msgstr "Pause om %s"
 
-#, fuzzy
-#~ msgid "Disappears in"
-#~ msgstr "Forsvinner om %s"
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "Kan ikke finne maskinens nettverksnavn. Deaktiverer distribusjon."
 
 #, fuzzy
-#~ msgid "Silent in"
-#~ msgstr "Stille om %s"
+#~ msgid "Client %s access denied."
+#~ msgstr "Klient %s nektet adgang."
 
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Feil: Kunne ikke initialisere Bonobo"
+#, fuzzy
+#~ msgid "Client %s closed connection."
+#~ msgstr "Klient %s avbrøt forbindelsen."
 
-#~ msgid "Inactive"
-#~ msgstr "Inaktiv"
+#, fuzzy
+#~ msgid "Client %s connected."
+#~ msgstr "Klient %s tilkoblet."
 
-#~ msgid "Credits"
-#~ msgstr "Utviklere"
+#, fuzzy
+#~ msgid "Client %s is duplicate."
+#~ msgstr "Klient %s er duplikat."
 
-#~ msgid "_Written by"
-#~ msgstr "_Skrevet av"
+#, fuzzy
+#~ msgid "Client %s is now master."
+#~ msgstr "Klienten %s er nå 'master'"
 
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumentasjon av:"
+#~ msgid "Client %s is now the new master."
+#~ msgstr "Klient %s er nå ny master."
 
-#~ msgid "_Translated by"
-#~ msgstr "_Oversatt av"
+#, fuzzy
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "Klient %s ønsker oss velkommen."
 
-#  Add the credits button
-#~ msgid "_Credits"
-#~ msgstr "_Krediteringer"
+#, fuzzy
+#~ msgid "Client %s read error, closing."
+#~ msgstr "Klient %s lesefeil, lukker."
 
-#~ msgid "About %s"
-#~ msgstr "Om %s"
+#, fuzzy
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "Klient %s avviste master anmodning, utsetter."
+
+#, fuzzy
+#~ msgid "Client %s saying hello."
+#~ msgstr "Klient %s sier 'hei'."
+
+#, fuzzy
+#~ msgid "Client %s signed off."
+#~ msgstr "Klient %s logget av."
+
+#, fuzzy
+#~ msgid "Client timeout from %s."
+#~ msgstr "Klient tidsavbrudd fra %s.."
 
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "
@@ -1403,6 +1145,49 @@ msgstr "%s, fra %s til %s"
 #~ "for hver gang du puster ut og inn. For å slappe ekstra av i øynene, "
 #~ "forsøk å lukke dem i mikropauser også."
 
+#, fuzzy
+#~ msgid "Connect"
+#~ msgstr "_Tilkoble"
+
+#, fuzzy
+#~ msgid "Connecting to %s."
+#~ msgstr "Kobler til %s."
+
+#, fuzzy
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Kunne ikke koble til klient %s."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "Kunne ikke aktivere nettverksfunksjonen."
+
+#~ msgid "Credits"
+#~ msgstr "Utviklere"
+
+#~ msgid "Disabling network operation."
+#~ msgstr "Avbryter nettverksfunksjonen."
+
+#, fuzzy
+#~ msgid "Disappears in"
+#~ msgstr "Forsvinner om %s"
+
+#, fuzzy
+#~ msgid "Disconnect"
+#~ msgstr "_Frakoble"
+
+#, fuzzy
+#~ msgid "Disconnecting %s"
+#~ msgstr "Avbryter %s."
+
+#~ msgid "Enable networking"
+#~ msgstr "Aktiver nettverk"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "Oppgi navn og portnummer til en datamaskin i \n"
+#~ "nettverket som du ønsker å koble deg til."
+
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
 #~ "height against it with your elbows slightly bended. Push your body to the "
@@ -1413,6 +1198,24 @@ msgstr "%s, fra %s til %s"
 #~ "skulderhøyde med albuene lett bøyd. Skyv kroppem mot veggen uten å endre "
 #~ "vinkel på albuene. Skyv deg tilbake fra veggen igjen uten å endre vinkel "
 #~ "på albuene"
+
+#~ msgid "Host name"
+#~ msgstr "Vertsnavn"
+
+#~ msgid "Host name:"
+#~ msgstr "Vertsnavn:"
+
+#~ msgid "Hosts"
+#~ msgstr "Vertssystem"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Feil: Kunne ikke initialisere Bonobo"
+
+#~ msgid "I'm now master."
+#~ msgstr "Jeg er nå 'master'"
+
+#~ msgid "Inactive"
+#~ msgstr "Inaktiv"
 
 #~ msgid ""
 #~ "Keep your head straight and your lower jaw parallel to the floor. Move "
@@ -1430,8 +1233,79 @@ msgstr "%s, fra %s til %s"
 #~ msgid "Neck stretch"
 #~ msgstr "Strekk nakken"
 
+#~ msgid "Network"
+#~ msgstr "Nettverk"
+
+#~ msgid "Network connect"
+#~ msgstr "Nettverksforbindelse"
+
+#~ msgid "Network log"
+#~ msgstr "Netteverkslogg"
+
+#~ msgid "Network operation started."
+#~ msgstr "Nettverksfunksjon startet"
+
+#, fuzzy
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "Ikke-master klient %s avviste master anmodning."
+
+#~ msgid "Orientation"
+#~ msgstr "Orientering"
+
+#~ msgid "Password:"
+#~ msgstr "Passord:"
+
+#~ msgid "Port"
+#~ msgstr "Port"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "_Gjenopprett forbindelse"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Tilknytningsforsøk:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Tilknytningsintervall:"
+
+#, fuzzy
+#~ msgid "Reconnecting to %s."
+#~ msgstr "Gjenopprett tilkobling til %s."
+
+#, fuzzy
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "Avviser master anmodning fra klient %s."
+
 #~ msgid "Relax the eyes"
 #~ msgstr "Slapp av i øynene"
+
+#, fuzzy
+#~ msgid "Removing client %s."
+#~ msgstr "Fjerner klient %s."
+
+#, fuzzy
+#~ msgid "Requesting master status from %s."
+#~ msgstr "Anmodning om master status fra %s."
+
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "_Hvilepause"
+
+#~ msgid "Server port:"
+#~ msgstr "Serverport:"
+
+#~ msgid "Server settings"
+#~ msgstr "Server innstillinger"
+
+#~ msgid "Show _log"
+#~ msgstr "_Vis loggfil"
+
+#, fuzzy
+#~ msgid "Silent in"
+#~ msgstr "Stille om %s"
 
 #~ msgid ""
 #~ "Stand by your desk and place both your palms on the desk with the fingers "
@@ -1455,15 +1329,70 @@ msgstr "%s, fra %s til %s"
 #~ "ryggen forover helt til du (nesten) kan plassere de foran skoene dine. "
 #~ "Rett sakte opp ryggen fra hoften til du står oppreist igjen."
 
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "Stille om %s"
+
 #~ msgid "Stretch your back"
 #~ msgstr "Strekk ryggen"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "Følgende liste viser de vertsnavnene Workrave kobler seg til ved \n"
+#~ "oppstart. Klikk på vertsnavn eller portnummer for å redigere."
+
+#, fuzzy
+#~ msgid "The orientation of the tray"
+#~ msgstr "Orienteringen av systemområdet"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Du har nå hvilepause. Husk å reise deg opp og gå vekk \n"
+#~ "fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
+#~ "par minutter, strekk ut og slapp av."
+
+#~ msgid "Username:"
+#~ msgstr "Brukernavn:"
+
+#~ msgid "Workrave"
+#~ msgstr "Workrave"
+
+#~ msgid "Workrave Applet"
+#~ msgstr "Workrave-Tilleggsprogram"
 
 #~ msgid "Wrist and lower arm desk stretch"
 #~ msgstr "Utstrekking av håndledd og underarm"
 
-#, fuzzy
-#~ msgid "Restbreak"
-#~ msgstr "_Hvilepause"
+#~ msgid "_About..."
+#~ msgstr "Om..."
 
-#~ msgid "Block inndata og skjerm"
-#~ msgstr "Blokker alt"
+#~ msgid "_Connect"
+#~ msgstr "_Tilkoble"
+
+#~ msgid "_Connect..."
+#~ msgstr "_Koble til..."
+
+#  Add the credits button
+#~ msgid "_Credits"
+#~ msgstr "_Krediteringer"
+
+#~ msgid "_Documented by"
+#~ msgstr "_Dokumentasjon av:"
+
+#~ msgid "_Quiet"
+#~ msgstr "St_ille"
+
+#~ msgid "_Show Log..."
+#~ msgstr "_Vis historikk"
+
+#~ msgid "_Translated by"
+#~ msgstr "_Oversatt av"
+
+#~ msgid "_Written by"
+#~ msgstr "_Skrevet av"

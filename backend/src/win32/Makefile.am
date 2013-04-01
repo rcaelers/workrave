@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -9,13 +9,7 @@ if PLATFORM_OS_WIN32
 
 noinst_LTLIBRARIES = 	libworkrave-backend-win32.la
 
-sources = 		W32Configurator.cc \
-			W32InputMonitor.cc \
-			W32AlternateMonitor.cc \
-			W32LowLevelMonitor.cc \
-			W32InputMonitorFactory.cc \
-			W32ActiveSetup.cc \
-			Harpoon.cc
+sources =		W32ActiveSetup.cc
 endif
 
 libworkrave_backend_win32_la_SOURCES = ${sources} 

@@ -29,11 +29,11 @@ else (VERSION_PATCH)
 endif (VERSION_PATCH)
 
 # CMake
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
+#x#CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/modules")
+#x#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/modules")
 
-project(Workrave)
+#x#project(Workrave)
 
 SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 
@@ -64,7 +64,7 @@ else (WIN32)
   set (LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
 endif (WIN32)
 
-set (EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+#x# set (EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 # for including config.h and for includes like <dir/foo.h>
 include_directories(${CMAKE_SOURCE_DIR}/.. ${CMAKE_BINARY_DIR} ${CMAKE_INCLUDE_PATH})
@@ -177,10 +177,10 @@ if (MINGW)
 endif(MINGW)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/workrave.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/workrave.rc )
+#x# configure_file(${CMAKE_CURRENT_SOURCE_DIR}/workrave.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/workrave.rc )
 
 # compiler definitions 
-add_definitions(-DHAVE_CONFIG_H=1)
+#x# add_definitions(-DHAVE_CONFIG_H=1)
 
 ######################################################################
 ## Subdirectories

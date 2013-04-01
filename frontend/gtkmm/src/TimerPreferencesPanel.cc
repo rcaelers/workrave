@@ -160,16 +160,12 @@ TimerPreferencesPanel::create_options_panel()
   // Sensitive for activity
   activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
                                       (_("Suspend timer when inactive")));
-#if REMOVED_IN_FAVOR_OF_READING_MODE__REMOVE_LATER
-  hig->add(*activity_sensitive_cb);
-#endif
 
   // Break specific options
 #ifdef HAVE_EXERCISES
   exercises_spin = NULL;
 #endif
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -177,7 +173,6 @@ TimerPreferencesPanel::create_options_panel()
         = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add_widget(*monitor_cb);
     }
-#endif
 
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
@@ -349,7 +344,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 }
 
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
 bool
 TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 {
@@ -382,7 +376,6 @@ TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 
   return true;
 }
-#endif
 
 
 void
@@ -403,12 +396,10 @@ TimerPreferencesPanel::enable_buttons()
   skippable_cb->set_sensitive(on);
   activity_sensitive_cb->set_sensitive(on);
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != NULL)
     {
       monitor_cb->set_sensitive(on);
     }
-#endif
 
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);

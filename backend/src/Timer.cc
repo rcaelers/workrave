@@ -39,14 +39,6 @@
 using namespace std;
 using namespace workrave::utils;
 
-#ifdef HAVE_EXTERN_TIMEZONE
-#  ifndef HAVE_EXTERN_TIMEZONE_DEFINED
-extern long timezone;
-#  endif
-#else
-static int timezone = 0;
-#endif
-
 Timer::Ptr
 Timer::create()
 {
@@ -620,7 +612,7 @@ Timer::serialize_state() const
      << snooze_inhibited << " "
      << 0 << " "
      << elapsed_timespan_at_last_limit << " "
-     << timezone;
+     << 0 /* timezone */;
 
   return ss.str();
 }
@@ -638,7 +630,6 @@ Timer::deserialize_state(const std::string &state, int version)
   gint64 overdue = 0;
   gint64 llt = 0;
   gint64 lle = 0;
-  gint64 tz = 0;
   bool si = false;
 
   ss >> save_time
@@ -651,8 +642,9 @@ Timer::deserialize_state(const std::string &state, int version)
 
   if (version == 3)
     {
+      // Ignored.
+      gint64 tz = 0;
       ss >> tz;
-      tz -= timezone;
     }
 
   // Sanity check...
