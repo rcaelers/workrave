@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:22+0100\n"
 "Last-Translator: Marko Väljaots <aatomik@hotmail.com>\n"
 "Language-Team: Marko Väljaots <aatomik@hotmail.com>\n"
@@ -88,7 +88,7 @@ msgstr "Blokeerimise moodus:"
 msgid "Break duration:"
 msgstr "Pausi kestvus:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Paus ignoreeritud"
 
@@ -97,7 +97,7 @@ msgstr "Paus ignoreeritud"
 msgid "Break in %s"
 msgstr "Paus %s jooksul"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Pausi küsimine"
 
@@ -140,7 +140,7 @@ msgstr ""
 "Nüüd ava silmad ja vaata peopesadesse tekkinud pimedusse. See harjutus annab "
 "paremaid tulemusi kui lihtsalt silmade sulgemine."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Muudetud"
 
@@ -148,7 +148,7 @@ msgstr "Muudetud"
 msgid "Cycle time:"
 msgstr "Tsükli aeg:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -218,11 +218,11 @@ msgstr ""
 msgid "Event"
 msgstr "Toiming"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Harjutuse muutus"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Harjutus lõppes"
 
@@ -234,7 +234,7 @@ msgstr "Harjutus lõppes"
 msgid "Exercises"
 msgstr "Harjutused"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Harjutused lõppesid"
 
@@ -341,11 +341,11 @@ msgstr "Küsimise maksimaalne arv:"
 msgid "Micro-break"
 msgstr "Lühipaus"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Lühipaus lõppes"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Lühipaus algas"
 
@@ -583,7 +583,7 @@ msgstr "Puhkepaus"
 msgid "Rest break %s overdue"
 msgstr "Puhkepaus on üle läinud %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Puhkepaus lõppes"
 
@@ -592,7 +592,7 @@ msgstr "Puhkepaus lõppes"
 msgid "Rest break for %s"
 msgstr "Puhkepaus %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Puhkepaus algas"
 
@@ -655,7 +655,7 @@ msgstr "Näita oleku akent"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_Lülita välja"
@@ -964,7 +964,7 @@ msgstr "_Harjutused"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_Lukusta"
@@ -991,7 +991,7 @@ msgstr "_Tavaline"
 msgid "_Open"
 msgstr "_Ava"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "Lükka _edasi"
@@ -1025,7 +1025,7 @@ msgstr "_Puhkepaus"
 msgid "_Restbreak"
 msgstr "_Puhkepaus"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_Jäta vahele"

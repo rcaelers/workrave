@@ -1,6 +1,6 @@
 // Locale.hh
 //
-// Copyright (C) 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 #include <map>
 #include <string>
 
-#include <glib.h>
-
 using namespace std;
 
 class Locale
@@ -40,13 +38,11 @@ public:
   typedef LanguageMap::iterator LanguageMapIter;
   typedef LanguageMap::const_iterator LanguageMapCIter;
 
-
   static bool get_language(const std::string &code, std::string &language);
   static bool get_country(const std::string &code, std::string &language);
 
   static void get_all_languages_in_current_locale(LanguageMap &list);
   static void get_all_languages_in_native_locale(LanguageMap &list);
-
 
   static void set_locale(const std::string &code);
   static std::string get_locale();

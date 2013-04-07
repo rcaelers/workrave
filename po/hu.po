@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
@@ -89,7 +89,7 @@ msgstr "Korlátozás:"
 msgid "Break duration:"
 msgstr "Szünet időtartama:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Szünet figyelmen kívül hagyása"
 
@@ -98,7 +98,7 @@ msgstr "Szünet figyelmen kívül hagyása"
 msgid "Break in %s"
 msgstr "Szünet ennyi idő múlva: %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Felszólítás szünetre"
 
@@ -141,7 +141,7 @@ msgstr ""
 "nyissa ki a szemeit és nézze a tenyerei sötétségét. Ez a módszer jobban "
 "nyugtatja szemeit, mintha csak egyszerűen becsukná őket."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Egyéb"
 
@@ -149,7 +149,7 @@ msgstr "Egyéb"
 msgid "Cycle time:"
 msgstr "Ciklusidő: (másodpercben)"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -222,11 +222,11 @@ msgstr ""
 msgid "Event"
 msgstr "Esemény"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Új gyakorlat"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Gyakorlat vége"
 
@@ -238,7 +238,7 @@ msgstr "Gyakorlat vége"
 msgid "Exercises"
 msgstr "Gyakorlatok"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Gyakorlatok vége"
 
@@ -345,11 +345,11 @@ msgstr "Felszólítások maximális száma:"
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Rövid pihenő vége"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Rövid pihenő kezdete"
 
@@ -581,7 +581,7 @@ msgstr "Pihenőidő"
 msgid "Rest break %s overdue"
 msgstr "A pihenőidő %s késésben van"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Pihenőidő vége"
 
@@ -590,7 +590,7 @@ msgstr "Pihenőidő vége"
 msgid "Rest break for %s"
 msgstr "Még %s van hátra a pihenőidőből"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Pihenőidő kezdete"
 
@@ -653,7 +653,7 @@ msgstr "Állapotjelző ablak megjelenítése"
 msgid "Show system tray icon"
 msgstr "Tálcaikon megjelenítése"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "_Leállítás"
 
@@ -965,7 +965,7 @@ msgstr "_Gyakorlatok"
 msgid "_Join"
 msgstr "_Csatlakozás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "_Zárolás"
 
@@ -991,7 +991,7 @@ msgstr "_Általános"
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_Elhalasztás"
 
@@ -1024,7 +1024,7 @@ msgstr "_Pihenőidő"
 msgid "_Restbreak"
 msgstr "_Pihenőidő tartása"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_Kihagyás"
 

@@ -22,9 +22,7 @@
 
 #include <string>
 
-#include "ICore.hh"
-
-#include <gtkmm/window.h>
+#include "CoreTypes.hh"
 
 class IMenu
 {
@@ -33,7 +31,6 @@ public:
   virtual ~IMenu() {}
 
   virtual void init() = 0;
-  virtual void add_accel(Gtk::Window &window) = 0;
   virtual void popup(const guint button, const guint activate_time) = 0;
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage) = 0;
 };

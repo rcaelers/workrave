@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-03-12 11:19+0800\n"
 "Last-Translator: Daniel YC Lin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -86,7 +86,7 @@ msgstr "封鎖模式:"
 msgid "Break duration:"
 msgstr "休息時間:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "忽略休息"
 
@@ -95,7 +95,7 @@ msgstr "忽略休息"
 msgid "Break in %s"
 msgstr "休息 %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "休息提示"
 
@@ -137,7 +137,7 @@ msgstr ""
 "用您的手掌蓋住雙眼，這樣一來您可以繼續張開眼皮。現在打開雙眼，並注視手掌中的"
 "黑暗。將較於直接閉上雙眼，這樣可以讓您的眼睛得到比較好的休息。"
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "調整"
 
@@ -145,7 +145,7 @@ msgstr "調整"
 msgid "Cycle time:"
 msgstr "週期:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -215,11 +215,11 @@ msgstr ""
 msgid "Event"
 msgstr "事件"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "體操變更"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "體操停止"
 
@@ -231,7 +231,7 @@ msgstr "體操停止"
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "體操停止"
 
@@ -332,11 +332,11 @@ msgstr "最多提示次數"
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "暫停結束"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "暫停開始"
 
@@ -570,7 +570,7 @@ msgstr "休息"
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "休息停止"
 
@@ -579,7 +579,7 @@ msgstr "休息停止"
 msgid "Rest break for %s"
 msgstr "休息 %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "休息開始"
 
@@ -641,7 +641,7 @@ msgstr "顯示狀態視窗"
 msgid "Show system tray icon"
 msgstr "顯示小圖示到工作列"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "關閉"
@@ -941,7 +941,7 @@ msgstr "體操(_E)"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "鎖定"
@@ -968,7 +968,7 @@ msgstr "一般(_N)"
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "延後"
@@ -1002,7 +1002,7 @@ msgstr "休息(_R)"
 msgid "_Restbreak"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "略過"

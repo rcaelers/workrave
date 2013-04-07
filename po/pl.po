@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2012-11-12 21:56+0200\n"
 "Last-Translator: s120801-translate <s120801-translate@yahoo.com>\n"
 "Language-Team: s120801-translate\n"
@@ -92,7 +92,7 @@ msgstr "Tryb blokowania:"
 msgid "Break duration:"
 msgstr "Czas trwania przerwy:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Przerwa zignorowana"
 
@@ -101,7 +101,7 @@ msgstr "Przerwa zignorowana"
 msgid "Break in %s"
 msgstr "Przerwa za %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Zachęta do przerwy"
 
@@ -144,7 +144,7 @@ msgstr ""
 "docierało do nich światło. Teraz otwórz oczy i spójrz w ciemność. To "
 "ćwiczenie przynosi większą ulgę niż zwykłe zamknięcie oczu."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Własne"
 
@@ -152,7 +152,7 @@ msgstr "Własne"
 msgid "Cycle time:"
 msgstr "Czas cyklu:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -224,11 +224,11 @@ msgstr ""
 msgid "Event"
 msgstr "Zdarzenie"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Zmiana ćwiczenia"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Ćwiczenie zakończone"
 
@@ -240,7 +240,7 @@ msgstr "Ćwiczenie zakończone"
 msgid "Exercises"
 msgstr "Ćwiczenia"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Ćwiczenia zakończone"
 
@@ -346,11 +346,11 @@ msgstr "Maksymalna liczba zachęt:"
 msgid "Micro-break"
 msgstr "Mikroprzerwa"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Mikroprzerwa zakończona"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Mikroprzerwa rozpoczęta"
 
@@ -582,7 +582,7 @@ msgstr "Odpoczynek"
 msgid "Rest break %s overdue"
 msgstr "Zalegasz z odpoczynkiem %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Odpoczynek zakończony"
 
@@ -591,7 +591,7 @@ msgstr "Odpoczynek zakończony"
 msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Odpoczynek rozpoczęty"
 
@@ -653,7 +653,7 @@ msgstr "Pokaż okno statusu"
 msgid "Show system tray icon"
 msgstr "Pokaż ikonę na pasku zadań"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "_Wyłącz"
 
@@ -961,7 +961,7 @@ msgstr "Ćwicz_enia"
 msgid "_Join"
 msgstr "_Dołącz"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "_Zablokuj"
 
@@ -987,7 +987,7 @@ msgstr "_Normalny"
 msgid "_Open"
 msgstr "_Otwórz"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_Opóźnij"
 
@@ -1020,7 +1020,7 @@ msgstr "_Odpoczynek"
 msgid "_Restbreak"
 msgstr "_Odpoczynek"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_Pomiń"
 

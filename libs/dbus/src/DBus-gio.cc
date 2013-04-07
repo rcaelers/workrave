@@ -36,6 +36,7 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
+using namespace workrave::utils;
 
 const GDBusInterfaceVTable DBus::interface_vtable =
 {

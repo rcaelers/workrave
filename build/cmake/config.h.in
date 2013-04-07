@@ -36,3 +36,5 @@
 #cmakedefine PLATFORM_OS_OSX
 #cmakedefine PLATFORM_OS_UNIX
 #cmakedefine PLATFORM_OS_WIN32
+
+#cmakedefine TRACING

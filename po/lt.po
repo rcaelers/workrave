@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
@@ -88,7 +88,7 @@ msgstr "Blokavimo režimas:"
 msgid "Break duration:"
 msgstr "Pertraukų trukmė:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Pertauka ignoruota"
 
@@ -97,7 +97,7 @@ msgstr "Pertauka ignoruota"
 msgid "Break in %s"
 msgstr "Pertauka po %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Pertaukos užklausa"
 
@@ -142,7 +142,7 @@ msgstr ""
 "atsimerk ir žiūrėk į savo delnų tamsą. Šis pratimas suteikia didesnį "
 "palengvėjimą, nei paprasčiausiai jas užmerkus."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr ""
 
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Cycle time:"
 msgstr "Ciklo laikas:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -222,12 +222,12 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 #, fuzzy
 msgid "Exercise change"
 msgstr "Pratimas baigtas"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Pratimas baigtas"
 
@@ -239,7 +239,7 @@ msgstr "Pratimas baigtas"
 msgid "Exercises"
 msgstr "Pratimai"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Pratimai baigti"
 
@@ -345,11 +345,11 @@ msgstr "Didžiausias užklausų skaičius:"
 msgid "Micro-break"
 msgstr "Mikro-pertraukėlė"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Mikro-pertraukėlė baigta"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Mikro-pertraukėlė pradėta"
 
@@ -595,7 +595,7 @@ msgstr "Poilsio pertrauka"
 msgid "Rest break %s overdue"
 msgstr "Poilsio pertrauka %s praleista"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Poilsio pertrauka baigta"
 
@@ -604,7 +604,7 @@ msgstr "Poilsio pertrauka baigta"
 msgid "Rest break for %s"
 msgstr "Iki poilsio pertraukos pabaigos liko %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Poilsio pertrauka pradėta"
 
@@ -669,7 +669,7 @@ msgstr "Rodyti būsenos langą"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_Išjungti"
@@ -991,7 +991,7 @@ msgstr "_Pratimai"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_Užrakinti"
@@ -1019,7 +1019,7 @@ msgstr "_Normalus"
 msgid "_Open"
 msgstr "_Atidaryti"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Atidėti"
@@ -1053,7 +1053,7 @@ msgstr "Poilsio pe_rtauka"
 msgid "_Restbreak"
 msgstr "Poilsio pe_rtrauka"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_Praleisti"

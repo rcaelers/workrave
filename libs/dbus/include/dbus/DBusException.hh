@@ -1,6 +1,6 @@
 // DBusException.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,13 +20,13 @@
 #ifndef WORKRAVE_DBUS_DBUSEXCEPTION_HH
 #define WORKRAVE_DBUS_DBUSEXCEPTION_HH
 
-#include "Exception.hh"
+#include "utils/Exception.hh"
 
 namespace workrave
 {
   namespace dbus
   {
-    class DBusException : public workrave::Exception
+    class DBusException : public workrave::utils::Exception
     {
     public:
       explicit DBusException(const std::string &id, const std::string &detail)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -83,7 +83,7 @@ msgstr "차단 방식"
 msgid "Break duration:"
 msgstr "휴식 시간:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "무시된 휴식 "
 
@@ -92,7 +92,7 @@ msgstr "무시된 휴식 "
 msgid "Break in %s"
 msgstr "%s 경과 후 휴식"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "휴식 알림"
 
@@ -135,7 +135,7 @@ msgstr ""
 "손바닥의 어둠을 응시합니다. 이런 훈련은 단순히 눈을 감는 것과 비교하여 여러분"
 "에게 보다 높은 안정감을 줍니다."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "사용자 설정"
 
@@ -143,7 +143,7 @@ msgstr "사용자 설정"
 msgid "Cycle time:"
 msgstr "시간 주기:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -213,11 +213,11 @@ msgstr ""
 msgid "Event"
 msgstr "활동"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "운동 바꾸기"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "운동 종료됨"
 
@@ -229,7 +229,7 @@ msgstr "운동 종료됨"
 msgid "Exercises"
 msgstr "운동"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "운동이 종료됨"
 
@@ -333,11 +333,11 @@ msgstr "최대 알림 수:"
 msgid "Micro-break"
 msgstr "잠깐 휴식"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "잠깐의 휴식이 끝남"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "잠깐 휴식 시작됨"
 
@@ -572,7 +572,7 @@ msgstr "정규 휴식"
 msgid "Rest break %s overdue"
 msgstr "%s 초과 휴식"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "정규 휴식 끝남"
 
@@ -581,7 +581,7 @@ msgstr "정규 휴식 끝남"
 msgid "Rest break for %s"
 msgstr "%s 동안 휴식"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "휴식 시작됨"
 
@@ -644,7 +644,7 @@ msgstr "상태 창에 표시"
 msgid "Show system tray icon"
 msgstr "시계표시줄에 아이콘 표시"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_종료"
@@ -950,7 +950,7 @@ msgstr "운동(_E)"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_잠금"
@@ -977,7 +977,7 @@ msgstr "보통(_N)"
 msgid "_Open"
 msgstr "열기(_O)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_연기시킴"
@@ -1011,7 +1011,7 @@ msgstr "휴식 취하기(_R)"
 msgid "_Restbreak"
 msgstr "휴식(_R)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_건너뛰기"

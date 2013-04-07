@@ -1,12 +1,16 @@
 set(SRC
-  src/GlibThread.cc
   src/Locale.cc
   src/StringUtil.cc
   src/TimeSource.cc
   src/Timer.cc
   src/Util.cc
   src/debug.cc
+  src/Platform.cc
   )
+
+if (HAVE_GLIB)
+  set(SRC ${SRC} src/GlibThread.cc)
+endif()
 
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC} src/win32/crashlog.cc src/win32/W32ActiveSetup.cc W32CriticalSection.cc)

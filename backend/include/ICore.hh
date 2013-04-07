@@ -126,7 +126,7 @@ namespace workrave
 
     //! Return the hooks
     virtual ICoreHooks::Ptr get_hooks() const = 0;
-    
+
     //! Return DBUs remoting interface.
     virtual dbus::DBus::Ptr get_dbus() const = 0;
   };

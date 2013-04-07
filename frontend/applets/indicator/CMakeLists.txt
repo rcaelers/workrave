@@ -1,4 +1,3 @@
-
 set(SRC
   src/indicator-workrave.c
  )
@@ -23,3 +22,4 @@ add_library(workrave-frontend-applet-indicator STATIC ${SRC})
 
 link_directories(${INDICATOR_LIBPATH})
 target_link_libraries(workrave-frontend-applet-indicator ${INDICATOR_LIBRARIES})
+

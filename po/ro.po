@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "Mod de blocare:"
 msgid "Break duration:"
 msgstr "Durata pauzei:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Pauză ignorată"
 
@@ -95,7 +95,7 @@ msgstr "Pauză ignorată"
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Pauză sugerată"
 
@@ -139,7 +139,7 @@ msgstr ""
 "dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați "
 "ține închiși."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Particularizat"
 
@@ -147,7 +147,7 @@ msgstr "Particularizat"
 msgid "Cycle time:"
 msgstr "Timp ciclic:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -217,11 +217,11 @@ msgstr ""
 msgid "Event"
 msgstr "Eveniment"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Schimbare de exercițiu"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Exercițiul s-a încheiat"
 
@@ -233,7 +233,7 @@ msgstr "Exercițiul s-a încheiat"
 msgid "Exercises"
 msgstr "Exerciții"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Exercițiile s-au încheiat"
 
@@ -343,11 +343,11 @@ msgstr "Numărul maxim de sugerări:"
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Micropauza s-a încheiat"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Micropauza a început"
 
@@ -588,7 +588,7 @@ msgstr "Pauză de odihnă"
 msgid "Rest break %s overdue"
 msgstr "Pauză de odihnă amânată cu %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Pauza de odihnă s-a încheiat"
 
@@ -597,7 +597,7 @@ msgstr "Pauza de odihnă s-a încheiat"
 msgid "Rest break for %s"
 msgstr "Pauză de odihnă pentru %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Pauza de odihnă a început"
 
@@ -661,7 +661,7 @@ msgstr "Arată fereastra de stare"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_Închidere"
@@ -974,7 +974,7 @@ msgstr "_Exerciții"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_Blochează"
@@ -1001,7 +1001,7 @@ msgstr "_Normal"
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Amână"
@@ -1035,7 +1035,7 @@ msgstr "_Pauză de odihnă"
 msgid "_Restbreak"
 msgstr "_Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_Sari peste"

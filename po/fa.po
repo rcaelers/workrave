@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-04-16 13:23+0330\n"
 "Last-Translator: Moein Gh <tarfandkhaneh@gmail.com>\n"
 "Language-Team:  <Tarfandkhaneh@Gmail.com>\n"
@@ -87,7 +87,7 @@ msgstr "Block mode:"
 msgid "Break duration:"
 msgstr "مدت استراحت:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Break ignored"
 
@@ -96,7 +96,7 @@ msgstr "Break ignored"
 msgid "Break in %s"
 msgstr "Break in %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "قطع سریع"
 
@@ -139,7 +139,7 @@ msgstr ""
 "دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار "
 "در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "عادت"
 
@@ -147,7 +147,7 @@ msgstr "عادت"
 msgid "Cycle time:"
 msgstr "زمان چرخه:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -217,11 +217,11 @@ msgstr ""
 msgid "Event"
 msgstr "رخداد"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "تغییر نرمش"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "نرمش پایان یافت"
 
@@ -233,7 +233,7 @@ msgstr "نرمش پایان یافت"
 msgid "Exercises"
 msgstr "نرمش ها"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "نرمش ها پایان یافت"
 
@@ -339,11 +339,11 @@ msgstr "بیش ترین تعداد وادار کننده ها:"
 msgid "Micro-break"
 msgstr "میکرو استراحت!"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "استراحت کوتاه پایان یافت"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "استراحت کوتاه شروع شد"
 
@@ -579,7 +579,7 @@ msgstr "استراحت"
 msgid "Rest break %s overdue"
 msgstr "استراحت %s سر رسیده"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "استراحت تجدید نیرو پایان یافت"
 
@@ -588,7 +588,7 @@ msgstr "استراحت تجدید نیرو پایان یافت"
 msgid "Rest break for %s"
 msgstr "استراحت برای %s."
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "استراحت تجدید نیرو شروع شد"
 
@@ -651,7 +651,7 @@ msgstr "نمایش پنجره ی وضعیت"
 msgid "Show system tray icon"
 msgstr "آیکن سینی ویندوز را نشان بده"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "خاتمه دادن"
 
@@ -961,7 +961,7 @@ msgstr "_نرمش ها"
 msgid "_Join"
 msgstr "_پیوستن"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "_قفل"
 
@@ -987,7 +987,7 @@ msgstr "_عادی"
 msgid "_Open"
 msgstr "_باز کردن"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_به بعد موکول کردن"
 
@@ -1020,7 +1020,7 @@ msgstr "_استراحت"
 msgid "_Restbreak"
 msgstr "_استراحت"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_پرش"
 

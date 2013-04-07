@@ -147,6 +147,7 @@ System::is_lockable()
 }
 
 #if defined(PLATFORM_OS_UNIX)
+static bool
 invoke(const gchar* command, bool async = false)
 {
   GError *error = NULL;

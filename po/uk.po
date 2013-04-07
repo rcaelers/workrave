@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-05-15 15:37+0200\n"
 "Last-Translator: Mykola Rykov <mykola.rykov@gmail.com>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -87,7 +87,7 @@ msgstr "Режим блокування:"
 msgid "Break duration:"
 msgstr "Тривалість перерви:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Перерву проігноровано"
 
@@ -96,7 +96,7 @@ msgstr "Перерву проігноровано"
 msgid "Break in %s"
 msgstr "Перерва через %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Нагадування про перерву"
 
@@ -139,7 +139,7 @@ msgstr ""
 "очі та подивіться у темряву ваших долонь. Ця вправа краще допомагає вашим "
 "очам, ніж коли ви просто їх заплющуєте."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Інше"
 
@@ -147,7 +147,7 @@ msgstr "Інше"
 msgid "Cycle time:"
 msgstr "Тривалість циклу:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -217,11 +217,11 @@ msgstr ""
 msgid "Event"
 msgstr "Подія"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Вправу завершено"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Вправу завершено"
 
@@ -233,7 +233,7 @@ msgstr "Вправу завершено"
 msgid "Exercises"
 msgstr "Вправи"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Вправи завершені"
 
@@ -340,11 +340,11 @@ msgstr "Максимальна кількість нагадувань:"
 msgid "Micro-break"
 msgstr "Мінівідпочинок"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Мінівідпочинок завершено"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Розпочато мінівідпочинок"
 
@@ -579,7 +579,7 @@ msgstr "Перерва"
 msgid "Rest break %s overdue"
 msgstr "Перерву затримано на %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Перерву завершено"
 
@@ -588,7 +588,7 @@ msgstr "Перерву завершено"
 msgid "Rest break for %s"
 msgstr "Перерва на %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Розпочато перерву"
 
@@ -651,7 +651,7 @@ msgstr "Показати вікно статусу"
 msgid "Show system tray icon"
 msgstr "Показувати піктограму в системному лотку"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "В_имкнути"
 
@@ -957,7 +957,7 @@ msgstr "_Вправи"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "_Заблокувати"
 
@@ -983,7 +983,7 @@ msgstr "_Звичайний"
 msgid "_Open"
 msgstr "_Відкрити"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_Відкласти"
 
@@ -1016,7 +1016,7 @@ msgstr "_Перерва"
 msgid "_Restbreak"
 msgstr "_Перерва"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_Пропустити"
 

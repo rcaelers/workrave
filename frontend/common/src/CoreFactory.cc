@@ -51,7 +51,7 @@ CoreFactory::get_core()
 IConfigurator::Ptr
 CoreFactory::get_configurator()
 {
-  return core->get_configurator();
+  return get_core()->get_configurator();
 }
 
 
@@ -59,5 +59,5 @@ CoreFactory::get_configurator()
 DBus::Ptr
 CoreFactory::get_dbus()
 {
-  return core->get_dbus();
+  return get_core()->get_dbus();
 }

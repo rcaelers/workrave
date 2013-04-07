@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Veeven <veeven@gmail.com>\n"
 "Language-Team: e-Telugu Localization Team\n"
@@ -89,7 +89,7 @@ msgstr "నిరోధపు రీతి:"
 msgid "Break duration:"
 msgstr "విరామపు నిడివి:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "విరామాన్ని పట్టించుకోలేదు"
 
@@ -98,7 +98,7 @@ msgstr "విరామాన్ని పట్టించుకోలేద�
 msgid "Break in %s"
 msgstr "%s లో విరామం"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgid ""
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "అభిమత"
 
@@ -146,7 +146,7 @@ msgstr "అభిమత"
 msgid "Cycle time:"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -216,11 +216,11 @@ msgstr ""
 msgid "Event"
 msgstr "ఘటన"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr ""
 
@@ -324,11 +324,11 @@ msgstr ""
 msgid "Micro-break"
 msgstr "సూక్ష్మ-విరామం"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "సూక్ష్మ-విరామం ముగిసింది"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "సూక్ష్మ-విరామం మొదలైంది"
 
@@ -558,7 +558,7 @@ msgstr "విశ్రాంతి విరామం"
 msgid "Rest break %s overdue"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "విశ్రాంతి విరామం ముగిసింది"
 
@@ -567,7 +567,7 @@ msgstr "విశ్రాంతి విరామం ముగిసింద�
 msgid "Rest break for %s"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "విశ్రాంతి విరామం మొదలైంది"
 
@@ -625,7 +625,7 @@ msgstr "స్థితి కిటికీని చూపించు"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_నిలివివేయి"
@@ -914,7 +914,7 @@ msgstr ""
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_తాళంవేయి"
@@ -941,7 +941,7 @@ msgstr ""
 msgid "_Open"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_వాయిదావేయి"
@@ -975,7 +975,7 @@ msgstr "విశ్రాంతి విరామం (_R)"
 msgid "_Restbreak"
 msgstr "విశ్రాంతివిరామం (_R)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_దాటవేయి"

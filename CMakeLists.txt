@@ -9,7 +9,7 @@ set (PACKAGE_VERSION ${VERSION})
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
 
 #
-set(CMAKE_BUILD_TYPE_INIT "Release")
+set(CMAKE_BUILD_TYPE_INIT "Debug")
 
 # 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -55,6 +55,8 @@ if (CXX11_FLAGS)
   CHECK_CXX_COMPILER_FLAG("${CXX11_FLAGS} -stdlib=libc++" HAS_LIBCXX11)
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+
 #----------------------------------------------------------------------------------------------------
 # GTK
 
@@ -72,18 +74,17 @@ if (WITH_GTK)
   set (HAVE_GTK3 ON)
   set (HAVE_DBUS ON)
   set (HAVE_APP_GTK ON)
+
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.36.0
+    gio-2.0>=2.26.0)
+ 
+  include_directories(${GLIB_INCLUDE_DIRS})
 endif()
-
-
-pkg_check_modules(
-  GLIB REQUIRED
-  glib-2.0>=2.36.0)
 
 include (GSettings)
 
-include_directories(${GLIB_INCLUDE_DIRS})
-  
-                        
 #----------------------------------------------------------------------------------------------------
 # GDome XML support
 
@@ -133,11 +134,30 @@ if (WITH_QT5)
   # Instruct CMake to run moc automatically when needed.
   set(CMAKE_AUTOMOC ON)
 
-  find_package(Qt5Widgets)
-  find_package(Qt5Core)
+  find_package(Qt5Widgets REQUIRED)
+  find_package(Qt5Core REQUIRED)
+  find_package(Qt5Gui REQUIRED)
 
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.36.0)
+
+  include_directories(${Qt5Core_INCLUDE_DIRS})
+  include_directories(${Qt5Gui_INCLUDE_DIRS})
+  include_directories(${Qt5Widgets_INCLUDE_DIRS})
+  
+
+  # Can be removed with Qt 5.1
+  include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+  
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
+
+   # FIXME: temporary
+  set (HAVE_GLIB ON)
+  include_directories(${GLIB_INCLUDE_DIRS})
+
 endif()
 
 
@@ -210,7 +230,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Misc
 
-find_package(Boost 1.50.0 REQUIRED)
+find_package(Boost 1.50.0 REQUIRED COMPONENTS system thread)
 
 #----------------------------------------------------------------------------------------------------
 # Translations
@@ -261,7 +281,8 @@ endif()
 option(WITH_TRACING "Enable debug tracing" OFF)
 
 if (WITH_TRACING)
-  SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
+  set(TRACING ON)
+  #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
 
 #----------------------------------------------------------------------------------------------------

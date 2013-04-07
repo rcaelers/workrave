@@ -52,7 +52,7 @@
 #include "ICore.hh"
 #include "CoreFactory.hh"
 
-#include "Exception.hh"
+#include "utils/Exception.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
@@ -837,7 +837,7 @@ GUI::init_sound_player()
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
-  catch (Exception)
+  catch (workrave::utils::Exception)
     {
       TRACE_MSG("No sound");
     }

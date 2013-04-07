@@ -150,8 +150,8 @@ if (PLATFORM_OS_UNIX)
   # Desktop file
   intltool_merge_desktop(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave.desktop.in
-    ${CMAKE_CURRENT_BINARY_DIR}/src/workrave.desktop)
-  add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/src/workrave.desktop)
+    ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
+  add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
 
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/src/workrave.desktop DESTINATION share/applications)
 endif()

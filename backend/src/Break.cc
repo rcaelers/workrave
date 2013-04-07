@@ -42,7 +42,10 @@
 
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
+
+#ifdef HAVE_DBUS
 #include "DBusWorkrave.hh"
+#endif
 
 using namespace workrave::dbus;
 using namespace std;
@@ -123,6 +126,7 @@ Break::init()
   configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
   configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
 
+#ifdef HAVE_DBUS
   if (dbus)
     {
       try
@@ -135,7 +139,8 @@ Break::init()
         {
         }
     }
-  
+#endif
+
   TRACE_EXIT();
 }
 
@@ -784,7 +789,7 @@ void
 Break::send_signal(BreakStage stage)
 {
   (void) stage;
-
+#ifdef HAVE_DBUS
   const char *progress = NULL;
   (void) progress;
   
@@ -820,6 +825,7 @@ Break::send_signal(BreakStage stage)
           iface->Changed("/org/workrave/Workrave/Break/" + get_name(), progress);
         }
     }
+#endif
 }
 
 

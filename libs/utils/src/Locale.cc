@@ -1,6 +1,6 @@
 // Locale.cc
 //
-// Copyright (C) 2008, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,10 @@
 
 #include "debug.hh"
 #include "nls.h"
+
+#ifdef HAVE_GLIB
+#include <glib.h>
+#endif
 
 #include <cstdlib>
 #include <stdio.h>

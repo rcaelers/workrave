@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Srbija\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2012-04-05 12:58+0100\n"
 "Last-Translator: Goran Maricic <maricic.goran@gmail.com>\n"
 "Language-Team: Tehpro Serbian <it@tehpro.rs>\n"
@@ -87,7 +87,7 @@ msgstr "Način blokiranja:"
 msgid "Break duration:"
 msgstr "Trajanje odmora:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Pauza ignorisana. "
 
@@ -96,7 +96,7 @@ msgstr "Pauza ignorisana. "
 msgid "Break in %s"
 msgstr "Odmor za %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Poziv na pauzu."
 
@@ -139,7 +139,7 @@ msgstr ""
 "oči i gledajte u tamu svojih dlanova. Ova vežba bolje odmara vaše oči nego "
 "da ste ih samo zatvorili."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Ručno uređivanje"
 
@@ -147,7 +147,7 @@ msgstr "Ručno uređivanje"
 msgid "Cycle time:"
 msgstr "Vreme ciklusa:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -218,11 +218,11 @@ msgstr ""
 msgid "Event"
 msgstr "Događaj"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Promena vežbe"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Kraj vežbe"
 
@@ -234,7 +234,7 @@ msgstr "Kraj vežbe"
 msgid "Exercises"
 msgstr "Vežbe"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Kraj vežbi"
 
@@ -341,11 +341,11 @@ msgstr "Maksimalan broj upozorenja"
 msgid "Micro-break"
 msgstr "Mikro pauza"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Kraj mikro pauze"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Početak mikro vežbe"
 
@@ -579,7 +579,7 @@ msgstr "Pauza za odmor"
 msgid "Rest break %s overdue"
 msgstr "Pauza za odmor sa %s zakašnjenjem"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Kraj pauze za odmor"
 
@@ -588,7 +588,7 @@ msgstr "Kraj pauze za odmor"
 msgid "Rest break for %s"
 msgstr "Odmor za %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Početak pauze za odmor"
 
@@ -651,7 +651,7 @@ msgstr "Pokaži prozor statusa"
 msgid "Show system tray icon"
 msgstr "Prikaži sistemsku ikonu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "_Ugasi"
 
@@ -963,7 +963,7 @@ msgstr "_Vežbe"
 msgid "_Join"
 msgstr "_Priključi se"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "_Zaključaj"
 
@@ -989,7 +989,7 @@ msgstr "_Uobičajeno"
 msgid "_Open"
 msgstr "_Otvori"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_Odloži"
 
@@ -1022,7 +1022,7 @@ msgstr "_Pauza za odmor"
 msgid "_Restbreak"
 msgstr "_Odmor"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_Preskoči"
 

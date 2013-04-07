@@ -1,6 +1,6 @@
 // Exception.hh --- Base exception
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,32 +26,35 @@
 
 namespace workrave
 {
-  class Exception : public std::exception
+  namespace utils
   {
-  public:
-    explicit Exception(const std::string &detail)
-      : detailed_information(detail)
+    class Exception : public std::exception
     {
-    }
-
-    explicit Exception(const Exception &parent, const std::string &detail)
-    {
-      detailed_information = parent.details() + ", " + detail;
-    }
-
-    virtual ~Exception() throw()
-    {
-    }
-
-    virtual std::string details() const throw()
-    {
-      return detailed_information;
-    }
-
-  private:
-    //
-    std::string detailed_information;
-  };
-};
+    public:
+      explicit Exception(const std::string &detail)
+        : detailed_information(detail)
+      {
+      }
+      
+      explicit Exception(const Exception &parent, const std::string &detail)
+      {
+        detailed_information = parent.details() + ", " + detail;
+      }
+      
+      virtual ~Exception() throw()
+      {
+      }
+      
+      virtual std::string details() const throw()
+      {
+        return detailed_information;
+      }
+      
+    private:
+      //
+      std::string detailed_information;
+    };
+  }
+}
 
 #endif // WORKRAVE_UTILS_EXCEPTION_HH

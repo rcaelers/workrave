@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2012 Rob Caelers & Raymond Penners
+# Copyright (C) 2012, 2013 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		win32
@@ -18,6 +18,7 @@ libworkrave_utils_la_SOURCES = \
 			Timer.cc \
 			Util.cc \
 			debug.cc \
+			Platform.cc \
 			${localesources}
 
 if PLATFORM_OS_WIN32

@@ -40,6 +40,7 @@
 #include "IMixer.hh"
 
 #include "config/IConfigurator.hh"
+#include "utils/Platform.hh"
 
 #include "CoreFactory.hh"
 #include "Util.hh"
@@ -61,7 +62,9 @@
 #include "PulseMixer.hh"
 #endif
 
+#ifdef HAVE_GTK
 #include <gdk/gdk.h>
+#endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
@@ -72,6 +75,7 @@ const char *SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::utils;
 using namespace std;
 
 SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] =
@@ -279,7 +283,7 @@ SpeakerPlayer::run()
   short (*b)[2];
   b = beeps;
 #ifdef PLATFORM_OS_UNIX
-  Display *display = XOpenDisplay(gdk_get_display());
+  Display *display = static_cast<Display *>(Platform::get_default_display());
   if (display) {
 #endif
   while (b[0][0])

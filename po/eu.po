@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:22+0100\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
@@ -89,7 +89,7 @@ msgstr "Blokeo modua:"
 msgid "Break duration:"
 msgstr "Atsedenaren iraupena:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "Etendura baztertua"
 
@@ -98,7 +98,7 @@ msgstr "Etendura baztertua"
 msgid "Break in %s"
 msgstr "Atsedena: %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Etendura eskaera"
 
@@ -142,7 +142,7 @@ msgstr ""
 "irekita, eskuen barruko iluntasunari begira egon. Ariketa honek begiei "
 "atseden handiagoa ematen die ixte soilak baino."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr ""
 
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Cycle time:"
 msgstr "Zikloaren denbora:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -221,12 +221,12 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 #, fuzzy
 msgid "Exercise change"
 msgstr "Ariketa amaituta"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Ariketa amaituta"
 
@@ -238,7 +238,7 @@ msgstr "Ariketa amaituta"
 msgid "Exercises"
 msgstr "Ariketak"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Ariketak amaituta"
 
@@ -343,11 +343,11 @@ msgstr "Jakinarazpen gehienezko kopurua:"
 msgid "Micro-break"
 msgstr "Mikro-atsedena "
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Mikro-atsedena amaituta"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Mikro-atsedena hasita"
 
@@ -589,7 +589,7 @@ msgstr "Atsedena"
 msgid "Rest break %s overdue"
 msgstr "Atsedena %s minutuz atzeratu da"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Atsedena amaituta"
 
@@ -598,7 +598,7 @@ msgstr "Atsedena amaituta"
 msgid "Rest break for %s"
 msgstr "Atseden denbora: %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Atsedena hasita"
 
@@ -662,7 +662,7 @@ msgstr "Egoera lehioa erakutsi"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "_Itzali"
@@ -977,7 +977,7 @@ msgstr "_Ariketak"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_Blokeatu "
@@ -1004,7 +1004,7 @@ msgstr "_Arrunta"
 msgid "_Open"
 msgstr "_Ireki"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Atzeratu"
@@ -1038,7 +1038,7 @@ msgstr "_Atsedena"
 msgid "_Restbreak"
 msgstr "_Atsedena"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_Jauzi"

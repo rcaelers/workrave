@@ -23,15 +23,19 @@
 
 #include "debug.hh"
 
+#ifdef HAVE_GTK
 #include <gdk/gdkx.h>
+#endif
 
 #include "XScreenSaverMonitor.hh"
 
 #include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Platform.hh"
 
 #include "Thread.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
 XScreenSaverMonitor::XScreenSaverMonitor() :
   abort(false),
@@ -61,13 +65,7 @@ XScreenSaverMonitor::init()
   int event_base;
   int error_base;
 
-  GdkDisplay *display = gdk_display_get_default();
-  Display *xdisplay = NULL;
-  if (display != NULL)
-    {
-      TRACE_MSG("display ok");
-      xdisplay = gdk_x11_display_get_xdisplay(display);
-    }
+  Display *xdisplay = static_cast<Display *>(Platform::get_default_display());
 
   Bool has_extension = False;
   if (xdisplay != NULL)
@@ -108,10 +106,13 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
+  Display *xdisplay = static_cast<Display *>(Platform::get_default_display());
+  Drawable root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
+  
   g_mutex_lock(&mutex);
   while (!abort)
     {
-      XScreenSaverQueryInfo(gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
+      XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
 
       if (screen_saver_info->idle < 1000)
         {

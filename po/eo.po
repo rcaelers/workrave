@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Break duration:"
 msgstr "Daŭro de paŭzo"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 #, fuzzy
 msgid "Break ignored"
 msgstr "Ĉesu en"
@@ -99,7 +99,7 @@ msgstr "Ĉesu en"
 msgid "Break in %s"
 msgstr "Ĉesu en"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 #, fuzzy
 msgid "Break prompt"
 msgstr "Ripoza instigado"
@@ -145,7 +145,7 @@ msgid ""
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgstr ""
 msgid "Cycle time:"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -226,11 +226,11 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr ""
 
@@ -336,12 +336,12 @@ msgstr "Maksimuma numero da instigoj:"
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 #, fuzzy
 msgid "Micro-break ended"
 msgstr "Paŭzeto"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 #, fuzzy
 msgid "Micro-break started"
 msgstr "Paŭzeto"
@@ -584,7 +584,7 @@ msgstr "Ripozo"
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 #, fuzzy
 msgid "Rest break ended"
 msgstr "Ripozo"
@@ -594,7 +594,7 @@ msgstr "Ripozo"
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 #, fuzzy
 msgid "Rest break started"
 msgstr "Ripozo por %s"
@@ -657,7 +657,7 @@ msgstr ""
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 #, fuzzy
 msgid "Shut _down"
 msgstr "Montru _protokolon"
@@ -968,7 +968,7 @@ msgstr ""
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "_Lock"
 msgstr "_Ŝlosu"
@@ -995,7 +995,7 @@ msgstr "_Normala"
 msgid "_Open"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Prokrastu"
@@ -1031,7 +1031,7 @@ msgstr "_Ripozon"
 msgid "_Restbreak"
 msgstr "_Ripozon"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 #, fuzzy
 msgid "_Skip"
 msgstr "_Transsaltu"

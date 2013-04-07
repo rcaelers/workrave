@@ -54,7 +54,11 @@ ConfiguratorFactory::create(Format fmt)
   IConfigBackend *b = NULL;
 
 #ifdef HAVE_GDOME
+#ifdef HAVE_APP_QT5 // FIXME:
+  if (fmt == FormatNative)
+#else
   if (fmt == FormatXml)
+#endif
     {
       b = new XMLConfigurator();
     }

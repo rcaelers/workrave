@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.908\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-01 18:27+0200\n"
+"POT-Creation-Date: 2013-04-05 19:42+0200\n"
 "PO-Revision-Date: 2012-03-31 11:14+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -85,7 +85,7 @@ msgstr "Mode de bloqueig"
 msgid "Break duration:"
 msgstr "Duració del descans:"
 
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
 msgstr "S'ha omés el descans"
 
@@ -94,7 +94,7 @@ msgstr "S'ha omés el descans"
 msgid "Break in %s"
 msgstr "Descans en %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
 msgstr "Petició de descans"
 
@@ -138,7 +138,7 @@ msgstr ""
 "palmells. Aquest exercici dóna millor alleujament als vostres ulls comparat "
 "amb simplement tancar-los."
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:612
 msgid "Custom"
 msgstr "Personalitzat"
 
@@ -146,7 +146,7 @@ msgstr "Personalitzat"
 msgid "Cycle time:"
 msgstr "Temps del cicle:"
 
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
 #: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -218,11 +218,11 @@ msgstr ""
 msgid "Event"
 msgstr "Esdeveniment"
 
-#: ../frontend/common/src/SoundPlayer.cc:137
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr "Canvi d'exercici"
 
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr "Final de l'exercici"
 
@@ -234,7 +234,7 @@ msgstr "Final de l'exercici"
 msgid "Exercises"
 msgstr "Exercicis"
 
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr "Final dels exercicis"
 
@@ -343,11 +343,11 @@ msgstr "Nombre màxim de preguntes:"
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
 msgstr "Final de la micropausa"
 
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
 msgstr "Inici de la micropausa"
 
@@ -580,7 +580,7 @@ msgstr "Descans"
 msgid "Rest break %s overdue"
 msgstr "Fa %s que hauríeu d'haver descansat"
 
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
 msgstr "Final del descans"
 
@@ -589,7 +589,7 @@ msgstr "Final del descans"
 msgid "Rest break for %s"
 msgstr "Descans de %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:94
+#: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
 msgstr "Inici del descans"
 
@@ -652,7 +652,7 @@ msgstr "Mostra la finestra d'estat"
 msgid "Show system tray icon"
 msgstr "Mostra la icona de la safata del sistema"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:338
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Shut _down"
 msgstr "A_tura"
 
@@ -966,7 +966,7 @@ msgstr "_Exercicis"
 msgid "_Join"
 msgstr "_Uneix-me"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "_Lock"
 msgstr "Bloca"
 
@@ -992,7 +992,7 @@ msgstr "_Normal"
 msgid "_Open"
 msgstr "_Obre"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:376
+#: ../frontend/gtkmm/src/BreakWindow.cc:372
 msgid "_Postpone"
 msgstr "_Ajorna"
 
@@ -1025,7 +1025,7 @@ msgstr "_Descans"
 msgid "_Restbreak"
 msgstr "_Descans"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:359
+#: ../frontend/gtkmm/src/BreakWindow.cc:355
 msgid "_Skip"
 msgstr "_Omet"
 

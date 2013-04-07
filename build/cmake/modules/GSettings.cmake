@@ -20,22 +20,18 @@ if (GSETTINGS_COMPILE_IN_PLACE)
 endif ()
 
 macro(gsettings_add_schemas GSETTINGS_TARGET SCHEMA_DIRECTORY)
-    set(PKG_CONFIG_EXECUTABLE pkg-config)
-    
-    # Locate all schema files.
-    file(GLOB all_schema_files
-        "${SCHEMA_DIRECTORY}/*.gschema.xml"
+  set(PKG_CONFIG_EXECUTABLE pkg-config)
+  
+  # Locate all schema files.
+  file(GLOB all_schema_files
+    "${SCHEMA_DIRECTORY}/*.gschema.xml"
     )
-    
-    # Find the GLib path for schema installation
-    execute_process(
-        COMMAND
-            ${PKG_CONFIG_EXECUTABLE}
-            glib-2.0
-            --variable prefix
-        OUTPUT_VARIABLE
-            _glib_prefix
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+  
+  # Find the GLib path for schema installation
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} glib-2.0 --variable prefix
+    OUTPUT_VARIABLE _glib_prefix
+    OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
   if (GSETTINGS_LOCALINSTALL)
@@ -45,73 +41,57 @@ macro(gsettings_add_schemas GSETTINGS_TARGET SCHEMA_DIRECTORY)
     set(GSETTINGS_DIR "${_glib_prefix}/share/glib-2.0/schemas/" CACHE INTERNAL "")
     set(GSETTINGS_ABS_DIR "${GSETTINGS}")
   endif()
-    
-    
-    # Fetch path for schema compiler from pkg-config
-    execute_process(
-        COMMAND
-            ${PKG_CONFIG_EXECUTABLE}
-            gio-2.0
-            --variable
-            glib_compile_schemas
-        OUTPUT_VARIABLE
-            _glib_compile_schemas
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+  
+  # Fetch path for schema compiler from pkg-config
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} gio-2.0 --variable glib_compile_schemas
+    OUTPUT_VARIABLE _glib_compile_schemas
+    OUTPUT_STRIP_TRAILING_WHITESPACE
     )
+  
+  set(glib_schema_compiler ${_glib_compile_schemas} CACHE INTERNAL "")
+  
+  if (GSETTINGS_COMPILE_IN_PLACE)
+    set(COMPILE_IN_PLACE_DIR ${CMAKE_BINARY_DIR}/gsettings)
+    add_custom_command(
+      TARGET ${GSETTINGS_TARGET}
+      COMMAND ${CMAKE_COMMAND} -E make_directory "${COMPILE_IN_PLACE_DIR}"
+      )
     
-    set(glib_schema_compiler ${_glib_compile_schemas} CACHE INTERNAL "")
+    # Copy all schemas to the build folder.
+    foreach(schema_file ${all_schema_files})
+      add_custom_command(
+        TARGET ${GSETTINGS_TARGET}
+        COMMAND ${CMAKE_COMMAND} -E copy "${schema_file}" "${COMPILE_IN_PLACE_DIR}"
+        COMMENT "Copying schema ${schema_file} to ${COMPILE_IN_PLACE_DIR}"
+        )
+    endforeach()
     
-    if (GSETTINGS_COMPILE_IN_PLACE)
-        set(COMPILE_IN_PLACE_DIR ${CMAKE_BINARY_DIR}/gsettings)
-        add_custom_command(
-            TARGET
-                ${GSETTINGS_TARGET}
-            COMMAND 
-                ${CMAKE_COMMAND} -E make_directory "${COMPILE_IN_PLACE_DIR}"
-        )
-        
-        # Copy all schemas to the build folder.
-        foreach(schema_file ${all_schema_files})
-            add_custom_command(
-                TARGET
-                    ${GSETTINGS_TARGET}
-                COMMAND 
-                    ${CMAKE_COMMAND} -E copy "${schema_file}" "${COMPILE_IN_PLACE_DIR}"
-                COMMENT "Copying schema ${schema_file} to ${COMPILE_IN_PLACE_DIR}"
-            )
-        endforeach()
-        
-        # Compile schema in-place.
-        add_custom_command(
-            TARGET 
-                ${GSETTINGS_TARGET}
-            COMMAND
-                ${glib_schema_compiler} ${COMPILE_IN_PLACE_DIR}
-            COMMENT "Compiling schemas in folder: ${COMPILE_IN_PLACE_DIR}"
-        )
-    endif()
-        
-    # Install and recompile schemas
-    message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")
+    # Compile schema in-place.
+    add_custom_command(
+      TARGET ${GSETTINGS_TARGET}
+      COMMAND ${glib_schema_compiler} ${COMPILE_IN_PLACE_DIR}
+      COMMENT "Compiling schemas in folder: ${COMPILE_IN_PLACE_DIR}"
+      )
+  endif()
+  
+  # Install and recompile schemas
+  message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")
+  
+  install(
+    FILES ${all_schema_files}
+    DESTINATION ${GSETTINGS_DIR}
+    OPTIONAL
+    )
+  
+  if (GSETTINGS_COMPILE)
+    install(
+      CODE "message (STATUS \"Compiling GSettings schemas\")"
+      )
     
     install(
-        FILES
-            ${all_schema_files}
-        DESTINATION
-            ${GSETTINGS_DIR}
-        OPTIONAL
-    )
-    
-    if (GSETTINGS_COMPILE)
-        install(
-            CODE
-                "message (STATUS \"Compiling GSettings schemas\")"
-        )
-        
-        install(
-            CODE
-                "execute_process (COMMAND ${glib_schema_compiler} ${GSETTINGS_ABS_DIR})"
-        )
-    endif()
+      CODE "execute_process (COMMAND ${glib_schema_compiler} ${GSETTINGS_ABS_DIR})"
+      )
+  endif()
 endmacro()
 
