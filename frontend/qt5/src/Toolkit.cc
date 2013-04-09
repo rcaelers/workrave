@@ -1,4 +1,4 @@
-// Toolkit.cc --- The WorkRave GUI Configuration
+// Tookit.cc
 //
 // Copyright (C) 2007 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -26,6 +26,8 @@
 #include "config/IConfigurator.hh"
 
 #include "GUIConfig.hh"
+
+#include "PreludeWindow.hh"
 
 using namespace std;
 using namespace workrave;
@@ -58,6 +60,15 @@ Toolkit::init()
 
   main_window->show();
   main_window->raise();
+
+  PreludeWindow *prelude = new PreludeWindow(HeadInfo(), BREAK_ID_MICRO_BREAK);
+
+  prelude->set_progress(20, 30);
+  prelude->set_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
+  prelude->set_stage(IApp::STAGE_WARN);
+  prelude->start();
+  prelude->refresh();
+  prelude->show();
 }
 
 void

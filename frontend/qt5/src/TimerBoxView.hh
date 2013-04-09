@@ -1,4 +1,4 @@
-// TimerBoxtView.hh --- All timers
+// TimerBoxView.hh
 //
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -19,6 +19,10 @@
 
 #ifndef TIMERBOXVIEW_HH
 #define TIMERBOXVIEW_HH
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <string>
 

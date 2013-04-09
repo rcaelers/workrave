@@ -19,6 +19,9 @@
 
 #include "MainWindow.hh"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
   : QDialog(0, Qt::WindowTitleHint

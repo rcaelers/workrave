@@ -1,7 +1,9 @@
 set(SRC
   src/main.cc
+  src/Frame.cc
   src/Application.cc
   src/MainWindow.cc
+  src/PreludeWindow.cc
   src/TimerBoxView.cc
   src/TimeBar.cc
   src/Toolkit.cc
@@ -16,9 +18,11 @@ set(DESIGNER_UI
 qt5_wrap_ui(HEADERS_UI ${DESIGNER_UI})
 qt5_wrap_cpp(MOC_SRC
   src/MainWindow.hh
+  src/PreludeWindow.hh
   src/TimeBar.hh
   src/TimerBoxView.hh
   src/Toolkit.hh
+  src/Frame.hh
   )
 
 

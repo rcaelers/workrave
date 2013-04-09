@@ -53,7 +53,7 @@ public:
   virtual void set_stage(workrave::IApp::PreludeStage stage) = 0;
 
   //!
-virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
+  virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
   
 };
 

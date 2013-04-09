@@ -23,6 +23,7 @@
 
 #include "debug.hh"
 #include "Util.hh"
+#include "nls.h"
 
 #include "TimerBoxView.hh"
 
@@ -89,6 +90,10 @@ TimerBoxView::init_widgets()
     {
       labels[i] = new QLabel("foo");
       bars[i] = new TimeBar();
+
+      bars[i]->set_text_alignment(1);
+      bars[i]->set_progress(0, 60);
+      bars[i]->set_text(_("Wait"));
       
     }
 
@@ -178,10 +183,10 @@ TimerBoxView::set_slot(BreakId id, int slot)
 
 void
 TimerBoxView::set_time_bar(BreakId id,
-                              std::string text, ITimeBar::ColorId primary_color,
-                              int primary_val, int primary_max,
-                              ITimeBar::ColorId secondary_color,
-                              int secondary_val, int secondary_max)
+                           std::string text, ITimeBar::ColorId primary_color,
+                           int primary_val, int primary_max,
+                           ITimeBar::ColorId secondary_color,
+                           int secondary_val, int secondary_max)
 {
   TRACE_ENTER_MSG("TimerBoxView::set_time_bar", id);
 
