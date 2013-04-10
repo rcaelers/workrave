@@ -25,6 +25,10 @@
 
 #include <QtGui>
 
+#include <QStyle>
+#include <QDesktopWidget>
+#include <QApplication>
+
 #include "IApp.hh"
 
 #include "debug.hh"
@@ -35,10 +39,22 @@
 using namespace workrave;
 
 PreludeWindow::PreludeWindow(const HeadInfo &head, workrave::BreakId break_id)
-  : QDialog(0,
-            Qt::WindowTitleHint
-            | Qt::WindowSystemMenuHint)
+  : QWidget(0, Qt::Window
+            | Qt::WindowStaysOnTopHint 
+            | Qt::X11BypassWindowManagerHint 
+            | Qt::FramelessWindowHint
+            | Qt::WindowDoesNotAcceptFocus),
+    head(head),
+    progress_value(0),
+    progress_max_value(1),
+    flash_visible(false),
+    did_avoid(false)
 {
+
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+  timer->start(1000);
+     
   layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
 
@@ -92,9 +108,9 @@ PreludeWindow::PreludeWindow(const HeadInfo &head, workrave::BreakId break_id)
   
   setLayout(layout);
 
-  // TODO: border less
-  // TODO: disable focus
-  // TODO: sticky
+  setAttribute(Qt::WA_Hover);
+  setAttribute(Qt::WA_ShowWithoutActivating);
+  
   // TODO: multihead
   // TODO: avoid pointer
 }
@@ -111,20 +127,13 @@ PreludeWindow::start()
 {
   TRACE_ENTER("PreludeWindow::start");
 
-  // Set some window hints.
-  //set_skip_pager_hint(true);
-  //set_skip_taskbar_hint(true);
-
-  //WindowHints::set_always_on_top(this, true);
-
-  //refresh();
-
-  // GtkUtil::center_window(*this, head);
-  
-  // WindowHints::set_always_on_top(this, true);
-
   timebar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+  refresh();
   show();
+
+  // QDesktopWidget *dw = QApplication::desktop();
+  // const QRect	rect = dw->screenGeometry(head.monitor);
+  // setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
   
   TRACE_EXIT();
 }
@@ -148,6 +157,7 @@ PreludeWindow::destroy()
   TRACE_ENTER("PreludeWindow::destroy");
   TRACE_EXIT();
 }
+
 
 //! Refresh window.
 void
@@ -240,13 +250,13 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       break;
 
     case IApp::STAGE_MOVE_OUT:
-      // if (! did_avoid)
-      //   {
-      //     int winx, winy;
-      //     get_position(winx, winy);
-      //     set_position(Gtk::WIN_POS_NONE);
-      //     move (winx, head.get_y() + SCREEN_MARGIN);
-      //   }
+      if (! did_avoid)
+        {
+          QDesktopWidget *dw = QApplication::desktop();
+          const QRect	rect = dw->screenGeometry(head.monitor);
+
+          //move(x(), rect.y() + SCREEN_MARGIN);
+        }
       break;
     }
 
@@ -266,3 +276,83 @@ PreludeWindow::on_frame_flash(bool frame_visible)
   TRACE_EXIT();
 }
 
+bool
+PreludeWindow::event(QEvent *event)
+{
+  bool res = QWidget::event(event);
+  
+  if (event->type() == QEvent::Enter)
+    {
+      //avoid_pointer(ev, (int)event->y);
+      std::cout << "Enter" << std::endl;
+    }
+  else if (event->type() == QEvent::HoverEnter)
+    {
+      QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
+      //avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
+
+      std::cout << hoverEvent->pos().x() << " " << hoverEvent->pos().y() << std::endl;
+
+
+          QDesktopWidget *dw = QApplication::desktop();
+          const QRect	rect = dw->screenGeometry(head.monitor);
+
+
+          QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
+          arect.moveTop(rect.y() + SCREEN_MARGIN);
+
+          setGeometry(arect);
+          qDebug() << arect;
+          //show();
+
+          move(arect.x(), arect.y() + SCREEN_MARGIN);
+    }
+    
+  return res;
+}
+
+
+//! Move window if pointer is neat specified location.
+void
+PreludeWindow::avoid_pointer(int px, int py)
+{
+  TRACE_ENTER_MSG("PreludeWindow::avoid_pointer", px << " " << py);
+
+  const QRect &geo = geometry();
+
+  TRACE_MSG("geom" << geo.x() << " " << geo.y() << " " << geo.width() << " " << geo.height() << " ");
+
+  // px += winx;
+  // py += winy;
+
+  // TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
+
+  // int screen_height = head.get_height();
+  // int top_y = head.get_y() + SCREEN_MARGIN;
+  // int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
+  // TRACE_MSG("geom3" << screen_height << " " << top_y << " " << bottom_y);
+
+  // if (winy < top_y + SCREEN_MARGIN)
+  //   {
+  //     winy = bottom_y;
+  //   }
+  // else if (winy > bottom_y - SCREEN_MARGIN)
+  //   {
+  //     winy = top_y;
+  //   }
+  // else
+  //   {
+  //     if (py > winy + height/2)
+  //       {
+  //         winy = top_y;
+  //       }
+  //     else
+  //       {
+  //         winy = bottom_y;
+  //       }
+  //   }
+
+  // set_position(Gtk::WIN_POS_NONE);
+  // move(winx, winy);
+  did_avoid = true;
+}

@@ -123,6 +123,7 @@ void
 Frame::on_timer()
 {
   set_frame_visible(! frame_visible);
+  update();
   flash_signal(frame_visible);
 }
 
@@ -142,7 +143,7 @@ Frame::paintEvent(QPaintEvent *)
           paint.fillRect(0+width()-frame_width, 0, frame_width, height(), frame_color);
           paint.fillRect(0+frame_width, 0, width()-2*frame_width, frame_width, frame_color);
           paint.fillRect(0+frame_width, 0+height()-frame_width, width()-2*frame_width, frame_width, frame_color);
-        }    
+        }
       break;
 
       //case STYLE_BREAK_WINDOW:

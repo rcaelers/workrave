@@ -30,7 +30,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-class PreludeWindow : public QDialog, public IPreludeWindow
+class PreludeWindow : public QWidget, public IPreludeWindow
 {
   Q_OBJECT
   
@@ -45,22 +45,34 @@ public:
   virtual void set_progress(int value, int max_value);
   virtual void set_stage(workrave::IApp::PreludeStage stage);
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text);
-    
+
 private:
   void on_frame_flash(bool frame_visible);
 
+  void avoid_pointer(int x, int y);
+
+  //
+  bool event(QEvent *event);
+
+
+private:
+  const static int SCREEN_MARGIN = 20;
+  
+  const HeadInfo &head;
+
+  int progress_value;
+  int progress_max_value;
+
+  bool flash_visible;
+  std::string progress_text;
+  bool did_avoid;
+  
   QVBoxLayout *layout;
   TimeBar *timebar;
   QLabel *label;
   QLabel *image;
   Frame* frame;
   
-  //! Progress values
-  int progress_value;
-  int progress_max_value;
-
-  bool flash_visible;
-  std::string progress_text;
 };
 
 #endif // PRELUDEWINDOW_HH
