@@ -40,12 +40,6 @@ public:
   //! Refreshes the content of the break window.
   virtual void refresh() = 0;
 
-  //! Destroys the break window.
-  /*! \warn this will 'delete' the window, so all pointers to the
-   *        IBreakWindow will become invalid.
-   */
-  virtual void destroy() = 0;
-
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
 

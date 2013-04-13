@@ -1,6 +1,6 @@
-// HeadInfo.hh --- Multi head info
+// DailyLimitWindow.hh --- window for the daily limit
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef HEADINFO_HH
-#define HEADINFO_HH
+#ifndef DAILYLIMITWINDOW_HH
+#define DAILYLIMITWINDOW_HH
 
-class HeadInfo
+#include "BreakWindow.hh"
+#include "GUIConfig.hh"
+
+class DailyLimitWindow : public BreakWindow
 {
+  Q_OBJECT
+  
 public:
-  HeadInfo()
-  {
-    valid = false;
-    count = 0;
-    monitor = 0;
-  }
+  DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  virtual ~DailyLimitWindow();
 
-  int get_width() const;
-  int get_height() const;
-  int get_x() const;
-  int get_y() const;
+  IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  
+  void set_progress(int value, int max_value);
 
-  int monitor;
-  int count;
-  bool valid;
+protected:
+  virtual QWidget *create_gui();
 };
 
-#endif // HEADINFO_HH
+
+#endif // DAILYLIMITWINDOW_HH

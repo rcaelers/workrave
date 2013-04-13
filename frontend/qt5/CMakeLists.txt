@@ -8,8 +8,10 @@ set(SRC
   src/TimeBar.cc
   src/Toolkit.cc
   src/GUIConfig.cc
-  src/HeadInfo.cc
   src/Session.cc
+  src/BreakWindow.cc
+  src/MicroBreakWindow.cc
+  src/DailyLimitWindow.cc
   )
 
 set(DESIGNER_UI
@@ -17,6 +19,9 @@ set(DESIGNER_UI
 
 qt5_wrap_ui(HEADERS_UI ${DESIGNER_UI})
 qt5_wrap_cpp(MOC_SRC
+  src/BreakWindow.hh
+  src/MicroBreakWindow.hh
+  src/DailyLimitWindow.hh
   src/MainWindow.hh
   src/PreludeWindow.hh
   src/TimeBar.hh

@@ -33,7 +33,6 @@
 #include "IToolkit.hh"
 
 #include "Session.hh"
-#include "HeadInfo.hh"
 
 // Generic Application
 class SoundPlayer;
@@ -132,9 +131,6 @@ private:
   typedef std::vector<IPreludeWindow::Ptr> PreludeWindows;
   typedef PreludeWindows::iterator PreludeWindowsIter;
 
-  typedef std::vector<HeadInfo> HeadInfos;
-  typedef HeadInfos::iterator HeadInfosIter;
-  
   //! 
   IToolkit::Ptr toolkit;
   
@@ -168,9 +164,6 @@ private:
 
   //! Destroy prelude window on next heartbeat?
   //bool prelude_window_destroy;
-
-  //! Information on all heads.
-  HeadInfos heads;
 
   //! Width of the screen.
   //int screen_width;

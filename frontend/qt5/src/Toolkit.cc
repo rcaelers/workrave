@@ -23,6 +23,9 @@
 
 #include "Toolkit.hh"
 
+#include <QDesktopWidget>
+#include <QApplication>
+
 #include "config/IConfigurator.hh"
 
 #include "GUIConfig.hh"
@@ -61,14 +64,14 @@ Toolkit::init()
   main_window->show();
   main_window->raise();
 
-  PreludeWindow *prelude = new PreludeWindow(HeadInfo(), BREAK_ID_MICRO_BREAK);
+  PreludeWindow *prelude = new PreludeWindow(0, BREAK_ID_MICRO_BREAK);
 
   prelude->set_progress(20, 30);
   prelude->set_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
   prelude->set_stage(IApp::STAGE_WARN);
-  prelude->start();
-  prelude->refresh();
-  prelude->show();
+  // prelude->start();
+  // prelude->refresh();
+  //  prelude->show();
 }
 
 void
@@ -91,22 +94,22 @@ std::string Toolkit::get_display_name()
 }
 
 IBreakWindow::Ptr
-Toolkit::create_break_window(HeadInfo &head, BreakId break_id, IBreakWindow::BreakFlags break_flags)
+Toolkit::create_break_window(int screen, BreakId break_id, IBreakWindow::BreakFlags break_flags)
 {
   IBreakWindow::Ptr ret;
   
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   //if (break_id == BREAK_ID_MICRO_BREAK)
   //  {
-  //    ret = new MicroBreakWindow(head, break_flags, block_mode);
+  //    ret = new MicroBreakWindow(screen, break_flags, block_mode);
   //  }
   //else if (break_id == BREAK_ID_REST_BREAK)
   //  {
-  //    ret = new RestBreakWindow(head, break_flags, block_mode);
+  //    ret = new RestBreakWindow(screen, break_flags, block_mode);
   //  }
   //else if (break_id == BREAK_ID_DAILY_LIMIT)
   //  {
-  //    ret = new DailyLimitWindow(head, break_flags, block_mode);
+  //    ret = new DailyLimitWindow(screen, break_flags, block_mode);
   //  }
 
   return ret;
@@ -114,11 +117,19 @@ Toolkit::create_break_window(HeadInfo &head, BreakId break_id, IBreakWindow::Bre
 
 
 IPreludeWindow::Ptr
-Toolkit::create_prelude_window(HeadInfo &head, workrave::BreakId break_id)
+Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)
 {
-  IPreludeWindow::Ptr ret;
-  return ret;
+  return PreludeWindow::create(screen, break_id);
 }
+
+
+int
+Toolkit::get_screen_count() const
+{
+  QDesktopWidget *dw = QApplication::desktop();
+  return dw->screenCount();
+}
+
 
 void
 Toolkit::on_timer()
@@ -127,6 +138,7 @@ Toolkit::on_timer()
 
   main_window->on_heartbeat();
 }
+
 
 boost::signals2::signal<void()> &
 Toolkit::signal_timer()

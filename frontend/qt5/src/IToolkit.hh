@@ -22,7 +22,6 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
-#include "HeadInfo.hh"
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
@@ -52,10 +51,13 @@ public:
   virtual std::string get_display_name() = 0;
 
   //!
-  virtual IBreakWindow::Ptr create_break_window(HeadInfo &head, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags) = 0;
+  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags) = 0;
 
   //!
-  virtual IPreludeWindow::Ptr create_prelude_window(HeadInfo &head, workrave::BreakId break_id) = 0;
+  virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) = 0;
+
+  //!
+  virtual int get_screen_count() const = 0;
 };
 
 #endif // ITOOLKIT_HH

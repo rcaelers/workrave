@@ -62,11 +62,14 @@ public:
   virtual std::string get_display_name();
 
   //!
-  virtual IBreakWindow::Ptr create_break_window(HeadInfo &head, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags);
+  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags);
 
   //!
-  virtual IPreludeWindow::Ptr create_prelude_window(HeadInfo &head, workrave::BreakId break_id);
+  virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id);
 
+  //!
+  virtual int get_screen_count() const;
+                                                                                               
 public slots:
   void on_timer();
   

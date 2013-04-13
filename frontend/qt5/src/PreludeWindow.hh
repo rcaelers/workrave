@@ -24,7 +24,6 @@
 
 #include "TimeBar.hh"
 #include "Frame.hh"
-#include "HeadInfo.hh"
 
 #include <QDialog>
 #include <QLabel>
@@ -35,13 +34,14 @@ class PreludeWindow : public QWidget, public IPreludeWindow
   Q_OBJECT
   
 public:
-  PreludeWindow(const HeadInfo &head, workrave::BreakId break_id);
+  PreludeWindow(int screen, workrave::BreakId break_id);
   virtual ~PreludeWindow();
 
+  static IPreludeWindow::Ptr create(int screen, workrave::BreakId break_id);
+  
   virtual void start();
   virtual void stop();
   virtual void refresh();
-  virtual void destroy();
   virtual void set_progress(int value, int max_value);
   virtual void set_stage(workrave::IApp::PreludeStage stage);
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text);
@@ -57,8 +57,9 @@ private:
 
 private:
   const static int SCREEN_MARGIN = 20;
-  
-  const HeadInfo &head;
+
+  workrave::BreakId break_id;
+  int screen;
 
   int progress_value;
   int progress_max_value;

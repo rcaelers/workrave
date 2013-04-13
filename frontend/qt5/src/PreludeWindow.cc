@@ -38,13 +38,21 @@
 
 using namespace workrave;
 
-PreludeWindow::PreludeWindow(const HeadInfo &head, workrave::BreakId break_id)
+IPreludeWindow::Ptr
+PreludeWindow::create(int screen, workrave::BreakId break_id)
+{
+  return Ptr(new PreludeWindow(screen, break_id));
+}
+
+
+PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   : QWidget(0, Qt::Window
             | Qt::WindowStaysOnTopHint 
             | Qt::X11BypassWindowManagerHint 
             | Qt::FramelessWindowHint
             | Qt::WindowDoesNotAcceptFocus),
-    head(head),
+    break_id(break_id),
+    screen(screen),
     progress_value(0),
     progress_max_value(1),
     flash_visible(false),
@@ -111,13 +119,11 @@ PreludeWindow::PreludeWindow(const HeadInfo &head, workrave::BreakId break_id)
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
   
-  // TODO: multihead
   // TODO: avoid pointer
 }
 
 PreludeWindow::~PreludeWindow()
 {
-  delete layout;
 }
 
 
@@ -131,9 +137,9 @@ PreludeWindow::start()
   refresh();
   show();
 
-  // QDesktopWidget *dw = QApplication::desktop();
-  // const QRect	rect = dw->screenGeometry(head.monitor);
-  // setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
+  QDesktopWidget *dw = QApplication::desktop();
+  const QRect	rect = dw->screenGeometry(screen);
+  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
   
   TRACE_EXIT();
 }
@@ -147,14 +153,6 @@ PreludeWindow::stop()
   frame->set_frame_flashing(0);
   hide();
   
-  TRACE_EXIT();
-}
-
-
-void
-PreludeWindow::destroy()
-{
-  TRACE_ENTER("PreludeWindow::destroy");
   TRACE_EXIT();
 }
 
@@ -253,7 +251,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       if (! did_avoid)
         {
           QDesktopWidget *dw = QApplication::desktop();
-          const QRect	rect = dw->screenGeometry(head.monitor);
+          const QRect	rect = dw->screenGeometry(screen);
 
           //move(x(), rect.y() + SCREEN_MARGIN);
         }
@@ -295,17 +293,18 @@ PreludeWindow::event(QEvent *event)
 
 
           QDesktopWidget *dw = QApplication::desktop();
-          const QRect	rect = dw->screenGeometry(head.monitor);
+          const QRect	rect = dw->screenGeometry(screen);
 
 
           QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
           arect.moveTop(rect.y() + SCREEN_MARGIN);
 
           setGeometry(arect);
-          qDebug() << arect;
-          //show();
+          qDebug() << "arect = " << arect;
+          qDebug() << "rect = " << rect << " " << screen;
+          show();
 
-          move(arect.x(), arect.y() + SCREEN_MARGIN);
+       move(SCREEN_MARGIN, SCREEN_MARGIN);
     }
     
   return res;

@@ -715,9 +715,9 @@ Application::create_prelude_window(BreakId break_id)
 
   active_break_id = break_id;
 
-  for (HeadInfosIter i = heads.begin(); i != heads.end(); i++)
+  for (int i = 0; i < toolkit->get_screen_count(); i++)
     {
-      prelude_windows.push_back(toolkit->create_prelude_window(*i, break_id));
+      prelude_windows.push_back(toolkit->create_prelude_window(i, break_id));
     }
 }
 
@@ -765,12 +765,10 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
 
   active_break_id = break_id;
 
-  for (HeadInfosIter i = heads.begin(); i != heads.end(); i++)
+  for (int i = 0; i < toolkit->get_screen_count(); i++)
     {
-      IBreakWindow::Ptr break_window = toolkit->create_break_window(*i, break_id, break_flags);
-
+      IBreakWindow::Ptr break_window = toolkit->create_break_window(i, break_id, break_flags);
       break_windows.push_back(break_window);
-      break_window->init();
     }
 
   TRACE_EXIT();
