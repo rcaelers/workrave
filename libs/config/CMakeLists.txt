@@ -5,6 +5,10 @@ set(SRC
   src/GlibIniConfigurator.cc
   )
 
+if (HAVE_QT5)
+  set(SRC ${SRC} src/QtSettingsConfigurator.cc)
+endif()
+
 if (HAVE_GDOME)
   set(SRC ${SRC} src/XMLConfigurator.cc)
   include_directories(${GDOME_INCLUDE_DIRS})
@@ -31,7 +35,6 @@ include_directories(
   )
 
 add_library(workrave-libs-config STATIC ${SRC})
-
 
 if (HAVE_GDOME)
   link_directories(${GDOME_LIBPATH})

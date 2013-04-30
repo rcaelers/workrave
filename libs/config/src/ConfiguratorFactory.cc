@@ -45,6 +45,9 @@
 #ifdef PLATFORM_OS_OSX
 #include "OSXConfigurator.hh"
 #endif
+#ifdef HAVE_QT5
+#include "QtSettingsConfigurator.hh"
+#endif
 
 //! Creates a configurator of the specified type.
 IConfigurator::Ptr
@@ -53,56 +56,32 @@ ConfiguratorFactory::create(Format fmt)
   Configurator *c =  NULL;
   IConfigBackend *b = NULL;
 
-#ifdef HAVE_GDOME
-#ifdef HAVE_APP_QT5 // FIXME:
-  if (fmt == FormatNative)
-#else
   if (fmt == FormatXml)
-#endif
     {
+#ifdef HAVE_GDOME
       b = new XMLConfigurator();
+#endif      
     }
-  else
-#endif
 
-#ifdef HAVE_GSETTINGS
   if (fmt == FormatNative)
     {
-      b = new GSettingsConfigurator();
-    }
-  else
-#endif
-    
-#ifdef HAVE_GCONF
-  if (fmt == FormatNative)
-    {
-      b = new GConfConfigurator();
-    }
-  else
-#endif
-
-#ifdef PLATFORM_OS_WIN32
-  if (fmt == FormatNative)
-    {
+#if defined(PLATFORM_OS_WIN32)
       b = new W32Configurator();
-    }
-  else
-#endif
-
-#ifdef PLATFORM_OS_OSX
-  if (fmt == FormatNative)
-    {
+#elif defined(PLATFORM_OS_OSX)
       b = new OSXConfigurator();
-    }
-  else
+#elif defined(HAVE_QT5)
+      b = new QtSettingsConfigurator();
+#elif defined(HAVE_GSETTINGS)
+      b = new GSettingsConfigurator();
+#elif defined(HAVE_GCONF)
+      b = new GConfConfigurator();
 #endif
-
+    }
+  
   if (fmt == FormatIni)
     {
 #ifdef HAVE_GLIB
       b = new GlibIniConfigurator();
-#else
-#error Not ported
 #endif
     }
 
