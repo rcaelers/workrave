@@ -23,7 +23,6 @@
 #include <list>
 #include <string>
 
-
 struct Exercise
 {
 public:

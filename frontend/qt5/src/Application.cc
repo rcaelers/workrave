@@ -768,6 +768,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   for (int i = 0; i < toolkit->get_screen_count(); i++)
     {
       IBreakWindow::Ptr break_window = toolkit->create_break_window(i, break_id, break_flags);
+      break_window->init();
       break_windows.push_back(break_window);
     }
 

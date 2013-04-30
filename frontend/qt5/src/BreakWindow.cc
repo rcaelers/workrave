@@ -66,22 +66,20 @@ BreakWindow::BreakWindow(int screen,
                          GUIConfig::BlockMode mode)
   : QWidget(0, Qt::Window
             | Qt::WindowStaysOnTopHint 
-            | Qt::X11BypassWindowManagerHint 
-            | Qt::FramelessWindowHint
-            | Qt::WindowDoesNotAcceptFocus),
+            | Qt::FramelessWindowHint),
     break_id(break_id),
     screen(screen),
     block_mode(mode),
     break_flags(break_flags),
     frame(NULL),
+    is_flashing(false),
     gui(NULL),
-  postpone_button(NULL),
-  skip_button(NULL),
-  lock_button(NULL),
-  shutdown_button(NULL)
+    postpone_button(NULL),
+    skip_button(NULL),
+    lock_button(NULL),
+    shutdown_button(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
-  init();
   TRACE_EXIT();
 }
 
@@ -113,8 +111,8 @@ BreakWindow::init()
     {
       frame = new Frame;
       frame->set_frame_style(Frame::STYLE_SOLID);
-      frame->set_frame_width(6, 6);
-
+      frame->set_frame_width(6, 2);
+      
       QVBoxLayout *frameLayout = new QVBoxLayout;
       frame->setLayout(frameLayout);
       frameLayout->addWidget(gui);
@@ -142,11 +140,15 @@ BreakWindow::~BreakWindow()
 void
 BreakWindow::center()
 {
+  qDebug() << "c: " << size();
+  
   QDesktopWidget *dw = QApplication::desktop();
   const QRect	rect = dw->screenGeometry(screen);
-  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
-}
 
+  const QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
+  qDebug() << "a: " << arect;
+  setGeometry(arect);
+}
 
 
 //! Creates the lock button
@@ -180,21 +182,22 @@ BreakWindow::create_shutdown_button()
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 
-      button = new QPushButton(_("Shut _down"));
+      button = new QPushButton(_("Shut down"));
       button->setIcon(icon);
       button->setIconSize(pixmap.rect().size());
 
-      connect(button, &QPushButton::click, this, &BreakWindow::on_shutdown_button_clicked);
+      connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
     }
   return button;
 }
+
 
 //! Creates the skip button.
 QAbstractButton *
 BreakWindow::create_skip_button()
 {
-  QPushButton *button = new QPushButton(_("_Skip"));
-  connect(button, &QPushButton::click, this, &BreakWindow::on_skip_button_clicked);
+  QPushButton *button = new QPushButton(_("Skip"));
+  connect(button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
   return button;
 }
 
@@ -203,8 +206,8 @@ BreakWindow::create_skip_button()
 QAbstractButton *
 BreakWindow::create_postpone_button()
 {
-  QPushButton *button = new QPushButton(_("_Postpone"));
-  connect(button, &QPushButton::click, this, &BreakWindow::on_postpone_button_clicked);
+  QPushButton *button = new QPushButton(_("Postpone"));
+  connect(button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
   return button;
 }
 
@@ -363,7 +366,7 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
 
-  update_break_window();
+  refresh();
   show();
   center();
 
@@ -399,6 +402,27 @@ BreakWindow::refresh()
 {
   TRACE_ENTER("BreakWindow::refresh");
   update_break_window();
+
+  ICore::Ptr core = CoreFactory::get_core();
+  bool user_active = core->is_user_active();
+  Frame *frame = get_frame();
+  if (frame != NULL)
+    {
+      if (user_active && !is_flashing)
+        {
+          frame->set_frame_color(QColor("orange"));
+          frame->set_frame_visible(true);
+          frame->set_frame_flashing(500);
+          is_flashing = true;
+        }
+      else if (!user_active && is_flashing)
+        {
+          frame->set_frame_flashing(0);
+          frame->set_frame_visible(false);
+          is_flashing = false;
+        }
+    }
+
   TRACE_EXIT();
 }
 

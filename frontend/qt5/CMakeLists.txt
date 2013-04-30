@@ -12,6 +12,12 @@ set(SRC
   src/BreakWindow.cc
   src/MicroBreakWindow.cc
   src/DailyLimitWindow.cc
+  src/RestBreakWindow.cc
+  src/UiUtil.cc
+  src/ExercisesPanel.cc
+  
+  ../plugin/exercises/common/src/Exercise.cc
+  
   )
 
 set(DESIGNER_UI
@@ -22,12 +28,14 @@ qt5_wrap_cpp(MOC_SRC
   src/BreakWindow.hh
   src/MicroBreakWindow.hh
   src/DailyLimitWindow.hh
+  src/RestBreakWindow.hh
   src/MainWindow.hh
   src/PreludeWindow.hh
   src/TimeBar.hh
   src/TimerBoxView.hh
   src/Toolkit.hh
   src/Frame.hh
+  src/ExercisesPanel.hh
   )
 
 
@@ -77,6 +85,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/qt5/src/
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
+
+  ${CMAKE_SOURCE_DIR}/frontend/plugin/exercises/common/src/
   
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${CMAKE_SOURCE_DIR}/libs/utils/include
@@ -103,8 +113,8 @@ endif()
 
 target_link_libraries(workrave-qt workrave-libs-utils)
 
-#link_directories(${GLIB_LIBPATH})
-#target_link_libraries(workrave-qt ${GLIB_LIBRARIES})
+link_directories(${GLIB_LIBPATH})
+target_link_libraries(workrave-qt ${GLIB_LIBRARIES})
 
 #link_directories(${GDK_LIBPATH})
 #target_link_libraries(workrave-qt ${GDK_LIBRARIES})

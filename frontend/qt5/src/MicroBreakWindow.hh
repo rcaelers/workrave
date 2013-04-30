@@ -33,7 +33,7 @@ public:
   MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~MicroBreakWindow();
 
-  IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   
   virtual void set_progress(int value, int max_value);
   //void heartbeat();
@@ -61,9 +61,6 @@ private:
 
   //! Progress
   int progress_max_value;
-
-  //! Is currently flashing because user is active?
-  bool is_flashing;
 
   //! Label size has been fixed?
   bool fixed_size;

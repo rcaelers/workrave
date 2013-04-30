@@ -20,8 +20,10 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
-#include "GUIConfig.hh"
 #include "BreakWindow.hh"
+#include "GUIConfig.hh"
+
+#include "TimeBar.hh"
 
 class RestBreakWindow : public BreakWindow
 {
@@ -31,7 +33,7 @@ public:
   RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~RestBreakWindow();
 
-  IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   
   void start();
   void set_progress(int value, int max_value);
@@ -42,15 +44,13 @@ private:
   
   void draw_time_bar();
   void suspend_break();
-  QWidget *create_info_panel();
+  QHBoxLayout *create_info_panel();
   void set_ignore_activity(bool i);
 
-  //#ifdef HAVE_EXERCISES
   void install_exercises_panel();
   void install_info_panel();
   void clear_pluggable_panel();
   int get_exercise_count();
-  //#endif
 
 private:
   //! The Time
@@ -62,13 +62,7 @@ private:
   //! Progress
   int progress_max_value;
 
-  //#ifdef HAVE_EXERCISES
   QHBoxLayout *pluggable_panel;
-  //#endif
-
-  //! Is currently flashing because user is active?
-  bool is_flashing;
 };
-
 
 #endif // RESTBREAKWINDOW_HH

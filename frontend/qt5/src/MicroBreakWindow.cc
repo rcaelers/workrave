@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@
 #include "CoreFactory.hh"
 #include "Util.hh"
 #include "Text.hh"
+#include "UiUtil.hh"
 
 
 IBreakWindow::Ptr
@@ -41,12 +42,13 @@ MicroBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMod
 
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode) :
-  BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode),
-  progress_value(0),
-  progress_max_value(0),
-  is_flashing(false),
-  fixed_size(false)
+MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
+  : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode),
+    time_bar(NULL),
+    label(NULL),
+    progress_value(0),
+    progress_max_value(0),
+    fixed_size(false)
 {
    setWindowTitle(_("Micro-break"));
 }
@@ -81,36 +83,28 @@ MicroBreakWindow::create_gui()
   IBreak::Ptr restbreak =  core->get_break(BREAK_ID_REST_BREAK);
   if ((get_break_flags() != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
-      QHBoxLayout *button_box;
+      QHBoxLayout *button_box = new QHBoxLayout;
       if (get_break_flags() != BREAK_FLAGS_NONE)
         {
-          button_box = new QHBoxLayout;
-
-          QHBoxLayout *bbox = new QHBoxLayout;
-
-          if ((get_break_flags() & BREAK_FLAGS_POSTPONABLE) != 0)
-            {
-              bbox->addWidget(create_postpone_button());
-            }
-
-          if ((get_break_flags() & BREAK_FLAGS_SKIPPABLE) != 0)
-            {
-              bbox->addWidget(create_skip_button());
-            }
-
-          QHBoxLayout* bboxa = new QHBoxLayout;
-          bboxa->addLayout(bbox); // TODO : Alignment(1.0, 0.0, 0.0, 0.0)
-
           if (restbreak->is_enabled())
             {
               button_box->addWidget(create_restbreaknow_button(false));
             }
+
+          button_box->addStretch();
           
-          button_box->addLayout(bboxa);
+          if ((get_break_flags() & BREAK_FLAGS_SKIPPABLE) != 0)
+            {
+              button_box->addWidget(create_skip_button(), 0);
+            }
+
+          if ((get_break_flags() & BREAK_FLAGS_POSTPONABLE) != 0)
+            {
+              button_box->addWidget(create_postpone_button());
+            }
         }
       else
         {
-          button_box = new QHBoxLayout;
           button_box->addWidget(create_restbreaknow_button(true));
         }
 
@@ -121,7 +115,7 @@ MicroBreakWindow::create_gui()
 
   QWidget *widget = new QWidget;
   widget->setLayout(box);
-  
+
   return widget;
 }
 
@@ -146,7 +140,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
   button->setIcon(icon);
   button->setIconSize(pixmap.rect().size());
 
-  connect(button, &QPushButton::click, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
+  connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
 
   return button;
 }
@@ -174,30 +168,10 @@ MicroBreakWindow::update_time_bar()
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  ICore::Ptr core = CoreFactory::get_core();
-  bool user_active = core->is_user_active();
-  if (get_frame() != NULL)
-    {
-      Frame *frame = get_frame();
-      if (user_active && !is_flashing)
-        {
-          frame->set_frame_color(QColor("orange"));
-          frame->set_frame_visible(true);
-          frame->set_frame_flashing(500);
-          is_flashing = true;
-        }
-      else if (!user_active && is_flashing)
-        {
-          frame->set_frame_flashing(0);
-          frame->set_frame_visible(false);
-          is_flashing = false;
-        }
-    }
   time_bar->update();
   TRACE_MSG(progress_value << " " << progress_max_value);
   TRACE_EXIT();
 }
-
 
 void
 MicroBreakWindow::update_label()
@@ -244,7 +218,7 @@ MicroBreakWindow::update_label()
                   Text::time_to_string(-rb, true).c_str());
         }
 
-      txt += "\n";
+      txt += "<br>";
       txt += s;
     }
   else if (show_next == BREAK_ID_DAILY_LIMIT)
@@ -262,12 +236,11 @@ MicroBreakWindow::update_label()
                   Text::time_to_string(-dl, true).c_str());
         }
 
-      txt += "\n";
+      txt += "<br>";
       txt += s;
     }
 
-  label->setText(txt.c_str());
-                 //Util::create_alert_text(_("Micro-break"), ));
+  label->setText(QString::fromStdString(UiUtil::create_alert_text(_("Micro-break"), txt.c_str())));
   TRACE_EXIT();
 }
 

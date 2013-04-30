@@ -42,6 +42,7 @@ public:
               GUIConfig::BlockMode block_mode);
   virtual ~BreakWindow();
 
+  virtual void init();
   virtual void start();
   virtual void stop();
   virtual void refresh();
@@ -58,11 +59,11 @@ protected:
   
   BreakFlags get_break_flags() const { return break_flags; }
   Frame* get_frame() { return frame; }
-
-private:
-  void init();
+  int get_screen() { return screen; }
+  
   void center();
 
+private:
   void resume_non_ignorable_break();
   void on_lock_button_clicked();
   void on_shutdown_button_clicked();
@@ -86,6 +87,9 @@ private:
 
   //! Flash frame
   Frame *frame;
+
+  //! Is currently flashing because user is active?
+  bool is_flashing;
 
   //! GUI
   QWidget *gui;

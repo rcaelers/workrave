@@ -31,6 +31,9 @@
 #include "GUIConfig.hh"
 
 #include "PreludeWindow.hh"
+#include "MicroBreakWindow.hh"
+#include "RestBreakWindow.hh"
+#include "DailyLimitWindow.hh"
 
 using namespace std;
 using namespace workrave;
@@ -71,7 +74,17 @@ Toolkit::init()
   prelude->set_stage(IApp::STAGE_WARN);
   // prelude->start();
   // prelude->refresh();
-  //  prelude->show();
+
+  //MicroBreakWindow *mb = new MicroBreakWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
+
+  RestBreakWindow *mb = new RestBreakWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
+
+  //DailyLimitWindow *mb = new DailyLimitWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
+  
+  mb->init();
+  mb->set_progress(40, 30);
+  mb->start();
+  mb->refresh();
 }
 
 void
@@ -99,18 +112,18 @@ Toolkit::create_break_window(int screen, BreakId break_id, IBreakWindow::BreakFl
   IBreakWindow::Ptr ret;
   
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
-  //if (break_id == BREAK_ID_MICRO_BREAK)
-  //  {
-  //    ret = new MicroBreakWindow(screen, break_flags, block_mode);
-  //  }
-  //else if (break_id == BREAK_ID_REST_BREAK)
-  //  {
-  //    ret = new RestBreakWindow(screen, break_flags, block_mode);
-  //  }
-  //else if (break_id == BREAK_ID_DAILY_LIMIT)
-  //  {
-  //    ret = new DailyLimitWindow(screen, break_flags, block_mode);
-  //  }
+  if (break_id == BREAK_ID_MICRO_BREAK)
+   {
+     ret = MicroBreakWindow::create(screen, break_flags, block_mode);
+   }
+  else if (break_id == BREAK_ID_REST_BREAK)
+   {
+     ret = RestBreakWindow::create(screen, break_flags, block_mode);
+   }
+  else if (break_id == BREAK_ID_DAILY_LIMIT)
+   {
+     ret = DailyLimitWindow::create(screen, break_flags, block_mode);
+   }
 
   return ret;
 }

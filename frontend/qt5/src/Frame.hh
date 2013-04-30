@@ -54,8 +54,10 @@ protected:
   void paintEvent(QPaintEvent *);
   
 private:
+  QRect get_frame_rect() const;
+  
   boost::shared_ptr<QTimer> heartbeat_timer;
-
+  
   
   //! Frame border width
   int frame_width;

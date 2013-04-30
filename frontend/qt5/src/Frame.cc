@@ -25,6 +25,8 @@
 
 #include <QTimer>
 #include <QPainter>
+#include <QStylePainter>
+#include <QStyleOptionFrame>
 
 Frame::Frame(QWidget* parent)
   : QWidget(parent),
@@ -80,12 +82,8 @@ Frame::set_frame_color(const QColor &col)
 void
 Frame::set_frame_width(int frame, int border)
 {
-  QRect fr = contentsRect();
-  fr.adjust(-frame_width - border_width,
-            -frame_width - border_width,
-            frame_width + border_width,
-            frame_width + border_width);
-
+  QRect fr = get_frame_rect();
+  
   frame_width = frame;
   border_width = border;
   
@@ -99,6 +97,17 @@ Frame::set_frame_width(int frame, int border)
   setContentsMargins(cr.left(), cr.top(), rect().right() - cr.right(), rect().bottom() - cr.bottom());
 }
 
+QRect
+Frame::get_frame_rect() const
+{
+  QRect fr = contentsRect();
+  fr.adjust(-frame_width - border_width,
+            -frame_width - border_width,
+            frame_width + border_width,
+            frame_width + border_width);
+  
+  return fr;
+}
 
 void
 Frame::set_frame_flashing(int delay)
@@ -130,36 +139,35 @@ Frame::on_timer()
 void
 Frame::paintEvent(QPaintEvent *)
 {
-  QPainter paint(this);
+  QStylePainter paint(this);
 
-  switch (frame_style)
+  QRect fr = get_frame_rect();
+
+  QStyleOptionFrameV3 opt;
+  opt.init(this);
+
+  opt.rect          = fr;
+  opt.lineWidth     = 1;
+  opt.midLineWidth  = 0;
+  opt.state        |= QStyle::State_Raised;
+  opt.frameShape    = QFrame::Panel;
+
+  paint.drawControl(QStyle::CE_ShapedFrame, opt);
+    
+  if (frame_visible)
     {
-    case STYLE_BREAK_WINDOW:
-    case STYLE_SOLID:
-      
-      if (frame_visible)
-        {
-          paint.fillRect(0, 0, frame_width, height(), frame_color);
-          paint.fillRect(0+width()-frame_width, 0, frame_width, height(), frame_color);
-          paint.fillRect(0+frame_width, 0, width()-2*frame_width, frame_width, frame_color);
-          paint.fillRect(0+frame_width, 0+height()-frame_width, width()-2*frame_width, frame_width, frame_color);
-        }
-      break;
-
-      //case STYLE_BREAK_WINDOW:
-      // style_context->context_save();
-
-      // style_context->add_class(GTK_STYLE_CLASS_FRAME);
-      // style_context->set_state((Gtk::StateFlags)0);
-
-      // style_context->render_background(cr, 0, 0, width, height);
-      // style_context->render_frame(cr, 0, 0, width, height);
-
-      // style_context->render_background(cr, 1, 1, width - 2, height -2);
-      // style_context->render_frame(cr, 1, 1, width - 2, height -2);
-
-      // style_context->context_restore();
-      //break;
+      paint.fillRect(border_width, border_width,
+                     frame_width, height() - 2*border_width,
+                     frame_color);
+      paint.fillRect(width() - border_width - frame_width, border_width,
+                     frame_width, height() - 2*border_width,
+                     frame_color);
+      paint.fillRect(border_width + frame_width, border_width,
+                     width() - 2*frame_width - 2*border_width, frame_width,
+                     frame_color);
+      paint.fillRect(border_width + frame_width, height() - frame_width - border_width,
+                     width() - 2*frame_width - 2*border_width, frame_width,
+                     frame_color);
     }
 }
 

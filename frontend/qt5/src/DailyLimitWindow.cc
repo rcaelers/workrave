@@ -26,6 +26,7 @@
 #include "debug.hh"
 
 #include "DailyLimitWindow.hh"
+#include "UiUtil.hh"
 
 #include "Util.hh"
 
@@ -45,15 +46,16 @@ DailyLimitWindow::DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig
   setWindowTitle(_("Daily limit"));
 }
 
+
 QWidget *
 DailyLimitWindow::create_gui()
 {
   // label
-  std::string txt = 
+  std::string txt = UiUtil::create_alert_text
+    (_("Daily limit"),
      _("You have reached your daily limit. Please stop working\n"
        "behind the computer. If your working day is not over yet,\n"
-       "find something else to do, such as reviewing a document.");
-//    (_("Daily limit"),
+       "find something else to do, such as reviewing a document."));
 
   QLabel *label = new QLabel;
   label->setText(txt.c_str());

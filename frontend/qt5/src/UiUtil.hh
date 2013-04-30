@@ -1,6 +1,6 @@
-// DailyLimitWindow.hh --- window for the daily limit
+// UiUtil.hh --- Ui utilities
 //
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2003 - 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DAILYLIMITWINDOW_HH
-#define DAILYLIMITWINDOW_HH
+#ifndef UIUTIL_HH
+#define UIUTIL_HH
 
-#include "BreakWindow.hh"
-#include "GUIConfig.hh"
+#include <QLayout>
+#include <string>
 
-class DailyLimitWindow : public BreakWindow
+#include "ICore.hh"
+
+
+using namespace workrave;
+
+class UiUtil
 {
-  Q_OBJECT
-  
 public:
-  DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~DailyLimitWindow();
-
-  static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  static std::string create_alert_text(const char *caption, const char *body);
+  static void clear_layout(QLayout* layout);
   
-  void set_progress(int value, int max_value);
-
-protected:
-  virtual QWidget *create_gui();
 };
 
-
-#endif // DAILYLIMITWINDOW_HH
+#endif // UIUTIL_HH

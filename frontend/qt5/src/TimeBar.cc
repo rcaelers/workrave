@@ -45,11 +45,14 @@ QColor TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] =
 
 TimeBar::TimeBar(QWidget *parent) :
   QWidget(parent),
+  bar_color(COLOR_ID_ACTIVE),
+  secondary_bar_color(COLOR_ID_ACTIVE),
   bar_value(0),
   bar_max_value(0),
   secondary_bar_value(0),
   secondary_bar_max_value(0),
   bar_text_align(0)
+
 {
   setBackgroundRole(QPalette::Base);
   setAutoFillBackground(true);
