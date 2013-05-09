@@ -433,7 +433,7 @@ DBus::on_method_call(GDBusConnection       *connection,
       g_dbus_method_invocation_return_error (invocation,
                                              G_IO_ERROR,
                                              G_IO_ERROR_FAILED_HANDLED,
-                                             e.details().c_str());
+                                             "%s", e.details().c_str());
     }
 }
 
