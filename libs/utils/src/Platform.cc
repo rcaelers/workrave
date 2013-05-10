@@ -25,6 +25,8 @@
 
 #ifdef HAVE_GTK
 #include <glib.h>
+#include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 #endif
 
 #ifdef HAVE_QT5
