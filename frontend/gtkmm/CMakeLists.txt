@@ -114,6 +114,10 @@ if (HAVE_STATISTICS)
     )
 endif()
 
+if (HAVE_GSETTINGS)
+  gsettings_add_schemas(workrave-backend ${CMAKE_SOURCE_DIR}/frontend/gtkmm/src)
+endif()
+
 include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/gtkmm/src/
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
@@ -139,8 +143,10 @@ target_link_libraries(workrave workrave-libs-input-monitor)
 target_link_libraries(workrave workrave-libs-dbus)
 target_link_libraries(workrave workrave-libs-utils)
 
+
 link_directories(${GTK_LIBPATH})
 target_link_libraries(workrave ${GTK_LIBRARIES})
+target_link_libraries(workrave ${Boost_LIBRARIES})
 
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
@@ -153,7 +159,7 @@ if (PLATFORM_OS_UNIX)
     ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
   add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
 
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/src/workrave.desktop DESTINATION share/applications)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION share/applications)
 endif()
 
 link_directories(${INDICATOR_LIBPATH})

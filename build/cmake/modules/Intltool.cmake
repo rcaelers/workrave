@@ -6,13 +6,13 @@ if (WIN32)
 
   if (PERL_FOUND)
     if (INTLTOOL_MERGE_EXEC)
-      set (INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXEC})
+      set(INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXEC})
     endif()
     if (INTLTOOL_UPDATE_EXEC)
-      set (INTLTOOL_UPDATE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_UPDATE_EXEC})
+      set(INTLTOOL_UPDATE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_UPDATE_EXEC})
     endif()
     if (INTLTOOL_EXTRACT_EXEC)
-      set (INTLTOOL_EXTRACT_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_EXTRACT_EXEC})
+      set(INTLTOOL_EXTRACT_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_EXTRACT_EXEC})
     endif()
   endif()
 else()
@@ -22,9 +22,9 @@ else()
 endif()
 
 if (INTLTOOL_MERGE_EXECUTABLE)
-  set (INTLTOOL_MERGE_FOUND ON)
+  set(INTLTOOL_MERGE_FOUND ON)
   
-  macro (intltool_merge_xml IN OUT)
+  macro(INTLTOOL_MERGE_XML IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
       COMMAND ${INTLTOOL_MERGE_EXECUTABLE} -x -u -c ${CMAKE_CURRENT_BINARY_DIR}/intltool-merge-cache ${CMAKE_SOURCE_DIR}/po ${IN} ${OUT}
@@ -32,10 +32,18 @@ if (INTLTOOL_MERGE_EXECUTABLE)
       )
   endmacro()
 
-  macro (intltool_merge_desktop IN OUT)
+  macro(INTLTOOL_MERGE_DESKTOP IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
       COMMAND ${INTLTOOL_MERGE_EXECUTABLE} -d -u -c ${CMAKE_CURRENT_BINARY_DIR}/intltool-merge-cache ${CMAKE_SOURCE_DIR}/po ${IN} ${OUT}
+      DEPENDS ${IN}
+      )
+  endmacro()
+
+  macro(INTLTOOL_NOMERGE_XML IN OUT)
+    add_custom_command(
+      OUTPUT ${OUT}
+      COMMAND ${INTLTOOL_MERGE_EXECUTABLE} -x -u --no-translations -c ${CMAKE_CURRENT_BINARY_DIR}/intltool-merge-cache ${IN} ${OUT}
       DEPENDS ${IN}
       )
   endmacro()

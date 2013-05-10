@@ -37,6 +37,25 @@ project(Workrave)
 #set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib CACHE INTERNAL "" FORCE)
 
 #----------------------------------------------------------------------------------------------------
+# Macros
+
+macro(pkgconfig_get_var OUT PKG VARNAME)
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
+
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set(${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
+
+#----------------------------------------------------------------------------------------------------
 # Compiler
 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11) 
@@ -208,6 +227,7 @@ endif()
 # Indicator
 
 option(WITH_INDICATOR "Enable Unity indicator support" ON)
+option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
 if (WITH_INDICATOR)
   find_package(GObjectIntrospection 0.9.12)
@@ -218,14 +238,24 @@ if (WITH_INDICATOR)
   endif()
     
   if (INDICATOR_FOUND)
-    set (HAVE_INDICATOR ON)
+    set(HAVE_INDICATOR ON)
   else()
-    set (WITH_INDICATOR OFF)
+    set(WITH_INDICATOR OFF)
   endif()
 endif()
 
+if (HAVE_INDICATOR)
+  if (LOCALINSTALL)
+    set(INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
+    set(INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
+  else()
+    pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
+    pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
 
-# TODO: local install
+    #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
+    #set(INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
+  endif()
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Misc

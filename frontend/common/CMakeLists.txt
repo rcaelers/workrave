@@ -71,8 +71,8 @@ endif()
 
 foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
   install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/share/images/${size}
-    DESTINATION share/icons/hicolor/apps/
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/share/images/${size}/
+    DESTINATION share/icons/hicolor/${size}/apps/
     FILES_MATCHING
     PATTERN "*.png"
     PATTERN "*.svg"
@@ -95,7 +95,7 @@ foreach(soundtheme ${SOUND_THEMES})
   file(GLOB SND_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/share/sounds/${soundtheme}/*.wav
 	  	       ${CMAKE_CURRENT_SOURCE_DIR}/share/sounds/${soundtheme}/soundtheme)
 
-  install(FILES ${SND_FILES} DESTINATION share/workrave/sounds/${soundtheme}
+  install(FILES ${SND_FILES} DESTINATION share/sounds/workrave/${soundtheme}
   )
 endforeach()
 
