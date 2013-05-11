@@ -1,6 +1,6 @@
-// MainWindow.hh
+// SizeGroup.hh
 //
-// Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MAINWINDOW_HH
-#define MAINWINDOW_HH
+#ifndef SIZEGROUP_HH
+#define SIZEGROUP_HH
 
-#include <QDialog>
-#include <QVBoxLayout>
+#include <QtGui>
+#include <QtWidgets>
 
-#include "TimerBoxView.hh"
-#include "TimerBoxControl.hh"
-
-class MainWindow : public QDialog
+class SizeGroup : public QObject
 {
   Q_OBJECT
-  
-public:
-  explicit MainWindow(QWidget *parent = 0);
-  ~MainWindow();
 
-  void on_heartbeat();
+public:
+  SizeGroup(Qt::Orientation orientation, QObject* parent = 0);
+  ~SizeGroup();
+
+  void addWidget(QWidget* widget);
+
+private:
+  bool eventFilter(QObject*, QEvent* event);
+  void update();
   
 private:
-  TimerBoxView *timer_box_view;
-  TimerBoxControl *timer_box_control;
-  QVBoxLayout *layout;
+  Qt::Orientation orientation;
+  QTimer* timer;
+  QList<QWidget*> widgets;
 };
 
-#endif // MAINWINDOW_HH
+#endif // SIZEGROUP_HH

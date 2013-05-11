@@ -34,6 +34,7 @@
 #include "MicroBreakWindow.hh"
 #include "RestBreakWindow.hh"
 #include "DailyLimitWindow.hh"
+#include "PreferencesDialog.hh"
 
 using namespace std;
 using namespace workrave;
@@ -69,22 +70,24 @@ Toolkit::init()
 
   PreludeWindow *prelude = new PreludeWindow(0, BREAK_ID_MICRO_BREAK);
 
-  prelude->set_progress(20, 30);
-  prelude->set_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
-  prelude->set_stage(IApp::STAGE_WARN);
+  // prelude->set_progress(20, 30);
+  // prelude->set_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
+  // prelude->set_stage(IApp::STAGE_WARN);
   // prelude->start();
   // prelude->refresh();
 
   //MicroBreakWindow *mb = new MicroBreakWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
-
   RestBreakWindow *mb = new RestBreakWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
-
   //DailyLimitWindow *mb = new DailyLimitWindow(0, IBreakWindow::BREAK_FLAGS_SKIPPABLE | IBreakWindow::BREAK_FLAGS_POSTPONABLE, GUIConfig::BLOCK_MODE_INPUT);
   
-  mb->init();
-  mb->set_progress(40, 30);
-  mb->start();
-  mb->refresh();
+  // mb->init();
+  // mb->set_progress(40, 30);
+  // mb->start();
+  // mb->refresh();
+
+  PreferencesDialog *pd = new PreferencesDialog();
+  pd->show();
+  
 }
 
 void

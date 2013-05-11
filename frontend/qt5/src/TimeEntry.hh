@@ -1,6 +1,6 @@
-// MainWindow.hh
+// TimeEntry.hh --- Entry widget for time
 //
-// Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MAINWINDOW_HH
-#define MAINWINDOW_HH
+#ifndef TIMEENTRY_HH
+#define TIMEENTRY_HH
 
-#include <QDialog>
-#include <QVBoxLayout>
+#include <boost/signals2.hpp>
 
-#include "TimerBoxView.hh"
-#include "TimerBoxControl.hh"
+#include <QtGui>
+#include <QtWidgets>
 
-class MainWindow : public QDialog
+class TimeEntry : public QWidget
 {
   Q_OBJECT
   
 public:
-  explicit MainWindow(QWidget *parent = 0);
-  ~MainWindow();
+  TimeEntry();
+  virtual ~TimeEntry();
 
-  void on_heartbeat();
-  
+  time_t get_value();
+  void set_value(time_t time);
+
+  boost::signals2::signal<void()> &signal_value_changed();
+
 private:
-  TimerBoxView *timer_box_view;
-  TimerBoxControl *timer_box_control;
-  QVBoxLayout *layout;
+  void on_value_changed();
+
+private:
+  //! Value changed
+  boost::signals2::signal<void()> value_changed_signal;
+
+   QSpinBox *hrs;
+   QSpinBox *mins;
+   QSpinBox *secs;
 };
 
-#endif // MAINWINDOW_HH
+#endif // TIMEENTRY_HH

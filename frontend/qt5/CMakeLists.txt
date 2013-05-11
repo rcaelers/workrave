@@ -15,6 +15,11 @@ set(SRC
   src/RestBreakWindow.cc
   src/UiUtil.cc
   src/ExercisesPanel.cc
+  src/PreferencesDialog.cc
+  src/TimerPreferencesPanel.cc
+  src/TimeEntry.cc
+  src/SizeGroup.cc
+  src/DataConnector.cc
   
   ../plugin/exercises/common/src/Exercise.cc
   
@@ -36,6 +41,11 @@ qt5_wrap_cpp(MOC_SRC
   src/Toolkit.hh
   src/Frame.hh
   src/ExercisesPanel.hh
+  src/PreferencesDialog.hh
+  src/TimerPreferencesPanel.hh
+  src/TimeEntry.hh
+  src/SizeGroup.hh
+  src/DataConnector.hh
   )
 
 
@@ -129,13 +139,14 @@ if (PLATFORM_OS_UNIX)
 
 #  add_definitions(-DGNOMELOCALEDIR="${DATADIR}/locale")
 #
-#  # Desktop file
-#  intltool_merge_desktop(
-#    ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave.desktop.in
-#    ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
-#  add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
-#
-#  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/src/workrave.desktop DESTINATION share/applications)
+# Desktop file
+intltool_merge_desktop(
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave.desktop.in
+  ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
+add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION share/applications)
+
 endif()
 
 #link_directories(${INDICATOR_LIBPATH})
