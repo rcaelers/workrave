@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@
       comp##_MICRO_VERSION >= (micro)))
 #endif
 
-#if WR_CHECK_VERSION(GTKMM,2,11,1)
+#if WR_CHECK_VERSION(GTKMM,2,12,0)
 #define HAVE_STATUSICON_SIGNAL 1
 #endif
 
@@ -87,6 +87,7 @@ private:
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
                                   gpointer callback_data);
+  static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
 
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
