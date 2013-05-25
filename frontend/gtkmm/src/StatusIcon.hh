@@ -41,8 +41,11 @@
       comp##_MICRO_VERSION >= (micro)))
 #endif
 
-#if WR_CHECK_VERSION(GTKMM,2,12,0)
+#if WR_CHECK_VERSION(GTKMM,2,11,1)
 #define HAVE_STATUSICON_SIGNAL 1
+#endif
+#if WR_CHECK_VERSION(GTKMM,2,22,0)
+#define HAVE_EMBEDDED_SIGNAL 1
 #endif
 
 using namespace workrave;
@@ -87,9 +90,11 @@ private:
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
                                   gpointer callback_data);
+#endif
+#ifndef HAVE_EMBEDDED_SIGNAL
   static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
-
+  
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
 
   sigc::signal<void> visibility_changed_signal;
