@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.908\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2012-03-31 11:12+0200\n"
+"POT-Creation-Date: 2013-05-25 20:31+0200\n"
 "PO-Revision-Date: 2012-03-31 11:14+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -66,119 +66,99 @@ msgstr "Ara sóc el mestre."
 msgid "Client %s saying hello."
 msgstr "El client %s diu hola."
 
-#: ../backend/src/DistributionSocketLink.cc:1318
-#, c-format
-msgid "u1 %s."
-msgstr "u1 %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1319
-#, c-format
-msgid "u2 %s."
-msgstr "u2 %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1320
-#, c-format
-msgid "p1 %s."
-msgstr "p1 %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1321
-#, c-format
-msgid "p2 %s."
-msgstr "p2 %s."
-
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1336
-#: ../backend/src/DistributionSocketLink.cc:1466
-#: ../backend/src/DistributionSocketLink.cc:1710
+#: ../backend/src/DistributionSocketLink.cc:1331
+#: ../backend/src/DistributionSocketLink.cc:1461
+#: ../backend/src/DistributionSocketLink.cc:1705
 #, c-format
 msgid "Client %s is duplicate."
 msgstr "El client %s està duplicat."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1346
+#: ../backend/src/DistributionSocketLink.cc:1341
 #, c-format
 msgid "Client %s access denied."
 msgstr "S'ha denegat l'accés al client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1415
+#: ../backend/src/DistributionSocketLink.cc:1410
 #, c-format
 msgid "Client %s signed off."
 msgstr "El client %s s'ha desconnectat."
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1505
+#: ../backend/src/DistributionSocketLink.cc:1500
 #, c-format
 msgid "Client %s is welcoming us."
 msgstr "El client %s ens dóna la benvinguda."
 
-#: ../backend/src/DistributionSocketLink.cc:1746
+#: ../backend/src/DistributionSocketLink.cc:1741
 #, c-format
 msgid "Requesting master status from %s."
 msgstr "S'està demanant l'estatus de mestre a %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1760
+#: ../backend/src/DistributionSocketLink.cc:1755
 #, c-format
 msgid "Client timeout from %s."
 msgstr "S'ha exhaurit el temps d'espera per al client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1782
+#: ../backend/src/DistributionSocketLink.cc:1777
 #, c-format
 msgid "Rejecting master request from client %s."
 msgstr "S'està rebutjant la petició de mestre del client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1788
+#: ../backend/src/DistributionSocketLink.cc:1783
 #, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "S'està acceptant la petició de mestre del client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1839
+#: ../backend/src/DistributionSocketLink.cc:1834
 #, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "El client no mestre %s ha rebutjat una petició de mestre."
 
-#: ../backend/src/DistributionSocketLink.cc:1844
+#: ../backend/src/DistributionSocketLink.cc:1839
 #, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "El client %s ha rebutjat la petició de mestre, s'està ajornant."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1915
+#: ../backend/src/DistributionSocketLink.cc:1910
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "El client %s és ara el nou mestre."
 
-#: ../backend/src/DistributionSocketLink.cc:2042
+#: ../backend/src/DistributionSocketLink.cc:2037
 msgid "Network operation started."
 msgstr "S'ha iniciat el funcionament en xarxa."
 
-#: ../backend/src/DistributionSocketLink.cc:2063
+#: ../backend/src/DistributionSocketLink.cc:2058
 msgid "Accepted new client."
 msgstr "S'ha acceptat el nou client."
 
-#: ../backend/src/DistributionSocketLink.cc:2137
+#: ../backend/src/DistributionSocketLink.cc:2132
 #, c-format
 msgid "Client %s read error, closing."
 msgstr "S'ha produït un error de lectura del client %s, s'està tancant."
 
-#: ../backend/src/DistributionSocketLink.cc:2143
-#: ../backend/src/DistributionSocketLink.cc:2216
+#: ../backend/src/DistributionSocketLink.cc:2138
+#: ../backend/src/DistributionSocketLink.cc:2211
 #, c-format
 msgid "Client %s closed connection."
 msgstr "El client %s ha tancat la connexió."
 
-#: ../backend/src/DistributionSocketLink.cc:2184
+#: ../backend/src/DistributionSocketLink.cc:2179
 #, c-format
 msgid "Client %s connected."
 msgstr "S'ha connectat el client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:2222
+#: ../backend/src/DistributionSocketLink.cc:2217
 #, c-format
 msgid "Could not connect to client %s."
 msgstr "No s'ha pogut connectar al client %s."
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_Obre"
 
@@ -200,16 +180,16 @@ msgstr "_Exercicis"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "_Mode"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:119
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "_Normal"
 
@@ -218,17 +198,17 @@ msgid "_Quiet"
 msgstr "_Silenciós"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "_Suspés"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Network"
 msgstr "_Xarxa"
 
@@ -238,17 +218,17 @@ msgstr "_Connecta..."
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
@@ -259,8 +239,8 @@ msgstr "_Mostra el registre"
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "Reading mode"
 msgstr "Mode de lectura"
 
@@ -317,13 +297,13 @@ msgid "Normal"
 msgstr "Normal"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1487
+#: ../frontend/gtkmm/src/GUI.cc:1498
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Suspended"
 msgstr "Suspés"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1491
+#: ../frontend/gtkmm/src/GUI.cc:1502
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
 msgid "Quiet"
 msgstr "Silenciós"
@@ -355,7 +335,7 @@ msgstr "Final de la micropausa"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1491 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Límit diari"
 
@@ -371,7 +351,7 @@ msgstr "Final dels exercicis"
 msgid "Exercise change"
 msgstr "Canvi d'exercici"
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
 msgstr "Personalitzat"
 
@@ -390,19 +370,19 @@ msgstr "%s%d:%02d minuts"
 msgid "%s%d seconds"
 msgstr "%s%d segons"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:309
+#: ../frontend/gtkmm/src/BreakWindow.cc:314
 msgid "_Lock"
 msgstr "Bloca"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#: ../frontend/gtkmm/src/BreakWindow.cc:337
 msgid "Shut _down"
 msgstr "A_tura"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:353
+#: ../frontend/gtkmm/src/BreakWindow.cc:358
 msgid "_Skip"
 msgstr "_Omet"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:370
+#: ../frontend/gtkmm/src/BreakWindow.cc:375
 msgid "_Postpone"
 msgstr "_Ajorna"
 
@@ -416,7 +396,7 @@ msgstr ""
 "davant de l'ordinador. Si la vostra jornada laboral no ha\n"
 "acabat encara, trobeu alguna cosa a fer, com revisar un document."
 
-#: ../frontend/gtkmm/src/GUI.cc:304
+#: ../frontend/gtkmm/src/GUI.cc:301
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -425,25 +405,25 @@ msgstr ""
 "a la icona de l'ovella blanca. Feu clic en aquest globus per inhabilitar "
 "aquest missatge."
 
-#: ../frontend/gtkmm/src/GUI.cc:834 ../frontend/gtkmm/src/GUI.cc:949
+#: ../frontend/gtkmm/src/GUI.cc:833 ../frontend/gtkmm/src/GUI.cc:948
 msgid "Workrave failed to start"
 msgstr "No s'ha pogut iniciar el Workrave"
 
-#: ../frontend/gtkmm/src/GUI.cc:836
+#: ../frontend/gtkmm/src/GUI.cc:835
 msgid "Is Workrave already running?"
 msgstr "Potser ja està en execució?"
 
-#: ../frontend/gtkmm/src/GUI.cc:944
+#: ../frontend/gtkmm/src/GUI.cc:943
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 "El Workrave no ha pogut monitoritzar l'activitat del vostre teclat i "
 "ratolí.\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:947
+#: ../frontend/gtkmm/src/GUI.cc:946
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "Assegureu-vos que l'extensió «RECORD» és habilitada al servidor X."
 
-#: ../frontend/gtkmm/src/GUI.cc:1346
+#: ../frontend/gtkmm/src/GUI.cc:1357
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -451,47 +431,47 @@ msgstr ""
 "El Workrave és en mode suspès. L'activitat del ratolí i teclat no es "
 "monitoritzarà."
 
-#: ../frontend/gtkmm/src/GUI.cc:1352
+#: ../frontend/gtkmm/src/GUI.cc:1363
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "El Workrave és en mode silenciós. No es mostraran avisos de pausa."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1491 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/gtkmm/src/GUI.cc:1480
+#: ../frontend/gtkmm/src/GUI.cc:1491
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid "Rest break"
 msgstr "Descans"
 
-#: ../frontend/gtkmm/src/GUI.cc:1487 ../frontend/gtkmm/src/GUI.cc:1491
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GUI.cc:1502
 msgid "Mode: "
 msgstr "Mode: "
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
 msgid "Open"
 msgstr "Obre"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:71
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
 msgstr "Preferències"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Exercicis"
@@ -520,46 +500,46 @@ msgid "Reconnect"
 msgstr "Reconnecta"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:206
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
 msgstr "Estadístiques"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "About..."
 msgstr "Quant a..."
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_Descans"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "S_ilenciós"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
 msgid "_Connect"
 msgstr "_Connecta"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:113
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "Show _log"
 msgstr "Mostra el _registre"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
 msgid "Quit"
 msgstr "Surt"
 
@@ -611,7 +591,7 @@ msgstr "Miniaplicació"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:113
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
 msgid "Timers"
 msgstr "Temporitzadors"
 
@@ -648,86 +628,86 @@ msgstr "Mode de bloqueig"
 msgid "System default"
 msgstr "Predeterminat del sistema"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:251
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
 msgstr "(tipus de lletra no disponible)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:276
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
 msgstr "Llengua:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
 msgstr "Inicia el Workrave en iniciar el Windows"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:292
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
 msgstr "Mostra la icona de la safata del sistema"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
 msgid "Sound Options"
 msgstr "Opcions de so"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 msgid "No sounds"
 msgstr "Sense so"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:325
 msgid "Play sounds using sound card"
 msgstr "Reprodueix sons utilitzant la targeta de so"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
 msgid "Play sounds using built-in speaker"
 msgstr "Reprodueix sons utilitzant l'altaveu intern"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Volume:"
 msgstr "Volum:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:354
 msgid "Sound:"
 msgstr "So:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:356
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Silencia els sons durant el descans i el límit diari"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:366
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Events"
 msgstr "Esdeveniments de so"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:374
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
 msgid "Sound Theme:"
 msgstr "Tema de so:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:415
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:445
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:449
 msgid "Play"
 msgstr "Reprodueix"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:402
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
 msgid "Event"
 msgstr "Esdeveniment"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:418
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
 msgid "Choose a sound"
 msgstr "Seleccioneu un so"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:430
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:434
 msgid "Wavefiles"
 msgstr "Fitxers d'ones"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
 msgstr "Empra un monitor alternatiu"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -735,47 +715,47 @@ msgstr ""
 "Habiliteu aquesta opció si el Workrave no pot detectar quan esteu emprant "
 "l'ordinador"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:108
+#: ../frontend/gtkmm/src/PreludeWindow.cc:107
 msgid "Time for a micro-break?"
 msgstr "És l'hora d'una micropausa?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/gtkmm/src/PreludeWindow.cc:111
 msgid "You need a rest break..."
 msgstr "Necessiteu un descans..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/gtkmm/src/PreludeWindow.cc:115
 msgid "You should stop for today..."
 msgstr "Hauríeu d'acabar per avui"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/gtkmm/src/PreludeWindow.cc:319
 #, c-format
 msgid "Break in %s"
 msgstr "Descans en %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Disappears in %s"
 msgstr "Desapareix en %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Silent in %s"
 msgstr "Silenciós en %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:177
 #, c-format
 msgid "Rest break for %s"
 msgstr "Descans de %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
 msgid "Natural rest break"
 msgstr "Descans natural"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:220
 msgid "This is your natural rest break."
 msgstr "Aquest és el vostre descans..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:226
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -884,38 +864,44 @@ msgid "Maximum number of prompts:"
 msgstr "Nombre màxim de preguntes:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-msgid "Show 'Postpone' and 'Skip' button"
+#, fuzzy
+msgid "Show 'Postpone' button"
 msgstr "Mostra els botons «Ajorna» i «Omet»"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Mostra els botons «Ajorna» i «Omet»"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Suspend timer when inactive"
 msgstr "Suspén el temporitzador quan s'està inactiu"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:176
 msgid "Regard micro-breaks as activity"
 msgstr "Compta les micropauses com a activitat"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "Nombre d'exercicis:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:190
 msgid "Start restbreak when screen is locked"
 msgstr "Inicia un descans quan es bloqui la pantalla"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
 msgid "Time before end:"
 msgstr "Temps abans del final:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Time between breaks:"
 msgstr "Temps entre descansos:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Break duration:"
 msgstr "Duració del descans:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:255
 msgid "Postpone time:"
 msgstr "Temps d'ajornament:"
 
@@ -1196,19 +1182,24 @@ msgstr "Reprén els exercicis"
 msgid "Browse history"
 msgstr "Navega l'historial"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
+#. Delete button
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
 msgstr "Data:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:189
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Descansos"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Preguntes de descansos"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -1216,88 +1207,88 @@ msgstr ""
 "El nombre de vegades que se us va demanar descansar, excloent les preguntes "
 "repetides per al mateix descans"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Preguntes repetides"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "El nombre de vegades que se us va demanar descansar repetidament"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Vegades que es va descansar quan es va demanar"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "El nombre de vegades que us heu pres un descans quan s'us ha demanat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Descansos naturals presos"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 "El número de vegades que us heu pres un descans sense que se us demanara"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Descansos omesos"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "El número de desansos que heu omés"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Descansos ajornats"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "El número de descansos que heu ajornat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Temps sobrepassat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "El temps total que heu sobrepassat el límit per a aquest descans"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
 msgid "Daily usage"
 msgstr "Ús diari"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:241
 msgid "The total computer usage"
 msgstr "El temps total d'ús de l'ordinador"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Activity"
 msgstr "Activitat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
 msgid "Mouse usage:"
 msgstr "Ús del ratolí:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:319
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:324
 msgid "The total time you were using the mouse"
 msgstr "El temps total que heu utilitzat el ratolí"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse movement:"
 msgstr "Moviment del ratolí:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total on-screen mouse movement"
 msgstr "El moviment total a la pantalla del ratolí"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "Effective mouse movement:"
 msgstr "Moviment efectiu del ratolí:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1305,26 +1296,72 @@ msgstr ""
 "El moviment total del ratolí que hauríeu acumulat si l'haguereu mogut en "
 "línies rectes entre clics"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
 msgstr "Clics de botó del ratolí:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:337
 msgid "The total number of mouse button clicks"
 msgstr "El nombre total de clics del botó del ratolí"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
 msgid "Keystrokes:"
 msgstr "Pulsacions de tecles:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
 msgstr "El nombre total de pulsacions de tecles"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:391
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:396
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de %s a %s"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:606
+msgid "Warning"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:603
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+msgid "Files deleted!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:619
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:622
+msgid "Info"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+msgid "File deletion failed!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:629
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:632
+msgid "Error"
+msgstr ""
+
+#~ msgid "u1 %s."
+#~ msgstr "u1 %s."
+
+#~ msgid "u2 %s."
+#~ msgstr "u2 %s."
+
+#~ msgid "p1 %s."
+#~ msgstr "p1 %s."
+
+#~ msgid "p2 %s."
+#~ msgstr "p2 %s."
 
 #~ msgid "Orientation"
 #~ msgstr "Orientació"

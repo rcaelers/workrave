@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-10-22 18:27+0200\n"
+"POT-Creation-Date: 2013-05-25 20:31+0200\n"
 "PO-Revision-Date: 2011-04-16 13:23+0330\n"
 "Last-Translator: Moein Gh <tarfandkhaneh@gmail.com>\n"
 "Language-Team:  <Tarfandkhaneh@Gmail.com>\n"
@@ -19,248 +19,248 @@ msgstr ""
 "X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
 
 # كلاينت
-#: ../backend/src/DistributionSocketLink.cc:129
+#: ../backend/src/DistributionSocketLink.cc:131
 #, c-format
 msgid "Reconnecting to %s."
 msgstr "اتصال مجدد به %s."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:421
+#: ../backend/src/DistributionSocketLink.cc:432
 msgid "Could not enable network operation."
 msgstr "نمی توان بهره برداری از شبکه را فعال کرد"
 
-#: ../backend/src/DistributionSocketLink.cc:430
+#: ../backend/src/DistributionSocketLink.cc:441
 msgid "Disabling network operation."
 msgstr "در حال قطع شدن از شبکه..."
 
-#: ../backend/src/DistributionSocketLink.cc:546
-#: ../backend/src/DistributionSocketLink.cc:583
+#: ../backend/src/DistributionSocketLink.cc:557
+#: ../backend/src/DistributionSocketLink.cc:594
 #, c-format
 msgid "Connecting to %s."
 msgstr "در حال اتصال به %s."
 
-#: ../backend/src/DistributionSocketLink.cc:700
-#: ../backend/src/DistributionSocketLink.cc:732
+#: ../backend/src/DistributionSocketLink.cc:712
+#: ../backend/src/DistributionSocketLink.cc:745
 #, c-format
 msgid "Removing client %s."
 msgstr "در حال حذف کلاینت %s."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:781
+#: ../backend/src/DistributionSocketLink.cc:794
 #, c-format
 msgid "Disconnecting %s"
 msgstr "در حال قطع کردن %s."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:950
+#: ../backend/src/DistributionSocketLink.cc:964
 #, c-format
 msgid "Client %s is now master."
 msgstr "کلاینت %s اکنون برجسته است"
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:957
+#: ../backend/src/DistributionSocketLink.cc:971
 msgid "I'm now master."
 msgstr "من اکنون برجسته هستم"
 
 #. gchar *name =
 #. int port =
-#: ../backend/src/DistributionSocketLink.cc:1288
+#: ../backend/src/DistributionSocketLink.cc:1316
 #, c-format
 msgid "Client %s saying hello."
 msgstr "کلاینت %s به شما خوش آمد می گوید"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1303
-#: ../backend/src/DistributionSocketLink.cc:1433
-#: ../backend/src/DistributionSocketLink.cc:1677
+#: ../backend/src/DistributionSocketLink.cc:1331
+#: ../backend/src/DistributionSocketLink.cc:1461
+#: ../backend/src/DistributionSocketLink.cc:1705
 #, c-format
 msgid "Client %s is duplicate."
 msgstr "کلاینت %s تکثیر می شود"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1313
+#: ../backend/src/DistributionSocketLink.cc:1341
 #, c-format
 msgid "Client %s access denied."
 msgstr "کلاینت %s دسترسی امکان پذیر نیست"
 
-#: ../backend/src/DistributionSocketLink.cc:1382
+#: ../backend/src/DistributionSocketLink.cc:1410
 #, c-format
 msgid "Client %s signed off."
 msgstr "کلاینت %s خارج شد."
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1472
+#: ../backend/src/DistributionSocketLink.cc:1500
 #, c-format
 msgid "Client %s is welcoming us."
 msgstr "کلاینت %s به ما خوشامد می گوید."
 
-#: ../backend/src/DistributionSocketLink.cc:1713
+#: ../backend/src/DistributionSocketLink.cc:1741
 #, c-format
 msgid "Requesting master status from %s."
 msgstr "درخواست وضعیت برجسته از %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1727
+#: ../backend/src/DistributionSocketLink.cc:1755
 #, c-format
 msgid "Client timeout from %s."
 msgstr "وقفه کلاینت از %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1749
+#: ../backend/src/DistributionSocketLink.cc:1777
 #, c-format
 msgid "Rejecting master request from client %s."
 msgstr "در حال رد کردن درخواست برجسته از کلاینت %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1755
+#: ../backend/src/DistributionSocketLink.cc:1783
 #, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "در حال تصدیق کردن درخواست برجسته از کلاینت %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1806
+#: ../backend/src/DistributionSocketLink.cc:1834
 #, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "کلاینت نامشخص %s درخواست برجسته را رد کرد"
 
-#: ../backend/src/DistributionSocketLink.cc:1811
+#: ../backend/src/DistributionSocketLink.cc:1839
 #, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "کلاینت %s درخواست برجسته را رد کرد، تاخیر."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1882
+#: ../backend/src/DistributionSocketLink.cc:1910
 #, c-format
 msgid "Client %s is now the new master."
 msgstr ".اکنون %s کلاینت برجسته ی جدید است"
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2037
 msgid "Network operation started."
 msgstr "گردش شبکه آغاز شد."
 
-#: ../backend/src/DistributionSocketLink.cc:2030
+#: ../backend/src/DistributionSocketLink.cc:2058
 msgid "Accepted new client."
 msgstr "کلاینت جدید پذیرفته شد."
 
-#: ../backend/src/DistributionSocketLink.cc:2104
+#: ../backend/src/DistributionSocketLink.cc:2132
 #, c-format
 msgid "Client %s read error, closing."
 msgstr "کلاینت %s اشتباه خواند، بسته می شود."
 
-#: ../backend/src/DistributionSocketLink.cc:2110
-#: ../backend/src/DistributionSocketLink.cc:2183
+#: ../backend/src/DistributionSocketLink.cc:2138
+#: ../backend/src/DistributionSocketLink.cc:2211
 #, c-format
 msgid "Client %s closed connection."
 msgstr "کلاینت %s اتصال را قطع کرد."
 
-#: ../backend/src/DistributionSocketLink.cc:2151
+#: ../backend/src/DistributionSocketLink.cc:2179
 #, c-format
 msgid "Client %s connected."
 msgstr "کلاینت %s وصل شد."
 
-#: ../backend/src/DistributionSocketLink.cc:2189
+#: ../backend/src/DistributionSocketLink.cc:2217
 #, c-format
 msgid "Could not connect to client %s."
 msgstr "نمی توان به کلاینت %s متصل شد."
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
-msgid "Reading mode"
-msgstr "حالت خواندن"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
-msgid "_About..."
-msgstr "_درباره..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Connect..."
-msgstr "_اتصال..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:129
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Disconnect"
-msgstr "_قطع اتصال"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
-msgid "_Exercises"
-msgstr "_نرمش ها"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
-msgid "_Mode"
-msgstr "_حالت"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
-msgid "_Network"
-msgstr "_شبکه"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:122
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-msgid "_Normal"
-msgstr "_عادی"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:73
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_باز کردن"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 msgid "_Preferences"
 msgstr "_ترجیحات"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-msgid "_Quiet"
-msgstr "_خاموش"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-msgid "_Quit"
-msgstr "_خروج"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-msgid "_Reconnect"
-msgstr "_اتصال مجدد"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
 msgid "_Restbreak"
 msgstr "_استراحت"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+msgid "_Exercises"
+msgstr "_نرمش ها"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+msgid "_Mode"
+msgstr "_حالت"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:119
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "_Normal"
+msgstr "_عادی"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Quiet"
+msgstr "_خاموش"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
+msgid "_Suspended"
+msgstr "_موکول"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+msgid "_Network"
+msgstr "_شبکه"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Connect..."
+msgstr "_اتصال..."
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+msgid "_Disconnect"
+msgstr "_قطع اتصال"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+msgid "_Reconnect"
+msgstr "_اتصال مجدد"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Show Log..."
 msgstr "_نمایش عملکرد"
 
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
+msgid "Reading mode"
+msgstr "حالت خواندن"
+
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
 msgid "_Statistics"
 msgstr "_آمار"
 
+#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_About..."
+msgstr "_درباره..."
+
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
-msgid "_Suspended"
-msgstr "_موکول"
+#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
+msgid "_Quit"
+msgstr "_خروج"
 
 #: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
@@ -272,7 +272,7 @@ msgstr "Workrave Applet"
 
 #: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:384
+#: ../frontend/gtkmm/src/Menus.cc:374
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -288,24 +288,24 @@ msgid "_About"
 msgstr "_درباره"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
 msgid "Show log"
 msgstr "نمایش گزارش"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:182
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
 msgid "Normal"
 msgstr "عادی"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1519
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:184
+#: ../frontend/gtkmm/src/GUI.cc:1498
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Suspended"
 msgstr "موکول"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1523
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:186
+#: ../frontend/gtkmm/src/GUI.cc:1502
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
 msgid "Quiet"
 msgstr "خاموش"
 
@@ -336,7 +336,7 @@ msgstr "استراحت کوتاه پایان یافت"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1491 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "محدودیت روزانه"
 
@@ -352,7 +352,7 @@ msgstr "نرمش ها پایان یافت"
 msgid "Exercise change"
 msgstr "تغییر نرمش"
 
-#: ../frontend/common/src/SoundPlayer.cc:608
+#: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
 msgstr "عادت"
 
@@ -371,19 +371,19 @@ msgstr "%s%d:%02d دقیقه ها"
 msgid "%s%d seconds"
 msgstr "%s%d ثانیه ها"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:309
+#: ../frontend/gtkmm/src/BreakWindow.cc:314
 msgid "_Lock"
 msgstr "_قفل"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#: ../frontend/gtkmm/src/BreakWindow.cc:337
 msgid "Shut _down"
 msgstr "خاتمه دادن"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:353
+#: ../frontend/gtkmm/src/BreakWindow.cc:358
 msgid "_Skip"
 msgstr "_پرش"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:370
+#: ../frontend/gtkmm/src/BreakWindow.cc:375
 msgid "_Postpone"
 msgstr "_به بعد موکول کردن"
 
@@ -397,7 +397,7 @@ msgstr ""
 "روز کاری شما هنوز به پایان نرسیده، لطفاً کارهای دیگری انجام دهید، مانند بررسی "
 "یک متن یا سند."
 
-#: ../frontend/gtkmm/src/GUI.cc:302
+#: ../frontend/gtkmm/src/GUI.cc:301
 #, fuzzy
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
@@ -406,143 +406,143 @@ msgstr ""
 "WorkRave هنوز در حال اجراست. شما می توانید با کلیک کردن روی آیکن گوسفند سفید "
 "به آن دسترسی پیدا کنید."
 
-#: ../frontend/gtkmm/src/GUI.cc:844 ../frontend/gtkmm/src/GUI.cc:959
+#: ../frontend/gtkmm/src/GUI.cc:833 ../frontend/gtkmm/src/GUI.cc:948
 msgid "Workrave failed to start"
 msgstr "WorkRave موفق به شروع نشد"
 
-#: ../frontend/gtkmm/src/GUI.cc:846
+#: ../frontend/gtkmm/src/GUI.cc:835
 msgid "Is Workrave already running?"
 msgstr "آیا WorkRave هنوز در حال اجراست؟"
 
-#: ../frontend/gtkmm/src/GUI.cc:954
+#: ../frontend/gtkmm/src/GUI.cc:943
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "WorkRave نمی تواند فعالیت صفحه کلید و ماوس شما را ضبط کند.\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:957
+#: ../frontend/gtkmm/src/GUI.cc:946
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "Make sure that the RECORD extension is enabled in the X server."
 
-#: ../frontend/gtkmm/src/GUI.cc:1378
+#: ../frontend/gtkmm/src/GUI.cc:1357
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr "WorkRave در حالت موکول است. فعالیت موس و کیبرد نمی تواند ضبط شود."
 
-#: ../frontend/gtkmm/src/GUI.cc:1384
+#: ../frontend/gtkmm/src/GUI.cc:1363
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 "WorkRave در حالت خاموش قرار دارد. هیچ پنجره ی استراحتی پدیدار نخواهد شد."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1512 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1491 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
 msgid "Micro-break"
 msgstr "میکرو استراحت!"
 
-#: ../frontend/gtkmm/src/GUI.cc:1512
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/GUI.cc:1491
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid "Rest break"
 msgstr "استراحت"
 
-#: ../frontend/gtkmm/src/GUI.cc:1519 ../frontend/gtkmm/src/GUI.cc:1523
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GUI.cc:1502
 msgid "Mode: "
 msgstr "حالت:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
 #, fuzzy
 msgid "Open"
 msgstr "_باز کردن"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:116
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
 msgstr "ترجیحات"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:118
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "نرمش ها"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:180
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
 #, fuzzy
 msgid "Mode"
 msgstr "_حالت"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:116
 msgid "Network"
 msgstr "شبکه"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
 #, fuzzy
 msgid "Connect"
 msgstr "_اتصال"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
 #, fuzzy
 msgid "Disconnect"
 msgstr "_قطع اتصال"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
 #, fuzzy
 msgid "Reconnect"
 msgstr "_اتصال مجدد"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:134
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
 msgstr "آمار"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:135
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "About..."
 msgstr "درباره..."
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_استراحت"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "Q_uiet"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
 msgid "_Connect"
 msgstr "_اتصال"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "Show _log"
 msgstr "Show _log"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:136
+#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
 #, fuzzy
 msgid "Quit"
 msgstr "_خروج"
@@ -575,60 +575,60 @@ msgstr "محدودیت روزانه در %s"
 msgid "Daily limit %s overdue"
 msgstr "محدودیت روزانه %s سر رسیده"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:92
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
 msgstr "عمومی"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
 msgid "Sounds"
 msgstr "صداها"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:101
 msgid "Status Window"
 msgstr "پنجره ی وضعیت"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
 msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:113
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
 msgid "Timers"
 msgstr "تایمرها"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 msgid "User interface"
 msgstr "رابط کاربری"
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:167
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "No blocking"
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:168
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "Block input"
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:169
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "Block input and screen"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
 msgid "Options"
 msgstr "تنظیمات"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:195
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:191
 msgid "Block mode:"
 msgstr "Block mode:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:215
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:211
 msgid "System default"
 msgstr "پیشفرض سیستم"
 
@@ -713,51 +713,51 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
-"Enable this option if Workrave fails to detect when you are using you "
+"Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:108
+#: ../frontend/gtkmm/src/PreludeWindow.cc:107
 msgid "Time for a micro-break?"
 msgstr "زمانی برای یک استراحت کوتاه؟"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/gtkmm/src/PreludeWindow.cc:111
 msgid "You need a rest break..."
 msgstr "شما به یک استراحت نیاز دارید..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/gtkmm/src/PreludeWindow.cc:115
 msgid "You should stop for today..."
 msgstr "برای امروز کافیست..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/gtkmm/src/PreludeWindow.cc:319
 #, c-format
 msgid "Break in %s"
 msgstr "Break in %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Disappears in %s"
 msgstr "ناپدید شدن در %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Silent in %s"
 msgstr "خاموش شدن در %s."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:177
 #, c-format
 msgid "Rest break for %s"
 msgstr "استراحت برای %s."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
 msgid "Natural rest break"
 msgstr "استراحت عادی"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:220
 msgid "This is your natural rest break."
 msgstr "این استراحت عادی شماست"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:226
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -766,11 +766,11 @@ msgstr ""
 "این استراحت شماست. بلند شوید و از کامپیوتر چند قدم دور شوید. فقط برای دقایقی "
 "کوتاه قدم بزنید، حرکات کششی انجام دهید و عضلات را شل (ریلکس) کنید."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
 msgid "Take rest break now"
 msgstr "اکنون استراحت کنید"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
 msgid "Wait"
 msgstr "منتظر باشید"
 
@@ -865,39 +865,45 @@ msgid "Maximum number of prompts:"
 msgstr "بیش ترین تعداد وادار کننده ها:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-msgid "Show 'Postpone' and 'Skip' button"
+#, fuzzy
+msgid "Show 'Postpone' button"
 msgstr "نمایش دکمه های \"به تعویق انداختن\" و \"پرش\""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "نمایش دکمه های \"به تعویق انداختن\" و \"پرش\""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Suspend timer when inactive"
 msgstr "موقوف کردن زمان سنج زمانی که غیرفعال است"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:176
 msgid "Regard micro-breaks as activity"
 msgstr "نگاه کردن به میکرو استراحت! به عنوان یک فعالیت"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "تعداد نرمش ها:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:190
 #, fuzzy
 msgid "Start restbreak when screen is locked"
 msgstr "شروع استراحت عادی زمانی که صفحه نمایش قفل شده"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
 msgid "Time before end:"
 msgstr "زمان قبل از پایان:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Time between breaks:"
 msgstr "زمان بین استراحت ها:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Break duration:"
 msgstr "مدت استراحت:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:247
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:255
 msgid "Postpone time:"
 msgstr "زمان به تعویق انداختن:"
 
@@ -989,34 +995,10 @@ msgid "Hosts"
 msgstr "هاست ها"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Backward shoulder stretch"
-msgstr "Backward shoulder stretch"
+msgid "Shoulder-arm stretch"
+msgstr "کشیدن شانه_بازو"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"با دست هایتان چشم ها را بپوشانید به نحوی که همچنان بتوانید پلک ها را باز نگه "
-"دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار "
-"در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "کشش انگشت"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"انگشت هایتان را در پشتتان به هم بپیچانید. سپس آرنج هایتان را به آرامی به "
-"درون بپیچانید، در حالی که بازوهایتان را راست می کنید. این حالت را 5 تا 15 "
-"ثانیه نگه دارید، و این تمرین را دو بار انجام دهید."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -1027,7 +1009,57 @@ msgstr ""
 "این دست را فشار دهید تا زمانی که یک کشیدگی ملایم در شانه تان احساس کنید. این "
 "حالت را چند ثانیه نگه دارید، و همین تمرین را برای دست دیگرتان انجام دهید."
 
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "کشش انگشت"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"انگشت هایتان را از هم جدا کنید و بکشید تا زمانی که یک کشیدگی ملایم را احساس "
+"کنید، و این وضعیت را برای 10 ثانیه نگه دارید. شل کنید، و سپس انگشت هایتان را "
+"از قسمت بندها خم کنید، و این حالت را نیز برای 10 ثانیه نگه دارید. این تمریم "
+"را یک بار دیگر تکرار کنید."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid "Neck tilt stretch"
+msgstr "کشیدن گردن به یک سمت"
+
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"   تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر "
+"خود را به طرف شانه ی سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه های سمت "
+"چپ گردنتان حس شود. این حالت را برای 5 ثانیه نگه دارید. سپس، سر را به طرف "
+"شانه ی سمت چپ خم کنید تا ماهیچه های سمت راست گردنتان کشیده شود. این تمرین را "
+"دوبار برای هر سمت انجام دهید."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid "Backward shoulder stretch"
+msgstr "Backward shoulder stretch"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"انگشت هایتان را در پشتتان به هم بپیچانید. سپس آرنج هایتان را به آرامی به "
+"درون بپیچانید، در حالی که بازوهایتان را راست می کنید. این حالت را 5 تا 15 "
+"ثانیه نگه دارید، و این تمرین را دو بار انجام دهید."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "چشم ها را حرکت دهید"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -1037,7 +1069,11 @@ msgstr ""
 "گوشه ی سمت راست دنبال کنید. ادامه دهید برای گوشه ی بعدی، هنگامی که دوبار دور "
 "آن را دنبال کرده باشید. سپس، تمرین را تا دفعه ی بعد کنار بگذارید."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Train focusing the eyes"
+msgstr "متمرکز کردن چشم ها را تمرین کنید"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -1051,51 +1087,23 @@ msgstr ""
 "روی یک مسیر با نمای طولانی تر بایستید. سپس تمرکزتان را بین یک شیء دورتر و یک "
 "خودکار در فاصله ی چشم هایتان تا مانیتور تغییر دهید."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "به تاریکی نگاه کنید"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "چشم ها را حرکت دهید"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid "Move the shoulders"
-msgstr "شانه ها را حرکت دهید"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Move the shoulders up and down"
-msgstr "شانه ها را بالا و پایین ببرید"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid "Neck tilt stretch"
-msgstr "کشیدن گردن به یک سمت"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"در حالی که روی صندلی نشسته اید دست هایتان را روی دسته ی صندلی قرار دهید و "
-"بدنتان را به بالا فشار دهید تا جایی که آرنج هایتان راست می شود. با پایین "
-"آوردن شانه هایتان برای حرکت سرتان تلاش کنید. سپس به آرامی به صندلی تان "
-"برگردید."
-
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"انگشت هایتان را از هم جدا کنید و بکشید تا زمانی که یک کشیدگی ملایم را احساس "
-"کنید، و این وضعیت را برای 10 ثانیه نگه دارید. شل کنید، و سپس انگشت هایتان را "
-"از قسمت بندها خم کنید، و این حالت را نیز برای 10 ثانیه نگه دارید. این تمریم "
-"را یک بار دیگر تکرار کنید."
+"با دست هایتان چشم ها را بپوشانید به نحوی که همچنان بتوانید پلک ها را باز نگه "
+"دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار "
+"در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Shoulder-arm stretch"
-msgstr "کشیدن شانه_بازو"
+msgid "Move the shoulders"
+msgstr "شانه ها را حرکت دهید"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
@@ -1108,21 +1116,19 @@ msgstr ""
 "چند ثانیه عضلات را شل کنید. سپس همین تمرین را برای دست چپ تکرار کنید."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"   تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر "
-"خود را به طرف شانه ی سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه های سمت "
-"چپ گردنتان حس شود. این حالت را برای 5 ثانیه نگه دارید. سپس، سر را به طرف "
-"شانه ی سمت چپ خم کنید تا ماهیچه های سمت راست گردنتان کشیده شود. این تمرین را "
-"دوبار برای هر سمت انجام دهید."
+msgid "Move the shoulders up and down"
+msgstr "شانه ها را بالا و پایین ببرید"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid "Train focusing the eyes"
-msgstr "متمرکز کردن چشم ها را تمرین کنید"
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"در حالی که روی صندلی نشسته اید دست هایتان را روی دسته ی صندلی قرار دهید و "
+"بدنتان را به بالا فشار دهید تا جایی که آرنج هایتان راست می شود. با پایین "
+"آوردن شانه هایتان برای حرکت سرتان تلاش کنید. سپس به آرامی به صندلی تان "
+"برگردید."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
@@ -1169,9 +1175,14 @@ msgstr "توقف کوتاه"
 msgid "Resume exercises"
 msgstr "ادامه ی نرمش ها"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:146
 msgid "Browse history"
 msgstr "تاریخچه ی جست و جو"
+
+#. Delete button
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+msgid "Delete all statistics history"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
@@ -1301,6 +1312,40 @@ msgstr "تعداد کل دفعاتی که دکمه های صفحه کلید فش
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, از %s به %s"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:606
+msgid "Warning"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:603
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+msgid "Files deleted!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:619
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:622
+msgid "Info"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+msgid "File deletion failed!"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:629
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:632
+msgid "Error"
+msgstr ""
 
 #~ msgid "Orientation"
 #~ msgstr "گرایش"
