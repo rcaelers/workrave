@@ -1,10 +1,10 @@
 #!/bin/bash
 TINDERBOX_HOME=${HOME}/src/tinderbox
-WORKRAVE_GIT_DIR=${HOME}/src/workrave-win32
+WORKRAVE_GIT_DIR=${HOME}/src/workrave
 
 WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32
-WIN32_ISCC="${HOME}/.wine/fake_windows/Program Files/Inno Setup 5/ISCC.exe"
+WIN32_ISCC="${HOME}/.wine/drive_c/Program Files (x86)/Inno Setup 5/ISCC.exe"
 
 export TINDERBOX_BUILD=yes
 

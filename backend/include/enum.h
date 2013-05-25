@@ -28,6 +28,9 @@ namespace workrave {
 
       /* User is reading. */
       USAGE_MODE_READING,
+
+      /* Number of modes. */
+      USAGE_MODE_SIZEOF
     }  UsageMode;
 
 #ifdef __cplusplus
