@@ -232,7 +232,7 @@ AppletControl::hide()
 void
 AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletState state)
 {
-  TRACE_ENTER_MSG("AppletControl::set_applet_state", type << " " << state);
+  TRACE_ENTER_MSG("AppletControl::on_applet_state_changed", type << " " << state);
   applet_state[type] = state;
 
 #ifdef PLATFORM_OS_UNIX
