@@ -51,6 +51,13 @@
       <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
 
+    <signal name="OperationModeChanged">
+      <arg type="operation_mode" name="mode"/>
+    </signal>
+    
+    <signal name="UsageModeChanged">
+      <arg type="usage_mode" name="mode"/>
+    </signal>
   </interface>
 
   <interface name="org.workrave.BreakInterface" csymbol="Break">

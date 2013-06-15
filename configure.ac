@@ -5,12 +5,12 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
-m4_define([workrave_micro_version], [0])
+m4_define([workrave_micro_version], [1])
 m4_define([workrave_version_suffix], [0])
-#m4_define([workrave_version],
-#          [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_version],
-          [workrave_major_version.workrave_minor_version])
+          [workrave_major_version.workrave_minor_version.workrave_micro_version])
+#m4_define([workrave_version],
+#          [workrave_major_version.workrave_minor_version])
 m4_define([workrave_resource_version],
           [workrave_major_version,workrave_minor_version,workrave_micro_version,workrave_version_suffix])
 
@@ -117,6 +117,7 @@ AC_USE_SYSTEM_EXTENSIONS
 
 AC_PROG_CC
 AM_PROG_CC_C_O
+AM_PROG_AR
 AC_PROG_OBJC
 AC_PROG_CXX
 AC_PROG_CPP

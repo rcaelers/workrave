@@ -108,18 +108,22 @@ StatusIcon::insert_icon()
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 #endif
 
-#ifdef HAVE_STATUSICON_SIGNAL
 #ifdef USE_W32STATUSICON
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
-#endif
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
   status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
 #else
 
+#if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
   // Hook up signals, missing from gtkmm
   GtkStatusIcon *gobj = status_icon->gobj();
-
+#endif
+  
+#ifdef HAVE_STATUSICON_SIGNAL
+  status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
+  status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
+#else
   g_signal_connect(gobj, "activate",
                    reinterpret_cast<GCallback>(activate_callback), this);
   g_signal_connect(gobj, "popup-menu",
@@ -127,12 +131,23 @@ StatusIcon::insert_icon()
   g_signal_connect(gobj, "notify::embedded",
                    reinterpret_cast<GCallback>(embedded_changed_callback), this);
 #endif
+
+#ifdef HAVE_EMBEDDED_SIGNAL
+  status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
+#else
+  g_signal_connect(gobj, "notify::embedded",
+                   reinterpret_cast<GCallback>(embedded_changed_callback), this);
+#endif
+#endif
 }
 
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-  status_icon->set(mode_icons[m]);
+  if (mode_icons[m])
+    {
+      status_icon->set(mode_icons[m]);
+    }
 }
 
 bool
@@ -201,6 +216,18 @@ StatusIcon::embedded_changed_callback(GObject* gobject,
                                       GParamSpec* pspec,
                                       gpointer callback_data)
 {
+  static_cast<StatusIcon*>(callback_data)->on_embedded_changed();
+}
+#endif
+
+#ifndef HAVE_EMBEDDED_SIGNAL
+void
+StatusIcon::embedded_changed_callback(GObject* gobject,
+                                      GParamSpec* pspec,
+                                      gpointer callback_data)
+{
+  (void) pspec;
+  (void) gobject;
   static_cast<StatusIcon*>(callback_data)->on_embedded_changed();
 }
 #endif

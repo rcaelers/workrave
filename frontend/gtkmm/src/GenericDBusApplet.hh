@@ -23,6 +23,8 @@
 #include <string>
 #include <set>
 
+#include "IConfiguratorListener.hh"
+
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
@@ -38,7 +40,7 @@ namespace workrave
   }
 }
 
-class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch
+class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch, public workrave::config::IConfiguratorListener
 {
 public:
   struct TimerData
@@ -77,6 +79,7 @@ public:
 
   // DBus
   virtual void get_menu(MenuItems &out) const;
+  virtual void get_tray_icon_enabled(bool &enabled) const;
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
   
@@ -86,6 +89,9 @@ private:
   virtual void deactivate_applet();
   virtual void init_applet();
 
+  // IConfiguratorListener
+  void config_changed_notify(const std::string &key);
+  
   // ITimerBoxView
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
@@ -103,9 +109,12 @@ private:
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
   void add_menu_item(const char *text, int command, int flags);
+
+  void send_tray_icon_enabled();
   
 private:
   bool enabled;
+  bool visible;
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;

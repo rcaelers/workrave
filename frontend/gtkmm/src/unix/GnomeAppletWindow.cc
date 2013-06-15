@@ -189,7 +189,7 @@ GnomeAppletWindow::activate_applet()
 
   TRACE_EXIT();
   return ok ?
-    AppletWindow::APPLET_STATE_VISIBLE :
+    AppletWindow::APPLET_STATE_ACTIVE :
     AppletWindow::APPLET_STATE_DISABLED;
 }
 
@@ -649,7 +649,7 @@ void
 GnomeAppletWindow::on_embedded()
 {
   TRACE_ENTER("GnomeAppletWindow::on_embedded");
-  state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_ACTIVE);
   TRACE_EXIT();
 }
 

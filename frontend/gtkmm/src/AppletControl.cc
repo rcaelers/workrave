@@ -145,7 +145,7 @@ AppletControl::show()
   TRACE_MSG("Gnome " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
-      // Applet now visible or pending.
+      // Applet now active or pending.
       // Don't try to activate generic applet (systray)
       specific = true;
     }
@@ -193,7 +193,7 @@ AppletControl::show(AppletType type)
   AppletState rc = activate_applet(type);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
-      // Applet now visible or pending.
+      // Applet now active or pending.
       // Don't try to activate generic applet (systray)
       specific = true;
     }
@@ -233,25 +233,25 @@ AppletControl::hide()
 void
 AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletState state)
 {
-  TRACE_ENTER_MSG("AppletControl::set_applet_state", type << " " << state);
+  TRACE_ENTER_MSG("AppletControl::on_applet_state_changed", type << " " << state);
   applet_state[type] = state;
 
 #ifdef PLATFORM_OS_UNIX
-  if (is_visible(type) && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
+  if (is_active(type) && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
     {
       TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);
     }
 #endif
 
-  if (enabled && !is_visible())
+  if (enabled && !is_active())
     {
-      TRACE_MSG("none visible, show in 5s");
+      TRACE_MSG("none active, show in 5s");
       delayed_show = 5;
     }
 
-  // FIXME: REFACTOR
-  if (state == AppletWindow::APPLET_STATE_VISIBLE)
+  // REFACTOR
+  if (state == AppletWindow::APPLET_STATE_ACTIVE)
     {
       IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
@@ -269,16 +269,43 @@ AppletControl::on_applet_request_activate(AppletType type)
   show(type);
 }
 
-
-//! Is at least a single applet visible.
+//! Is the specified applet active.
 bool
-AppletControl::is_visible(AppletType type)
+AppletControl::is_active(AppletType type)
 {
-  return applet_state[type] == AppletWindow::APPLET_STATE_VISIBLE;
+  return
+    applet_state[type] == AppletWindow::APPLET_STATE_ACTIVE;
 }
 
 
 //! Is the specified applet visible.
+bool
+AppletControl::is_visible(AppletType type)
+{
+  return
+    applet_state[type] == AppletWindow::APPLET_STATE_ACTIVE ||
+    applet_state[type] == AppletWindow::APPLET_STATE_VISIBLE;
+}
+
+
+//! Is at least a single applet active.
+bool
+AppletControl::is_active()
+{
+  bool ret = false;
+
+  for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
+    {
+      if (is_active((AppletType)i))
+        {
+          ret = true;
+        }
+    }
+    return ret;
+}
+
+
+//! Is at least a single applet visible.
 bool
 AppletControl::is_visible()
 {
@@ -300,7 +327,7 @@ void
 AppletControl::heartbeat()
 {
   TRACE_ENTER("AppletControl::heartbeat");
-  if (delayed_show < 0 && enabled && !is_visible())
+  if (delayed_show < 0 && enabled && !is_active())
     {
       delayed_show = 30;
     }
@@ -316,7 +343,7 @@ AppletControl::heartbeat()
 
   for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && is_visible((AppletType)i))
+      if (applets[i] != NULL && is_active((AppletType)i))
         {
           applets[i]->update_applet();
         }

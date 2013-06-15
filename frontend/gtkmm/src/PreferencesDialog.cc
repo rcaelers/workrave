@@ -57,6 +57,14 @@
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
 
+#ifndef WR_CHECK_VERSION
+#define WR_CHECK_VERSION(comp,major,minor,micro)   \
+    (comp##_MAJOR_VERSION > (major) || \
+     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) || \
+     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && \
+      comp##_MICRO_VERSION >= (micro)))
+#endif
+
 #define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 using namespace std;
@@ -448,8 +456,13 @@ PreferencesDialog::create_sounds_page()
       selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this,
                                                                   &PreferencesDialog::on_sound_filechooser_play));
 
+#if WR_CHECK_VERSION(GTKMM,2,22,0)
+      fsbutton->signal_file_set().connect(sigc::mem_fun(*this,
+                                                                 &PreferencesDialog::on_sound_filechooser_select));
+#else
       fsbutton->signal_selection_changed().connect(sigc::mem_fun(*this,
                                                                  &PreferencesDialog::on_sound_filechooser_select));
+#endif
 
       Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
       selection->signal_changed().connect(sigc::mem_fun(*this,
@@ -872,32 +885,35 @@ PreferencesDialog::on_sound_theme_changed()
   TRACE_ENTER("PreferencesDialog::on_sound_theme_changed");
   int idx = sound_theme_button->get_active_row_number();
 
-  SoundPlayer::Theme &theme = sound_themes[idx];
-
-  IGUI *gui = GUI::get_instance();
-  SoundPlayer *snd = gui->get_sound_player();
-  snd->activate_theme(theme);
-
-  Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-  Gtk::TreeModel::iterator iter = selection->get_selected();
-
-  if (iter)
+  if (idx >= 0 && idx < sound_themes.size())
     {
-      Gtk::TreeModel::Row row = *iter;
-      string event = (Glib::ustring) row[sound_model.label];
-      string filename;
+      SoundPlayer::Theme &theme = sound_themes[idx];
 
-      bool valid = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                              row[sound_model.label],
-                                                              filename);
+      IGUI *gui = GUI::get_instance();
+      SoundPlayer *snd = gui->get_sound_player();
+      snd->activate_theme(theme);
 
-      if (valid && filename != "")
+      Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
+      Gtk::TreeModel::iterator iter = selection->get_selected();
+
+      if (iter)
         {
-          TRACE_MSG(filename << " " <<row[sound_model.label]);
-          inhibit_events++;
-          fsbutton_filename = filename;
-          fsbutton->set_filename(filename);
-          inhibit_events--;
+          Gtk::TreeModel::Row row = *iter;
+          string event = (Glib::ustring) row[sound_model.label];
+          string filename;
+
+          bool valid = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
+                                                                  row[sound_model.label],
+                                                                  filename);
+
+          if (valid && filename != "")
+            {
+              TRACE_MSG(filename << " " <<row[sound_model.label]);
+              inhibit_events++;
+              fsbutton_filename = filename;
+              fsbutton->set_filename(filename);
+              inhibit_events--;
+            }
         }
     }
   TRACE_EXIT();

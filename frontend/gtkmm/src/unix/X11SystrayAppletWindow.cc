@@ -111,7 +111,7 @@ X11SystrayAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return APPLET_STATE_VISIBLE;
+      return APPLET_STATE_ACTIVE;
     }
 
   tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
@@ -252,7 +252,7 @@ X11SystrayAppletWindow::on_embedded()
 #endif
     }
 
-  state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
+  state_changed_signal.emit(AppletWindow::APPLET_STATE_ACTIVE);
   TRACE_EXIT();
 }
 

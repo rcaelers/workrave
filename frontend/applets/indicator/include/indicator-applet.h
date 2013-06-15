@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,10 @@
 #define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.AppletInterface"
 #define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
 #define  WORKRAVE_INDICATOR_SERVICE_VERSION  1
+
+#define  WORKRAVE_INDICATOR_CORE_NAME        "org.workrave.Workrave"
+#define  WORKRAVE_INDICATOR_CORE_IFACE       "org.workrave.CoreInterface"
+#define  WORKRAVE_INDICATOR_CORE_OBJ         "/org/workrave/Workrave/Core"
 
 #define  WORKRAVE_INDICATOR_MENU_NAME        "org.workrave.Workrave"
 #define  WORKRAVE_INDICATOR_MENU_OBJ         "/org/workrave/Workrave/Menu"

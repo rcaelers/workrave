@@ -46,7 +46,10 @@ namespace workrave {
       USAGE_MODE_NORMAL=0,
 
       /* User is reading. */
-      USAGE_MODE_READING
+      USAGE_MODE_READING,
+
+      /* Number of modes. */
+      USAGE_MODE_SIZEOF
     }  UsageMode;
 
   //! ID of a break.
