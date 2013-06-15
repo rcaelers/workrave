@@ -51,7 +51,9 @@ const int PADDING_Y = 2;
 struct _WorkraveTimerboxPrivate
 {
   gchar *name;
-  GdkPixbuf *sheep_icon;
+  GdkPixbuf *normal_sheep_icon;
+  GdkPixbuf *quiet_sheep_icon;
+  GdkPixbuf *suspended_sheep_icon;
   WorkraveTimebar *slot_to_time_bar[BREAK_ID_SIZEOF];
   GdkPixbuf *break_to_icon[BREAK_ID_SIZEOF];
   WorkraveBreakId slot_to_break[BREAK_ID_SIZEOF];
@@ -61,6 +63,8 @@ struct _WorkraveTimerboxPrivate
   short filled_slots;
   int width;
   int height;
+  gboolean force_icon;
+  gchar *mode;
 };
 
 
@@ -95,7 +99,9 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   self->priv = WORKRAVE_TIMERBOX_GET_PRIVATE(self);
 
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  self->priv->sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
+  self->priv->normal_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
+  self->priv->quiet_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-quiet-icon-medium.png", NULL);
+  self->priv->suspended_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-suspended-icon-medium.png", NULL);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -112,7 +118,9 @@ workrave_timerbox_init(WorkraveTimerbox *self)
     }
   self->priv->filled_slots = 0;
   self->priv->enabled = FALSE;
-
+  self->priv->force_icon = FALSE;
+  self->priv->mode = g_strdup("normal");
+    
   /* initialize all public and private members to reasonable default values. */
 
   /* If you need specific construction properties to complete initialization,
@@ -126,7 +134,9 @@ workrave_timerbox_dispose(GObject *gobject)
 {
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
 
-  g_object_unref(self->priv->sheep_icon);
+  g_object_unref(self->priv->normal_sheep_icon);
+  g_object_unref(self->priv->quiet_sheep_icon);
+  g_object_unref(self->priv->suspended_sheep_icon);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -192,9 +202,20 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 {
   WorkraveTimerboxPrivate *priv = self->priv;
 
-  if (!priv->enabled || priv->filled_slots == 0)
+  if (!priv->enabled || priv->filled_slots == 0 || priv->force_icon)
     {
-      gdk_cairo_set_source_pixbuf(cr, priv->sheep_icon, 0, 0);
+      if (g_strcmp0("normal", priv->mode) == 0)
+        {
+          gdk_cairo_set_source_pixbuf(cr, priv->normal_sheep_icon, 0, 0);
+        }
+      else if (g_strcmp0("suspended", priv->mode) == 0)
+        {
+          gdk_cairo_set_source_pixbuf(cr, priv->suspended_sheep_icon, 0, 0);
+        }
+      else if (g_strcmp0("quiet", priv->mode) == 0)
+        {
+          gdk_cairo_set_source_pixbuf(cr, priv->quiet_sheep_icon, 0, 0);
+        }
       cairo_paint(cr);
     }
 }
@@ -210,6 +231,11 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
       int x = 0, y = 0;
       int bar_width, bar_height;
 
+      if (priv->force_icon)
+        {
+          x += gdk_pixbuf_get_width(priv->normal_sheep_icon);
+        }
+      
       workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
       int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
@@ -270,11 +296,16 @@ void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, in
     {
       *width = priv->filled_slots * (icon_width + 4 * PADDING_X + bar_width) - 2 * PADDING_X;
       *height = MAX(icon_height, bar_height);
+
+      if (priv->force_icon)
+        {
+          *width += gdk_pixbuf_get_width(priv->normal_sheep_icon) + PADDING_X;
+        }
     }
   else
     {
-      *width = gdk_pixbuf_get_width(priv->sheep_icon);
-      *height = gdk_pixbuf_get_height(priv->sheep_icon);
+      *width = gdk_pixbuf_get_width(priv->normal_sheep_icon);
+      *height = gdk_pixbuf_get_height(priv->normal_sheep_icon);
     }
 }
 
@@ -426,4 +457,32 @@ workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled)
 {
     WorkraveTimerboxPrivate *priv = self->priv;
     priv->enabled = enabled;
+}
+
+
+/**
+ * workrave_timerbox_set_force_icon: 
+ * @self: a @WorkraveTimerbox 
+ * @force: Whether the icon is always visible
+ *
+ */
+void
+workrave_timerbox_set_force_icon(WorkraveTimerbox *self, gboolean force)
+{
+  WorkraveTimerboxPrivate *priv = self->priv;
+  priv->force_icon = force;
+}
+
+/**
+ * workrave_timerbox_set_operation_mode: 
+ * @self: a @WorkraveTimerbox 
+ * @mode: 
+ *
+ */
+void
+workrave_timerbox_set_operation_mode(WorkraveTimerbox *self, gchar *mode)
+{
+  WorkraveTimerboxPrivate *priv = self->priv;
+  g_free(priv->mode);
+  priv->mode = g_strdup(mode);
 }

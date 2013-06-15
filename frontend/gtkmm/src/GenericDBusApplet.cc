@@ -34,6 +34,7 @@
 #include "GUI.hh"
 #include "Menus.hh"
 #include "CoreFactory.hh"
+#include "IConfigurator.hh"
 
 #include "DBus.hh"
 #include "DBusException.hh"
@@ -60,6 +61,8 @@ GenericDBusApplet::GenericDBusApplet() :
       data[i].bar_secondary_val = 0;
       data[i].bar_secondary_max = 0;
     }
+
+  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
 }
 
 
@@ -232,6 +235,12 @@ GenericDBusApplet::get_menu(MenuItems &out) const
 }
 
 void
+GenericDBusApplet::get_tray_icon_enabled(bool &enabled) const
+{
+  enabled = GUIConfig::get_trayicon_enabled();
+}
+
+void
 GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 {
   MenuItem item;
@@ -274,5 +283,33 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
         }
       // TODO: unwatch or not? dbus->unwatch(name);
     }
+  TRACE_EXIT();
+}
+
+
+
+
+void
+GenericDBusApplet::config_changed_notify(const std::string &key)
+{
+  TRACE_ENTER_MSG("GenericDBusApplet::config_changed_notify", key);
+
+  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+    {
+      send_tray_icon_enabled();
+    }
+  TRACE_EXIT();
+}
+
+void
+GenericDBusApplet::send_tray_icon_enabled()
+{
+  TRACE_ENTER("GenericDBusApplet::send_tray_icon_enabled");
+  bool on = GUIConfig::get_trayicon_enabled();
+
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  assert(iface != NULL);
+  iface->TrayIconUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, on);
+
   TRACE_EXIT();
 }

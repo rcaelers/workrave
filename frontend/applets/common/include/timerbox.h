@@ -1,7 +1,7 @@
 /*
  * workrave-timerbox.h
  *
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,8 @@ void workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image);
 void workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr);
 void workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, WorkraveBreakId brk);
 void workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled);
+void workrave_timerbox_set_force_icon(WorkraveTimerbox *self, gboolean force);
+void workrave_timerbox_set_operation_mode(WorkraveTimerbox *self, gchar *mode);
 int workrave_timerbox_get_width(WorkraveTimerbox *self);
 int workrave_timerbox_get_height(WorkraveTimerbox *self);
 WorkraveTimebar *workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer);

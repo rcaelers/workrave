@@ -66,6 +66,10 @@
     <method name="GetMenu" csymbol="get_menu">
       <arg type="MenuItems" name="menuitems" direction="out"/>
     </method>
+
+    <method name="GetTrayIconEnabled" csymbol="get_tray_icon_enabled">
+      <arg type="bool" name="enabled" direction="out"/>
+    </method>
     
     <signal name="TimersUpdated">
       <arg type="TimerData" name="micro" hint="ref"/>
@@ -75,6 +79,10 @@
 
     <signal name="MenuUpdated">
       <arg type="MenuItems" name="menuitems" hint="ref"/>
+    </signal>
+
+    <signal name="TrayIconUpdated">
+      <arg type="bool" name="enabled"/>
     </signal>
     
   </interface>
