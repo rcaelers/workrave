@@ -141,7 +141,10 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-  status_icon->set(mode_icons[m]);
+  if (mode_icons[m])
+    {
+      status_icon->set(mode_icons[m]);
+    }
 }
 
 bool

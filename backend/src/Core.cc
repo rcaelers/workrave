@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -404,6 +404,10 @@ Core::config_changed_notify(const string &key)
         {
           mode = OPERATION_MODE_NORMAL;
         }
+      if (mode < 0 || mode >= OPERATION_MODE_SIZEOF)
+        {
+          mode = OPERATION_MODE_NORMAL;
+        }
       TRACE_MSG("Setting operation mode");
       set_operation_mode_internal(OperationMode(mode), false);
     }
@@ -412,6 +416,10 @@ Core::config_changed_notify(const string &key)
     {
       int mode;
       if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+        {
+          mode = USAGE_MODE_NORMAL;
+        }
+      if (mode < 0 || mode >= USAGE_MODE_SIZEOF)
         {
           mode = USAGE_MODE_NORMAL;
         }
