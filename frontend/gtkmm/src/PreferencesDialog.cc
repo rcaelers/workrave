@@ -627,7 +627,6 @@ PreferencesDialog::on_block_changed()
   GUIConfig::set_block_mode(m);
 }
 
-
 int
 PreferencesDialog::run()
 {
