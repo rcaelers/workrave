@@ -133,7 +133,7 @@ GenericDBusApplet::activate_applet()
   TRACE_ENTER("GenericDBusApplet::activate_applet");
   TRACE_EXIT();
   enabled = true;
-  return ( visible ? AppletWindow::APPLET_STATE_VISIBLE : AppletWindow::APPLET_STATE_PENDING );
+  return ( visible ? AppletWindow::APPLET_STATE_ACTIVE : AppletWindow::APPLET_STATE_PENDING );
 }
 
 
@@ -143,7 +143,7 @@ GenericDBusApplet::deactivate_applet()
 {
   TRACE_ENTER("GenericDBusApplet::deactivate_applet");
   enabled = false;
-  state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+  state_changed_signal.emit(visible ? AppletWindow::APPLET_STATE_VISIBLE : AppletWindow::APPLET_STATE_DISABLED);
 
   data[0].slot = BREAK_ID_NONE;
   data[1].slot = BREAK_ID_NONE;
@@ -256,10 +256,10 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
   if (present)
     {
       active_bus_names.insert(name);
-      if (!visible && enabled)
+      if (!visible)
         {
-          TRACE_MSG("Enabling");
-          state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
+          TRACE_MSG("Enabling: " << enabled);
+          state_changed_signal.emit(enabled ? AppletWindow::APPLET_STATE_ACTIVE : AppletWindow::APPLET_STATE_VISIBLE);
         }
       visible = true;
     }

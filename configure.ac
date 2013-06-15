@@ -25,7 +25,7 @@ AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign silent-rules])
+AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules])
 dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.6.2
@@ -131,6 +131,7 @@ AC_USE_SYSTEM_EXTENSIONS
 
 AC_PROG_CC
 AM_PROG_CC_C_O
+AM_PROG_AR
 AC_PROG_OBJC
 AC_PROG_CXX
 AC_PROG_CPP
