@@ -86,7 +86,7 @@ Source: "..\..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Fl
 Source: "..\..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
 Source: "..\..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "src\.libs\libzapper-0.dll"; DestDir: "{app}"; Flags: dontcopy
+Source: "src\.libs\libzapper-0.dll"; DestDir: "{app}";
 #include "lang.iss"
 
 
