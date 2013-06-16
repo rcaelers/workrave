@@ -6,9 +6,9 @@ dnl
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
 m4_define([workrave_micro_version], [1])
-m4_define([workrave_version_suffix], [0])
+m4_define([workrave_version_suffix], [2])
 m4_define([workrave_version],
-          [workrave_major_version.workrave_minor_version.workrave_micro_version])
+          [workrave_major_version.workrave_minor_version.workrave_micro_version.workrave_version_suffix])
 #m4_define([workrave_version],
 #          [workrave_major_version.workrave_minor_version])
 m4_define([workrave_resource_version],
@@ -25,7 +25,7 @@ AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules])
+AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules tar-ustar])
 dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.6.2

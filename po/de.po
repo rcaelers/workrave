@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2013-05-25 20:31+0200\n"
-"PO-Revision-Date: 2013-05-25 20:31+0200\n"
+"PO-Revision-Date: 2013-06-16 19:00+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: \n"
@@ -331,9 +331,7 @@ msgstr "Workrave-Applet"
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr ""
-"Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms\n"
-"(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
+msgstr "Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms (Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
@@ -1078,9 +1076,7 @@ msgstr "Dauer des Aufschubs:"
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms\n"
-"(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
+msgstr "Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms (Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 # src/app/gtkmm/NetworkJoinDialog.cc:41 src/app/gtkmm/NetworkJoinDialog.cc:59
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
