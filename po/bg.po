@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-05 19:42+0200\n"
+"POT-Creation-Date: 2013-07-25 15:45+0200\n"
 "PO-Revision-Date: 2011-02-16 19:19+0100\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
@@ -38,11 +38,11 @@ msgstr "%s%d:%02d:%02d часа"
 msgid "%s, from %s to %s"
 msgstr "%s, от %s до %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:242
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
 msgid "About..."
@@ -52,7 +52,7 @@ msgstr "Относно..."
 msgid "Activity"
 msgstr "Дейност"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
 msgid "Applet"
 msgstr "Аплет"
 
@@ -73,17 +73,17 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Разтягане на рамената назад."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:151
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:155
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "Блокиране на вход"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
 msgid "Block input and screen"
 msgstr "Блокиране на вход и екран"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
 msgid "Block mode:"
 msgstr "Режим на блокиране:"
 
@@ -130,7 +130,7 @@ msgstr "Пропуснати почивки"
 msgid "Browse history"
 msgstr "Преглед на историята"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:409
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Без звук"
@@ -201,7 +201,7 @@ msgstr "Показване"
 msgid "Effective mouse movement:"
 msgstr "Действително придвижване на мишката:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:523
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -222,7 +222,7 @@ msgstr "Упражнения"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
 msgid "Event"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr "Упражнението приключи"
 msgid "Exercise ended"
 msgstr "Упражнението приключи"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Протягане на пръстите"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
 msgid "General"
 msgstr "Основни"
 
@@ -305,7 +305,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "Удари по калвиши:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:267
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
 msgid "Language:"
 msgstr ""
 
@@ -367,8 +367,8 @@ msgid "Micro-break:"
 msgstr "Микро-почивка:"
 
 # Меню Режим
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
 #, fuzzy
 msgid "Mode"
 msgstr "_Режим"
@@ -403,7 +403,7 @@ msgstr "Движете рамената"
 msgid "Move the shoulders up and down"
 msgstr "Движете рамената надолу-нагоре"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Почивката и дневния лимит на едно място"
@@ -431,18 +431,18 @@ msgstr "Брой упражнения:"
 msgid "Next rest break in %s"
 msgstr "Следващата почивка е след %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:150
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "No blocking"
 msgstr "Без блокиране"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:311
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
 msgid "No sounds"
 msgstr "Без звук"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
 #, fuzzy
 msgid "Normal"
 msgstr "_Нормален"
@@ -451,7 +451,7 @@ msgstr "_Нормален"
 msgid "Number of exercises:"
 msgstr "Брой упражнения:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
 #, fuzzy
 msgid "Open"
@@ -459,7 +459,7 @@ msgstr "_Отваряне"
 
 # Настройки
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Options"
 msgstr "Конфигуриране"
@@ -502,19 +502,19 @@ msgstr "Таймерите един до друг"
 msgid "Placement:"
 msgstr "Разположение:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:436
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using built-in speaker"
 msgstr "Просвирване на звуците през вградения високоговорител"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "Play sounds using sound card"
 msgstr "Просвирване на звуците през звуковата карта"
 
@@ -526,8 +526,8 @@ msgstr "Моля отпуснете се за няколко секунди"
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -563,7 +563,7 @@ msgstr "Т_их"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
 #: ../frontend/gtkmm/src/GUI.cc:1446
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 #, fuzzy
 msgid "Quiet"
 msgstr "Т_их"
@@ -574,7 +574,7 @@ msgid "Quit"
 msgstr "_Изход"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:205
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:101
 msgid "Reading mode"
@@ -589,7 +589,7 @@ msgid "Repeated prompts"
 msgstr "Повтарящи се напомняния"
 
 #: ../frontend/gtkmm/src/GUI.cc:1435
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
@@ -672,7 +672,7 @@ msgstr "Показване само при първото изтичане на 
 msgid "Show status window"
 msgstr "Показване прозореца за състоянието"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:283
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
 msgid "Show system tray icon"
 msgstr ""
 
@@ -687,30 +687,30 @@ msgid "Silent in %s"
 msgstr "Замлъква след %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
 msgid "Sound Events"
 msgstr ""
 
 # Настройки
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:301
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
 #, fuzzy
 msgid "Sound Options"
 msgstr "Конфигуриране"
 
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Звук:"
 
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
 msgid "Sound:"
 msgstr "Звук:"
 
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 #, fuzzy
 msgid "Sounds"
 msgstr "Звук:"
@@ -725,7 +725,7 @@ msgstr ""
 "Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко "
 "секунди. Повторете и с лявата ръка."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
@@ -745,7 +745,7 @@ msgstr ""
 "секунди. После наклонете глава наляво за да разтегнете и на другата страна. "
 "Направете по два пъти за всяка страна."
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
@@ -754,7 +754,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
 msgid "Status Window"
 msgstr "Прозорец за състоянието"
 
@@ -764,12 +764,12 @@ msgstr "Спиране на таймера при неактивност"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
 #: ../frontend/gtkmm/src/GUI.cc:1442
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 #, fuzzy
 msgid "Suspended"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:198
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
 msgid "System default"
 msgstr ""
 
@@ -889,7 +889,7 @@ msgstr "Време за микро-почивка?"
 
 # Бележник
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
 msgid "Timers"
@@ -911,15 +911,15 @@ msgstr ""
 "Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава "
 "надясно и я задръжте така за 2 секунди."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:517
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:104
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
 msgid "User interface"
 msgstr "Потребителски интерфейс"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:338
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Volume:"
 msgstr ""
 
@@ -932,7 +932,7 @@ msgstr "Изчакване"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:421
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
 msgid "Wavefiles"
 msgstr ""
 

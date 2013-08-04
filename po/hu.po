@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-04-05 19:42+0200\n"
+"POT-Creation-Date: 2013-07-25 15:45+0200\n"
 "PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
@@ -38,11 +38,11 @@ msgstr "%s%d óra, %02d perc és %02d másodperc"
 msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:242
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
 msgid "(font not available)"
 msgstr "(nem érhető el a betűtípus)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
 msgid "About..."
@@ -52,7 +52,7 @@ msgstr "Névjegy…"
 msgid "Activity"
 msgstr "Aktivitás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
 msgid "Applet"
 msgstr "Kisalkalmazás"
 
@@ -71,17 +71,17 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Hátsó vállnyújtás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:151
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:155
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "A bemenetek tiltása"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
 msgid "Block input and screen"
 msgstr "A bemenetek és a képernyő tiltása"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
 msgid "Block mode:"
 msgstr "Korlátozás:"
 
@@ -127,7 +127,7 @@ msgstr "Kihagyott szünetek"
 msgid "Browse history"
 msgstr "Történet böngészése"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:409
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
 msgid "Choose a sound"
 msgstr "Válasszon hangot"
 
@@ -196,7 +196,7 @@ msgstr "Kijelzés"
 msgid "Effective mouse movement:"
 msgstr "Effektív egérmozgás:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:523
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 #, fuzzy
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
@@ -218,7 +218,7 @@ msgstr "Gyakorlatok befejezése"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
 msgid "Event"
 msgstr "Esemény"
 
@@ -230,7 +230,7 @@ msgstr "Új gyakorlat"
 msgid "Exercise ended"
 msgstr "Gyakorlat vége"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:178
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Ujjnyújtás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
 msgid "General"
 msgstr "Általános"
 
@@ -301,7 +301,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "Leütések:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:267
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
 msgid "Language:"
 msgstr "Nyelv:"
 
@@ -358,8 +358,8 @@ msgstr "Rövid pihenő kezdete"
 msgid "Micro-break:"
 msgstr "Rövid pihenő:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:179
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
 msgid "Mode"
 msgstr "Mód"
 
@@ -391,7 +391,7 @@ msgstr "Vállkörzés"
 msgid "Move the shoulders up and down"
 msgstr "Függőleges vállmozgatás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Hangok némítása a pihenőidő és a napi korlátozás során"
 
@@ -416,18 +416,18 @@ msgstr "Gyakorlatok száma:"
 msgid "Next rest break in %s"
 msgstr "A következő pihenőidő %s múlva lesz"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:150
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "No blocking"
 msgstr "Korlátozás nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:311
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
 msgid "No sounds"
 msgstr "Hangok nélkül"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:181
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
 msgid "Normal"
 msgstr "Általános"
 
@@ -435,13 +435,13 @@ msgstr "Általános"
 msgid "Number of exercises:"
 msgstr "Gyakorlatok száma:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:175
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
 msgid "Open"
 msgstr "Megnyitás"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Options"
 msgstr "Opciók"
@@ -483,19 +483,19 @@ msgstr "Időzítők egymás után helyezése"
 msgid "Placement:"
 msgstr "Elhelyezés:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:406
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:436
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using built-in speaker"
 msgstr "Hangok lejátszása a beépített hangszórón"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "Play sounds using sound card"
 msgstr "Hangok lejátszása a hangkártyán keresztül"
 
@@ -507,8 +507,8 @@ msgstr "Kérem, lazítson pár másodpercig"
 msgid "Postpone time:"
 msgstr "Elhalasztás hossza:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:176
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -544,7 +544,7 @@ msgstr "_Csendes"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
 #: ../frontend/gtkmm/src/GUI.cc:1446
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 msgid "Quiet"
 msgstr "Csendes"
 
@@ -553,7 +553,7 @@ msgid "Quit"
 msgstr "Kilépés"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:205
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:101
 msgid "Reading mode"
@@ -568,7 +568,7 @@ msgid "Repeated prompts"
 msgstr "Ismételt felszólítások"
 
 #: ../frontend/gtkmm/src/GUI.cc:1435
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
@@ -649,7 +649,7 @@ msgstr "Csak akkor mutassa, ha ez lesz a következő megszakítás"
 msgid "Show status window"
 msgstr "Állapotjelző ablak megjelenítése"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:283
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
 msgid "Show system tray icon"
 msgstr "Tálcaikon megjelenítése"
 
@@ -663,24 +663,24 @@ msgid "Silent in %s"
 msgstr "Csend ennyi idő múlva: %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
 msgid "Sound Events"
 msgstr "Hangesemények"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:301
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
 msgid "Sound Options"
 msgstr "Hangbeállítások"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
 msgid "Sound Theme:"
 msgstr "Hangtéma:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
 msgid "Sound:"
 msgstr "Hang:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 msgid "Sounds"
 msgstr "Hangok"
 
@@ -693,7 +693,7 @@ msgstr ""
 "Végezzen négy-négy lassú malomkörzést előre és hátra, mindkét kezével. A "
 "gyakorlat felénél lazíthat egyet."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
 msgid "Start Workrave on Windows startup"
 msgstr "Workrave indítása a Windows elindulásakor"
 
@@ -713,7 +713,7 @@ msgstr ""
 "helyzetet 5 másodpercig. Ezután hajtsa fejét balra a másik oldal "
 "nyújtásához. Mindkét oldalra kétszer végezze el a gyakorlatot."
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
@@ -722,7 +722,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statisztika"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
 msgid "Status Window"
 msgstr "Állapotjelző ablak"
 
@@ -732,11 +732,11 @@ msgstr "Időzítés felfüggesztése, ha a felhasználó inaktív"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
 #: ../frontend/gtkmm/src/GUI.cc:1442
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 msgid "Suspended"
 msgstr "Felfüggesztett"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:198
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
 msgid "System default"
 msgstr "Rendszer alapértelmezése"
 
@@ -854,7 +854,7 @@ msgid "Time for a micro-break?"
 msgstr "Van ideje egy rövid pihenőre?"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
 msgid "Timers"
@@ -876,15 +876,15 @@ msgstr ""
 "Fordítsa balra a fejét és tartsa úgy két másodpercig. Ezután fordítsa jobbra "
 "és tartsa úgy két másodpercig."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:517
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
 msgstr "Másik monitor használata"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:104
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
 msgid "User interface"
 msgstr "Felhasználói felület"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:338
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Volume:"
 msgstr "Hangerő:"
 
@@ -897,7 +897,7 @@ msgstr "Várakozás"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:421
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
 msgid "Wavefiles"
 msgstr "Hangfájlok"
 
