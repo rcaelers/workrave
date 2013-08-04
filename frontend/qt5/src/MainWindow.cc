@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
   timer_box_view = new TimerBoxView();
   layout = new QVBoxLayout();
+  layout->setContentsMargins(0, 0, 0, 0);
   
   layout->addWidget(timer_box_view);
   setFixedSize(minimumSize());
@@ -37,11 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);  
 }
 
+
 MainWindow::~MainWindow()
 {
   delete timer_box_view;
   delete timer_box_control;
-  delete layout;
 }
 
 

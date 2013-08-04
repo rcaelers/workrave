@@ -154,7 +154,7 @@ RestBreakWindow::create_info_panel()
   std::string file = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
   
-  std:string txt;
+  std::string txt;
   if (get_break_flags() & BREAK_FLAGS_NATURAL)
     {
       txt = UiUtil::create_alert_text

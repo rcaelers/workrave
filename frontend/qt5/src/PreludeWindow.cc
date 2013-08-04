@@ -94,6 +94,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   frame = new Frame;
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6, 6);
+  frame->set_frame_visible(false); 
   frame->signal_flash().connect(boost::bind(&PreludeWindow::on_frame_flash, this, _1)); 
 
   QVBoxLayout *frameLayout = new QVBoxLayout;
@@ -118,8 +119,6 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
-  
-  // TODO: avoid pointer
 }
 
 PreludeWindow::~PreludeWindow()
@@ -253,7 +252,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
           QDesktopWidget *dw = QApplication::desktop();
           const QRect	rect = dw->screenGeometry(screen);
 
-          //move(x(), rect.y() + SCREEN_MARGIN);
+          move(x(), rect.y() + SCREEN_MARGIN);
         }
       break;
     }
@@ -279,32 +278,10 @@ PreludeWindow::event(QEvent *event)
 {
   bool res = QWidget::event(event);
   
-  if (event->type() == QEvent::Enter)
-    {
-      //avoid_pointer(ev, (int)event->y);
-      std::cout << "Enter" << std::endl;
-    }
-  else if (event->type() == QEvent::HoverEnter)
-    {
+  if (event->type() == QEvent::HoverEnter)
+    { 
       QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
-      //avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
-
-      std::cout << hoverEvent->pos().x() << " " << hoverEvent->pos().y() << std::endl;
-
-
-          QDesktopWidget *dw = QApplication::desktop();
-          const QRect	rect = dw->screenGeometry(screen);
-
-
-          QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
-          arect.moveTop(rect.y() + SCREEN_MARGIN);
-
-          setGeometry(arect);
-          qDebug() << "arect = " << arect;
-          qDebug() << "rect = " << rect << " " << screen;
-          show();
-
-       move(SCREEN_MARGIN, SCREEN_MARGIN);
+      avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
     
   return res;
@@ -315,43 +292,40 @@ PreludeWindow::event(QEvent *event)
 void
 PreludeWindow::avoid_pointer(int px, int py)
 {
-  TRACE_ENTER_MSG("PreludeWindow::avoid_pointer", px << " " << py);
-
   const QRect &geo = geometry();
+  
+  px += geo.x();
+  py += geo.y();
 
-  TRACE_MSG("geom" << geo.x() << " " << geo.y() << " " << geo.width() << " " << geo.height() << " ");
+  QDesktopWidget *dw = QApplication::desktop();
+  const QRect	rect = dw->screenGeometry(screen);
+  
+  int screen_height = rect.height();
+  int top_y = rect.y() + SCREEN_MARGIN;
+  int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
+  int winy = geo.y();
+  int winx = geo.x();
+  
+  if (winy < top_y + SCREEN_MARGIN)
+    {
+      winy = bottom_y;
+    }
+  else if (winy > bottom_y - SCREEN_MARGIN)
+    {
+      winy = top_y;
+    }
+  else
+    {
+      if (py > winy + geo.height()/2)
+        {
+          winy = top_y;
+        }
+      else
+        {
+          winy = bottom_y;
+        }
+    }
 
-  // px += winx;
-  // py += winy;
-
-  // TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
-
-  // int screen_height = head.get_height();
-  // int top_y = head.get_y() + SCREEN_MARGIN;
-  // int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
-  // TRACE_MSG("geom3" << screen_height << " " << top_y << " " << bottom_y);
-
-  // if (winy < top_y + SCREEN_MARGIN)
-  //   {
-  //     winy = bottom_y;
-  //   }
-  // else if (winy > bottom_y - SCREEN_MARGIN)
-  //   {
-  //     winy = top_y;
-  //   }
-  // else
-  //   {
-  //     if (py > winy + height/2)
-  //       {
-  //         winy = top_y;
-  //       }
-  //     else
-  //       {
-  //         winy = bottom_y;
-  //       }
-  //   }
-
-  // set_position(Gtk::WIN_POS_NONE);
-  // move(winx, winy);
+  move(winx, winy);
   did_avoid = true;
 }
