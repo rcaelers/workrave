@@ -1,6 +1,6 @@
 // UiUtil.cc --- Ui utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -59,4 +59,47 @@ UiUtil::clear_layout(QLayout* layout)
       delete widget;
       delete item;
     }
+}
+
+
+void
+UiUtil::add_widget(QBoxLayout *layout, const char *text, QWidget* widget)
+{
+  QHBoxLayout *box = new QHBoxLayout;
+  QLabel *lab = new QLabel(text);
+
+  box->addWidget(lab);
+  box->addWidget(widget);
+  layout->addLayout(box);
+}
+
+void
+UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
+{
+  QHBoxLayout *box = new QHBoxLayout;
+
+  box->addWidget(label);
+  box->addWidget(widget);
+  layout->addLayout(box);
+}
+
+void
+UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
+{
+  layout->addWidget(create_label(text, bold));
+}
+
+QLabel *
+UiUtil::create_label(const std::string &text, bool bold)
+{
+  QLabel *label = new QLabel;
+  if (bold)
+    {
+      label->setText(QString::fromStdString(std::string("<span weight=\"bold\">") + text + "</span>"));
+    }
+  else
+    {
+      label->setText(QString::fromStdString(text));
+    }
+  return label;
 }

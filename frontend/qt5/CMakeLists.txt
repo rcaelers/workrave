@@ -20,6 +20,9 @@ set(SRC
   src/TimeEntry.cc
   src/SizeGroup.cc
   src/DataConnector.cc
+  src/GeneralUiPreferencesPanel.cc
+  src/SoundsPreferencesPanel.cc
+  src/TimerBoxPreferencesPanel.cc
   
   ../plugin/exercises/common/src/Exercise.cc
   
@@ -46,7 +49,10 @@ qt5_wrap_cpp(MOC_SRC
   src/TimeEntry.hh
   src/SizeGroup.hh
   src/DataConnector.hh
-  )
+  src/GeneralUiPreferencesPanel.hh
+  src/SoundsPreferencesPanel.hh
+  src/TimerBoxPreferencesPanel.hh
+)
 
 
 #if (HAVE_DBUS)
@@ -87,7 +93,7 @@ qt5_wrap_cpp(MOC_SRC
 #    )
 #endif()
 
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 

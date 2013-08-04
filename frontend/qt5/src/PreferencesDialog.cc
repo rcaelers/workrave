@@ -30,10 +30,14 @@
 #include "nls.h"
 
 #include "TimerPreferencesPanel.hh"
+#include "GeneralUiPreferencesPanel.hh"
+#include "SoundsPreferencesPanel.hh"
+#include "TimerBoxPreferencesPanel.hh"
 
 // #include "System.hh"
 #include "Util.hh"
 #include "ICore.hh"
+#include "UiUtil.hh"
 // #include "CoreFactory.hh"
 
 using namespace workrave;
@@ -46,6 +50,8 @@ PreferencesDialog::PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
+  connector = new DataConnector();
+  
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
@@ -83,8 +89,6 @@ PreferencesDialog::~PreferencesDialog()
 QWidget *
 PreferencesDialog::create_timer_page()
 {
-  QWidget *ret;
-  
   QTabWidget *timer_tab = new QTabWidget;
   timer_tab->setTabPosition(QTabWidget::North);
 
@@ -106,19 +110,58 @@ PreferencesDialog::create_timer_page()
       timer_tab->addTab(panel, icon, labels[i]);
     }
 
-  ret = timer_tab;
-  return ret;
+// #if defined(PLATFORM_OS_WIN32)
+//   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
+//   Gtk::Widget *monitoring_page = create_monitoring_page();
+  
+// #ifdef HAVE_GTK3
+//   tnotebook->append_page(*monitoring_page , *box);
+// #else
+//   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
+// #endif
+// #endif
+  
+  return timer_tab;
 }
 
 
 QWidget *
 PreferencesDialog::create_ui_page()
 {
-  QWidget *ret = new QWidget;
+  QTabWidget *timer_tab = new QTabWidget;
+  timer_tab->setTabPosition(QTabWidget::North);
 
-  return ret;
+  timer_tab->addTab(create_ui_general_page(), _("General"));
+  timer_tab->addTab(create_ui_sounds_page(), _("Sounds"));
+  timer_tab->addTab(create_ui_main_window_page(), _("Status Window"));
+  timer_tab->addTab(create_ui_applet_page(), _("Applet"));
+
+  return timer_tab;
 }
 
+QWidget *
+PreferencesDialog::create_ui_general_page()
+{
+  return new GeneralUiPreferencesPanel();
+}
+
+QWidget *
+PreferencesDialog::create_ui_sounds_page()
+{
+  return new SoundsPreferencesPanel();
+}
+
+QWidget *
+PreferencesDialog::create_ui_main_window_page()
+{
+  return new TimerBoxPreferencesPanel("main_window");
+}
+
+QWidget *
+PreferencesDialog::create_ui_applet_page()
+{
+  return new TimerBoxPreferencesPanel("applet");
+}
 
 void
 PreferencesDialog::add_page(const char *label, const char *image, QWidget *page)

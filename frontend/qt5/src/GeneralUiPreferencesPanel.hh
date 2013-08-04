@@ -1,4 +1,4 @@
-// PreferencesDialog.hh
+// GeneralUiPreferencesPanel.hh
 //
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef PREFERENCESDIALOG_HH
-#define PREFERENCESDIALOG_HH
+#ifndef GENERALUIPREFERENCESPANEL_HH
+#define GENERALUIPREFERENCESPANEL_HH
 
 #include <QtGui>
 #include <QtWidgets>
@@ -26,33 +26,29 @@
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
-class PreferencesDialog : public QDialog
+class GeneralUiPreferencesPanel : public QGroupBox
 {
   Q_OBJECT
   
 public:
-  PreferencesDialog();
-  virtual ~PreferencesDialog();
+  GeneralUiPreferencesPanel();
+  virtual ~GeneralUiPreferencesPanel();
 
-protected:
-
+  
 private:
-  void add_page(const char *label, const char *image, QWidget *widget);
-
-  QWidget *create_timer_page();
-
-  QWidget *create_ui_page();
-  QWidget *create_ui_general_page();
-  QWidget *create_ui_sounds_page();
-  QWidget *create_ui_main_window_page();
-  QWidget *create_ui_applet_page();
-
-  QTabWidget *notebook;
-
-  SizeGroup* hsize_group;
-  SizeGroup* vsize_group;
-
+  void on_block_changed();
+  void on_autostart_toggled();
+  
+private:
   DataConnector *connector;
+
+  QComboBox *block_button;
+  QComboBox *languages_combo;
+  QStandardItemModel *model;
+  
+  //#if defined(PLATFORM_OS_WIN32)
+  QCheckBox *autostart_cb;
+  //endif
 };
 
-#endif // PREFERENCESDIALOG_HH
+#endif // GENERALUIPREFERENCESPANEL_HH

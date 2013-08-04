@@ -97,6 +97,7 @@ Frame::set_frame_width(int frame, int border)
   setContentsMargins(cr.left(), cr.top(), rect().right() - cr.right(), rect().bottom() - cr.bottom());
 }
 
+
 QRect
 Frame::get_frame_rect() const
 {

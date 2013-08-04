@@ -1,4 +1,4 @@
-// PreferencesDialog.hh
+// SoundsPreferencesPanel.hh
 //
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef PREFERENCESDIALOG_HH
-#define PREFERENCESDIALOG_HH
+#ifndef SOUNDSPREFERENCESPANEL_HH
+#define SOUNDSPREFERENCESPANEL_HH
 
 #include <QtGui>
 #include <QtWidgets>
@@ -26,33 +26,20 @@
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
-class PreferencesDialog : public QDialog
+class SoundsPreferencesPanel : public QGroupBox
 {
   Q_OBJECT
   
 public:
-  PreferencesDialog();
-  virtual ~PreferencesDialog();
+  SoundsPreferencesPanel();
+  virtual ~SoundsPreferencesPanel();
 
-protected:
-
+  
 private:
-  void add_page(const char *label, const char *image, QWidget *widget);
-
-  QWidget *create_timer_page();
-
-  QWidget *create_ui_page();
-  QWidget *create_ui_general_page();
-  QWidget *create_ui_sounds_page();
-  QWidget *create_ui_main_window_page();
-  QWidget *create_ui_applet_page();
-
-  QTabWidget *notebook;
-
-  SizeGroup* hsize_group;
-  SizeGroup* vsize_group;
-
+  
+private:
   DataConnector *connector;
+
 };
 
-#endif // PREFERENCESDIALOG_HH
+#endif // SOUNDSPREFERENCESPANEL_HH

@@ -38,6 +38,7 @@ using namespace std;
 // Define connector for standard qt widgets.
 DEFINE_DATA_TYPE_PTR(QCheckBox, DataConnectionQCheckBox);
 DEFINE_DATA_TYPE_PTR(QSpinBox,  DataConnectionQSpinBox);
+DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
@@ -249,58 +250,57 @@ DataConnectionQCheckBox::config_changed_notify(const string &key)
 
 // /***********************************************************************
 //  *                                                                     *
-//  * Spin Button                                                         *
+//  * ComboBox Button                                                         *
 //  *                                                                     *
 //  ***********************************************************************/
 
-// //! Initialize connection.
-// void
-// DataConnectionGtkComboBox::init()
-// {
-//   widget->signal_changed()
-//     .connect(sigc::mem_fun(*this, &DataConnectionGtkComboBox::widget_changed_notify));
-//   config_changed_notify(key);
-// }
+//! Initialize connection.
+void
+DataConnectionQComboBox::init()
+{
+  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(widget, signal, this, &DataConnectionQComboBox::widget_changed_notify);
+  config_changed_notify(key);
+}
 
 
-// //! Configuration item changed value.
-// void
-// DataConnectionGtkComboBox::widget_changed_notify()
-// {
-//   bool skip = false;
+//! Configuration item changed value.
+void
+DataConnectionQComboBox::widget_changed_notify()
+{
+  bool skip = false;
 
-//   if (intercept)
-//     {
-//       skip = intercept(key, true);
-//     }
+  if (intercept)
+    {
+      skip = intercept(key, true);
+    }
 
-//   if (!skip)
-//     {
-//       int value = widget->get_active_row_number();
+  if (!skip)
+    {
+      int value = widget->currentIndex();
+      config->set_value(key, value);
+    }
+}
 
-//       config->set_value(key, value);
-//     }
-// }
+//! Configuration item changed value.
+void
+DataConnectionQComboBox::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (intercept)
+    {
+      skip = intercept(key, false);
+    }
 
-// //! Configuration item changed value.
-// void
-// DataConnectionGtkComboBox::config_changed_notify(const string &key)
-// {
-//   bool skip = false;
-//   if (intercept)
-//     {
-//       skip = intercept(key, false);
-//     }
-
-//   if (!skip)
-//     {
-//       int value;
-//       if (config->get_value(key, value))
-//         {
-//           widget->set_active(value);
-//         }
-//     }
-// }
+  if (!skip)
+    {
+      int value;
+      if (config->get_value(key, value))
+        {
+          widget->setCurrentIndex(value);
+        }
+    }
+}
 
 // /***********************************************************************
 //  *                                                                     *

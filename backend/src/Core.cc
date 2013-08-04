@@ -41,9 +41,11 @@
 #include <gconf/gconf-client.h>
 #endif
 
+#ifdef HAVE_DBUS
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"
 #include "DBusWorkrave.hh"
+#endif
 
 using namespace workrave::dbus;
 
@@ -393,11 +395,13 @@ Core::remove_operation_mode_override( const std::string &id )
 
             operation_mode_changed_signal(operation_mode_regular);
 
+#ifdef HAVE_DBUS
             org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus.get());
             if (iface != NULL)
               {
                 iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
               }
+#endif
         }
         else
             set_operation_mode_internal( operation_mode_regular, false );
@@ -454,12 +458,13 @@ Core::set_operation_mode_internal(
 
       operation_mode_changed_signal(operation_mode);
 
+#ifdef HAVE_DBUS
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus.get());
       if (iface != NULL)
         {
           iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
         }
-      
+#endif      
       int cm;
       if( persistent 
           && ( !get_configurator()->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
@@ -548,11 +553,13 @@ Core::set_operation_mode_internal(
           TRACE_MSG("Send event");
           operation_mode_changed_signal(operation_mode);
 
+#ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus.get());
           if (iface != NULL)
             {
               iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
             }
+#endif
       }
   }
 
@@ -593,11 +600,13 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
+#ifdef HAVE_DBUS
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus.get());
       if (iface != NULL)
         {
           iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
         }
+#endif
     }
 }
 
