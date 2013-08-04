@@ -740,6 +740,7 @@ GUI::init_gui()
 
   process_visibility();
   
+#ifdef HAVE_DBUS
   workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus && dbus->is_available())
@@ -749,7 +750,8 @@ GUI::init_gui()
                     menus);
 
     }
-
+#endif
+  
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
 #endif
@@ -762,6 +764,7 @@ GUI::init_gui()
 void
 GUI::init_dbus()
 {
+#ifdef HAVE_DBUS
   workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus && dbus->is_available())
@@ -788,6 +791,7 @@ GUI::init_dbus()
         {
         }
     }
+#endif
 }
 
 void

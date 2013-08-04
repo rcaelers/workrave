@@ -87,6 +87,7 @@ GnomeAppletWindow::~GnomeAppletWindow()
 void
 GnomeAppletWindow::init_applet()
 {
+#ifdef HAVE_DBUS
   try
     {
       workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
@@ -103,6 +104,7 @@ GnomeAppletWindow::init_applet()
     {
       cleanup_dbus();
     }
+#endif
 }
 
 //! Initializes the native gnome applet.
