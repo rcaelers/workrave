@@ -20,6 +20,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(PkgConfig REQUIRED)
 
 include(CheckLibraryExists)
+include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag) 
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
@@ -60,6 +61,7 @@ endmacro()
 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11) 
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+CHECK_C_COMPILER_FLAG("-std=c99" COMPILER_SUPPORTS_C99)
 
 if(COMPILER_SUPPORTS_CXX11) 
   set(CXX11_FLAGS -std=c++11)
@@ -75,6 +77,10 @@ if (CXX11_FLAGS)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+
+if(COMPILER_SUPPORTS_C99) 
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # GTK
@@ -150,9 +156,6 @@ endif()
 option(WITH_QT5 "Enable Qt5 Workrave application" ON)
 
 if (WITH_QT5)
-  # Instruct CMake to run moc automatically when needed.
-  set(CMAKE_AUTOMOC ON)
-
   find_package(Qt5Widgets REQUIRED)
   find_package(Qt5Core REQUIRED)
   find_package(Qt5Gui REQUIRED)
