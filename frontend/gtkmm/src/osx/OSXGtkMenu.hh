@@ -26,7 +26,15 @@
 
 #include "MainGtkMenu.hh"
 
+#ifdef HAVE_IGE_MAC_INTEGRATION
 #include "ige-mac-dock.h"
+#endif
+
+#ifdef HAVE_GTK_MAC_INTEGRATION
+#include "gtk-mac-dock.h"
+#define IgeMacDock GtkMacDock
+#endif
+
 
 
 class OSXGtkMenu
