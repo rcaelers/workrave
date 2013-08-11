@@ -20,6 +20,7 @@ libworkrave_frontend_common_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-W -I$(top_srcdir)/frontend/common/src -I$(top_srcdir)/frontend/common/include \
+			-x objective-c++ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ 
 

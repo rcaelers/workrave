@@ -28,12 +28,21 @@
 #include "SoundPlayer.hh"
 #include "Util.hh"
 
+#ifdef HAVE_QTKIT
+#include <Cocoa/Cocoa.h>
+#include <QTKit/QTKit.h>
+#endif
+
+#if HAVE_QUICKTIME
 #include <Carbon/Carbon.h>
 #include <QuickTime/QuickTime.h>
+#endif
 
 OSXSoundPlayer::OSXSoundPlayer()
 {
+#if HAVE_QUICKTIME
   EnterMovies();
+#endif
 }
 
 
@@ -65,7 +74,12 @@ OSXSoundPlayer::play_sound(string file)
   if (wav_file == NULL)
     {
       wav_file = strdup(file.c_str());
+#if HAVE_QUICKTIME
       start();
+#endif
+#if HAVE_QTKIT
+      run();
+#endif
     }
 }
 
@@ -73,6 +87,7 @@ OSXSoundPlayer::play_sound(string file)
 void
 OSXSoundPlayer::run()
 {
+#if HAVE_QUICKTIME
   OSErr err;
   FSSpec spec;
   const char *fname = wav_file;
@@ -123,6 +138,14 @@ OSXSoundPlayer::run()
     }
 
   DisposeMovie(movie);
+#endif
+#if HAVE_QTKIT
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  NSString* fileName = [NSString stringWithUTF8String: wav_file];
+  QTMovie* movie = [[QTMovie alloc] initWithFile:fileName error:nil];
+  [movie play];
+  [pool release];
+#endif
   free((void*)wav_file);
   wav_file = NULL;
 }
