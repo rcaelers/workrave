@@ -26,6 +26,8 @@
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
 
+#include "MenuItem.hh"
+
 class IToolkit
 {
 public:
@@ -36,7 +38,7 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
   
   //! 
-  virtual void init() = 0;
+  virtual void init(MenuItem::Ptr top) = 0;
 
   //! 
   virtual void run() = 0;

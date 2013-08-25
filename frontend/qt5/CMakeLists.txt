@@ -23,6 +23,9 @@ set(SRC
   src/GeneralUiPreferencesPanel.cc
   src/SoundsPreferencesPanel.cc
   src/TimerBoxPreferencesPanel.cc
+  src/Menus.cc
+  src/MenuItem.cc
+  src/MenuHandler.cc
   
   ../plugin/exercises/common/src/Exercise.cc
   
@@ -52,6 +55,7 @@ qt5_wrap_cpp(MOC_SRC
   src/GeneralUiPreferencesPanel.hh
   src/SoundsPreferencesPanel.hh
   src/TimerBoxPreferencesPanel.hh
+  src/MenuHandler.hh
 )
 
 

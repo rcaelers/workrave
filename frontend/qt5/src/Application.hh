@@ -33,6 +33,7 @@
 #include "IToolkit.hh"
 
 #include "Session.hh"
+#include "Menus.hh"
 
 // Generic Application
 class SoundPlayer;
@@ -134,14 +135,17 @@ private:
   //! 
   IToolkit::Ptr toolkit;
   
+  //! The Core controller
+  ICore::Ptr core;
+
+  //!
+  Menus::Ptr menus;
+  
   //! The number of command line arguments.
   int argc;
 
   //! The command line arguments.
   char **argv;
-
-  //! The Core controller
-  ICore::Ptr core;
 
   //! The sound player
   SoundPlayer *sound_player;

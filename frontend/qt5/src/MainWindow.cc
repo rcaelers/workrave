@@ -23,9 +23,12 @@
 #include "config.h"
 #endif
 
-MainWindow::MainWindow(QWidget *parent)
+#include "Menus.hh"
+
+MainWindow::MainWindow(MenuHandler::Ptr menus)
   : QDialog(0, Qt::WindowTitleHint
-            | Qt::WindowSystemMenuHint)
+            | Qt::WindowSystemMenuHint),
+    menus(menus)
 {
   timer_box_view = new TimerBoxView();
   layout = new QVBoxLayout();
@@ -35,7 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
   setFixedSize(minimumSize());
   setLayout(layout);
 
-  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);  
+  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
+
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
 }
 
 
@@ -50,4 +56,12 @@ void
 MainWindow::on_heartbeat()
 {
   timer_box_control->update();
+}
+
+
+void
+MainWindow::on_show_contextmenu(const QPoint &pos)
+{
+  QPoint globalPos = mapToGlobal(pos);
+  menus->popup(globalPos.x(), globalPos.y());
 }

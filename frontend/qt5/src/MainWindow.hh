@@ -26,17 +26,24 @@
 #include "TimerBoxView.hh"
 #include "TimerBoxControl.hh"
 
+#include "MenuHandler.hh"
+
 class MainWindow : public QDialog
 {
   Q_OBJECT
   
 public:
-  explicit MainWindow(QWidget *parent = 0);
+  explicit MainWindow(MenuHandler::Ptr menus);
   ~MainWindow();
 
   void on_heartbeat();
-  
+
+public slots:
+  void on_show_contextmenu(const QPoint& pos);
+
 private:
+  MenuHandler::Ptr menus;
+  
   TimerBoxView *timer_box_view;
   TimerBoxControl *timer_box_control;
   QVBoxLayout *layout;

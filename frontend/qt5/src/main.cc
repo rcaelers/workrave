@@ -27,6 +27,8 @@
 #include <fstream>
 #include <stdio.h>
 
+#include "ICore.hh"
+#include "CoreTypes.hh"
 #include "Application.hh"
 #include "Toolkit.hh"
 

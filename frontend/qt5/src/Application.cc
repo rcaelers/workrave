@@ -123,11 +123,12 @@ Application::main()
 {
   TRACE_ENTER("Application::main");
 
-  
   init_core();
 
+  menus = Menus::create(core);
+
   // TODO: Toolkit
-  toolkit->init();
+  toolkit->init(menus->get_top());
   
   //init_nls();
   //init_platform();

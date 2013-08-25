@@ -28,8 +28,10 @@
 
 #include "IToolkit.hh"
 #include "CoreTypes.hh"
+#include "Menus.hh"
 
 #include "MainWindow.hh"
+#include "MenuHandler.hh"
 
 class Toolkit : public QApplication, public IToolkit
 {
@@ -47,8 +49,8 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer();
   
   //!
-  virtual void init();
-  
+  virtual void init(MenuItem::Ptr top);
+
   //! 
   virtual void run();
 
@@ -76,6 +78,8 @@ public slots:
 private:
   boost::shared_ptr<QTimer> heartbeat_timer;
   boost::shared_ptr<MainWindow> main_window;
+
+  MenuHandler::Ptr menu_handler;
 
   //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
