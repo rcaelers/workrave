@@ -933,25 +933,26 @@ AC_CONFIG_FILES([Makefile
              frontend/Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile
-             frontend/common/share/Makefile
-             frontend/common/share/sounds/Makefile
-             frontend/common/share/sounds/subtle/Makefile
-             frontend/common/share/sounds/default/Makefile
-             frontend/common/share/images/Makefile
-             frontend/common/share/images/16x16/Makefile
-             frontend/common/share/images/24x24/Makefile
-             frontend/common/share/images/32x32/Makefile
-             frontend/common/share/images/48x48/Makefile
-             frontend/common/share/images/64x64/Makefile
-             frontend/common/share/images/96x96/Makefile
-             frontend/common/share/images/128x128/Makefile
-             frontend/common/share/images/scalable/Makefile
-             frontend/common/share/images/win32/Makefile
-             frontend/common/share/images/osx/Makefile
              frontend/common/src/Makefile
              frontend/common/src/win32/Makefile
              frontend/common/src/x11/Makefile
              frontend/common/src/osx/Makefile
+             frontend/data/Makefile
+             frontend/data/sounds/Makefile
+             frontend/data/sounds/subtle/Makefile
+             frontend/data/sounds/default/Makefile
+             frontend/data/images/Makefile
+             frontend/data/images/16x16/Makefile
+             frontend/data/images/24x24/Makefile
+             frontend/data/images/32x32/Makefile
+             frontend/data/images/48x48/Makefile
+             frontend/data/images/64x64/Makefile
+             frontend/data/images/96x96/Makefile
+             frontend/data/images/128x128/Makefile
+             frontend/data/images/scalable/Makefile
+             frontend/data/images/win32/Makefile
+             frontend/data/images/osx/Makefile
+             frontend/data/exercises/Makefile
              frontend/applets/Makefile
              frontend/applets/win32/Makefile
              frontend/applets/win32/src/Makefile
@@ -977,16 +978,6 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
-             frontend/plugin/Makefile
-             frontend/plugin/statistics/Makefile
-             frontend/plugin/statistics/gtkmm/Makefile
-             frontend/plugin/statistics/gtkmm/src/Makefile
-             frontend/plugin/exercises/Makefile
-             frontend/plugin/exercises/common/Makefile
-             frontend/plugin/exercises/common/share/Makefile
-             frontend/plugin/exercises/common/src/Makefile
-             frontend/plugin/exercises/gtkmm/Makefile
-             frontend/plugin/exercises/gtkmm/src/Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile

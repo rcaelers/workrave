@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common gtkmm qt5 plugin applets
+SUBDIRS = 		common gtkmm qt5 applets

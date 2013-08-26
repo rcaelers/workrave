@@ -26,9 +26,6 @@ set(SRC
   src/Menus.cc
   src/MenuItem.cc
   src/MenuHandler.cc
-  
-  ../plugin/exercises/common/src/Exercise.cc
-  
   )
 
 set(DESIGNER_UI
@@ -106,11 +103,10 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
 
-  ${CMAKE_SOURCE_DIR}/frontend/plugin/exercises/common/src/
-  
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${CMAKE_SOURCE_DIR}/libs/utils/include
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/audio/include
 
   ${CMAKE_SOURCE_DIR}/backend/include/
 
@@ -126,6 +122,7 @@ target_link_libraries(workrave-qt workrave-frontend-common)
 target_link_libraries(workrave-qt workrave-backend)
 target_link_libraries(workrave-qt workrave-libs-config)
 target_link_libraries(workrave-qt workrave-libs-input-monitor)
+target_link_libraries(workrave-qt workrave-libs-audio)
 
 if (HAVE_DBUS)
   target_link_libraries(workrave-qt workrave-libs-dbus)

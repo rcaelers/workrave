@@ -37,7 +37,6 @@
 
 // Frontend common
 #include "CoreFactory.hh"
-#include "SoundPlayer.hh"
 
 #include "GUIConfig.hh"
 
@@ -102,8 +101,6 @@ Application::~Application()
   //ungrab();
 
   core.reset();
-
-  delete sound_player;
 
   TRACE_EXIT();
 }
@@ -594,7 +591,7 @@ Application::init_sound_player()
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
 
-      sound_player = new SoundPlayer(); /* LEAK */
+      sound_player = ISoundPlayer::create(CoreFactory::get_configurator()); /* LEAK */
       sound_player->init();
     }
   catch (workrave::utils::Exception)
@@ -640,7 +637,7 @@ Application::on_break_event(BreakId break_id, IBreak::BreakEvent event)
               SoundEvent snd = event_map[i].sound_event;
               TRACE_MSG("play " << event);
 
-              CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
+              CoreFactory::get_configurator()->get_value(ISoundPlayer::CFG_KEY_SOUND_MUTE, mute);
               if (mute)
                 {
                   muted = true;

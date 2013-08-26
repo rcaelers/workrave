@@ -7,32 +7,14 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
 
-SUBDIRS = 		win32 x11 osx
-
 libworkrave_frontend_common_la_SOURCES = \
 			CoreFactory.cc \
+			Exercise.cc \
 			Text.cc \
-			SoundPlayer.cc \
-			GstSoundPlayer.cc \
-			PulseMixer.cc \
 			System.cc \
 			TimerBoxControl.cc
 
 ldadd_platform=
-
-if PLATFORM_OS_WIN32
-ldadd_platform += 	win32/libworkrave-frontend-common-win32.la
-endif
-
-if PLATFORM_OS_OSX
-ldadd_platform += 	osx/libworkrave-frontend-common-osx.la
-endif
-
-if PLATFORM_OS_UNIX
-ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
-endif
-
-libworkrave_frontend_common_la_LIBADD=${ldadd_platform}
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
@@ -43,8 +25,6 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-I$(top_srcdir)/backend/include  \
 			-I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/osx \
 			-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/dbus/include \
