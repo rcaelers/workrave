@@ -110,11 +110,11 @@ Application::~Application()
 
 
 //! Forces a restbreak.
-//void
-//Application::restbreak_now()
-//{
-//  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
-//}
+void
+Application::restbreak_now()
+{
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+}
 
 
 //! The main entry point.
@@ -125,7 +125,7 @@ Application::main()
 
   init_core();
 
-  menus = Menus::create(core);
+  menus = Menus::create(shared_from_this(), toolkit, core);
 
   // TODO: Toolkit
   toolkit->init(menus->get_top());
@@ -296,7 +296,6 @@ Application::init_core()
     }
 
   core->signal_operation_mode_changed().connect(boost::bind(&Application::on_operation_mode_changed, this, _1)); 
-  core->signal_usage_mode_changed().connect(boost::bind(&Application::on_usage_mode_changed, this, _1));
 
   GUIConfig::init();
 }
@@ -678,15 +677,6 @@ Application::on_operation_mode_changed(const OperationMode m)
   //   {
   //     status_icon->set_operation_mode(m);
   //   }
-
-  // menus->resync();
-}
-
-void
-Application::on_usage_mode_changed(const UsageMode m)
-{
-  // (void) m;
-  // menus->resync();
 }
 
 void

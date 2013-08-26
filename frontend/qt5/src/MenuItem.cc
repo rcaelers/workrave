@@ -38,20 +38,20 @@ MenuItem::create()
 
 
 MenuItem::Ptr
-MenuItem::create(const std::string &text, Activated activated, MenuItemFlag flags)
+MenuItem::create(const std::string &text, Activated activated, MenuItemType type)
 {
-  return Ptr(new MenuItem(text, activated, flags));
+  return Ptr(new MenuItem(text, activated, type));
 }
 
 
 MenuItem::MenuItem()
-  : flags(MenuItemFlag::TOPMENU)
+  : type(MenuItemType::MENU), checked(false)
 {
 }
 
 
-MenuItem::MenuItem(const std::string &text, Activated activated, MenuItemFlag flags)
-  : text(text), activated(activated), flags(flags)
+MenuItem::MenuItem(const std::string &text, Activated activated, MenuItemType type)
+  : text(text), activated(activated), type(type)
 {
 }
 
@@ -81,19 +81,25 @@ MenuItem::set_text(const std::string &text)
 }
 
 
-MenuItemFlag
-MenuItem::get_flags() const
+MenuItemType
+MenuItem::get_type() const
 {
-  return flags;
+  return type;
 }
 
 
-void
-MenuItem::set_flags(MenuItemFlag flags)
+bool
+MenuItem::is_checked() const
 {
-  if (this->flags != flags)
+  return checked;
+}
+
+void
+MenuItem::set_checked(bool checked)
+{
+  if (this->checked != checked)
     {
-      this->flags = flags;
+      this->checked = checked;
       changed_signal();
     }
 }

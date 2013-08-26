@@ -27,19 +27,18 @@
 #include "Menus.hh"
 #include "CoreTypes.hh"
 
-
 using namespace std;
 using namespace workrave;
 
 Menus::Ptr
-Menus::create(ICore::Ptr core)
+Menus::create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
 {
-  return Ptr(new Menus(core));
+  return Ptr(new Menus(app, toolkit, core));
 }
 
 
-Menus::Menus(ICore::Ptr core)
-  : core(core)
+Menus::Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
+  : app(app), toolkit(toolkit), core(core)
 {
   top = MenuItem::create();
   init();
@@ -82,32 +81,33 @@ Menus::init()
                           boost::bind(&Menus::on_menu_exercises, this));
   top->add_menu(item);
   
-  MenuItem::Ptr modemenu = MenuItem::create(_("Mode"), 0, MenuItemFlag::SUBMENU);
+  MenuItem::Ptr modemenu = MenuItem::create(_("Mode"), 0, MenuItemType::MENU);
   top->add_menu(modemenu);
   
-  item = MenuItem::create(_("Normal"),
-                          boost::bind(&Menus::on_menu_normal, this),
-                          MenuItemFlag::RADIO
-                          | (mode == workrave::OPERATION_MODE_NORMAL ? MenuItemFlag::ACTIVE : MenuItemFlag::NONE));
-  modemenu->add_menu(item);
+  normal_item = MenuItem::create(_("Normal"),
+                                 boost::bind(&Menus::on_menu_normal, this),
+                                 MenuItemType::RADIO);
+  normal_item->set_checked(mode == workrave::OPERATION_MODE_NORMAL);
+  modemenu->add_menu(normal_item);
   
-  item = MenuItem::create(_("Suspended"),
-                          boost::bind(&Menus::on_menu_suspend, this),
-                          MenuItemFlag::RADIO
-                          | (mode == workrave::OPERATION_MODE_SUSPENDED ? MenuItemFlag::ACTIVE : MenuItemFlag::NONE));
-  modemenu->add_menu(item);
+  suspended_item = MenuItem::create(_("Suspended"),
+                                    boost::bind(&Menus::on_menu_suspend, this),
+                                    MenuItemType::RADIO);
   
-  item = MenuItem::create(_("Quiet"),
-                          boost::bind(&Menus::on_menu_quiet, this),
-                          MenuItemFlag::RADIO
-                          | (mode == workrave::OPERATION_MODE_QUIET ? MenuItemFlag::ACTIVE : MenuItemFlag::NONE));
-  modemenu->add_menu(item);
+  suspended_item->set_checked(mode == workrave::OPERATION_MODE_SUSPENDED);
+  modemenu->add_menu(suspended_item);
+  
+  quiet_item = MenuItem::create(_("Quiet"),
+                                boost::bind(&Menus::on_menu_quiet, this),
+                                MenuItemType::RADIO);
+  quiet_item->set_checked(mode == workrave::OPERATION_MODE_QUIET);
+  modemenu->add_menu(quiet_item);
 
-  item = MenuItem::create(_("Reading mode"),
-                          boost::bind(&Menus::on_menu_reading, this),
-                          MenuItemFlag::CHECK
-                          | (usage == workrave::USAGE_MODE_READING ? MenuItemFlag::ACTIVE : MenuItemFlag::NONE));
-  modemenu->add_menu(item);
+  reading_item = MenuItem::create(_("Reading mode"),
+                                  boost::bind(&Menus::on_menu_reading, this),
+                                  MenuItemType::CHECK);
+  reading_item->set_checked(usage == workrave::USAGE_MODE_READING);
+  top->add_menu(reading_item);
   
   item = MenuItem::create(_("Statistics"),
                           boost::bind(&Menus::on_menu_statistics, this));
@@ -120,41 +120,51 @@ Menus::init()
   item = MenuItem::create(_("_Quit"),
                           boost::bind(&Menus::on_menu_quit, this));
   top->add_menu(item);
+
+  core->signal_operation_mode_changed().connect(boost::bind(&Menus::on_operation_mode_changed, this, _1)); 
+  core->signal_usage_mode_changed().connect(boost::bind(&Menus::on_usage_mode_changed, this, _1));
 }
 
 void
 Menus::on_menu_open_main_window()
 {
+  toolkit->show_window(IToolkit::WindowType::Main);
 }
 
 void
 Menus::on_menu_restbreak_now()
 {
+  app->restbreak_now();
 }
 
 void
 Menus::on_menu_about()
 {
+  toolkit->show_window(IToolkit::WindowType::About);
 }
 
 void
 Menus::on_menu_quit()
 {
+  app->terminate();
 }
 
 void
 Menus::on_menu_preferences()
 {
+  toolkit->show_window(IToolkit::WindowType::Preferences);
 }
 
 void
 Menus::on_menu_exercises()
 {
+  toolkit->show_window(IToolkit::WindowType::Exercises);
 }
 
 void
 Menus::on_menu_statistics()
 {
+  toolkit->show_window(IToolkit::WindowType::Statistics);
 }
 
 void
@@ -184,6 +194,7 @@ Menus::on_menu_quiet()
 void
 Menus::on_menu_reading()
 {
+  set_usage_mode(reading_item->is_checked() ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
 }
 
 
@@ -198,4 +209,18 @@ void
 Menus::set_usage_mode(UsageMode m)
 {
   core->set_usage_mode(m);
+}
+
+void
+Menus::on_operation_mode_changed(const OperationMode m)
+{
+  normal_item->set_checked(m == OperationMode::OPERATION_MODE_NORMAL);
+  suspended_item->set_checked(m == OperationMode::OPERATION_MODE_SUSPENDED);
+  quiet_item->set_checked(m == OperationMode::OPERATION_MODE_QUIET);
+}
+
+void
+Menus::on_usage_mode_changed(const UsageMode m)
+{
+  reading_item->set_checked(m == UsageMode::USAGE_MODE_READING);
 }

@@ -31,6 +31,8 @@
 class IToolkit
 {
 public:
+  enum class WindowType { Main, Statistics, Preferences, About, Exercises };
+  
   virtual ~IToolkit() {}
 
   typedef boost::shared_ptr<IToolkit> Ptr;
@@ -57,6 +59,12 @@ public:
 
   //!
   virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) = 0;
+
+  //!
+  virtual void show_window(WindowType type) = 0;
+  
+  //!
+  virtual void hide_window(WindowType type) = 0;
 
   //!
   virtual int get_screen_count() const = 0;

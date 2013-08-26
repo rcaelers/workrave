@@ -31,6 +31,7 @@
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IToolkit.hh"
+#include "IApplication.hh"
 
 #include "Session.hh"
 #include "Menus.hh"
@@ -38,19 +39,10 @@
 // Generic Application
 class SoundPlayer;
 
-using namespace workrave;
-using namespace workrave::config;
-
-class IApplication
-{
-public:
-  virtual ~IApplication() {}
-};
-
 class Application :
   public IApplication,
-  public IApp,
-  public IConfiguratorListener
+  public workrave::IApp,
+  public workrave::config::IConfiguratorListener
 {
 public:
   typedef boost::shared_ptr<Application> Ptr;
@@ -64,18 +56,21 @@ public:
   void main();
 
   // IApp methods
-  virtual void create_prelude_window(BreakId break_id);
-  virtual void create_break_window(BreakId break_id, BreakHint break_hint);
+  virtual void create_prelude_window(workrave::BreakId break_id);
+  virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint);
   virtual void hide_break_window();
   virtual void show_break_window();
   virtual void refresh_break_window();
   virtual void set_break_progress(int value, int max_value);
   virtual void set_prelude_stage(PreludeStage stage);
   virtual void set_prelude_progress_text(PreludeProgressText text);
-  virtual void terminate();
+  //virtual void terminate();
 
+  // IApplication
+  virtual void restbreak_now();
+  virtual void terminate();
+  
   // Internal public methods
-  //void restbreak_now();
   //void open_main_window();
   //void close_main_window();
   //void init_multihead();
@@ -116,9 +111,8 @@ private:
   //void on_visibility_changed();
   //void on_main_window_closed();
 
-  void on_break_event(BreakId break_id, IBreak::BreakEvent event);
-  void on_operation_mode_changed(const OperationMode m);
-  void on_usage_mode_changed(const UsageMode m);
+  void on_break_event(workrave::BreakId break_id, workrave::IBreak::BreakEvent event);
+  void on_operation_mode_changed(const workrave::OperationMode m);
   
 #if defined(PLATFORM_OS_UNIX)
   //bool on_grab_retry_timer();
@@ -136,7 +130,7 @@ private:
   IToolkit::Ptr toolkit;
   
   //! The Core controller
-  ICore::Ptr core;
+  workrave::ICore::Ptr core;
 
   //!
   Menus::Ptr menus;
@@ -161,7 +155,7 @@ private:
   int active_prelude_count;
 
   //! Current active break.
-  BreakId active_break_id;
+  workrave::BreakId active_break_id;
 
   //! Destroy break window on next heartbeat?
   //bool break_window_destroy;

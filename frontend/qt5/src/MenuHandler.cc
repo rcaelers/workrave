@@ -58,9 +58,9 @@ namespace detail
 MenuEntry::Ptr
 MenuEntry::create(MenuItem::Ptr menuitem)
 {
-  MenuItemFlag flags = menuitem->get_flags();
+  MenuItemType type = menuitem->get_type();
 
-  if ((flags & MenuItemFlag::SUBMENU) == MenuItemFlag::SUBMENU)
+  if (type == MenuItemType::MENU)
     {
       return Ptr(new Menu(menuitem));
     }
@@ -141,13 +141,14 @@ Action::~Action()
 void
 Action::init(QMenu *submenu, QAction *before)
 {
-  MenuItemFlag flags = menuitem->get_flags();
+  MenuItemType type = menuitem->get_type();
   const char *text = menuitem->get_text().c_str();
+  bool checked = menuitem->is_checked();
   
   action = new QAction(text, this);
 
-  action->setCheckable((flags & (MenuItemFlag::RADIO | MenuItemFlag::RADIO)) != MenuItemFlag::NONE);
-  action->setChecked((flags & MenuItemFlag::ACTIVE) != MenuItemFlag::NONE);
+  action->setCheckable(type == MenuItemType::RADIO || type == MenuItemType::RADIO);
+  action->setChecked(checked);
       
   //action->setShortcuts(QKeySequence::New);
 
@@ -162,13 +163,14 @@ Action::init(QMenu *submenu, QAction *before)
 void
 Action::on_menu_changed()
 {
-  MenuItemFlag flags = menuitem->get_flags();
+  MenuItemType type = menuitem->get_type();
   const char *text = menuitem->get_text().c_str();
+  bool checked = menuitem->is_checked();
 
   if (action != NULL)
     {
-      action->setCheckable((flags & (MenuItemFlag::RADIO | MenuItemFlag::RADIO)) != MenuItemFlag::NONE);
-      action->setChecked((flags & MenuItemFlag::ACTIVE) != MenuItemFlag::NONE);
+      action->setCheckable(type == MenuItemType::RADIO || type == MenuItemType::RADIO);
+      action->setChecked(checked);
       action->setText(text);
     }
 }

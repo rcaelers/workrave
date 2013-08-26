@@ -31,6 +31,8 @@
 #include "Menus.hh"
 
 #include "MainWindow.hh"
+#include "PreferencesDialog.hh"
+
 #include "MenuHandler.hh"
 
 class Toolkit : public QApplication, public IToolkit
@@ -71,13 +73,21 @@ public:
 
   //!
   virtual int get_screen_count() const;
-                                                                                               
+
+  //!
+  virtual void show_window(WindowType type);
+
+  //!
+  virtual void hide_window(WindowType type);
+
 public slots:
   void on_timer();
   
 private:
   boost::shared_ptr<QTimer> heartbeat_timer;
+
   boost::shared_ptr<MainWindow> main_window;
+  boost::shared_ptr<PreferencesDialog> preferences_dialog;
 
   MenuHandler::Ptr menu_handler;
 

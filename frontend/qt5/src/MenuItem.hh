@@ -27,18 +27,13 @@
 
 #include <QMenu>
 
-#include "Bitmask.hh"
-
-enum class MenuItemFlag : int
+enum class MenuItemType : int
 {
-    NONE = 0,
-    TOPMENU = 1,
-    SUBMENU = 2,
-    CHECK = 4,
-    RADIO = 8,
-    ACTIVE = 16,
+    MENU,
+    ACTION,
+    CHECK,
+    RADIO,
 };
-WR_BITMASK(MenuItemFlag)
 
 class MenuItem
 {
@@ -48,20 +43,22 @@ public:
   typedef std::list<MenuItem::Ptr> MenuItemList;
   
   static Ptr create();
-  static Ptr create(const std::string &text, Activated activated, MenuItemFlag flags = MenuItemFlag::NONE);
+  static Ptr create(const std::string &text, Activated activated, MenuItemType type = MenuItemType::ACTION);
   
   MenuItem();
-  MenuItem(const std::string &text, Activated activated, MenuItemFlag flags = MenuItemFlag::NONE);
+  MenuItem(const std::string &text, Activated activated, MenuItemType type = MenuItemType::ACTION);
 
   const std::string &get_text() const;
   void set_text(const std::string &text);
 
-  MenuItemFlag get_flags() const;
-  void set_flags(MenuItemFlag flags);
+  MenuItemType get_type() const;
 
+  bool is_checked() const;
+  void set_checked(bool checked);
+  
   const MenuItemList get_submenus() const;
   void add_menu(MenuItem::Ptr submenu);
-
+  
   void activate();
   
   boost::signals2::signal<void()> &signal_changed();
@@ -70,8 +67,9 @@ public:
 private:
   std::string text;
   Activated activated;
-  MenuItemFlag flags;
+  MenuItemType type;
   MenuItemList submenus;
+  bool checked;
   boost::signals2::signal<void()> changed_signal;
   boost::signals2::signal<void(MenuItem::Ptr item)> added_signal;
 };

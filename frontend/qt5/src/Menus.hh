@@ -24,16 +24,19 @@
 
 #include "ICore.hh"
 
-#include <MenuItem.hh>
+#include "IToolkit.hh"
+#include "IApplication.hh"
+
+#include "MenuItem.hh"
 
 class Menus
 {
 public:
   typedef boost::shared_ptr<Menus> Ptr;
 
-  static Menus::Ptr create(workrave::ICore::Ptr core);
+  static Menus::Ptr create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
 
-  Menus(workrave::ICore::Ptr core);
+  Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
   virtual ~Menus();
 
   const MenuItem::Ptr get_top() const;
@@ -54,9 +57,20 @@ private:
   void on_menu_suspend();
   void on_menu_quiet();
   void on_menu_reading();
+
+  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_usage_mode_changed(const workrave::UsageMode m);
   
 private:
   MenuItem::Ptr top;
+
+  MenuItem::Ptr quiet_item;
+  MenuItem::Ptr suspended_item;
+  MenuItem::Ptr normal_item;
+  MenuItem::Ptr reading_item;
+  
+  IApplication::Ptr app;
+  IToolkit::Ptr toolkit;
   workrave::ICore::Ptr core;
 };
 

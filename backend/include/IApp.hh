@@ -73,7 +73,7 @@ namespace workrave
     virtual void set_prelude_progress_text(PreludeProgressText text) = 0;
 
     //! Terminate the application.
-    virtual void terminate() = 0;
+    //virtual void terminate() = 0;
   };
 }
 

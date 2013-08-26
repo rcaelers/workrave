@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include <boost/make_shared.hpp>
+
 #include "Toolkit.hh"
 
 #include <QDesktopWidget>
@@ -66,13 +68,15 @@ Toolkit::init(MenuItem::Ptr top)
 {
   menu_handler = MenuHandler::create(top);
 
-  main_window =  boost::shared_ptr<MainWindow>(new MainWindow(menu_handler));
+  main_window =  boost::make_shared<MainWindow>(menu_handler);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 
   main_window->show();
   main_window->raise();
-
+  
+  preferences_dialog = boost::make_shared<PreferencesDialog>();
+  
   // PreludeWindow *prelude = new PreludeWindow(0, BREAK_ID_MICRO_BREAK);
 
   // prelude->set_progress(20, 30);
@@ -90,8 +94,6 @@ Toolkit::init(MenuItem::Ptr top)
   //mb->start();
   //mb->refresh();
 
-  // PreferencesDialog *pd = new PreferencesDialog();
-  // pd->show();
 }
 
 void
@@ -142,6 +144,56 @@ Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)
   return PreludeWindow::create(screen, break_id);
 }
 
+
+void
+Toolkit::show_window(WindowType type)
+{
+  switch (type)
+    {
+    case WindowType::Main:
+      main_window->show();
+      main_window->raise();
+      break;
+      
+    case WindowType::Statistics:
+      break;
+
+    case WindowType::Preferences:
+      preferences_dialog->show();
+      break;
+
+    case WindowType::About:
+      break;
+
+    case WindowType::Exercises:
+      break;
+    }
+}
+
+
+void
+Toolkit::hide_window(WindowType type)
+{
+  switch (type)
+    {
+    case WindowType::Main:
+      main_window->hide();
+      break;
+      
+    case WindowType::Statistics:
+      break;
+
+    case WindowType::Preferences:
+      preferences_dialog->hide();
+      break;
+
+    case WindowType::About:
+      break;
+
+    case WindowType::Exercises:
+      break;
+}
+}
 
 int
 Toolkit::get_screen_count() const
