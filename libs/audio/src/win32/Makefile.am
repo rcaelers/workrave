@@ -16,12 +16,12 @@ if HAVE_DSOUND
 dsound_sources = 	W32DirectSoundPlayer.cc
 endif
 
-libworkrave_frontend_common_win32_la_SOURCES = \
+libworkrave_audio_win32_la_SOURCES = \
 			W32SoundPlayer.cc \
 			W32Mixer.cc \
 			$(dsound_sources)
 
-libworkrave_frontend_common_win32_la_CXXFLAGS = \
+libworkrave_audio_win32_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			@GLIB_CFLAGS@ \
 			-I$(top_srcdir)/backend/include \

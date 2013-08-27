@@ -33,19 +33,19 @@ TimeEntry::TimeEntry()
 {
   secs = new QSpinBox;
   secs->setWrapping(true);
-  secs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
+  //secs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   secs->setMinimum(0);
   secs->setMaximum(59);
 
   hrs = new QSpinBox;
   hrs->setWrapping(true);
-  hrs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
+  //hrs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   hrs->setMinimum(0);
   hrs->setMaximum(59);
 
   mins = new QSpinBox;
   mins->setWrapping(true);
-  mins->setButtonSymbols(QAbstractSpinBox::PlusMinus);
+  //mins->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   mins->setMinimum(0);
   mins->setMaximum(59);
 

@@ -30,13 +30,8 @@ public:
 
   void init(ISoundDriverEvents *) {}
   bool capability(SoundCapability cap);
-  void play_sound(SoundEvent snd);
-  void play_sound(std::string wavfile);
-
-  bool get_sound_enabled(SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
+  void play_sound(SoundEvent snd, int volume);
+  void play_sound(std::string wavfile, int volume);
 
 protected:
   static DWORD WINAPI thread_Play( LPVOID );
@@ -59,6 +54,7 @@ private:
   unsigned char *sample;
   size_t sample_size;
   WAVEFORMATEX format;
+  int volume;
 };
 
 #endif // W32SOUNDPLAYER_HH

@@ -36,9 +36,10 @@ libworkrave_frontend_gtkmm_unix_la_CFLAGS = $(extraflags) \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/gtkmm/src \
 			-I$(top_srcdir)/backend/include \
-			-I$(top_srcdir)/libs/utils/include/ \
-			-I$(top_srcdir)/libs/config/include/ \
-			-I$(top_srcdir)/libs/dbus/include/
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/audio/include \
+			-I$(top_srcdir)/libs/dbus/include
 
 libworkrave_frontend_gtkmm_unix_la_CXXFLAGS = $(libworkrave_frontend_gtkmm_unix_la_CFLAGS)
 

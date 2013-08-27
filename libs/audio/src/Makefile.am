@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS	=		unix win32 osx
+SUBDIRS	=		win32 osx
 
 noinst_LTLIBRARIES = 	libworkrave-audio.la
 
@@ -23,17 +23,17 @@ ldadd_platform = 	osx/libworkrave-audio-osx.la
 cflags_platform =	-I$(top_srcdir)/libs/audio/src/osx
 endif
 
-libworkrave_input_monitor_la_LIBADD = \
+libworkrave_audio_la_LIBADD = \
 			${ldadd_platform}
 
-libworkrave_input_monitor_la_SOURCES = ${sources}
+libworkrave_audio_la_SOURCES = ${sources}
 
-libworkrave_input_monitor_la_CXXFLAGS = \
+libworkrave_audio_la_CXXFLAGS = \
 			${cflags_platform} \
 			-I${top_srcdir}/libs/audio/include/ \
 			-I${top_srcdir}/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \
-			@X_CFLAGS@ @GLIB_CFLAGS@
+			@X_CFLAGS@ @PULSE_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
 			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

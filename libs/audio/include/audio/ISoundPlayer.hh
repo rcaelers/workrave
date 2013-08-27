@@ -21,92 +21,56 @@
 #define ISOUNDPLAYER_HH
 
 #include <string>
-#include <list>
 #include <vector>
-#include <map>
 
 #include <boost/shared_ptr.hpp>
 
-#include "config/IConfigurator.hh"
-
-enum SoundCapability
-  {
-    SOUND_CAP_EVENTS = 0,
-    SOUND_CAP_EDIT,
-    SOUND_CAP_VOLUME,
-    SOUND_CAP_MUTE,
-    SOUND_CAP_EOS_EVENT,
-  };
-
-enum SoundEvent
-  {
-    SOUND_MIN = 0,
-    SOUND_BREAK_PRELUDE = 0,
-    SOUND_BREAK_IGNORED,
-    SOUND_REST_BREAK_STARTED,
-    SOUND_REST_BREAK_ENDED,
-    SOUND_MICRO_BREAK_STARTED,
-    SOUND_MICRO_BREAK_ENDED,
-    SOUND_DAILY_LIMIT,
-    SOUND_EXERCISE_ENDED,
-    SOUND_EXERCISES_ENDED,
-    SOUND_EXERCISE_STEP,
-    SOUND_MAX
-  };
-
-class ISoundPlayer
+namespace workrave
 {
-public:
-  class Theme
+  namespace audio
   {
-  public:
-    std::string description;
-    std::vector<std::string> files;
-    bool active;
-  };
-
-  struct SoundRegistry
-  {
-    const char *label;
-    const char *id;
-    const char *wav_file;
-    const char *friendly_name;
-  };
-
-  typedef boost::shared_ptr<ISoundPlayer> Ptr;
-
-  // FIXME: move config to frontend/common
-  static Ptr create(workrave::config::IConfigurator::Ptr config);
-
-  virtual ~ISoundPlayer() {};
-
-  virtual void play_sound(SoundEvent snd, bool mute_after_playback = false) = 0;
-  virtual void play_sound(std::string wavfile) = 0;
-
-  virtual bool is_enabled() = 0;
-  virtual void set_enabled(bool enabled) = 0;
-
-  virtual void init() = 0;
-  virtual bool capability(SoundCapability cap) = 0;
-  virtual void restore_mute() = 0;
-
-  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled) = 0;
-  virtual void set_sound_enabled(SoundEvent snd, bool enabled) = 0;
-  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename) = 0;
-  virtual void set_sound_wav_file(SoundEvent snd, const std::string &wav_file) = 0;
-
-  virtual void get_sound_themes(std::vector<Theme> &themes) = 0;
-  virtual void load_sound_theme(const std::string &path, Theme &theme) = 0;
-  virtual void activate_theme(const Theme &theme, bool force = true) = 0;
-  virtual void sync_settings() = 0;
-
-public:
-  static const char *CFG_KEY_SOUND_ENABLED;
-  static const char *CFG_KEY_SOUND_DEVICE;
-  static const char *CFG_KEY_SOUND_VOLUME;
-  static const char *CFG_KEY_SOUND_EVENTS;
-  static const char *CFG_KEY_SOUND_EVENTS_ENABLED;
-  static const char *CFG_KEY_SOUND_MUTE;
-};
+    enum SoundEvent
+      {
+        SOUND_MIN = 0,
+        SOUND_BREAK_PRELUDE = 0,
+        SOUND_BREAK_IGNORED,
+        SOUND_REST_BREAK_STARTED,
+        SOUND_REST_BREAK_ENDED,
+        SOUND_MICRO_BREAK_STARTED,
+        SOUND_MICRO_BREAK_ENDED,
+        SOUND_DAILY_LIMIT,
+        SOUND_EXERCISE_ENDED,
+        SOUND_EXERCISES_ENDED,
+        SOUND_EXERCISE_STEP,
+        SOUND_MAX
+      };
+    
+    enum SoundCapability
+      {
+        SOUND_CAP_EVENTS = 0,
+        SOUND_CAP_EDIT,
+        SOUND_CAP_VOLUME,
+        SOUND_CAP_MUTE,
+        SOUND_CAP_EOS_EVENT,
+      };
+    
+    class ISoundPlayer
+    {
+    public:
+      typedef boost::shared_ptr<ISoundPlayer> Ptr;
+      
+      static Ptr create();
+      
+      virtual ~ISoundPlayer() {};
+      
+      virtual void play_sound(SoundEvent snd, const std::string &wavfile, bool mute_after_playback, int volume) = 0;
+      virtual void play_sound(const std::string &wavfile, int volume) = 0;
+      
+      virtual void init() = 0;
+      virtual bool capability(SoundCapability cap) = 0;
+      virtual void restore_mute() = 0;
+    };
+  }
+}
 
 #endif // ISOUNDPLAYER_HH

@@ -576,7 +576,7 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
-if test "x$platform_os_win32" = "no"
+if test "x$platform_os_win32" = "xno"
 then
 PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
    			gio-2.0 >= 2.26.0
@@ -763,7 +763,7 @@ config_gstreamer=no
 if test "x$enable_gstreamer" != "xno";
 then
     PKG_CHECK_MODULES([GSTREAMER],
-                      [gstreamer-0.10],
+                      [gstreamer-1.0],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
                       [if test "x$enable_gstreamer" = "xyes"; then
@@ -925,6 +925,12 @@ AC_CONFIG_FILES([Makefile
              libs/hooks/harpoonHelper/Makefile
              libs/hooks/harpoonHelper/include/Makefile
              libs/hooks/harpoonHelper/src/Makefile
+             libs/audio/Makefile
+             libs/audio/include/Makefile
+             libs/audio/include/audio/Makefile
+             libs/audio/src/Makefile
+             libs/audio/src/win32/Makefile
+             libs/audio/src/osx/Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
@@ -934,9 +940,6 @@ AC_CONFIG_FILES([Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile
              frontend/common/src/Makefile
-             frontend/common/src/win32/Makefile
-             frontend/common/src/x11/Makefile
-             frontend/common/src/osx/Makefile
              frontend/data/Makefile
              frontend/data/sounds/Makefile
              frontend/data/sounds/subtle/Makefile
@@ -978,6 +981,8 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
+	     frontend/qt5/src/Makefile
+	     frontend/qt5/Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile

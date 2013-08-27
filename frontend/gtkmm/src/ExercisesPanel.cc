@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 #include "Util.hh"
 #include "Hig.hh"
 #include "nls.h"
-#include "SoundPlayer.hh"
+#include "SoundTheme.hh"
 #include "debug.hh"
 
 // This code can be removed once the following bug is closed:
@@ -421,8 +421,8 @@ ExercisesPanel::refresh_sequence()
       show_image();
       if (exercise_time != 0)
         {
-          SoundPlayer *snd = GUI::get_instance()->get_sound_player();
-          snd->play_sound(SOUND_EXERCISE_STEP);
+          SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
+          snd->play_sound(workrave::audio::SOUND_EXERCISE_STEP);
         }
     }
 
@@ -509,15 +509,15 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      SoundPlayer *snd = GUI::get_instance()->get_sound_player();
+      SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
       snd->play_sound(stopped
-                      ? SOUND_EXERCISES_ENDED
-                      : SOUND_EXERCISE_ENDED);
+                      ? workrave::audio::SOUND_EXERCISES_ENDED
+                      : workrave::audio::SOUND_EXERCISE_ENDED);
     }
   else
     {

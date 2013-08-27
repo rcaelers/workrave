@@ -34,7 +34,7 @@
 #include "GUI.hh"
 #include "Menus.hh"
 #include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "config/IConfigurator.hh"
 
 #include "dbus/DBus.hh"
 #include "dbus/DBusException.hh"

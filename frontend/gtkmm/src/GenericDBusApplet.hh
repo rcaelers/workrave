@@ -23,7 +23,7 @@
 #include <string>
 #include <set>
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"

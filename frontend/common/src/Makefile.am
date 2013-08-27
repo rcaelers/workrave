@@ -12,9 +12,11 @@ libworkrave_frontend_common_la_SOURCES = \
 			Exercise.cc \
 			Text.cc \
 			System.cc \
-			TimerBoxControl.cc
+			TimerBoxControl.cc \
+			SoundTheme.cc
 
-ldadd_platform=
+libworkrave_frontend_common_la_LIBADD = 
+			$(top_builddir)/libs/audio/src/libworkrave-audio.la
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
@@ -28,4 +30,5 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/dbus/include \
-			-I$(top_srcdir)/libs/utils/include
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/audio/include

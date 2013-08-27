@@ -12,10 +12,10 @@ if PLATFORM_OS_OSX
 
 noinst_LTLIBRARIES = 	libworkrave-audio-osx.la
 
-libworkrave_frontend_common_osx_la_SOURCES = \
+libworkrave_audio_osx_la_SOURCES = \
 			OSXSoundPlayer.cc
 
-libworkrave_frontend_common_osx_la_CXXFLAGS = \
+libworkrave_audio_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/libs/utils/include \

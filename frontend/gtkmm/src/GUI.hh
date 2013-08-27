@@ -32,6 +32,7 @@
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
+#include "SoundTheme.hh"
 
 // GTKMM classes
 class MainWindow;
@@ -46,7 +47,6 @@ class Menus;
 // Generic GUI
 class BreakControl;
 class IBreakWindow;
-class SoundPlayer;
 class Session;
 
 using namespace workrave;
@@ -61,7 +61,7 @@ public:
 
   virtual Menus *get_menus() const = 0;
   virtual MainWindow *get_main_window() const = 0;
-  virtual SoundPlayer *get_sound_player() const = 0;
+  virtual SoundTheme::Ptr get_sound_theme() const = 0;
 
   virtual void open_main_window() = 0;
   virtual void restbreak_now() = 0;
@@ -90,7 +90,7 @@ public:
 
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
-  SoundPlayer *get_sound_player() const;
+  SoundTheme::Ptr get_sound_theme() const;
   Menus *get_menus() const;
 
   void main();
@@ -180,7 +180,7 @@ private:
   ICore::Ptr core;
 
   //! The sound player
-  SoundPlayer *sound_player;
+  SoundTheme::Ptr sound_theme;
 
   //! Interface to the break window.
   IBreakWindow **break_windows;
@@ -286,10 +286,10 @@ GUI::get_main_window() const
 
 
 //! Returns the sound player
-inline SoundPlayer *
-GUI::get_sound_player() const
+inline SoundTheme::Ptr 
+GUI::get_sound_theme() const
 {
-  return sound_player;
+  return sound_theme;
 }
 
 //! Returns the sound player

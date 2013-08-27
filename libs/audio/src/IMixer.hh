@@ -1,6 +1,6 @@
 // IMixer.hh
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,12 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #ifndef IMIXER_HH
 #define IMIXER_HH
-
-#include <string>
-#include "SoundPlayer.hh"
 
 class IMixer
 {

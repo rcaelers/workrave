@@ -22,14 +22,11 @@ extrasources =
 extranodistsources = 
 
 # Additional exercises sources.
-EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
-sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
-			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
-			${EXERCISES_HOME}/common/src/Exercise.cc
+sourcesexercises = 	ExercisesDialog.cc \
+			ExercisesPanel.cc
 
 # Additional Statistics sources.
-STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
-sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
+sourcesstatistics =	StatisticsDialog.cc
 
 if HAVE_EXERCISES
 extrasources +=		$(sourcesexercises) 
@@ -179,7 +176,8 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I${EXERCISES_HOME}/common/src \
 			-I$(top_srcdir)/libs/config/include \
 			-I$(top_srcdir)/libs/dbus/include \
-			-I$(top_srcdir)/libs/utils/include
+			-I$(top_srcdir)/libs/utils/include \
+			-I$(top_srcdir)/libs/audio/include
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
@@ -196,6 +194,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 workrave_LDFLAGS = 	${WIN32LDFLAGS}
 
 workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
+			$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la \
 			${ldadd} \

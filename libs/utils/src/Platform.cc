@@ -21,7 +21,9 @@
 #include "config.h"
 #endif
 
-#include "Platform.hh"
+#include "utils/Platform.hh"
+
+#include <stdlib.h>
 
 #ifdef HAVE_GTK
 #include <glib.h>

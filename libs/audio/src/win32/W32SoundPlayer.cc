@@ -101,7 +101,7 @@ W32SoundPlayer::~W32SoundPlayer()
 
 
 void
-W32SoundPlayer::play_sound(SoundEvent snd )
+W32SoundPlayer::play_sound(SoundEvent snd, int volume)
 {
   TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
   TRACE_EXIT();
@@ -129,7 +129,7 @@ redistribute under GNU terms.
 */
 
 void
-W32SoundPlayer::play_sound(string wavfile)
+W32SoundPlayer::play_sound(string wavfile, int volume)
 {
   TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", wavfile);
 
@@ -139,117 +139,13 @@ W32SoundPlayer::play_sound(string wavfile)
     }
   else
     {
+      this->volume = volume;
       DWORD id;
       sound_filename = wavfile;
       CloseHandle(CreateThread(NULL, 0, thread_Play, this, 0, &id));
     }
 
   TRACE_EXIT();
-}
-
-
-bool
-W32SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
-{
-  char key[MAX_PATH], val[MAX_PATH];
-
-  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
-  strcat(key, "\\.current");
-
-  if (registry_get_value(key, NULL, val))
-    {
-      enabled = (val[0] != '\0');
-    }
-
-  return true;
-}
-
-
-void
-W32SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
-{
-  if (enabled)
-    {
-      char key[MAX_PATH], def[MAX_PATH];
-
-      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-      strcat(key, SoundPlayer::sound_registry[snd].label);
-      strcat(key, "\\.default");
-
-      if (registry_get_value(key, NULL, def))
-        {
-          char *defkey = strrchr(key, '.');
-          strcpy(defkey, ".current");
-          registry_set_value(key, NULL, def);
-        }
-    }
-  else
-    {
-      char key[MAX_PATH];
-
-      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-      strcat(key, SoundPlayer::sound_registry[snd].label);
-      strcat(key, "\\.current");
-
-      registry_set_value(key, NULL, "");
-    }
-}
-
-
-bool
-W32SoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
-{
-  char key[MAX_PATH], val[MAX_PATH];
-
-  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
-  strcat(key, "\\.current");
-
-  if (registry_get_value(key, NULL, val))
-    {
-      wav_file = val;
-    }
-
-  if (wav_file == "")
-    {
-      char *cur = strrchr(key, '.');
-      strcpy(cur, ".default");
-      if (registry_get_value(key, NULL, val))
-        {
-          wav_file = val;
-        }
-    }
-
-  return true;
-}
-
-void
-W32SoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
-{
-  char key[MAX_PATH], val[MAX_PATH];
-
-  strcpy(key, "AppEvents\\EventLabels\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
-  if (! registry_get_value(key, NULL, val))
-    {
-      registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
-    }
-
-  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
-  strcat(key, "\\.default");
-  registry_set_value(key, NULL, wav_file.c_str());
-
-  bool enabled = false;
-  bool valid = get_sound_enabled(snd, enabled);
-
-  if (!valid || enabled)
-    {
-      char *def = strrchr(key, '.');
-      strcpy(def, ".current");
-      registry_set_value(key, NULL, wav_file.c_str());
-    }
 }
 
 
@@ -311,14 +207,11 @@ W32SoundPlayer::open()
       throw Exception("waveOutPause");
     }
 
-  // FIXME: remove dependency on Core
-  int volume = 100;
-  CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
+  int vol = volume;
+  vol = (vol * 0xFFFF / 100);
+  vol = vol | (vol << 16);
 
-  volume = (volume * 0xFFFF / 100);
-  volume = volume | (volume << 16);
-
-  res = waveOutSetVolume(waveout, volume);
+  res = waveOutSetVolume(waveout, vol);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("waveOutSetVolume");

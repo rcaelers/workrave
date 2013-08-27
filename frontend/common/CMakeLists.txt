@@ -6,6 +6,7 @@ set(SRC
   src/System.cc
   src/Text.cc
   src/TimerBoxControl.cc
+  src/SoundTheme.cc
  )
 
 if (HAVE_GTK)
@@ -17,6 +18,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/utils/include
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/audio/include
   ${CMAKE_SOURCE_DIR}/backend/include
   )
 

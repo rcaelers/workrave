@@ -34,18 +34,13 @@ public:
   virtual void init(ISoundPlayerEvents *events = NULL) = 0;
 
   //!
-  virtual bool capability(SoundCapability cap) = 0;
-
-  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled) = 0;
-  virtual void set_sound_enabled(SoundEvent snd, bool enabled) = 0;
-  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename) = 0;
-  virtual void set_sound_wav_file(SoundEvent snd, const std::string &wav_file) = 0;
+  virtual bool capability(workrave::audio::SoundCapability cap) = 0;
 
   //! Plays sound, returns immediately.
-  virtual void play_sound(SoundEvent snd) = 0;
+  virtual void play_sound(workrave::audio::SoundEvent snd, int volume) = 0;
 
   //! Plays sound, returns immediately.
-  virtual void play_sound(std::string wavfile) = 0;
+  virtual void play_sound(std::string wavfile, int volume) = 0;
 };
 
 #endif // ISOUNDDRIVER_HH

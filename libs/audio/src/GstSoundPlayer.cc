@@ -69,17 +69,17 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 }
 
 bool
-GstSoundPlayer::capability(SoundCapability cap)
+GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == SOUND_CAP_EDIT)
+  if (cap == workrave::audio::SOUND_CAP_EDIT)
     {
       return true;
     }
-  if (cap == SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SOUND_CAP_VOLUME)
     {
       return true;
     }
-  if (cap == SOUND_CAP_EOS_EVENT)
+  if (cap == workrave::audio::SOUND_CAP_EOS_EVENT)
     {
       return true;
     }
@@ -88,18 +88,19 @@ GstSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-GstSoundPlayer::play_sound(SoundEvent snd)
+GstSoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
 {
   (void) snd;
+  (void) volume;
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", snd);
   TRACE_EXIT();
 }
 
 
 void
-GstSoundPlayer::play_sound(std::string wavfile)
+GstSoundPlayer::play_sound(std::string wavfile, int volume)
 {
-  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);
+  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile << " " << volume);
 
 	GstElement *play = NULL;
 	GstElement *sink = NULL;
@@ -142,10 +143,6 @@ GstSoundPlayer::play_sound(std::string wavfile)
       gst_bus_add_watch(bus, bus_watch, watch_data);
 
       char *uri = g_strdup_printf("file://%s", wavfile.c_str());
-
-      // FIXME: remove dependency on Core
-      int volume = 100;
-      // conf->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
 
       TRACE_MSG((float)volume);
       gst_element_set_state(play, GST_STATE_NULL);
@@ -208,37 +205,6 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
     }
 
   return ret;
-}
-
-bool
-GstSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
-{
-  (void) snd;
-  (void) enabled;
-
-  return false;
-}
-
-void
-GstSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
-{
-  (void) snd;
-  (void) enabled;
-}
-
-bool
-GstSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
-{
-  (void) snd;
-  (void) wav_file;
-  return false;
-}
-
-void
-GstSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
-{
-  (void) snd;
-  (void) wav_file;
 }
 
 #endif

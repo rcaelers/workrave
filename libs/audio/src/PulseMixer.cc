@@ -30,7 +30,6 @@
 #include <debug.hh>
 
 using namespace std;
-using namespace workrave;
 
 PulseMixer::PulseMixer()
   : pa_mainloop(NULL),

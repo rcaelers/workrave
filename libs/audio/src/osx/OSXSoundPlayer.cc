@@ -52,14 +52,14 @@ OSXSoundPlayer::capability(SoundCapability cap)
 
 
 void
-OSXSoundPlayer::play_sound(SoundEvent snd)
+OSXSoundPlayer::play_sound(SoundEvent snd, int volume)
 {
   (void) snd;
 }
 
 
 void
-OSXSoundPlayer::play_sound(string file)
+OSXSoundPlayer::play_sound(string file, int volume)
 {
   if (wav_file == NULL)
     {
@@ -72,32 +72,5 @@ OSXSoundPlayer::play_sound(string file)
 void
 OSXSoundPlayer::run()
 {
-}
-
-
-bool OSXSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
-{
-  (void) snd;
-  (void) enabled;
-  return false;
-}
-
-void OSXSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
-{
-  (void) snd;
-  (void) enabled;
-}
-
-bool OSXSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
-{
-  (void) snd;
-  (void) wav_file;
-  return false;
-}
-
-void OSXSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
-{
-  (void) snd;
-  (void) wav_file;
 }
 

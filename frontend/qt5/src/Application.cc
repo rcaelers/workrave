@@ -65,7 +65,6 @@ Application::create(int argc, char **argv, IToolkit::Ptr toolkit)
  */
 Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
   toolkit(toolkit),
-  sound_player(NULL),
   active_prelude_count(0),
   active_break_id(BREAK_ID_NONE),
   //main_window(NULL),
@@ -176,7 +175,7 @@ Application::on_timer()
  
       if (user_active)
         {
-          sound_player->restore_mute();
+          sound_theme->restore_mute();
           muted = false;
         }
     }
@@ -591,8 +590,8 @@ Application::init_sound_player()
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
 
-      sound_player = ISoundPlayer::create(CoreFactory::get_configurator()); /* LEAK */
-      sound_player->init();
+      sound_theme = SoundTheme::create(CoreFactory::get_configurator()); /* LEAK */
+      sound_theme->init();
     }
   catch (workrave::utils::Exception)
     {
@@ -611,40 +610,37 @@ Application::on_break_event(BreakId break_id, IBreak::BreakEvent event)
   {
     BreakId id;
     IBreak::BreakEvent break_event;
-    SoundEvent sound_event;
+    workrave::audio::SoundEvent sound_event;
   } event_map[] =
       {
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_MICRO_BREAK_STARTED },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_ENDED,     SOUND_MICRO_BREAK_ENDED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_REST_BREAK_STARTED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_ENDED,     SOUND_REST_BREAK_ENDED },
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_PRELUDE_STARTED, SOUND_BREAK_PRELUDE},
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_IGNORED,   SOUND_BREAK_IGNORED},
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_STARTED,   SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_MICRO_BREAK_STARTED },
+        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_ENDED,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_REST_BREAK_STARTED },
+        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_ENDED,     workrave::audio::SOUND_REST_BREAK_ENDED },
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE},
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED},
+        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_MICRO_BREAK_ENDED },
       };
 
-  if (sound_player != NULL)
+  for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
     {
-      for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
+      if (event_map[i].id == break_id && event_map[i].break_event == event)
         {
-          if (event_map[i].id == break_id && event_map[i].break_event == event)
-            {
-              bool mute = false;
-              SoundEvent snd = event_map[i].sound_event;
-              TRACE_MSG("play " << event);
+          bool mute = false;
+          workrave::audio::SoundEvent snd = event_map[i].sound_event;
+          TRACE_MSG("play " << event);
 
-              CoreFactory::get_configurator()->get_value(ISoundPlayer::CFG_KEY_SOUND_MUTE, mute);
-              if (mute)
-                {
-                  muted = true;
-                }
-              TRACE_MSG("Mute after playback " << mute);
-              sound_player->play_sound(snd, mute);
+          CoreFactory::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
+          if (mute)
+            {
+              muted = true;
             }
+          TRACE_MSG("Mute after playback " << mute);
+          sound_theme->play_sound(snd, mute);
         }
     }
 }

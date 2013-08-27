@@ -24,7 +24,6 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 
-#include "audio/ISoundPlayer.hh"
 #include "config/Config.hh"
 
 #include "IApp.hh"
@@ -33,6 +32,8 @@
 #include "IPreludeWindow.hh"
 #include "IToolkit.hh"
 #include "IApplication.hh"
+
+#include "SoundTheme.hh"
 
 #include "Session.hh"
 #include "Menus.hh"
@@ -50,7 +51,7 @@ public:
   Application(int argc, char **argv, IToolkit::Ptr toolkit);
   virtual ~Application();
 
-  ISoundPlayer::Ptr get_sound_player() const;
+  SoundTheme::Ptr get_sound_theme() const;
   void main();
 
   // IApp methods
@@ -140,7 +141,7 @@ private:
   char **argv;
 
   //! The sound player
-  ISoundPlayer::Ptr sound_player;
+  SoundTheme::Ptr sound_theme;
 
   //! Interface to the break window.
   BreakWindows break_windows;
@@ -196,9 +197,9 @@ private:
 
 
 //! Returns the sound player
-inline ISoundPlayer::Ptr
-Application::get_sound_player() const
+inline SoundTheme::Ptr
+Application::get_sound_theme() const
 {
-  return sound_player;
+  return sound_theme;
 }
 #endif // APPLICATION_HH

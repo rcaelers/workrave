@@ -35,13 +35,8 @@ public:
 
   void init(ISoundDriverEvents *events);
   bool capability(SoundCapability cap);
-  void play_sound(SoundEvent snd);
-  void play_sound(std::string wavfile);
-
-  bool get_sound_enabled(SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
+  void play_sound(SoundEvent snd, int volume);
+  void play_sound(std::string wavfile, int volume);
 
 private:
   static DWORD WINAPI play_thread(LPVOID);
@@ -80,7 +75,7 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(const std::string &filename, ISoundDriverEvents *events);
+  SoundClip(const std::string &filename, ISoundDriverEvents *events, int volume);
   virtual ~SoundClip();
 
   void init();
@@ -101,6 +96,7 @@ private:
   DWORD sound_buffer_size;
   HANDLE stop_event;
   ISoundDriverEvents *events;
+  int volume;
 };
 
 

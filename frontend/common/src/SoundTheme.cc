@@ -1,6 +1,6 @@
-// SoundTheme.cc --- Sound player
+// SoundTheme.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,24 +29,27 @@
 #include <stdlib.h>
 #endif
 
+#include <glib.h>
+
 #include <list>
 #include <set>
 
+#include "SoundTheme.hh"
+
 #include "config/IConfigurator.hh"
-//#include "utils/Platform.hh"
 
 #include "Util.hh"
 
-const char *ISoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
-const char *ISoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
-const char *ISoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
-const char *ISoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
-const char *ISoundTheme::CFG_KEY_SOUND_EVENTS = "sound/events/";
-const char *ISoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
+const char *SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const char *SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
+const char *SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const char *SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
+const char *SoundTheme::CFG_KEY_SOUND_EVENTS = "sound/events/";
+const char *SoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
 using namespace workrave;
 using namespace workrave::config;
-using namespace workrave::utils;
+using namespace workrave::audio;
 using namespace std;
 
 SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
@@ -118,27 +121,36 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
  * SoundTheme
  **********************************************************************/
 
-ISoundTheme::Ptr
-ISoundTheme::create(workrave::config::IConfigurator::Ptr config)
+SoundTheme::Ptr
+SoundTheme::create(workrave::config::IConfigurator::Ptr config)
 {
-  return ISoundTheme::Ptr(new SoundTheme(config));
+  return SoundTheme::Ptr(new SoundTheme(config));
 }
 
 SoundTheme::SoundTheme(workrave::config::IConfigurator::Ptr config)
   : config(config)
 {
+  player = ISoundPlayer::create();
 }
 
 SoundTheme::~SoundTheme()
 {
-  delete driver;
 }
 
 
 void
 SoundTheme::init()
 {
+  player->init();
   register_sound_events();
+
+  int volume = 0;
+  if( !config->get_value(CFG_KEY_SOUND_VOLUME, volume) )
+    {
+      // Volume value was not found, so set default volume @100.
+      // This doesn't belong here if Workrave won't honor it on all platforms.
+      config->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
+    }
 }
 
 void
@@ -212,37 +224,36 @@ SoundTheme::activate_theme(const Theme &theme, bool force)
 void
 SoundTheme::sync_settings()
 {
-  if (driver != NULL)
+#ifdef PLATFORM_OS_WIN32
+  for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
     {
-      for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
+      SoundRegistry *snd = &sound_registry[i];
+
+      bool enabled = false;
+      bool valid = win32_get_sound_enabled((SoundEvent)i, enabled);
+
+      if (valid)
         {
-          SoundRegistry *snd = &sound_registry[i];
+          config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
+                            snd->id +
+                            SoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED,
+                            enabled);
+        }
+      else
+        {
+          win32_set_sound_enabled((SoundEvent)i, true);
+        }
 
-          bool enabled = false;
-          bool valid = driver->get_sound_enabled((SoundEvent)i, enabled);
-
-          if (valid)
-            {
-              config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                         snd->id +
-                                                         SoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                         enabled);
-            }
-          else
-            {
-              driver->set_sound_enabled((SoundEvent)i, true);
-            }
-
-          string wav_file;
-          valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
-          if (valid)
-           {
-              config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                         snd->id,
-                                                         wav_file);
-            }
+      string wav_file;
+      valid = win32_get_sound_wav_file((SoundEvent)i, wav_file);
+      if (valid)
+        {
+          config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
+                            snd->id,
+                            wav_file);
         }
     }
+#endif
 }
 
 
@@ -456,10 +467,10 @@ SoundTheme::set_sound_enabled(SoundEvent snd, bool enabled)
                                                  sound_registry[snd].id +
                                                  SoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED,
                                                  enabled);
-      if (driver != NULL)
-        {
-          driver->set_sound_enabled(snd, enabled);
-        }
+      
+#ifdef PLATFORM_OS_WIN32
+          win32_set_sound_enabled(snd, enabled);
+#endif
     }
 }
 
@@ -488,9 +499,219 @@ SoundTheme::set_sound_wav_file(SoundEvent snd, const string &wav_file)
       config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
                                                  sound_registry[snd].id,
                                                  wav_file);
-      if (driver != NULL)
-        {
-          driver->set_sound_wav_file(snd, wav_file);
-        }
+#ifdef PLATFORM_OS_WIN32
+      win32_set_sound_wav_file(snd, wav_file);
+#endif
     }
 }
+
+
+
+void
+SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
+{
+  TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
+  if (snd >= SOUND_MIN && snd < SOUND_MAX)
+    {
+      bool enabled = false;
+      bool valid = get_sound_enabled(snd, enabled);
+
+      if (valid && enabled)
+        {
+          string filename;
+          bool valid = get_sound_wav_file(snd, filename);
+
+          int volume = 100;
+          config->get_value(SoundTheme::CFG_KEY_SOUND_VOLUME, volume);
+          
+          if (valid)
+            {
+              player->play_sound(snd, filename, false, volume);
+            }
+          else
+            {
+              player->play_sound(snd, "", false, volume);
+            }
+        }
+    }
+  TRACE_EXIT();
+}
+
+
+void
+SoundTheme::play_sound(string wavfile)
+{
+  TRACE_ENTER("SoundPlayer::play_sound");
+
+  int volume = 100;
+  config->get_value(SoundTheme::CFG_KEY_SOUND_VOLUME, volume);
+  
+  player->play_sound(wavfile, volume);
+  TRACE_EXIT();
+}
+
+void
+SoundTheme::restore_mute()
+{
+  player->restore_mute();
+}
+
+bool
+SoundTheme::capability(workrave::audio::SoundCapability cap)
+{
+  return player->capability(cap);
+}
+
+#ifdef PLATFORM_OS_WIN32
+static bool
+registry_get_value(const char *path, const char *name,
+                   char *out)
+{
+  HKEY handle;
+  bool rc = false;
+  LONG err;
+
+  err = RegOpenKeyEx(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
+  if (err == ERROR_SUCCESS)
+    {
+      DWORD type, size;
+      size = MAX_PATH;
+      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE) out, &size);
+      if (err == ERROR_SUCCESS)
+        {
+          rc = true;
+        }
+      RegCloseKey(handle);
+    }
+  return rc;
+}
+
+static bool
+registry_set_value(const char *path, const char *name,
+                   const char *value)
+{
+  HKEY handle;
+  bool rc = false;
+  DWORD disp;
+  LONG err;
+
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
+                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
+                       NULL, &handle, &disp);
+  if (err == ERROR_SUCCESS)
+    {
+      err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
+                          strlen(value)+1);
+      RegCloseKey(handle);
+      rc = (err == ERROR_SUCCESS);
+    }
+  return rc;
+}
+
+bool
+SoundTheme::win32_get_sound_enabled(SoundEvent snd, bool &enabled)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.current");
+
+  if (registry_get_value(key, NULL, val))
+    {
+      enabled = (val[0] != '\0');
+      return true;
+    }
+
+  return false;
+}
+
+
+void
+SoundTheme::win32_set_sound_enabled(SoundEvent snd, bool enabled)
+{
+  if (enabled)
+    {
+      char key[MAX_PATH], def[MAX_PATH];
+
+      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, "\\.default");
+
+      if (registry_get_value(key, NULL, def))
+        {
+          char *defkey = strrchr(key, '.');
+          strcpy(defkey, ".current");
+          registry_set_value(key, NULL, def);
+        }
+    }
+  else
+    {
+      char key[MAX_PATH];
+
+      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, "\\.current");
+
+      registry_set_value(key, NULL, "");
+    }
+}
+
+
+bool
+SoundTheme::win32_get_sound_wav_file(SoundEvent snd, std::string &wav_file)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.current");
+
+  if (registry_get_value(key, NULL, val))
+    {
+      wav_file = val;
+    }
+
+  if (wav_file == "")
+    {
+      char *cur = strrchr(key, '.');
+      strcpy(cur, ".default");
+      if (registry_get_value(key, NULL, val))
+        {
+          wav_file = val;
+        }
+    }
+
+  return true;
+}
+
+void
+SoundTheme::win32_set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+
+  strcpy(key, "AppEvents\\EventLabels\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  if (! registry_get_value(key, NULL, val))
+    {
+      registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
+    }
+
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.default");
+  registry_set_value(key, NULL, wav_file.c_str());
+
+  bool enabled = false;
+  bool valid = get_sound_enabled(snd, enabled);
+
+  if (!valid || enabled)
+    {
+      char *def = strrchr(key, '.');
+      strcpy(def, ".current");
+      registry_set_value(key, NULL, wav_file.c_str());
+    }
+}
+
+
+#endif

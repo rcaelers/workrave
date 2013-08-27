@@ -31,7 +31,7 @@
 #include "ICore.hh"
 
 
-#include "SoundPlayer.hh"
+#include "SoundTheme.hh"
 
 #include <gtkmm.h>
 //#include <gtkmmconfig.h>
@@ -117,7 +117,7 @@ private:
   };
 
   DataConnector *connector;
-  std::vector<SoundPlayer::Theme> sound_themes;
+  std::vector<SoundTheme::Theme> sound_themes;
   Gtk::TreeView sound_treeview;
   SoundModel sound_model;
   Glib::RefPtr<Gtk::ListStore> sound_store;
