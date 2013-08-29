@@ -57,14 +57,10 @@ TimerPreferencesPanel::TimerPreferencesPanel
   : Gtk::VBox(false, 6)
 #ifdef HAVE_GTK3
   ,max_prelude_adjustment(Gtk::Adjustment::create(0, 1, 100))
-# ifdef HAVE_EXERCISES
   ,exercises_adjustment(Gtk::Adjustment::create(0, 0, 10))
-# endif
 #else
   ,max_prelude_adjustment(0, 1, 100)
-# ifdef HAVE_EXERCISES
   ,exercises_adjustment(0, 0, 10)
-# endif
 #endif
 {
   connector = new DataConnector();
@@ -162,10 +158,7 @@ TimerPreferencesPanel::create_options_panel()
                                       (_("Suspend timer when inactive")));
 
   // Break specific options
-#ifdef HAVE_EXERCISES
   exercises_spin = NULL;
-#endif
-
   monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -174,13 +167,12 @@ TimerPreferencesPanel::create_options_panel()
       hig->add_widget(*monitor_cb);
     }
 
-#ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
       exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
       hig->add_label(_("Number of exercises:"), *exercises_spin);
     }
-#endif
+
   if (break_id == BREAK_ID_REST_BREAK)
     {
       auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start restbreak when screen is locked")));
@@ -200,13 +192,11 @@ TimerPreferencesPanel::create_options_panel()
                      dc::wrap(skippable_cb));
 
 
-#ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
       connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
                          dc::wrap(exercises_spin));
     }
-#endif
 
   connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
                      dc::wrap(monitor_cb),

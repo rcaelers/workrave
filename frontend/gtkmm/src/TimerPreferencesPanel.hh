@@ -59,9 +59,8 @@ private:
   bool on_monitor_changed(const std::string &key, bool write);
   bool on_activity_sensitive_toggled(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
-#ifdef HAVE_EXERCISES
   void on_exercises_changed();
-#endif
+
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
   Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group,
@@ -89,13 +88,11 @@ private:
 #endif
   Gtk::CheckButton *enabled_cb;
   Gtk::CheckButton *auto_natural_cb;
-#ifdef HAVE_EXERCISES
   Gtk::SpinButton *exercises_spin;
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> exercises_adjustment;
 #else
   Gtk::Adjustment exercises_adjustment;
-#endif
 #endif
 };
 

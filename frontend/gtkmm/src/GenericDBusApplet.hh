@@ -93,8 +93,8 @@ private:
   void config_changed_notify(const std::string &key);
   
   // ITimerBoxView
-  virtual void set_slot(BreakId  id, int slot);
-  virtual void set_time_bar(BreakId id,
+  virtual void set_slot(workrave::BreakId  id, int slot);
+  virtual void set_time_bar(workrave::BreakId id,
                             std::string text,
                             ITimeBar::ColorId primary_color,
                             int primary_value, int primary_max,
@@ -115,7 +115,7 @@ private:
 private:
   bool enabled;
   bool visible;
-  TimerData data[BREAK_ID_SIZEOF];
+  TimerData data[workrave::BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;
   workrave::dbus::DBus::Ptr dbus;

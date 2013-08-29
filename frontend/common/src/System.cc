@@ -58,8 +58,6 @@
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
 
-using namespace workrave;
-
 #ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE
 #define INTERFACE IShellDispatch

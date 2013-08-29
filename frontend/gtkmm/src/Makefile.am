@@ -28,10 +28,7 @@ sourcesexercises = 	ExercisesDialog.cc \
 # Additional Statistics sources.
 sourcesstatistics =	StatisticsDialog.cc
 
-if HAVE_EXERCISES
 extrasources +=		$(sourcesexercises) 
-endif
-
 extrasources +=		$(sourcesstatistics) 
 
 if PLATFORM_OS_UNIX

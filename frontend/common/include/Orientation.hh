@@ -1,6 +1,6 @@
 // Orientation.hh
 //
-// Copyright (C) 2007 Rob Caelers
+// Copyright (C) 2007, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,12 @@
 #ifndef ORIENTATION_HH
 #define ORIENTATION_HH
 
-namespace workrave
-{
-  enum Orientation
-    {
-      ORIENTATION_UP,
-      ORIENTATION_RIGHT,
-      ORIENTATION_DOWN,
-      ORIENTATION_LEFT,
-    };
-};
+enum Orientation
+  {
+    ORIENTATION_UP,
+    ORIENTATION_RIGHT,
+    ORIENTATION_DOWN,
+    ORIENTATION_LEFT,
+  };
 
 #endif // ORIENTATION_HH

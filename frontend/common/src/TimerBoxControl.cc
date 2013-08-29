@@ -43,6 +43,7 @@
 #include "IBreak.hh"
 
 using namespace workrave;
+using namespace workrave::config;
 
 const std::string TimerBoxControl::CFG_KEY_TIMERBOX = "gui/";
 const std::string TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";

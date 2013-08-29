@@ -40,6 +40,11 @@
 
 #include "Util.hh"
 
+using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::audio;
+using namespace std;
+
 const char *SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
 const char *SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
@@ -47,10 +52,6 @@ const char *SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
 const char *SoundTheme::CFG_KEY_SOUND_EVENTS = "sound/events/";
 const char *SoundTheme::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
-using namespace workrave;
-using namespace workrave::config;
-using namespace workrave::audio;
-using namespace std;
 
 SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
 {

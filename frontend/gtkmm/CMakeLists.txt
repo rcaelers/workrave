@@ -87,32 +87,15 @@ if (HAVE_DBUS)
   
 endif (HAVE_DBUS)
 
-if (HAVE_EXERCISES)
-  set (EXERCISES_HOME ${CMAKE_SOURCE_DIR}/frontend/plugin/exercises)
-
-  include_directories(
-    ${EXERCISES_HOME}/gtkmm/src
-    ${EXERCISES_HOME}/common/src
-    )
-
-  set(SRC ${SRC}
-    ${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc
-    ${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc
-    ${EXERCISES_HOME}/common/src/Exercise.cc
-    )
+set(SRC ${SRC}
+  ${CMAKE_SOURCE_DIR}/gtkmm/src/ExercisesDialog.cc
+  ${CMAKE_SOURCE_DIR}/gtkmm/src/ExercisesPanel.cc
+  )
 endif()
 
-if (HAVE_STATISTICS)
-  set (STATISTICS_HOME ${CMAKE_SOURCE_DIR}/frontend/plugin/statistics)
-
-  include_directories(
-    ${STATISTICS_HOME}/gtkmm/src
+set(SRC ${SRC}
+  ${CMAKE_SOURCE_DIR}/gtkmm/src/StatisticsDialog.cc
     )
-    
-  set(SRC ${SRC}
-    ${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
-    )
-endif()
 
 if (HAVE_GSETTINGS)
   gsettings_add_schemas(workrave-backend ${CMAKE_SOURCE_DIR}/frontend/gtkmm/src)

@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#ifdef HAVE_EXERCISES
-
 #include "preinclude.h"
 
 #include <algorithm>
@@ -36,6 +34,7 @@
 #include "nls.h"
 #include "SoundTheme.hh"
 #include "debug.hh"
+
 
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
@@ -532,5 +531,3 @@ ExercisesPanel::set_exercise_count(int num)
 {
   exercise_count = num;
 }
-
-#endif // HAVE_EXERCISES

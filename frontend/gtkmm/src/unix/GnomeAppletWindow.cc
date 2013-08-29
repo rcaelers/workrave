@@ -55,6 +55,7 @@
 #define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
 #endif
 
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -131,12 +132,6 @@ GnomeAppletWindow::activate_applet()
           id = get_socketid();
           applet_size = get_size();
           applet_orientation = get_orientation();
-          
-#ifndef HAVE_EXERCISES
-          const std::string exercices_command("/commands/Exercises");
-          bool exercices_command_status(false);
-          set_menu_active(exercices_command, exercices_command_status);
-#endif
         }
       catch (workrave::dbus::DBusException)
         {

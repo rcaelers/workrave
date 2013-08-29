@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOUNDPLAYER_HH
-#define SOUNDPLAYER_HH
+#ifndef SOUNDTHEME_HH
+#define SOUNDTHEME_HH
 
 #include <string>
 #include <list>
@@ -29,8 +29,6 @@
 
 #include "config/IConfigurator.hh"
 #include "audio/ISoundPlayer.hh"
-
-class IMixer;
 
 class SoundTheme
 {
@@ -104,4 +102,4 @@ private:
   workrave::audio::ISoundPlayer::Ptr player;
 };
 
-#endif // SOUNDPLAYER_HH
+#endif // SOUNDTHEME_HH

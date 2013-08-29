@@ -1,6 +1,6 @@
 // RestBreakWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,12 +53,10 @@ private:
   Gtk::Widget *create_info_panel();
   void set_ignore_activity(bool i);
 
-#ifdef HAVE_EXERCISES
   void install_exercises_panel();
   void install_info_panel();
   void clear_pluggable_panel();
   int get_exercise_count();
-#endif
 
 private:
   //! The Time
@@ -70,9 +68,7 @@ private:
   //! Progress
   int progress_max_value;
 
-#ifdef HAVE_EXERCISES
   Gtk::HBox *pluggable_panel;
-#endif
 
   //! Is currently flashing because user is active?
   bool is_flashing;

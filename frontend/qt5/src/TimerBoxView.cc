@@ -27,6 +27,8 @@
 
 #include "TimerBoxView.hh"
 
+using namespace workrave;
+
 //! Constructor.
 TimerBoxView::TimerBoxView() :
   sheep_only(false),

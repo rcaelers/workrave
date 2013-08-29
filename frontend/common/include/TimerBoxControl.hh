@@ -27,10 +27,7 @@
 #include "ICore.hh"
 #include "ITimerBoxView.hh"
 
-using namespace workrave;
-using namespace workrave::config;
-
-class TimerBoxControl : public IConfiguratorListener
+class TimerBoxControl : public workrave::config::IConfiguratorListener
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView &view);
@@ -41,15 +38,15 @@ public:
   void force_cycle();
   void set_force_empty(bool s);
 
-  static const std::string get_timer_config_key(std::string name, BreakId timer, const std::string &key);
+  static const std::string get_timer_config_key(std::string name, workrave::BreakId timer, const std::string &key);
   static int get_cycle_time(std::string name);
   static void set_cycle_time(std::string name, int time);
-  static int get_timer_imminent_time(std::string name, BreakId timer);
-  static void set_timer_imminent_time(std::string name, BreakId timer, int time);
-  static int get_timer_slot(std::string name, BreakId timer);
-  static void set_timer_slot(std::string name, BreakId timer, int slot);
-  static int get_timer_flags(std::string name, BreakId timer);
-  static void set_timer_flags(std::string name, BreakId timer, int flags);
+  static int get_timer_imminent_time(std::string name, workrave::BreakId timer);
+  static void set_timer_imminent_time(std::string name, workrave::BreakId timer, int time);
+  static int get_timer_slot(std::string name, workrave::BreakId timer);
+  static void set_timer_slot(std::string name, workrave::BreakId timer, int slot);
+  static int get_timer_flags(std::string name, workrave::BreakId timer);
+  static void set_timer_flags(std::string name, workrave::BreakId timer, int flags);
   static bool is_enabled(std::string name);
   static void set_enabled(std::string name, bool enabled);
 
@@ -97,25 +94,25 @@ private:
   int cycle_time;
 
   //! Positions for the break timers.
-  int break_position[BREAK_ID_SIZEOF];
+  int break_position[workrave::BREAK_ID_SIZEOF];
 
   //! Flags for the break timers.
-  int break_flags[BREAK_ID_SIZEOF];
+  int break_flags[workrave::BREAK_ID_SIZEOF];
 
   //! Imminent threshold for the timers.
-  int break_imminent_time[BREAK_ID_SIZEOF];
+  int break_imminent_time[workrave::BREAK_ID_SIZEOF];
 
   //! Computed slot contents.
-  int break_slots[BREAK_ID_SIZEOF][BREAK_ID_SIZEOF];
+  int break_slots[workrave::BREAK_ID_SIZEOF][workrave::BREAK_ID_SIZEOF];
 
   //! Current cycle for each slot.
-  int break_slot_cycle[BREAK_ID_SIZEOF];
+  int break_slot_cycle[workrave::BREAK_ID_SIZEOF];
 
   //! Name
   std::string name;
 
   //! Last known operation mode
-  OperationMode operation_mode;
+  workrave::OperationMode operation_mode;
 
   //!
   int force_duration;

@@ -40,8 +40,8 @@ public:
   TimerBoxView();
   virtual ~TimerBoxView();
 
-  virtual void set_slot(BreakId  id, int slot);
-  virtual void set_time_bar(BreakId id,
+  virtual void set_slot(workrave::BreakId  id, int slot);
+  virtual void set_time_bar(workrave::BreakId id,
                             std::string text,
                             ITimeBar::ColorId primary_color,
                             int primary_value, int primary_max,
@@ -66,13 +66,13 @@ private:
   QGridLayout *layout;
   
   //! Array of time labels
-  QLabel *labels[BREAK_ID_SIZEOF];
+  QLabel *labels[workrave::BREAK_ID_SIZEOF];
 
   //! Array of time bar widgets.
-  TimeBar *bars[BREAK_ID_SIZEOF];
+  TimeBar *bars[workrave::BREAK_ID_SIZEOF];
 
   //! Current slot content.
-  int content[BREAK_ID_SIZEOF];
+  int content[workrave::BREAK_ID_SIZEOF];
 
   //! Only show the sheep
   bool sheep_only;

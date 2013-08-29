@@ -45,10 +45,8 @@
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
 
-#ifdef HAVE_EXERCISES
 #include "ExercisesDialog.hh"
 #include "Exercise.hh"
-#endif
 
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
@@ -78,6 +76,7 @@
 #include "OSXGtkMenu.hh"
 #endif
 
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -86,9 +85,7 @@
 Menus::Menus() :
   statistics_dialog(NULL),
   preferences_dialog(NULL),
-#ifdef HAVE_EXERCISES
   exercises_dialog(NULL),
-#endif
   about(NULL)
 {
   gui = GUI::get_instance();
@@ -271,7 +268,6 @@ Menus::on_menu_preferences()
     }
 }
 
-#ifdef HAVE_EXERCISES
 //! Exercises Dialog.
 void
 Menus::on_menu_exercises()
@@ -302,8 +298,6 @@ Menus::on_exercises_response(int response)
   delete exercises_dialog;
   exercises_dialog = NULL;
 }
-
-#endif
 
 
 //! Statistics Dialog.
@@ -441,11 +435,9 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_PREFERENCES:
       on_menu_preferences();
       break;
-#ifdef HAVE_EXERCISES
     case MENU_COMMAND_EXERCISES:
       on_menu_exercises();
       break;
-#endif
     case MENU_COMMAND_REST_BREAK:
       on_menu_restbreak_now();
       break;

@@ -83,10 +83,6 @@ AC_ARG_ENABLE(experimental,
               [AS_HELP_STRING([--enable-experimental],
                               [compile with experimental features])])
 
-AC_ARG_ENABLE(exercises,
-              [AS_HELP_STRING([--disable-exercises],
-                              [compile without exercises support])])
-
 AC_ARG_ENABLE(tests,
               [AS_HELP_STRING([--enable-tests],
                               [compile with test code])])
@@ -852,13 +848,6 @@ if test "x$enable_tests" = "xyes"; then
 fi
 AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
 
-config_exercises=no
-if test "x$enable_exercises" != "xno"; then
-   config_exercises=yes
-   AC_DEFINE(HAVE_EXERCISES,,[Define if exercises are available])
-fi
-AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
-
 config_experimental=no
 if test "x$enable_experimental" = "xyes"; then
    config_experimental=yes
@@ -1023,7 +1012,6 @@ echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then
 echo "           Pulseaudio support :   ${config_pulse}"
 fi
-echo "                    Exercises :   ${config_exercises}"
 echo ""
 echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"

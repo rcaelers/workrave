@@ -67,32 +67,6 @@ qt5_wrap_cpp(MOC_SRC
 
 #endif (HAVE_DBUS)
 #
-#if (HAVE_EXERCISES)
-#  set (EXERCISES_HOME ${CMAKE_SOURCE_DIR}/frontend/plugin/exercises)
-#
-#  include_directories(
-#    ${EXERCISES_HOME}/gtkmm/src
-#    ${EXERCISES_HOME}/common/src
-#    )
-#
-#  set(SRC ${SRC}
-#    ${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc
-#    ${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc
-#    ${EXERCISES_HOME}/common/src/Exercise.cc
-#    )
-#endif()
-#
-#if (HAVE_STATISTICS)
-#  set (STATISTICS_HOME ${CMAKE_SOURCE_DIR}/frontend/plugin/statistics)
-#
-#  include_directories(
-#    ${STATISTICS_HOME}/gtkmm/src
-#    )
-#    
-#  set(SRC ${SRC}
-#    ${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
-#    )
-#endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 

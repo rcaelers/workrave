@@ -28,7 +28,6 @@ struct Exercise
 public:
   static bool has_exercises();
 
-#ifdef HAVE_EXERCISES
   struct Image
   {
     std::string image;
@@ -53,10 +52,6 @@ public:
 private:
   static std::string get_exercises_file_name();
   static void parse_exercises(const char *file_name, std::list<Exercise>&);
-#endif // HAVE_EXERCISES
 };
-
-
-
 
 #endif // EXERCISE_HH

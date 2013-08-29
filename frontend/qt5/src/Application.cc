@@ -50,7 +50,7 @@
 //#endif
 
 using namespace std;
-
+using namespace workrave;
 
 Application::Ptr
 Application::create(int argc, char **argv, IToolkit::Ptr toolkit)

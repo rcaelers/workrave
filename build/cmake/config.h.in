@@ -13,8 +13,6 @@
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_GSTREAMER
-#cmakedefine HAVE_STATISTICS
-#cmakedefine HAVE_EXERCISES
 #cmakedefine HAVE_LANGUAGE_SELECTION
 
 #cmakedefine HAVE_UNISTD_H 1

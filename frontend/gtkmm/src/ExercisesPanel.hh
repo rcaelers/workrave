@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 #ifdef HAVE_CONFIG
 #include "config.h"
 #endif
-
-#ifdef HAVE_EXERCISES
 
 #include "preinclude.h"
 #include "Exercise.hh"
@@ -97,7 +95,5 @@ private:
   int exercise_count;
   static int exercises_pointer;
 };
-
-#endif // HAVE_EXERCISES
 
 #endif // EXERCISES_PANEL_HH

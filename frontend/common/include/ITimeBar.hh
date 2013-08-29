@@ -22,7 +22,6 @@
 
 #include <string>
 
-
 class ITimeBar
 {
 public:

@@ -172,7 +172,7 @@ if (WITH_QT5)
   # Can be removed with Qt 5.1
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
   
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -Wno-deprecated-register")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
@@ -299,17 +299,7 @@ set (GETTEXT_PACKAGE "workrave")
 #----------------------------------------------------------------------------------------------------
 # Options
 
-set (HAVE_EXERCISES ON)
-set (HAVE_STATISTICS ON)
-
 include(Intltool)
-
-if (INTLTOOL_MERGE_FOUND)
-  set (HAVE_EXERCISES ON)
-else()
-  message("=== Intltool not found - disabling exercises")
-  set (HAVE_EXERCISES OFF)
-endif()
 
 # TODO: HAVE_TESTS
 
