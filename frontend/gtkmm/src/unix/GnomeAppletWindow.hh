@@ -35,8 +35,6 @@ class TimerBoxGtkView;
 class Plug;
 class org_workrave_GnomeAppletInterface;
 
-using namespace workrave;
-
 namespace Gtk
 {
   class Bin;

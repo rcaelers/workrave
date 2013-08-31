@@ -96,11 +96,11 @@
       <field type="uint32" name="blue"/>
     </struct>
 
-    <enum name="Orientation" csymbol="workrave::uicommon::Orientation">
-      <value name="up"    csymbol="workrave::uicommon::ORIENTATION_UP"/>
-      <value name="right" csymbol="workrave::uicommon::ORIENTATION_RIGHT"/>
-      <value name="down"  csymbol="workrave::uicommon::ORIENTATION_DOWN"/>
-      <value name="left"  csymbol="workrave::uicommon::ORIENTATION_LEFT"/>
+    <enum name="Orientation" csymbol="Orientation">
+      <value name="up"    csymbol="ORIENTATION_UP"/>
+      <value name="right" csymbol="ORIENTATION_RIGHT"/>
+      <value name="down"  csymbol="ORIENTATION_DOWN"/>
+      <value name="left"  csymbol="ORIENTATION_LEFT"/>
     </enum>
 
     <method name="SetOrientation" csymbol="set_applet_orientation">
