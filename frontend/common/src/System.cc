@@ -126,7 +126,7 @@ bool System::shutdown_supported;
 
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
 GDBusProxy *System::lock_proxy =  NULL;
 #endif
 
@@ -175,7 +175,7 @@ invoke(const gchar* command, bool async = false)
 #endif
 
 
-#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS)
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
 void
 System::init_kde_lock()
 {
@@ -268,7 +268,7 @@ System::lock()
 #if defined(PLATFORM_OS_UNIX)
       gchar *program = NULL, *cmd = NULL;
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
       if (kde_lock())
         {
           goto end;
@@ -364,7 +364,7 @@ System::init(
 {
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
   init_kde_lock();
 #endif
 

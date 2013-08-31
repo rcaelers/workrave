@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include "Menus.hh"
+#include "MenuModel.hh"
 
 MainWindow::MainWindow(MenuHandler::Ptr menus)
   : QDialog(0, Qt::WindowTitleHint

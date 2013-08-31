@@ -487,6 +487,10 @@ fi
 if test "x$config_dbus" = "xyes"
 then
     AC_DEFINE(HAVE_DBUS, , [DBus support])
+    AC_DEFINE(HAVE_DBUS_GIO, , [DBus GIO support])
+
+    DBUS_BACKEND="gio"    
+    AC_SUBST(DBUS_BACKEND)
 
     AS_AC_EXPAND(DATADIR, "$datadir")
     DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
@@ -970,8 +974,12 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
-	     frontend/qt5/src/Makefile
-	     frontend/qt5/Makefile
+	     frontend/apps/qt5/src/Makefile
+	     frontend/apps/qt5/Makefile
+	     frontend/apps/common/Makefile
+	     frontend/apps/common/src/Makefile
+	     frontend/apps/common/include/Makefile
+	     frontend/apps/Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile

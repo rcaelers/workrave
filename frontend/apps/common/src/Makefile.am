@@ -5,29 +5,25 @@
 
 MAINTAINERCLEANFILES =	Makefile.in
 
-noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
+noinst_LTLIBRARIES = 	libworkrave-frontend-apps-common.la
 
-libworkrave_frontend_common_la_SOURCES = \
-			CoreFactory.cc \
-			GUIConfig.cc \
-			Exercise.cc \
-			Text.cc \
-			System.cc \
-			Session.cc \
-			TimerBoxControl.cc \
-			SoundTheme.cc
+libworkrave_frontend_apps_common_la_SOURCES = \
+			Application.cc \
+			MenuModelItem.cc \
+			MenuModel.cc
 
-libworkrave_frontend_common_la_LIBADD = 
+libworkrave_frontend_apps_common_la_LIBADD = 
 			$(top_builddir)/libs/audio/src/libworkrave-audio.la
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
 
-libworkrave_frontend_common_la_CXXFLAGS = \
+libworkrave_frontend_apps_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			@X_CFLAGS@ @PULSE_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/backend/include  \
-			-I$(top_srcdir)/frontend/common/src/ \
+			-I$(top_srcdir)/frontend/apps/common/src/ \
+			-I$(top_srcdir)/frontend/apps/common/include \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/config/include \

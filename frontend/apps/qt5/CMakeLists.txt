@@ -1,14 +1,11 @@
 set(SRC
   src/main.cc
   src/Frame.cc
-  src/Application.cc
   src/MainWindow.cc
   src/PreludeWindow.cc
   src/TimerBoxView.cc
   src/TimeBar.cc
   src/Toolkit.cc
-  src/GUIConfig.cc
-  src/Session.cc
   src/BreakWindow.cc
   src/MicroBreakWindow.cc
   src/DailyLimitWindow.cc
@@ -23,8 +20,6 @@ set(SRC
   src/GeneralUiPreferencesPanel.cc
   src/SoundsPreferencesPanel.cc
   src/TimerBoxPreferencesPanel.cc
-  src/Menus.cc
-  src/MenuItem.cc
   src/MenuHandler.cc
   )
 
@@ -73,8 +68,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/frontend/qt5/src/
+  ${CMAKE_SOURCE_DIR}/frontend/apps/qt5/src/
+  ${CMAKE_SOURCE_DIR}/frontend/apps/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
+
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
 
   ${CMAKE_SOURCE_DIR}/libs/config/include
@@ -92,6 +89,7 @@ include_directories()
 
 add_executable(workrave-qt ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
+target_link_libraries(workrave-qt workrave-frontend-apps-common)
 target_link_libraries(workrave-qt workrave-frontend-common)
 target_link_libraries(workrave-qt workrave-backend)
 target_link_libraries(workrave-qt workrave-libs-config)

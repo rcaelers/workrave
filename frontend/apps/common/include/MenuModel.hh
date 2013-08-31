@@ -27,7 +27,7 @@
 #include "IToolkit.hh"
 #include "IApplication.hh"
 
-#include "MenuItem.hh"
+#include "MenuModelItem.hh"
 
 class Menus
 {

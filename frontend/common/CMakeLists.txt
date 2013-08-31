@@ -2,7 +2,8 @@
 set(SRC
   src/Exercise.cc
   src/CoreFactory.cc
-  src/Makefile.am
+  src/GUIConfig.cc
+  src/Session.cc
   src/System.cc
   src/Text.cc
   src/TimerBoxControl.cc

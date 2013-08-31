@@ -1,6 +1,6 @@
 // GConfConfigurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -63,9 +63,6 @@ private:
 
   //! GConf thingy
   GConfClient *gconf_client;
-
-  //! notify connection ID
-  guint connection_id;
 
   //! GConf Root of workrave
   std::string gconf_root;

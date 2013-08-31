@@ -22,8 +22,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-//using namespace workrave;
-
 class IBreakWindow
 {
 public:

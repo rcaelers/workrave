@@ -98,6 +98,8 @@ if (WITH_GTK)
   set (HAVE_GTK ON)
   set (HAVE_GTK3 ON)
   set (HAVE_DBUS ON)
+  set (HAVE_DBUS_GIO ON)
+  set (DBUS_BACKEND "gio")
   set (HAVE_APP_GTK ON)
 
   pkg_check_modules(
@@ -167,7 +169,13 @@ if (WITH_QT5)
   include_directories(${Qt5Core_INCLUDE_DIRS})
   include_directories(${Qt5Gui_INCLUDE_DIRS})
   include_directories(${Qt5Widgets_INCLUDE_DIRS})
-  
+
+  Find_package(DBus)
+  if (DBUS_FOUND)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_FREEDESKTOP ON)
+    set (DBUS_BACKEND "freedesktop")
+  endif()
 
   # Can be removed with Qt 5.1
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
@@ -195,10 +203,17 @@ if (HAVE_DBUS)
   endif()
 endif()
 
+if (HAVE_DBUS_FREEDESKTOP)
+  include_directories(
+    ${DBUS_INCLUDE_DIR}
+    ${DBUS_ARCH_INCLUDE_DIR}
+    )
+endif()
+
 # TODO: check python Cheetah
 
 #----------------------------------------------------------------------------------------------------
-# DBus
+# GStreamer
 
 option(WITH_GSTREAMER "Enable GStreamer audio" ON)
 

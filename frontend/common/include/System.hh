@@ -32,7 +32,7 @@
 #include <string>
 #endif
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
 #include <gio/gio.h>
 #endif
 
@@ -51,12 +51,12 @@ public:
                    );
 
 private:
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS_GIO)
   static GDBusProxy *lock_proxy;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
   static void init_kde_lock();
   static bool kde_lock();
 #endif

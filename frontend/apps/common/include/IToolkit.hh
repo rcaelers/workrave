@@ -26,7 +26,7 @@
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
 
-#include "MenuItem.hh"
+#include "MenuModelItem.hh"
 
 class IToolkit
 {

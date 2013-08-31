@@ -28,7 +28,7 @@
 
 #include "IToolkit.hh"
 #include "CoreTypes.hh"
-#include "Menus.hh"
+#include "MenuModel.hh"
 
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"

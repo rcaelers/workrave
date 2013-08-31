@@ -24,8 +24,10 @@
 #undef interface
 #endif
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS_GIO)
 #include "dbus/DBus-gio.hh"
+#elif defined(HAVE_DBUS_FREEDESKTOP)
+#include "dbus/DBus-freedesktop.hh"
 #else
 
 namespace workrave

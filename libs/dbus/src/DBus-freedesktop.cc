@@ -37,9 +37,9 @@
 #include <list>
 #include <map>
 
-#include "DBus-freedesktop.hh"
-#include "DBusBinding-freedesktop.hh"
-#include "DBusException.hh"
+#include "dbus/DBus-freedesktop.hh"
+#include "dbus/DBusBinding-freedesktop.hh"
+#include "dbus/DBusException.hh"
 
 using namespace std;
 using namespace workrave;

@@ -22,11 +22,9 @@
 
 #include <boost/shared_ptr.hpp>
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
 #include <gio/gio.h>
 #endif
-
-//#include "ICore.hh"
 
 class Session
 {
@@ -40,7 +38,7 @@ public:
 
   void set_idle(bool idle);
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
 private:
   void init_gnome();
   static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);

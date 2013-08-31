@@ -28,6 +28,7 @@
 
 #include "IApp.hh"
 
+#include "Session.hh"
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IToolkit.hh"
@@ -36,7 +37,7 @@
 #include "SoundTheme.hh"
 
 #include "Session.hh"
-#include "Menus.hh"
+#include "MenuModel.hh"
 
 class Application :
   public IApplication,
@@ -151,7 +152,7 @@ private:
   PreludeWindows prelude_windows;
 
   //! Number of active prelude windows;
-  int active_prelude_count;
+  //int active_prelude_count;
 
   //! Current active break.
   workrave::BreakId active_break_id;

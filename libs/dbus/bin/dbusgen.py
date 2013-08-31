@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2007, 2008, 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -483,9 +483,9 @@ if __name__ == '__main__':
     parser.add_option("-l", "--language",
                       dest="language",
                       help="Generate stubs for this language")
-    parser.add_option("-g", "--gio",
-                      action="store_true", dest="gio",
-                      help="Generate GIO based stubs")
+    parser.add_option("-b", "--backend",
+                      dest="backend",
+                      help="DBUS backend to use: freedesktop or gip")
     parser.add_option("-c", "--client",
                       action="store_true", dest="client",
                       help="Generate client stubs")
@@ -498,20 +498,19 @@ if __name__ == '__main__':
     templates = []
     directory = os.path.dirname(sys.argv[0])
 
-    brand = "freedesktop"
-    if options.gio:
-        brand = "gio"
+    if options.backend != "gio" and options.backend != "freedesktop":
+        parser.error("Unsupported backend: " + options.backend)
 
     if options.language:
         if options.language == 'C':
             header_ext=".h"
         elif options.language == 'C++':
             if options.client:
-                templates.append(directory+"/../data/DBus-client-template-" + brand + ".cc")
-                templates.append(directory+"/../data/DBus-client-template-" + brand + ".hh")
+                templates.append(directory+"/../data/DBus-client-template-" + options.backend + ".cc")
+                templates.append(directory+"/../data/DBus-client-template-" + options.backend + ".hh")
             if options.server:
-                templates.append(directory+"/../data/DBus-template-" + brand + ".cc")
-                templates.append(directory+"/../data/DBus-template-" + brand + ".hh")
+                templates.append(directory+"/../data/DBus-template-" + options.backend + ".cc")
+                templates.append(directory+"/../data/DBus-template-" + options.backend + ".hh")
             header_ext=".hh"
         elif options.language == 'xml':
             templates.append(directory+"/../data/DBus-xml.xml")

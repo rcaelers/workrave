@@ -53,7 +53,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
   init_gnome();
 #endif
 }
@@ -117,7 +117,7 @@ Session::set_idle(bool new_idle)
   TRACE_EXIT();
 }
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
 
 void
 Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)

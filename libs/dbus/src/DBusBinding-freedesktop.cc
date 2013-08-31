@@ -1,6 +1,6 @@
 // DBusBinding.c
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,9 @@
 
 #include "debug.hh"
 
-#include "DBus-freedesktop.hh"
-#include "DBusBinding-freedesktop.hh"
-#include "DBusException.hh"
+#include "dbus/DBus-freedesktop.hh"
+#include "dbus/DBusBinding-freedesktop.hh"
+#include "dbus/DBusException.hh"
 
 using namespace workrave;
 using namespace workrave::dbus;

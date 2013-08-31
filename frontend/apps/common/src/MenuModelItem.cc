@@ -21,12 +21,9 @@
 #include "config.h"
 #endif
 
-#include <QDesktopWidget>
-
 #include "nls.h"
 
-#include "MenuItem.hh"
-#include "CoreTypes.hh"
+#include "MenuModelItem.hh"
 
 using namespace std;
 

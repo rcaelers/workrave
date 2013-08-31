@@ -21,15 +21,16 @@
 #include "config.h"
 #endif
 
-#include <boost/make_shared.hpp>
-
 #include "Toolkit.hh"
+
+#include <boost/make_shared.hpp>
 
 #include <QDesktopWidget>
 #include <QApplication>
 
 #include "config/IConfigurator.hh"
 
+#include "MenuModel.hh"
 #include "GUIConfig.hh"
 
 #include "PreludeWindow.hh"
@@ -38,7 +39,6 @@
 #include "DailyLimitWindow.hh"
 #include "PreferencesDialog.hh"
 
-#include "Menus.hh"
 #include "MenuHandler.hh"
 
 using namespace std;

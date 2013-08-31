@@ -20,13 +20,15 @@
 #ifndef MENUHANDLER_HH
 #define MENUHANDLER_HH
 
+#include "MenuModel.hh"
+
 #include <string>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-#include "Menus.hh"
+#include <QMenu>
 
 namespace detail
 {

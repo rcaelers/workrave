@@ -216,15 +216,15 @@ GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
 void
 GeneralUiPreferencesPanel::on_autostart_toggled()
 {
-  bool on = autostart_cb->checkState() == Qt::Checked;
-  gchar *value = NULL;
+  // bool on = autostart_cb->checkState() == Qt::Checked;
+  // gchar *value = NULL;
 
-  if (on)
-    {
+  // if (on)
+  //   {
       //string appdir = Util::get_application_directory();
 
       //value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
-    }
+  //}
 
   //Util::registry_set_value(RUNKEY, "Workrave", value);
 }

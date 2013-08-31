@@ -24,7 +24,9 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS_GIO)
+#include "DBusBinding-gio.hh"
+#elif defined(HAVE_DBUS_FREEDESKTOP)
 #include "DBusBinding-gio.hh"
 #endif
 

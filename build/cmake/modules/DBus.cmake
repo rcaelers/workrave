@@ -1,7 +1,7 @@
 macro(dbus_generate NAME XML OUTFILE)
   add_custom_command(
     OUTPUT ${OUTFILE}
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --gio -l C++ ${XML} ${NAME}
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --backend=${DBUS_BACKEND} -l C++ ${XML} ${NAME}
 	DEPENDS ${XML}
   )
 endmacro()

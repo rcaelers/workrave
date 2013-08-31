@@ -65,7 +65,7 @@ Application::create(int argc, char **argv, IToolkit::Ptr toolkit)
  */
 Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
   toolkit(toolkit),
-  active_prelude_count(0),
+  //active_prelude_count(0),
   active_break_id(BREAK_ID_NONE),
   //main_window(NULL),
   //menus(0),

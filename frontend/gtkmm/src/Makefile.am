@@ -89,7 +89,7 @@ DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py --server --backend=${DBUS_BACKEND} --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
 
 DBusGUI.hh: 		DBusGUI.cc ; test -f $@
 
@@ -132,7 +132,6 @@ workrave_SOURCES = 	AppletControl.cc \
 			EventLabel.cc \
 			Frame.cc \
 			GUI.cc \
-			GUIConfig.cc \
 			GtkUtil.cc \
 			HeadInfo.cc \
 			Hig.cc \
@@ -145,7 +144,6 @@ workrave_SOURCES = 	AppletControl.cc \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \
-			Session.cc \
 			StatusIcon.cc \
 			TimeBar.cc \
 			TimeEntry.cc \

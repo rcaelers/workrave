@@ -39,7 +39,7 @@ DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.cc \
 			$(top_srcdir)/libs/dbus/data/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py -s --backend=${DBUS_BACKEND} -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
 
 DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
 endif # HAVE_PYTHON_CHEETAH

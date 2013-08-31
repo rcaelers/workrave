@@ -24,7 +24,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "Menus.hh"
+#include "MenuModel.hh"
 #include "CoreTypes.hh"
 
 using namespace std;
