@@ -27,14 +27,10 @@
 #include "ConfiguratorFactory.hh"
 #include "Configurator.hh"
 
-#ifdef HAVE_GLIB
-#include "GlibIniConfigurator.hh"
-#endif
+#include "IniConfigurator.hh"
+#include "XmlConfigurator.hh"
 #ifdef HAVE_GSETTINGS
 #include "GSettingsConfigurator.hh"
-#endif
-#ifdef HAVE_GDOME
-#include "XMLConfigurator.hh"
 #endif
 #ifdef HAVE_GCONF
 #include "GConfConfigurator.hh"
@@ -56,13 +52,6 @@ ConfiguratorFactory::create(Format fmt)
   Configurator *c =  NULL;
   IConfigBackend *b = NULL;
 
-  if (fmt == FormatXml)
-    {
-#ifdef HAVE_GDOME
-      b = new XMLConfigurator();
-#endif      
-    }
-
   if (fmt == FormatNative)
     {
 #if defined(PLATFORM_OS_WIN32)
@@ -78,11 +67,14 @@ ConfiguratorFactory::create(Format fmt)
 #endif
     }
   
+  if (fmt == FormatXml)
+    {
+      b = new XmlConfigurator();
+    }
+
   if (fmt == FormatIni)
     {
-#ifdef HAVE_GLIB
-      b = new GlibIniConfigurator();
-#endif
+      b = new IniConfigurator();
     }
 
   if (b != NULL)

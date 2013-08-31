@@ -56,10 +56,8 @@ private:
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS_GIO)
   static void init_kde_lock();
   static bool kde_lock();
-#endif
   
   static bool lockable;
   static std::string lock_display;

@@ -58,9 +58,9 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator, cons
   first_action_time = 0;
   last_action_time = 0;
 
-  noise_threshold = 1 * G_USEC_PER_SEC;
-  activity_threshold = 2 * G_USEC_PER_SEC;
-  idle_threshold = 5 * G_USEC_PER_SEC;
+  noise_threshold = 1 * TimeSource::USEC_PER_SEC;
+  activity_threshold = 2 * TimeSource::USEC_PER_SEC;
+  idle_threshold = 5 * TimeSource::USEC_PER_SEC;
 
   TRACE_EXIT();
 }
@@ -184,7 +184,7 @@ LocalActivityMonitor::process_state()
   // First update the state...
   if (state == ACTIVITY_MONITOR_ACTIVE)
     {
-      gint64 tv = TimeSource::get_monotonic_time_usec() - last_action_time;
+      int64_t tv = TimeSource::get_monotonic_time_usec() - last_action_time;
 
       TRACE_MSG("Active: " << tv << " " << idle_threshold);
       if (tv > idle_threshold)
@@ -237,7 +237,7 @@ void
 LocalActivityMonitor::action_notify()
 {
   lock.lock();
-  gint64 now = TimeSource::get_monotonic_time_usec();
+  int64_t now = TimeSource::get_monotonic_time_usec();
   
   switch (state)
     {
@@ -260,7 +260,7 @@ LocalActivityMonitor::action_notify()
 
     case ACTIVITY_MONITOR_NOISE:
       {
-        gint64 tv = now - last_action_time;
+        int64_t tv = now - last_action_time;
 
         if (tv > noise_threshold)
           {

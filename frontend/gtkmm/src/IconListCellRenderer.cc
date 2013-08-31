@@ -69,7 +69,6 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
   int text_minimum_width, text_natural_width;
   int pixbuf_minimum_width, pixbuf_natural_width;
 
-  // FIXME:
   const_cast<IconListCellRenderer*>(this)->update_properties();
 
   text_renderer.get_preferred_width(widget, text_minimum_width, text_natural_width);
@@ -97,7 +96,6 @@ void IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &
   int text_minimum_height, text_natural_height;
   int pixbuf_minimum_height, pixbuf_natural_height;
 
-  // FIXME:
   const_cast<IconListCellRenderer*>(this)->update_properties();
 
   text_renderer.get_preferred_height(widget, text_minimum_height, text_natural_height);
@@ -154,8 +152,6 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
                                      int* x_offset, int* y_offset,
                                      int* width,    int* height) const
 {
-  // FIXME: gtkmm 2.4 changed their API. this method now needs to be const.
-  //        This is a (temporary) hack to get thing working again.
   IconListCellRenderer *r = const_cast<IconListCellRenderer *>(this);
   r->get_size_vfunc(widget, cell_area, x_offset, y_offset, width, height);
 }

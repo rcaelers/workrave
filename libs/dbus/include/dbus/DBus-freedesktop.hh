@@ -23,7 +23,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include <dbus/dbus.h>
-#include <glib.h>
 
 #include <string>
 #include <map>

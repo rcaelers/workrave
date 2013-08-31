@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include <boost/filesystem.hpp>
 
 #include "debug.hh"
 
@@ -63,8 +65,6 @@ BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #endif
 
 #include "Util.hh"
-
-#include <glib.h>
 
 using namespace std;
 
@@ -165,25 +165,6 @@ Util::set_home_directory(const string &home)
   mkdir(home_directory.c_str(), 0777);
 #endif
 }
-
-//! Returns \c true if the specified file exists.
-bool
-Util::file_exists(string path)
-{
-  // 'stat' might be faster. but this is portable..
-  FILE *f = NULL;
-  bool ret = false;
-
-  f = fopen(path.c_str(), "r");
-  if (f != NULL)
-    {
-      fclose(f);
-      ret = true;
-    }
-
-  return ret;
-}
-
 
 #ifdef PLATFORM_OS_WIN32
 //! Returns the directory in which workrave is installed.
@@ -373,23 +354,24 @@ Util::get_search_path(SearchPathId type)
 string
 Util::complete_directory(string path, Util::SearchPathId type)
 {
-  string fullPath;
+  boost::filesystem::path full_path;
   bool found = false;
 
-  const set<string> &searchPath = get_search_path(type);
+  const set<string> &search_path = get_search_path(type);
 
-  for (set<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
+  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); i++)
     {
-      fullPath = (*i) + G_DIR_SEPARATOR_S + path;
-      found = file_exists(fullPath);
+      full_path = (*i);
+      full_path /= path;
+      found = boost::filesystem::is_regular_file(full_path);
     }
 
   if (!found)
     {
-      fullPath = path;
+      full_path = path;
     }
 
-  return fullPath;
+  return full_path.string();
 }
 
 bool
@@ -398,12 +380,12 @@ Util::running_gnome()
   bool ret = false;
 
 #ifdef PLATFORM_OS_UNIX
-	gchar *tmp = g_find_program_in_path("gnome-open");
+	char *tmp = NULL; // TODO: g_find_program_in_path("gnome-open");
 
 	if (tmp != NULL)
     {
-      g_free(tmp);
-      tmp = (gchar *)g_getenv("GNOME_DESKTOP_SESSION_ID");
+      free(tmp);
+      tmp = (char *)getenv("GNOME_DESKTOP_SESSION_ID");
 
       ret = ((tmp != NULL) && (*tmp != '\0'));
     }

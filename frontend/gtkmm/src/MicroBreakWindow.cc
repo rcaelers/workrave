@@ -58,7 +58,7 @@ MicroBreakWindow::create_gui()
 {
   // Time bar
   time_bar = Gtk::manage(new TimeBar);
-  time_bar->set_text("Microbreak 0:32"); // FIXME:
+  time_bar->set_text("Microbreak 0:32");
 
   // Label
   label = Gtk::manage(new Gtk::Label());

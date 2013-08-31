@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include <boost/thread.hpp>
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -29,13 +31,9 @@
 
 #include "InputMonitor.hh"
 
-#include "Runnable.hh"
-#include "Thread.hh"
-
 //! Activity monitor for a local X server.
 class RecordInputMonitor :
-  public InputMonitor,
-  public Runnable
+  public InputMonitor
 {
 public:
   //! Constructor.
@@ -53,7 +51,7 @@ public:
 private:
 
   //! The monitor's execution thread.
-  virtual void run();
+  void run();
 
   void error_trap_enter();
   void error_trap_exit();
@@ -84,7 +82,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  Thread *monitor_thread;
+  boost::shared_ptr<boost::thread> monitor_thread;
 
   //! XRecord context. Defines clients and events to capture.
   XRecordContext xrecord_context;

@@ -30,6 +30,7 @@ libs/audio/src/SoundPlayer.cc
 frontend/common/src/System.cc
 frontend/common/src/Text.cc
 frontend/common/src/TimerBoxControl.cc
+frontend/common/src/GUIConfig.cc
 libs/audio/src/osx/OSXSoundPlayer.cc
 libs/audio/src/win32/W32DirectSoundPlayer.cc
 libs/audio/src/win32/W32Mixer.cc
@@ -44,7 +45,6 @@ frontend/gtkmm/src/EventImage.cc
 frontend/gtkmm/src/EventLabel.cc
 frontend/gtkmm/src/Frame.cc
 frontend/gtkmm/src/GUI.cc
-frontend/gtkmm/src/GUIConfig.cc
 frontend/gtkmm/src/GenericDBusApplet.cc
 frontend/gtkmm/src/GtkUtil.cc
 frontend/gtkmm/src/HeadInfo.cc
@@ -58,7 +58,7 @@ frontend/gtkmm/src/MicroBreakWindow.cc
 frontend/gtkmm/src/PreferencesDialog.cc
 frontend/gtkmm/src/PreludeWindow.cc
 frontend/gtkmm/src/RestBreakWindow.cc
-frontend/gtkmm/src/Session.cc
+frontend/common/src/Session.cc
 frontend/gtkmm/src/StatusIcon.cc
 frontend/gtkmm/src/TimeBar.cc
 frontend/gtkmm/src/TimeEntry.cc
@@ -125,7 +125,6 @@ libs/input-monitor/src/win32/W32AlternateMonitor.cc
 libs/input-monitor/src/win32/W32InputMonitor.cc
 libs/input-monitor/src/win32/W32InputMonitorFactory.cc
 libs/input-monitor/src/win32/W32LowLevelMonitor.cc
-libs/utils/src/GlibThread.cc
 libs/utils/src/Locale.cc
 libs/utils/src/StringUtil.cc
 libs/utils/src/TimeSource.cc

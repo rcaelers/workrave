@@ -24,17 +24,13 @@
 #include "debug.hh"
 #include "nls.h"
 
-#ifdef HAVE_GLIB
-#include <glib.h>
-#endif
-
 #include <cstdlib>
 #include <stdio.h>
 #include <vector>
 #include <string.h>
+#include <boost/algorithm/string.hpp>
 
 #include "Locale.hh"
-#include "StringUtil.hh"
 
 #include "locale.inc"
 
@@ -97,13 +93,13 @@ Locale::set_locale(const std::string &code)
 {
   if (code != "")
     {
-      g_setenv("LANGUAGE", code.c_str(), 1);
-      g_setenv("LANG", code.c_str(), 1);
+      setenv("LANGUAGE", code.c_str(), 1);
+      setenv("LANG", code.c_str(), 1);
     }
   else
     {
-      g_unsetenv("LANGUAGE");
-      g_unsetenv("LANG");
+      unsetenv("LANGUAGE");
+      unsetenv("LANG");
     }
 
 #ifndef PLATFORM_OS_WIN32_NATIVE
@@ -115,11 +111,11 @@ std::string
 Locale::get_locale()
 {
   string ret;
-  const char *lang_env = g_getenv("LANGUAGE");
+  const char *lang_env = getenv("LANGUAGE");
 
   if (lang_env == NULL)
     {
-      lang_env = g_getenv("LANG");
+      lang_env = getenv("LANG");
     }
 
   if (lang_env != NULL)
@@ -152,7 +148,7 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 {
   std::vector<std::string> all_linguas;
 
-  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
   for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
@@ -190,8 +186,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
     }
 
   std::vector<std::string> all_linguas;
-
-  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
   string lang_save = Locale::get_locale();

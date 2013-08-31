@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -100,8 +100,8 @@ TimerActivityMonitor::get_state()
     }
 
   TimerState state = timer->get_state();
-  gint64 idle = timer->get_elapsed_idle_time();
-  gint64 reset = timer->get_auto_reset();
+  int64_t idle = timer->get_elapsed_idle_time();
+  int64_t reset = timer->get_auto_reset();
 
   if (state == STATE_STOPPED && idle >= reset)
     {

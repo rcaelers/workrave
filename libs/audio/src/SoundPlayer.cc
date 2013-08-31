@@ -69,7 +69,7 @@ using namespace std;
 ISoundPlayer::Ptr
 ISoundPlayer::create()
 {
-  return ISoundPlayer::Ptr();
+  return SoundPlayer::Ptr(new SoundPlayer());
 }
 
 SoundPlayer::SoundPlayer()

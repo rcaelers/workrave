@@ -1,6 +1,6 @@
 // System.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,8 @@
 #ifdef HAVE_GLIB
 #include <glib.h>
 #endif
+
+#include <boost/format.hpp>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -130,6 +132,8 @@ bool System::shutdown_supported;
 GDBusProxy *System::lock_proxy =  NULL;
 #endif
 
+using namespace std;
+
 bool
 System::is_lockable()
 {
@@ -146,15 +150,16 @@ System::is_lockable()
 
 #if defined(PLATFORM_OS_UNIX)
 static bool
-invoke(const gchar* command, bool async = false)
+invoke(const std::string &command, bool async = false)
 {
+#ifdef HAVE_GLIB  
   GError *error = NULL;
 
   if(!async)
     {
       // synchronised call
       gint exit_code;
-      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
+      if (!g_spawn_command_line_sync(command.c_str(), NULL, NULL, &exit_code, &error) )
         {
           g_error_free(error);
           return false;
@@ -164,22 +169,36 @@ invoke(const gchar* command, bool async = false)
   else
     {
       // asynchronous call
-      if (!g_spawn_command_line_async(command, &error) )
+      if (!g_spawn_command_line_async(command.c_str(), &error) )
         {
           g_error_free(error);
           return false;
         }
       return true;
     }
+#else
+  return false;
+#endif
 }
 #endif
 
+static std::string
+find_program_in_path(const char* program)
+{
+#ifdef HAVE_GLIB
+  char *path = g_find_program_in_path(program);
+  return path != NULL ? string(path) : "";
+#else
+  return "";
+#endif
+}
 
-#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
+#if defined(PLATFORM_OS_UNIX) 
 void
 System::init_kde_lock()
 {
   TRACE_ENTER("System::init_dbus_lock");
+#if defined(HAVE_DBUS_GIO)  
 	GError *error = NULL;
   lock_proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                              G_DBUS_PROXY_FLAGS_NONE,
@@ -218,7 +237,7 @@ System::init_kde_lock()
           lock_proxy = NULL;
         }
     }
-
+#endif
   TRACE_EXIT();
 }
 
@@ -228,6 +247,7 @@ System::kde_lock()
 {
   bool ret = false;
   
+#ifdef HAVE_DBUS_GIO
   if (lock_proxy != NULL)
     {
       GError *error = NULL;
@@ -254,7 +274,7 @@ System::kde_lock()
           ret = true;
         }
     }
-  
+#endif  
   return ret;
 }
 #endif
@@ -266,36 +286,37 @@ System::lock()
   if (is_lockable())
     {
 #if defined(PLATFORM_OS_UNIX)
-      gchar *program = NULL, *cmd = NULL;
+      string program;
+      string cmd;
 
-#ifdef HAVE_DBUS_GIO
       if (kde_lock())
         {
-          goto end;
+          TRACE_EXIT();
+          return;
         }
-#endif
-      if ((program = g_find_program_in_path("xscreensaver-command")))
+      if ((program = find_program_in_path("xscreensaver-command")) != "")
         {
-          cmd = g_strdup_printf("%s --display \"%s\" -lock",
-                                program, lock_display.c_str() );
-          if(invoke(cmd, false) )
-            goto end;
+          cmd = boost::str(boost::format("%1% --display \"%1%\" -lock") % program % lock_display);
+          if (invoke(cmd, false))
+            {
+              TRACE_EXIT();
+              return;
+            }
         }
-      if ((program = g_find_program_in_path("gnome-screensaver-command")))
+      if ((program = find_program_in_path("gnome-screensaver-command")) != "")
         {
-          cmd = g_strdup_printf("%s --lock", program);
-          if(invoke(cmd, false) )
-            goto end;
+          cmd = boost::str(boost::format("%1% --lock") % program);
+          if (invoke(cmd, false))
+            {
+              TRACE_EXIT();
+              return;
+            }
         }
-      if ((program = g_find_program_in_path("xlock")))
+      if ((program = find_program_in_path("xlock")) != "")
         {
-          cmd = g_strdup_printf("%s -display \"%s\"",
-                                program, lock_display.c_str() );
+          cmd = boost::str(boost::format("%1% -display \"%1%\"") % program % lock_display);
           invoke(cmd, true);
         }
-end:  // cleanup of created strings, jump to avoid duplication
-      g_free(program);
-      g_free(cmd);
 #elif defined(PLATFORM_OS_WIN32)
       (*lock_func)();
 #endif
@@ -321,11 +342,12 @@ void
 System::shutdown()
 {
 #if defined(PLATFORM_OS_UNIX)
-  gchar *program = NULL, *cmd = NULL;
+  string program;
+  string cmd;
 
-  if ((program = g_find_program_in_path("gnome-session-save")))
+  if ((program = find_program_in_path("gnome-session-save")) != "")
     {
-      cmd = g_strdup_printf("%s --kill", program);
+      cmd = boost::str(boost::format("%1% --kill") % program);
       invoke(cmd, false);
     }
 #elif defined(PLATFORM_OS_WIN32)
@@ -364,21 +386,18 @@ System::init(
 {
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
-#ifdef HAVE_DBUS_GIO
   init_kde_lock();
-#endif
 
-  gchar *program;
-  if ((program = g_find_program_in_path("xscreensaver-command")) != NULL)
+  string program;
+  if ((program = find_program_in_path("xscreensaver-command")) != "")
     lockable = true;
-  else if ((program = g_find_program_in_path("gnome-screensaver-command")) != NULL)
+  else if ((program = find_program_in_path("gnome-screensaver-command")) != "")
     lockable = true;
-  else if ((program = g_find_program_in_path("xlock")) != NULL)
+  else if ((program = find_program_in_path("xlock")) != "")
     lockable = true;
 
   if (lockable && display != NULL)
     {
-      g_free(program);
       lock_display = display;
       TRACE_MSG("Locking enabled");
     }
@@ -388,7 +407,7 @@ System::init(
     }
 
   shutdown_supported = false;
-  if (!shutdown_supported && (g_find_program_in_path("gnome-session-save") != NULL))
+  if (!shutdown_supported && (find_program_in_path("gnome-session-save") != ""))
     {
       shutdown_supported = true;
     }

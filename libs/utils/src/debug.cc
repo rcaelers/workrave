@@ -25,9 +25,6 @@
 
 #include <sstream>
 
-#include <glib.h>
-#include <glib/gstdio.h>
-
 #include <boost/thread/tss.hpp>
 
 #ifdef PLATFORM_OS_WIN32
@@ -35,14 +32,13 @@
 #include <windows.h> /* for GetFileAttributes */
 #endif
 
-#include "Mutex.hh"
 #include "debug.hh"
 #include "utils/TimeSource.hh"
 
 using namespace std;
 using namespace workrave::utils;
 
-Mutex g_log_mutex;
+boost::recursive_mutex g_log_mutex;
 std::map<boost::thread::id, std::ofstream *> g_log_streams;
 
 static boost::thread_specific_ptr<std::string> g_thread_name;
@@ -63,7 +59,7 @@ Debug::trace_string()
   
   if (TimeSource::source)
     {
-      gint64 ut = g_get_real_time();
+      int64_t ut = g_get_real_time();
       t = (time_t) (ut / G_USEC_PER_SEC);
       tmlt = localtime(&t);
 

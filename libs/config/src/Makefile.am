@@ -10,12 +10,9 @@ noinst_LTLIBRARIES = 	libworkrave-config.la
 
 sources =		Configurator.cc \
 			ConfiguratorFactory.cc \
-			GlibIniConfigurator.cc \
-			GSettingsConfigurator.cc
-
-if HAVE_GDOME
-sourcesgdome = 		XMLConfigurator.cc
-endif
+			IniConfigurator.cc \
+			GSettingsConfigurator.cc \
+	  		XmlConfigurator.cc
 
 libworkrave_config_la_SOURCES =  ${sources} ${sourcesgdome}
 
@@ -37,7 +34,7 @@ endif
 libworkrave_config_la_LIBADD = \
 			${ldadd_platform}
 
-AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ @GDOME_CFLAGS@ \
+AM_CPPFLAGS = 		@GLIB_CFLAGS@  @SIGC_CFLAGS@ \
 			${cflags_platform} \
 			-I$(top_srcdir)/libs/config/include/config \
 			-I$(top_srcdir)/libs/utils/include \

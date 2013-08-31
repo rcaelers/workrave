@@ -74,8 +74,6 @@
 #include <gdk/gdkx.h>
 #endif
 
-#include "Thread.hh"
-
 using namespace std;
 
 #ifndef HAVE_APP_GTK
@@ -145,7 +143,6 @@ X11InputMonitor::X11InputMonitor(const string &display_name) :
   abort(false)
 {
   x11_display_name = display_name;
-  monitor_thread = new Thread(this);
 }
 
 
@@ -155,8 +152,7 @@ X11InputMonitor::~X11InputMonitor()
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
   if (monitor_thread != NULL)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
 
   TRACE_EXIT();
@@ -166,7 +162,7 @@ X11InputMonitor::~X11InputMonitor()
 bool
 X11InputMonitor::init()
 {
-  monitor_thread->start();
+  monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&X11InputMonitor::run, this)));
   return true;
 }
 
@@ -176,8 +172,8 @@ X11InputMonitor::terminate()
   TRACE_ENTER("X11InputMonitor::terminate");
 
   abort = true;
-  monitor_thread->wait();
-
+  monitor_thread->join();
+  
   TRACE_EXIT();
 }
 

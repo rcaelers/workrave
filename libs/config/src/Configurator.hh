@@ -1,6 +1,6 @@
 // Configurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 //
 // All rights reserved.
@@ -29,7 +29,6 @@
 #include "IConfigurator.hh"
 #include "IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
-#include "Mutex.hh"
 #include "Variant.hh"
 
 using namespace workrave;

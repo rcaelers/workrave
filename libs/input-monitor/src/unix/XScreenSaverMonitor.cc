@@ -32,8 +32,6 @@
 #include "input-monitor/IInputMonitorListener.hh"
 #include "utils/Platform.hh"
 
-#include "Thread.hh"
-
 using namespace std;
 using namespace workrave::utils;
 
@@ -41,18 +39,15 @@ XScreenSaverMonitor::XScreenSaverMonitor() :
   abort(false),
   screen_saver_info(NULL)
 {
-  monitor_thread = new Thread(this);
-  g_mutex_init(&mutex);
-  g_cond_init(&cond);
 }
 
 
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
   TRACE_ENTER("XScreenSaverMonitor::~XScreenSaverMonitor");
-  if (monitor_thread != NULL)
+  if (monitor_thread)
     {
-      monitor_thread->wait();
+      monitor_thread->join();
     }
   TRACE_EXIT();
 }
@@ -77,7 +72,7 @@ XScreenSaverMonitor::init()
   if (has_extension)
   {
     screen_saver_info = XScreenSaverAllocInfo();
-    monitor_thread->start();
+    monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&XScreenSaverMonitor::run, this)));
   }
   
   TRACE_RETURN(has_extension);
@@ -89,13 +84,12 @@ XScreenSaverMonitor::terminate()
 {
   TRACE_ENTER("XScreenSaverMonitor::terminate");
 
-  g_mutex_lock(&mutex);
+  mutex.lock();
   abort = true;
-  g_cond_broadcast(&cond);
-  g_mutex_unlock(&mutex);  
+  cond.notify_all();
+  mutex.unlock();  
   
-  monitor_thread->wait();
-  monitor_thread = NULL;
+  monitor_thread->join();
   
   TRACE_EXIT();
 }
@@ -108,26 +102,23 @@ XScreenSaverMonitor::run()
 
   Display *xdisplay = static_cast<Display *>(Platform::get_default_display());
   Drawable root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
-  
-  g_mutex_lock(&mutex);
-  while (!abort)
-    {
-      XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
 
-      if (screen_saver_info->idle < 1000)
-        {
-          /* Notify the activity monitor */
-          fire_action();
-        }
-
-#if GLIB_CHECK_VERSION(2, 32, 0)
-      gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
-      g_cond_wait_until(&cond, &mutex, end_time);
-#else
-      g_usleep(500000);
-#endif      
-    }
-  g_mutex_unlock(&mutex);  
+  {
+    boost::mutex::scoped_lock lock(mutex);
+    while (!abort)
+      {
+        XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
+          
+        if (screen_saver_info->idle < 1000)
+          {
+            /* Notify the activity monitor */
+            fire_action();
+          }
+          
+        boost::system_time timeout=boost::get_system_time()+ boost::posix_time::milliseconds(1000);      
+        cond.timed_wait(lock, timeout);
+      }
+  }
   
   TRACE_EXIT();
 }

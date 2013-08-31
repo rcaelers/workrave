@@ -20,7 +20,8 @@
 #include "config.h"
 #endif
 
-#include <glib.h>
+#include <vector>
+#include <chrono>
 
 #include "debug.hh"
 #include "utils/TimeSource.hh"
@@ -28,51 +29,57 @@
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
-gint64 TimeSource::synced_real_time = 0;
-gint64 TimeSource::synced_monotonic_time = 0;
+int64_t TimeSource::synced_real_time = 0;
+int64_t TimeSource::synced_monotonic_time = 0;
 
-gint64
+int64_t
 TimeSource::get_real_time_usec()
 {
   if (source)
     {
       return source->get_real_time_usec();
     }
-  return g_get_real_time();
+
+  auto t = std::chrono::system_clock::now().time_since_epoch();;
+  auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
+  return ms;
 }
 
-gint64
+int64_t
 TimeSource::get_monotonic_time_usec()
 {
   if (source)
     {
       return source->get_monotonic_time_usec();
     }
-  return g_get_monotonic_time();
+  
+  auto t = std::chrono::steady_clock::now().time_since_epoch();;
+  auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
+  return ms;
 }
 
-gint64
+int64_t
 TimeSource::get_real_time_sec()
 {
-  return get_real_time_usec() / G_USEC_PER_SEC;
+  return get_real_time_usec() / USEC_PER_SEC;
 }
 
-gint64
+int64_t
 TimeSource::get_monotonic_time_sec()
 {
-  return get_monotonic_time_usec() / G_USEC_PER_SEC;
+  return get_monotonic_time_usec() / USEC_PER_SEC;
 }
 
-gint64
+int64_t
 TimeSource::get_real_time_sec_sync()
 {
-  return synced_real_time / G_USEC_PER_SEC;
+  return synced_real_time / USEC_PER_SEC;
 }
 
-gint64
+int64_t
 TimeSource::get_monotonic_time_sec_sync()
 {
-  return synced_monotonic_time / G_USEC_PER_SEC;
+  return synced_monotonic_time / USEC_PER_SEC;
 }
 
 void

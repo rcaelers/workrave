@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2012 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 #include <boost/thread.hpp>
 
 #include "debug.hh"
-#include "Mutex.hh"
 #include "utils/Timer.hh"
 
 using namespace workrave::utils;
@@ -54,7 +53,7 @@ Timer::Timer()
 }
 
 void
-Timer::create(string name, gint64 interval, Callback callback)
+Timer::create(string name, int64_t interval, Callback callback)
 {
   TRACE_ENTER_MSG("Timer::create", name << " " << interval);
   g_timer_mutex.lock();
@@ -148,12 +147,12 @@ Timer::static_on_idle(gpointer data)
   return FALSE;
 }
 
-gint64 Timer::get_real_time_usec()
+int64_t Timer::get_real_time_usec()
 {
   return current_time;
 }
 
-gint64 Timer::get_monotonic_time_usec()
+int64_t Timer::get_monotonic_time_usec()
 {
   return current_time;
 }
@@ -194,12 +193,12 @@ Timer::set_simulated(bool on)
 }
 
 void
-Timer::simulate(gint64 usec, gint64 delay)
+Timer::simulate(int64_t usec, int64_t delay)
 {
   TRACE_ENTER("Timer::simulate");
-  gint64 last = current_time + usec;
+  int64_t last = current_time + usec;
 
-  gint64 smallest = -1;
+  int64_t smallest = -1;
   while (current_time < last)
     {
       g_timer_mutex.lock();

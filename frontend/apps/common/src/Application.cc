@@ -128,7 +128,7 @@ Application::main()
   
   //init_nls();
   //init_platform();
-  //init_sound_player();
+  init_sound_player();
   //init_multihead();
   //init_dbus();
   init_session();
@@ -588,7 +588,7 @@ Application::init_sound_player()
   try
     {
       // Tell pulseaudio were are playing sound events
-      g_setenv("PULSE_PROP_media.role", "event", TRUE);
+      setenv("PULSE_PROP_media.role", "event", 1);
 
       sound_theme = SoundTheme::create(CoreFactory::get_configurator()); /* LEAK */
       sound_theme->init();

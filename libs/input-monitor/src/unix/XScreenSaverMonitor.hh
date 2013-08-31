@@ -22,19 +22,19 @@
 
 #include <string>
 
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/condition_variable.hpp>
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/scrnsaver.h>
 
 #include "InputMonitor.hh"
 
-#include "Runnable.hh"
-#include "Thread.hh"
-
 //! Activity monitor for a local X server.
 class XScreenSaverMonitor :
-  public InputMonitor,
-  public Runnable
+  public InputMonitor
 {
 public:
   //! Constructor.
@@ -59,13 +59,13 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  Thread *monitor_thread;
+  boost::shared_ptr<boost::thread> monitor_thread;
 
   //
   XScreenSaverInfo *screen_saver_info;
 
-  GMutex mutex;
-  GCond cond;
+  boost::mutex mutex;
+  boost::condition_variable cond;  
 };
 
 #endif // XSCREENSAVERMONITOR_HH

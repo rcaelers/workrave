@@ -23,6 +23,8 @@
 
 #include "debug.hh"
 
+#include <boost/filesystem.hpp>
+
 #include "Core.hh"
 
 #include "config/ConfiguratorFactory.hh"
@@ -128,8 +130,8 @@ Core::init_configurator()
     }
   else
 #endif
-    
-    if (Util::file_exists(ini_file))
+
+    if (boost::filesystem::is_regular_file(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);

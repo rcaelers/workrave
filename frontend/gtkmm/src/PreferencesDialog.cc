@@ -40,7 +40,6 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "StringUtil.hh"
 #include "Locale.hh"
 
 #include "GtkUtil.hh"
@@ -192,7 +191,7 @@ PreferencesDialog::create_gui_page()
   languages_combo.set_model(languages_model);
 
   std::vector<std::string> all_linguas;
-  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
   Locale::LanguageMap languages_current_locale;

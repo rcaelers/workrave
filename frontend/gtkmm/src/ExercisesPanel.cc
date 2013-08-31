@@ -404,7 +404,6 @@ ExercisesPanel::refresh_sequence()
   const Exercise &exercise = *exercise_iterator;
   if (exercise_time >= seq_time && exercise.sequence.size() > 0)
     {
-      // FIXME: something is not right here...
       if (image_iterator == exercise.sequence.end())
         {
           image_iterator = exercise.sequence.begin();

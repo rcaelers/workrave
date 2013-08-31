@@ -98,13 +98,13 @@ public:
   virtual bool is_running() const;
   virtual bool is_taking() const;
   virtual bool is_active() const;
-  virtual gint64 get_elapsed_time() const;
-  virtual gint64 get_elapsed_idle_time() const;
-  virtual gint64 get_auto_reset() const;
+  virtual int64_t get_elapsed_time() const;
+  virtual int64_t get_elapsed_idle_time() const;
+  virtual int64_t get_auto_reset() const;
   virtual bool is_auto_reset_enabled() const;
-  virtual gint64 get_limit() const;
+  virtual int64_t get_limit() const;
   virtual bool is_limit_enabled() const;
-  virtual gint64 get_total_overdue_time() const;
+  virtual int64_t get_total_overdue_time() const;
   virtual void postpone_break();
   virtual void skip_break();
 
@@ -183,7 +183,7 @@ private:
   bool fake_break;
 
   //! Fake break counter.
-  gint64 fake_break_count;
+  int64_t fake_break_count;
 
   //! Break will be stopped because the user pressed postpone/skip.
   bool user_abort;

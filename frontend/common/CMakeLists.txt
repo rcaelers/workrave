@@ -10,6 +10,7 @@ set(SRC
   src/SoundTheme.cc
  )
 
+
 if (HAVE_GTK)
   include_directories(${GTK_INCLUDE_DIRS})
 endif()

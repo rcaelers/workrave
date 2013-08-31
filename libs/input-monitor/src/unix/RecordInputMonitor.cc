@@ -74,8 +74,6 @@
 #include <gdk/gdkx.h>
 #endif
 
-#include "Thread.hh"
-
 using namespace std;
 
 int RecordInputMonitor::xi_event_base = 0;
@@ -105,7 +103,6 @@ RecordInputMonitor::RecordInputMonitor(const string &display_name) :
   xrecord_datalink = NULL;
 
   x11_display_name = display_name;
-  monitor_thread = new Thread(this);
 }
 
 
@@ -114,8 +111,7 @@ RecordInputMonitor::~RecordInputMonitor()
   TRACE_ENTER("RecordInputMonitor::~RecordInputMonitor");
   if (monitor_thread != NULL)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
 
   if (xrecord_datalink != NULL)
@@ -132,7 +128,7 @@ RecordInputMonitor::init()
   bool ok = init_xrecord();
   if (ok)
     {
-      monitor_thread->start();
+      monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RecordInputMonitor::run, this)));
     }
   return ok;
 }
@@ -145,8 +141,8 @@ RecordInputMonitor::terminate()
   stop_xrecord();
 
   abort = true;
-  monitor_thread->wait();
-
+  monitor_thread->join();
+  
   TRACE_EXIT();
 }
 

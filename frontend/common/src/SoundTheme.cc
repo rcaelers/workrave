@@ -21,6 +21,11 @@
 #include "config.h"
 #endif
 
+#include <boost/filesystem.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/format.hpp>
+
 #include "debug.hh"
 #include "nls.h"
 
@@ -28,8 +33,6 @@
 #include <limits.h>
 #include <stdlib.h>
 #endif
-
-#include <glib.h>
 
 #include <list>
 #include <set>
@@ -155,28 +158,27 @@ SoundTheme::init()
 }
 
 void
-SoundTheme::register_sound_events(string theme)
+SoundTheme::register_sound_events(string theme_name)
 {
-  TRACE_ENTER_MSG("SoundTheme::register_sound_events", theme);
-  if (theme == "")
+  TRACE_ENTER_MSG("SoundTheme::register_sound_events", theme_name);
+  if (theme_name == "")
     {
-      theme = "default";
+      theme_name = "default";
     }
 
   sync_settings();
 
-  gchar *path = g_build_filename(theme.c_str(), "soundtheme", NULL);
-  if (path != NULL)
-    {
-      string file = Util::complete_directory(path, Util::SEARCH_PATH_SOUNDS);
-      TRACE_MSG(file);
+  boost::filesystem::path path(theme_name);
+  path /= "soundtheme";
+  
+  string file = Util::complete_directory(path.string(), Util::SEARCH_PATH_SOUNDS);
+  TRACE_MSG(file);
 
-      Theme theme;
-      load_sound_theme(file, theme);
+  Theme theme;
+  load_sound_theme(file, theme);
+  
+  activate_theme(theme, false);
 
-      activate_theme(theme, false);
-      g_free(path);
-    }
   TRACE_EXIT();
 }
 
@@ -207,7 +209,9 @@ SoundTheme::activate_theme(const Theme &theme, bool force)
                                                          sound_registry[idx].id,
                                                          current_filename);
 
-      if (valid && !g_file_test(current_filename.c_str(), G_FILE_TEST_IS_REGULAR))
+      boost::filesystem::path path(current_filename);
+      
+      if (valid && !boost::filesystem::is_regular_file(path))
         {
           valid = false;
         }
@@ -263,74 +267,47 @@ SoundTheme::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themefilename);
 
-  gboolean r = TRUE;
   bool is_current = true;
 
-  GKeyFile *config_file = g_key_file_new();
+  boost::filesystem::path path(themefilename);
+  boost::filesystem::path themedir = path.parent_path();
+  
+  boost::property_tree::ptree pt;
+  boost::property_tree::ini_parser::read_ini(themefilename, pt);
 
-  r = g_key_file_load_from_file(config_file, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, NULL);
-  TRACE_MSG("load " << r);
+  theme.description = pt.get<std::string>("general.description");
 
-  if (r)
+  int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
+  for (int i = 0; i < size; i++)
     {
-      gchar *themedir = g_path_get_dirname(themefilename.c_str());
-      TRACE_MSG(themedir);
+      SoundRegistry *snd = &sound_registry[i];
 
-      char *desc = g_key_file_get_string(config_file, "general", "description", NULL);
-      if (desc != NULL)
+      string item = boost::str(boost::format("%1%.file") % snd->id);
+      string filename = pt.get<std::string>(item);
+
+      boost::filesystem::path soundpath(themedir);
+      soundpath /= filename;
+
+      soundpath = canonical(soundpath);
+
+      std::cout << "sound " << snd->id << " " << soundpath.string();
+      if (is_current)
         {
-          theme.description = desc;
-          g_free(desc);
-        }
-
-      int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
-      for (int i = 0; i < size; i++)
-        {
-          SoundRegistry *snd = &sound_registry[i];
-          char *sound_pathname = NULL;
-
-          char *filename = g_key_file_get_string(config_file, snd->id, "file", NULL);
-          if (filename != NULL)
+          string current = "";
+          config->get_value(string(CFG_KEY_SOUND_EVENTS) +
+                            snd->id,
+                            current);
+          
+          if (current != soundpath.string())
             {
-              gchar *pathname = g_build_filename(themedir, filename, NULL);
-              if (pathname != NULL)
-                {
-#ifdef HAVE_REALPATH
-                  sound_pathname = realpath(pathname, NULL);
-                  if (sound_pathname == NULL)
-                    {
-                      sound_pathname = g_strdup(pathname);
-                    }
-#else
-                  sound_pathname = g_strdup(pathname);
-#endif
-                  if (is_current)
-                    {
-                      string current = "";
-                      config->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                                 snd->id,
-                                                                 current);
-
-                      if (current != string(sound_pathname))
-                        {
-                          is_current = false;
-                        }
-                    }
-                  g_free(pathname);
-                }
-              g_free(filename);
+              is_current = false;
             }
-
-          TRACE_MSG((sound_pathname != NULL ? sound_pathname : "No Sound"));
-          theme.files.push_back((sound_pathname != NULL ? sound_pathname : ""));
-          g_free(sound_pathname);
         }
+
+      theme.files.push_back(soundpath.string());
 
       theme.active = is_current;
-      g_free(themedir);
     }
-
-  g_key_file_free(config_file);
 
   TRACE_MSG(is_current);
   TRACE_EXIT();
@@ -348,39 +325,30 @@ SoundTheme::get_sound_themes(std::vector<Theme> &themes)
 
   for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
-      GDir *dir = g_dir_open(it->c_str(), 0, NULL);
+      const string &dirname = *it;
+      boost::filesystem::path dirpath(dirname);
 
-      if (dir != NULL)
+      boost::filesystem::directory_iterator dir_end;
+      for (boost::filesystem::directory_iterator it(dirname); it != dir_end; ++it)
         {
-          const char *file;
-		      while ((file = g_dir_read_name(dir)) != NULL)
+          if (boost::filesystem::is_directory(it->status()))
             {
-              gchar *test_path = g_build_filename(it->c_str(), file, NULL);
-
-              if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+              boost::filesystem::path file = it->path();
+              file /= "soundtheme";
+              
+              if (boost::filesystem::is_regular_file(file))
                 {
-                  char *path = g_build_filename(it->c_str(), file, "soundtheme", NULL);
-
-                  if (path != NULL && g_file_test(path, G_FILE_TEST_IS_REGULAR))
+                  Theme theme;
+                  
+                  load_sound_theme(file.string(), theme);
+                  themes.push_back(theme);
+                  
+                  if (theme.active)
                     {
-                      Theme theme;
-
-                      load_sound_theme(path, theme);
-                      themes.push_back(theme);
-
-                      if (theme.active)
-                        {
-                          has_active = true;
-                        }
+                      has_active = true;
                     }
-
-                  g_free(path);
                 }
-
-              g_free(test_path);
             }
-
-          g_dir_close(dir);
         }
     }
 

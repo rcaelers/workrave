@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,10 @@
 #define STATISTICS_HH
 
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+
+#include <chrono>
 
 #include <iostream>
 #include <fstream>
@@ -30,7 +34,6 @@
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "Mutex.hh"
 
 #include "ICore.hh"
 #include "IStatistics.hh"
@@ -65,7 +68,7 @@ private:
   struct DailyStatsImpl : public DailyStats
   {
     //! Total time that the mouse was moving.
-    GTimeVal total_mouse_time;
+    std::chrono::system_clock::time_point total_mouse_time;
 
     DailyStatsImpl()
     {
@@ -87,9 +90,6 @@ private:
 
       // Empty marker.
       start.tm_year = 0;
-
-      total_mouse_time.tv_sec = 0;
-      total_mouse_time.tv_usec = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
@@ -159,7 +159,7 @@ private:
   IInputMonitor *input_monitor;
 
   //! Last time a mouse event was received.
-  GTimeVal last_mouse_time;
+  std::chrono::system_clock::time_point last_mouse_time;
 
   //! Statistics of current day.
   DailyStatsImpl *current_day;
@@ -171,7 +171,7 @@ private:
   History history;
 
   //! Internal locking
-  Mutex lock;
+  boost::mutex lock;
 
   //! Previous X coordinate
   int prev_x;

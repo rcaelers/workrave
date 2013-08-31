@@ -191,13 +191,13 @@ Workrave::static_workrave_thread(gpointer data)
   return 0;
 }
 
-gint64
+int64_t
 Workrave::get_real_time_usec()
 {
   return current_real_time;
 }
 
-gint64
+int64_t
 Workrave::get_monotonic_time_usec() 
 {
   return current_monotonic_time;

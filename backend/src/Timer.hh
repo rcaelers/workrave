@@ -32,8 +32,6 @@
 #endif
 
 #include <string>
-#include <glib.h>
-
 #include "IActivityMonitor.hh"
 
 class DayTimePred;
@@ -97,8 +95,8 @@ public:
   TimerEvent process(ActivityState activityState);
 
   // State inquiry
-  gint64 get_elapsed_time() const;
-  gint64 get_elapsed_idle_time() const;
+  int64_t get_elapsed_time() const;
+  int64_t get_elapsed_idle_time() const;
   TimerState get_state() const;
   bool is_enabled() const;
 
@@ -107,19 +105,19 @@ public:
   void set_daily_reset(DayTimePred *daily_reset);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
-  gint64 get_auto_reset() const;
-  gint64 get_next_reset_time() const; 
+  int64_t get_auto_reset() const;
+  int64_t get_next_reset_time() const; 
 
   // Limiting.
   void set_limit(int t);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
-  gint64 get_limit() const;
-  gint64 get_next_limit_time() const;
+  int64_t get_limit() const;
+  int64_t get_next_limit_time() const;
 
   // Snoozing.
-  void set_snooze(gint64 time);
-  gint64 get_snooze() const;
+  void set_snooze(int64_t time);
+  int64_t get_snooze() const;
 
   // Timer ID
   void set_id(std::string id);
@@ -130,7 +128,7 @@ public:
   bool deserialize_state(const std::string &state, int version);
   void set_state(int elapsed, int idle, int overdue = -1);
 
-  gint64 get_total_overdue_time() const;
+  int64_t get_total_overdue_time() const;
   void daily_reset_timer();
 
 private:
@@ -152,7 +150,7 @@ private:
   TimerState timer_state;
 
   //! Default snooze time
-  gint64 snooze_interval;
+  int64_t snooze_interval;
 
   //! Don't snooze til next reset or changes.
   bool snooze_inhibited;
@@ -161,49 +159,49 @@ private:
   bool limit_enabled;
 
   //! Timer limit interval.
-  gint64 limit_interval;
+  int64_t limit_interval;
 
   //! Is the timer auto reset enabled?
   bool autoreset_enabled;
 
   //! Automatic reset time interval.
-  gint64 autoreset_interval;
+  int64_t autoreset_interval;
 
   //! Daily auto reset checker (NULL if not used)
   DayTimePred *daily_autoreset;
 
   //! Elapsed time.
-  gint64 elapsed_timespan;
+  int64_t elapsed_timespan;
 
   //! The total elapsed time the last time the limit was reached.
-  gint64 elapsed_timespan_at_last_limit;
+  int64_t elapsed_timespan_at_last_limit;
 
   //! Elapsed Idle time.
-  gint64 elapsed_idle_timespan;
+  int64_t elapsed_idle_timespan;
 
   //! Total overdue time.
-  gint64 total_overdue_timespan;
+  int64_t total_overdue_timespan;
 
   //! Time when the timer was last started.
-  gint64 last_start_time;
+  int64_t last_start_time;
 
   //! Time when the timer was last stopped.
-  gint64 last_stop_time;
+  int64_t last_stop_time;
 
   //! Time when the timer was last reset.
-  gint64 last_reset_time;
+  int64_t last_reset_time;
 
   //! Time when the timer was last reset because of a daily reset.
-  gint64 last_daily_reset_time;
+  int64_t last_daily_reset_time;
 
   //! Next automatic reset time.
-  gint64 next_reset_time;
+  int64_t next_reset_time;
 
   //! Next daily reset time.
-  gint64 next_daily_reset_time;
+  int64_t next_daily_reset_time;
 
   //! Next limit time.
-  gint64 next_limit_time;
+  int64_t next_limit_time;
 
   //! Id of the timer.
   std::string timer_id;

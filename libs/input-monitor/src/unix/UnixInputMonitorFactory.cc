@@ -1,6 +1,6 @@
 // UnixInputMonitorFactory.cc -- Factory to create input monitors
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 
 #include "debug.hh"
 
 #include "config/IConfigurator.hh"
-
-#include "StringUtil.hh"
 
 #include "UnixInputMonitorFactory.hh"
 #include "RecordInputMonitor.hh"
@@ -67,7 +66,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
       string configure_monitor_method;
       
       vector<string> available_monitors;
-      StringUtil::split(HAVE_MONITORS, ',', available_monitors);
+      boost::split(available_monitors, HAVE_MONITORS, boost::is_any_of(","));
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
       
@@ -138,7 +137,8 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           if (!error_reported)
             {
               error_reported = true;
-              g_idle_add(static_report_failure, NULL);
+              // TODO: report failure.
+              // g_idle_add(static_report_failure, NULL);
             }
           
           config->set_value("advanced/monitor", "default");
@@ -161,16 +161,3 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
   TRACE_EXIT();
   return monitor;
 }
-
-gboolean
-UnixInputMonitorFactory::static_report_failure(void *data)
-{
-  (void) data;
-
-  // FIXME: undesired dependency
-  // Core *core = Core::get_instance();
-  // core->post_event(CORE_EVENT_MONITOR_FAILURE);
-
-  return FALSE;
-}
-

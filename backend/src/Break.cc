@@ -350,7 +350,7 @@ Break::force_start_break(BreakHint hint)
   if (break_timer->is_auto_reset_enabled())
     {
       TRACE_MSG("auto reset enabled");
-      gint64 idle = break_timer->get_elapsed_idle_time();
+      int64_t idle = break_timer->get_elapsed_idle_time();
       TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
       if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
@@ -495,21 +495,21 @@ Break::is_active() const
 }
 
 
-gint64
+int64_t
 Break::get_elapsed_time() const
 {
   return break_timer->get_elapsed_time();
 }
 
 
-gint64
+int64_t
 Break::get_elapsed_idle_time() const
 {
   return break_timer->get_elapsed_idle_time();
 }
 
 
-gint64
+int64_t
 Break::get_auto_reset() const
 {
   return break_timer->get_auto_reset();
@@ -523,7 +523,7 @@ Break::is_auto_reset_enabled() const
 }
 
 
-gint64
+int64_t
 Break::get_limit() const
 {
   return break_timer->get_limit();
@@ -537,7 +537,7 @@ Break::is_limit_enabled() const
 }
 
 
-gint64
+int64_t
 Break::get_total_overdue_time() const
 {
   return break_timer->get_total_overdue_time();
@@ -633,8 +633,8 @@ Break::goto_stage(BreakStage stage)
           {
             // Update statistics and play sound if the break end
             // was "natural"
-            gint64 idle = break_timer->get_elapsed_idle_time();
-            gint64 reset = break_timer->get_auto_reset();
+            int64_t idle = break_timer->get_elapsed_idle_time();
+            int64_t reset = break_timer->get_auto_reset();
 
             if (idle >= reset && !user_abort)
               {
@@ -738,8 +738,8 @@ Break::prelude_window_start()
 void
 Break::break_window_update()
 {
-  gint64 duration = break_timer->get_auto_reset();
-  gint64 idle = 0;
+  int64_t duration = break_timer->get_auto_reset();
+  int64_t idle = 0;
 
   if (fake_break)
     {

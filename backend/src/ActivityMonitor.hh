@@ -66,7 +66,7 @@ private:
   IActivityMonitor::Ptr local_monitor;
 
   //! External activity
-  std::map<std::string, gint64> external_activity;
+  std::map<std::string, int64_t> external_activity;
 
   //! Current overall monitor state.
   ActivityState local_state;

@@ -67,8 +67,8 @@ public:
   void terminate();
 
   // ITimeSource
-  gint64 get_real_time_usec();
-  gint64 get_monotonic_time_usec();
+  int64_t get_real_time_usec();
+  int64_t get_monotonic_time_usec();
 
   template<typename Functor>
   struct Closure
@@ -188,10 +188,10 @@ private:
   boost::shared_ptr<boost::barrier> barrier;
 
   //! The current wall clocl time.
-  gint64 current_real_time;
+  int64_t current_real_time;
   
   //! The current monotonic time.
-  gint64 current_monotonic_time;
+  int64_t current_monotonic_time;
 
   ActivityState activity_state;
   

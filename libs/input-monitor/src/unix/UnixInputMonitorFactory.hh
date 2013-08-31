@@ -1,6 +1,6 @@
 // UnixInputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@
 #include "input-monitor/IInputMonitorFactory.hh"
 #include "config/IConfigurator.hh"
 
-#include <glib.h>
-
 using namespace workrave::config;
 using namespace workrave::input_monitor;
 
@@ -39,9 +37,6 @@ public:
 
   virtual void init(const std::string &display);
   virtual IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
-
-private:
-  static gboolean static_report_failure(void *data);
 
   bool error_reported;
   std::string actual_monitor_method;

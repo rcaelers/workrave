@@ -34,7 +34,6 @@
 #include <cctype>
 #include <algorithm>
 
-#include "StringUtil.hh"
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
 #include "W32Compat.hh"
@@ -112,7 +111,7 @@ DWORD W32ForceFocus::GetFunctions()
         transform( str.begin(), str.end(), str.begin(), ::toupper );
 
         vector<string> names;
-        StringUtil::split( str, ',', names );
+        boost::split(names, str, boost::is_any_of(","));
         for( vector<string>::iterator name = names.begin(); name != names.end(); ++name )
         {
             if( !name->compare( "ALL_FUNCTIONS" ) )

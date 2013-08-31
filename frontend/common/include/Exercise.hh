@@ -33,7 +33,7 @@ public:
     std::string image;
     int duration;
     bool mirror_x;
-    Image(const char *img, int dur, bool mx)
+    Image(const std::string &img, int dur, bool mx)
     {
       image = img;
       duration = dur;

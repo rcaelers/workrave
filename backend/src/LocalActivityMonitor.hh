@@ -22,13 +22,14 @@
 
 #include "IActivityMonitor.hh"
 
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+
 #include "config/Config.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "Mutex.hh"
 
 #include "IActivityMonitorListener.hh"
-
 
 using namespace workrave::config;
 using namespace workrave::input_monitor;
@@ -97,7 +98,7 @@ private:
   LocalActivityMonitorState state;
 
   //! Internal locking
-  Mutex lock;
+  boost::recursive_mutex lock;
 
   //! Previous X coordinate
   int prev_x;
@@ -109,19 +110,19 @@ private:
   bool button_is_pressed;
 
   //! Last time activity was detected
-  gint64 last_action_time;
+  int64_t last_action_time;
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  gint64 first_action_time;
+  int64_t first_action_time;
 
   //! The noise threshold
-  gint64 noise_threshold;
+  int64_t noise_threshold;
 
   //! The activity threshold.
-  gint64 activity_threshold;
+  int64_t activity_threshold;
 
   //! The idle threshold.
-  gint64 idle_threshold;
+  int64_t idle_threshold;
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;

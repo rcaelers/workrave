@@ -1,12 +1,12 @@
 set(SRC
   src/Locale.cc
-  src/StringUtil.cc
   src/TimeSource.cc
-  src/Timer.cc
   src/Util.cc
   src/debug.cc
   src/Platform.cc
   )
+
+#  src/Timer.cc
 
 if (HAVE_GLIB)
   set(SRC ${SRC} src/GlibThread.cc)

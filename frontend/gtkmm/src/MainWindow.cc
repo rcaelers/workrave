@@ -743,7 +743,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
   if (x <= 0 && y <= 0)
     {
-      // FIXME: this is a hack...
       TRACE_EXIT();
       return;
     }

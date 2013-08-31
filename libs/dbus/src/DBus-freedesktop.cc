@@ -87,7 +87,6 @@ DBus::init()
 	dbus_connection_set_exit_on_disconnect(connection, FALSE);
 
   connection_setup(NULL);
-  //dbus_connection_setup_with_g_main(connection, NULL);
 }
 
 

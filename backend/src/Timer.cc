@@ -243,7 +243,7 @@ Timer::reset_timer()
   TRACE_ENTER_MSG("Timer::reset", timer_id << " " << timer_state);
 
   // Update total overdue.
-  gint64 elapsed = get_elapsed_time();
+  int64_t elapsed = get_elapsed_time();
   if (limit_enabled && elapsed > limit_interval)
     {
       total_overdue_timespan += (elapsed - limit_interval);
@@ -332,7 +332,7 @@ Timer::process(ActivityState new_activity_state)
   bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
   (void) TRACE;
 
-  gint64 current_time= TimeSource::get_monotonic_time_sec_sync();
+  int64_t current_time= TimeSource::get_monotonic_time_sec_sync();
 
   // Default event to return.
   TimerEvent event = TIMER_EVENT_NONE;
@@ -412,10 +412,10 @@ Timer::process(ActivityState new_activity_state)
 
 
 //! Returns the elapsed time.
-gint64
+int64_t
 Timer::get_elapsed_time() const
 {
-  gint64 ret = elapsed_timespan;
+  int64_t ret = elapsed_timespan;
 
   if (timer_enabled && last_start_time != 0)
     {
@@ -427,10 +427,10 @@ Timer::get_elapsed_time() const
 
 
 //! Returns the elapsed idle time.
-gint64
+int64_t
 Timer::get_elapsed_idle_time() const
 {
-  gint64 ret = elapsed_idle_timespan;
+  int64_t ret = elapsed_idle_timespan;
 
   if (timer_enabled && last_stop_time != 0)
     {
@@ -502,7 +502,7 @@ Timer::is_auto_reset_enabled() const
 
 
 //! Returns the auto reset interval.
-gint64
+int64_t
 Timer::get_auto_reset() const
 {
   return autoreset_interval;
@@ -510,7 +510,7 @@ Timer::get_auto_reset() const
 
 
 //! Returns the time the timer will reset.
-gint64
+int64_t
 Timer::get_next_reset_time() const
 {
   return next_reset_time;
@@ -553,7 +553,7 @@ Timer::is_limit_enabled() const
 
 
 //! Returns the limit.
-gint64
+int64_t
 Timer::get_limit() const
 {
   return limit_interval;
@@ -561,7 +561,7 @@ Timer::get_limit() const
 
 
 //! Returns the time the limit will be reached.
-gint64
+int64_t
 Timer::get_next_limit_time() const
 {
   return next_limit_time;
@@ -570,14 +570,14 @@ Timer::get_next_limit_time() const
 
 //! Sets the snooze interval of the timer.
 void
-Timer::set_snooze(gint64 t)
+Timer::set_snooze(int64_t t)
 {
   snooze_interval = t;
 }
 
 
 //! Returns the snooze interval.
-gint64
+int64_t
 Timer::get_snooze() const
 {
   return snooze_interval;
@@ -624,12 +624,12 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
 
-  gint64 save_time = 0;
-  gint64 elapsed = 0;
-  gint64 last_reset = 0;
-  gint64 overdue = 0;
-  gint64 llt = 0;
-  gint64 lle = 0;
+  int64_t save_time = 0;
+  int64_t elapsed = 0;
+  int64_t last_reset = 0;
+  int64_t overdue = 0;
+  int64_t llt = 0;
+  int64_t lle = 0;
   bool si = false;
 
   ss >> save_time
@@ -643,7 +643,7 @@ Timer::deserialize_state(const std::string &state, int version)
   if (version == 3)
     {
       // Ignored.
-      gint64 tz = 0;
+      int64_t tz = 0;
       ss >> tz;
     }
 
@@ -729,11 +729,11 @@ Timer::set_state(int elapsed, int idle, int overdue)
 
 
 //! Returns the total overdue time of the timer.
-gint64
+int64_t
 Timer::get_total_overdue_time() const
 {
-  gint64 ret = total_overdue_timespan;
-  gint64 elapsed = get_elapsed_time();
+  int64_t ret = total_overdue_timespan;
+  int64_t elapsed = get_elapsed_time();
 
   if (limit_enabled && elapsed > limit_interval)
     {

@@ -162,20 +162,20 @@ if (WITH_QT5)
   find_package(Qt5Core REQUIRED)
   find_package(Qt5Gui REQUIRED)
 
-  pkg_check_modules(
-    GLIB REQUIRED
-    glib-2.0>=2.36.0)
+  #pkg_check_modules(
+  #  GLIB REQUIRED
+  #  glib-2.0>=2.36.0)
 
   include_directories(${Qt5Core_INCLUDE_DIRS})
   include_directories(${Qt5Gui_INCLUDE_DIRS})
   include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-  Find_package(DBus)
-  if (DBUS_FOUND)
-    set (HAVE_DBUS ON)
-    set (HAVE_DBUS_FREEDESKTOP ON)
-    set (DBUS_BACKEND "freedesktop")
-  endif()
+  #Find_package(DBus)
+  #if (DBUS_FOUND)
+  #  set (HAVE_DBUS ON)
+  #  set (HAVE_DBUS_FREEDESKTOP ON)
+  #  set (DBUS_BACKEND "freedesktop")
+  #endif()
 
   # Can be removed with Qt 5.1
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
@@ -184,9 +184,9 @@ if (WITH_QT5)
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
-   # FIXME: temporary
-  set (HAVE_GLIB ON)
-  include_directories(${GLIB_INCLUDE_DIRS})
+  # FIXME: temporary
+  #set (HAVE_GLIB ON)
+  #include_directories(${GLIB_INCLUDE_DIRS})
 
 endif()
 
@@ -283,7 +283,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Misc
 
-find_package(Boost 1.50.0 REQUIRED COMPONENTS system thread)
+find_package(Boost 1.50.0 REQUIRED COMPONENTS system thread filesystem chrono)
 
 #----------------------------------------------------------------------------------------------------
 # Translations

@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -217,8 +217,8 @@ TimeBar::get_preferred_size(int &width, int &height) const
 
 void TimeBar::on_realize()
 {
-  // FIXME: for some reason, the timebar get realized EACH TIME
-  //        the timerbox is cycled...
+  // Note: for some reason, the timebar get realized EACH TIME
+  //       the timerbox is cycled...
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
 

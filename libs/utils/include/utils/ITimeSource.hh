@@ -1,6 +1,6 @@
 // ITimeSource.hh --- The Time
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,8 @@
 #ifndef WORKRAVE_UTILS_ITIMESOURCE_HH
 #define WORKRAVE_UTILS_ITIMESOURCE_HH
 
+#include <stdint.h>
 #include <boost/shared_ptr.hpp>
-
-#include <glib.h>
 
 namespace workrave
 {
@@ -37,10 +36,10 @@ namespace workrave
       virtual ~ITimeSource() {}
 
       //! Returns the system wall-clock time.
-      virtual gint64 get_real_time_usec() = 0;
+      virtual int64_t get_real_time_usec() = 0;
 
       //! Returns the system monotonic time, if available.
-      virtual gint64 get_monotonic_time_usec() = 0;
+      virtual int64_t get_monotonic_time_usec() = 0;
     };
   }
 }

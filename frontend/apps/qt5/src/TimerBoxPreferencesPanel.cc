@@ -232,7 +232,7 @@ TimerBoxPreferencesPanel::init_page_callbacks()
   connect(enabled_cb, &QCheckBox::stateChanged, this, &TimerBoxPreferencesPanel::on_enabled_toggled);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      // Todo BIND i.
+      // TODO: BIND i.
       QObject::connect(timer_display_button[i], signal, this, &TimerBoxPreferencesPanel::on_display_changed);
     }
 }

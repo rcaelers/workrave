@@ -41,7 +41,6 @@ Frame::~Frame()
     {
       flash_signal.disconnect();
     }
-  // FIXME: delete gc?
 }
 
 void
@@ -75,9 +74,7 @@ Frame::set_frame_color(const Gdk::Color &col)
 #ifndef HAVE_GTK3
   if (color_map)
     {
-#if 1 // FIXME: bug66
       color_map->alloc_color(frame_color);
-#endif
     }
 #endif
 }
@@ -262,10 +259,8 @@ Frame::on_realize()
   gc = Gdk::GC::create(window);
 
   color_black.set_rgb(0, 0, 0);
-#if 1 // FIXME: bug66
   color_map = get_colormap();
   color_map->alloc_color(color_black);
-#endif
   set_frame_color(frame_color);
 }
 
@@ -288,7 +283,6 @@ Frame::on_expose_event(GdkEventExpose* e)
 
   Gdk::Color bgCol = style->get_background(Gtk::STATE_NORMAL);
 
-  // FIXME:
   Gtk::Allocation gtkmmalloc = get_allocation();
   GtkAllocation alloc;
   alloc.x = gtkmmalloc.get_x();

@@ -49,7 +49,7 @@
 
 #include "GUI.hh"
 #include "TimerBoxControl.hh"
-#include "Menus.hh" // FIXME: REFACTOR
+#include "Menus.hh"
 
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"

@@ -23,6 +23,8 @@
 
 #include "Statistics.hh"
 
+#include <boost/filesystem.hpp>
+
 #include <cstring>
 #include <sstream>
 #include <assert.h>
@@ -58,8 +60,6 @@ Statistics::Statistics(ICore::Ptr core) :
   click_x(-1),
   click_y(-1)
 {
-  last_mouse_time.tv_sec = 0;
-  last_mouse_time.tv_usec = 0;
 }
 
 
@@ -133,7 +133,9 @@ Statistics::delete_all_history()
     update();
 
     string histfile = Util::get_home_directory() + "historystats";
-    if( Util::file_exists( histfile.c_str() ) && std::remove( histfile.c_str() ) )
+    boost::filesystem::path histpath(histfile);
+    
+    if( boost::filesystem::is_regular_file(histpath) && std::remove( histfile.c_str() ) )
     {
         return false;
     }
@@ -146,7 +148,9 @@ Statistics::delete_all_history()
     }
 
     string todayfile = Util::get_home_directory() + "todaystats";
-    if( Util::file_exists( todayfile.c_str() ) && std::remove( todayfile.c_str() ) )
+    boost::filesystem::path todaypath(todayfile);
+
+    if( boost::filesystem::is_regular_file(todaypath) && std::remove( todayfile.c_str() ) )
     {
         return false;
     }
@@ -209,7 +213,9 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   ss << Util::get_home_directory();
   ss << "historystats" << ends;
 
-  bool exists = Util::file_exists(ss.str());
+  boost::filesystem::path path(ss.str());
+  bool exists = boost::filesystem::is_regular_file(path);
+  
   ofstream stats_file(ss.str().c_str(), ios::app);
 
   if (!exists)
@@ -761,17 +767,15 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
               current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = movement;
             }
 
-          GTimeVal now, tv;
+          auto now = std::chrono::system_clock::now();
+          auto tv = now - last_mouse_time;
 
-          g_get_current_time(&now);
-          tvSUBTIME(tv, now, last_mouse_time);
-
-          if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
+          if (tv < std::chrono::seconds(1))
             {
-              tvADDTIME(current_day->total_mouse_time, current_day->total_mouse_time, tv);
+              current_day->total_mouse_time += tv;
 
               current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
-                current_day->total_mouse_time.tv_sec;
+                std::chrono::duration_cast<std::chrono::seconds>(current_day->total_mouse_time.time_since_epoch()).count();
             }
 
           last_mouse_time = now;

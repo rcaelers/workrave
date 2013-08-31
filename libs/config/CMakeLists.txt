@@ -2,16 +2,12 @@ set(SRC
   src/Configurator.cc
   src/ConfiguratorFactory.cc
   src/GSettingsConfigurator.cc
-  src/GlibIniConfigurator.cc
+  src/IniConfigurator.cc
+  src/XmlConfigurator.cc
   )
 
 if (HAVE_QT5)
   set(SRC ${SRC} src/QtSettingsConfigurator.cc)
-endif()
-
-if (HAVE_GDOME)
-  set(SRC ${SRC} src/XMLConfigurator.cc)
-  include_directories(${GDOME_INCLUDE_DIRS})
 endif()
 
 if (WITH_GCONF)

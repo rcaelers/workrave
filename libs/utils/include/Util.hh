@@ -1,6 +1,6 @@
 // Util.hh --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2010, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,6 @@ public:
   static bool registry_get_value(const char *path, const char *name, char *out);
 #endif
   static const set<string> &get_search_path(SearchPathId type);
-  static bool file_exists(string path);
   static string complete_directory(string path, SearchPathId type);
 
   static bool running_gnome();

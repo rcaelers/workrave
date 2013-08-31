@@ -325,8 +325,8 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
         {
           Timer::Ptr timer = get_timer(break_id);
 
-          gint64 duration = timer->get_auto_reset();
-          gint64 now = TimeSource::get_monotonic_time_sec_sync();
+          int64_t duration = timer->get_auto_reset();
+          int64_t now = TimeSource::get_monotonic_time_sec_sync();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -563,7 +563,7 @@ BreaksControl::load_state()
 
   if (ok)
     {
-      gint64 saveTime;
+      int64_t saveTime;
       stateFile >> saveTime;
     }
 

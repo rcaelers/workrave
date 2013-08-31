@@ -119,12 +119,12 @@ ActivityMonitor::heartbeat()
 {
   // Default
   ActivityState state = local_monitor->get_state();
-  gint64 current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_monotonic_time_sec();
   
-  map<std::string, gint64>::iterator i = external_activity.begin();
+  map<std::string, int64_t>::iterator i = external_activity.begin();
   while (i != external_activity.end())
     {
-      map<std::string, gint64>::iterator next = i;
+      map<std::string, int64_t>::iterator next = i;
       next++;
 
       if (i->second >= current_time)

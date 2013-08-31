@@ -24,11 +24,11 @@
 #ifdef HAVE_GSETTINGS
 
 #include "debug.hh"
-#include <string.h>
+#include <string.h
+#include <boost/algorithm/string/replace.hpp>
 
 #include "GSettingsConfigurator.hh"
 #include "Configurator.hh"
-#include "StringUtil.hh"
 
 using namespace workrave;
 using namespace std;
@@ -247,13 +247,13 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp = StringUtil::search_replace(string(path) + key, "/org/workrave/", "");
-  string changed = StringUtil::search_replace(tmp, "-", "_");
+  string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
+  string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
   
   for (unsigned int i = 0; i < sizeof(underscore_exceptions) / sizeof(string); i++)
     {
-      string mangled = StringUtil::search_replace(underscore_exceptions[i], "-", "_");
+      string mangled = boost::algorithm::replace_all_copy(underscore_exceptions[i], "-", "_");
       if (mangled == changed)
         {
           changed = underscore_exceptions[i];
@@ -293,8 +293,10 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   TRACE_ENTER_MSG("GSettingsConfigurator::get_settings", full_path);
 
   string path;
-  key_split(StringUtil::search_replace(full_path, "_", "-"), path, key);
-  string schema = StringUtil::search_replace(path, "/", ".");
+
+  string tmp = boost::algorithm::replace_all_copy(full_path, "_", "-");
+  key_split(tmp, path, key);
+  string schema = boost::algorithm::replace_all_copy(path, "/", ".");
 
   TRACE_MSG(key << " " << path << " " << schema);
   
