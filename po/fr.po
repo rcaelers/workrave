@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-07-25 15:45+0200\n"
+"POT-Creation-Date: 2013-08-31 11:35+0200\n"
 "PO-Revision-Date: 2011-02-16 19:23+0100\n"
 "Last-Translator: Benjamin Siband <translations@muachi.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;translations@muachi."
@@ -27,7 +27,7 @@ msgstr "%s%d:%02d minutes"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d heures"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:395
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de %s à %s"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "About..."
 msgstr "À propos de..."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:312
 msgid "Activity"
 msgstr "Activité"
 
@@ -60,7 +60,7 @@ msgid ""
 msgstr ""
 "Aide à éviter les Troubles Musculo-Squelettiques (TMS) ou à s'en remettre"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "Étirement d'épaule arrière"
 
@@ -78,55 +78,47 @@ msgstr "Verrouiller les périphériques de saisie et l'écran"
 msgid "Block mode:"
 msgstr "Verrouillage:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Break duration:"
 msgstr "Durée de la pause:"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Break ignored"
-msgstr "Pause ignorée"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "Pause dans %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break prompt"
-msgstr "Pause recommandée"
-
 #  Prelude frame
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:113
 msgid "Break prompting"
 msgstr "Recommandation de pause"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:203
 msgid "Break prompts"
 msgstr "Pauses recommandées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks"
 msgstr "Pauses"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:229
 msgid "Breaks postponed"
 msgstr "Pauses reportées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks skipped"
 msgstr "Pauses ignorées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "Parcourir l'historique"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Pas de son"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/data/exercises/exercises.xml.in.h:14
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -137,18 +129,13 @@ msgstr ""
 "Cet exercice repose davantage les yeux que si vous vous contentez de les "
 "fermer."
 
-#: ../frontend/common/src/SoundPlayer.cc:612
-msgid "Custom"
-msgstr ""
-
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Cycle time:"
 msgstr "Intervalle de rotation:"
 
-#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Limite journalière"
 
@@ -166,16 +153,16 @@ msgstr "Limite journalière dans %s"
 msgid "Daily limit:"
 msgstr "Limite journalière:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:239
 msgid "Daily usage"
 msgstr "Utilisation journalière"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Date:"
 msgstr "Date:"
 
 #. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:150
 msgid "Delete all statistics history"
 msgstr ""
 
@@ -188,11 +175,11 @@ msgstr "Disparition dans %s"
 msgid "Display"
 msgstr "Affichage"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:330
 msgid "Effective mouse movement:"
 msgstr "Mouvements utiles:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -200,57 +187,44 @@ msgstr ""
 
 #  Enabled/Disabled checkbox
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
 msgid "Enable timer"
 msgstr "Activer cette minuterie"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:302
 #, fuzzy
 msgid "End exercises"
 msgstr "Exercices"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:631
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
 msgid "Event"
 msgstr ""
-
-#: ../frontend/common/src/SoundPlayer.cc:141
-#, fuzzy
-msgid "Exercise change"
-msgstr "Fin de l'exercice"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercise ended"
-msgstr "Fin de l'exercice"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
+#: ../frontend/gtkmm/src/ExercisesDialog.cc:42
 msgid "Exercises"
 msgstr "Exercices"
 
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercises ended"
-msgstr "Fin des exercices"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Gestionnaire d'exercices"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:627
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:617
 msgid "Files deleted!"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../frontend/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Étirement des doigts"
 
@@ -263,11 +237,11 @@ msgstr "Général"
 msgid "Hide"
 msgstr "Masquer"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:621
 msgid "Info"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/data/exercises/exercises.xml.in.h:8
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -281,7 +255,7 @@ msgstr ""
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+#: ../frontend/data/exercises/exercises.xml.in.h:2
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -292,7 +266,7 @@ msgstr ""
 "vous avec l'autre bras jusqu'à sentir une légère tension dans l'épaule. "
 "Maintenez cette position quelques instants, et recommencez avec l'autre bras."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:339
 msgid "Keystrokes:"
 msgstr "Frappes clavier:"
 
@@ -300,7 +274,7 @@ msgstr "Frappes clavier:"
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -311,7 +285,7 @@ msgstr ""
 "Faites le tour complet de l'écran en allant aux autres coins. Faites le tour "
 "de l'écran deux fois dans un sens, puis deux fois dans le sens inverse."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/data/exercises/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -325,29 +299,21 @@ msgstr ""
 "moniteur, utilisez un stylo, par exemple, et gardez-le à la même distance "
 "que votre moniteur."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Regardez dans le noir"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
 msgstr "Nombre maximum de recommandations"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "Micro-pause"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-msgid "Micro-break ended"
-msgstr "Fin de la micro-pause"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break started"
-msgstr "Début de micro-pause"
 
 #  Layout
 #. Layout
@@ -361,54 +327,54 @@ msgstr "Micro-pause:"
 msgid "Mode"
 msgstr "_Mode"
 
-#: ../frontend/gtkmm/src/GUI.cc:1442 ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1440 ../frontend/gtkmm/src/GUI.cc:1444
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mode"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:335
 msgid "Mouse button clicks:"
 msgstr "Clics de souris:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse movement:"
 msgstr "Mouvements de la souris:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:322
 msgid "Mouse usage:"
 msgstr "Utilisation de la souris:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Bougez les yeux"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "Bougez les épaules"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "Montez et descendez les épaules"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Regrouper la pause prolongée et la limite journalière"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:219
 msgid "Natural breaks taken"
 msgstr "Pauses prises spontanément"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Pauses prises spontanément"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "Étirement latéral du cou"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 #, fuzzy
 msgid "Next exercise"
 msgstr "Nombre d'exercices:"
@@ -423,8 +389,8 @@ msgstr "Prochaine pause prolongée dans %s"
 msgid "No blocking"
 msgstr "Pas de verrouillage"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "No sounds"
 msgstr "Pas de son"
 
@@ -434,7 +400,7 @@ msgstr "Pas de son"
 msgid "Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
 msgstr "Nombre d'exercices:"
 
@@ -446,20 +412,20 @@ msgstr "_Ouvrir"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:184
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Options"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:234
 msgid "Overdue time"
 msgstr "Durée de dépassement"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "Pause"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Nombre d'exercices:"
@@ -488,19 +454,14 @@ msgstr "Placer les minuteries les unes à côté des autres"
 msgid "Placement:"
 msgstr "Disposition:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-msgid "Play sounds using built-in speaker"
-msgstr "Utiliser le haut-parleur interne"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "Utiliser la carte son"
 
@@ -508,7 +469,7 @@ msgstr "Utiliser la carte son"
 msgid "Please relax for a few seconds"
 msgstr "Détendez-vous quelques instants"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:251
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
 msgid "Postpone time:"
 msgstr "Temps de report de pause:"
 
@@ -519,19 +480,19 @@ msgstr "Temps de report de pause:"
 msgid "Preferences"
 msgstr "Préférences"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
 msgstr "Faire une recommandation avant la pause"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:214
 msgid "Prompted breaks taken"
 msgstr "Recommandations suivies"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/data/exercises/exercises.xml.in.h:18
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -549,7 +510,7 @@ msgid "Q_uiet"
 msgstr "S_ilencieux"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1444
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 #, fuzzy
 msgid "Quiet"
@@ -567,20 +528,20 @@ msgstr "_Quitter"
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 msgid "Regard micro-breaks as activity"
 msgstr "Compter les micro-pauses comme de l'activité"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:209
 msgid "Repeated prompts"
 msgstr "Recommandations répétées"
 
-#: ../frontend/gtkmm/src/GUI.cc:1435
+#: ../frontend/gtkmm/src/GUI.cc:1433
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:79
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Pause prolongée"
 
@@ -589,33 +550,25 @@ msgstr "Pause prolongée"
 msgid "Rest break %s overdue"
 msgstr "Pause prolongée en retard de %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Rest break ended"
-msgstr "Fin de la pause prolongée"
-
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "En pause prolongée pour encore %s"
-
-#: ../frontend/common/src/SoundPlayer.cc:98
-msgid "Rest break started"
-msgstr "Début de pause prolongée"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 msgid "Rest break:"
 msgstr "Pause prolongée:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "Reprendre"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Nombre d'exercices:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -626,7 +579,7 @@ msgstr ""
 "première phalange, et maintenez cette position 10 secondes également. "
 "Répétez l'exercice."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "Étirement épaules-bras"
 
@@ -635,12 +588,12 @@ msgstr "Étirement épaules-bras"
 msgid "Show"
 msgstr "Afficher"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Afficher les boutons 'Reporter' et 'Ignorer'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Afficher les boutons 'Reporter' et 'Ignorer'"
@@ -674,7 +627,7 @@ msgid "Silent in %s"
 msgstr "Silencieux dans %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
 msgid "Sound Events"
 msgstr ""
 
@@ -686,14 +639,14 @@ msgstr "Options"
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Son:"
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Sound:"
 msgstr "Son:"
 
@@ -704,7 +657,7 @@ msgstr "Son:"
 msgid "Sounds"
 msgstr "Son:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/data/exercises/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -718,11 +671,11 @@ msgstr ""
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/data/exercises/exercises.xml.in.h:6
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -739,8 +692,8 @@ msgstr ""
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:156
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -748,12 +701,12 @@ msgstr "Statistiques"
 msgid "Status Window"
 msgstr "Fenêtre d'état"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:158
 msgid "Suspend timer when inactive"
 msgstr "Interrompre la minuterie quand il n'y a pas d'activité"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1442
+#: ../frontend/gtkmm/src/GUI.cc:1440
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 #, fuzzy
 msgid "Suspended"
@@ -768,36 +721,36 @@ msgstr ""
 msgid "Take rest break now"
 msgstr "Prochaine pause prolongée dans %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "The number of breaks you postponed"
 msgstr "Nombre de pauses que vous avez reportées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you skipped"
 msgstr "Le nombre de pauses que vous avez ignorées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 "Le nombre de fois où vous avez suivi\n"
 "une pause recommandée"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 "Nombre de fois où vous avez pris une pause spontanément, sans que le "
 "logiciel vous le recommande"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -805,7 +758,7 @@ msgstr ""
 "Le nombre de fois où le programme vous a suggéré de prendre une pause (les "
 "recommandations pour une même pause ne sont comptées qu'une seule fois)"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 "Le nombre de fois où il vous a été recommandé à plusieurs reprises de "
@@ -815,11 +768,11 @@ msgstr ""
 msgid "The status window stays always on top of other windows"
 msgstr "La fenêtre d'état reste au-dessus de toutes les autres fenêtres"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
 msgid "The total computer usage"
 msgstr "Durée totale d'utilisation de l'ordinateur"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -827,32 +780,32 @@ msgstr ""
 "Distance totale que vous auriez parcourue si vous aviez déplacé votre souris "
 "en ligne droite entre deux clics"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
 msgid "The total number of keys pressed"
 msgstr "Nombre de touches frappées"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "The total number of mouse button clicks"
 msgstr "Nombre total de clics de souris"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total on-screen mouse movement"
 msgstr "Distance totale parcourue par la souris"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total time this break was overdue"
 msgstr "La durée totale de dépassement de cette pause"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
 msgid "The total time you were using the mouse"
 msgstr "Durée totale d'utilisation de la souris"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Vous devriez prendre une pause prolongée..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -864,7 +817,7 @@ msgstr ""
 "détendez-vous."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:365
+#: ../frontend/gtkmm/src/Menus.cc:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -872,11 +825,11 @@ msgstr ""
 "Ce programme aide à éviter les Troubles Musculo-Squelettiques (TMS) ou à "
 "s'en remettre."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:228
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Time before end:"
 msgstr "Temps restant:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:229
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Time between breaks:"
 msgstr "Intervalle entre deux pauses:"
 
@@ -888,19 +841,19 @@ msgstr "Une petite micro-pause ?"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
 msgstr "Minuteries"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "Focalisation"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Tournez la tête"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/data/exercises/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -908,7 +861,7 @@ msgstr ""
 "Tournez la tête à gauche et gardez cette position pendant deux secondes. "
 "Puis faites de même en tournant la tête vers la droite."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
 msgid "Use alternate monitor"
 msgstr ""
 
@@ -916,7 +869,7 @@ msgstr ""
 msgid "User interface"
 msgstr "Interface utilisateur"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Volume:"
 msgstr ""
 
@@ -924,12 +877,12 @@ msgstr ""
 msgid "Wait"
 msgstr "Veuillez patienter"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:605
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
 msgid "Wavefiles"
 msgstr ""
 
@@ -938,23 +891,23 @@ msgstr ""
 msgid "Workrave failed to start"
 msgstr "Applet Workrave"
 
-#: ../frontend/gtkmm/src/GUI.cc:1307
+#: ../frontend/gtkmm/src/GUI.cc:1305
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1301
+#: ../frontend/gtkmm/src/GUI.cc:1299
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:292
+#: ../frontend/gtkmm/src/GUI.cc:289
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
@@ -1084,9 +1037,15 @@ msgstr "_Interrompu"
 #~ msgid "Advanced"
 #~ msgstr "Avancé"
 
+#~ msgid "Break ignored"
+#~ msgstr "Pause ignorée"
+
 #, fuzzy
 #~ msgid "Break in"
 #~ msgstr "Pause dans %s"
+
+#~ msgid "Break prompt"
+#~ msgstr "Pause recommandée"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""
@@ -1203,6 +1162,16 @@ msgstr "_Interrompu"
 #~ "Indiquez le nom de l'hôte et le numéro de port de l'ordinateur du réseau\n"
 #~ "auquel vous souhaitez vous connecter."
 
+#, fuzzy
+#~ msgid "Exercise change"
+#~ msgstr "Fin de l'exercice"
+
+#~ msgid "Exercise ended"
+#~ msgstr "Fin de l'exercice"
+
+#~ msgid "Exercises ended"
+#~ msgstr "Fin des exercices"
+
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
 #~ "height against it with your elbows slightly bended. Push your body to the "
@@ -1244,6 +1213,12 @@ msgstr "_Interrompu"
 #~ "position 2 secondes, puis relâchez. De la même façon, avancez la tête, "
 #~ "maintenez la position 2 secondes, puis relâchez à nouveau."
 
+#~ msgid "Micro-break ended"
+#~ msgstr "Fin de la micro-pause"
+
+#~ msgid "Micro-break started"
+#~ msgstr "Début de micro-pause"
+
 #~ msgid "Move the shoulder blades"
 #~ msgstr "Bougez les omoplates"
 
@@ -1271,6 +1246,9 @@ msgstr "_Interrompu"
 
 #~ msgid "Password:"
 #~ msgstr "Mot de passe:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Utiliser le haut-parleur interne"
 
 #~ msgid "Port"
 #~ msgstr "Port"
@@ -1306,6 +1284,12 @@ msgstr "_Interrompu"
 #, fuzzy
 #~ msgid "Requesting master status from %s."
 #~ msgstr "Requête maître auprès de %s."
+
+#~ msgid "Rest break ended"
+#~ msgstr "Fin de la pause prolongée"
+
+#~ msgid "Rest break started"
+#~ msgstr "Début de pause prolongée"
 
 #~ msgid "Server port:"
 #~ msgstr "Port du serveur:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-07-25 15:45+0200\n"
+"POT-Creation-Date: 2013-08-31 11:35+0200\n"
 "PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
@@ -33,7 +33,7 @@ msgstr "%s%d perc és %02d másodperc"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d óra, %02d perc és %02d másodperc"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:395
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
@@ -48,7 +48,7 @@ msgstr "(nem érhető el a betűtípus)"
 msgid "About..."
 msgstr "Névjegy…"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:312
 msgid "Activity"
 msgstr "Aktivitás"
 
@@ -67,7 +67,7 @@ msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
 "repetitive strain injury) megelőzésében és az abból való felépülésben"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "Hátsó vállnyújtás"
 
@@ -85,53 +85,45 @@ msgstr "A bemenetek és a képernyő tiltása"
 msgid "Block mode:"
 msgstr "Korlátozás:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Break duration:"
 msgstr "Szünet időtartama:"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Break ignored"
-msgstr "Szünet figyelmen kívül hagyása"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "Szünet ennyi idő múlva: %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break prompt"
-msgstr "Felszólítás szünetre"
-
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:113
 msgid "Break prompting"
 msgstr "Felszólítás szünet tartására"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:203
 msgid "Break prompts"
 msgstr "Felszólítások"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks"
 msgstr "Szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:229
 msgid "Breaks postponed"
 msgstr "Elhalasztott szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks skipped"
 msgstr "Kihagyott szünetek"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "Történet böngészése"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
 msgid "Choose a sound"
 msgstr "Válasszon hangot"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/data/exercises/exercises.xml.in.h:14
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -141,18 +133,13 @@ msgstr ""
 "nyissa ki a szemeit és nézze a tenyerei sötétségét. Ez a módszer jobban "
 "nyugtatja szemeit, mintha csak egyszerűen becsukná őket."
 
-#: ../frontend/common/src/SoundPlayer.cc:612
-msgid "Custom"
-msgstr "Egyéb"
-
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Cycle time:"
 msgstr "Ciklusidő: (másodpercben)"
 
-#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Napi korlátozás"
 
@@ -170,16 +157,16 @@ msgstr "A napi korlátozásból %s van hátra"
 msgid "Daily limit:"
 msgstr "Napi korlátozás:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:239
 msgid "Daily usage"
 msgstr "Napi használat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Date:"
 msgstr "Dátum:"
 
 #. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:150
 msgid "Delete all statistics history"
 msgstr ""
 
@@ -192,11 +179,11 @@ msgstr "Eltűnik ennyi idő múlva: %s"
 msgid "Display"
 msgstr "Kijelzés"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:330
 msgid "Effective mouse movement:"
 msgstr "Effektív egérmozgás:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
 #, fuzzy
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
@@ -206,55 +193,43 @@ msgstr ""
 "használja a számítógépet."
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
 msgid "Enable timer"
 msgstr "Időzítés engedélyezése"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:302
 msgid "End exercises"
 msgstr "Gyakorlatok befejezése"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:631
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
 msgid "Event"
 msgstr "Esemény"
-
-#: ../frontend/common/src/SoundPlayer.cc:141
-msgid "Exercise change"
-msgstr "Új gyakorlat"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercise ended"
-msgstr "Gyakorlat vége"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
+#: ../frontend/gtkmm/src/ExercisesDialog.cc:42
 msgid "Exercises"
 msgstr "Gyakorlatok"
 
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercises ended"
-msgstr "Gyakorlatok vége"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Feladatok"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:627
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:617
 msgid "Files deleted!"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../frontend/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Ujjnyújtás"
 
@@ -267,11 +242,11 @@ msgstr "Általános"
 msgid "Hide"
 msgstr "Elrejtés"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:621
 msgid "Info"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/data/exercises/exercises.xml.in.h:8
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -285,7 +260,7 @@ msgstr ""
 msgid "Is Workrave already running?"
 msgstr "A Workrave már fut?"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+#: ../frontend/data/exercises/exercises.xml.in.h:2
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -297,7 +272,7 @@ msgstr ""
 "Tartsa így rövid ideig karját és ismételje meg a gyakorlatot a másik "
 "karjával."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:339
 msgid "Keystrokes:"
 msgstr "Leütések:"
 
@@ -305,7 +280,7 @@ msgstr "Leütések:"
 msgid "Language:"
 msgstr "Nyelv:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -316,7 +291,7 @@ msgstr ""
 "járásának irányában két körön keresztül. Ezután végezze el a gyakorlatot "
 "visszafelé."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/data/exercises/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -329,29 +304,21 @@ msgstr ""
 "elég messze nézni a képernyőtől, válasszon egy másik irányt és váltogassa a "
 "fókuszt a távoli alak és egy a monitor távolságában tartott toll között."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Pillantás a sötétségbe"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
 msgstr "Felszólítások maximális száma:"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "Rövid pihenő"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-msgid "Micro-break ended"
-msgstr "Rövid pihenő vége"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break started"
-msgstr "Rövid pihenő kezdete"
 
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
@@ -363,51 +330,51 @@ msgstr "Rövid pihenő:"
 msgid "Mode"
 msgstr "Mód"
 
-#: ../frontend/gtkmm/src/GUI.cc:1442 ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1440 ../frontend/gtkmm/src/GUI.cc:1444
 msgid "Mode: "
 msgstr "Mód: "
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:335
 msgid "Mouse button clicks:"
 msgstr "Egérkattintások:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse movement:"
 msgstr "Egérmozgás:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:322
 msgid "Mouse usage:"
 msgstr "Egérhasználat:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Szemkörzés"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "Vállkörzés"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "Függőleges vállmozgatás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Hangok némítása a pihenőidő és a napi korlátozás során"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:219
 msgid "Natural breaks taken"
 msgstr "Természetes szünetek"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Natural rest break"
 msgstr "Természetes szünet"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "Fejkörzés"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 msgid "Next exercise"
 msgstr "Gyakorlatok száma:"
 
@@ -421,8 +388,8 @@ msgstr "A következő pihenőidő %s múlva lesz"
 msgid "No blocking"
 msgstr "Korlátozás nélkül"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "No sounds"
 msgstr "Hangok nélkül"
 
@@ -431,7 +398,7 @@ msgstr "Hangok nélkül"
 msgid "Normal"
 msgstr "Általános"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
 msgstr "Gyakorlatok száma:"
 
@@ -442,20 +409,20 @@ msgstr "Megnyitás"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:184
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Opciók"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:234
 msgid "Overdue time"
 msgstr "Késés"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "Szünet"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause exercises"
 msgstr "Gyakorlatok szüneteltetése"
 
@@ -483,19 +450,14 @@ msgstr "Időzítők egymás után helyezése"
 msgid "Placement:"
 msgstr "Elhelyezés:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-msgid "Play sounds using built-in speaker"
-msgstr "Hangok lejátszása a beépített hangszórón"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "Hangok lejátszása a hangkártyán keresztül"
 
@@ -503,7 +465,7 @@ msgstr "Hangok lejátszása a hangkártyán keresztül"
 msgid "Please relax for a few seconds"
 msgstr "Kérem, lazítson pár másodpercig"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:251
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
 msgid "Postpone time:"
 msgstr "Elhalasztás hossza:"
 
@@ -514,19 +476,19 @@ msgstr "Elhalasztás hossza:"
 msgid "Preferences"
 msgstr "Beállítások"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr "Előző gyakorlat"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
 msgstr "Felszólítás a szünet előtt"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:214
 msgid "Prompted breaks taken"
 msgstr "Megtartott kért szünetek"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/data/exercises/exercises.xml.in.h:18
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -543,7 +505,7 @@ msgid "Q_uiet"
 msgstr "_Csendes"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1444
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 msgid "Quiet"
 msgstr "Csendes"
@@ -559,20 +521,20 @@ msgstr "Kilépés"
 msgid "Reading mode"
 msgstr "Olvasási mód"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 msgid "Regard micro-breaks as activity"
 msgstr "Rövid pihenők tekintése aktivitásnak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:209
 msgid "Repeated prompts"
 msgstr "Ismételt felszólítások"
 
-#: ../frontend/gtkmm/src/GUI.cc:1435
+#: ../frontend/gtkmm/src/GUI.cc:1433
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:79
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Pihenőidő"
 
@@ -581,32 +543,24 @@ msgstr "Pihenőidő"
 msgid "Rest break %s overdue"
 msgstr "A pihenőidő %s késésben van"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Rest break ended"
-msgstr "Pihenőidő vége"
-
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "Még %s van hátra a pihenőidőből"
-
-#: ../frontend/common/src/SoundPlayer.cc:98
-msgid "Rest break started"
-msgstr "Pihenőidő kezdete"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 msgid "Rest break:"
 msgstr "Pihenőidő:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "Folytatás"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume exercises"
 msgstr "Gyakorlatok folytatása"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -617,7 +571,7 @@ msgstr ""
 "hajlítsa be ujjait az ízületeknél és tartsa ezt a helyzetet is 10 "
 "másodpercig. Ismételje meg a gyakorlatot."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "Váll-kar nyújtás"
 
@@ -626,12 +580,12 @@ msgstr "Váll-kar nyújtás"
 msgid "Show"
 msgstr "Megjelenítés"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "„Elhalasztás” és „Kihagyás” gombok megjelenítése"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "„Elhalasztás” és „Kihagyás” gombok megjelenítése"
@@ -663,7 +617,7 @@ msgid "Silent in %s"
 msgstr "Csend ennyi idő múlva: %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
 msgid "Sound Events"
 msgstr "Hangesemények"
 
@@ -672,11 +626,11 @@ msgstr "Hangesemények"
 msgid "Sound Options"
 msgstr "Hangbeállítások"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Theme:"
 msgstr "Hangtéma:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Sound:"
 msgstr "Hang:"
 
@@ -684,7 +638,7 @@ msgstr "Hang:"
 msgid "Sounds"
 msgstr "Hangok"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/data/exercises/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -697,11 +651,11 @@ msgstr ""
 msgid "Start Workrave on Windows startup"
 msgstr "Workrave indítása a Windows elindulásakor"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Start restbreak when screen is locked"
 msgstr "Pihenőidő megkezdése a képernyő zárolásakor"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/data/exercises/exercises.xml.in.h:6
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -717,8 +671,8 @@ msgstr ""
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:156
 msgid "Statistics"
 msgstr "Statisztika"
 
@@ -726,12 +680,12 @@ msgstr "Statisztika"
 msgid "Status Window"
 msgstr "Állapotjelző ablak"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:158
 msgid "Suspend timer when inactive"
 msgstr "Időzítés felfüggesztése, ha a felhasználó inaktív"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1442
+#: ../frontend/gtkmm/src/GUI.cc:1440
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 msgid "Suspended"
 msgstr "Felfüggesztett"
@@ -744,34 +698,34 @@ msgstr "Rendszer alapértelmezése"
 msgid "Take rest break now"
 msgstr "Tartson pihenőt"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "The number of breaks you postponed"
 msgstr "Elhalasztott szünetek száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you skipped"
 msgstr "Kihagyott szünetek száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 "Azoknak az eseteknek a száma, amikor Ön a felszólításra szünetet tartott"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 "Azoknak az eseteknek a száma, amikor Ön felszólítás nélkül tartott szünetet"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -779,7 +733,7 @@ msgstr ""
 "A pihenésre való felszólítások száma, kivéve az egyazon szünetre való "
 "többszöri felszólításokat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Ismételt felszólítások száma szünet tartására"
 
@@ -787,11 +741,11 @@ msgstr "Ismételt felszólítások száma szünet tartására"
 msgid "The status window stays always on top of other windows"
 msgstr "Az állapotjelző ablak mindig a többi ablak fölött helyezkedik el"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
 msgid "The total computer usage"
 msgstr "A teljes számítógép-használat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -799,31 +753,31 @@ msgstr ""
 "Az az egérmozgás, ami akkor történt volna, ha a kattintások közt egyenesen "
 "mozgatja az egeret"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
 msgid "The total number of keys pressed"
 msgstr "A lenyomott billentyűk száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "The total number of mouse button clicks"
 msgstr "Az egérkattintások száma"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total on-screen mouse movement"
 msgstr "A teljes (képernyőn mért) egérmozgatás"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total time this break was overdue"
 msgstr "A szünetfajta adott napon történt összes késése"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
 msgid "The total time you were using the mouse"
 msgstr "Az összes egérhasználattal töltött idő"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid "This is your natural rest break."
 msgstr "Ez az Ön természetes pihenője."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -833,7 +787,7 @@ msgstr ""
 "Lazítson, nyújtózzon, sétáljon pár percig."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:365
+#: ../frontend/gtkmm/src/Menus.cc:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -841,11 +795,11 @@ msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
 "repetitive strain injury) megelőzésében és az abból való felépülésben."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:228
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Time before end:"
 msgstr "Napi géphasználati korlát:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:229
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Time between breaks:"
 msgstr "Szünetek közti idő:"
 
@@ -856,19 +810,19 @@ msgstr "Van ideje egy rövid pihenőre?"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
 msgstr "Időzítők"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "A szemek edzése fókuszálással"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Fejfordítás"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/data/exercises/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -876,7 +830,7 @@ msgstr ""
 "Fordítsa balra a fejét és tartsa úgy két másodpercig. Ezután fordítsa jobbra "
 "és tartsa úgy két másodpercig."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
 msgid "Use alternate monitor"
 msgstr "Másik monitor használata"
 
@@ -884,7 +838,7 @@ msgstr "Másik monitor használata"
 msgid "User interface"
 msgstr "Felhasználói felület"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Volume:"
 msgstr "Hangerő:"
 
@@ -892,12 +846,12 @@ msgstr "Hangerő:"
 msgid "Wait"
 msgstr "Várakozás"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:605
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
 msgid "Wavefiles"
 msgstr "Hangfájlok"
 
@@ -905,11 +859,11 @@ msgstr "Hangfájlok"
 msgid "Workrave failed to start"
 msgstr "A Workrave indítása sikertelen"
 
-#: ../frontend/gtkmm/src/GUI.cc:1307
+#: ../frontend/gtkmm/src/GUI.cc:1305
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "A Workrave csendes módban van. Nem jelennek meg a szünet ablakok."
 
-#: ../frontend/gtkmm/src/GUI.cc:1301
+#: ../frontend/gtkmm/src/GUI.cc:1299
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -917,7 +871,7 @@ msgstr ""
 "A Workrave felfüggesztett módban van. Az egér- és billentyűzetaktivitás nem "
 "lesz figyelve."
 
-#: ../frontend/gtkmm/src/GUI.cc:292
+#: ../frontend/gtkmm/src/GUI.cc:289
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -925,7 +879,7 @@ msgstr ""
 "A Workrave továbbra is fut. A Workravet elérheti a fehér bárány ikonra "
 "kattintással. Ezen üzenet kikapcsolásához kattintson erre a buborékra."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
@@ -1053,6 +1007,12 @@ msgstr "_Felfüggesztett"
 #~ msgid "Application does not accept documents on command line"
 #~ msgstr "Az alkalmazás nem fogad el dokumentumokat a parancssorban"
 
+#~ msgid "Break ignored"
+#~ msgstr "Szünet figyelmen kívül hagyása"
+
+#~ msgid "Break prompt"
+#~ msgstr "Felszólítás szünetre"
+
 #~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 #~ msgstr ""
 #~ "Nem adhatók dokumentum-URI címek egy „Type=Link” asztali bejegyzésnek"
@@ -1110,6 +1070,9 @@ msgstr "_Felfüggesztett"
 #~ msgid "Could not enable network operation."
 #~ msgstr "Nem engedélyezhetőek a hálózati műveletek."
 
+#~ msgid "Custom"
+#~ msgstr "Egyéb"
+
 #~ msgid "Disable connection to session manager"
 #~ msgstr "A munkamenet-kezelőhöz való csatlakozás tiltása"
 
@@ -1131,6 +1094,15 @@ msgstr "_Felfüggesztett"
 #~ msgstr ""
 #~ "Adja meg annak a számítógépnek az adatait,\n"
 #~ "amelyhez csatlakozni szeretne."
+
+#~ msgid "Exercise change"
+#~ msgstr "Új gyakorlat"
+
+#~ msgid "Exercise ended"
+#~ msgstr "Gyakorlat vége"
+
+#~ msgid "Exercises ended"
+#~ msgstr "Gyakorlatok vége"
 
 #~ msgid "FILE"
 #~ msgstr "FÁJL"
@@ -1158,6 +1130,12 @@ msgstr "_Felfüggesztett"
 #~ "Győződjön meg róla, hogy a RECORD kiterjesztés engedélyezett az X "
 #~ "kiszolgálón."
 
+#~ msgid "Micro-break ended"
+#~ msgstr "Rövid pihenő vége"
+
+#~ msgid "Micro-break started"
+#~ msgstr "Rövid pihenő kezdete"
+
 #~ msgid "Network"
 #~ msgstr "Hálózat"
 
@@ -1181,6 +1159,9 @@ msgstr "_Felfüggesztett"
 
 #~ msgid "Password:"
 #~ msgstr "Jelszó:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Hangok lejátszása a beépített hangszórón"
 
 #~ msgid "Port"
 #~ msgstr "Port"
@@ -1212,6 +1193,12 @@ msgstr "_Felfüggesztett"
 
 #~ msgid "Requesting master status from %s."
 #~ msgstr "Elsődleges állapot igénylése a következőtől: %s."
+
+#~ msgid "Rest break ended"
+#~ msgstr "Pihenőidő vége"
+
+#~ msgid "Rest break started"
+#~ msgstr "Pihenőidő kezdete"
 
 #~ msgid "Server port:"
 #~ msgstr "Kiszolgáló portja:"

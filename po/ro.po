@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-07-25 15:45+0200\n"
+"POT-Creation-Date: 2013-08-31 11:35+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "%s%d:%02d minute"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d ore"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:395
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de la %s la %s"
@@ -47,7 +47,7 @@ msgstr "(font indisponibil)"
 msgid "About..."
 msgstr "Despre..."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:312
 msgid "Activity"
 msgstr "Activitate"
 
@@ -64,7 +64,7 @@ msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "Întindeți umerii în spate"
 
@@ -82,53 +82,45 @@ msgstr "Blochează dispozitivele de intrare și ecranul"
 msgid "Block mode:"
 msgstr "Mod de blocare:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Break duration:"
 msgstr "Durata pauzei:"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Break ignored"
-msgstr "Pauză ignorată"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break prompt"
-msgstr "Pauză sugerată"
-
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:113
 msgid "Break prompting"
 msgstr "Sugerarea pauzei"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:203
 msgid "Break prompts"
 msgstr "Sugestii de pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks"
 msgstr "Pauze"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:229
 msgid "Breaks postponed"
 msgstr "Pauze amânate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks skipped"
 msgstr "Pauze peste care s-a sărit"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "Răsfoiește istoricul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
 msgid "Choose a sound"
 msgstr "Alegeți un sunet"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/data/exercises/exercises.xml.in.h:14
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -139,18 +131,13 @@ msgstr ""
 "dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați "
 "ține închiși."
 
-#: ../frontend/common/src/SoundPlayer.cc:612
-msgid "Custom"
-msgstr "Particularizat"
-
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Cycle time:"
 msgstr "Timp ciclic:"
 
-#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "Limită zilnică"
 
@@ -168,16 +155,16 @@ msgstr "Limita zilnică în %s"
 msgid "Daily limit:"
 msgstr "Limită zilnică:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:239
 msgid "Daily usage"
 msgstr "Uz zilnic"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Date:"
 msgstr "Data:"
 
 #. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:150
 msgid "Delete all statistics history"
 msgstr ""
 
@@ -190,66 +177,54 @@ msgstr "Dispare în %s"
 msgid "Display"
 msgstr "Afișare"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:330
 msgid "Effective mouse movement:"
 msgstr "Mișcarea efectivă a mausului:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
 msgid "Enable timer"
 msgstr "Activează cronometrul"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:302
 msgid "End exercises"
 msgstr "Încheie exercițiile"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:631
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
 msgid "Event"
 msgstr "Eveniment"
-
-#: ../frontend/common/src/SoundPlayer.cc:141
-msgid "Exercise change"
-msgstr "Schimbare de exercițiu"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercise ended"
-msgstr "Exercițiul s-a încheiat"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
+#: ../frontend/gtkmm/src/ExercisesDialog.cc:42
 msgid "Exercises"
 msgstr "Exerciții"
 
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercises ended"
-msgstr "Exercițiile s-au încheiat"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Program de redare a exercițiilor"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:627
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:617
 msgid "Files deleted!"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../frontend/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Întindeți-vă degetele"
 
@@ -262,11 +237,11 @@ msgstr "General"
 msgid "Hide"
 msgstr "Ascunde"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:621
 msgid "Info"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/data/exercises/exercises.xml.in.h:8
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -281,7 +256,7 @@ msgstr ""
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+#: ../frontend/data/exercises/exercises.xml.in.h:2
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -293,7 +268,7 @@ msgstr ""
 "Mențineți această poziție pentru scurt timp și repetați exercițiul pentru "
 "celălalt braț."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:339
 msgid "Keystrokes:"
 msgstr "Taste apăsate:"
 
@@ -301,7 +276,7 @@ msgstr "Taste apăsate:"
 msgid "Language:"
 msgstr "Limbă:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -312,7 +287,7 @@ msgstr ""
 "înconjurați monitorul cu privirea de două ori. Apoi repetați exercițiul în "
 "direcția inversă."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/data/exercises/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -327,29 +302,21 @@ msgstr ""
 "privirea pe un obiect aflat la distanță și apoi pe un stilou ținut la "
 "aceeași distanță de dumneavoastră ca și monitorul."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Priviți în întuneric"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
 msgstr "Numărul maxim de sugerări:"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "Micropauză"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-msgid "Micro-break ended"
-msgstr "Micropauza s-a încheiat"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break started"
-msgstr "Micropauza a început"
 
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
@@ -362,54 +329,54 @@ msgstr "Micropauză:"
 msgid "Mode"
 msgstr "_Mod"
 
-#: ../frontend/gtkmm/src/GUI.cc:1442 ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1440 ../frontend/gtkmm/src/GUI.cc:1444
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mod"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:335
 msgid "Mouse button clicks:"
 msgstr "Clicuri de butoane ale mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse movement:"
 msgstr "Mișcarea mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:322
 msgid "Mouse usage:"
 msgstr "Folosirea mausului:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Mișcați-vă ochii"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "Mișcați-vă umerii"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "Mișcați-vă umerii în sus și în jos"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:219
 msgid "Natural breaks taken"
 msgstr "Pauze naturale luate"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Pauze naturale luate"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "Înclinați capul pentru întinderea gâtului"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 msgid "Next exercise"
 msgstr "Următorul exercițiu"
 
@@ -423,8 +390,8 @@ msgstr "Următoarea pauză de odihnă în %s"
 msgid "No blocking"
 msgstr "Fără blocare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "No sounds"
 msgstr "Fără sunete"
 
@@ -434,7 +401,7 @@ msgstr "Fără sunete"
 msgid "Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
 msgstr "Numărul de exerciții:"
 
@@ -446,20 +413,20 @@ msgstr "_Deschide"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:184
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Opțiuni"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:234
 msgid "Overdue time"
 msgstr "Timp de amânare"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "Pauză"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause exercises"
 msgstr "Pune exercițiile pe pauză"
 
@@ -487,19 +454,14 @@ msgstr "Plasează cronometrele unul lângă altul"
 msgid "Placement:"
 msgstr "Plasament:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
 msgid "Play"
 msgstr "Redare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-msgid "Play sounds using built-in speaker"
-msgstr "Redă sunetele folosind difuzorul integrat"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "Redă sunetele folosind placa de sunet"
 
@@ -507,7 +469,7 @@ msgstr "Redă sunetele folosind placa de sunet"
 msgid "Please relax for a few seconds"
 msgstr "Relaxați-vă pentru câteva secunde"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:251
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
 msgid "Postpone time:"
 msgstr "Amânare cu:"
 
@@ -518,19 +480,19 @@ msgstr "Amânare cu:"
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr "Exercițiul precedent"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
 msgstr "Sugerează înainte de pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:214
 msgid "Prompted breaks taken"
 msgstr "Pauze sugerate care au fost luate"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/data/exercises/exercises.xml.in.h:18
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -548,7 +510,7 @@ msgid "Q_uiet"
 msgstr "_Silențios"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1444
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 #, fuzzy
 msgid "Quiet"
@@ -566,20 +528,20 @@ msgstr "_Închide"
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 msgid "Regard micro-breaks as activity"
 msgstr "Tratează micropauzele ca activitate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:209
 msgid "Repeated prompts"
 msgstr "Sugestii repetate"
 
-#: ../frontend/gtkmm/src/GUI.cc:1435
+#: ../frontend/gtkmm/src/GUI.cc:1433
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:79
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
@@ -588,32 +550,24 @@ msgstr "Pauză de odihnă"
 msgid "Rest break %s overdue"
 msgstr "Pauză de odihnă amânată cu %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Rest break ended"
-msgstr "Pauza de odihnă s-a încheiat"
-
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "Pauză de odihnă pentru %s"
-
-#: ../frontend/common/src/SoundPlayer.cc:98
-msgid "Rest break started"
-msgstr "Pauza de odihnă a început"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 msgid "Rest break:"
 msgstr "Pauză de odihnă:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "Continuă"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -624,7 +578,7 @@ msgstr ""
 "vă, apoi îndoiți-vă degetele spre podul palmei și mențineți această poziție "
 "a lor timp de 10 secunde. Repetați exercițiul încă o dată."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "Întindeți umărul și cotul"
 
@@ -633,12 +587,12 @@ msgstr "Întindeți umărul și cotul"
 msgid "Show"
 msgstr "Arată"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
@@ -672,7 +626,7 @@ msgid "Silent in %s"
 msgstr "Silețions în %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
 msgid "Sound Events"
 msgstr "Evenimente sonore"
 
@@ -681,11 +635,11 @@ msgstr "Evenimente sonore"
 msgid "Sound Options"
 msgstr "Opțiuni legate de sunet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Theme:"
 msgstr "Tema sunetelor:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Sound:"
 msgstr "Sunet:"
 
@@ -693,7 +647,7 @@ msgstr "Sunet:"
 msgid "Sounds"
 msgstr "Sunete"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/data/exercises/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -707,11 +661,11 @@ msgstr ""
 msgid "Start Workrave on Windows startup"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/data/exercises/exercises.xml.in.h:6
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -728,8 +682,8 @@ msgstr ""
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:156
 msgid "Statistics"
 msgstr "Statistici"
 
@@ -737,12 +691,12 @@ msgstr "Statistici"
 msgid "Status Window"
 msgstr "Fereastra de stare"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:158
 msgid "Suspend timer when inactive"
 msgstr "Suspendă cronometrul când e inactiv"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1442
+#: ../frontend/gtkmm/src/GUI.cc:1440
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 #, fuzzy
 msgid "Suspended"
@@ -756,32 +710,32 @@ msgstr "Definit de sistem"
 msgid "Take rest break now"
 msgstr "Luați o pauză de odihnă acum"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "The number of breaks you postponed"
 msgstr "Numărul de pauze amânate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you skipped"
 msgstr "Peste câte pauze ați sărit"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break when being prompted"
 msgstr "De câte ori ați luat o pauză când vi s-a sugerat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of times you took a break without being prompted"
 msgstr "De câte ori ați luat o pauză fără a vi se sugera"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -789,7 +743,7 @@ msgstr ""
 "De câte ori vi s-a sugerat o pauză, cu excepția sugestiilor repetate pentru "
 "aceeași pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
 
@@ -797,11 +751,11 @@ msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
 msgid "The status window stays always on top of other windows"
 msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
 msgid "The total computer usage"
 msgstr "Totalul folosirii calculatorului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -809,32 +763,32 @@ msgstr ""
 "Numărul total de mișcări de maus pe care le-ați fi făcut dacă ați fi mișcat "
 "mausul în linii drepte între clicuri"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
 msgid "The total number of keys pressed"
 msgstr "Numărul total de taste apăsate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "The total number of mouse button clicks"
 msgstr "Numărul total de clicuri de butoane ale mausului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total on-screen mouse movement"
 msgstr "Totalul mișcării pe ecran a mausului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total time this break was overdue"
 msgstr "Timpul total consumat de amânări"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
 msgid "The total time you were using the mouse"
 msgstr "Timpul total în care ați folosit mausul"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -846,17 +800,17 @@ msgstr ""
 "gâtul; relaxați-vă."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:365
+#: ../frontend/gtkmm/src/Menus.cc:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:228
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:229
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
@@ -867,19 +821,19 @@ msgstr "E timpul pentru o micropauză?"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
 msgstr "Cronometre"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "Exersați privitul într-un punct fix"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Întoarceți capul"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/data/exercises/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -887,7 +841,7 @@ msgstr ""
 "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-"
 "vă capul spre dreapta și țineți-l așa 2 secunde."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
 msgid "Use alternate monitor"
 msgstr ""
 
@@ -895,7 +849,7 @@ msgstr ""
 msgid "User interface"
 msgstr "Interfața cu utilizatorul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Volume:"
 msgstr "Volum:"
 
@@ -903,12 +857,12 @@ msgstr "Volum:"
 msgid "Wait"
 msgstr "Așteaptă"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:605
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
 msgid "Wavefiles"
 msgstr "Fișiere wav"
 
@@ -917,23 +871,23 @@ msgstr "Fișiere wav"
 msgid "Workrave failed to start"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ../frontend/gtkmm/src/GUI.cc:1307
+#: ../frontend/gtkmm/src/GUI.cc:1305
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1301
+#: ../frontend/gtkmm/src/GUI.cc:1299
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:292
+#: ../frontend/gtkmm/src/GUI.cc:289
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
@@ -1063,8 +1017,14 @@ msgstr "_Suspendat"
 #~ msgid "Allow incoming connections"
 #~ msgstr "Permite conexiunile din exterior"
 
+#~ msgid "Break ignored"
+#~ msgstr "Pauză ignorată"
+
 #~ msgid "Break in"
 #~ msgstr "Pauză în"
+
+#~ msgid "Break prompt"
+#~ msgstr "Pauză sugerată"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""
@@ -1132,6 +1092,9 @@ msgstr "_Suspendat"
 #~ msgid "Could not enable network operation."
 #~ msgstr "Nu se poate activa lucrul în rețea."
 
+#~ msgid "Custom"
+#~ msgstr "Particularizat"
+
 #~ msgid "Disabling network operation."
 #~ msgstr "Se dezactivează lucrul în rețea."
 
@@ -1156,6 +1119,15 @@ msgstr "_Suspendat"
 #~ "Introduceți numele gazdei și numărul portului calculatorului\n"
 #~ "din rețea la care doriți să vă conectați."
 
+#~ msgid "Exercise change"
+#~ msgstr "Schimbare de exercițiu"
+
+#~ msgid "Exercise ended"
+#~ msgstr "Exercițiul s-a încheiat"
+
+#~ msgid "Exercises ended"
+#~ msgstr "Exercițiile s-au încheiat"
+
 #~ msgid "Host name"
 #~ msgstr "Numele gazdei"
 
@@ -1167,6 +1139,12 @@ msgstr "_Suspendat"
 
 #~ msgid "I'm now master."
 #~ msgstr "Acum sunt clientul principal."
+
+#~ msgid "Micro-break ended"
+#~ msgstr "Micropauza s-a încheiat"
+
+#~ msgid "Micro-break started"
+#~ msgstr "Micropauza a început"
 
 #~ msgid "Network"
 #~ msgstr "Rețea"
@@ -1189,6 +1167,9 @@ msgstr "_Suspendat"
 
 #~ msgid "Password:"
 #~ msgstr "Parolă:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Redă sunetele folosind difuzorul integrat"
 
 #~ msgid "Port"
 #~ msgstr "Port"
@@ -1221,6 +1202,12 @@ msgstr "_Suspendat"
 #, fuzzy
 #~ msgid "Requesting master status from %s."
 #~ msgstr "Se cere statutul de client principal de la %s."
+
+#~ msgid "Rest break ended"
+#~ msgstr "Pauza de odihnă s-a încheiat"
+
+#~ msgid "Rest break started"
+#~ msgstr "Pauza de odihnă a început"
 
 #~ msgid "Server port:"
 #~ msgstr "Portul serverului:"

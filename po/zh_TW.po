@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-07-25 15:45+0200\n"
+"POT-Creation-Date: 2013-08-31 11:35+0200\n"
 "PO-Revision-Date: 2011-03-12 11:19+0800\n"
 "Last-Translator: Daniel YC Lin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -32,7 +32,7 @@ msgstr "%s%d:%02d 分"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d 時"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:395
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, 從 %s 到 %s"
@@ -47,7 +47,7 @@ msgstr "(找不到字型檔)"
 msgid "About..."
 msgstr "關於..."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:312
 msgid "Activity"
 msgstr "活動"
 
@@ -64,7 +64,7 @@ msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "後肩伸展"
 
@@ -82,53 +82,45 @@ msgstr "封鎖輸入與螢幕"
 msgid "Block mode:"
 msgstr "封鎖模式:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Break duration:"
 msgstr "休息時間:"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Break ignored"
-msgstr "忽略休息"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "休息 %s"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break prompt"
-msgstr "休息提示"
-
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:113
 msgid "Break prompting"
 msgstr "休息提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:203
 msgid "Break prompts"
 msgstr "休息提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks"
 msgstr "休息"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:229
 msgid "Breaks postponed"
 msgstr "休息延後次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "瀏覽歷史紀錄"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:417
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
 msgid "Choose a sound"
 msgstr "選擇一個音效"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/data/exercises/exercises.xml.in.h:14
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -137,18 +129,13 @@ msgstr ""
 "用您的手掌蓋住雙眼，這樣一來您可以繼續張開眼皮。現在打開雙眼，並注視手掌中的"
 "黑暗。將較於直接閉上雙眼，這樣可以讓您的眼睛得到比較好的休息。"
 
-#: ../frontend/common/src/SoundPlayer.cc:612
-msgid "Custom"
-msgstr "調整"
-
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Cycle time:"
 msgstr "週期:"
 
-#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 msgid "Daily limit"
 msgstr "每日限制"
 
@@ -166,16 +153,16 @@ msgstr "每日限制 %s"
 msgid "Daily limit:"
 msgstr "日限制"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:239
 msgid "Daily usage"
 msgstr "日使用量"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Date:"
 msgstr "日期:"
 
 #. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:150
 msgid "Delete all statistics history"
 msgstr ""
 
@@ -188,66 +175,54 @@ msgstr "自動消失 %s"
 msgid "Display"
 msgstr "顯示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:330
 msgid "Effective mouse movement:"
 msgstr "有效滑鼠移動距離:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:536
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:76
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
 msgid "Enable timer"
 msgstr "啟動計時器"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:302
 msgid "End exercises"
 msgstr "結束體操"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:631
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:631
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
 msgid "Event"
 msgstr "事件"
-
-#: ../frontend/common/src/SoundPlayer.cc:141
-msgid "Exercise change"
-msgstr "體操變更"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercise ended"
-msgstr "體操停止"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
+#: ../frontend/gtkmm/src/ExercisesDialog.cc:42
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercises ended"
-msgstr "體操停止"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "體操播放"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:627
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:627
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:617
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:617
 msgid "Files deleted!"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../frontend/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "指頭伸展"
 
@@ -260,11 +235,11 @@ msgstr "一般"
 msgid "Hide"
 msgstr "隱藏"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:621
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:621
 msgid "Info"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/data/exercises/exercises.xml.in.h:8
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -277,7 +252,7 @@ msgstr ""
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+#: ../frontend/data/exercises/exercises.xml.in.h:2
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -287,7 +262,7 @@ msgstr ""
 "保持一隻手水平伸直於胸前。將另外一隻手放在這隻手上，直到您在肩膀上感覺輕微的"
 "壓力。稍微保持這個姿勢，然後在另外一隻手重複這個動作。"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:339
 msgid "Keystrokes:"
 msgstr "鍵次:"
 
@@ -295,7 +270,7 @@ msgstr "鍵次:"
 msgid "Language:"
 msgstr "語言:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -304,7 +279,7 @@ msgstr ""
 "注視您的螢幕左上角落的邊框。沿著邊框注視到右上腳略。繼續到下個角落直到重複兩"
 "次。然後反向進行。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/data/exercises/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -316,29 +291,21 @@ msgstr ""
 "重複這個動作。如果您無法注視螢幕之後遙遠的距離，可以用一枝筆取代，並讓它保持"
 "與螢幕一樣遠的距離。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "注視黑暗"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
 msgstr "最多提示次數"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
 msgid "Micro-break"
 msgstr "暫停"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-msgid "Micro-break ended"
-msgstr "暫停結束"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break started"
-msgstr "暫停開始"
 
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
@@ -351,51 +318,51 @@ msgstr "暫停:"
 msgid "Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1442 ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1440 ../frontend/gtkmm/src/GUI.cc:1444
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:335
 msgid "Mouse button clicks:"
 msgstr "滑鼠點擊次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse movement:"
 msgstr "滑鼠移動距離:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:322
 msgid "Mouse usage:"
 msgstr "滑鼠使用:"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "眼球運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "肩膀運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "上下運動肩膀"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
 msgid "Mute sounds during rest break and daily limit"
 msgstr "當休息時關掉音效"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:219
 msgid "Natural breaks taken"
 msgstr "自行休息次數"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Natural rest break"
 msgstr "自行休息次數"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "傾斜脖子運動"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 msgid "Next exercise"
 msgstr "下一個體操"
 
@@ -409,8 +376,8 @@ msgstr "下次休息時間 %s"
 msgid "No blocking"
 msgstr "不封鎖"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "No sounds"
 msgstr "無音效"
 
@@ -420,7 +387,7 @@ msgstr "無音效"
 msgid "Normal"
 msgstr "一般(_N)"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
 msgstr "體操次數"
 
@@ -431,20 +398,20 @@ msgstr "開啟(_O)"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:184
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "選項"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:234
 msgid "Overdue time"
 msgstr "逾時時間"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "暫停"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:488
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause exercises"
 msgstr "暫停體操"
 
@@ -472,19 +439,14 @@ msgstr "並排計時器"
 msgid "Placement:"
 msgstr "配置"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
 msgid "Play"
 msgstr "播放(_P)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
-msgid "Play sounds using built-in speaker"
-msgstr "使用內建揚聲器播放"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:316
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "使用音效卡播放"
 
@@ -492,7 +454,7 @@ msgstr "使用音效卡播放"
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:251
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
 msgid "Postpone time:"
 msgstr "延後時限:"
 
@@ -503,19 +465,19 @@ msgstr "延後時限:"
 msgid "Preferences"
 msgstr "偏好"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr "前一個體操"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
 msgstr "休息前顯示提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:214
 msgid "Prompted breaks taken"
 msgstr "休息提示次數"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/data/exercises/exercises.xml.in.h:18
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -531,7 +493,7 @@ msgid "Q_uiet"
 msgstr "暫停(_u)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GUI.cc:1444
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
 msgid "Quiet"
 msgstr "安靜(_u)"
@@ -548,20 +510,20 @@ msgstr "離開(_Q)"
 msgid "Reading mode"
 msgstr "讀取模式"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 msgid "Regard micro-breaks as activity"
 msgstr "將暫停視為活動"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:209
 msgid "Repeated prompts"
 msgstr "重複提示"
 
-#: ../frontend/gtkmm/src/GUI.cc:1435
+#: ../frontend/gtkmm/src/GUI.cc:1433
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/GtkUtil.cc:168
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:79
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "休息"
 
@@ -570,32 +532,24 @@ msgstr "休息"
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Rest break ended"
-msgstr "休息停止"
-
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "休息 %s"
-
-#: ../frontend/common/src/SoundPlayer.cc:98
-msgid "Rest break started"
-msgstr "休息開始"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 msgid "Rest break:"
 msgstr "重置休息:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:481
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "回復"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume exercises"
 msgstr "恢復體操"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -604,7 +558,7 @@ msgstr ""
 "分開並伸展您的手指頭，直到感受到張力，然後保持這個姿勢十秒鐘。放鬆，然後彎曲"
 "手指頭關節，保持姿勢十秒鐘。重複這個動作。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "肩膀肌肉延伸運動"
 
@@ -613,12 +567,12 @@ msgstr "肩膀肌肉延伸運動"
 msgid "Show"
 msgstr "顯示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:152
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "顯示 '延後' 與 '略過' 按鈕"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:157
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "顯示 '延後' 與 '略過' 按鈕"
@@ -652,7 +606,7 @@ msgid "Silent in %s"
 msgstr "沉默 %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
 msgid "Sound Events"
 msgstr "音效事件"
 
@@ -661,11 +615,11 @@ msgstr "音效事件"
 msgid "Sound Options"
 msgstr "音效選項"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
 msgid "Sound Theme:"
 msgstr "音效主題:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:349
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 msgid "Sound:"
 msgstr "音效:"
 
@@ -673,7 +627,7 @@ msgstr "音效:"
 msgid "Sounds"
 msgstr "音效"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/data/exercises/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -686,11 +640,11 @@ msgstr ""
 msgid "Start Workrave on Windows startup"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/data/exercises/exercises.xml.in.h:6
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -705,8 +659,8 @@ msgstr ""
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:180
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:58
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:156
 msgid "Statistics"
 msgstr "統計"
 
@@ -714,12 +668,12 @@ msgstr "統計"
 msgid "Status Window"
 msgstr "狀態視窗"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:158
 msgid "Suspend timer when inactive"
 msgstr "未活動時暫停計時器"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1442
+#: ../frontend/gtkmm/src/GUI.cc:1440
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
 msgid "Suspended"
 msgstr "暫停(_S)"
@@ -732,38 +686,38 @@ msgstr "系統內定值"
 msgid "Take rest break now"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "The number of breaks you postponed"
 msgstr "延後休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break when being prompted"
 msgstr "經休息提示後休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of times you took a break without being prompted"
 msgstr "未經休息提示自行休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "這個數目是您休息的次數，不含重複同一次休息的重複提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "被重複提示休息次數"
 
@@ -771,41 +725,41 @@ msgstr "被重複提示休息次數"
 msgid "The status window stays always on top of other windows"
 msgstr "狀態視窗永遠保持在最上層"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
 msgid "The total computer usage"
 msgstr "總電腦使用時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr "滑鼠移動距離是紀錄兩次滑鼠點擊間的直線距離"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
 msgid "The total number of keys pressed"
 msgstr "鍵盤輸入的次數統計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "The total number of mouse button clicks"
 msgstr "總滑鼠點擊次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total on-screen mouse movement"
 msgstr "總記滑鼠於螢幕移動距離"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total time this break was overdue"
 msgstr "這次休息的總共時間逾時"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
 msgid "The total time you were using the mouse"
 msgstr "統計滑鼠使用時間"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid "This is your natural rest break."
 msgstr "您需要休息一下..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -815,17 +769,17 @@ msgstr ""
 "只要稍微走一走，伸展筋骨並放鬆幾分鐘。"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:365
+#: ../frontend/gtkmm/src/Menus.cc:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:228
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Time before end:"
 msgstr "工作時間限制："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:229
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 msgid "Time between breaks:"
 msgstr "間隔多久休息:"
 
@@ -836,19 +790,19 @@ msgstr "暫停一下?"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:223
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
 msgstr "計時器"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "訓練眼球焦點"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "轉動您的頭"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/data/exercises/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -856,7 +810,7 @@ msgstr ""
 "把您的頭轉向左邊，並停在那裡兩秒鐘。然後將您的頭轉回右邊，並也停在那邊兩秒"
 "鐘。"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:530
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
 msgid "Use alternate monitor"
 msgstr ""
 
@@ -864,7 +818,7 @@ msgstr ""
 msgid "User interface"
 msgstr "使用者介面"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Volume:"
 msgstr "音量:"
 
@@ -872,12 +826,12 @@ msgstr "音量:"
 msgid "Wait"
 msgstr "等待"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:605
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:601
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:605
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:429
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
 msgid "Wavefiles"
 msgstr "音效檔(.wav)"
 
@@ -886,23 +840,23 @@ msgstr "音效檔(.wav)"
 msgid "Workrave failed to start"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/gtkmm/src/GUI.cc:1307
+#: ../frontend/gtkmm/src/GUI.cc:1305
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1301
+#: ../frontend/gtkmm/src/GUI.cc:1299
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:292
+#: ../frontend/gtkmm/src/GUI.cc:289
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
@@ -1032,9 +986,15 @@ msgstr "暫停(_S)"
 #~ msgid "Allow incoming connections"
 #~ msgstr "允許網路連線進來"
 
+#~ msgid "Break ignored"
+#~ msgstr "忽略休息"
+
 #, fuzzy
 #~ msgid "Break in"
 #~ msgstr "休息 %s"
+
+#~ msgid "Break prompt"
+#~ msgstr "休息提示"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr "無法解析本身主機名稱。停止分散式計算。"
@@ -1103,6 +1063,9 @@ msgstr "暫停(_S)"
 #~ msgid "Credits"
 #~ msgstr "功勳"
 
+#~ msgid "Custom"
+#~ msgstr "調整"
+
 #~ msgid "Disabling network operation."
 #~ msgstr "停用網路功能。"
 
@@ -1124,6 +1087,15 @@ msgstr "暫停(_S)"
 #~ "Enter the host name and port number of a computer\n"
 #~ "in the network you wish to connect to."
 #~ msgstr "請輸入您想連接的電腦主機名稱與連接埠號。"
+
+#~ msgid "Exercise change"
+#~ msgstr "體操變更"
+
+#~ msgid "Exercise ended"
+#~ msgstr "體操停止"
+
+#~ msgid "Exercises ended"
+#~ msgstr "體操停止"
 
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
@@ -1160,6 +1132,12 @@ msgstr "暫停(_S)"
 #~ "保持您的頭筆直，然後讓您的下巴與地板平行。把您的頭轉回來(做雙下巴的動作)。"
 #~ "保持兩秒鐘並放鬆。然後用同一個方法做下個動作，再保持兩秒並放鬆。"
 
+#~ msgid "Micro-break ended"
+#~ msgstr "暫停結束"
+
+#~ msgid "Micro-break started"
+#~ msgstr "暫停開始"
+
 #~ msgid "Move the shoulder blades"
 #~ msgstr "肩胛骨運動"
 
@@ -1186,6 +1164,9 @@ msgstr "暫停(_S)"
 
 #~ msgid "Password:"
 #~ msgstr "密碼:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "使用內建揚聲器播放"
 
 #~ msgid "Port"
 #~ msgstr "連接埠"
@@ -1220,6 +1201,12 @@ msgstr "暫停(_S)"
 
 #~ msgid "Resets at:"
 #~ msgstr "重置:"
+
+#~ msgid "Rest break ended"
+#~ msgstr "休息停止"
+
+#~ msgid "Rest break started"
+#~ msgstr "休息開始"
 
 #~ msgid "Restbreak"
 #~ msgstr "休息"
