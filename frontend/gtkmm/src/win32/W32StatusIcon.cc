@@ -60,7 +60,7 @@ W32StatusIcon::~W32StatusIcon()
 void
 W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 {
-  TRACE_ENTER_MSG("W32StatusIcon::set");
+  TRACE_ENTER("W32StatusIcon::set");
   Glib::RefPtr<Gdk::Pixbuf> scaled;
 
   gint width  = pixbuf->get_width();
