@@ -804,12 +804,20 @@ config_gstreamer=no
 if test "x$enable_gstreamer" != "xno";
 then
     PKG_CHECK_MODULES([GSTREAMER],
+                      [gstreamer-1.0],
+                      [config_gstreamer=yes
+                       AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [])
+		     
+    if test "x$config_gstreamer" == "xno";
+    then
+        PKG_CHECK_MODULES([GSTREAMER],
                       [gstreamer-0.10],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
-                      [if test "x$enable_gstreamer" = "xyes"; then
+                         [if test "x$enable_gstreamer" = "xyes"; then
                            AC_MSG_ERROR([GStreamer development headers not found.])
                        fi])
+    fi
 fi
 
 
