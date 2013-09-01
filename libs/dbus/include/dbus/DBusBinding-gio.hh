@@ -1,6 +1,6 @@
 // DBusBinding-gio.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,24 +32,24 @@ namespace workrave
     class DBusBaseTypes
     {
     public:
-      void get_uint8(GVariant *v, guint8 *value);
-      void get_uint16(GVariant *v, guint16 *value);
-      void get_int16(GVariant *v, gint16 *value);
-      void get_uint32(GVariant *v, guint32 *value);
-      void get_int32(GVariant *v, gint32 *value);
-      void get_uint64(GVariant *v, guint64 *value);
-      void get_int64(GVariant *v, gint64 *value);
+      void get_uint8(GVariant *v, uint8_t *value);
+      void get_uint16(GVariant *v, uint16_t *value);
+      void get_int16(GVariant *v, int16_t *value);
+      void get_uint32(GVariant *v, uint32_t *value);
+      void get_int32(GVariant *v, int32_t *value);
+      void get_uint64(GVariant *v, uint64_t *value);
+      void get_int64(GVariant *v, int64_t *value);
       void get_bool(GVariant *v, bool *value);
       void get_double(GVariant *v, double *value);
       void get_string(GVariant *v, std::string *value);
 
-      GVariant *put_uint8(const guint8 *value);
-      GVariant *put_uint16(const guint16 *value);
-      GVariant *put_int16(const gint16 *value);
-      GVariant *put_uint32(const guint32 *value);
-      GVariant *put_int32(const gint32 *value);
-      GVariant *put_uint64(const guint64 *value);
-      GVariant *put_int64(const gint64 *value);
+      GVariant *put_uint8(const uint8_t *value);
+      GVariant *put_uint16(const uint16_t *value);
+      GVariant *put_int16(const int16_t *value);
+      GVariant *put_uint32(const uint32_t *value);
+      GVariant *put_int32(const int32_t *value);
+      GVariant *put_uint64(const uint64_t *value);
+      GVariant *put_int64(const int64_t *value);
       GVariant *put_bool(const bool *value);
       GVariant *put_double(const double *value);
       GVariant *put_string(const std::string *value);

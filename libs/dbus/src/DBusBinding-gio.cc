@@ -1,6 +1,6 @@
 // DBusBinding-gio.c
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ DBusBindingBase::~DBusBindingBase()
 }
 
 void
-DBusBaseTypes::get_uint8(GVariant *v, guint8 *value)
+DBusBaseTypes::get_uint8(GVariant *v, uint8_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -57,7 +57,7 @@ DBusBaseTypes::get_uint8(GVariant *v, guint8 *value)
 
 
 void
-DBusBaseTypes::get_uint16(GVariant *v, guint16 *value)
+DBusBaseTypes::get_uint16(GVariant *v, uint16_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -71,7 +71,7 @@ DBusBaseTypes::get_uint16(GVariant *v, guint16 *value)
 
 
 void
-DBusBaseTypes::get_int16(GVariant *v, gint16 *value)
+DBusBaseTypes::get_int16(GVariant *v, int16_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -84,7 +84,7 @@ DBusBaseTypes::get_int16(GVariant *v, gint16 *value)
 }
 
 void
-DBusBaseTypes::get_uint32(GVariant *v, guint32 *value)
+DBusBaseTypes::get_uint32(GVariant *v, uint32_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -98,7 +98,7 @@ DBusBaseTypes::get_uint32(GVariant *v, guint32 *value)
 
 
 void
-DBusBaseTypes::get_int32(GVariant *v, gint32 *value)
+DBusBaseTypes::get_int32(GVariant *v, int32_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
   
@@ -112,7 +112,7 @@ DBusBaseTypes::get_int32(GVariant *v, gint32 *value)
 
 
 void
-DBusBaseTypes::get_uint64(GVariant *v, guint64 *value)
+DBusBaseTypes::get_uint64(GVariant *v, uint64_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -126,7 +126,7 @@ DBusBaseTypes::get_uint64(GVariant *v, guint64 *value)
 
 
 void
-DBusBaseTypes::get_int64(GVariant *v, gint64 *value)
+DBusBaseTypes::get_int64(GVariant *v, int64_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
@@ -186,47 +186,47 @@ DBusBaseTypes::get_string(GVariant *v, std::string *value)
 
 
 GVariant *
-DBusBaseTypes::put_uint8(const guint8 *value)
+DBusBaseTypes::put_uint8(const uint8_t *value)
 {
 	return g_variant_new_byte(*value);
 }
 
 GVariant *
-DBusBaseTypes::put_uint16(const guint16 *value)
+DBusBaseTypes::put_uint16(const uint16_t *value)
 {
 	return g_variant_new_uint16(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int16(const gint16 *value)
+DBusBaseTypes::put_int16(const int16_t *value)
 {
 	return g_variant_new_int16(*value);
 }
 
 GVariant *
-DBusBaseTypes::put_uint32(const guint32 *value)
+DBusBaseTypes::put_uint32(const uint32_t *value)
 {
 	return g_variant_new_uint32(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int32(const gint32 *value)
+DBusBaseTypes::put_int32(const int32_t *value)
 {
 	return g_variant_new_int32(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_uint64(const guint64 *value)
+DBusBaseTypes::put_uint64(const uint64_t *value)
 {
 	return g_variant_new_uint64(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int64(const gint64 *value)
+DBusBaseTypes::put_int64(const int64_t *value)
 {
 	return g_variant_new_int64(*value);
 }

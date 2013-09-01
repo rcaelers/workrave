@@ -26,8 +26,10 @@
 
 #if defined(HAVE_DBUS_GIO)
 #include "dbus/DBus-gio.hh"
-#elif defined(HAVE_DBUS_FREEDESKTOP)
+#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
 #include "dbus/DBus-freedesktop.hh"
+#elif defined(HAVE_DBUS_QT5)
+#include "dbus/DBus-qt5.hh"
 #else
 
 namespace workrave

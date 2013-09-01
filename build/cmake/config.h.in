@@ -13,6 +13,7 @@
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_DBUS_GIO
 #cmakedefine HAVE_DBUS_FREEDESKTOP
+#cmakedefine HAVE_DBUS_QT5
 #cmakedefine DBUS_BACKEND
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_GSTREAMER

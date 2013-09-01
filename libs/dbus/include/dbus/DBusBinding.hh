@@ -28,6 +28,8 @@
 #include "DBusBinding-gio.hh"
 #elif defined(HAVE_DBUS_FREEDESKTOP)
 #include "DBusBinding-gio.hh"
+#elif defined(HAVE_DBUS_QT5)
+#include "DBusBinding-qt5.hh"
 #endif
 
 #endif // WORKRAVE_DBUS_DBUSBINDING_HH

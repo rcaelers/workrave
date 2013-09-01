@@ -10,6 +10,12 @@ if (HAVE_DBUS_FREEDESKTOP)
     src/DBusBinding-freedesktop.cc)
 endif()
 
+if (HAVE_DBUS_QT5)
+  set(SRC ${SRC}
+    src/DBus-qt5.cc
+    src/DBusBinding-qt5.cc)
+endif()
+
 include_directories(
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
   ${CMAKE_SOURCE_DIR}/libs/utils/include

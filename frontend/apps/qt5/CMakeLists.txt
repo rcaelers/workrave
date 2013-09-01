@@ -109,6 +109,7 @@ target_link_libraries(workrave-qt ${GLIB_LIBRARIES})
 #target_link_libraries(workrave-qt ${GDK_LIBRARIES})
 
 target_link_libraries(workrave-qt ${Qt5Widgets_LIBRARIES})
+target_link_libraries(workrave-qt ${Qt5DBus_LIBRARIES})
 target_link_libraries(workrave-qt ${Boost_LIBRARIES})
 
 #qt5_use_modules(helloworld Widgets Sql Network)

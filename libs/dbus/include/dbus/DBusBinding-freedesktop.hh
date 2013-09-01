@@ -1,6 +1,6 @@
 // DBusBinding.hh --- DBUS interface
 //
-// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,24 +46,24 @@ namespace workrave
     class DBusBaseTypes
     {
     public:
-      void get_uint8(DBusMessageIter *it, guint8 *value);
-      void get_uint16(DBusMessageIter *it, guint16 *value);
-      void get_int16(DBusMessageIter *it, gint16 *value);
-      void get_uint32(DBusMessageIter *it, guint32 *value);
-      void get_int32(DBusMessageIter *it, gint32 *value);
-      void get_uint64(DBusMessageIter *it, guint64 *value);
-      void get_int64(DBusMessageIter *it, gint64 *value);
+      void get_uint8(DBusMessageIter *it, uint8_t *value);
+      void get_uint16(DBusMessageIter *it, uint16_t *value);
+      void get_int16(DBusMessageIter *it, int16_t *value);
+      void get_uint32(DBusMessageIter *it, uint32_t *value);
+      void get_int32(DBusMessageIter *it, int32_t *value);
+      void get_uint64(DBusMessageIter *it, uint64_t *value);
+      void get_int64(DBusMessageIter *it, int64_t *value);
       void get_bool(DBusMessageIter *it, bool *value);
       void get_double(DBusMessageIter *it, double *value);
       void get_string(DBusMessageIter *it, std::string *value);
 
-      void put_uint8(DBusMessageIter *it, const guint8 *value);
-      void put_uint16(DBusMessageIter *it, const guint16 *value);
-      void put_int16(DBusMessageIter *it, const gint16 *value);
-      void put_uint32(DBusMessageIter *it, const guint32 *value);
-      void put_int32(DBusMessageIter *it, const gint32 *value);
-      void put_uint64(DBusMessageIter *it, const guint64 *value);
-      void put_int64(DBusMessageIter *it, const gint64 *value);
+      void put_uint8(DBusMessageIter *it, const uint8_t *value);
+      void put_uint16(DBusMessageIter *it, const uint16_t *value);
+      void put_int16(DBusMessageIter *it, const int16_t *value);
+      void put_uint32(DBusMessageIter *it, const uint32_t *value);
+      void put_int32(DBusMessageIter *it, const int32_t *value);
+      void put_uint64(DBusMessageIter *it, const uint64_t *value);
+      void put_int64(DBusMessageIter *it, const int64_t *value);
       void put_bool(DBusMessageIter *it, const bool *value);
       void put_double(DBusMessageIter *it, const double *value);
       void put_string(DBusMessageIter *it, const std::string *value);

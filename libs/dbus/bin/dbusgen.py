@@ -143,13 +143,13 @@ class InterfaceNode(NodeBase):
     def add_default_types(self):
         self.types['void']= DefaultTypeNode('void','i')
         self.types['int']= DefaultTypeNode('int','i')
-        self.types['uint8']= DefaultTypeNode('guint8', 'y')
-        self.types['int16']= DefaultTypeNode('gint16','n')
-        self.types['uint16']= DefaultTypeNode('guint16','q')
-        self.types['int32']= DefaultTypeNode('gint32','i')
-        self.types['uint32']= DefaultTypeNode('guint32','u')
-        self.types['int64']= DefaultTypeNode('gint64','x')
-        self.types['uint64']= DefaultTypeNode('guint64','t')
+        self.types['uint8']= DefaultTypeNode('uint8_t', 'y')
+        self.types['int16']= DefaultTypeNode('int16_t','n')
+        self.types['uint16']= DefaultTypeNode('uint16_t','q')
+        self.types['int32']= DefaultTypeNode('int32_t','i')
+        self.types['uint32']= DefaultTypeNode('uint32_t','u')
+        self.types['int64']= DefaultTypeNode('int64_t','x')
+        self.types['uint64']= DefaultTypeNode('uint64_t','t')
         self.types['string']= DefaultTypeNode('std::string','s')
         self.types['bool']= DefaultTypeNode('bool','b')
         self.types['double']= DefaultTypeNode('double','d')
@@ -498,7 +498,7 @@ if __name__ == '__main__':
     templates = []
     directory = os.path.dirname(sys.argv[0])
 
-    if options.backend != "gio" and options.backend != "freedesktop":
+    if options.backend not in ["gio", "freedesktop", "qt5"]:
         parser.error("Unsupported backend: " + options.backend)
 
     if options.language:
