@@ -89,9 +89,9 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
         }
 
       vector<string>::const_iterator loop = start;
-      while(1)
+      while (true)
         {
-          string actual_monitor_method = *loop;
+          actual_monitor_method = *loop;
           TRACE_MSG("Test " <<  actual_monitor_method);
           
           if (actual_monitor_method == "record")
