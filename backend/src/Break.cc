@@ -777,7 +777,7 @@ Break::prelude_window_update()
 bool
 Break::action_notify()
 {
-  TRACE_ENTER("GUI::action_notify");
+  TRACE_ENTER("Break::action_notify");
   delayed_abort = true;
   TRACE_EXIT();
   return false;   // false: kill listener.

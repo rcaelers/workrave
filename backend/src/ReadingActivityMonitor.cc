@@ -170,7 +170,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, IBreak::BreakEvent 
 bool
 ReadingActivityMonitor::action_notify()
 {
-  TRACE_ENTER("GUI::action_notify");
+  TRACE_ENTER("ReadingActivityMonitor::action_notify");
 
   state = Active;
   
