@@ -1,6 +1,6 @@
 // InputMonitor.hh ---  Base class of an activity monitor
 //
-// Copyright (C) 2007, 2008, 2010, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,7 @@
 #ifndef INPUTMONITOR_HH
 #define INPUTMONITOR_HH
 
-#include <stdlib.h>
 #include <list>
-
-#include "config/IConfigurator.hh"
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
@@ -31,8 +28,7 @@
 using namespace workrave::input_monitor;
 
 //!  Base for activity monitors.
-class InputMonitor
-  : public IInputMonitor
+class InputMonitor : public IInputMonitor
 {
 public:
   virtual void subscribe(IInputMonitorListener *listener);
@@ -45,10 +41,7 @@ protected:
   void fire_keyboard(bool repeat);
 
 private:
-  //!
   std::list<IInputMonitorListener *> listeners;
 };
-
-#include "InputMonitor.icc"
 
 #endif // INPUTMONITOR_HH

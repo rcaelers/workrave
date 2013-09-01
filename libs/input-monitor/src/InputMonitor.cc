@@ -1,6 +1,6 @@
 // InputMonitor.cc
 //
-// Copyright (C) 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,7 @@
 #include "config.h"
 #endif
 
-#include <assert.h>
-
 #include "InputMonitor.hh"
-
 
 void
 InputMonitor::subscribe(IInputMonitorListener *listener)
@@ -39,3 +36,42 @@ InputMonitor::unsubscribe(IInputMonitorListener *listener)
   listeners.remove(listener);
 }
 
+
+void
+InputMonitor::fire_action()
+{
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+    {
+      (*i)->action_notify();
+    }
+}
+
+
+void
+InputMonitor::fire_mouse(int x, int y, int wheel)
+{
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+    {
+      (*i)->mouse_notify(x, y, wheel);
+    }
+}
+
+
+void
+InputMonitor::fire_button(bool is_press)
+{
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+    {
+      (*i)->button_notify(is_press);
+    }
+}
+
+
+void
+InputMonitor::fire_keyboard(bool repeat)
+{
+  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+    {
+      (*i)->keyboard_notify(repeat);
+    }
+}
