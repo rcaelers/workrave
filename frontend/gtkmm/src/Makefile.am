@@ -174,6 +174,11 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/audio/include
 
+if PLATFORM_OS_OSX
+AM_CFLAGS = 		-xobjective-c
+AM_CPPFLAGS =		-xobjective-c++
+endif
+
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \

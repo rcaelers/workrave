@@ -6,9 +6,9 @@ dnl
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
 m4_define([workrave_micro_version], [1])
-m4_define([workrave_version_suffix], [0])
+m4_define([workrave_version_suffix], [2])
 m4_define([workrave_version],
-          [workrave_major_version.workrave_minor_version.workrave_micro_version])
+          [workrave_major_version.workrave_minor_version.workrave_micro_version.workrave_version_suffix])
 #m4_define([workrave_version],
 #          [workrave_major_version.workrave_minor_version])
 m4_define([workrave_resource_version],
@@ -27,7 +27,7 @@ AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules])
+AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules tar-ustar])
 dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.6.2
@@ -111,6 +111,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 AM_PROG_AR
 AC_PROG_OBJC
+AC_PROG_OBJCXX
 AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_INSTALL
@@ -326,7 +327,10 @@ AC_SUBST(OSX_CFLAGS)
 
 if test "x$platform_os_osx" = "xyes"
 then
-   dnl PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
+
+   PKG_CHECK_MODULES(IGE, gtk-mac-integration >= 2.0,
+        [AC_DEFINE(HAVE_GTK_MAC_INTEGRATION, 1, [Define if we have gtk-mac-integration 2.0+])],
+        [PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6, AC_DEFINE(HAVE_IGE_MAC_INTEGRATION, 1, [Define if we have ige-mac-integration 0.6+]))])
 
    dnl AC_CHECK_LIB(resolv, res_query)
 
@@ -335,13 +339,19 @@ then
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
+   AC_LANG_PUSH([Objective C++])
+   AC_CHECK_HEADER(QTKit/QTKit.h,
+        [AC_DEFINE(HAVE_QTKIT, 1, [Define if we have QTKit]) LIBS="$LIBS -framework QTKit" ],
+        [AC_DEFINE(HAVE_QUICKTIME, 1, [Define if we have QuickTime]) LIBS="$LIBS -framework QuickTime" ])
+   AC_LANG_POP()
+
     enable_gnome3=no
     enable_gconf=no
     enable_dbus=no
     enable_indicator=no
-    
+
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
-    LIBS="$LIBS -framework CoreServices -framework Cocoa -framework Foundation -lc++"
+    LIBS="$LIBS -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
     OSX_CFLAGS=""
 fi
 
@@ -741,10 +751,18 @@ then
     PKG_CHECK_MODULES([GSTREAMER],
                       [gstreamer-1.0],
                       [config_gstreamer=yes
+                       AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [ ])
+		     
+    if test "x$config_gstreamer" != "xyes";
+    then
+        PKG_CHECK_MODULES([GSTREAMER],
+                      [gstreamer-1.0],
+                      [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
-                      [if test "x$enable_gstreamer" = "xyes"; then
+                         [if test "x$enable_gstreamer" = "xyes"; then
                            AC_MSG_ERROR([GStreamer development headers not found.])
                        fi])
+    fi
 fi
 
 

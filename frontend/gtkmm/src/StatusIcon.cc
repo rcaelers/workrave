@@ -28,7 +28,12 @@
 #include <assert.h>
 
 #ifdef PLATFORM_OS_OSX
-//#include "ige-mac-dock.h"
+#if HAVE_IGE_MAC_INTEGRATION
+#include "ige-mac-dock.h"
+#endif
+#if HAVE_GTK_MAC_INTEGRATION
+#include "gtk-mac-dock.h"
+#endif
 #endif
 
 #ifdef PLATFORM_OS_WIN32
@@ -47,6 +52,7 @@
 
 StatusIcon::StatusIcon()
 {
+  TRACE_ENTER("StatusIcon::StatusIcon");
   // Preload icons
   const char *mode_files[] =
     {
@@ -65,12 +71,14 @@ StatusIcon::StatusIcon()
         }
       catch(...)
         {
+          TRACE_MSG("Failed to load " << file);
         }
     }
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
+  TRACE_EXIT();
 }
 
 StatusIcon::~StatusIcon()
@@ -144,10 +152,12 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
+  TRACE_ENTER_MSG("StatusIcon::set_operation_mode", (int)m);
   if (mode_icons[m])
     {
       status_icon->set(mode_icons[m]);
     }
+  TRACE_EXIT();
 }
 
 bool

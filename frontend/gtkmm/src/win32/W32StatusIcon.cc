@@ -1,6 +1,6 @@
 // W32StatusIcon.cc --- Window Notifcation Icon
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,7 @@ W32StatusIcon::~W32StatusIcon()
 void
 W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 {
+  TRACE_ENTER("W32StatusIcon::set");
   Glib::RefPtr<Gdk::Pixbuf> scaled;
 
   gint width  = pixbuf->get_width();
@@ -90,6 +91,7 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     {
       DestroyIcon(old_hicon);
     }
+  TRACE_EXIT();
 }
 
 

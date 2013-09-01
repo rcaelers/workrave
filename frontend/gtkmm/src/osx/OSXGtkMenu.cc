@@ -39,6 +39,26 @@
 
 using namespace std;
 
+#if HAVE_IGE_MAC_INTEGRATION
+#include "ige-mac-menu.h"
+#include "ige-mac-dock.h"
+#include "ige-mac-bundle.h"
+#endif
+
+#if HAVE_GTK_MAC_INTEGRATION
+#include "gtk-mac-menu.h"
+#include "gtk-mac-dock.h"
+#include "gtk-mac-bundle.h"
+#define IgeMacMenuGroup GtkMacMenuGroup
+#define IgeMacDock GtkMacDock
+#define ige_mac_menu_set_menu_bar gtk_mac_menu_set_menu_bar
+#define ige_mac_menu_set_quit_menu_item gtk_mac_menu_set_quit_menu_item
+#define ige_mac_menu_add_app_menu_group gtk_mac_menu_add_app_menu_group
+#define ige_mac_menu_add_app_menu_item gtk_mac_menu_add_app_menu_item
+#define ige_mac_dock_new gtk_mac_dock_new
+#endif
+
+
 //! Constructor.
 OSXGtkMenu::OSXGtkMenu(bool show_open)
   : MainGtkMenu(show_open)
@@ -59,22 +79,24 @@ OSXGtkMenu::popup(const guint button, const guint activate_time)
   (void) activate_time;
 }
 
-// void
-// OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
-// {
-//   (void) dock;
-//   Menus *menus = (Menus *) data;
-//   menus->on_menu_open_main_window();
-// }
+void
+OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
+{
+  (void) dock;
+  // current, segment fault
+  // Menus *menus = (Menus *) data;
+  // menus->on_menu_open_main_window();
+}
 
 
-// void
-// OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
-// {
-//   (void) dock;
-//   Menus *menus = (Menus *) data;
-//   menus->on_menu_quit();
-// }
+void
+OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
+{
+  (void) dock;
+  // current, segment fault
+  // Menus *menus = (Menus *) data;
+  // menus->on_menu_quit();
+}
 
 void
 OSXGtkMenu::create_ui()

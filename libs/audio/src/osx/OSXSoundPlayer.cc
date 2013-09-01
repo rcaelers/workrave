@@ -1,6 +1,6 @@
 // OSXSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2008, 2010, 2013 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,24 @@
 #include <strings.h>
 
 #include "OSXSoundPlayer.hh"
-#include "audio/SoundPlayer.hh"
+#include "SoundPlayer.hh"
 #include "Util.hh"
 
+#ifdef HAVE_QTKIT
+#include <Cocoa/Cocoa.h>
+#include <QTKit/QTKit.h>
+#endif
+
+#if HAVE_QUICKTIME
 #include <Carbon/Carbon.h>
 #include <QuickTime/QuickTime.h>
+#endif
 
 OSXSoundPlayer::OSXSoundPlayer()
 {
+#if HAVE_QUICKTIME
+  EnterMovies();
+#endif
 }
 
 
@@ -52,19 +62,24 @@ OSXSoundPlayer::capability(SoundCapability cap)
 
 
 void
-OSXSoundPlayer::play_sound(SoundEvent snd, int volume)
+OSXSoundPlayer::play_sound(SoundEvent snd)
 {
   (void) snd;
 }
 
 
 void
-OSXSoundPlayer::play_sound(string file, int volume)
+OSXSoundPlayer::play_sound(string file)
 {
   if (wav_file == NULL)
     {
       wav_file = strdup(file.c_str());
+#if HAVE_QUICKTIME
       start();
+#endif
+#if HAVE_QTKIT
+      run();
+#endif
     }
 }
 
@@ -72,5 +87,93 @@ OSXSoundPlayer::play_sound(string file, int volume)
 void
 OSXSoundPlayer::run()
 {
+#if HAVE_QUICKTIME
+  OSErr err;
+  FSSpec spec;
+  const char *fname = wav_file;
+  Movie movie;
+
+  FSRef fref;
+  err = FSPathMakeRef((const UInt8 *) fname, &fref, NULL);
+  if (err != noErr)
+    {
+      printf("FSPathMakeRef failed %d\n", err);
+      return;
+    }
+  err = FSGetCatalogInfo(&fref, kFSCatInfoNone, NULL, NULL, &spec, NULL);
+  if (err != noErr)
+    {
+      printf("FSGetCatalogInfo failed %d\n", err);
+      return;
+    }
+
+  short movieResFile = 0;
+  err = OpenMovieFile(&spec, &movieResFile, fsRdPerm);
+  if (err != noErr)
+    {
+      printf("OpenMovieFile failed %d\n", err);
+      return;
+    }
+
+  Str255 name;
+  err = NewMovieFromFile(&movie, movieResFile, NULL, name, 0, NULL);
+  if (err != noErr)
+    {
+      printf("NewMovieFromFile failed %d\n", err);
+      err = CloseMovieFile(movieResFile);
+      if (err != noErr)
+        {
+          printf("CloseMovieFile failed %d\n", err);
+        }
+      return;
+    }
+
+
+  // play the movie once thru
+  StartMovie(movie);
+
+  while (!IsMovieDone(movie))
+    {
+      MoviesTask(movie, 0);
+    }
+
+  DisposeMovie(movie);
+#endif
+#if HAVE_QTKIT
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  NSString* fileName = [NSString stringWithUTF8String: wav_file];
+  QTMovie* movie = [[QTMovie alloc] initWithFile:fileName error:nil];
+  [movie play];
+  [pool release];
+#endif
+  free((void*)wav_file);
+  wav_file = NULL;
+}
+
+
+bool OSXSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
+{
+  (void) snd;
+  (void) enabled;
+  return false;
+}
+
+void OSXSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
+{
+  (void) snd;
+  (void) enabled;
+}
+
+bool OSXSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+  return false;
+}
+
+void OSXSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
 }
 
