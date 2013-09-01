@@ -63,6 +63,8 @@ private:
 
   //
   XScreenSaverInfo *screen_saver_info;
+  Display *xdisplay;
+  Drawable root;
 
   boost::mutex mutex;
   boost::condition_variable cond;  

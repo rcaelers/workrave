@@ -60,7 +60,8 @@ XScreenSaverMonitor::init()
   int event_base;
   int error_base;
 
-  Display *xdisplay = static_cast<Display *>(Platform::get_default_display());
+  xdisplay = static_cast<Display *>(Platform::get_default_display());
+  root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
 
   Bool has_extension = False;
   if (xdisplay != NULL)
@@ -71,6 +72,7 @@ XScreenSaverMonitor::init()
 
   if (has_extension)
   {
+    
     screen_saver_info = XScreenSaverAllocInfo();
     monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&XScreenSaverMonitor::run, this)));
   }
@@ -100,8 +102,6 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
-  Display *xdisplay = static_cast<Display *>(Platform::get_default_display());
-  Drawable root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
 
   {
     boost::mutex::scoped_lock lock(mutex);
@@ -111,11 +111,12 @@ XScreenSaverMonitor::run()
           
         if (screen_saver_info->idle < 1000)
           {
+            TRACE_MSG("action");
             /* Notify the activity monitor */
             fire_action();
           }
-          
-        boost::system_time timeout=boost::get_system_time()+ boost::posix_time::milliseconds(1000);      
+
+        boost::system_time timeout = boost::get_system_time()+ boost::posix_time::milliseconds(1000);      
         cond.timed_wait(lock, timeout);
       }
   }
