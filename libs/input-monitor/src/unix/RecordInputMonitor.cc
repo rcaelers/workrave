@@ -187,15 +187,16 @@ RecordInputMonitor::error_trap_exit()
 
 
 void
-RecordInputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_key_event(XRecordInterceptData *data)
 {
   (void) data;
   fire_keyboard(false);
 }
 
 void
-RecordInputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_motion_event(XRecordInterceptData *data)
 {
+  TRACE_ENTER("RecordInputMonitor::handle_xrecord_motion_event");
   xEvent *event = (xEvent *)data->data;
 
   if (event != NULL)
@@ -209,10 +210,11 @@ RecordInputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *dat
     {
       fire_action();
     }
+  TRACE_EXIT();
 }
 
 void
-RecordInputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_button_event(XRecordInterceptData *data)
 {
   xEvent *event = (xEvent *)data->data;
 
@@ -227,18 +229,18 @@ RecordInputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *dat
 }
 
 void
-RecordInputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
+  static Time last_time = 0;
   static int detail = 0;
   static int state = 0;
 
   if (press)
     {
-      if (event->time != lastTime)
+      if (event->time != last_time)
         {
-          lastTime = event->time;
+          last_time = event->time;
 
           fire_keyboard(state == event->state && detail == event->detail);
 
@@ -254,14 +256,14 @@ RecordInputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordIn
 }
 
 void
-RecordInputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
+  static Time last_time = 0;
 
-  if (event->time != lastTime)
+  if (event->time != last_time)
     {
-      lastTime = event->time;
+      last_time = event->time;
       int x = event->root_x;
       int y = event->root_y;
 
@@ -270,14 +272,14 @@ RecordInputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptDa
 }
 
 void
-RecordInputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData *data)
+RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static Time lastTime = 0;
+  static Time last_time = 0;
 
-  if (event->time != lastTime)
+  if (event->time != last_time)
     {
-      lastTime = event->time;
+      last_time = event->time;
 
       fire_button(event->type == xi_event_base + XI_DeviceButtonPress);
     }
@@ -286,6 +288,7 @@ RecordInputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptDa
 void
 RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData * data)
 {
+  TRACE_ENTER("RecordInputMonitor::handle_xrecord_callback");
   xEvent *  event;
   RecordInputMonitor *monitor = (RecordInputMonitor *) closure;
 
@@ -302,29 +305,30 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
       event = (xEvent *)data->data;
 
       if (event->u.u.type == KeyPress)
-        monitor->handle_xrecord_handle_key_event(data);
+        monitor->handle_xrecord_key_event(data);
       else if (event->u.u.type == ButtonPress || event->u.u.type == ButtonRelease)
-        monitor->handle_xrecord_handle_button_event(data);
+        monitor->handle_xrecord_button_event(data);
       else if (event->u.u.type == MotionNotify)
-        monitor->handle_xrecord_handle_motion_event(data);
+        monitor->handle_xrecord_motion_event(data);
       else if (xi_event_base != 0)
         {
+          TRACE_MSG("msg " << (int)event->u.u.type << " " << xi_event_base << " " << XI_DeviceMotionNotify);
           if (event->u.u.type == xi_event_base + XI_DeviceMotionNotify)
             {
-              monitor->handle_xrecord_handle_device_motion_event(data);
+              monitor->handle_xrecord_device_motion_event(data);
             }
           else if (event->u.u.type == xi_event_base + XI_DeviceKeyPress)
             {
-              monitor->handle_xrecord_handle_device_key_event(true, data);
+              monitor->handle_xrecord_device_key_event(true, data);
             }
           else if (event->u.u.type == xi_event_base + XI_DeviceKeyRelease)
             {
-              monitor->handle_xrecord_handle_device_key_event(false, data);
+              monitor->handle_xrecord_device_key_event(false, data);
             }
           else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress ||
                    event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
             {
-              monitor->handle_xrecord_handle_device_button_event(data);
+              monitor->handle_xrecord_device_button_event(data);
             }
         }
       break;
@@ -334,6 +338,7 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
     {
       XRecordFreeData(data);
     }
+  TRACE_EXIT();
 }
 
 

@@ -62,12 +62,12 @@ private:
   //! Stop the capturing.
   bool stop_xrecord();
 
-  void handle_xrecord_handle_key_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_button_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data);
-  void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
+  void handle_xrecord_key_event(XRecordInterceptData *data);
+  void handle_xrecord_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_button_event(XRecordInterceptData *data);
+  void handle_xrecord_device_key_event(bool press, XRecordInterceptData *data);
+  void handle_xrecord_device_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_device_button_event(XRecordInterceptData *data);
 
   static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
 
