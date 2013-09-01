@@ -661,7 +661,7 @@ then
                         [config_gtk=yes
 			 config_gtk_version=2
                          AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
-fi
+   fi
 fi
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
@@ -814,14 +814,14 @@ config_gstreamer=no
 if test "x$enable_gstreamer" != "xno";
 then
     PKG_CHECK_MODULES([GSTREAMER],
-                      [gstreamer-1.0],
+                      [gstreamer-0.10],
                       [config_gstreamer=yes
-                       AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [])
+                       AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [ ])
 		     
-    if test "x$config_gstreamer" == "xno";
+    if test "x$config_gstreamer" != "xyes";
     then
         PKG_CHECK_MODULES([GSTREAMER],
-                      [gstreamer-0.10],
+                      [gstreamer-1.0],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
                          [if test "x$enable_gstreamer" = "xyes"; then
