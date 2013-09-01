@@ -147,7 +147,7 @@ Action::init(QMenu *submenu, QAction *before)
   
   action = new QAction(text, this);
 
-  action->setCheckable(type == MenuItemType::RADIO || type == MenuItemType::RADIO);
+  action->setCheckable(type == MenuItemType::RADIO || type == MenuItemType::CHECK);
   action->setChecked(checked);
       
   //action->setShortcuts(QKeySequence::New);
