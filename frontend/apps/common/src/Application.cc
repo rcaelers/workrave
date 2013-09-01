@@ -41,13 +41,13 @@
 #include "GUIConfig.hh"
 
 // DBus
-//#if defined(HAVE_DBUS)
-//#if defined(interface)
-//#undef interface
-//#endif
-//#include "dbus/DBus.hh"
-//#include "dbus/DBusException.hh"
-//#endif
+#if defined(HAVE_DBUS)
+#if defined(interface)
+#undef interface
+#endif
+#include "dbus/DBus.hh"
+#include "dbus/DBusException.hh"
+#endif
 
 using namespace std;
 using namespace workrave;
@@ -121,7 +121,7 @@ Application::main()
 
   init_core();
 
-  menus = Menus::create(shared_from_this(), toolkit, core);
+  menus = MenuModel::create(shared_from_this(), toolkit, core);
 
   // TODO: Toolkit
   toolkit->init(menus->get_top());
@@ -130,7 +130,7 @@ Application::main()
   //init_platform();
   init_sound_player();
   //init_multihead();
-  //init_dbus();
+  init_bus();
   init_session();
   //init_gui();
   //init_startup_warnings();
@@ -534,40 +534,40 @@ Application::init_core()
 //}
 
 
-//void
-//Application::init_dbus()
-//{
-//  workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
-//
-//  if (dbus && dbus->is_available())
-//    {
-//      if (dbus->is_running("org.workrave.Workrave"))
-//        {
-//          // Gtk::MessageDialog dialog(_("Workrave failed to start"),
-//          //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-//          // dialog.set_secondary_text(_("Is Workrave already running?"));
-//          // dialog.show();
-//          // dialog.run();
-//          exit(1);
-//        }
-//
-//      try
-//        {
-//          dbus->register_object_path("/org/workrave/Workrave/UI");
-//          dbus->register_service("org.workrave.Workrave");
-//          
-//          extern void init_DBusGUI(workrave::dbus::DBus *dbus);
-//          init_DBusGUI(dbus.get());
-//
-//          //dbus->connect("/org/workrave/Workrave/UI",
-//          //              "org.workrave.ControlInterface",
-//          //              menus);
-//        }
-//      catch (workrave::dbus::DBusException &)
-//        {
-//        }
-//    }
-//}
+void
+Application::init_bus()
+{
+ workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
+
+ if (dbus && dbus->is_available())
+   {
+     if (dbus->is_running("org.workrave.Workrave"))
+       {
+         // Gtk::MessageDialog dialog(_("Workrave failed to start"),
+         //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+         // dialog.set_secondary_text(_("Is Workrave already running?"));
+         // dialog.show();
+         // dialog.run();
+         exit(1);
+       }
+
+     try
+       {
+         dbus->register_object_path("/org/workrave/Workrave/UI");
+         dbus->register_service("org.workrave.Workrave");
+         
+         extern void init_DBusGUI(workrave::dbus::DBus *dbus);
+         init_DBusGUI(dbus.get());
+
+         dbus->connect("/org/workrave/Workrave/UI",
+                      "org.workrave.ControlInterface",
+                       menus.get());
+       }
+     catch (workrave::dbus::DBusException &)
+       {
+       }
+   }
+}
 
 //void
 //Application::init_startup_warnings()

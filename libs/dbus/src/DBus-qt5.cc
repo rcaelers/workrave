@@ -190,6 +190,14 @@ DBus::is_available() const
   return connection.isConnected();
 }
 
+bool
+DBus::is_running(const std::string &name) const
+{
+  QDBusConnectionInterface *i = connection.interface();
+  QDBusReply<QString>	reply = i->serviceOwner(QString::fromStdString(name));
+	return reply.isValid();
+}
+
 QString
 DBus::introspect(const QString &path) const
 {
@@ -198,9 +206,6 @@ DBus::introspect(const QString &path) const
   ObjectCIter object_it = objects.find(path.toStdString());
   if (object_it != objects.end())
     {
-      str = "<!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN' 'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>\n";
-      str += "<node name='" + path.toStdString()  + "'>\n";
-
       for (auto &interface_it : object_it->second) 
         {
           string interface_name = interface_it.first;
@@ -214,7 +219,7 @@ DBus::introspect(const QString &path) const
           str += binding->get_interface_introspect();
         }
     }
-      
+
   return str.c_str();
 }
 
@@ -238,4 +243,3 @@ DBus::handleMessage(const QDBusMessage &message, const QDBusConnection &connecti
 
   return success;
 }
-

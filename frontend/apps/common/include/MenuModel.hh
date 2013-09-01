@@ -1,4 +1,4 @@
-// Menus.cc
+// MenuModel.cc
 //
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MENUS_HH
-#define MENUS_HH
+#ifndef MENUMODEL_HH
+#define MENUMODEL_HH
 
 #include <boost/shared_ptr.hpp>
 
@@ -29,15 +29,15 @@
 
 #include "MenuModelItem.hh"
 
-class Menus
+class MenuModel
 {
 public:
-  typedef boost::shared_ptr<Menus> Ptr;
+  typedef boost::shared_ptr<MenuModel> Ptr;
 
-  static Menus::Ptr create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
+  static MenuModel::Ptr create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
 
-  Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
-  virtual ~Menus();
+  MenuModel(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
+  virtual ~MenuModel();
 
   const MenuItem::Ptr get_top() const;
 
@@ -45,7 +45,9 @@ private:
   void init();
   void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
-  
+
+public:
+  // FIXME: for dbus interface.
   void on_menu_open_main_window();
   void on_menu_restbreak_now();
   void on_menu_about();
@@ -57,6 +59,7 @@ private:
   void on_menu_suspend();
   void on_menu_quiet();
   void on_menu_reading();
+  void on_menu_reading(bool on);
 
   void on_operation_mode_changed(const workrave::OperationMode m);
   void on_usage_mode_changed(const workrave::UsageMode m);
@@ -74,4 +77,4 @@ private:
   workrave::ICore::Ptr core;
 };
 
-#endif // MENUS_HH
+#endif // MENUMODEL_HH

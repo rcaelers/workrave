@@ -14,4 +14,11 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/audio/include
   )
 
+if (HAVE_DBUS)
+  dbus_generate(DBusGUI ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
+  set(SRC ${SRC}
+    ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
+  )
+endif (HAVE_DBUS)
+
 add_library(workrave-frontend-apps-common STATIC ${SRC})

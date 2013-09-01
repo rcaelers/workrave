@@ -426,6 +426,7 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
       #else
       QVariant v_${arg.name} = put_${arg.type}(&p_${arg.name});
       #end if
+      reply << v_${arg.name};
     #end if
   #end for
 #end if
@@ -439,7 +440,7 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 
 #if method.condition != ''
 \#else
-  method.createErrorReply(QDBusError::UnknownMethod,
+  message.createErrorReply(QDBusError::UnknownMethod,
                           "This method is unavailable in current configuration");
 \#endif
 #end if

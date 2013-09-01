@@ -2,9 +2,9 @@
 
 <unit name="DBusGUI">
 
-  <interface name="org.workrave.ControlInterface" csymbol="Menus">
+  <interface name="org.workrave.ControlInterface" csymbol="MenuModel">
     <import>
-      <include name="Menus.hh"/>
+      <include name="MenuModel.hh"/>
     </import>
 
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
@@ -20,7 +20,8 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
-  <interface name="org.workrave.AppletInterface" csymbol="GenericDBusApplet">
+  <interface name="org.workrave.AppletInterface"
+	     csymbol="GenericDBusApplet" condition="defined(NOT_DEFINED)">
     <import>
       <include name="GenericDBusApplet.hh"/>
     </import>

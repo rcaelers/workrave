@@ -96,7 +96,7 @@ private:
   //void init_multihead_mem(int new_num_heads);
   //void init_multihead_desktop();
   //void init_gui();
-  //void init_dbus();
+  void init_bus();
   void init_session();
   //void init_startup_warnings();
 
@@ -133,7 +133,7 @@ private:
   workrave::ICore::Ptr core;
 
   //!
-  Menus::Ptr menus;
+  MenuModel::Ptr menus;
   
   //! The number of command line arguments.
   int argc;

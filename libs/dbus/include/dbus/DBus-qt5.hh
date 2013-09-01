@@ -56,6 +56,7 @@ namespace workrave
 
       bool is_available() const;
       bool is_owner() const;
+      bool is_running(const std::string &name) const;
 
       QDBusConnection get_connection() { return connection; }
 
