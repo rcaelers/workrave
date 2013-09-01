@@ -60,8 +60,8 @@ Menus::get_top() const
 void
 Menus::init()
 {
-  workrave::OperationMode mode = workrave::OPERATION_MODE_NORMAL;
-  workrave::UsageMode usage = workrave::USAGE_MODE_READING;
+  workrave::OperationMode mode = core->get_operation_mode();
+  workrave::UsageMode usage = core->get_usage_mode();
 
   MenuItem::Ptr item;
   
