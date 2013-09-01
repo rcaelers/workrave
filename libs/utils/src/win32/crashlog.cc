@@ -267,9 +267,6 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   fprintf(log, "compile date = %s\n", __DATE__);
   fprintf(log, "compile time = %s\n", __TIME__);
   fprintf(log, "features = "
-#ifdef HAVE_GDOME
-          "GDOME "
-#endif
 #ifndef NDEBUG
           "DEBUG "
 #endif

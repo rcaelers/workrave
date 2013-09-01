@@ -32,6 +32,10 @@
 #include "debug.hh"
 #include "Util.hh"
 
+#ifdef HAVE_GLIB
+#include <glib.h>
+#endif
+
 using namespace std;
 
 /* Updates language dependent attribute */

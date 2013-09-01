@@ -113,20 +113,6 @@ endif()
 include (GSettings)
 
 #----------------------------------------------------------------------------------------------------
-# GDome XML support
-
-option(WITH_XML "Enable XML Support" ON)
-
-if (WITH_XML)
-  pkg_check_modules(GDOME gdome2)
-  if (GDOME_FOUND)
-    set (HAVE_GDOME ON)
-  else()
-    set (WITH_XML OFF)
-  endif()
-endif()
-
-#----------------------------------------------------------------------------------------------------
 # Gnome
 
 option(WITH_GCONF "Enable GConf support" ON)

@@ -14,7 +14,7 @@ sources =		Configurator.cc \
 			GSettingsConfigurator.cc \
 	  		XmlConfigurator.cc
 
-libworkrave_config_la_SOURCES =  ${sources} ${sourcesgdome}
+libworkrave_config_la_SOURCES =  ${sources}
 
 if PLATFORM_OS_UNIX
 ldadd_platform = 	unix/libworkrave-config-unix.la

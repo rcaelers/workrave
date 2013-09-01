@@ -32,11 +32,6 @@ include_directories(
 
 add_library(workrave-libs-config STATIC ${SRC})
 
-if (HAVE_GDOME)
-  link_directories(${GDOME_LIBPATH})
-  target_link_libraries(workrave-libs-config ${GDOME_LIBRARIES})
-endif()
-
 if (HAVE_GCONF)
   link_directories(${GCONF_LIBPATH})
   target_link_libraries(workrave-libs-config ${GCONF_LIBRARIES})

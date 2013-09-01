@@ -290,7 +290,6 @@ SoundTheme::load_sound_theme(const string &themefilename, Theme &theme)
 
       soundpath = canonical(soundpath);
 
-      std::cout << "sound " << snd->id << " " << soundpath.string();
       if (is_current)
         {
           string current = "";

@@ -13,7 +13,6 @@ endif
 
 libworkrave_utils_la_SOURCES = \
 			TimeSource.cc \
-			Timer.cc \
 			Util.cc \
 			debug.cc \
 			Platform.cc \

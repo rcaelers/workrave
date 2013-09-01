@@ -20,9 +20,9 @@
 #ifndef RECORDINPUTMONITOR_HH
 #define RECORDINPUTMONITOR_HH
 
-#include <string>
-
 #include <boost/thread.hpp>
+
+#include <string>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>

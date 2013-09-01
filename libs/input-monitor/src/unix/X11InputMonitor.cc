@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include "X11InputMonitor.hh"
+
 #include "debug.hh"
 
 #include <math.h>
@@ -64,7 +66,6 @@
 #include <X11/extensions/XIproto.h>
 #include <X11/Xos.h>
 
-#include "X11InputMonitor.hh"
 
 #include "input-monitor/IInputMonitorListener.hh"
 

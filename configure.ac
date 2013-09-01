@@ -43,10 +43,6 @@ dnl
 dnl Command line options.
 dnl
 
-AC_ARG_ENABLE(xml,
-              [AS_HELP_STRING([--disable-xml],
-                              [compile without XML support])])
-
 AC_ARG_ENABLE(gconf,
               [AS_HELP_STRING([--enable-gconf],
                               [compile with Gnome gconf2 support])])
@@ -144,6 +140,7 @@ AC_COMPILE_STDCXX_11
 AX_BOOST_BASE([1.49])
 AX_BOOST_THREAD
 AX_BOOST_SYSTEM
+AX_BOOST_FILESYSTEM
 AX_BOOST_PROGRAM_OPTIONS
 
 dnl
@@ -291,7 +288,6 @@ then
 
     enable_gconf=no
     enable_gnome3=no
-    enable_xml=no
     enable_indicator=no
     
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
@@ -694,26 +690,6 @@ AM_CONDITIONAL(HAVE_GCONF, test "x$config_gconf" = "xyes")
 
 
 dnl
-dnl XML
-dnl
-
-config_xml=no
-
-if test "x$enable_xml" != "xno"
-then
-    PKG_CHECK_MODULES([GDOME],
-                      [gdome2],
-                      [config_xml=yes
-                       AC_DEFINE([HAVE_GDOME], ,[Define if GDome is available])],
-                      [if test "x$enable_xml" = "xyes"; then
-                         AC_MSG_ERROR([GDome2 development headers not found.])
-                       fi])
-fi
-
-AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
-
-
-dnl
 dnl GIO networking
 dnl
 
@@ -1005,7 +981,6 @@ echo "                           OS :   ${platform_os_name}"
 echo ""
 echo "          GConf configuration :   ${config_gconf}"
 echo "      GSettings configuration :   ${config_gsettings}"
-echo "            XML configuration :   ${config_xml}"
 echo ""
 if test "$platform_os_unix" = "yes"; then
 echo "            Activity Monitors :   ${enable_monitors}"
