@@ -28,7 +28,12 @@
 #include <assert.h>
 
 #ifdef PLATFORM_OS_OSX
+#if HAVE_IGE_MAC_INTEGRATION
 #include "ige-mac-dock.h"
+#endif
+#if HAVE_GTK_MAC_INTEGRATION
+#include "gtk-mac-dock.h"
+#endif
 #endif
 
 #ifdef PLATFORM_OS_WIN32

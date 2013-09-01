@@ -73,7 +73,7 @@ static gboolean sm_client_osx_end_session (EggSMClient         *client,
 					   EggSMClientEndStyle  style,
 					   gboolean  request_confirmation);
 
-static pascal OSErr quit_requested (const AppleEvent *, AppleEvent *, long);
+static pascal OSErr quit_requested (const AppleEvent *, AppleEvent *, SRefCon);
 
 G_DEFINE_TYPE (EggSMClientOSX, egg_sm_client_osx, EGG_TYPE_SM_CLIENT)
 
@@ -105,7 +105,7 @@ sm_client_osx_startup (EggSMClient *client,
 {
   AEInstallEventHandler (kCoreEventClass, kAEQuitApplication,
 			 NewAEEventHandlerUPP (quit_requested),
-			 (long)GPOINTER_TO_SIZE (client), false);
+			 (SRefCon) client, false);
 }
 
 static gboolean
@@ -116,10 +116,10 @@ idle_quit_requested (gpointer client)
 }
 
 static pascal OSErr
-quit_requested (const AppleEvent *aevt, AppleEvent *reply, long refcon)
+quit_requested (const AppleEvent *aevt, AppleEvent *reply, SRefCon refcon)
 {
-  EggSMClient *client = (EggSMClient *) GSIZE_TO_POINTER ((gsize)refcon);
-  EggSMClientOSX *osx = (EggSMClientOSX *)GSIZE_TO_POINTER ((gsize)refcon);
+  EggSMClient *client = (EggSMClient *) refcon;
+  EggSMClientOSX *osx = (EggSMClientOSX *) refcon;
 
   g_return_val_if_fail (!osx->quit_requested, userCanceledErr);
 
@@ -138,9 +138,9 @@ quit_requested (const AppleEvent *aevt, AppleEvent *reply, long refcon)
 }
 
 static pascal OSErr
-quit_requested_resumed (const AppleEvent *aevt, AppleEvent *reply, long refcon)
+quit_requested_resumed (const AppleEvent *aevt, AppleEvent *reply, SRefCon refcon)
 {
-  EggSMClientOSX *osx = (EggSMClientOSX *)GSIZE_TO_POINTER ((gsize)refcon);
+  EggSMClientOSX *osx = (EggSMClientOSX *) refcon;
 
   osx->quit_requested = FALSE;
   return osx->quitting ? noErr : userCanceledErr;
@@ -156,7 +156,7 @@ idle_will_quit (gpointer client)
    */
   AEResumeTheCurrentEvent (&osx->quit_event, &osx->quit_reply,
 			   NewAEEventHandlerUPP (quit_requested_resumed),
-			   (long)GPOINTER_TO_SIZE (client));
+			   (SRefCon) client);
   AEDisposeDesc (&osx->quit_event);
   AEDisposeDesc (&osx->quit_reply);
 

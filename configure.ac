@@ -323,7 +323,10 @@ AC_SUBST(OSX_CFLAGS)
 
 if test "x$platform_os_osx" = "xyes"
 then
-   PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
+
+   PKG_CHECK_MODULES(IGE, gtk-mac-integration >= 2.0,
+        [AC_DEFINE(HAVE_GTK_MAC_INTEGRATION, 1, [Define if we have gtk-mac-integration 2.0+])],
+        [PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6, AC_DEFINE(HAVE_IGE_MAC_INTEGRATION, 1, [Define if we have ige-mac-integration 0.6+]))])
 
    AC_CHECK_LIB(resolv, res_query)
 
@@ -332,12 +335,18 @@ then
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
+   AC_LANG_PUSH([Objective C++])
+   AC_CHECK_HEADER(QTKit/QTKit.h,
+        [AC_DEFINE(HAVE_QTKIT, 1, [Define if we have QTKit]) LIBS="$LIBS -framework QTKit" ],
+        [AC_DEFINE(HAVE_QUICKTIME, 1, [Define if we have QuickTime]) LIBS="$LIBS -framework QuickTime" ])
+   AC_LANG_POP()
+
     config_gnome2=no
     config_gnome3=no
     config_gconf=no
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
-    LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
+    LIBS="$LIBS -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
     OSX_CFLAGS=""
 fi
 
