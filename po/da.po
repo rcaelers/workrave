@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-08-31 11:35+0200\n"
+"POT-Creation-Date: 2013-09-01 19:56+0200\n"
 "PO-Revision-Date: 2011-02-16 19:20+0100\n"
 "Last-Translator: Christian Vejlbo <cve@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "%s%d:%02d:%02d timer"
 msgid "%s, from %s to %s"
 msgstr "%s, fra %s til %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
 msgid "(font not available)"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr "Om..."
 msgid "Activity"
 msgstr "Aktivitet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
@@ -71,17 +71,17 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Skulder stræ"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input"
 msgstr "Bloker bruger input"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "Bloker alt"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "Blokeringsindstilling:"
 
@@ -119,7 +119,7 @@ msgstr "Oversprungne pauser"
 msgid "Browse history"
 msgstr "Historik"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Ingen lyde"
@@ -184,7 +184,7 @@ msgstr "Vis"
 msgid "Effective mouse movement:"
 msgstr "Effektiv bevægelse af mus"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -204,7 +204,7 @@ msgstr "Øvelser"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 msgid "Event"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Udstrækning af fingre"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "General"
 msgstr "Generelt"
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "Tastetryk:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
 msgid "Language:"
 msgstr ""
 
@@ -360,7 +360,7 @@ msgstr "Bevæg skuldrene"
 msgid "Move the shoulders up and down"
 msgstr "Bevæg skuldrene op og ned"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Placer hvilepauser og daglig grænse på samme tidspunkt"
@@ -388,13 +388,13 @@ msgstr "Antal øvelser:"
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "Ingen"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
 msgstr "Ingen lyde"
 
@@ -416,7 +416,7 @@ msgstr "Å_ben"
 
 #  Options
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Muligheder"
@@ -425,12 +425,12 @@ msgstr "Muligheder"
 msgid "Overdue time"
 msgstr "Overskredet tid"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Pause"
 msgstr "Pause"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:486
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Antal øvelser:"
@@ -459,14 +459,14 @@ msgstr "Placér tiderne ved siden af hinanden"
 msgid "Placement:"
 msgstr "Placering:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:392
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:410
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:440
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using sound card"
 msgstr "Afspil lyde vha. lydkort"
 
@@ -479,7 +479,7 @@ msgid "Postpone time:"
 msgstr "Udsættelses-periode:"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -563,11 +563,11 @@ msgstr "Hvilepause i %s"
 msgid "Rest break:"
 msgstr "Hvilepause:"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Resume"
 msgstr "Genoptag"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:484
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Antal øvelser:"
@@ -615,11 +615,11 @@ msgstr "Vis kun første gang perioden udløber"
 msgid "Show status window"
 msgstr "Vis status vindue"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:333
 #, fuzzy
 msgid "Shut _down"
 msgstr "Luk _ned"
@@ -630,30 +630,30 @@ msgid "Silent in %s"
 msgstr "Tavs om %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:361
 msgid "Sound Events"
 msgstr ""
 
 #  Options
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 #, fuzzy
 msgid "Sound Options"
 msgstr "Muligheder"
 
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:369
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Lyd:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Sound:"
 msgstr "Lyd:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 #, fuzzy
 msgid "Sounds"
 msgstr "Lyd:"
@@ -668,7 +668,7 @@ msgstr ""
 "sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen "
 "med venstre arm."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
@@ -697,7 +697,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistik"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "Status Vindue"
 
@@ -712,7 +712,7 @@ msgstr "Suspender tidstællere ved inaktivitet"
 msgid "Suspended"
 msgstr "_Suspenderet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr ""
 
@@ -833,7 +833,7 @@ msgstr "Tid til en mikropause ?"
 
 #  Notebook
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
@@ -855,15 +855,15 @@ msgstr ""
 "Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter "
 "hovedet mod højre i to sekunder."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 msgid "User interface"
 msgstr "Brugergrænseflade"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
 msgid "Volume:"
 msgstr ""
 
@@ -876,7 +876,7 @@ msgstr "Vent"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:425
 msgid "Wavefiles"
 msgstr ""
 
@@ -941,7 +941,7 @@ msgstr "_Øvelser"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:310
 #, fuzzy
 msgid "_Lock"
 msgstr "_Lås"
@@ -969,7 +969,7 @@ msgstr "_Normal"
 msgid "_Open"
 msgstr "Å_ben"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:372
+#: ../frontend/gtkmm/src/BreakWindow.cc:371
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Udsæt"
@@ -1003,7 +1003,7 @@ msgstr "_Hvilepause"
 msgid "_Restbreak"
 msgstr "_Hvilepause"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:355
+#: ../frontend/gtkmm/src/BreakWindow.cc:354
 #, fuzzy
 msgid "_Skip"
 msgstr "_Spring over"

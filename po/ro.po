@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-08-31 11:35+0200\n"
+"POT-Creation-Date: 2013-09-01 19:56+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr "%s%d:%02d:%02d ore"
 msgid "%s, from %s to %s"
 msgstr "%s, de la %s la %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
 msgid "(font not available)"
 msgstr "(font indisponibil)"
 
@@ -51,7 +51,7 @@ msgstr "Despre..."
 msgid "Activity"
 msgstr "Activitate"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
@@ -68,17 +68,17 @@ msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 msgid "Backward shoulder stretch"
 msgstr "Întindeți umerii în spate"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input"
 msgstr "Blochează dispozitivele de intrare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "Blochează dispozitivele de intrare și ecranul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "Mod de blocare:"
 
@@ -116,7 +116,7 @@ msgstr "Pauze peste care s-a sărit"
 msgid "Browse history"
 msgstr "Răsfoiește istoricul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
 msgid "Choose a sound"
 msgstr "Alegeți un sunet"
 
@@ -181,7 +181,7 @@ msgstr "Afișare"
 msgid "Effective mouse movement:"
 msgstr "Mișcarea efectivă a mausului:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -200,7 +200,7 @@ msgstr "Încheie exercițiile"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 msgid "Event"
 msgstr "Eveniment"
 
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Întindeți-vă degetele"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "General"
 msgstr "General"
 
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "Taste apăsate:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
 msgid "Language:"
 msgstr "Limbă:"
 
@@ -358,7 +358,7 @@ msgstr "Mișcați-vă umerii"
 msgid "Move the shoulders up and down"
 msgstr "Mișcați-vă umerii în sus și în jos"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
@@ -385,13 +385,13 @@ msgstr "Următorul exercițiu"
 msgid "Next rest break in %s"
 msgstr "Următoarea pauză de odihnă în %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "Fără blocare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
 msgstr "Fără sunete"
 
@@ -412,7 +412,7 @@ msgid "Open"
 msgstr "_Deschide"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Opțiuni"
@@ -421,12 +421,12 @@ msgstr "Opțiuni"
 msgid "Overdue time"
 msgstr "Timp de amânare"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Pause"
 msgstr "Pauză"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:486
 msgid "Pause exercises"
 msgstr "Pune exercițiile pe pauză"
 
@@ -454,14 +454,14 @@ msgstr "Plasează cronometrele unul lângă altul"
 msgid "Placement:"
 msgstr "Plasament:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:392
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:410
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:440
 msgid "Play"
 msgstr "Redare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using sound card"
 msgstr "Redă sunetele folosind placa de sunet"
 
@@ -474,7 +474,7 @@ msgid "Postpone time:"
 msgstr "Amânare cu:"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -559,11 +559,11 @@ msgstr "Pauză de odihnă pentru %s"
 msgid "Rest break:"
 msgstr "Pauză de odihnă:"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Resume"
 msgstr "Continuă"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:484
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
 
@@ -611,11 +611,11 @@ msgstr "Arată numai când cronometrul acesta e primul care expiră"
 msgid "Show status window"
 msgstr "Arată fereastra de stare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:333
 #, fuzzy
 msgid "Shut _down"
 msgstr "_Închidere"
@@ -626,24 +626,24 @@ msgid "Silent in %s"
 msgstr "Silețions în %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:361
 msgid "Sound Events"
 msgstr "Evenimente sonore"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Sound Options"
 msgstr "Opțiuni legate de sunet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound Theme:"
 msgstr "Tema sunetelor:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Sound:"
 msgstr "Sunet:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 msgid "Sounds"
 msgstr "Sunete"
 
@@ -657,7 +657,7 @@ msgstr ""
 "înainte și de 4 ori înapoi după care relaxați-vă pentru câteva secunde. "
 "Repetați cu brațul stâng."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Start Workrave on Windows startup"
 msgstr "Pornește Workrave odată cu Windows"
 
@@ -687,7 +687,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "Fereastra de stare"
 
@@ -702,7 +702,7 @@ msgstr "Suspendă cronometrul când e inactiv"
 msgid "Suspended"
 msgstr "_Suspendat"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr "Definit de sistem"
 
@@ -819,7 +819,7 @@ msgid "Time for a micro-break?"
 msgstr "E timpul pentru o micropauză?"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
@@ -841,15 +841,15 @@ msgstr ""
 "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-"
 "vă capul spre dreapta și țineți-l așa 2 secunde."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 msgid "User interface"
 msgstr "Interfața cu utilizatorul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
 msgid "Volume:"
 msgstr "Volum:"
 
@@ -862,7 +862,7 @@ msgstr "Așteaptă"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:425
 msgid "Wavefiles"
 msgstr "Fișiere wav"
 
@@ -928,7 +928,7 @@ msgstr "_Exerciții"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:310
 #, fuzzy
 msgid "_Lock"
 msgstr "_Blochează"
@@ -955,7 +955,7 @@ msgstr "_Normal"
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:372
+#: ../frontend/gtkmm/src/BreakWindow.cc:371
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Amână"
@@ -989,7 +989,7 @@ msgstr "_Pauză de odihnă"
 msgid "_Restbreak"
 msgstr "_Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:355
+#: ../frontend/gtkmm/src/BreakWindow.cc:354
 #, fuzzy
 msgid "_Skip"
 msgstr "_Sari peste"

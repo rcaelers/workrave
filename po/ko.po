@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-08-31 11:35+0200\n"
+"POT-Creation-Date: 2013-09-01 19:56+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -34,7 +34,7 @@ msgstr "%s%d 시간 %02d 분 %02d 초"
 msgid "%s, from %s to %s"
 msgstr "%s,  %s 부터 %s 까지"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
 msgid "(font not available)"
 msgstr "(글꼴을 사용할 수 없음)"
 
@@ -48,7 +48,7 @@ msgstr "제품정보..."
 msgid "Activity"
 msgstr "활동"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "애플릿"
 
@@ -65,17 +65,17 @@ msgstr "반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 
 msgid "Backward shoulder stretch"
 msgstr "뒤쪽으로 어깨를 뻗습니다."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input"
 msgstr "입력 차단"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "입력과 화면 차단"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "차단 방식"
 
@@ -113,7 +113,7 @@ msgstr "건너뛴 휴식"
 msgid "Browse history"
 msgstr "탐색 기록"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
 msgid "Choose a sound"
 msgstr "소리 선택"
 
@@ -177,7 +177,7 @@ msgstr "표시"
 msgid "Effective mouse movement:"
 msgstr "의미있는 마우스 움직임:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -196,7 +196,7 @@ msgstr "운동 종료"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 msgid "Event"
 msgstr "활동"
 
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "손가락을 뻗습니다"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "General"
 msgstr "일반"
 
@@ -265,7 +265,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "키입력:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
 msgid "Language:"
 msgstr "언어:"
 
@@ -347,7 +347,7 @@ msgstr "어깨를 움직입니다"
 msgid "Move the shoulders up and down"
 msgstr "어깨를 위 아래로 움직입니다"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Mute sounds during rest break and daily limit"
 msgstr "정규 휴식과 일일 제한 동안에는 소리 죽이기"
 
@@ -372,13 +372,13 @@ msgstr "다음 운동"
 msgid "Next rest break in %s"
 msgstr "다음 휴식은 %s 후입니다"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "차단하지 않음"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
 msgstr "소리사용 안함"
 
@@ -399,7 +399,7 @@ msgid "Open"
 msgstr "열기(_O)"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "선택사항"
@@ -408,12 +408,12 @@ msgstr "선택사항"
 msgid "Overdue time"
 msgstr "경과된 시간"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Pause"
 msgstr "잠시 대기"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:486
 msgid "Pause exercises"
 msgstr "운동 잠시 중지"
 
@@ -441,14 +441,14 @@ msgstr "시간 조절(기)를 서로 옆에 둠"
 msgid "Placement:"
 msgstr "위치 :"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:392
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:410
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:440
 msgid "Play"
 msgstr "재생"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using sound card"
 msgstr "사운드카드를 사용하여 소리 재생"
 
@@ -461,7 +461,7 @@ msgid "Postpone time:"
 msgstr "연기 시간:"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -543,11 +543,11 @@ msgstr "%s 동안 휴식"
 msgid "Rest break:"
 msgstr "휴식:"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Resume"
 msgstr "다시 시작"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:484
 msgid "Resume exercises"
 msgstr "운동 다시 시작"
 
@@ -594,11 +594,11 @@ msgstr "시간조절(기)가 처음 설정된 때만 표시"
 msgid "Show status window"
 msgstr "상태 창에 표시"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
 msgid "Show system tray icon"
 msgstr "시계표시줄에 아이콘 표시"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:333
 #, fuzzy
 msgid "Shut _down"
 msgstr "_종료"
@@ -609,24 +609,24 @@ msgid "Silent in %s"
 msgstr "%s 경과 후 잠잠잠"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:361
 msgid "Sound Events"
 msgstr "소리 효과"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Sound Options"
 msgstr "소리 선택사항"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound Theme:"
 msgstr "소리 테마:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Sound:"
 msgstr "소리:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 msgid "Sounds"
 msgstr "소리"
 
@@ -640,7 +640,7 @@ msgstr ""
 "로 4회 하고, 뒤쪽으로 4회 합니다. 그리고 잠깐 긴장을 풀고. 왼쪽 팔로 반복합니"
 "다."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Start Workrave on Windows startup"
 msgstr "윈도우즈 시작시 Workrave 시작"
 
@@ -669,7 +669,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "통계"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "상태 창"
 
@@ -683,7 +683,7 @@ msgstr "사용 안할 땐 시간조절(기) 일시중지"
 msgid "Suspended"
 msgstr "일시중지"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr "시스템 설정 사용"
 
@@ -796,7 +796,7 @@ msgid "Time for a micro-break?"
 msgstr "잠깐의 휴식 어때요 ?"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
@@ -818,15 +818,15 @@ msgstr ""
 "머리를 왼쪽으로 돌려서 2초 동안 그대로 유지합니다. 그리고 오른쪽으로 돌려서 2"
 "초 동안 유지합니다."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 msgid "User interface"
 msgstr "사용자 화면"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
 msgid "Volume:"
 msgstr "소리 크기:"
 
@@ -839,7 +839,7 @@ msgstr "기다려"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:425
 msgid "Wavefiles"
 msgstr "Wav 파일"
 
@@ -904,7 +904,7 @@ msgstr "운동(_E)"
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:310
 #, fuzzy
 msgid "_Lock"
 msgstr "_잠금"
@@ -931,7 +931,7 @@ msgstr "보통(_N)"
 msgid "_Open"
 msgstr "열기(_O)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:372
+#: ../frontend/gtkmm/src/BreakWindow.cc:371
 #, fuzzy
 msgid "_Postpone"
 msgstr "_연기시킴"
@@ -965,7 +965,7 @@ msgstr "휴식 취하기(_R)"
 msgid "_Restbreak"
 msgstr "휴식(_R)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:355
+#: ../frontend/gtkmm/src/BreakWindow.cc:354
 #, fuzzy
 msgid "_Skip"
 msgstr "_건너뛰기"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-08-31 11:35+0200\n"
+"POT-Creation-Date: 2013-09-01 19:56+0200\n"
 "PO-Revision-Date: 2012-08-23 23:03+0800\n"
 "Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
 "Language-Team: \n"
@@ -39,7 +39,7 @@ msgstr "%s%d:%02d:%02d 时"
 msgid "%s, from %s to %s"
 msgstr "%s, 从 %s 到 %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:250
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
 msgid "(font not available)"
 msgstr "(字体不可用)"
 
@@ -53,7 +53,7 @@ msgstr "关于..."
 msgid "Activity"
 msgstr "活动"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
@@ -70,17 +70,17 @@ msgstr "帮助预防重复使力伤害症(Repetitive Strain Injury, RSI)或从�
 msgid "Backward shoulder stretch"
 msgstr "后肩伸展"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input"
 msgstr "屏蔽输入"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:160
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "屏蔽输入和屏幕"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "屏蔽模式："
 
@@ -118,7 +118,7 @@ msgstr "略过休息次数"
 msgid "Browse history"
 msgstr "浏览历史记录"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
 msgid "Choose a sound"
 msgstr "选择音效"
 
@@ -181,7 +181,7 @@ msgstr "显示"
 msgid "Effective mouse movement:"
 msgstr "有效鼠标移动距离："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:533
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 #, fuzzy
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
@@ -201,7 +201,7 @@ msgstr "结束体操"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 msgid "Event"
 msgstr "事件"
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "指头伸展"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:94
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "General"
 msgstr "一般"
 
@@ -269,7 +269,7 @@ msgstr ""
 msgid "Keystrokes:"
 msgstr "键次："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
 msgid "Language:"
 msgstr "语言："
 
@@ -350,7 +350,7 @@ msgstr "肩膀运动"
 msgid "Move the shoulders up and down"
 msgstr "上下运动肩膀"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Mute sounds during rest break and daily limit"
 msgstr "在休息与每日限制期间静音"
 
@@ -376,13 +376,13 @@ msgstr "下一个体操"
 msgid "Next rest break in %s"
 msgstr "下次休息时间 %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "不屏蔽"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
 msgstr "无音效"
 
@@ -403,7 +403,7 @@ msgid "Open"
 msgstr "打开(_O)"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "选项"
@@ -412,12 +412,12 @@ msgstr "选项"
 msgid "Overdue time"
 msgstr "超时时间"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Pause"
 msgstr "暂停"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:486
 msgid "Pause exercises"
 msgstr "暂停体操"
 
@@ -445,14 +445,14 @@ msgstr "并排计时器"
 msgid "Placement:"
 msgstr "配置"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:393
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:441
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:392
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:410
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:440
 msgid "Play"
 msgstr "播放"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:319
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
 msgid "Play sounds using sound card"
 msgstr "使用声卡播放音效"
 
@@ -465,7 +465,7 @@ msgid "Postpone time:"
 msgstr "延后时间："
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "Preferences"
@@ -548,11 +548,11 @@ msgstr "休息 %s"
 msgid "Rest break:"
 msgstr "重置休息："
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
 msgid "Resume"
 msgstr "继续"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:484
 msgid "Resume exercises"
 msgstr "继续体操"
 
@@ -598,11 +598,11 @@ msgstr "只在第一次计时器到时显示"
 msgid "Show status window"
 msgstr "显示状态视窗"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:291
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
 msgid "Show system tray icon"
 msgstr "显示系统托盘图标"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:333
 msgid "Shut _down"
 msgstr "关闭(_d)"
 
@@ -612,24 +612,24 @@ msgid "Silent in %s"
 msgstr "沉默"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:361
 msgid "Sound Events"
 msgstr "音效事件"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:309
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Sound Options"
 msgstr "声音选项"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:370
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound Theme:"
 msgstr "音效主题："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Sound:"
 msgstr "音效："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 msgid "Sounds"
 msgstr "音效"
 
@@ -642,7 +642,7 @@ msgstr ""
 "慢慢像螺旋桨一样在您身体一侧旋转您的右手臂。顺时针做四次，逆时针做四次然后放"
 "松几秒。用左手臂重复做一次。"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:279
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Start Workrave on Windows startup"
 msgstr "Windows 启动时开启 Workrave"
 
@@ -670,7 +670,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "统计"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "状态窗口"
 
@@ -685,7 +685,7 @@ msgstr "未活动时暂停计时器"
 msgid "Suspended"
 msgstr "暂停(_S)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr "系统默认"
 
@@ -796,7 +796,7 @@ msgid "Time for a micro-break?"
 msgstr "暂停一下？"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Timers"
@@ -818,15 +818,15 @@ msgstr ""
 "把您的头转向左边，并停在那里两秒钟。然后将您的头转到右边，并也停在那边两秒"
 "钟。"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:527
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
 msgid "Use alternate monitor"
 msgstr "使用另一个监视器"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
 msgid "User interface"
 msgstr "使用者界面"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
 msgid "Volume:"
 msgstr "音量："
 
@@ -839,7 +839,7 @@ msgstr "等待"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:426
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:425
 msgid "Wavefiles"
 msgstr "Wav 文件"
 
@@ -903,7 +903,7 @@ msgstr "体操(_E)"
 msgid "_Join"
 msgstr "加入"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:310
 msgid "_Lock"
 msgstr "锁定(_L)"
 
@@ -929,7 +929,7 @@ msgstr "一般(_N)"
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:372
+#: ../frontend/gtkmm/src/BreakWindow.cc:371
 msgid "_Postpone"
 msgstr "延后(_P)"
 
@@ -962,7 +962,7 @@ msgstr "休息(_R)"
 msgid "_Restbreak"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:355
+#: ../frontend/gtkmm/src/BreakWindow.cc:354
 msgid "_Skip"
 msgstr "略过(_S)"
 

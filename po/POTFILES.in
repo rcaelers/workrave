@@ -98,8 +98,8 @@ frontend/gtkmm/src/StatisticsDialog.cc
 libs/config/src/Configurator.cc
 libs/config/src/ConfiguratorFactory.cc
 libs/config/src/GSettingsConfigurator.cc
-libs/config/src/GlibIniConfigurator.cc
-libs/config/src/XMLConfigurator.cc
+libs/config/src/IniConfigurator.cc
+libs/config/src/XmlConfigurator.cc
 libs/config/src/osx/OSXConfigurator.cc
 libs/config/src/unix/GConfConfigurator.cc
 libs/config/src/win32/W32Configurator.cc
@@ -126,7 +126,6 @@ libs/input-monitor/src/win32/W32InputMonitor.cc
 libs/input-monitor/src/win32/W32InputMonitorFactory.cc
 libs/input-monitor/src/win32/W32LowLevelMonitor.cc
 libs/utils/src/Locale.cc
-libs/utils/src/StringUtil.cc
 libs/utils/src/TimeSource.cc
 libs/utils/src/Timer.cc
 libs/utils/src/Util.cc
