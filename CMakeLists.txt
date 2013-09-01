@@ -374,7 +374,7 @@ if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
 
   # TODO: make option.
-  set (HAVE_MONITORS "record,screensaver,x11events")
+  set (HAVE_MONITORS "screensaver,record,x11events")
 
   find_package(X11)
   
