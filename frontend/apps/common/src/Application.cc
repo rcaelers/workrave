@@ -45,8 +45,7 @@
 #if defined(interface)
 #undef interface
 #endif
-#include "dbus/DBus.hh"
-#include "dbus/DBusException.hh"
+#include "dbus/IDBus.hh"
 #endif
 
 using namespace std;
@@ -537,7 +536,7 @@ Application::init_core()
 void
 Application::init_bus()
 {
- workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
+ workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
  if (dbus && dbus->is_available())
    {
@@ -556,8 +555,8 @@ Application::init_bus()
          dbus->register_object_path("/org/workrave/Workrave/UI");
          dbus->register_service("org.workrave.Workrave");
          
-         extern void init_DBusGUI(workrave::dbus::DBus *dbus);
-         init_DBusGUI(dbus.get());
+         extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+         init_DBusGUI(dbus);
 
          dbus->connect("/org/workrave/Workrave/UI",
                       "org.workrave.ControlInterface",

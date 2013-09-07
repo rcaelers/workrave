@@ -56,7 +56,7 @@ CoreFactory::get_configurator()
 
 
 //! Returns the interface to the D-BUS facility
-DBus::Ptr
+IDBus::Ptr
 CoreFactory::get_dbus()
 {
   return get_core()->get_dbus();

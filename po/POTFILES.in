@@ -106,10 +106,13 @@ libs/config/src/win32/W32Configurator.cc
 libs/dbus/data/DBus-client-template-freedesktop.cc
 libs/dbus/data/DBus-template-freedesktop.cc
 libs/dbus/data/DBus-template-gio.cc
-libs/dbus/src/DBus-freedesktop.cc
-libs/dbus/src/DBus-gio.cc
-libs/dbus/src/DBusBinding-freedesktop.cc
-libs/dbus/src/DBusBinding-gio.cc
+libs/dbus/src/DBusFreeDesktop.cc
+libs/dbus/src/DBusGio.cc
+libs/dbus/src/DBusQt5.cc
+libs/dbus/src/DBusGeneric.cc
+libs/dbus/src/DBusBindingFreeDesktop.cc
+libs/dbus/src/DBusBindingGio.cc
+libs/dbus/src/DBusBindingQt5.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/input-monitor/src/InputMonitor.cc
 libs/input-monitor/src/InputMonitorFactory.cc

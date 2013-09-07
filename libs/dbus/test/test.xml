@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<unit name="DBusTest">
+
+  <interface name="org.workrave.TestInterface" csymbol="DBusTestServer">
+    <import>
+      <include name="DBusTestData.hh"/>
+      <include name="DBusTestServer.hh"/>
+    </import>
+
+    <enum name="Enum" csymbol="DBusTestData::Enum">
+      <value name="one"    csymbol="DBusTestData::ONE"/>
+      <value name="two"    csymbol="DBusTestData::TWO"/>
+      <value name="three"  csymbol="DBusTestData::THREE"/>
+      <value name="four"   csymbol="DBusTestData::FOUR"/>
+      <value name="five"   csymbol="DBusTestData::FIVE"/>
+    </enum>
+
+    <struct name="StructWithAllBasicTypes" csymbol="DBusTestData::StructWithAllBasicTypes">
+      <field type="int"    name="m_int"/>
+      <field type="uint8"  name="m_uint8"/>
+      <field type="int16"  name="m_int16"/>
+      <field type="uint16" name="m_uint16"/>
+      <field type="int32"  name="m_int32"/>
+      <field type="uint32" name="m_uint32"/>
+      <field type="int64"  name="m_int64"/>
+      <field type="uint64" name="m_uint64"/>
+      <field type="string" name="m_string"/>
+      <field type="bool"   name="m_bool"/>
+      <field type="double" name="m_double"/>
+      <field type="Enum"   name="m_enum"/>
+    </struct>
+
+    <sequence name="ListOfStructWithAllBasicTypes"
+	      container="std::list"
+	      type="StructWithAllBasicTypes"
+	      csymbol="DBusTestData::ListOfStructWithAllBasicTypes">
+    </sequence>
+    
+    <dictionary name="MapOfStructWithAllBasicTypes"
+		container="std::map"
+		key_type="string"
+		value_type="StructWithAllBasicTypes"
+		csymbol="DBusTestData::MapOfStructWithAllBasicTypes">
+    </dictionary>
+
+    <struct name="Data" csymbol="DBusTestData::Data">
+      <field type="int"         name="m_key"/>
+      <field type="int"         name="m_data"/>
+    </struct>
+    
+    <dictionary name="DataMap"
+		container="std::map"
+		key_type="string"
+		value_type="Data"
+		csymbol="DBusTestData::DataMap">
+    </dictionary>
+    
+    <sequence name="DataList"
+	      container="std::list"
+	      type="Data"
+	      csymbol="DBusTestData::DataList">
+    </sequence>
+
+    <sequence name="StringList"
+	      container="std::list"
+	      type="string"
+	      csymbol="DBusTestData::StringList">
+    </sequence>
+
+    <dictionary name="StringMap"
+		container="std::map"
+		key_type="string"
+		value_type="string"
+		csymbol="DBusTestData::StringMap">
+    </dictionary>
+    
+    <method name="Basic1" csymbol="test_basic_1">
+      <arg type="int"    direction="in" name="i_int"/>
+      <arg type="uint8"  direction="in" name="i_uint8"/>
+      <arg type="int16"  direction="in" name="i_int16"/>
+      <arg type="uint16" direction="in" name="i_uint16"/>
+      <arg type="int32"  direction="in" name="i_int32"/>
+      <arg type="uint32" direction="in" name="i_uint32"/>
+      <arg type="int64"  direction="in" name="i_int64"/>
+      <arg type="uint64" direction="in" name="i_uint64"/>
+      <arg type="string" direction="in" name="i_string"/>
+      <arg type="bool"   direction="in" name="i_bool"/>
+      <arg type="double" direction="in" name="i_double"/>
+      <arg type="Enum"   direction="in" name="i_enum"/>
+
+      <arg type="int"    direction="out" hint="ref" name="o_int"/>
+      <arg type="uint8"  direction="out" hint="ref" name="o_uint8"/>
+      <arg type="int16"  direction="out" hint="ref" name="o_int16"/>
+      <arg type="uint16" direction="out" hint="ref" name="o_uint16"/>
+      <arg type="int32"  direction="out" hint="ref" name="o_int32"/>
+      <arg type="uint32" direction="out" hint="ref" name="o_uint32"/>
+      <arg type="int64"  direction="out" hint="ref" name="o_int64"/>
+      <arg type="uint64" direction="out" hint="ref" name="o_uint64"/>
+      <arg type="string" direction="out" hint="ref" name="o_string"/>
+      <arg type="bool"   direction="out" hint="ref" name="o_bool"/>
+      <arg type="double" direction="out" hint="ref" name="o_double"/>
+      <arg type="Enum"   direction="out" hint="ref" name="o_enum"/>
+    </method>
+
+    <method name="Basic2" csymbol="test_basic_2">
+      <arg type="int"    direction="in" name="i_int"/>
+      <arg type="uint8"  direction="in" name="i_uint8"/>
+      <arg type="int16"  direction="in" name="i_int16"/>
+      <arg type="uint16" direction="in" name="i_uint16"/>
+      <arg type="int32"  direction="in" name="i_int32"/>
+      <arg type="uint32" direction="in" name="i_uint32"/>
+      <arg type="int64"  direction="in" name="i_int64"/>
+      <arg type="uint64" direction="in" name="i_uint64"/>
+      <arg type="string" direction="in" name="i_string"/>
+      <arg type="bool"   direction="in" name="i_bool"/>
+      <arg type="double" direction="in" name="i_double"/>
+      <arg type="Enum"   direction="in" name="i_enum"/>
+
+      <arg type="int"    direction="out" hint="ptr" name="o_int"/>
+      <arg type="uint8"  direction="out" hint="ptr" name="o_uint8"/>
+      <arg type="int16"  direction="out" hint="ptr" name="o_int16"/>
+      <arg type="uint16" direction="out" hint="ptr" name="o_uint16"/>
+      <arg type="int32"  direction="out" hint="ptr" name="o_int32"/>
+      <arg type="uint32" direction="out" hint="ptr" name="o_uint32"/>
+      <arg type="int64"  direction="out" hint="ptr" name="o_int64"/>
+      <arg type="uint64" direction="out" hint="ptr" name="o_uint64"/>
+      <arg type="string" direction="out" hint="ptr" name="o_string"/>
+      <arg type="bool"   direction="out" hint="ptr" name="o_bool"/>
+      <arg type="double" direction="out" hint="ptr" name="o_double"/>
+      <arg type="Enum"   direction="out" hint="ptr" name="o_enum"/>
+    </method>
+
+    <method name="Struct1" csymbol="test_struct_1">
+      <arg type="StructWithAllBasicTypes"  direction="in"  name="i_struct"/>
+      <arg type="StructWithAllBasicTypes"  direction="out" hint="ref" name="o_struct"/>
+    </method>
+
+    <method name="Struct2" csymbol="test_struct_2">
+      <arg type="StructWithAllBasicTypes"  direction="in"  name="i_struct"/>
+      <arg type="StructWithAllBasicTypes"  direction="out" hint="ptr" name="o_struct"/>
+    </method>
+
+    <method name="List1" csymbol="test_list_of_struct">
+      <arg type="DataList"  direction="in"  name="i_items"/>
+      <arg type="DataList"  direction="out" hint="ref" name="o_items"/>
+    </method>
+
+    <method name="Map1" csymbol="test_map_of_struct">
+      <arg type="DataMap"  direction="in"  name="i_items"/>
+      <arg type="DataMap"  direction="out" hint="ref" name="o_items"/>
+    </method>
+
+    <signal name="Signal1">
+      <arg type="int32" name="time" hint="ref"/>
+    </signal>
+  </interface>
+</unit>

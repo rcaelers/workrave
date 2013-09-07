@@ -44,7 +44,8 @@ namespace workrave
       virtual ~Exception() throw()
       {
       }
-      
+
+      // FIXME: implement what
       virtual std::string details() const throw()
       {
         return detailed_information;

@@ -24,32 +24,45 @@
 #include "debug.hh"
 #include <gio/gio.h>
 
-#include "dbus/DBus-gio.hh"
-#include "dbus/DBusBinding-gio.hh"
+#include "DBusGio.hh"
+#include "dbus/DBusBindingGio.hh"
 #include "dbus/DBusException.hh"
 
 using namespace workrave;
 using namespace workrave::dbus;
 
 
-DBusBindingBase::DBusBindingBase(DBus *dbus)
+DBusBindingGio::DBusBindingGio(IDBus::Ptr dbus)
   : dbus(dbus)
 {
 }
 
 
-DBusBindingBase::~DBusBindingBase()
+DBusBindingGio::~DBusBindingGio()
 {
 }
 
 void
-DBusBaseTypes::get_uint8(GVariant *v, uint8_t *value)
+DBusBindingGio::get_int(GVariant *v, int *value)
+{
+	const GVariantType *argtype = g_variant_get_type(v);
+
+  if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
+    {
+      throw DBusRemoteException("Int expected");
+    }
+
+	*value = g_variant_get_int32(v);
+}
+
+void
+DBusBindingGio::get_uint8(GVariant *v, uint8_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BYTE))
     {
-      throw DBusTypeException("UInt8 expected");
+      throw DBusRemoteException("UInt8 expected");
     }
 
 	*value = g_variant_get_byte(v);
@@ -57,13 +70,13 @@ DBusBaseTypes::get_uint8(GVariant *v, uint8_t *value)
 
 
 void
-DBusBaseTypes::get_uint16(GVariant *v, uint16_t *value)
+DBusBindingGio::get_uint16(GVariant *v, uint16_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT16))
     {
-      throw DBusTypeException("UInt16 expected");
+      throw DBusRemoteException("UInt16 expected");
     }
 
 	*value = g_variant_get_uint16(v);
@@ -71,26 +84,26 @@ DBusBaseTypes::get_uint16(GVariant *v, uint16_t *value)
 
 
 void
-DBusBaseTypes::get_int16(GVariant *v, int16_t *value)
+DBusBindingGio::get_int16(GVariant *v, int16_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT16))
     {
-      throw DBusTypeException("Int16 expected");
+      throw DBusRemoteException("Int16 expected");
     }
 
 	*value = g_variant_get_int16(v);
 }
 
 void
-DBusBaseTypes::get_uint32(GVariant *v, uint32_t *value)
+DBusBindingGio::get_uint32(GVariant *v, uint32_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT32))
     {
-      throw DBusTypeException("UInt32 expected");
+      throw DBusRemoteException("UInt32 expected");
     }
 
 	*value = g_variant_get_uint32(v);
@@ -98,13 +111,13 @@ DBusBaseTypes::get_uint32(GVariant *v, uint32_t *value)
 
 
 void
-DBusBaseTypes::get_int32(GVariant *v, int32_t *value)
+DBusBindingGio::get_int32(GVariant *v, int32_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
   
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
-      throw DBusTypeException("Int32 expected");
+      throw DBusRemoteException("Int32 expected");
     }
 
 	*value = g_variant_get_int32(v);
@@ -112,13 +125,13 @@ DBusBaseTypes::get_int32(GVariant *v, int32_t *value)
 
 
 void
-DBusBaseTypes::get_uint64(GVariant *v, uint64_t *value)
+DBusBindingGio::get_uint64(GVariant *v, uint64_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT64))
     {
-      throw DBusTypeException("UInt64 expected");
+      throw DBusRemoteException("UInt64 expected");
     }
 
 	*value = g_variant_get_uint64(v);
@@ -126,13 +139,13 @@ DBusBaseTypes::get_uint64(GVariant *v, uint64_t *value)
 
 
 void
-DBusBaseTypes::get_int64(GVariant *v, int64_t *value)
+DBusBindingGio::get_int64(GVariant *v, int64_t *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT64))
     {
-      throw DBusTypeException("Int64 expected");
+      throw DBusRemoteException("Int64 expected");
     }
 
 	*value = g_variant_get_int64(v);
@@ -140,13 +153,13 @@ DBusBaseTypes::get_int64(GVariant *v, int64_t *value)
 
 
 void
-DBusBaseTypes::get_bool(GVariant *v, bool *value)
+DBusBindingGio::get_bool(GVariant *v, bool *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BOOLEAN))
     {
-      throw DBusTypeException("Boolean expected");
+      throw DBusRemoteException("Boolean expected");
     }
 
 	*value = g_variant_get_boolean(v);
@@ -154,13 +167,13 @@ DBusBaseTypes::get_bool(GVariant *v, bool *value)
 
 
 void
-DBusBaseTypes::get_double(GVariant *v, double *value)
+DBusBindingGio::get_double(GVariant *v, double *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_DOUBLE))
     {
-      throw DBusTypeException("Double expected");
+      throw DBusRemoteException("Double expected");
     }
 
 	*value = g_variant_get_double(v);
@@ -168,13 +181,13 @@ DBusBaseTypes::get_double(GVariant *v, double *value)
 
 
 void
-DBusBaseTypes::get_string(GVariant *v, std::string *value)
+DBusBindingGio::get_string(GVariant *v, std::string *value)
 {
 	const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_STRING))
     {
-      throw DBusTypeException("String expected");
+      throw DBusRemoteException("String expected");
     }
 
   const char *cstr = g_variant_get_string(v, NULL);
@@ -186,61 +199,67 @@ DBusBaseTypes::get_string(GVariant *v, std::string *value)
 
 
 GVariant *
-DBusBaseTypes::put_uint8(const uint8_t *value)
+DBusBindingGio::put_int(const int *value)
+{
+	return g_variant_new_int32(*value);
+}
+
+GVariant *
+DBusBindingGio::put_uint8(const uint8_t *value)
 {
 	return g_variant_new_byte(*value);
 }
 
 GVariant *
-DBusBaseTypes::put_uint16(const uint16_t *value)
+DBusBindingGio::put_uint16(const uint16_t *value)
 {
 	return g_variant_new_uint16(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int16(const int16_t *value)
+DBusBindingGio::put_int16(const int16_t *value)
 {
 	return g_variant_new_int16(*value);
 }
 
 GVariant *
-DBusBaseTypes::put_uint32(const uint32_t *value)
+DBusBindingGio::put_uint32(const uint32_t *value)
 {
 	return g_variant_new_uint32(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int32(const int32_t *value)
+DBusBindingGio::put_int32(const int32_t *value)
 {
 	return g_variant_new_int32(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_uint64(const uint64_t *value)
+DBusBindingGio::put_uint64(const uint64_t *value)
 {
 	return g_variant_new_uint64(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_int64(const int64_t *value)
+DBusBindingGio::put_int64(const int64_t *value)
 {
 	return g_variant_new_int64(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_double(const double *value)
+DBusBindingGio::put_double(const double *value)
 {
 	return g_variant_new_double(*value);
 }
 
 
 GVariant *
-DBusBaseTypes::put_bool(const bool *value)
+DBusBindingGio::put_bool(const bool *value)
 {
   gboolean v = *value;
 	return g_variant_new_boolean(v);
@@ -248,7 +267,7 @@ DBusBaseTypes::put_bool(const bool *value)
 
 
 GVariant *
-DBusBaseTypes::put_string(const std::string *value)
+DBusBindingGio::put_string(const std::string *value)
 {
   const char *cstr = value->c_str();
 	return g_variant_new_string(cstr);

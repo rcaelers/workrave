@@ -20,54 +20,53 @@
 #ifndef WORKRAVE_DBUS_DBUSGIO_HH
 #define WORKRAVE_DBUS_DBUSGIO_HH
 
-#include <boost/shared_ptr.hpp>
-
-#include <glib.h>
-#include <gio/gio.h>
-
 #include <string>
 #include <map>
 #include <list>
 
-#include "IDBusWatch.hh"
+#include <boost/shared_ptr.hpp>
+
+#undef signals
+#include <glib.h>
+#include <gio/gio.h>
+
+#include "dbus/IDBus.hh"
+#include "dbus/IDBusWatch.hh"
+#include "dbus/DBusBindingGio.hh"
 
 namespace workrave
 {
   namespace dbus
   {
-    class DBusBindingBase;
-
-    class DBus
+    class DBusGio : public IDBus, public IDBusPrivateGio
     {
     public:
-      typedef boost::shared_ptr<DBus> Ptr;
-
+      typedef boost::shared_ptr<DBusGio> Ptr;
       
     public:
       static Ptr create();
 
-      DBus();
-      ~DBus();
+      DBusGio();
+      virtual ~DBusGio();
 
-      void init();
-      void register_service(const std::string &service);
-      void register_object_path(const std::string &object_path);
-      void connect(const std::string &path, const std::string &interface_name, void *object);
-      void disconnect(const std::string &path, const std::string &interface_name);
+      virtual void init();
+      virtual void register_service(const std::string &service);
+      virtual void register_object_path(const std::string &object_path);
+      virtual void connect(const std::string &path, const std::string &interface_name, void *object);
+      virtual void disconnect(const std::string &path, const std::string &interface_name);
+      virtual void register_binding(const std::string &interface_name, DBusBinding *binding);
+      virtual DBusBinding *find_binding(const std::string &interface_name) const;
 
-      void register_binding(const std::string &interface_name, DBusBindingBase *binding);
-      DBusBindingBase *find_binding(const std::string &interface_name) const;
+      virtual bool is_available() const;
+      virtual bool is_running(const std::string &name) const;
 
-      bool is_available() const;
-      bool is_running(const std::string &name) const;
-
-      GDBusConnection *get_connection() const { return connection; }
+      virtual GDBusConnection *get_connection() const { return connection; }
 
       void watch(const std::string &name, IDBusWatch *cb);
       void unwatch(const std::string &name);
     
     private:
-      typedef std::map<std::string, DBusBindingBase *> Bindings;
+      typedef std::map<std::string, DBusBinding *> Bindings;
       typedef Bindings::iterator BindingIter;
       typedef Bindings::const_iterator BindingCIter;
 
@@ -170,9 +169,6 @@ namespace workrave
       //
       Watched watched;
     
-      //!
-      bool owner;
-
       GDBusConnection *connection;
 
       static const GDBusInterfaceVTable interface_vtable;

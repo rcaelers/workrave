@@ -39,8 +39,6 @@ endif
 if PLATFORM_OS_OSX
 extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-
-AM_CPPFLAGS =		-xobjective-c++
 endif
 
 if PLATFORM_OS_WIN32

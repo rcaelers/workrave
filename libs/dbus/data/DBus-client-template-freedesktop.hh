@@ -4,9 +4,9 @@
 \#ifndef DBUS__${model.name}_HH
 \#define DBUS__${model.name}_HH
 
-\#include <sigc++/sigc++.h>
-\#include "dbus/DBus.hh"
 \#include <string>
+\#include <sigc++/sigc++.h>
+\#include "dbus/IDBus.hh"
 
 namespace workrave
 {
@@ -38,7 +38,7 @@ using namespace std;
 class $interface.qname
 {
 public:
-  static $interface.qname *instance(workrave::dbus::DBus *dbus, const std::string &service, const std::string &path);
+  static $interface.qname *instance(workrave::dbus::IDBus::Ptr dbus, const std::string &service, const std::string &path);
 
   #for $m in interface.methods
   typedef sigc::slot<void, DBusError * #slurp

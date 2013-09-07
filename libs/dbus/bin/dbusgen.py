@@ -28,6 +28,11 @@ from optparse import OptionParser
 from xml.dom.minidom import parse
 
 class NodeBase(object):
+    def sig(self):
+        return "undefined"
+
+    def symbol(self):
+        return "undefined"
     pass
 
 
@@ -41,26 +46,88 @@ class ArgNode(NodeBase):
         self.direction = ''
         self.hint = []
 
+    def symbol(self):
+        return self.csymbol
+
     def sig(self):
-        return self.interface_node.type2sig(self.ext_type)
+        return self.interface_node.get_type(self.ext_type).sig()
 
-
-class DefaultTypeNode(NodeBase):
-    def __init__(self, csymbol, type_sig):
+class TypeNode(NodeBase):
+    name = "undefined"
+    qname = "undefined"
+    csymbol = None
+    csymbol_internal = None
+    type_sig = None
+    interface_node = None
+    
+    def __init__(self, csymbol = None, type_sig = None):
         NodeBase.__init__(self)
         self.csymbol = csymbol
+        self.csymbol_internal = None
         self.type_sig = type_sig
+        self.interface_node = None
 
+    def symbol(self):
+        return self.csymbol
+
+    def symbol_int(self):
+        if self.csymbol_internal:
+            return self.csymbol_internal
+        else:
+            return self.symbol()
+    
     def sig(self):
         return self.type_sig
 
-    
+    def value_to_internal(s):
+        return s
+
+    def value_from_internal(s):
+        return s
+
+class QStringTypeNode(TypeNode):
+    def __init__(self):
+        TypeNode.__init__(self)
+        self.csymbol = "std::string"
+        self.csymbol_internal = "QString"
+        self.type_sig = 's'
+        self.interface_node = None
+
+    def to_internal(s):
+        return 'QString::fromStdString(' + s + ')'
+
+    def from_internal(s):
+        return s + '.toStdString()'
+        
+class UserTypeNode(TypeNode):
+    def __init__(self, interface_node):
+        TypeNode.__init__(self)
+        self.interface_node = interface_node
+
+    def handle(self, node):
+        self.name = node.getAttribute('name')
+        self.qname = self.name.replace('.','_')
+        self.csymbol = node.getAttribute('csymbol')
+
+        self.interface_node.types[self.name] = self
+            
+    def sig(self):
+        print 'Signature of type ' + self.name + ' unknown'
+        sys.exit(1)
+
+   
 class TopNode(NodeBase):
-    def __init__(self, name):
+    def __init__(self, inname, outname, backend):
         NodeBase.__init__(self)
-        self.file_name = name
-        self.name = None
+        self.file_name = inname
+        self.name = outname
+        self.outname = outname
+        self.backend = backend
         self.interfaces = []
+        self.interfaces_map = {}
+        self.types = {}
+
+        self.add_default_types()
         
     def parse(self):
         dom = parse(self.file_name)
@@ -77,12 +144,46 @@ class TopNode(NodeBase):
             p = InterfaceNode(self)
             p.handle(child)
             self.interfaces.append(p)
+            self.interfaces_map[p.name] = p
 
+    def add_default_types(self):
+        self.types['void']= TypeNode('void','i')
+        self.types['int']= TypeNode('int','i')
+        self.types['uint8']= TypeNode('uint8_t', 'y')
+        self.types['int16']= TypeNode('int16_t','n')
+        self.types['uint16']= TypeNode('uint16_t','q')
+        self.types['int32']= TypeNode('int32_t','i')
+        self.types['uint32']= TypeNode('uint32_t','u')
+        self.types['int64']= TypeNode('int64_t','x')
+        self.types['uint64']= TypeNode('uint64_t','t')
+        self.types['bool']= TypeNode('bool','b')
+        self.types['double']= TypeNode('double','d')
 
+        if self.backend == 'qt5':
+            self.types['string']= QStringTypeNode()
+        else:
+            self.types['string']= TypeNode('std::string','s')
+
+    def split_type(self, type):
+        if ':' in type:
+            return type.split(':', 1)
+        else:
+            return "" , type
+
+    def get_type(self, type):
+        ifname, typename = self.split_type(type)
+
+        if typename in self.types:
+            return self.types[typename]
+        elif ifname in [x.name for x in self.interfaces]:
+            return self.interfaces_map[ifname].get_type_internal(typename)
+        else:
+            return None
+            
 class InterfaceNode(NodeBase):
-    def __init__(self, parent):
+    def __init__(self, top_node):
         NodeBase.__init__(self)
-        self.parent = parent
+        self.top_node = top_node
 
         self.types = {}
 
@@ -98,8 +199,6 @@ class InterfaceNode(NodeBase):
         self.enums = []
         self.imports = []
 
-        self.add_default_types()
-            
     def handle(self, node):
         self.name = node.getAttribute('name')
         self.csymbol = node.getAttribute('csymbol')
@@ -137,42 +236,25 @@ class InterfaceNode(NodeBase):
                     p.handle(child)
                     self.imports.append(p)
                 elif child.nodeName == 'type':
-                    p = TypeNode(self)
+                    p = UserTypeNode(self)
                     p.handle(child)
 
-    def add_default_types(self):
-        self.types['void']= DefaultTypeNode('void','i')
-        self.types['int']= DefaultTypeNode('int','i')
-        self.types['uint8']= DefaultTypeNode('uint8_t', 'y')
-        self.types['int16']= DefaultTypeNode('int16_t','n')
-        self.types['uint16']= DefaultTypeNode('uint16_t','q')
-        self.types['int32']= DefaultTypeNode('int32_t','i')
-        self.types['uint32']= DefaultTypeNode('uint32_t','u')
-        self.types['int64']= DefaultTypeNode('int64_t','x')
-        self.types['uint64']= DefaultTypeNode('uint64_t','t')
-        self.types['string']= DefaultTypeNode('std::string','s')
-        self.types['bool']= DefaultTypeNode('bool','b')
-        self.types['double']= DefaultTypeNode('double','d')
-        
-    def type2csymbol(self, type):
+    def get_type_internal(self, type):
         if type in self.types:
-            return self.types[type].csymbol
+            return self.types[type]
         else:
-            print 'C type of type ' + type + ' unknown'
-            sys.exit(1)
+            return None
 
-    def type2sig(self, type):
-        if type in self.types:
-            return self.types[type].sig()
-        else:
-            print 'Signature of type ' + type + ' unknown'
-            sys.exit(1)
+    def get_type(self, type):
+        return self.top_node.get_type(self.name + ':' +  type)
 
+    def symbol(self):
+        return self.csymbol
 
 class MethodNode(NodeBase):
-    def __init__(self, parent):
+    def __init__(self, interface_node):
         NodeBase.__init__(self)
-        self.parent = parent
+        self.interface_node = interface_node
         self.name = None
         self.csymbol = None
         self.qname = None
@@ -193,7 +275,7 @@ class MethodNode(NodeBase):
                     self.handle_arg(child)
 
     def handle_arg(self, node):
-        p = ArgNode(self.parent)
+        p = ArgNode(self.interface_node)
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
         p.ext_type = node.getAttribute('ext_type')
@@ -218,16 +300,19 @@ class MethodNode(NodeBase):
         method_sig = ''
         for p in self.params:
             if p.direction != 'bind':
-                param_sig = self.parent.type2sig(p.ext_type)
+                param_sig = self.interface_node.get_type(p.ext_type).sig()
                 method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
+
+    def symbol(self):
+        return self.csymbol
 
     def sig(self):
         method_sig = ''
         for p in self.params:
             if p.direction != 'bind':
-                param_sig = self.parent.type2sig(p.ext_type)
+                param_sig = self.interface_node.get_type(p.ext_type).sig()
                 method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
@@ -236,7 +321,7 @@ class MethodNode(NodeBase):
         method_sig = ''
         for p in self.params:
             if p.direction == type:
-                param_sig = self.parent.type2sig(p.ext_type)
+                param_sig = self.interface_node.get_type(p.ext_type).sig()
                 method_sig = method_sig + '%s' % (param_sig, )
 
         return '(' + method_sig + ')'
@@ -257,9 +342,9 @@ class MethodNode(NodeBase):
         
 
 class SignalNode(NodeBase):
-    def __init__(self, parent):
+    def __init__(self, interface_node):
         NodeBase.__init__(self)
-        self.parent = parent
+        self.interface_node = interface_node
 
     def handle(self, node):
         self.name = node.getAttribute('name')
@@ -273,7 +358,7 @@ class SignalNode(NodeBase):
                     self.handle_arg(child)
 
     def handle_arg(self, node):
-        p = ArgNode(self.parent)
+        p = ArgNode(self.interface_node)
 
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
@@ -291,15 +376,18 @@ class SignalNode(NodeBase):
     def introspect_sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.parent.type2sig(p.ext_type)
+            param_sig = self.interface_node.get_type(p.ext_type).sig()
             method_sig = method_sig + '%s\\0%s\\0' % (param_sig, p.name)
 
         return method_sig
 
+    def symbol(self):
+        return self.csymbol
+
     def sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.parent.type2sig(p.ext_type)
+            param_sig = self.interface_node.get_type(p.ext_type).sig()
             method_sig = method_sig + param_sig
 
         return '(' + method_sig + ')'
@@ -319,10 +407,10 @@ class SignalNode(NodeBase):
         return ret
 
 
-class StructNode(NodeBase):
-    def __init__(self, parent):
-        NodeBase.__init__(self)
-        self.parent = parent
+class StructNode(TypeNode):
+    def __init__(self, interface_node):
+        TypeNode.__init__(self)
+        self.interface_node = interface_node
 
     def handle(self, node):
         self.name = node.getAttribute('name')
@@ -335,10 +423,10 @@ class StructNode(NodeBase):
                 if child.nodeName == 'field':
                     self.handle_field(child)
 
-        self.parent.types[self.name] = self
+        self.interface_node.types[self.name] = self
         
     def handle_field(self, node):
-        arg = ArgNode(self.parent)
+        arg = ArgNode(self.interface_node)
         arg.name = node.getAttribute('name')
         arg.type = node.getAttribute('type')
         arg.ext_type = node.getAttribute('ext_type')
@@ -351,16 +439,16 @@ class StructNode(NodeBase):
     def sig(self):
         struct_sig = ''
         for f in self.fields:
-            field_sig = self.parent.type2sig(f.ext_type)
+            field_sig = self.interface_node.get_type(f.ext_type).sig()
             struct_sig =  struct_sig + field_sig
 
         return '(' + struct_sig + ')'
 
 
-class SequenceNode(NodeBase):
-    def __init__(self, parent):
-        NodeBase.__init__(self)
-        self.parent = parent
+class SequenceNode(TypeNode):
+    def __init__(self, interface_node):
+        TypeNode.__init__(self)
+        self.interface_node = interface_node
 
     def handle(self, node):
         self.name = node.getAttribute('name')
@@ -369,16 +457,16 @@ class SequenceNode(NodeBase):
         self.container_type = node.getAttribute('container')
         self.data_type = node.getAttribute('type')
         
-        self.parent.types[self.name] = self
+        self.interface_node.types[self.name] = self
 
     def sig(self):
-        return 'a' + self.parent.type2sig(self.data_type)
+        return 'a' + self.interface_node.get_type(self.data_type).sig()
 
 
-class DictionaryNode(NodeBase):
-    def __init__(self, parent):
-        NodeBase.__init__(self)
-        self.parent = parent
+class DictionaryNode(TypeNode):
+    def __init__(self, interface_node):
+        TypeNode.__init__(self)
+        self.interface_node = interface_node
 
     def handle(self, node):
         self.name = node.getAttribute('name')
@@ -388,21 +476,21 @@ class DictionaryNode(NodeBase):
         self.value_type = node.getAttribute('value_type')
 
         if self.csymbol == '':
-            self.csymbol = 'std::map<%s,%s>' % ( self.parent.type2csymbol(self.key_type),
-                                                 self.parent.type2csymbol(self.value_type))
+            self.csymbol = 'std::map<%s,%s>' % ( self.interface_node.get_type(self.key_type).symbol(),
+                                                 self.interface_node.get_type(self.value_type).symbol())
         
-        self.parent.types[self.name] = self
+        self.interface_node.types[self.name] = self
 
     def sig(self):
         return 'e{' + \
-               self.parent.type2sig(self.key_type) + \
-               self.parent.type2sig(self.value_type) + '}'
+               self.interface_node.get_type(self.key_type).sig() + \
+               self.interface_node.get_type(self.value_type).sig() + '}'
 
 
-class EnumNode(NodeBase):
-    def __init__(self, parent):
-        NodeBase.__init__(self)
-        self.parent = parent
+class EnumNode(TypeNode):
+    def __init__(self, interface_node):
+        TypeNode.__init__(self)
+        self.interface_node = interface_node
         self.count = 0
         
     def handle(self, node):
@@ -416,10 +504,10 @@ class EnumNode(NodeBase):
                 if child.nodeName == 'value':
                     self.handle_value(child)
 
-        self.parent.types[self.name] = self
+        self.interface_node.types[self.name] = self
             
     def handle_value(self, node):
-        arg = ArgNode(self.parent)
+        arg = ArgNode(self.interface_node)
 
         val = node.getAttribute('value')
         if val != '':
@@ -435,28 +523,10 @@ class EnumNode(NodeBase):
         return 's'
 
 
-class TypeNode(NodeBase):
-    def __init__(self, parent):
-        NodeBase.__init__(self)
-        self.parent = parent
-        self.count = 0
-        
-    def handle(self, node):
-        self.name = node.getAttribute('name')
-        self.csymbol = node.getAttribute('csymbol')
-        self.qname = self.name.replace('.','_')
-
-        self.parent.types[self.name] = self
-            
-    def sig(self):
-        print 'Signature of type ' + self.name + ' unknown'
-        sys.exit(1)
-
-
 class ImportNode(NodeBase):
-    def __init__(self, parent):
+    def __init__(self, interface_node):
         NodeBase.__init__(self)
-        self.parent = parent
+        self.interface_node = interface_node
         self.includes = []
         self.namespaces = []
         
@@ -478,7 +548,7 @@ class ImportNode(NodeBase):
 # Main program
 
 if __name__ == '__main__':
-    usage = "usage: %prog [options] <introspect.xml>"
+    usage = "usage: %prog [options] <introspect.xml> [out-filename-prefix]"
     parser = OptionParser(usage=usage)
     parser.add_option("-l", "--language",
                       dest="language",
@@ -498,6 +568,10 @@ if __name__ == '__main__':
     templates = []
     directory = os.path.dirname(sys.argv[0])
 
+
+    if len(args) < 1 or len(args) > 2:
+        parser.error("Expected one or two parameters")
+        
     if options.backend not in ["gio", "freedesktop", "qt5"]:
         parser.error("Unsupported backend: " + options.backend)
 
@@ -522,8 +596,12 @@ if __name__ == '__main__':
     if len(templates) == 0:
         parser.error("Specify language")
         sys.exit(1)
-            
-    binding = TopNode(args[0])
+
+    outname = None
+    if len(args) >= 2:
+        outname = args[1]
+        
+    binding = TopNode(args[0], outname, options.backend)
     binding.parse()
 
     binding.include_filename = binding.name + header_ext
@@ -535,7 +613,7 @@ if __name__ == '__main__':
         
         ext = os.path.splitext(template_name)[1]
 
-        f = open(binding.name + ext, 'w+')
+        f = open(binding.outname + ext, 'w+')
         try:
             f.write(s)
         finally:

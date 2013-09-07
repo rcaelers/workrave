@@ -6,6 +6,14 @@ macro(dbus_generate NAME XML OUTFILE)
   )
 endmacro()
 
+macro(dbus_generate_with_backend NAME XML OUTFILE BACKEND)
+  add_custom_command(
+    OUTPUT ${OUTFILE}
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --backend=${BACKEND} -l C++ ${XML} ${NAME}
+	DEPENDS ${XML}
+  )
+endmacro()
+
 macro(dbus_add_activation_service SOURCE)
   get_filename_component(_service_file ${SOURCE} ABSOLUTE)
   string(REGEX REPLACE "\\.service.*$" ".service" _output_file ${SOURCE})

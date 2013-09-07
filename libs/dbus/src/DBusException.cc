@@ -1,6 +1,6 @@
-// DBusBinding-qt5.hh --- DBUS interface
+// DBusException.cc --- DBUS interface
 //
-// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUSBINDING_HH
-#define WORKRAVE_DBUS_DBUSBINDING_HH
+#ifndef WORKRAVE_DBUS_DBUSEXCEPTION_HH
+#define WORKRAVE_DBUS_DBUSEXCEPTION_HH
 
-#include <string>
-
-#include "DBusBinding.hh"
+#include "utils/Exception.hh"
 
 namespace workrave
 {
   namespace dbus
   {
-    class DBusBinding
-    {
-    public:
-      virtual ~DBusBinding() {}
-    };
+    const char *DBUS_ERROR_FAILED =                       "org.freedesktop.DBus.Error.Failed";
+    const char *ERROR_NOT_SUPPORTED =                     "org.freedesktop.DBus.Error.NotSupported";
+    const char *ERROR_INVALID_ARGS =                      "org.freedesktop.DBus.Error.InvalidArgs";
+    const char *ERROR_UNKNOWN_METHOD =                    "org.freedesktop.DBus.Error.UnknownMethod";
   }
 }
 
-#endif // WORKRAVE_DBUS_DBUSBINDING_HH
+#endif // WORKRAVE_DBUS_DBUSEXCEPTION_HH

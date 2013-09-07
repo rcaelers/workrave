@@ -45,21 +45,22 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBus::Ptr
-DBus::create()
+DBusFreeDesktop::Ptr
+DBusFreeDesktop::create()
 {
-  return Ptr(new DBus());
+  return Ptr(new DBusFreeDesktop());
 }
 
 //! Construct a new D-BUS bridge
-DBus::DBus()
-  : connection(NULL), owner(false), context(NULL), queue(NULL), watches(NULL), timeouts(NULL)
+DBusFreeDesktop::DBusFreeDesktop()
+  : connection(NULL), context(NULL), queue(NULL), watches(NULL), timeouts(NULL)
 {
 }
 
 
 //! Destruct the D-BUS bridge
-DBus::~DBus()
+DBusFreeDesktop::~DBusFreeDesktop
+()
 {
   if (connection != NULL)
     {
@@ -70,7 +71,7 @@ DBus::~DBus()
 
 //! Initialize D-BUS bridge
 void
-DBus::init()
+DBusFreeDesktop::init()
 {
 	DBusError error;
 
@@ -81,7 +82,7 @@ DBus::init()
     {
       connection = NULL;
       dbus_error_free(&error);
-      throw DBusSystemException("Unable to obtain session bus");
+      throw DBusRemoteException("Unable to obtain session bus");
     }
 
 	dbus_connection_set_exit_on_disconnect(connection, FALSE);
@@ -92,7 +93,7 @@ DBus::init()
 
 //! Registers the specified service
 void
-DBus::register_service(const std::string &service)
+DBusFreeDesktop::register_service(const std::string &service)
 {
 	DBusError error;
   int result = 0;
@@ -110,19 +111,17 @@ DBus::register_service(const std::string &service)
       connection = NULL;
 
       dbus_error_free(&error);
-      throw DBusSystemException("Unable to request service");
+      throw DBusRemoteException("Unable to request service");
     }
-
-	owner = (result == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER);
 }
 
 
 //! Registers the specified object path
 void
-DBus::register_object_path(const string &object_path)
+DBusFreeDesktop::register_object_path(const string &object_path)
 {
 	static DBusObjectPathVTable vtable = { NULL,
-                                         &DBus::dispatch_static,
+                                         &DBusFreeDesktop::dispatch_static,
                                          NULL,
                                          NULL,
                                          NULL,
@@ -133,19 +132,19 @@ DBus::register_object_path(const string &object_path)
                                             &vtable,
                                             this))
 	{
-    throw DBusSystemException("Unable to register object");
+    throw DBusRemoteException("Unable to register object");
 	}
 }
 
 
 //! Connect a D-DBUS object/interface to a C object
 void
-DBus::connect(const std::string &object_path, const std::string &interface_name, void *cobject)
+DBusFreeDesktop::connect(const std::string &object_path, const std::string &interface_name, void *cobject)
 {
-  DBusBindingBase *binding = find_binding(interface_name);
+  DBusBindingFreeDesktop *binding = dynamic_cast<DBusBindingFreeDesktop*>(find_binding(interface_name));
   if (binding == NULL)
     {
-      throw DBusSystemException("No such interface");
+      throw DBusRemoteException("No such interface");
     }
 
   ObjectIter it = objects.find(object_path);
@@ -166,7 +165,7 @@ DBus::connect(const std::string &object_path, const std::string &interface_name,
 
 //! Disconnect a D-DBUS object/interface to a C object
 void
-DBus::disconnect(const std::string &object_path, const std::string &interface_name)
+DBusFreeDesktop::disconnect(const std::string &object_path, const std::string &interface_name)
 {
   ObjectIter it = objects.find(object_path);
   if (it != objects.end())
@@ -180,17 +179,17 @@ DBus::disconnect(const std::string &object_path, const std::string &interface_na
 
 //! Register an interface binding
 void
-DBus::register_binding(const std::string &name, DBusBindingBase *interface)
+DBusFreeDesktop::register_binding(const std::string &name, DBusBindingFreeDesktop *interface)
 {
   bindings[name] = interface;
 }
 
 
 //! Find an interface binding
-DBusBindingBase *
-DBus::find_binding(const std::string &interface_name) const
+DBusBinding *
+DBusFreeDesktop::find_binding(const std::string &interface_name) const
 {
-  DBusBindingBase *ret = NULL;
+  DBusBinding *ret = NULL;
 
   BindingCIter it = bindings.find(interface_name);
   if (it != bindings.end())
@@ -203,7 +202,7 @@ DBus::find_binding(const std::string &interface_name) const
 
 
 void
-DBus::send(DBusMessage *msg) const
+DBusFreeDesktop::send(DBusMessage *msg) const
 {
   dbus_connection_send(connection, msg, NULL);
   dbus_message_unref(msg);
@@ -212,7 +211,7 @@ DBus::send(DBusMessage *msg) const
 
 
 void *
-DBus::find_object(const std::string &path, const std::string &interface_name) const
+DBusFreeDesktop::find_object(const std::string &path, const std::string &interface_name) const
 {
   void *cobject = NULL;
 
@@ -233,21 +232,14 @@ DBus::find_object(const std::string &path, const std::string &interface_name) co
 
 
 bool
-DBus::is_owner() const
-{
-  return owner;
-}
-
-
-bool
-DBus::is_available() const
+DBusFreeDesktop::is_available() const
 {
   return connection != NULL;
 }
 
 
 DBusHandlerResult
-DBus::dispatch(DBusConnection *connection, DBusMessage *message)
+DBusFreeDesktop::dispatch(DBusConnection *connection, DBusMessage *message)
 {
   try
     {
@@ -277,11 +269,11 @@ DBus::dispatch(DBusConnection *connection, DBusMessage *message)
 
 
 DBusHandlerResult
-DBus::dispatch_static(DBusConnection *connection,
+DBusFreeDesktop::dispatch_static(DBusConnection *connection,
                       DBusMessage *message,
                       void *user_data)
 {
-  DBus *dbus = (DBus *) user_data;
+  IDBus::Ptr dbus = (DBus *) user_data;
   return dbus->dispatch(connection, message);
 }
 
@@ -296,7 +288,7 @@ dbus_gettext(const char **ptr)
 
 
 DBusHandlerResult
-DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
+DBusFreeDesktop::handle_introspect(DBusConnection *connection, DBusMessage *message)
 {
 	string str;
 
@@ -320,10 +312,10 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
         {
           string interface_name = interface_it->first;
 
-          DBusBindingBase *binding = find_binding(interface_name);
+          DBusBindingFreeDesktop *binding = dynamic_cast<DBusBindingFreeDesktop*>(find_binding(interface_name));
           if (binding == NULL)
             {
-              throw DBusSystemException("Internal error, unknown interface");
+              throw DBusRemoteException("Internal error, unknown interface");
             }
 
           str += "<interface name='" + interface_name + "'>\n";
@@ -388,7 +380,7 @@ DBus::handle_introspect(DBusConnection *connection, DBusMessage *message)
 
 
 DBusHandlerResult
-DBus::handle_method(DBusConnection *connection, DBusMessage *message)
+DBusFreeDesktop::handle_method(DBusConnection *connection, DBusMessage *message)
 {
   string path = dbus_message_get_path(message);
   string interface_name = dbus_message_get_interface(message);
@@ -397,19 +389,19 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
   void *cobject = find_object(path, interface_name);
   if (cobject == NULL)
     {
-      throw DBusUsageException(string("no such object: ") + path + " " + interface_name );
+      throw DBusRemoteException(string("no such object: ") + path + " " + interface_name );
     }
 
-  DBusBindingBase *binding = find_binding(interface_name);
+  DBusBindingFreeDesktop *binding = dynamic_cast<DBusBindingFreeDesktop*>(find_binding(interface_name));
   if (binding == NULL)
     {
-      throw DBusSystemException(string("No such binding: ") + interface_name );
+      throw DBusRemoteException(string("No such binding: ") + interface_name );
     }
 
   DBusMessage *reply = binding->call(method, cobject, message);
   if (reply == NULL)
     {
-      throw DBusUsageException("Call failure");
+      throw DBusRemoteException("Call failure");
     }
 
   dbus_connection_send(connection, reply, NULL);
@@ -422,13 +414,13 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
 typedef struct {
 	DBusWatch *watch;
 	GSource *source;
-  DBus *dbus;
+  IDBus::Ptr dbus;
 } WatchData;
 
 typedef struct {
 	DBusTimeout *timeout;
 	guint id;
-  DBus *dbus;
+  IDBus::Ptr dbus;
 } TimeoutData;
 
 typedef struct {
@@ -439,7 +431,7 @@ typedef struct {
 
 
 gboolean
-DBus::queue_prepare(GSource *source, gint *timeout)
+DBusFreeDesktop::queue_prepare(GSource *source, gint *timeout)
 {
 	DBusConnection *connection = ((QueueData *) source)->connection;
 
@@ -450,7 +442,7 @@ DBus::queue_prepare(GSource *source, gint *timeout)
 
 
 gboolean
-DBus::queue_check(GSource *source)
+DBusFreeDesktop::queue_check(GSource *source)
 {
   (void) source;
 	return FALSE;
@@ -458,7 +450,7 @@ DBus::queue_check(GSource *source)
 
 
 gboolean
-DBus::queue_dispatch(GSource *source, GSourceFunc callback, gpointer data)
+DBusFreeDesktop::queue_dispatch(GSource *source, GSourceFunc callback, gpointer data)
 {
   (void) data;
   (void) callback;
@@ -473,7 +465,7 @@ DBus::queue_dispatch(GSource *source, GSourceFunc callback, gpointer data)
 }
 
 gboolean
-DBus::watch_dispatch(GIOChannel *source, GIOCondition condition, gpointer data)
+DBusFreeDesktop::watch_dispatch(GIOChannel *source, GIOCondition condition, gpointer data)
 {
   (void) source;
 
@@ -497,17 +489,17 @@ DBus::watch_dispatch(GIOChannel *source, GIOCondition condition, gpointer data)
 	return TRUE;
 }
 
-GSourceFuncs DBus::queue_funcs = {
-	DBus::queue_prepare,
-	DBus::queue_check,
-	DBus::queue_dispatch,
+GSourceFuncs DBusFreeDesktop::queue_funcs = {
+	DBusFreeDesktop::queue_prepare,
+	DBusFreeDesktop::queue_check,
+	DBusFreeDesktop::queue_dispatch,
 	NULL,
   NULL,
   NULL,
 };
 
 void
-DBus::watch_finalize(gpointer data)
+DBusFreeDesktop::watch_finalize(gpointer data)
 {
 	WatchData *watch_data = (WatchData*) data;
 
@@ -518,7 +510,7 @@ DBus::watch_finalize(gpointer data)
 }
 
 void
-DBus::watch_free(void *data)
+DBusFreeDesktop::watch_free(void *data)
 {
 	WatchData *watch_data = (WatchData*) data;
 
@@ -532,9 +524,9 @@ DBus::watch_free(void *data)
 }
 
 dbus_bool_t
-DBus::watch_add(DBusWatch *watch, void *data)
+DBusFreeDesktop::watch_add(DBusWatch *watch, void *data)
 {
-	DBus *dbus = (DBus*)data;
+	IDBus *dbus = (DBus*)data;
 	GIOCondition condition = (GIOCondition) (G_IO_ERR | G_IO_HUP);
 	GIOChannel *channel;
 	GSource *source;
@@ -580,10 +572,10 @@ DBus::watch_add(DBusWatch *watch, void *data)
 }
 
 void
-DBus::watch_remove(DBusWatch *watch, void *data)
+DBusFreeDesktop::watch_remove(DBusWatch *watch, void *data)
 {
 	WatchData *watch_data = (WatchData*) dbus_watch_get_data(watch);
-	DBus *dbus = (DBus*)data;
+	IDBus *dbus = (DBus*)data;
 
 	dbus_watch_set_data(watch, NULL, NULL);
 
@@ -600,7 +592,7 @@ DBus::watch_remove(DBusWatch *watch, void *data)
 }
 
 void
-DBus::watch_toggled(DBusWatch *watch, void *data)
+DBusFreeDesktop::watch_toggled(DBusWatch *watch, void *data)
 {
 	if (dbus_watch_get_enabled(watch))
 		watch_add(watch, data);
@@ -609,7 +601,7 @@ DBus::watch_toggled(DBusWatch *watch, void *data)
 }
 
 gboolean
-DBus::timeout_dispatch(gpointer data)
+DBusFreeDesktop::timeout_dispatch(gpointer data)
 {
 	TimeoutData *timeout_data = (TimeoutData*) data;
 
@@ -619,7 +611,7 @@ DBus::timeout_dispatch(gpointer data)
 }
 
 void
-DBus::timeout_free(void *data)
+DBusFreeDesktop::timeout_free(void *data)
 {
 	TimeoutData *timeout_data = (TimeoutData*)data;
 
@@ -631,10 +623,10 @@ DBus::timeout_free(void *data)
 
 
 dbus_bool_t
-DBus::timeout_add(DBusTimeout *timeout, void *data)
+DBusFreeDesktop::timeout_add(DBusTimeout *timeout, void *data)
 {
 	TimeoutData *timeout_data;
-  DBus *dbus = (DBus *) data;
+  IDBus *dbus = (DBus *) data;
 
 	if (dbus_timeout_get_enabled(timeout) == FALSE)
 		return TRUE;
@@ -655,10 +647,10 @@ DBus::timeout_add(DBusTimeout *timeout, void *data)
 }
 
 void
-DBus::timeout_remove(DBusTimeout *timeout, void *data)
+DBusFreeDesktop::timeout_remove(DBusTimeout *timeout, void *data)
 {
 	TimeoutData *timeout_data = (TimeoutData*)dbus_timeout_get_data(timeout);
-  DBus *dbus = (DBus *) data;
+  IDBus *dbus = (DBus *) data;
 
 	if (timeout_data == NULL)
 		return;
@@ -673,7 +665,7 @@ DBus::timeout_remove(DBusTimeout *timeout, void *data)
 
 
 void
-DBus::timeout_toggled(DBusTimeout *timeout, void *data)
+DBusFreeDesktop::timeout_toggled(DBusTimeout *timeout, void *data)
 {
 	if (dbus_timeout_get_enabled(timeout))
 		timeout_add(timeout, data);
@@ -683,15 +675,15 @@ DBus::timeout_toggled(DBusTimeout *timeout, void *data)
 
 
 void
-DBus::wakeup(void *data)
+DBusFreeDesktop::wakeup(void *data)
 {
-	DBus *dbus = (DBus*) data;
+	IDBus *dbus = (DBus*) data;
 	g_main_context_wakeup(dbus->context);
 }
 
 
 void
-DBus::connection_setup(GMainContext *context)
+DBusFreeDesktop::connection_setup(GMainContext *context)
 {
   if (context == NULL)
     context = g_main_context_default();

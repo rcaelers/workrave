@@ -1,6 +1,6 @@
-// DBusBinding-qt5.hh --- DBUS interface
+// Test.hh
 //
-// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUSBINDING_HH
-#define WORKRAVE_DBUS_DBUSBINDING_HH
+#ifndef DBUSTESTSERVERGIO_HH
+#define DBUSTESTSERVERGIO_HH
 
 #include <string>
+#include <set>
 
-#include "DBusBinding.hh"
+#include <glib.h>
 
-namespace workrave
+#include "DBusTestData.hh"
+#include "DBusTestServer.hh"
+
+class DBusTestServerGio : public DBusTestServer
 {
-  namespace dbus
-  {
-    class DBusBinding
-    {
-    public:
-      virtual ~DBusBinding() {}
-    };
-  }
-}
+public:
+  DBusTestServerGio();
+  virtual ~DBusTestServerGio();
 
-#endif // WORKRAVE_DBUS_DBUSBINDING_HH
+  void run(int argc, char **argv);
+};
+
+#endif // DBUSTESTSERVERGIO_HH

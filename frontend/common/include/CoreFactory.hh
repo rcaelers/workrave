@@ -22,16 +22,7 @@
 
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
-#include "dbus/DBus.hh"
-
-// Forward declarion of external interfaces.
-namespace workrave
-{
-  namespace dbus
-  {
-    class DBus;
-  }
-}
+#include "dbus/IDBus.hh"
 
 //! Main access points to the Core.
 class CoreFactory
@@ -44,7 +35,7 @@ public:
   static workrave::config::IConfigurator::Ptr get_configurator();
   
   //! Returns the interface to the DBUS facility.
-  static workrave::dbus::DBus::Ptr get_dbus();
+  static workrave::dbus::IDBus::Ptr get_dbus();
   
   //! The one and only core instance
   static workrave::ICore::Ptr core;

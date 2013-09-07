@@ -32,7 +32,7 @@
 
 #include "Util.hh"
 #include "utils/TimeSource.hh"
-#include "dbus/DBus.hh"
+#include "dbus/IDBus.hh"
 
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
@@ -45,7 +45,7 @@ BreaksControl::create(IApp *app,
                       IActivityMonitor::Ptr activity_monitor,
                       Statistics::Ptr statistics,
                       IConfigurator::Ptr configurator,
-                      DBus::Ptr dbus)
+                      IDBus::Ptr dbus)
 {
   return Ptr(new BreaksControl(app,
                                activity_monitor,
@@ -60,7 +60,7 @@ BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              Statistics::Ptr statistics,
                              IConfigurator::Ptr configurator,
-                             DBus::Ptr dbus) :
+                             IDBus::Ptr dbus) :
   application(app),
   activity_monitor(activity_monitor),
   statistics(statistics),

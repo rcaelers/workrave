@@ -17,54 +17,43 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
-#define WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
-
-#include <boost/shared_ptr.hpp>
-
-#include <QtDBus/QtDBus>
+#ifndef WORKRAVE_DBUS_DBUSGENERIC_HH
+#define WORKRAVE_DBUS_DBUSGENERIC_HH
 
 #include <string>
 #include <map>
 #include <list>
 
+#include <boost/shared_ptr.hpp>
+
+#include <QtDBus/QtDBus>
+
+#include "dbus/IDBus.hh"
+#include "dbus/DBusBinding.hh"
+
 namespace workrave
 {
   namespace dbus
   {
-    class DBusBindingBase;
-
-    class DBus : public  QDBusVirtualObject
+    class DBusGeneric : public IDBus
     {
     public:
-      typedef boost::shared_ptr<DBus> Ptr;
+      typedef boost::shared_ptr<DBusGeneric> Ptr;
 
     public:
       static Ptr create();
 
-      DBus();
-      ~DBus();
+      DBusGeneric();
+      virtual ~DBusGeneric();
 
-      void init();
-      void register_service(const std::string &service);
-      void register_object_path(const std::string &object_path);
       void connect(const std::string &path, const std::string &interface_name, void *object);
       void disconnect(const std::string &path, const std::string &interface_name);
 
-      void register_binding(const std::string &interface_name, DBusBindingBase *binding);
-      DBusBindingBase *find_binding(const std::string &interface_name) const;
+      void register_binding(const std::string &interface_name, DBusBinding *binding);
+      DBusBinding *find_binding(const std::string &interface_name) const;
 
-      bool is_available() const;
-      bool is_owner() const;
-      bool is_running(const std::string &name) const;
-
-      QDBusConnection get_connection() { return connection; }
-
-      virtual QString introspect(const QString &path) const;
-      virtual bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection);
-      
-    private:
-      typedef std::map<std::string, DBusBindingBase *> Bindings;
+    protected:
+      typedef std::map<std::string, DBusBinding *> Bindings;
       typedef Bindings::iterator BindingIter;
       typedef Bindings::const_iterator BindingCIter;
 
@@ -77,23 +66,15 @@ namespace workrave
       typedef Objects::const_iterator ObjectCIter;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;
-      void send(QDBusMessage *msg) const;
 
-      friend class DBusBindingBase;
+      friend class DBusBinding;
       
-    private:
-      //! Connection to the DBus.
-      QDBusConnection connection;
-
       //! Bindings for interfaces.
       Bindings bindings;
 
       //!
       Objects objects;
-
-      //!
-      bool owner;
     };
   }
 }
-#endif // WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
+#endif // WORKRAVE_DBUS_DBUSGENERIC_HH

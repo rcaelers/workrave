@@ -83,6 +83,22 @@ if(COMPILER_SUPPORTS_C99)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Testing
+
+option(WITH_TEST "Enable unit tests" OFF)
+
+if (WITH_TEST)
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.36.0
+    gio-2.0>=2.26.0)
+
+  if (GLIB_FOUND)
+    set (HAVE_DBUS_TEST_GIO ON)
+  endif()
+  
+endif()
+#----------------------------------------------------------------------------------------------------
 # GTK
 
 option(WITH_GTK "Enable GTK Workrave application" ON)
@@ -153,6 +169,8 @@ if (WITH_QT5)
     set (HAVE_DBUS ON)
     set (HAVE_DBUS_QT5 ON)
     set (DBUS_BACKEND "qt5")
+
+    include_directories(${Qt5DBus_INCLUDE_DIRS})
   endif()
   
   include_directories(${Qt5Core_INCLUDE_DIRS})
@@ -297,8 +315,6 @@ set (GETTEXT_PACKAGE "workrave")
 # Options
 
 include(Intltool)
-
-# TODO: HAVE_TESTS
 
 #----------------------------------------------------------------------------------------------------
 # Tracing

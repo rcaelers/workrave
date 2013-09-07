@@ -1,6 +1,6 @@
 // DBus-template.hh --- DBUS template
 //
-// Copyright (C) 2007, 2008, 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,7 @@
 \#include <map>
 \#include <deque>
 
-\#include "dbus/DBus-freedesktop.hh"
-\#include "dbus/DBusBinding-freedesktop.hh"
+\#include "dbus/DBusBindingFreedesktop.hh"
 \#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
@@ -70,7 +69,7 @@ private:
   }
 
 public:
-  ${interface.qname}_Stub(DBus *dbus);
+  ${interface.qname}_Stub(IDBus::Ptr dbus);
   ~${interface.qname}_Stub();
 
   #for $m in interface.signals
@@ -115,10 +114,10 @@ private:
 };
 
 
-${interface.qname} *${interface.qname}::instance(const DBus *dbus)
+${interface.qname} *${interface.qname}::instance(const IDBus::Ptr dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
-  DBusBindingBase *binding = dbus->find_binding("${interface.name}");
+  DBusBindingFreedesktop *binding = dynamic_cast<DBusBindingFreedesktop*>(dbus->find_binding("${interface.name}"));
 
   if (binding != NULL)
     {
@@ -128,7 +127,7 @@ ${interface.qname} *${interface.qname}::instance(const DBus *dbus)
   return iface;
 }
 
-${interface.qname}_Stub::${interface.qname}_Stub(DBus *dbus)
+${interface.qname}_Stub::${interface.qname}_Stub(IDBus::Ptr dbus)
   : DBusBindingBase(dbus)
 {
 }
@@ -163,7 +162,7 @@ ${interface.qname}_Stub::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymb
 	int argtype = dbus_message_iter_get_arg_type(reader);
 
   if (argtype != DBUS_TYPE_STRING)
-		throw DBusTypeException("Type mismatch. Excepted string");
+		throw DBusRemoteException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
 
@@ -177,7 +176,7 @@ ${interface.qname}_Stub::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymb
   #end for
   else
     {
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 }
 
@@ -193,7 +192,7 @@ ${interface.qname}_Stub::put_${enum.qname}(DBusMessageIter *writer, const ${enum
       break;
     #end for
     default:
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 
   put_string(writer, &value);
@@ -241,7 +240,7 @@ ${interface.qname}_Stub::put_${struct.qname}(DBusMessageIter *writer, const ${st
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_STRUCT, NULL, &it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   #for p in struct.fields
@@ -261,7 +260,7 @@ ${interface.qname}_Stub::put_${struct.qname}(DBusMessageIter *writer, const ${st
   ok = dbus_message_iter_close_container(writer, &it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 
@@ -295,7 +294,7 @@ ${interface.qname}_Stub::put_${seq.qname}(DBusMessageIter *writer, const ${seq.c
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "$interface.type2sig(seq.data_type)", &arr);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   for(it = result->begin(); it != result->end(); it++)
@@ -306,7 +305,7 @@ ${interface.qname}_Stub::put_${seq.qname}(DBusMessageIter *writer, const ${seq.c
   ok = dbus_message_iter_close_container(writer, &arr);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 #end for
@@ -352,7 +351,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
                                         "$interface.type2sig(dict.value_type)", &arr_it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   for (it = result->begin(); it != result->end(); it++)
@@ -360,7 +359,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
       ok = dbus_message_iter_open_container(&arr_it, DBUS_TYPE_DICT_ENTRY, NULL, &dict_it);
       if (!ok)
         {
-          throw DBusSystemException("Internal error");
+          throw DBusRemoteException("Internal error");
         }
 
       put_${dict.key_type}(&dict_it, &(it->first));
@@ -369,14 +368,14 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
       ok = dbus_message_iter_close_container(&arr_it, &dict_it);
       if (!ok)
         {
-          throw DBusSystemException("Internal error");
+          throw DBusRemoteException("Internal error");
         }
     }
 
   ok = dbus_message_iter_close_container(writer, &arr_it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 
@@ -413,11 +412,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #if p.direction == 'sender'
       const char *sender = dbus_message_get_sender(message);
       #end if
-      #if 'ptrptr' in p.hint
-      $interface.type2csymbol(p.type) *${p.name} #slurp
-      #else
       $interface.type2csymbol(p.type) ${p.name} #slurp
-      #end if
       #if p.direction == 'bind'
       = ${p.bind} #slurp
       else if p.direction == 'sender'
@@ -430,7 +425,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #if have_in_args
       if (!ok)
         {
-          throw DBusSystemException("No parameters");
+          throw DBusRemoteException("No parameters");
         }
       #end if
 
@@ -452,8 +447,6 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       $comma $p.name#slurp
       #else if 'ptr' in p.hint
       $comma &$p.name#slurp
-      #else if 'ptrptr' in p.hint
-      $comma &$p.name#slurp
       #end if
       #set comma = ','
       #end for
@@ -463,18 +456,14 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       reply = dbus_message_new_method_return(message);
       if (reply == NULL)
         {
-          throw DBusSystemException("Internal error");
+          throw DBusRemoteException("Internal error");
         }
 
       dbus_message_iter_init_append(reply, &writer);
 
       #for arg in method.params:
       #if arg.direction == 'out'
-      #if 'ptrptr' in p.hint
-      put_${arg.type}(&writer, ${arg.name});
-      #else
       put_${arg.type}(&writer, &${arg.name});
-      #end if
       #end if
       #end for
   }
@@ -521,7 +510,7 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
                                 "$signal.qname");
   if (msg == NULL)
     {
-      throw DBusSystemException("Unable to send signal");
+      throw DBusRemoteException("Unable to send signal");
     }
 
   dbus_message_iter_init_append(msg, &writer);
@@ -577,7 +566,7 @@ DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 
 #end for
 
-void init_${model.name}(DBus *dbus)
+void init_${model.name}(IDBus::Ptr dbus)
 {
   #for interface in $model.interfaces
   #if interface.condition != ''

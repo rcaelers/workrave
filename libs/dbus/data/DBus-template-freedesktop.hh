@@ -4,7 +4,7 @@
 \#ifndef DBUS__HH
 \#define DBUS__HH
 
-\#include "dbus/DBusBinding-freedesktop.hh"
+\#include "dbus/DBusBindingFreedesktop.hh"
 
 #for $interface in $model.interfaces
 
@@ -30,7 +30,7 @@ class $interface.qname
 public:
   virtual ~${interface.qname}() {}
 
-  static $interface.qname *instance(const workrave::dbus::DBus *dbus);
+  static $interface.qname *instance(const workrave::dbus::IDBus::Ptr dbus);
 
   #for $m in interface.signals
   virtual void ${m.qname}(const string &path, #slurp

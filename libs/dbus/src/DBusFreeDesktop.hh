@@ -20,60 +20,43 @@
 #ifndef WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
 #define WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
 
+#include <string>
+#include <map>
+#include <list>
+
 #include <boost/shared_ptr.hpp>
 
 #include <dbus/dbus.h>
 
-#include <string>
-#include <map>
-#include <list>
+#include "dbus/IDBus.hh"
+#include "dbus/DBusBindingFreeDesktop.hh"
+#include "DBusGeneric.hh"
 
 namespace workrave
 {
   namespace dbus
   {
-    class DBusBindingBase;
-
-    class DBus
+    class DBusFreeDesktop : public DBusGeneric, public IDBusPrivateFreeDesktop
     {
     public:
-      typedef boost::shared_ptr<DBus> Ptr;
+      typedef boost::shared_ptr<DBusFreeDesktop> Ptr;
 
     public:
       static Ptr create();
 
-      DBus();
-      ~DBus();
+      DBusFreeDesktop();
+      virtual ~DBusFreeDesktop();
 
       typedef DBusMessage *DBusSignal;
 
-      void init();
-      void register_service(const std::string &service);
-      void register_object_path(const std::string &object_path);
-      void connect(const std::string &path, const std::string &interface_name, void *object);
-      void disconnect(const std::string &path, const std::string &interface_name);
-
-      void register_binding(const std::string &interface_name, DBusBindingBase *binding);
-      DBusBindingBase *find_binding(const std::string &interface_name) const;
-
-      bool is_available() const;
-      bool is_owner() const;
+      virtual void init();
+      virtual void register_service(const std::string &service);
+      virtual void register_object_path(const std::string &object_path);
+      virtual bool is_available() const;
 
       DBusConnection *conn() { return connection; }
 
     private:
-      typedef std::map<std::string, DBusBindingBase *> Bindings;
-      typedef Bindings::iterator BindingIter;
-      typedef Bindings::const_iterator BindingCIter;
-
-      typedef std::map<std::string, void *> Interfaces;
-      typedef Interfaces::iterator InterfaceIter;
-      typedef Interfaces::const_iterator InterfaceCIter;
-
-      typedef std::map<std::string, Interfaces> Objects;
-      typedef Objects::iterator ObjectIter;
-      typedef Objects::const_iterator ObjectCIter;
-
       DBusHandlerResult dispatch_static(DBusConnection *connection,
                                         DBusMessage *message);
 
@@ -88,22 +71,12 @@ namespace workrave
       void *find_object(const std::string &path, const std::string &interface_name) const;
       void send(DBusMessage *msg) const;
 
-      friend class DBusBindingBase;
+      friend class DBusBinding;
 
 
     private:
       //! Connection to the DBus.
       DBusConnection *connection;
-
-      //! Bindings for interfaces.
-      Bindings bindings;
-
-      //!
-      Objects objects;
-
-      //!
-      bool owner;
-
       GMainContext *context;
       GSource *queue;
       GSList *watches;

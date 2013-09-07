@@ -22,15 +22,37 @@
 
 #include <string>
 
+#include <QtDBus/QtDBus>
+
+#include "dbus/DBusBinding.hh"
+#include "dbus/IDBus.hh"
+
 namespace workrave
 {
   namespace dbus
   {
     class DBus;
 
-    class DBusBaseTypes
+    class IDBusPrivateQt5
     {
     public:
+      typedef boost::shared_ptr<IDBusPrivateQt5> Ptr;
+
+      virtual ~IDBusPrivateQt5() {}
+
+      virtual QDBusConnection get_connection() = 0;
+    };
+    
+    class DBusBindingQt5 : public DBusBinding
+    {
+    public:
+      DBusBindingQt5(IDBus::Ptr dbus);
+      virtual ~DBusBindingQt5();
+
+      virtual const char *get_interface_introspect() = 0;
+      virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
+
+      void get_int(const QVariant &variant, int *value);
       void get_uint8(const QVariant &variant, uint8_t *value);
       void get_uint16(const QVariant &variant, uint16_t *value);
       void get_int16(const QVariant &variant, int16_t *value);
@@ -41,8 +63,10 @@ namespace workrave
       void get_bool(const QVariant &variant, bool *value);
       void get_double(const QVariant &variant, double *value);
       void get_string(const QVariant &variant, std::string *value);
+      void get_string(const QVariant &variant, QString *value);
 
       QVariant put_uint8(const uint8_t *value);
+      QVariant put_int(const int *value);
       QVariant put_uint16(const uint16_t *value);
       QVariant put_int16(const int16_t *value);
       QVariant put_uint32(const uint32_t *value);
@@ -52,30 +76,10 @@ namespace workrave
       QVariant put_bool(const bool *value);
       QVariant put_double(const double *value);
       QVariant put_string(const std::string *value);
-
-      template<typename T>
-      void get(const QVariant &v, T *value)
-      {
-        *value = v.value<T>();
-      }
-
-      template<typename T>
-      QVariant put(const T *value)
-      {
-        return QVariant(*value);
-      }
-    };
-
-    class DBusBindingBase : public DBusBaseTypes
-    {
-    public:
-      DBusBindingBase(DBus *dbus);
-      virtual ~DBusBindingBase();
-
-      virtual const char *get_interface_introspect() = 0;
-      virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
+      QVariant put_string(const QString *value);
+      
     protected:
-      DBus *dbus;
+      IDBus::Ptr dbus;
     };
   }
 }

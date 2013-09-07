@@ -23,15 +23,33 @@
 #include <string>
 #include <gio/gio.h>
 
+#include "dbus/DBusBinding.hh"
+#include "dbus/IDBus.hh"
+
 namespace workrave
 {
   namespace dbus
   {
-    class DBus;
-
-    class DBusBaseTypes
+    class IDBusPrivateGio
     {
     public:
+      typedef boost::shared_ptr<IDBusPrivateGio> Ptr;
+
+      virtual ~IDBusPrivateGio() {}
+
+      virtual GDBusConnection *get_connection() const = 0;
+    };
+    
+    class DBusBindingGio : public DBusBinding
+    {
+    public:
+      DBusBindingGio(IDBus::Ptr dbus);
+      virtual ~DBusBindingGio();
+
+      virtual const char *get_interface_introspect() = 0;
+      virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs) = 0;
+
+      void get_int(GVariant *v, int *value);
       void get_uint8(GVariant *v, uint8_t *value);
       void get_uint16(GVariant *v, uint16_t *value);
       void get_int16(GVariant *v, int16_t *value);
@@ -43,6 +61,7 @@ namespace workrave
       void get_double(GVariant *v, double *value);
       void get_string(GVariant *v, std::string *value);
 
+      GVariant *put_int(const int *value);
       GVariant *put_uint8(const uint8_t *value);
       GVariant *put_uint16(const uint16_t *value);
       GVariant *put_int16(const int16_t *value);
@@ -53,19 +72,9 @@ namespace workrave
       GVariant *put_bool(const bool *value);
       GVariant *put_double(const double *value);
       GVariant *put_string(const std::string *value);
-    };
-
-    class DBusBindingBase : public DBusBaseTypes
-    {
-    public:
-      DBusBindingBase(DBus *dbus);
-      virtual ~DBusBindingBase();
-
-      virtual const char *get_interface_introspect() = 0;
-      virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs) = 0;
-
+      
     protected:
-      DBus *dbus;
+      IDBus::Ptr dbus;
     };
   }
 }

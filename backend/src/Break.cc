@@ -40,8 +40,7 @@
 #include "Statistics.hh"
 #include "CoreConfig.hh"
 
-#include "dbus/DBus.hh"
-#include "dbus/DBusException.hh"
+#include "dbus/IDBus.hh"
 
 #ifdef HAVE_DBUS
 #include "DBusWorkrave.hh"
@@ -58,7 +57,7 @@ Break::create(BreakId id,
               IActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
               IConfigurator::Ptr configurator,
-              DBus::Ptr dbus)
+              IDBus::Ptr dbus)
 {
   return Ptr(new Break(id, app, break_support, activity_monitor, statistics, configurator, dbus));
 }
@@ -71,7 +70,7 @@ Break::Break(BreakId id,
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
              IConfigurator::Ptr configurator,
-             DBus::Ptr dbus) :
+             IDBus::Ptr dbus) :
   break_id(id),
   application(app),
   break_support(break_support),
@@ -818,7 +817,7 @@ Break::send_signal(BreakStage stage)
 
   if (progress != NULL && dbus)
     {
-      org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus.get());
+      org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
 
       if (iface != NULL)
         {

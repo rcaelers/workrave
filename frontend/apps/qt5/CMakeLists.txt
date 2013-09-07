@@ -81,7 +81,6 @@ include_directories(
 
   ${CMAKE_SOURCE_DIR}/backend/include/
 
-  #${GLIB_INCLUDE_DIRS}
   #${INDICATOR_INCLUDE_DIRS}
   )
 
@@ -101,9 +100,6 @@ if (HAVE_DBUS)
 endif()
 
 target_link_libraries(workrave-qt workrave-libs-utils)
-
-link_directories(${GLIB_LIBPATH})
-target_link_libraries(workrave-qt ${GLIB_LIBRARIES})
 
 #link_directories(${GDK_LIBPATH})
 #target_link_libraries(workrave-qt ${GDK_LIBRARIES})

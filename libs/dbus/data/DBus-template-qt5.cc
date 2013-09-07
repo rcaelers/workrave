@@ -28,8 +28,9 @@
 
 \#include <stdlib.h>
 
-\#include "dbus/DBus-qt5.hh"
-\#include "dbus/DBusBinding-qt5.hh"
+\#include <boost/lexical_cast.hpp>
+
+\#include "dbus/DBusBindingQt5.hh"
 \#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
@@ -54,7 +55,7 @@ using namespace $ns;
   #end for
 #end for
 
-class ${interface.qname}_Stub : public DBusBindingBase, public ${interface.qname}
+class ${interface.qname}_Stub : public DBusBindingQt5, public ${interface.qname}
 {
 private:
   typedef void (${interface.qname}_Stub::*DBusMethodPointer)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
@@ -73,19 +74,19 @@ private:
   }
 
 public:
-  ${interface.qname}_Stub(DBus *dbus);
-  ~${interface.qname}_Stub();
+  ${interface.qname}_Stub(IDBus::Ptr dbus);
+  virtual ~${interface.qname}_Stub();
 
 #for $m in interface.signals
   void ${m.qname}(const string &path, #slurp
   #set comma = ''
   #for p in m.params
     #if p.hint == []
-      $comma $interface.type2csymbol(p.type) $p.name#slurp
+      $comma $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() *$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() &$p.name#slurp
     #end if
   #set comma = ','
   #end for
@@ -99,23 +100,23 @@ private:
 #end for
 
 #for enum in $interface.enums
-  void get_${enum.qname}(const QVariant &variant, ${enum.csymbol} *result);
-  QVariant put_${enum.qname}(const ${enum.csymbol} *result);
+  void get_${enum.qname}(const QVariant &variant, ${enum.symbol()} *result);
+  QVariant put_${enum.qname}(const ${enum.symbol()} *result);
 #end for
 
 #for struct in $interface.structs
-  void get_${struct.qname}(const QVariant &variant, ${struct.csymbol} *result);
-  QVariant put_${struct.qname}(const ${struct.csymbol} *result);
+  void get_${struct.qname}(const QVariant &variant, ${struct.symbol()} *result);
+  QVariant put_${struct.qname}(const ${struct.symbol()} *result);
 #end for
 
 #for seq in $interface.sequences
-  void get_${seq.qname}(const QVariant &variant, ${seq.csymbol} *result);
-  QVariant put_${seq.qname}(const ${seq.csymbol} *result);
+  void get_${seq.qname}(const QVariant &variant, ${seq.symbol()} *result);
+  QVariant put_${seq.qname}(const ${seq.symbol()} *result);
 #end for
 
 #for dict in $interface.dictionaries
-  void get_${dict.qname}(const QVariant &variant, ${dict.csymbol} *result);
-  QVariant put_${dict.qname}(const ${dict.csymbol} *result);
+  void get_${dict.qname}(const QVariant &variant, ${dict.symbol()} *result);
+  QVariant put_${dict.qname}(const ${dict.symbol()} *result);
 #end for
 
   static const DBusMethod method_table[];
@@ -123,10 +124,10 @@ private:
 };
 
 
-${interface.qname} *${interface.qname}::instance(const DBus *dbus)
+${interface.qname} *${interface.qname}::instance(const IDBus::Ptr dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
-  DBusBindingBase *binding = dbus->find_binding("${interface.name}");
+  DBusBinding *binding = dbus->find_binding("${interface.name}");
 
   if (binding != NULL)
     {
@@ -136,8 +137,8 @@ ${interface.qname} *${interface.qname}::instance(const DBus *dbus)
   return iface;
 }
 
-${interface.qname}_Stub::${interface.qname}_Stub(DBus *dbus)
-  : DBusBindingBase(dbus)
+${interface.qname}_Stub::${interface.qname}_Stub(IDBus::Ptr dbus)
+  : DBusBindingQt5(dbus)
 {
 }
 
@@ -163,13 +164,14 @@ ${interface.qname}_Stub::call(void *object, const QDBusMessage &message, const Q
         }
       table++;
     }
-  throw DBusUsageException(std::string("No such member:") + method_name );
+  throw DBusRemoteException(DBUS_ERROR_UNKNOWN_METHOD,
+                            std::string("No such member:") + method_name );
 }
 
 #for enum in $interface.enums
 
 void
-${interface.qname}_Stub::get_${enum.qname}(const QVariant &variant, ${enum.csymbol} *result)
+${interface.qname}_Stub::get_${enum.qname}(const QVariant &variant, ${enum.symbol()} *result)
 {
   std::string value;
 
@@ -179,29 +181,30 @@ ${interface.qname}_Stub::get_${enum.qname}(const QVariant &variant, ${enum.csymb
 #for e in enum.values
   $if_stm ("$e.name" == value)
     {
-      *result = $e.csymbol;
+      *result = $e.symbol();
     }
   #set $if_stm = 'else if'
 #end for
   else
     {
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                                "Illegal enum value");
     }
 }
 
 QVariant
-${interface.qname}_Stub::put_${enum.qname}(const ${enum.csymbol} *result)
+${interface.qname}_Stub::put_${enum.qname}(const ${enum.symbol()} *result)
 {
   string value;
   switch (*result)
     {
     #for e in enum.values
-    case $e.csymbol:
+    case $e.symbol():
       value = "$e.name";
       break;
     #end for
     default:
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS, "Illegal enum value");
     }
 
   return put_string(&value);
@@ -212,64 +215,76 @@ ${interface.qname}_Stub::put_${enum.qname}(const ${enum.csymbol} *result)
 #for struct in $interface.structs
 
 void
-${interface.qname}_Stub::get_${struct.qname}(const QVariant &variant, ${struct.csymbol} *result)
+${interface.qname}_Stub::get_${struct.qname}(const QVariant &variant, ${struct.symbol()} *result)
 {
 #set num_expected_fields = len($struct.fields)
 
-  QVariantList vlist = variant.value<QVariantList>();
-  if (vlist.size() != $num_expected_fields)
-    {
-      throw DBusSystemException("Incorrect number of field in struct");
-    }
+  const QDBusArgument arg = variant.value<QDBusArgument>();
 
+  if (arg.currentType() != QDBusArgument::StructureType)
+    {
+      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                                std::string("Incorrect parameter type"));
+    }
+  
 #for p in struct.fields
   #if p.type != p.ext_type
-  $interface.type2csymbol(p.ext_type) _${p.name};
+  $interface.get_type(p.ext_type).symbol() _${p.name};
   #end if
 #end for
 
+  arg.beginStructure();
 #set index = 0
 #for p in struct.fields
-  QVariant v_${p.name} = vlist.at($index);
+  if (arg.atEnd())
+  {
+    throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                              std::string("Too few number of field in struct ${struct.qname}, expected $num_expected_fields "));
+  }
+    
+  QVariant ${p.name} = arg.asVariant();
 
   #if p.type != p.ext_type
-  get_${p.ext_type}(v_${p.name}, &_${p.name});
+  get_${p.ext_type}(${p.name}, &${p.name});
   #else
-  get_${p.ext_type}(v_${p.name}, ($interface.type2csymbol(p.ext_type) *) &(result->${p.name}));
+  get_${p.ext_type}(${p.name}, ($interface.get_type(p.ext_type).symbol() *) &(result->${p.name}));
   #end if
   #set index = index + 1
 #end for
+  arg.endStructure();
 
 #for p in struct.fields
   #if p.type != p.ext_type
-  result->${p.name} = ($interface.type2csymbol(p.type)) _${p.name};
+  result->${p.name} = ($interface.get_type(p.type).symbol()) _${p.name};
   #end if
 #end for
 }
 
 
 QVariant
-${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
+${interface.qname}_Stub::put_${struct.qname}(const ${struct.symbol()} *result)
 {
-
 #for p in struct.fields
   #if p.type != p.ext_type
-  $interface.type2csymbol(p.ext_type) f_${p.name} = ($interface.type2csymbol(p.ext_type))result->${p.name};
+  $interface.get_type(p.ext_type).symbol() f_${p.name} = ($interface.get_type(p.ext_type).symbol())result->${p.name};
   #end if
 #end for
 
-  QVariantList vlist;
+  QDBusArgument arg;
+  arg.beginStructure();
 
 #for p in struct.fields
   #if p.type != p.ext_type
-  QVariant v = put_${p.ext_type}(&f_${p.name});
+  QVariant ${p.name} = put_${p.ext_type}(&f_${p.name});
   #else
-  QVariant v = put_${p.ext_type}(($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  QVariant ${p.name} = put_${p.ext_type}(($interface.get_type(p.type).symbol() *) &(result->${p.name}));
   #end if
-  vlist.append(vlist, v);
+  arg.appendVariant(${p.name});
 #end for
 
-  return vlist;
+  arg.endStructure();
+
+  return QVariant::fromValue(arg);
 }
 
 #end for
@@ -277,31 +292,43 @@ ${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
 #for seq in $interface.sequences
 
 void
-${interface.qname}_Stub::get_${seq.qname}(const QVariant &variant, ${seq.csymbol} *result)
+${interface.qname}_Stub::get_${seq.qname}(const QVariant &variant, ${seq.symbol()} *result)
 {
-  QVariantList vlist = variant.value<QVariantList>();
+  const QDBusArgument arg = variant.value<QDBusArgument>();
 
-  QVariant child;
-  for (auto child : vlist)
+  if (arg.currentType() != QDBusArgument::ArrayType)
     {
-      $interface.type2csymbol(seq.data_type) tmp;
-      get_${seq.data_type}(child, &tmp);
+      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                                std::string("Incorrect parameter type"));
+    }
+  
+  arg.beginArray();
+  
+  while (!arg.atEnd())
+    {
+      $interface.get_type(seq.data_type).symbol() tmp;
+      get_${seq.data_type}(arg.asVariant(), &tmp);
       result->push_back(tmp);
     }
+
+  arg.endArray();
 }
 
 QVariant
-${interface.qname}_Stub::put(const ${seq.csymbol} *result)
+${interface.qname}_Stub::put_${seq.qname}(const ${seq.symbol()} *result)
 {
-  QVariantList vlist;
+  QDBusArgument arg;
 
-  for (auto it : result)
-  {
-    QVariant v = put_${seq.data_type}(&(*it));
-    vlist.append(v);
-  }
+  arg.beginArray(qMetaTypeId<$interface.get_type(seq.data_type).symbol_int()>());
 
-  return vlist;
+  for (auto &i : *result)
+    {
+      arg.appendVariant(put_${seq.data_type}(&i));
+    }
+
+  arg.endArray();
+
+  return QVariant::fromValue(arg);
 }
 #end for
 
@@ -309,40 +336,52 @@ ${interface.qname}_Stub::put(const ${seq.csymbol} *result)
 #for dict in $interface.dictionaries
 
 void
-${interface.qname}_Stub::get_${dict.qname}(const QVariant &variant, ${dict.csymbol} *result)
+${interface.qname}_Stub::get_${dict.qname}(const QVariant &variant, ${dict.symbol()} *result)
 {
-  QVariantMap vmap;
+  const QDBusArgument arg = variant.value<QDBusArgument>();
 
-  for (auto child : vmap)
+  if (arg.currentType() != QDBusArgument::MapType)
     {
-      QString v_key = child.key();
-      QVariant v_value = child.value()
+      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                                std::string("Incorrect parameter type"));
+    }
+  
+  arg.beginMap();
 
-      $interface.type2csymbol(dict.key_type) key;
-      $interface.type2csymbol(dict.value_type) value;
+  while (!arg.atEnd())
+    {
+      $interface.get_type(dict.key_type).symbol() key;
+      $interface.get_type(dict.value_type).symbol() value;
 
-      get_${dict.key_type}(v_key, &key);
-      get_${dict.value_type}(v_value, &value);
+      arg.beginMapEntry();
+      get_${dict.key_type}(arg.asVariant(), &key);
+      get_${dict.value_type}(arg.asVariant(), &value);
+      arg.endMapEntry();
 
       (*result)[key] = value;
+      arg.endMap();
     }
 }
 
 
 QVariant
-${interface.qname}_Stub::put_${dict.qname}(const ${dict.csymbol} *result)
+${interface.qname}_Stub::put_${dict.qname}(const ${dict.symbol()} *result)
 {
-  QVariantMap vmap;
+  QDBusArgument arg;
 
-  for (for it in result)
+  arg.beginMap(qMetaTypeId<$interface.get_type(dict.key_type).symbol_int()>(),
+               qMetaTypeId<$interface.get_type(dict.value_type).symbol_int()>());
+
+  for (auto &it : *result)
     {
-      QString v_key = put_${dict.key_type}(&(it->first));
-      QVariant v_value = put_${dict.value_type}(&(it->second));
-
-      vmap[v_key] = v_value;
+      arg.beginMapEntry();
+      arg.appendVariant(put_${dict.key_type}(&(it.first)));
+      arg.appendVariant(put_${dict.value_type}(&(it.second)));
+      arg.endMapEntry();
     }
+  arg.endMap();
 
-  return cmap;
+  return QVariant::fromValue(arg);
 }
 
 
@@ -359,18 +398,14 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 
   try
     {
-#if method.csymbol != ""
-      ${interface.csymbol} *dbus_object = (${interface.csymbol} *) object;
+#if method.symbol() != ""
+      ${interface.symbol()} *dbus_object = (${interface.symbol()} *) object;
 #else
       (void) object;
 #end if
 
 #for p in method.params
-  #if 'ptrptr' in p.hint
-      $interface.type2csymbol(p.type) *p_${p.name} #slurp
-  #else
-      $interface.type2csymbol(p.type) p_${p.name} #slurp
-  #end if
+      $interface.get_type(p.type).symbol() p_${p.name} #slurp
   #if p.direction == 'bind'
       = ${p.bind} #slurp
   #else if p.direction == 'sender'
@@ -382,23 +417,25 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
       int num_in_args = message.arguments().size();
       if (num_in_args != $method.num_in_args)
         {
-          throw DBusSystemException("Incorrect numer of in-parameters");
+          throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
+                                    std::string("Incorrect numer of in-parameters of method ${method.name}, expected $method.num_in_args, got ") + boost::lexical_cast<std::string>(num_in_args));
         }
 
 #set index = 0
 #for arg in method.params:
   #if $arg.direction == 'in'
-      QVariant v_${arg.name} = message.arguments().at($index);
-      get_${arg.type}(v_${arg.name}, &p_${arg.name});
+      QVariant ${arg.name} = message.arguments().at($index);
+      std::cout << "Param " << $index << " " << ${arg.name}.typeName() << std::endl;
+      get_${arg.type}(${arg.name}, &p_${arg.name});
     #set index = index + 1
   #end if
 #end for
 
-#if method.csymbol != ""
+#if method.symbol() != ""
   #if method.return_type() != 'void'
-      p_$method.return_name() = dbus_object->${method.csymbol}( #slurp
+      p_$method.return_name() = dbus_object->${method.symbol()}( #slurp
   #else
-      dbus_object->${method.csymbol}( #slurp
+      dbus_object->${method.symbol()}( #slurp
   #end if
 
   #set comma = ''
@@ -406,8 +443,6 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
     #if p.hint == [] or 'ref' in p.hint
       $comma p_$p.name#slurp
     #else if 'ptr' in p.hint
-      $comma &p_$p.name#slurp
-    #else if 'ptrptr' in p.hint
       $comma &p_$p.name#slurp
     #end if
     #set comma = ','
@@ -421,12 +456,8 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 
   #for arg in method.params:
     #if arg.direction == 'out'
-      #if 'ptrptr' in p.hint
-      QVariant v_${arg.name} = put_${arg.type}(p_${arg.name});
-      #else
-      QVariant v_${arg.name} = put_${arg.type}(&p_${arg.name});
-      #end if
-      reply << v_${arg.name};
+      QVariant ${arg.name} = put_${arg.type}(&p_${arg.name});
+      reply << ${arg.name};
     #end if
   #end for
 #end if
@@ -454,11 +485,11 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #set comma = ''
   #for p in signal.params
     #if p.hint == []
-      $comma $interface.type2csymbol(p.type) $p.name#slurp
+      $comma $interface.get_type(p.type).symbol() p_$p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() *p_$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() &p_$p.name#slurp
     #end if
   #set comma = ','
   #end for
@@ -469,14 +500,15 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #if len(signal.params) > 0
   #for arg in signal.params:
     #if 'ptr' in p.hint
-  QVariant v_${arg.name} = put_${arg.type}(${arg.name});
+  QVariant ${arg.name} = put_${arg.type}(p_${arg.name});
     #else
-  QVariant v_${arg.name} = put_${arg.type}(&${arg.name});
+  QVariant ${arg.name} = put_${arg.type}(&p_${arg.name});
     #end if
   #end for
 #end if
 
-  dbus->get_connection().send(sig);
+  IDBusPrivateQt5::Ptr priv = boost::dynamic_pointer_cast<IDBusPrivateQt5>(dbus);
+  priv->get_connection().send(sig);
 }
 
 #end for
@@ -515,7 +547,7 @@ ${interface.qname}_Stub::interface_introspect =
 
 #end for
 
-void init_${model.name}(DBus *dbus)
+void init_${model.name}(IDBus::Ptr dbus)
 {
 #for interface in $model.interfaces
   #if interface.condition != ''

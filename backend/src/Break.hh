@@ -60,7 +60,7 @@ public:
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
                     IConfigurator::Ptr configurator,
-                    DBus::Ptr dbus);
+                    IDBus::Ptr dbus);
 
   Break(BreakId id,
         IApp *app,
@@ -68,7 +68,7 @@ public:
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
         IConfigurator::Ptr configurator,
-        DBus::Ptr dbus);
+        IDBus::Ptr dbus);
   virtual ~Break();
 
   // Internal
@@ -156,7 +156,7 @@ private:
   IConfigurator::Ptr configurator;
 
   //!
-  DBus::Ptr dbus;
+  IDBus::Ptr dbus;
   
   //! Interface to the timer controlling the break.
   Timer::Ptr break_timer;

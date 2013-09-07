@@ -1,6 +1,6 @@
 // DBus-template.hh --- DBUS template
 //
-// Copyright (C) 2007, 2008, 2009, 2011, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,7 @@
 \#include <stdlib.h>
 \#include <gio/gio.h>
 
-\#include "dbus/DBus-gio.hh"
-\#include "dbus/DBusBinding-gio.hh"
+\#include "dbus/DBusBindingGio.hh"
 \#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
@@ -55,7 +54,7 @@ using namespace $ns;
   #end for
 #end for
 
-class ${interface.qname}_Stub : public DBusBindingBase, public ${interface.qname}
+class ${interface.qname}_Stub : public DBusBindingGio, public ${interface.qname}
 {
 private:
   typedef void (${interface.qname}_Stub::*DBusMethodPointer)(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
@@ -74,7 +73,7 @@ private:
   }
 
 public:
-  ${interface.qname}_Stub(DBus *dbus);
+  ${interface.qname}_Stub(IDBus::Ptr dbus);
   ~${interface.qname}_Stub();
 
 #for $m in interface.signals
@@ -82,11 +81,11 @@ public:
   #set comma = ''
   #for p in m.params
     #if p.hint == []
-      $comma $interface.type2csymbol(p.type) $p.name#slurp
+      $comma $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() *$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() &$p.name#slurp
     #end if
   #set comma = ','
   #end for
@@ -100,23 +99,23 @@ private:
 #end for
 
 #for enum in $interface.enums
-  void get_${enum.qname}(GVariant *variant, ${enum.csymbol} *result);
-  GVariant *put_${enum.qname}(const ${enum.csymbol} *result);
+  void get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result);
+  GVariant *put_${enum.qname}(const ${enum.symbol()} *result);
 #end for
 
 #for struct in $interface.structs
-  void get_${struct.qname}(GVariant *variant, ${struct.csymbol} *result);
-  GVariant *put_${struct.qname}(const ${struct.csymbol} *result);
+  void get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result);
+  GVariant *put_${struct.qname}(const ${struct.symbol()} *result);
 #end for
 
 #for seq in $interface.sequences
-  void get_${seq.qname}(GVariant *variant, ${seq.csymbol} *result);
-  GVariant *put_${seq.qname}(const ${seq.csymbol} *result);
+  void get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result);
+  GVariant *put_${seq.qname}(const ${seq.symbol()} *result);
 #end for
 
 #for dict in $interface.dictionaries
-  void get_${dict.qname}(GVariant *variant, ${dict.csymbol} *result);
-  GVariant *put_${dict.qname}(const ${dict.csymbol} *result);
+  void get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result);
+  GVariant *put_${dict.qname}(const ${dict.symbol()} *result);
 #end for
 
   static const DBusMethod method_table[];
@@ -124,10 +123,10 @@ private:
 };
 
 
-${interface.qname} *${interface.qname}::instance(const DBus *dbus)
+${interface.qname} *${interface.qname}::instance(const IDBus::Ptr dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
-  DBusBindingBase *binding = dbus->find_binding("${interface.name}");
+  DBusBinding *binding = dbus->find_binding("${interface.name}");
 
   if (binding != NULL)
     {
@@ -137,8 +136,8 @@ ${interface.qname} *${interface.qname}::instance(const DBus *dbus)
   return iface;
 }
 
-${interface.qname}_Stub::${interface.qname}_Stub(DBus *dbus)
-  : DBusBindingBase(dbus)
+${interface.qname}_Stub::${interface.qname}_Stub(IDBus::Ptr dbus)
+  : DBusBindingGio(dbus)
 {
 }
 
@@ -163,13 +162,13 @@ ${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBu
         }
       table++;
     }
-  throw DBusUsageException(std::string("No such member:") + method_name );
+  throw DBusRemoteException(std::string("No such member:") + method_name );
 }
 
 #for enum in $interface.enums
 
 void
-${interface.qname}_Stub::get_${enum.qname}(GVariant *variant, ${enum.csymbol} *result)
+${interface.qname}_Stub::get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result)
 {
   std::string value;
 
@@ -179,29 +178,29 @@ ${interface.qname}_Stub::get_${enum.qname}(GVariant *variant, ${enum.csymbol} *r
 #for e in enum.values
   $if_stm ("$e.name" == value)
     {
-      *result = $e.csymbol;
+      *result = $e.symbol();
     }
   #set $if_stm = 'else if'
 #end for
   else
     {
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 }
 
 GVariant *
-${interface.qname}_Stub::put_${enum.qname}(const ${enum.csymbol} *result)
+${interface.qname}_Stub::put_${enum.qname}(const ${enum.symbol()} *result)
 {
   string value;
   switch (*result)
     {
     #for e in enum.values
-    case $e.csymbol:
+    case $e.symbol():
       value = "$e.name";
       break;
     #end for
     default:
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 
   return put_string(&value);
@@ -212,19 +211,19 @@ ${interface.qname}_Stub::put_${enum.qname}(const ${enum.csymbol} *result)
 #for struct in $interface.structs
 
 void
-${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.csymbol} *result)
+${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result)
 {
 #set num_expected_fields = len($struct.fields)
 
   gsize num_fields = g_variant_n_children(variant);
   if (num_fields != $num_expected_fields)
     {
-      throw DBusSystemException("Incorrect number of field in struct");
+      throw DBusRemoteException("Incorrect number of field in struct");
     }
 
 #for p in struct.fields
   #if p.type != p.ext_type
-  $interface.type2csymbol(p.ext_type) _${p.name};
+  $interface.get_type(p.ext_type).symbol() _${p.name};
   #end if
 #end for
 
@@ -235,14 +234,14 @@ ${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.csymbol
   #if p.type != p.ext_type
   get_${p.ext_type}(v_${p.name}, &_${p.name});
   #else
-  get_${p.ext_type}(v_${p.name}, ($interface.type2csymbol(p.ext_type) *) &(result->${p.name}));
+  get_${p.ext_type}(v_${p.name}, ($interface.get_type(p.ext_type).symbol() *) &(result->${p.name}));
   #end if
   #set index = index + 1
 #end for
 
 #for p in struct.fields
   #if p.type != p.ext_type
-  result->${p.name} = ($interface.type2csymbol(p.type)) _${p.name};
+  result->${p.name} = ($interface.get_type(p.type).symbol()) _${p.name};
   #end if
 #end for
 
@@ -253,14 +252,14 @@ ${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.csymbol
 
 
 GVariant *
-${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
+${interface.qname}_Stub::put_${struct.qname}(const ${struct.symbol()} *result)
 {
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType *)"$struct.sig()");
 
 #for p in struct.fields
   #if p.type != p.ext_type
-  $interface.type2csymbol(p.ext_type) f_${p.name} = ($interface.type2csymbol(p.ext_type))result->${p.name};
+  $interface.get_type(p.ext_type).symbol() f_${p.name} = ($interface.get_type(p.ext_type).symbol())result->${p.name};
   #end if
 #end for
 
@@ -270,7 +269,7 @@ ${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
   #if p.type != p.ext_type
   v = put_${p.ext_type}(&f_${p.name});
   #else
-  v = put_${p.ext_type}(($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  v = put_${p.ext_type}(($interface.get_type(p.type).symbol() *) &(result->${p.name}));
   #end if
   g_variant_builder_add_value(&builder, v);
 #end for
@@ -283,7 +282,7 @@ ${interface.qname}_Stub::put_${struct.qname}(const ${struct.csymbol} *result)
 #for seq in $interface.sequences
 
 void
-${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.csymbol} *result)
+${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result)
 {
   GVariantIter iter;
   g_variant_iter_init(&iter, variant);
@@ -291,7 +290,7 @@ ${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.csymbol} *res
   GVariant *child;
   while ((child = g_variant_iter_next_value(&iter)))
     {
-      $interface.type2csymbol(seq.data_type) tmp;
+      $interface.get_type(seq.data_type).symbol() tmp;
       get_${seq.data_type}(child, &tmp);
       result->push_back(tmp);
 
@@ -300,12 +299,12 @@ ${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.csymbol} *res
 }
 
 GVariant *
-${interface.qname}_Stub::put_${seq.qname}(const ${seq.csymbol} *result)
+${interface.qname}_Stub::put_${seq.qname}(const ${seq.symbol()} *result)
 {
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType *)"$seq.sig()");
 
-  ${seq.csymbol}::const_iterator it;
+  ${seq.symbol()}::const_iterator it;
 
   for (it = result->begin(); it != result->end(); it++)
   {
@@ -321,7 +320,7 @@ ${interface.qname}_Stub::put_${seq.qname}(const ${seq.csymbol} *result)
 #for dict in $interface.dictionaries
 
 void
-${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.csymbol} *result)
+${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result)
 {
   GVariantIter iter;
   g_variant_iter_init(&iter, variant);
@@ -332,8 +331,8 @@ ${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.csymbol} *r
       GVariant *v_key = g_variant_get_child_value(child, 0);
       GVariant *v_value = g_variant_get_child_value(child, 1);
 
-      $interface.type2csymbol(dict.key_type) key;
-      $interface.type2csymbol(dict.value_type) value;
+      $interface.get_type(dict.key_type).symbol() key;
+      $interface.get_type(dict.value_type).symbol() value;
 
       get_${dict.key_type}(v_key, &key);
       get_${dict.value_type}(v_value, &value);
@@ -347,13 +346,13 @@ ${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.csymbol} *r
 }
 
 
-void
-${interface.qname}_Stub::put_${dict.qname}(GVariant *variant, const ${dict.csymbol} *result)
+GVariant *
+${interface.qname}_Stub::put_${dict.qname}(const ${dict.symbol()} *result)
 {
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType *)"$dict.sig()");
 
-  ${dict.csymbol}::const_iterator it;
+  ${dict.symbol()}::const_iterator it;
 
   for (it = result->begin(); it != result->end(); it++)
     {
@@ -382,18 +381,14 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 
   try
     {
-#if method.csymbol != ""
-      ${interface.csymbol} *dbus_object = (${interface.csymbol} *) object;
+#if method.symbol() != ""
+      ${interface.symbol()} *dbus_object = (${interface.symbol()} *) object;
 #else
       (void) object;
 #end if
 
 #for p in method.params
-  #if 'ptrptr' in p.hint
-      $interface.type2csymbol(p.type) *p_${p.name} #slurp
-  #else
-      $interface.type2csymbol(p.type) p_${p.name} #slurp
-  #end if
+      $interface.get_type(p.type).symbol() p_${p.name} #slurp
   #if p.direction == 'bind'
       = ${p.bind} #slurp
   #else if p.direction == 'sender'
@@ -405,7 +400,7 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
       gsize num_in_args = g_variant_n_children(inargs);
       if (num_in_args != $method.num_in_args)
         {
-          throw DBusSystemException("Incorrect numer of in-parameters");
+          throw DBusRemoteException("Incorrect numer of in-parameters");
         }
 
 #set index = 0
@@ -417,11 +412,11 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
   #end if
 #end for
 
-#if method.csymbol != ""
+#if method.symbol() != ""
   #if method.return_type() != 'void'
-      p_$method.return_name() = dbus_object->${method.csymbol}( #slurp
+      p_$method.return_name() = dbus_object->${method.symbol()}( #slurp
   #else
-      dbus_object->${method.csymbol}( #slurp
+      dbus_object->${method.symbol()}( #slurp
   #end if
 
   #set comma = ''
@@ -429,8 +424,6 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
     #if p.hint == [] or 'ref' in p.hint
       $comma p_$p.name#slurp
     #else if 'ptr' in p.hint
-      $comma &p_$p.name#slurp
-    #else if 'ptrptr' in p.hint
       $comma &p_$p.name#slurp
     #end if
     #set comma = ','
@@ -444,11 +437,7 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 
   #for arg in method.params:
     #if arg.direction == 'out'
-      #if 'ptrptr' in p.hint
-      GVariant *v_${arg.name} = put_${arg.type}(p_${arg.name});
-      #else
       GVariant *v_${arg.name} = put_${arg.type}(&p_${arg.name});
-      #end if
       g_variant_builder_add_value(&builder, v_${arg.name});
     #end if
   #end for
@@ -484,17 +473,19 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #set comma = ''
   #for p in signal.params
     #if p.hint == []
-      $comma $interface.type2csymbol(p.type) $p.name#slurp
+      $comma $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.type2csymbol(p.type) *$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() *$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.type2csymbol(p.type) &$p.name#slurp
+      $comma $interface.get_type(p.type).symbol() &$p.name#slurp
     #end if
   #set comma = ','
   #end for
 )
 {
-  GDBusConnection *connection = dbus->get_connection();
+  IDBusPrivateGio::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateGio>(dbus);
+  
+  GDBusConnection *connection = p->get_connection();
   if (connection == NULL)
     {
       return;
@@ -569,7 +560,7 @@ ${interface.qname}_Stub::interface_introspect =
 
 #end for
 
-void init_${model.name}(DBus *dbus)
+void init_${model.name}(IDBus::Ptr dbus)
 {
 #for interface in $model.interfaces
   #if interface.condition != ''

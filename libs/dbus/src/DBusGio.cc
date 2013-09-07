@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "dbus/DBus-gio.hh"
+#include "DBusGio.hh"
 #include "debug.hh"
 
 #include <string>
@@ -31,37 +31,37 @@
 #include <gio/gio.h>
 
 #include "dbus/DBusException.hh"
-#include "dbus/DBusBinding-gio.hh"
+#include "dbus/DBusBindingGio.hh"
 
 using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 using namespace workrave::utils;
 
-const GDBusInterfaceVTable DBus::interface_vtable =
+const GDBusInterfaceVTable DBusGio::interface_vtable =
 {
-  &DBus::on_method_call,
-  &DBus::on_get_property,
-  &DBus::on_set_property,
+  &DBusGio::on_method_call,
+  &DBusGio::on_get_property,
+  &DBusGio::on_set_property,
   { NULL, }
 };
 
-DBus::Ptr
-DBus::create()
+DBusGio::Ptr
+DBusGio::create()
 {
-  return Ptr(new DBus());
+  return Ptr(new DBusGio());
 }
 
 
 //! Construct a new D-BUS bridge
-DBus::DBus()
+DBusGio::DBusGio()
   : connection(NULL)
 {
 }
 
 
 //! Destruct the D-BUS bridge
-DBus::~DBus()
+DBusGio::~DBusGio()
 {
   for (ServicesCIter i = services.begin(); i != services.end(); i++)
     {
@@ -90,23 +90,23 @@ DBus::~DBus()
 
 //! Initialize D-BUS bridge
 void
-DBus::init()
+DBusGio::init()
 {
 }
 
 
 //! Registers the specified service
 void
-DBus::register_service(const std::string &service_name)
+DBusGio::register_service(const std::string &service_name)
 {
   guint owner_id;
 
   owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
                             service_name.c_str(),
                             G_BUS_NAME_OWNER_FLAGS_NONE,
-                            &DBus::on_bus_acquired,
-                            NULL, //&DBus::on_name_acquired,
-                            NULL, //&DBus::on_name_lost,
+                            &DBusGio::on_bus_acquired,
+                            NULL, //&DBusGio::on_name_acquired,
+                            NULL, //&DBusGio::on_name_lost,
                             this,
                             NULL);
 
@@ -116,16 +116,16 @@ DBus::register_service(const std::string &service_name)
 
 //! Registers the specified object path
 void
-DBus::register_object_path(const string &object_path)
+DBusGio::register_object_path(const string &object_path)
 {
   objects[object_path].registered = true;
 }
 
 
 void
-DBus::update_object_registration(InterfaceData &data)
+DBusGio::update_object_registration(InterfaceData &data)
 {
-  TRACE_ENTER_MSG("DBus::update_object_registration", data.object_path);
+  TRACE_ENTER_MSG("DBusGio::update_object_registration", data.object_path);
   if (connection == NULL)
     {
       TRACE_RETURN("No Connection");
@@ -161,12 +161,12 @@ DBus::update_object_registration(InterfaceData &data)
 
 //! Connect a D-DBUS object/interface to a C object
 void
-DBus::connect(const std::string &object_path, const std::string &interface_name, void *object)
+DBusGio::connect(const std::string &object_path, const std::string &interface_name, void *object)
 {
-  DBusBindingBase *binding = find_binding(interface_name);
+  DBusBindingGio *binding = dynamic_cast<DBusBindingGio *>(find_binding(interface_name));
   if (binding == NULL)
     {
-      throw DBusSystemException("No such interface");
+      throw DBusRemoteException("No such interface");
     }
 
   ObjectIter oit = objects.find(object_path);
@@ -180,7 +180,7 @@ DBus::connect(const std::string &object_path, const std::string &interface_name,
   InterfaceIter iit =  object_data.interfaces.find(interface_name);
   if (iit != object_data.interfaces.end())
     {
-      throw DBusSystemException("Interface already registered");
+      throw DBusRemoteException("Interface already registered");
     }
 
   InterfaceData &interface_data = object_data.interfaces[interface_name];
@@ -197,7 +197,7 @@ DBus::connect(const std::string &object_path, const std::string &interface_name,
 
 //! Disconnect a D-DBUS object/interface to a C object
 void
-DBus::disconnect(const std::string &object_path, const std::string &interface_name)
+DBusGio::disconnect(const std::string &object_path, const std::string &interface_name)
 {
   ObjectIter it = objects.find(object_path);
   if (it != objects.end())
@@ -221,17 +221,17 @@ DBus::disconnect(const std::string &object_path, const std::string &interface_na
 
 //! Register an interface binding
 void
-DBus::register_binding(const std::string &name, DBusBindingBase *interface)
+DBusGio::register_binding(const std::string &name, DBusBinding *interface)
 {
   bindings[name] = interface;
 }
 
 
 //! Find an interface binding
-DBusBindingBase *
-DBus::find_binding(const std::string &interface_name) const
+DBusBinding *
+DBusGio::find_binding(const std::string &interface_name) const
 {
-  DBusBindingBase *ret = NULL;
+  DBusBinding *ret = NULL;
 
   BindingCIter it = bindings.find(interface_name);
   if (it != bindings.end())
@@ -244,7 +244,7 @@ DBus::find_binding(const std::string &interface_name) const
 
 
 void *
-DBus::find_object(const std::string &path, const std::string &interface_name) const
+DBusGio::find_object(const std::string &path, const std::string &interface_name) const
 {
   void *object = NULL;
 
@@ -264,9 +264,9 @@ DBus::find_object(const std::string &path, const std::string &interface_name) co
 
 
 bool
-DBus::is_running(const std::string &name) const
+DBusGio::is_running(const std::string &name) const
 {
-  TRACE_ENTER("DBus::is_owner");
+  TRACE_ENTER("DBusGio::is_runninf");
 	GError *error = NULL;
 	gboolean running = FALSE;
 
@@ -315,26 +315,26 @@ DBus::is_running(const std::string &name) const
 
 
 bool
-DBus::is_available() const
+DBusGio::is_available() const
 {
   return true;
 }
 
 void
-DBus::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
+DBusGio::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
 {
   (void) connection;
   (void) name_owner;
-  DBus *dbus = (DBus *)user_data;
+  DBusGio *dbus = (DBusGio *)user_data;
   dbus->watched[name].seen = true;
   dbus->bus_name_presence(name, true);
 }
 
 void
-DBus::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
+DBusGio::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
   (void) connection;
-  DBus *dbus = (DBus *)user_data;
+  DBusGio *dbus = (DBusGio *)user_data;
   if (dbus->watched[name].seen)
     {
       dbus->bus_name_presence(name, false);
@@ -342,7 +342,7 @@ DBus::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpoin
 }
 
 void
-DBus::bus_name_presence(const std::string &name, bool present)
+DBusGio::bus_name_presence(const std::string &name, bool present)
 {
   if (watched.find(name) != watched.end())
     {
@@ -351,7 +351,7 @@ DBus::bus_name_presence(const std::string &name, bool present)
 }
 
 void
-DBus::watch(const std::string &name, IDBusWatch *cb)
+DBusGio::watch(const std::string &name, IDBusWatch *cb)
 {
   guint id = g_bus_watch_name_on_connection(connection,
                                             name.c_str(),
@@ -360,24 +360,24 @@ DBus::watch(const std::string &name, IDBusWatch *cb)
                                             on_bus_name_vanished,
                                             this,
                                             NULL);
-  watched[name].id = id;
   watched[name].callback = cb;
+  watched[name].id = id;
   watched[name].seen = false;
 }
 
 void
-DBus::unwatch(const std::string &name)
+DBusGio::unwatch(const std::string &name)
 {
   guint id = watched[name].id;
   g_bus_unwatch_name(id);
-  watched.erase(name);
+  watched.erase(name);  
 }
 
 
 string
-DBus::get_introspect(const string &object_path, const string &interface_name)
+DBusGio::get_introspect(const string &object_path, const string &interface_name)
 {
-  TRACE_ENTER_MSG("DBus::get_introspect", object_path);
+  TRACE_ENTER_MSG("DBusGio::get_introspect", object_path);
 	string str;
  
   str += "<!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN' 'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>\n";
@@ -389,10 +389,10 @@ DBus::get_introspect(const string &object_path, const string &interface_name)
       InterfaceCIter interface_it = object_it->second.interfaces.find(interface_name);
       if (interface_it != object_it->second.interfaces.end())
         {
-          DBusBindingBase *binding = find_binding(interface_it->first);
+          DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(find_binding(interface_it->first));
           if (binding == NULL)
             {
-              throw DBusSystemException("Internal error, unknown interface");
+              throw DBusRemoteException("Internal error, unknown interface");
             }
 
           const char *interface_introspect = binding->get_interface_introspect();
@@ -407,7 +407,7 @@ DBus::get_introspect(const string &object_path, const string &interface_name)
 
 
 void
-DBus::on_method_call(GDBusConnection       *connection,
+DBusGio::on_method_call(GDBusConnection       *connection,
                      const gchar           *sender,
                      const gchar           *object_path,
                      const gchar           *interface_name,
@@ -421,18 +421,18 @@ DBus::on_method_call(GDBusConnection       *connection,
   
   try
     {
-      DBus *self = (DBus *) user_data;
+      DBusGio *self = (DBusGio *) user_data;
 
       void *object = self->find_object(object_path, interface_name);
       if (object == NULL)
         {
-          throw DBusUsageException(string("No such object: ") + object_path + " " + interface_name );
+          throw DBusRemoteException(string("No such object: ") + object_path + " " + interface_name );
         }
 
-      DBusBindingBase *binding = self->find_binding(interface_name);
+      DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(self->find_binding(interface_name));
       if (binding == NULL)
         {
-          throw DBusSystemException(string("No such binding: ") + interface_name );
+          throw DBusRemoteException(string("No such binding: ") + interface_name );
         }
 
       binding->call(method_name, object, invocation, sender, parameters);
@@ -448,7 +448,7 @@ DBus::on_method_call(GDBusConnection       *connection,
 
 
 GVariant *
-DBus::on_get_property(GDBusConnection  *connection,
+DBusGio::on_get_property(GDBusConnection  *connection,
                       const gchar      *sender,
                       const gchar      *object_path,
                       const gchar      *interface_name,
@@ -469,7 +469,7 @@ DBus::on_get_property(GDBusConnection  *connection,
 
 
 gboolean
-DBus::on_set_property(GDBusConnection  *connection,
+DBusGio::on_set_property(GDBusConnection  *connection,
                       const gchar      *sender,
                       const gchar      *object_path,
                       const gchar      *interface_name,
@@ -492,12 +492,12 @@ DBus::on_set_property(GDBusConnection  *connection,
 
 
 void
-DBus::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
+DBusGio::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
   (void) name;
-  TRACE_ENTER_MSG("DBus::on_bus_acquired", name);
+  TRACE_ENTER_MSG("DBusGio::on_bus_acquired", name);
 
-  DBus *self = (DBus *) user_data;
+  DBusGio *self = (DBusGio *) user_data;
   self->connection = connection;
   
   for (ObjectIter object_it = self->objects.begin();object_it != self->objects.end(); object_it++)
@@ -514,22 +514,22 @@ DBus::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer u
 
 
 void
-DBus::on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
+DBusGio::on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
   (void) connection;
   (void) name;
   (void) user_data;
-  TRACE_ENTER_MSG("DBus::on_name_acquired", name);
+  TRACE_ENTER_MSG("DBusGio::on_name_acquired", name);
   TRACE_EXIT();
 }
 
 
 void
-DBus::on_name_lost(GDBusConnection *connection, const gchar *name, gpointer user_data)
+DBusGio::on_name_lost(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
   (void) connection;
   (void) name;
   (void) user_data;
-  TRACE_ENTER_MSG("DBus::on_name_lost", name);
+  TRACE_ENTER_MSG("DBusGio::on_name_lost", name);
   TRACE_EXIT();
 }

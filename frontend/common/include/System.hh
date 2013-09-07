@@ -33,6 +33,7 @@
 #endif
 
 #if defined(HAVE_DBUS_GIO)
+#undef signals
 #include <gio/gio.h>
 #endif
 

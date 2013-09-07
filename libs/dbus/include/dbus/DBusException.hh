@@ -26,20 +26,38 @@ namespace workrave
 {
   namespace dbus
   {
+    static const char *DBUS_ERROR_FAILED =                       "org.freedesktop.DBus.Error.Failed";
+    static const char *DBUS_ERROR_NOT_SUPPORTED =                "org.freedesktop.DBus.Error.NotSupported";
+    static const char *DBUS_ERROR_INVALID_ARGS =                 "org.freedesktop.DBus.Error.InvalidArgs";
+    static const char *DBUS_ERROR_UNKNOWN_METHOD =               "org.freedesktop.DBus.Error.UnknownMethod";
+
     class DBusException : public workrave::utils::Exception
     {
     public:
-      explicit DBusException(const std::string &id, const std::string &detail)
-        : Exception(detail), dbus_id(id)
-      {
-      }
-
       explicit DBusException(const std::string &detail)
-        : Exception(detail), dbus_id("org.workrave.Error")
+        : Exception(detail)
       {
       }
 
       virtual ~DBusException() throw()
+      {
+      }
+    };
+
+    class DBusRemoteException : public DBusException
+    {
+    public:
+      explicit DBusRemoteException(const std::string &id, const std::string &detail)
+        : DBusException(detail), dbus_id(id)
+      {
+      }
+
+      explicit DBusRemoteException(const std::string &detail)
+        : DBusException(detail), dbus_id("org.freedesktop.DBus.Error.Failed")
+      {
+      }
+
+      virtual ~DBusRemoteException() throw()
       {
       }
 
@@ -50,63 +68,6 @@ namespace workrave
 
     private:
       std::string dbus_id;
-    };
-
-
-    class DBusSystemException : public DBusException
-    {
-    public:
-      explicit DBusSystemException(const std::string &id, const std::string &detail)
-        : DBusException(id, detail)
-      {
-      }
-
-      explicit DBusSystemException(const std::string &detail)
-        : DBusException("org.workrave.SystemError", detail)
-      {
-      }
-
-      virtual ~DBusSystemException() throw()
-      {
-      }
-    };
-
-
-    class DBusTypeException : public DBusException
-    {
-    public:
-      explicit DBusTypeException(const std::string &id, const std::string &detail)
-        : DBusException(id, detail)
-      {
-      }
-
-      explicit DBusTypeException(const std::string &detail)
-        : DBusException("org.workrave.TypeError", detail)
-      {
-      }
-
-      virtual ~DBusTypeException() throw()
-      {
-      }
-    };
-
-
-    class DBusUsageException : public DBusException
-    {
-    public:
-      explicit DBusUsageException(const std::string &id, const std::string &detail)
-        : DBusException(id, detail)
-      {
-      }
-
-      explicit DBusUsageException(const std::string &detail)
-        : DBusException("org.workrave.UsageError", detail)
-      {
-      }
-
-      virtual ~DBusUsageException() throw()
-      {
-      }
     };
   }
 }

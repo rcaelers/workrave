@@ -24,7 +24,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
-#include "dbus/DBus.hh"
+#include "dbus/IDBus.hh"
 
 #include "ActivityMonitor.hh"
 #include "Statistics.hh"
@@ -47,13 +47,13 @@ public:
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
                     IConfigurator::Ptr configurator,
-                    DBus::Ptr dbus);
+                    IDBus::Ptr dbus);
   
   BreaksControl(IApp *app,
                 IActivityMonitor::Ptr activity_monitor,
                 Statistics::Ptr statistics,
                 IConfigurator::Ptr configurator,
-                DBus::Ptr dbus);
+                IDBus::Ptr dbus);
   virtual ~BreaksControl();
 
   void init();
@@ -99,7 +99,7 @@ private:
   IConfigurator::Ptr configurator;
 
   //! DBUs
-  DBus::Ptr dbus;
+  IDBus::Ptr dbus;
   
   //! List of breaks.
   Break::Ptr breaks[BREAK_ID_SIZEOF];

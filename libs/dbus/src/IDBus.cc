@@ -17,33 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUS_HH
-#define WORKRAVE_DBUS_DBUS_HH
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-#undef interface
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
-#if defined(HAVE_DBUS_GIO)
-#include "dbus/DBus-gio.hh"
+
+#if defined(HAVE_DBUS_QT5)
+#include "DBusQt5.hh"
+#elif defined(HAVE_DBUS_GIO)
+#include "DBusGio.hh"
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-#include "dbus/DBus-freedesktop.hh"
-#elif defined(HAVE_DBUS_QT5)
-#include "dbus/DBus-qt5.hh"
+#include "DBusFreedesktop.hh"
 #else
-
-namespace workrave
-{
-  namespace dbus
-  {
-    class DBus
-    {
-    public:
-      typedef boost::shared_ptr<DBus> Ptr;
-    };
-  }
-}
-
+#error "DBUS not supported on platform"
 #endif
 
-#endif // WORKRAVE_DBUS_DBUS_HH
+workrave::dbus::IDBus::Ptr
+workrave::dbus::IDBus::create()
+{
+#if defined(HAVE_DBUS_QT5)
+  return workrave::dbus::DBusQt5::create();
+#elif defined(HAVE_DBUS_GIO)
+  return workrave::dbus::DBusGio::create();
+#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
+  return workrave::dbus::DBusFreeDesktop::create();
+#endif
+}

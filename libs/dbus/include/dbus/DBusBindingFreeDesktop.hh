@@ -24,12 +24,23 @@
 #include <glib.h>
 #include <string>
 
+#include "dbus/DBusBinding.hh"
+#include "dbus/IDBus.hh"
+
 namespace workrave
 {
   namespace dbus
   {
-    class DBus;
+    class IDBusPrivateFreeDesktop
+    {
+    public:
+      typedef boost::shared_ptr<IDBusPrivateFreeDesktop> Ptr;
 
+      virtual ~IDBusPrivateFreeDesktop() {}
+
+      virtual void send(DBusMessage *msg) const = 0;
+    };
+    
     struct DBusIntrospectArg
     {
       const char *name;
@@ -43,9 +54,21 @@ namespace workrave
       const char *signature;
     };
 
-    class DBusBaseTypes
+    class DBusBindingFreeDesktop : public DBusBinding
     {
     public:
+      DBusBindingFreeDesktop(IDBus::Ptr dbus);
+      virtual ~DBusBindingFreeDesktop();
+
+      virtual DBusIntrospect *get_method_introspect() = 0;
+      virtual DBusIntrospect *get_signal_introspect() = 0;
+
+      DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
+
+    protected:
+      virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
+      void send(DBusMessage *msg);
+
       void get_uint8(DBusMessageIter *it, uint8_t *value);
       void get_uint16(DBusMessageIter *it, uint16_t *value);
       void get_int16(DBusMessageIter *it, int16_t *value);
@@ -67,24 +90,8 @@ namespace workrave
       void put_bool(DBusMessageIter *it, const bool *value);
       void put_double(DBusMessageIter *it, const double *value);
       void put_string(DBusMessageIter *it, const std::string *value);
-    };
-
-    class DBusBindingBase : public DBusBaseTypes
-    {
-    public:
-      DBusBindingBase(DBus *dbus);
-      virtual ~DBusBindingBase();
-
-      virtual DBusIntrospect *get_method_introspect() = 0;
-      virtual DBusIntrospect *get_signal_introspect() = 0;
-
-      DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
-
-    protected:
-      virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
-      void send(DBusMessage *msg);
-
-      DBus *dbus;
+      
+      IDBus::Ptr dbus;
     };
   }
 }

@@ -1,6 +1,6 @@
 // DBus-client-template.hh --- DBUS template
 //
-// Copyright (C) 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 \#include <map>
 \#include <deque>
 
-\#include "dbus/DBusBinding.hh"
+\#include "dbus/DBusBindingFreeDesktop.hh"
 \#include "dbus/DBusException.hh"
 \#include "${model.include_filename}"
 
@@ -54,7 +54,7 @@ using namespace $ns;
 class ${interface.qname}_Impl : public ${interface.qname}, public DBusBaseTypes
 {
 public:
-  ${interface.qname}_Impl(DBus *dbus, const string &service, const string &path);
+  ${interface.qname}_Impl(IDBus::Ptr dbus, const string &service, const string &path);
 
   #for $method in interface.methods
   #slurp
@@ -169,18 +169,18 @@ private:
   void put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result);
   #end for
 
-  DBus *dbus;
+  IDBus::Ptr dbus;
   string service;
   string path;
 };
 
 
-${interface.qname}_Impl::${interface.qname}_Impl(DBus *dbus, const string &service, const string &path)
+${interface.qname}_Impl::${interface.qname}_Impl(IDBus::Ptr dbus, const string &service, const string &path)
   : dbus(dbus), service(service), path(path)
 {
 }
 
-${interface.qname} *${interface.qname}::instance(DBus *dbus, const string &service, const string &path)
+${interface.qname} *${interface.qname}::instance(IDBus::Ptr dbus, const string &service, const string &path)
 {
   return new ${interface.qname}_Impl(dbus, service, path);
 }
@@ -195,7 +195,7 @@ ${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *
 	int argtype = dbus_message_iter_get_arg_type(reader);
 
   if (argtype != DBUS_TYPE_STRING)
-		throw DBusTypeException("Type mismatch. Excepted string");
+		throw DBusRemoteException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
 
@@ -209,7 +209,7 @@ ${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *
   #end for
   else
     {
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 }
 
@@ -225,7 +225,7 @@ ${interface.qname}::put_${enum.qname}(DBusMessageIter *writer, const ${enum.csym
       break;
     #end for
     default:
-      throw DBusTypeException("Illegal enum value");
+      throw DBusRemoteException("Illegal enum value");
     }
 
   put_string(writer, &value);
@@ -257,7 +257,7 @@ ${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_STRUCT, NULL, &it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   #for p in struct.fields
@@ -267,7 +267,7 @@ ${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.
   ok = dbus_message_iter_close_container(writer, &it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 
@@ -301,7 +301,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
   ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "$interface.type2sig(seq.data_type)", &arr);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   for(it = result->begin(); it != result->end(); it++)
@@ -312,7 +312,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
   ok = dbus_message_iter_close_container(writer, &arr);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 #end for
@@ -358,7 +358,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
                                         "$interface.type2sig(dict.value_type)", &arr_it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 
   for (it = result->begin(); it != result->end(); it++)
@@ -366,7 +366,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
       ok = dbus_message_iter_open_container(&arr_it, DBUS_TYPE_DICT_ENTRY, NULL, &dict_it);
       if (!ok)
         {
-          throw DBusSystemException("Internal error");
+          throw DBusRemoteException("Internal error");
         }
 
       put_${dict.key_type}(&dict_it, &(it->first));
@@ -375,14 +375,14 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
       ok = dbus_message_iter_close_container(&arr_it, &dict_it);
       if (!ok)
         {
-          throw DBusSystemException("Internal error");
+          throw DBusRemoteException("Internal error");
         }
     }
 
   ok = dbus_message_iter_close_container(writer, &arr_it);
   if (!ok)
     {
-      throw DBusSystemException("Internal error");
+      throw DBusRemoteException("Internal error");
     }
 }
 
@@ -458,25 +458,23 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
 
   #for arg in method.params:
   #if arg.direction == 'in'
-  #if 'ptrptr' in p.hint
-      put_${arg.type}(&writer, ${arg.name});
-  #else
-      put_${arg.type}(&writer, &${arg.name});
-  #end if
+    put_${arg.type}(&writer, &${arg.name});
   #end if
   #end for
 
-      if (!dbus_connection_send_with_reply(dbus->conn(), message, &pending, -1))
+      IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
+    
+      if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {
-          throw DBusSystemException("Cannot send");
+          throw DBusRemoteException("Cannot send");
         }
 
       if (NULL == pending)
         {
-          throw DBusSystemException("No pending reply");
+          throw DBusRemoteException("No pending reply");
         }
 
-      dbus_connection_flush(dbus->conn());
+      dbus_connection_flush(p->conn());
 
       // free message
       dbus_message_unref(message);
@@ -489,7 +487,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
       reply = dbus_pending_call_steal_reply(pending);
       if (NULL == reply)
         {
-          throw DBusSystemException("No reply");
+          throw DBusRemoteException("No reply");
         }
 
       // free the pending message handle
@@ -500,7 +498,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
 #if have_in_args
       if (!ok)
         {
-          throw DBusSystemException("No parameters");
+          throw DBusRemoteException("No parameters");
         }
 #end if
 
@@ -587,22 +585,20 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
 
   #for arg in method.params:
   #if arg.direction == 'in'
-  #if 'ptrptr' in p.hint
-      put_${arg.type}(&writer, ${arg.name});
-  #else
-      put_${arg.type}(&writer, &${arg.name});
-  #end if
+    put_${arg.type}(&writer, &${arg.name});
   #end if
   #end for
 
-      if (!dbus_connection_send_with_reply(dbus->conn(), message, &pending, -1))
+      IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
+    
+      if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {
-          throw DBusSystemException("Cannot send");
+          throw DBusRemoteException("Cannot send");
         }
 
       if (NULL == pending)
         {
-          throw DBusSystemException("No pending reply");
+          throw DBusRemoteException("No pending reply");
         }
 
       ${method.qname}_async_closure *closure = new ${method.qname}_async_closure;
@@ -613,7 +609,7 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
                                         ${interface.qname}_Impl::${method.qname}_fcn_static,
                                         closure, ${method.qname}_async_closure_free))
         {
-          throw DBusSystemException("Cannot set notifier");
+          throw DBusRemoteException("Cannot set notifier");
         }
 
       // free message
@@ -683,14 +679,14 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
       reply = dbus_pending_call_steal_reply(pending);
       if (reply == NULL)
         {
-          throw DBusSystemException("Cannot get reply");
+          throw DBusRemoteException("Cannot get reply");
         }
 
       ok = dbus_message_iter_init(reply, &reader);
 #if have_out_args
       if (!ok)
         {
-          throw DBusSystemException("No parameters");
+          throw DBusRemoteException("No parameters");
         }
 #end if
 

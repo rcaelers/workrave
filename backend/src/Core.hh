@@ -41,7 +41,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
-#include "dbus/DBus.hh"
+#include "dbus/IDBus.hh"
 
 #include "ICore.hh"
 #include "BreaksControl.hh"
@@ -75,7 +75,7 @@ public:
   virtual IStatistics::Ptr get_statistics() const;
   virtual IConfigurator::Ptr get_configurator() const;
   virtual ICoreHooks::Ptr get_hooks() const;
-  virtual dbus::DBus::Ptr get_dbus() const;
+  virtual dbus::IDBus::Ptr get_dbus() const;
   virtual bool is_user_active() const;
   virtual OperationMode get_operation_mode();
   virtual OperationMode get_operation_mode_regular();
@@ -146,7 +146,7 @@ private:
   bool powersave;
 
   //! DBUS bridge
-  dbus::DBus::Ptr dbus;
+  dbus::IDBus::Ptr dbus;
 
   //! Operation mode changed notification.
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
