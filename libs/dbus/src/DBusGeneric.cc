@@ -54,7 +54,7 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
   DBusBinding *binding = find_binding(interface_name);
   if (binding == NULL)
     {
-      throw DBusRemoteException("No such interface");
+      throw DBusException("No such interface");
     }
 
   ObjectIter it = objects.find(object_path);

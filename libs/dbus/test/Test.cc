@@ -60,6 +60,7 @@ struct Fixture
     app = new QCoreApplication(argc, argv);
 
     qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypes>();
+    qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypesReorder>();
     qDBusRegisterMetaType<DBusTestData::Data>();
     qDBusRegisterMetaType<QList<DBusTestData::Data>>();
     qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
@@ -354,5 +355,63 @@ BOOST_AUTO_TEST_CASE(test_test_signal)
   BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
 }
 
-        
+BOOST_AUTO_TEST_CASE(test_test_error_basic)
+{
+  DBusTestData::StructWithAllBasicTypes inpar;
+  inpar.m_int    = -7;               
+  inpar.m_uint8  = 67;               
+  inpar.m_int16  = 2345;             
+  inpar.m_uint16 = 19834;            
+  inpar.m_int32  = 3937628;          
+  inpar.m_uint32 = 45432;            
+  inpar.m_int64  = 46583739;         
+  inpar.m_uint64 = 3439478327;       
+  inpar.m_string = "Hello";          
+  inpar.m_bool   = true;             
+  inpar.m_double = 3.14;             
+  inpar.m_enum   = DBusTestData::TWO;
+  
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "BasicOutRef");
+  message << QVariant::fromValue((int)             inpar.m_int    );
+  message << QVariant::fromValue((uint8_t)         inpar.m_uint8  );
+  message << QVariant::fromValue((int16_t)         inpar.m_int16  );
+  message << QVariant::fromValue(QString::fromStdString(inpar.m_string));
+  message << QVariant::fromValue((uint16_t)        inpar.m_uint16 );
+  message << QVariant::fromValue((int32_t)         inpar.m_int32  );
+  message << QVariant::fromValue((uint32_t)        inpar.m_uint32 );
+  message << QVariant::fromValue((qlonglong)       inpar.m_int64  );
+  message << QVariant::fromValue((qulonglong)      inpar.m_uint64 );
+  message << QVariant::fromValue((bool)            inpar.m_bool   );
+  message << QVariant::fromValue((double)          inpar.m_double );
+  message << QVariant::fromValue(QString::fromStdString(DBusTestData::enum_to_str(inpar.m_enum)));
+  
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ErrorMessage);
+}
+
+BOOST_AUTO_TEST_CASE(test_test_error_struct)
+{
+  DBusTestData::StructWithAllBasicTypesReorder inpar;
+  inpar.m_int    = -7;
+  inpar.m_uint8  = 67;
+  inpar.m_int16  = 2345;
+  inpar.m_uint16 = 19834;
+  inpar.m_int32  = 3937628;
+  inpar.m_uint32 = 45432;
+  inpar.m_int64  = 46583739;
+  inpar.m_uint64 = 3439478327;
+  inpar.m_string = "Hello";
+  inpar.m_bool   = true;
+  inpar.m_double = 3.14;
+  inpar.m_enum   = DBusTestData::TWO;
+  
+  QDBusConnection con = QDBusConnection::sessionBus();
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "StructOutRef");
+  msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
+  
+  QDBusMessage reply = con.call(msg);
+  BOOST_CHECK_EQUAL(reply.type(), QDBusMessage::ErrorMessage);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

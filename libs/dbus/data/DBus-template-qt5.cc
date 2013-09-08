@@ -82,7 +82,15 @@ void
 ${model.name}_Marshall::get_${enum.qname}(const QVariant &variant, ${enum.symbol()} &result)
 {
   std::string value;
-  get_string(variant, value);
+  try
+    {
+      get_string(variant, value);
+    }
+  catch (DBusRemoteException &e)
+    {
+      e << field_info("${enum.name}");
+      throw;
+    }
 
 #set if_stm = 'if'
 #for e in enum.values
@@ -94,8 +102,10 @@ ${model.name}_Marshall::get_${enum.qname}(const QVariant &variant, ${enum.symbol
 #end for
   else
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                "Illegal enum value");
+      throw DBusRemoteException()
+        << message_info("Type error in enum")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${enum.name}");
     }
 }
 
@@ -111,7 +121,10 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} &result)
       break;
     #end for
     default:
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS, "Illegal enum value");
+      throw DBusRemoteException()
+        << message_info("Type error in enum")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${enum.name}");
     }
 
   return put_string(value);
@@ -142,8 +155,10 @@ ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.sy
 
   if (arg.currentType() != QDBusArgument::StructureType)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("Incorrect parameter type"));
+      throw DBusRemoteException()
+        << message_info("Incorrect type")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info("${struct.name}");
     }
   
   arg.beginStructure();
@@ -151,12 +166,22 @@ ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.sy
 #for p in struct.fields
   if (arg.atEnd())
   {
-    throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                              std::string("Too few number of field in struct ${struct.qname}, expected $num_expected_fields "));
+      throw DBusRemoteException()
+        << message_info("Incorrect number of member in struct")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${struct.name}");
   }
-    
-  QVariant ${p.name} = arg.asVariant();
-  get_${p.type}(${p.name}, result.${p.name});
+
+  try
+    {
+      QVariant ${p.name} = arg.asVariant();
+      get_${p.type}(${p.name}, result.${p.name});
+    }
+  catch (DBusRemoteException &e)
+    {
+      e << field_info("${p.name}");
+      throw;
+    }
   #set index = index + 1
 #end for
   arg.endStructure();
@@ -200,16 +225,27 @@ ${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()
 
   if (arg.currentType() != QDBusArgument::ArrayType)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("Incorrect parameter type"));
+      throw DBusRemoteException()
+        << message_info("Incorrect type")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info("${seq.name}");
     }
   
   arg.beginArray();
-  
+
   while (!arg.atEnd())
     {
       $model.get_type(seq.data_type).symbol() tmp;
-      get_${seq.data_type}(arg.asVariant(), tmp);
+      try
+        {
+          get_${seq.data_type}(arg.asVariant(), tmp);
+        }
+      catch (DBusRemoteException &e)
+        {
+          e << field_info(string("[") + boost::lexical_cast<string>(result.size()) + "]");
+          throw;
+        }
+      
       result.push_back(tmp);
     }
 
@@ -252,8 +288,10 @@ ${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol
 
   if (arg.currentType() != QDBusArgument::MapType)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("Incorrect parameter type"));
+      throw DBusRemoteException()
+        << message_info("Incorrect type")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info("${dict.name}");
     }
   
   arg.beginMap();
@@ -264,8 +302,16 @@ ${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol
       $model.get_type(dict.value_type).symbol() value;
 
       arg.beginMapEntry();
-      get_${dict.key_type}(arg.asVariant(), key);
-      get_${dict.value_type}(arg.asVariant(), value);
+      try
+        {
+          get_${dict.key_type}(arg.asVariant(), key);
+          get_${dict.value_type}(arg.asVariant(), value);
+        }
+      catch (DBusRemoteException &e)
+        {
+          e << field_info(key);
+          throw;
+        }
       arg.endMapEntry();
 
       (result)[key] = value;
@@ -407,8 +453,11 @@ ${interface.qname}_Stub::call(void *object, const QDBusMessage &message, const Q
         }
       table++;
     }
-  throw DBusRemoteException(DBUS_ERROR_UNKNOWN_METHOD,
-                            std::string("No such member:") + method_name );
+  throw DBusRemoteException()
+    << message_info("Unknown method")
+    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << method_info(method_name)
+    << interface_info("${interface.name}");
 }
 
 //
@@ -449,14 +498,25 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
       int num_in_args = message.arguments().size();
       if (num_in_args != $method.num_in_args)
         {
-          throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                    std::string("Incorrect numer of in-parameters of method ${method.name}, expected $method.num_in_args, got ") + boost::lexical_cast<std::string>(num_in_args));
+          throw DBusRemoteException()
+            << message_info("Incorrecy number of in-paraeters")
+            << error_code_info(DBUS_ERROR_INVALID_ARGS)
+            << method_info("${method.name}")
+            << interface_info("${interface.name}");
         }
 
 #set index = 0
 #for arg in method.params:
   #if $arg.direction == 'in'
-      get_${arg.type}(message.arguments().at($index), p_${arg.name});
+      try
+        {
+          get_${arg.type}(message.arguments().at($index), p_${arg.name});
+        }
+      catch (DBusRemoteException &e)
+        {
+          e << parameter_info("${arg.name}");
+          throw;
+        }
       #set index = index + 1
   #end if
 #end for
@@ -493,8 +553,10 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 
       connection.send(reply);
     }
-  catch (DBusException)
+  catch (DBusRemoteException &e)
     {
+      e << method_info("${method.name}")
+        << interface_info("${interface.name}");
       throw;
     }
 

@@ -20,6 +20,9 @@
 #ifndef WORKRAVE_DBUS_DBUSEXCEPTION_HH
 #define WORKRAVE_DBUS_DBUSEXCEPTION_HH
 
+#include <boost/exception/all.hpp>
+#include <iostream>
+
 #include "utils/Exception.hh"
 
 namespace workrave
@@ -44,30 +47,101 @@ namespace workrave
       }
     };
 
-    class DBusRemoteException : public DBusException
+    typedef boost::error_info<struct tag_message_info, std::string> message_info;
+    typedef boost::error_info<struct tag_error_code_info, std::string> error_code_info;
+    typedef boost::error_info<struct tag_oject_info, std::string> object_info;
+    typedef boost::error_info<struct tag_interface_info, std::string> interface_info;
+    typedef boost::error_info<struct tag_method_info, std::string> method_info; 
+    typedef boost::error_info<struct tag_argument_info, std::string> argument_info; 
+    typedef boost::error_info<struct tag_type_info, std::string> actual_type_info; 
+    typedef boost::error_info<struct tag_expected_type_info, std::string> expected_type_info; 
+    typedef boost::error_info<struct tag_field_info, std::string> field_info; 
+    typedef boost::error_info<struct tag_parameter_info, std::string> parameter_info; 
+
+    typedef boost::error_info<struct tag_field_path_info, std::string> field_path_info;
+    
+    class DBusRemoteException : public virtual boost::exception, public virtual std::exception
     {
     public:
-      explicit DBusRemoteException(const std::string &id, const std::string &detail)
-        : DBusException(detail), dbus_id(id)
+      std::string error()
       {
+        std::string ret;
+        if (const std::string* msg = boost::get_error_info<error_code_info>(*this))
+          {
+            ret = *msg;
+          }
+        return ret;
       }
 
-      explicit DBusRemoteException(const std::string &detail)
-        : DBusException(detail), dbus_id("org.freedesktop.DBus.Error.Failed")
+      DBusRemoteException& operator<< (const field_info& rhs)
       {
-      }
+        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+          {
+            *this << field_path_info(rhs.value() + "." + *msg);
+          }
+        else
+          {
+            *this << field_path_info(rhs.value());
+          }
 
-      virtual ~DBusRemoteException() throw()
+        return *this;
+      }
+      
+      void prepend_field(const std::string &field)
       {
+        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+          {
+            *this << field_path_info(field + "." + *msg);
+          }
+        else
+          {
+            *this << field_path_info(field);
+          }
       }
-
-      std::string id() const
+      
+      std::string diag()
       {
-        return dbus_id;
-      }
+        std::string ret;
 
-    private:
-      std::string dbus_id;
+        if (const std::string* msg = boost::get_error_info<message_info>(*this))
+          {
+            ret += *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<object_info>(*this))
+          {
+            ret += " object path=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<interface_info>(*this))
+          {
+            ret += " interface=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<method_info>(*this))
+          {
+            ret += " method=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<argument_info>(*this))
+          {
+            ret += " argument=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<actual_type_info>(*this))
+          {
+            ret += " type=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<expected_type_info>(*this))
+          {
+            ret += " expected_type=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+          {
+            ret += " fieldpath=" + *msg;
+          }
+        if (const std::string* msg = boost::get_error_info<parameter_info>(*this))
+          {
+            ret += " parameter=" + *msg;
+          }
+
+        return ret;
+      }
     };
   }
 }

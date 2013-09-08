@@ -166,7 +166,7 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
   DBusBindingGio *binding = dynamic_cast<DBusBindingGio *>(find_binding(interface_name));
   if (binding == NULL)
     {
-      throw DBusRemoteException("No such interface");
+      throw DBusException("No such interface");
     }
 
   ObjectIter oit = objects.find(object_path);
@@ -180,7 +180,7 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
   InterfaceIter iit =  object_data.interfaces.find(interface_name);
   if (iit != object_data.interfaces.end())
     {
-      throw DBusRemoteException("Interface already registered");
+      throw DBusException("Interface already registered");
     }
 
   InterfaceData &interface_data = object_data.interfaces[interface_name];
@@ -392,7 +392,10 @@ DBusGio::get_introspect(const string &object_path, const string &interface_name)
           DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(find_binding(interface_it->first));
           if (binding == NULL)
             {
-              throw DBusRemoteException("Internal error, unknown interface");
+              throw DBusRemoteException()
+                << message_info("Unknown interface")
+                << error_code_info(DBUS_ERROR_FAILED)
+                << interface_info(interface_name);
             }
 
           const char *interface_introspect = binding->get_interface_introspect();
@@ -426,13 +429,21 @@ DBusGio::on_method_call(GDBusConnection       *connection,
       void *object = self->find_object(object_path, interface_name);
       if (object == NULL)
         {
-          throw DBusRemoteException(string("No such object: ") + object_path + " " + interface_name );
+          throw DBusRemoteException()
+            << message_info("No such object")
+            << error_code_info(DBUS_ERROR_FAILED)
+            << object_info(object_path)
+            << interface_info(interface_name);
         }
 
       DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(self->find_binding(interface_name));
       if (binding == NULL)
         {
-          throw DBusRemoteException(string("No such binding: ") + interface_name );
+          throw DBusRemoteException()
+            << message_info("No such interface")
+            << error_code_info(DBUS_ERROR_FAILED)
+            << object_info(object_path)
+            << interface_info(interface_name);
         }
 
       binding->call(method_name, object, invocation, sender, parameters);

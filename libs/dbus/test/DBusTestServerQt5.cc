@@ -68,6 +68,7 @@ DBusTestServerQt5::run(int argc, char **argv)
       app = new QCoreApplication(argc, argv);
 
       qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypes>();
+      qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypesReorder>();
       qDBusRegisterMetaType<DBusTestData::Data>();
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();

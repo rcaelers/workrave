@@ -51,6 +51,22 @@ public:
     double      m_double;
     Enum        m_enum;
   };
+
+  struct StructWithAllBasicTypesReorder
+  {
+    int         m_int;
+    uint8_t     m_uint8;
+    int16_t     m_int16;
+    uint16_t    m_uint16;
+    std::string m_string;
+    int32_t     m_int32;
+    uint32_t    m_uint32;
+    int64_t     m_int64;
+    uint64_t    m_uint64;
+    bool        m_bool;
+    double      m_double;
+    Enum        m_enum;
+  };
   
   typedef std::list<StructWithAllBasicTypes> ListOfStructWithAllBasicTypes;
   typedef std::map<std::string, StructWithAllBasicTypes> MapOfStructWithAllBasicTypes;
@@ -136,10 +152,14 @@ public:
 
 #ifdef DBUS_BACKEND_QT5
 Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
+Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
 Q_DECLARE_METATYPE(DBusTestData::Data)
 
 QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes& message);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message);
+
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder& message);
+const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message);
 
 QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data& message);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Data &message);

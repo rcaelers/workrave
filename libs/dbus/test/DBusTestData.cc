@@ -86,6 +86,53 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Str
   return argument;
 }
 
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder& message)
+{
+  argument.beginStructure();
+
+  argument << message.m_int;
+  argument << message.m_uint8;
+  argument << message.m_int16;
+  argument << message.m_uint16;
+  argument << QString::fromStdString(message.m_string);
+  argument << message.m_int32;
+  argument << message.m_uint32;
+  argument << (qlonglong) message.m_int64;
+  argument << (qulonglong) message.m_uint64;
+  argument << message.m_bool;
+  argument << message.m_double;
+  QString e = QString::fromStdString(DBusTestData::enum_to_str(message.m_enum));
+  argument << e;
+
+  argument.endStructure();
+  return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message)
+{
+  argument.beginStructure();
+
+  argument >> message.m_int;
+  argument >> message.m_uint8;
+  argument >> message.m_int16;
+  argument >> message.m_uint16;
+  QString s;
+  argument >> s; message.m_string = s.toStdString();
+  argument >> message.m_int32;
+  argument >> message.m_uint32;
+  qlonglong l;
+  argument >> l; message.m_int64 = l;
+  qlonglong ul;
+  argument >> ul; message.m_uint64 = ul;
+  argument >> message.m_bool;
+  argument >> message.m_double;
+  QString e;
+  argument >> e; message.m_enum = DBusTestData::str_to_enum(e.toStdString());
+  argument.endStructure();
+ 
+  return argument;
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data& message)
 {
     argument.beginStructure();

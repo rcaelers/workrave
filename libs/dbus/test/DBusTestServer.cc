@@ -215,11 +215,7 @@ void DBusTestServer::test_map_of_struct(DBusTestData::DataMap i_data,
 {
   for (auto &d : i_data)
     {
-      std::cout << "d = " << d.first <<std::endl;
-      
       o_data[d.first] = d.second;
       o_data[d.first].m_data += 65;
     }
-
-  std::cout << "count = " << o_data.size() <<std::endl;
 }

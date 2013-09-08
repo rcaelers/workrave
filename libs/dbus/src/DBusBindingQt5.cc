@@ -45,8 +45,11 @@ DBusMarshallQt5::get_uint8(const QVariant &variant, uint8_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UChar)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("uint8 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<uint8_t>();
 }
@@ -57,8 +60,11 @@ DBusMarshallQt5::get_int(const QVariant &variant, int &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("int expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<int>();
 }
@@ -68,8 +74,11 @@ DBusMarshallQt5::get_uint16(const QVariant &variant, uint16_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UShort)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("uint16 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<uint16_t>();
 }
@@ -79,8 +88,11 @@ DBusMarshallQt5::get_int16(const QVariant &variant, int16_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Short)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("int16 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<int16_t>();
 }
@@ -90,8 +102,11 @@ DBusMarshallQt5::get_uint32(const QVariant &variant, uint32_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UInt)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("uint32 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<uint32_t>();
 }
@@ -101,8 +116,11 @@ DBusMarshallQt5::get_int32(const QVariant &variant, int32_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("int32 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<int32_t>();
 }
@@ -112,8 +130,11 @@ DBusMarshallQt5::get_uint64(const QVariant &variant, uint64_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::ULongLong)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("uint64 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<uint64_t>();
 }
@@ -123,8 +144,11 @@ DBusMarshallQt5::get_int64(const QVariant &variant, int64_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::LongLong)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("uint64 expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<int64_t>();
 }
@@ -134,8 +158,11 @@ DBusMarshallQt5::get_bool(const QVariant &variant, bool &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Bool)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("bool expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<bool>();
 }
@@ -145,8 +172,11 @@ DBusMarshallQt5::get_double(const QVariant &variant, double &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Double)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("udouble expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<double>();
 }
@@ -156,8 +186,11 @@ DBusMarshallQt5::get_string(const QVariant &variant, std::string &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("string expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(QString()).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<QString>().toStdString();
 }
@@ -167,8 +200,11 @@ DBusMarshallQt5::get_string(const QVariant &variant, QString &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
-      throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS,
-                                std::string("string expected, got ") + variant.typeName());
+      throw DBusRemoteException()
+        << message_info("Type error")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << expected_type_info(QVariant::fromValue(value).typeName())
+        << actual_type_info(variant.typeName());
     }
   value = variant.value<QString>();
 }

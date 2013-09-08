@@ -107,7 +107,10 @@ ${model.name}_Marshall::get_${enum.qname}(GVariant *variant, ${enum.symbol()} *r
 #end for
   else
     {
-      throw DBusRemoteException("Illegal enum value");
+      throw DBusRemoteException()
+        << message_info("Type error in enum")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${enum.name}");
     }
 }
 
@@ -123,7 +126,10 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
       break;
     #end for
     default:
-      throw DBusRemoteException("Illegal enum value");
+      throw DBusRemoteException()
+        << message_info("Type error in enum")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${enum.name}");
     }
 
   return put_string(&value);
@@ -149,7 +155,10 @@ ${model.name}_Marshall::get_${struct.qname}(GVariant *variant, ${struct.symbol()
   gsize num_fields = g_variant_n_children(variant);
   if (num_fields != $num_expected_fields)
     {
-      throw DBusRemoteException("Incorrect number of field in struct");
+      throw DBusRemoteException()
+        << message_info("Incorrect number of member in struct")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("${struct.name}");
     }
 
 #set index = 0
@@ -389,7 +398,12 @@ ${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBu
         }
       table++;
     }
-  throw DBusRemoteException(std::string("No such member:") + method_name );
+  
+  throw DBusRemoteException()
+    << message_info("Unknown method")
+    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << method_info(method_name)
+    << interface_info("${interface.name}");
 }
 
 #for method in $interface.methods
@@ -423,7 +437,11 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
       gsize num_in_args = g_variant_n_children(inargs);
       if (num_in_args != $method.num_in_args)
         {
-          throw DBusRemoteException("Incorrect numer of in-parameters");
+          throw DBusRemoteException()
+            << message_info("Incorrecy number of in-paraeters")
+            << error_code_info(DBUS_ERROR_INVALID_ARGS)
+            << method_info("${method.name}")
+            << interface_info("${interface.name}");
         }
 
 #set index = 0
@@ -472,8 +490,10 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 
       g_dbus_method_invocation_return_value(invocation, out);
     }
-  catch (DBusException)
+  catch (DBusRemoteException &e)
     {
+      e << method_info("${method.name}")
+        << interface_info("${interface.name}");
       throw;
     }
 
