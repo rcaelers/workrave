@@ -27,8 +27,8 @@ public:
 #if enum.condition != ''
  \#if $enum.condition
 #end if
-  void get_${enum.qname}(const QVariant &variant, ${enum.symbol()} *result);
-  QVariant put_${enum.qname}(const ${enum.symbol()} *result);
+  void get_${enum.qname}(const QVariant &variant, ${enum.symbol()} &result);
+  QVariant put_${enum.qname}(const ${enum.symbol()} &result);
 #if enum.condition
  \#endif // $enum.condition
 #end if
@@ -38,8 +38,8 @@ public:
 #if struct.condition
  \#if $struct.condition
 #end if
-  void get_${struct.qname}(const QVariant &variant, ${struct.symbol()} *result);
-  QVariant put_${struct.qname}(const ${struct.symbol()} *result);
+  void get_${struct.qname}(const QVariant &variant, ${struct.symbol()} &result);
+  QVariant put_${struct.qname}(const ${struct.symbol()} &result);
 #if struct.condition
  \#endif // $struct.condition
 #end if
@@ -49,8 +49,8 @@ public:
 #if seq.condition
  \#if $seq.condition
 #end if
-  void get_${seq.qname}(const QVariant &variant, ${seq.symbol()} *result);
-  QVariant put_${seq.qname}(const ${seq.symbol()} *result);
+  void get_${seq.qname}(const QVariant &variant, ${seq.symbol()} &result);
+  QVariant put_${seq.qname}(const ${seq.symbol()} &result);
 #if seq.condition
  \#endif // $seq.condition
 #end if
@@ -60,8 +60,8 @@ public:
 #if dict.condition
  \#if $dict.condition
 #end if
-  void get_${dict.qname}(const QVariant &variant, ${dict.symbol()} *result);
-  QVariant put_${dict.qname}(const ${dict.symbol()} *result);
+  void get_${dict.qname}(const QVariant &variant, ${dict.symbol()} &result);
+  QVariant put_${dict.qname}(const ${dict.symbol()} &result);
 #if dict.condition
  \#endif // $dict.condition
 #end if
@@ -79,17 +79,16 @@ public:
 #end if
 
 void
-${model.name}_Marshall::get_${enum.qname}(const QVariant &variant, ${enum.symbol()} *result)
+${model.name}_Marshall::get_${enum.qname}(const QVariant &variant, ${enum.symbol()} &result)
 {
   std::string value;
-
-  get_string(variant, &value);
+  get_string(variant, value);
 
 #set if_stm = 'if'
 #for e in enum.values
   $if_stm ("$e.name" == value)
     {
-      *result = $e.symbol();
+      result = $e.symbol();
     }
   #set $if_stm = 'else if'
 #end for
@@ -101,10 +100,10 @@ ${model.name}_Marshall::get_${enum.qname}(const QVariant &variant, ${enum.symbol
 }
 
 QVariant
-${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
+${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} &result)
 {
   string value;
-  switch (*result)
+  switch (result)
     {
     #for e in enum.values
     case $e.symbol():
@@ -115,7 +114,7 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
       throw DBusRemoteException(DBUS_ERROR_INVALID_ARGS, "Illegal enum value");
     }
 
-  return put_string(&value);
+  return put_string(value);
 }
 
 #if enum.condition
@@ -135,7 +134,7 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
 #end if
  
 void
-${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.symbol()} *result)
+${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.symbol()} &result)
 {
 #set num_expected_fields = len($struct.fields)
 
@@ -147,12 +146,6 @@ ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.sy
                                 std::string("Incorrect parameter type"));
     }
   
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $model.get_type(p.ext_type).symbol() _${p.name};
-  #end if
-#end for
-
   arg.beginStructure();
 #set index = 0
 #for p in struct.fields
@@ -163,45 +156,22 @@ ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.sy
   }
     
   QVariant ${p.name} = arg.asVariant();
-
-  #if p.type != p.ext_type
-  get_${p.ext_type}(${p.name}, &${p.name});
-  #else
-  get_${p.ext_type}(${p.name}, ($model.get_type(p.ext_type).symbol() *) &(result->${p.name}));
-  #end if
+  get_${p.type}(${p.name}, result.${p.name});
   #set index = index + 1
 #end for
   arg.endStructure();
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  result->${p.name} = ($model.get_type(p.type).symbol()) _${p.name};
-  #end if
-#end for
 }
 
 
 QVariant
-${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} *result)
+${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} &result)
 {
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $model.get_type(p.ext_type).symbol() f_${p.name} = ($model.get_type(p.ext_type).symbol())result->${p.name};
-  #end if
-#end for
-
   QDBusArgument arg;
+
   arg.beginStructure();
-
 #for p in struct.fields
-  #if p.type != p.ext_type
-  QVariant ${p.name} = put_${p.ext_type}(&f_${p.name});
-  #else
-  QVariant ${p.name} = put_${p.ext_type}(($model.get_type(p.type).symbol() *) &(result->${p.name}));
-  #end if
-  arg.appendVariant(${p.name});
+  arg.appendVariant(put_${p.type}(result.${p.name}));
 #end for
-
   arg.endStructure();
 
   return QVariant::fromValue(arg);
@@ -224,7 +194,7 @@ ${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} *result)
 #end if
  
 void
-${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()} *result)
+${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()} &result)
 {
   const QDBusArgument arg = variant.value<QDBusArgument>();
 
@@ -239,25 +209,23 @@ ${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()
   while (!arg.atEnd())
     {
       $model.get_type(seq.data_type).symbol() tmp;
-      get_${seq.data_type}(arg.asVariant(), &tmp);
-      result->push_back(tmp);
+      get_${seq.data_type}(arg.asVariant(), tmp);
+      result.push_back(tmp);
     }
 
   arg.endArray();
 }
 
 QVariant
-${model.name}_Marshall::put_${seq.qname}(const ${seq.symbol()} *result)
+${model.name}_Marshall::put_${seq.qname}(const ${seq.symbol()} &result)
 {
   QDBusArgument arg;
 
   arg.beginArray(qMetaTypeId<$model.get_type(seq.data_type).symbol_int()>());
-
-  for (auto &i : *result)
+  for (auto &i : result)
     {
-      arg.appendVariant(put_${seq.data_type}(&i));
+      arg.appendVariant(put_${seq.data_type}(i));
     }
-
   arg.endArray();
 
   return QVariant::fromValue(arg);
@@ -278,7 +246,7 @@ ${model.name}_Marshall::put_${seq.qname}(const ${seq.symbol()} *result)
  \#if $dict.condition
 #end if
 void
-${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol()} *result)
+${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol()} &result)
 {
   const QDBusArgument arg = variant.value<QDBusArgument>();
 
@@ -296,11 +264,11 @@ ${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol
       $model.get_type(dict.value_type).symbol() value;
 
       arg.beginMapEntry();
-      get_${dict.key_type}(arg.asVariant(), &key);
-      get_${dict.value_type}(arg.asVariant(), &value);
+      get_${dict.key_type}(arg.asVariant(), key);
+      get_${dict.value_type}(arg.asVariant(), value);
       arg.endMapEntry();
 
-      (*result)[key] = value;
+      (result)[key] = value;
     }
 
   arg.endMap();
@@ -308,18 +276,18 @@ ${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol
 
 
 QVariant
-${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} *result)
+${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} &result)
 {
   QDBusArgument arg;
 
   arg.beginMap(qMetaTypeId<$model.get_type(dict.key_type).symbol_int()>(),
                qMetaTypeId<$model.get_type(dict.value_type).symbol_int()>());
 
-  for (auto &it : *result)
+  for (auto &it : result)
     {
       arg.beginMapEntry();
-      arg.appendVariant(put_${dict.key_type}(&(it.first)));
-      arg.appendVariant(put_${dict.value_type}(&(it.second)));
+      arg.appendVariant(put_${dict.key_type}(it.first));
+      arg.appendVariant(put_${dict.value_type}(it.second));
       arg.endMapEntry();
     }
   arg.endMap();
@@ -399,7 +367,7 @@ private:
 };
 
 
-${interface.qname} *${interface.qname}::instance(const IDBus::Ptr dbus)
+${interface.qname} *${interface.qname}::instance(const workrave::dbus::IDBus::Ptr dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
   DBusBinding *binding = dbus->find_binding("${interface.name}");
@@ -488,28 +456,27 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 #set index = 0
 #for arg in method.params:
   #if $arg.direction == 'in'
-      QVariant ${arg.name} = message.arguments().at($index);
-      std::cout << "Param " << $index << " " << ${arg.name}.typeName() << std::endl;
-      get_${arg.type}(${arg.name}, &p_${arg.name});
-    #set index = index + 1
+      get_${arg.type}(message.arguments().at($index), p_${arg.name});
+      #set index = index + 1
   #end if
 #end for
 
 #if method.symbol() != ""
   #if method.return_type() != 'void'
-      p_$method.return_name() = dbus_object->${method.symbol()}( #slurp
-  #else
-      dbus_object->${method.symbol()}( #slurp
+      p_$method.return_name() = #slurp
   #end if
+  dbus_object->${method.symbol()}( #slurp
 
   #set comma = ''
   #for p in method.params
-    #if p.hint == [] or 'ref' in p.hint
-      $comma p_$p.name#slurp
-    #else if 'ptr' in p.hint
+    #if 'return' not in p.hint
+      #if 'ptr' in p.hint
       $comma &p_$p.name#slurp
+      #else
+      $comma p_$p.name#slurp
+      #end if
+      #set comma = ','
     #end if
-    #set comma = ','
   #end for
       );
 #end if
@@ -517,11 +484,9 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
      QDBusMessage reply = message.createReply();
                                                                 
 #if method.num_out_args > 0
-
   #for arg in method.params:
     #if arg.direction == 'out'
-      QVariant ${arg.name} = put_${arg.type}(&p_${arg.name});
-      reply << ${arg.name};
+      reply << put_${arg.type}(p_${arg.name});
     #end if
   #end for
 #end if
@@ -571,9 +536,9 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
 #if len(signal.params) > 0
   #for arg in signal.params:
     #if 'ptr' in p.hint
-  QVariant ${arg.name} = put_${arg.type}(p_${arg.name});
+      sig << = put_${arg.type}(* p_${arg.name});
     #else
-  QVariant ${arg.name} = put_${arg.type}(&p_${arg.name});
+      sig <<  put_${arg.type}(p_${arg.name});
     #end if
   #end for
 #end if

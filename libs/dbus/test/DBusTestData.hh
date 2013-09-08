@@ -23,8 +23,10 @@
 #include <string>
 #include <set>
 
+#ifdef DBUS_BACKEND_QT5
 #include <QDBusArgument>
 #include <QMetaType>
+#endif
 
 class DBusTestData
 {

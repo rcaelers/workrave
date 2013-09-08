@@ -27,6 +27,7 @@
 #include "debug.hh"
 
 #include "DBusTestServerQt5.hh"
+#include "DBusTestQt.hh"
 
 #include "dbus/IDBus.hh"
 
@@ -71,7 +72,7 @@ DBusTestServerQt5::run(int argc, char **argv)
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
-      workrave::dbus::IDBus::Ptr dbus = workrave::dbus::DBusQt5::create();
+      dbus = workrave::dbus::DBusQt5::create();
      
       dbus->init();
         
@@ -87,5 +88,103 @@ DBusTestServerQt5::run(int argc, char **argv)
   catch (workrave::dbus::DBusException &)
     {
       std::cerr << "server failed" <<std::endl;
+    }
+}
+void
+DBusTestServerQt5::test_fire_signal()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  DBusTestData::StructWithAllBasicTypes par;
+  par.m_int    = -7;
+  par.m_uint8  = 67;
+  par.m_int16  = 2345;
+  par.m_uint16 = 19834;
+  par.m_int32  = 3937628;
+  par.m_uint32 = 45432;
+  par.m_int64  = 46583739;
+  par.m_uint64 = 3439478327;
+  par.m_string = "Hello";
+  par.m_bool   = true;
+  par.m_double = 3.14;
+  par.m_enum   = DBusTestData::TWO;
+
+  DBusTestData::DataList l;
+  DBusTestData::DataMap m;
+
+  l.push_back(DBusTestData::Data(1, 2));
+  m["1"] = DBusTestData::Data(1, 2);
+  
+  if (test != NULL)
+    {
+      test->Signal("/org/workrave/Test", par.m_int,
+                   par.m_uint8  ,
+                   par.m_int16  ,
+                   par.m_uint16 ,
+                   par.m_int32  ,
+                   par.m_uint32 ,
+                   par.m_int64  ,
+                   par.m_uint64 ,
+                   par.m_string ,
+                   par.m_bool   ,
+                   par.m_double ,
+                   par.m_enum,
+                   l, m );
+    }
+}
+     
+void
+DBusTestServerQt5::test_fire_signal_without_args()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  if (test != NULL)
+    {
+      test->SignalWithoutArgs("/org/workrave/Test");
+    }
+}
+
+void
+DBusTestServerQt5::test_fire_signal_with_ref()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  DBusTestData::StructWithAllBasicTypes par;
+  par.m_int    = -7;
+  par.m_uint8  = 67;
+  par.m_int16  = 2345;
+  par.m_uint16 = 19834;
+  par.m_int32  = 3937628;
+  par.m_uint32 = 45432;
+  par.m_int64  = 46583739;
+  par.m_uint64 = 3439478327;
+  par.m_string = "Hello";
+  par.m_bool   = true;
+  par.m_double = 3.14;
+  par.m_enum   = DBusTestData::TWO;
+
+  DBusTestData::DataList l;
+  DBusTestData::DataMap m;
+
+  l.push_back(DBusTestData::Data(1, 2));
+  m["1"] = DBusTestData::Data(1, 2);
+  
+  if (test != NULL)
+    {
+      test->SignalWithRef("/org/workrave/Test", par.m_int,
+                          par.m_uint8  ,
+                          par.m_int16  ,
+                          par.m_uint16 ,
+                          par.m_int32  ,
+                          par.m_uint32 ,
+                          par.m_int64  ,
+                          par.m_uint64 ,
+                          par.m_string ,
+                          par.m_bool   ,
+                          par.m_double ,
+                          par.m_enum,
+                          l,
+                          m
+                          );
     }
 }

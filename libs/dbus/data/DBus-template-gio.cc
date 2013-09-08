@@ -152,28 +152,12 @@ ${model.name}_Marshall::get_${struct.qname}(GVariant *variant, ${struct.symbol()
       throw DBusRemoteException("Incorrect number of field in struct");
     }
 
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $model.get_type(p.ext_type).symbol() _${p.name};
-  #end if
-#end for
-
 #set index = 0
 #for p in struct.fields
   GVariant *v_${p.name} = g_variant_get_child_value(variant, $index);
 
-  #if p.type != p.ext_type
-  get_${p.ext_type}(v_${p.name}, &_${p.name});
-  #else
-  get_${p.ext_type}(v_${p.name}, ($model.get_type(p.ext_type).symbol() *) &(result->${p.name}));
-  #end if
+  get_${p.type}(v_${p.name}, &result->${p.name});
   #set index = index + 1
-#end for
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  result->${p.name} = ($model.get_type(p.type).symbol()) _${p.name};
-  #end if
 #end for
 
 #for p in struct.fields
@@ -188,20 +172,10 @@ ${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} *result)
   GVariantBuilder builder;
   g_variant_builder_init(&builder, (GVariantType *)"$struct.sig()");
 
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $model.get_type(p.ext_type).symbol() f_${p.name} = ($model.get_type(p.ext_type).symbol())result->${p.name};
-  #end if
-#end for
-
   GVariant *v;
 
 #for p in struct.fields
-  #if p.type != p.ext_type
-  v = put_${p.ext_type}(&f_${p.name});
-  #else
-  v = put_${p.ext_type}(($model.get_type(p.type).symbol() *) &(result->${p.name}));
-  #end if
+  v = put_${p.type}(&(result->${p.name}));
   g_variant_builder_add_value(&builder, v);
 #end for
 
@@ -376,7 +350,7 @@ private:
 };
 
 
-${interface.qname} *${interface.qname}::instance(const IDBus::Ptr dbus)
+${interface.qname} *${interface.qname}::instance(const workrave::dbus::IDBus::Ptr dbus)
 {
   ${interface.qname}_Stub *iface = NULL;
   DBusBinding *binding = dbus->find_binding("${interface.name}");

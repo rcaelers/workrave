@@ -31,15 +31,12 @@
 #include "dbus/IDBus.hh"
 
 #if defined(DBUS_BACKEND_QT5)
-#include "DBusQt5.hh"
+#include "DBusTestQt.hh"
 #elif defined(DBUS_BACKEND_GIO)
 #undef signals
-#include "DBusGio.hh"
+#include "DBusTestGio.hh"
+ddd
 #endif
-
-#define  WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
-#define  WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
-#define  WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 using namespace std;
 
@@ -225,65 +222,4 @@ void DBusTestServer::test_map_of_struct(DBusTestData::DataMap i_data,
     }
 
   std::cout << "count = " << o_data.size() <<std::endl;
-}
-
-void
-DBusTestServer::test_fire_signal()
-{
-  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
-
-  // DBusTestData::StructWithAllBasicTypes par;
-  // par.m_int    = -7;
-  // par.m_uint8  = 67;
-  // par.m_int16  = 2345;
-  // par.m_uint16 = 19834;
-  // par.m_int32  = 3937628;
-  // par.m_uint32 = 45432;
-  // par.m_int64  = 46583739;
-  // par.m_uint64 = 3439478327;
-  // par.m_string = "Hello";
-  // par.m_bool   = true;
-  // par.m_double = 3.14;
-  // par.m_enum   = DBusTestData::TWO;
-  
-  // if (test != NULL)
-  //   {
-  //     test->Signal("/org/workrave/Test", par);
-  //   }
-}
-     
-void
-DBusTestServer::test_fire_signal_without_args()
-{
-  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
-
-  // if (test != NULL)
-  //   {
-  //     test->SignalWithoutArgs("/org/workrave/Test");
-  //   }
-}
-
-void
-DBusTestServer::test_fire_signal_with_ref()
-{
-  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
-
-  // DBusTestData::StructWithAllBasicTypes par;
-  // par.m_int    = -7;
-  // par.m_uint8  = 67;
-  // par.m_int16  = 2345;
-  // par.m_uint16 = 19834;
-  // par.m_int32  = 3937628;
-  // par.m_uint32 = 45432;
-  // par.m_int64  = 46583739;
-  // par.m_uint64 = 3439478327;
-  // par.m_string = "Hello";
-  // par.m_bool   = true;
-  // par.m_double = 3.14;
-  // par.m_enum   = DBusTestData::TWO;
-  
-  // if (test != NULL)
-  //   {
-  //     test->SignalWithRef("/org/workrave/Test", par);
-  //   }
 }

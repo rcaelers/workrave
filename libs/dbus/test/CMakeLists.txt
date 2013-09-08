@@ -7,7 +7,11 @@ if (HAVE_DBUS AND HAVE_QT5)
     DBusTestQt.cc
     )
 
-  set(TEST_SRC ${TEST_SRC}
+  qt5_wrap_cpp(MOC_SRC
+    Test.hh
+  )
+
+  set(TEST_SRC ${TEST_SRC} ${MOC_SRC}
     DBusTestData.cc
     Test.cc
     )

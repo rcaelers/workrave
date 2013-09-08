@@ -42,7 +42,6 @@ class ArgNode(NodeBase):
         self.interface_node = interface_node
         self.name = ''
         self.type = ''
-        self.ext_type = ''
         self.direction = ''
         self.hint = []
 
@@ -50,7 +49,7 @@ class ArgNode(NodeBase):
         return self.csymbol
 
     def sig(self):
-        return self.interface_node.get_type(self.ext_type).sig()
+        return self.interface_node.get_type(self.type).sig()
 
 class TypeNode(NodeBase):
     name = "undefined"
@@ -280,12 +279,8 @@ class MethodNode(NodeBase):
         p = ArgNode(self.interface_node)
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
-        p.ext_type = node.getAttribute('ext_type')
         p.direction = node.getAttribute('direction')
         p.bind = node.getAttribute('bind')
-
-        if p.ext_type == '':
-            p.ext_type = p.type;
 
         if p.direction == 'in':
             self.num_in_args = self.num_in_args + 1
@@ -302,7 +297,7 @@ class MethodNode(NodeBase):
         method_sig = ''
         for p in self.params:
             if p.direction != 'bind':
-                param_sig = self.interface_node.get_type(p.ext_type).sig()
+                param_sig = self.interface_node.get_type(p.type).sig()
                 method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
@@ -314,7 +309,7 @@ class MethodNode(NodeBase):
         method_sig = ''
         for p in self.params:
             if p.direction != 'bind':
-                param_sig = self.interface_node.get_type(p.ext_type).sig()
+                param_sig = self.interface_node.get_type(p.type).sig()
                 method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
@@ -323,7 +318,7 @@ class MethodNode(NodeBase):
         method_sig = ''
         for p in self.params:
             if p.direction == type:
-                param_sig = self.interface_node.get_type(p.ext_type).sig()
+                param_sig = self.interface_node.get_type(p.type).sig()
                 method_sig = method_sig + '%s' % (param_sig, )
 
         return '(' + method_sig + ')'
@@ -364,10 +359,6 @@ class SignalNode(NodeBase):
 
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
-        p.ext_type = node.getAttribute('ext_type')
-
-        if p.ext_type == '':
-            p.ext_type = p.type;
 
         hint = node.getAttribute('hint')
         if hint != None and hint != '':
@@ -378,7 +369,7 @@ class SignalNode(NodeBase):
     def introspect_sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.interface_node.get_type(p.ext_type).sig()
+            param_sig = self.interface_node.get_type(p.type).sig()
             method_sig = method_sig + '%s\\0%s\\0' % (param_sig, p.name)
 
         return method_sig
@@ -389,7 +380,7 @@ class SignalNode(NodeBase):
     def sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.interface_node.get_type(p.ext_type).sig()
+            param_sig = self.interface_node.get_type(p.type).sig()
             method_sig = method_sig + param_sig
 
         return '(' + method_sig + ')'
@@ -432,17 +423,13 @@ class StructNode(TypeNode):
         arg = ArgNode(self.top_node)
         arg.name = node.getAttribute('name')
         arg.type = node.getAttribute('type')
-        arg.ext_type = node.getAttribute('ext_type')
-
-        if arg.ext_type == '':
-            arg.ext_type = arg.type;
 
         self.fields.append(arg)
 
     def sig(self):
         struct_sig = ''
         for f in self.fields:
-            field_sig = self.top_node.get_type(f.ext_type).sig()
+            field_sig = self.top_node.get_type(f.type).sig()
             struct_sig =  struct_sig + field_sig
 
         return '(' + struct_sig + ')'

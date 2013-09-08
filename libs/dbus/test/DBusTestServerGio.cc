@@ -21,14 +21,10 @@
 #include "config.h"
 #endif
 
-#include <QtCore>
-#include <QtDBus>
-
 #include "debug.hh"
 
 #include "DBusTestServerGio.hh"
-
-#include "dbus/IDBus.hh"
+#include "DBusTestGio.hh"
 
 #include "DBusGio.hh"
 
@@ -67,7 +63,7 @@ DBusTestServerGio::run(int argc, char **argv)
       GMainContext *context = g_main_context_new();
       GMainLoop *loop = g_main_loop_new(context, FALSE);
       
-      workrave::dbus::IDBus::Ptr dbus = workrave::dbus::DBusGio::create();
+      dbus = workrave::dbus::DBusGio::create();
       
       dbus->init();
         
@@ -83,5 +79,100 @@ DBusTestServerGio::run(int argc, char **argv)
   catch (workrave::dbus::DBusException &)
     {
       std::cerr << "server failed" <<std::endl;
+    }
+}
+
+
+void
+DBusTestServerGio::test_fire_signal()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  DBusTestData::StructWithAllBasicTypes par;
+  par.m_int    = -7;
+  par.m_uint8  = 67;
+  par.m_int16  = 2345;
+  par.m_uint16 = 19834;
+  par.m_int32  = 3937628;
+  par.m_uint32 = 45432;
+  par.m_int64  = 46583739;
+  par.m_uint64 = 3439478327;
+  par.m_string = "Hello";
+  par.m_bool   = true;
+  par.m_double = 3.14;
+  par.m_enum   = DBusTestData::TWO;
+
+  DBusTestData::DataList l;
+  DBusTestData::DataMap m;
+    
+  if (test != NULL)
+    {
+      test->Signal("/org/workrave/Test", par.m_int,
+                   par.m_uint8  ,
+                   par.m_int16  ,
+                   par.m_uint16 ,
+                   par.m_int32  ,
+                   par.m_uint32 ,
+                   par.m_int64  ,
+                   par.m_uint64 ,
+                   par.m_string ,
+                   par.m_bool   ,
+                   par.m_double ,
+                   par.m_enum,
+                   l, m );
+    }
+}
+     
+void
+DBusTestServerGio::test_fire_signal_without_args()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  if (test != NULL)
+    {
+      test->SignalWithoutArgs("/org/workrave/Test");
+    }
+}
+
+void
+DBusTestServerGio::test_fire_signal_with_ref()
+{
+  org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  DBusTestData::StructWithAllBasicTypes par;
+  par.m_int    = -7;
+  par.m_uint8  = 67;
+  par.m_int16  = 2345;
+  par.m_uint16 = 19834;
+  par.m_int32  = 3937628;
+  par.m_uint32 = 45432;
+  par.m_int64  = 46583739;
+  par.m_uint64 = 3439478327;
+  par.m_string = "Hello";
+  par.m_bool   = true;
+  par.m_double = 3.14;
+  par.m_enum   = DBusTestData::TWO;
+
+  DBusTestData::DataList l;
+  DBusTestData::DataMap m;
+    
+
+  if (test != NULL)
+    {
+      test->SignalWithRef("/org/workrave/Test", par.m_int,
+                          par.m_uint8  ,
+                          par.m_int16  ,
+                          par.m_uint16 ,
+                          par.m_int32  ,
+                          par.m_uint32 ,
+                          par.m_int64  ,
+                          par.m_uint64 ,
+                          par.m_string ,
+                          par.m_bool   ,
+                          par.m_double ,
+                          par.m_enum,
+                          l,
+                          m
+                          );
     }
 }

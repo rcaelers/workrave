@@ -25,6 +25,8 @@
 
 #include <glib.h>
 
+#include "dbus/IDBus.hh"
+
 #include "DBusTestData.hh"
 #include "DBusTestServer.hh"
 
@@ -35,6 +37,12 @@ public:
   virtual ~DBusTestServerGio();
 
   void run(int argc, char **argv);
+
+  void test_fire_signal();
+  void test_fire_signal_without_args();
+  void test_fire_signal_with_ref();
+
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
 #endif // DBUSTESTSERVERGIO_HH

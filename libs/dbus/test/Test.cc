@@ -40,6 +40,7 @@
 
 #include "dbus/IDBus.hh"
 #include "DBusTestData.hh"
+#include "Test.hh"
 
 using namespace std;
 using namespace workrave::utils;
@@ -329,9 +330,29 @@ BOOST_AUTO_TEST_CASE(test_return_list)
     }
 }
 
+BOOST_AUTO_TEST_CASE(test_test_signal_without_args)
+{
+  SignalReceiver r;
+  QDBusConnection connection = QDBusConnection::sessionBus();
 
-// QDBusInterface *dbus_iface = new QDBusInterface("org.gnome.SessionManager","/org/gnome/SessionManager/Presence", "org.gnome.SessionManager.Presence", bus);
+  connection.connect(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "SignalWithoutArgs", &r, SLOT(on_signal_without_args()));
 
-// connect(dbus_iface, SIGNAL(StatusChanged(int)), this, SLOT(MySlot(int));
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "FireSignalWithoutArgs");
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
+}
+
+BOOST_AUTO_TEST_CASE(test_test_signal)
+{
+  SignalReceiver r;
+  QDBusConnection connection = QDBusConnection::sessionBus();
+
+  connection.connect(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "Signal", &r, SLOT(on_signal()));
+
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "FireSignal");
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
+}
+
         
 BOOST_AUTO_TEST_SUITE_END()

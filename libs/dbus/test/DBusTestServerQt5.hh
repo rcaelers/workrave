@@ -29,6 +29,9 @@
 #include "DBusTestData.hh"
 #include "DBusTestServer.hh"
 
+#include "dbus/IDBus.hh"
+
+
 class DBusTestServerQt5 : DBusTestServer
 {
 public:
@@ -36,9 +39,14 @@ public:
   virtual ~DBusTestServerQt5();
 
   void run(int argc, char **argv);
+
+  void test_fire_signal();
+  void test_fire_signal_without_args();
+  void test_fire_signal_with_ref();
   
 private:
   QCoreApplication *app;
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
 #endif // DBUSTESTSERVERQT5_HH
