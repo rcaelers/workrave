@@ -75,8 +75,8 @@ DBusTestServerQt5::run(int argc, char **argv)
      
       dbus->init();
         
-      extern void init_DBusTest(workrave::dbus::IDBus::Ptr dbus);
-      init_DBusTest(dbus);
+      extern void init_DBusTestQt(workrave::dbus::IDBus::Ptr dbus);
+      init_DBusTestQt(dbus);
 
       dbus->connect(WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, this);
       dbus->register_object_path(WORKRAVE_TEST_PATH);

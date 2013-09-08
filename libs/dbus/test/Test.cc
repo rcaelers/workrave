@@ -82,40 +82,40 @@ BOOST_FIXTURE_TEST_SUITE(s, Fixture)
 static void
 test_dbus_basic(const char *method)
 {
-  QDBusConnection connection = QDBusConnection::sessionBus();
-
-  DBusTestData::StructWithAllBasicTypes s;
-  s.m_int    = -7;               
-  s.m_uint8  = 67;               
-  s.m_int16  = 2345;             
-  s.m_uint16 = 19834;            
-  s.m_int32  = 3937628;          
-  s.m_uint32 = 45432;            
-  s.m_int64  = 46583739;         
-  s.m_uint64 = 3439478327;       
-  s.m_string = "Hello";          
-  s.m_bool   = true;             
-  s.m_double = 3.14;             
-  s.m_enum   = DBusTestData::TWO;
+  DBusTestData::StructWithAllBasicTypes inpar;
+  inpar.m_int    = -7;               
+  inpar.m_uint8  = 67;               
+  inpar.m_int16  = 2345;             
+  inpar.m_uint16 = 19834;            
+  inpar.m_int32  = 3937628;          
+  inpar.m_uint32 = 45432;            
+  inpar.m_int64  = 46583739;         
+  inpar.m_uint64 = 3439478327;       
+  inpar.m_string = "Hello";          
+  inpar.m_bool   = true;             
+  inpar.m_double = 3.14;             
+  inpar.m_enum   = DBusTestData::TWO;
   
+  QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
-  message << QVariant::fromValue((int)             s.m_int    );
-  message << QVariant::fromValue((uint8_t)         s.m_uint8  );
-  message << QVariant::fromValue((int16_t)         s.m_int16  );
-  message << QVariant::fromValue((uint16_t)        s.m_uint16 );
-  message << QVariant::fromValue((int32_t)         s.m_int32  );
-  message << QVariant::fromValue((uint32_t)        s.m_uint32 );
-  message << QVariant::fromValue((qlonglong)       s.m_int64  );
-  message << QVariant::fromValue((qulonglong)      s.m_uint64 );
-  message << QVariant::fromValue(QString::fromStdString(s.m_string));
-  message << QVariant::fromValue((bool)            s.m_bool   );
-  message << QVariant::fromValue((double)          s.m_double );
-  message << QVariant::fromValue(QString::fromStdString(DBusTestData::enum_to_str(s.m_enum)));
+  message << QVariant::fromValue((int)             inpar.m_int    );
+  message << QVariant::fromValue((uint8_t)         inpar.m_uint8  );
+  message << QVariant::fromValue((int16_t)         inpar.m_int16  );
+  message << QVariant::fromValue((uint16_t)        inpar.m_uint16 );
+  message << QVariant::fromValue((int32_t)         inpar.m_int32  );
+  message << QVariant::fromValue((uint32_t)        inpar.m_uint32 );
+  message << QVariant::fromValue((qlonglong)       inpar.m_int64  );
+  message << QVariant::fromValue((qulonglong)      inpar.m_uint64 );
+  message << QVariant::fromValue(QString::fromStdString(inpar.m_string));
+  message << QVariant::fromValue((bool)            inpar.m_bool   );
+  message << QVariant::fromValue((double)          inpar.m_double );
+  message << QVariant::fromValue(QString::fromStdString(DBusTestData::enum_to_str(inpar.m_enum)));
   
   QDBusMessage reply = connection.call(message);
   BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
 
   QList<QVariant> arguments = reply.arguments();
+  BOOST_REQUIRE_EQUAL(arguments.count(), 12);
   
   int                 r_int    = arguments.at(0).value<int>();   
   uint8_t             r_uint8  = arguments.at(1).value<uint8_t>(); 
@@ -130,152 +130,208 @@ test_dbus_basic(const char *method)
   double              r_double = arguments.at(10).value<double>();
   DBusTestData::Enum  r_enum   = DBusTestData::str_to_enum(arguments.at(11).value<QString>().toStdString());
 
-  BOOST_CHECK_EQUAL(r_int    , s.m_int    + 1);
-  BOOST_CHECK_EQUAL(r_uint8  , s.m_uint8  + 2); 
-  BOOST_CHECK_EQUAL(r_int16  , s.m_int16  + 3);
-  BOOST_CHECK_EQUAL(r_uint16 , s.m_uint16 + 4);
-  BOOST_CHECK_EQUAL(r_int32  , s.m_int32  + 5);
-  BOOST_CHECK_EQUAL(r_uint32 , s.m_uint32 + 6);
-  BOOST_CHECK_EQUAL(r_int64  , s.m_int64  + 7);
-  BOOST_CHECK_EQUAL(r_uint64 , s.m_uint64 + 8);
-  BOOST_CHECK_EQUAL(r_string , s.m_string + " World");
-  BOOST_CHECK_EQUAL(r_bool   , !s.m_bool);
-  BOOST_CHECK_CLOSE(r_double , s.m_double + 1.1, 0.001);
-  BOOST_CHECK_EQUAL(r_enum   , s.m_enum   );
+  BOOST_CHECK_EQUAL(r_int    , inpar.m_int    + 1);
+  BOOST_CHECK_EQUAL(r_uint8  , inpar.m_uint8  + 2); 
+  BOOST_CHECK_EQUAL(r_int16  , inpar.m_int16  + 3);
+  BOOST_CHECK_EQUAL(r_uint16 , inpar.m_uint16 + 4);
+  BOOST_CHECK_EQUAL(r_int32  , inpar.m_int32  + 5);
+  BOOST_CHECK_EQUAL(r_uint32 , inpar.m_uint32 + 6);
+  BOOST_CHECK_EQUAL(r_int64  , inpar.m_int64  + 7);
+  BOOST_CHECK_EQUAL(r_uint64 , inpar.m_uint64 + 8);
+  BOOST_CHECK_EQUAL(r_string , inpar.m_string + " World");
+  BOOST_CHECK_EQUAL(r_bool   , !inpar.m_bool);
+  BOOST_CHECK_CLOSE(r_double , inpar.m_double + 1.1, 0.001);
+  BOOST_CHECK_EQUAL(r_enum   , inpar.m_enum   );
 }
 
-BOOST_AUTO_TEST_CASE(test_dbus_basic_1)
+BOOST_AUTO_TEST_CASE(test_dbus_basic_out_ref)
 {
-  test_dbus_basic("Basic1");
+  test_dbus_basic("BasicOutRef");
 }
 
-BOOST_AUTO_TEST_CASE(test_dbus_basic_2)
+BOOST_AUTO_TEST_CASE(test_dbus_basic_out_ptr)
 {
-  test_dbus_basic("Basic2");
+  test_dbus_basic("BasicOutPtr");
 }
 
 static void test_dbus_struct(const char *method)
 {
-  DBusTestData::StructWithAllBasicTypes s;
-  s.m_int    = -7;
-  s.m_uint8  = 67;
-  s.m_int16  = 2345;
-  s.m_uint16 = 19834;
-  s.m_int32  = 3937628;
-  s.m_uint32 = 45432;
-  s.m_int64  = 46583739;
-  s.m_uint64 = 3439478327;
-  s.m_string = "Hello";
-  s.m_bool   = true;
-  s.m_double = 3.14;
-  s.m_enum   = DBusTestData::TWO;
+  DBusTestData::StructWithAllBasicTypes inpar;
+  inpar.m_int    = -7;
+  inpar.m_uint8  = 67;
+  inpar.m_int16  = 2345;
+  inpar.m_uint16 = 19834;
+  inpar.m_int32  = 3937628;
+  inpar.m_uint32 = 45432;
+  inpar.m_int64  = 46583739;
+  inpar.m_uint64 = 3439478327;
+  inpar.m_string = "Hello";
+  inpar.m_bool   = true;
+  inpar.m_double = 3.14;
+  inpar.m_enum   = DBusTestData::TWO;
   
   QDBusConnection con = QDBusConnection::sessionBus();
-
   QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
-  msg.setArguments(QVariantList() << QVariant::fromValue(s));
+  msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
+  
   QDBusMessage reply = con.call(msg);
-
   BOOST_CHECK_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
 
   QList<QVariant> arguments = reply.arguments();
-  
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
   QDBusArgument r_arg  = arguments.at(0).value<QDBusArgument>();   
   DBusTestData::StructWithAllBasicTypes r_struct;
   r_arg >> r_struct;
   
-  BOOST_CHECK_EQUAL(r_struct.m_int    , s.m_int    + 1);
-  BOOST_CHECK_EQUAL(r_struct.m_uint8  , s.m_uint8  + 2); 
-  BOOST_CHECK_EQUAL(r_struct.m_int16  , s.m_int16  + 3);
-  BOOST_CHECK_EQUAL(r_struct.m_uint16 , s.m_uint16 + 4);
-  BOOST_CHECK_EQUAL(r_struct.m_int32  , s.m_int32  + 5);
-  BOOST_CHECK_EQUAL(r_struct.m_uint32 , s.m_uint32 + 6);
-  BOOST_CHECK_EQUAL(r_struct.m_int64  , s.m_int64  + 7);
-  BOOST_CHECK_EQUAL(r_struct.m_uint64 , s.m_uint64 + 8);
-  BOOST_CHECK_EQUAL(r_struct.m_string , s.m_string + " World");
-  BOOST_CHECK_EQUAL(r_struct.m_bool   , !s.m_bool);
-  BOOST_CHECK_CLOSE(r_struct.m_double , s.m_double + 1.1, 0.001);
-  BOOST_CHECK_EQUAL(r_struct.m_enum   , s.m_enum   );
+  BOOST_CHECK_EQUAL(r_struct.m_int    , inpar.m_int    + 1);
+  BOOST_CHECK_EQUAL(r_struct.m_uint8  , inpar.m_uint8  + 2); 
+  BOOST_CHECK_EQUAL(r_struct.m_int16  , inpar.m_int16  + 3);
+  BOOST_CHECK_EQUAL(r_struct.m_uint16 , inpar.m_uint16 + 4);
+  BOOST_CHECK_EQUAL(r_struct.m_int32  , inpar.m_int32  + 5);
+  BOOST_CHECK_EQUAL(r_struct.m_uint32 , inpar.m_uint32 + 6);
+  BOOST_CHECK_EQUAL(r_struct.m_int64  , inpar.m_int64  + 7);
+  BOOST_CHECK_EQUAL(r_struct.m_uint64 , inpar.m_uint64 + 8);
+  BOOST_CHECK_EQUAL(r_struct.m_string , inpar.m_string + " World");
+  BOOST_CHECK_EQUAL(r_struct.m_bool   , !inpar.m_bool);
+  BOOST_CHECK_CLOSE(r_struct.m_double , inpar.m_double + 1.1, 0.001);
+  BOOST_CHECK_EQUAL(r_struct.m_enum   , inpar.m_enum   );
 }
 
-BOOST_AUTO_TEST_CASE(test_dbus_struct_1)
+BOOST_AUTO_TEST_CASE(test_dbus_struct_out_refo)
 {
-  test_dbus_struct("Struct1");
+  test_dbus_struct("StructOutPtr");
 }
 
-BOOST_AUTO_TEST_CASE(test_dbus_struct_2)
+BOOST_AUTO_TEST_CASE(test_dbus_struct_out_ptr)
 {
-  test_dbus_struct("Struct2");
+  test_dbus_struct("StructOutPtr");
 }
 
 
 BOOST_AUTO_TEST_CASE(test_dbus_list_of_struct)
 {
-  DBusTestData::Data d1(1, 2);
-  DBusTestData::Data d2(10, 27);
-  DBusTestData::Data d3(12, 26);
-  DBusTestData::Data d4(13, 24);
-
-  QList<DBusTestData::Data> datalist;
-  datalist.append(d1);
-  datalist.append(d2);
-  datalist.append(d3);
-  datalist.append(d4);
+  QList<DBusTestData::Data> inpar;
+  inpar.append(DBusTestData::Data(1, 2));
+  inpar.append(DBusTestData::Data(10, 27));
+  inpar.append(DBusTestData::Data(12, 26));
+  inpar.append(DBusTestData::Data(13, 24));
 
   QDBusConnection con = QDBusConnection::sessionBus();
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "List");
+  msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
 
-  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "List1");
-  msg.setArguments(QVariantList() << QVariant::fromValue(datalist));
   QDBusMessage reply = con.call(msg);
-
   BOOST_CHECK_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
 
   QList<QVariant> arguments = reply.arguments();
-  
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
   QDBusArgument r_arg  = arguments.at(0).value<QDBusArgument>();   
   QList<DBusTestData::Data> r_data;
   r_arg >> r_data;
 
-  BOOST_CHECK_EQUAL(r_data.count(), datalist.count());
-  for (int i = 0; i < datalist.count(); i++)
+  BOOST_CHECK_EQUAL(r_data.count(), inpar.count());
+  for (int i = 0; i < inpar.count(); i++)
     {
-      BOOST_CHECK_EQUAL(r_data.at(i).m_key, datalist.at(i).m_key);
-      BOOST_CHECK_EQUAL(r_data.at(i).m_data, datalist.at(i).m_data + 76);
+      BOOST_CHECK_EQUAL(r_data.at(i).m_key, inpar.at(i).m_key);
+      BOOST_CHECK_EQUAL(r_data.at(i).m_data, inpar.at(i).m_data + 76);
     }
 }
 
 BOOST_AUTO_TEST_CASE(test_dbus_map_of_struct)
 {
-  DBusTestData::Data d1(1, 2);
-  DBusTestData::Data d2(10, 27);
-  DBusTestData::Data d3(12, 26);
-  DBusTestData::Data d4(13, 24);
-
-  QMap<QString, DBusTestData::Data> datamap;
-  datamap[QString("1")] = d1;
-  datamap[QString("2")] = d2;
-  datamap[QString("3")] = d3;
-  datamap[QString("4")] = d4;
+  QMap<QString, DBusTestData::Data> inpar;
+  inpar[QString("1")] = DBusTestData::Data(1, 2);
+  inpar[QString("2")] = DBusTestData::Data(10, 27);
+  inpar[QString("3")] = DBusTestData::Data(12, 26);
+  inpar[QString("4")] = DBusTestData::Data(13, 24);
 
   QDBusConnection con = QDBusConnection::sessionBus();
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "Map");
+  msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
 
-  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "Map1");
-  msg.setArguments(QVariantList() << QVariant::fromValue(datamap));
   QDBusMessage reply = con.call(msg);
-
   BOOST_CHECK_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
 
   QList<QVariant> arguments = reply.arguments();
-  
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
   QDBusArgument r_arg  = arguments.at(0).value<QDBusArgument>();   
   QMap<QString, DBusTestData::Data> r_data;
   r_arg >> r_data;
 
-  BOOST_CHECK_EQUAL(r_data.count(), datamap.count());
-  for (QString &k : datamap.keys())
+  BOOST_REQUIRE_EQUAL(r_data.count(), inpar.count());
+  for (QString &k : inpar.keys())
     {
-      BOOST_CHECK_EQUAL(r_data[k].m_data, datamap[k].m_data + 65);
+      BOOST_CHECK_EQUAL(r_data[k].m_data, inpar[k].m_data + 65);
     }
 }
 
+BOOST_AUTO_TEST_CASE(test_return_string)
+{
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "ReturnString");
+  message << QVariant::fromValue((int) 42);
+  
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
+
+  QList<QVariant> arguments = reply.arguments();
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
+  std::string r_string = arguments.at(0).value<QString>().toStdString(); 
+  BOOST_CHECK_EQUAL(r_string , "Hello World");
+}
+
+BOOST_AUTO_TEST_CASE(test_return_int)
+{
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "ReturnInt");
+  message << QVariant::fromValue((int) 42);
+  
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
+
+  QList<QVariant> arguments = reply.arguments();
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
+  int r_int = arguments.at(0).value<int>(); 
+  BOOST_CHECK_EQUAL(r_int , 84);
+}
+
+BOOST_AUTO_TEST_CASE(test_return_list)
+{
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "ReturnList");
+  
+  QDBusMessage reply = connection.call(message);
+  BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
+
+  QList<QVariant> arguments = reply.arguments();
+  BOOST_REQUIRE_EQUAL(arguments.count(), 1);
+
+  QDBusArgument r_arg  = arguments.at(0).value<QDBusArgument>();   
+  QList<DBusTestData::Data> r_data;
+  r_arg >> r_data;
+
+  QList<DBusTestData::Data> expected;
+  expected.append(DBusTestData::Data(0, 1));
+  expected.append(DBusTestData::Data(1, 2));
+  expected.append(DBusTestData::Data(3, 5));
+  expected.append(DBusTestData::Data(8, 13));
+  
+  BOOST_CHECK_EQUAL(r_data.count(), expected.count());
+  for (int i = 0; i < expected.count(); i++)
+    {
+      BOOST_CHECK_EQUAL(r_data.at(i).m_key, expected.at(i).m_key);
+      BOOST_CHECK_EQUAL(r_data.at(i).m_data, expected.at(i).m_data);
+    }
+}
+
+
+// QDBusInterface *dbus_iface = new QDBusInterface("org.gnome.SessionManager","/org/gnome/SessionManager/Presence", "org.gnome.SessionManager.Presence", bus);
+
+// connect(dbus_iface, SIGNAL(StatusChanged(int)), this, SLOT(MySlot(int));
+        
 BOOST_AUTO_TEST_SUITE_END()

@@ -54,32 +54,32 @@ DBusTestServer::~DBusTestServer()
 {
 }
 
-// DBus
-void DBusTestServer::test_basic_1(int       i_int,
-                                  uint8_t   i_uint8,
-                                  int16_t   i_int16,
-                                  uint16_t  i_uint16,
-                                  int32_t   i_int32,
-                                  uint32_t  i_uint32,
-                                  int64_t   i_int64,
-                                  uint64_t  i_uint64,
-                                  string    i_string,
-                                  bool      i_bool,
-                                  double    i_double,
-                                  DBusTestData::Enum      i_enum,
-                                  int       &o_int,   
-                                  uint8_t   &o_uint8, 
-                                  int16_t   &o_int16, 
-                                  uint16_t  &o_uint16,
-                                  int32_t   &o_int32, 
-                                  uint32_t  &o_uint32,
-                                  int64_t   &o_int64, 
-                                  uint64_t  &o_uint64,
-                                  string    &o_string,
-                                  bool      &o_bool,  
-                                  double    &o_double,
-                                  DBusTestData::Enum      &o_enum
-                                  )
+void
+DBusTestServer::test_basic_out_ref(int                     i_int,
+                                   uint8_t                 i_uint8,
+                                   int16_t                 i_int16,
+                                   uint16_t                i_uint16,
+                                   int32_t                 i_int32,
+                                   uint32_t                i_uint32,
+                                   int64_t                 i_int64,
+                                   uint64_t                i_uint64,
+                                   string                  i_string,
+                                   bool                    i_bool,
+                                   double                  i_double,
+                                   DBusTestData::Enum      i_enum,
+                                   int                     &o_int,   
+                                   uint8_t                 &o_uint8, 
+                                   int16_t                 &o_int16, 
+                                   uint16_t                &o_uint16,
+                                   int32_t                 &o_int32, 
+                                   uint32_t                &o_uint32,
+                                   int64_t                 &o_int64, 
+                                   uint64_t                &o_uint64,
+                                   string                  &o_string,
+                                   bool                    &o_bool,  
+                                   double                  &o_double,
+                                   DBusTestData::Enum      &o_enum
+                                   )
 {
   o_int = i_int + 1;
   o_uint8 = i_uint8 + 2;
@@ -95,31 +95,32 @@ void DBusTestServer::test_basic_1(int       i_int,
   o_enum = i_enum;
 }
 
-void DBusTestServer::test_basic_2(int       i_int,
-                                  uint8_t   i_uint8,
-                                  int16_t   i_int16,
-                                  uint16_t  i_uint16,
-                                  int32_t   i_int32,
-                                  uint32_t  i_uint32,
-                                  int64_t   i_int64,
-                                  uint64_t  i_uint64,
-                                  const string    &i_string,
-                                  bool      i_bool,
-                                  double    i_double,
-                                  DBusTestData::Enum      i_enum,
-                                  int       *o_int,
-                                  uint8_t   *o_uint8,
-                                  int16_t   *o_int16,
-                                  uint16_t  *o_uint16,
-                                  int32_t   *o_int32,
-                                  uint32_t  *o_uint32,
-                                  int64_t   *o_int64,
-                                  uint64_t  *o_uint64,
-                                  string    *o_string,
-                                  bool      *o_bool,
-                                  double    *o_double,
-                                  DBusTestData::Enum      *o_enum
-                                  )
+void
+DBusTestServer::test_basic_out_ptr(int                     i_int,
+                                   uint8_t                 i_uint8,
+                                   int16_t                 i_int16,
+                                   uint16_t                i_uint16,
+                                   int32_t                 i_int32,
+                                   uint32_t                i_uint32,
+                                   int64_t                 i_int64,
+                                   uint64_t                i_uint64,
+                                   const string           &i_string,
+                                   bool                    i_bool,
+                                   double                  i_double,
+                                   DBusTestData::Enum      i_enum,
+                                   int                     *o_int,
+                                   uint8_t                 *o_uint8,
+                                   int16_t                 *o_int16,
+                                   uint16_t                *o_uint16,
+                                   int32_t                 *o_int32,
+                                   uint32_t                *o_uint32,
+                                   int64_t                 *o_int64,
+                                   uint64_t                *o_uint64,
+                                   string                  *o_string,
+                                   bool                    *o_bool,
+                                   double                  *o_double,
+                                   DBusTestData::Enum      *o_enum
+                                   )
 {
   *o_int = i_int + 1;
   *o_uint8 = i_uint8 + 2;
@@ -136,8 +137,8 @@ void DBusTestServer::test_basic_2(int       i_int,
 }
 
 void
-DBusTestServer::test_struct_1(const DBusTestData::StructWithAllBasicTypes &i_struct,
-                              DBusTestData::StructWithAllBasicTypes &o_struct)
+DBusTestServer::test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct,
+                                    DBusTestData::StructWithAllBasicTypes &o_struct)
 {
   o_struct.m_int = i_struct.m_int + 1;
   o_struct.m_uint8 = i_struct.m_uint8 + 2;
@@ -154,8 +155,8 @@ DBusTestServer::test_struct_1(const DBusTestData::StructWithAllBasicTypes &i_str
 }
 
 void
-DBusTestServer::test_struct_2(DBusTestData::StructWithAllBasicTypes i_struct,
-                              DBusTestData::StructWithAllBasicTypes *o_struct)
+DBusTestServer::test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct,
+                                    DBusTestData::StructWithAllBasicTypes *o_struct)
 {
   o_struct->m_int = i_struct.m_int + 1;
   o_struct->m_uint8 = i_struct.m_uint8 + 2;
@@ -169,6 +170,36 @@ DBusTestServer::test_struct_2(DBusTestData::StructWithAllBasicTypes i_struct,
   o_struct->m_bool = !i_struct.m_bool;
   o_struct->m_double = i_struct.m_double + 1.1;
   o_struct->m_enum = i_struct.m_enum;
+}
+
+std::string
+DBusTestServer::test_return_string(int i_int)
+{
+  if (i_int == 42)
+    {
+      return "Hello World";
+    }
+  else
+    {
+      return "Error";
+    }
+}
+
+int
+DBusTestServer::test_return_int(int i_int)
+{
+  return 2 * i_int;
+}
+
+DBusTestData::DataList
+DBusTestServer::test_return_list()
+{
+  DBusTestData::DataList ret;
+  ret.push_back(DBusTestData::Data(0, 1));
+  ret.push_back(DBusTestData::Data(1, 2));
+  ret.push_back(DBusTestData::Data(3, 5));
+  ret.push_back(DBusTestData::Data(8, 13));
+  return ret;
 }
 
 void
@@ -187,7 +218,72 @@ void DBusTestServer::test_map_of_struct(DBusTestData::DataMap i_data,
 {
   for (auto &d : i_data)
     {
+      std::cout << "d = " << d.first <<std::endl;
+      
       o_data[d.first] = d.second;
       o_data[d.first].m_data += 65;
     }
+
+  std::cout << "count = " << o_data.size() <<std::endl;
+}
+
+void
+DBusTestServer::test_fire_signal()
+{
+  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  // DBusTestData::StructWithAllBasicTypes par;
+  // par.m_int    = -7;
+  // par.m_uint8  = 67;
+  // par.m_int16  = 2345;
+  // par.m_uint16 = 19834;
+  // par.m_int32  = 3937628;
+  // par.m_uint32 = 45432;
+  // par.m_int64  = 46583739;
+  // par.m_uint64 = 3439478327;
+  // par.m_string = "Hello";
+  // par.m_bool   = true;
+  // par.m_double = 3.14;
+  // par.m_enum   = DBusTestData::TWO;
+  
+  // if (test != NULL)
+  //   {
+  //     test->Signal("/org/workrave/Test", par);
+  //   }
+}
+     
+void
+DBusTestServer::test_fire_signal_without_args()
+{
+  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  // if (test != NULL)
+  //   {
+  //     test->SignalWithoutArgs("/org/workrave/Test");
+  //   }
+}
+
+void
+DBusTestServer::test_fire_signal_with_ref()
+{
+  // org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
+
+  // DBusTestData::StructWithAllBasicTypes par;
+  // par.m_int    = -7;
+  // par.m_uint8  = 67;
+  // par.m_int16  = 2345;
+  // par.m_uint16 = 19834;
+  // par.m_int32  = 3937628;
+  // par.m_uint32 = 45432;
+  // par.m_int64  = 46583739;
+  // par.m_uint64 = 3439478327;
+  // par.m_string = "Hello";
+  // par.m_bool   = true;
+  // par.m_double = 3.14;
+  // par.m_enum   = DBusTestData::TWO;
+  
+  // if (test != NULL)
+  //   {
+  //     test->SignalWithRef("/org/workrave/Test", par);
+  //   }
 }

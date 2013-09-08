@@ -36,25 +36,301 @@
 using namespace std;
 using namespace workrave::dbus;
 
+class ${model.name}_Marshall : public DBusMarshallGio
+{
+public:
+#for enum in $model.enums
+#if enum.condition != ''
+ \#if $enum.condition
+#end if
+  void get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result);
+  GVariant *put_${enum.qname}(const ${enum.symbol()} *result);
+#if enum.condition
+ \#endif // $enum.condition
+#end if
+#end for
+
+#for struct in $model.structs
+#if struct.condition
+ \#if $struct.condition
+#end if
+  void get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result);
+  GVariant *put_${struct.qname}(const ${struct.symbol()} *result);
+#if struct.condition
+ \#endif // $struct.condition
+#end if
+#end for
+
+#for seq in $model.sequences
+#if seq.condition
+ \#if $seq.condition
+#end if
+  void get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result);
+  GVariant *put_${seq.qname}(const ${seq.symbol()} *result);
+#if seq.condition
+ \#endif // $seq.condition
+#end if
+#end for
+
+#for dict in $model.dictionaries
+#if dict.condition
+ \#if $dict.condition
+#end if
+  void get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result);
+  GVariant *put_${dict.qname}(const ${dict.symbol()} *result);
+#if dict.condition
+ \#endif // $dict.condition
+#end if
+#end for
+};
+
+#for enum in $model.enums
+
+#if enum.condition != ''
+ \#if $enum.condition
+#end if
+
+void
+${model.name}_Marshall::get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result)
+{
+  std::string value;
+
+  get_string(variant, &value);
+
+#set if_stm = 'if'
+#for e in enum.values
+  $if_stm ("$e.name" == value)
+    {
+      *result = $e.symbol();
+    }
+  #set $if_stm = 'else if'
+#end for
+  else
+    {
+      throw DBusRemoteException("Illegal enum value");
+    }
+}
+
+GVariant *
+${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
+{
+  string value;
+  switch (*result)
+    {
+    #for e in enum.values
+    case $e.symbol():
+      value = "$e.name";
+      break;
+    #end for
+    default:
+      throw DBusRemoteException("Illegal enum value");
+    }
+
+  return put_string(&value);
+}
+
+#if enum.condition
+ \#endif // $enum.condition
+#end if
+
+#end for
+
+#for struct in $model.structs
+
+#if struct.condition
+ \#if $struct.condition
+#end if
+ 
+void
+${model.name}_Marshall::get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result)
+{
+#set num_expected_fields = len($struct.fields)
+
+  gsize num_fields = g_variant_n_children(variant);
+  if (num_fields != $num_expected_fields)
+    {
+      throw DBusRemoteException("Incorrect number of field in struct");
+    }
+
+#for p in struct.fields
+  #if p.type != p.ext_type
+  $model.get_type(p.ext_type).symbol() _${p.name};
+  #end if
+#end for
+
+#set index = 0
+#for p in struct.fields
+  GVariant *v_${p.name} = g_variant_get_child_value(variant, $index);
+
+  #if p.type != p.ext_type
+  get_${p.ext_type}(v_${p.name}, &_${p.name});
+  #else
+  get_${p.ext_type}(v_${p.name}, ($model.get_type(p.ext_type).symbol() *) &(result->${p.name}));
+  #end if
+  #set index = index + 1
+#end for
+
+#for p in struct.fields
+  #if p.type != p.ext_type
+  result->${p.name} = ($model.get_type(p.type).symbol()) _${p.name};
+  #end if
+#end for
+
+#for p in struct.fields
+  g_variant_unref(v_${p.name});
+#end for
+}
+
+
+GVariant *
+${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} *result)
+{
+  GVariantBuilder builder;
+  g_variant_builder_init(&builder, (GVariantType *)"$struct.sig()");
+
+#for p in struct.fields
+  #if p.type != p.ext_type
+  $model.get_type(p.ext_type).symbol() f_${p.name} = ($model.get_type(p.ext_type).symbol())result->${p.name};
+  #end if
+#end for
+
+  GVariant *v;
+
+#for p in struct.fields
+  #if p.type != p.ext_type
+  v = put_${p.ext_type}(&f_${p.name});
+  #else
+  v = put_${p.ext_type}(($model.get_type(p.type).symbol() *) &(result->${p.name}));
+  #end if
+  g_variant_builder_add_value(&builder, v);
+#end for
+
+  return g_variant_builder_end(&builder);
+}
+
+#if struct.condition
+ \#endif // $struct.condition
+#end if
+
+#end for
+
+#for seq in $model.sequences
+
+#if seq.condition
+ \#if $seq.condition
+#end if
+ 
+void
+${model.name}_Marshall::get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result)
+{
+  GVariantIter iter;
+  g_variant_iter_init(&iter, variant);
+
+  GVariant *child;
+  while ((child = g_variant_iter_next_value(&iter)))
+    {
+      $model.get_type(seq.data_type).symbol() tmp;
+      get_${seq.data_type}(child, &tmp);
+      result->push_back(tmp);
+
+      g_variant_unref (child);
+    }
+}
+
+GVariant *
+${model.name}_Marshall::put_${seq.qname}(const ${seq.symbol()} *result)
+{
+  GVariantBuilder builder;
+  g_variant_builder_init(&builder, (GVariantType *)"$seq.sig()");
+
+  ${seq.symbol()}::const_iterator it;
+
+  for (it = result->begin(); it != result->end(); it++)
+  {
+    GVariant *v = put_${seq.data_type}(&(*it));
+    g_variant_builder_add_value(&builder, v);
+  }
+
+  return g_variant_builder_end(&builder);
+}
+
+#if seq.condition
+ \#endif // $seq.condition
+#end if
+#end for
+
+
+#for dict in $model.dictionaries
+
+#if dict.condition
+ \#if $dict.condition
+#end if
+ 
+void
+${model.name}_Marshall::get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result)
+{
+  GVariantIter iter;
+  g_variant_iter_init(&iter, variant);
+
+  GVariant *child;
+  while ((child = g_variant_iter_next_value(&iter)))
+    {
+      GVariant *v_key = g_variant_get_child_value(child, 0);
+      GVariant *v_value = g_variant_get_child_value(child, 1);
+
+      $model.get_type(dict.key_type).symbol() key;
+      $model.get_type(dict.value_type).symbol() value;
+
+      get_${dict.key_type}(v_key, &key);
+      get_${dict.value_type}(v_value, &value);
+
+      (*result)[key] = value;
+
+      g_variant_unref(v_key);
+      g_variant_unref(v_value);
+      g_variant_unref(child);
+    }
+}
+
+
+GVariant *
+${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} *result)
+{
+  GVariantBuilder builder;
+  g_variant_builder_init(&builder, (GVariantType *)"$dict.sig()");
+
+  ${dict.symbol()}::const_iterator it;
+
+  for (it = result->begin(); it != result->end(); it++)
+    {
+      GVariant *v_key = put_${dict.key_type}(&(it->first));
+      GVariant *v_value = put_${dict.value_type}(&(it->second));
+
+      GVariant *v_entry = g_variant_new_dict_entry(v_key, v_value);
+      g_variant_builder_add_value(&builder, v_entry);
+    }
+
+  return g_variant_builder_end(&builder);
+}
+
+#if dict.condition
+ \#endif // $dict.condition
+#end if
+
+#end for
+
 #for interface in $model.interfaces
 
 #if interface.condition != ''
 \#if $interface.condition
 #end if
 
-#for imp in interface.imports
-  #for ns in imp.namespaces
-using namespace $ns;
-  #end for
+#for $ns in $interface.namespace_list
+namespace $ns // interface $interface.name namespace
+{
 #end for
-
-#for imp in interface.imports
-  #for include in imp.includes
-\#include "${include}"
-  #end for
-#end for
-
-class ${interface.qname}_Stub : public DBusBindingGio, public ${interface.qname}
+  
+class ${interface.qname}_Stub : public DBusBindingGio, public ${interface.qname}, ${model.name}_Marshall
 {
 private:
   typedef void (${interface.qname}_Stub::*DBusMethodPointer)(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
@@ -77,45 +353,22 @@ public:
   ~${interface.qname}_Stub();
 
 #for $m in interface.signals
-  void ${m.qname}(const string &path, #slurp
-  #set comma = ''
+  void ${m.qname}(const string &path #slurp
   #for p in m.params
     #if p.hint == []
-      $comma $interface.get_type(p.type).symbol() $p.name#slurp
+      , $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.get_type(p.type).symbol() *$p.name#slurp
+      , $interface.get_type(p.type).symbol() *$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.get_type(p.type).symbol() &$p.name#slurp
+      , $interface.get_type(p.type).symbol() &$p.name#slurp
     #end if
-  #set comma = ','
   #end for
   );
 #end for
 
-
 private:
 #for $m in interface.methods
   void ${m.qname}(void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs);
-#end for
-
-#for enum in $interface.enums
-  void get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result);
-  GVariant *put_${enum.qname}(const ${enum.symbol()} *result);
-#end for
-
-#for struct in $interface.structs
-  void get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result);
-  GVariant *put_${struct.qname}(const ${struct.symbol()} *result);
-#end for
-
-#for seq in $interface.sequences
-  void get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result);
-  GVariant *put_${seq.qname}(const ${seq.symbol()} *result);
-#end for
-
-#for dict in $interface.dictionaries
-  void get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result);
-  GVariant *put_${dict.qname}(const ${dict.symbol()} *result);
 #end for
 
   static const DBusMethod method_table[];
@@ -164,210 +417,6 @@ ${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBu
     }
   throw DBusRemoteException(std::string("No such member:") + method_name );
 }
-
-#for enum in $interface.enums
-
-void
-${interface.qname}_Stub::get_${enum.qname}(GVariant *variant, ${enum.symbol()} *result)
-{
-  std::string value;
-
-  get_string(variant, &value);
-
-#set if_stm = 'if'
-#for e in enum.values
-  $if_stm ("$e.name" == value)
-    {
-      *result = $e.symbol();
-    }
-  #set $if_stm = 'else if'
-#end for
-  else
-    {
-      throw DBusRemoteException("Illegal enum value");
-    }
-}
-
-GVariant *
-${interface.qname}_Stub::put_${enum.qname}(const ${enum.symbol()} *result)
-{
-  string value;
-  switch (*result)
-    {
-    #for e in enum.values
-    case $e.symbol():
-      value = "$e.name";
-      break;
-    #end for
-    default:
-      throw DBusRemoteException("Illegal enum value");
-    }
-
-  return put_string(&value);
-}
-
-#end for
-
-#for struct in $interface.structs
-
-void
-${interface.qname}_Stub::get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result)
-{
-#set num_expected_fields = len($struct.fields)
-
-  gsize num_fields = g_variant_n_children(variant);
-  if (num_fields != $num_expected_fields)
-    {
-      throw DBusRemoteException("Incorrect number of field in struct");
-    }
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $interface.get_type(p.ext_type).symbol() _${p.name};
-  #end if
-#end for
-
-#set index = 0
-#for p in struct.fields
-  GVariant *v_${p.name} = g_variant_get_child_value(variant, $index);
-
-  #if p.type != p.ext_type
-  get_${p.ext_type}(v_${p.name}, &_${p.name});
-  #else
-  get_${p.ext_type}(v_${p.name}, ($interface.get_type(p.ext_type).symbol() *) &(result->${p.name}));
-  #end if
-  #set index = index + 1
-#end for
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  result->${p.name} = ($interface.get_type(p.type).symbol()) _${p.name};
-  #end if
-#end for
-
-#for p in struct.fields
-  g_variant_unref(v_${p.name});
-#end for
-}
-
-
-GVariant *
-${interface.qname}_Stub::put_${struct.qname}(const ${struct.symbol()} *result)
-{
-  GVariantBuilder builder;
-  g_variant_builder_init(&builder, (GVariantType *)"$struct.sig()");
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  $interface.get_type(p.ext_type).symbol() f_${p.name} = ($interface.get_type(p.ext_type).symbol())result->${p.name};
-  #end if
-#end for
-
-  GVariant *v;
-
-#for p in struct.fields
-  #if p.type != p.ext_type
-  v = put_${p.ext_type}(&f_${p.name});
-  #else
-  v = put_${p.ext_type}(($interface.get_type(p.type).symbol() *) &(result->${p.name}));
-  #end if
-  g_variant_builder_add_value(&builder, v);
-#end for
-
-  return g_variant_builder_end(&builder);
-}
-
-#end for
-
-#for seq in $interface.sequences
-
-void
-${interface.qname}_Stub::get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result)
-{
-  GVariantIter iter;
-  g_variant_iter_init(&iter, variant);
-
-  GVariant *child;
-  while ((child = g_variant_iter_next_value(&iter)))
-    {
-      $interface.get_type(seq.data_type).symbol() tmp;
-      get_${seq.data_type}(child, &tmp);
-      result->push_back(tmp);
-
-      g_variant_unref (child);
-    }
-}
-
-GVariant *
-${interface.qname}_Stub::put_${seq.qname}(const ${seq.symbol()} *result)
-{
-  GVariantBuilder builder;
-  g_variant_builder_init(&builder, (GVariantType *)"$seq.sig()");
-
-  ${seq.symbol()}::const_iterator it;
-
-  for (it = result->begin(); it != result->end(); it++)
-  {
-    GVariant *v = put_${seq.data_type}(&(*it));
-    g_variant_builder_add_value(&builder, v);
-  }
-
-  return g_variant_builder_end(&builder);
-}
-#end for
-
-
-#for dict in $interface.dictionaries
-
-void
-${interface.qname}_Stub::get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result)
-{
-  GVariantIter iter;
-  g_variant_iter_init(&iter, variant);
-
-  GVariant *child;
-  while ((child = g_variant_iter_next_value(&iter)))
-    {
-      GVariant *v_key = g_variant_get_child_value(child, 0);
-      GVariant *v_value = g_variant_get_child_value(child, 1);
-
-      $interface.get_type(dict.key_type).symbol() key;
-      $interface.get_type(dict.value_type).symbol() value;
-
-      get_${dict.key_type}(v_key, &key);
-      get_${dict.value_type}(v_value, &value);
-
-      (*result)[key] = value;
-
-      g_variant_unref(v_key);
-      g_variant_unref(v_value);
-      g_variant_unref(child);
-    }
-}
-
-
-GVariant *
-${interface.qname}_Stub::put_${dict.qname}(const ${dict.symbol()} *result)
-{
-  GVariantBuilder builder;
-  g_variant_builder_init(&builder, (GVariantType *)"$dict.sig()");
-
-  ${dict.symbol()}::const_iterator it;
-
-  for (it = result->begin(); it != result->end(); it++)
-    {
-      GVariant *v_key = put_${dict.key_type}(&(it->first));
-      GVariant *v_value = put_${dict.value_type}(&(it->second));
-
-      GVariant *v_entry = g_variant_new_dict_entry(v_key, v_value);
-      g_variant_builder_add_value(&builder, v_entry);
-    }
-
-  return g_variant_builder_end(&builder);
-}
-
-
-#end for
 
 #for method in $interface.methods
 
@@ -469,17 +518,15 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 #end for
 
 #for signal in interface.signals
-void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
-#set comma = ''
+void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
   #for p in signal.params
     #if p.hint == []
-      $comma $interface.get_type(p.type).symbol() $p.name#slurp
+      , $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
-      $comma $interface.get_type(p.type).symbol() *$p.name#slurp
+      , $interface.get_type(p.type).symbol() *$p.name#slurp
     #else if 'ref' in p.hint
-      $comma $interface.get_type(p.type).symbol() &$p.name#slurp
+      , $interface.get_type(p.type).symbol() &$p.name#slurp
     #end if
-  #set comma = ','
   #end for
 )
 {
@@ -554,6 +601,10 @@ ${interface.qname}_Stub::interface_introspect =
   #end for
   "  </interface>\n";
 
+#for $ns in reversed($interface.namespace_list)
+} // namespace $ns
+#end for
+ 
 #if interface.condition != ''
  \#endif // $interface.condition
 #end if
@@ -572,3 +623,4 @@ void init_${model.name}(IDBus::Ptr dbus)
   #end if
 #end for
 }
+ 

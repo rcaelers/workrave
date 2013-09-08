@@ -71,8 +71,8 @@ DBusTestServerGio::run(int argc, char **argv)
       
       dbus->init();
         
-      extern void init_DBusTest(workrave::dbus::IDBus::Ptr dbus);
-      init_DBusTest(dbus);
+      extern void init_DBusTestGio(workrave::dbus::IDBus::Ptr dbus);
+      init_DBusTestGio(dbus);
 
       dbus->connect(WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, this);
       dbus->register_object_path(WORKRAVE_TEST_PATH);

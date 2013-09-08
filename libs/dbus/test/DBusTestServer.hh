@@ -42,7 +42,7 @@ public:
   virtual void run(int argc, char **argv) = 0;
   
   // DBus
-  void test_basic_1(int                 i_int,
+  void test_basic_out_ref(int                 i_int,
                     uint8_t             i_uint8,
                     int16_t             i_int16,
                     uint16_t            i_uint16,
@@ -68,7 +68,7 @@ public:
                     DBusTestData::Enum &o_enum
                     );
 
-  void test_basic_2(int                 i_int,
+  void test_basic_out_ptr(int                 i_int,
                     uint8_t             i_uint8,
                     int16_t             i_int16,
                     uint16_t            i_uint16,
@@ -94,10 +94,14 @@ public:
                     DBusTestData::Enum *o_enum
                     );
 
-  void test_struct_1(const DBusTestData::StructWithAllBasicTypes &i_struct,
+  std::string test_return_string(int i_int);
+  int test_return_int(int i_int);
+  DBusTestData::DataList test_return_list();
+
+  void test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct,
                      DBusTestData::StructWithAllBasicTypes &o_struct);
 
-  void test_struct_2(DBusTestData::StructWithAllBasicTypes i_struct,
+  void test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct,
                      DBusTestData::StructWithAllBasicTypes *o_struct);
 
   void test_list_of_struct(DBusTestData::DataList i_data,
@@ -106,6 +110,9 @@ public:
   void test_map_of_struct(DBusTestData::DataMap i_data,
                           DBusTestData::DataMap &o_data);
 
+  void test_fire_signal();
+  void test_fire_signal_without_args();
+  void test_fire_signal_with_ref();
 };
 
 #endif // DBUSTESTSERVER_HH

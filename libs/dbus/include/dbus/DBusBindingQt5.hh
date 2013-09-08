@@ -52,6 +52,13 @@ namespace workrave
       virtual const char *get_interface_introspect() = 0;
       virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
 
+    protected:
+      IDBus::Ptr dbus;
+    };
+
+    class DBusMarshallQt5
+    {
+    public:
       void get_int(const QVariant &variant, int *value);
       void get_uint8(const QVariant &variant, uint8_t *value);
       void get_uint16(const QVariant &variant, uint16_t *value);
@@ -77,9 +84,6 @@ namespace workrave
       QVariant put_double(const double *value);
       QVariant put_string(const std::string *value);
       QVariant put_string(const QString *value);
-      
-    protected:
-      IDBus::Ptr dbus;
     };
   }
 }
