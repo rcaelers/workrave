@@ -60,8 +60,7 @@ DBusTestServerGio::run(int argc, char **argv)
 
   try
     {
-      GMainContext *context = g_main_context_new();
-      GMainLoop *loop = g_main_loop_new(context, FALSE);
+      GMainLoop *loop = g_main_loop_new(NULL, TRUE);
       
       dbus = workrave::dbus::DBusGio::create();
       
@@ -75,6 +74,7 @@ DBusTestServerGio::run(int argc, char **argv)
       dbus->register_service(WORKRAVE_TEST_SERVICE);
 
       g_main_loop_run(loop);
+      g_main_loop_unref(loop);
     }
   catch (workrave::dbus::DBusException &)
     {
