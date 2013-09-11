@@ -36,8 +36,7 @@
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
 
-#include "dbus/DBus.hh"
-#include "dbus/DBusException.hh"
+#include "dbus/IDBus.hh"
 #include "DBusGUI.hh"
 
 #define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"
@@ -103,7 +102,7 @@ GenericDBusApplet::update_view()
 {
   TRACE_ENTER("GenericDBusApplet::update_view");
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
@@ -152,7 +151,7 @@ GenericDBusApplet::deactivate_applet()
   data[1].slot = BREAK_ID_NONE;
   data[2].slot = BREAK_ID_NONE;
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
@@ -210,7 +209,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   add_menu_item(_("About..."),     Menus::MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
 
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
   
@@ -296,7 +295,7 @@ GenericDBusApplet::send_tray_icon_enabled()
   TRACE_ENTER("GenericDBusApplet::send_tray_icon_enabled");
   bool on = GUIConfig::get_trayicon_enabled();
 
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus.get());
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->TrayIconUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, on);
 

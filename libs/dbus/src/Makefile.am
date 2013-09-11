@@ -14,6 +14,7 @@ dbussources =
 if HAVE_DBUS
 dbussources += 		DBusGio.cc \
 			DBusBindingGio.cc \
+			DBusException.cc \
 			IDBus.cc
 endif
 

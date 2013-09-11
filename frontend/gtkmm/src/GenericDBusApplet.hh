@@ -118,7 +118,7 @@ private:
   TimerData data[workrave::BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;
-  workrave::dbus::DBus::Ptr dbus;
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
 #endif // GENERICDBUSAPPLET_HH

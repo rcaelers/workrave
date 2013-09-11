@@ -9,13 +9,6 @@
     <include name="Orientation.hh"/>
   </import>
   
-  <struct name="Color" csymbol="GdkColor">
-    <field type="uint32" name="pixel"/>
-    <field type="uint32" name="red"/>
-    <field type="uint32" name="green"/>
-    <field type="uint32" name="blue"/>
-  </struct>
-  
   <enum name="Orientation" csymbol="Orientation">
     <value name="up"    csymbol="ORIENTATION_UP"/>
     <value name="right" csymbol="ORIENTATION_RIGHT"/>
@@ -25,13 +18,13 @@
   
   <struct name="TimerData" csymbol="GenericDBusApplet::TimerData">
     <field type="string" name="bar_text"/>
-    <field type="int32" name="slot"/>
-    <field type="uint32" name="bar_secondary_color"/>
-    <field type="uint32" name="bar_secondary_val"/>
-    <field type="uint32" name="bar_secondary_max"/>
-    <field type="uint32" name="bar_primary_color"/>
-    <field type="uint32" name="bar_primary_val"/>
-    <field type="uint32" name="bar_primary_max"/>
+    <field type="int" name="slot"/>
+    <field type="int" name="bar_secondary_color"/>
+    <field type="int" name="bar_secondary_val"/>
+    <field type="int" name="bar_secondary_max"/>
+    <field type="int" name="bar_primary_color"/>
+    <field type="int" name="bar_primary_val"/>
+    <field type="int" name="bar_primary_max"/>
   </struct>
   
   <struct name="MenuItem" csymbol="GenericDBusApplet::MenuItem">
@@ -99,16 +92,6 @@
       <arg type="Orientation" name="orientation" direction="in"/>
     </method>
       
-    <method name="SetSize" csymbol="set_applet_size">
-      <arg type="uint32" name="size" direction="in"/>
-    </method>
-      
-    <method name="SetBackground" csymbol="set_applet_background">
-      <arg type="uint32" name="type" direction="in"/>
-      <arg type="Color" name="color" direction="in"/>
-      <arg type="uint32" name="xid" direction="in"/>
-    </method>
-
     <method name="ButtonClicked" csymbol="button_clicked">
       <arg type="uint32" name="button" direction="in"/>
     </method>

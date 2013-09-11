@@ -4,17 +4,9 @@
   <import>
     <include name="MenuModel.hh"/>
     <include name="GenericDBusApplet.hh"  condition="defined(NOT_DEFINED)"/>
-    <include name="gdk/gdk.h" condition="defined(HAVE_GTK)"/>
     <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)"/>
     <include name="Orientation.hh"/>
   </import>
-  
-  <struct name="Color" csymbol="GdkColor" condition="defined(HAVE_GTK)">
-    <field type="uint32" name="pixel"/>
-    <field type="uint32" name="red"/>
-    <field type="uint32" name="green"/>
-    <field type="uint32" name="blue"/>
-  </struct>
   
   <enum name="Orientation" csymbol="Orientation">
     <value name="up"    csymbol="ORIENTATION_UP"/>
@@ -91,16 +83,6 @@
       <arg type="Orientation" name="orientation" direction="in"/>
     </method>
       
-    <method name="SetSize" csymbol="set_applet_size">
-      <arg type="uint32" name="size" direction="in"/>
-    </method>
-      
-    <method name="SetBackground" csymbol="set_applet_background">
-      <arg type="uint32" name="type" direction="in"/>
-      <arg type="Color" name="color" direction="in"/>
-      <arg type="uint32" name="xid" direction="in"/>
-    </method>
-
     <method name="ButtonClicked" csymbol="button_clicked">
       <arg type="uint32" name="button" direction="in"/>
     </method>

@@ -33,9 +33,9 @@ const IndicatorIface = <interface name="org.workrave.AppletInterface">
     <arg type="a(sii)" name="menuitems" direction="out" />
 </method>
 <signal name="TimersUpdated">
-    <arg type="(siuuuuuu)" />
-    <arg type="(siuuuuuu)" />
-    <arg type="(siuuuuuu)" />
+    <arg type="(siiiiiii)" />
+    <arg type="(siiiiiii)" />
+    <arg type="(siiiiiii)" />
 </signal>
 <signal name="MenuUpdated">
     <arg type="a(sii)" />

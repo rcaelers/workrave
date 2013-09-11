@@ -46,8 +46,7 @@
 
 #include "CoreFactory.hh"
 
-#include "dbus/DBus.hh"
-#include "dbus/DBusException.hh"
+#include "dbus/IDBus.hh"
 
 #include "Plug.hh"
 
@@ -91,8 +90,8 @@ GnomeAppletWindow::init_applet()
 #ifdef HAVE_DBUS
   try
     {
-      workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
-      if (dbus != NULL && dbus->is_available())
+      workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+      if (dbus && dbus->is_available())
         {
           dbus->connect("/org/workrave/Workrave/UI",
                         "org.workrave.GnomeAppletSupportInterface",

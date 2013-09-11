@@ -75,6 +75,10 @@ public:
 } // namespace $ns
 #end for
 
+#if interface.condition != ''
+\#endif // $interface.condition
+#end if
+
 #end for
 
 #endif // DBUS_${model.guard}_HH
