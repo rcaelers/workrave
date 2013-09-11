@@ -68,9 +68,9 @@ Statistics::~Statistics()
 {
   update();
 
-  for (vector<DailyStatsImpl *>::iterator i = history.begin(); i != history.end(); i++)
+  for (auto &item : history)
     {
-      delete *i;
+      delete item;
     }
 
   delete current_day;
@@ -258,9 +258,9 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
       BreakStats &bs = stats->break_stats[i];
 
       stats_file << "B " << i << " " << STATS_BREAKVALUE_SIZEOF << " ";
-      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+      for(auto &b : bs)
         {
-          stats_file << bs[j] << " ";
+          stats_file << b << " ";
         }
       stats_file << endl;
     }
@@ -588,10 +588,8 @@ Statistics::dump()
       BreakStats &bs = current_day->break_stats[i];
 
       ss << "Break " << i << " ";
-      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+      for(auto value : bs)
         {
-          int value = bs[j];
-
           ss << value << " ";
         }
     }

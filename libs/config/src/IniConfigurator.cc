@@ -198,19 +198,19 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
 boost::property_tree::ptree::path_type
 IniConfigurator::path(const string &key) const
 {
-  string rc = key;
+  string new_key = key;
   bool first = true;
-  for (unsigned int i = 0; i < rc.length(); i++)
+  for (auto &c : new_key)
     {
-      if (rc[i] == '/')
+      if (c == '/')
         {
           if (!first)
             {
-              rc[i] = '.';
+              c = '.';
             }
           first = false;
         }
     }
 
-  return boost::property_tree::ptree::path_type(rc, '/');
+  return boost::property_tree::ptree::path_type(new_key, '/');
 }

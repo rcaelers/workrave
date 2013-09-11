@@ -40,9 +40,9 @@ InputMonitor::unsubscribe(IInputMonitorListener *listener)
 void
 InputMonitor::fire_action()
 {
-  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+  for (auto &l : listeners)
     {
-      (*i)->action_notify();
+      l->action_notify();
     }
 }
 
@@ -50,9 +50,9 @@ InputMonitor::fire_action()
 void
 InputMonitor::fire_mouse(int x, int y, int wheel)
 {
-  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+  for (auto &l : listeners)
     {
-      (*i)->mouse_notify(x, y, wheel);
+      l->mouse_notify(x, y, wheel);
     }
 }
 
@@ -60,9 +60,9 @@ InputMonitor::fire_mouse(int x, int y, int wheel)
 void
 InputMonitor::fire_button(bool is_press)
 {
-  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+  for (auto &l : listeners)
     {
-      (*i)->button_notify(is_press);
+      l->button_notify(is_press);
     }
 }
 
@@ -70,8 +70,8 @@ InputMonitor::fire_button(bool is_press)
 void
 InputMonitor::fire_keyboard(bool repeat)
 {
-  for (std::list<IInputMonitorListener *>::iterator i = listeners.begin(); i != listeners.end(); i++)
+  for (auto &l : listeners)
     {
-      (*i)->keyboard_notify(repeat);
+      l->keyboard_notify(repeat);
     }
 }

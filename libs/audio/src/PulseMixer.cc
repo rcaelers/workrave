@@ -245,9 +245,9 @@ PulseMixer::set_default_sink_name(const char *name)
 
   default_sink_name = name;
 
-  for (std::map<uint32_t, SinkInfo*>::iterator i = sinks.begin(); i != sinks.end(); ++i)
+  for (auto &sink : sinks)
     {
-      SinkInfo *sink_info = i->second;
+      SinkInfo *sink_info = sink.second;
 
       if (sink_info != NULL && sink_info->name == default_sink_name)
         {

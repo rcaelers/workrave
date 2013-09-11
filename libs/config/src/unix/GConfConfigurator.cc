@@ -69,9 +69,9 @@ GConfConfigurator::~GConfConfigurator()
 {
   GError *error = NULL;
 
-  for (IDMapIter i = ids.begin(); i != ids.end(); i++)
+  for (auto &elem : ids)
     {
-      guint id = i->first;
+      guint id = elem.first;
       gconf_client_notify_remove(gconf_client, id);
     }
 

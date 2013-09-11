@@ -75,9 +75,9 @@ TimerBoxView::init()
   
   init_widgets();
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &elem : content)
     {
-      content[i] = BREAK_ID_NONE;
+      elem = BREAK_ID_NONE;
     }
 
   TRACE_EXIT();
@@ -141,9 +141,9 @@ TimerBoxView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (auto &elem : content)
         {
-          if (content[i] != BREAK_ID_NONE)
+          if (elem != BREAK_ID_NONE)
             {
               number_of_timers++;
             }
@@ -248,9 +248,9 @@ TimerBoxView::update_view()
       init_table();
       reconfigure = false;
     }
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : bars)
     {
-      bars[i]->update();
+      b->update();
     }
 }
 

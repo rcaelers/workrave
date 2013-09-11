@@ -177,20 +177,16 @@ Exercise::parse_exercises(const char *file_name,
     }
   
 #ifdef TRACING
-  for (std::list<Exercise>::iterator it = exercises.begin(); it != exercises.end(); it++)
+  for (auto &exercise : exercises)
     {
-      Exercise &ex = *it;
-
-      TRACE_MSG("exercise title=" << ex.title);
-      TRACE_MSG("exercise desc=" << ex.description);
-      TRACE_MSG("exercise duration=" << ex.duration);
+      TRACE_MSG("exercise title=" << exercise.title);
+      TRACE_MSG("exercise desc=" << exercise.description);
+      TRACE_MSG("exercise duration=" << exercise.duration);
       TRACE_MSG("exercise seq:");
-      for (std::list<Exercise::Image>::iterator sit = ex.sequence.begin();
-           sit != ex.sequence.end(); sit++)
+      for (auto &image : exercise.sequence)
         {
-          Exercise::Image &img = *sit;
-          TRACE_MSG("exercise seq src=" << img.image
-                    << ", dur=" << img.duration);
+          TRACE_MSG("exercise seq src=" << image.image
+                    << ", dur=" << image.duration);
         }
       TRACE_MSG("exercise end seq");
     }

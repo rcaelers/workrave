@@ -119,10 +119,8 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   int row = 1;
   int selected = 0;
-  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code : all_linguas)
     {
-      string code = *i;
-
       if (current_locale == code)
         {
           selected = row;

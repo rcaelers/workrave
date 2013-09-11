@@ -610,7 +610,7 @@ Application::on_break_event(BreakId break_id, IBreak::BreakEvent event)
     BreakId id;
     IBreak::BreakEvent break_event;
     workrave::audio::SoundEvent sound_event;
-  } event_map[] =
+  } event_mappings[] =
       {
         { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE },
         { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED },
@@ -625,12 +625,12 @@ Application::on_break_event(BreakId break_id, IBreak::BreakEvent event)
         { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_MICRO_BREAK_ENDED },
       };
 
-  for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
+  for (auto &event_mapping : event_mappings)
     {
-      if (event_map[i].id == break_id && event_map[i].break_event == event)
+      if (event_mapping.id == break_id && event_mapping.break_event == event)
         {
           bool mute = false;
-          workrave::audio::SoundEvent snd = event_map[i].sound_event;
+          workrave::audio::SoundEvent snd = event_mapping.sound_event;
           TRACE_MSG("play " << event);
 
           CoreFactory::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
@@ -764,14 +764,14 @@ Application::hide_break_window()
   TRACE_ENTER("Application::hide_break_window");
   active_break_id = BREAK_ID_NONE;
 
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->stop();
+      window->stop();
     }
 
-  for (BreakWindowsIter i = break_windows.begin(); i != break_windows.end(); i++)
+  for (auto &window : break_windows)
     {
-      (*i)->stop();
+      window->stop();
     }
 
   toolkit->ungrab();
@@ -785,13 +785,13 @@ Application::show_break_window()
 {
   TRACE_ENTER("Application::hide_break_window");
 
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->start();
+      window->start();
     }
-  for (BreakWindowsIter i = break_windows.begin(); i != break_windows.end(); i++)
+  for (auto &window : break_windows)
     {
-      (*i)->start();
+      window->start();
     }
 
   if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
@@ -806,13 +806,13 @@ Application::show_break_window()
 void
 Application::refresh_break_window()
 {
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->refresh();
+      window->refresh();
     }
-  for (BreakWindowsIter i = break_windows.begin(); i != break_windows.end(); i++)
+  for (auto &window : break_windows)
     {
-      (*i)->refresh();
+      window->refresh();
     }
 }
 
@@ -820,14 +820,14 @@ Application::refresh_break_window()
 void
 Application::set_break_progress(int value, int max_value)
 {
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->set_progress(value, max_value);
+      window->set_progress(value, max_value);
     }
 
-  for (BreakWindowsIter i = break_windows.begin(); i != break_windows.end(); i++)
+  for (auto &window : break_windows)
     {
-      (*i)->set_progress(value, max_value);
+      window->set_progress(value, max_value);
     }
 }
 
@@ -835,9 +835,9 @@ Application::set_break_progress(int value, int max_value)
 void
 Application::set_prelude_stage(PreludeStage stage)
 {
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->set_stage(stage);
+      window->set_stage(stage);
     }
 }
 
@@ -845,9 +845,9 @@ Application::set_prelude_stage(PreludeStage stage)
 void
 Application::set_prelude_progress_text(PreludeProgressText text)
 {
-  for (PreludeWindowsIter i = prelude_windows.begin(); i != prelude_windows.end(); i++)
+  for (auto &window : prelude_windows)
     {
-      (*i)->set_progress_text(text);
+      window->set_progress_text(text);
     }
 }
 

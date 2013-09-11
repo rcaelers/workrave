@@ -322,9 +322,9 @@ SoundTheme::get_sound_themes(std::vector<Theme> &themes)
 
   sync_settings();
 
-  for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
+  for (const auto & dirname : searchpath)
     {
-      const string &dirname = *it;
+      
       boost::filesystem::path dirpath(dirname);
 
       boost::filesystem::directory_iterator dir_end;

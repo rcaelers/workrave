@@ -115,11 +115,11 @@ BreaksControl::init()
 Timer::Ptr
 BreaksControl::get_timer(string name) const
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : breaks)
     {
-      if (breaks[i]->get_name() == name)
+      if (b->get_name() == name)
         {
-          return breaks[i]->get_timer();
+          return b->get_timer();
         }
     }
   return Timer::Ptr();
@@ -147,9 +147,9 @@ BreaksControl::get_break(BreakId id)
 void
 BreaksControl::set_freeze_all_breaks(bool freeze)
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : breaks)
     {
-      breaks[i]->freeze_break(freeze);
+      b->freeze_break(freeze);
     }
 }
 
@@ -158,9 +158,9 @@ BreaksControl::set_freeze_all_breaks(bool freeze)
 void
 BreaksControl::stop_all_breaks()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : breaks)
     {
-      breaks[i]->stop_break();
+      b->stop_break();
     }
 }
 
@@ -208,9 +208,9 @@ BreaksControl::heartbeat()
   process_timers();
 
   // Send heartbeats to other components.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : breaks)
     {
-      breaks[i]->process_break();
+      b->process_break();
     }
 
   // Make state persistent.
@@ -473,9 +473,9 @@ void
 BreaksControl::daily_reset()
 {
   TRACE_ENTER("BreaksControl::daily_reset");
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &b : breaks)
     {
-      breaks[i]->daily_reset();
+      b->daily_reset();
     }
 
   save_state();

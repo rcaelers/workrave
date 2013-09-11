@@ -151,9 +151,8 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
   boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
-  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code : all_linguas)
     {
-      string code = *i;
       string lang_code;
       string country_code;
 
@@ -191,9 +190,8 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
   string lang_save = Locale::get_locale();
 
-  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code : all_linguas)
     {
-      string code = *i;
       string lang_code;
       string country_code;
 

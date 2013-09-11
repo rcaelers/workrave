@@ -111,10 +111,10 @@ TimerBoxPreferencesPanel::create_page()
   connect(cycle_entry, signal, this, &TimerBoxPreferencesPanel::on_cycle_time_changed);
   
   // Timer display
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &button : timer_display_button)
     {
       QComboBox *display_button  = new QComboBox;
-      timer_display_button[i] = display_button;
+      button = display_button;
 
       display_button->addItem(_("Hide"));
       display_button->addItem(_("Show"));
@@ -230,10 +230,10 @@ TimerBoxPreferencesPanel::init_page_callbacks()
   QObject::connect(place_button, signal, this, &TimerBoxPreferencesPanel::on_enabled_toggled);
 
   connect(enabled_cb, &QCheckBox::stateChanged, this, &TimerBoxPreferencesPanel::on_enabled_toggled);
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &button : timer_display_button)
     {
       // TODO: BIND i.
-      QObject::connect(timer_display_button[i], signal, this, &TimerBoxPreferencesPanel::on_display_changed);
+      QObject::connect(button, signal, this, &TimerBoxPreferencesPanel::on_display_changed);
     }
 }
 
@@ -319,9 +319,9 @@ void
 TimerBoxPreferencesPanel::enable_buttons(void)
 {
   int count = 0;
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &button : timer_display_button)
     {
-      if (timer_display_button[i]->currentIndex() == 0)
+      if (button->currentIndex() == 0)
         {
           count++;
         }

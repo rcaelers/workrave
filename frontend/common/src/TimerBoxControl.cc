@@ -465,9 +465,9 @@ TimerBoxControl::config_changed_notify(const string &key)
   (void) key;
 
   read_configuration();
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &slot : break_slot_cycle)
     {
-      break_slot_cycle[i] = 0;
+      slot = 0;
     }
 
   reconfigure = true;

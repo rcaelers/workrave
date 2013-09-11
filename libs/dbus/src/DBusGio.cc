@@ -68,10 +68,10 @@ DBusGio::~DBusGio()
       g_bus_unown_name(i->second);
     }
 
-  for (ObjectIter object_it = objects.begin();object_it != objects.end(); object_it++)
+  for (auto &obj : objects)
     {
-      for (InterfaceIter interface_it = object_it->second.interfaces.begin();
-           interface_it != object_it->second.interfaces.end();
+      for (InterfaceIter interface_it = obj.second.interfaces.begin();
+           interface_it != obj.second.interfaces.end();
            interface_it++)
         {
           if (interface_it->second.registration_id != 0)
@@ -515,11 +515,9 @@ DBusGio::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointe
   
   for (ObjectIter object_it = self->objects.begin();object_it != self->objects.end(); object_it++)
     {
-      for (InterfaceIter interface_it = object_it->second.interfaces.begin();
-           interface_it != object_it->second.interfaces.end();
-           interface_it++)
+      for (auto &iface : object_it->second.interfaces)
         {
-          self->update_object_registration(interface_it->second);
+          self->update_object_registration(iface.second);
         }
     }
   TRACE_EXIT();

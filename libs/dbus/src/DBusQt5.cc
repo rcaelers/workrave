@@ -125,9 +125,9 @@ DBusQt5::introspect(const QString &path) const
   ObjectCIter object_it = objects.find(path.toStdString());
   if (object_it != objects.end())
     {
-      for (auto &interface_it : object_it->second) 
+      for (auto &interface : object_it->second) 
         {
-          string interface_name = interface_it.first;
+          string interface_name = interface.first;
           DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
           if (binding != NULL)
             {
