@@ -46,7 +46,7 @@
       <arg type="bool" name="show" direction="in"/>
     </method>
     <method name="Statistics"            csymbol="on_menu_statistics"/>
-    <method name="Exercises"             csymbol="on_menu_exercises" condition="defined(HAVE_EXERCISES)"/>
+    <method name="Exercises"             csymbol="on_menu_exercises"/>
     <method name="RestBreak"             csymbol="on_menu_restbreak_now"/>
     <method name="Quit"                  csymbol="on_menu_quit"/>
     <method name="About"                 csymbol="on_menu_about"/>
