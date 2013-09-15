@@ -116,7 +116,7 @@ GenericDBusApplet::init_applet()
   try
     {
       dbus = CoreFactory::get_dbus();
-      if (dbus != NULL && dbus->is_available())
+      if (dbus->is_available())
         {
           dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
                         WORKRAVE_INDICATOR_SERVICE_IFACE,

@@ -87,15 +87,12 @@ GnomeAppletWindow::~GnomeAppletWindow()
 void
 GnomeAppletWindow::init_applet()
 {
-#ifdef HAVE_DBUS
   try
     {
       workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
-      if (dbus && dbus->is_available())
+      if (dbus->is_available())
         {
-          dbus->connect("/org/workrave/Workrave/UI",
-                        "org.workrave.GnomeAppletSupportInterface",
-                        this);
+          dbus->connect("/org/workrave/Workrave/UI", "org.workrave.GnomeAppletSupportInterface", this);
         }
 
       init_dbus();
@@ -104,7 +101,6 @@ GnomeAppletWindow::init_applet()
     {
       cleanup_dbus();
     }
-#endif
 }
 
 //! Initializes the native gnome applet.

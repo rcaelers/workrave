@@ -41,12 +41,10 @@
 #include "GUIConfig.hh"
 
 // DBus
-#if defined(HAVE_DBUS)
 #if defined(interface)
 #undef interface
 #endif
 #include "dbus/IDBus.hh"
-#endif
 
 using namespace std;
 using namespace workrave;
@@ -524,7 +522,7 @@ Application::init_core()
 //{
 //  workrave::dbus::DBus::Ptr dbus = CoreFactory::get_dbus();
 //
-//  if (dbus && dbus->is_available())
+//  if (dbus->is_available())
 //    {
 //    }
 //
@@ -538,7 +536,7 @@ Application::init_bus()
 {
  workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
- if (dbus && dbus->is_available())
+ if (dbus->is_available())
    {
      if (dbus->is_running("org.workrave.Workrave"))
        {

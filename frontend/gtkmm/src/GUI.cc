@@ -95,12 +95,10 @@
 #include <gconf/gconf-client.h>
 #endif
 
-#if defined(HAVE_DBUS)
 #if defined(interface)
 #undef interface
 #endif
 #include "dbus/IDBus.hh"
-#endif
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
 #include "gtkosxapplication.h"
@@ -746,17 +744,12 @@ GUI::init_gui()
 
   process_visibility();
   
-#ifdef HAVE_DBUS
   workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
-  if (dbus && dbus->is_available())
+  if (dbus->is_available())
     {
-      dbus->connect("/org/workrave/Workrave/UI",
-                    "org.workrave.ControlInterface",
-                    menus);
-
+      dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
     }
-#endif
   
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
@@ -770,10 +763,9 @@ GUI::init_gui()
 void
 GUI::init_dbus()
 {
-#ifdef HAVE_DBUS
   workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
-  if (dbus && dbus->is_available())
+  if (dbus->is_available())
     {
       if (dbus->is_running("org.workrave.Workrave"))
         {
@@ -787,17 +779,18 @@ GUI::init_dbus()
 
       try
         {
+#ifdef HAVE_DBUS
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->register_service("org.workrave.Workrave");
           
           extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
           init_DBusGUI(dbus);
+#endif
         }
       catch (workrave::dbus::DBusException &)
         {
         }
     }
-#endif
 }
 
 void
