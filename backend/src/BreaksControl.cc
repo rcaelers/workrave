@@ -1,5 +1,3 @@
-// BreaksControl.cc --- The main controller
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -34,6 +32,8 @@
 #include "utils/TimeSource.hh"
 #include "dbus/IDBus.hh"
 
+#include "CoreConfig.hh"
+
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
 
@@ -42,161 +42,119 @@ using namespace workrave::dbus;
 
 BreaksControl::Ptr
 BreaksControl::create(IApp *app,
-                      IActivityMonitor::Ptr activity_monitor,
+                      LocalActivityMonitor::Ptr activity_monitor,
+                      CoreModes::Ptr modes,
                       Statistics::Ptr statistics,
                       IConfigurator::Ptr configurator,
-                      IDBus::Ptr dbus)
+                      IDBus::Ptr dbus,
+                      CoreHooks::Ptr hooks)
 {
   return Ptr(new BreaksControl(app,
                                activity_monitor,
+                               modes,
                                statistics,
                                configurator,
-                               dbus));
+                               dbus,
+                               hooks));
 }
 
 
-//! Construct a new Break Controller.
 BreaksControl::BreaksControl(IApp *app,
-                             IActivityMonitor::Ptr activity_monitor,
+                             LocalActivityMonitor::Ptr activity_monitor,
+                             CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
                              IConfigurator::Ptr configurator,
-                             IDBus::Ptr dbus) :
+                             IDBus::Ptr dbus,
+                             CoreHooks::Ptr hooks) :
   application(app),
   activity_monitor(activity_monitor),
+  modes(modes),
   statistics(statistics),
   configurator(configurator),
   dbus(dbus),
+  hooks(hooks),
   insist_policy(ICore::INSIST_POLICY_HALT),
   active_insist_policy(ICore::INSIST_POLICY_INVALID)
 {
-  TRACE_ENTER("BreaksControl::BreaksControl");
-  TRACE_EXIT();
 }
 
-
-//! Destructor.
 BreaksControl::~BreaksControl()
 {
-  TRACE_ENTER("BreaksControl::~BreaksControl");
   save_state();
-  TRACE_EXIT();
 }
 
 
-/********************************************************************************/
-/**** Initialization                                                       ******/
-/********************************************************************************/
-
-//! Initializes the breaks controller.
 void
 BreaksControl::init()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  modes->signal_operation_mode_changed().connect(boost::bind(&BreaksControl::on_operation_mode_changed, this, _1)); 
+  
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
-      breaks[i] = Break::create(BreakId(i),
-                                application,
-                                shared_from_this(),
-                                activity_monitor,
-                                statistics,
-                                configurator,
-                                dbus);
-      breaks[i]->init();
-      breaks[i]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, BreakId(i), _1));
+      string break_name = CoreConfig::get_break_name(break_id);
+
+      timers[break_id] = Timer::create(break_name);
+      timers[break_id]->enable();
+
+      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, configurator, dbus);
+      breaks[break_id]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
   
   reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor);
   reading_activity_monitor->init();
+
+  microbreak_activity_monitor = TimerActivityMonitor::create(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
   
   load_state();
 }
 
-
-//! Returns the specified timer.
-Timer::Ptr
-BreaksControl::get_timer(string name) const
-{
-  for (auto &b : breaks)
-    {
-      if (b->get_name() == name)
-        {
-          return b->get_timer();
-        }
-    }
-  return Timer::Ptr();
-}
-
-
-//! Returns the specified timer.
-Timer::Ptr
-BreaksControl::get_timer(int id) const
-{
-  return breaks[id]->get_timer();
-}
-
-
-//! Returns the specified break controller.
 IBreak::Ptr
-BreaksControl::get_break(BreakId id)
+BreaksControl::get_break(BreakId break_id)
 {
-  assert(id >= 0 && id < BREAK_ID_SIZEOF);
-  return breaks[id];
+  return breaks[break_id];
 }
 
-
-//! Sets the freeze state of all breaks.
 void
-BreaksControl::set_freeze_all_breaks(bool freeze)
+BreaksControl::force_idle()
 {
-  for (auto &b : breaks)
+  activity_monitor->force_idle();
+  microbreak_activity_monitor->force_idle();
+  reading_activity_monitor->force_idle();
+  
+  for (auto &timer : timers)
     {
-      b->freeze_break(freeze);
+      timer->stop_timer();
     }
 }
 
-
-//! Stops all breaks.
 void
 BreaksControl::stop_all_breaks()
 {
   for (auto &b : breaks)
     {
-      b->stop_break();
+      if (b->is_active())
+        {
+          b->stop_break();
+        }
     }
 }
 
 
 //! Forces the start of the specified break.
 void
-BreaksControl::force_break(BreakId id, BreakHint break_hint)
+BreaksControl::force_break(BreakId break_id, BreakHint break_hint)
 {
-  TRACE_ENTER_MSG("BreaksControl::force_break", id << " " << break_hint);
+  TRACE_ENTER_MSG("BreaksControl::force_break", break_id << " " << break_hint);
   
-  if (id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
+  if (break_id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
     {
       breaks[BREAK_ID_MICRO_BREAK]->stop_break();
       TRACE_MSG("Resuming Micro break");
     }
 
-  breaks[id]->force_start_break(break_hint);
+  breaks[break_id]->force_start_break(break_hint);
   TRACE_EXIT();
 }
-
-
-IActivityMonitor::Ptr
-BreaksControl::create_timer_activity_monitor(const string &break_name)
-{
-  Timer::Ptr master = get_timer(break_name);
-  if (master)
-    {
-      return TimerActivityMonitor::create(activity_monitor, master);
-    }
-  return IActivityMonitor::Ptr();
-}
-
-
-/********************************************************************************/
-/**** Break handling                                                       ******/
-/********************************************************************************/
 
 //! Periodic heartbeat.
 void
@@ -210,7 +168,7 @@ BreaksControl::heartbeat()
   // Send heartbeats to other components.
   for (auto &b : breaks)
     {
-      b->process_break();
+      b->process();
     }
 
   // Make state persistent.
@@ -230,45 +188,60 @@ BreaksControl::process_timers()
 {
   TRACE_ENTER("BreaksControl::process_timers");
 
-  ActivityState state;
-  if (usage_mode == USAGE_MODE_READING)
+  bool user_is_active;
+  if (modes->get_usage_mode() == USAGE_MODE_READING)
     {
-      state = reading_activity_monitor->get_state();
+      user_is_active = reading_activity_monitor->is_active();
     }
   else
     {
-      state = activity_monitor->get_state();
+      user_is_active = activity_monitor->is_active();
+#ifdef HAVE_TESTS
+      if (!hooks->hook_is_user_active().empty())
+        {
+          user_is_active = hooks->hook_is_user_active()(user_is_active);
+        }
+#endif
     }
   
-  TimerEvent events[BREAK_ID_SIZEOF];
+  // if (event == TIMER_EVENT_RESET)
+  //   {
+  //     break_event_signal(BreakEvent::BreakReset);
+  //   }
+  // else if (event == TIMER_EVENT_NATURAL_RESET)
+  //   {
+  //     break_event_signal(BreakEvent::BreakNaturalReset);
+  //   }  
 
-  // Process Timers.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (BreakId break_id = BREAK_ID_DAILY_LIMIT; break_id > BREAK_ID_NONE; break_id--)
     {
-      events[i] = breaks[i]->process_timer(state);
-    }
-
-  // Process all timer events.
-  for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
-    {
-      if (breaks[i]->is_enabled())
+      bool user_is_active_for_break = user_is_active;
+      if (breaks[break_id]->is_microbreak_used_for_activity())
         {
-          switch (events[i])
+          user_is_active_for_break = microbreak_activity_monitor->is_active();
+        }
+      
+      TimerEvent event = timers[break_id]->process(user_is_active_for_break);
+        
+      if (breaks[break_id]->is_enabled())
+        {
+          switch (event)
             {
             case TIMER_EVENT_LIMIT_REACHED:
-              TRACE_MSG("limit reached" << i);
-              if (!breaks[i]->is_active() && operation_mode == OPERATION_MODE_NORMAL)
+              TRACE_MSG("limit reached" << break_id);
+              if (!breaks[break_id]->is_active() &&
+                  modes->get_operation_mode() == OPERATION_MODE_NORMAL)
                 {
-                  start_break((BreakId)i);
+                  start_break(break_id);
                 }
               break;
 
             case TIMER_EVENT_NATURAL_RESET:
             case TIMER_EVENT_RESET:
-              TRACE_MSG("limi reset" << i);
-              if (breaks[i]->is_active())
+              TRACE_MSG("limi reset" << break_id);
+              if (breaks[break_id]->is_active())
                 {
-                  breaks[i]->stop_break();
+                  breaks[break_id]->stop_break();
                 }
               break;
 
@@ -278,20 +251,10 @@ BreaksControl::process_timers()
         }
     }
 
-  if (events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_NATURAL_RESET ||
-      events[BREAK_ID_DAILY_LIMIT] == TIMER_EVENT_RESET)
-    {
-      daily_reset();
-    }
-
   TRACE_EXIT();
 }
 
 
-//! starts the specified break.
-/*!
- *  \param break_id ID of the timer that caused the break.
- */
 void
 BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 {
@@ -313,7 +276,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
   // Advance restbreak if it follows within 30s after the end of a microbreak
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK]->is_enabled())
     {
-      Timer::Ptr rb_timer = get_timer(BREAK_ID_REST_BREAK);
+      Timer::Ptr rb_timer = timers[BREAK_ID_REST_BREAK];
 
       bool activity_sensitive = true; // get_timer(BREAK_ID_REST_BREAK)->is_activity_sensitive();
 
@@ -323,7 +286,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
       if (activity_sensitive &&
           rb_timer->get_next_limit_time() > 0)
         {
-          Timer::Ptr timer = get_timer(break_id);
+          Timer::Ptr timer = timers[break_id];
 
           int64_t duration = timer->get_auto_reset();
           int64_t now = TimeSource::get_monotonic_time_sec_sync();
@@ -355,28 +318,6 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
   breaks[break_id]->start_break();
 }
 
-
-//! Sets the operation mode.
-void
-BreaksControl::set_operation_mode(OperationMode mode)
-{
-  operation_mode = mode;
-}
-
-
-//! Sets the usage mode.
-void
-BreaksControl::set_usage_mode(UsageMode mode)
-{
-  usage_mode = mode;
-}
-
-
-//! Sets the insist policy.
-/*!
- *  The insist policy determines what to do when the user is active while
- *  taking a break.
- */
 void
 BreaksControl::set_insist_policy(ICore::InsistPolicy p)
 {
@@ -404,7 +345,6 @@ BreaksControl::set_insist_policy(ICore::InsistPolicy p)
 void
 BreaksControl::freeze()
 {
-  TRACE_ENTER_MSG("Core::freeze", insist_policy);
   ICore::InsistPolicy policy = insist_policy;
 
   switch (policy)
@@ -431,7 +371,6 @@ BreaksControl::freeze()
     }
 
   active_insist_policy = policy;
-  TRACE_EXIT();
 }
 
 
@@ -439,14 +378,12 @@ BreaksControl::freeze()
 void
 BreaksControl::defrost()
 {
-  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
-
   switch (active_insist_policy)
     {
     case ICore::INSIST_POLICY_IGNORE:
       {
         // Resumes the activity monitor, if not suspended.
-        if (operation_mode != OPERATION_MODE_SUSPENDED)
+        if (modes->get_operation_mode() != OPERATION_MODE_SUSPENDED)
           {
             activity_monitor->resume();
           }
@@ -464,43 +401,54 @@ BreaksControl::defrost()
     }
 
   active_insist_policy = ICore::INSIST_POLICY_INVALID;
-  TRACE_EXIT();
 }
 
-
-//! Performs a reset when the daily limit is reached.
 void
-BreaksControl::daily_reset()
+BreaksControl::set_freeze_all_breaks(bool freeze)
 {
-  TRACE_ENTER("BreaksControl::daily_reset");
-  for (auto &b : breaks)
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id <= BREAK_ID_DAILY_LIMIT; break_id++)
     {
-      b->daily_reset();
+      if (!breaks[break_id]->is_microbreak_used_for_activity())
+        {
+          timers[break_id]->freeze_timer(freeze);
+        }
     }
+}
 
-  save_state();
-  TRACE_EXIT();
+void
+BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
+{
+  if (operation_mode == OPERATION_MODE_SUSPENDED ||
+      operation_mode == OPERATION_MODE_QUIET)
+    {
+      stop_all_breaks();
+    }
 }
 
 
 void
-BreaksControl::on_break_event(BreakId break_id, IBreak::BreakEvent event)
+BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << event);
+  TRACE_ENTER_MSG("GUI::on_break_event",
+                  break_id
+                  << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch(event)
     {
-    case IBreak::BREAK_EVENT_BREAK_IDLE:
+    case BreakEvent::BreakIdle:
       defrost();
       break;
 
-    case IBreak::BREAK_EVENT_BREAK_STARTED:
-    case IBreak::BREAK_EVENT_BREAK_STARTED_FORCED:
+    case BreakEvent::PreludeStarted:
+      force_idle();
+      break;
+
+    case BreakEvent::BreakStarted:
+    case BreakEvent::BreakStartedForced:
+      force_idle();
       freeze();
       break;
 
-    case IBreak::BREAK_EVENT_BREAK_IGNORED:
-    case IBreak::BREAK_EVENT_BREAK_ENDED:
-    case IBreak::BREAK_EVENT_PRELUDE_STARTED:
+    default:
       break;
     }
 
@@ -522,9 +470,9 @@ BreaksControl::save_state() const
   stateFile << "WorkRaveState 3"  << endl
             << TimeSource::get_real_time_sec() << endl;
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
-      string stateStr = get_timer(i)->serialize_state();
+      const string stateStr = timers[break_id]->serialize_state();
 
       stateFile << stateStr << endl;
     }
@@ -572,14 +520,14 @@ BreaksControl::load_state()
       string id;
       stateFile >> id;
 
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
         {
-          if (get_timer(i)->get_id() == id)
+          if (timers[break_id]->get_id() == id)
             {
               string state;
               getline(stateFile, state);
 
-              get_timer(i)->deserialize_state(state, version);
+              timers[break_id]->deserialize_state(state, version);
               break;
             }
         }

@@ -1,6 +1,6 @@
-// TimerActivityMonitor.hh
+// BreakStatistics.hh
 //
-// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERACTIVITYMONITOR_HH
-#define TIMERACTIVITYMONITOR_HH
+#ifndef BREAKSTATISTICS_HH
+#define BREAKSTATISTICS_HH
 
 #include <boost/shared_ptr.hpp>
 
-#include "LocalActivityMonitor.hh"
-#include "Timer.hh"
+#include "BreakStateModel.hh"
+#include "Statistics.hh"
 
-class TimerActivityMonitor
+using namespace workrave;
+
+class BreakStatistics
 {
 public:
-  typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
+  typedef boost::shared_ptr<BreakStatistics> Ptr;
 
 public:
-  static Ptr create(LocalActivityMonitor::Ptr monitor, Timer::Ptr timer);
+  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
-  TimerActivityMonitor(LocalActivityMonitor::Ptr monitor, Timer::Ptr timer);
-  virtual ~TimerActivityMonitor();
+  BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
+  virtual ~BreakStatistics();
 
-  void suspend();
-  void resume();
-  bool is_active();
-  void force_idle();
+  
+private:
+  void on_break_event(BreakEvent stage);
+  void update_statistics();
 
 private:
-  LocalActivityMonitor::Ptr monitor;
+  BreakId break_id;
+  BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
-  bool suspended;
-  bool forced_idle;
+  Statistics::Ptr statistics;
 };
 
-#endif // TIMERACTIVITYMONITOR_HH
+#endif // BREAKSTATISTICS_HH

@@ -85,18 +85,19 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Testing
 
-option(WITH_TEST "Enable unit tests" OFF)
+option(WITH_TESTS "Enable unit tests" OFF)
 
-if (WITH_TEST)
-  pkg_check_modules(
-    GLIB REQUIRED
-    glib-2.0>=2.36.0
-    gio-2.0>=2.26.0)
+if (WITH_TESTS)
+  #pkg_check_modules(
+  #  GLIB REQUIRED
+  #  glib-2.0>=2.36.0
+  #  gio-2.0>=2.26.0)
+  #
+  #if (GLIB_FOUND)
+  #  set (HAVE_DBUS_TEST_GIO ON)
+  #endif()
 
-  if (GLIB_FOUND)
-    set (HAVE_DBUS_TEST_GIO ON)
-  endif()
-  
+  set (HAVE_TESTS ON)
 endif()
 #----------------------------------------------------------------------------------------------------
 # GTK
@@ -131,7 +132,7 @@ include (GSettings)
 #----------------------------------------------------------------------------------------------------
 # Gnome
 
-option(WITH_GCONF "Enable GConf support" ON)
+option(WITH_GCONF "Enable GConf support" OFF)
 
 if (WITH_GCONF)
   pkg_check_modules(GCONF gconf-2.0)
@@ -142,7 +143,7 @@ if (WITH_GCONF)
   endif()
 endif()
 
-option(WITH_GNOME_PANEL "Enable Gnome 3 Classic pannel applet support" ON)
+option(WITH_GNOME_PANEL "Enable Gnome 3 Classic pannel applet support" OFF)
 
 if (WITH_PANELAPPLET4)
   pkg_check_modules(PANELAPPLET4 libpanelapplet-4.0 gio-2.0>=2.26.0)
@@ -238,6 +239,7 @@ option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
 
 if (WITH_PULSE)
   pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
+  
   if (PULSE_FOUND)
     set (HAVE_PULSE ON)
   else()
@@ -283,7 +285,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Misc
 
-find_package(Boost 1.50.0 REQUIRED COMPONENTS system thread filesystem chrono)
+find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono)
 
 #----------------------------------------------------------------------------------------------------
 # Translations

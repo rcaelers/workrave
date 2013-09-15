@@ -36,12 +36,12 @@ public:
   UnixInputMonitorFactory(IConfigurator::Ptr config);
 
   virtual void init(const std::string &display);
-  virtual IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
+  virtual IInputMonitor::Ptr create_monitor(IInputMonitorFactory::MonitorCapability capability);
 
   bool error_reported;
   std::string actual_monitor_method;
   IConfigurator::Ptr config;
-  IInputMonitor *monitor;
+  IInputMonitor::Ptr monitor;
   std::string display;
 };
 

@@ -1,6 +1,6 @@
 // InputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
 #include <stdlib.h>
 #include <string>
 
+#include "IInputMonitor.hh"
+
 namespace workrave
 {
   namespace input_monitor
   {
-    class IInputMonitor;
-
     //! Factory to create input monitors.
     class IInputMonitorFactory
     {
@@ -42,7 +42,7 @@ namespace workrave
       virtual ~IInputMonitorFactory() {}
 
       virtual void init(const std::string &display) = 0;
-      virtual IInputMonitor *get_monitor(MonitorCapability capability) = 0;
+      virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability) = 0;
     };
   }
 }

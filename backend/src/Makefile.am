@@ -9,12 +9,17 @@ SUBDIRS =
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
-sources =  		ActivityMonitor.cc \
-			LocalActivityMonitor.cc \
+sources =  		LocalActivityMonitor.cc \
 			Break.cc \
+			BreakConfig.cc \
+			BreakDBus.cc \
+			BreakStateModel.cc \
+			BreakStatistics.cc \
 			BreaksControl.cc \
 			Core.cc \
+			CoreModes.cc \
 			CoreHooks.cc \
+			CoreDBus.cc \
 			CoreConfig.cc \
 			DayTimePred.cc \
 			Statistics.cc \

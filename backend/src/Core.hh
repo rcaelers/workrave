@@ -20,34 +20,21 @@
 #ifndef CORE_HH
 #define CORE_HH
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#ifdef STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# ifdef HAVE_STDLIB_H
-#  include <stdlib.h>
-# endif
-#endif
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-
 #include <string>
 #include <map>
 
 #include <boost/enable_shared_from_this.hpp>
 
-#include "config/Config.hh"
 #include "dbus/IDBus.hh"
+#include "config/IConfigurator.hh"
 
 #include "ICore.hh"
+#include "LocalActivityMonitor.hh"
 #include "BreaksControl.hh"
-#include "ActivityMonitor.hh"
 #include "Statistics.hh"
 #include "CoreHooks.hh"
+#include "CoreModes.hh"
+#include "CoreDBus.hh"
 
 using namespace workrave;
 
@@ -58,7 +45,6 @@ namespace workrave {
 
 class Core :
   public ICore,
-  public IConfiguratorListener,
   public boost::enable_shared_from_this<Core>
 {
 public:
@@ -68,7 +54,7 @@ public:
   // ICore
   virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
   virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
-  virtual void init(int argc, char **argv, IApp *application, const std::string &display_name);
+  virtual void init(IApp *application, const std::string &display_name);
   virtual void heartbeat();
   virtual void force_break(BreakId id, BreakHint break_hint);
   virtual IBreak::Ptr get_break(BreakId id);
@@ -93,25 +79,11 @@ public:
   void report_external_activity(std::string who, bool act);
   
 private:
-  void init_breaks();
   void init_configurator();
-  void init_monitor(const std::string &display_name);
   void init_bus();
-  void init_statistics();
 
-  void config_changed_notify(const std::string &key);
-  void load_config();
-
-  void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
-  void set_usage_mode_internal(UsageMode mode, bool persistent);
 
 private:
-  //! Number of command line arguments passed to the program.
-  int argc;
-
-  //! Command line arguments passed to the program.
-  char **argv;
-
   //! List of breaks.
   BreaksControl::Ptr breaks_control;
 
@@ -119,10 +91,16 @@ private:
   IConfigurator::Ptr configurator;
 
   //! The activity monitor
-  ActivityMonitor::Ptr monitor;
+  LocalActivityMonitor::Ptr monitor;
 
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
+
+  //! 
+  CoreModes::Ptr core_modes;
+
+  //! 
+  CoreDBus::Ptr core_dbus;
 
   //! GUI Widget factory.
   IApp *application;
@@ -130,29 +108,11 @@ private:
   //! The statistics collector.
   Statistics::Ptr statistics;
 
-  //! Current operation mode.
-  OperationMode operation_mode;
-
-  //! The same as operation_mode unless operation_mode is an override mode.
-  OperationMode operation_mode_regular;
-
-  //! Active operation mode overrides.
-  std::map<std::string, OperationMode> operation_mode_overrides;
-
-  //! Current usage mode.
-  UsageMode usage_mode;
-
   //! Did the OS announce a powersave?
   bool powersave;
 
   //! DBUS bridge
   dbus::IDBus::Ptr dbus;
-
-  //! Operation mode changed notification.
-  boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
-
-  //! Usage mode changed notification.
-  boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
 };
 
 #endif // CORE_HH

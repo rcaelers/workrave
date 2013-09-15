@@ -40,17 +40,16 @@ using namespace std;
 using namespace workrave::utils;
 
 Timer::Ptr
-Timer::create()
+Timer::create(const std::string &id)
 {
-  return Ptr(new Timer());
+  return Ptr(new Timer(id));
 }
 
 
 //! Constructs a new break timer.
-Timer::Timer() :
+Timer::Timer(const std::string &id) :
   timer_enabled(false),
   timer_frozen(false),
-  activity_state(ACTIVITY_IDLE),
   timer_state(STATE_INVALID),
   snooze_interval(60),
   snooze_inhibited(false),
@@ -69,7 +68,8 @@ Timer::Timer() :
   last_daily_reset_time(0),
   next_reset_time(0),
   next_daily_reset_time(0),
-  next_limit_time(0)
+  next_limit_time(0),
+  timer_id(id)
 {
 }
 
@@ -324,46 +324,22 @@ Timer::freeze_timer(bool freeze)
 
 //! Perform timer processing.
 TimerEvent
-Timer::process(ActivityState new_activity_state)
+Timer::process(bool user_is_active)
 {
-  TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
-
-  // msvc can't handle std::string conditional tracepoints. use TRACE as the conditional
-  bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
-  (void) TRACE;
-
   int64_t current_time= TimeSource::get_monotonic_time_sec_sync();
-
-  // Default event to return.
   TimerEvent event = TIMER_EVENT_NONE;
 
-  TRACE_MSG("enabled = " << timer_enabled);
-  TRACE_MSG("last_start_time " << last_start_time);
-  TRACE_MSG("next_daily_reset_time " << next_daily_reset_time);
-  TRACE_MSG("next_reset_time " << next_reset_time);
-  TRACE_MSG("time " << current_time);
-
-  // Start or stop timer.
   if (timer_enabled)
     {
-      if (new_activity_state == ACTIVITY_ACTIVE && timer_state != STATE_RUNNING)
+      if (user_is_active && timer_state != STATE_RUNNING)
         {
           start_timer();
         }
-      else if (new_activity_state != ACTIVITY_ACTIVE && timer_state == STATE_RUNNING)
+      else if (!user_is_active && timer_state == STATE_RUNNING)
         {
           stop_timer();
         }
     }
-
-  activity_state = new_activity_state;
-  TRACE_MSG("time, next limit "
-            << current_time << " "
-            << next_limit_time << " "
-            << limit_interval << " "
-            << (next_limit_time - current_time)
-            );
-  TRACE_MSG("activity_state = " << activity_state);
 
   if (daily_autoreset &&
       next_daily_reset_time != 0 &&
@@ -379,34 +355,25 @@ Timer::process(ActivityState new_activity_state)
       compute_next_daily_reset_time();
       event = TIMER_EVENT_RESET;
     }
-  else if (next_limit_time != 0 &&
-           current_time >= next_limit_time)
+  else if (next_limit_time != 0 && current_time >= next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
 
       compute_next_limit_time();
-
       event = TIMER_EVENT_LIMIT_REACHED;
-      // Its very unlikely (but not impossible) that this will overrule
-      // the EventStarted. Hey, shit happends.
     }
-  else if (next_reset_time != 0
-           && current_time >=  next_reset_time)
+  else if (next_reset_time != 0 && current_time >=  next_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
-
       next_reset_time = 0;
-
-      bool natural = limit_enabled && limit_interval >= get_elapsed_time();
-
       reset_timer();
 
+      bool natural = limit_enabled && limit_interval >= get_elapsed_time();
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
-      // Idem, may overrule the EventStopped.
     }
-  TRACE_EXIT();
+  
   return event;
 }
 
@@ -583,15 +550,6 @@ Timer::get_snooze() const
   return snooze_interval;
 }
 
-
-//! Sets ID of this timer.
-void
-Timer::set_id(std::string id)
-{
-  timer_id = id;
-}
-
-
 //! Gets ID of this timer.
 std::string
 Timer::get_id() const
@@ -616,7 +574,6 @@ Timer::serialize_state() const
 
   return ss.str();
 }
-
 
 bool
 Timer::deserialize_state(const std::string &state, int version)

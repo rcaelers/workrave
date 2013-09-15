@@ -156,7 +156,7 @@ private:
   void on_visibility_changed();
   void on_main_window_closed();
 
-  void on_break_event(BreakId break_id, IBreak::BreakEvent event);
+  void on_break_event(BreakId break_id, BreakEvent event);
   void on_operation_mode_changed(const OperationMode m);
   void on_usage_mode_changed(const UsageMode m);
   

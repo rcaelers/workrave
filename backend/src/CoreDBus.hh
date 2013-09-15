@@ -1,6 +1,4 @@
-// IActivityMonitorListener.hh
-//
-// Copyright (C) 2001 - 2007, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,19 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IACTIVITYMONITORLISTENER_HH
-#define IACTIVITYMONITORLISTENER_HH
+#ifndef COREDBUS_HH
+#define COREDBUS_HH
 
-//! Listener for user activity from the Activity Monitor
-class IActivityMonitorListener
+#include "dbus/IDBus.hh"
+#include "CoreModes.hh"
+
+#include <string>
+#include <map>
+
+class CoreDBus
 {
 public:
-  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
+  typedef boost::shared_ptr<CoreDBus> Ptr;
 
-  virtual ~IActivityMonitorListener() {}
+  static CoreDBus::Ptr create(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
+  
+  CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 
-  // Notification that the user is currently active.
-  virtual bool action_notify() = 0;
+private:
+  void on_operation_mode_changed(const OperationMode m);
+  void on_usage_mode_changed(const UsageMode m);
+
+private:
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
-#endif // IACTIVITYMONITORLISTENER_HH
+#endif // COREDBUS_HH

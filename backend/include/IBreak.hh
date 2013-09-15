@@ -27,6 +27,20 @@
 
 namespace workrave {
 
+  enum class BreakEvent {
+      PreludeStarted,
+      BreakNew,
+      BreakStarted,
+      BreakStartedForced,
+      BreakIgnored,
+      BreakPostponed,
+      BreakSkipped,
+      BreakEnded,
+      BreakReset,
+      BreakNaturalReset,
+      BreakIdle,
+      };
+    
   //! Interface to retrieve information about a break.
   class IBreak
   {
@@ -35,15 +49,6 @@ namespace workrave {
 
     virtual ~IBreak() {}
 
-    enum BreakEvent {
-      BREAK_EVENT_PRELUDE_STARTED,
-      BREAK_EVENT_BREAK_STARTED,
-      BREAK_EVENT_BREAK_STARTED_FORCED,
-      BREAK_EVENT_BREAK_IGNORED,
-      BREAK_EVENT_BREAK_ENDED,
-      BREAK_EVENT_BREAK_IDLE,
-    };
-    
     virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event() = 0;
 
     //! Returns the name of the break.

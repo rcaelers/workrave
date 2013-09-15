@@ -24,6 +24,7 @@
 #ifdef TRACING
 
 #include <sstream>
+#include <chrono>
 
 #include <boost/thread/tss.hpp>
 
@@ -59,12 +60,14 @@ Debug::trace_string()
   
   if (TimeSource::source)
     {
-      int64_t ut = g_get_real_time();
-      t = (time_t) (ut / G_USEC_PER_SEC);
+      auto tt = std::chrono::system_clock::now().time_since_epoch();;
+      auto ms = std::chrono::duration_cast<std::chrono::microseconds>(tt).count();
+      
+      t = (time_t) (ms / 1000000);
       tmlt = localtime(&t);
 
       strftime(logtime, 256, "%H:%M:%S", tmlt);
-      ss << " " << logtime << "." << (ut % G_USEC_PER_SEC) / 1000;
+      ss << " " << logtime << "." << (ms % 1000000) / 1000;
     }
 
   ss << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;

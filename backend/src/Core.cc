@@ -1,5 +1,3 @@
-// Core.cc --- The main controller
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -34,17 +32,12 @@
 
 #include "Util.hh"
 #include "IApp.hh"
-#include "ActivityMonitor.hh"
 #include "Break.hh"
 #include "CoreConfig.hh"
 #include "Statistics.hh"
 
-#ifdef HAVE_GCONF
-#include <gconf/gconf-client.h>
-#endif
-
-#ifdef HAVE_DBUS
 #include "dbus/IDBus.hh"
+#ifdef HAVE_DBUS
 #include "DBusWorkrave.hh"
 #endif
 
@@ -64,17 +57,12 @@ ICore::create()
 
 //! Constructs a new Core.
 Core::Core() :
-  argc(0),
-  argv(NULL),
   application(NULL),
-  operation_mode(OPERATION_MODE_NORMAL),
-  operation_mode_regular(OPERATION_MODE_NORMAL),
-  usage_mode(USAGE_MODE_NORMAL),
   powersave(false)
 {
   TRACE_ENTER("Core::Core");
-  TimeSource::sync();
   hooks = CoreHooks::create();
+  TimeSource::sync();
   TRACE_EXIT();
 }
 
@@ -93,27 +81,33 @@ Core::~Core()
 }
 
 
-/********************************************************************************/
-/**** Initialization                                                       ******/
-/********************************************************************************/
-
-
 //! Initializes the core.
 void
-Core::init(int argc, char **argv, IApp *app, const string &display_name)
+Core::init(IApp *app, const string &display_name)
 {
   application = app;
-  this->argc = argc;
-  this->argv = argv;
 
+  dbus = IDBus::create();
+  dbus->init();
+  
   init_configurator();
-  init_monitor(display_name);
-  init_statistics();
-  init_breaks();
-  init_bus();
 
-  load_config();
+  statistics = Statistics::create(shared_from_this());
+  statistics->init();
+
+  monitor = LocalActivityMonitor::create(configurator, display_name);
+  monitor->init();
+
+  core_modes = CoreModes::create(monitor, configurator);
+
+  core_dbus = CoreDBus::create(core_modes, dbus);
+  
+  breaks_control = BreaksControl::create(application, monitor, core_modes, statistics, configurator, dbus, hooks);
+  breaks_control->init();
+
+  init_bus();
 }
+
 
 
 //! Initializes the configurator.
@@ -137,11 +131,6 @@ Core::init_configurator()
     }
   else
     {
-#if defined(HAVE_GCONF)
-      gconf_init(argc, argv, NULL);
-      g_type_init();
-#endif
-      
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
       if (configurator == NULL)
@@ -183,6 +172,7 @@ Core::init_configurator()
     {
       Util::set_home_directory(home);
     }
+
   CoreConfig::init(configurator);
 }
 
@@ -191,11 +181,8 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
-#ifdef HAVE_DBUS
   try
     {
-      dbus = IDBus::create();
-      dbus->init();
 
       extern void init_DBusWorkrave(IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
@@ -207,52 +194,41 @@ Core::init_bus()
   catch (DBusException &)
     {
     }
-#endif
 }
 
-
-//! Initializes the activity monitor.
+//! Periodic heartbeat.
 void
-Core::init_monitor(const string &display_name)
+Core::heartbeat()
 {
-  monitor = ActivityMonitor::create(configurator, hooks, display_name);
-  monitor->init();
-}
+  TRACE_ENTER("Core::heartbeat");
 
+  TimeSource::sync();
+  
+  // Process configuration
+  configurator->heartbeat();
 
-//! Initializes the statistics.
-void
-Core::init_statistics()
-{
-  statistics = Statistics::create(shared_from_this());
-  statistics->init();
-}
+  // Process breaks
+  breaks_control->heartbeat();
 
-
-//! Initializes all breaks.
-void
-Core::init_breaks()
-{
-  breaks_control = BreaksControl::create(application, monitor, statistics, configurator, dbus);
-  breaks_control->init();
+  TRACE_EXIT();
 }
 
 
 /********************************************************************************/
-/**** Core Interface                                                       ******/
+/**** ICore Interface                                                      ******/
 /********************************************************************************/
 
 boost::signals2::signal<void(OperationMode)> &
 Core::signal_operation_mode_changed()
 {
-  return operation_mode_changed_signal;
+  return core_modes->signal_operation_mode_changed();
 }
 
 
 boost::signals2::signal<void(UsageMode)> &
 Core::signal_usage_mode_changed()
 {
-  return usage_mode_changed_signal;
+  return core_modes->signal_usage_mode_changed();
 }
 
 
@@ -307,7 +283,7 @@ Core::get_dbus() const
 bool
 Core::is_user_active() const
 {
-  return monitor->get_state() == ACTIVITY_ACTIVE;
+  return monitor->is_active();
 }
 
 
@@ -315,9 +291,7 @@ Core::is_user_active() const
 OperationMode
 Core::get_operation_mode()
 {
-    TRACE_ENTER("Core::get_operation_mode");
-    TRACE_EXIT();
-    return operation_mode;
+  return core_modes->get_operation_mode();
 }
 
 
@@ -325,11 +299,7 @@ Core::get_operation_mode()
 OperationMode
 Core::get_operation_mode_regular()
 {
-    /* operation_mode_regular is the same as operation_mode unless there's an 
-    override in place, in which case operation_mode is the current override mode and 
-    operation_mode_regular is the mode that will be restored once all overrides are removed
-    */
-    return operation_mode_regular;
+  return core_modes->get_operation_mode_regular();
 }
 
 
@@ -337,7 +307,7 @@ Core::get_operation_mode_regular()
 bool
 Core::is_operation_mode_an_override()
 {
-    return !!operation_mode_overrides.size();
+  return core_modes->is_operation_mode_an_override();
 }
 
 
@@ -345,7 +315,7 @@ Core::is_operation_mode_an_override()
 void
 Core::set_operation_mode(OperationMode mode)
 {
-    set_operation_mode_internal( mode, true );
+  core_modes->set_operation_mode(mode);
 }
 
 
@@ -353,10 +323,7 @@ Core::set_operation_mode(OperationMode mode)
 void
 Core::set_operation_mode_override( OperationMode mode, const std::string &id )
 {
-    if( !id.size() )
-        return;
-
-    set_operation_mode_internal( mode, false, id );
+  core_modes->set_operation_mode_override(mode, id);
 }
 
 
@@ -364,207 +331,7 @@ Core::set_operation_mode_override( OperationMode mode, const std::string &id )
 void
 Core::remove_operation_mode_override( const std::string &id )
 {
-    TRACE_ENTER( "Core::remove_operation_mode_override" );
-
-    if( !id.size() || !operation_mode_overrides.count( id ) )
-        return;
-
-    operation_mode_overrides.erase( id );
-
-    /* If there are other overrides still in the queue then pass in the first 
-    override in the map. set_operation_mode_internal() will then search the 
-    map for the most important override and set it as the active operation mode.
-    */
-    if( operation_mode_overrides.size() )
-    {
-        set_operation_mode_internal( 
-            operation_mode_overrides.begin()->second, 
-            false, 
-            operation_mode_overrides.begin()->first
-            );
-    }
-    else
-    {
-        /* if operation_mode_regular is the same as the active operation mode then just 
-        signal the mode has changed. During overrides the signal is not sent so it needs to 
-        be sent now. Because the modes are the same it would not be called by 
-        set_operation_mode_internal().
-        */
-        if( operation_mode_regular == operation_mode )
-        {
-            TRACE_MSG( "Only calling core_event_operation_mode_changed()." );
-
-            operation_mode_changed_signal(operation_mode_regular);
-
-#ifdef HAVE_DBUS
-            org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-            if (iface != NULL)
-              {
-                iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
-              }
-#endif
-        }
-        else
-            set_operation_mode_internal( operation_mode_regular, false );
-    }
-
-    TRACE_EXIT();
-}
-
-
-//! Set the operation mode.
-void
-Core::set_operation_mode_internal(
-    OperationMode mode, 
-    bool persistent, 
-    const std::string &override_id /* default param: empty string */
-    )
-{
-  TRACE_ENTER_MSG("Core::set_operation_mode", ( persistent ? "persistent" : "" ) );
-
-  if( override_id.size() )
-  {
-      TRACE_MSG( "override_id: " << override_id );
-  }
-
-  TRACE_MSG( "Incoming/requested mode is "
-      << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-            mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
-      << ( override_id.size() ? " (override)" : " (regular)" )
-      );
-
-  TRACE_MSG( "Current mode is "
-      << ( operation_mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-            operation_mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                operation_mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
-      << ( operation_mode_overrides.size() ? " (override)" : " (regular)" )
-      );
-  
-  if( ( mode != OPERATION_MODE_NORMAL )
-      && ( mode != OPERATION_MODE_QUIET )
-      && ( mode != OPERATION_MODE_SUSPENDED )
-      )
-  {
-      TRACE_RETURN( "No change: incoming invalid" );
-      return;
-  }
-
-  /* If the incoming operation mode is regular and the current operation mode is an 
-  override then save the incoming operation mode and return.
-  */
-  if( !override_id.size() && operation_mode_overrides.size() )
-  {
-      operation_mode_regular = mode;
-
-      operation_mode_changed_signal(operation_mode);
-
-#ifdef HAVE_DBUS
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-      if (iface != NULL)
-        {
-          iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
-        }
-#endif      
-      int cm;
-      if( persistent 
-          && ( !get_configurator()->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
-              || ( cm != mode ) )
-          )
-          get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, mode );
-
-      TRACE_RETURN( "No change: current is an override type but incoming is regular" );
-      return;
-  }
-  
-  // If the incoming operation mode is tagged as an override
-  if( override_id.size() )
-  {
-      // Add this override to the map
-      operation_mode_overrides[ override_id ] = mode;
-
-      /* Find the most important override. Override modes in order of importance:
-      OPERATION_MODE_SUSPENDED, OPERATION_MODE_QUIET, OPERATION_MODE_NORMAL
-      */
-      for( map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
-          ( i != operation_mode_overrides.end() );
-          ++i
-          )
-      {
-          if( i->second == OPERATION_MODE_SUSPENDED )
-          {
-              mode = OPERATION_MODE_SUSPENDED;
-              break;
-          }
-
-          if( ( i->second == OPERATION_MODE_QUIET )
-              && ( mode == OPERATION_MODE_NORMAL )
-              )
-          {
-              mode = OPERATION_MODE_QUIET;
-          }
-      }
-  }
-
-
-  if (operation_mode != mode)
-  {
-      TRACE_MSG( "Changing active operation mode to "
-          << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-                mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                    mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
-          );
-
-      OperationMode previous_mode = operation_mode;
-
-      operation_mode = mode;
-      breaks_control->set_operation_mode(mode);
-      
-      if( !operation_mode_overrides.size() )
-          operation_mode_regular = operation_mode;
-
-      if (operation_mode == OPERATION_MODE_SUSPENDED)
-      {
-          TRACE_MSG("Force idle");
-          monitor->suspend();
-          breaks_control->stop_all_breaks();
-      }
-      else if (previous_mode == OPERATION_MODE_SUSPENDED)
-      {
-          // stop_all_breaks again will reset insensitive mode (that is good)
-          breaks_control->stop_all_breaks();
-          monitor->resume();
-      }
-
-      if (operation_mode == OPERATION_MODE_QUIET)
-      {
-          breaks_control->stop_all_breaks();
-      }
-
-      if( !operation_mode_overrides.size() )
-      {
-          /* The two functions in this block will trigger signals that can call back into this function.
-          Only if there are no overrides in place will that reentrancy be ok from here.
-          Otherwise the regular/user mode to restore would be overwritten.
-          */
-
-          if( persistent )
-              get_configurator()->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode );
-
-          TRACE_MSG("Send event");
-          operation_mode_changed_signal(operation_mode);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != NULL)
-            {
-              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
-            }
-#endif
-      }
-  }
-
-  TRACE_EXIT();
+  core_modes->remove_operation_mode_override(id);
 }
 
 
@@ -572,7 +339,7 @@ Core::set_operation_mode_internal(
 UsageMode
 Core::get_usage_mode()
 {
-  return usage_mode;
+  return core_modes->get_usage_mode();
 }
 
 
@@ -580,35 +347,7 @@ Core::get_usage_mode()
 void
 Core::set_usage_mode(UsageMode mode)
 {
-  set_usage_mode_internal(mode, true);
-}
-
-
-//! Sets the usage mode.
-void
-Core::set_usage_mode_internal(UsageMode mode, bool persistent)
-{
-  if (usage_mode != mode)
-    {
-      usage_mode = mode;
-
-      breaks_control->set_usage_mode(mode);
-
-      if (persistent)
-        {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
-        }
-
-      usage_mode_changed_signal(mode);
-
-#ifdef HAVE_DBUS
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-      if (iface != NULL)
-        {
-          iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
-        }
-#endif
-    }
+  core_modes->set_usage_mode(mode);
 }
 
 
@@ -637,7 +376,7 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << operation_mode);
+  TRACE_MSG(powersave << " " << core_modes->get_operation_mode());
 
   if (down)
     {
@@ -659,97 +398,9 @@ Core::set_powersave(bool down)
   TRACE_EXIT();
 }
 
-
-/********************************************************************************/
-/****                                                                      ******/
-/********************************************************************************/
-
-//! Notification that the configuration has changed.
-void
-Core::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("Core::config_changed_notify", key);
-  string::size_type pos = key.find('/');
-  string path;
-
-  if (pos != string::npos)
-    {
-      path = key.substr(0, pos);
-    }
-
-  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
-    {
-      int mode;
-      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
-        {
-          mode = OPERATION_MODE_NORMAL;
-        }
-      TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(OperationMode(mode), false);
-    }
-
-  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
-    {
-      int mode;
-      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
-        {
-          mode = USAGE_MODE_NORMAL;
-        }
-      TRACE_MSG("Setting usage mode");
-      set_usage_mode_internal(UsageMode(mode), false);
-    }
-  TRACE_EXIT();
-}
-
-
-//! Periodic heartbeat.
-void
-Core::heartbeat()
-{
-  TRACE_ENTER("Core::heartbeat");
-  assert(application != NULL);
-
-  TimeSource::sync();
-  
-  // Process configuration
-  configurator->heartbeat();
-
-  // Perform state computation.
-  monitor->heartbeat();
-
-  // Process breaks
-  breaks_control->heartbeat();
-
-  TRACE_EXIT();
-}
-
-
-//!
 void
 Core::report_external_activity(std::string who, bool act)
 {
-  monitor->report_external_activity(who, act);
-}
-
-
-//! Loads miscellaneous
-void
-Core::load_config()
-{
-  configurator->rename_key("gui/operation-mode", CoreConfig::CFG_KEY_OPERATION_MODE);
-  configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
-  configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
-
-  int mode;
-  if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
-    {
-      mode = OPERATION_MODE_NORMAL;
-    }
-  set_operation_mode(OperationMode(mode));
-
-  if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
-    {
-      mode = USAGE_MODE_NORMAL;
-    }
-  set_usage_mode(UsageMode(mode));
+  // TODO: fix this
+  // monitor->report_external_activity(who, act);
 }

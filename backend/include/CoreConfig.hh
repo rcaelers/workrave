@@ -1,6 +1,6 @@
 // CoreConfig.hh --- Configuration keys of the core.
 //
-// Copyright (C) 2001 - 2009, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,8 +37,7 @@ public:
   static const std::string CFG_KEY_TIMER_AUTO_RESET;
   static const std::string CFG_KEY_TIMER_RESET_PRED;
   static const std::string CFG_KEY_TIMER_SNOOZE;
-  static const std::string CFG_KEY_TIMER_MONITOR;
-  static const std::string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
+  static const std::string CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY;
 
   static const std::string CFG_KEY_BREAKS;
   static const std::string CFG_KEY_BREAK;
@@ -53,10 +52,16 @@ public:
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;
 
+private:
+  // Deprecated.
+  static const std::string CFG_KEY_TIMER_MONITOR;
+  
+public:
   static void init(workrave::config::IConfigurator::Ptr config);
   static bool starts_with(const std::string &key, std::string prefix, std::string &name);
   static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
   static std::string get_break_name(workrave::BreakId id);
+  static workrave::BreakId get_break_id(const std::string &name);
 };
 
 #endif

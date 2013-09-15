@@ -475,7 +475,7 @@ GUI::init_core()
 #endif
 
   core = CoreFactory::get_core();
-  core->init(argc, argv, this, display_name);
+  core->init(this, display_name);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -849,28 +849,28 @@ GUI::init_sound_player()
 
 
 void
-GUI::on_break_event(BreakId break_id, IBreak::BreakEvent event)
+GUI::on_break_event(BreakId break_id, BreakEvent event)
 {
   TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << event);
 
   struct EventMap
   {
     BreakId id;
-    IBreak::BreakEvent break_event;
+    BreakEvent break_event;
     workrave::audio::SoundEvent sound_event;
   } event_map[] =
       {
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_MICRO_BREAK_STARTED },
-        { BREAK_ID_MICRO_BREAK, IBreak::BREAK_EVENT_BREAK_ENDED,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_REST_BREAK_STARTED },
-        { BREAK_ID_REST_BREAK,  IBreak::BREAK_EVENT_BREAK_ENDED,     workrave::audio::SOUND_REST_BREAK_ENDED },
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_PRELUDE_STARTED, workrave::audio::SOUND_BREAK_PRELUDE},
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_IGNORED,   workrave::audio::SOUND_BREAK_IGNORED},
-        { BREAK_ID_DAILY_LIMIT, IBreak::BREAK_EVENT_BREAK_STARTED,   workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakStarted,   workrave::audio::SOUND_MICRO_BREAK_STARTED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakEnded,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_REST_BREAK,  BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakStarted,   workrave::audio::SOUND_REST_BREAK_STARTED },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakEnded,     workrave::audio::SOUND_REST_BREAK_ENDED },
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakStarted,   workrave::audio::SOUND_MICRO_BREAK_ENDED },
       };
 
   for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)

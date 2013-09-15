@@ -20,8 +20,6 @@
 #ifndef LOCALACTIVITYMONITOR_HH
 #define LOCALACTIVITYMONITOR_HH
 
-#include "IActivityMonitor.hh"
-
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -29,13 +27,21 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-#include "IActivityMonitorListener.hh"
-
 using namespace workrave::config;
 using namespace workrave::input_monitor;
 
+class IActivityMonitorListener
+{
+public:
+  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
+
+  virtual ~IActivityMonitorListener() {}
+
+  // Notification that the user is currently active.
+  virtual bool action_notify() = 0;
+};
+
 class LocalActivityMonitor :
-  public IActivityMonitor,
   public IInputMonitorListener,
   public IConfiguratorListener
 {
@@ -48,14 +54,13 @@ public:
   LocalActivityMonitor(IConfigurator::Ptr configurator, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
-  // IActivityMonitor
-  virtual void init();
-  virtual void terminate();
-  virtual void suspend();
-  virtual void resume();
-  virtual void force_idle();
-  virtual ActivityState get_state();
-  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  void init();
+  void terminate();
+  void suspend();
+  void resume();
+  void force_idle();
+  bool is_active();
+  void set_listener(IActivityMonitorListener::Ptr l);
 
   // IInputMonitorListener
   virtual void action_notify();
@@ -92,7 +97,7 @@ private:
   std::string display_name;
   
   //! The actual monitoring driver.
-  IInputMonitor *input_monitor;
+  IInputMonitor::Ptr input_monitor;
 
   //! the current state.
   LocalActivityMonitorState state;

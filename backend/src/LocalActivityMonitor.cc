@@ -30,7 +30,6 @@
 #include "input-monitor/InputMonitorFactory.hh"
 #include "utils/TimeSource.hh"
 
-#include "IActivityMonitorListener.hh"
 #include "CoreConfig.hh"
 #include "debug.hh"
 
@@ -70,7 +69,6 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator, cons
 LocalActivityMonitor::~LocalActivityMonitor()
 {
   TRACE_ENTER("LocalActivityMonitor::~LocalActivityMonitor");
-  delete input_monitor;
   TRACE_EXIT();
 }
 
@@ -86,7 +84,7 @@ LocalActivityMonitor::init()
   load_config();
   configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
 
-  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
+  input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
     {
       input_monitor->subscribe(this);
@@ -151,28 +149,11 @@ LocalActivityMonitor::force_idle()
 }
 
 
-//! Returns the current state
-ActivityState
-LocalActivityMonitor::get_state()
+bool
+LocalActivityMonitor::is_active()
 {
   process_state();
-  
-  switch (state)
-    {
-    case ACTIVITY_MONITOR_ACTIVE:
-      return ACTIVITY_ACTIVE;
-
-    case ACTIVITY_MONITOR_UNKNOWN:
-    case ACTIVITY_MONITOR_IDLE:
-    case ACTIVITY_MONITOR_NOISE:
-      return ACTIVITY_IDLE;
-      
-    case ACTIVITY_MONITOR_SUSPENDED:
-    case ACTIVITY_MONITOR_FORCED_IDLE:
-      return ACTIVITY_FORCED_IDLE;
-    };
-
-  return ACTIVITY_IDLE;
+  return state == ACTIVITY_MONITOR_ACTIVE;
 }
 
 void
@@ -422,3 +403,55 @@ LocalActivityMonitor::load_config()
   set_parameters(noise, activity, idle);
   TRACE_EXIT();
 }
+
+// TODO: implement somewhere else:
+
+// //! Computes the current state.
+// void
+// LocalActivityMonitor::heartbeat()
+// {
+//   // Default
+//   ActivityState state = local_monitor->get_state();
+//   int64_t current_time = TimeSource::get_monotonic_time_sec();
+  
+//   map<std::string, int64_t>::iterator i = external_activity.begin();
+//   while (i != external_activity.end())
+//     {
+//       map<std::string, int64_t>::iterator next = i;
+//       next++;
+
+//       if (i->second >= current_time)
+//         {
+//           state = ACTIVITY_ACTIVE;
+//         }
+//       else
+//         {
+//           external_activity.erase(i);
+//         }
+
+//       i = next;
+//     }
+
+//   if (local_state != state)
+//     {
+//       local_state = state;
+//     }
+
+//   monitor_state = state;
+// }
+
+
+// void
+// LocalActivityMonitor::report_external_activity(std::string who, bool act)
+// {
+//   TRACE_ENTER_MSG("LocalActivityMonitor::report_external_activity", who << " " << act);
+//   if (act)
+//     {
+//       external_activity[who] = TimeSource::get_monotonic_time_sec() + 10;
+//     }
+//   else
+//     {
+//       external_activity.erase(who);
+//     }
+//   TRACE_EXIT();
+// }

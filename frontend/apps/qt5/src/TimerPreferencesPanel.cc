@@ -156,6 +156,8 @@ TimerPreferencesPanel::create_options_panel()
     {
       monitor_cb = new QCheckBox(_("Regard micro-breaks as activity"));
       layout->addWidget(monitor_cb);
+
+      connector->connect(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, dc::wrap(monitor_cb));
     }
 
   if (break_id == BREAK_ID_REST_BREAK)
@@ -180,9 +182,6 @@ TimerPreferencesPanel::create_options_panel()
   
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id, dc::wrap(ignorable_cb));
   connector->connect(GUIConfig::CFG_KEY_BREAK_SKIPPABLE % break_id, dc::wrap(skippable_cb));
-  connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, dc::wrap(monitor_cb),
-                     boost::bind(&TimerPreferencesPanel::on_monitor_changed, this, _1, _2));
-
   return box;
 }
 
@@ -318,40 +317,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
     }
 
   inside = false;
-
-  return true;
-}
-
-
-bool
-TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
-{
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-
-  if (write)
-    {
-      string val;
-
-      if (monitor_cb->checkState() == Qt::Checked)
-        {
-          ICore::Ptr core = CoreFactory::get_core();
-          IBreak::Ptr mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
-          val = mp_break->get_name();
-        }
-
-      config->set_value(key, val);
-    }
-  else
-    {
-      string monitor_name;
-      bool ok = config->get_value(key, monitor_name);
-      if (ok && monitor_name != "")
-        {
-          bool s = monitor_cb->isEnabled();
-          monitor_cb->setCheckState(monitor_name != "" ? Qt::Checked : Qt::Unchecked);
-          monitor_cb->setEnabled(s);
-        }
-    }
 
   return true;
 }

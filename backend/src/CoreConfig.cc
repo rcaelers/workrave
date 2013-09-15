@@ -1,6 +1,6 @@
 // CoreConfig.cc --- The WorkRave Core Configuration
 //
-// Copyright (C) 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,8 +42,9 @@ const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET          = "timers/%b/auto_res
 const string CoreConfig::CFG_KEY_TIMER_RESET_PRED          = "timers/%b/reset_pred";
 const string CoreConfig::CFG_KEY_TIMER_SNOOZE              = "timers/%b/snooze";
 const string CoreConfig::CFG_KEY_TIMER_MONITOR             = "timers/%b/monitor";
-const string CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE  = "timers/%b/activity_sensitive";
 
+const string CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY = "timers/daily_limit/use_microbreak_activity";
+  
 const string CoreConfig::CFG_KEY_BREAKS                    = "breaks";
 const string CoreConfig::CFG_KEY_BREAK                     = "breaks/%b";
 
@@ -121,14 +122,26 @@ CoreConfig::get_break_name(BreakId id)
   return def.name;
 }
 
+BreakId
+CoreConfig::get_break_id(const std::string &name)
+{
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
+    {
+      Defaults &def = default_config[break_id];
+      if (def.name == name)
+        {
+          return break_id;
+        }
+    }
+  return BREAK_ID_NONE;
+}
 
 void
 CoreConfig::init(IConfigurator::Ptr config)
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
-      BreakId break_id = (BreakId) i;
-      Defaults &def = default_config[i];
+      Defaults &def = default_config[break_id];
 
       config->set_delay(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, 2);
       config->set_delay(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, 2);
@@ -165,10 +178,6 @@ CoreConfig::init(IConfigurator::Ptr config)
                         "",
                         CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
-                        true,
-                        CONFIG_FLAG_DEFAULT);
-
       config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                         def.max_preludes,
                         CONFIG_FLAG_DEFAULT);
@@ -177,6 +186,20 @@ CoreConfig::init(IConfigurator::Ptr config)
                         true,
                         CONFIG_FLAG_DEFAULT);
     }
+
+  config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY,
+                    false,
+                    CONFIG_FLAG_DEFAULT);
+  
+  string monitor_name;
+  bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, monitor_name);
+
+  if (ret && monitor_name == "micro_pause")
+    {
+      config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, "deprecated. replace by use_microbreak_activity");
+      config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
+    }
+
 }
 
 
@@ -220,3 +243,4 @@ namespace workrave
     return str;
   }
 }
+

@@ -19,50 +19,46 @@
 #endif
 
 #include "input-monitor/InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
 
-#ifdef PLATFORM_OS_WIN32
-#include "W32InputMonitorFactory.hh"
-#endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXInputMonitorFactory.hh"
-#endif
-#ifdef PLATFORM_OS_UNIX
-#include "UnixInputMonitorFactory.hh"
-#endif
-
-#include "nls.h"
-
+using namespace workrave::input_monitor;
 using namespace workrave::config;
 
-IInputMonitorFactory *InputMonitorFactory::factory = NULL;
+class InputMonitorStub : public IInputMonitor
+{
+public:
+  virtual ~InputMonitorStub() {}
+  
+  virtual bool init()
+  {
+    return true;
+  }
+  
+  virtual void terminate()
+  {
+  };
+  
+  virtual void subscribe(IInputMonitorListener *listener)
+  {
+    (void) listener;
+  }
+  
+  virtual void unsubscribe(IInputMonitorListener *listener)
+  {
+    (void) listener;
+  }
+};
 
 void
 InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 {
-  if (factory == NULL)
-    {
-#if defined(PLATFORM_OS_WIN32)
-      factory = new W32InputMonitorFactory(config);
-#elif defined(PLATFORM_OS_OSX)
-      factory = new OSXInputMonitorFactory(config);
-#elif defined(PLATFORM_OS_UNIX)
-      factory = new UnixInputMonitorFactory(config);
-#endif
-    }
-
-  if (factory != NULL)
-    {
-      factory->init(display);
-    }
+  (void) config;
+  (void) display;
 }
 
 IInputMonitor::Ptr
 InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  if (factory != NULL)
-    {
-      return factory->create_monitor(capability);
-    }
-
-  return IInputMonitor::Ptr();
+  return IInputMonitor::Ptr(new InputMonitorStub());
 }
+

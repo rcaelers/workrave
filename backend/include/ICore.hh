@@ -71,7 +71,7 @@ namespace workrave
     virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed() = 0;
     
     //! Initialize the Core. Must be called first.
-    virtual void init(int argc, char **argv, IApp *app, const std::string &display) = 0;
+    virtual void init(IApp *app, const std::string &display) = 0;
 
     //! Periodic heartbeat. The GUI *MUST* call this method every second.
     virtual void heartbeat() = 0;
@@ -94,9 +94,6 @@ namespace workrave
     //! Retrieves the regular operation mode.
     virtual OperationMode get_operation_mode_regular() = 0;
 
-    //! Checks if operation_mode is an override.
-    virtual bool is_operation_mode_an_override() = 0;
-
     //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
 
@@ -105,6 +102,9 @@ namespace workrave
 
     //! Removes the overriden operation mode.
     virtual void remove_operation_mode_override(const std::string &id) = 0;
+
+    //! Checks if operation_mode is an override.
+    virtual bool is_operation_mode_an_override() = 0;
 
     //! Return the current usage mode.
     virtual UsageMode get_usage_mode() = 0;

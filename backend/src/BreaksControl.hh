@@ -21,39 +21,44 @@
 #define BREAKSCONTROL_HH
 
 #include <vector>
+#include <map>
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
 
-#include "ActivityMonitor.hh"
-#include "Statistics.hh"
 #include "Break.hh"
-#include "IBreakSupport.hh"
+#include "Timer.hh"
+
+#include "CoreModes.hh"
+#include "CoreHooks.hh"
+#include "Statistics.hh"
 #include "ReadingActivityMonitor.hh"
+#include "TimerActivityMonitor.hh"
 
 using namespace workrave;
-using namespace workrave::config;
-using namespace workrave::dbus;
 
 class BreaksControl :
-  public IBreakSupport,
   public boost::enable_shared_from_this<BreaksControl>
 {
 public:
   typedef boost::shared_ptr<BreaksControl> Ptr;
 
   static Ptr create(IApp *app,
-                    IActivityMonitor::Ptr activity_monitor,
+                    LocalActivityMonitor::Ptr activity_monitor,
+                    CoreModes::Ptr modes,
                     Statistics::Ptr statistics,
-                    IConfigurator::Ptr configurator,
-                    IDBus::Ptr dbus);
+                    workrave::config::IConfigurator::Ptr configurator,
+                    workrave::dbus::IDBus::Ptr dbus,
+                    CoreHooks::Ptr hooks);
   
   BreaksControl(IApp *app,
-                IActivityMonitor::Ptr activity_monitor,
+                LocalActivityMonitor::Ptr activity_monitor,
+                CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
-                IConfigurator::Ptr configurator,
-                IDBus::Ptr dbus);
+                workrave::config::IConfigurator::Ptr configurator,
+                workrave::dbus::IDBus::Ptr dbus,
+                CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
 
   void init();
@@ -61,61 +66,41 @@ public:
   void save_state() const;
 
   void force_break(BreakId id, BreakHint break_hint);
-  void stop_all_breaks();
 
   IBreak::Ptr get_break(BreakId id);
 
-  void set_operation_mode(OperationMode mode);
-  void set_usage_mode(UsageMode mode);
   void set_insist_policy(ICore::InsistPolicy p);
 
-  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const string &break_name);
-  
 private:
   void set_freeze_all_breaks(bool freeze);
   void process_timers();
-  void daily_reset();
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void load_state();
   void defrost();
   void freeze();
+  void force_idle();
+  void stop_all_breaks();
 
-  void on_break_event(BreakId break_id, IBreak::BreakEvent event);
-  
-  Timer::Ptr get_timer(std::string name) const;
-  Timer::Ptr get_timer(int id) const;
+  void on_operation_mode_changed(const OperationMode m);
+  void on_break_event(BreakId break_id, BreakEvent event);
   
 private:
-  //! GUI Factory used to create the break/prelude windows.
   IApp *application;
 
-  //!
-  IActivityMonitor::Ptr activity_monitor;
-  
-  //!
-  Statistics::Ptr statistics;
-  
-  //! The Configurator
-  IConfigurator::Ptr configurator;
-
-  //! DBUs
-  IDBus::Ptr dbus;
-  
-  //! List of breaks.
-  Break::Ptr breaks[BREAK_ID_SIZEOF];
-
-  //!
+  LocalActivityMonitor::Ptr activity_monitor;
   ReadingActivityMonitor::Ptr reading_activity_monitor;
-  
-  //!
-  OperationMode operation_mode;
+  TimerActivityMonitor::Ptr microbreak_activity_monitor;
 
-  UsageMode usage_mode;
+  CoreModes::Ptr modes;
+  Statistics::Ptr statistics;
+  workrave::config::IConfigurator::Ptr configurator;
+  workrave::dbus::IDBus::Ptr dbus;
+  CoreHooks::Ptr hooks;
   
-  //! What to do with activity during insisted break?
+  Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
+  Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
+  
   ICore::InsistPolicy insist_policy;
-
-  //! Policy currently in effect.
   ICore::InsistPolicy active_insist_policy;
 };
 

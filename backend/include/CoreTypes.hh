@@ -52,16 +52,13 @@ namespace workrave {
       USAGE_MODE_SIZEOF
     }  UsageMode;
 
-  //! ID of a break.
-  enum BreakId
-    {
-      BREAK_ID_NONE = -1,
-      BREAK_ID_MICRO_BREAK = 0,
-      BREAK_ID_REST_BREAK,
-      BREAK_ID_DAILY_LIMIT,
-      BREAK_ID_SIZEOF
-    };
-
+  typedef int BreakId;
+  const int BREAK_ID_NONE = -1;
+  const int BREAK_ID_MICRO_BREAK = 0;
+  const int BREAK_ID_REST_BREAK = 1;
+  const int BREAK_ID_DAILY_LIMIT = 2;
+  const int BREAK_ID_SIZEOF = 3;
+  
   enum BreakHint
     {
       BREAK_HINT_NONE = 0,

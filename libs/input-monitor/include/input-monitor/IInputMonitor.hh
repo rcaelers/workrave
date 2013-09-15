@@ -1,6 +1,6 @@
 // IInputMonitor.hh --- Interface definition for the Input monitors.
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@
 #ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 #define WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 
+#include <boost/shared_ptr.hpp>
+
 namespace workrave
 {
   namespace input_monitor
@@ -31,6 +33,8 @@ namespace workrave
     class IInputMonitor
     {
     public:
+      typedef boost::shared_ptr<IInputMonitor> Ptr;
+
       virtual ~IInputMonitor() {}
 
       //! Initializes the activity monitor.

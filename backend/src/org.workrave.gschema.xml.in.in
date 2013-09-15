@@ -42,7 +42,7 @@
     <key type="s" name="monitor">
       <default>""</default>
       <summary></summary>
-      <description></description>
+      <description>Replaced by use-microbreak-activity</description>
     </key>
     <key type="s" name="reset-pred">
       <default>"day/4:00"</default>
@@ -54,14 +54,14 @@
       <summary></summary>
       <description></description>
     </key>
-  </schema>
-    
-  <schema path="/org/workrave/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">
-    <key type="b" name="activity-sensitive">
-      <default>true</default>
+    <key type="b" name="use-microbreak-activity">
+      <default>false</default>
       <summary></summary>
       <description></description>
     </key>
+  </schema>
+    
+  <schema path="/org/workrave/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">
     <key type="i" name="auto-reset">
       <default>30</default>
       <summary></summary>
@@ -69,11 +69,6 @@
     </key>
     <key type="i" name="limit">
       <default>180</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="monitor">
-      <default>""</default>
       <summary></summary>
       <description></description>
     </key>
@@ -102,11 +97,6 @@
     </key>
     <key type="i" name="limit">
       <default>2700</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="monitor">
-      <default>""</default>
       <summary></summary>
       <description></description>
     </key>
@@ -198,54 +188,6 @@
     </key>
     <key type="i" name="operation-mode">
       <default>0</default>
-      <summary></summary>
-      <description></description>
-    </key>
-  </schema>
-
-  <schema path="/org/workrave/distribution/" id="org.workrave.distribution" gettext-domain="workrave">
-    <key type="b" name="enabled">
-      <default>false</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="b" name="listening">
-      <default>false</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="password">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="peers">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="i" name="port">
-      <default>27273</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="i" name="reconnect-attempts">
-      <default>3</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="i" name="reconnect-interval">
-      <default>15</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="tcp">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="username">
-      <default>""</default>
       <summary></summary>
       <description></description>
     </key>

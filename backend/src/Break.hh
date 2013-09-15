@@ -1,5 +1,3 @@
-// Break.hh --- controller for a single break
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -21,34 +19,23 @@
 #define BREAK_HH
 
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-#include "config/Config.hh"
+#include "config/IConfigurator.hh"
+#include "dbus/IDBus.hh"
 
-#include "IBreakSupport.hh"
-#include "IActivityMonitor.hh"
-#include "IActivityMonitorListener.hh"
-#include "Statistics.hh"
 #include "IBreak.hh"
 #include "Timer.hh"
+#include "Statistics.hh"
+#include "LocalActivityMonitor.hh"
+
+#include "BreakStateModel.hh"
+#include "BreakStatistics.hh"
+#include "BreakConfig.hh"
+#include "BreakDBus.hh"
 
 using namespace workrave;
-using namespace workrave::config;
-using namespace workrave::dbus;
 
-// Forward declarion of external interface.
-namespace workrave {
-  class IApp;
-}
-
-// Forward declarion of internals.
-class DayTimePred;
-
-class Break :
-  public IBreak,
-  public IConfiguratorListener,
-  public IActivityMonitorListener,
-  public boost::enable_shared_from_this<Break>
+class Break : public IBreak
 {
 public:
   typedef boost::shared_ptr<Break> Ptr;
@@ -56,43 +43,23 @@ public:
 public:
   static Ptr create(BreakId id,
                     IApp *app,
-                    IBreakSupport::Ptr break_support,
-                    IActivityMonitor::Ptr activity_monitor,
+                    Timer::Ptr timer,
+                    LocalActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
-                    IConfigurator::Ptr configurator,
-                    IDBus::Ptr dbus);
-
+                    workrave::config::IConfigurator::Ptr configurator,
+                    workrave::dbus::IDBus::Ptr dbus);
+  
   Break(BreakId id,
         IApp *app,
-        IBreakSupport::Ptr break_support, 
-        IActivityMonitor::Ptr activity_monitor,
+        Timer::Ptr timer,
+        LocalActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
-        IConfigurator::Ptr configurator,
-        IDBus::Ptr dbus);
+        workrave::config::IConfigurator::Ptr configurator,
+        workrave::dbus::IDBus::Ptr dbus);
   virtual ~Break();
-
-  // Internal
-
-  void init();
-
-  TimerEvent process_timer(ActivityState state);
-  void process_break();
-
-  void force_start_break(BreakHint break_hint);
-  void start_break();
-  void stop_break();
-  void freeze_break(bool freeze);
-  void force_idle();
-  void daily_reset();
-  
-  Timer::Ptr get_timer() const;
-  //  void set_usage_mode(UsageMode mode);
-  //  void update_usage_mode();
-  void override(BreakId id);
 
   // IBreak
   virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
-
   virtual std::string get_name() const; 
   virtual bool is_enabled() const; 
   virtual bool is_running() const;
@@ -108,100 +75,21 @@ public:
   virtual void postpone_break();
   virtual void skip_break();
 
-private:
-  enum BreakStage { STAGE_NONE,
-                    STAGE_SNOOZED,
-                    STAGE_PRELUDE,
-                    STAGE_TAKING,
-                    STAGE_DELAYED
-  };
+  void process();
+  void start_break();
+  void stop_break();
+  void force_start_break(BreakHint break_hint);
+  void override(BreakId id);
 
-  void goto_stage(BreakStage stage);
-  
-  void break_window_start();
-  void break_window_update();
-  void prelude_window_start();
-  void prelude_window_update();
-
-  // IActivityMonitorListener
-  bool action_notify();
-
-  void send_signal(BreakStage stage);
-  void update_statistics();
-  DayTimePred *create_time_pred(std::string spec);
-  void load_timer_config();
-  void load_break_control_config();
-  void config_changed_notify(const std::string &key);
+  bool is_microbreak_used_for_activity() const;
   
 private:
-  //! ID of the break controlled by this Break.
   BreakId break_id;
-
-  //! GUI Factory used to create the break/prelude windows.
-  IApp *application;
-
-  //! .
-  IBreakSupport::Ptr break_support;
-
-  //!
-  IActivityMonitor::Ptr activity_monitor;
-  
-  //!
-  IActivityMonitor::Ptr timer_activity_monitor;
-
-  //!
-  Statistics::Ptr statistics;
-  
-  //! The Configurator
-  IConfigurator::Ptr configurator;
-
-  //!
-  IDBus::Ptr dbus;
-  
-  //! Interface to the timer controlling the break.
-  Timer::Ptr break_timer;
-
-  //! Current stage in the break.
-  BreakStage break_stage;
-
-  //! This is a final prelude prompt, forcing break after this prelude
-  bool reached_max_prelude;
-
-  //! How long is the prelude active.
-  int prelude_time;
-
-  //! forced break (i.e. RestBreak now, or screenlock)
-  bool forced_break;
-
-  //! How many times have we preluded (since the limit was reached)
-  int prelude_count;
-
-  //! After how many preludes do we force a break or give up?
-  int max_number_of_preludes;
-
-  //! Is this a break that is not controlled by the timer.
-  bool fake_break;
-
-  //! Fake break counter.
-  int64_t fake_break_count;
-
-  //! Break will be stopped because the user pressed postpone/skip.
-  bool user_abort;
-
-  //! User became active during delayed break.
-  bool delayed_abort;
-
-  //! Break hint if break has been started.
-  BreakHint break_hint;
-
-  //! Name of the break (used in configuration)
-  std::string break_name;
-
-  //! Break enabled?
-  bool enabled;
-
-  //!
-  boost::signals2::signal<void(BreakEvent)> break_event_signal;
+  Timer::Ptr timer;
+  BreakStateModel::Ptr break_state_model;
+  BreakStatistics::Ptr break_statistics;
+  BreakConfig::Ptr break_configuration;
+  BreakDBus::Ptr break_dbus;
 };
 
 #endif // BREAK_HH

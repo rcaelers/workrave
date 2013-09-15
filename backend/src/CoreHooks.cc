@@ -51,4 +51,11 @@ CoreHooks::hook_create_configurator()
 {
   return create_configurator_hook;
 }
+
+boost::function<bool(bool)> &
+CoreHooks::hook_is_user_active()
+{
+  return is_user_active_hook;
+}
+
 #endif

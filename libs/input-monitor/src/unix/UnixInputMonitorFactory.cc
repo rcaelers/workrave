@@ -54,10 +54,10 @@ UnixInputMonitorFactory::init(const std::string &display)
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor *
-UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+IInputMonitor::Ptr 
+UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  TRACE_ENTER("UnixInputMonitorFactory::get_monitor");
+  TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
   (void) capability;
 
   if (monitor == NULL)
@@ -96,15 +96,15 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           
           if (actual_monitor_method == "record")
             {
-              monitor = new RecordInputMonitor(display);
+              monitor = IInputMonitor::Ptr(new RecordInputMonitor(display));
             }
           else if (actual_monitor_method == "screensaver")
             {
-              monitor = new XScreenSaverMonitor();
+              monitor = IInputMonitor::Ptr(new XScreenSaverMonitor());
             }
           else if (actual_monitor_method == "x11events")
             {
-              monitor = new X11InputMonitor(display);
+              monitor = IInputMonitor::Ptr(new X11InputMonitor(display));
             }
 
           initialized = monitor->init();
@@ -115,8 +115,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
               break;
             }
           
-          delete monitor;
-          monitor = NULL;
+          monitor.reset();
 
           loop++;
           if (loop == available_monitors.end())

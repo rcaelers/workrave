@@ -1,6 +1,6 @@
 // W32InputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -36,17 +36,17 @@ class W32InputMonitorFactory : public IInputMonitorFactory
 public:
   W32InputMonitorFactory(IConfigurator::Ptr config);
   virtual void init(const std::string &display);
-  virtual IInputMonitor *get_monitor(MonitorCapability capability);
+  virtual IInputMonitor *create_monitor(MonitorCapability capability);
 
 private:
-  IInputMonitor *create_statistics_monitor();
-  IInputMonitor *create_activity_monitor();
+  IInputMonitor::Ptr create_statistics_monitor();
+  IInputMonitor::Ptr create_activity_monitor();
 
 
 private:
   IConfigurator::Ptr config;
-  IInputMonitor *activity_monitor;
-  IInputMonitor *statistics_monitor;
+  IInputMonitor::Ptr activity_monitor;
+  IInputMonitor::Ptr statistics_monitor;
 
   std::string actual_monitor_method;
 };

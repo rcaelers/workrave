@@ -111,7 +111,7 @@ private:
   //void on_visibility_changed();
   //void on_main_window_closed();
 
-  void on_break_event(workrave::BreakId break_id, workrave::IBreak::BreakEvent event);
+  void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
   void on_operation_mode_changed(const workrave::OperationMode m);
   
 #if defined(PLATFORM_OS_UNIX)

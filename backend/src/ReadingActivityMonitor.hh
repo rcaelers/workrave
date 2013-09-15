@@ -1,5 +1,3 @@
-// ReadingActivityMonitor.hh
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -24,19 +22,12 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "Break.hh"
-
-#include "IActivityMonitor.hh"
-#include "IActivityMonitorListener.hh"
+#include "LocalActivityMonitor.hh"
 #include "Timer.hh"
 
 using namespace workrave;
 
-//! An Activity Monitor that takes its activity state from a timer.
-/*! This Activity Monitor is 'active' if the timer is running or if
- *  the timer has its idle time not at maximum, 'idle' otherwise.
- */
 class ReadingActivityMonitor :
-  public IActivityMonitor,
   public IActivityMonitorListener,
   public boost::enable_shared_from_this<ReadingActivityMonitor>
 {
@@ -44,21 +35,18 @@ public:
   typedef boost::shared_ptr<ReadingActivityMonitor> Ptr;
 
 public:
-  static Ptr create(IActivityMonitor::Ptr monitor);
+  static Ptr create(LocalActivityMonitor::Ptr monitor);
 
-  ReadingActivityMonitor(IActivityMonitor::Ptr monitor);
+  ReadingActivityMonitor(LocalActivityMonitor::Ptr monitor);
   virtual ~ReadingActivityMonitor();
 
-  void handle_break_event(BreakId break_id, IBreak::BreakEvent event);
-  
-  // IActivityMonitor
-  virtual void init();
-  virtual void terminate();
-  virtual void suspend();
-  virtual void resume();
-  virtual ActivityState get_state();
-  virtual void force_idle();
-  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  void handle_break_event(BreakId break_id, BreakEvent event);
+
+  void init();
+  void suspend();
+  void resume();
+  void force_idle();
+  bool is_active();
 
 private:
   bool action_notify();
@@ -66,16 +54,9 @@ private:
 private:
   enum State { Idle, Active, Prelude, Taking };
     
-  //! Reference monitor
-  IActivityMonitor::Ptr monitor;
-
-  //! Monitor suspended?
+  LocalActivityMonitor::Ptr monitor;
   bool suspended;
-
-  //! Is this timer forced idle?
   bool forced_idle;
-
-  //!
   State state;
 };
 

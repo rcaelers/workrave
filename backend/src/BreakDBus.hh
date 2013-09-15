@@ -1,6 +1,4 @@
-// ICoreHooks.hh --- The main controller
-//
-// Copyright (C) 2012, 2013 Rob Caelers
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,18 +15,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_BACKEND_ICOREHOOKS_HH
-#define WORKRAVE_BACKEND_ICOREHOOKS_HH
+#ifndef BREAKDBUS_HH
+#define BREAKDBUS_HH
 
-#include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-class ICoreHooks : public boost::enable_shared_from_this<ICoreHooks>
+#include "config/Config.hh"
+#include "dbus/IDBus.hh"
+
+#include "BreakStateModel.hh"
+
+using namespace workrave;
+
+class BreakDBus
 {
 public:
-  typedef boost::shared_ptr<ICoreHooks> Ptr;
-  virtual ~ICoreHooks() {}
+  typedef boost::shared_ptr<BreakDBus> Ptr;
+
+public:
+  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
+
+  BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
+  virtual ~BreakDBus();
+
+private:
+  void on_break_stage_changed(BreakStage stage);
+  
+private:
+  BreakId break_id;
+  BreakStateModel::Ptr break_state_model;
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
-#endif // WORKRAVE_BACKEND_ICOREHOOKS_HH
+#endif // BREAKDBUS_HH

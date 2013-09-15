@@ -156,7 +156,7 @@ private:
   ICore::Ptr core;
 
   //! Mouse/Keyboard monitoring.
-  IInputMonitor *input_monitor;
+  IInputMonitor::Ptr input_monitor;
 
   //! Last time a mouse event was received.
   std::chrono::system_clock::time_point last_mouse_time;

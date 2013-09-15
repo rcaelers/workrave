@@ -152,6 +152,9 @@ System::is_lockable()
 static bool
 invoke(const std::string &command, bool async = false)
 {
+  (void) command;
+  (void) async;
+  
 #ifdef HAVE_GLIB  
   GError *error = NULL;
 
@@ -185,6 +188,7 @@ invoke(const std::string &command, bool async = false)
 static std::string
 find_program_in_path(const char* program)
 {
+  (void) program;
 #ifdef HAVE_GLIB
   char *path = g_find_program_in_path(program);
   return path != NULL ? string(path) : "";

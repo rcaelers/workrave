@@ -161,6 +161,9 @@ TimerPreferencesPanel::create_options_panel()
       monitor_cb
         = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add_widget(*monitor_cb);
+
+      connector->connect(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY,
+                         dc::wrap(monitor_cb));
     }
 
   if (break_id == BREAK_ID_REST_BREAK)
@@ -190,10 +193,6 @@ TimerPreferencesPanel::create_options_panel()
       connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
                          dc::wrap(exercises_spin));
     }
-
-  connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
-                     dc::wrap(monitor_cb),
-                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
 
   return hig;
 }
@@ -322,40 +321,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
     }
 
   inside = false;
-
-  return true;
-}
-
-
-bool
-TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
-{
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-
-  if (write)
-    {
-      string val;
-
-      if (monitor_cb->get_active())
-        {
-          ICore::Ptr core = CoreFactory::get_core();
-          IBreak::Ptr mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
-          val = mp_break->get_name();
-        }
-
-      config->set_value(key, val);
-    }
-  else
-    {
-      string monitor_name;
-      bool ok = config->get_value(key, monitor_name);
-      if (ok && monitor_name != "")
-        {
-          bool s = monitor_cb->is_sensitive();
-          monitor_cb->set_active(monitor_name != "");
-          monitor_cb->set_sensitive(s);
-        }
-    }
 
   return true;
 }

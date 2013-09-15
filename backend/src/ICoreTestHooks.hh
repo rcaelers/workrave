@@ -31,13 +31,14 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/IConfigurator.hh"
-#include "IActivityMonitor.hh"
 
 class ICoreTestHooks
 {
 public:
   typedef boost::shared_ptr<ICoreTestHooks> Ptr;
+
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
+  virtual boost::function<bool(bool)> &hook_is_user_active() = 0;
 };
 
 #endif

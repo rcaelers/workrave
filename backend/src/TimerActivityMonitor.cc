@@ -26,13 +26,12 @@
 #include "debug.hh"
 
 TimerActivityMonitor::Ptr
-TimerActivityMonitor::create(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
+TimerActivityMonitor::create(LocalActivityMonitor::Ptr monitor, Timer::Ptr timer)
 {
   return Ptr(new TimerActivityMonitor(monitor, timer));
 }
 
-
-TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer) :
+TimerActivityMonitor::TimerActivityMonitor(LocalActivityMonitor::Ptr monitor, Timer::Ptr timer) :
   monitor(monitor),
   timer(timer),
   suspended(false),
@@ -40,23 +39,9 @@ TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer:
 {
 }
 
-
 TimerActivityMonitor::~TimerActivityMonitor()
 {
 }
-
-
-void
-TimerActivityMonitor::init()
-{
-}
-
-
-void
-TimerActivityMonitor::terminate()
-{
-}
-
 
 void
 TimerActivityMonitor::suspend()
@@ -64,24 +49,22 @@ TimerActivityMonitor::suspend()
   suspended = true;
 }
 
-
 void
 TimerActivityMonitor::resume()
 {
   suspended = false;
 }
 
-
-ActivityState
-TimerActivityMonitor::get_state()
+bool
+TimerActivityMonitor::is_active()
 {
-  TRACE_ENTER("TimerActivityMonitor::get_current_state");
+  TRACE_ENTER("TimerActivityMonitor::is_active");
   if (forced_idle)
     {
-      ActivityState local_state = monitor->get_state();
-      TRACE_MSG(local_state)
+      bool local_is_active = monitor->is_active();
+      TRACE_MSG(local_is_active)
 
-        if (local_state == ACTIVITY_ACTIVE)
+        if (local_is_active)
           {
             forced_idle = false;
           }
@@ -90,13 +73,13 @@ TimerActivityMonitor::get_state()
   if (forced_idle)
     {
       TRACE_RETURN("Idle");
-      return ACTIVITY_FORCED_IDLE;
+      return false;
     }
 
   if (suspended)
     {
       TRACE_RETURN("Suspended");
-      return ACTIVITY_FORCED_IDLE;
+      return false;
     }
 
   TimerState state = timer->get_state();
@@ -106,15 +89,14 @@ TimerActivityMonitor::get_state()
   if (state == STATE_STOPPED && idle >= reset)
     {
       TRACE_RETURN("Idle stopped");
-      return ACTIVITY_IDLE;
+      return false;
     }
   else
     {
       TRACE_RETURN("Active");
-      return ACTIVITY_ACTIVE;
+      return true;
     }
 }
-
 
 void
 TimerActivityMonitor::force_idle()
@@ -123,11 +105,4 @@ TimerActivityMonitor::force_idle()
   TRACE_MSG("Forcing idle");
   forced_idle = true;
   TRACE_EXIT();
-}
-
-
-void
-TimerActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
-{
-  (void)l;
 }

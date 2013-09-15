@@ -1,6 +1,6 @@
 // OSXInputMonitorFactory.cc -- Factory to create input monitors
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@ OSXInputMonitorFactory::init(const std::string &display)
 
 
 //! Retrieves the input activity monitor
-IInputMonitor *
-OSXInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+IInputMonitor::Ptr 
+OSXInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   (void) capability;
 
@@ -60,5 +60,5 @@ OSXInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capa
         }
     }
 
-  return monitor;
+  return IInputMonitor::Ptr(monitor);
 }

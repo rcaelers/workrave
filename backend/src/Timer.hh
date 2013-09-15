@@ -20,6 +20,8 @@
 #ifndef TIMER_HH
 #define TIMER_HH
 
+#include <boost/shared_ptr.hpp>
+
 #ifdef TIME_WITH_SYS_TIME
 # include <sys/time.h>
 # include <time.h>
@@ -32,7 +34,6 @@
 #endif
 
 #include <string>
-#include "IActivityMonitor.hh"
 
 class DayTimePred;
 
@@ -72,10 +73,10 @@ public:
   typedef boost::shared_ptr<Timer> Ptr;
 
 public:
-  static Ptr create();
+  static Ptr create(const std::string &id);
 
   // Construction/Destruction.
-  Timer();
+  Timer(const std::string &id);
   virtual ~Timer();
 
   // Control
@@ -92,7 +93,7 @@ public:
   void freeze_timer(bool f);
 
   // Timer processing.
-  TimerEvent process(ActivityState activityState);
+  TimerEvent process(bool user_is_active);
 
   // State inquiry
   int64_t get_elapsed_time() const;
@@ -120,7 +121,6 @@ public:
   int64_t get_snooze() const;
 
   // Timer ID
-  void set_id(std::string id);
   std::string get_id() const;
   
   // State serialization.
@@ -142,9 +142,6 @@ private:
 
   //! Is the timer frozen? A frozen timer only counts idle time.
   bool timer_frozen;
-
-  //! State of the state monitor.
-  ActivityState activity_state;
 
   //! State of the timer.
   TimerState timer_state;

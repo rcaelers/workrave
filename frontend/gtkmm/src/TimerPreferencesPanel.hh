@@ -56,7 +56,6 @@ public:
   ~TimerPreferencesPanel();
 
 private:
-  bool on_monitor_changed(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
   void on_exercises_changed();
 

@@ -35,10 +35,10 @@ class OSXInputMonitorFactory : public IInputMonitorFactory
 public:
   OSXInputMonitorFactory(IConfigurator::Ptr config);
   virtual void init(const std::string &display);
-  IInputMonitor *get_monitor(MonitorCapability capability);
+  IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 
 private:
-  IInputMonitor *monitor;
+  IInputMonitor::Ptr monitor;
   IConfigurator::Ptr config;
 };
 

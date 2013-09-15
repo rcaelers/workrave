@@ -40,3 +40,4 @@
 #cmakedefine PLATFORM_OS_WIN32
 
 #cmakedefine TRACING
+#cmakedefine HAVE_TESTS

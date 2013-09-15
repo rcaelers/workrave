@@ -1,5 +1,3 @@
-// Core.hh --- The main controller
-//
 // Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -37,12 +35,14 @@ public:
   virtual ~CoreHooks();
   
 #ifdef HAVE_TESTS
-  boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator();
+  virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator();
+  virtual boost::function<bool(bool)> &hook_is_user_active();
 #endif
   
 private:
 #ifdef HAVE_TESTS
   boost::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
+  boost::function<bool(bool)> is_user_active_hook;
 #endif
 };
 

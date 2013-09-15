@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -25,24 +24,21 @@
 #include "debug.hh"
 
 ReadingActivityMonitor::Ptr
-ReadingActivityMonitor::create(IActivityMonitor::Ptr monitor)
+ReadingActivityMonitor::create(LocalActivityMonitor::Ptr monitor)
 {
   return Ptr(new ReadingActivityMonitor(monitor));
 }
 
-
-ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor) :
+ReadingActivityMonitor::ReadingActivityMonitor(LocalActivityMonitor::Ptr monitor) :
   monitor(monitor),
   suspended(false),
   forced_idle(false)
 {
 }
 
-
 ReadingActivityMonitor::~ReadingActivityMonitor()
 {
 }
-
 
 void
 ReadingActivityMonitor::init()
@@ -50,19 +46,11 @@ ReadingActivityMonitor::init()
   monitor->set_listener(shared_from_this());
 }
 
-
-void
-ReadingActivityMonitor::terminate()
-{
-}
-
-
 void
 ReadingActivityMonitor::suspend()
 {
   suspended = true;
 }
-
 
 void
 ReadingActivityMonitor::resume()
@@ -70,17 +58,16 @@ ReadingActivityMonitor::resume()
   suspended = false;
 }
 
-
-ActivityState
-ReadingActivityMonitor::get_state()
+bool
+ReadingActivityMonitor::is_active()
 {
-  TRACE_ENTER("ReadingActivityMonitor::get_current_state");
+  TRACE_ENTER("ReadingActivityMonitor::is_active");
   if (forced_idle)
     {
-      ActivityState local_state = monitor->get_state();
-      TRACE_MSG(local_state)
+      bool local_is_active = monitor->is_active();
+      TRACE_MSG(local_is_active)
 
-        if (local_state == ACTIVITY_ACTIVE)
+        if (local_is_active)
           {
             forced_idle = false;
           }
@@ -89,18 +76,17 @@ ReadingActivityMonitor::get_state()
   if (forced_idle)
     {
       TRACE_RETURN("Idle");
-      return ACTIVITY_FORCED_IDLE;
+      return false;
     }
 
   if (suspended)
     {
       TRACE_RETURN("Suspended");
-      return ACTIVITY_FORCED_IDLE;
+      return false;
     }
 
-  return state == Active ? ACTIVITY_ACTIVE : ACTIVITY_IDLE;
+  return state == Active;
 }
-
 
 void
 ReadingActivityMonitor::force_idle()
@@ -110,16 +96,8 @@ ReadingActivityMonitor::force_idle()
   TRACE_EXIT();
 }
 
-
 void
-ReadingActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
-{
-  (void)l;
-}
-
-
-void
-ReadingActivityMonitor::handle_break_event(BreakId break_id, IBreak::BreakEvent event)
+ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
 {
   switch (state)
     {
@@ -127,30 +105,30 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, IBreak::BreakEvent 
       break;
 
     case Active:
-      if (event == IBreak::BREAK_EVENT_PRELUDE_STARTED)
+      if (event == BreakEvent::PreludeStarted)
         {
           state = Prelude;
         }
-      else if (event == IBreak::BREAK_EVENT_BREAK_STARTED ||
-               event == IBreak::BREAK_EVENT_BREAK_STARTED_FORCED)
+      else if (event == BreakEvent::BreakStarted ||
+               event == BreakEvent::BreakStartedForced)
         {
           state = Taking;
         }
       break;
 
     case Prelude:
-      if (event == IBreak::BREAK_EVENT_BREAK_STARTED)
+      if (event == BreakEvent::BreakStarted)
         {
           state = Taking;
         }
-      else if (event == IBreak::BREAK_EVENT_BREAK_IDLE)
+      else if (event == BreakEvent::BreakIdle)
         {
           state = Active;
         }
       break;
 
     case Taking:
-      if (event == IBreak::BREAK_EVENT_BREAK_IDLE)
+      if (event == BreakEvent::BreakIdle)
         {
           if (break_id == BREAK_ID_MICRO_BREAK)
             {
@@ -165,16 +143,9 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, IBreak::BreakEvent 
     }
 }
 
-
-//!
 bool
 ReadingActivityMonitor::action_notify()
 {
-  TRACE_ENTER("ReadingActivityMonitor::action_notify");
-
   state = Active;
-  
-  TRACE_EXIT();
   return false;   // false: kill listener.
 }
-

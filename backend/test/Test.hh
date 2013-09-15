@@ -1,6 +1,4 @@
-// IBreakSupport.hh --- The main controller interface
-//
-// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,23 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IBREAKSUPPORT_HH
-#define IBREAKSUPPORT_HH
+#ifndef TEST_HH
+#define TEST_HH
 
-#include <string>
-
-#include "CoreTypes.hh"
-#include "IActivityMonitor.hh"
-#include "Timer.hh"
-
-class IBreakSupport
-{
-public:
-  typedef boost::shared_ptr<IBreakSupport> Ptr;
-
-  virtual ~IBreakSupport() {}
-  
-  virtual IActivityMonitor::Ptr create_timer_activity_monitor(const std::string &break_name) = 0;
-};
-
-#endif // IBREAKSUPPORT_HH
+#endif // TEST_HH
