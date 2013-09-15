@@ -1,5 +1,6 @@
 set(SRC ${SRC}
   IDBus.cc
+  DBusDummy.cc
 )
 
 if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)

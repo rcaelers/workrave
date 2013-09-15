@@ -173,6 +173,9 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
 
 void DBusQt5::on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner)
 {
+  (void) name;
+  (void) oldowner;
+  (void) newowner;
 }
 
 void DBusQt5::on_service_registered(const QString &name)

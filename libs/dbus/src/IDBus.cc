@@ -32,7 +32,7 @@
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
 #include "DBusFreedesktop.hh"
 #else
-#error "DBUS not supported on platform"
+#include "DBusDummy.hh"
 #endif
 
 workrave::dbus::IDBus::Ptr
@@ -44,5 +44,7 @@ workrave::dbus::IDBus::create()
   return workrave::dbus::DBusGio::create();
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
   return workrave::dbus::DBusFreeDesktop::create();
+#else
+  return workrave::dbus::DBusDummy::create();
 #endif
 }

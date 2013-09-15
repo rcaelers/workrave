@@ -54,6 +54,9 @@ int main(int argc, char **argv)
 void
 DBusTestServerGio::run(int argc, char **argv)
 {
+  (void) argc;
+  (void) argv;
+  
 #ifdef TRACING
   Debug::name(std::string("server"));
 #endif
