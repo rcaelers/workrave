@@ -34,6 +34,8 @@
 
 #include "locale.inc"
 
+using namespace std;
+
 extern "C" int _nl_msg_cat_cntr;
 
 Locale::LanguageMap Locale::languages_native_locale;
