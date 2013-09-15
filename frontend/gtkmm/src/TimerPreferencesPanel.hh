@@ -57,7 +57,6 @@ public:
 
 private:
   bool on_monitor_changed(const std::string &key, bool write);
-  bool on_activity_sensitive_toggled(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
   void on_exercises_changed();
 
@@ -75,7 +74,6 @@ private:
 
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *skippable_cb;
-  Gtk::CheckButton *activity_sensitive_cb;
   Gtk::CheckButton *monitor_cb;
   Gtk::CheckButton *prelude_cb;
   Gtk::CheckButton *has_max_prelude_cb;

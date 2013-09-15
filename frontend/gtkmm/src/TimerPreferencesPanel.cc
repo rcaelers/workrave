@@ -153,10 +153,6 @@ TimerPreferencesPanel::create_options_panel()
                              (_("Show 'Skip' button")));
   hig->add_widget(*skippable_cb);
 
-  // Sensitive for activity
-  activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
-                                      (_("Suspend timer when inactive")));
-
   // Break specific options
   exercises_spin = NULL;
   monitor_cb = NULL;
@@ -181,9 +177,6 @@ TimerPreferencesPanel::create_options_panel()
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
                          dc::wrap(auto_natural_cb));
     }
-
-  connector->connect(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
-                     dc::wrap(activity_sensitive_cb));
 
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
                      dc::wrap(ignorable_cb));
@@ -384,7 +377,6 @@ TimerPreferencesPanel::enable_buttons()
 
   ignorable_cb->set_sensitive(on);
   skippable_cb->set_sensitive(on);
-  activity_sensitive_cb->set_sensitive(on);
 
   if (monitor_cb != NULL)
     {

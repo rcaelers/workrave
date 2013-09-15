@@ -42,7 +42,6 @@ protected:
 private:
 
   bool on_monitor_changed(const std::string &key, bool write);
-  bool on_activity_sensitive_toggled(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
   
   void on_exercises_changed();
