@@ -126,7 +126,7 @@ public:
   // State serialization.
   std::string serialize_state() const;
   bool deserialize_state(const std::string &state, int version);
-  void set_state(int elapsed, int idle, int overdue = -1);
+  //void set_state(int elapsed, int idle, int overdue = -1);
 
   int64_t get_total_overdue_time() const;
   void daily_reset_timer();

@@ -106,6 +106,7 @@ Timer::enable()
           compute_next_limit_time();
         }
 
+      compute_next_reset_time();
       compute_next_daily_reset_time();
     }
 
@@ -160,6 +161,7 @@ Timer::inhibit_snooze()
 {
   TRACE_ENTER_MSG("Timer::inhibit_snooze", timer_id);
   snooze_inhibited = true;
+  compute_next_limit_time();
   TRACE_EXIT();
 }
 
@@ -209,7 +211,7 @@ Timer::start_timer()
 void
 Timer::stop_timer()
 {
-  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state);
+  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state << " " << timer_state);
 
   if (timer_state != STATE_STOPPED)
     {
@@ -326,7 +328,9 @@ Timer::freeze_timer(bool freeze)
 TimerEvent
 Timer::process(bool user_is_active)
 {
-  int64_t current_time= TimeSource::get_monotonic_time_sec_sync();
+  TRACE_ENTER_MSG("Timer::process", user_is_active);
+  
+  int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
 
   if (timer_enabled)
@@ -373,7 +377,8 @@ Timer::process(bool user_is_active)
       bool natural = limit_enabled && limit_interval >= get_elapsed_time();
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
     }
-  
+
+  TRACE_RETURN(event);
   return event;
 }
 
@@ -645,44 +650,44 @@ Timer::deserialize_state(const std::string &state, int version)
   return true;
 }
 
-void
-Timer::set_state(int elapsed, int idle, int overdue)
-{
-  TRACE_ENTER_MSG("Timer::set_state", elapsed << " " << idle << " " << overdue);
+// void
+// Timer::set_state(int elapsed, int idle, int overdue)
+// {
+//   TRACE_ENTER_MSG("Timer::set_state", elapsed << " " << idle << " " << overdue);
 
-  elapsed_timespan = elapsed;
-  elapsed_idle_timespan = idle;
+//   elapsed_timespan = elapsed;
+//   elapsed_idle_timespan = idle;
 
-  if (last_start_time != 0)
-    {
-      last_start_time = TimeSource::get_monotonic_time_sec_sync();
-    }
+//   if (last_start_time != 0)
+//     {
+//       last_start_time = TimeSource::get_monotonic_time_sec_sync();
+//     }
 
-  if (last_stop_time != 0)
-    {
-      last_stop_time = TimeSource::get_monotonic_time_sec_sync();
-    }
+//   if (last_stop_time != 0)
+//     {
+//       last_stop_time = TimeSource::get_monotonic_time_sec_sync();
+//     }
 
-  if (elapsed_idle_timespan > autoreset_interval && autoreset_enabled)
-    {
-      elapsed_idle_timespan = autoreset_interval;
-    }
+//   if (elapsed_idle_timespan > autoreset_interval && autoreset_enabled)
+//     {
+//       elapsed_idle_timespan = autoreset_interval;
+//     }
 
-  if (overdue != -1)
-    {
-      total_overdue_timespan = overdue;
-      if (limit_enabled && get_elapsed_time() > limit_interval)
-        {
-          total_overdue_timespan -= (get_elapsed_time() - limit_interval);
-        }
-    }
+//   if (overdue != -1)
+//     {
+//       total_overdue_timespan = overdue;
+//       if (limit_enabled && get_elapsed_time() > limit_interval)
+//         {
+//           total_overdue_timespan -= (get_elapsed_time() - limit_interval);
+//         }
+//     }
 
-  compute_next_reset_time();
-  compute_next_limit_time();
-  compute_next_daily_reset_time();
+//   compute_next_reset_time();
+//   compute_next_limit_time();
+//   compute_next_daily_reset_time();
 
-  TRACE_EXIT();
-}
+//   TRACE_EXIT();
+// }
 
 
 //! Returns the total overdue time of the timer.
@@ -764,7 +769,8 @@ Timer::compute_next_reset_time()
       // next reset time = last stop time + auto reset
       next_reset_time = last_stop_time + autoreset_interval - elapsed_idle_timespan;
 
-      if (next_reset_time <= last_reset_time)
+      if (next_reset_time <= last_reset_time ||
+          next_reset_time <= last_stop_time)
         {
           // Just is sanity check, can't reset before the previous one..
           next_reset_time = 0;

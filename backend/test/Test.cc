@@ -42,6 +42,7 @@
 using namespace std;
 using namespace workrave::utils;
 using namespace workrave::config;
+using namespace workrave;
 
 class SimulatedTime : public ITimeSource, public boost::enable_shared_from_this<SimulatedTime>
 {
@@ -70,7 +71,7 @@ public:
 class Backend : public workrave::IApp
 {
 public:
-  Backend()
+  Backend() : user_active(false)
   {
     string display_name = "";
 
@@ -86,7 +87,7 @@ public:
     ICoreHooks::Ptr hooks = core->get_hooks();
     ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
     
-    //test_hooks->hook_local_activity_state() = boost::bind(&Workrave::on_local_activity_state, this);
+    test_hooks->hook_is_user_active() = boost::bind(&Backend::on_is_user_active, this, _1);
     test_hooks->hook_create_configurator() = boost::bind(&Backend::on_create_configurator, this);
     
     core->init(this, "");
@@ -110,6 +111,17 @@ public:
     BOOST_TEST_MESSAGE("destructing...done");
    }
 
+  void init()
+  {
+    sim->init();
+  }
+
+  void tick()
+  {
+    core->heartbeat();
+    sim->current_time += 1000000;
+  }
+  
   virtual void create_prelude_window(workrave::BreakId break_id)
   {
   }
@@ -150,18 +162,45 @@ public:
   {
   }
 
+  bool on_is_user_active(bool dummy)
+  {
+    return user_active;
+  }
+  
   IConfigurator::Ptr on_create_configurator()
   {
-    IConfigurator::Ptr configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+    IConfigurator::Ptr config = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
     
-    configurator->set_value("plugins/networking/user", "robc@workrave");
-    configurator->set_value("plugins/networking/secret", "HelloWorld");
+    config->set_value("timers/micro_pause/limit", 300);
+    config->set_value("timers/micro_pause/auto_reset", 20);
+    config->set_value("timers/micro_pause/reset_pred", "");
+    config->set_value("timers/micro_pause/snooze", 150);
     
-    return configurator;
+    config->set_value("timers/rest_break/limit", 1500);
+    config->set_value("timers/rest_break/auto_reset", 300);
+    config->set_value("timers/rest_break/reset_pred", "");
+    config->set_value("timers/rest_break/snooze", 180);
+    
+    config->set_value("timers/daily_limit/limit", 14400);
+    config->set_value("timers/daily_limit/auto_reset", 0);
+    config->set_value("timers/daily_limit/reset_pred", "day/4:00");
+    config->set_value("timers/daily_limit/snooze", 1200);
+    
+    config->set_value("breaks/micro_pause/max_preludes", 3);
+    config->set_value("breaks/micro_pause/enabled", true);
+    config->set_value("breaks/rest_break/max_preludes", 3);
+    config->set_value("breaks/rest_break/enabled", true);
+    config->set_value("breaks/daily_limit/max_preludes", 3);
+    config->set_value("breaks/daily_limit/enabled", true);
+    config->set_value("general/usage-mode", 0);
+    config->set_value("general/operation-mode", 0);
+
+    return config;
   }
   
   workrave::ICore::Ptr core;
   SimulatedTime::Ptr sim;
+  bool user_active;
 #ifdef HAVE_QT5
   QCoreApplication *app;
 #endif
@@ -169,9 +208,61 @@ public:
 
 BOOST_FIXTURE_TEST_SUITE(s, Backend)
 
-BOOST_AUTO_TEST_CASE(test_limit_reached)
+BOOST_AUTO_TEST_CASE(test_microbreak_elasped_time)
 {
-  sim->init();
+  init();
+
+  workrave::IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+
+  user_active = false;
+  for (int i = 0; i < 100; i++)
+    {
+      tick();
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), 20 + i);
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_time(), 0);
+    }
+
+  user_active = true;
+  for (int i = 0; i < 20; i++)
+    {
+      tick();
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), 0);
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_time(), i);
+    }
+
+  user_active = false;
+  for (int i = 0; i < 100; i++)
+    {
+      tick();
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), i);
+      BOOST_REQUIRE_EQUAL(mb->get_elapsed_time(), i < 20 ? 20 : 0);
+    }
 }
+
+// BOOST_AUTO_TEST_CASE(test_microbreak_limit_reached)
+// {
+//   init();
+
+//   workrave::IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+//   for (int i = 0; i < 100; i++)
+//     {
+//       tick();
+
+//       BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), 20);
+//       BOOST_REQUIRE_EQUAL(mb->get_elapsed_time(), 0);
+//     }
+
+//   user_active = true;
+  
+//   for (int i = 0; i < 300; i++)
+//     {
+//       tick();
+
+//       std::cout << mb->get_elapsed_idle_time() << std::endl;
+//       BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), 0);
+//       BOOST_REQUIRE_EQUAL(mb->get_elapsed_time(), i);
+//     }
+  
+// }
 
 BOOST_AUTO_TEST_SUITE_END()

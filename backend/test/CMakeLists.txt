@@ -1,5 +1,5 @@
 set(SRC ${SRC}
-  Test.cc
+  TimerTests.cc
   )
 
 add_executable(workrave-test ${SRC})

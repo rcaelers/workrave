@@ -60,10 +60,11 @@ Debug::trace_string()
   
   if (TimeSource::source)
     {
-      auto tt = std::chrono::system_clock::now().time_since_epoch();;
-      auto ms = std::chrono::duration_cast<std::chrono::microseconds>(tt).count();
+      auto tt = std::chrono::system_clock::now();
+      auto ms = std::chrono::duration_cast<std::chrono::microseconds>(tt.time_since_epoch()).count();
+
+      t = std::chrono::system_clock::to_time_t(tt);
       
-      t = (time_t) (ms / 1000000);
       tmlt = localtime(&t);
 
       strftime(logtime, 256, "%H:%M:%S", tmlt);
