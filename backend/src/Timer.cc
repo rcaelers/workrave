@@ -55,9 +55,9 @@ Timer::Timer(const std::string &id) :
   snooze_inhibited(false),
   limit_enabled(true),
   limit_interval(600),
-  autoreset_enabled(true),
-  autoreset_interval(120),
-  daily_autoreset(NULL),
+  auto_reset_enabled(true),
+  auto_reset_interval(120),
+  daily_auto_reset(NULL),
   elapsed_timespan(0),
   elapsed_timespan_at_last_limit(0),
   elapsed_idle_timespan(0),
@@ -77,7 +77,7 @@ Timer::Timer(const std::string &id) :
 //! Destructor
 Timer::~Timer()
 {
-  delete daily_autoreset;
+  delete daily_auto_reset;
 }
 
 
@@ -93,13 +93,13 @@ Timer::enable()
       snooze_inhibited = false;
       stop_timer();
 
-      if (autoreset_enabled && autoreset_interval != 0 && get_elapsed_time() == 0)
+      if (is_auto_reset_enabled() && get_elapsed_time() == 0)
         {
           // Start with idle time at maximum.
-          elapsed_idle_timespan = autoreset_interval;
+          elapsed_idle_timespan = auto_reset_interval;
         }
 
-      if (limit_enabled && get_elapsed_time() >= limit_interval)
+      if (is_limit_enabled() && get_elapsed_time() >= limit_interval)
         {
           // Break is overdue, force a snooze.
           elapsed_timespan_at_last_limit = 0;
@@ -246,7 +246,7 @@ Timer::reset_timer()
 
   // Update total overdue.
   int64_t elapsed = get_elapsed_time();
-  if (limit_enabled && elapsed > limit_interval)
+  if (is_limit_enabled() && elapsed > limit_interval)
     {
       total_overdue_timespan += (elapsed - limit_interval);
     }
@@ -274,9 +274,9 @@ Timer::reset_timer()
       next_reset_time = 0;
       next_limit_time = 0;
 
-      if (autoreset_enabled && autoreset_interval != 0)
+      if (is_auto_reset_enabled())
         {
-          elapsed_idle_timespan = autoreset_interval;
+          elapsed_idle_timespan = auto_reset_interval;
           last_stop_time = TimeSource::get_monotonic_time_sec_sync();
         }
     }
@@ -345,7 +345,7 @@ Timer::process(bool user_is_active)
         }
     }
 
-  if (daily_autoreset &&
+  if (daily_auto_reset &&
       next_daily_reset_time != 0 &&
       TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
     {
@@ -374,7 +374,7 @@ Timer::process(bool user_is_active)
       next_reset_time = 0;
       reset_timer();
 
-      bool natural = limit_enabled && limit_interval >= get_elapsed_time();
+      bool natural = is_limit_enabled() && limit_interval >= get_elapsed_time();
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
     }
 
@@ -413,11 +413,11 @@ Timer::get_elapsed_idle_time() const
 }
 
 
-//! Returns the timer state.
-TimerState
-Timer::get_state() const
+//! 
+bool
+Timer::is_running() const
 {
-  return timer_state;
+  return timer_state == STATE_RUNNING;
 }
 
 
@@ -433,13 +433,13 @@ Timer::is_enabled() const
 void
 Timer::set_auto_reset(int reset_time)
 {
-  if (reset_time > autoreset_interval)
+  if (reset_time > auto_reset_interval)
     {
       // increasing reset_time, re-enable limit-reached snoozing.
       snooze_inhibited = false;
     }
 
-  autoreset_interval = reset_time;
+  auto_reset_interval = reset_time;
   compute_next_reset_time();
 }
 
@@ -448,8 +448,8 @@ Timer::set_auto_reset(int reset_time)
 void
 Timer::set_daily_reset(DayTimePred *predicate)
 {
-  delete daily_autoreset;
-  daily_autoreset = predicate;
+  delete daily_auto_reset;
+  daily_auto_reset = predicate;
   compute_next_daily_reset_time();
 }
 
@@ -459,7 +459,7 @@ Timer::set_daily_reset(DayTimePred *predicate)
 void
 Timer::set_auto_reset_enabled(bool b)
 {
-  autoreset_enabled = b;
+  auto_reset_enabled = b;
   compute_next_reset_time();
 }
 
@@ -469,7 +469,7 @@ Timer::set_auto_reset_enabled(bool b)
 bool
 Timer::is_auto_reset_enabled() const
 {
-  return autoreset_enabled;
+  return auto_reset_enabled && auto_reset_interval > 0;
 }
 
 
@@ -477,7 +477,7 @@ Timer::is_auto_reset_enabled() const
 int64_t
 Timer::get_auto_reset() const
 {
-  return autoreset_interval;
+  return auto_reset_interval;
 }
 
 
@@ -520,7 +520,7 @@ Timer::set_limit_enabled(bool b)
 bool
 Timer::is_limit_enabled() const
 {
-  return limit_enabled;
+  return limit_enabled && limit_interval > 0;
 }
 
 
@@ -624,23 +624,22 @@ Timer::deserialize_state(const std::string &state, int version)
   last_start_time = 0;
   last_stop_time = 0;
 
-  bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (TimeSource::get_real_time_sec_sync() - save_time >  autoreset_interval));
+  bool tooOld = (is_auto_reset_enabled() && (TimeSource::get_real_time_sec_sync() - save_time >  auto_reset_interval));
 
   if (! tooOld)
     {
-      if (autoreset_enabled)
+      if (is_auto_reset_enabled())
         {
-          next_reset_time = TimeSource::get_monotonic_time_sec_sync() + autoreset_interval;
+          next_reset_time = TimeSource::get_monotonic_time_sec_sync() + auto_reset_interval;
         }
       elapsed_timespan = elapsed;
       snooze_inhibited = si;
     }
 
   // overdue, so snooze
-  if (limit_enabled && get_elapsed_time() >= limit_interval)
+  if (is_limit_enabled() && get_elapsed_time() >= limit_interval)
     {
       elapsed_timespan_at_last_limit = lle;
-
       compute_next_limit_time();
     }
 
@@ -668,15 +667,15 @@ Timer::deserialize_state(const std::string &state, int version)
 //       last_stop_time = TimeSource::get_monotonic_time_sec_sync();
 //     }
 
-//   if (elapsed_idle_timespan > autoreset_interval && autoreset_enabled)
+//   if (elapsed_idle_timespan > auto_reset_interval && is_auto_reset_enabled())
 //     {
-//       elapsed_idle_timespan = autoreset_interval;
+//       elapsed_idle_timespan = auto_reset_interval;
 //     }
 
 //   if (overdue != -1)
 //     {
 //       total_overdue_timespan = overdue;
-//       if (limit_enabled && get_elapsed_time() > limit_interval)
+//       if (is_limit_enabled() && get_elapsed_time() > limit_interval)
 //         {
 //           total_overdue_timespan -= (get_elapsed_time() - limit_interval);
 //         }
@@ -697,7 +696,7 @@ Timer::get_total_overdue_time() const
   int64_t ret = total_overdue_timespan;
   int64_t elapsed = get_elapsed_time();
 
-  if (limit_enabled && elapsed > limit_interval)
+  if (is_limit_enabled() && elapsed > limit_interval)
     {
       ret += (elapsed - limit_interval);
     }
@@ -724,8 +723,7 @@ Timer::compute_next_limit_time()
 
   if (timer_enabled)
     {
-      if (timer_state == STATE_RUNNING && last_start_time > 0 &&
-          limit_enabled && limit_interval != 0)
+      if (timer_state == STATE_RUNNING && last_start_time > 0 && is_limit_enabled())
         {
           // The timer is running and a limit != 0 is set.
 
@@ -762,12 +760,12 @@ Timer::compute_next_reset_time()
 
   if (timer_enabled && timer_state == STATE_STOPPED &&
       last_stop_time != 0 &&
-      autoreset_enabled && autoreset_interval != 0)
+      is_auto_reset_enabled())
     {
       // We are enabled, not running and a reset time != 0 was set.
 
       // next reset time = last stop time + auto reset
-      next_reset_time = last_stop_time + autoreset_interval - elapsed_idle_timespan;
+      next_reset_time = last_stop_time + auto_reset_interval - elapsed_idle_timespan;
 
       if (next_reset_time <= last_reset_time ||
           next_reset_time <= last_stop_time)
@@ -784,7 +782,7 @@ Timer::compute_next_daily_reset_time()
 {
   // This one ALWAYS sends a reset, also when the timer is disabled.
 
-  if (daily_autoreset)
+  if (daily_auto_reset)
     {
       if (last_daily_reset_time == 0)
         {
@@ -793,6 +791,6 @@ Timer::compute_next_daily_reset_time()
           last_daily_reset_time = TimeSource::get_real_time_sec_sync();
         }
 
-      next_daily_reset_time = daily_autoreset->get_next(last_daily_reset_time);
+      next_daily_reset_time = daily_auto_reset->get_next(last_daily_reset_time);
     }
 }

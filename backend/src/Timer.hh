@@ -98,13 +98,13 @@ public:
   // State inquiry
   int64_t get_elapsed_time() const;
   int64_t get_elapsed_idle_time() const;
-  TimerState get_state() const;
+  bool is_running() const;
   bool is_enabled() const;
 
   // Auto-resetting.
   void set_auto_reset(int t);
-  void set_daily_reset(DayTimePred *daily_reset);
   void set_auto_reset_enabled(bool b);
+  void set_daily_reset(DayTimePred *daily_reset);
   bool is_auto_reset_enabled() const;
   int64_t get_auto_reset() const;
   int64_t get_next_reset_time() const; 
@@ -159,13 +159,13 @@ private:
   int64_t limit_interval;
 
   //! Is the timer auto reset enabled?
-  bool autoreset_enabled;
+  bool auto_reset_enabled;
 
   //! Automatic reset time interval.
-  int64_t autoreset_interval;
+  int64_t auto_reset_interval;
 
   //! Daily auto reset checker (NULL if not used)
-  DayTimePred *daily_autoreset;
+  DayTimePred *daily_auto_reset;
 
   //! Elapsed time.
   int64_t elapsed_timespan;

@@ -79,7 +79,7 @@ Break::is_enabled() const
 bool
 Break::is_running() const
 {
-  return timer->get_state() == STATE_RUNNING;
+  return timer->is_running();
 }
 
 bool
