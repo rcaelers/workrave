@@ -22,7 +22,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "Break.hh"
-#include "LocalActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 #include "Timer.hh"
 
 using namespace workrave;
@@ -35,9 +35,9 @@ public:
   typedef boost::shared_ptr<ReadingActivityMonitor> Ptr;
 
 public:
-  static Ptr create(LocalActivityMonitor::Ptr monitor);
+  static Ptr create(ActivityMonitor::Ptr monitor);
 
-  ReadingActivityMonitor(LocalActivityMonitor::Ptr monitor);
+  ReadingActivityMonitor(ActivityMonitor::Ptr monitor);
   virtual ~ReadingActivityMonitor();
 
   void handle_break_event(BreakId break_id, BreakEvent event);
@@ -54,7 +54,7 @@ private:
 private:
   enum State { Idle, Active, Prelude, Taking };
     
-  LocalActivityMonitor::Ptr monitor;
+  ActivityMonitor::Ptr monitor;
   bool suspended;
   bool forced_idle;
   State state;

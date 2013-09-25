@@ -45,7 +45,7 @@ public:
   typedef boost::shared_ptr<BreaksControl> Ptr;
 
   static Ptr create(IApp *app,
-                    LocalActivityMonitor::Ptr activity_monitor,
+                    ActivityMonitor::Ptr activity_monitor,
                     CoreModes::Ptr modes,
                     Statistics::Ptr statistics,
                     workrave::config::IConfigurator::Ptr configurator,
@@ -53,7 +53,7 @@ public:
                     CoreHooks::Ptr hooks);
   
   BreaksControl(IApp *app,
-                LocalActivityMonitor::Ptr activity_monitor,
+                ActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
                 workrave::config::IConfigurator::Ptr configurator,
@@ -87,7 +87,7 @@ private:
 private:
   IApp *application;
 
-  LocalActivityMonitor::Ptr activity_monitor;
+  ActivityMonitor::Ptr activity_monitor;
   ReadingActivityMonitor::Ptr reading_activity_monitor;
   TimerActivityMonitor::Ptr microbreak_activity_monitor;
 

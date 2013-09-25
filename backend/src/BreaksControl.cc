@@ -42,7 +42,7 @@ using namespace workrave::dbus;
 
 BreaksControl::Ptr
 BreaksControl::create(IApp *app,
-                      LocalActivityMonitor::Ptr activity_monitor,
+                      ActivityMonitor::Ptr activity_monitor,
                       CoreModes::Ptr modes,
                       Statistics::Ptr statistics,
                       IConfigurator::Ptr configurator,
@@ -60,7 +60,7 @@ BreaksControl::create(IApp *app,
 
 
 BreaksControl::BreaksControl(IApp *app,
-                             LocalActivityMonitor::Ptr activity_monitor,
+                             ActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
                              IConfigurator::Ptr configurator,
@@ -96,7 +96,7 @@ BreaksControl::init()
       timers[break_id] = Timer::create(break_name);
       timers[break_id]->enable();
 
-      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, configurator, dbus);
+      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, configurator, dbus, hooks);
       breaks[break_id]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
   
@@ -203,7 +203,8 @@ BreaksControl::process_timers()
         }
 #endif
     }
-  
+
+  // TODO:
   // if (event == TIMER_EVENT_RESET)
   //   {
   //     break_event_signal(BreakEvent::BreakReset);
@@ -212,7 +213,8 @@ BreaksControl::process_timers()
   //   {
   //     break_event_signal(BreakEvent::BreakNaturalReset);
   //   }  
-
+  // timer->daily_reset_timer
+  
   for (BreakId break_id = BREAK_ID_DAILY_LIMIT; break_id > BREAK_ID_NONE; break_id--)
     {
       bool user_is_active_for_break = user_is_active;
@@ -489,22 +491,33 @@ BreaksControl::load_state()
   ss << Util::get_home_directory();
   ss << "state" << ends;
 
-  ifstream stateFile(ss.str().c_str());
-
+  
+    
+#ifdef HAVE_TESTS
+  if (!hooks->hook_load_timer_state().empty())
+    {
+      if (hooks->hook_load_timer_state()(timers))
+        {
+          return;
+        }
+    }
+#endif
+  ifstream state_file(ss.str().c_str());
+  
   int version = 0;
-  bool ok = stateFile.good();
+  bool ok = state_file.good();
 
   if (ok)
     {
       string tag;
-      stateFile >> tag;
+      state_file >> tag;
 
       ok = (tag == WORKRAVESTATE);
     }
 
   if (ok)
     {
-      stateFile >> version;
+      state_file >> version;
 
       ok = (version >= 1 && version <= 3);
     }
@@ -512,20 +525,20 @@ BreaksControl::load_state()
   if (ok)
     {
       int64_t saveTime;
-      stateFile >> saveTime;
+      state_file >> saveTime;
     }
 
-  while (ok && !stateFile.eof())
+  while (ok && !state_file.eof())
     {
       string id;
-      stateFile >> id;
+      state_file >> id;
 
       for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
         {
           if (timers[break_id]->get_id() == id)
             {
               string state;
-              getline(stateFile, state);
+              getline(state_file, state);
 
               timers[break_id]->deserialize_state(state, version);
               break;

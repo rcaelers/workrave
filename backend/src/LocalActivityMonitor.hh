@@ -23,6 +23,8 @@
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 
+#include "ActivityMonitor.hh"
+
 #include "config/Config.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
@@ -30,37 +32,24 @@
 using namespace workrave::config;
 using namespace workrave::input_monitor;
 
-class IActivityMonitorListener
-{
-public:
-  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
-
-  virtual ~IActivityMonitorListener() {}
-
-  // Notification that the user is currently active.
-  virtual bool action_notify() = 0;
-};
-
 class LocalActivityMonitor :
+  public ActivityMonitor,
   public IInputMonitorListener,
   public IConfiguratorListener
 {
-public:
-  typedef boost::shared_ptr<LocalActivityMonitor> Ptr;
-
 public:
   static Ptr create(IConfigurator::Ptr configurator, const std::string &display_name);
   
   LocalActivityMonitor(IConfigurator::Ptr configurator, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
-  void init();
-  void terminate();
-  void suspend();
-  void resume();
-  void force_idle();
-  bool is_active();
-  void set_listener(IActivityMonitorListener::Ptr l);
+  virtual void init();
+  virtual void terminate();
+  virtual void suspend();
+  virtual void resume();
+  virtual void force_idle();
+  virtual bool is_active();
+  virtual void set_listener(IActivityMonitorListener::Ptr l);
 
   // IInputMonitorListener
   virtual void action_notify();

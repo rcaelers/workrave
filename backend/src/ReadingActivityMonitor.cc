@@ -24,12 +24,12 @@
 #include "debug.hh"
 
 ReadingActivityMonitor::Ptr
-ReadingActivityMonitor::create(LocalActivityMonitor::Ptr monitor)
+ReadingActivityMonitor::create(ActivityMonitor::Ptr monitor)
 {
   return Ptr(new ReadingActivityMonitor(monitor));
 }
 
-ReadingActivityMonitor::ReadingActivityMonitor(LocalActivityMonitor::Ptr monitor) :
+ReadingActivityMonitor::ReadingActivityMonitor(ActivityMonitor::Ptr monitor) :
   monitor(monitor),
   suspended(false),
   forced_idle(false)

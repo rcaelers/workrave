@@ -26,7 +26,7 @@
 #include "IBreak.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
-#include "LocalActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 
 #include "BreakStateModel.hh"
 #include "BreakStatistics.hh"
@@ -44,18 +44,20 @@ public:
   static Ptr create(BreakId id,
                     IApp *app,
                     Timer::Ptr timer,
-                    LocalActivityMonitor::Ptr activity_monitor,
+                    ActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
                     workrave::config::IConfigurator::Ptr configurator,
-                    workrave::dbus::IDBus::Ptr dbus);
+                    workrave::dbus::IDBus::Ptr dbus,
+                    CoreHooks::Ptr hooks);
   
   Break(BreakId id,
         IApp *app,
         Timer::Ptr timer,
-        LocalActivityMonitor::Ptr activity_monitor,
+        ActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
         workrave::config::IConfigurator::Ptr configurator,
-        workrave::dbus::IDBus::Ptr dbus);
+        workrave::dbus::IDBus::Ptr dbus,
+        CoreHooks::Ptr hooks);
   virtual ~Break();
 
   // IBreak

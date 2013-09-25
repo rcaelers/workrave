@@ -52,10 +52,22 @@ CoreHooks::hook_create_configurator()
   return create_configurator_hook;
 }
 
+boost::function<ActivityMonitor::Ptr()> &
+CoreHooks::hook_create_monitor()
+{
+  return create_monitor_hook;
+}
+
 boost::function<bool(bool)> &
 CoreHooks::hook_is_user_active()
 {
   return is_user_active_hook;
+}
+
+boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &
+CoreHooks::hook_load_timer_state()
+{
+  return load_timer_state_hook;
 }
 
 #endif

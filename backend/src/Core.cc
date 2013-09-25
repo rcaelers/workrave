@@ -95,7 +95,17 @@ Core::init(IApp *app, const string &display_name)
   statistics = Statistics::create(shared_from_this());
   statistics->init();
 
-  monitor = LocalActivityMonitor::create(configurator, display_name);
+#ifdef HAVE_TESTS
+  if (!hooks->hook_create_monitor().empty())
+    {
+      monitor = hooks->hook_create_monitor()();
+    }
+  else
+#endif
+    {
+      monitor = LocalActivityMonitor::create(configurator, display_name);
+    }
+  
   monitor->init();
 
   core_modes = CoreModes::create(monitor, configurator);

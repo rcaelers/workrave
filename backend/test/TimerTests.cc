@@ -20,7 +20,8 @@
 #endif
 
 #define BOOST_TEST_MODULE workrave
-#include <boost/test/included/unit_test.hpp>
+#include <boost/test/unit_test.hpp>
+
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/lexical_cast.hpp>
@@ -29,41 +30,18 @@
 #include "utils/TimeSource.hh"
 
 #include "Timer.hh"
+#include "SimulatedTime.hh"
 
 using namespace std;
 using namespace workrave::utils;
 using namespace workrave;
-
-class SimulatedTime : public ITimeSource, public boost::enable_shared_from_this<SimulatedTime>
-{
-public:
-  typedef boost::shared_ptr<SimulatedTime> Ptr;
-  
-  void init()
-  {
-    current_time = TimeSource::get_monotonic_time_usec(); 
-    TimeSource::source = shared_from_this();
-  }
-  
-  virtual int64_t get_real_time_usec()
-  {
-    return current_time;
-  }
-  
-  virtual int64_t get_monotonic_time_usec()
-  {
-    return current_time;
-  }
-
-  int64_t current_time;
-};
 
 class Fixture
 {
 public:
   Fixture() 
   {
-    sim = SimulatedTime::Ptr(new SimulatedTime);
+    sim = SimulatedTime::create();
     timer = Timer::create("test");
   }
   
@@ -73,7 +51,7 @@ public:
 
   void init()
   {
-    sim->init();
+    sim->reset();
     TimeSource::sync();
 
     timer->set_limit(100);
@@ -135,7 +113,7 @@ public:
   Timer::Ptr timer;
 };
 
-BOOST_FIXTURE_TEST_SUITE(s, Fixture)
+BOOST_FIXTURE_TEST_SUITE(timer, Fixture)
 
 BOOST_AUTO_TEST_CASE(test_timer_get_id)
 {

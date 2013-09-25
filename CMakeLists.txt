@@ -76,7 +76,8 @@ if (CXX11_FLAGS)
   CHECK_CXX_COMPILER_FLAG("${CXX11_FLAGS} -stdlib=libc++" HAS_LIBCXX11)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O2")
 
 if(COMPILER_SUPPORTS_C99) 
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
@@ -97,8 +98,17 @@ if (WITH_TESTS)
   #  set (HAVE_DBUS_TEST_GIO ON)
   #endif()
 
+  find_package(Boost 1.52.0 REQUIRED COMPONENTS test_exec_monitor)
+  
   set (HAVE_TESTS ON)
 endif()
+
+option(WITH_COVERAGE "Enable coverage" OFF)
+
+if (WITH_COVERAGE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fno-inline -ftest-coverage -fprofile-arcs")
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # GTK
 
@@ -285,7 +295,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Misc
 
-find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono)
+find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)
 
 #----------------------------------------------------------------------------------------------------
 # Translations

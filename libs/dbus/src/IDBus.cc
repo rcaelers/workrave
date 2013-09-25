@@ -25,7 +25,9 @@
 #endif
 
 
-#if defined(HAVE_DBUS_QT5)
+#if defined(HAVE_DBUS_DUMMY)
+#include "DBusDummy.hh"
+#elif defined(HAVE_DBUS_QT5)
 #include "DBusQt5.hh"
 #elif defined(HAVE_DBUS_GIO)
 #include "DBusGio.hh"
@@ -38,7 +40,9 @@
 workrave::dbus::IDBus::Ptr
 workrave::dbus::IDBus::create()
 {
-#if defined(HAVE_DBUS_QT5)
+#if defined(HAVE_DBUS_DUMMY)
+  return workrave::dbus::DBusDummy::create();
+#elif defined(HAVE_DBUS_QT5)
   return workrave::dbus::DBusQt5::create();
 #elif defined(HAVE_DBUS_GIO)
   return workrave::dbus::DBusGio::create();

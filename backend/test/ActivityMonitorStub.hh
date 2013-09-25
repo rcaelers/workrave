@@ -1,4 +1,4 @@
-// TimerActivityMonitor.hh
+// ActivityMonitorStub.hh --- ActivityMonitorStub functionality
 //
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,35 +17,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERACTIVITYMONITOR_HH
-#define TIMERACTIVITYMONITOR_HH
-
-#include <boost/shared_ptr.hpp>
+#ifndef ACTIVITYMONITORSTUB_HH
+#define ACTIVITYMONITORSTUB_HH
 
 #include "ActivityMonitor.hh"
-#include "Timer.hh"
 
-class TimerActivityMonitor
+class ActivityMonitorStub : public ActivityMonitor
 {
 public:
-  typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
+  typedef boost::shared_ptr<ActivityMonitorStub> Ptr;
 
 public:
-  static Ptr create(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
+  static Ptr create();
+  
+  ActivityMonitorStub();
+  virtual ~ActivityMonitorStub();
 
-  TimerActivityMonitor(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
-  virtual ~TimerActivityMonitor();
-
-  void suspend();
-  void resume();
-  bool is_active();
-  void force_idle();
+  void set_active(bool active);
+  
+  virtual void suspend();
+  virtual void resume();
+  virtual void force_idle();
+  virtual bool is_active();
 
 private:
-  ActivityMonitor::Ptr monitor;
-  Timer::Ptr timer;
+  bool active;
   bool suspended;
   bool forced_idle;
 };
 
-#endif // TIMERACTIVITYMONITOR_HH
+#endif // LOCALACTIVITYMONITOR_HH

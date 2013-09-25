@@ -24,7 +24,7 @@
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 
-#include "LocalActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 
 #include "CoreTypes.hh"
 #include <string>
@@ -37,9 +37,9 @@ class CoreModes:  public IConfiguratorListener
 public:
   typedef boost::shared_ptr<CoreModes> Ptr;
 
-  static CoreModes::Ptr create(LocalActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
+  static CoreModes::Ptr create(ActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
   
-  CoreModes(LocalActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
+  CoreModes(ActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
   virtual ~CoreModes();
   
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
@@ -75,7 +75,7 @@ private:
   UsageMode usage_mode;
 
   //!
-  LocalActivityMonitor::Ptr monitor;
+  ActivityMonitor::Ptr monitor;
   
   //!
   workrave::config::IConfigurator::Ptr config;

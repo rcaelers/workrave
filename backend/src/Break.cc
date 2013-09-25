@@ -30,25 +30,27 @@ Break::Ptr
 Break::create(BreakId break_id,
               IApp *app,
               Timer::Ptr timer,
-              LocalActivityMonitor::Ptr activity_monitor,
+              ActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
               IConfigurator::Ptr configurator,
-              IDBus::Ptr dbus)
+              IDBus::Ptr dbus,
+              CoreHooks::Ptr hooks)
 {
-  return Ptr(new Break(break_id, app, timer, activity_monitor, statistics, configurator, dbus));
+  return Ptr(new Break(break_id, app, timer, activity_monitor, statistics, configurator, dbus, hooks));
 }
 
 Break::Break(BreakId break_id,
              IApp *app,
              Timer::Ptr timer,
-             LocalActivityMonitor::Ptr activity_monitor,
+             ActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
              IConfigurator::Ptr configurator,
-             IDBus::Ptr dbus)
+             IDBus::Ptr dbus,
+             CoreHooks::Ptr hooks)
   : break_id(break_id),
     timer(timer)
 {
-  break_state_model = BreakStateModel::create(break_id, app, timer, activity_monitor, configurator);
+  break_state_model = BreakStateModel::create(break_id, app, timer, activity_monitor, configurator, hooks);
   break_statistics = BreakStatistics::create(break_id, break_state_model, timer, statistics);
   break_configuration = BreakConfig::create(break_id, break_state_model, timer, configurator);
   break_dbus = BreakDBus::create(break_id, break_state_model, dbus);

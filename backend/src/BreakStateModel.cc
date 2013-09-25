@@ -28,7 +28,7 @@
 
 #include "IBreak.hh"
 #include "IApp.hh"
-#include "LocalActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 #include "Timer.hh"
 #include "CoreConfig.hh"
 
@@ -39,10 +39,11 @@ BreakStateModel::Ptr
 BreakStateModel::create(BreakId id,
                         IApp *app,
                         Timer::Ptr timer,
-                        LocalActivityMonitor::Ptr activity_monitor,
-                        IConfigurator::Ptr configurator)
+                        ActivityMonitor::Ptr activity_monitor,
+                        IConfigurator::Ptr configurator,
+                        CoreHooks::Ptr hooks)
 {
-  return Ptr(new BreakStateModel(id, app, timer, activity_monitor, configurator));
+  return Ptr(new BreakStateModel(id, app, timer, activity_monitor, configurator, hooks));
 }
 
 
@@ -50,13 +51,15 @@ BreakStateModel::create(BreakId id,
 BreakStateModel::BreakStateModel(BreakId id,
                                  IApp *app,
                                  Timer::Ptr timer,
-                                 LocalActivityMonitor::Ptr activity_monitor,
-                                 IConfigurator::Ptr configurator) :
+                                 ActivityMonitor::Ptr activity_monitor,
+                                 IConfigurator::Ptr configurator,
+                                 CoreHooks::Ptr hooks) :
   break_id(id),
   application(app),
   timer(timer),
   activity_monitor(activity_monitor),
   configurator(configurator),
+  hooks(hooks),
   break_stage(BreakStage::None),
   prelude_time(0),
   prelude_count(0),
@@ -84,9 +87,16 @@ BreakStateModel::process()
 
   prelude_time++;
 
-  bool user_is_idle = !activity_monitor->is_active();
+  bool user_is_active = activity_monitor->is_active();
+#ifdef HAVE_TESTS
+  if (!hooks->hook_is_user_active().empty())
+    {
+      user_is_active = hooks->hook_is_user_active()(user_is_active);
+    }
+#endif
 
   TRACE_MSG("stage = " << static_cast<std::underlying_type<BreakStage>::type>(break_stage));
+  TRACE_MSG("active = " << user_is_active);
   switch (break_stage)
     {
     case BreakStage::None:
@@ -97,12 +107,12 @@ BreakStateModel::process()
 
     case BreakStage::Delayed:
       {
-        if (delayed_abort)
+        if (prelude_time > 35 || delayed_abort)
           {
             // User become active during delayed break.
             goto_stage(BreakStage::Snoozed);
           }
-        else if (user_is_idle)
+        else if (!user_is_active)
           {
             // User is idle.
             goto_stage(BreakStage::Taking);
@@ -115,7 +125,7 @@ BreakStateModel::process()
         prelude_window_update();
         application->refresh_break_window();
 
-        if (user_is_idle)
+        if (!user_is_active)
           {
             // User is idle.
             if (prelude_time >= 10)
@@ -124,7 +134,7 @@ BreakStateModel::process()
                 goto_stage(BreakStage::Taking);
               }
           }
-        else if (prelude_time == 30)
+        else if (prelude_time >= 30)
           {
             // User is not idle and the prelude is visible for 30s.
             if (has_reached_max_preludes())

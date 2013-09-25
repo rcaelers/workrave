@@ -25,9 +25,10 @@
 #include "config/IConfigurator.hh"
 
 #include "IBreak.hh"
-#include "LocalActivityMonitor.hh"
+#include "ActivityMonitor.hh"
 #include "Timer.hh"
 #include "CoreTypes.hh"
+#include "CoreHooks.hh"
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -56,14 +57,16 @@ public:
   static Ptr create(BreakId id,
                     IApp *app,
                     Timer::Ptr timer,
-                    LocalActivityMonitor::Ptr activity_monitor,
-                    workrave::config::IConfigurator::Ptr configurator);
+                    ActivityMonitor::Ptr activity_monitor,
+                    workrave::config::IConfigurator::Ptr configurator,
+                    CoreHooks::Ptr hooks);
 
   BreakStateModel(BreakId id,
                   IApp *app,
                   Timer::Ptr timer,
-                  LocalActivityMonitor::Ptr activity_monitor,
-                  workrave::config::IConfigurator::Ptr configurator);
+                  ActivityMonitor::Ptr activity_monitor,
+                  workrave::config::IConfigurator::Ptr configurator,
+                  CoreHooks::Ptr hooks);
   virtual ~BreakStateModel();
 
   void process();
@@ -112,10 +115,12 @@ private:
   Timer::Ptr timer;
 
   //!
-  LocalActivityMonitor::Ptr activity_monitor;
+  ActivityMonitor::Ptr activity_monitor;
   
   //! The Configurator
   workrave::config::IConfigurator::Ptr configurator;
+
+  CoreHooks::Ptr hooks;
 
   //! Current stage in the break.
   BreakStage break_stage;

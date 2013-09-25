@@ -1,6 +1,5 @@
-// TimerActivityMonitor.hh
 //
-// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERACTIVITYMONITOR_HH
-#define TIMERACTIVITYMONITOR_HH
-
-#include <boost/shared_ptr.hpp>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include "ActivityMonitor.hh"
-#include "Timer.hh"
 
-class TimerActivityMonitor
+#include "utils/TimeSource.hh"
+
+#include "debug.hh"
+
+using namespace std;
+using namespace workrave::utils;
+
+ActivityMonitor::ActivityMonitor()
 {
-public:
-  typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
+}
 
-public:
-  static Ptr create(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
+ActivityMonitor::~ActivityMonitor()
+{
+}
 
-  TimerActivityMonitor(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
-  virtual ~TimerActivityMonitor();
+void
+ActivityMonitor::init()
+{
+}
 
-  void suspend();
-  void resume();
-  bool is_active();
-  void force_idle();
+void
+ActivityMonitor::terminate()
+{
+}
 
-private:
-  ActivityMonitor::Ptr monitor;
-  Timer::Ptr timer;
-  bool suspended;
-  bool forced_idle;
-};
+void
+ActivityMonitor::suspend()
+{
+}
 
-#endif // TIMERACTIVITYMONITOR_HH
+void
+ActivityMonitor::resume()
+{
+}
+
+void
+ActivityMonitor::force_idle()
+{
+}
+
+bool
+ActivityMonitor::is_active()
+{
+  return false;
+}
+
+void
+ActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
+{
+}
