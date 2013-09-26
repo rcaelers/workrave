@@ -416,6 +416,7 @@ BreakStateModel::break_window_start()
   application->create_break_window(break_id, break_hint);
   break_window_update();
   application->show_break_window();
+  application->refresh_break_window();
 
   // Report state change.
   break_event_signal(forced_break

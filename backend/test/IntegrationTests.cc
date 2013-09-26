@@ -190,7 +190,7 @@ public:
         catch (...)
           {
             BOOST_TEST_MESSAGE(string ("error at:") + boost::lexical_cast<string>(i)); 
-            std::cout << "error at:" << i << std::endl;
+            std::cout << "error at : " << (sim->current_time / 1000000) << " " << i << std::endl;
             throw;
           }
       }
@@ -405,7 +405,7 @@ public:
   
   IConfigurator::Ptr on_create_configurator()
   {
-    IConfigurator::Ptr config = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+    config = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
     
     config->set_value("timers/micro_pause/limit", 300);
     config->set_value("timers/micro_pause/auto_reset", 20);
@@ -441,6 +441,7 @@ public:
   
   ofstream out;
   workrave::ICore::Ptr core;
+  IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
   bool user_active;
@@ -557,6 +558,167 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   core->set_usage_mode(workrave::USAGE_MODE_READING);
   core->set_usage_mode(workrave::USAGE_MODE_READING);
 
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_reading_mode)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::USAGE_MODE_READING);
+
+  monitor->notify();
+  tick(true, 2);
+  
+  tick(false, 2300);
+
+  int64_t t = 300;
+  for (int i = 0; i < 4; i++)
+    {
+      expect(t,      "prelude", "break_id=micro_pause");
+      expect(t,      "show");
+      expect(t,      "break_event", "break_id=micro_pause event=0");
+      expect(t + 9,  "hide");
+      expect(t + 9,  "break" , "break_id=micro_pause break_hint=0");
+      expect(t + 9,  "show");
+      expect(t + 9,  "break_event", "break_id=micro_pause event=3");
+      expect(t + 20, "hide");
+      expect(t + 20, "break_event", "break_id=micro_pause event=7");
+      expect(t + 20, "break_event", "break_id=micro_pause event=10");
+
+      t += 321;
+    }
+
+  t = 1584;
+  expect(t,      "prelude", "break_id=rest_break");
+  expect(t,      "show");
+  expect(t,      "break_event", "break_id=rest_break event=0");
+  expect(t + 9,  "hide");
+  expect(t + 9,  "break" , "break_id=rest_break break_hint=0");
+  expect(t + 9,  "show");
+  expect(t + 9,  "break_event", "break_id=rest_break event=3");
+  expect(t + 300, "hide");
+  expect(t + 300, "break_event", "break_id=rest_break event=7");
+  expect(t + 300, "break_event", "break_id=rest_break event=10");
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::USAGE_MODE_READING);
+
+  monitor->notify();
+
+  int64_t t = 300;
+  for (int i = 0; i < 4; i++)
+    {
+      expect(t,      "prelude", "break_id=micro_pause");
+      expect(t,      "show");
+      expect(t,      "break_event", "break_id=micro_pause event=0");
+      expect(t + 15, "hide");
+      expect(t + 15, "break" , "break_id=micro_pause break_hint=0");
+      expect(t + 15, "show");
+      expect(t + 15, "break_event", "break_id=micro_pause event=3");
+      expect(t + 35, "hide");
+      expect(t + 35, "break_event", "break_id=micro_pause event=7");
+      expect(t + 35, "break_event", "break_id=micro_pause event=10");
+
+      tick(false, 300);
+      tick(false, 5);
+      tick(true, 10);
+      tick(false, 21);
+      
+      t += 336;
+    }
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::USAGE_MODE_READING);
+
+  monitor->notify();
+
+  int64_t t = 300;
+  for (int i = 0; i < 4; i++)
+    {
+      expect(t,      "prelude", "break_id=micro_pause");
+      expect(t,      "show");
+      expect(t,      "break_event", "break_id=micro_pause event=0");
+      expect(t + 9, "hide");
+      expect(t + 9, "break" , "break_id=micro_pause break_hint=0");
+      expect(t + 9, "show");
+      expect(t + 9, "break_event", "break_id=micro_pause event=3");
+      expect(t + 20, "hide");
+      expect(t + 20, "break_event", "break_id=micro_pause event=7");
+      expect(t + 20, "break_event", "break_id=micro_pause event=10");
+
+      tick(false, 100);
+      tick(true, 50);
+      tick(false, 50);
+      tick(true, 90);
+      tick(false, 31);
+      
+      t += 321;
+    }
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::USAGE_MODE_READING);
+
+  monitor->notify();
+  tick(true, 2);
+  
+  tick(false, 1584);
+
+  int64_t t = 300;
+  for (int i = 0; i < 4; i++)
+    {
+      expect(t,      "prelude", "break_id=micro_pause");
+      expect(t,      "show");
+      expect(t,      "break_event", "break_id=micro_pause event=0");
+      expect(t + 9,  "hide");
+      expect(t + 9,  "break" , "break_id=micro_pause break_hint=0");
+      expect(t + 9,  "show");
+      expect(t + 9,  "break_event", "break_id=micro_pause event=3");
+      expect(t + 20, "hide");
+      expect(t + 20, "break_event", "break_id=micro_pause event=7");
+      expect(t + 20, "break_event", "break_id=micro_pause event=10");
+
+      t += 321;
+    }
+
+  tick(false, 20);
+  tick(true, 20);
+  tick(false, 400); 
+ 
+  t = 1584;
+  expect(t,      "prelude", "break_id=rest_break");
+  expect(t,      "show");
+  expect(t,      "break_event", "break_id=rest_break event=0");
+  expect(t + 9,  "hide");
+  expect(t + 9,  "break" , "break_id=rest_break break_hint=0");
+  expect(t + 9,  "show");
+  expect(t + 9,  "break_event", "break_id=rest_break event=3");
+  expect(t + 320, "hide");
+  expect(t + 320, "break_event", "break_id=rest_break event=7");
+  expect(t + 320, "break_event", "break_id=rest_break event=10");
+  
   verify();
 }
 

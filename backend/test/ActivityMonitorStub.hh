@@ -39,11 +39,15 @@ public:
   virtual void resume();
   virtual void force_idle();
   virtual bool is_active();
+  virtual void set_listener(IActivityMonitorListener::Ptr l);
+
+  void notify();
 
 private:
   bool active;
   bool suspended;
   bool forced_idle;
+  IActivityMonitorListener::Ptr listener;
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

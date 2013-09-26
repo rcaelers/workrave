@@ -85,7 +85,25 @@ ReadingActivityMonitor::is_active()
       return false;
     }
 
-  return state == Active;
+
+  bool active = false;
+  switch (state)
+    {
+    case Idle:
+      break;
+
+    case Active:
+      active = true;
+      break;
+
+    case Prelude:
+    case Taking:
+      active = monitor->is_active();
+      break;
+    }
+  
+  TRACE_RETURN(active);
+  return active;
 }
 
 void
@@ -99,6 +117,7 @@ ReadingActivityMonitor::force_idle()
 void
 ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
 {
+  TRACE_ENTER_MSG("ReadingActivityMonitor::handle_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch (state)
     {
     case Idle:
@@ -107,23 +126,29 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
     case Active:
       if (event == BreakEvent::PreludeStarted)
         {
+          TRACE_MSG("Active -> Prelude");
           state = Prelude;
         }
       else if (event == BreakEvent::BreakStarted ||
                event == BreakEvent::BreakStartedForced)
         {
+          TRACE_MSG("Active -> Taking");
           state = Taking;
         }
       break;
 
     case Prelude:
-      if (event == BreakEvent::BreakStarted)
+      if (event == BreakEvent::BreakStarted ||
+          event == BreakEvent::BreakStartedForced)
         {
+          TRACE_MSG("Prelude -> Taking");
           state = Taking;
         }
       else if (event == BreakEvent::BreakIdle)
         {
+          TRACE_MSG("Prelude -> Active");
           state = Active;
+          forced_idle = false;
         }
       break;
 
@@ -132,15 +157,19 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
         {
           if (break_id == BREAK_ID_MICRO_BREAK)
             {
+              TRACE_MSG("Taking -> Active");
               state = Active;
+              forced_idle = false;
             }
           else
             {
+              TRACE_MSG("Taking -> Idle");
               state = Idle;
               monitor->set_listener(shared_from_this());
             }
         }
     }
+  TRACE_EXIT();
 }
 
 bool

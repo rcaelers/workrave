@@ -67,3 +67,24 @@ ActivityMonitorStub::is_active()
 {
   return !suspended && !forced_idle && active;
 }
+
+void
+ActivityMonitorStub::set_listener(IActivityMonitorListener::Ptr l)
+{
+  listener = l;
+}
+
+void
+ActivityMonitorStub::notify()
+{
+  IActivityMonitorListener::Ptr l;
+
+  l = listener;
+  if (l)
+    {
+      if (!l->action_notify())
+        {
+          listener.reset();
+        }
+    }
+}
