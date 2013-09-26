@@ -20,19 +20,22 @@
 #endif
 
 #include "ReadingActivityMonitor.hh"
+#include "CoreModes.hh"
 
 #include "debug.hh"
 
 ReadingActivityMonitor::Ptr
-ReadingActivityMonitor::create(ActivityMonitor::Ptr monitor)
+ReadingActivityMonitor::create(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
 {
-  return Ptr(new ReadingActivityMonitor(monitor));
+  return Ptr(new ReadingActivityMonitor(monitor, modes));
 }
 
-ReadingActivityMonitor::ReadingActivityMonitor(ActivityMonitor::Ptr monitor) :
+ReadingActivityMonitor::ReadingActivityMonitor(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes) :
   monitor(monitor),
+  modes(modes),
   suspended(false),
-  forced_idle(false)
+  forced_idle(false),
+  state(Idle)
 {
 }
 
@@ -44,6 +47,8 @@ void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
+
+  modes->signal_usage_mode_changed().connect(boost::bind(&ReadingActivityMonitor::on_usage_mode_changed, this, _1)); 
 }
 
 void
@@ -112,6 +117,15 @@ ReadingActivityMonitor::force_idle()
   TRACE_ENTER("ReadingActivityMonitor::force_idle");
   forced_idle = true;
   TRACE_EXIT();
+}
+
+void
+ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
+{
+  if (mode == workrave::USAGE_MODE_READING)
+    {
+      state = Idle;
+    }
 }
 
 void

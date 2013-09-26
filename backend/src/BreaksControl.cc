@@ -100,7 +100,7 @@ BreaksControl::init()
       breaks[break_id]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
   
-  reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor);
+  reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor, modes);
   reading_activity_monitor->init();
 
   microbreak_activity_monitor = TimerActivityMonitor::create(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
@@ -454,7 +454,10 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
       break;
     }
 
-  reading_activity_monitor->handle_break_event(break_id, event);
+  if (modes->get_usage_mode() == USAGE_MODE_READING)
+    {  
+      reading_activity_monitor->handle_break_event(break_id, event);
+    }
   TRACE_EXIT();
 }
 

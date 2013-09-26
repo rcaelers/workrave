@@ -22,6 +22,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "Break.hh"
+#include "CoreModes.hh"
 #include "ActivityMonitor.hh"
 #include "Timer.hh"
 
@@ -35,9 +36,9 @@ public:
   typedef boost::shared_ptr<ReadingActivityMonitor> Ptr;
 
 public:
-  static Ptr create(ActivityMonitor::Ptr monitor);
+  static Ptr create(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
 
-  ReadingActivityMonitor(ActivityMonitor::Ptr monitor);
+  ReadingActivityMonitor(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
   virtual ~ReadingActivityMonitor();
 
   void handle_break_event(BreakId break_id, BreakEvent event);
@@ -50,14 +51,17 @@ public:
 
 private:
   bool action_notify();
+  void on_usage_mode_changed(workrave::UsageMode mode); 
   
 private:
   enum State { Idle, Active, Prelude, Taking };
     
   ActivityMonitor::Ptr monitor;
+  CoreModes::Ptr modes;
   bool suspended;
   bool forced_idle;
   State state;
 };
 
 #endif // READINGACTIVITYMONITOR_HH
+
