@@ -933,4 +933,68 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
+{
+  init();
+
+  config->set_value("breaks/micro_pause/enabled", false);
+  
+  expect(1500, "prelude", "break_id=rest_break");
+  expect(1500, "show");
+  expect(1500, "break_event", "break_id=rest_break event=0");
+  tick(true, 1500);
+
+  expect(1509, "hide");
+  expect(1509, "break", "break_id=rest_break break_hint=0");
+  expect(1509, "show");
+  expect(1509, "break_event", "break_id=rest_break event=3");
+  
+  expect(1550, "hide");
+  expect(1550, "break_event", "break_id=rest_break event=5");
+  expect(1550, "break_event", "break_id=rest_break event=10");
+  tick(false, 50);
+  workrave::IBreak::Ptr b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  b->postpone_break();
+  tick(false, 1);
+
+  expect(1731, "prelude", "break_id=rest_break");
+  expect(1731, "show");
+  expect(1731, "break_event", "break_id=rest_break event=0");
+  tick(true, 200);
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
+{
+  init();
+
+  config->set_value("breaks/micro_pause/enabled", false);
+  
+  expect(1500, "prelude", "break_id=rest_break");
+  expect(1500, "show");
+  expect(1500, "break_event", "break_id=rest_break event=0");
+  tick(true, 1500);
+
+  expect(1509, "hide");
+  expect(1509, "break", "break_id=rest_break break_hint=0");
+  expect(1509, "show");
+  expect(1509, "break_event", "break_id=rest_break event=3");
+  
+  expect(1550, "hide");
+  expect(1550, "break_event", "break_id=rest_break event=6");
+  expect(1550, "break_event", "break_id=rest_break event=10");
+  tick(false, 50);
+  workrave::IBreak::Ptr b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  b->skip_break();
+  tick(false, 1);
+
+  expect(3051, "prelude", "break_id=rest_break");
+  expect(3051, "show");
+  expect(3051, "break_event", "break_id=rest_break event=0");
+  tick(true, 1510);
+  
+  verify();
+}
+
 BOOST_AUTO_TEST_SUITE_END()
