@@ -518,9 +518,9 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   tick(true, 302);
 
   expect(302, "operationmode", "mode=0");
-  expect(451, "prelude", "break_id=micro_pause");
-  expect(451, "show");
-  expect(451, "break_event", "break_id=micro_pause event=0");
+  expect(450, "prelude", "break_id=micro_pause");
+  expect(450, "show");
+  expect(450, "break_event", "break_id=micro_pause event=0");
   core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
   tick(true, 150);
 
@@ -921,13 +921,13 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   expect(335,"hide");
   expect(335,"break_event","break_id=micro_pause event=4");
   expect(335,"break_event","break_id=micro_pause event=10");
-  expect(452,"prelude","break_id=micro_pause");
-  expect(452,"show");
-  expect(452,"break_event","break_id=micro_pause event=0");
-  expect(481,"hide");
-  expect(481,"break","break_id=micro_pause break_hint=0");
-  expect(481,"show");
-  expect(481,"break_event","break_id=micro_pause event=3");
+  expect(451,"prelude","break_id=micro_pause");
+  expect(451,"show");
+  expect(451,"break_event","break_id=micro_pause event=0");
+  expect(480,"hide");
+  expect(480,"break","break_id=micro_pause break_hint=0");
+  expect(480,"show");
+  expect(480,"break_event","break_id=micro_pause event=3");
   tick(true, 760);
 
   verify();
