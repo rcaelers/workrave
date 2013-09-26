@@ -731,7 +731,138 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_user_active)
+BOOST_AUTO_TEST_CASE(test_user_idle_just_before_first_prelude)
+{
+  init();
+
+  tick(true, 299);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  expect(335, "break_event", "break_id=micro_pause event=4");
+  expect(335, "break_event", "break_id=micro_pause event=10");
+  expect(335, "hide");
+  tick(true, 336);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_takes_break_immediately_after_start_of_first_prelude)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  tick(true, 300);
+
+  expect(309, "hide");
+  expect(309, "break", "break_id=micro_pause break_hint=0");
+  expect(309, "show");
+  expect(309, "break_event", "break_id=micro_pause event=3");
+  
+  expect(320, "hide");
+  expect(320, "break_event", "break_id=micro_pause event=7");
+  expect(320, "break_event", "break_id=micro_pause event=10");
+  tick(false, 40);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_takes_break_halfway_first_prelude)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  tick(true, 315);
+
+  expect(315, "hide");
+  expect(315, "break", "break_id=micro_pause break_hint=0");
+  expect(315, "show");
+  expect(315, "break_event", "break_id=micro_pause event=3");
+  tick(false, 10);
+
+  expect(335, "hide");
+  expect(335, "break_event", "break_id=micro_pause event=7");
+  expect(335, "break_event", "break_id=micro_pause event=10");
+  tick(false, 30);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  tick(true, 329);
+
+  expect(329, "hide");
+  expect(329, "break", "break_id=micro_pause break_hint=0");
+  expect(329, "show");
+  expect(329, "break_event", "break_id=micro_pause event=3");
+  expect(349, "hide");
+  expect(349, "break_event", "break_id=micro_pause event=7");
+  expect(349, "break_event", "break_id=micro_pause event=10");
+  tick(false, 40);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_delayed)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  tick(true, 334);
+
+  expect(334, "hide");
+  expect(334, "break", "break_id=micro_pause break_hint=0");
+  expect(334, "show");
+  expect(334, "break_event", "break_id=micro_pause event=3");
+
+  expect(354, "hide");
+  expect(354, "break_event", "break_id=micro_pause event=7");
+  expect(354, "break_event", "break_id=micro_pause event=10");
+  tick(false, 40);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude__idle_detect_delayed)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=0");
+  tick(true, 334);
+  monitor->notify();
+
+  expect(334, "hide");
+  expect(334, "break_event", "break_id=micro_pause event=4");
+  expect(334, "break_event", "break_id=micro_pause event=10");
+
+  tick(true, 1);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_user_takes_break_after_first_prelude_active_during_break)
 {
   init();
 
@@ -746,9 +877,11 @@ BOOST_AUTO_TEST_CASE(test_user_active)
   expect(310, "break_event", "break_id=micro_pause event=3");
   tick(false, 10);
 
-  expect(330, "hide");
-  expect(330, "break_event", "break_id=micro_pause event=7");
-  expect(330, "break_event", "break_id=micro_pause event=10");
+  tick(true, 20);
+  
+  expect(350, "hide");
+  expect(350, "break_event", "break_id=micro_pause event=7");
+  expect(350, "break_event", "break_id=micro_pause event=10");
   tick(false, 30);
 
   verify();
