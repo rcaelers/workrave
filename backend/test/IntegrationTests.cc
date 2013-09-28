@@ -290,7 +290,19 @@ public:
 
     IBreak::Ptr b = core->get_break(break_id);
 
-    BOOST_REQUIRE(b->get_elapsed_time() >= b->get_limit());
+    bool rest_break_advanced = false;
+    if (break_id == BREAK_ID_REST_BREAK)
+      {
+        IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+
+        if (mb->get_elapsed_time() >= mb->get_limit() &&
+            b->get_elapsed_time() + 30 >= b->get_limit())
+          {
+            rest_break_advanced = true;
+          }
+      }
+        
+    BOOST_REQUIRE(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
     BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
     BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
 
@@ -310,9 +322,21 @@ public:
 
     IBreak::Ptr b = core->get_break(break_id);
 
+    bool rest_break_advanced = false;
+    if (break_id == BREAK_ID_REST_BREAK)
+      {
+        IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+
+        if (mb->get_elapsed_time() >= mb->get_limit() &&
+            b->get_elapsed_time() + 30 >= b->get_limit())
+          {
+            rest_break_advanced = true;
+          }
+      }
+        
     if (!fake_break)
       {
-        BOOST_REQUIRE(b->get_elapsed_time() >= b->get_limit());
+        BOOST_REQUIRE(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
        }
     BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
     BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
@@ -1117,4 +1141,30 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_active_during_break)
   
   verify();
 }
+
+BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break)
+{
+  init();
+
+  config->set_value("timers/micro_pause/limit", 300);
+  config->set_value("timers/micro_pause/auto_reset", 20);
+    
+  config->set_value("timers/rest_break/limit", 330);
+  config->set_value("timers/rest_break/auto_reset", 300);
+  
+  expect(300, "prelude", "break_id=rest_break");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(309, "hide");
+  expect(309, "break", "break_id=rest_break break_hint=0");
+  expect(309, "show");
+  expect(309, "break_event", "break_id=rest_break event=ShowBreak");
+
+  tick(true, 305);
+  tick(false, 10);
+
+  verify();
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
