@@ -183,6 +183,12 @@ public:
                 check_break_progress();
               }
 
+            for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
+              {
+                IBreak::Ptr b = core->get_break(j);
+                BOOST_REQUIRE(j == active_break ? b->is_taking() : !b->is_taking());
+              }
+            
             if (active_prelude != BREAK_ID_NONE)
               {
                 check_prelude_progress();
@@ -815,17 +821,40 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
 
-  tick(false, 50);
-
+  tick(false, 50, [=](int)
+       {
+         for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+           {
+             workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
+             BOOST_REQUIRE(!b->is_running());
+           }
+       });
+  
   verify();
 }
-
+  
 BOOST_AUTO_TEST_CASE(test_user_idle_just_before_first_prelude)
 {
   init();
 
   tick(true, 299);
 
+  verify();
+}
+  
+BOOST_AUTO_TEST_CASE(test_user_active)
+{
+  init();
+
+  tick(true, 50, [=](int)
+       {
+         for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+           {
+             workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
+             BOOST_REQUIRE(b->is_running());
+           }
+       });
+  
   verify();
 }
 
