@@ -91,7 +91,7 @@ ostream& operator<<(ostream &out, Observation &o)
 class Backend : public workrave::IApp
 {
 public:
-  Backend() : user_active(false), active_break(workrave::BREAK_ID_NONE), active_prelude(workrave::BREAK_ID_NONE), prelude_timer(0)
+  Backend() : user_active(false), active_break(workrave::BREAK_ID_NONE), active_prelude(workrave::BREAK_ID_NONE), timer(0), fake_break(false), fake_break_delta(0)
   {
     string display_name = "";
 
@@ -105,19 +105,6 @@ public:
     test_hooks->hook_create_monitor() = boost::bind(&Backend::on_create_monitor, this);
     test_hooks->hook_load_timer_state() = boost::bind(&Backend::on_load_timer_state, this, _1);
     
-    core->init(this, "");
-
-    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
-      {
-        workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
-        b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, workrave::BreakId(i), _1));
-
-        prelude_count[i] = 0;
-      }
-
-    core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1)); 
-    core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1)); 
-
     sim = SimulatedTime::create();
   }
   
@@ -130,6 +117,7 @@ public:
   void init()
   {
     sim->reset();
+    TimeSource::sync();
 
     string test_name = boost::unit_test::framework::current_test_case().p_name;
 
@@ -141,6 +129,21 @@ public:
     result_file_name /= test_name + ".txt";
 
     out.open(result_file_name.string().c_str());
+
+
+
+    core->init(this, "");
+
+    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+      {
+        workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
+        b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, workrave::BreakId(i), _1));
+
+        prelude_count[i] = 0;
+      }
+
+    core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1)); 
+    core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1)); 
   }
 
   void tick()
@@ -169,7 +172,6 @@ public:
             need_refresh = false;
             TimeSource::sync();
             core->heartbeat();
-            check_func(i);
 
             if (active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE)
               {
@@ -185,9 +187,11 @@ public:
               {
                 check_prelude_progress();
               }
+
+            check_func(i);
             
             sim->current_time += 1000000;
-            prelude_timer++;
+            timer++;
           }
         catch (...)
           {
@@ -250,21 +254,29 @@ public:
   void check_break_progress()
   {
     IBreak::Ptr b = core->get_break(active_break);
-    BOOST_REQUIRE_EQUAL(last_max_value, b->get_auto_reset());
-    BOOST_REQUIRE_EQUAL(last_value, b->get_elapsed_idle_time()); // FIXME: handle fake break.
+    if (fake_break)
+      {
+        BOOST_CHECK_EQUAL(last_max_value, b->get_auto_reset());
+        BOOST_CHECK_EQUAL(last_value, timer + fake_break_delta);
+      }
+    else
+      {
+        BOOST_REQUIRE_EQUAL(last_max_value, b->get_auto_reset());
+        BOOST_REQUIRE_EQUAL(last_value, b->get_elapsed_idle_time());
+      }
   }
 
   void check_prelude_progress()
   {
     BOOST_REQUIRE_EQUAL(last_max_value, 29);
-    if (prelude_timer == 0)
+    if (timer == 0)
       {
         // FIXME: this is weird behaviour.
         BOOST_CHECK(last_value == 0 || last_value == 1);
       }
-    else if (prelude_timer < 30)
+    else if (timer < 30)
       {
-        BOOST_CHECK_EQUAL(last_value, prelude_timer + 1);
+        BOOST_CHECK_EQUAL(last_value, timer + 1);
       }
     else
       {
@@ -274,31 +286,41 @@ public:
   
   virtual void create_prelude_window(workrave::BreakId break_id)
   {
+    log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
+
     IBreak::Ptr b = core->get_break(break_id);
 
-    BOOST_REQUIRE_GE(b->get_elapsed_time(), b->get_limit());
+    BOOST_REQUIRE(b->get_elapsed_time() >= b->get_limit());
     BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
     BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
 
     active_prelude = break_id;
     prelude_count[break_id]++;
-    prelude_timer = 0;
+    timer = 0;
     prelude_stage_set = false;
     prelude_text_set = false;
     prelude_progress_set = false;
-    log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
+    last_value = -1;
+    last_max_value = 0;
   }
   
   virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint)
   {
+    log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
+
     IBreak::Ptr b = core->get_break(break_id);
 
-    BOOST_REQUIRE_GE(b->get_elapsed_time(), b->get_limit());
+    if (!fake_break)
+      {
+        BOOST_REQUIRE(b->get_elapsed_time() >= b->get_limit());
+       }
     BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
     BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
 
     active_break = break_id;
-    log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
+    timer = 0;
+    last_value = -1;
+    last_max_value = 0;
   }
   
   virtual void hide_break_window()
@@ -317,12 +339,14 @@ public:
   
   virtual void show_break_window()
   {
-    BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
     log_actual("show");
+    BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
   }
   
   virtual void refresh_break_window()
   {
+    log("refresh");
+
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
 
     if (active_prelude != workrave::BREAK_ID_NONE)
@@ -338,11 +362,12 @@ public:
       }
     
     did_refresh = true;
-    log("refresh");
   }
   
   virtual void set_break_progress(int value, int max_value)
   {
+    log("progress", boost::str(boost::format("value=%1% max_value=%2%") % value % max_value));
+
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
 
     last_value = value;
@@ -350,31 +375,31 @@ public:
     
     if (active_break != BREAK_ID_NONE)
       {
-        check_break_progress();
         break_progress_set = true;
       }
 
     if (active_prelude != BREAK_ID_NONE)
       {
-        check_prelude_progress();
         prelude_progress_set = true;
       }
 
     need_refresh = true;
-    log("progress", boost::str(boost::format("value=%1% max_value=%2%") % value % max_value));
   }
   
   virtual void set_prelude_stage(PreludeStage stage)
   {
+    log("stage", boost::str(boost::format("stage=%1%") % stage));
+
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
 
     need_refresh = true;
     prelude_stage_set = true;
-    log("stage", boost::str(boost::format("stage=%1%") % stage));
   }
   
   virtual void set_prelude_progress_text(PreludeProgressText text)
   {
+    log("text", boost::str(boost::format("text=%1%") % text));
+
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
 
     if (prelude_count[active_prelude] < 3)
@@ -388,12 +413,12 @@ public:
     
     need_refresh = true;
     prelude_text_set = true;
-    log("text", boost::str(boost::format("text=%1%") % text));
   }
 
   virtual void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event)
   {
     log_actual("break_event", boost::str(boost::format("break_id=%1% event=%2%") % CoreConfig::get_break_name(break_id) % event));
+
     if (event == BreakEvent::BreakStop)
       {
         prelude_count[break_id] = 0;
@@ -463,12 +488,14 @@ public:
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
   bool user_active;
-
+  
   workrave::BreakId active_break;
   workrave::BreakId active_prelude;
-  int prelude_timer;
+  int timer;
   int prelude_count[BREAK_ID_SIZEOF];
-
+  bool fake_break;
+  int fake_break_delta;
+  
   bool did_refresh;
   bool need_refresh;
   bool prelude_stage_set;
@@ -1038,4 +1065,56 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_rest_break_now)
+{
+  init();
+
+  tick(true, 10);
+  tick(false, 10);
+
+  fake_break = true;
+  fake_break_delta = 10;
+  
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  expect(20, "break", "break_id=rest_break break_hint=1");
+  expect(20, "show");
+  expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
+  
+  tick(false, 50);
+  tick(false, 260);
+
+  expect(310, "hide");
+  expect(310, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(310, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(310, "break_event", "break_id=rest_break event=BreakStop");
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_rest_break_now_active_during_break)
+{
+  init();
+
+  tick(true, 10);
+  tick(false, 10);
+
+  fake_break = true;
+  fake_break_delta = 10;
+  
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  expect(20, "break", "break_id=rest_break break_hint=1");
+  expect(20, "show");
+  expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
+  
+  tick(false, 50);
+  tick(true, 20, [=](int) { fake_break_delta--; });
+  tick(false, 260);
+
+  expect(330, "hide");
+  expect(330, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(330, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(330, "break_event", "break_id=rest_break event=BreakStop");
+  
+  verify();
+}
 BOOST_AUTO_TEST_SUITE_END()
