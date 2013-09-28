@@ -573,6 +573,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
   tick(true, 1);
 
@@ -591,6 +592,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   expect(450, "prelude", "break_id=micro_pause");
   expect(450, "show");
   expect(450, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(450, "break_event", "break_id=micro_pause event=BreakStart");
   core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
   tick(true, 150);
 
@@ -649,6 +651,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
       expect(t,      "prelude", "break_id=micro_pause");
       expect(t,      "show");
       expect(t,      "break_event", "break_id=micro_pause event=ShowPrelude");
+      expect(t,      "break_event", "break_id=micro_pause event=BreakStart");
       expect(t + 9,  "hide");
       expect(t + 9,  "break" , "break_id=micro_pause break_hint=0");
       expect(t + 9,  "show");
@@ -665,6 +668,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
   expect(t,      "prelude", "break_id=rest_break");
   expect(t,      "show");
   expect(t,      "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(t,      "break_event", "break_id=rest_break event=BreakStart");
   expect(t + 9,  "hide");
   expect(t + 9,  "break" , "break_id=rest_break break_hint=0");
   expect(t + 9,  "show");
@@ -692,6 +696,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
       expect(t,      "prelude", "break_id=micro_pause");
       expect(t,      "show");
       expect(t,      "break_event", "break_id=micro_pause event=ShowPrelude");
+      expect(t,      "break_event", "break_id=micro_pause event=BreakStart");
       expect(t + 15, "hide");
       expect(t + 15, "break" , "break_id=micro_pause break_hint=0");
       expect(t + 15, "show");
@@ -727,6 +732,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
       expect(t,      "prelude", "break_id=micro_pause");
       expect(t,      "show");
       expect(t,      "break_event", "break_id=micro_pause event=ShowPrelude");
+      expect(t,      "break_event", "break_id=micro_pause event=BreakStart");
       expect(t + 9, "hide");
       expect(t + 9, "break" , "break_id=micro_pause break_hint=0");
       expect(t + 9, "show");
@@ -766,6 +772,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
       expect(t,      "prelude", "break_id=micro_pause");
       expect(t,      "show");
       expect(t,      "break_event", "break_id=micro_pause event=ShowPrelude");
+      expect(t,      "break_event", "break_id=micro_pause event=BreakStart");
       expect(t + 9,  "hide");
       expect(t + 9,  "break" , "break_id=micro_pause break_hint=0");
       expect(t + 9,  "show");
@@ -786,6 +793,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   expect(t,      "prelude", "break_id=rest_break");
   expect(t,      "show");
   expect(t,      "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(t,      "break_event", "break_id=rest_break event=BreakStart");
   expect(t + 9,  "hide");
   expect(t + 9,  "break" , "break_id=rest_break break_hint=0");
   expect(t + 9,  "show");
@@ -823,6 +831,7 @@ BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   expect(335, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(335, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(335, "hide");
@@ -838,6 +847,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_immediately_after_start_of_first_prel
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 300);
 
   expect(309, "hide");
@@ -861,6 +871,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_halfway_first_prelude)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 315);
 
   expect(315, "hide");
@@ -885,6 +896,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 329);
 
   expect(329, "hide");
@@ -907,6 +919,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 334);
 
   expect(334, "hide");
@@ -930,6 +943,7 @@ BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude__idle_detect_delayed)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 334);
   monitor->notify();
 
@@ -949,6 +963,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_after_first_prelude_active_during_bre
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 310);
 
   expect(310, "hide");
@@ -975,6 +990,7 @@ BOOST_AUTO_TEST_CASE(test_user_active_during_prelude)
   expect(300, "prelude", "break_id=micro_pause");
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
   tick(true, 310);
   
   expect(310, "hide");
@@ -1000,6 +1016,7 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   expect(300,"prelude","break_id=micro_pause");
   expect(300,"show");
   expect(300,"break_event","break_id=micro_pause event=ShowPrelude");
+  expect(300,"break_event","break_id=micro_pause event=BreakStart");
   expect(335,"hide");
   expect(335,"break_event","break_id=micro_pause event=BreakIgnored");
   expect(335,"break_event","break_id=micro_pause event=BreakIdle");
@@ -1032,6 +1049,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1500, "prelude", "break_id=rest_break");
   expect(1500, "show");
   expect(1500, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(1500, "break_event", "break_id=rest_break event=BreakStart");
   tick(true, 1500);
 
   expect(1509, "hide");
@@ -1051,6 +1069,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1731, "prelude", "break_id=rest_break");
   expect(1731, "show");
   expect(1731, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(1731, "break_event", "break_id=rest_break event=BreakStart");
   tick(true, 200);
   
   verify();
@@ -1065,6 +1084,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1500, "prelude", "break_id=rest_break");
   expect(1500, "show");
   expect(1500, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(1500, "break_event", "break_id=rest_break event=BreakStart");
   tick(true, 1500);
 
   expect(1509, "hide");
@@ -1084,6 +1104,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(3051, "prelude", "break_id=rest_break");
   expect(3051, "show");
   expect(3051, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(3051, "break_event", "break_id=rest_break event=BreakStart");
   tick(true, 1510);
   
   verify();
@@ -1154,6 +1175,7 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break)
   
   expect(300, "prelude", "break_id=rest_break");
   expect(300, "show");
+  expect(300, "break_event", "break_id=rest_break event=BreakStart");
   expect(300, "break_event", "break_id=rest_break event=ShowPrelude");
   expect(309, "hide");
   expect(309, "break", "break_id=rest_break break_hint=0");

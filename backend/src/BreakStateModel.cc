@@ -302,6 +302,7 @@ BreakStateModel::stop_break()
   break_hint = BREAK_HINT_NONE;
   goto_stage(BreakStage::None);
   prelude_count = 0;
+  fake_break = false;
 
   break_event_signal(BreakEvent::BreakStop);
   
@@ -508,7 +509,7 @@ BreakStateModel::prelude_window_start()
   application->show_break_window();
   application->refresh_break_window();
 
-  if (prelude_count == 0)
+  if (prelude_count == 1)
     {
       break_event_signal(BreakEvent::BreakStart);
     }
