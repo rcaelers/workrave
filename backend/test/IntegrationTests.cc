@@ -295,7 +295,8 @@ public:
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
     IBreak::Ptr b = core->get_break(break_id);
-
+    BOOST_REQUIRE_EQUAL(b->get_name(), CoreConfig::get_break_name(break_id));
+    
     bool rest_break_advanced = false;
     if (break_id == BREAK_ID_REST_BREAK)
       {
