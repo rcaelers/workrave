@@ -428,14 +428,16 @@ public:
 
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
 
-    if (prelude_count[active_prelude] < 3)
-      {
-        BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_DISAPPEARS_IN);
-      }
-    else
-      { 
-        BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
-      }
+    // int max = 3;
+    // config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % active_prelude, max); 
+    // if (prelude_count[active_prelude] < max)
+    //   {
+    //     BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_DISAPPEARS_IN);
+    //   }
+    // else
+    //   { 
+    //     BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
+    //   }
     
     need_refresh = true;
     prelude_text_set = true;
@@ -493,7 +495,7 @@ public:
     
     config->set_value("breaks/micro_pause/max_preludes", 3);
     config->set_value("breaks/micro_pause/enabled", true);
-    config->set_value("breaks/rest_break/max_preludes", 3);
+    config->set_value("breaks/rest_break/max_preludes", 6);
     config->set_value("breaks/rest_break/enabled", true);
     config->set_value("breaks/daily_limit/max_preludes", 3);
     config->set_value("breaks/daily_limit/enabled", true);
@@ -1244,6 +1246,32 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break)
 
   tick(true, 305);
   tick(false, 10);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_from_micro_break)
+{
+  init();
+
+  config->set_value("timers/micro_pause/limit", 300);
+  config->set_value("timers/micro_pause/auto_reset", 20);
+  config->set_value("breaks/micro_pause/max_preludes", 1);
+    
+  config->set_value("timers/rest_break/limit", 330);
+  config->set_value("timers/rest_break/auto_reset", 300);
+  config->set_value("breaks/rest_break/max_preludes", 6);
+  
+  expect(300, "prelude", "break_id=rest_break");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=rest_break event=BreakStart");
+  expect(300, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(329, "hide");
+  expect(329, "break", "break_id=rest_break break_hint=0");
+  expect(329, "show");
+  expect(329, "break_event", "break_id=rest_break event=ShowBreak");
+
+  tick(true, 350);
 
   verify();
 }
