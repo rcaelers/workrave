@@ -440,12 +440,12 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
       defrost();
       break;
 
-    case BreakEvent::PreludeStarted:
+    case BreakEvent::ShowPrelude:
       force_idle();
       break;
 
-    case BreakEvent::BreakStarted:
-    case BreakEvent::BreakStartedForced:
+    case BreakEvent::ShowBreak:
+    case BreakEvent::ShowBreakForced:
       force_idle();
       freeze();
       break;

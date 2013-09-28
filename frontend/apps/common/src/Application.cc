@@ -611,17 +611,17 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
     workrave::audio::SoundEvent sound_event;
   } event_mappings[] =
       {
-        { BREAK_ID_MICRO_BREAK, BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE },
         { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakStarted,   workrave::audio::SOUND_MICRO_BREAK_STARTED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakEnded,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      workrave::audio::SOUND_MICRO_BREAK_STARTED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE },
         { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakStarted,   workrave::audio::SOUND_REST_BREAK_STARTED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakEnded,     workrave::audio::SOUND_REST_BREAK_ENDED },
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::PreludeStarted, workrave::audio::SOUND_BREAK_PRELUDE},
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      workrave::audio::SOUND_REST_BREAK_STARTED },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     workrave::audio::SOUND_REST_BREAK_ENDED },
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE},
         { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakStarted,   workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      workrave::audio::SOUND_MICRO_BREAK_ENDED },
       };
 
   for (auto &event_mapping : event_mappings)

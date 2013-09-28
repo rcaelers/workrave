@@ -138,13 +138,13 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       break;
 
     case Active:
-      if (event == BreakEvent::PreludeStarted)
+      if (event == BreakEvent::ShowPrelude)
         {
           TRACE_MSG("Active -> Prelude");
           state = Prelude;
         }
-      else if (event == BreakEvent::BreakStarted ||
-               event == BreakEvent::BreakStartedForced)
+      else if (event == BreakEvent::ShowBreak ||
+               event == BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Active -> Taking");
           state = Taking;
@@ -152,8 +152,8 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       break;
 
     case Prelude:
-      if (event == BreakEvent::BreakStarted ||
-          event == BreakEvent::BreakStartedForced)
+      if (event == BreakEvent::ShowBreak ||
+          event == BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Prelude -> Taking");
           state = Taking;

@@ -56,11 +56,11 @@ BreakStatistics::on_break_event(BreakEvent event)
 {
   switch(event)
     {
-    case BreakEvent::PreludeStarted:
+    case BreakEvent::ShowPrelude:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
       break;
         
-    case BreakEvent::BreakNew:
+    case BreakEvent::BreakStart:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
       break;
         
@@ -72,7 +72,7 @@ BreakStatistics::on_break_event(BreakEvent event)
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
       break;
         
-    case BreakEvent::BreakEnded:
+    case BreakEvent::BreakTaken:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
       break;
         
@@ -87,10 +87,11 @@ BreakStatistics::on_break_event(BreakEvent event)
           statistics->start_new_day();
         }
 
-    case BreakEvent::BreakStarted:
-    case BreakEvent::BreakStartedForced:
+    case BreakEvent::ShowBreak:
+    case BreakEvent::ShowBreakForced:
     case BreakEvent::BreakIgnored:
     case BreakEvent::BreakIdle:
+    case BreakEvent::BreakStop:
       break;
     }
 }

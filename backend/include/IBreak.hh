@@ -28,19 +28,76 @@
 namespace workrave {
 
   enum class BreakEvent {
-      PreludeStarted,
-      BreakNew,
-      BreakStarted,
-      BreakStartedForced,
+      ShowPrelude,
+      ShowBreak,
+      ShowBreakForced,
+      BreakStart,
+      BreakIdle,
+      BreakStop,
       BreakIgnored,
       BreakPostponed,
       BreakSkipped,
-      BreakEnded,
+      BreakTaken,
       BreakReset,
       BreakNaturalReset,
-      BreakIdle,
       };
-    
+
+  inline std::ostream& operator<<(std::ostream& stream, BreakEvent event)
+  {
+    switch(event)
+      {
+      case BreakEvent::ShowPrelude:
+        stream << "ShowPrelude";
+        break;
+
+      case BreakEvent::ShowBreak:
+        stream << "ShowBreak";
+        break;
+
+      case BreakEvent::ShowBreakForced:
+        stream << "ShowBreakForced";
+        break;
+
+      case BreakEvent::BreakStart:
+        stream << "BreakStart";
+        break;
+
+      case BreakEvent::BreakIdle:
+        stream << "BreakIdle";
+        break;
+
+      case BreakEvent::BreakStop:
+        stream << "BreakStop";
+        break;
+
+      case BreakEvent::BreakIgnored:
+        stream << "BreakIgnored";
+        break;
+
+      case BreakEvent::BreakPostponed:
+        stream << "BreakPostponed";
+        break;
+
+      case BreakEvent::BreakSkipped:
+        stream << "BreakSkipped";
+        break;
+
+      case BreakEvent::BreakTaken:
+        stream << "BreakTaken";
+        break;
+
+      case BreakEvent::BreakReset:
+        stream << "BreakReset";
+        break;
+
+      case BreakEvent::BreakNaturalReset:
+        stream << "BreakNaturalReset";
+        break;
+
+      }
+    return stream;
+  }
+  
   //! Interface to retrieve information about a break.
   class IBreak
   {

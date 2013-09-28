@@ -303,6 +303,8 @@ BreakStateModel::stop_break()
   goto_stage(BreakStage::None);
   prelude_count = 0;
 
+  break_event_signal(BreakEvent::BreakStop);
+  
   TRACE_EXIT();
 }
 
@@ -420,8 +422,8 @@ BreakStateModel::break_window_start()
 
   // Report state change.
   break_event_signal(forced_break
-                     ? BreakEvent::BreakStarted
-                     : BreakEvent::BreakStartedForced);
+                     ? BreakEvent::ShowBreakForced
+                     : BreakEvent::ShowBreak);
   
   TRACE_EXIT();
 }
@@ -472,7 +474,7 @@ BreakStateModel::break_window_stop()
       if (idle >= reset && !user_abort)
         {
           // Breaks end without user skip/postponing it.
-          break_event_signal(BreakEvent::BreakEnded);
+          break_event_signal(BreakEvent::BreakTaken);
         }
     }
   break_event_signal(BreakEvent::BreakIdle);
@@ -487,7 +489,7 @@ BreakStateModel::prelude_window_start()
 
   prelude_count++;
   prelude_time = 0;
-
+  
   application->hide_break_window();
   application->create_prelude_window(break_id);
   application->set_prelude_stage(IApp::STAGE_INITIAL);
@@ -508,10 +510,10 @@ BreakStateModel::prelude_window_start()
 
   if (prelude_count == 0)
     {
-      break_event_signal(BreakEvent::BreakNew);
+      break_event_signal(BreakEvent::BreakStart);
     }
 
-  break_event_signal(BreakEvent::PreludeStarted);
+  break_event_signal(BreakEvent::ShowPrelude);
   TRACE_EXIT();
 }
 
@@ -544,5 +546,5 @@ BreakStateModel::action_notify()
 bool
 BreakStateModel::has_reached_max_preludes()
 {
-  return max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
+  return max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes;
 }
