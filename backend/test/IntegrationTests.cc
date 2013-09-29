@@ -1211,6 +1211,38 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_insist_policy_ignore)
+{
+  init();
+
+  config->set_value("breaks/micro_pause/enabled", false);
+  
+  expect(1500, "prelude", "break_id=rest_break");
+  expect(1500, "show");
+  expect(1500, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(1500, "break_event", "break_id=rest_break event=BreakStart");
+  tick(true, 1500);
+
+  expect(1509, "hide");
+  expect(1509, "break", "break_id=rest_break break_hint=0");
+  expect(1509, "show");
+  expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
+  
+  tick(false, 50);
+  
+  core->set_insist_policy(ICore::INSIST_POLICY_IGNORE);
+
+  tick(true, 100);
+  tick(false, 400);
+
+  expect(1800, "hide");
+  expect(1800, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(1800, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(1800, "break_event", "break_id=rest_break event=BreakStop");
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
 {
   init();
@@ -1551,7 +1583,6 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
 // TODO: daily limit + regard micro_pause as activity
 // TODO: forced restbreak in reading mode (active state)
 // TODO: forced restbreak during microbreak
-// TODO: insist policy during rest break (simulate exercises)
 // TODO: remove is_user_active hook
 // TODO: stop all breaks.
 
