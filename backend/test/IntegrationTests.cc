@@ -117,28 +117,21 @@ public:
   
   ~Backend()
   {
-    BOOST_TEST_MESSAGE("Verifying");
     out.close();
    }
 
-  void init()
+  void init_log_file()
   {
-    sim->reset();
-    TimeSource::sync();
-
     string test_name = boost::unit_test::framework::current_test_case().p_name;
-
     boost::filesystem::path result_file_name;
     result_file_name /= "results";
-
     boost::filesystem::create_directory(result_file_name);
-      
     result_file_name /= test_name + ".txt";
-
     out.open(result_file_name.string().c_str());
+  }
 
-
-
+  void init_core()
+  {
     core->init(this, "");
 
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
@@ -147,10 +140,25 @@ public:
         b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, workrave::BreakId(i), _1));
 
         prelude_count[i] = 0;
+
+        if (i != BREAK_ID_DAILY_LIMIT)
+          {
+            BOOST_REQUIRE(b->is_auto_reset_enabled());
+          }
+        BOOST_REQUIRE(b->is_limit_enabled());
       }
 
     core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1)); 
     core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1)); 
+  }
+
+  void init()
+  {
+    sim->reset();
+    TimeSource::sync();
+
+    init_log_file();
+    init_core();
   }
 
   void tick()
@@ -1153,15 +1161,15 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
   
-  IBreak::Ptr mb = core->get_break(BREAK_ID_REST_BREAK);
+  IBreak::Ptr rb = core->get_break(BREAK_ID_REST_BREAK);
   
   tick(false, 50);
   
   core->set_insist_policy(ICore::INSIST_POLICY_HALT);
 
-  int elapsed = mb->get_elapsed_idle_time();
+  int elapsed = rb->get_elapsed_idle_time();
   tick(true, 100, [=](int) {
-      BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), elapsed + 1);
+      BOOST_REQUIRE_EQUAL(rb->get_elapsed_idle_time(), elapsed + 1);
       
     });
   tick(false, 400);
@@ -1191,14 +1199,14 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
   
-  IBreak::Ptr mb = core->get_break(BREAK_ID_REST_BREAK);
+  IBreak::Ptr rb = core->get_break(BREAK_ID_REST_BREAK);
   
   tick(false, 50);
   
   core->set_insist_policy(ICore::INSIST_POLICY_RESET);
 
   tick(true, 100, [=](int) {
-      BOOST_REQUIRE_EQUAL(mb->get_elapsed_idle_time(), 0);
+      BOOST_REQUIRE_EQUAL(rb->get_elapsed_idle_time(), 0);
     });
   tick(false, 400);
 
@@ -1345,7 +1353,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_prelude)
   tick(true, 315);
 
   expect(315, "operationmode", "mode=1");
-  expect(315, "break_event", "break_id=micro_pause event=BreakIgnored");
+  expect(315, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why ignored?
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
   core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
