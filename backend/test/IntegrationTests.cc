@@ -1207,6 +1207,27 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_quiet_during_prelude)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
+  tick(true, 315);
+
+  expect(315, "operationmode", "mode=2");
+  expect(315, "break_event", "break_id=micro_pause event=BreakIgnored");
+  expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(315, "break_event", "break_id=micro_pause event=BreakStop");
+  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  
+  expect(315, "hide");
+  tick(false, 40);
+
+  verify();
+}
 BOOST_AUTO_TEST_CASE(test_rest_break_now)
 {
   init();
