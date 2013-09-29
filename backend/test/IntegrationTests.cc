@@ -710,6 +710,106 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_suspended)
   verify();
 }
 
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_override)
+{
+  init();
+
+  core->set_operation_mode_override(OPERATION_MODE_SUSPENDED, "ov1");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->set_operation_mode_override(OPERATION_MODE_QUIET, "ov2");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov2");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->set_operation_mode_override(OPERATION_MODE_QUIET, "ov2");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov1");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  expect(5, "operationmode", "mode=0"); // FIXME: why this event?
+  core->remove_operation_mode_override("ov2");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+
+  core->set_operation_mode_override(OPERATION_MODE_NORMAL, "ov3");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overriden)
+{
+  init();
+
+  expect(0, "operationmode", "mode=2");
+  core->set_operation_mode(OPERATION_MODE_QUIET);
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+
+  core->set_operation_mode_override(OPERATION_MODE_SUSPENDED, "ov1");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  expect(2, "operationmode", "mode=1"); // FIXME: Why this event?
+  expect(2, "operationmode", "mode=1"); // FIXME: Why this event? 
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov1");
+  expect(3, "operationmode", "mode=0");
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov2");
+  tick(false, 1);
+  
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_usage_mode)
 {
   init();
