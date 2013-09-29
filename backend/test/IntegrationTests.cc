@@ -1697,6 +1697,28 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_two_breaks_at_the_same_time)
+{
+  init();
+
+  config->set_value("timers/micro_pause/limit", 300);
+  config->set_value("timers/rest_break/limit", 300);
+
+  expect(300, "prelude", "break_id=rest_break");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=rest_break event=BreakStart");
+  expect(300, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(309, "hide");
+  expect(309, "break", "break_id=rest_break break_hint=0");
+  expect(309, "show");
+  expect(309, "break_event", "break_id=rest_break event=ShowBreak");
+
+  tick(true, 305);
+  tick(false, 50);
+
+  verify();
+}
+
 // TODO: daily limit
 // TODO: daily limit + change limit
 // TODO: daily limit + inhibit snooze
