@@ -231,7 +231,10 @@ BreaksControl::process_timers(bool user_is_active)
 
               if (break_id == BREAK_ID_DAILY_LIMIT)
                 {
-                  breaks[break_id]->daily_reset();
+                  for (BreakId i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+                    {
+                      breaks[i]->daily_reset();
+                    }
                 }
               break;
 

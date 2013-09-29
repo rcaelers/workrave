@@ -18,9 +18,12 @@
 #ifndef SIMULATEDTIME_HH
 #define SIMULATEDTIME_HH
 
+#include <chrono>
+//#include <time.h>
+
 #include <boost/enable_shared_from_this.hpp>
 
-//#include <boost/date_time/local_time/local_time.hpp>
+#include <boost/date_time/local_time/local_time.hpp>
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 #include "utils/ITimeSource.hh"
@@ -43,10 +46,18 @@ public:
 
   void reset()
   {
-    boost::posix_time::ptime then(boost::gregorian::date(2002,9,22), boost::posix_time::time_duration(22,00,00));
-    boost::posix_time::ptime epoch(boost::gregorian::date(1970,1,1)); 
-    boost::posix_time::time_duration diff = then - epoch;
-    current_time = diff.total_microseconds();
+    std::tm tm = {0};
+    tm.tm_sec = 0;
+    tm.tm_min = 0;
+    tm.tm_hour = 22;
+    tm.tm_mday = 22;
+    tm.tm_mon = 9;
+    tm.tm_year = 102;
+    tm.tm_isdst = -1;
+    std::time_t tt = timelocal(&tm);
+
+    std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(tt);
+    current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
   }
   
   virtual int64_t get_real_time_usec()
