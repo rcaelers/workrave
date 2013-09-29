@@ -586,20 +586,74 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   core->set_operation_mode(OPERATION_MODE_QUIET);
   tick(false, 1);
 
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
   expect(1, "operationmode", "mode=0");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
   tick(false, 1);
 
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
   expect(2, "operationmode", "mode=1");
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
   tick(false, 1);
 
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
   expect(3, "operationmode", "mode=0");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
 
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_via_settings)
+{
+  init();
+
+  expect(0, "operationmode", "mode=2");
+  config->set_value("general/operation-mode", 2);
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
+  expect(1, "operationmode", "mode=0");
+  config->set_value("general/operation-mode", 0);
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
+  expect(2, "operationmode", "mode=1");
+  config->set_value("general/operation-mode", 1);
+  tick(false, 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
+  expect(3, "operationmode", "mode=0");
+  config->set_value("general/operation-mode", 0);
+
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE(!core->is_operation_mode_an_override());
+  
   verify();
 }
 
@@ -664,13 +718,41 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   core->set_usage_mode(USAGE_MODE_READING);
   core->set_usage_mode(USAGE_MODE_READING);
 
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+
   expect(0, "usagemode", "mode=0");
-  core->set_usage_mode(workrave::USAGE_MODE_NORMAL);
-  core->set_usage_mode(workrave::USAGE_MODE_NORMAL);
+  core->set_usage_mode(USAGE_MODE_NORMAL);
+  core->set_usage_mode(USAGE_MODE_NORMAL);
+
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_NORMAL);
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
+
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_usage_mode_via_settings)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  config->set_value("general/usage-mode", 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+
+  expect(0, "usagemode", "mode=0");
+  config->set_value("general/usage-mode", 0);
+
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_NORMAL);
+
+  expect(0, "usagemode", "mode=1");
+  config->set_value("general/usage-mode", 1);
+
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
 
   verify();
 }
@@ -1506,6 +1588,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now)
   verify();
 }
 
+
 BOOST_AUTO_TEST_CASE(test_rest_break_now_active_during_break)
 {
   init();
@@ -1743,6 +1826,6 @@ BOOST_AUTO_TEST_CASE(test_two_breaks_at_the_same_time)
 // TODO: daily limit + statistics reset
 // TODO: daily limit + regard micro_pause as activity
 // TODO: forced restbreak in reading mode (active state)
-// TODO: forced restbreak during microbreak
+// TODO: splitup this file
 
 BOOST_AUTO_TEST_SUITE_END()
