@@ -1548,6 +1548,46 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak_prelude)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
+  tick(true, 310);
+
+  expect(310, "hide");
+  expect(310, "break", "break_id=micro_pause break_hint=0");
+  expect(310, "show");
+  expect(310, "break_event", "break_id=micro_pause event=ShowBreak");
+
+  tick(false, 10);
+  
+  forced_break = true;
+  
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  expect(320, "hide");
+  expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(320, "break_event", "break_id=micro_pause event=BreakStop");
+  
+  expect(320, "break", "break_id=rest_break break_hint=1");
+  expect(320, "show");
+  expect(320, "break_event", "break_id=rest_break event=ShowBreakForced");
+  //expect(320, "break_event", "break_id=rest_break event=BreakStart");
+  
+  tick(false, 50);
+  tick(false, 260);
+
+  expect(610, "hide");
+  expect(610, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(610, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(610, "break_event", "break_id=rest_break event=BreakStop");
+  
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_rest_break_now_when_timer_is_disabled)
 {
   init();
