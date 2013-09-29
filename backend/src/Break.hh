@@ -82,6 +82,7 @@ public:
   void stop_break();
   void force_start_break(BreakHint break_hint);
   void override(BreakId id);
+  void daily_reset();
 
   bool is_microbreak_used_for_activity() const;
   

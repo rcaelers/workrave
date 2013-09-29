@@ -129,7 +129,7 @@ public:
   //void set_state(int elapsed, int idle, int overdue = -1);
 
   int64_t get_total_overdue_time() const;
-  void daily_reset_timer();
+  void daily_reset();
 
 private:
   void compute_next_limit_time();

@@ -38,8 +38,6 @@ namespace workrave {
       BreakPostponed,
       BreakSkipped,
       BreakTaken,
-      BreakReset,
-      BreakNaturalReset,
       };
 
   inline std::ostream& operator<<(std::ostream& stream, BreakEvent event)
@@ -85,15 +83,6 @@ namespace workrave {
       case BreakEvent::BreakTaken:
         stream << "BreakTaken";
         break;
-
-      case BreakEvent::BreakReset:
-        stream << "BreakReset";
-        break;
-
-      case BreakEvent::BreakNaturalReset:
-        stream << "BreakNaturalReset";
-        break;
-
       }
     return stream;
   }

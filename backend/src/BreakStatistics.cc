@@ -76,17 +76,6 @@ BreakStatistics::on_break_event(BreakEvent event)
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
       break;
         
-    case BreakEvent::BreakNaturalReset:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
-      // FALLTHROUGH
-        
-    case BreakEvent::BreakReset:
-      if (break_id == BREAK_ID_DAILY_LIMIT)
-        {
-          update_statistics();
-          statistics->start_new_day();
-        }
-
     case BreakEvent::ShowBreak:
     case BreakEvent::ShowBreakForced:
     case BreakEvent::BreakIgnored:
@@ -97,14 +86,21 @@ BreakStatistics::on_break_event(BreakEvent event)
 }
 
 void
-BreakStatistics::update_statistics()
+BreakStatistics::daily_reset()
+{
+  update();
+  statistics->start_new_day();
+}
+
+void
+BreakStatistics::update()
 {
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)timer->get_elapsed_time());
     }
   
-    statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)timer->get_total_overdue_time());
+  statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)timer->get_total_overdue_time());
 }
 
 

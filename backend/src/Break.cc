@@ -169,6 +169,13 @@ Break::stop_break()
 }
 
 void
+Break::daily_reset()
+{
+  break_statistics->daily_reset();
+  timer->daily_reset();
+}
+
+void
 Break::force_start_break(BreakHint break_hint)
 {
   break_state_model->force_start_break(break_hint);

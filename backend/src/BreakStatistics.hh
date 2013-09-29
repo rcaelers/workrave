@@ -38,10 +38,11 @@ public:
   BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
   virtual ~BreakStatistics();
 
+  void daily_reset();
   
 private:
   void on_break_event(BreakEvent stage);
-  void update_statistics();
+  void update();
 
 private:
   BreakId break_id;

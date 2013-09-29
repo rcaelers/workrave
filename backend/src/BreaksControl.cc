@@ -198,17 +198,6 @@ BreaksControl::process_timers(bool user_is_active)
 {
   TRACE_ENTER("BreaksControl::process_timers");
 
-  // TODO:
-  // if (event == TIMER_EVENT_RESET)
-  //   {
-  //     break_event_signal(BreakEvent::BreakReset);
-  //   }
-  // else if (event == TIMER_EVENT_NATURAL_RESET)
-  //   {
-  //     break_event_signal(BreakEvent::BreakNaturalReset);
-  //   }  
-  // timer->daily_reset_timer
-  
   for (BreakId break_id = BREAK_ID_DAILY_LIMIT; break_id > BREAK_ID_NONE; break_id--)
     {
       bool user_is_active_for_break = user_is_active;
@@ -238,6 +227,11 @@ BreaksControl::process_timers(bool user_is_active)
               if (breaks[break_id]->is_active())
                 {
                   breaks[break_id]->stop_break();
+                }
+
+              if (break_id == BREAK_ID_DAILY_LIMIT)
+                {
+                  breaks[break_id]->daily_reset();
                 }
               break;
 
@@ -361,6 +355,9 @@ BreaksControl::freeze()
       // reset the timer when the user becomes active.
       // default.
       break;
+
+    case ICore::INSIST_POLICY_INVALID:
+      break;
     }
 
   active_insist_policy = policy;
@@ -388,6 +385,10 @@ BreaksControl::defrost()
         set_freeze_all_breaks(false);
       }
       break;
+
+    case ICore::INSIST_POLICY_INVALID:
+    case ICore::INSIST_POLICY_RESET: 
+     break;
     }
 
   active_insist_policy = ICore::INSIST_POLICY_INVALID;

@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_CASE(test_timer_daily_reset_while_active)
       BOOST_CHECK_EQUAL(timer->get_total_overdue_time(), 200);
     });
 
-  timer->daily_reset_timer();
+  timer->daily_reset();
   
   tick(true, 50, [=](int count) {
       BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE(test_timer_daily_reset_while_idle)
       BOOST_CHECK_EQUAL(timer->get_total_overdue_time(), 200);
     });
 
-  timer->daily_reset_timer();
+  timer->daily_reset();
   
   tick(true, 100, [=](int count) {
       BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
