@@ -1574,8 +1574,6 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
   verify();
 }
 
-// TODO: manual 'stop_break' during prelude
-// TODO: manual 'stop_break' during break
 // TODO: daily limit
 // TODO: daily limit + change limit
 // TODO: daily limit + inhibit snooze
@@ -1583,7 +1581,5 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
 // TODO: daily limit + regard micro_pause as activity
 // TODO: forced restbreak in reading mode (active state)
 // TODO: forced restbreak during microbreak
-// TODO: remove is_user_active hook
-// TODO: stop all breaks.
 
 BOOST_AUTO_TEST_SUITE_END()
