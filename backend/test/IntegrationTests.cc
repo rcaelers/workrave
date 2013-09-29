@@ -825,6 +825,61 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
+{
+  init();
+  
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::USAGE_MODE_READING);
+
+  monitor->notify();
+  tick(true, 2);
+  
+  tick(false, 1580);
+
+  int64_t t = 300;
+  for (int i = 0; i < 4; i++)
+    {
+      expect(t,      "prelude", "break_id=micro_pause");
+      expect(t,      "show");
+      expect(t,      "break_event", "break_id=micro_pause event=ShowPrelude");
+      expect(t,      "break_event", "break_id=micro_pause event=BreakStart");
+      expect(t + 9,  "hide");
+      expect(t + 9,  "break" , "break_id=micro_pause break_hint=0");
+      expect(t + 9,  "show");
+      expect(t + 9,  "break_event", "break_id=micro_pause event=ShowBreak");
+      expect(t + 20, "hide");
+      expect(t + 20, "break_event", "break_id=micro_pause event=BreakTaken");
+      expect(t + 20, "break_event", "break_id=micro_pause event=BreakIdle");
+      expect(t + 20, "break_event", "break_id=micro_pause event=BreakStop");
+
+      t += 321;
+    }
+
+  expect(1582, "operationmode", "mode=1");
+  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  tick(true, 100);
+  expect(1682, "operationmode", "mode=0");
+  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  tick(false, 400);
+  
+  t = 1684;
+  expect(t,      "prelude", "break_id=rest_break");
+  expect(t,      "show");
+  expect(t,      "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(t,      "break_event", "break_id=rest_break event=BreakStart");
+  expect(t + 9,  "hide");
+  expect(t + 9,  "break" , "break_id=rest_break break_hint=0");
+  expect(t + 9,  "show");
+  expect(t + 9,  "break_event", "break_id=rest_break event=ShowBreak");
+  expect(t + 300, "hide");
+  expect(t + 300, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(t + 300, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(t + 300, "break_event", "break_id=rest_break event=BreakStop");
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
@@ -1321,7 +1376,6 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
 // TODO: daily limit + inhibit snooze
 // TODO: daily limit + statistics reset
 // TODO: daily limit + regard micro_pause as activity
-// TODO: reading mode + suspended
 // TODO: forced restbreak in reading mode (active state)
 // TODO: forced restbreak during microbreak
 // TODO: insist policy during rest break (simulate exercises)
