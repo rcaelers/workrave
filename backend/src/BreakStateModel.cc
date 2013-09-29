@@ -76,7 +76,6 @@ BreakStateModel::BreakStateModel(BreakId id,
 //! Destructor.
 BreakStateModel::~BreakStateModel()
 {
-  application->hide_break_window();
 }
 
 

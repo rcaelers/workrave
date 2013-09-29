@@ -108,7 +108,6 @@ public:
     ICoreHooks::Ptr hooks = core->get_hooks();
     ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
     
-    //test_hooks->hook_is_user_active() = boost::bind(&Backend::on_is_user_active, this, _1);
     test_hooks->hook_create_configurator() = boost::bind(&Backend::on_create_configurator, this);
     test_hooks->hook_create_monitor() = boost::bind(&Backend::on_create_monitor, this);
     test_hooks->hook_load_timer_state() = boost::bind(&Backend::on_load_timer_state, this, _1);

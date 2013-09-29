@@ -92,7 +92,7 @@ Core::init(IApp *app, const string &display_name)
   
   init_configurator();
 
-  statistics = Statistics::create(shared_from_this());
+  statistics = Statistics::create();
   statistics->init();
 
 #ifdef HAVE_TESTS
@@ -398,7 +398,7 @@ Core::set_powersave(bool down)
         }
       
       breaks_control->save_state();
-      statistics->update();
+      statistics->update(is_user_active());
     }
   else
     {

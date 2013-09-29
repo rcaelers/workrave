@@ -23,8 +23,6 @@
 #include <string>
 #include <map>
 
-#include <boost/enable_shared_from_this.hpp>
-
 #include "dbus/IDBus.hh"
 #include "config/IConfigurator.hh"
 
@@ -43,9 +41,7 @@ namespace workrave {
   class IApp;
 }
 
-class Core :
-  public ICore,
-  public boost::enable_shared_from_this<Core>
+class Core : public ICore
 {
 public:
   Core();
@@ -81,7 +77,6 @@ public:
 private:
   void init_configurator();
   void init_bus();
-
 
 private:
   //! List of breaks.

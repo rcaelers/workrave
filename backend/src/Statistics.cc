@@ -32,7 +32,6 @@
 
 #include "debug.hh"
 
-#include "ICore.hh"
 #include "Util.hh"
 #include "Timer.hh"
 #include "input-monitor/InputMonitorFactory.hh"
@@ -45,14 +44,13 @@ const int STATSVERSION = 4;
 #define MAX_JUMP (10000)
 
 Statistics::Ptr
-Statistics::create(ICore::Ptr core)
+Statistics::create()
 {
-  return Ptr(new Statistics(core));
+  return Ptr(new Statistics());
 }
 
 //! Constructor
-Statistics::Statistics(ICore::Ptr core) :
-  core(core),
+Statistics::Statistics() :
   current_day(NULL),
   been_active(false),
   prev_x(-1),
@@ -66,7 +64,7 @@ Statistics::Statistics(ICore::Ptr core) :
 //! Destructor
 Statistics::~Statistics()
 {
-  update();
+  update(false);
 
   for (auto &item : history)
     {
@@ -105,12 +103,11 @@ Statistics::init()
 
 //! Periodic heartbeat.
 void
-Statistics::update()
+Statistics::update(bool user_is_active)
 {
   TRACE_ENTER("Statistics::update");
 
-  bool active = core->is_user_active();
-  if (active && !been_active)
+  if (user_is_active && !been_active)
     {
       const time_t now = time(NULL);
       struct tm *tmnow = localtime(&now);
@@ -121,7 +118,7 @@ Statistics::update()
       been_active = true;
     }
 
-  update_current_day(active);
+  update_current_day(user_is_active);
   save_day(current_day);
   TRACE_EXIT();
 }
@@ -130,7 +127,7 @@ Statistics::update()
 bool 
 Statistics::delete_all_history()
 {
-    update();
+    update(false);
 
     string histfile = Util::get_home_directory() + "historystats";
     boost::filesystem::path histpath(histfile);
@@ -691,15 +688,11 @@ Statistics::get_history_size() const
 void
 Statistics::update_current_day(bool active)
 {
-  if (core)
+  if (active)
     {
-     if (active)
-        {
-          const time_t now = time(NULL);
-          struct tm *tmnow = localtime(&now);
-          current_day->stop = *tmnow;
-        }
-
+      const time_t now = time(NULL);
+      struct tm *tmnow = localtime(&now);
+      current_day->stop = *tmnow;
     }
 }
 

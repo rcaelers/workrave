@@ -162,8 +162,18 @@ BreaksControl::heartbeat()
 {
   TRACE_ENTER("BreaksControl::heartbeat");
 
+  bool user_is_active;
+  if (modes->get_usage_mode() == USAGE_MODE_READING)
+    {
+      user_is_active = reading_activity_monitor->is_active();
+    }
+  else
+    {
+      user_is_active = activity_monitor->is_active();
+    }
+
   // Perform timer processing.
-  process_timers();
+  process_timers(user_is_active);
 
   // Send heartbeats to other components.
   for (auto &b : breaks)
@@ -174,7 +184,7 @@ BreaksControl::heartbeat()
   // Make state persistent.
   if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
     {
-      statistics->update();
+      statistics->update(user_is_active);
       save_state();
     }
 
@@ -184,19 +194,9 @@ BreaksControl::heartbeat()
 
 //! Processes all timers.
 void
-BreaksControl::process_timers()
+BreaksControl::process_timers(bool user_is_active)
 {
   TRACE_ENTER("BreaksControl::process_timers");
-
-  bool user_is_active;
-  if (modes->get_usage_mode() == USAGE_MODE_READING)
-    {
-      user_is_active = reading_activity_monitor->is_active();
-    }
-  else
-    {
-      user_is_active = activity_monitor->is_active();
-    }
 
   // TODO:
   // if (event == TIMER_EVENT_RESET)

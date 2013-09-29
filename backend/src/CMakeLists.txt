@@ -1,5 +1,4 @@
 set(SRC
-  ActivityMonitor.cc
   Break.cc
   BreakDBus.cc
   BreakStateModel.cc

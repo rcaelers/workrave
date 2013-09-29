@@ -45,6 +45,16 @@ ActivityMonitorStub::set_active(bool active)
 }
 
 void
+ActivityMonitorStub::init()
+{
+}
+
+void
+ActivityMonitorStub::terminate()
+{
+}
+
+void
 ActivityMonitorStub::suspend()
 {
   this->suspended = true;

@@ -41,16 +41,15 @@ public:
   typedef boost::shared_ptr<ActivityMonitor> Ptr;
 
 public:
-  ActivityMonitor();
-  virtual ~ActivityMonitor();
+  virtual ~ActivityMonitor() {};
 
-  virtual void init();
-  virtual void terminate();
-  virtual void suspend();
-  virtual void resume();
-  virtual void force_idle();
-  virtual bool is_active();
-  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  virtual void init() = 0;
+  virtual void terminate() = 0;
+  virtual void suspend() = 0;
+  virtual void resume() = 0;
+  virtual void force_idle() = 0;
+  virtual bool is_active() = 0;
+  virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

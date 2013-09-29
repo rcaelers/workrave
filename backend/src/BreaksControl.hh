@@ -30,6 +30,7 @@
 #include "Break.hh"
 #include "Timer.hh"
 
+#include "ICore.hh"
 #include "CoreModes.hh"
 #include "CoreHooks.hh"
 #include "Statistics.hh"
@@ -73,7 +74,7 @@ public:
 
 private:
   void set_freeze_all_breaks(bool freeze);
-  void process_timers();
+  void process_timers(bool user_is_active);
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void load_state();
   void defrost();

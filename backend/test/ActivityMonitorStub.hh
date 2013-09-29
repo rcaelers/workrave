@@ -35,6 +35,8 @@ public:
 
   void set_active(bool active);
   
+  virtual void init();
+  virtual void terminate();
   virtual void suspend();
   virtual void resume();
   virtual void force_idle();
