@@ -1144,6 +1144,49 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_overdue_time)
+{
+  init();
+
+  expect(300, "prelude", "break_id=micro_pause");
+  expect(300, "show");
+  expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(300, "break_event", "break_id=micro_pause event=BreakStart");
+  expect(315, "hide");
+  expect(315, "break", "break_id=micro_pause break_hint=0");
+  expect(315, "show");
+  expect(315, "break_event", "break_id=micro_pause event=ShowBreak");
+  expect(335, "hide");
+  expect(335, "break_event", "break_id=micro_pause event=BreakTaken");
+  expect(335, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(335, "break_event", "break_id=micro_pause event=BreakStop");
+  tick(true, 315);
+  tick(false, 40);
+
+  IBreak::Ptr b = core->get_break(BREAK_ID_MICRO_BREAK);
+  BOOST_REQUIRE_EQUAL(b->get_total_overdue_time(), 14);
+
+  expect(655, "prelude", "break_id=micro_pause");
+  expect(655, "show");
+  expect(655, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(655, "break_event", "break_id=micro_pause event=BreakStart");
+  expect(670, "hide");
+  expect(670, "break", "break_id=micro_pause break_hint=0");
+  expect(670, "show");
+  expect(670, "break_event", "break_id=micro_pause event=ShowBreak");
+  expect(690, "hide");
+  expect(690, "break_event", "break_id=micro_pause event=BreakTaken");
+  expect(690, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(690, "break_event", "break_id=micro_pause event=BreakStop");
+  tick(true, 315);
+  tick(false, 40);
+
+  BOOST_REQUIRE_EQUAL(b->get_total_overdue_time(), 28);
+  
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
 {
   init();
