@@ -91,7 +91,15 @@ ostream& operator<<(ostream &out, Observation &o)
 class Backend : public workrave::IApp
 {
 public:
-  Backend() : user_active(false), active_break(workrave::BREAK_ID_NONE), active_prelude(workrave::BREAK_ID_NONE), timer(0), fake_break(false), fake_break_delta(0), forced_break(false)
+  Backend() :
+    user_active(false),
+    active_break(workrave::BREAK_ID_NONE),
+    active_prelude(workrave::BREAK_ID_NONE),
+    timer(0),
+    fake_break(false),
+    fake_break_delta(0),
+    forced_break(false),
+    max_preludes(3)
   {
     string display_name = "";
 
@@ -435,16 +443,14 @@ public:
 
     BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
 
-    // int max = 3;
-    // config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % active_prelude, max); 
-    // if (prelude_count[active_prelude] < max)
-    //   {
-    //     BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_DISAPPEARS_IN);
-    //   }
-    // else
-    //   { 
-    //     BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
-    //   }
+    if (prelude_count[active_prelude] < max_preludes)
+      {
+        BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_DISAPPEARS_IN);
+      }
+    else
+      { 
+        BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
+      }
     
     need_refresh = true;
     prelude_text_set = true;
@@ -531,6 +537,7 @@ public:
   bool fake_break;
   int fake_break_delta;
   bool forced_break;
+  int max_preludes;
   
   bool did_refresh;
   bool need_refresh;
@@ -1291,7 +1298,8 @@ BOOST_AUTO_TEST_CASE(test_advance_imminent_rest_break_max_prelude_count_taken_fr
   config->set_value("timers/rest_break/limit", 330);
   config->set_value("timers/rest_break/auto_reset", 300);
   config->set_value("breaks/rest_break/max_preludes", 6);
-  
+
+  max_preludes = 1;
   expect(300, "prelude", "break_id=rest_break");
   expect(300, "show");
   expect(300, "break_event", "break_id=rest_break event=BreakStart");
