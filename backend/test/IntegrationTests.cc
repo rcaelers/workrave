@@ -93,26 +93,14 @@ class Backend : public workrave::IApp
 public:
   Backend() :
     user_active(false),
-    active_break(workrave::BREAK_ID_NONE),
-    active_prelude(workrave::BREAK_ID_NONE),
+    active_break(BREAK_ID_NONE),
+    active_prelude(BREAK_ID_NONE),
     timer(0),
     fake_break(false),
     fake_break_delta(0),
     forced_break(false),
     max_preludes(3)
   {
-    string display_name = "";
-
-    core = workrave::ICore::create();
-    
-    ICoreHooks::Ptr hooks = core->get_hooks();
-    ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
-    
-    test_hooks->hook_create_configurator() = boost::bind(&Backend::on_create_configurator, this);
-    test_hooks->hook_create_monitor() = boost::bind(&Backend::on_create_monitor, this);
-    test_hooks->hook_load_timer_state() = boost::bind(&Backend::on_load_timer_state, this, _1);
-    
-    sim = SimulatedTime::create();
   }
   
   ~Backend()
@@ -132,28 +120,39 @@ public:
 
   void init_core()
   {
+    string display_name = "";
+
+    core = workrave::ICore::create();
+    
+    ICoreHooks::Ptr hooks = core->get_hooks();
+    ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
+    
+    test_hooks->hook_create_configurator() = boost::bind(&Backend::on_create_configurator, this);
+    test_hooks->hook_create_monitor() = boost::bind(&Backend::on_create_monitor, this);
+    test_hooks->hook_load_timer_state() = boost::bind(&Backend::on_load_timer_state, this, _1);
+    
     core->init(this, "");
 
-    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
-        b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, workrave::BreakId(i), _1));
-
+        IBreak::Ptr b = core->get_break(BreakId(i));
+        b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, BreakId(i), _1));
         prelude_count[i] = 0;
-
-        if (i != BREAK_ID_DAILY_LIMIT)
-          {
-            BOOST_REQUIRE(b->is_auto_reset_enabled());
-          }
-        BOOST_REQUIRE(b->is_limit_enabled());
       }
 
+    pretest_verify();
+
+    core->set_operation_mode(OPERATION_MODE_NORMAL);
+    core->set_usage_mode(USAGE_MODE_NORMAL);
+
     core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1)); 
-    core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1)); 
+    core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1));
   }
+
 
   void init()
   {
+    sim = SimulatedTime::create();
     sim->reset();
     TimeSource::sync();
 
@@ -161,6 +160,22 @@ public:
     init_core();
   }
 
+  void pretest_verify()
+  {
+    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      {
+        IBreak::Ptr b = core->get_break(BreakId(i));
+
+        if (i != BREAK_ID_DAILY_LIMIT)
+          {
+            BOOST_REQUIRE(b->is_auto_reset_enabled());
+          }
+        BOOST_REQUIRE(b->is_limit_enabled());
+      }
+    BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
+    BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+  }
+  
   void tick()
   {
     tick(user_active, 1, [=](int) {});
@@ -519,8 +534,9 @@ public:
     config->set_value("breaks/rest_break/enabled", true);
     config->set_value("breaks/daily_limit/max_preludes", 3);
     config->set_value("breaks/daily_limit/enabled", true);
-    config->set_value("general/usage-mode", 0);
-    config->set_value("general/operation-mode", 0);
+
+    config->set_value("general/usage-mode", 1);
+    config->set_value("general/operation-mode", 2);
 
     return config;
   }

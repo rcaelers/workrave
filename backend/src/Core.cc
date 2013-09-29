@@ -103,8 +103,10 @@ Core::init(IApp *app, const string &display_name)
   else
 #endif
     {
+      // LCOV_EXCL_START
       monitor = LocalActivityMonitor::create(configurator, display_name);
-    }
+      // LCOV_EXCL_STOP
+   }
   
   monitor->init();
 
@@ -134,7 +136,8 @@ Core::init_configurator()
   else
 #endif
 
-    if (boost::filesystem::is_regular_file(ini_file))
+  // LCOV_EXCL_START
+  if (boost::filesystem::is_regular_file(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);
@@ -182,6 +185,7 @@ Core::init_configurator()
     {
       Util::set_home_directory(home);
     }
+  // LCOV_EXCL_STOP
 
   CoreConfig::init(configurator);
 }

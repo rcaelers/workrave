@@ -41,6 +41,7 @@ CoreModes::CoreModes(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config) :
   config(config)
 {
   TRACE_ENTER("CoreModes::CoreModes");
+  load_config();
   TRACE_EXIT();
 }
 

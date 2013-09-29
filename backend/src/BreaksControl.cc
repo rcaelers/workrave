@@ -361,9 +361,6 @@ BreaksControl::freeze()
       // reset the timer when the user becomes active.
       // default.
       break;
-
-    default:
-      break;
     }
 
   active_insist_policy = policy;
@@ -390,9 +387,6 @@ BreaksControl::defrost()
         // Desfrost timers.
         set_freeze_all_breaks(false);
       }
-      break;
-
-    default:
       break;
     }
 
