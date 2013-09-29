@@ -154,8 +154,9 @@ public:
   {
     sim = SimulatedTime::create();
     sim->reset();
+    
     TimeSource::sync();
-
+    start_time = sim->get_real_time_usec();
     init_log_file();
     init_core();
   }
@@ -232,7 +233,7 @@ public:
         catch (...)
           {
             BOOST_TEST_MESSAGE(string ("error at:") + boost::lexical_cast<string>(i)); 
-            std::cout << "error at : " << (sim->current_time / 1000000) << " " << i << std::endl;
+            std::cout << "error at : " << ((sim->current_time - start_time)/ 1000000) << " " << i << std::endl;
             throw;
           }
       }
@@ -240,7 +241,7 @@ public:
   
   void log_actual(const std::string &event, const std::string &param = "")
   {
-    int64_t time = sim->get_monotonic_time_usec() / 1000000;
+    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
     
     out << time << ",Y,";
     out << event << ",";
@@ -251,7 +252,7 @@ public:
 
   void log(const std::string &event, const std::string &param = "")
   {
-    int64_t time = sim->get_monotonic_time_usec() / 1000000;
+    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
     
     out << time << ",N,";
     out << event << ",";
@@ -260,7 +261,6 @@ public:
   
   void expect(int64_t time, const std::string &event, const std::string &param = "")
   {
-    time += 1000;
     expected_results.insert(make_pair(time, Observation(time, event, param)));
   }
   
@@ -552,6 +552,7 @@ public:
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
   bool user_active;
+  uint64_t start_time;
   
   BreakId active_break;
   BreakId active_prelude;

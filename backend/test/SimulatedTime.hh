@@ -20,6 +20,9 @@
 
 #include <boost/enable_shared_from_this.hpp>
 
+//#include <boost/date_time/local_time/local_time.hpp>
+#include "boost/date_time/posix_time/posix_time.hpp"
+
 #include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
 
@@ -40,7 +43,10 @@ public:
 
   void reset()
   {
-    current_time = 1000000000;
+    boost::posix_time::ptime then(boost::gregorian::date(2002,9,22), boost::posix_time::time_duration(22,00,00));
+    boost::posix_time::ptime epoch(boost::gregorian::date(1970,1,1)); 
+    boost::posix_time::time_duration diff = then - epoch;
+    current_time = diff.total_microseconds();
   }
   
   virtual int64_t get_real_time_usec()
