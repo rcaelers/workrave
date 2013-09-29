@@ -88,12 +88,6 @@ BreakStateModel::process()
   prelude_time++;
 
   bool user_is_active = activity_monitor->is_active();
-#ifdef HAVE_TESTS
-  if (!hooks->hook_is_user_active().empty())
-    {
-      user_is_active = hooks->hook_is_user_active()(user_is_active);
-    }
-#endif
 
   TRACE_MSG("stage = " << static_cast<std::underlying_type<BreakStage>::type>(break_stage));
   TRACE_MSG("active = " << user_is_active);

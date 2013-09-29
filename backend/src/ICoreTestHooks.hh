@@ -43,7 +43,6 @@ public:
 
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
   virtual boost::function<ActivityMonitor::Ptr()> &hook_create_monitor() = 0;
-  virtual boost::function<bool(bool)> &hook_is_user_active() = 0;
   virtual boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
 

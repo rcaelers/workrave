@@ -58,12 +58,6 @@ CoreHooks::hook_create_monitor()
   return create_monitor_hook;
 }
 
-boost::function<bool(bool)> &
-CoreHooks::hook_is_user_active()
-{
-  return is_user_active_hook;
-}
-
 boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &
 CoreHooks::hook_load_timer_state()
 {

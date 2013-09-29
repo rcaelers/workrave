@@ -196,12 +196,6 @@ BreaksControl::process_timers()
   else
     {
       user_is_active = activity_monitor->is_active();
-#ifdef HAVE_TESTS
-      if (!hooks->hook_is_user_active().empty())
-        {
-          user_is_active = hooks->hook_is_user_active()(user_is_active);
-        }
-#endif
     }
 
   // TODO:
