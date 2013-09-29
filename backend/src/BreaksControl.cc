@@ -425,6 +425,14 @@ BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
     {
       stop_all_breaks();
     }
+  if (operation_mode == OPERATION_MODE_SUSPENDED)
+    {
+      reading_activity_monitor->suspend();
+    }
+  else
+    {
+      reading_activity_monitor->resume();
+    }
 }
 
 
