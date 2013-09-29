@@ -203,7 +203,7 @@ public:
             TimeSource::sync();
             core->heartbeat();
 
-            if (active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE)
+            if (active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE)
               {
                 BOOST_REQUIRE(!need_refresh || did_refresh);
               }
@@ -213,7 +213,7 @@ public:
                 check_break_progress();
               }
 
-            for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
+            for (int j = 0; j < BREAK_ID_SIZEOF; j++)
               {
                 IBreak::Ptr b = core->get_break(j);
                 BOOST_REQUIRE(j == active_break ? b->is_taking() : !b->is_taking());
@@ -320,7 +320,7 @@ public:
       }
   }
   
-  virtual void create_prelude_window(workrave::BreakId break_id)
+  virtual void create_prelude_window(BreakId break_id)
   {
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
@@ -340,8 +340,8 @@ public:
       }
         
     BOOST_REQUIRE(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
-    BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
-    BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE_EQUAL(active_break, BREAK_ID_NONE);
+    BOOST_REQUIRE_EQUAL(active_prelude, BREAK_ID_NONE);
 
     active_prelude = break_id;
     prelude_count[break_id]++;
@@ -353,7 +353,7 @@ public:
     last_max_value = 0;
   }
   
-  virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint)
+  virtual void create_break_window(BreakId break_id, BreakHint break_hint)
   {
     log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
 
@@ -375,8 +375,8 @@ public:
       {
         BOOST_REQUIRE(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
        }
-    BOOST_REQUIRE_EQUAL(active_break, workrave::BREAK_ID_NONE);
-    BOOST_REQUIRE_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE_EQUAL(active_break, BREAK_ID_NONE);
+    BOOST_REQUIRE_EQUAL(active_prelude, BREAK_ID_NONE);
 
     active_break = break_id;
     timer = 0;
@@ -386,7 +386,7 @@ public:
   
   virtual void hide_break_window()
   {
-    if (active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE)
+    if (active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE)
       {
         log_actual("hide");
       }
@@ -394,14 +394,14 @@ public:
       {
         log("hide");
       }
-    active_break = workrave::BREAK_ID_NONE;
-    active_prelude = workrave::BREAK_ID_NONE;
+    active_break = BREAK_ID_NONE;
+    active_prelude = BREAK_ID_NONE;
   }
   
   virtual void show_break_window()
   {
     log_actual("show");
-    BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE(active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE);
   }
   
   virtual void refresh_break_window()
@@ -409,16 +409,16 @@ public:
     log("refresh");
 
     // TODO: remove forced_break from check after fixing code.
-    BOOST_REQUIRE(forced_break || active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE(forced_break || active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
 
-    if (active_prelude != workrave::BREAK_ID_NONE)
+    if (active_prelude != BREAK_ID_NONE)
       {
         BOOST_REQUIRE(prelude_progress_set);
         BOOST_REQUIRE(prelude_stage_set);
         BOOST_REQUIRE(prelude_text_set);
       }
 
-    if (active_break != workrave::BREAK_ID_NONE)
+    if (active_break != BREAK_ID_NONE)
       {
         BOOST_REQUIRE(break_progress_set);
       }
@@ -431,7 +431,7 @@ public:
     log("progress", boost::str(boost::format("value=%1% max_value=%2%") % value % max_value));
 
     // TODO: remove forced_break from check after fixing code.
-    BOOST_REQUIRE(forced_break || active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE(forced_break || active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE);
 
     last_value = value;
     last_max_value = max_value;
@@ -453,7 +453,7 @@ public:
   {
     log("stage", boost::str(boost::format("stage=%1%") % stage));
 
-    BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE(active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE);
 
     need_refresh = true;
     prelude_stage_set = true;
@@ -463,7 +463,7 @@ public:
   {
     log("text", boost::str(boost::format("text=%1%") % text));
 
-    BOOST_REQUIRE(active_break != workrave::BREAK_ID_NONE || active_prelude  != workrave::BREAK_ID_NONE);
+    BOOST_REQUIRE(active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE);
 
     if (prelude_count[active_prelude] < max_preludes)
       {
@@ -478,7 +478,7 @@ public:
     prelude_text_set = true;
   }
 
-  virtual void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event)
+  virtual void on_break_event(BreakId break_id, BreakEvent event)
   {
     log_actual("break_event", boost::str(boost::format("break_id=%1% event=%2%") % CoreConfig::get_break_name(break_id) % event));
 
@@ -488,12 +488,12 @@ public:
       }
   }
   
-  virtual void on_operation_mode_changed(const workrave::OperationMode m)
+  virtual void on_operation_mode_changed(const OperationMode m)
   {
     log_actual("operationmode", boost::str(boost::format("mode=%1%") % (int)m));
   }
 
-  virtual void on_usage_mode_changed(const workrave::UsageMode m)
+  virtual void on_usage_mode_changed(const UsageMode m)
   {
     log_actual("usagemode", boost::str(boost::format("mode=%1%") % (int)m));
   }
@@ -541,20 +541,20 @@ public:
     return config;
   }
 
-  bool on_load_timer_state(Timer::Ptr[workrave::BREAK_ID_SIZEOF])
+  bool on_load_timer_state(Timer::Ptr[BREAK_ID_SIZEOF])
   {
     return true;
   }
   
   ofstream out;
-  workrave::ICore::Ptr core;
+  ICore::Ptr core;
   IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
   bool user_active;
   
-  workrave::BreakId active_break;
-  workrave::BreakId active_prelude;
+  BreakId active_break;
+  BreakId active_prelude;
   int timer;
   int prelude_count[BREAK_ID_SIZEOF];
   bool fake_break;
@@ -582,8 +582,8 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
   tick(false, 1);
 
   expect(1, "operationmode", "mode=0");
@@ -608,7 +608,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   init();
   
   expect(0,   "operationmode", "mode=2");
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
   tick(true, 300);
   
   expect(300, "operationmode", "mode=0");
@@ -616,7 +616,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(300, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
   tick(true, 1);
 
   verify();
@@ -627,7 +627,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   init();
   
   expect(0,   "operationmode", "mode=2");
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
   tick(true, 302);
 
   expect(302, "operationmode", "mode=0");
@@ -635,7 +635,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   expect(450, "show");
   expect(450, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(450, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
   tick(true, 150);
 
   verify();
@@ -646,11 +646,11 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_suspended)
   init();
 
   expect(0,   "operationmode", "mode=1");
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
   tick(true, 300);
 
   expect(300, "operationmode", "mode=0");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
   tick(true, 1);
 
   verify();
@@ -661,8 +661,8 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   expect(0, "usagemode", "mode=0");
   core->set_usage_mode(workrave::USAGE_MODE_NORMAL);
@@ -675,12 +675,13 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   verify();
 }
 
+
 BOOST_AUTO_TEST_CASE(test_reading_mode)
 {
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   monitor->notify();
   tick(true, 2);
@@ -728,7 +729,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   monitor->notify();
 
@@ -764,7 +765,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   monitor->notify();
 
@@ -801,7 +802,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   monitor->notify();
   tick(true, 2);
@@ -853,7 +854,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(workrave::USAGE_MODE_READING);
+  core->set_usage_mode(USAGE_MODE_READING);
 
   monitor->notify();
   tick(true, 2);
@@ -880,10 +881,10 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
     }
 
   expect(1582, "operationmode", "mode=1");
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
   tick(true, 100);
   expect(1682, "operationmode", "mode=0");
-  core->set_operation_mode(workrave::OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OPERATION_MODE_NORMAL);
   tick(false, 400);
   
   t = 1684;
@@ -909,9 +910,9 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
 
   tick(false, 50, [=](int)
        {
-         for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+         for (int i = 0; i < BREAK_ID_SIZEOF; i++)
            {
-             workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
+             IBreak::Ptr b = core->get_break(BreakId(i));
              BOOST_REQUIRE(!b->is_running());
            }
        });
@@ -934,9 +935,9 @@ BOOST_AUTO_TEST_CASE(test_user_active)
 
   tick(true, 50, [=](int)
        {
-         for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+         for (int i = 0; i < BREAK_ID_SIZEOF; i++)
            {
-             workrave::IBreak::Ptr b = core->get_break(workrave::BreakId(i));
+             IBreak::Ptr b = core->get_break(BreakId(i));
              BOOST_REQUIRE(b->is_running());
            }
        });
@@ -1160,6 +1161,7 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   verify();
 }
 
+
 BOOST_AUTO_TEST_CASE(test_overdue_time)
 {
   init();
@@ -1331,7 +1333,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1550, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1550, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  workrave::IBreak::Ptr b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  IBreak::Ptr b = core->get_break(BREAK_ID_REST_BREAK);
   b->postpone_break();
   tick(false, 1);
 
@@ -1366,7 +1368,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1550, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1550, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  workrave::IBreak::Ptr b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  IBreak::Ptr b = core->get_break(BREAK_ID_REST_BREAK);
   b->skip_break();
   tick(false, 1);
 
@@ -1393,7 +1395,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
   
   expect(315, "hide");
   tick(false, 40);
@@ -1415,7 +1417,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why ignored?
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
   
   expect(315, "hide");
   tick(false, 40);
@@ -1444,7 +1446,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(workrave::OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
   
   tick(false, 30);
 
@@ -1471,7 +1473,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(workrave::OPERATION_MODE_QUIET);
+  core->set_operation_mode(OPERATION_MODE_QUIET);
   
   tick(false, 30);
 
