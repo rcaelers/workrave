@@ -62,9 +62,6 @@ namespace workrave
 
         //! Ignores all activity.
         INSIST_POLICY_IGNORE,
-
-        //! Number of policies.
-        INSIST_POLICY_SIZEOF
       };
 
     virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed() = 0;

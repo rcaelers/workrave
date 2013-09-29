@@ -35,9 +35,6 @@ namespace workrave {
 
       /* Breaks are not reported to the user when due. */
       OPERATION_MODE_QUIET,
-
-      /* Number of modes.*/
-      OPERATION_MODE_SIZEOF
     } OperationMode;
 
   typedef enum UsageMode
@@ -47,9 +44,6 @@ namespace workrave {
 
       /* User is reading. */
       USAGE_MODE_READING,
-
-      /* Number of modes. */
-      USAGE_MODE_SIZEOF
     }  UsageMode;
 
   typedef int BreakId;
