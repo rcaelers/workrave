@@ -192,17 +192,17 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
   add_menu_item(_("Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
   add_menu_item(_("Suspended"),   Menus::MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
   add_menu_item(_("Quiet"),       Menus::MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
  
   add_menu_item(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
-                | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
   add_menu_item(_("Statistics"),   Menus::MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);

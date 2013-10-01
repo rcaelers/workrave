@@ -20,32 +20,61 @@
 #ifndef WORKRAVE_BACKEND_CORETYPES_HH
 #define WORKRAVE_BACKEND_CORETYPES_HH
 
-#ifdef __cplusplus
-namespace workrave {
-#endif
-  
+namespace workrave
+{
   /* Mode */
-  typedef enum OperationMode
-    {
-      /* Breaks are reported to the user when due. */
-      OPERATION_MODE_NORMAL=0,
+  enum class OperationMode
+  {
+    /* Breaks are reported to the user when due. */
+    Normal,
 
-      /* Monitoring is suspended. */
-      OPERATION_MODE_SUSPENDED,
+    /* Monitoring is suspended. */
+    Suspended,
+      
+    /* Breaks are not reported to the user when due. */
+    Quiet,
+  };
 
-      /* Breaks are not reported to the user when due. */
-      OPERATION_MODE_QUIET,
-    } OperationMode;
+  inline std::ostream& operator<<(std::ostream& stream, OperationMode mode)
+  {
+    switch (mode)
+      {
+      case OperationMode::Normal:
+        stream << "normal";
+        break;
+      case OperationMode::Suspended:
+        stream << "suspended";
+        break;
+      case OperationMode::Quiet:
+        stream << "quiet";
+        break;
+      }
+    return stream;
+  }
+  
+  enum class UsageMode
+  {
+    /* Normal 'average' PC usage. */
+    Normal,
 
-  typedef enum UsageMode
-    {
-      /* Normal 'average' PC usage. */
-      USAGE_MODE_NORMAL=0,
+    /* User is reading. */
+    Reading,
+  };
 
-      /* User is reading. */
-      USAGE_MODE_READING,
-    }  UsageMode;
-
+  inline std::ostream& operator<<(std::ostream& stream, UsageMode mode)
+  {
+    switch (mode)
+      {
+      case UsageMode::Normal:
+        stream << "normal";
+        break;
+      case UsageMode::Reading:
+        stream << "reading";
+        break;
+      }
+    return stream;
+  }
+  
   typedef int BreakId;
   const int BREAK_ID_NONE = -1;
   const int BREAK_ID_MICRO_BREAK = 0;
@@ -65,9 +94,42 @@ namespace workrave {
     };
 
 
-  
-#ifdef __cplusplus
+  //! The way a break is insisted.
+  enum class InsistPolicy
+  {
+    //! Uninitialized policy
+    Invalid,
+
+    //! Halts the timer on activity.
+    Halt,
+
+    //! Resets the timer on activity.
+    Reset,
+
+    //! Ignores all activity.
+    Ignore
+  };
+
+  inline std::ostream& operator<<(std::ostream& stream, InsistPolicy policy)
+  {
+    switch (policy)
+      {
+      case InsistPolicy::Invalid:
+        stream << "invalid";
+        break;
+      case InsistPolicy::Halt:
+        stream << "halt";
+        break;
+      case InsistPolicy::Reset:
+        stream << "reset";
+        break;
+      case InsistPolicy::Ignore:
+        stream << "ignore";
+        break;
+      }
+    return stream;
+  }
+
 }
-#endif
 
 #endif // WORKRAVE_BACKEND_CORETYPES_HH

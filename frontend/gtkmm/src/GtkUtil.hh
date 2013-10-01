@@ -1,6 +1,6 @@
 // GtkUtil.hh --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -93,6 +93,8 @@ public:
 
   static GtkWindow *get_visible_tooltip_window();
 
+  static Glib::RefPtr<Gdk::Pixbuf> create_image(const std::string &filename);
+  
 private:
   static Glib::Quark *label_quark;
 };

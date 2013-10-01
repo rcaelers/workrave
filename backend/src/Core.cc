@@ -371,7 +371,7 @@ Core::set_usage_mode(UsageMode mode)
  *  taking a break.
  */
 void
-Core::set_insist_policy(ICore::InsistPolicy p)
+Core::set_insist_policy(InsistPolicy p)
 {
   breaks_control->set_insist_policy(p);
 }
@@ -397,7 +397,7 @@ Core::set_powersave(bool down)
       if (!powersave)
         {
           // Computer is going down
-          set_operation_mode_override(OPERATION_MODE_SUSPENDED, "powersave");
+          set_operation_mode_override(OperationMode::Suspended, "powersave");
           powersave = true;
         }
       

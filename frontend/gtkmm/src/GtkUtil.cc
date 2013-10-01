@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -391,7 +391,8 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
 
 returns the visible tooltip window or NULL
 */
-GtkWindow *GtkUtil::get_visible_tooltip_window()
+GtkWindow *
+GtkUtil::get_visible_tooltip_window()
 {
     GtkWindow *func_retval = NULL;
 
@@ -415,4 +416,19 @@ GtkWindow *GtkUtil::get_visible_tooltip_window()
 
     g_list_free( list );
     return func_retval;
+}
+
+ 
+Glib::RefPtr<Gdk::Pixbuf>
+GtkUtil::create_image(const std::string &filename)
+{
+  std::string file = Util::complete_directory(filename, Util::SEARCH_PATH_IMAGES);
+  try
+    {
+      return Gdk::Pixbuf::create_from_file(file);
+    }
+  catch(...)
+    {
+    }
+  return Glib::RefPtr<Gdk::Pixbuf>();
 }

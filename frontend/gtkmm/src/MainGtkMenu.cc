@@ -264,15 +264,15 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage)
 
   switch (mode)
     {
-    case OPERATION_MODE_NORMAL:
+    case OperationMode::Normal:
       menu_name = "/Menu/Mode/Normal";
       break;
 
-    case OPERATION_MODE_SUSPENDED:
+    case OperationMode::Suspended:
       menu_name = "/Menu/Mode/Suspended";
       break;
 
-    case OPERATION_MODE_QUIET:
+    case OperationMode::Quiet:
       menu_name = "/Menu/Mode/Quiet";
       break;
 
@@ -292,7 +292,7 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage)
   item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( "/Menu/Reading" ) );
   if( item )
   {
-      bool reading = ( usage == USAGE_MODE_READING );
+      bool reading = ( usage == UsageMode::Reading );
 
       if( reading != item->get_active() )
           item->set_active( reading );

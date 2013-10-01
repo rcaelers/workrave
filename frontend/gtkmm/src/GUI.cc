@@ -797,7 +797,7 @@ void
 GUI::init_startup_warnings()
 {
   OperationMode mode = core->get_operation_mode();
-  if (mode != OPERATION_MODE_NORMAL)
+  if (mode != OperationMode::Normal)
     {
       Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_operational_mode_warning_timer), 5000);
     }
@@ -1295,13 +1295,13 @@ bool
 GUI::on_operational_mode_warning_timer()
 {
   OperationMode mode = core->get_operation_mode();
-  if (mode == OPERATION_MODE_SUSPENDED)
+  if (mode == OperationMode::Suspended)
     {
       status_icon->show_balloon("operation_mode",
                                 _("Workrave is in suspended mode. "
                                   "Mouse and keyboard activity will not be monitored."));
     }
-  else if (mode == OPERATION_MODE_QUIET)
+  else if (mode == OperationMode::Quiet)
     {
       status_icon->show_balloon("operation_mode",
                                 _("Workrave is in quiet mode. "
@@ -1438,15 +1438,15 @@ GUI::get_timers_tooltip()
   OperationMode mode = core->get_operation_mode();
   switch (mode)
     {
-    case OPERATION_MODE_SUSPENDED:
+    case OperationMode::Suspended:
       tip = string(_("Mode: ")) +   _("Suspended");
       break;
 
-    case OPERATION_MODE_QUIET:
+    case OperationMode::Quiet:
       tip = string(_("Mode: ")) +   _("Quiet");
       break;
 
-    case OPERATION_MODE_NORMAL:
+    case OperationMode::Normal:
     default:
 #if !defined(PLATFORM_OS_WIN32)
       // Win32 tip is limited in length

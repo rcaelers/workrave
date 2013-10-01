@@ -68,7 +68,7 @@ Session::set_idle(bool new_idle)
   config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
   ICore::Ptr core = CoreFactory::get_core();
 
-  if (core->get_usage_mode() == USAGE_MODE_READING)
+  if (core->get_usage_mode() == UsageMode::Reading)
     {
       core->force_idle();
     }
@@ -85,7 +85,7 @@ Session::set_idle(bool new_idle)
           TRACE_MSG("taking " << taking);
           if (!taking)
             {
-              core->set_operation_mode_override( OPERATION_MODE_SUSPENDED, "screensaver" );
+              core->set_operation_mode_override( OperationMode::Suspended, "screensaver" );
             }
         }
       else if (!new_idle && is_idle && !taking)
@@ -94,7 +94,7 @@ Session::set_idle(bool new_idle)
           IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           core->remove_operation_mode_override( "screensaver" );
-          if (core->get_operation_mode() == OPERATION_MODE_NORMAL &&
+          if (core->get_operation_mode() == OperationMode::Normal &&
               rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()
               && !rest_break->is_taking())

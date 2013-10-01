@@ -70,7 +70,7 @@ public:
 
   IBreak::Ptr get_break(BreakId id);
 
-  void set_insist_policy(ICore::InsistPolicy p);
+  void set_insist_policy(InsistPolicy p);
 
 private:
   void set_freeze_all_breaks(bool freeze);
@@ -101,8 +101,8 @@ private:
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
   Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
   
-  ICore::InsistPolicy insist_policy;
-  ICore::InsistPolicy active_insist_policy;
+  InsistPolicy insist_policy;
+  InsistPolicy active_insist_policy;
 };
 
 #endif // BREAKSCONTROL_HH

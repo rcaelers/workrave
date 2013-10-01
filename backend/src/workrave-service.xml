@@ -15,14 +15,14 @@
   </enum>
   
   <enum name="operation_mode" csymbol="OperationMode">
-    <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
-    <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
-    <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
+    <value name="normal"    csymbol="OperationMode::Normal" value="0"/>
+    <value name="suspended" csymbol="OperationMode::Suspended"/>
+    <value name="quiet"     csymbol="OperationMode::Quiet"/>
   </enum>
   
   <enum name="usage_mode" csymbol="UsageMode">
-    <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
-    <value name="reading"   csymbol="USAGE_MODE_READING"/>
+    <value name="normal"    csymbol="UsageMode::Normal" value="0"/>
+    <value name="reading"   csymbol="UsageMode::Reading"/>
   </enum>
   
   <interface name="org.workrave.CoreInterface" csymbol="Core">

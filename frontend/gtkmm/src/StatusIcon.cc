@@ -49,32 +49,16 @@
 #include "Menus.hh"
 #include "Util.hh"
 #include "TimerBoxControl.hh"
+#include "GtkUtil.hh"
 
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
-  // Preload icons
-  const char *mode_files[] =
-    {
-      "workrave-icon-medium.png",
-      "workrave-suspended-icon-medium.png",
-      "workrave-quiet-icon-medium.png",
-    };
-  assert(sizeof(mode_files)/sizeof(mode_files[0]) == OPERATION_MODE_SIZEOF);
-  for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
-    {
-      std::string file = Util::complete_directory(mode_files[i],
-                                                  Util::SEARCH_PATH_IMAGES);
-      try
-        {
-          mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
-        }
-      catch(...)
-        {
-          TRACE_MSG("Failed to load " << file);
-        }
-    }
 
+  mode_icons[OperationMode::Normal] = GtkUtil::create_image("workrave-icon-medium.png");
+  mode_icons[OperationMode::Suspended] = GtkUtil::create_image("workrave-suspended-icon-medium.png");
+  mode_icons[OperationMode::Quiet] = GtkUtil::create_image("workrave-quiet-icon-medium.png");
+  
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif

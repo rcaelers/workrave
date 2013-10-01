@@ -80,19 +80,19 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage)
       w32aw->add_menu(_("_Normal"), Menus::MENU_COMMAND_MODE_NORMAL,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_NORMAL
+                      |(mode == OperationMode::Normal
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
       w32aw->add_menu(_("Q_uiet"), Menus::MENU_COMMAND_MODE_QUIET,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_QUIET
+                      |(mode == OperationMode::Quiet
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
       w32aw->add_menu(_("_Suspended"), Menus::MENU_COMMAND_MODE_SUSPENDED,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_SUSPENDED
+                      |(mode == OperationMode::Suspended
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
 
@@ -100,7 +100,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage)
 
       w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
                       W32AppletWindow::MENU_FLAG_TOGGLE
-                      |(usage == USAGE_MODE_READING
+                      |(usage == UsageMode::Reading
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
 

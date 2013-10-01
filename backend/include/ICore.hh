@@ -48,22 +48,6 @@ namespace workrave
 
     static ICore::Ptr create();
 
-    //! The way a break is insisted.
-    enum InsistPolicy
-      {
-        //! Uninitialized policy
-        INSIST_POLICY_INVALID,
-
-        //! Halts the timer on activity.
-        INSIST_POLICY_HALT,
-
-        //! Resets the timer on activity.
-        INSIST_POLICY_RESET,
-
-        //! Ignores all activity.
-        INSIST_POLICY_IGNORE,
-      };
-
     virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed() = 0;
     virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed() = 0;
     

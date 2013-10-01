@@ -129,10 +129,10 @@ IndicatorAppletMenu::init()
 void
 IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage)
 {
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_NORMAL, mode == OPERATION_MODE_NORMAL);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_QUIET, mode == OPERATION_MODE_QUIET);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_SUSPENDED, mode == OPERATION_MODE_SUSPENDED);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_READING, usage == USAGE_MODE_READING);
+  menu_item_set_checked(Menus::MENU_COMMAND_MODE_NORMAL, mode == OperationMode::Normal);
+  menu_item_set_checked(Menus::MENU_COMMAND_MODE_QUIET, mode == OperationMode::Quiet);
+  menu_item_set_checked(Menus::MENU_COMMAND_MODE_SUSPENDED, mode == OperationMode::Suspended);
+  menu_item_set_checked(Menus::MENU_COMMAND_MODE_READING, usage == UsageMode::Reading);
 }
 
 int

@@ -63,15 +63,15 @@ GnomeAppletMenu::resync(OperationMode mode, UsageMode usage)
     {
       switch (mode)
         {
-        case OPERATION_MODE_NORMAL:
+        case OperationMode::Normal:
           applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_NORMAL, true);
           break;
 
-        case OPERATION_MODE_SUSPENDED:
+        case OperationMode::Suspended:
           applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_SUSPENDED, true);
           break;
 
-        case OPERATION_MODE_QUIET:
+        case OperationMode::Quiet:
           applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_QUIET, true);
           break;
 
@@ -79,6 +79,6 @@ GnomeAppletMenu::resync(OperationMode mode, UsageMode usage)
           break;
         }
 
-      applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_READING, usage == USAGE_MODE_READING);
+      applet_window->set_menu_status(GnomeAppletWindow::MENUSYNC_MODE_READING, usage == UsageMode::Reading);
     }
 }

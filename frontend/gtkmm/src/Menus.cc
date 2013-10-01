@@ -218,7 +218,7 @@ void
 Menus::on_menu_quiet()
 {
   TRACE_ENTER("Menus::on_menu_quiet");
-  set_operation_mode(OPERATION_MODE_QUIET);
+  set_operation_mode(OperationMode::Quiet);
   TRACE_EXIT();
 }
 
@@ -227,7 +227,7 @@ void
 Menus::on_menu_suspend()
 {
   TRACE_ENTER("Menus::on_menu_suspend");
-  set_operation_mode(OPERATION_MODE_SUSPENDED);
+  set_operation_mode(OperationMode::Suspended);
   TRACE_EXIT();
 }
 
@@ -236,7 +236,7 @@ void
 Menus::on_menu_normal()
 {
   TRACE_ENTER("Menus::on_menu_normal");
-  set_operation_mode(OPERATION_MODE_NORMAL);
+  set_operation_mode(OperationMode::Normal);
   TRACE_EXIT();
 }
 
@@ -245,7 +245,7 @@ void
 Menus::on_menu_reading(bool reading)
 {
   TRACE_ENTER("Menus::on_menu_reading");
-  set_usage_mode(reading ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
+  set_usage_mode(reading ? UsageMode::Reading : UsageMode::Normal);
   resync();
   TRACE_EXIT();
 }
@@ -459,7 +459,7 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_MODE_READING:
       {
         ICore::Ptr core = CoreFactory::get_core();
-        on_menu_reading(core->get_usage_mode() == USAGE_MODE_NORMAL);
+        on_menu_reading(core->get_usage_mode() == UsageMode::Normal);
       }
       break;
     case MENU_COMMAND_QUIT:

@@ -87,26 +87,26 @@ MenuModel::init()
   normal_item = MenuItem::create(_("Normal"),
                                  boost::bind(&MenuModel::on_menu_normal, this),
                                  MenuItemType::RADIO);
-  normal_item->set_checked(mode == workrave::OPERATION_MODE_NORMAL);
+  normal_item->set_checked(mode == workrave::OperationMode::Normal);
   modemenu->add_menu(normal_item);
   
   suspended_item = MenuItem::create(_("Suspended"),
                                     boost::bind(&MenuModel::on_menu_suspend, this),
                                     MenuItemType::RADIO);
   
-  suspended_item->set_checked(mode == workrave::OPERATION_MODE_SUSPENDED);
+  suspended_item->set_checked(mode == workrave::OperationMode::Suspended);
   modemenu->add_menu(suspended_item);
   
   quiet_item = MenuItem::create(_("Quiet"),
                                 boost::bind(&MenuModel::on_menu_quiet, this),
                                 MenuItemType::RADIO);
-  quiet_item->set_checked(mode == workrave::OPERATION_MODE_QUIET);
+  quiet_item->set_checked(mode == workrave::OperationMode::Quiet);
   modemenu->add_menu(quiet_item);
 
   reading_item = MenuItem::create(_("Reading mode"),
                                   boost::bind(&MenuModel::on_menu_reading, this),
                                   MenuItemType::CHECK);
-  reading_item->set_checked(usage == workrave::USAGE_MODE_READING);
+  reading_item->set_checked(usage == workrave::UsageMode::Reading);
   top->add_menu(reading_item);
   
   item = MenuItem::create(_("Statistics"),
@@ -171,7 +171,7 @@ void
 MenuModel::on_menu_normal()
 {
   TRACE_ENTER("MenuModel::on_menu_normal");
-  set_operation_mode(OPERATION_MODE_NORMAL);
+  set_operation_mode(OperationMode::Normal);
   TRACE_EXIT();
 }
 
@@ -179,7 +179,7 @@ void
 MenuModel::on_menu_suspend()
 {
   TRACE_ENTER("MenuModel::on_menu_suspend");
-  set_operation_mode(OPERATION_MODE_SUSPENDED);
+  set_operation_mode(OperationMode::Suspended);
   TRACE_EXIT();
 }
 
@@ -187,20 +187,20 @@ void
 MenuModel::on_menu_quiet()
 {
   TRACE_ENTER("MenuModel::on_menu_quiet");
-  set_operation_mode(OPERATION_MODE_QUIET);
+  set_operation_mode(OperationMode::Quiet);
   TRACE_EXIT();
 }
 
 void
 MenuModel::on_menu_reading()
 {
-  set_usage_mode(reading_item->is_checked() ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
+  set_usage_mode(reading_item->is_checked() ? UsageMode::Reading : UsageMode::Normal);
 }
 
 void
 MenuModel::on_menu_reading(bool on)
 {
-  set_usage_mode(on ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
+  set_usage_mode(on ? UsageMode::Reading : UsageMode::Normal);
 }
 
 
@@ -220,13 +220,13 @@ MenuModel::set_usage_mode(UsageMode m)
 void
 MenuModel::on_operation_mode_changed(const OperationMode m)
 {
-  normal_item->set_checked(m == OperationMode::OPERATION_MODE_NORMAL);
-  suspended_item->set_checked(m == OperationMode::OPERATION_MODE_SUSPENDED);
-  quiet_item->set_checked(m == OperationMode::OPERATION_MODE_QUIET);
+  normal_item->set_checked(m == OperationMode::Normal);
+  suspended_item->set_checked(m == OperationMode::Suspended);
+  quiet_item->set_checked(m == OperationMode::Quiet);
 }
 
 void
 MenuModel::on_usage_mode_changed(const UsageMode m)
 {
-  reading_item->set_checked(m == UsageMode::USAGE_MODE_READING);
+  reading_item->set_checked(m == UsageMode::Reading);
 }

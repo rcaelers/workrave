@@ -323,6 +323,6 @@ RestBreakWindow::set_ignore_activity(bool i)
 #endif
 
   core->set_insist_policy(i ?
-                          ICore::INSIST_POLICY_IGNORE :
-                          ICore::INSIST_POLICY_HALT);
+                          InsistPolicy::Ignore :
+                          InsistPolicy::Halt);
 }

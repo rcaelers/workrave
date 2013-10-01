@@ -122,7 +122,7 @@ ReadingActivityMonitor::force_idle()
 void
 ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
 {
-  if (mode == workrave::USAGE_MODE_READING)
+  if (mode == workrave::UsageMode::Reading)
     {
       state = Idle;
     }

@@ -142,8 +142,8 @@ public:
 
     pretest_verify();
 
-    core->set_operation_mode(OPERATION_MODE_NORMAL);
-    core->set_usage_mode(USAGE_MODE_NORMAL);
+    core->set_operation_mode(OperationMode::Normal);
+    core->set_usage_mode(UsageMode::Normal);
 
     core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1)); 
     core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1));
@@ -173,8 +173,8 @@ public:
           }
         BOOST_REQUIRE(b->is_limit_enabled());
       }
-    BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
-    BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+    BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+    BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Reading);
   }
   
   void tick()
@@ -589,38 +589,38 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OPERATION_MODE_QUIET);
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(1, "operationmode", "mode=0");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(OperationMode::Normal);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(2, "operationmode", "mode=1");
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(OperationMode::Suspended);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Suspended);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(3, "operationmode", "mode=0");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(OperationMode::Normal);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   verify();
@@ -634,31 +634,31 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_via_settings)
   config->set_value("general/operation-mode", 2);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(1, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(2, "operationmode", "mode=1");
   config->set_value("general/operation-mode", 1);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_SUSPENDED);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Suspended);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   expect(3, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
   
   verify();
@@ -669,7 +669,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   init();
   
   expect(0,   "operationmode", "mode=2");
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
   tick(true, 300);
   
   expect(300, "operationmode", "mode=0");
@@ -677,7 +677,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(300, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
   tick(true, 1);
 
   verify();
@@ -688,7 +688,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   init();
   
   expect(0,   "operationmode", "mode=2");
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
   tick(true, 302);
 
   expect(302, "operationmode", "mode=0");
@@ -696,7 +696,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   expect(450, "show");
   expect(450, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(450, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
   tick(true, 150);
 
   verify();
@@ -707,11 +707,11 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_suspended)
   init();
 
   expect(0,   "operationmode", "mode=1");
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OperationMode::Suspended);
   tick(true, 300);
 
   expect(300, "operationmode", "mode=0");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
   tick(true, 1);
 
   verify();
@@ -722,54 +722,54 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override)
 {
   init();
 
-  core->set_operation_mode_override(OPERATION_MODE_SUSPENDED, "ov1");
+  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OPERATION_MODE_QUIET, "ov2");
+  core->set_operation_mode_override(OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OPERATION_MODE_QUIET, "ov2");
+  core->set_operation_mode_override(OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
   expect(5, "operationmode", "mode=0"); // FIXME: why this event?
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OPERATION_MODE_NORMAL, "ov3");
+  core->set_operation_mode_override(OperationMode::Normal, "ov3");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
   
   verify();
@@ -780,35 +780,35 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overriden)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_QUIET);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OPERATION_MODE_SUSPENDED, "ov1");
+  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_QUIET);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
   expect(2, "operationmode", "mode=1"); // FIXME: Why this event?
   expect(2, "operationmode", "mode=1"); // FIXME: Why this event? 
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_SUSPENDED);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   expect(3, "operationmode", "mode=0");
   tick(false, 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OPERATION_MODE_NORMAL);
-  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OPERATION_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_REQUIRE_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
   BOOST_REQUIRE(!core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
@@ -822,22 +822,22 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(UsageMode::Reading);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Reading);
 
   expect(0, "usagemode", "mode=0");
-  core->set_usage_mode(USAGE_MODE_NORMAL);
-  core->set_usage_mode(USAGE_MODE_NORMAL);
+  core->set_usage_mode(UsageMode::Normal);
+  core->set_usage_mode(UsageMode::Normal);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Normal);
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(UsageMode::Reading);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Reading);
 
   verify();
 }
@@ -849,17 +849,17 @@ BOOST_AUTO_TEST_CASE(test_usage_mode_via_settings)
   expect(0, "usagemode", "mode=1");
   config->set_value("general/usage-mode", 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Reading);
 
   expect(0, "usagemode", "mode=0");
   config->set_value("general/usage-mode", 0);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_NORMAL);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Normal);
 
   expect(0, "usagemode", "mode=1");
   config->set_value("general/usage-mode", 1);
 
-  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), USAGE_MODE_READING);
+  BOOST_REQUIRE_EQUAL(core->get_usage_mode(), UsageMode::Reading);
 
   verify();
 }
@@ -870,7 +870,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -918,7 +918,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
 
   monitor->notify();
 
@@ -954,7 +954,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
 
   monitor->notify();
 
@@ -991,7 +991,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -1043,7 +1043,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
   init();
   
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(USAGE_MODE_READING);
+  core->set_usage_mode(UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -1070,10 +1070,10 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
     }
 
   expect(1582, "operationmode", "mode=1");
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OperationMode::Suspended);
   tick(true, 100);
   expect(1682, "operationmode", "mode=0");
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
+  core->set_operation_mode(OperationMode::Normal);
   tick(false, 400);
   
   t = 1684;
@@ -1415,7 +1415,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   
   tick(false, 50);
   
-  core->set_insist_policy(ICore::INSIST_POLICY_HALT);
+  core->set_insist_policy(InsistPolicy::Halt);
 
   int elapsed = rb->get_elapsed_idle_time();
   tick(true, 100, [=](int) {
@@ -1453,7 +1453,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   
   tick(false, 50);
   
-  core->set_insist_policy(ICore::INSIST_POLICY_RESET);
+  core->set_insist_policy(InsistPolicy::Reset);
 
   tick(true, 100, [=](int) {
       BOOST_REQUIRE_EQUAL(rb->get_elapsed_idle_time(), 0);
@@ -1487,7 +1487,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_ignore)
   
   tick(false, 50);
   
-  core->set_insist_policy(ICore::INSIST_POLICY_IGNORE);
+  core->set_insist_policy(InsistPolicy::Ignore);
 
   tick(true, 100);
   tick(false, 400);
@@ -1584,7 +1584,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
   
   expect(315, "hide");
   tick(false, 40);
@@ -1606,7 +1606,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why ignored?
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OperationMode::Suspended);
   
   expect(315, "hide");
   tick(false, 40);
@@ -1635,7 +1635,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
+  core->set_operation_mode(OperationMode::Suspended);
   
   tick(false, 30);
 
@@ -1662,7 +1662,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(OPERATION_MODE_QUIET);
+  core->set_operation_mode(OperationMode::Quiet);
   
   tick(false, 30);
 

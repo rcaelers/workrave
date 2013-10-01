@@ -643,9 +643,9 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
       ICore::Ptr core = CoreFactory::get_core();
 
       OperationMode mode = core->get_operation_mode();
-      if (mode == OPERATION_MODE_NORMAL)
+      if (mode == OperationMode::Normal)
         {
-          core->set_operation_mode_override( OPERATION_MODE_QUIET, "preferences" );
+          core->set_operation_mode_override( OperationMode::Quiet, "preferences" );
         }
     }
   TRACE_EXIT();

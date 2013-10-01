@@ -26,6 +26,58 @@
 
 using namespace std;
 
+inline int to_int(OperationMode mode)
+{
+  switch (mode)
+    {
+    case OperationMode::Normal:
+      return 0;
+    case OperationMode::Suspended:
+      return 1;
+    case OperationMode::Quiet:
+      return 2;
+    }
+}
+
+inline OperationMode operation_mode_from_int(int mode)
+{
+  switch (mode)
+    {
+    case 0:
+      return OperationMode::Normal;
+    case 1:
+      return OperationMode::Suspended;
+    case 2:
+      return OperationMode::Quiet;
+    default:
+      return OperationMode::Normal;
+    }
+}
+
+inline int to_int(UsageMode mode)
+{
+  switch (mode)
+    {
+    case UsageMode::Normal:
+      return 0;
+    case UsageMode::Reading:
+      return 1;
+    }
+}
+
+inline UsageMode usage_mode_from_int(int mode)
+{
+  switch (mode)
+    {
+    case 0:
+      return UsageMode::Normal;
+    case 1:
+      return UsageMode::Reading;
+    default:
+      return UsageMode::Normal;
+    }
+}
+
 CoreModes::Ptr
 CoreModes::create(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config)
 {
@@ -34,9 +86,9 @@ CoreModes::create(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config)
 
 
 CoreModes::CoreModes(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config) :
-  operation_mode(OPERATION_MODE_NORMAL),
-  operation_mode_regular(OPERATION_MODE_NORMAL),
-  usage_mode(USAGE_MODE_NORMAL),
+  operation_mode(OperationMode::Normal),
+  operation_mode_regular(OperationMode::Normal),
+  usage_mode(UsageMode::Normal),
   monitor(monitor),
   config(config)
 {
@@ -176,22 +228,22 @@ CoreModes::set_operation_mode_internal(
   }
 
   TRACE_MSG( "Incoming/requested mode is "
-      << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-            mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+      << ( mode == OperationMode::Normal ? "OperationMode::Normal" :
+            mode == OperationMode::Suspended ? "OperationMode::Suspended" :
+                mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???" )
       << ( override_id.size() ? " (override)" : " (regular)" )
       );
 
   TRACE_MSG( "Current mode is "
-      << ( operation_mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-            operation_mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                operation_mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+      << ( operation_mode == OperationMode::Normal ? "OperationMode::Normal" :
+            operation_mode == OperationMode::Suspended ? "OperationMode::Suspended" :
+                operation_mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???" )
       << ( operation_mode_overrides.size() ? " (override)" : " (regular)" )
       );
   
-  if( ( mode != OPERATION_MODE_NORMAL )
-      && ( mode != OPERATION_MODE_QUIET )
-      && ( mode != OPERATION_MODE_SUSPENDED )
+  if( ( mode != OperationMode::Normal )
+      && ( mode != OperationMode::Quiet )
+      && ( mode != OperationMode::Suspended )
       )
   {
       TRACE_RETURN( "No change: incoming invalid" );
@@ -210,9 +262,9 @@ CoreModes::set_operation_mode_internal(
       int cm;
       if( persistent 
           && ( !config->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
-              || ( cm != mode ) )
+               || ( cm != to_int(mode) ) )
           )
-          config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, mode );
+        config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, to_int(mode) );
 
       TRACE_RETURN( "No change: current is an override type but incoming is regular" );
       return;
@@ -225,24 +277,24 @@ CoreModes::set_operation_mode_internal(
       operation_mode_overrides[ override_id ] = mode;
 
       /* Find the most important override. Override modes in order of importance:
-      OPERATION_MODE_SUSPENDED, OPERATION_MODE_QUIET, OPERATION_MODE_NORMAL
+      OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
       */
       for( map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
           ( i != operation_mode_overrides.end() );
           ++i
           )
       {
-          if( i->second == OPERATION_MODE_SUSPENDED )
+          if( i->second == OperationMode::Suspended )
           {
-              mode = OPERATION_MODE_SUSPENDED;
+              mode = OperationMode::Suspended;
               break;
           }
 
-          if( ( i->second == OPERATION_MODE_QUIET )
-              && ( mode == OPERATION_MODE_NORMAL )
+          if( ( i->second == OperationMode::Quiet )
+              && ( mode == OperationMode::Normal )
               )
           {
-              mode = OPERATION_MODE_QUIET;
+              mode = OperationMode::Quiet;
           }
       }
   }
@@ -251,9 +303,9 @@ CoreModes::set_operation_mode_internal(
   if (operation_mode != mode)
   {
       TRACE_MSG( "Changing active operation mode to "
-          << ( mode == OPERATION_MODE_NORMAL ? "OPERATION_MODE_NORMAL" :
-                mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED" :
-                    mode == OPERATION_MODE_QUIET ? "OPERATION_MODE_QUIET" : "???" )
+          << ( mode == OperationMode::Normal ? "OperationMode::Normal" :
+                mode == OperationMode::Suspended ? "OperationMode::Suspended" :
+                    mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???" )
           );
 
       OperationMode previous_mode = operation_mode;
@@ -263,11 +315,11 @@ CoreModes::set_operation_mode_internal(
       if( !operation_mode_overrides.size() )
           operation_mode_regular = operation_mode;
 
-      if (operation_mode == OPERATION_MODE_SUSPENDED)
+      if (operation_mode == OperationMode::Suspended)
       {
           monitor->suspend();
       }
-      else if (previous_mode == OPERATION_MODE_SUSPENDED)
+      else if (previous_mode == OperationMode::Suspended)
       {
           monitor->resume();
       }
@@ -280,7 +332,7 @@ CoreModes::set_operation_mode_internal(
           */
 
           if( persistent )
-              config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode );
+              config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, to_int(operation_mode) );
 
           TRACE_MSG("Send event");
           operation_mode_changed_signal(operation_mode);
@@ -317,7 +369,7 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       if (persistent)
         {
-          config->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+          config->set_value(CoreConfig::CFG_KEY_USAGE_MODE, to_int(mode));
         }
 
       usage_mode_changed_signal(mode);
@@ -334,17 +386,19 @@ CoreModes::load_config()
   config->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
 
   int mode;
-  if (! config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+  OperationMode operation_mode = OperationMode::Normal;
+  if (config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
-      mode = OPERATION_MODE_NORMAL;
+      operation_mode = operation_mode_from_int(mode);
     }
-  set_operation_mode(OperationMode(mode));
+  set_operation_mode(operation_mode);
 
-  if (! config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+  UsageMode usage_mode = UsageMode::Normal;
+  if (config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {
-      mode = USAGE_MODE_NORMAL;
+      usage_mode = usage_mode_from_int(mode);
     }
-  set_usage_mode(UsageMode(mode));
+  set_usage_mode(usage_mode);
 }
 
 
@@ -364,23 +418,26 @@ CoreModes::config_changed_notify(const string &key)
   if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
     {
       int mode;
-      if (! config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+      OperationMode operation_mode = OperationMode::Normal;
+      if (config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
         {
-          mode = OPERATION_MODE_NORMAL;
+          operation_mode = operation_mode_from_int(mode);
         }
       TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(OperationMode(mode), false);
+      set_operation_mode_internal(operation_mode, false);
     }
 
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
     {
       int mode;
-      if (! config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+      UsageMode usage_mode = UsageMode::Normal;
+      if (config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
         {
-          mode = USAGE_MODE_NORMAL;
+          usage_mode = usage_mode_from_int(mode);
         }
+      set_usage_mode(usage_mode);
       TRACE_MSG("Setting usage mode");
-      set_usage_mode_internal(UsageMode(mode), false);
+      set_usage_mode_internal(usage_mode, false);
     }
   TRACE_EXIT();
 }

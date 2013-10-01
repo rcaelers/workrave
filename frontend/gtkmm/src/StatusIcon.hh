@@ -96,8 +96,8 @@ private:
 #ifndef HAVE_EMBEDDED_SIGNAL
   static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
-  
-  Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
+
+  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
   sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activate_signal;

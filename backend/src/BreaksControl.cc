@@ -73,8 +73,8 @@ BreaksControl::BreaksControl(IApp *app,
   configurator(configurator),
   dbus(dbus),
   hooks(hooks),
-  insist_policy(ICore::INSIST_POLICY_HALT),
-  active_insist_policy(ICore::INSIST_POLICY_INVALID)
+  insist_policy(InsistPolicy::Halt),
+  active_insist_policy(InsistPolicy::Invalid)
 {
 }
 
@@ -163,7 +163,7 @@ BreaksControl::heartbeat()
   TRACE_ENTER("BreaksControl::heartbeat");
 
   bool user_is_active;
-  if (modes->get_usage_mode() == USAGE_MODE_READING)
+  if (modes->get_usage_mode() == UsageMode::Reading)
     {
       user_is_active = reading_activity_monitor->is_active();
     }
@@ -215,7 +215,7 @@ BreaksControl::process_timers(bool user_is_active)
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached" << break_id);
               if (!breaks[break_id]->is_active() &&
-                  modes->get_operation_mode() == OPERATION_MODE_NORMAL)
+                  modes->get_operation_mode() == OperationMode::Normal)
                 {
                   start_break(break_id);
                 }
@@ -312,11 +312,11 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 }
 
 void
-BreaksControl::set_insist_policy(ICore::InsistPolicy p)
+BreaksControl::set_insist_policy(InsistPolicy p)
 {
   TRACE_ENTER_MSG("Core::set_insist_policy", p);
 
-  if (active_insist_policy != ICore::INSIST_POLICY_INVALID &&
+  if (active_insist_policy != InsistPolicy::Invalid &&
       insist_policy != p)
     {
       TRACE_MSG("refreeze " << active_insist_policy);
@@ -338,28 +338,28 @@ BreaksControl::set_insist_policy(ICore::InsistPolicy p)
 void
 BreaksControl::freeze()
 {
-  ICore::InsistPolicy policy = insist_policy;
+  InsistPolicy policy = insist_policy;
 
   switch (policy)
     {
-    case ICore::INSIST_POLICY_IGNORE:
+    case InsistPolicy::Ignore:
       {
         // Ignore all activity during break by suspending the activity monitor.
         activity_monitor->suspend();
       }
       break;
-    case ICore::INSIST_POLICY_HALT:
+    case InsistPolicy::Halt:
       {
         // Halt timer when the user is active.
         set_freeze_all_breaks(true);
       }
       break;
-    case ICore::INSIST_POLICY_RESET:
+    case InsistPolicy::Reset:
       // reset the timer when the user becomes active.
       // default.
       break;
 
-    case ICore::INSIST_POLICY_INVALID:
+    case InsistPolicy::Invalid:
       break;
     }
 
@@ -373,28 +373,28 @@ BreaksControl::defrost()
 {
   switch (active_insist_policy)
     {
-    case ICore::INSIST_POLICY_IGNORE:
+    case InsistPolicy::Ignore:
       {
         // Resumes the activity monitor, if not suspended.
-        if (modes->get_operation_mode() != OPERATION_MODE_SUSPENDED)
+        if (modes->get_operation_mode() != OperationMode::Suspended)
           {
             activity_monitor->resume();
           }
       }
       break;
-    case ICore::INSIST_POLICY_HALT:
+    case InsistPolicy::Halt:
       {
         // Desfrost timers.
         set_freeze_all_breaks(false);
       }
       break;
 
-    case ICore::INSIST_POLICY_INVALID:
-    case ICore::INSIST_POLICY_RESET: 
+    case InsistPolicy::Invalid:
+    case InsistPolicy::Reset: 
      break;
     }
 
-  active_insist_policy = ICore::INSIST_POLICY_INVALID;
+  active_insist_policy = InsistPolicy::Invalid;
 }
 
 void
@@ -412,12 +412,12 @@ BreaksControl::set_freeze_all_breaks(bool freeze)
 void
 BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
 {
-  if (operation_mode == OPERATION_MODE_SUSPENDED ||
-      operation_mode == OPERATION_MODE_QUIET)
+  if (operation_mode == OperationMode::Suspended ||
+      operation_mode == OperationMode::Quiet)
     {
       stop_all_breaks();
     }
-  if (operation_mode == OPERATION_MODE_SUSPENDED)
+  if (operation_mode == OperationMode::Suspended)
     {
       reading_activity_monitor->suspend();
     }
@@ -454,7 +454,7 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
       break;
     }
 
-  if (modes->get_usage_mode() == USAGE_MODE_READING)
+  if (modes->get_usage_mode() == UsageMode::Reading)
     {  
       reading_activity_monitor->handle_break_event(break_id, event);
     }

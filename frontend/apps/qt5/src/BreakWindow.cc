@@ -289,7 +289,7 @@ BreakWindow::resume_non_ignorable_break()
   TRACE_MSG("break flags " << break_flags);
   
   if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
-      mode == OPERATION_MODE_NORMAL)
+      mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
