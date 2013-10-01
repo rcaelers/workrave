@@ -92,9 +92,6 @@ Core::init(IApp *app, const string &display_name)
   
   init_configurator();
 
-  statistics = Statistics::create();
-  statistics->init();
-
 #ifdef HAVE_TESTS
   if (!hooks->hook_create_monitor().empty())
     {
@@ -110,6 +107,9 @@ Core::init(IApp *app, const string &display_name)
   
   monitor->init();
 
+  statistics = Statistics::create(monitor);
+  statistics->init();
+  
   core_modes = CoreModes::create(monitor, configurator);
 
   core_dbus = CoreDBus::create(core_modes, dbus);
@@ -402,7 +402,7 @@ Core::set_powersave(bool down)
         }
       
       breaks_control->save_state();
-      statistics->update(is_user_active());
+      statistics->update();
     }
   else
     {

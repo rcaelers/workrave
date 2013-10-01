@@ -184,7 +184,7 @@ BreaksControl::heartbeat()
   // Make state persistent.
   if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
     {
-      statistics->update(user_is_active);
+      statistics->update();
       save_state();
     }
 

@@ -44,13 +44,14 @@ const int STATSVERSION = 4;
 #define MAX_JUMP (10000)
 
 Statistics::Ptr
-Statistics::create()
+Statistics::create(ActivityMonitor::Ptr monitor)
 {
-  return Ptr(new Statistics());
+  return Ptr(new Statistics(monitor));
 }
 
 //! Constructor
-Statistics::Statistics() :
+Statistics::Statistics(ActivityMonitor::Ptr monitor) :
+  monitor(monitor),
   current_day(NULL),
   been_active(false),
   prev_x(-1),
@@ -64,7 +65,7 @@ Statistics::Statistics() :
 //! Destructor
 Statistics::~Statistics()
 {
-  update(false);
+  update();
 
   for (auto &item : history)
     {
@@ -103,22 +104,22 @@ Statistics::init()
 
 //! Periodic heartbeat.
 void
-Statistics::update(bool user_is_active)
+Statistics::update()
 {
   TRACE_ENTER("Statistics::update");
 
-  if (user_is_active && !been_active)
+  if (monitor->is_active())
     {
       const time_t now = time(NULL);
       struct tm *tmnow = localtime(&now);
-
-      current_day->start = *tmnow;
       current_day->stop = *tmnow;
-
-      been_active = true;
+      
+      if (!been_active)
+        {
+          current_day->start = *tmnow;
+          been_active = true;
+        }
     }
-
-  update_current_day(user_is_active);
   save_day(current_day);
   TRACE_EXIT();
 }
@@ -127,7 +128,7 @@ Statistics::update(bool user_is_active)
 bool 
 Statistics::delete_all_history()
 {
-    update(false);
+    update();
 
     string histfile = Util::get_home_directory() + "historystats";
     boost::filesystem::path histpath(histfile);
@@ -194,7 +195,7 @@ Statistics::start_new_day()
       current_day->stop = *tmnow;
     }
 
-  update_current_day(false);
+  update();
   save_day(current_day);
 
   TRACE_EXIT();
@@ -577,7 +578,7 @@ Statistics::dump()
 {
   TRACE_ENTER("Statistics::dump");
 
-  update_current_day(false);
+  update();
 
   stringstream ss;
   for(int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -683,18 +684,6 @@ Statistics::get_history_size() const
   return history.size();
 }
 
-
-
-void
-Statistics::update_current_day(bool active)
-{
-  if (active)
-    {
-      const time_t now = time(NULL);
-      struct tm *tmnow = localtime(&now);
-      current_day->stop = *tmnow;
-    }
-}
 
 
 bool

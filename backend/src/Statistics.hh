@@ -36,6 +36,7 @@
 #include "input-monitor/IInputMonitorListener.hh"
 
 #include "IStatistics.hh"
+#include "ActivityMonitor.hh"
 
 using namespace workrave;
 using namespace workrave::input_monitor;
@@ -49,7 +50,7 @@ public:
   typedef boost::shared_ptr<Statistics> Ptr;
 
 public:
-  static Ptr create();
+  static Ptr create(ActivityMonitor::Ptr monitor);
 
 private:
   enum StatsMarker
@@ -105,7 +106,7 @@ private:
 
 public:
   //! Constructor.
-  Statistics();
+  Statistics(ActivityMonitor::Ptr monitor);
 
   //! Destructor
   virtual ~Statistics();
@@ -114,7 +115,7 @@ public:
 
 public:
   void init();
-  void update(bool user_is_active);
+  void update();
   void dump();
   void start_new_day();
 
@@ -137,7 +138,6 @@ private:
   void keyboard_notify(bool repeat);
 
   bool load_current_day();
-  void update_current_day(bool active);
   void load_history();
 
 private:
@@ -151,6 +151,8 @@ private:
   void add_history(DailyStatsImpl *stats);
 
 private:
+  ActivityMonitor::Ptr monitor;
+  
   //! Mouse/Keyboard monitoring.
   IInputMonitor::Ptr input_monitor;
 
