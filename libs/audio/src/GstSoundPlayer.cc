@@ -27,7 +27,6 @@
 
 #include "GstSoundPlayer.hh"
 #include "ISoundPlayerEvents.hh"
-#include "Util.hh"
 
 #include <debug.hh>
 
@@ -110,14 +109,7 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 
   if (method == "automatic")
     {
-      if (Util::running_gnome())
-        {
-          sink = gst_element_factory_make("gconfaudiosink", "sink");
-        }
-      if (!sink)
-        {
-          sink = gst_element_factory_make("autoaudiosink", "sink");
-        }
+      sink = gst_element_factory_make("autoaudiosink", "sink");
     }
   else if (method == "esd")
     {
