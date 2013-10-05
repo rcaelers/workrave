@@ -34,7 +34,6 @@
 #include <time.h>
 
 #include "DayTimePred.hh"
-#include "timeutil.h"
 
 using namespace std;
 using namespace workrave::utils;

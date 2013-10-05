@@ -36,7 +36,6 @@
 #include "debug.hh"
 #include "input-monitor/Harpoon.hh"
 
-#include "timeutil.h"
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 

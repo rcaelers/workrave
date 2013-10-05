@@ -69,8 +69,6 @@
 
 #include "input-monitor/IInputMonitorListener.hh"
 
-#include "timeutil.h"
-
 #ifdef HAVE_APP_GTK
 #include <gdk/gdkx.h>
 #endif

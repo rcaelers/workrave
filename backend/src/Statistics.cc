@@ -36,7 +36,6 @@
 #include "Timer.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
-#include "timeutil.h"
 
 const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 4;
