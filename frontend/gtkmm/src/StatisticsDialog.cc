@@ -53,6 +53,8 @@
 #include "Text.hh"
 #include "GtkUtil.hh"
 
+using namespace std;
+
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false),
     daily_usage_label(NULL),

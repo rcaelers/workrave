@@ -40,14 +40,16 @@
 #include <glib.h>
 #include "W32DirectSoundPlayer.hh"
 
-#include "audio/SoundPlayer.hh"
+#include "SoundPlayer.hh"
 #include "utils/Exception.hh"
 
 #define	SAMPLE_BITS		    (8)
 #define	WAVE_BUFFER_SIZE  (4096)
 
+using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
+using namespace workrave::audio;
 
 static std::string sound_filename;
 
@@ -73,7 +75,7 @@ W32DirectSoundPlayer::~W32DirectSoundPlayer()
 
 //!
 void
-W32DirectSoundPlayer::init(ISoundDriverEvents *events)
+W32DirectSoundPlayer::init(ISoundPlayerEvents *events)
 {
   this->events = events;
 }
@@ -153,7 +155,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
 
 
 
-SoundClip::SoundClip(const string &filename, ISoundDriverEvents *events, int volume)
+SoundClip::SoundClip(const string &filename, ISoundPlayerEvents *events, int volume)
 {
   TRACE_ENTER("SoundClip::SoundClip");
 

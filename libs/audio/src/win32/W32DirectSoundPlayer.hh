@@ -20,7 +20,7 @@
 #ifndef W32DIRECTSOUNDPLAYER_HH
 #define W32DIRECTSOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
+#include "ISoundDriver.hh"
 
 #include <windows.h>
 #include <dxerr8.h>
@@ -33,9 +33,9 @@ public:
   W32DirectSoundPlayer();
   virtual ~W32DirectSoundPlayer();
 
-  void init(ISoundDriverEvents *events);
-  bool capability(SoundCapability cap);
-  void play_sound(SoundEvent snd, int volume);
+  void init(ISoundPlayerEvents *events);
+  bool capability(workrave::audio::SoundCapability cap);
+  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
 
 private:
@@ -44,7 +44,7 @@ private:
   void play();
 
 private:
-  ISoundDriverEvents *events;
+  ISoundPlayerEvents *events;
 };
 
 
@@ -75,7 +75,7 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(const std::string &filename, ISoundDriverEvents *events, int volume);
+  SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume);
   virtual ~SoundClip();
 
   void init();
@@ -95,7 +95,7 @@ private:
   LPDIRECTSOUNDBUFFER sound_buffer;
   DWORD sound_buffer_size;
   HANDLE stop_event;
-  ISoundDriverEvents *events;
+  ISoundPlayerEvents *events;
   int volume;
 };
 

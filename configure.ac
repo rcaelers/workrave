@@ -245,7 +245,7 @@ if test "x$enable_debug" = "xyes"
 then
    config_debug=yes
    CFLAGS="${CFLAGS} -O0 -g -Wall"
-   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall"
+   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -Wno-unused-local-typedefs"
    LDFLAGS="${LDFLAGS} -g"
 
    AC_DEFINE([GLIBCXX_FORCE_NEW], , [Define for debugging purposes])
@@ -280,7 +280,7 @@ then
     AC_DEFINE([_WIN32_WINNT], [0x0600], [Windows version])
 
     WIN32LIBS="-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32"
-    WIN32LDFLAGS="-static-libgcc -static-libstdc++"
+    dnl skip with latest mingw: WIN32LDFLAGS="-static-libgcc -static-libstdc++"
     
     #if test "x$enable_debug" != "xyes"
     #then

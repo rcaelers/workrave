@@ -20,7 +20,7 @@
 #ifndef W32MIXER_HH
 #define W32MIXER_HH
 
-#include "audio/IMixer.hh"
+#include "IMixer.hh"
 
 #ifdef HAVE_MMDEVICEAPI_H
 #include <mmdeviceapi.h>

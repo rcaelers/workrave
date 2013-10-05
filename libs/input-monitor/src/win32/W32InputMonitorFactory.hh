@@ -36,7 +36,7 @@ class W32InputMonitorFactory : public IInputMonitorFactory
 public:
   W32InputMonitorFactory(IConfigurator::Ptr config);
   virtual void init(const std::string &display);
-  virtual IInputMonitor *create_monitor(MonitorCapability capability);
+  virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 
 private:
   IInputMonitor::Ptr create_statistics_monitor();

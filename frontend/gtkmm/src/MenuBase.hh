@@ -22,6 +22,8 @@
 
 #include "IMenu.hh"
 
+#include <gtkmm.h>
+
 class MenuBase : public IMenu
 {
 public:

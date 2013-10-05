@@ -20,7 +20,7 @@
 #ifndef W32SOUNDPLAYER_HH
 #define W32SOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
+#include "ISoundDriver.hh"
 
 class W32SoundPlayer : public ISoundDriver
 {
@@ -28,9 +28,9 @@ public:
   W32SoundPlayer();
   virtual ~W32SoundPlayer();
 
-  void init(ISoundDriverEvents *) {}
-  bool capability(SoundCapability cap);
-  void play_sound(SoundEvent snd, int volume);
+  void init(ISoundPlayerEvents *) {}
+  bool capability(workrave::audio::SoundCapability cap);
+  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
 
 protected:

@@ -31,6 +31,9 @@
 #endif
 #include <assert.h>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include <gtkmm/notebook.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/menu.h>

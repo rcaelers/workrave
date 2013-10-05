@@ -33,14 +33,14 @@
 
 #include "W32SoundPlayer.hh"
 
-#include "audio/SoundPlayer.hh"
-#include "Exception.hh"
-#include "Util.hh"
+//#include "audio/SoundPlayer.hh"
+#include "utils/Exception.hh"
 
 #define	SAMPLE_BITS		    (8)
 #define	WAVE_BUFFER_SIZE  (4096)
 
-using namespace workrave;
+using namespace workrave::utils;
+using namespace std;
 
 static std::string sound_filename;
 
@@ -101,7 +101,7 @@ W32SoundPlayer::~W32SoundPlayer()
 
 
 void
-W32SoundPlayer::play_sound(SoundEvent snd, int volume)
+W32SoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
 {
   TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
   TRACE_EXIT();
@@ -109,13 +109,13 @@ W32SoundPlayer::play_sound(SoundEvent snd, int volume)
 
 
 bool
-W32SoundPlayer::capability(SoundCapability cap)
+W32SoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == SOUND_CAP_EDIT)
+  if (cap == workrave::audio::SOUND_CAP_EDIT)
     {
       return true;
     }
-  if (cap == SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SOUND_CAP_VOLUME)
     {
       return true;
     }

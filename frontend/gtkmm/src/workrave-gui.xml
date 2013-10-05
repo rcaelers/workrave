@@ -5,7 +5,7 @@
     <include name="Menus.hh"/>
     <include name="GenericDBusApplet.hh"/>
     <include name="gdk/gdk.h"/>
-    <include name="GnomeAppletWindow.hh"/>
+    <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)"/>
     <include name="Orientation.hh"/>
   </import>
   

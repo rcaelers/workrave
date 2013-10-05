@@ -26,6 +26,7 @@ libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \
+			-I$(top_srcdir)/libs/audio/include \
 			-I$(top_srcdir)/libs/dbus/include \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/applets/win32/include \

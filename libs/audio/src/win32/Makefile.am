@@ -24,11 +24,9 @@ libworkrave_audio_win32_la_SOURCES = \
 libworkrave_audio_win32_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			@GLIB_CFLAGS@ \
-			-I$(top_srcdir)/backend/include \
-			-I$(top_srcdir)/frontend/common/src \
-			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/libs/audio/src \
+			-I$(top_srcdir)/libs/audio/include \
 			-I$(top_srcdir)/libs/utils/include \
-			-I$(top_srcdir)/libs/config/include \
-			-I$(top_srcdir)/libs/dbus/include
+			-I$(top_srcdir)/libs/config/include
 
 endif

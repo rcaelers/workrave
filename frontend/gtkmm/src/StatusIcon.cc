@@ -50,6 +50,8 @@
 #include "TimerBoxControl.hh"
 #include "GtkUtil.hh"
 
+using namespace std;
+
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
@@ -103,7 +105,7 @@ StatusIcon::insert_icon()
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
-  status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
+  //status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
 #else
 
 #if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
@@ -119,8 +121,6 @@ StatusIcon::insert_icon()
                    reinterpret_cast<GCallback>(activate_callback), this);
   g_signal_connect(gobj, "popup-menu",
                    reinterpret_cast<GCallback>(popup_menu_callback), this);
-  g_signal_connect(gobj, "notify::embedded",
-                   reinterpret_cast<GCallback>(embedded_changed_callback), this);
 #endif
 
 #ifdef HAVE_EMBEDDED_SIGNAL

@@ -26,6 +26,9 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include <cstdlib>
 #include <vector>
 #include <sstream>
