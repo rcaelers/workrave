@@ -42,6 +42,9 @@ namespace workrave
     private:
       static std::wstring convert(const char* c);
 #endif
+    public:
+      static int setenv(const char* name, const char* val, int);
+      static int unsetenv(const char* name);
     };
   }
 }

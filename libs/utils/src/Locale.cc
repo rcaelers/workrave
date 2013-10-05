@@ -30,11 +30,13 @@
 #include <string.h>
 #include <boost/algorithm/string.hpp>
 
-#include "Locale.hh"
+#include "utils/Locale.hh"
+#include "utils/Platform.hh"
 
 #include "locale.inc"
 
 using namespace std;
+using namespace workrave::utils;
 
 extern "C" int _nl_msg_cat_cntr;
 
@@ -95,13 +97,13 @@ Locale::set_locale(const std::string &code)
 {
   if (code != "")
     {
-      setenv("LANGUAGE", code.c_str(), 1);
-      setenv("LANG", code.c_str(), 1);
+      Platform::setenv("LANGUAGE", code.c_str(), 1);
+      Platform::setenv("LANG", code.c_str(), 1);
     }
   else
     {
-      unsetenv("LANGUAGE");
-      unsetenv("LANG");
+      Platform::unsetenv("LANGUAGE");
+      Platform::unsetenv("LANG");
     }
 
 #ifndef PLATFORM_OS_WIN32_NATIVE

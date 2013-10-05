@@ -34,6 +34,7 @@
 #include "IBreak.hh"
 #include "ICore.hh"
 #include "utils/Exception.hh"
+#include "utils/Platform.hh"
 #include "utils/Locale.hh"
 
 // Frontend common
@@ -49,6 +50,7 @@
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::utils;
 
 Application::Ptr
 Application::create(int argc, char **argv, IToolkit::Ptr toolkit)
@@ -586,7 +588,7 @@ Application::init_sound_player()
   try
     {
       // Tell pulseaudio were are playing sound events
-      setenv("PULSE_PROP_media.role", "event", 1);
+      Platform::setenv("PULSE_PROP_media.role", "event", 1);
 
       sound_theme = SoundTheme::create(CoreFactory::get_configurator()); /* LEAK */
       sound_theme->init();
