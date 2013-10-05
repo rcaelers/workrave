@@ -40,7 +40,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "Locale.hh"
+#include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
 #include "GtkUtil.hh"

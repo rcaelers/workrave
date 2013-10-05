@@ -34,6 +34,7 @@
 #include "IBreak.hh"
 #include "ICore.hh"
 #include "utils/Exception.hh"
+#include "utils/Locale.hh"
 
 // Frontend common
 #include "CoreFactory.hh"

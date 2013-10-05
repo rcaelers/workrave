@@ -53,6 +53,7 @@
 #include "CoreFactory.hh"
 
 #include "utils/Exception.hh"
+#include "utils/Locale.hh"
 #include "utils/Platform.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
@@ -69,7 +70,6 @@
 #include "System.hh"
 #include "Text.hh"
 #include "WindowHints.hh"
-#include "Locale.hh"
 #include "Session.hh"
 #include "TimerBoxControl.hh"
 
