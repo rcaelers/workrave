@@ -14,14 +14,16 @@ moduleset = os.environ['PWD'] + '/mingw.moduleset'
 
 modules = ['protobuf']
 
-flavour = os.environ['BUILD_FLAVOUR']
+flavour = os.environ.get('BUILD_FLAVOUR', 'rls')
 
 if flavour == 'rls':
         flavour_ext = 'rls'
         flavour_opt = '--enable-debug=no'
+        flavour_cflags = ""
 else:
         flavour_ext = 'dbg'
-        flavour_opt = "--enable-debug=yes CFLAGS='-g -O0' CXXFLAGS='-g -O0'"
+        flavour_opt = "--enable-debug=yes"
+        flavour_cflags = " -g -O0"
 
 
 # checkoutroot: path to download packages elsewhere
@@ -32,11 +34,14 @@ prefix = os.environ['PWD'] + '/usr/i686-w64-mingw32/sys-root/mingw/'
 os.environ['prefix'] = prefix
 os.environ['SYSROOT'] = prefix
 
-os.environ['PKG_CONFIG_DIR'] = ''
-os.environ['PKG_CONFIG_LIBDIR'] = prefix + '/lib/pkgconfig'
-os.environ['PKG_CONFIG_PATH'] = prefix + '/share/pkgconfig'
-os.environ['PKG_CONFIG_SYSROOT_DIR'] = prefix
-os.environ['PKG_CONFIG'] = 'pkg-config --define-variable=prefix=' + prefix
+#os.environ['PKG_CONFIG_DIR'] = ''
+#os.environ['PKG_CONFIG_LIBDIR'] = prefix + '/lib/pkgconfig'
+#os.environ['PKG_CONFIG_PATH'] = prefix + '/share/pkgconfig'
+#os.environ['PKG_CONFIG_SYSROOT_DIR'] = prefix
+
+os.environ['PKG_CONFIG'] = os.environ['PWD'] + '/pkg-config.sh'
+
+#pkg-config --define-variable=prefix=' + prefix
 
 os.environ['HOST'] = 'i686-w64-mingw32'
 os.environ['TARGET'] = 'i686-w64-mingw32'
@@ -47,14 +52,19 @@ os.environ['CPPFLAGS'] = '-I' + prefix + '/include'
 os.environ['LDFLAGS']  = '-L' + prefix + '/lib'
 os.environ['ARFLAGS']  = '-ar rcs'
 #os.environ['INSTALL']  = os.path.expanduser('~/bin/install-check')
+os.environ['WINEPATH'] = prefix + '/bin'
 
-#os.environ['INCLUDE_PATH'] = prefix+'/include'
-#os.environ['LIBRARY_PATH'] = prefix+'/lib'
-#os.environ['BINARY_PATH']  = prefix+'/bin'
+os.environ['CFLAGS']  += flavour_cflags
+os.environ['CXXFLAGS']+= flavour_cflags
 
 # always autogen because otherwise freetype will not build
 alwaysautogen = True
 use_lib64 = False
+
+#Make scripts run with the interpreter that's running this script
+#(required wherever /usr/bin/python is python 3)
+import sys
+os.environ['PYTHON'] = os.environ.get("PYTHON", sys.executable)
 
 #Populating autogenargs
 autogenargs  = ' --build=' + os.environ['HOST']

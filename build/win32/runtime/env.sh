@@ -1,5 +1,3 @@
-export SYSROOT="/mnt/bulk/sources/workrave/runtime/usr/i686-w64-mingw32/sys-root/mingw/"
-
 export CC=i686-w64-mingw32-gcc
 export CXX=i686-w64-mingw32-g++
 

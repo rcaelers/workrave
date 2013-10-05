@@ -98,6 +98,9 @@ def packagesDownload(packageNames, withDependencies=False, srcpkg=False):
   packageFilenames = []
   while len(packageNames) > 0:
     packName = packageNames.pop()
+    if packName.startswith('mingw32-runtime'):
+      error('Package %s skipped', packName)
+      continue
     package = _findPackage(packName, srcpkg)
     if package == None:
       error('Package %s not found', packName)
@@ -164,7 +167,7 @@ def GetOptions():
 
   # Options specifiying download repository
   default_project = "windows:mingw:win32"
-  default_repository = "openSUSE_12.3"
+  default_repository = "openSUSE_Factory"
   default_repo_url = "http://download.opensuse.org/repositories/PROJECT/REPOSITORY/"
   repoOptions = OptionGroup(parser, "Specify download repository")
   repoOptions.add_option("-p", "--project", dest="project", default=default_project,
