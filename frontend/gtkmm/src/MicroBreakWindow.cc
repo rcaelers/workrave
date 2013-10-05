@@ -36,11 +36,13 @@
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
+
+using namespace workrave::utils;
 
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode) :
@@ -64,7 +66,7 @@ MicroBreakWindow::create_gui()
   label = Gtk::manage(new Gtk::Label());
 
   // Icon
-  string icon = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory("micro-break.png", AssetPath::SEARCH_PATH_IMAGES);
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
 

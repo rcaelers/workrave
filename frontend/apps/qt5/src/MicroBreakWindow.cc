@@ -29,7 +29,7 @@
 #include "debug.hh"
 
 #include "CoreFactory.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Text.hh"
 #include "UiUtil.hh"
 
@@ -65,7 +65,7 @@ MicroBreakWindow::create_gui()
 
   // Icon
   QLabel *image = new QLabel;
-  std::string file = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory("micro-break.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
   
   // HBox
@@ -132,7 +132,7 @@ MicroBreakWindow::~MicroBreakWindow()
 QAbstractButton *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
-  std::string file = Util::complete_directory("timer-rest-break.png", Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory("timer-rest-break.png", AssetPath::SEARCH_PATH_IMAGES);
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
   

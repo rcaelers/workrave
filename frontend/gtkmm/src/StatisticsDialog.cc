@@ -51,7 +51,6 @@
 
 #include "StatisticsDialog.hh"
 #include "Text.hh"
-#include "Util.hh"
 #include "GtkUtil.hh"
 
 StatisticsDialog::StatisticsDialog()

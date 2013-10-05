@@ -34,7 +34,7 @@
 #include "debug.hh"
 #include "nls.h"
 #include "Text.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 using namespace workrave;
 
@@ -88,7 +88,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
     }
   
   image = new QLabel;
-  std::string file = Util::complete_directory("prelude-hint.png", Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory("prelude-hint.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
   
   frame = new Frame;
@@ -259,7 +259,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
 
   if (icon != NULL)
     {
-      std::string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory(icon, AssetPath::SEARCH_PATH_IMAGES);
       image->setPixmap(QPixmap(file.c_str()));
     }
 }

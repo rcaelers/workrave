@@ -30,7 +30,7 @@
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "IApp.hh"
 #include "Break.hh"
 #include "CoreConfig.hh"
@@ -126,7 +126,7 @@ Core::init(IApp *app, const string &display_name)
 void
 Core::init_configurator()
 {
-  string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
+  string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
 
 #ifdef HAVE_TESTS
   if (!hooks->hook_create_configurator().empty())
@@ -148,7 +148,7 @@ Core::init_configurator()
 
       if (configurator == NULL)
         {
-          string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+          string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
           if (configurator)
@@ -156,7 +156,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = Util::get_home_directory() + "config.xml";
+                  configFile = AssetPath::get_home_directory() + "config.xml";
                 }
 #endif
               if (configFile != "")
@@ -168,7 +168,7 @@ Core::init_configurator()
 
       if (configurator == NULL)
         {
-          ini_file = Util::get_home_directory() + "workrave.ini";
+          ini_file = AssetPath::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
 
           if (configurator)
@@ -183,7 +183,7 @@ Core::init_configurator()
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) &&
       home != "")
     {
-      Util::set_home_directory(home);
+      AssetPath::set_home_directory(home);
     }
   // LCOV_EXCL_STOP
 

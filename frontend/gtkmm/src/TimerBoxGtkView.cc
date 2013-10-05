@@ -38,7 +38,7 @@
 #include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
@@ -47,6 +47,7 @@
 #include "CoreFactory.hh"
 #include "IBreak.hh"
 
+using namespace workrave::utils;
 
 //! Constructor.
 TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
@@ -139,7 +140,7 @@ TimerBoxGtkView::init()
 
   sheep_eventbox->property_visible_window() = false;
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
   sheep_eventbox->set_tooltip_text("Workrave");
 
@@ -175,7 +176,7 @@ TimerBoxGtkView::init_widgets()
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
+      string icon = AssetPath::complete_directory(string(icons[count]), AssetPath::SEARCH_PATH_IMAGES);
       Gtk::Image *img = new Gtk::Image(icon);
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
@@ -505,18 +506,18 @@ TimerBoxGtkView::set_icon(IconType icon)
   switch (icon)
     {
     case ICON_NORMAL:
-      file = Util::complete_directory("workrave-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-icon-medium.png",
+                                      AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_QUIET:
-      file = Util::complete_directory("workrave-quiet-icon-medium.png",
-                                             Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-quiet-icon-medium.png",
+                                             AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_SUSPENDED:
-      file = Util::complete_directory("workrave-suspended-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-suspended-icon-medium.png",
+                                      AssetPath::SEARCH_PATH_IMAGES);
       break;
     }
 

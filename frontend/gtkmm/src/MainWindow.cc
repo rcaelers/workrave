@@ -46,7 +46,7 @@
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Menus.hh"
 
 #ifdef PLATFORM_OS_WIN32
@@ -55,6 +55,7 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
 
 using namespace std;
+using namespace workrave::utils;
 
 //! Constructor.
 /*!
@@ -267,7 +268,7 @@ MainWindow::init()
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
-      string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
+      string file = AssetPath::complete_directory(icon_files[i], AssetPath::SEARCH_PATH_IMAGES);
 
       try
         {

@@ -27,7 +27,6 @@
 #include "debug.hh"
 
 #include "W32Mixer.hh"
-#include "Util.hh"
 #include <debug.hh>
 
 using namespace std;

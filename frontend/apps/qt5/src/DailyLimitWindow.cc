@@ -28,7 +28,7 @@
 #include "DailyLimitWindow.hh"
 #include "UiUtil.hh"
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 using namespace workrave;
 
@@ -62,7 +62,7 @@ DailyLimitWindow::create_gui()
 
   // Icon
   QLabel *image = new QLabel;
-  std::string file = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory("daily-limit.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
   
   // HBox

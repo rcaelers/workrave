@@ -1,6 +1,6 @@
 // DailyLimitWindow.cc --- window for the daily limit
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,10 +34,11 @@
 
 #include "GUI.hh"
 #include "WindowHints.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Hig.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 //! Construct a new Daily limit window.
 DailyLimitWindow::DailyLimitWindow(HeadInfo &head, BreakFlags break_flags,
@@ -61,7 +62,7 @@ DailyLimitWindow::create_gui()
   label->set_markup(txt);
 
   // Icon
-  string icon = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory("daily-limit.png", AssetPath::SEARCH_PATH_IMAGES);
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
 

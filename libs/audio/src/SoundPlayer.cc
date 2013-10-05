@@ -33,10 +33,6 @@
 #include "ISoundDriver.hh"
 #include "IMixer.hh"
 
-//#include "utils/Platform.hh"
-
-#include "Util.hh"
-
 #if defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
 #elif defined PLATFORM_OS_UNIX

@@ -45,7 +45,7 @@ const int TIMEOUT = 1000;
 #include "RestBreakWindow.hh"
 #include "Text.hh"
 #include "TimeBar.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "WindowHints.hh"
 
 #include "IBreak.hh"
@@ -62,6 +62,7 @@ const int TIMEOUT = 1000;
 const int MARGINX = 8;
 const int MARGINY = 8;
 
+using namespace workrave::utils;
 
 //! Constructor
 /*!
@@ -193,7 +194,7 @@ RestBreakWindow::create_info_panel()
 {
   Gtk::HBox *info_box = Gtk::manage(new Gtk::HBox(false, 12));
 
-  string icon = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory("rest-break.png", AssetPath::SEARCH_PATH_IMAGES);
   Gtk::Image *info_img = Gtk::manage(new Gtk::Image(icon));
   info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =

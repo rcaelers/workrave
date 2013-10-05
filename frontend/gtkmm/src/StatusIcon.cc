@@ -47,7 +47,6 @@
 #include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "Menus.hh"
-#include "Util.hh"
 #include "TimerBoxControl.hh"
 #include "GtkUtil.hh"
 

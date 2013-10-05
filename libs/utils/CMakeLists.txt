@@ -1,19 +1,21 @@
 set(SRC
   src/Locale.cc
   src/TimeSource.cc
-  src/Util.cc
+  src/AssetPath.cc
   src/debug.cc
   src/Platform.cc
   )
-
-#  src/Timer.cc
 
 if (HAVE_GLIB)
   set(SRC ${SRC} src/GlibThread.cc)
 endif()
 
 if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} src/win32/crashlog.cc src/win32/W32ActiveSetup.cc W32CriticalSection.cc)
+  set(SRC ${SRC} src/Platform-win32.ccs rc/win32/crashlog.cc src/win32/W32ActiveSetup.cc src/win32/W32CriticalSection.cc )
+endif()
+
+if (PLATFORM_OS_UNIX)
+  set(SRC ${SRC} src/Platform-unix.ccs)
 endif()
 
 if (HAVE_GTK)

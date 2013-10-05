@@ -30,13 +30,14 @@
 
 #include "nls.h"
 #include "debug.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 #ifdef HAVE_GLIB
 #include <glib.h>
 #endif
 
 using namespace std;
+using namespace workrave::utils;
 
 /* Updates language dependent attribute */
 static void
@@ -199,8 +200,8 @@ Exercise::parse_exercises(const char *file_name,
 std::string
 Exercise::get_exercises_file_name()
 {
-  return Util::complete_directory
-    ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
+  return AssetPath::complete_directory
+    ("exercises.xml", AssetPath::SEARCH_PATH_EXERCISES);
 }
 
 

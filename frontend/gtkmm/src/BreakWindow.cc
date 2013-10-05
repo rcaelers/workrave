@@ -52,7 +52,6 @@
 #include "WindowHints.hh"
 #include "Frame.hh"
 #include "System.hh"
-#include "Util.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 

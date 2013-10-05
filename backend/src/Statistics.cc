@@ -32,7 +32,7 @@
 
 #include "debug.hh"
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Timer.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
@@ -42,6 +42,8 @@ const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
+
+using namespace workrave::utils;
 
 Statistics::Ptr
 Statistics::create(ActivityMonitor::Ptr monitor)
@@ -130,7 +132,7 @@ Statistics::delete_all_history()
 {
     update();
 
-    string histfile = Util::get_home_directory() + "historystats";
+    string histfile = AssetPath::get_home_directory() + "historystats";
     boost::filesystem::path histpath(histfile);
     
     if( boost::filesystem::is_regular_file(histpath) && std::remove( histfile.c_str() ) )
@@ -145,7 +147,7 @@ Statistics::delete_all_history()
         history.clear();
     }
 
-    string todayfile = Util::get_home_directory() + "todaystats";
+    string todayfile = AssetPath::get_home_directory() + "todaystats";
     boost::filesystem::path todaypath(todayfile);
 
     if( boost::filesystem::is_regular_file(todaypath) && std::remove( todayfile.c_str() ) )
@@ -208,7 +210,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   add_history(stats);
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "historystats" << ends;
 
   boost::filesystem::path path(ss.str());
@@ -279,7 +281,7 @@ void
 Statistics::save_day(DailyStatsImpl *stats)
 {
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "todaystats" << ends;
 
   ofstream stats_file(ss.str().c_str());
@@ -349,7 +351,7 @@ Statistics::load_current_day()
 {
   TRACE_ENTER("Statistics::load_current_day");
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "todaystats" << ends;
 
   ifstream stats_file(ss.str().c_str());
@@ -370,7 +372,7 @@ Statistics::load_history()
   TRACE_ENTER("Statistics::load_history");
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "historystats" << ends;
 
   ifstream stats_file(ss.str().c_str());

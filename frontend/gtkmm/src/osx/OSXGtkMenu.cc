@@ -35,7 +35,6 @@
 #include <gtkmm.h>
 
 #include "Menus.hh"
-#include "Util.hh"
 
 using namespace std;
 

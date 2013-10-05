@@ -22,7 +22,7 @@
 #endif
 
 #include "debug.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "nls.h"
 
 #include "TimerBoxView.hh"
@@ -102,7 +102,7 @@ TimerBoxView::init_widgets()
   //const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   //for (int count = 0; count < BREAK_ID_SIZEOF; count++)
   //  {
-  //    string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
+  //    string icon = AssetPath::complete_directory(string(icons[count]), AssetPath::SEARCH_PATH_IMAGES);
   //    Image *img = new Image(icon);
   //    QWidget *w;
   //    if (count == BREAK_ID_REST_BREAK)
@@ -219,18 +219,18 @@ TimerBoxView::set_icon(IconType icon)
   switch (icon)
     {
     case ICON_NORMAL:
-      file = Util::complete_directory("workrave-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-icon-medium.png",
+                                      AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_QUIET:
-      file = Util::complete_directory("workrave-quiet-icon-medium.png",
-                                             Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-quiet-icon-medium.png",
+                                             AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_SUSPENDED:
-      file = Util::complete_directory("workrave-suspended-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-suspended-icon-medium.png",
+                                      AssetPath::SEARCH_PATH_IMAGES);
       break;
     }
 

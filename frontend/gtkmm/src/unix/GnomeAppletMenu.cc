@@ -39,7 +39,6 @@
 
 #include "GnomeAppletWindow.hh"
 #include "Menus.hh"
-#include "Util.hh"
 
 using namespace std;
 

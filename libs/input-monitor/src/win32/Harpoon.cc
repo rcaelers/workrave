@@ -36,14 +36,15 @@
 #include "debug.hh"
 #include "input-monitor/Harpoon.hh"
 
-#include "Util.hh"
-
 #include "timeutil.h"
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 
+#include "utils/Platform.hh"
+
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::utils;
 using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
@@ -360,9 +361,9 @@ Harpoon::start_harpoon_helper()
 
       ZeroMemory(&pi, sizeof(pi));
 
-      string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
-      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "WorkraveHelper.exe";
-      string args = helper + " " + g_get_prgname();
+      std::string install_dir = Platform::get_application_directory();
+      string helper = install_dir + "\\lib\\WorkraveHelper.exe";
+      string args = helper + " " + Platform::get_application_name();
 
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());

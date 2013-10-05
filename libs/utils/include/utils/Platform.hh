@@ -20,6 +20,8 @@
 #ifndef WORKRAVE_UTILS_PLATFORM_HH
 #define WORKRAVE_UTILS_PLATFORM_HH
 
+#include <string>
+
 namespace workrave
 {
   namespace utils
@@ -27,10 +29,18 @@ namespace workrave
     class Platform
     {
     public:
-
 #ifdef PLATFORM_OS_UNIX
       static void *get_default_display();
       static unsigned long get_default_root_window();
+#endif
+
+#ifdef PLATFORM_OS_WIN32
+      static std::string get_application_directory();
+      static std::string get_application_name();
+      static bool registry_set_value(const char *path, const char *name, const char *value);
+      static bool registry_get_value(const char *path, const char *name, char *out);
+    private:
+      static std::wstring convert(const char* c);
 #endif
     };
   }

@@ -35,7 +35,7 @@
 #include "TimerBoxPreferencesPanel.hh"
 
 // #include "System.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "ICore.hh"
 #include "UiUtil.hh"
 // #include "CoreFactory.hh"
@@ -103,7 +103,7 @@ PreferencesDialog::create_timer_page()
       const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
       const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
 
-      std::string file = Util::complete_directory(string(icons[i]), Util::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory(string(icons[i]), AssetPath::SEARCH_PATH_IMAGES);
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 
@@ -166,7 +166,7 @@ PreferencesDialog::create_ui_applet_page()
 void
 PreferencesDialog::add_page(const char *label, const char *image, QWidget *page)
 {
-  std::string file = Util::complete_directory(image, Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES);
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
 

@@ -26,7 +26,6 @@
 
 #include "OSXSoundPlayer.hh"
 #include "SoundPlayer.hh"
-#include "Util.hh"
 
 #ifdef HAVE_QTKIT
 #include <Cocoa/Cocoa.h>

@@ -35,13 +35,13 @@
 #include "config/IConfigurator.hh"
 
 #include "ITimeBar.hh"
-#include "Util.hh"
 #include "Text.hh"
 
 #include "CoreFactory.hh"
 #include "CoreConfig.hh"
 #include "IBreak.hh"
 
+using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
@@ -460,7 +460,7 @@ TimerBoxControl::read_configuration()
 
 //! Callback that the configuration has changed.
 void
-TimerBoxControl::config_changed_notify(const string &key)
+TimerBoxControl::config_changed_notify(const std::string &key)
 {
   (void) key;
 

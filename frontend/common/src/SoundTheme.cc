@@ -33,6 +33,9 @@
 #include <limits.h>
 #include <stdlib.h>
 #endif
+#ifdef PLATFORM_OS_WIN32
+#include <windows.h>
+#endif
 
 #include <list>
 #include <set>
@@ -41,11 +44,12 @@
 
 #include "config/IConfigurator.hh"
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::audio;
+using namespace workrave::utils;
 using namespace std;
 
 const char *SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
@@ -171,7 +175,7 @@ SoundTheme::register_sound_events(string theme_name)
   boost::filesystem::path path(theme_name);
   path /= "soundtheme";
   
-  string file = Util::complete_directory(path.string(), Util::SEARCH_PATH_SOUNDS);
+  string file = AssetPath::complete_directory(path.string(), AssetPath::SEARCH_PATH_SOUNDS);
   TRACE_MSG(file);
 
   Theme theme;
@@ -317,7 +321,7 @@ void
 SoundTheme::get_sound_themes(std::vector<Theme> &themes)
 {
   TRACE_ENTER("SoundTheme::get_sound_themes");
-  set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
+  set<string> searchpath = AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS);
   bool has_active = false;
 
   sync_settings();
@@ -582,7 +586,7 @@ SoundTheme::win32_get_sound_enabled(SoundEvent snd, bool &enabled)
   char key[MAX_PATH], val[MAX_PATH];
 
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, sound_registry[snd].label);
   strcat(key, "\\.current");
 
   if (registry_get_value(key, NULL, val))
@@ -603,7 +607,7 @@ SoundTheme::win32_set_sound_enabled(SoundEvent snd, bool enabled)
       char key[MAX_PATH], def[MAX_PATH];
 
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, sound_registry[snd].label);
       strcat(key, "\\.default");
 
       if (registry_get_value(key, NULL, def))
@@ -618,7 +622,7 @@ SoundTheme::win32_set_sound_enabled(SoundEvent snd, bool enabled)
       char key[MAX_PATH];
 
       strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, sound_registry[snd].label);
       strcat(key, "\\.current");
 
       registry_set_value(key, NULL, "");
@@ -632,7 +636,7 @@ SoundTheme::win32_get_sound_wav_file(SoundEvent snd, std::string &wav_file)
   char key[MAX_PATH], val[MAX_PATH];
 
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, sound_registry[snd].label);
   strcat(key, "\\.current");
 
   if (registry_get_value(key, NULL, val))
@@ -659,14 +663,14 @@ SoundTheme::win32_set_sound_wav_file(SoundEvent snd, const std::string &wav_file
   char key[MAX_PATH], val[MAX_PATH];
 
   strcpy(key, "AppEvents\\EventLabels\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, sound_registry[snd].label);
   if (! registry_get_value(key, NULL, val))
     {
-      registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
+      registry_set_value(key, NULL, sound_registry[snd].friendly_name);
     }
 
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, sound_registry[snd].label);
   strcat(key, "\\.default");
   registry_set_value(key, NULL, wav_file.c_str());
 

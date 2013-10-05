@@ -41,6 +41,7 @@
 #include <gtkmm/filechooserbutton.h>
 
 #include "Locale.hh"
+#include "utils/Platform.hh"
 
 #include "GtkUtil.hh"
 #include "Hig.hh"
@@ -48,13 +49,15 @@
 #include "TimeEntry.hh"
 #include "TimerBoxPreferencePage.hh"
 #include "TimerPreferencesPanel.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "GUI.hh"
 #include "GUIConfig.hh"
 #include "DataConnector.hh"
 
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
+
+using namespace workrave::utils;
 
 #ifndef WR_CHECK_VERSION
 #define WR_CHECK_VERSION(comp,major,minor,micro)   \
@@ -283,7 +286,7 @@ PreferencesDialog::create_gui_page()
   panel->add(*autostart_cb);
 
   char value[MAX_PATH];
-  bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+  bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
   autostart_cb->set_active(rc);
 #endif
 
@@ -566,7 +569,7 @@ void
 PreferencesDialog::add_page(const char *label, const char *image,
                             Gtk::Widget &widget)
 {
-  string icon = Util::complete_directory(image, Util::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES);
   Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(icon);
   notebook.add_page(label, pixbuf, widget);
 }
@@ -729,12 +732,12 @@ PreferencesDialog::on_autostart_toggled()
 
   if (on)
     {
-      string appdir = Util::get_application_directory();
+      string appdir = Platform::get_application_directory();
 
       value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
 
-  Util::registry_set_value(RUNKEY, "Workrave", value);
+  Platform::registry_set_value(RUNKEY, "Workrave", value);
 }
 
 void

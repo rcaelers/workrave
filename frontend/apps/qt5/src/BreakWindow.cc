@@ -44,7 +44,7 @@
 // #include "WindowHints.hh"
 // #include "Frame.hh"
 #include "System.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
 
@@ -159,7 +159,7 @@ BreakWindow::create_lock_button()
   QPushButton *button = NULL;
   if (System::is_lockable())
     {
-      std::string file = Util::complete_directory("lock.png", Util::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory("lock.png", AssetPath::SEARCH_PATH_IMAGES);
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 
@@ -179,7 +179,7 @@ BreakWindow::create_shutdown_button()
   QPushButton *button = NULL;
   if (System::is_shutdown_supported())
     {
-      std::string file = Util::complete_directory("shutdown.png", Util::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory("shutdown.png", AssetPath::SEARCH_PATH_IMAGES);
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 

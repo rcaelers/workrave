@@ -36,10 +36,11 @@
 
 #include "MainWindow.hh"
 #include "Menus.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 using namespace std;
 
+using namespace workrave::utils;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
@@ -68,7 +69,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   Gtk::IconSet icon_set;
 #endif
 
-  string filename = Util::complete_directory(path, Util::SEARCH_PATH_IMAGES);
+  string filename = AssetPath::complete_directory(path, AssetPath::SEARCH_PATH_IMAGES);
 
   try
     {

@@ -32,7 +32,6 @@
 
 #include "GUI.hh"
 #include "Menus.hh"
-#include "Util.hh"
 #include "MainWindow.hh"
 #include "W32AppletWindow.hh"
 

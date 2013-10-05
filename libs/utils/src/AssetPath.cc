@@ -64,16 +64,18 @@ BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #include <sys/param.h>
 #endif
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
-set<string> Util::search_paths[Util::SEARCH_PATH_SIZEOF];
-string Util::home_directory = "";
+set<string> AssetPath::search_paths[AssetPath::SEARCH_PATH_SIZEOF];
+string AssetPath::home_directory = "";
 
 //! Returns the user's home directory.
 const string&
-Util::get_home_directory()
+AssetPath::get_home_directory()
 {
   // Already cached?
   static string ret;
@@ -137,7 +139,7 @@ Util::get_home_directory()
 
 //! Returns the user's home directory.
 void
-Util::set_home_directory(const string &home)
+AssetPath::set_home_directory(const string &home)
 {
 #ifdef PLATFORM_OS_WIN32
   if (home.substr(0, 2) == ".\\" ||
@@ -146,7 +148,7 @@ Util::set_home_directory(const string &home)
       char buffer[MAX_PATH];
 
       // Path relative to location of workrave root.
-      string appdir = get_application_directory();
+      string appdir = Platform::get_application_directory();
 
       home_directory = appdir + "\\" + home + "\\";
 
@@ -167,82 +169,13 @@ Util::set_home_directory(const string &home)
 }
 
 #ifdef PLATFORM_OS_WIN32
-//! Returns the directory in which workrave is installed.
-string
-Util::get_application_directory()
-{
-  char app_dir_name[MAX_PATH];
-  GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
-  // app_dir_name == c:\program files\workrave\lib\workrave.exe
-  char *s = strrchr(app_dir_name, '\\');
-  assert (s);
-  *s = '\0';
-  // app_dir_name == c:\program files\workrave\lib
-  s = strrchr(app_dir_name, '\\');
-  assert (s);
-  *s = '\0';
-  // app_dir_name == c:\program files\workrave
-  return string(app_dir_name);
-}
-
-bool
-Util::registry_get_value(const char *path, const char *name,
-                         char *out)
-{
-  HKEY handle;
-  bool rc = false;
-  LONG err;
-
-  err = RegOpenKeyEx(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
-  if (err == ERROR_SUCCESS)
-    {
-      DWORD type, size;
-      size = MAX_PATH;
-      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE) out, &size);
-      if (err == ERROR_SUCCESS)
-        {
-          rc = true;
-        }
-      RegCloseKey(handle);
-    }
-  return rc;
-}
-
-bool
-Util::registry_set_value(const char *path, const char *name,
-                         const char *value)
-{
-  HKEY handle;
-  bool rc = false;
-  DWORD disp;
-  LONG err;
-
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
-                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
-                       NULL, &handle, &disp);
-  if (err == ERROR_SUCCESS)
-    {
-      if (value != NULL)
-        {
-          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
-                              strlen(value)+1);
-        }
-      else
-        {
-          err = RegDeleteValue(handle, name);
-        }
-      RegCloseKey(handle);
-      rc = (err == ERROR_SUCCESS);
-    }
-  return rc;
-}
 
 #endif
 
 
 //! Returns the searchpath for the specified file type.
 const set<string> &
-Util::get_search_path(SearchPathId type)
+AssetPath::get_search_path(SearchPathId type)
 {
   if (search_paths[type].size() > 0)
     return search_paths[type];
@@ -251,7 +184,7 @@ Util::get_search_path(SearchPathId type)
 
   string home_dir = get_home_directory();
 #if defined(PLATFORM_OS_WIN32)
-  string app_dir = get_application_directory();
+  string app_dir = Platform::get_application_directory();
 #elif defined(PLATFORM_OS_OSX)
   char execpath[MAXPATHLEN+1];
   uint32_t pathsz = sizeof (execpath);
@@ -352,7 +285,7 @@ Util::get_search_path(SearchPathId type)
 
 //! Completes the directory for the specified file and file type.
 string
-Util::complete_directory(string path, Util::SearchPathId type)
+AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
 {
   boost::filesystem::path full_path;
   bool found = false;
@@ -374,22 +307,4 @@ Util::complete_directory(string path, Util::SearchPathId type)
   return full_path.string();
 }
 
-bool
-Util::running_gnome()
-{
-  bool ret = false;
-
-#ifdef PLATFORM_OS_UNIX
-	char *tmp = NULL; // TODO: g_find_program_in_path("gnome-open");
-
-	if (tmp != NULL)
-    {
-      free(tmp);
-      tmp = (char *)getenv("GNOME_DESKTOP_SESSION_ID");
-
-      ret = ((tmp != NULL) && (*tmp != '\0'));
-    }
-#endif
-	return ret;
-}
 

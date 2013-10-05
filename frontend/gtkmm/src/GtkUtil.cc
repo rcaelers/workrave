@@ -33,11 +33,13 @@
 #include <gtk/gtk.h>
 
 #include "GUI.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "EventImage.hh"
 #include "HeadInfo.hh"
+
+using namespace workrave::utils;
 
 Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");
 
@@ -113,8 +115,8 @@ GtkUtil::create_image_button(const char *label_text,
   Gtk::Image *img = NULL;
   if (has_button_images())
     {
-      string icon = Util::complete_directory(image_file,
-                                             Util::SEARCH_PATH_IMAGES);
+      string icon = AssetPath::complete_directory(image_file,
+                                             AssetPath::SEARCH_PATH_IMAGES);
       img = Gtk::manage(new Gtk::Image(icon));
     }
   else
@@ -167,7 +169,7 @@ GtkUtil::create_label_for_break(BreakId id)
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
 
-  string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory(string(icons[id]), AssetPath::SEARCH_PATH_IMAGES);
 
   Gtk::Widget *label =
     GtkUtil::create_label_with_icon(labels[id], icon.c_str());
@@ -422,7 +424,7 @@ GtkUtil::get_visible_tooltip_window()
 Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::create_image(const std::string &filename)
 {
-  std::string file = Util::complete_directory(filename, Util::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
   try
     {
       return Gdk::Pixbuf::create_from_file(file);

@@ -25,6 +25,7 @@
 
 #include <windows.h>
 #include <shellapi.h>
+#undef interface
 
 #include "nls.h"
 #include "debug.hh"
@@ -41,7 +42,6 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
 
-#include "Util.hh"
 
 using namespace std;
 

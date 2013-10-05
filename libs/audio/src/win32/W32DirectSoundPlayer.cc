@@ -41,13 +41,13 @@
 #include "W32DirectSoundPlayer.hh"
 
 #include "audio/SoundPlayer.hh"
-#include "Exception.hh"
-#include "Util.hh"
+#include "utils/Exception.hh"
 
 #define	SAMPLE_BITS		    (8)
 #define	WAVE_BUFFER_SIZE  (4096)
 
 using namespace workrave;
+using namespace workrave::utils;
 
 static std::string sound_filename;
 

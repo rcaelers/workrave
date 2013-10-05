@@ -28,7 +28,7 @@
 #include "BreaksControl.hh"
 #include "TimerActivityMonitor.hh"
 
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "utils/TimeSource.hh"
 #include "dbus/IDBus.hh"
 
@@ -467,7 +467,7 @@ void
 BreaksControl::save_state() const
 {
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
   ofstream stateFile(ss.str().c_str());
@@ -491,7 +491,7 @@ void
 BreaksControl::load_state()
 {
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
   

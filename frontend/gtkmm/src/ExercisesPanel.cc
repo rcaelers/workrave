@@ -29,12 +29,13 @@
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "Hig.hh"
 #include "nls.h"
 #include "SoundTheme.hh"
 #include "debug.hh"
 
+using namespace workrave::utils;
 
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
@@ -381,8 +382,8 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
-  string file = Util::complete_directory(img.image,
-                                         Util::SEARCH_PATH_EXERCISES);
+  string file = AssetPath::complete_directory(img.image,
+                                         AssetPath::SEARCH_PATH_EXERCISES);
   if (! img.mirror_x)
     {
       image.set(file);

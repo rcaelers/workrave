@@ -53,6 +53,7 @@
 #include "CoreFactory.hh"
 
 #include "utils/Exception.hh"
+#include "utils/Platform.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
@@ -67,7 +68,6 @@
 #include "StatusIcon.hh"
 #include "System.hh"
 #include "Text.hh"
-#include "Util.hh"
 #include "WindowHints.hh"
 #include "Locale.hh"
 #include "Session.hh"
@@ -106,6 +106,8 @@
 
 GUI *GUI::instance = NULL;
 
+using namespace std;
+using namespace workrave::utils;
 
 //! GUI Constructor.
 /*!
@@ -413,9 +415,11 @@ GUI::init_nls()
   const char *locale_dir;
 
 #if defined(PLATFORM_OS_WIN32)
-  string dir = Util::get_application_directory();
+  string dir = Platform::get_application_directory();
   // Use the pre-install locale location if workrave is running from its MSVC build directory.
-  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
+  // TODO:
+  // dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
+  dir += "\\lib\\locale";
   locale_dir = dir.c_str();
 #elif defined(PLATFORM_OS_OSX)
   char locale_path[MAXPATHLEN * 4];

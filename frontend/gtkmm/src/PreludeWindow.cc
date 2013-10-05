@@ -32,7 +32,7 @@
 #include "nls.h"
 
 #include "Text.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
@@ -47,6 +47,8 @@
 #ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #endif
+
+using namespace workrave::utils;
 
 
 //! Construct a new Microbreak window.
@@ -366,7 +368,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     }
   if (icon != NULL)
     {
-      string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
+      string file = AssetPath::complete_directory(icon, AssetPath::SEARCH_PATH_IMAGES);
       image_icon->set(file);
     }
 }

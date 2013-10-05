@@ -25,7 +25,7 @@
 #include "preinclude.h"
 
 #include "ExercisesPanel.hh"
-#include "Util.hh"
+#include "utils/AssetPath.hh"
 #include "UiUtil.hh"
 #include "nls.h"
 // #include "SoundPlayer.hh"
@@ -187,8 +187,8 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
-  std::string file = Util::complete_directory(img.image,
-                                              Util::SEARCH_PATH_EXERCISES);
+  std::string file = AssetPath::complete_directory(img.image,
+                                              AssetPath::SEARCH_PATH_EXERCISES);
   if (! img.mirror_x)
     {
       image->setPixmap(QPixmap(file.c_str()));

@@ -11,12 +11,21 @@ if HAVE_LANGUAGE_SELECTION
 localesources = 	Locale.cc
 endif
 
+if PLATFORM_OS_WIN32
+platformsources = 	Platform-win32.cc
+endif
+
+if PLATFORM_OS_UNIX
+platformsources = 	Platform-unix.cc
+endif
+
 libworkrave_utils_la_SOURCES = \
 			TimeSource.cc \
-			Util.cc \
+			AssetPath.cc \
 			debug.cc \
 			Platform.cc \
-			${localesources}
+			${localesources} \
+			${platformsources}
 
 if PLATFORM_OS_WIN32
 ldadd_platform = 	win32/libworkrave-utils-win32.la
