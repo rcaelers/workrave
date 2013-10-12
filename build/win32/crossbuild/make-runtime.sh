@@ -13,7 +13,6 @@ fi
 
 mkdir -p $RUNTIMEDIR/runtime-base
 mkdir -p $RUNTIMEDIR/runtime-gtk
-mkdir -p $RUNTIMEDIR/runtime-wimp
 
 ## Helper
 
@@ -74,9 +73,9 @@ done
 
 copy_dir  lib    gio/modules/*.dll                                 lib
 
-for lang in $ALL_LINGUAS; do
-    copy_dir lib locale/$lang lib  
-done
+#for lang in $ALL_LINGUAS; do
+#    copy_dir lib locale/$lang lib  
+#done
 for lang in $ALL_LINGUAS; do
     copy_dir share locale/$lang lib  
 done

@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common gtkmm apps applets
+SUBDIRS = 		common gtkmm apps applets data

@@ -5,5 +5,5 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		images sounds
+SUBDIRS = 		images sounds exercises
 

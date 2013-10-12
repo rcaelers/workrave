@@ -706,7 +706,7 @@ Timer::get_total_overdue_time() const
 
 //! Daily Reset.
 void
-Timer::daily_reset_timer()
+Timer::daily_reset()
 {
   total_overdue_timespan = 0;
 }
