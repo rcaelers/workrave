@@ -41,6 +41,7 @@
 // #include "CoreFactory.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 PreferencesDialog::PreferencesDialog()
   : QDialog(),

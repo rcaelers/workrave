@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002 - 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -30,6 +30,8 @@
 #include "nls.h"
 // #include "SoundPlayer.hh"
 #include "debug.hh"
+
+using namespace workrave::utils;
 
 int ExercisesPanel::exercises_pointer = 0;
 

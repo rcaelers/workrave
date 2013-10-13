@@ -34,13 +34,14 @@
 
 #include "TimerPreferencesPanel.hh"
 
-#include "Locale.hh"
+#include "utils/Locale.hh"
 
 #include "ICore.hh"
 #include "UiUtil.hh"
 #include "CoreFactory.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 SoundsPreferencesPanel::SoundsPreferencesPanel()
   : QGroupBox(_("Sounds"))

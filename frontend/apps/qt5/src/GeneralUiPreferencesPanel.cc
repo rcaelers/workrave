@@ -36,13 +36,15 @@
 
 #include "TimerPreferencesPanel.hh"
 
-#include "Locale.hh"
+#include "utils/Locale.hh"
 
 #include "ICore.hh"
 #include "UiUtil.hh"
 #include "CoreFactory.hh"
 
+using namespace std;
 using namespace workrave;
+using namespace workrave::utils;
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   : QGroupBox(_("Options"))

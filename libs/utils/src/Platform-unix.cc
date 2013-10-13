@@ -71,7 +71,10 @@ Platform::get_default_root_window()
     QDesktopWidget *desktop = QApplication::desktop();
     QWindow *window = desktop->windowHandle();
     return window->winId();
+#else
+#error Platform unsupported    
 #endif
+
 }
 
 int

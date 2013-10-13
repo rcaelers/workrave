@@ -55,6 +55,7 @@
 // #endif
 
 using namespace workrave;
+using namespace workrave::utils;
 
 //! Constructor
 /*!

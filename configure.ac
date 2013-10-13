@@ -595,6 +595,7 @@ PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
                         gtkmm-3.0 >= 3.0.0,
                      [config_gtk=yes
 		 	 config_gtk_version=3
+	                 AC_DEFINE(HAVE_GTK,  1, Support for GTK)
 	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
 fi
@@ -608,7 +609,8 @@ then
                      glibmm-2.4 >= 2.10 \
                      gtkmm-2.4 >= 2.10,
                      [config_gtk=yes
-			 config_gtk_version=2
+		      config_gtk_version=2
+	              AC_DEFINE(HAVE_GTK,  1, Support for GTK)
                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
 fi
 

@@ -28,6 +28,7 @@
 #include "TimerBoxView.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 //! Constructor.
 TimerBoxView::TimerBoxView() :

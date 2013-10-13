@@ -33,6 +33,7 @@
 #include "Text.hh"
 #include "UiUtil.hh"
 
+using namespace workrave::utils;
 
 IBreakWindow::Ptr
 MicroBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)

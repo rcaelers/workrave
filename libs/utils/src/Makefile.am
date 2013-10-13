@@ -34,7 +34,8 @@ endif
 libworkrave_utils_la_LIBADD = ${ldadd_platform}
 
 AM_CPPFLAGS = 		@GLIB_CFLAGS@ -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
-			-I$(top_srcdir)/libs/utils/include
+			-I$(top_srcdir)/libs/utils/include \
+			@GTK_CFLAGS@
 
 Locale.cc:		locale.inc
 

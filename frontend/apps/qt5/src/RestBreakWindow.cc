@@ -38,6 +38,7 @@
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
 
+using namespace workrave::utils;
 
 IBreakWindow::Ptr
 RestBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)

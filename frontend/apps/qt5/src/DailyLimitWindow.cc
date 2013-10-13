@@ -31,6 +31,7 @@
 #include "utils/AssetPath.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 IBreakWindow::Ptr
 DailyLimitWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)

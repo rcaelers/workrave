@@ -37,6 +37,7 @@
 #include "utils/AssetPath.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 IPreludeWindow::Ptr
 PreludeWindow::create(int screen, workrave::BreakId break_id)

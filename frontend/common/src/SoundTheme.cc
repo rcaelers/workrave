@@ -328,9 +328,13 @@ SoundTheme::get_sound_themes(std::vector<Theme> &themes)
 
   for (const auto & dirname : searchpath)
     {
-      
       boost::filesystem::path dirpath(dirname);
 
+      if (! boost::filesystem::is_directory(dirpath))
+        {
+          continue;
+        }
+      
       boost::filesystem::directory_iterator dir_end;
       for (boost::filesystem::directory_iterator it(dirname); it != dir_end; ++it)
         {

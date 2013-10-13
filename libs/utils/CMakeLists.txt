@@ -11,11 +11,11 @@ if (HAVE_GLIB)
 endif()
 
 if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} src/Platform-win32.ccs rc/win32/crashlog.cc src/win32/W32ActiveSetup.cc src/win32/W32CriticalSection.cc )
+  set(SRC ${SRC} src/Platform-win32.cc rc/win32/crashlog.cc src/win32/W32ActiveSetup.cc src/win32/W32CriticalSection.cc )
 endif()
 
 if (PLATFORM_OS_UNIX)
-  set(SRC ${SRC} src/Platform-unix.ccs)
+  set(SRC ${SRC} src/Platform-unix.cc)
 endif()
 
 if (HAVE_GTK)
