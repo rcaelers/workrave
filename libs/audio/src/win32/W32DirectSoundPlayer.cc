@@ -84,8 +84,6 @@ W32DirectSoundPlayer::init(ISoundPlayerEvents *events)
 void
 W32DirectSoundPlayer::play_sound(SoundEvent snd, int volume)
 {
-  TRACE_ENTER_MSG( "W32DirectSoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
-  TRACE_EXIT();
 }
 
 

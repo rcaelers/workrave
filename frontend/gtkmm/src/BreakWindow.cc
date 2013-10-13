@@ -61,6 +61,7 @@
 #include "desktop-window.h"
 #endif
 
+using namespace std;
 using namespace workrave;
 
 //! Constructor

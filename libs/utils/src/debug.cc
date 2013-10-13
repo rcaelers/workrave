@@ -27,6 +27,7 @@
 #include <chrono>
 
 #include <boost/thread/tss.hpp>
+#include <boost/filesystem.hpp>
 
 #ifdef PLATFORM_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -128,7 +129,9 @@ Debug::stream()
           debug_filename = path_buffer;
         }
       
-      g_mkdir(debug_filename.c_str(), 0);
+      boost::filesystem::path dir(debug_filename);
+      boost::filesystem::create_directory(dir);
+
 #elif defined(PLATFORM_OS_OSX)
       debug_filename = "/tmp/";
 #elif defined(PLATFORM_OS_UNIX)
