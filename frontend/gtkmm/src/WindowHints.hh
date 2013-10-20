@@ -1,6 +1,6 @@
 // WindowHints.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,10 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
+
+#if defined(interface)
+#undef interface
+#endif
 #endif
 
 namespace Gtk

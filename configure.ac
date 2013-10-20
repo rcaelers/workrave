@@ -102,6 +102,24 @@ esac
 
 
 dnl
+dnl Defines
+dnl
+
+config_tests=no
+if test "x$enable_tests" = "xyes"; then
+   config_tests=yes
+   AC_DEFINE([HAVE_TESTS], , [Define if test code is enabled])
+fi
+AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
+
+config_experimental=no
+if test "x$enable_experimental" = "xyes"; then
+   config_experimental=yes
+   AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
+fi
+AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
+
+dnl
 dnl Checks for programs
 dnl
 
@@ -584,7 +602,7 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
-if test "x$platform_os_win32" = "xno"
+if test "x$platform_os_win32" = "xno" -o "x$config_experimental" = "xyes"
 then
 PKG_CHECK_MODULES(GTK,  glib-2.0 >= 2.28.0
    			gio-2.0 >= 2.26.0
@@ -838,24 +856,6 @@ fi
 
 AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" = "xyes")
 
-
-dnl
-dnl Defines
-dnl
-
-config_tests=no
-if test "x$enable_tests" = "xyes"; then
-   config_tests=yes
-   AC_DEFINE([HAVE_TESTS], , [Define if test code is enabled])
-fi
-AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
-
-config_experimental=no
-if test "x$enable_experimental" = "xyes"; then
-   config_experimental=yes
-   AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
-fi
-AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
 dnl
 dnl Generate language list.

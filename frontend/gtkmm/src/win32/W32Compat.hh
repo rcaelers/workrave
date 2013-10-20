@@ -74,4 +74,8 @@ private:
 };
 
 
+#if defined(interface)
+#undef interface
+#endif
+
 #endif // W32_COMPAT_HH

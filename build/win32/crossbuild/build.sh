@@ -15,7 +15,7 @@ WORKRAVE_BIN_DIR=.
 
 TINDERBOX_HOME=${HOME}/src/tinderbox
 
-WIN32_MAKERUNTIME=${WORKRAVE_SRC_DIR}/build/win32/crossbuild/make-runtime.sh
+WIN32_MAKERUNTIME=${WORKRAVE_SRC_DIR}/build/win32/crossbuild/make-runtime-gtk3.sh
 WIN32_ENV=${WORKRAVE_SRC_DIR}/build/win32/crossbuild/env.sh
 
 export TINDERBOX_BUILD=yes
@@ -43,10 +43,10 @@ setup_runtime()
 
 setup_configure()
 {
-    autopoint --force
-    AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install
+    #autopoint --force
+    #AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install
 
-    conf_flags="--with-sysroot=${SYSROOT} --target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --enable-dbus --with-boost=${SYSROOT}"
+    conf_flags="--with-sysroot=${SYSROOT} --target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --enable-dbus --with-boost=${SYSROOT} --enable-tracing --enable-experimental"
  
     echo Running $WORKRAVE_SRC_DIR/configure $conf_flags
     $WORKRAVE_SRC_DIR/configure $conf_flags
