@@ -30,5 +30,3 @@ target_link_libraries(workrave-test ${Qt5Widgets_LIBRARIES})
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-test ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
 endif()
-
-file(COPY "reference" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
