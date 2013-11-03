@@ -211,7 +211,7 @@ RestBreakWindow::install_exercises_panel()
       set_ignore_activity(true);
       clear_pluggable_panel();
       
-      ExercisesPanel *exercises_panel = new ExercisesPanel(NULL);
+      ExercisesPanel *exercises_panel = new ExercisesPanel(false);
       
       pluggable_panel->addWidget(exercises_panel);
       

@@ -35,25 +35,27 @@ using namespace workrave::utils;
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(QHBoxLayout *dialog_action_area)
+ExercisesPanel::ExercisesPanel(bool standalone)
   : exercises(Exercise::get_exercises())
 {
-  standalone = dialog_action_area != NULL;
-
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
 
-  QHBoxLayout *box = new QHBoxLayout;
+  QGridLayout *box = new QGridLayout;
+  //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+  //mainLayout->setRowStretch(2, 1);
+    
+  //QHBoxLayout *box = new QHBoxLayout;
 
   image = new QLabel;
   image->setFrameShape(QFrame::Panel);
-  box->addWidget(image);
+  box->addWidget(image, 0, 0);
   
   progress_bar = new QProgressBar;
   progress_bar->setOrientation(Qt::Vertical);
   progress_bar->setTextVisible(false);
   
-  box->addWidget(progress_bar);
+  box->addWidget(progress_bar, 0, 1);
 
   description_text = new QTextEdit;
   description_text->setWordWrapMode(QTextOption::WordWrap);
@@ -64,35 +66,32 @@ ExercisesPanel::ExercisesPanel(QHBoxLayout *dialog_action_area)
   description_scroll->setWidgetResizable(true);
   
   pause_button = new QPushButton;
+
+  back_button =  new QPushButton;
+  back_button->setIcon(QIcon::fromTheme("go-previous"));
   
-  if (dialog_action_area != NULL)
+  forward_button =  new QPushButton;
+  forward_button->setIcon(QIcon::fromTheme("go-next"));
+
+  stop_button = new QPushButton;
+  stop_button->setIcon(QIcon::fromTheme("window-close"));
+
+  
+  if (standalone)
     {
-      back_button =  new QPushButton;
-      back_button->setIcon(QIcon::fromTheme("go-previous"));
+      QDialogButtonBox *button_box = new QDialogButtonBox(Qt::Horizontal);
+      
+      button_box->addButton(back_button, QDialogButtonBox::ActionRole);
+      button_box->addButton(pause_button, QDialogButtonBox::ActionRole);
+      button_box->addButton(forward_button, QDialogButtonBox::ActionRole);
+      button_box->addButton(stop_button, QDialogButtonBox::ActionRole);
 
-      forward_button =  new QPushButton;
-      forward_button->setIcon(QIcon::fromTheme("go-next"));
-      stop_button = NULL;
+      box->addWidget(description_scroll, 0, 2);
+      box->addWidget(button_box, 1, 0, 1, 3);
 
-      dialog_action_area->addWidget(back_button);
-      dialog_action_area->addWidget(pause_button);
-      dialog_action_area->addWidget(forward_button);
-
-      box->addWidget(description_scroll);
     }
   else
     {
-      back_button = new QPushButton;
-      back_button->setIcon(QIcon::fromTheme("go-previous"));
-
-      forward_button = new QPushButton;
-      forward_button->setIcon(QIcon::fromTheme("go-next"));
-
-      stop_button = new QPushButton;
-      stop_button->setIcon(QIcon::fromTheme("window-close"));
-
-      connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
-
       QHBoxLayout *button_box = new QHBoxLayout;
       QLabel *browse_label = new QLabel;
       
@@ -111,21 +110,18 @@ ExercisesPanel::ExercisesPanel(QHBoxLayout *dialog_action_area)
       description_box->addWidget(description_scroll);
       description_box->addLayout(button_box);
 
-      box->addLayout(description_box);
+      box->addLayout(description_box, 0, 2);
     }
 
   connect(back_button, &QPushButton::clicked, this, &ExercisesPanel::on_go_back);
   connect(forward_button, &QPushButton::clicked, this, &ExercisesPanel::on_go_forward);
   connect(pause_button, &QPushButton::clicked, this, &ExercisesPanel::on_pause);
+  connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
   
   back_button->setToolTip(_("Previous exercise"));
   forward_button->setToolTip(_("Next exercise"));
   pause_button->setToolTip(_("Pause exercises"));
-
-  if (stop_button != NULL)
-    {
-      stop_button->setToolTip(_("End exercises"));
-    }
+  stop_button->setToolTip(_("End exercises"));
 
   timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeat()));
@@ -254,6 +250,7 @@ ExercisesPanel::on_stop()
       stop_signal();
     }
 }
+
 
 void
 ExercisesPanel::on_go_back()

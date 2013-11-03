@@ -32,6 +32,7 @@
 
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
+#include "ExercisesDialog.hh"
 
 #include "MenuHandler.hh"
 
@@ -82,13 +83,16 @@ public:
 
 public slots:
   void on_timer();
+  void on_exercises_closed();
+  void on_preferences_closed();
   
 private:
   boost::shared_ptr<QTimer> heartbeat_timer;
 
   boost::shared_ptr<MainWindow> main_window;
   boost::shared_ptr<PreferencesDialog> preferences_dialog;
-
+  boost::shared_ptr<ExercisesDialog> exercises_dialog;
+  
   MenuHandler::Ptr menu_handler;
 
   //! Timer signal.

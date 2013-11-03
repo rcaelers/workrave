@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002 - 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -38,7 +38,7 @@ class ExercisesPanel : public QWidget
   Q_OBJECT
   
 public:
-  ExercisesPanel(QHBoxLayout *dialog_action_area);
+  explicit ExercisesPanel(bool standalone);
   ~ExercisesPanel();
 
   void set_exercise_count(int num);
@@ -80,7 +80,7 @@ private:
   QPushButton *pause_button;
   QPushButton *forward_button;
   QPushButton *stop_button;
-
+  
   // Glib::RefPtr<QSizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;
@@ -97,7 +97,6 @@ private:
   static int exercises_pointer;
 
   boost::signals2::signal<void()> stop_signal;
-
 };
 
 #endif // EXERCISES_PANEL_HH

@@ -75,7 +75,7 @@ Toolkit::init(MenuItem::Ptr top)
   main_window->show();
   main_window->raise();
   
-  preferences_dialog = boost::make_shared<PreferencesDialog>();
+
   
   // PreludeWindow *prelude = new PreludeWindow(0, BREAK_ID_MICRO_BREAK);
 
@@ -159,6 +159,10 @@ Toolkit::show_window(WindowType type)
       break;
 
     case WindowType::Preferences:
+      if (!preferences_dialog)
+        {
+          preferences_dialog = boost::make_shared<PreferencesDialog>();
+        }
       preferences_dialog->show();
       break;
 
@@ -166,6 +170,12 @@ Toolkit::show_window(WindowType type)
       break;
 
     case WindowType::Exercises:
+      if (!exercises_dialog)
+        {
+          exercises_dialog = boost::make_shared<ExercisesDialog>();
+          connect(exercises_dialog.get(), &QDialog::accepted, this, &Toolkit::on_exercises_closed);
+        }
+      exercises_dialog->show();
       break;
     }
 }
@@ -185,12 +195,15 @@ Toolkit::hide_window(WindowType type)
 
     case WindowType::Preferences:
       preferences_dialog->hide();
+      preferences_dialog.reset();
       break;
 
     case WindowType::About:
       break;
 
     case WindowType::Exercises:
+      exercises_dialog->hide();
+      exercises_dialog.reset();
       break;
 }
 }
@@ -211,6 +224,18 @@ Toolkit::on_timer()
   main_window->on_heartbeat();
 }
 
+
+void
+Toolkit::on_exercises_closed()
+{
+  exercises_dialog.reset();
+}
+
+void
+Toolkit::on_preferences_closed()
+{
+  preferences_dialog.reset();
+}
 
 boost::signals2::signal<void()> &
 Toolkit::signal_timer()

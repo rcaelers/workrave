@@ -12,6 +12,7 @@ set(SRC
   src/RestBreakWindow.cc
   src/UiUtil.cc
   src/ExercisesPanel.cc
+  src/ExercisesDialog.cc
   src/PreferencesDialog.cc
   src/TimerPreferencesPanel.cc
   src/TimeEntry.cc
@@ -39,6 +40,7 @@ qt5_wrap_cpp(MOC_SRC
   src/Toolkit.hh
   src/Frame.hh
   src/ExercisesPanel.hh
+  src/ExercisesDialog.hh
   src/PreferencesDialog.hh
   src/TimerPreferencesPanel.hh
   src/TimeEntry.hh
