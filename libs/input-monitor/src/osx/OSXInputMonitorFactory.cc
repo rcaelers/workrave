@@ -50,15 +50,14 @@ OSXInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability c
 
   if (monitor == NULL)
     {
-      monitor = new OSXInputMonitor();
+      monitor = IInputMonitor::Ptr(new OSXInputMonitor());
 
       bool init_ok = monitor->init();
       if (!init_ok)
         {
-          delete monitor;
-          monitor = NULL;
+          monitor.reset();
         }
     }
 
-  return IInputMonitor::Ptr(monitor);
+  return monitor;
 }

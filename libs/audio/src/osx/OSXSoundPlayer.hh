@@ -20,19 +20,18 @@
 #ifndef OSXSOUNDPLAYER_HH
 #define OSXSOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
-#include "Thread.hh"
+#include "ISoundDriver.hh"
 
-class OSXSoundPlayer : public ISoundDriver, public Thread
+class OSXSoundPlayer : public ISoundDriver
 {
 public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
-
-  void init(ISoundDriverEvents *) {};
-  bool capability(SoundCapability cap);
+  
+  void init(ISoundPlayerEvents *) {};
+  bool capability(workrave::audio::SoundCapability cap);
+  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
-  void play_sound(SoundEvent snd, int volume);
 
 private:
 

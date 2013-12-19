@@ -185,6 +185,7 @@ invoke(const std::string &command, bool async = false)
 }
 #endif
 
+#if defined(PLATFORM_OS_UNIX) 
 static std::string
 find_program_in_path(const char* program)
 {
@@ -197,7 +198,6 @@ find_program_in_path(const char* program)
 #endif
 }
 
-#if defined(PLATFORM_OS_UNIX) 
 void
 System::init_kde_lock()
 {

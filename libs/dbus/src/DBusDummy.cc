@@ -121,9 +121,3 @@ DBusDummy::find_binding(const std::string &interface_name) const
   (void) interface_name;
   return NULL;
 }
-
-
-// void *
-// DBusDummy::find_object(const std::string &path, const std::string &interface_name) const
-// {
-// }

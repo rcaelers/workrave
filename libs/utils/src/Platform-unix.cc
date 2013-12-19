@@ -40,6 +40,7 @@
 
 using namespace workrave::utils;
 
+#ifdef PLATFORM_OS_UNIX
 void *
 Platform::get_default_display()
 {
@@ -76,6 +77,7 @@ Platform::get_default_root_window()
 #endif
 
 }
+#endif
 
 int
 Platform::setenv(const char* name, const char* val, int overwrite) 

@@ -91,6 +91,7 @@ MenuItem::is_checked() const
   return checked;
 }
 
+
 void
 MenuItem::set_checked(bool checked)
 {

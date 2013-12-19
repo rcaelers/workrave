@@ -25,6 +25,7 @@ include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
+
 #----------------------------------------------------------------------------------------------------
 
 project(Workrave)
@@ -89,6 +90,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
+
 #----------------------------------------------------------------------------------------------------
 # Testing
 
@@ -121,6 +123,8 @@ endif()
 option(WITH_GTK "Enable GTK Workrave application" ON)
 
 if (WITH_GTK)
+  message("Checking for: Gtk 3")
+
   pkg_check_modules(
     GTK REQUIRED
     gtkmm-3.0>=3.6.0
@@ -141,9 +145,11 @@ if (WITH_GTK)
     gio-2.0>=2.26.0)
  
   include_directories(${GLIB_INCLUDE_DIRS})
+
+  find_package(GSettings)
+
 endif()
 
-include (GSettings)
 
 #----------------------------------------------------------------------------------------------------
 # Gnome
@@ -151,7 +157,9 @@ include (GSettings)
 option(WITH_GCONF "Enable GConf support" OFF)
 
 if (WITH_GCONF)
-  pkg_check_modules(GCONF gconf-2.0)
+  message("Checking for: Gnome GConf")
+
+  pkg_check_modules(GCONF QUIET gconf-2.0)
   if (GCONF_FOUND)
     set (HAVE_GCONF ON)
   else()
@@ -159,15 +167,17 @@ if (WITH_GCONF)
   endif()
 endif()
 
-option(WITH_GNOME_PANEL "Enable Gnome 3 Classic pannel applet support" OFF)
+option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" OFF)
 
-if (WITH_PANELAPPLET4)
-  pkg_check_modules(PANELAPPLET4 libpanelapplet-4.0 gio-2.0>=2.26.0)
+if (WITH_GNOME_CLASSIC_PANEL)
+  message("Checking for: Gnome 3 classic panel applets")
+
+  pkg_check_modules(PANELAPPLET4 QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
   if (PANELAPPLET4_FOUND)
     set (HAVE_PANELAPPLET4 ON)
     set (HAVE_GNOME3 ON)
   else()
-    set (WITH_PANELAPPLET4 OFF)
+    set (WITH_GNOME_CLASSIC_PANEL OFF)
   endif()
 endif()
 
@@ -177,16 +187,17 @@ endif()
 option(WITH_QT5 "Enable Qt5 Workrave application" ON)
 
 if (WITH_QT5)
+  message("Checking for: Qt5")
+
   find_package(Qt5Widgets REQUIRED)
   find_package(Qt5Core REQUIRED)
   find_package(Qt5Gui REQUIRED)
-  find_package(Qt5DBus)
+  find_package(Qt5DBus QUIET)
 
   if (Qt5DBus_FOUND)
     set (HAVE_DBUS ON)
     set (HAVE_DBUS_QT5 ON)
     set (DBUS_BACKEND "qt5")
-
     include_directories(${Qt5DBus_INCLUDE_DIRS})
   endif()
   
@@ -200,11 +211,6 @@ if (WITH_QT5)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
-
-  # FIXME: temporary
-  #set (HAVE_GLIB ON)
-  #include_directories(${GLIB_INCLUDE_DIRS})
-
 endif()
 
 
@@ -212,6 +218,8 @@ endif()
 # DBus
 
 if (HAVE_DBUS)
+  message("Checking for: DBus")
+  
   find_package(PythonInterp)
   if (NOT PYTHONINTERP_FOUND)
     set (HAVE_DBUS FALSE)
@@ -235,11 +243,13 @@ endif()
 option(WITH_GSTREAMER "Enable GStreamer audio" ON)
 
 if (WITH_GSTREAMER)
-  pkg_check_modules(GSTREAMER gstreamer-1.0)
+  message("Checking for: GStreamer")
+
+  pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
   if (GSTREAMER_FOUND)
     set (HAVE_GSTREAMER ON)
   else()
-    pkg_check_modules(GSTREAMER gstreamer-0.10)
+    pkg_check_modules(GSTREAMER QUIET gstreamer-0.10)
     if (GSTREAMER_FOUND)
       set (HAVE_GSTREAMER ON)
     else()
@@ -254,6 +264,8 @@ endif()
 option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
 
 if (WITH_PULSE)
+  message("Checking for: Pulseaudio")
+
   pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
   
   if (PULSE_FOUND)
@@ -271,11 +283,13 @@ option(WITH_INDICATOR "Enable Unity indicator support" ON)
 option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
 if (WITH_INDICATOR)
+  message("Checking for: Unity Indicators")
+
   find_package(GObjectIntrospection 0.9.12)
   set(HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
 
   if (HAVE_INTROSPECTION)
-    pkg_check_modules(INDICATOR indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+    pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
   endif()
     
   if (INDICATOR_FOUND)
@@ -316,6 +330,7 @@ endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
 find_package(Gettext)
+find_package(Libintl)
 
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
@@ -325,12 +340,13 @@ else()
   set(ENABLE_NLS ON)
 endif (NOT GETTEXT_FOUND)
 
+if (APPLE) # XXX: workaround intl for Mac OSX
+    set(GETTEXT_LIBRARIES ${LIBINTL_LIBRARIES})
+endif(APPLE)
+
 set (GETTEXT_PACKAGE "workrave")
 
 # TODO: generate languages.iss for InnoSetup
-
-#----------------------------------------------------------------------------------------------------
-# Options
 
 include(Intltool)
 
@@ -343,6 +359,7 @@ if (WITH_TRACING)
   set(TRACING ON)
   #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
+
 
 #----------------------------------------------------------------------------------------------------
 # platform
@@ -397,7 +414,9 @@ if (APPLE)
   if (HAS_LIBCXX11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
   endif()
-  
+
+  find_library(COCOA_LIBRARY Cocoa REQUIRED)
+  find_library(IOKIT_LIBRARY IOKit REQUIRED)
 endif()
 
 if (UNIX AND NOT APPLE)

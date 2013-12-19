@@ -551,6 +551,7 @@ Application::init_bus()
          exit(1);
        }
 
+#ifdef HAVE_DBUS
      try
        {
          dbus->register_object_path("/org/workrave/Workrave/UI");
@@ -566,6 +567,7 @@ Application::init_bus()
      catch (workrave::dbus::DBusException &)
        {
        }
+#endif
    }
 }
 
@@ -791,6 +793,7 @@ Application::show_break_window()
     {
       window->start();
     }
+
   for (auto &window : break_windows)
     {
       window->start();
@@ -812,6 +815,7 @@ Application::refresh_break_window()
     {
       window->refresh();
     }
+
   for (auto &window : break_windows)
     {
       window->refresh();

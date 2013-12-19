@@ -191,9 +191,9 @@ AssetPath::get_search_path(SearchPathId type)
 
   _NSGetExecutablePath (execpath, &pathsz);
 
-  gchar *dir_path = g_path_get_dirname(execpath);
-  string app_dir = dir_path;
-  g_free(dir_path);
+  boost::filesystem::path p(execpath);
+  boost::filesystem::path dir = p.parent_path();
+  string app_dir = dir.string();
 #endif
 
   if (type == SEARCH_PATH_IMAGES)

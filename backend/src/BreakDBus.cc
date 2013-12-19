@@ -70,6 +70,7 @@ void
 BreakDBus::on_break_stage_changed(BreakStage stage)
 {
   (void) stage;
+  (void) break_id;
   
 #ifdef HAVE_DBUS
   const char *progress = NULL;

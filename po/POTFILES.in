@@ -129,7 +129,6 @@ libs/input-monitor/src/win32/W32LowLevelMonitor.cc
 libs/utils/src/Locale.cc
 libs/utils/src/TimeSource.cc
 libs/utils/src/Timer.cc
-libs/utils/src/Util.cc
 libs/utils/src/WRID.cc
 libs/utils/src/debug.cc
 libs/utils/src/win32/crashlog.c

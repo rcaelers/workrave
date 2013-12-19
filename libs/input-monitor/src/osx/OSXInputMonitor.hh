@@ -1,6 +1,6 @@
 // OSXInputMonitor.hh --- ActivityMonitor for OSX
 //
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,31 +20,27 @@
 #ifndef OSXINPUTMONITOR_HH
 #define OSXINPUTMONITOR_HH
 
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
+#include <boost/thread.hpp>
 
-#ifdef HAVE_IOKIT
+// #if TIME_WITH_SYS_TIME
+// # include <sys/time.h>
+// # include <time.h>
+// #else
+// # if HAVE_SYS_TIME_H
+// #  include <sys/time.h>
+// # else
+// #  include <time.h>
+// # endif
+// #endif
+
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
-#endif
 
 #include "InputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "Runnable.hh"
-#include "Thread.hh"
 
 //! Activity monitor for OSX.
-class OSXInputMonitor :
-  public InputMonitor,
-  public Runnable
+class OSXInputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -62,7 +58,7 @@ private:
   bool terminate_loop;
 
   //! The activity monitor thread.
-  Thread *monitor_thread;
+  boost::shared_ptr<boost::thread> monitor_thread;
 
   // OS X IO Service
   io_service_t io_service;

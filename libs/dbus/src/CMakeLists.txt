@@ -5,6 +5,7 @@ set(SRC ${SRC}
 
 if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)
   set(SRC ${SRC}
+    DBusDummy.cc
     DBusGio.cc
     DBusGeneric.cc
     DBusBindingGio.cc)
@@ -49,7 +50,6 @@ if (HAVE_DBUS_QT5)
   set(STUB_SRC ${STUB_SRC}
     DBusBindingQt5.cc)
 endif()
-
 
 add_library(workrave-libs-dbus-stub STATIC ${STUB_SRC})
 set_target_properties(workrave-libs-dbus-stub PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_DUMMY=1")

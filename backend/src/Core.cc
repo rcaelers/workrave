@@ -198,12 +198,14 @@ Core::init_bus()
   try
     {
 
+#ifdef HAVE_DBUS
       extern void init_DBusWorkrave(IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE "Core");
+#endif
     }
   catch (DBusException &)
     {

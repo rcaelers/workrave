@@ -21,24 +21,24 @@
 #include "config.h"
 #endif
 
-#include "debug.hh"
 #include "OSXInputMonitor.hh"
+
+#include <unistd.h>
+
+#include "debug.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "Thread.hh"
 
 OSXInputMonitor::OSXInputMonitor()
   : terminate_loop(false)
 {
-  monitor_thread = new Thread(this);
 }
 
 
 OSXInputMonitor::~OSXInputMonitor()
 {
-  if (monitor_thread != NULL)
+  if (monitor_thread)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
 }
 
@@ -51,7 +51,7 @@ OSXInputMonitor::init()
   io_service = IOServiceGetMatchingService(master,
                                            IOServiceMatching("IOHIDSystem"));
 
-  monitor_thread->start();
+  monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&OSXInputMonitor::run, this)));
   return true;
 }
 
@@ -61,7 +61,7 @@ void
 OSXInputMonitor::terminate()
 {
   terminate_loop = true;
-  monitor_thread->wait();
+  monitor_thread->join();
 }
 
 
@@ -91,7 +91,7 @@ OSXInputMonitor::run()
           TRACE_MSG("fire");
         }
 
-      g_usleep(500000);
+      usleep(500000);
     }
   TRACE_EXIT()
 }

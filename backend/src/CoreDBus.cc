@@ -19,6 +19,8 @@
 #include "config.h"
 #endif
 
+#include "CoreDBus.hh"
+
 #include "dbus/IDBus.hh"
 
 #ifdef HAVE_DBUS

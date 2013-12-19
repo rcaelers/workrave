@@ -45,3 +45,7 @@ include_directories(
 
 add_library(workrave-libs-input-monitor STATIC ${SRC})
 add_library(workrave-libs-input-monitor-stub STATIC InputMonitorFactoryStub.cc)
+
+if (PLATFORM_OS_OSX)
+  target_link_libraries(workrave-libs-input-monitor ${IOKIT_LIBRARY})
+endif()

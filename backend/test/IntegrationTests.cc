@@ -35,6 +35,7 @@
 #include "ICore.hh"
 #include "IApp.hh"
 #include "IBreak.hh"
+#include "Timer.hh"
 
 #include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"

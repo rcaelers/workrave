@@ -29,10 +29,10 @@ namespace workrave
 {
   namespace dbus
   {
-    static const char *DBUS_ERROR_FAILED =                       "org.freedesktop.DBus.Error.Failed";
-    static const char *DBUS_ERROR_NOT_SUPPORTED =                "org.freedesktop.DBus.Error.NotSupported";
-    static const char *DBUS_ERROR_INVALID_ARGS =                 "org.freedesktop.DBus.Error.InvalidArgs";
-    static const char *DBUS_ERROR_UNKNOWN_METHOD =               "org.freedesktop.DBus.Error.UnknownMethod";
+    extern const char *DBUS_ERROR_FAILED;
+    extern const char *DBUS_ERROR_NOT_SUPPORTED;
+    extern const char *DBUS_ERROR_INVALID_ARGS;
+    extern const char *DBUS_ERROR_UNKNOWN_METHOD;
 
     class DBusException : public workrave::utils::Exception
     {
