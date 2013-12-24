@@ -47,7 +47,6 @@ using namespace workrave;
 using namespace workrave::utils;
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
-  : QGroupBox(_("Options"))
 {
   TRACE_ENTER("GeneralUiPreferencesPanel::GeneralUiPreferencesPanel");
 
@@ -104,6 +103,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   languages_combo->setView(languages_view);
   languages_view->setHeaderHidden(true);
   languages_view->setColumnWidth(0, 300);
+  languages_view->setColumnWidth(1, 100);
   languages_view->setModel(model);
 
   languages_view->setSelectionBehavior(QAbstractItemView::SelectRows);

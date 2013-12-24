@@ -26,7 +26,7 @@
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
-class GeneralUiPreferencesPanel : public QGroupBox
+class GeneralUiPreferencesPanel : public QWidget
 {
   Q_OBJECT
   
