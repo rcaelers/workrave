@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-09-01 19:56+0200\n"
+"POT-Creation-Date: 2013-10-28 20:44+0100\n"
 "PO-Revision-Date: 2011-05-15 15:37+0200\n"
 "Last-Translator: Mykola Rykov <mykola.rykov@gmail.com>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -31,26 +31,26 @@ msgstr "%s%d:%02d хвилин"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d годин"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:395
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:396
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, з %s до %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:249
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
 msgstr "(шрифт недоступний)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
 msgid "About..."
 msgstr "Про програму..."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:313
 msgid "Activity"
 msgstr "Активність"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
 msgid "Applet"
 msgstr "Аплет"
 
@@ -69,25 +69,25 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Зворотнє розтягування плечей"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:158
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:162
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "Block input"
 msgstr "Блокувати введення"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
 msgid "Block input and screen"
 msgstr "Блокувати введення та екран"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:185
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:191
 msgid "Block mode:"
 msgstr "Режим блокування:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Тривалість перерви:"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, c-format
 msgid "Break in %s"
 msgstr "Перерва через %s"
@@ -97,27 +97,27 @@ msgstr "Перерва через %s"
 msgid "Break prompting"
 msgstr "Нагадування про перерву"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Нагадування про перерви"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Перерви"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Відкладено перерв"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Пропущено перерв"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:145
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:146
 msgid "Browse history"
 msgstr "Перегляд історії"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:413
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
 msgid "Choose a sound"
 msgstr "Виберіть звук"
 
@@ -135,18 +135,18 @@ msgstr ""
 msgid "Cycle time:"
 msgstr "Тривалість циклу:"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:47
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:55
-#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/GUI.cc:1439 ../frontend/gtkmm/src/GtkUtil.cc:170
 msgid "Daily limit"
 msgstr "Денний ліміт"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Денний ліміт перевищено на %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:265
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Денний ліміт %s"
@@ -155,20 +155,20 @@ msgstr "Денний ліміт %s"
 msgid "Daily limit:"
 msgstr "Денний ліміт:"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:239
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
 msgid "Daily usage"
 msgstr "Використання за день"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
 msgstr "Дата:"
 
 #. Delete button
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:151
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:322
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, c-format
 msgid "Disappears in %s"
 msgstr "Зникне через %s"
@@ -177,11 +177,11 @@ msgstr "Зникне через %s"
 msgid "Display"
 msgstr "Екран"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
 msgid "Effective mouse movement:"
 msgstr "Корисне переміщення миші:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:538
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -192,35 +192,35 @@ msgstr ""
 msgid "Enable timer"
 msgstr "Увімкнути таймер"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:302
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:303
 msgid "End exercises"
 msgstr "Завершити вправи"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:631
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:632
 msgid "Error"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:403
 msgid "Event"
 msgstr "Подія"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:175
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:176
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
 #: ../frontend/gtkmm/src/ExercisesDialog.cc:42
 msgid "Exercises"
 msgstr "Вправи"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:262
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:263
 msgid "Exercises player"
 msgstr "Переглядач вправ"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:627
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:617
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "Files deleted!"
 msgstr ""
 
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Розтягування пальців"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 msgid "General"
 msgstr "Загальні"
 
@@ -237,7 +237,7 @@ msgstr "Загальні"
 msgid "Hide"
 msgstr "Приховати"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:621
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:622
 msgid "Info"
 msgstr ""
 
@@ -251,7 +251,7 @@ msgstr ""
 "випрямляючи руки. Затримайтеся в такому положенні від 5 до 15 секунд і "
 "повторіть вправу двічі."
 
-#: ../frontend/gtkmm/src/GUI.cc:773
+#: ../frontend/gtkmm/src/GUI.cc:778
 msgid "Is Workrave already running?"
 msgstr "Workrave вже запущено?"
 
@@ -266,11 +266,11 @@ msgstr ""
 "на себе, поки не відчуєте м'яку напругу у плечі. Затримайтеся ненадовго і "
 "повторіть вправу для іншої руки."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:339
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
 msgid "Keystrokes:"
 msgstr "Натиснення клавіш:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:274
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
 msgstr "Мова:"
 
@@ -308,10 +308,10 @@ msgid "Maximum number of prompts:"
 msgstr "Максимальна кількість нагадувань:"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1433 ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:53
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:178
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:276
+#: ../frontend/gtkmm/src/GUI.cc:1439 ../frontend/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:180
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:278
 msgid "Micro-break"
 msgstr "Мінівідпочинок"
 
@@ -320,25 +320,25 @@ msgstr "Мінівідпочинок"
 msgid "Micro-break:"
 msgstr "Мінівідпочинок:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:203
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
 #, fuzzy
 msgid "Mode"
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/GUI.cc:1440 ../frontend/gtkmm/src/GUI.cc:1444
+#: ../frontend/gtkmm/src/GUI.cc:1446 ../frontend/gtkmm/src/GUI.cc:1450
 msgid "Mode: "
 msgstr "_Режим:"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:335
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
 msgstr "Кліків кнопкою миші:"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse movement:"
 msgstr "Переміщення миші:"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
 msgid "Mouse usage:"
 msgstr "Використання миші:"
 
@@ -354,15 +354,15 @@ msgstr "Рух плечима"
 msgid "Move the shoulders up and down"
 msgstr "Рух плечима вгору і вниз"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Вимкнути звуки протягом перерви та денного ліміту"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Взяті перерви"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid "Natural rest break"
 msgstr "Взяті перерви"
 
@@ -370,56 +370,56 @@ msgstr "Взяті перерви"
 msgid "Neck tilt stretch"
 msgstr "Розтягування шиї нахилами"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
 msgid "Next exercise"
 msgstr "Наступна вправа"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:247
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Наступна перерва через %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:157
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
 msgid "No blocking"
 msgstr "Не блокувати"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:323
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
 msgid "No sounds"
 msgstr "Без звуку"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
 #, fuzzy
 msgid "Normal"
 msgstr "_Звичайний"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
 msgid "Number of exercises:"
 msgstr "Кількість вправ:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:188
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
 msgid "Open"
 msgstr "_Відкрити"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:183
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Параметри"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Час запізнення"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "Пауза"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:299
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause exercises"
 msgstr "Призупинити вправи"
 
@@ -447,33 +447,33 @@ msgstr "Розмістити таймери поруч"
 msgid "Placement:"
 msgstr "Розміщення:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:392
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:410
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:440
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:446
 msgid "Play"
 msgstr "Грати"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:318
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:321
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:327
 msgid "Play sounds using sound card"
 msgstr "Використовувати звукову карту для відтворення звуків"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:238
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
 msgid "Please relax for a few seconds"
 msgstr "Будь-ласка, розслабтесь на кілька секунд"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Postpone time:"
 msgstr "Відкласти на:"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:78
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Preferences"
 msgstr "Налаштування"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:296
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
 msgstr "Попередня вправа"
 
@@ -481,7 +481,7 @@ msgstr "Попередня вправа"
 msgid "Prompt before breaking"
 msgstr "Запитувати перед перервою"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Прийняті нагадування про перерву"
 
@@ -495,15 +495,15 @@ msgstr ""
 "руки. Спробуйте відкинути голову назад, опускаючи плечі. Потім повільно "
 "сядьте на стілець."
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:85
 msgid "Q_uiet"
 msgstr "_Тихо"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1444
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/gtkmm/src/GUI.cc:1450
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 msgid "Quiet"
 msgstr "_Тихо"
 
@@ -513,35 +513,35 @@ msgid "Quit"
 msgstr "_Вихід"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:205
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "Reading mode"
 msgstr "Режим читання"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:166
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Regard micro-breaks as activity"
 msgstr "Віднести мінівідпочинок до активності"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Повторені нагадування"
 
-#: ../frontend/gtkmm/src/GUI.cc:1433
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
-#: ../frontend/gtkmm/src/GtkUtil.cc:168
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:79
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/GUI.cc:1439
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:148
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid "Rest break"
 msgstr "Перерва"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:252
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Перерву затримано на %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:164
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:165
 #, c-format
 msgid "Rest break for %s"
 msgstr "Перерва на %s"
@@ -550,11 +550,11 @@ msgstr "Перерва на %s"
 msgid "Rest break:"
 msgstr "Перерва:"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:479
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "Продовжити"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:484
+#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume exercises"
 msgstr "Продовжити вправи"
 
@@ -601,7 +601,7 @@ msgstr "Показувати лише коли цей таймер перший 
 msgid "Show status window"
 msgstr "Показати вікно статусу"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:290
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
 msgstr "Показувати піктограму в системному лотку"
 
@@ -609,30 +609,30 @@ msgstr "Показувати піктограму в системному лот
 msgid "Shut _down"
 msgstr "В_имкнути"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:326
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, c-format
 msgid "Silent in %s"
 msgstr "Тихо через %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:361
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
 msgstr "Звуки подій"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
 msgid "Sound Options"
 msgstr "Параметри звуку"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:369
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:375
 msgid "Sound Theme:"
 msgstr "Звуки:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
 msgstr "Звуки:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:104
 msgid "Sounds"
 msgstr "Звуки"
 
@@ -646,11 +646,11 @@ msgstr ""
 "годинниковою стрілкою, 4 рази - проти і розслабтесь на кілька секунд. "
 "Повторіть вправу з лівою рукою."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
 msgstr "Запускати Workrave разом із Windows"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:177
 #, fuzzy
 msgid "Start restbreak when screen is locked"
 msgstr "Розпочати перерву, коли буде заблоковано екран"
@@ -667,69 +667,65 @@ msgstr ""
 "у цьому положенні протягом 5 секунд. Після цього нахиліть голову до лівої "
 "сторони, щоб розтягнути м'язи на іншій стороні. "
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:181
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:58
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:59
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "Status Window"
 msgstr "Вікно статусу"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:158
-msgid "Suspend timer when inactive"
-msgstr "Призупинити таймер, коли немає активності"
-
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1440
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:197
+#: ../frontend/gtkmm/src/GUI.cc:1446
+#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
 msgid "Suspended"
 msgstr "_Призупинено"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:205
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:211
 msgid "System default"
 msgstr "За замовчуванням"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
 msgid "Take rest break now"
 msgstr "Взяти перерву зараз"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:629
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:619
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Кількість перерв, які ви відклали"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Кількість перерв, які ви пропустили"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Кількість перерв, взятих одразу після нагадування"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Кількість перерв, узятих без нагадування"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:205
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "Кількість нагадувань про перерву (крім повторних для однієї)"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Скільки разів підряд з'являвся запит на перерву"
 
@@ -737,11 +733,11 @@ msgstr "Скільки разів підряд з'являвся запит на
 msgid "The status window stays always on top of other windows"
 msgstr "Вікно статусу завжди над іншими вікнами"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:241
 msgid "The total computer usage"
 msgstr "Загальне використання комп'ютера"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:332
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -749,31 +745,31 @@ msgstr ""
 "Загальне переміщення миші, яке було б, якби між кліками ви рухали б її по "
 "прямим лініям"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
 msgstr "Загальна кількість натиснених клавіш"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:337
 msgid "The total number of mouse button clicks"
 msgstr "Загальна кількість кліків кнопкою миші"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total on-screen mouse movement"
 msgstr "Загальний час переміщення миші по екрану"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "Загальний час запізнення цієї перерви"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:324
 msgid "The total time you were using the mouse"
 msgstr "Загальний час використання миші"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:208
 msgid "This is your natural rest break."
 msgstr "Вам потрібна перерва."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:214
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -783,7 +779,7 @@ msgstr ""
 "відпочиньте, розслабтесь та потягніться."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:359
+#: ../frontend/gtkmm/src/Menus.cc:360
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -791,22 +787,22 @@ msgstr ""
 "Ця програма допомагає у попередженні та лікуванні тунельного синдрому "
 "зап'ястя та знятті загального напруження м'язів."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
 msgstr "Часу до кінця:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
 msgstr "Часу між перервами:"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:106
+#: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
 msgstr "Час для мінівідпочинку?"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:116
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:213
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
 msgid "Timers"
 msgstr "Таймери"
 
@@ -824,46 +820,46 @@ msgid ""
 "right and keep it there for 2 seconds."
 msgstr "Поверніть голову наліво і потримайте так 2 секунди, потім - направо."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:526
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:111
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "User interface"
 msgstr "Інтерфейс користувача"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
 msgstr "Гучність:"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
 msgid "Wait"
 msgstr "Очікування"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:601
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:605
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:606
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:425
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:431
 msgid "Wavefiles"
 msgstr "Файли"
 
-#: ../frontend/gtkmm/src/GUI.cc:771
+#: ../frontend/gtkmm/src/GUI.cc:776
 msgid "Workrave failed to start"
 msgstr "Не вдалося запустити Workrave"
 
-#: ../frontend/gtkmm/src/GUI.cc:1305
+#: ../frontend/gtkmm/src/GUI.cc:1311
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1299
+#: ../frontend/gtkmm/src/GUI.cc:1305
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:289
+#: ../frontend/gtkmm/src/GUI.cc:298
 #, fuzzy
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
@@ -871,11 +867,11 @@ msgid ""
 msgstr ""
 "Workrave працює. Щоб відкрити меню, клацніть на піктограмі з білою овечкою."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/gtkmm/src/StatisticsDialog.cc:603
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -885,16 +881,16 @@ msgstr ""
 "з комп'ютером. Якщо ваш робочий день ще не закінчився,\n"
 "знайдіть собі інше заняття, наприклад, перегляд документів."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:110
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
 msgstr "Вам потрібна перерва..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
 msgstr "Сьогоднішній денний ліміт вичерпано..."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:185
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:186
 #, fuzzy
 msgid "_About"
 msgstr "_Про програму..."
@@ -916,9 +912,9 @@ msgid "_Lock"
 msgstr "_Заблокувати"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Mode"
 msgstr "_Режим"
 
@@ -926,14 +922,14 @@ msgstr "_Режим"
 msgid "_Network"
 msgstr "_Мережа"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
 msgid "_Normal"
 msgstr "_Звичайний"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Відкрити"
 
@@ -942,16 +938,16 @@ msgid "_Postpone"
 msgstr "_Відкласти"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
 msgid "_Preferences"
 msgstr "_Налаштування"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:190
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:191
 msgid "_Quit"
 msgstr "_Вихід"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 msgid "_Reading mode"
 msgstr "Режим _читання"
 
@@ -959,10 +955,10 @@ msgstr "Режим _читання"
 msgid "_Reconnect"
 msgstr "_Перез'єднатися"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:164
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:102
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "_Rest break"
 msgstr "_Перерва"
 
@@ -978,9 +974,9 @@ msgstr "_Пропустити"
 msgid "_Statistics"
 msgstr "_Статистика"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Suspended"
 msgstr "_Призупинено"
 
@@ -1270,6 +1266,9 @@ msgstr "_Призупинено"
 
 #~ msgid "Stretch your back"
 #~ msgstr "Потяните спину"
+
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "Призупинити таймер, коли немає активності"
 
 #~ msgid ""
 #~ "The following list specifies the hosts that Workrave connects to on\n"
