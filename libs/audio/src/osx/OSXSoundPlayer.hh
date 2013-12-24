@@ -34,9 +34,6 @@ public:
   void play_sound(std::string wavfile, int volume);
 
 private:
-
-  void run();
-
   const char *wav_file;
 };
 

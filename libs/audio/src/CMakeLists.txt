@@ -29,6 +29,7 @@ if (PLATFORM_OS_OSX)
   set(SRC ${SRC}
     osx/OSXSoundPlayer.cc)
   include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/osx)
+  set_source_files_properties(osx/OSXSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
 endif()
 
 if (HAVE_GTK)
@@ -52,4 +53,8 @@ endif()
 if (HAVE_PULSE)
   link_directories(${PULSE_LIBPATH})
   target_link_libraries(workrave-libs-audio ${PULSE_LIBRARIES})
+endif()
+
+if (PLATFORM_OS_OSX)
+  target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
 endif()
