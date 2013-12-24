@@ -151,6 +151,7 @@ protected:
 DECLARE_DATA_TYPE(QCheckBox *, DataConnectionQCheckBox);
 DECLARE_DATA_TYPE(QSpinBox *, DataConnectionQSpinBox);
 DECLARE_DATA_TYPE(QComboBox *, DataConnectionQComboBox);
+DECLARE_DATA_TYPE(QAbstractSlider *, DataConnectionQAbstractSlider);
 
 DECLARE_DATA_TYPE(TimeEntry *, DataConnectionTimeEntry);
 

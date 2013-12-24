@@ -23,23 +23,38 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "SizeGroup.hh"
 #include "DataConnector.hh"
+#include "SoundTheme.hh"
 
-class SoundsPreferencesPanel : public QGroupBox
+class SoundsPreferencesPanel : public QWidget
 {
   Q_OBJECT
   
 public:
-  SoundsPreferencesPanel();
+  SoundsPreferencesPanel(SoundTheme::Ptr sound_theme);
   virtual ~SoundsPreferencesPanel();
 
-  
 private:
-  
-private:
-  DataConnector *connector;
+  bool on_enabled_changed(const std::string &key, bool write);
 
+  void on_sound_theme_changed(int index);
+  void on_sound_item_activated(const QModelIndex & index);
+  void on_select_sound();
+  void on_play_sound();
+  void on_sound_selected(const QString &filename);
+
+  void update_theme_selection();
+  
+private:
+  SoundTheme::Ptr sound_theme;
+  DataConnector *connector;
+  QCheckBox *enabled_cb;
+
+  QComboBox *sound_theme_button;
+  QStandardItemModel *sound_theme_model;
+
+  QTreeView *sounds_view;
+  QStandardItemModel *sounds_model;
 };
 
 #endif // SOUNDSPREFERENCESPANEL_HH

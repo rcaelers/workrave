@@ -123,12 +123,12 @@ Application::main()
 
   menus = MenuModel::create(shared_from_this(), toolkit, core);
 
-  // TODO: Toolkit
-  toolkit->init(menus->get_top());
+  init_sound_player();
+  
+  toolkit->init(menus->get_top(), sound_theme);
   
   //init_nls();
   //init_platform();
-  init_sound_player();
   //init_multihead();
   init_bus();
   init_session();

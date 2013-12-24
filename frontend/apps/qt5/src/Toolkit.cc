@@ -63,10 +63,12 @@ Toolkit::~Toolkit()
 {
 }
 
+
 void
-Toolkit::init(MenuItem::Ptr top)
+Toolkit::init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme)
 {
-  menu_handler = MenuHandler::create(top);
+  menu_handler = MenuHandler::create(menu);
+  this->sound_theme = sound_theme;
 
   main_window =  boost::make_shared<MainWindow>(menu_handler);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
@@ -141,7 +143,8 @@ Toolkit::show_window(WindowType type)
     case WindowType::Preferences:
       if (!preferences_dialog)
         {
-          preferences_dialog = boost::make_shared<PreferencesDialog>();
+          preferences_dialog = boost::make_shared<PreferencesDialog>(sound_theme);
+          connect(preferences_dialog.get(), &QDialog::accepted, this, &Toolkit::on_preferences_closed);
         }
       preferences_dialog->show();
       break;

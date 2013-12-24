@@ -26,12 +26,14 @@
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
+#include "SoundTheme.hh"
+
 class PreferencesDialog : public QDialog
 {
   Q_OBJECT
   
 public:
-  PreferencesDialog();
+  PreferencesDialog(SoundTheme::Ptr sound_theme);
   virtual ~PreferencesDialog();
 
 protected:
@@ -40,12 +42,7 @@ private:
   void add_page(const char *label, const char *image, QWidget *widget);
 
   QWidget *create_timer_page();
-
-  QWidget *create_ui_page();
-  QWidget *create_ui_general_page();
-  QWidget *create_ui_sounds_page();
-  QWidget *create_ui_main_window_page();
-  QWidget *create_ui_applet_page();
+  QWidget *create_ui_page(SoundTheme::Ptr sound_theme);
 
   QTabWidget *notebook;
 

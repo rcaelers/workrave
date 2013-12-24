@@ -26,6 +26,7 @@
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
 
+#include "SoundTheme.hh"
 #include "MenuModelItem.hh"
 
 class IToolkit
@@ -40,7 +41,7 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
   
   //! 
-  virtual void init(MenuItem::Ptr top) = 0;
+  virtual void init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
 
   //! 
   virtual void run() = 0;

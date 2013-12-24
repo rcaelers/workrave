@@ -39,6 +39,7 @@ using namespace std;
 DEFINE_DATA_TYPE_PTR(QCheckBox, DataConnectionQCheckBox);
 DEFINE_DATA_TYPE_PTR(QSpinBox,  DataConnectionQSpinBox);
 DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
+DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
@@ -302,6 +303,59 @@ DataConnectionQComboBox::config_changed_notify(const string &key)
     }
 }
 
+// /***********************************************************************
+//  *                                                                     *
+//  * Slider                                                              *
+//  *                                                                     *
+//  ***********************************************************************/
+
+//! Initialize connection.
+void
+DataConnectionQAbstractSlider::init()
+{
+  void (QAbstractSlider:: *signal)(int) = &QAbstractSlider::valueChanged;
+  QObject::connect(widget, signal, this, &DataConnectionQAbstractSlider::widget_changed_notify);
+  config_changed_notify(key);
+}
+
+
+//! Configuration item changed value.
+void
+DataConnectionQAbstractSlider::widget_changed_notify()
+{
+  bool skip = false;
+
+  if (intercept)
+    {
+      skip = intercept(key, true);
+    }
+
+  if (!skip)
+    {
+      int value = widget->value();
+      config->set_value(key, value);
+    }
+}
+
+//! Configuration item changed value.
+void
+DataConnectionQAbstractSlider::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (intercept)
+    {
+      skip = intercept(key, false);
+    }
+
+  if (!skip)
+    {
+      int value;
+      if (config->get_value(key, value))
+        {
+          widget->setValue(value);
+        }
+    }
+}
 // /***********************************************************************
 //  *                                                                     *
 //  * Spin Button                                                         *

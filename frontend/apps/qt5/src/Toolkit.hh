@@ -52,7 +52,7 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer();
   
   //!
-  virtual void init(MenuItem::Ptr top);
+  virtual void init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme);
 
   //! 
   virtual void run();
@@ -94,7 +94,8 @@ private:
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
   
   MenuHandler::Ptr menu_handler;
-
+  SoundTheme::Ptr sound_theme;
+  
   //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
   

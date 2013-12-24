@@ -43,7 +43,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-PreferencesDialog::PreferencesDialog()
+PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
     notebook(NULL),
     hsize_group(NULL),
@@ -66,7 +66,7 @@ PreferencesDialog::PreferencesDialog()
   QWidget *timer_page = create_timer_page();
   add_page(_("Timers"), "time.png", timer_page);
 
-  QWidget *gui_page = create_ui_page();
+  QWidget *gui_page = create_ui_page(sound_theme);
   add_page(_("User interface"), "display.png", gui_page);
 
   QDialogButtonBox *buttonBox =  new QDialogButtonBox(QDialogButtonBox::Close);
@@ -127,41 +127,17 @@ PreferencesDialog::create_timer_page()
 
 
 QWidget *
-PreferencesDialog::create_ui_page()
+PreferencesDialog::create_ui_page(SoundTheme::Ptr sound_theme)
 {
   QTabWidget *timer_tab = new QTabWidget;
   timer_tab->setTabPosition(QTabWidget::North);
 
-  timer_tab->addTab(create_ui_general_page(), _("General"));
-  timer_tab->addTab(create_ui_sounds_page(), _("Sounds"));
-  timer_tab->addTab(create_ui_main_window_page(), _("Status Window"));
-  timer_tab->addTab(create_ui_applet_page(), _("Applet"));
+  timer_tab->addTab(new GeneralUiPreferencesPanel(), _("General"));
+  timer_tab->addTab(new SoundsPreferencesPanel(sound_theme), _("Sounds"));
+  timer_tab->addTab(new TimerBoxPreferencesPanel("main_window"), _("Status Window"));
+  timer_tab->addTab(new TimerBoxPreferencesPanel("applet"), _("Applet"));
 
   return timer_tab;
-}
-
-QWidget *
-PreferencesDialog::create_ui_general_page()
-{
-  return new GeneralUiPreferencesPanel();
-}
-
-QWidget *
-PreferencesDialog::create_ui_sounds_page()
-{
-  return new SoundsPreferencesPanel();
-}
-
-QWidget *
-PreferencesDialog::create_ui_main_window_page()
-{
-  return new TimerBoxPreferencesPanel("main_window");
-}
-
-QWidget *
-PreferencesDialog::create_ui_applet_page()
-{
-  return new TimerBoxPreferencesPanel("applet");
 }
 
 void
