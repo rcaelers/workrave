@@ -53,7 +53,7 @@ MainWindow::~MainWindow()
 
 
 void
-MainWindow::on_heartbeat()
+MainWindow::heartbeat()
 {
   timer_box_control->update();
 }

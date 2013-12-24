@@ -38,8 +38,7 @@ public:
   explicit MainWindow(MenuHandler::Ptr menus);
   ~MainWindow();
 
-  void on_heartbeat();
-
+  void heartbeat();
 public slots:
   void on_show_contextmenu(const QPoint& pos);
 

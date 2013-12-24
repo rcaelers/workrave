@@ -201,7 +201,7 @@ Toolkit::on_timer()
 {
   timer_signal();
 
-  main_window->on_heartbeat();
+  main_window->heartbeat();
 }
 
 
