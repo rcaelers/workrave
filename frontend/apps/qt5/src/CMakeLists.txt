@@ -45,7 +45,6 @@ qt5_wrap_cpp(MOC_SRC
   TimerPreferencesPanel.hh
   TimeEntry.hh
   SizeGroup.hh
-  DataConnector.hh
   GeneralUiPreferencesPanel.hh
   SoundsPreferencesPanel.hh
   TimerBoxPreferencesPanel.hh
