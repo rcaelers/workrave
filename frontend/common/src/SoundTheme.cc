@@ -64,62 +64,52 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
 {
   { "WorkraveBreakPrelude",
     "break_prelude",
-    "break-prelude.wav",
     _("Break prompt")
   },
 
   { "WorkraveBreakIgnored",
     "break_ignored",
-    "break-ignored.wav",
     _("Break ignored")
   },
 
   { "WorkraveRestBreakStarted",
     "rest_break_started",
-    "rest-break-started.wav",
     _("Rest break started")
   },
 
   {
     "WorkraveRestBreakEnded",
     "rest_break_ended",
-    "rest-break-ended.wav",
     _("Rest break ended")
   },
 
   { "WorkraveMicroBreakStarted",
     "micro_break_started",
-    "micro-break-started.wav",
     _("Micro-break started")
   },
 
   { "WorkraveMicroBreakEnded",
     "micro_break_ended",
-    "micro-break-ended.wav",
     _("Micro-break ended")
   },
 
   { "WorkraveDailyLimit",
     "daily_limit",
-    "daily-limit.wav",
     _("Daily limit")
   },
 
   { "WorkraveExerciseEnded",
     "exercise_ended",
-    "exercise-ended.wav",
     _("Exercise ended")
   },
 
   { "WorkraveExercisesEnded",
     "exercises_ended",
-    "exercises-ended.wav",
     _("Exercises ended")
   },
 
   { "WorkraveExerciseStep",
     "exercise_step",
-    "exercise-step.wav",
     _("Exercise change")
   },
 };
@@ -460,8 +450,8 @@ SoundTheme::get_sound_wav_file(SoundEvent snd, string &filename)
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
       ret = config->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                       sound_registry[snd].id,
-                                                       filename);
+                              sound_registry[snd].id,
+                              filename);
     }
   return ret;
 }
@@ -473,8 +463,8 @@ SoundTheme::set_sound_wav_file(SoundEvent snd, const string &wav_file)
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
       config->set_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                 sound_registry[snd].id,
-                                                 wav_file);
+                        sound_registry[snd].id,
+                        wav_file);
 #ifdef PLATFORM_OS_WIN32
       win32_set_sound_wav_file(snd, wav_file);
 #endif

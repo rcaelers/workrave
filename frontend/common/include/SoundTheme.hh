@@ -45,7 +45,6 @@ public:
   {
     const char *label;
     const char *id;
-    const char *wav_file;
     const char *friendly_name;
   };
 
