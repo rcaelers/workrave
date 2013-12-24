@@ -717,37 +717,37 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   //init_multihead();
   //collect_garbage();
 
-  IBreakWindow::BreakFlags break_flags = IBreakWindow::BREAK_FLAGS_NONE;
+  BreakFlags break_flags = BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
   bool skippable = GUIConfig::get_skippable(break_id);
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
   {
-      break_flags = ( IBreakWindow::BREAK_FLAGS_POSTPONABLE |
-                      IBreakWindow::BREAK_FLAGS_USER_INITIATED);
+      break_flags = ( BREAK_FLAGS_POSTPONABLE |
+                      BREAK_FLAGS_USER_INITIATED);
 
       if (skippable)
         {
-          break_flags |=  IBreakWindow::BREAK_FLAGS_SKIPPABLE;
+          break_flags |=  BREAK_FLAGS_SKIPPABLE;
         }
     }
   else
     { 
       if (ignorable)
         {
-          break_flags |= IBreakWindow::BREAK_FLAGS_POSTPONABLE;
+          break_flags |= BREAK_FLAGS_POSTPONABLE;
         }
 
       if(skippable)
         {
-          break_flags |= IBreakWindow::BREAK_FLAGS_SKIPPABLE;
+          break_flags |= BREAK_FLAGS_SKIPPABLE;
         }
     }
 
   if (break_hint & BREAK_HINT_NATURAL_BREAK)
     {
-      break_flags |=  (IBreakWindow::BREAK_FLAGS_NO_EXERCISES | IBreakWindow::BREAK_FLAGS_NATURAL |
-                       IBreakWindow::BREAK_FLAGS_POSTPONABLE);
+      break_flags |=  (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL |
+                       BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;

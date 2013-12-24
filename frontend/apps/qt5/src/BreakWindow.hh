@@ -25,6 +25,7 @@
 
 #include "ICore.hh"
 #include "IBreakWindow.hh"
+#include "UiTypes.hh"
 #include "GUIConfig.hh"
 
 #include "Frame.hh"

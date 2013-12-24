@@ -98,7 +98,7 @@ std::string Toolkit::get_display_name()
 }
 
 IBreakWindow::Ptr
-Toolkit::create_break_window(int screen, BreakId break_id, IBreakWindow::BreakFlags break_flags)
+Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flags)
 {
   IBreakWindow::Ptr ret;
   

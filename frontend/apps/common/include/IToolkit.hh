@@ -25,6 +25,7 @@
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
+#include "UiTypes.hh"
 
 #include "SoundTheme.hh"
 #include "MenuModelItem.hh"
@@ -33,7 +34,7 @@ class IToolkit
 {
 public:
   enum class WindowType { Main, Statistics, Preferences, About, Exercises };
-  
+
   virtual ~IToolkit() {}
 
   typedef boost::shared_ptr<IToolkit> Ptr;
@@ -56,7 +57,7 @@ public:
   virtual std::string get_display_name() = 0;
 
   //!
-  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags) = 0;
+  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) = 0;
 
   //!
   virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) = 0;

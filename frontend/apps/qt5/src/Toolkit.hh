@@ -67,7 +67,7 @@ public:
   virtual std::string get_display_name();
 
   //!
-  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, IBreakWindow::BreakFlags break_flags);
+  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags);
 
   //!
   virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id);
