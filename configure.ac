@@ -159,9 +159,25 @@ AC_COMPILE_STDCXX_11
 AX_BOOST_BASE([1.53])
 
 AX_BOOST_THREAD
+if test "x${ax_cv_boost_thread}" = "xno" ; then
+    AC_MSG_ERROR([Boost Thread missing])
+fi
+
 AX_BOOST_SYSTEM
+if test "x${ax_cv_boost_system}" = "xno" ; then
+    AC_MSG_ERROR([Boost system missing])
+fi
+
 AX_BOOST_FILESYSTEM
+if test "x${ax_cv_boost_filesystem}" = "xno" ; then
+    AC_MSG_ERROR([Boost filesystem missing])
+fi
+
 AX_BOOST_PROGRAM_OPTIONS
+if test "x${ax_cv_boost_program_options}" = "xno" ; then
+    AC_MSG_ERROR([Boost program options missing])
+fi
+
 dnl AX_BOOST_TEST_EXEC_MONITOR
 
 dnl
@@ -576,18 +592,6 @@ PKG_CHECK_MODULES([GLIB],
                   [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
 
-config_gsettings=no		  
-if test "x$enable_gsettings" != "xno" -a "x$config_gnome3" = "xyes"
-then
-   if test "x$platform_os_unix" == "xyes"; then		  
-      GLIB_GSETTINGS
-      config_gsettings=yes
-      AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
-   fi
-fi
-
-AM_CONDITIONAL(HAVE_GSETTINGS, test "x$config_gsettings" = "xyes")
-
 dnl
 dnl SigC++
 dnl
@@ -634,6 +638,18 @@ fi
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
 AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk_version" = "x3")
+
+config_gsettings=no		  
+if test "x$enable_gsettings" != "xno" -a "x$config_gtk" = "xyes"
+then
+   if test "x$platform_os_unix" == "xyes"; then		  
+      GLIB_GSETTINGS
+      config_gsettings=yes
+      AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
+   fi
+fi
+
+AM_CONDITIONAL(HAVE_GSETTINGS, test "x$config_gsettings" = "xyes")
 
 
 dnl
@@ -930,7 +946,6 @@ AC_CONFIG_FILES([Makefile
              frontend/Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile
-             frontend/common/src/Makefile
              frontend/data/Makefile
              frontend/data/sounds/Makefile
              frontend/data/sounds/subtle/Makefile
@@ -961,17 +976,17 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/indicator/include/Makefile
              frontend/applets/gnome-shell/Makefile
              frontend/applets/gnome-shell/src/Makefile
-             frontend/gtkmm/Makefile
-             frontend/gtkmm/osx/Makefile
-             frontend/gtkmm/win32/Makefile
-             frontend/gtkmm/win32/setup/Makefile
-             frontend/gtkmm/win32/setup/setup.iss
-             frontend/gtkmm/win32/setup/src/Makefile
-             frontend/gtkmm/src/Makefile
-	     frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
-             frontend/gtkmm/src/win32/Makefile
-             frontend/gtkmm/src/unix/Makefile
-             frontend/gtkmm/src/osx/Makefile
+             frontend/apps/gtkmm/Makefile
+             frontend/apps/gtkmm/osx/Makefile
+             frontend/apps/gtkmm/win32/Makefile
+             frontend/apps/gtkmm/win32/setup/Makefile
+             frontend/apps/gtkmm/win32/setup/setup.iss
+             frontend/apps/gtkmm/win32/setup/src/Makefile
+             frontend/apps/gtkmm/src/Makefile
+	     frontend/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
+             frontend/apps/gtkmm/src/win32/Makefile
+             frontend/apps/gtkmm/src/unix/Makefile
+             frontend/apps/gtkmm/src/osx/Makefile
 	     frontend/apps/qt5/src/Makefile
 	     frontend/apps/qt5/Makefile
 	     frontend/apps/common/Makefile

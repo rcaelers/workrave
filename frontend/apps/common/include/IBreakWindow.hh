@@ -43,6 +43,11 @@ public:
 
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
+
+#ifdef HAVE_GTK
+  //
+  virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;
+#endif
 };
 
 #endif // IBREAKWINDOW_HH

@@ -606,18 +606,6 @@ BreakWindow::stop()
 }
 
 
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  IBreakWindow. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-BreakWindow::destroy()
-{
-  delete this;
-}
-
 //! Refresh
 void
 BreakWindow::refresh()

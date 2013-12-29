@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		src include
+SUBDIRS = 		include

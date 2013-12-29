@@ -557,12 +557,12 @@ GUI::init_multihead_mem(int new_num_heads)
               if (old_prelude_windows != NULL &&
                   old_prelude_windows[i] != NULL)
                 {
-                  old_prelude_windows[i]->destroy();
+                  delete old_prelude_windows[i];
                 }
               if (old_break_windows != NULL &&
                   old_break_windows[i] != NULL)
                 {
-                  old_break_windows[i]->destroy();
+                  delete old_break_windows[i];
                 }
             }
         }
@@ -1168,7 +1168,7 @@ GUI::collect_garbage()
             {
               if (prelude_windows[i] != NULL)
                 {
-                  prelude_windows[i]->destroy();
+                  delete prelude_windows[i];
                   prelude_windows[i] = NULL;
                 }
             }
@@ -1188,7 +1188,7 @@ GUI::collect_garbage()
               if (break_windows[i] != NULL)
                 {
                   TRACE_MSG("3");
-                  break_windows[i]->destroy();
+                  delete break_windows[i];
                   break_windows[i] = NULL;
                 }
             }

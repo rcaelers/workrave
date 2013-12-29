@@ -44,7 +44,7 @@ if (PLATFORM_OS_UNIX)
     src/unix/gtktrayicon.c
     )
 
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/gtkmm/src/unix)
+  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/unix)
 endif()
 
 if (PLATFORM_OS_WIN32)
@@ -58,7 +58,7 @@ if (PLATFORM_OS_WIN32)
     src/win32/W32TrayMenu.cc
     )
 
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/gtkmm/src/win32)
+  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/win32)
   
   if (HAVE_DIRECTX)
     include_directories(${DIRECTX_INCLUDES})
@@ -73,7 +73,7 @@ if (PLATFORM_OS_OSX)
     src/osx/OSXUtil.cc
     )
 
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/gtkmm/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/osx)
 endif()
 
 if (HAVE_DBUS)
@@ -98,11 +98,11 @@ set(SRC ${SRC}
     )
 
 if (HAVE_GSETTINGS)
-  gsettings_add_schemas(workrave-backend ${CMAKE_SOURCE_DIR}/frontend/gtkmm/src)
+  gsettings_add_schemas(workrave-backend ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/frontend/gtkmm/src/
+  ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
   
@@ -119,7 +119,7 @@ include_directories(
 
 add_executable(workrave ${SRC})
 
-target_link_libraries(workrave workrave-frontend-common)
+target_link_libraries(workrave workrave-frontend-apps-common)
 target_link_libraries(workrave workrave-backend)
 target_link_libraries(workrave workrave-libs-config)
 target_link_libraries(workrave workrave-libs-input-monitor)

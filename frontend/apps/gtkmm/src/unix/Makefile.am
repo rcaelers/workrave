@@ -34,7 +34,8 @@ libworkrave_frontend_gtkmm_unix_la_SOURCES = \
 libworkrave_frontend_gtkmm_unix_la_CFLAGS = $(extraflags) \
 			@X_CFLAGS@  @GTK_CFLAGS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/gtkmm/src \
+			-I$(top_srcdir)/frontend/apps/common/include \
+			-I$(top_srcdir)/frontend/apps/gtkmm/src \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/libs/utils/include \
 			-I$(top_srcdir)/libs/config/include \

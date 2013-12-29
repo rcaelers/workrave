@@ -2,7 +2,19 @@ set(SRC
   src/Application.cc
   src/MenuModelItem.cc
   src/MenuModel.cc
+  src/Exercise.cc
+  src/CoreFactory.cc
+  src/GUIConfig.cc
+  src/Session.cc
+  src/System.cc
+  src/Text.cc
+  src/TimerBoxControl.cc
+  src/SoundTheme.cc
  )
+
+if (HAVE_GTK)
+  include_directories(${GTK_INCLUDE_DIRS})
+endif()
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/apps/common/include/

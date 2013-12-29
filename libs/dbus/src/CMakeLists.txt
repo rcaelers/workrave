@@ -6,6 +6,7 @@ set(SRC ${SRC}
 if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)
   set(SRC ${SRC}
     DBusDummy.cc
+    DBusException.cc
     DBusGio.cc
     DBusGeneric.cc
     DBusBindingGio.cc)

@@ -42,7 +42,6 @@ public:
 
   void start();
   void stop();
-  void destroy();
   void refresh();
   void set_progress(int value, int max_value);
   void set_stage(IApp::PreludeStage stage);

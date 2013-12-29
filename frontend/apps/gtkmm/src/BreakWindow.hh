@@ -70,7 +70,6 @@ public:
   virtual void init();
   virtual void start();
   virtual void stop();
-  virtual void destroy();
   virtual void refresh();
 
   virtual void update_break_window();

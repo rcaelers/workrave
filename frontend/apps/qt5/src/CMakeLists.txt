@@ -90,7 +90,6 @@ include_directories()
 add_executable(workrave-qt ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
 target_link_libraries(workrave-qt workrave-frontend-apps-common)
-target_link_libraries(workrave-qt workrave-frontend-common)
 target_link_libraries(workrave-qt workrave-backend)
 target_link_libraries(workrave-qt workrave-libs-config)
 target_link_libraries(workrave-qt workrave-libs-input-monitor)

@@ -234,21 +234,6 @@ PreludeWindow::add(Gtk::Widget& widget)
   window_frame->add(widget);
 }
 
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  IPreludeWindow. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-PreludeWindow::destroy()
-{
-  TRACE_ENTER("PreludeWindow::destroy");
-  delete this;
-  TRACE_EXIT();
-}
-
-
 //! Stops the microbreak.
 void
 PreludeWindow::stop()

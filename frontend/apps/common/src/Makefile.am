@@ -8,6 +8,14 @@ MAINTAINERCLEANFILES =	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-frontend-apps-common.la
 
 libworkrave_frontend_apps_common_la_SOURCES = \
+			CoreFactory.cc \
+			GUIConfig.cc \
+			Exercise.cc \
+			Text.cc \
+			System.cc \
+			Session.cc \
+			TimerBoxControl.cc \
+			SoundTheme.cc
 			Application.cc \
 			MenuModelItem.cc \
 			MenuModel.cc

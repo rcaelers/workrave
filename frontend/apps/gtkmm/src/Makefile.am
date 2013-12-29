@@ -32,24 +32,24 @@ extrasources +=		$(sourcesexercises)
 extrasources +=		$(sourcesstatistics) 
 
 if PLATFORM_OS_UNIX
-extraflags += 		-I$(top_srcdir)/frontend/gtkmm/src/unix/ -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
-ldadd = 		$(top_builddir)/frontend/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
+extraflags += 		-I$(top_srcdir)/frontend/apps/gtkmm/src/unix/ -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
+ldadd = 		$(top_builddir)/frontend/apps/gtkmm/src/unix/libworkrave-frontend-gtkmm-unix.la -lX11
 endif
 
 if PLATFORM_OS_OSX
-extraflags  += 		-I$(top_srcdir)/frontend/gtkmm/src/osx
-ldadd =			$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
+extraflags  += 		-I$(top_srcdir)/frontend/apps/gtkmm/src/osx
+ldadd =			$(top_builddir)/frontend/apps/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
 endif
 
 if PLATFORM_OS_WIN32
 extrasources +=		resource.rc 
 extraflags  += 		-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/libs/input-monitor/include \
-			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
+			-I$(top_srcdir)/frontend/apps/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/applets/win32/include
 
 ldadd =  		$(top_builddir)/libs/hooks/harpoon/src/Release/harpoon.dll \
-			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la
+			$(top_builddir)/frontend/apps/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la
 
 WINDRES ?= 		"windres"
 .rc.o:
@@ -158,9 +158,10 @@ nodist_workrave_SOURCES = \
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
-			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			-I$(top_srcdir)/frontend/apps/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/frontend/apps/common/include \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
 			@DBUS_CFLAGS@ @INDICATOR_CFLAGS@ \
 			${extraflags} \
@@ -179,9 +180,10 @@ AM_CPPFLAGS =		-xobjective-c++
 endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			-I$(top_srcdir)/frontend/apps/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/frontend/apps/common/include \
 			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@ \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -192,10 +194,11 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 
 workrave_LDFLAGS = 	${WIN32LDFLAGS}
 
-workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
+workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-apps-common.la \
 			$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la \
+			$(top_builddir)/libs/dbus/src/libworkrave-dbus.la \
 			${ldadd} \
 			@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GCONF_LIBS@ \
@@ -204,7 +207,7 @@ workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
-$(bin_PROGRAMS):	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
+$(bin_PROGRAMS):	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-apps-common.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la
 endif
 
