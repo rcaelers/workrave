@@ -136,9 +136,9 @@ begin
     if retVal then
     begin
       Sleep(100)
-    end
+    end;
     count := count - 1;
-  end
+  end;
   Result := retVal;
 end;
 
@@ -161,7 +161,7 @@ begin
 	  begin
 	    KillProcess('workrave.exe');
 	    retVal := FindWorkrave();
-	  end
+	  end;
 	  if retVal then
 	  begin
  	    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
@@ -173,7 +173,7 @@ begin
       begin
          Result := False;
       end
-    end
+    end;
     KillProcess('dbus-daemon.exe');
     KillProcess('harpoonHelper.exe');
     KillProcess('WorkraveHelper.exe');
