@@ -66,6 +66,10 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     flash_visible(false)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
+
+  // On W32, must be *before* realize, otherwise a border is drawn.
+  set_resizable(false);
+
   Gtk::Window::set_border_width(0);
 
   init_avoid_pointer();
