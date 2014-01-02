@@ -5,7 +5,6 @@
     <child schema="org.workrave.breaks" name="breaks"/>
     <child schema="org.workrave.monitor" name="monitor"/>
     <child schema="org.workrave.general" name="general"/>
-    <child schema="org.workrave.distribution" name="distribution"/>
     <child schema="org.workrave.advanced" name="advanced"/>
   </schema>
 
