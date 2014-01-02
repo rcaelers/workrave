@@ -94,6 +94,14 @@
     <signal name="DailylimitChanged">
       <arg type="string" name="progress"/>
     </signal>
+
+    <signal name="OperationModeChanged">
+      <arg type="operation_mode" name="mode"/>
+    </signal>
+    
+    <signal name="UsageModeChanged">
+      <arg type="usage_mode" name="mode"/>
+    </signal>
   </interface>
 
   <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_TESTS)">

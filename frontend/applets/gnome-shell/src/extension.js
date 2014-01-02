@@ -13,7 +13,7 @@ const GLib = imports.gi.GLib;
 const Cairo = imports.cairo;
 const Clutter = imports.gi.Clutter;
 const Util = imports.misc.util;
-const DBus = imports.dbus;
+const Gio = imports.gi.Gio;
 const Workrave = imports.gi.Workrave;
  
 const _ = Gettext.gettext;
@@ -21,33 +21,28 @@ const _ = Gettext.gettext;
 let start = GLib.get_monotonic_time();
 global.log('workrave-applet: start @ ' + start);
 
-const IndicatorIface = {
-    name: 'org.workrave.AppletInterface',
-    methods: [ { name: 'Embed',
-                 inSignature: 'bs',
-                 outSignature: ''
-               },
-	       { name: 'GetMenu',
-                 inSignature: '',
-                 outSignature: 'a(siii)'
-               },
-	       { name: 'Command',
-                 inSignature: 'i',
-                 outSignature: ''
-               }
-             ],
+const IndicatorIface = <interface name="org.workrave.AppletInterface">
+<method name="Embed">
+    <arg type="b" name="enabled" direction="in" />
+    <arg type="s" name="sender" direction="in" />
+</method>
+<method name="Command">
+    <arg type="i" name="command" direction="in" />
+</method>
+<method name="GetMenu">
+    <arg type="a(sii)" name="menuitems" direction="out" />
+</method>
+<signal name="TimersUpdated">
+    <arg type="(siuuuuuu)" />
+    <arg type="(siuuuuuu)" />
+    <arg type="(siuuuuuu)" />
+</signal>
+<signal name="MenuUpdated">
+    <arg type="a(sii)" />
+</signal>
+</interface>
 
-    signals: [ {  name: 'TimersUpdated',
-                  inSignature: '(siuuuuuu)(siuuuuuu)(siuuuuuu)'
-               },
-	       {  name: 'MenuUpdated',
-                  inSignature: 'a(siii)'
-               }
-             ],
-   properties: []
-};
-
-let IndicatorProxy = DBus.makeProxyClass(IndicatorIface);
+let IndicatorProxy = Gio.DBusProxy.makeProxyWrapper(IndicatorIface);
 
 function _workraveButton() {
     this._init();
@@ -73,17 +68,16 @@ _workraveButton.prototype = {
 
 	this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-	this._proxy = new IndicatorProxy(DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
-	this._timers_updated_id = this._proxy.connect("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
-	this._menu_updated_id = this._proxy.connect("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
+	this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
+	this._timers_updated_id = this._proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
+	this._menu_updated_id = this._proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
 
 	this._updateMenu(null);
 
-        DBus.session.watch_name('org.workrave.Workrave',
-                                false, // no auto launch
-                                Lang.bind(this, this._onWorkraveAppeared),
-                                Lang.bind(this, this._onWorkraveVanished));
-        DBus.session.start_service('org.workrave.Workrave');
+        Gio.DBus.session.watch_name('org.workrave.Workrave',
+                                    Gio.BusNameWatcherFlags.NONE, // no auto launch
+                                    Lang.bind(this, this._onWorkraveAppeared),
+                                    Lang.bind(this, this._onWorkraveVanished));
     },
  
     _onDestroy: function() 
@@ -96,8 +90,8 @@ _workraveButton.prototype = {
 
     _destroy: function() {
 	global.log('workrave-applet: _destroy');
-	this._proxy.disconnect(this._timers_updated_id);
-	this._proxy.disconnect(this._menu_updated_id);
+	this._proxy.disconnectSignal(this._timers_updated_id);
+	this._proxy.disconnectSignal(this._menu_updated_id);
 	this._proxy = null;
 
         this.actor.destroy();
@@ -108,7 +102,7 @@ _workraveButton.prototype = {
 	global.log('workrave-applet: starting');
 	if (! this._alive)
 	{
-	    this._bus_id = DBus.session.acquire_name(this._bus_name, 0, null, null);
+	    this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
 	    this._proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
     	    this._proxy.EmbedRemote(true, this._bus_name);
 	    this._timeoutId = Mainloop.timeout_add(5000, Lang.bind(this, this._onTimer));
@@ -123,7 +117,7 @@ _workraveButton.prototype = {
 	 {
 	     global.log('workrave-applet: stopping');
 	     Mainloop.source_remove(this._timeoutId);
-	     DBus.session.release_name_by_id(this._bus_id);
+	     Gio.DBus.session.unown_name(this._bus_id);
 	     this._bus_id = 0;
 	     this._timerbox.set_enabled(false);
 	     this._area.queue_repaint();
@@ -166,7 +160,7 @@ _workraveButton.prototype = {
 	this._stop();
     },
 
-    _onTimersUpdated : function(result, microbreak, restbreak, daily) {
+    _onTimersUpdated : function(emitter, senderName, [microbreak, restbreak, daily]) {
 
 	if (! this._alive)
 	{
@@ -213,11 +207,11 @@ _workraveButton.prototype = {
 	this._area.queue_repaint();
     },
 
-    _onGetMenuReply : function(menuitems) {
+    _onGetMenuReply : function([menuitems], excp) {
 	this._updateMenu(menuitems);
     },
 
-    _onMenuUpdated : function(result, menuitems) {
+    _onMenuUpdated : function(emitter, senderName, [menuitems]) {
 	this._updateMenu(menuitems);
     },
 
@@ -230,7 +224,7 @@ _workraveButton.prototype = {
 
     _onMenuOpenCommand: function(item, event) {
 	global.log('workrave-applet: open');
-        DBus.session.start_service('org.workrave.Workrave');
+	this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
     },
 
     _updateMenu : function(menuitems) {

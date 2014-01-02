@@ -1,6 +1,6 @@
 // GenericDBusApplet.hh --- X11 Applet Window
 //
-// Copyright (C) 2001 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,8 @@
 #include <string>
 #include <set>
 
+#include "IConfiguratorListener.hh"
+
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
@@ -37,7 +39,7 @@ namespace workrave
   class DBus;
 }
 
-class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public IDBusWatch
+class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public IDBusWatch, public IConfiguratorListener
 {
 public:
   struct TimerData
@@ -76,6 +78,7 @@ public:
 
   // DBus
   virtual void get_menu(MenuItems &out) const;
+  virtual void get_tray_icon_enabled(bool &enabled) const;
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
   
@@ -85,6 +88,9 @@ private:
   virtual void deactivate_applet();
   virtual void init_applet();
 
+  // IConfiguratorListener
+  void config_changed_notify(const std::string &key);
+  
   // ITimerBoxView
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
@@ -102,9 +108,12 @@ private:
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 
   void add_menu_item(const char *text, int command, int flags);
+
+  void send_tray_icon_enabled();
   
 private:
   bool enabled;
+  bool visible;
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;

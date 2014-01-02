@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -67,6 +67,7 @@
 #endif
 #include "DBus.hh"
 #include "DBusException.hh"
+#include "DBusWorkrave.hh"
 #ifdef HAVE_TESTS
 #include "Test.hh"
 #endif
@@ -404,6 +405,10 @@ Core::config_changed_notify(const string &key)
         {
           mode = OPERATION_MODE_NORMAL;
         }
+      if (mode < 0 || mode >= OPERATION_MODE_SIZEOF)
+        {
+          mode = OPERATION_MODE_NORMAL;
+        }
       TRACE_MSG("Setting operation mode");
       set_operation_mode_internal(OperationMode(mode), false);
     }
@@ -412,6 +417,10 @@ Core::config_changed_notify(const string &key)
     {
       int mode;
       if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+        {
+          mode = USAGE_MODE_NORMAL;
+        }
+      if (mode < 0 || mode >= USAGE_MODE_SIZEOF)
         {
           mode = USAGE_MODE_NORMAL;
         }
@@ -601,6 +610,12 @@ Core::remove_operation_mode_override( const std::string &id )
             TRACE_MSG( "Only calling core_event_operation_mode_changed()." );
             if( core_event_listener )
                 core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
+
+            org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+            if (iface != NULL)
+              {
+                iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
+              }
         }
         else
             set_operation_mode_internal( operation_mode_regular, false );
@@ -749,6 +764,12 @@ Core::set_operation_mode_internal(
 
           if( core_event_listener )
               core_event_listener->core_event_operation_mode_changed( operation_mode );
+
+          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+          if (iface != NULL)
+            {
+              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
+            }
       }
   }
 
@@ -791,6 +812,12 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_usage_mode_changed(mode);
+
+          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+          if (iface != NULL)
+            {
+              iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -228,7 +228,7 @@ W32AppletWindow::update_applet_window()
 
   if (previous_applet_window == NULL && applet_window != NULL)
     {
-      state_changed_signal.emit(AppletWindow::APPLET_STATE_VISIBLE);
+      state_changed_signal.emit(AppletWindow::APPLET_STATE_ACTIVE);
     }
   else if (previous_applet_window != NULL && applet_window == NULL)
     {
@@ -353,7 +353,7 @@ AppletWindow::AppletState
 W32AppletWindow::activate_applet()
 {
   update_applet_window();
-  return applet_window != NULL ? APPLET_STATE_VISIBLE : APPLET_STATE_DISABLED;
+  return applet_window != NULL ? APPLET_STATE_ACTIVE : APPLET_STATE_DISABLED;
 }
 
 

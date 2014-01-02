@@ -105,6 +105,10 @@
 #include "DBusException.hh"
 #endif
 
+#ifdef HAVE_GTK_MAC_INTEGRATION
+#include "gtkosxapplication.h"
+#endif
+
 GUI *GUI::instance = NULL;
 
 
@@ -224,6 +228,12 @@ GUI::main()
   init_session();
   init_gui();
   init_startup_warnings();
+
+#ifdef HAVE_GTK_MAC_INTEGRATION
+  GtkosxApplication* theApp = (GtkosxApplication *)g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
+  gtkosx_application_set_dock_icon_pixbuf(theApp, gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL));
+  gtkosx_application_ready(theApp);
+#endif
 
   on_timer();
 

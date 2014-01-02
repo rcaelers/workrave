@@ -28,7 +28,12 @@
 #include <assert.h>
 
 #ifdef PLATFORM_OS_OSX
+#if HAVE_IGE_MAC_INTEGRATION
 #include "ige-mac-dock.h"
+#endif
+#if HAVE_GTK_MAC_INTEGRATION
+#include "gtk-mac-dock.h"
+#endif
 #endif
 
 #ifdef PLATFORM_OS_WIN32
@@ -47,6 +52,7 @@
 
 StatusIcon::StatusIcon()
 {
+  TRACE_ENTER("StatusIcon::StatusIcon");
   // Preload icons
   const char *mode_files[] =
     {
@@ -65,12 +71,14 @@ StatusIcon::StatusIcon()
         }
       catch(...)
         {
+          TRACE_MSG("Failed to load " << file);
         }
     }
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
+  TRACE_EXIT();
 }
 
 StatusIcon::~StatusIcon()
@@ -106,31 +114,47 @@ StatusIcon::insert_icon()
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
-  status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
 #endif
 
-#ifdef HAVE_STATUSICON_SIGNAL
 #ifdef USE_W32STATUSICON
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
-#endif
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
 
+#if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
   // Hook up signals, missing from gtkmm
   GtkStatusIcon *gobj = status_icon->gobj();
-
+#endif
+  
+#ifdef HAVE_STATUSICON_SIGNAL
+  status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
+  status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
+#else
   g_signal_connect(gobj, "activate",
                    reinterpret_cast<GCallback>(activate_callback), this);
   g_signal_connect(gobj, "popup-menu",
                    reinterpret_cast<GCallback>(popup_menu_callback), this);
+#endif
+
+#ifdef HAVE_EMBEDDED_SIGNAL
+  status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
+#else
+  g_signal_connect(gobj, "notify::embedded",
+                   reinterpret_cast<GCallback>(embedded_changed_callback), this);
+#endif
 #endif
 }
 
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-  status_icon->set(mode_icons[m]);
+  TRACE_ENTER_MSG("StatusIcon::set_operation_mode", (int)m);
+  if (mode_icons[m])
+    {
+      status_icon->set(mode_icons[m]);
+    }
+  TRACE_EXIT();
 }
 
 bool
@@ -180,18 +204,30 @@ StatusIcon::on_embedded_changed()
 #ifndef HAVE_STATUSICON_SIGNAL
 void
 StatusIcon::activate_callback(GtkStatusIcon *,
-                                   gpointer callback_data)
+                              gpointer callback_data)
 {
   static_cast<StatusIcon*>(callback_data)->on_activate();
 }
 
 void
 StatusIcon::popup_menu_callback(GtkStatusIcon *,
-                                     guint button,
-                                     guint activate_time,
-                                     gpointer callback_data)
+                                guint button,
+                                guint activate_time,
+                                gpointer callback_data)
 {
   static_cast<StatusIcon*>(callback_data)->on_popup_menu(button, activate_time);
+}
+#endif
+
+#ifndef HAVE_EMBEDDED_SIGNAL
+void
+StatusIcon::embedded_changed_callback(GObject* gobject,
+                                      GParamSpec* pspec,
+                                      gpointer callback_data)
+{
+  (void) pspec;
+  (void) gobject;
+  static_cast<StatusIcon*>(callback_data)->on_embedded_changed();
 }
 #endif
 

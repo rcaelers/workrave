@@ -15,7 +15,7 @@ Read the 'INSTALL' file for more detailed directions on compilation on
 Unix and OSX.
 
 Workrave requires that development packages of at least the following
-software is installed. The version number mentioned have been tested
+software are installed. The version numbers mentioned have been tested
 during development.
 
 - GLib (2.16.0)
