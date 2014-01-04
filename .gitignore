@@ -18,6 +18,7 @@ Makefile.in
 /.new.ltmain.sh
 /TAGS
 /TAGS.stamp
+/ar-lib
 /aclocal.m4
 /config.cache
 /config.guess

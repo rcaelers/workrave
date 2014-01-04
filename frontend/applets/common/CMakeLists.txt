@@ -14,8 +14,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/config/include
   )
 
-add_definitions(-DWORKRAVE_PKGDATADIR="${PKGDATADIR}")
-
 add_library(workrave-private SHARED ${SRC})
 link_directories(${GTK_LIBPATH})
 target_link_libraries(workrave-private ${GTK_LIBRARIES})

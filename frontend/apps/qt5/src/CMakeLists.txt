@@ -87,30 +87,38 @@ include_directories(
 
 include_directories()
 
-add_executable(workrave-qt ${SRC} ${HEADERS_UI} ${MOC_SRC})
+add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
-target_link_libraries(workrave-qt workrave-frontend-apps-common)
-target_link_libraries(workrave-qt workrave-backend)
-target_link_libraries(workrave-qt workrave-libs-config)
-target_link_libraries(workrave-qt workrave-libs-input-monitor)
-target_link_libraries(workrave-qt workrave-libs-audio)
-target_link_libraries(workrave-qt workrave-libs-dbus)
-target_link_libraries(workrave-qt workrave-libs-utils)
+if (APPLE)
+  set_target_properties(Workrave PROPERTIES
+		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist
+                MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
+		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
+		MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
+endif()
+
+target_link_libraries(Workrave workrave-frontend-apps-common)
+target_link_libraries(Workrave workrave-backend)
+target_link_libraries(Workrave workrave-libs-config)
+target_link_libraries(Workrave workrave-libs-input-monitor)
+target_link_libraries(Workrave workrave-libs-audio)
+target_link_libraries(Workrave workrave-libs-dbus)
+target_link_libraries(Workrave workrave-libs-utils)
 
 #link_directories(${GDK_LIBPATH})
-#target_link_libraries(workrave-qt ${GDK_LIBRARIES})
+#target_link_libraries(Workrave ${GDK_LIBRARIES})
 
-target_link_libraries(workrave-qt ${Qt5Widgets_LIBRARIES})
-target_link_libraries(workrave-qt ${Qt5DBus_LIBRARIES})
-target_link_libraries(workrave-qt ${Boost_LIBRARIES})
-target_link_libraries(workrave-qt ${GETTEXT_LIBRARIES})
+target_link_libraries(Workrave ${Qt5Widgets_LIBRARIES})
+target_link_libraries(Workrave ${Qt5DBus_LIBRARIES})
+target_link_libraries(Workrave ${Boost_LIBRARIES})
+target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
 
 #qt5_use_modules(helloworld Widgets Sql Network)
 
 if (PLATFORM_OS_UNIX)
-  target_link_libraries(workrave-qt ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
+  target_link_libraries(Workrave ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
 
-#  add_definitions(-DGNOMELOCALEDIR="${DATADIR}/locale")
+#  add_definitions(-DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/share/locale")
 #
 # Desktop file
 intltool_merge_desktop(
@@ -118,7 +126,7 @@ intltool_merge_desktop(
   ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
 add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION share/applications)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR}/applications)
 
 endif()
 
@@ -140,6 +148,6 @@ endif()
 #
 #endif(WIN32)
 
-install(TARGETS workrave-qt RUNTIME DESTINATION bin)
+install(TARGETS Workrave RUNTIME DESTINATION bin BUNDLE DESTINATION ".")
 
 # TODO: win32 resource.rc

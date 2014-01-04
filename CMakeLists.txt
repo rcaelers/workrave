@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
-set (VERSION "1.11.001")
-set (RESOURCE_VERSION "1,11,001,0")
-
-set (PACKAGE_VERSION ${VERSION})
-
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
+
+set (VERSION "1.11.001")
+set (RESOURCE_VERSION "1,11,001,0")
+set (PACKAGE_VERSION ${VERSION})
+
 
 #
 set(CMAKE_BUILD_TYPE_INIT "Debug")
@@ -362,7 +362,7 @@ endif()
 
 
 #----------------------------------------------------------------------------------------------------
-# platform
+# platform - win32
 
 if (WIN32)
   set (PLATFORM_OS_WIN32 ON)
@@ -408,6 +408,9 @@ if (WIN32)
   
 endif()
 
+#----------------------------------------------------------------------------------------------------
+# platform - apple
+
 if (APPLE)
   set (PLATFORM_OS_OSX ON)
 
@@ -421,6 +424,9 @@ if (APPLE)
   include_directories(/usr/local/include)
   include_directories(${CMAKE_SYSTEM_INCLUDE_PATH})
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# platform - unix
 
 if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
@@ -448,7 +454,7 @@ if (UNIX AND NOT APPLE)
 endif()  
 
 #----------------------------------------------------------------------------------------------------
-# 
+#  misc checks
 
 check_include_files(unistd.h HAVE_UNISTD_H)
 check_include_files(sys/stat.h HAVE_SYS_STAT_H)
@@ -463,14 +469,38 @@ check_function_exists(nanosleep HAVE_NANOSLEEP)
 check_function_exists(realpath HAVE_REALPATH)
 check_function_exists(setlocale HAVE_SETLOCALE)
 
-set (PREFIX ${CMAKE_INSTALL_PREFIX}                       CACHE PATH "prefix")
-set (BINDIR ${CMAKE_INSTALL_PREFIX}/bin                   CACHE PATH "bindir")
-set (LIBDIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}      CACHE PATH "libdir")
-set (DATADIR ${CMAKE_INSTALL_PREFIX}/share                CACHE PATH "datadir")
-set (LOCALEDIR ${CMAKE_INSTALL_PREFIX}/share/local        CACHE PATH "localedir")
-set (PKGDOCDIR ${CMAKE_INSTALL_PREFIX}/share/doc/workrave CACHE PATH "pkgdocdir")
-set (PKGDATADIR ${CMAKE_INSTALL_PREFIX}/share/workrave    CACHE PATH "pkgdatadir")
-set (DBUS_SERVICES_DIR ${DATADIR}/dbus-1/services         CACHE PATH "dbusservicedir")
+#----------------------------------------------------------------------------------------------------
+# Locations
+
+if (UNIX AND NOT APPLE)
+  set (BINDIR bin)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR lib                                           CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+elseif (APPLE)
+  set (BUNDLEDIR Workrave.app/Contents/)
+  set (BINDIR {BUNDLEDIR}/MacOS/)
+  set (DATADIR ${BUNDLEDIR}/Resources                       CACHE PATH "datadir")
+  set (LIBDIR ${DATADIR}                                    CACHE PATH "libadir")
+  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
+elseif (WIN32)
+  set (BINDIR lib)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR lib                                           CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+endif()
+
+#As seen in GUI::init_nls() if win32 workrave has gettext bind to lib/locale
+if(WIN32)
+  set(LOCALEDIR "${LIBDIR}/locale")
+else()
+  set(LOCALEDIR "${DATADIR}/locale")
+endif()
+
+add_definitions(
+  -DWORKRAVE_PKGDATADIR="${PKGDATADIR}"
+  -DWORKRAVE_DATADIR="${DATADIR}"
+)
 
 #----------------------------------------------------------------------------------------------------
 # Autoconf compatibility
@@ -502,13 +532,50 @@ add_subdirectory(frontend)
 #----------------------------------------------------------------------------------------------------
 # Install
 
-if(PLATFORM_OS_WIN32)
+if (UNIX AND NOT APPLE)
+  install(FILES README NEWS AUTHORS COPYING DESTINATION ${DATADIR}/doc/workrave)
+elseif (APPLE)
+  install(FILES README NEWS AUTHORS COPYING DESTINATION ${DATADIR}/doc)
+elseif (WIN32)
   configure_file(README  README.txt  COPYONLY NEWLINE_STYLE WIN32)
   configure_file(NEWS    NEWS.txt    COPYONLY NEWLINE_STYLE WIN32)
   configure_file(AUTHORS AUTHORS.txt COPYONLY NEWLINE_STYLE WIN32)
   configure_file(COPYING COPYING.txt COPYONLY NEWLINE_STYLE WIN32)
 
-  install(FILES README.txt NEWS.txt AUTHORS.txt COPYING.txt DESTINATION share/doc/workrave)
-else()
-  install(FILES README NEWS AUTHORS COPYING DESTINATION share/doc/workrave)
+  install(FILES README.txt NEWS.txt AUTHORS.txt COPYING.txt DESTINATION ${DATADIR}/doc/workrave)
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# App Bundle
+
+set(CPACK_PACKAGE_NAME                  "${PROJECT_NAME}")
+set(CPACK_PACKAGE_VENDOR                "Rob Caelers, Raymond Penners, Ray Satiro")
+set(CPACK_PACKAGE_EXECUTABLES           "${PROJECT_NAME};${PROJECT_NAME}")
+set(CPACK_PACKAGE_VERSION                "${VERSION}")
+set(CPACK_PACKAGE_VERSION_MAJOR         ${VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR         ${VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH         ${VERSION_PATCH})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
+set(CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME} v${VERSION}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
+set(CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/frontend/data/images/osx/workrave.icns")
+set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
+
+if (APPLE)
+  set(CPACK_GENERATOR "DragNDrop")
+
+  configure_file(${CMAKE_SOURCE_DIR}/build/release/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+
+  set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
+  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/build/release/DS_Store")
+  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/build/release/dmg_background.png")
+  set(CPACK_DMG_FORMAT "UDBZ")
+
+  set(CPACK_OSX_PACKAGE_VERSION "10.6")
+endif()
+
+set(CPACK_BINARY_DRAGNDROP ON)
+include(CPack)
+
+
+add_subdirectory(build/release)

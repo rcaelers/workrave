@@ -33,11 +33,6 @@ if (HAVE_GTK)
   include_directories(${GTK_INCLUDE_DIRS})
 endif()
 
-add_definitions(
-  -DWORKRAVE_PKGDATADIR="${PKGDATADIR}"
-  -DWORKRAVE_DATADIR="${DATADIR}"
-)
-
 include_directories(
   ${CMAKE_SOURCE_DIR}/libs/utils/include/utils
   ${CMAKE_SOURCE_DIR}/libs/utils/include

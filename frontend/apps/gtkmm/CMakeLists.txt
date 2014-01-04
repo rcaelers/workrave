@@ -142,7 +142,7 @@ if (PLATFORM_OS_UNIX)
     ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
   add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
 
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION share/applications)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR}/applications)
 endif()
 
 link_directories(${INDICATOR_LIBPATH})

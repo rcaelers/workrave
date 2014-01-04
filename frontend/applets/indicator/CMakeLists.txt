@@ -11,8 +11,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
   )
 
-add_definitions(-DWORKRAVE_PKGDATADIR="${PKGDATADIR}")
-
 include_directories(
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
