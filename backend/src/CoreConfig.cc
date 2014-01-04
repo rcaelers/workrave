@@ -174,10 +174,6 @@ CoreConfig::init(IConfigurator::Ptr config)
                         def.snooze,
                         CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
-                        "",
-                        CONFIG_FLAG_DEFAULT);
-
       config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                         def.max_preludes,
                         CONFIG_FLAG_DEFAULT);
@@ -196,7 +192,7 @@ CoreConfig::init(IConfigurator::Ptr config)
 
   if (ret && monitor_name == "micro_pause")
     {
-      config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, "deprecated. replace by use_microbreak_activity");
+      config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, "deprecated. replaced by use_microbreak_activity");
       config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
     }
 

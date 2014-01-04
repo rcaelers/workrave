@@ -36,6 +36,8 @@ inline int to_int(OperationMode mode)
       return 1;
     case OperationMode::Quiet:
       return 2;
+    default:
+      return 0;
     }
 }
 
@@ -62,6 +64,8 @@ inline int to_int(UsageMode mode)
       return 0;
     case UsageMode::Reading:
       return 1;
+    default:
+      return 0;
     }
 }
 
