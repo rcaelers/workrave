@@ -1,4 +1,4 @@
-if (WIN32)
+if (WIN32 AND NOT CMAKE_CROSSCOMPILING)
   find_program(INTLTOOL_UPDATE_EXEC intltool-update)
   find_program(INTLTOOL_MERGE_EXEC intltool-merge)
   find_program(INTLTOOL_EXTRACT_EXEC intltool-extract)

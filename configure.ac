@@ -879,7 +879,7 @@ dnl
 
 if test "x$platform_os_win32" = "xyes"
 then
-    LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
+    LANGFILE="./frontend/apps/gtkmm/win32/setup/lang.iss"
 
     ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' )"
     AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])

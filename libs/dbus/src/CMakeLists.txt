@@ -1,16 +1,9 @@
-set(SRC ${SRC}
-  IDBus.cc
-  DBusDummy.cc
-)
-
 if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)
   set(SRC ${SRC}
-    DBusDummy.cc
-    DBusException.cc
     DBusGio.cc
     DBusGeneric.cc
     DBusBindingGio.cc)
-
+  
   include_directories(${GLIB_INCLUDE_DIRS})
 endif()
 
@@ -26,6 +19,13 @@ if (HAVE_DBUS_QT5)
     DBusGeneric.cc
     DBusBindingQt5.cc)
 endif()
+
+set(SRC ${SRC}
+  IDBus.cc
+  DBusException.cc
+  DBusDummy.cc
+)
+
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
@@ -44,12 +44,17 @@ endif()
 
 set(STUB_SRC ${STUB_SRC}
   IDBus.cc
+  DBusException.cc
   DBusDummy.cc
 )
 
 if (HAVE_DBUS_QT5)
   set(STUB_SRC ${STUB_SRC}
     DBusBindingQt5.cc)
+endif()
+if (HAVE_DBUS_GIO)
+  set(STUB_SRC ${STUB_SRC}
+    DBusBindingGio.cc)
 endif()
 
 add_library(workrave-libs-dbus-stub STATIC ${STUB_SRC})

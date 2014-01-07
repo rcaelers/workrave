@@ -22,6 +22,10 @@
 
 #include <boost/shared_ptr.hpp>
 
+#ifdef HAVE_GTK
+#include <gtkmm.h>
+#endif
+
 class IBreakWindow
 {
 public:

@@ -20,6 +20,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(PkgConfig REQUIRED)
 
 include(CheckLibraryExists)
+include(CheckStructHasMember)
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag) 
 include(CheckIncludeFiles)
@@ -106,8 +107,6 @@ if (WITH_TESTS)
   #  set (HAVE_DBUS_TEST_GIO ON)
   #endif()
 
-  find_package(Boost 1.52.0 REQUIRED COMPONENTS test_exec_monitor)
-  
   set (HAVE_TESTS ON)
 endif()
 
@@ -118,11 +117,20 @@ if (WITH_COVERAGE)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Toolkit selection
+
+set(WITH_UI "Qt5" CACHE STRING "UI Toolkit to use")
+set(WITH_UI_VALUES "Qt5" "Gtk+3" "Gtk+2")
+set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
+list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
+if (${WITH_UI_INDEX} EQUAL -1)
+  message(FATAL_ERROR "Option ${WITH_UI} not supported for WITH_UI, valid entries are ${WITH_UI_VALUES}")
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # GTK
 
-option(WITH_GTK "Enable GTK Workrave application" ON)
-
-if (WITH_GTK)
+if ("${WITH_UI}" STREQUAL "Gtk+3")
   message("Checking for: Gtk 3")
 
   pkg_check_modules(
@@ -150,6 +158,33 @@ if (WITH_GTK)
 
 endif()
 
+if ("${WITH_UI}" STREQUAL "Gtk+2")
+  message("Checking for: Gtk 2")
+
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-2.4>=2.24.0
+    glibmm-2.4>=2.10
+    gtk+-2.0>=2.6.0)
+  
+  set (HAVE_GSETTINGS ON)
+  set (HAVE_GLIB ON)
+  set (HAVE_GTK ON)
+  set (HAVE_DBUS ON)
+  set (HAVE_DBUS_GIO ON)
+  set (DBUS_BACKEND "gio")
+  set (HAVE_APP_GTK ON)
+
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.28.0
+    gio-2.0>=2.26.0)
+ 
+  include_directories(${GLIB_INCLUDE_DIRS})
+
+  find_package(GSettings)
+
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Gnome
@@ -184,9 +219,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Qt5
 
-option(WITH_QT5 "Enable Qt5 Workrave application" ON)
-
-if (WITH_QT5)
+if ("${WITH_UI}" STREQUAL "Qt5")
   message("Checking for: Qt5")
 
   find_package(Qt5Widgets REQUIRED)
@@ -315,8 +348,11 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Misc
 
-find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)
-
+if (HAVE_TESTS)
+  find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)
+else()
+  find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono)
+endif()
 #----------------------------------------------------------------------------------------------------
 # Translations
 
@@ -370,6 +406,7 @@ if (WIN32)
     set(PLATFORM_OS_WIN32_NATIVE 1)
   endif (MSVC)
   
+  set (HAVE_GSETTINGS OFF)
   set(HAVE_LANGUAGE_SELECTION TRUE)
 
   if(MSVC)
@@ -399,12 +436,13 @@ if (WIN32)
 
   check_c_source_compiles(
     "#include <shlobj.h>
-     IShellDispatch* pShellDispatch = NULL;"
+     IShellDispatch* pShellDispatch = NULL;
+     int main(){return 0;}"
     HAVE_ISHELLDISPATCH
     )
 
- check_struct_has_member("struct MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)  
- check_struct_has_member("struct MOUSEHOOKSTRUCTEX" mouseData "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCTEX)  
+  check_struct_has_member("MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)  
+  check_struct_has_member("MOUSEHOOKSTRUCTEX" mouseData "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCTEX)  
   
 endif()
 
@@ -497,9 +535,19 @@ else()
   set(LOCALEDIR "${DATADIR}/locale")
 endif()
 
+if (APPLE)
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+else()
+  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
+  set (EXERCISESDIR "${PKGDATADIR}/exercises")
+  set (IMAGESDIR "${PKGDATADIR}/images")
+endif()
+
 add_definitions(
-  -DWORKRAVE_PKGDATADIR="${PKGDATADIR}"
-  -DWORKRAVE_DATADIR="${DATADIR}"
+  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
+  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
 )
 
 #----------------------------------------------------------------------------------------------------
@@ -537,10 +585,10 @@ if (UNIX AND NOT APPLE)
 elseif (APPLE)
   install(FILES README NEWS AUTHORS COPYING DESTINATION ${DATADIR}/doc)
 elseif (WIN32)
-  configure_file(README  README.txt  COPYONLY NEWLINE_STYLE WIN32)
-  configure_file(NEWS    NEWS.txt    COPYONLY NEWLINE_STYLE WIN32)
-  configure_file(AUTHORS AUTHORS.txt COPYONLY NEWLINE_STYLE WIN32)
-  configure_file(COPYING COPYING.txt COPYONLY NEWLINE_STYLE WIN32)
+  configure_file(README  README.txt  NEWLINE_STYLE WIN32)
+  configure_file(NEWS    NEWS.txt    NEWLINE_STYLE WIN32)
+  configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
+  configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
   install(FILES README.txt NEWS.txt AUTHORS.txt COPYING.txt DESTINATION ${DATADIR}/doc/workrave)
 endif()

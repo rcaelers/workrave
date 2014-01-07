@@ -349,9 +349,8 @@ GUI::init_platform()
   TRACE_ENTER("GUI::init_platform");
 
 #if defined(PLATFORM_OS_UNIX)
-  char *display = gdk_get_display();
+  const char *display = gdk_display_get_name(gdk_display_get_default());
   System::init(display);
-  g_free(display);
 #else
   System::init();
 #endif
@@ -471,7 +470,7 @@ GUI::init_core()
   string display_name;
 
 #if defined(PLATFORM_OS_UNIX)
-  char *display = gdk_get_display();
+  const char *display = gdk_display_get_name(gdk_display_get_default());
   if (display != NULL)
     {
       display_name = display;

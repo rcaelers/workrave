@@ -1,6 +1,3 @@
-//
-//
-
 \#ifndef DBUS__HH
 \#define DBUS__HH
 

@@ -372,7 +372,7 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   GdkPixbuf *pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, width, height);
   gtk_image_set_from_pixbuf(image, pixbuf);
 
-  gdk_pixbuf_unref(pixbuf);
+  g_object_unref(pixbuf);
   cairo_surface_destroy(surface);
   cairo_destroy(cr);
 }

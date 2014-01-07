@@ -1,5 +1,5 @@
 if (HAVE_GTK)
-add_subdirectory(common)
+  add_subdirectory(common)
 endif()
 
 if (HAVE_GNOME3)

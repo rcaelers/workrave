@@ -25,7 +25,10 @@ if (PLATFORM_OS_WIN32)
     win32/W32InputMonitorFactory.cc
     win32/W32LowLevelMonitor.cc)
 
-  include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
+  include_directories(
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32
+    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    )
 endif()
 
 if (PLATFORM_OS_OSX)

@@ -26,8 +26,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <QtDBus/QtDBus>
-
 #include "dbus/IDBus.hh"
 #include "dbus/DBusBinding.hh"
 

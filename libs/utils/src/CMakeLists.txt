@@ -9,12 +9,12 @@ if (TRANSLATIONS_1)
   set(SRC ${SRC} debug.cc)
 endif()
 
-if (HAVE_GLIB)
-  set(SRC ${SRC} GlibThread.cc)
-endif()
-
 if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} Platform-win32.cc rc/win32/crashlog.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc )
+  set(SRC ${SRC} Platform-win32.cc win32/crashlog.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc )
+
+  include_directories(
+    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    )
 endif()
 
 if (PLATFORM_OS_UNIX)

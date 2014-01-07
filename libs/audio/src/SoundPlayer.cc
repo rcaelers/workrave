@@ -50,10 +50,6 @@
 #include "PulseMixer.hh"
 #endif
 
-#ifdef HAVE_GTK
-#include <gdk/gdk.h>
-#endif
-
 using namespace workrave;
 using namespace workrave::audio;
 using namespace std;

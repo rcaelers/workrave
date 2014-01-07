@@ -32,6 +32,7 @@
 #include "crashlog.h"
 #include "harpoon.h"
 
+#include <algorithm>
 #include <fcntl.h>
 #include <io.h>
 
@@ -628,7 +629,7 @@ print_module_list(FILE *log)
           CloseHandle(proc);
           if (res)
             {
-              count = min(needed / sizeof(HMODULE), 100);
+              count = std::min(needed / sizeof(HMODULE), (DWORD)100);
 
               for (i = 0; i != count; i++)
                 {

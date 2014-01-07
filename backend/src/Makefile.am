@@ -31,7 +31,7 @@ sources =  		LocalActivityMonitor.cc \
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
 
 
-# DBus service file
+# DBus
 if HAVE_DBUS
 dbussources =		DBusWorkrave.cc \
 			DBusWorkrave.hh
@@ -94,4 +94,4 @@ DISTCLEANFILES = 	org.workrave.gschema.xml
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in)
+			$(gsettings_SCHEMAS:.xml=.xml.in.in)
