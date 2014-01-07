@@ -277,7 +277,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/common/src
 
 if PLATFORM_OS_OSX
-AM_CFLAGS = 		-xobjective-c
+CFLAGS += 		-xobjective-c
 AM_CPPFLAGS =		-xobjective-c++
 endif
 
