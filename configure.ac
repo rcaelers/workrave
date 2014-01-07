@@ -336,12 +336,6 @@ then
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
-   AC_LANG_PUSH([Objective C++])
-   AC_CHECK_HEADER(QTKit/QTKit.h,
-        [AC_DEFINE(HAVE_QTKIT, 1, [Define if we have QTKit]) LIBS="$LIBS -framework QTKit" ],
-        [AC_DEFINE(HAVE_QUICKTIME, 1, [Define if we have QuickTime]) LIBS="$LIBS -framework QuickTime" ])
-   AC_LANG_POP()
-
     config_gnome2=no
     config_gnome3=no
     config_gconf=no
