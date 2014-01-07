@@ -611,11 +611,13 @@ Core::remove_operation_mode_override( const std::string &id )
             if( core_event_listener )
                 core_event_listener->core_event_operation_mode_changed( operation_mode_regular );
 
+#if HAVE_DBUS
             org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
             if (iface != NULL)
               {
                 iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
               }
+#endif
         }
         else
             set_operation_mode_internal( operation_mode_regular, false );
@@ -765,11 +767,13 @@ Core::set_operation_mode_internal(
           if( core_event_listener )
               core_event_listener->core_event_operation_mode_changed( operation_mode );
 
+#if HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
           if (iface != NULL)
             {
               iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
             }
+#endif
       }
   }
 
@@ -813,11 +817,13 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
         {
           core_event_listener->core_event_usage_mode_changed(mode);
 
+#if HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
           if (iface != NULL)
             {
               iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
             }
+#endif
         }
     }
 }

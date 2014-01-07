@@ -27,27 +27,18 @@
 #include "OSXSoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Util.hh"
-
-#ifdef HAVE_QTKIT
-#include <Cocoa/Cocoa.h>
-#include <QTKit/QTKit.h>
-#endif
-
-#if HAVE_QUICKTIME
-#include <Carbon/Carbon.h>
-#include <QuickTime/QuickTime.h>
-#endif
+#import <AppKit/AppKit.h>
 
 OSXSoundPlayer::OSXSoundPlayer()
 {
-#if HAVE_QUICKTIME
-  EnterMovies();
-#endif
+  soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
 }
 
 
 OSXSoundPlayer::~OSXSoundPlayer()
 {
+  [soundDictionary removeAllObjects];
+  [soundDictionary release];
 }
 
 bool
@@ -74,12 +65,7 @@ OSXSoundPlayer::play_sound(string file)
   if (wav_file == NULL)
     {
       wav_file = strdup(file.c_str());
-#if HAVE_QUICKTIME
-      start();
-#endif
-#if HAVE_QTKIT
       run();
-#endif
     }
 }
 
@@ -87,65 +73,14 @@ OSXSoundPlayer::play_sound(string file)
 void
 OSXSoundPlayer::run()
 {
-#if HAVE_QUICKTIME
-  OSErr err;
-  FSSpec spec;
-  const char *fname = wav_file;
-  Movie movie;
-
-  FSRef fref;
-  err = FSPathMakeRef((const UInt8 *) fname, &fref, NULL);
-  if (err != noErr)
-    {
-      printf("FSPathMakeRef failed %d\n", err);
-      return;
-    }
-  err = FSGetCatalogInfo(&fref, kFSCatInfoNone, NULL, NULL, &spec, NULL);
-  if (err != noErr)
-    {
-      printf("FSGetCatalogInfo failed %d\n", err);
-      return;
-    }
-
-  short movieResFile = 0;
-  err = OpenMovieFile(&spec, &movieResFile, fsRdPerm);
-  if (err != noErr)
-    {
-      printf("OpenMovieFile failed %d\n", err);
-      return;
-    }
-
-  Str255 name;
-  err = NewMovieFromFile(&movie, movieResFile, NULL, name, 0, NULL);
-  if (err != noErr)
-    {
-      printf("NewMovieFromFile failed %d\n", err);
-      err = CloseMovieFile(movieResFile);
-      if (err != noErr)
-        {
-          printf("CloseMovieFile failed %d\n", err);
-        }
-      return;
-    }
-
-
-  // play the movie once thru
-  StartMovie(movie);
-
-  while (!IsMovieDone(movie))
-    {
-      MoviesTask(movie, 0);
-    }
-
-  DisposeMovie(movie);
-#endif
-#if HAVE_QTKIT
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  NSString* fileName = [NSString stringWithUTF8String: wav_file];
-  QTMovie* movie = [[QTMovie alloc] initWithFile:fileName error:nil];
-  [movie play];
-  [pool release];
-#endif
+  NSString* filename = [NSString stringWithUTF8String: wav_file];
+  NSSound *sound = [soundDictionary objectForKey:filename];
+  if (sound == nil) {
+    sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
+    [soundDictionary setObject:sound forKey:filename];
+  }
+  [sound stop];
+  [sound play];
   free((void*)wav_file);
   wav_file = NULL;
 }

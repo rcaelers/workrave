@@ -22,6 +22,9 @@
 
 #include "ISoundDriver.hh"
 #include "Thread.hh"
+#ifdef __OBJC__
+#import "Foundation/Foundation.h"
+#endif
 
 class OSXSoundPlayer : public ISoundDriver, public Thread
 {
@@ -44,6 +47,10 @@ private:
   void run();
 
   const char *wav_file;
+
+#ifdef __OBJC__
+  NSMutableDictionary *soundDictionary;
+#endif
 };
 
 #endif // OSXSOUNDPLAYER_HH
