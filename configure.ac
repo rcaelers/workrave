@@ -807,14 +807,14 @@ config_gstreamer=no
 
 if test "x$enable_gstreamer" != "xno";
 then
-    PKG_CHECK_MODULES([GSTREAMER],
+    PKG_CHECK_MODULES([GSTREAMER-0.10],
                       [gstreamer-0.10],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [ ])
 		     
     if test "x$config_gstreamer" != "xyes";
     then
-        PKG_CHECK_MODULES([GSTREAMER],
+        PKG_CHECK_MODULES([GSTREAMER-1.0],
                       [gstreamer-1.0],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
