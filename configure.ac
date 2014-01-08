@@ -631,7 +631,7 @@ config_gtk_version=none
 
 if test "x$enable_gnome2" != "xyes"
 then
-   PKG_CHECK_MODULES(GTK,
+   PKG_CHECK_MODULES(GTK3,
       			glib-2.0 >= 2.28.0
       			gio-2.0 >= 2.26.0
       			gtk+-3.0 >= 3.0.0
