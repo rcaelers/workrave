@@ -74,6 +74,9 @@ private:
   static LockWorkStationFunc lock_func;
   static HINSTANCE user32_dll;
   static bool shutdown_supported;
+#elif defined(HAVE_DBUS_GIO)
+  static void init_kde_lock();
+  static bool kde_lock();
 #endif
 };
 
