@@ -18,7 +18,7 @@ endif()
 
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC}
-    win32/W32DirectSoundPlayer.hh
+    win32/W32DirectSoundPlayer.cc
     win32/W32Mixer.cc
     win32/W32SoundPlayer.cc
     )

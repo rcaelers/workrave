@@ -54,14 +54,10 @@ if (PLATFORM_OS_WIN32)
     win32/W32ForceFocus.cc
     win32/W32StatusIcon.cc
     win32/W32TrayMenu.cc
+    win32/dll_hell.c
     )
 
   include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/win32)
-  
-  if (HAVE_DIRECTX)
-    include_directories(${DIRECTX_INCLUDES})
-  endif(HAVE_DIRECTX)
-  
 endif()
 
 if (PLATFORM_OS_OSX)
@@ -116,7 +112,14 @@ include_directories(
   ${INDICATOR_INCLUDE_DIRS}
   )
 
+link_directories(${GTK_LIBRARY_DIRS})
+link_directories(${INDICATOR_LIBPATH})
+link_directories("/home/robc/src/runtime//usr/i686-w64-mingw32/sys-root/mingw/lib")
+
 add_executable(workrave ${SRC})
+
+get_directory_property(OUT_VAR LINK_DIRECTORIES)
+message(STATUS "DIR: ${OUT_VAR}")
 
 target_link_libraries(workrave workrave-frontend-apps-common)
 target_link_libraries(workrave workrave-backend)
@@ -126,8 +129,6 @@ target_link_libraries(workrave workrave-libs-dbus)
 target_link_libraries(workrave workrave-libs-utils)
 target_link_libraries(workrave workrave-libs-audio)
 
-
-link_directories(${GTK_LIBRARY_DIRS})
 target_link_libraries(workrave ${GTK_LIBRARIES})
 target_link_libraries(workrave ${Boost_LIBRARIES})
 
@@ -145,7 +146,6 @@ if (PLATFORM_OS_UNIX)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR}/applications)
 endif()
 
-link_directories(${INDICATOR_LIBPATH})
 target_link_libraries(workrave ${INDICATOR_LIBRARIES})
 
 if (WIN32)
@@ -158,14 +158,11 @@ if (WIN32)
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
     )
 
-  if (HAVE_DIRECTX)
-    link_directories(${DIRECTX_LIBS})
-    target_link_libraries(workrave dxerr dsound dxguid)
-  endif(HAVE_DIRECTX)
-
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+
+   target_link_libraries(workrave dxerr8 dsound dxguid)
 
 endif(WIN32)
 

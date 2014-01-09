@@ -137,11 +137,6 @@ endif()
 #  target_link_libraries(workrave harpoon)
 #  target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 #
-#  if (HAVE_DIRECTX)
-#    link_directories(${DIRECTX_LIBS})
-#    target_link_libraries(workrave dxerr dsound dxguid)
-#  endif(HAVE_DIRECTX)
-#
 #  configure_file(
 #    ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
 #    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)

@@ -9,7 +9,6 @@ backend/src/ReadingActivityMonitor.cc
 backend/src/Statistics.cc
 backend/src/Timer.cc
 backend/src/TimerActivityMonitor.cc
-backend/src/org.workrave.Workrave.service.in
 backend/src/org.workrave.gschema.xml.in.in
 contrib/send_menu_command/win32/send_workrave_command.c
 frontend/applets/common/src/timebar.c

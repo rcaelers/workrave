@@ -20,6 +20,7 @@ endif()
 
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC}
+    win32/Harpoon.cc
     win32/W32AlternateMonitor.cc
     win32/W32InputMonitor.cc
     win32/W32InputMonitorFactory.cc
@@ -28,6 +29,7 @@ if (PLATFORM_OS_WIN32)
   include_directories(
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include
     )
 endif()
 

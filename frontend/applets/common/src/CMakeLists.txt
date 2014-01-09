@@ -1,8 +1,8 @@
 if (UNIX AND NOT APPLE)
 
   set(SRC
-    src/timebar.c
-    src/timerbox.c
+    timebar.c
+    timerbox.c
     )
   
   if (HAVE_GTK)
@@ -33,10 +33,10 @@ if (UNIX AND NOT APPLE)
   if (HAVE_INTROSPECTION)
     include(GObjectIntrospectionMacros)
     set(INTROSPECTION_GIRS)
-    set(INTROSPECTION_SCANNER_ARGS --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/src --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/include --warn-all)
-    set(INTROSPECTION_COMPILER_ARGS --includedir=${CMAKE_CURRENT_SOURCE_DIR}/src --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include)
+    set(INTROSPECTION_SCANNER_ARGS --add-include-path=${CMAKE_CURRENT_SOURCE_DIR} --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/include --warn-all)
+    set(INTROSPECTION_COMPILER_ARGS --includedir=${CMAKE_CURRENT_SOURCE_DIR} --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include)
     
-    set(introspection_files ${SRC} include/timerbox.h include/timebar.h)
+    set(introspection_files ${SRC} ../include/timerbox.h ../include/timebar.h)
     set(Workrave_1_0_gir "workrave-private")
     set(Workrave_1_0_gir_INCLUDES GObject-2.0 Gtk-3.0 cairo-1.0)
     set(Workrave_1_0_gir_CFLAGS ${GTK_CFLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/include)

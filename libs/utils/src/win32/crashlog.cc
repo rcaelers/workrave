@@ -83,6 +83,12 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
 }
 #endif
 
+LONG WINAPI exception_filter(EXCEPTION_POINTERS *ep)
+{
+  return exception_handler(ep->ExceptionRecord, NULL, ep->ContextRecord, NULL);
+}
+
+
 EXCEPTION_DISPOSITION __cdecl
 exception_handler(struct _EXCEPTION_RECORD *exception_record,
                   void *establisher_frame,
