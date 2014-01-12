@@ -115,12 +115,12 @@ include_directories(
 
 link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
-link_directories("/home/robc/src/runtime//usr/i686-w64-mingw32/sys-root/mingw/lib")
+
+# TODO: remove
+link_directories("/home/robc/src/runtime/usr/i686-w64-mingw32/sys-root/mingw/lib")
+link_directories("/home/robc/src/tinderbox/prebuilt/Release")
 
 add_executable(workrave ${SRC})
-
-get_directory_property(OUT_VAR LINK_DIRECTORIES)
-message(STATUS "DIR: ${OUT_VAR}")
 
 target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)

@@ -17,8 +17,6 @@ SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 include_directories(${MINGW_ENV}/include)
 include_directories(${MINGW_TARGET}/include)
 
-link_directories("/home/robc/src/tinderbox/prebuilt/Release")
-
 set(pkgconfigLibDir)
 set(pkgconfigLibDir )
 set(ENV{PKG_CONFIG_LIBDIR} "${MINGW_TARGET}/lib/pkgconfig")

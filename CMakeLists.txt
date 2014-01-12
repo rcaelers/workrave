@@ -590,7 +590,9 @@ elseif (WIN32)
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
   configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
-  install(FILES README.txt NEWS.txt AUTHORS.txt COPYING.txt DESTINATION ${DATADIR}/doc/workrave)
+  install(
+    FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt 
+    DESTINATION ${DATADIR}/doc/workrave)
 endif()
 
 #----------------------------------------------------------------------------------------------------
