@@ -28,7 +28,7 @@ class SizeGroup : public QObject
   Q_OBJECT
 
 public:
-  SizeGroup(Qt::Orientation orientation, QObject* parent = 0);
+  SizeGroup(Qt::Orientations orientation, QObject* parent = 0);
   ~SizeGroup();
 
   void addWidget(QWidget* widget);
@@ -38,7 +38,7 @@ private:
   void update();
   
 private:
-  Qt::Orientation orientation;
+  Qt::Orientations orientation;
   QTimer* timer;
   QList<QWidget*> widgets;
 };

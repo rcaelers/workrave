@@ -25,7 +25,7 @@
 
 #include <QWidget>
 
-SizeGroup::SizeGroup(Qt::Orientation orientation, QObject* parent) : QObject(parent), orientation(orientation)
+SizeGroup::SizeGroup(Qt::Orientations orientation, QObject* parent) : QObject(parent), orientation(orientation)
 {
   timer = new QTimer;
   timer->setSingleShot(true);
