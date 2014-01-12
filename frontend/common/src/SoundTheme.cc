@@ -303,13 +303,13 @@ SoundTheme::load_sound_theme(const string &themefilename, Theme &theme)
 
           theme.active = is_current;
         }
+      TRACE_MSG(is_current);
     }
   catch (boost::exception &)
     {
       theme.active = false;
     }
 
-  TRACE_MSG(is_current);
   TRACE_EXIT();
 }
 

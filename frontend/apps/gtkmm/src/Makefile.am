@@ -146,6 +146,7 @@ workrave_SOURCES = 	AppletControl.cc \
 			StatusIcon.cc \
 			TimeBar.cc \
 			TimeEntry.cc \
+			TimerBoxControl.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			TimerPreferencesPanel.cc \
@@ -161,7 +162,6 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/apps/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/apps/common/include \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
 			@DBUS_CFLAGS@ @INDICATOR_CFLAGS@ \
 			${extraflags} \
@@ -183,7 +183,6 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/apps/gtkmm/src/ \
 			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/apps/common/include \
 			@X_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@ \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -194,7 +193,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 
 workrave_LDFLAGS = 	${WIN32LDFLAGS}
 
-workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-common.la \
+workrave_LDADD =	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
 			$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la \
@@ -207,7 +206,7 @@ workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-c
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
-$(bin_PROGRAMS):	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend!-common.la \
+$(bin_PROGRAMS):	$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la
 endif
 

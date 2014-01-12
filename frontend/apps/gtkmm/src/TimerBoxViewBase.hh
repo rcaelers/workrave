@@ -34,7 +34,7 @@ public:
     (void) tip;
   }
   
-  virtual void set_icon(IconType icon)
+  virtual void set_icon(StatusIconType icon)
   {
     (void) icon;
   }

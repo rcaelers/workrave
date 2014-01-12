@@ -946,6 +946,7 @@ AC_CONFIG_FILES([Makefile
              frontend/Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile
+             frontend/common/src/Makefile
              frontend/data/Makefile
              frontend/data/sounds/Makefile
              frontend/data/sounds/subtle/Makefile

@@ -24,6 +24,7 @@ set(SRC
   StatusIcon.cc
   TimeBar.cc
   TimeEntry.cc
+  TimerBoxControl.cc
   TimerBoxGtkView.cc
   TimerBoxPreferencePage.cc
   TimerPreferencesPanel.cc
