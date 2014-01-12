@@ -500,22 +500,22 @@ TimerBoxGtkView::set_tip(string tip)
 
 
 void
-TimerBoxGtkView::set_icon(IconType icon)
+TimerBoxGtkView::set_icon(StatusIconType icon)
 {
   string file;
   switch (icon)
     {
-    case ICON_NORMAL:
+    case StatusIconType::Normal:
       file = AssetPath::complete_directory("workrave-icon-medium.png",
                                       AssetPath::SEARCH_PATH_IMAGES);
       break;
 
-    case ICON_QUIET:
+    case StatusIconType::Quiet:
       file = AssetPath::complete_directory("workrave-quiet-icon-medium.png",
                                              AssetPath::SEARCH_PATH_IMAGES);
       break;
 
-    case ICON_SUSPENDED:
+    case StatusIconType::Suspended:
       file = AssetPath::complete_directory("workrave-suspended-icon-medium.png",
                                       AssetPath::SEARCH_PATH_IMAGES);
       break;

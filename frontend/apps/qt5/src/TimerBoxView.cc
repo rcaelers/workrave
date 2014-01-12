@@ -1,4 +1,4 @@
-// TimerBoxGtkView.cc --- Timers Widgets
+// TimerBoxView.cc --- Timers Widgets
 //
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -22,15 +22,19 @@
 #endif
 
 #include "debug.hh"
-#include "utils/AssetPath.hh"
 #include "nls.h"
 
+#include <QPushButton>
+#include <QLabel>
+
+#include "UI.hh"
+#include "SizeGroup.hh"
 #include "TimerBoxView.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
+using namespace workrave::ui;
 
-//! Constructor.
 TimerBoxView::TimerBoxView() :
   sheep_only(false),
   reconfigure(false)
@@ -38,9 +42,6 @@ TimerBoxView::TimerBoxView() :
   init();
 }
 
-
-
-//! Destructor.
 TimerBoxView::~TimerBoxView()
 {
   TRACE_ENTER("TimerBoxView::~TimerBoxView");
@@ -54,9 +55,6 @@ TimerBoxView::~TimerBoxView()
   TRACE_EXIT();
 }
 
-
-
-//! Sets the geometry of the timerbox.
 void
 TimerBoxView::set_geometry(Orientation orientation, int size)
 {
@@ -64,8 +62,6 @@ TimerBoxView::set_geometry(Orientation orientation, int size)
   TRACE_EXIT();
 }
 
-
-//! Initializes the timerbox.
 void
 TimerBoxView::init()
 {
@@ -84,57 +80,36 @@ TimerBoxView::init()
   TRACE_EXIT();
 }
 
-
-//! Initializes the widgets.
 void
 TimerBoxView::init_widgets()
 {
+  SizeGroup *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
+
   for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      labels[i] = new QLabel("foo");
-      bars[i] = new TimeBar();
+      QPixmap pixmap(QString::fromStdString(Ui::get_break_icon_filename(i)));
+                     
+      if (false) // i == BREAK_ID_REST_BREAK)
+        {
+          QPushButton *button = new QPushButton("");
+          button->setIcon(pixmap);
+          labels[i] = button;
+        }
+      else
+        {
+          QLabel *label = new QLabel("");
+          label->setPixmap(pixmap);
+          labels[i] = label;
+        }
 
+      size_group->addWidget(labels[i]);
+
+      bars[i] = new TimeBar();
       bars[i]->set_text_alignment(1);
       bars[i]->set_progress(0, 60);
       bars[i]->set_text(_("Wait"));
-      
     }
-
-  //const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  //for (int count = 0; count < BREAK_ID_SIZEOF; count++)
-  //  {
-  //    string icon = AssetPath::complete_directory(string(icons[count]), AssetPath::SEARCH_PATH_IMAGES);
-  //    Image *img = new Image(icon);
-  //    QWidget *w;
-  //    if (count == BREAK_ID_REST_BREAK)
-  //      {
-  //        img->set_padding(0,0);
-  //
-  //        EventButton *b = new EventButton();
-  //        b->set_relief(::RELIEF_NONE);
-  //        b->set_border_width(0);
-  //        b->add(*::manage(img));
-  //
-  //        b->set_tooltip_text(_("Take rest break now"));
-  //
-  //        w = b;
-  //      }
-  //    else
-  //      {
-  //        w = img;
-  //        img->set_padding(0,2);
-  //      }
-  //
-  //    size_group->add_widget(*w);
-  //    labels[count] = w;
-  //
-  //    bars[count] = new TimeBar;
-  //    bars[count]->set_text_alignment(1);
-  //    bars[count]->set_progress(0, 60);
-  //    bars[count]->set_text(_("Wait"));
-  //  }
 }
-
 
 int
 TimerBoxView::get_number_of_timers() const
@@ -153,8 +128,6 @@ TimerBoxView::get_number_of_timers() const
   return number_of_timers;
 }
 
-
-//! Initializes the applet.
 void
 TimerBoxView::init_table()
 {
@@ -172,7 +145,6 @@ TimerBoxView::init_table()
 
   TRACE_EXIT();
 }
-
 
 void
 TimerBoxView::set_slot(BreakId id, int slot)
@@ -206,39 +178,15 @@ TimerBoxView::set_time_bar(BreakId id,
   TRACE_EXIT();
 }
 
-
 void
 TimerBoxView::set_tip(std::string tip)
 {
 }
 
-
 void
-TimerBoxView::set_icon(IconType icon)
+TimerBoxView::set_icon(StatusIconType icon)
 {
-  std::string file;
-  switch (icon)
-    {
-    case ICON_NORMAL:
-      file = AssetPath::complete_directory("workrave-icon-medium.png",
-                                      AssetPath::SEARCH_PATH_IMAGES);
-      break;
-
-    case ICON_QUIET:
-      file = AssetPath::complete_directory("workrave-quiet-icon-medium.png",
-                                             AssetPath::SEARCH_PATH_IMAGES);
-      break;
-
-    case ICON_SUSPENDED:
-      file = AssetPath::complete_directory("workrave-suspended-icon-medium.png",
-                                      AssetPath::SEARCH_PATH_IMAGES);
-      break;
-    }
-
-  // if (file != "")
-  //   {
-  //     sheep->set(file);
-  //   }
+  std::string file = Ui::get_status_icon_filename(icon);
 }
 
 void

@@ -24,7 +24,7 @@
 #include <stdio.h>
 
 #include "AppletWindow.hh"
-#include "Orientation.hh"
+#include "UiTypes.hh"
 
 #include <sigc++/trackable.h>
 #include <gtkmm/bin.h>

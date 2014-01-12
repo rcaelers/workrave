@@ -1,6 +1,6 @@
-// DBusException.cc --- DBUS interface
+// Session.cc --- Monitor the gnome session
 //
-// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "utils/Exception.hh"
+#ifndef SESSION_HH
+#define SESSION_HH
 
-namespace workrave
+#include <boost/shared_ptr.hpp>
+
+#if defined(HAVE_DBUS_GIO)
+#include <gio/gio.h>
+#endif
+
+class Session
 {
-  namespace dbus
-  {
-    const char *DBUS_ERROR_FAILED =                            "org.freedesktop.DBus.Error.Failed";
-    const char *DBUS_ERROR_NOT_SUPPORTED =                     "org.freedesktop.DBus.Error.NotSupported";
-    const char *DBUS_ERROR_INVALID_ARGS =                      "org.freedesktop.DBus.Error.InvalidArgs";
-    const char *DBUS_ERROR_UNKNOWN_METHOD =                    "org.freedesktop.DBus.Error.UnknownMethod";
-  }
-}
+public:
+  typedef boost::shared_ptr<Session> Ptr;
+
+  static Session::Ptr create();
+  
+  Session();
+  void init();
+
+  void set_idle(bool idle);
+
+#if defined(HAVE_DBUS_GIO)
+private:
+  void init_gnome();
+  static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+#endif
+
+private:
+  bool is_idle;
+  bool taking;
+};
+
+#endif // SESSION_HH

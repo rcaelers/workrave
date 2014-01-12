@@ -261,45 +261,52 @@ SoundTheme::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themefilename);
 
-  bool is_current = true;
-
-  boost::filesystem::path path(themefilename);
-  boost::filesystem::path themedir = path.parent_path();
-  
-  boost::property_tree::ptree pt;
-  boost::property_tree::ini_parser::read_ini(themefilename, pt);
-
-  theme.description = pt.get<std::string>("general.description");
-
-  int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
-  for (int i = 0; i < size; i++)
+  try
     {
-      SoundRegistry *snd = &sound_registry[i];
+      bool is_current = true;
 
-      string item = boost::str(boost::format("%1%.file") % snd->id);
-      string filename = pt.get<std::string>(item);
+      boost::filesystem::path path(themefilename);
+      boost::filesystem::path themedir = path.parent_path();
+  
+      boost::property_tree::ptree pt;
+      boost::property_tree::ini_parser::read_ini(themefilename, pt);
 
-      boost::filesystem::path soundpath(themedir);
-      soundpath /= filename;
+      theme.description = pt.get<std::string>("general.description");
 
-      soundpath = canonical(soundpath);
-
-      if (is_current)
+      int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
+      for (int i = 0; i < size; i++)
         {
-          string current = "";
-          config->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                            snd->id,
-                            current);
-          
-          if (current != soundpath.string())
+          SoundRegistry *snd = &sound_registry[i];
+
+          string item = boost::str(boost::format("%1%.file") % snd->id);
+          string filename = pt.get<std::string>(item);
+
+          boost::filesystem::path soundpath(themedir);
+          soundpath /= filename;
+
+          soundpath = canonical(soundpath);
+
+          if (is_current)
             {
-              is_current = false;
+              string current = "";
+              config->get_value(string(CFG_KEY_SOUND_EVENTS) +
+                                snd->id,
+                                current);
+          
+              if (current != soundpath.string())
+                {
+                  is_current = false;
+                }
             }
+
+          theme.files.push_back(soundpath.string());
+
+          theme.active = is_current;
         }
-
-      theme.files.push_back(soundpath.string());
-
-      theme.active = is_current;
+    }
+  catch (boost::exception &)
+    {
+      theme.active = false;
     }
 
   TRACE_MSG(is_current);

@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common qt5 gtkmm 
+SUBDIRS = 		qt5 gtkmm 

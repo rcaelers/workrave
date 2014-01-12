@@ -989,9 +989,6 @@ AC_CONFIG_FILES([Makefile
              frontend/apps/gtkmm/src/osx/Makefile
 	     frontend/apps/qt5/src/Makefile
 	     frontend/apps/qt5/Makefile
-	     frontend/apps/common/Makefile
-	     frontend/apps/common/src/Makefile
-	     frontend/apps/common/include/Makefile
 	     frontend/apps/Makefile
              po/Makefile.in
              contrib/Makefile

@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -16,16 +15,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UITYPES_HH
-#define UITYPES_HH
+#ifndef IBREAKWINDOW_HH
+#define IBREAKWINDOW_HH
 
-typedef int BreakFlags;
+#include <boost/shared_ptr.hpp>
+
+#ifdef HAVE_GTK
+#include <gtkmm.h>
+#endif
+
+class IBreakWindow
+{
+public:
+  virtual ~IBreakWindow() {}
+
+  typedef boost::shared_ptr<IBreakWindow> Ptr;
   
-const static int BREAK_FLAGS_NONE            = 0;
-const static int BREAK_FLAGS_POSTPONABLE     = 1 << 0;
-const static int BREAK_FLAGS_SKIPPABLE       = 1 << 1;
-const static int BREAK_FLAGS_NO_EXERCISES    = 1 << 2;
-const static int BREAK_FLAGS_NATURAL         = 1 << 3;
-const static int BREAK_FLAGS_USER_INITIATED  = 1 << 4;
+  //! 
+  virtual void init() = 0;
 
-#endif // UITYPES_HH
+  //! Starts (i.e. shows) the break window.
+  virtual void start() = 0;
+
+  //! Stops (i.e. hides) the break window.
+  virtual void stop() = 0;
+
+  //! Refreshes the content of the break window.
+  virtual void refresh() = 0;
+
+  //! Sets the progress to the specified value and maximum value.
+  virtual void set_progress(int value, int max_value) = 0;
+
+#ifdef HAVE_GTK
+  //
+  virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;
+#endif
+};
+
+#endif // IBREAKWINDOW_HH

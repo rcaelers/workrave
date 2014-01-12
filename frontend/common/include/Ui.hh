@@ -1,6 +1,4 @@
-// Orientation.hh
-//
-// Copyright (C) 2007, 2013 Rob Caelers
+// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ORIENTATION_HH
-#define ORIENTATION_HH
+#ifndef WORKRAVE_APPS_COMMON_UI_HH
+#define WORKRAVE_APPS_COMMON_UI_HH
 
-enum Orientation
+#include <string>
+
+#include "CoreTypes.hh"
+#include "UiTypes.hh"
+
+namespace workrave
+{
+  namespace ui
   {
-    ORIENTATION_UP,
-    ORIENTATION_RIGHT,
-    ORIENTATION_DOWN,
-    ORIENTATION_LEFT,
-  };
+    class Ui
+    {
+    public:
+      static const std::string get_break_name(workrave::BreakId id);
+      static const std::string get_break_icon_filename(workrave::BreakId id);
+      static const std::string get_status_icon_filename(StatusIconType id);
+    };
+  }
+}
 
-#endif // ORIENTATION_HH
+#endif // WORKRAVE_APPS_COMMON_UI_HH

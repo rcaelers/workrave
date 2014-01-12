@@ -55,7 +55,7 @@ public:
                     ITimeBar::ColorId secondary_color,
                     int secondary_value, int secondary_max);
   void set_tip(std::string tip);
-  void set_icon(IconType icon);
+  void set_icon(StatusIconType icon);
   void update_view();
   void set_enabled(bool enabled);
 

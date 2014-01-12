@@ -234,15 +234,15 @@ TimerBoxControl::init_icon()
   switch (operation_mode)
     {
     case OperationMode::Normal:
-      view->set_icon(ITimerBoxView::ICON_NORMAL);
+      view->set_icon(StatusIconType::Normal);
       break;
 
     case OperationMode::Suspended:
-      view->set_icon(ITimerBoxView::ICON_SUSPENDED);
+      view->set_icon(StatusIconType::Suspended);
       break;
 
     case OperationMode::Quiet:
-      view->set_icon(ITimerBoxView::ICON_QUIET);
+      view->set_icon(StatusIconType::Quiet);
       break;
 
     default:

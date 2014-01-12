@@ -1,5 +1,6 @@
 set(SRC
   main.cc
+  Application.cc
   Frame.cc
   MainWindow.cc
   PreludeWindow.cc
@@ -22,6 +23,9 @@ set(SRC
   SoundsPreferencesPanel.cc
   TimerBoxPreferencesPanel.cc
   MenuHandler.cc
+  MenuModel.cc
+  MenuModelItem.cc
+  TimerBoxControl.cc
   )
 
 set(DESIGNER_UI
@@ -97,7 +101,7 @@ if (APPLE)
 		MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
 endif()
 
-target_link_libraries(Workrave workrave-frontend-apps-common)
+target_link_libraries(Workrave workrave-frontend-common)
 target_link_libraries(Workrave workrave-backend)
 target_link_libraries(Workrave workrave-libs-config)
 target_link_libraries(Workrave workrave-libs-input-monitor)

@@ -194,7 +194,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 
 workrave_LDFLAGS = 	${WIN32LDFLAGS}
 
-workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-apps-common.la \
+workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-common.la \
 			$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 			$(top_builddir)/libs/utils/src/libworkrave-utils.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la \
@@ -207,7 +207,7 @@ workrave_LDADD =	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-a
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
-$(bin_PROGRAMS):	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend-apps-common.la \
+$(bin_PROGRAMS):	$(top_builddir)/frontend/apps/common/src/libworkrave-frontend!-common.la \
 			$(top_builddir)/backend/src/libworkrave-backend.la
 endif
 

@@ -1,15 +1,12 @@
 set(SRC
-  Application.cc
-  MenuModelItem.cc
-  MenuModel.cc
   Exercise.cc
   CoreFactory.cc
   GUIConfig.cc
   Session.cc
   System.cc
   Text.cc
-  TimerBoxControl.cc
   SoundTheme.cc
+  Ui.cc
  )
 
 if (HAVE_GTK)
@@ -37,4 +34,4 @@ if (HAVE_DBUS AND NOT HAVE_GTK)
   )
 endif()
 
-add_library(workrave-frontend-apps-common STATIC ${SRC})
+add_library(workrave-frontend-common STATIC ${SRC})

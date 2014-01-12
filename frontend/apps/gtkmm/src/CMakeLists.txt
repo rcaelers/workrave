@@ -121,7 +121,7 @@ add_executable(workrave ${SRC})
 get_directory_property(OUT_VAR LINK_DIRECTORIES)
 message(STATUS "DIR: ${OUT_VAR}")
 
-target_link_libraries(workrave workrave-frontend-apps-common)
+target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)
 target_link_libraries(workrave workrave-libs-config)
 target_link_libraries(workrave workrave-libs-input-monitor)

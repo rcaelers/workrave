@@ -29,7 +29,7 @@
 #include <sigc++/trackable.h>
 
 #include "AppletWindow.hh"
-#include "Orientation.hh"
+#include "UiTypes.hh"
 
 class TimerBoxGtkView;
 class Plug;

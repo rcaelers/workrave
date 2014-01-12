@@ -1,6 +1,5 @@
-// DBusException.cc --- DBUS interface
 //
-// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "utils/Exception.hh"
+#ifndef UITYPES_HH
+#define UITYPES_HH
 
-namespace workrave
-{
-  namespace dbus
+typedef int BreakFlags;
+  
+const static int BREAK_FLAGS_NONE            = 0;
+const static int BREAK_FLAGS_POSTPONABLE     = 1 << 0;
+const static int BREAK_FLAGS_SKIPPABLE       = 1 << 1;
+const static int BREAK_FLAGS_NO_EXERCISES    = 1 << 2;
+const static int BREAK_FLAGS_NATURAL         = 1 << 3;
+const static int BREAK_FLAGS_USER_INITIATED  = 1 << 4;
+
+enum class StatusIconType
   {
-    const char *DBUS_ERROR_FAILED =                            "org.freedesktop.DBus.Error.Failed";
-    const char *DBUS_ERROR_NOT_SUPPORTED =                     "org.freedesktop.DBus.Error.NotSupported";
-    const char *DBUS_ERROR_INVALID_ARGS =                      "org.freedesktop.DBus.Error.InvalidArgs";
-    const char *DBUS_ERROR_UNKNOWN_METHOD =                    "org.freedesktop.DBus.Error.UnknownMethod";
-  }
-}
+    Normal,
+    Quiet,
+    Suspended
+  };
+
+
+enum Orientation
+  {
+    ORIENTATION_UP,
+    ORIENTATION_RIGHT,
+    ORIENTATION_DOWN,
+    ORIENTATION_LEFT,
+  };
+
+#endif // UITYPES_HH

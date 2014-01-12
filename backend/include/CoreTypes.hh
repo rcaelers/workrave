@@ -20,6 +20,8 @@
 #ifndef WORKRAVE_BACKEND_CORETYPES_HH
 #define WORKRAVE_BACKEND_CORETYPES_HH
 
+#include <iostream>
+
 namespace workrave
 {
   /* Mode */

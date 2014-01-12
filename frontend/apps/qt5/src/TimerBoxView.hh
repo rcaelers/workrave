@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include <QLabel>
+#include <QWidget>
 #include <QGridLayout>
 
 #include "ITimerBoxView.hh"
@@ -48,7 +48,7 @@ public:
                             ITimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
   virtual void set_tip(std::string tip);
-  virtual void set_icon(IconType icon);
+  virtual void set_icon(StatusIconType icon);
   virtual void update_view();
   virtual void set_enabled(bool enabled);
   virtual void set_geometry(Orientation orientation, int size);
@@ -66,7 +66,7 @@ private:
   QGridLayout *layout;
   
   //! Array of time labels
-  QLabel *labels[workrave::BREAK_ID_SIZEOF];
+  QWidget *labels[workrave::BREAK_ID_SIZEOF];
 
   //! Array of time bar widgets.
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
