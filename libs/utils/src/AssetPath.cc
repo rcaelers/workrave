@@ -215,7 +215,6 @@ AssetPath::get_search_path(SearchPathId type)
 
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.insert(app_dir + "/share/workrave/images");
       searchPath.insert(app_dir +  "/../Resources/images");
 #endif
     }
@@ -235,8 +234,7 @@ AssetPath::get_search_path(SearchPathId type)
 #endif
       searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
-      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds/workrave");
-      searchPath.insert(app_dir + "/share/sounds/workrave");
+      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
       searchPath.insert(app_dir +  "/../Resources/sounds");
 #endif
     }
@@ -256,7 +254,6 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(app_dir + "\\etc");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
-      searchPath.insert(app_dir + "/etc");
       searchPath.insert(home_dir + "/");
       searchPath.insert(app_dir +  "/../Resources/config");
 #endif
@@ -272,7 +269,6 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
-      searchPath.insert(app_dir + "/share/exercises");
       searchPath.insert(app_dir +  "/../Resources/exercises");
 #else
 #error Not properly ported.
