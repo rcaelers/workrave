@@ -609,11 +609,11 @@ set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
 if (APPLE)
   set(CPACK_GENERATOR "DragNDrop")
 
-  configure_file(${CMAKE_SOURCE_DIR}/build/release/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+  configure_file(${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
 
   set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/build/release/osx/DS_Store")
-  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/build/release/osx/dmg_background.png")
+  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/DS_Store")
+  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/dmg_background.png")
   set(CPACK_DMG_FORMAT "UDBZ")
 
   set(CPACK_OSX_PACKAGE_VERSION "10.6")
