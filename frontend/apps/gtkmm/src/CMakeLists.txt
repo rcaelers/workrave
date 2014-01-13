@@ -117,8 +117,8 @@ link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
 # TODO: remove
-link_directories("/home/robc/src/runtime/usr/i686-w64-mingw32/sys-root/mingw/lib")
 link_directories("/home/robc/src/tinderbox/prebuilt/Release")
+link_directories("/home/robc/src/runtime/usr/i686-w64-mingw32/sys-root/mingw/lib")
 
 add_executable(workrave ${SRC})
 
@@ -167,6 +167,6 @@ if (WIN32)
 
 endif(WIN32)
 
-install(TARGETS workrave RUNTIME DESTINATION bin)
+install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
 
 # TODO: win32 resource.rc
