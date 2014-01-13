@@ -1,14 +1,9 @@
-message(STATUS "dist win32")
-
+# TODO: Find ISCC.exe, support native
 set (ISCC wine "c:/Program Files (x86)/Inno Setup 5/ISCC.exe")
 
 execute_process(
-  COMMAND ${ISCC} setup.iss -DPrebuiltDir=@PREBUILTDIR@ -DInstallDir=@INSTALLDIR@
+  COMMAND ${ISCC} setup.iss
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
   WORKING_DIRECTORY @CMAKE_CURRENT_BINARY_DIR@
   )
-
-message(STATUS "dir : @CMAKE_CURRENT_BINARY_DIR@")
-
-message(STATUS "out: ${out}")
