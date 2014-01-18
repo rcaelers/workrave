@@ -38,7 +38,7 @@ PrivilegesRequired=none
 ; MinVersion=4,3.51
 
 [Types]
-;Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
+Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
 Name: "full"; Description: "Full installation"
 
 [Components]
@@ -55,31 +55,34 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 [Files]
 Source: "@PREBUILTDIR@\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@PREBUILTDIR@\Release64\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@PREBUILTDIR@\Release\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "WorkraveHelper.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "@PREBUILTDIR@\Release64\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "WorkraveHelper.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@PREBUILTDIR@\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
-Source: "@PREBUILTDIR@\Release\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
-Source: "@INSTALLDIR@\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\16x16\*.png"; DestDir: "{app}\share\images\16x16"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\24x24\*.png"; DestDir: "{app}\share\images\24x24"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\32x32\*.png"; DestDir: "{app}\share\images\32x32"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\48x48\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\64x64\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\96x96\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\128x128\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\images\scalable\*.svg"; DestDir: "{app}\share\images\scalable"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\sounds\default\*.wav"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\sounds\default\soundtheme"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\sounds\subtle\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\exercises\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
-Source: "@INSTALLDIR@\share\doc\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\share\doc\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\share\doc\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\share\doc\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
+Source: "@PREBUILTDIR@\Release64\workrave-applet.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
+Source: "@INSTALLDIR@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\16x16\*.png"; DestDir: "{app}\share\images\16x16"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\24x24\*.png"; DestDir: "{app}\share\images\24x24"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\32x32\*.png"; DestDir: "{app}\share\images\32x32"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\48x48\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\64x64\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\96x96\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\128x128\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\icons\hicolor\scalable\*.svg"; DestDir: "{app}\share\images\scalable"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\default\*.wav"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\default\soundtheme"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\subtle\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\exercises\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
+Source: "@INSTALLDIR@\share\doc\workrave\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
+Source: "@INSTALLDIR@\share\doc\workrave\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
+Source: "@INSTALLDIR@\share\doc\workrave\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
+Source: "@INSTALLDIR@\share\doc\workrave\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\lib\locale\*"; DestDir: "{app}\lib]\locale"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
+Source: "@INSTALLDIR@\dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\dist\share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\dist\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
