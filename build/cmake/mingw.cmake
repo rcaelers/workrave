@@ -1,24 +1,31 @@
-SET(MINGW_TARGET /home/robc/src/runtime/usr/i686-w64-mingw32/sys-root/mingw/)
-SET(MINGW_ENV /usr/i686-w64-mingw32)
+set(SYS_ROOT_PREFIX "/home/robc/src/runtime/")
+set(WORKRAVE_PREBUILT "/home/robc/src/tinderbox/prebuilt")
 
-SET(CMAKE_SYSTEM_NAME Windows)
-SET(CMAKE_SYSTEM_VERSION 1)
+set(TOOLCHAIN_ROOT "/usr/i686-w64-mingw32")
+set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/i686-w64-mingw32/sys-root/mingw/")
 
-SET(CMAKE_C_COMPILER   i686-w64-mingw32-gcc)
-SET(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
-SET(CMAKE_RC_COMPILER  i686-w64-mingw32-windres)
+set(CMAKE_SYSTEM_NAME Windows)
+set(CMAKE_SYSTEM_VERSION 1)
 
-SET(CMAKE_FIND_ROOT_PATH ${MINGW_ENV} ${MINGW_TARGET})
+set(CMAKE_C_COMPILER   i686-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
+set(CMAKE_RC_COMPILER  i686-w64-mingw32-windres)
 
-SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+# TODO: Find ISCC.exe, support native
+set (WINE wine)
+set (ISCC "c:/Program Files (x86)/Inno Setup 5/ISCC.exe")
 
-include_directories(${MINGW_ENV}/include)
-include_directories(${MINGW_TARGET}/include)
+set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_ROOT} ${SYS_ROOT})
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+include_directories(${TOOLCHAIN_ROOT}/include)
+include_directories(${SYS_ROOT}/include)
 
 set(pkgconfigLibDir)
 set(pkgconfigLibDir )
-set(ENV{PKG_CONFIG_LIBDIR} "${MINGW_TARGET}/lib/pkgconfig")
+set(ENV{PKG_CONFIG_LIBDIR} "${SYS_ROOT}/lib/pkgconfig")
 set(ENV{PKG_CONFIG_PATH} "")
-set(ENV{PKG_CONFIG_SYSROOT_DIR, "/home/robc/src/runtime/")
+set(ENV{PKG_CONFIG_SYSROOT_DIR} "/home/robc/src/runtime/")

@@ -80,7 +80,7 @@ run(int argc, char **argv)
 }
 
 
-#if !defined(PLATFORM_OS_WIN32) // || (!defined(PLATFORM_OS_WIN32_NATIVE) && !defined(NDEBUG))
+#if !defined(PLATFORM_OS_WIN32)
 int
 main(int argc, char **argv)
 {

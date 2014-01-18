@@ -58,6 +58,18 @@ if (PLATFORM_OS_WIN32)
     win32/dll_hell.c
     )
 
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+  
+  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                     COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                                                  -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+	             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc			    
+                    )
+   	
+  set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
+
   include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/win32)
 endif()
 
@@ -116,11 +128,13 @@ include_directories(
 link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
-# TODO: remove
-link_directories("/home/robc/src/tinderbox/prebuilt/Release")
-link_directories("/home/robc/src/runtime/usr/i686-w64-mingw32/sys-root/mingw/lib")
+# TODO: Also built prebuilt
+link_directories("${WORKRAVE_PREBUILT}/Release")
+link_directories("${SYS_ROOT}")
 
 add_executable(workrave ${SRC})
+
+add_executable(test test.cc)
 
 target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)
@@ -159,14 +173,7 @@ if (WIN32)
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
     )
 
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
-    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
-
    target_link_libraries(workrave dxerr8 dsound dxguid)
-
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
-
-# TODO: win32 resource.rc
