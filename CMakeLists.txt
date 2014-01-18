@@ -1,7 +1,16 @@
+project(Workrave)
+
 cmake_minimum_required(VERSION 2.8)
 
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
+
+# Require out of source build.
+include(MacroEnsureOutOfSourceBuild)
+macro_ensure_out_of_source_build(
+ "${PROJECT_NAME} requires an out of source build. Please create a separate
+ build directory and run 'cmake /path/to/${PROJECT_NAME} [options]' there."
+ )
 
 # Set Workrave version
 set(VERSION_MAJOR   "1")
@@ -38,8 +47,6 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 
 #----------------------------------------------------------------------------------------------------
-
-project(Workrave)
 
 # TODO: GIT_VERSION
 
