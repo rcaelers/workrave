@@ -42,6 +42,14 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
+
+  static const std::string CFG_KEY_TIMERBOX;
+  static const std::string CFG_KEY_TIMERBOX_HORIZONTAL;
+  static const std::string CFG_KEY_TIMERBOX_CYCLE_TIME;
+  static const std::string CFG_KEY_TIMERBOX_POSITION;
+  static const std::string CFG_KEY_TIMERBOX_FLAGS;
+  static const std::string CFG_KEY_TIMERBOX_IMMINENT;
+  static const std::string CFG_KEY_TIMERBOX_ENABLED;
   
   static void init();
 
@@ -66,6 +74,29 @@ public:
 
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
+
+  static const std::string get_timerbox_timer_config_key(std::string name, workrave::BreakId timer, const std::string &key);
+  static int get_timerbox_cycle_time(std::string name);
+  static void set_timerbox_cycle_time(std::string name, int time);
+  static int get_timerbox_timer_imminent_time(std::string name, workrave::BreakId timer);
+  static void set_timerbox_timer_imminent_time(std::string name, workrave::BreakId timer, int time);
+  static int get_timerbox_timer_slot(std::string name, workrave::BreakId timer);
+  static void set_timerbox_timer_slot(std::string name, workrave::BreakId timer, int slot);
+
+  enum SlotType
+    {
+      BREAK_WHEN_IMMINENT = 1,
+      BREAK_WHEN_FIRST = 2,
+      BREAK_SKIP = 4,
+      BREAK_EXCLUSIVE = 8,
+      BREAK_DEFAULT = 16,
+      BREAK_HIDE = 32
+    };
+
+  static int get_timerbox_timer_flags(std::string name, workrave::BreakId timer);
+  static void set_timerbox_timer_flags(std::string name, workrave::BreakId timer, int flags);
+  static bool is_timerbox_enabled(std::string name);
+  static void set_timerbox_enabled(std::string name, bool enabled);
  
 private:
   static std::string expand(const std::string &str, BreakId id);

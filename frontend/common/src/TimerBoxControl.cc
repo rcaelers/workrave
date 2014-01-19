@@ -39,18 +39,12 @@
 
 #include "CoreFactory.hh"
 #include "CoreConfig.hh"
+#include "GUIConfig.hh"
 #include "IBreak.hh"
 
 using namespace std;
 using namespace workrave;
 using namespace workrave::config;
-
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX = "gui/";
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX_POSITION = "/position";
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX_FLAGS = "/flags";
-const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 
 //! Constructor.
@@ -143,7 +137,7 @@ TimerBoxControl::init()
 
   // Listen for configugration changes.
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -309,10 +303,10 @@ TimerBoxControl::init_slot(int slot)
 
       bool on = b->is_enabled();
 
-      if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
+      if (on && break_position[i] == slot && !(break_flags[i] & GUIConfig::BREAK_HIDE))
         {
           breaks_id[count] = i;
-          break_flags[i] &= ~BREAK_SKIP;
+          break_flags[i] &= ~GUIConfig::BREAK_SKIP;
           count++;
         }
     }
@@ -332,14 +326,14 @@ TimerBoxControl::init_slot(int slot)
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
       // Exclude break if not imminent.
-      if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&
+      if (flags & GUIConfig::BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&
           force_duration == 0)
         {
-          break_flags[id] |= BREAK_SKIP;
+          break_flags[id] |= GUIConfig::BREAK_SKIP;
         }
 
       // update first imminent timer.
-      if (!(flags & BREAK_SKIP) && (first_id == -1 || time_left < first))
+      if (!(flags & GUIConfig::BREAK_SKIP) && (first_id == -1 || time_left < first))
         {
           first_id = id;
           first = time_left;
@@ -353,11 +347,11 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      if (!(flags & BREAK_SKIP))
+      if (!(flags & GUIConfig::BREAK_SKIP))
         {
-          if (flags & BREAK_WHEN_FIRST && first_id != id && force_duration == 0)
+          if (flags & GUIConfig::BREAK_WHEN_FIRST && first_id != id && force_duration == 0)
             {
-              break_flags[id] |= BREAK_SKIP;
+              break_flags[id] |= GUIConfig::BREAK_SKIP;
             }
         }
     }
@@ -371,17 +365,17 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      if (!(flags & BREAK_SKIP))
+      if (!(flags & GUIConfig::BREAK_SKIP))
         {
-          if (flags & BREAK_EXCLUSIVE && have_one && force_duration == 0)
+          if (flags & GUIConfig::BREAK_EXCLUSIVE && have_one && force_duration == 0)
             {
-              break_flags[id] |= BREAK_SKIP;
+              break_flags[id] |= GUIConfig::BREAK_SKIP;
             }
 
           have_one = true;
         }
 
-      if (!(flags & BREAK_SKIP))
+      if (!(flags & GUIConfig::BREAK_SKIP))
         {
           breaks_left++;
         }
@@ -394,9 +388,9 @@ TimerBoxControl::init_slot(int slot)
           int id = breaks_id[i];
           int flags = break_flags[id];
 
-          if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
+          if (flags & GUIConfig::BREAK_DEFAULT && flags & GUIConfig::BREAK_SKIP)
             {
-              break_flags[id] &= ~BREAK_SKIP;
+              break_flags[id] &= ~GUIConfig::BREAK_SKIP;
               breaks_left = 1;
               break;
             }
@@ -414,7 +408,7 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      if (!(flags & BREAK_SKIP))
+      if (!(flags & GUIConfig::BREAK_SKIP))
         {
           break_slots[slot][new_count] = id;
           new_count++;
@@ -444,16 +438,16 @@ void
 TimerBoxControl::read_configuration()
 {
   TRACE_ENTER("TimerBoxControl::read_configuration");
-  cycle_time = get_cycle_time(name);
+  cycle_time = GUIConfig::get_timerbox_cycle_time(name);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakId bid = (BreakId) i;
 
-      break_position[i] = get_timer_slot(name, bid);
-      break_flags[i] = get_timer_flags(name, bid);
-      break_imminent_time[i] = get_timer_imminent_time(name, bid);
+      break_position[i] = GUIConfig::get_timerbox_timer_slot(name, bid);
+      break_flags[i] = GUIConfig::get_timerbox_timer_flags(name, bid);
+      break_imminent_time[i] = GUIConfig::get_timerbox_timer_imminent_time(name, bid);
     }
-  view->set_enabled(is_enabled(name));
+  view->set_enabled(GUIConfig::is_timerbox_enabled(name));
   TRACE_EXIT();
 }
 
@@ -474,128 +468,3 @@ TimerBoxControl::config_changed_notify(const std::string &key)
 }
 
 
-int
-TimerBoxControl::get_cycle_time(string name)
-{
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
-    {
-      ret = 10;
-    }
-  return ret;
-}
-
-
-void
-TimerBoxControl::set_cycle_time(string name, int time)
-{
-  CoreFactory::get_configurator()
-    ->set_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
-}
-
-
-const string
-TimerBoxControl::get_timer_config_key(string name, BreakId timer, const string &key)
-{
-  ICore::Ptr core = CoreFactory::get_core();
-  IBreak::Ptr break_data = core->get_break(BreakId(timer));
-
-  return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;
-}
-
-
-int
-TimerBoxControl::get_timer_imminent_time(string name, BreakId timer)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      ret = 30;
-    }
-  return ret;
-}
-
-
-void
-TimerBoxControl::set_timer_imminent_time(string name, BreakId timer, int time)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
-  CoreFactory::get_configurator()->set_value(key, time);
-}
-
-
-int
-TimerBoxControl::get_timer_slot(string name, BreakId timer)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      if (name == "applet")
-        {
-          // All in one slot is probably the best default since we cannot assume
-          // any users panel is large enough to hold all timers.
-          ret = 0;
-        }
-      else
-        {
-          ret = timer;
-        }
-    }
-  return ret;
-}
-
-
-void
-TimerBoxControl::set_timer_slot(string name, BreakId timer, int slot)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
-  CoreFactory::get_configurator()->set_value(key, slot);
-}
-
-
-int
-TimerBoxControl::get_timer_flags(string name, BreakId timer)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      ret = 0;
-    }
-  return ret;
-}
-
-
-void
-TimerBoxControl::set_timer_flags(string name, BreakId timer, int flags)
-{
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
-  CoreFactory::get_configurator()->set_value(key, flags);
-}
-
-
-bool
-TimerBoxControl::is_enabled(string name)
-{
-  bool ret = true;
-  if (! CoreFactory::get_configurator()
-      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, ret))
-    {
-      ret = true;
-    }
-  return ret;
-}
-
-
-void
-TimerBoxControl::set_enabled(string name, bool enabled)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);
-}

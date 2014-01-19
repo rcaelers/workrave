@@ -52,6 +52,12 @@ const string GUIConfig::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
+const string GUIConfig::CFG_KEY_TIMERBOX = "gui/";
+const string GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
+const string GUIConfig::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
+const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
+const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
+const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 //!
 void
@@ -259,3 +265,128 @@ GUIConfig::set_start_in_tray(bool b)
 }
 
 
+int
+GUIConfig::get_timerbox_cycle_time(string name)
+{
+  int ret;
+  if (! CoreFactory::get_configurator()
+      ->get_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
+    {
+      ret = 10;
+    }
+  return ret;
+}
+
+
+void
+GUIConfig::set_timerbox_cycle_time(string name, int time)
+{
+  CoreFactory::get_configurator()
+    ->set_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
+}
+
+
+const string
+GUIConfig::get_timerbox_timer_config_key(string name, BreakId timer, const string &key)
+{
+  ICore::Ptr core = CoreFactory::get_core();
+  IBreak::Ptr break_data = core->get_break(BreakId(timer));
+
+  return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;
+}
+
+
+int
+GUIConfig::get_timerbox_timer_imminent_time(string name, BreakId timer)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
+  int ret;
+  if (! CoreFactory::get_configurator()
+      ->get_value(key, ret))
+    {
+      ret = 30;
+    }
+  return ret;
+}
+
+
+void
+GUIConfig::set_timerbox_timer_imminent_time(string name, BreakId timer, int time)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
+  CoreFactory::get_configurator()->set_value(key, time);
+}
+
+
+int
+GUIConfig::get_timerbox_timer_slot(string name, BreakId timer)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
+  int ret;
+  if (! CoreFactory::get_configurator()
+      ->get_value(key, ret))
+    {
+      if (name == "applet")
+        {
+          // All in one slot is probably the best default since we cannot assume
+          // any users panel is large enough to hold all timers.
+          ret = 0;
+        }
+      else
+        {
+          ret = timer;
+        }
+    }
+  return ret;
+}
+
+
+void
+GUIConfig::set_timerbox_timer_slot(string name, BreakId timer, int slot)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
+  CoreFactory::get_configurator()->set_value(key, slot);
+}
+
+
+int
+GUIConfig::get_timerbox_timer_flags(string name, BreakId timer)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
+  int ret;
+  if (! CoreFactory::get_configurator()
+      ->get_value(key, ret))
+    {
+      ret = 0;
+    }
+  return ret;
+}
+
+
+void
+GUIConfig::set_timerbox_timer_flags(string name, BreakId timer, int flags)
+{
+  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
+  CoreFactory::get_configurator()->set_value(key, flags);
+}
+
+
+bool
+GUIConfig::is_timerbox_enabled(string name)
+{
+  bool ret = true;
+  if (! CoreFactory::get_configurator()
+      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, ret))
+    {
+      ret = true;
+    }
+  return ret;
+}
+
+
+void
+GUIConfig::set_timerbox_enabled(string name, bool enabled)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);
+}

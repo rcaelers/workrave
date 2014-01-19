@@ -29,10 +29,10 @@
 #include <QWidget>
 #include <QGridLayout>
 
-#include "ITimerBoxView.hh"
+#include "TimerBoxViewBase.hh"
 #include "TimeBar.hh"
 
-class TimerBoxView : public QWidget, public ITimerBoxView
+class TimerBoxView : public QWidget, public TimerBoxViewBase
 {
   Q_OBJECT
 
@@ -47,11 +47,11 @@ public:
                             int primary_value, int primary_max,
                             ITimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
-  virtual void set_tip(std::string tip);
+  //virtual void set_tip(std::string tip);
   virtual void set_icon(StatusIconType icon);
   virtual void update_view();
   virtual void set_enabled(bool enabled);
-  virtual void set_geometry(Orientation orientation, int size);
+  //virtual void set_geometry(Orientation orientation, int size);
 
 private:
   void init_widgets();

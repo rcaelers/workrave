@@ -38,38 +38,6 @@ public:
   void force_cycle();
   void set_force_empty(bool s);
 
-  static const std::string get_timer_config_key(std::string name, workrave::BreakId timer, const std::string &key);
-  static int get_cycle_time(std::string name);
-  static void set_cycle_time(std::string name, int time);
-  static int get_timer_imminent_time(std::string name, workrave::BreakId timer);
-  static void set_timer_imminent_time(std::string name, workrave::BreakId timer, int time);
-  static int get_timer_slot(std::string name, workrave::BreakId timer);
-  static void set_timer_slot(std::string name, workrave::BreakId timer, int slot);
-  static int get_timer_flags(std::string name, workrave::BreakId timer);
-  static void set_timer_flags(std::string name, workrave::BreakId timer, int flags);
-  static bool is_enabled(std::string name);
-  static void set_enabled(std::string name, bool enabled);
-
-public:
-  static const std::string CFG_KEY_TIMERBOX;
-  static const std::string CFG_KEY_TIMERBOX_HORIZONTAL;
-  static const std::string CFG_KEY_TIMERBOX_CYCLE_TIME;
-  static const std::string CFG_KEY_TIMERBOX_POSITION;
-  static const std::string CFG_KEY_TIMERBOX_FLAGS;
-  static const std::string CFG_KEY_TIMERBOX_IMMINENT;
-  static const std::string CFG_KEY_TIMERBOX_ENABLED;
-
-  enum SlotType
-    {
-      BREAK_WHEN_IMMINENT = 1,
-      BREAK_WHEN_FIRST = 2,
-      BREAK_SKIP = 4,
-      BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16,
-      BREAK_HIDE = 32
-    };
-
-
 private:
   // IConfiguratorListener
   void config_changed_notify(const std::string &key);

@@ -25,7 +25,6 @@ set(SRC
   MenuHandler.cc
   MenuModel.cc
   MenuModelItem.cc
-  TimerBoxControl.cc
   )
 
 set(DESIGNER_UI

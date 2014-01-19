@@ -56,13 +56,6 @@ TimerBoxView::~TimerBoxView()
 }
 
 void
-TimerBoxView::set_geometry(Orientation orientation, int size)
-{
-  TRACE_ENTER_MSG("TimerBoxView::set_geometry", orientation << " " << size);
-  TRACE_EXIT();
-}
-
-void
 TimerBoxView::init()
 {
   TRACE_ENTER("TimerBoxView::init");
@@ -179,11 +172,6 @@ TimerBoxView::set_time_bar(BreakId id,
 }
 
 void
-TimerBoxView::set_tip(std::string tip)
-{
-}
-
-void
 TimerBoxView::set_icon(StatusIconType icon)
 {
   std::string file = Ui::get_status_icon_filename(icon);
@@ -207,7 +195,6 @@ void
 TimerBoxView::set_enabled(bool enabled)
 {
   (void) enabled;
-  // Status window disappears, no need to do anything here.
 }
 
 void

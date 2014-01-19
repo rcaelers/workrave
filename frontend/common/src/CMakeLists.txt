@@ -1,11 +1,12 @@
 set(SRC
-  Exercise.cc
   CoreFactory.cc
+  Exercise.cc
   GUIConfig.cc
   Session.cc
+  SoundTheme.cc
   System.cc
   Text.cc
-  SoundTheme.cc
+  TimerBoxControl.cc
   Ui.cc
  )
 
