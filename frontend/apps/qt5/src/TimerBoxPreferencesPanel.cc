@@ -46,9 +46,11 @@
 // #include "utils/AssetPath.hh"
 // #include "ICore.hh"
 #include "UiUtil.hh"
+#include "Ui.hh"
 #include "CoreFactory.hh"
 
 using namespace workrave;
+using namespace workrave::ui;
 using namespace workrave::config;
 
 TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
@@ -165,9 +167,9 @@ TimerBoxPreferencesPanel::create_page()
   layout->addWidget(timers_box);
   
   // Layout
-  UiUtil::add_widget(timers_layout, _("Micro-break:"), timer_display_button[0]);
-  UiUtil::add_widget(timers_layout, _("Rest break:"), timer_display_button[1]);
-  UiUtil::add_widget(timers_layout, _("Daily limit:"), timer_display_button[2]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
 }
 
 

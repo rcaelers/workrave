@@ -34,12 +34,12 @@
 #include "debug.hh"
 
 std::string
-UiUtil::create_alert_text(const char *caption, const char *body)
+UiUtil::create_alert_text(const std::string &caption, const std::string &body)
 {
   std::string txt = "<span style=\"font-size:20pt; font-weight:600;\">";
   txt += caption;
   txt += "</span>";
-  if (body != NULL)
+  if (body != "")
     {
       txt += "<p>";
       txt += body;
@@ -63,10 +63,10 @@ UiUtil::clear_layout(QLayout* layout)
 
 
 void
-UiUtil::add_widget(QBoxLayout *layout, const char *text, QWidget* widget)
+UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
 {
   QHBoxLayout *box = new QHBoxLayout;
-  QLabel *lab = new QLabel(text);
+  QLabel *lab = new QLabel(text.c_str());
 
   box->addWidget(lab);
   box->addWidget(widget);

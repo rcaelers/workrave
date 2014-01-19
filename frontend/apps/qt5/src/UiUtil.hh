@@ -30,11 +30,11 @@ using namespace workrave;
 class UiUtil
 {
 public:
-  static std::string create_alert_text(const char *caption, const char *body);
+  static std::string create_alert_text(const std::string &caption, const std::string &body);
   static QLabel *create_label(const std::string &text, bool bold = false);
   static void clear_layout(QLayout* layout);
   
-  static void add_widget(QBoxLayout *layout, const char *text, QWidget* widget);
+  static void add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget);
   static void add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget);
   static void add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
 };

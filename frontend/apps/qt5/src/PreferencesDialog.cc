@@ -38,10 +38,12 @@
 #include "utils/AssetPath.hh"
 #include "ICore.hh"
 #include "UiUtil.hh"
+#include "Ui.hh"
 // #include "CoreFactory.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
+using namespace workrave::ui;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
@@ -101,14 +103,13 @@ PreferencesDialog::create_timer_page()
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
 
       // FIXME: duplicate:
-      const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-      const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+      //const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
 
-      std::string file = AssetPath::complete_directory(string(icons[i]), AssetPath::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory(Ui::get_break_icon_filename(i), AssetPath::SEARCH_PATH_IMAGES);
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 
-      timer_tab->addTab(panel, icon, labels[i]);
+      timer_tab->addTab(panel, icon, QString::fromStdString(Ui::get_break_name(i)));
     }
 
 // #if defined(PLATFORM_OS_WIN32)

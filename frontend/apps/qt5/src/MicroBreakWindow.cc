@@ -32,8 +32,10 @@
 #include "utils/AssetPath.hh"
 #include "Text.hh"
 #include "UiUtil.hh"
+#include "Ui.hh"
 
 using namespace workrave::utils;
+using namespace workrave::ui;
 
 IBreakWindow::Ptr
 MicroBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
@@ -51,7 +53,7 @@ MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig
     progress_max_value(0),
     fixed_size(false)
 {
-   setWindowTitle(_("Micro-break"));
+  setWindowTitle(QString::fromStdString(Ui::get_break_name(BREAK_ID_MICRO_BREAK)));
 }
 
 QWidget *
@@ -162,7 +164,7 @@ MicroBreakWindow::update_time_bar()
   TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s = _("Micro-break");
+  string s = Ui::get_break_name(BREAK_ID_MICRO_BREAK);
   s += ' ';
   s += Text::time_to_string(time);
 
@@ -241,7 +243,7 @@ MicroBreakWindow::update_label()
       txt += s;
     }
 
-  label->setText(QString::fromStdString(UiUtil::create_alert_text(_("Micro-break"), txt.c_str())));
+  label->setText(QString::fromStdString(UiUtil::create_alert_text(Ui::get_break_name(BREAK_ID_MICRO_BREAK), txt.c_str())));
   TRACE_EXIT();
 }
 
