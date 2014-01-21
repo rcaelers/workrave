@@ -1,4 +1,4 @@
-set(SYS_ROOT_PREFIX "/home/robc/src/runtime/")
+set(SYS_ROOT_PREFIX "")
 set(WORKRAVE_PREBUILT "/home/robc/src/tinderbox/prebuilt")
 
 set(TOOLCHAIN_ROOT "/usr/i686-w64-mingw32")
@@ -24,8 +24,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 include_directories(${TOOLCHAIN_ROOT}/include)
 include_directories(${SYS_ROOT}/include)
 
-set(pkgconfigLibDir)
-set(pkgconfigLibDir )
 set(ENV{PKG_CONFIG_LIBDIR} "${SYS_ROOT}/lib/pkgconfig")
 set(ENV{PKG_CONFIG_PATH} "")
-set(ENV{PKG_CONFIG_SYSROOT_DIR} "/home/robc/src/runtime/")
+set(ENV{PKG_CONFIG_SYSROOT_DIR} "${SYS_ROOT_PREFIX}")
