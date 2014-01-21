@@ -81,7 +81,7 @@ StatusIcon::init()
   if (!tray_icon_enabled)
     {
       // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
-      TimerBoxControl::set_enabled("main_window", true);
+      GUIConfig::set_timerbox_enabled("main_window", true);
     }
 
   status_icon->set_visible(tray_icon_enabled);

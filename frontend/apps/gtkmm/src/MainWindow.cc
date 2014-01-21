@@ -179,7 +179,7 @@ MainWindow::open_window()
 
       bool always_on_top = GUIConfig::get_always_on_top();
       WindowHints::set_always_on_top(this, always_on_top);
-      TimerBoxControl::set_enabled("main_window", true);
+      GUIConfig::set_timerbox_enabled("main_window", true);
     }
   TRACE_EXIT();
 }
@@ -206,7 +206,7 @@ MainWindow::close_window()
     }
 #endif
 
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
   TRACE_EXIT();
 }
 
@@ -286,7 +286,7 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
   //Gtk::Window::set_default_icon_name("workrave");
 
-  enabled = TimerBoxControl::is_enabled("main_window");
+  enabled = GUIConfig::is_timerbox_enabled("main_window");
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
@@ -378,7 +378,7 @@ MainWindow::init()
   set_title("Workrave");
 
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
+  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + "main_window", this);
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
@@ -391,7 +391,7 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
-  bool new_enabled = TimerBoxControl::is_enabled("main_window");
+  bool new_enabled = GUIConfig::is_timerbox_enabled("main_window");
   bool always_on_top = GUIConfig::get_always_on_top();
 
   TRACE_MSG("can_close " << new_enabled);
@@ -438,15 +438,15 @@ MainWindow::on_delete_event(GdkEventAny *)
 #if defined(PLATFORM_OS_WIN32)
   win32_show(false);
   closed_signal.emit();
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
 #elif defined(PLATFORM_OS_OSX)
   close_window();
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
 #else
   if (can_close)
     {
       close_window();
-      TimerBoxControl::set_enabled("main_window", false);
+      GUIConfig::set_timerbox_enabled("main_window", false);
     }
   else
     {
