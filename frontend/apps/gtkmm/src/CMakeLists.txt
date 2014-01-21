@@ -133,8 +133,6 @@ link_directories("${SYS_ROOT}")
 
 add_executable(workrave ${SRC})
 
-add_executable(test test.cc)
-
 target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)
 target_link_libraries(workrave workrave-libs-config)
