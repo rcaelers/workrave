@@ -78,7 +78,7 @@ Source: "@INSTALLDIR@\share\doc\workrave\AUTHORS.txt"; DestDir: "{app}"; DestNam
 Source: "@INSTALLDIR@\share\doc\workrave\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\doc\workrave\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\lib\locale\*"; DestDir: "{app}\lib]\locale"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\lib\locale\*"; DestDir: "{app}\lib\locale"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
 Source: "@INSTALLDIR@\dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\dist\share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs

@@ -45,6 +45,7 @@ include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
+include(CMakeFindBinUtils)
 
 #----------------------------------------------------------------------------------------------------
 
