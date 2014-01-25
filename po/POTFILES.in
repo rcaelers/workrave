@@ -26,7 +26,7 @@ libs/audio/src/PulseMixer.cc
 libs/audio/src/SoundPlayer.cc
 frontend/common/src/System.cc
 frontend/common/src/Text.cc
-frontend/apps/gtkmm/src/TimerBoxControl.cc
+frontend/common/src/TimerBoxControl.cc
 frontend/common/src/GUIConfig.cc
 libs/audio/src/osx/OSXSoundPlayer.cc
 libs/audio/src/win32/W32DirectSoundPlayer.cc
