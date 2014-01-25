@@ -78,7 +78,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   connector->connect(SoundTheme::CFG_KEY_SOUND_ENABLED, dc::wrap(enabled_cb), boost::bind(&SoundsPreferencesPanel::on_enabled_changed, this, _1, _2));
   sound_options_layout->addWidget(enabled_cb);
   
-  if (true || sound_theme->capability(workrave::audio::SOUND_CAP_MUTE))
+  if (sound_theme->capability(workrave::audio::SOUND_CAP_MUTE))
     {
       // Volume
       QCheckBox *mute_cb = new QCheckBox;
