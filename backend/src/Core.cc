@@ -179,6 +179,8 @@ Core::init_configurator()
         }
     }
   
+  CoreConfig::init(configurator);
+
   string home = CoreConfig::general_datadir()();
   if (home != "")
     {
@@ -186,7 +188,6 @@ Core::init_configurator()
     }
   // LCOV_EXCL_STOP
 
-  CoreConfig::init(configurator);
 }
 
 
