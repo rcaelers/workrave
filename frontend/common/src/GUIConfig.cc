@@ -71,15 +71,15 @@ GUIConfig::init()
       
       config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId,
                         true,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CFG_KEY_BREAK_EXERCISES % breakId,
                         i == BREAK_ID_REST_BREAK ? 3 : 0,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId,
                         false,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       // for backward compatibility with settings of older versions, we set the default
       // default value of `skippable` to whatever `ignorable`. This works because the old
@@ -92,12 +92,12 @@ GUIConfig::init()
 
       config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, 
                         ignorable, 
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
     }
 
-  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
-  config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_DEFAULT);
-  config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_DEFAULT);
+  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_INITIAL);
 }
 
 

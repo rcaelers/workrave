@@ -160,32 +160,32 @@ CoreConfig::init(IConfigurator::Ptr config)
 
       config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id,
                         def.limit,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id,
                         def.auto_reset,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id,
                         def.resetpred,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id,
                         def.snooze,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
                         def.max_preludes,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id,
                         true,
-                        CONFIG_FLAG_DEFAULT);
+                        CONFIG_FLAG_INITIAL);
     }
 
   config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY,
                     false,
-                    CONFIG_FLAG_DEFAULT);
+                    CONFIG_FLAG_INITIAL);
   
   string monitor_name;
   bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, monitor_name);

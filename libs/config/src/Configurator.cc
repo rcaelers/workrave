@@ -193,7 +193,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
   TRACE_ENTER_MSG("Configurator::set_value", key);
 
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
+  if ((flags & CONFIG_FLAG_INITIAL) != 0)
     {
       skip = get_value(key, value.type, value);
     }

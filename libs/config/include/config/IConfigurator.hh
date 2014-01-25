@@ -39,8 +39,8 @@ namespace workrave
         //! No special hints.
         CONFIG_FLAG_NONE = 0,
 
-        //! The default value is set.
-        CONFIG_FLAG_DEFAULT = 1,
+        //! The initial value is set.
+        CONFIG_FLAG_INITIAL = 1,
 
         //! The value must be set immediately, without delay.
         CONFIG_FLAG_IMMEDIATE = 2
