@@ -47,26 +47,19 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
   TRACE_ENTER("TimerBoxPreferencesPanel::TimerBoxPreferencesPanel");
 
   connector = DataConnector::create();
-  layout = new QVBoxLayout;
-  setLayout(layout);
 
-  create_page();
-  init_page_values();
-  enable_buttons();
-  init_page_callbacks();
-  
-  layout->addStretch();
-
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::key_timerbox(name), this);
-
+  ontop_cb = new QCheckBox;
+  enabled_cb = new QCheckBox();
+  place_button = new QComboBox();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore::Ptr core = CoreFactory::get_core();
-      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
+      timer_display_button[i] = new QComboBox;
     }
+  cycle_entry = new QSpinBox;
 
-  
+  init();
+  init_config();
+
   TRACE_EXIT();
 }
 
@@ -80,94 +73,54 @@ TimerBoxPreferencesPanel::~TimerBoxPreferencesPanel()
   TRACE_EXIT();
 }
 
-//! Initializes all widgets.
 void
-TimerBoxPreferencesPanel::create_page()
+TimerBoxPreferencesPanel::init_config()
 {
-  // Placement
-  place_button = new QComboBox();
-  place_button->addItem(_("Place timers next to each other"));
-  place_button->addItem(_("Place micro-break and rest break in one spot"));
-  place_button->addItem(_("Place rest break and daily limit in one spot"));
-  place_button->addItem(_("Place all timers in one spot"));
+  IConfigurator::Ptr config = CoreFactory::get_configurator();
+  config->add_listener(GUIConfig::timerbox_enabled(name).key(), this);
 
-  // Cycle time spin button.
-  cycle_entry = new QSpinBox;
-  cycle_entry->setMinimum(1);
-  cycle_entry->setMaximum(999);
-
-  void (QSpinBox:: *signal)(int) = &QSpinBox::valueChanged;
-  connect(cycle_entry, signal, this, &TimerBoxPreferencesPanel::on_cycle_time_changed);
-  
-  // Timer display
-  for (auto &button : timer_display_button)
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QComboBox *display_button  = new QComboBox;
-      button = display_button;
-
-      display_button->addItem(_("Hide"));
-      display_button->addItem(_("Show"));
-      display_button->addItem(_("Show only when this timer is first due"));
+      ICore::Ptr core = CoreFactory::get_core();
+      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
     }
+}
 
-  // Enabled/Disabled checkbox
-  enabled_cb = new QCheckBox();
-  ontop_cb = NULL;
-  
+void
+TimerBoxPreferencesPanel::init_enabled()
+{
   if (name == "main_window")
     {
       enabled_cb->setText(_("Show status window"));
-
-      // Always-on-top
-      ontop_cb = new QCheckBox;
-      ontop_cb->setText(_("The status window stays always on top of other windows"));
-      ontop_cb->setCheckState(GUIConfig::main_window_always_on_top()() ? Qt::Checked : Qt::Unchecked);
-
-      connect(ontop_cb, &QCheckBox::stateChanged, this, &TimerBoxPreferencesPanel::on_always_on_top_toggled);
     }
   else if (name == "applet")
     {
       enabled_cb->setText(_("Applet enabled"));
     }
 
-  layout->addWidget(enabled_cb);
-  
-  QGroupBox *display_box = new QGroupBox(_("Display"));
-  QVBoxLayout *display_layout = new QVBoxLayout;
-  display_box->setLayout(display_layout);
-
-  layout->addWidget(display_box);
-  
-  display_layout->addWidget(enabled_cb);
-
-  if (ontop_cb != NULL)
-    {
-      display_layout->addWidget(ontop_cb);
-    }
-
-  UiUtil::add_widget(display_layout, _("Placement:"), place_button);
-  UiUtil::add_widget(display_layout, _("Cycle time:"), cycle_entry);
-
-  QGroupBox *timers_box = new QGroupBox(_("Timers"));
-  QVBoxLayout *timers_layout = new QVBoxLayout;
-  timers_box->setLayout(timers_layout);
-  layout->addWidget(timers_box);
-  
-  // Layout
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
+  connector->connect(GUIConfig::timerbox_enabled(name), dc::wrap(enabled_cb),
+                     boost::bind(&TimerBoxPreferencesPanel::on_enabled_toggled, this, _1, _2));
 }
 
-
-//! Retrieves the applet configuration and sets the widgets.
 void
-TimerBoxPreferencesPanel::init_page_values()
+TimerBoxPreferencesPanel::init_ontop()
 {
+  ontop_cb->setText(_("The status window stays always on top of other windows"));
+  connector->connect(GUIConfig::main_window_always_on_top(), dc::wrap(ontop_cb));
+}
+
+void
+TimerBoxPreferencesPanel::init_placement()
+{
+  place_button->addItem(_("Place timers next to each other"));
+  place_button->addItem(_("Place micro-break and rest break in one spot"));
+  place_button->addItem(_("Place rest break and daily limit in one spot"));
+  place_button->addItem(_("Place all timers in one spot"));
+
   int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
   int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
   int dl_slot = GUIConfig::timerbox_slot(name, BREAK_ID_DAILY_LIMIT)();
-  int place;
+  int place = 0;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
       place = 0;
@@ -186,11 +139,117 @@ TimerBoxPreferencesPanel::init_page_values()
     }
   place_button->setCurrentIndex(place);
 
+  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(place_button, signal, this, &TimerBoxPreferencesPanel::on_place_changed);
+}
 
+void
+TimerBoxPreferencesPanel::init_cycle()
+{
+  cycle_entry->setMinimum(1);
+  cycle_entry->setMaximum(999);
+  connector->connect(GUIConfig::timerbox_cycle_time(name), dc::wrap(cycle_entry));
+}
+
+void
+TimerBoxPreferencesPanel::init_timer_display()
+{
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int flags = GUIConfig::timerbox_flags(name, (BreakId) i)();
-      int showhide;
+      timer_display_button[i] = new QComboBox;
+      QComboBox *button = timer_display_button[i];
+
+      button->addItem(_("Hide"));
+      button->addItem(_("Show"));
+      button->addItem(_("Show only when this timer is first due"));
+
+      connector->connect(GUIConfig::timerbox_flags(name, (BreakId) i), dc::wrap(timer_display_button[i]),
+                         boost::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, _1, _2));
+    }
+}
+
+void
+TimerBoxPreferencesPanel::init()
+{
+  init_enabled();
+  init_ontop();
+  init_placement();
+  init_cycle();
+  init_timer_display();
+
+  layout = new QVBoxLayout;
+  setLayout(layout);
+
+  layout->addWidget(enabled_cb);
+  
+  QGroupBox *display_box = new QGroupBox(_("Display"));
+  QVBoxLayout *display_layout = new QVBoxLayout;
+  display_box->setLayout(display_layout);
+  layout->addWidget(display_box);
+  
+  display_layout->addWidget(enabled_cb);
+
+  if (name == "main_window")
+    {
+      display_layout->addWidget(ontop_cb);
+    }
+
+  UiUtil::add_widget(display_layout, _("Placement:"), place_button);
+  UiUtil::add_widget(display_layout, _("Cycle time:"), cycle_entry);
+
+  QGroupBox *timers_box = new QGroupBox(_("Timers"));
+  QVBoxLayout *timers_layout = new QVBoxLayout;
+  timers_box->setLayout(timers_layout);
+  layout->addWidget(timers_box);
+  
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
+
+  layout->addStretch();
+}
+
+
+bool
+TimerBoxPreferencesPanel::on_enabled_toggled(const std::string &key, bool write)
+{
+  if (write)
+    {
+      bool on = enabled_cb->checkState() == Qt::Checked;
+      GUIConfig::timerbox_enabled(name).set(on);
+      enable_buttons();
+    }
+  return false;
+}
+
+
+bool 
+TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::string &key, bool write)
+{
+  if (write)
+    {
+      int sel = timer_display_button[break_id]->currentIndex();
+      int flags = 0;
+      switch (sel)
+        {
+        case 0:
+          flags |= GUIConfig::BREAK_HIDE;
+          break;
+        case 1:
+          flags = 0;
+          break;
+        default:
+          flags = GUIConfig::BREAK_WHEN_FIRST;
+          break;
+        }
+
+      GUIConfig::timerbox_flags(name, (BreakId) break_id).set(flags);
+      enable_buttons();
+    }
+  else
+    {
+      int flags = GUIConfig::timerbox_flags(name, (BreakId) break_id)();
+      int showhide = 0;
       if (flags & GUIConfig::BREAK_HIDE)
         {
           showhide = 0;
@@ -203,42 +262,12 @@ TimerBoxPreferencesPanel::init_page_values()
         {
           showhide = 1;
         }
-      timer_display_button[i]->setCurrentIndex(showhide);
+      timer_display_button[break_id]->setCurrentIndex(showhide);
     }
-  cycle_entry->setValue(GUIConfig::timerbox_cycle_time(name)());
 
-  enabled_cb->setCheckState(GUIConfig::timerbox_enabled(name)() ? Qt::Checked : Qt::Unchecked); 
-  enable_buttons();
+  return true;
 }
 
-
-void
-TimerBoxPreferencesPanel::init_page_callbacks()
-{
-  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
-  QObject::connect(place_button, signal, this, &TimerBoxPreferencesPanel::on_enabled_toggled);
-
-  connect(enabled_cb, &QCheckBox::stateChanged, this, &TimerBoxPreferencesPanel::on_enabled_toggled);
-  for (auto &button : timer_display_button)
-    {
-      // TODO: BIND i.
-      QObject::connect(button, signal, this, &TimerBoxPreferencesPanel::on_display_changed);
-    }
-}
-
-//! The applet on/off checkbox has been toggled.
-void
-TimerBoxPreferencesPanel::on_enabled_toggled()
-{
-  bool on = enabled_cb->checkState() == Qt::Checked;
-
-  GUIConfig::timerbox_enabled(name).set(on);
-
-  enable_buttons();
-}
-
-
-//! The placement is changed.
 void
 TimerBoxPreferencesPanel::on_place_changed()
 {
@@ -278,41 +307,15 @@ TimerBoxPreferencesPanel::on_place_changed()
     }
 }
 
-
-//! The display of the specified break is changed.
-void
-TimerBoxPreferencesPanel::on_display_changed(int break_id)
-{
-  int sel = timer_display_button[break_id]->currentIndex();
-  int flags = 0;
-  switch (sel)
-    {
-    case 0:
-      flags |= GUIConfig::BREAK_HIDE;
-      break;
-    case 1:
-      flags = 0;
-      break;
-    default:
-      flags = GUIConfig::BREAK_WHEN_FIRST;
-      break;
-    }
-  GUIConfig::timerbox_flags(name, (BreakId) break_id).set(flags);
-
-  enable_buttons();
-}
-
-
-//! Enable widgets
 void
 TimerBoxPreferencesPanel::enable_buttons(void)
 {
-  int count = 0;
+  int num_disabled = 0;
   for (auto &button : timer_display_button)
     {
       if (button->currentIndex() == 0)
         {
-          count++;
+          num_disabled++;
         }
     }
 
@@ -320,7 +323,7 @@ TimerBoxPreferencesPanel::enable_buttons(void)
     {
       bool on = enabled_cb->checkState() == Qt::Checked;
 
-      place_button->setEnabled(on && count != 3);
+      place_button->setEnabled(on && num_disabled != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore::Ptr core = CoreFactory::get_core();
@@ -329,7 +332,7 @@ TimerBoxPreferencesPanel::enable_buttons(void)
           bool timer_on = b->is_enabled();
           timer_display_button[i]->setEnabled(on && timer_on);
         }
-      cycle_entry->setEnabled(on && count != 3);
+      cycle_entry->setEnabled(on && num_disabled != 3);
 
     }
   else if (name == "main_window")
@@ -340,37 +343,17 @@ TimerBoxPreferencesPanel::enable_buttons(void)
           IBreak::Ptr b = core->get_break(BreakId(i));
           timer_display_button[i]->setEnabled(b->is_enabled());
         }
-      if (count == 3)
+      if (num_disabled == 3)
         {
-          if (GUIConfig::timerbox_enabled(name)())
-            {
-              GUIConfig::timerbox_enabled(name).set(false);
-            }
-          enabled_cb->setCheckState(Qt::Checked);
+          GUIConfig::timerbox_enabled(name).set(false);
+          //enabled_cb->setCheckState(Qt::Checked);
         }
-      enabled_cb->setEnabled(count != 3);
-      place_button->setEnabled(count != 3);
-      cycle_entry->setEnabled(count != 3);
-      ontop_cb->setEnabled(count != 3);
+      enabled_cb->setEnabled(num_disabled != 3);
+      place_button->setEnabled(num_disabled != 3);
+      cycle_entry->setEnabled(num_disabled != 3);
+      ontop_cb->setEnabled(num_disabled != 3);
     }
 }
-
-
-//! The applet cycle time has been changed.
-void
-TimerBoxPreferencesPanel::on_cycle_time_changed()
-{
-  int value = (int) cycle_entry->value();
-  GUIConfig::timerbox_cycle_time(name).set(value);
-}
-
-
-void
-TimerBoxPreferencesPanel::on_always_on_top_toggled()
-{
-  GUIConfig::main_window_always_on_top().set((ontop_cb->checkState() == Qt::Checked));
-}
-
 
 void
 TimerBoxPreferencesPanel::config_changed_notify(const std::string &key)

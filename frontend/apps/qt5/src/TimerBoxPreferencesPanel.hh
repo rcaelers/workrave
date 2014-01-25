@@ -40,24 +40,26 @@ public:
   virtual ~TimerBoxPreferencesPanel();
   
 private: 
-  void create_page();
-  void init_page_values();
-  void init_page_callbacks();
-  void enable_buttons();
-  void on_enabled_toggled();
-  void on_place_changed();
-  void on_display_changed(int break_id);
-  void on_cycle_time_changed();
-  void on_always_on_top_toggled();
+  void init_enabled();
+  void init_ontop();
+  void init_placement();
+  void init_cycle();
+  void init_timer_display();
+  void init_config();
+  void init();
 
+  void enable_buttons();
+  void on_place_changed();
   void config_changed_notify(const std::string &key);
+
+  bool on_enabled_toggled(const std::string &key, bool write);
+  bool on_timer_display_changed(int break_id, const std::string &key, bool write);
 
 private:
   DataConnector::Ptr connector;
   std::string name;
 
   QVBoxLayout *layout;
-  
   QCheckBox *ontop_cb;
   QCheckBox *enabled_cb;
   QComboBox *place_button;
