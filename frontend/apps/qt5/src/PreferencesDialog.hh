@@ -49,7 +49,7 @@ private:
   SizeGroup* hsize_group;
   SizeGroup* vsize_group;
 
-  DataConnector *connector;
+  DataConnector::Ptr connector;
 };
 
 #endif // PREFERENCESDIALOG_HH

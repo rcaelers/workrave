@@ -58,7 +58,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
 {
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
 
-  connector = new DataConnector();
+  connector = DataConnector::create();
   
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);

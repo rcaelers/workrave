@@ -40,7 +40,7 @@ private:
   void on_autostart_toggled();
   
 private:
-  DataConnector *connector;
+  DataConnector::Ptr connector;
 
   QComboBox *block_button;
   QComboBox *languages_combo;

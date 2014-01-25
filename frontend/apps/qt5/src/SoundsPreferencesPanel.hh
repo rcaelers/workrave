@@ -47,12 +47,11 @@ private:
   
 private:
   SoundTheme::Ptr sound_theme;
-  DataConnector *connector;
-  QCheckBox *enabled_cb;
+  DataConnector::Ptr connector;
 
+  QCheckBox *enabled_cb;
   QComboBox *sound_theme_button;
   QStandardItemModel *sound_theme_model;
-
   QTreeView *sounds_view;
   QStandardItemModel *sounds_model;
 };

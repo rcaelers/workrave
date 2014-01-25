@@ -54,7 +54,7 @@ private:
 
 private:
   BreakId break_id;
-  DataConnector *connector;
+  DataConnector::Ptr connector;
 
   SizeGroup* hsize_group;
   SizeGroup* vsize_group;

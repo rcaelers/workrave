@@ -53,7 +53,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
-  connector = new DataConnector();
+  connector = DataConnector::create();
   
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);

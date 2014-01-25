@@ -46,8 +46,7 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
 {
   TRACE_ENTER("TimerBoxPreferencesPanel::TimerBoxPreferencesPanel");
 
-  connector = new DataConnector();
-
+  connector = DataConnector::create();
   layout = new QVBoxLayout;
   setLayout(layout);
 

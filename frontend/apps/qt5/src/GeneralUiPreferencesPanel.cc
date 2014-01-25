@@ -50,7 +50,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 {
   TRACE_ENTER("GeneralUiPreferencesPanel::GeneralUiPreferencesPanel");
 
-  connector = new DataConnector();
+  connector = DataConnector::create();
 
   // Block types
   block_button = new QComboBox;

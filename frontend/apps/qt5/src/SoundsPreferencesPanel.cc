@@ -50,7 +50,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 {
   TRACE_ENTER("SoundsPreferencesPanel::SoundsPreferencesPanel");
 
-  connector = new DataConnector();
+  connector = DataConnector::create();
 
   QVBoxLayout *layout = new QVBoxLayout;
   setLayout(layout);

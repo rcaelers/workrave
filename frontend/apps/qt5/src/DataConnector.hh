@@ -47,6 +47,10 @@ namespace dc
 class DataConnector
 {
 public:
+  typedef boost::shared_ptr<DataConnector> Ptr;
+  
+  static Ptr create();
+  
   DataConnector();
   ~DataConnector();
 

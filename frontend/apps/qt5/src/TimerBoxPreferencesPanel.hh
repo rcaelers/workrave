@@ -53,8 +53,7 @@ private:
   void config_changed_notify(const std::string &key);
 
 private:
-  DataConnector *connector;
-
+  DataConnector::Ptr connector;
   std::string name;
 
   QVBoxLayout *layout;
