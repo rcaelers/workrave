@@ -40,26 +40,14 @@ DEFINE_DATA_TYPE_PTR(QCheckBox, DataConnectionQCheckBox);
 DEFINE_DATA_TYPE_PTR(QSpinBox,  DataConnectionQSpinBox);
 DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
-
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
-// namespace dc
-// {
-//   DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2)
-//   {
-//     return new DataConnectionGtkEntryTwin(w1, w2);
-//   }
-// }
 
-
-//! Construct a new data connector.
 DataConnector::DataConnector()
 {
   config = CoreFactory::get_configurator();
 }
 
-
-//! Destruct data connector.
 DataConnector::~DataConnector()
 {
   for (auto &connection : connections)
@@ -68,8 +56,6 @@ DataConnector::~DataConnector()
     }
 }
 
-
-//! Connect a widget to a configuration item.
 void
 DataConnector::connect(const string &setting,
                        DataConnection *connection,
@@ -88,8 +74,6 @@ DataConnector::connect(const string &setting,
     }
 }
 
-
-//! Connect a widget to a configuration item.
 void
 DataConnector::connect(const string &setting,
                        DataConnection *connection,
@@ -110,22 +94,17 @@ DataConnector::connect(const string &setting,
     }
 }
 
-
-//! Construct a new data connection
 DataConnection::DataConnection()
 {
   config = CoreFactory::get_configurator();
 }
 
 
-//! Destruct data connection.
 DataConnection::~DataConnection()
 {
   config->remove_listener(key, this);
 }
 
-
-//! Set connection flags and configuration key.
 void
 DataConnection::set(dc::Flags flags, const string &key)
 {
@@ -145,7 +124,6 @@ DataConnection::set(dc::Flags flags, const string &key)
  *                                                                     *
  ***********************************************************************/
 
-//! Initialize connection.
 void
 DataConnectionQSpinBox::init()
 {
@@ -154,7 +132,6 @@ DataConnectionQSpinBox::init()
   config_changed_notify(key);
 }
 
-//! Widget changed value.
 void
 DataConnectionQSpinBox::widget_changed_notify()
 {
@@ -172,7 +149,6 @@ DataConnectionQSpinBox::widget_changed_notify()
     }
 }
 
-//! Configuration item changed value.
 void
 DataConnectionQSpinBox::config_changed_notify(const string &key)
 {
@@ -193,14 +169,12 @@ DataConnectionQSpinBox::config_changed_notify(const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Check Button                                                        *
  *                                                                     *
  ***********************************************************************/
 
-//! Initialize connection.
 void
 DataConnectionQCheckBox::init()
 {
@@ -208,8 +182,6 @@ DataConnectionQCheckBox::init()
   config_changed_notify(key);
 }
 
-
-//! Configuration item changed value.
 void
 DataConnectionQCheckBox::widget_changed_notify()
 {
@@ -227,8 +199,6 @@ DataConnectionQCheckBox::widget_changed_notify()
     }
 }
 
-
-//! Configuration item changed value.
 void
 DataConnectionQCheckBox::config_changed_notify(const string &key)
 {
@@ -248,14 +218,12 @@ DataConnectionQCheckBox::config_changed_notify(const string &key)
     }
 }
 
+/***********************************************************************
+ *                                                                     *
+ * ComboBox Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
 
-// /***********************************************************************
-//  *                                                                     *
-//  * ComboBox Button                                                         *
-//  *                                                                     *
-//  ***********************************************************************/
-
-//! Initialize connection.
 void
 DataConnectionQComboBox::init()
 {
@@ -265,7 +233,6 @@ DataConnectionQComboBox::init()
 }
 
 
-//! Configuration item changed value.
 void
 DataConnectionQComboBox::widget_changed_notify()
 {
@@ -283,7 +250,6 @@ DataConnectionQComboBox::widget_changed_notify()
     }
 }
 
-//! Configuration item changed value.
 void
 DataConnectionQComboBox::config_changed_notify(const string &key)
 {
@@ -303,13 +269,12 @@ DataConnectionQComboBox::config_changed_notify(const string &key)
     }
 }
 
-// /***********************************************************************
-//  *                                                                     *
-//  * Slider                                                              *
-//  *                                                                     *
-//  ***********************************************************************/
+/***********************************************************************
+ *                                                                     *
+ * Slider                                                              *
+ *                                                                     *
+ ***********************************************************************/
 
-//! Initialize connection.
 void
 DataConnectionQAbstractSlider::init()
 {
@@ -319,7 +284,6 @@ DataConnectionQAbstractSlider::init()
 }
 
 
-//! Configuration item changed value.
 void
 DataConnectionQAbstractSlider::widget_changed_notify()
 {
@@ -337,7 +301,6 @@ DataConnectionQAbstractSlider::widget_changed_notify()
     }
 }
 
-//! Configuration item changed value.
 void
 DataConnectionQAbstractSlider::config_changed_notify(const string &key)
 {
@@ -356,68 +319,13 @@ DataConnectionQAbstractSlider::config_changed_notify(const string &key)
         }
     }
 }
-// /***********************************************************************
-//  *                                                                     *
-//  * Spin Button                                                         *
-//  *                                                                     *
-//  ***********************************************************************/
 
-// //! Initialize connection.
-// void
-// DataConnectionGtkAdjustment::init()
-// {
-//   widget->signal_value_changed()
-//     .connect(sigc::mem_fun(*this, &DataConnectionGtkAdjustment::widget_changed_notify));
-//   config_changed_notify(key);
-// }
+/***********************************************************************
+ *                                                                     *
+ * TimeEntry                                                           *
+ *                                                                     *
+ ***********************************************************************/
 
-// //! Widget changed value.
-// void
-// DataConnectionGtkAdjustment::widget_changed_notify()
-// {
-//   bool skip = false;
-
-//   if (intercept)
-//     {
-//       skip = intercept(key, true);
-//     }
-
-//   if (!skip)
-//     {
-//       int value = (int)widget->get_value();
-
-//       config->set_value(key, value);
-//     }
-// }
-
-// //! Configuration item changed value.
-// void
-// DataConnectionGtkAdjustment::config_changed_notify(const string &key)
-// {
-//   bool skip = false;
-//   if (intercept)
-//     {
-//       skip = intercept(key, false);
-//     }
-
-//   if (!skip)
-//     {
-//       int value;
-//       if (config->get_value(key, value))
-//         {
-//           widget->set_value(value);
-//         }
-//     }
-// }
-
-// /***********************************************************************
-//  *                                                                     *
-//  * Spin Button                                                         *
-//  *                                                                     *
-//  ***********************************************************************/
-
-
-//! Initialize connection.
 void
 DataConnectionTimeEntry::init()
 {
@@ -426,7 +334,6 @@ DataConnectionTimeEntry::init()
   config_changed_notify(key);
 }
 
-//! Widget changed value.
 void
 DataConnectionTimeEntry::widget_changed_notify()
 {
@@ -445,7 +352,6 @@ DataConnectionTimeEntry::widget_changed_notify()
     }
 }
 
-//! Configuration item changed value.
 void
 DataConnectionTimeEntry::config_changed_notify(const string &key)
 {
@@ -464,94 +370,3 @@ DataConnectionTimeEntry::config_changed_notify(const string &key)
         }
     }
 }
-
-// /***********************************************************************
-//  *                                                                     *
-//  * Spin Button                                                         *
-//  *                                                                     *
-//  ***********************************************************************/
-
-// //! Initialize connection.
-// void
-// DataConnectionGtkEntryTwin::init()
-// {
-//   widget1->signal_changed()
-//     .connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
-//   widget2->signal_changed()
-//     .connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
-//   config_changed_notify(key);
-// }
-
-
-// //! Widget changed value.
-// void
-// DataConnectionGtkEntryTwin::widget_changed_notify()
-// {
-//   bool skip = false;
-
-//   if (intercept)
-//     {
-//       skip = intercept(key, true);
-//     }
-
-//   if (!skip)
-//     {
-//       string value1 = widget1->get_text();
-//       string value2 = widget2->get_text();
-//       bool verified = true;
-
-// #ifdef HAVE_GTK3
-//       if (value1 == value2)
-//         {
-//           widget1->unset_background_color();
-//           widget2->unset_background_color();
-//         }
-//       else
-//         {
-//           widget1->override_background_color(Gdk::RGBA("orange"));
-//           widget2->override_background_color(Gdk::RGBA("orange"));
-//           verified = false;
-//         }
-// #else
-//       if (value1 == value2)
-//         {
-//           widget1->unset_base(Gtk::STATE_NORMAL);
-//           widget2->unset_base(Gtk::STATE_NORMAL);
-//         }
-//       else
-//         {
-//           widget1->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-//           widget2->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-//           verified = false;
-//         }
-// #endif
-
-//       if (verified)
-//         {
-//           config->set_value(key, value1);
-//         }
-//     }
-// }
-
-// //! Configuration item changed value.
-// void
-// DataConnectionGtkEntryTwin::config_changed_notify(const string &key)
-// {
-//   bool skip = false;
-//   if (intercept)
-//     {
-//       skip = intercept(key, false);
-//     }
-
-//   if (!skip)
-//     {
-//       string value;
-//       if (config->get_value(key, value))
-//         {
-//           widget1->set_text(value);
-//           widget2->set_text(value);
-//         }
-//     }
-// }
-
-

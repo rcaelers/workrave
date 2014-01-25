@@ -29,7 +29,6 @@
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
-//! Activity monitor for a local X server.
 class Harpoon
 {
 public:

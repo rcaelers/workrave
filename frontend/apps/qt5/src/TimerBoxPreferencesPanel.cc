@@ -1,5 +1,3 @@
-// TimerBoxPreferencesPanel.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -32,19 +30,9 @@
 #include "debug.hh"
 #include "nls.h"
 
-// #include "IBreak.hh"
-// #include "config/IConfigurator.hh"
-// #include "CoreFactory.hh"
-// #include "ICore.hh"
 #include "CoreConfig.hh"
-// #include "GtkUtil.hh"
-// #include "Hig.hh"
 #include "GUIConfig.hh"
 #include "TimerBoxControl.hh"
-// #include "Locale.hh"
-// #include "System.hh"
-// #include "utils/AssetPath.hh"
-// #include "ICore.hh"
 #include "UiUtil.hh"
 #include "Ui.hh"
 #include "CoreFactory.hh"

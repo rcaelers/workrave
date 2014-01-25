@@ -152,32 +152,6 @@ DECLARE_DATA_TYPE(QCheckBox *, DataConnectionQCheckBox);
 DECLARE_DATA_TYPE(QSpinBox *, DataConnectionQSpinBox);
 DECLARE_DATA_TYPE(QComboBox *, DataConnectionQComboBox);
 DECLARE_DATA_TYPE(QAbstractSlider *, DataConnectionQAbstractSlider);
-
 DECLARE_DATA_TYPE(TimeEntry *, DataConnectionTimeEntry);
-
-// class DataConnectionGtkEntryTwin  : public DataConnection
-// {
-//   public:
-//   DataConnectionGtkEntryTwin(Gtk::Entry *widget1, Gtk::Entry *widget2)
-//     : widget1(widget1), widget2(widget2)
-//   {
-//   }
-//   virtual ~DataConnectionGtkEntryTwin()
-//   {
-//   }
-
-//   void init();
-//   void widget_changed_notify();
-//   void config_changed_notify(const std::string &key);
-
-// private:
-//   Gtk::Entry *widget1;
-//   Gtk::Entry *widget2;
-// };
-
-// namespace dc
-// {
-//   DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2);
-// }
 
 #endif
