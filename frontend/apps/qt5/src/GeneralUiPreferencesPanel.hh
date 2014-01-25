@@ -37,8 +37,11 @@ public:
   
 private:
   void on_block_changed();
+
+#ifdef PLATFORM_OS_WIN32
   void on_autostart_toggled();
-  
+#endif
+
 private:
   DataConnector::Ptr connector;
 
@@ -46,9 +49,9 @@ private:
   QComboBox *languages_combo;
   QStandardItemModel *model;
   
-  //#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32)
   QCheckBox *autostart_cb;
-  //endif
+#endif
 };
 
 #endif // GENERALUIPREFERENCESPANEL_HH
