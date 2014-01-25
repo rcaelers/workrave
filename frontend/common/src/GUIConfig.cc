@@ -22,13 +22,10 @@
 #endif
 
 #include "preinclude.h"
-#include "nls.h"
-#include "debug.hh"
 
 #include "GUIConfig.hh"
 
 #include "config/IConfigurator.hh"
-
 #include "CoreFactory.hh"
 #include "ICore.hh"
 #include "IBreak.hh"
@@ -59,160 +56,41 @@ const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
 const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
 const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
-//!
 void
 GUIConfig::init()
 {
   IConfigurator::Ptr config = CoreFactory::get_configurator();
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
     {
-      BreakId breakId = (BreakId)i;
+      workrave::BreakId breakId = (workrave::BreakId)i;
       
-      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId,
-                        true,
-                        CONFIG_FLAG_INITIAL);
-
-      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId,
-                        i == BREAK_ID_REST_BREAK ? 3 : 0,
-                        CONFIG_FLAG_INITIAL);
-
-      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId,
-                        false,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(break_ignorable(breakId).key(), true, CONFIG_FLAG_INITIAL);
+      config->set_value(break_exercises(breakId).key(), i == workrave::BREAK_ID_REST_BREAK ? 3 : 0, CONFIG_FLAG_INITIAL);
+      config->set_value(break_auto_natural(breakId).key(), false, CONFIG_FLAG_INITIAL);
 
       // for backward compatibility with settings of older versions, we set the default
       // default value of `skippable` to whatever `ignorable`. This works because the old
       // meaning of `ignorable` was "show postpone and skip"; the new meaning is
       // "show postpone".
       bool ignorable;
-      config->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % breakId, 
-                                     ignorable, 
-                                     true);
+      config->get_value_with_default(break_ignorable(breakId).key(), ignorable, true);
+      config->set_value(break_skippable(breakId).key(), ignorable, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, 
-                        ignorable, 
-                        CONFIG_FLAG_INITIAL);
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 }
 
-
-//!
-bool
-GUIConfig::get_ignorable(BreakId id)
-{
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % id,
-                             rc,
-                             true);
-  return rc;
-}
-
-
-//!
-bool
-GUIConfig::get_skippable(BreakId id)
-{
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_SKIPPABLE % id,
-                             rc,
-                             true);
-  return rc;
-}
-
-//!
-void
-GUIConfig::set_ignorable(BreakId id, bool b)
-{
-  CoreFactory::get_configurator()->set_value(CFG_KEY_BREAK_IGNORABLE % id, b);
-}
-
-//!
-bool
-GUIConfig::get_trayicon_enabled()
-{
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_TRAYICON_ENABLED,
-                             rc,
-                             true);
-  return rc;
-}
-
-
-//!
-void
-GUIConfig::set_trayicon_enabled(bool b)
-{
-  CoreFactory::get_configurator()->set_value(CFG_KEY_TRAYICON_ENABLED, b);
-}
-
-//!
-int
-GUIConfig::get_number_of_exercises(BreakId id)
-{
-  int num;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_EXERCISES % id,
-                             num,
-                             0);
-  return num;
-}
-
-
-//!
-void
-GUIConfig::set_number_of_exercises(BreakId id, int num)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_BREAK_EXERCISES % id, num);
-}
-
-
-GUIConfig::BlockMode
-GUIConfig::get_block_mode()
-{
-  int mode;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
-  return (BlockMode) mode;
-}
-
-void
-GUIConfig::set_block_mode(BlockMode mode)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_BLOCK_MODE, int(mode));
-}
-
-std::string
-GUIConfig::get_locale()
-{
-  string ret = "";
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_LOCALE, ret, "");
-
-  return ret;
-}
-
-void
-GUIConfig::set_locale(std::string locale)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_LOCALE, locale);
-}
 
 
 string
-GUIConfig::expand(const string &key, BreakId id)
+GUIConfig::expand(const string &key, workrave::BreakId id)
 {
-  IBreak::Ptr b = CoreFactory::get_core()->get_break(id);
+  workrave::IBreak::Ptr b = CoreFactory::get_core()->get_break(id);
 
   string str = key;
   string::size_type pos = 0;
@@ -227,166 +105,125 @@ GUIConfig::expand(const string &key, BreakId id)
   return str;
 }
 
-bool
-GUIConfig::get_always_on_top()
+Setting<bool>
+GUIConfig::break_auto_natural(workrave::BreakId break_id)
 {
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
-                             rc,
-                             false);
-  return rc;
+  return Setting<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_AUTO_NATURAL, break_id));
 }
 
-
-void
-GUIConfig::set_always_on_top(bool b)
+Setting<bool>
+GUIConfig::break_ignorable(workrave::BreakId break_id)
 {
-  CoreFactory::get_configurator()
-    ->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+  return Setting<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_IGNORABLE, break_id), true);
 }
 
-
-bool
-GUIConfig::get_start_in_tray()
+Setting<bool>
+GUIConfig::break_skippable(workrave::BreakId break_id)
 {
-  bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
-  return rc;
+  return Setting<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_SKIPPABLE, break_id), true);
 }
 
-
-void
-GUIConfig::set_start_in_tray(bool b)
+Setting<int>
+GUIConfig::break_exercises(workrave::BreakId break_id)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+  return Setting<int>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_EXERCISES, break_id), 0);
 }
 
-
-int
-GUIConfig::get_timerbox_cycle_time(string name)
+Setting<int, GUIConfig::BlockMode>
+GUIConfig::block_mode()
 {
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
-    {
-      ret = 10;
-    }
-  return ret;
+  return Setting<int, BlockMode>(CoreFactory::get_configurator(), CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT);
 }
 
-
-void
-GUIConfig::set_timerbox_cycle_time(string name, int time)
+Setting<std::string>
+GUIConfig::locale()
 {
-  CoreFactory::get_configurator()
-    ->set_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
+  return Setting<std::string>(CoreFactory::get_configurator(), CFG_KEY_LOCALE, "");
 }
 
-
-const string
-GUIConfig::get_timerbox_timer_config_key(string name, BreakId timer, const string &key)
+Setting<bool>
+GUIConfig::trayicon_enabled()
 {
-  ICore::Ptr core = CoreFactory::get_core();
-  IBreak::Ptr break_data = core->get_break(BreakId(timer));
-
-  return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_TRAYICON_ENABLED, true);
 }
 
-
-int
-GUIConfig::get_timerbox_timer_imminent_time(string name, BreakId timer)
+Setting<bool>
+GUIConfig::closewarn_enabled()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      ret = 30;
-    }
-  return ret;
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_CLOSEWARN_ENABLED);
 }
 
-
-void
-GUIConfig::set_timerbox_timer_imminent_time(string name, BreakId timer, int time)
+const std::string
+GUIConfig::key_main_window()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
-  CoreFactory::get_configurator()->set_value(key, time);
+  return CFG_KEY_MAIN_WINDOW;
 }
 
-
-int
-GUIConfig::get_timerbox_timer_slot(string name, BreakId timer)
+Setting<bool>
+GUIConfig::main_window_always_on_top()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      if (name == "applet")
-        {
-          // All in one slot is probably the best default since we cannot assume
-          // any users panel is large enough to hold all timers.
-          ret = 0;
-        }
-      else
-        {
-          ret = timer;
-        }
-    }
-  return ret;
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, false);
 }
 
-
-void
-GUIConfig::set_timerbox_timer_slot(string name, BreakId timer, int slot)
+Setting<bool>
+GUIConfig::main_window_start_in_tray()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
-  CoreFactory::get_configurator()->set_value(key, slot);
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_START_IN_TRAY, false);
 }
 
-
-int
-GUIConfig::get_timerbox_timer_flags(string name, BreakId timer)
+Setting<int>
+GUIConfig::main_window_x()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
-  int ret;
-  if (! CoreFactory::get_configurator()
-      ->get_value(key, ret))
-    {
-      ret = 0;
-    }
-  return ret;
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_X);
 }
 
-
-void
-GUIConfig::set_timerbox_timer_flags(string name, BreakId timer, int flags)
+Setting<int>
+GUIConfig::main_window_y()
 {
-  const string key = get_timerbox_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
-  CoreFactory::get_configurator()->set_value(key, flags);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_Y);
 }
 
-
-bool
-GUIConfig::is_timerbox_enabled(string name)
+Setting<int>
+GUIConfig::main_window_head()
 {
-  bool ret = true;
-  if (! CoreFactory::get_configurator()
-      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, ret))
-    {
-      ret = true;
-    }
-  return ret;
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_HEAD);
 }
 
-
-void
-GUIConfig::set_timerbox_enabled(string name, bool enabled)
+const std::string
+GUIConfig::key_timerbox(std::string box)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);
+  return CFG_KEY_TIMERBOX + box;
+}
+
+Setting<int>
+GUIConfig::timerbox_cycle_time(std::string box)
+{
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_CYCLE_TIME, 10);
+}
+
+Setting<int>
+GUIConfig::timerbox_slot(std::string box, workrave::BreakId break_id)
+{
+  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION, (box == "applet" ? 0 : break_id));
+}
+
+Setting<int>
+GUIConfig::timerbox_flags(std::string box, workrave::BreakId break_id)
+{
+  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
+}
+
+Setting<int>
+GUIConfig::timerbox_imminent(std::string box, workrave::BreakId break_id)
+{
+  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
+}
+
+Setting<bool>
+GUIConfig::timerbox_enabled(std::string box)
+{
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
 }

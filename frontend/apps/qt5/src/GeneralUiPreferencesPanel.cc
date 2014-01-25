@@ -59,7 +59,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   block_button->addItem(_("Block input and screen"));
   
   int block_idx;
-  switch (GUIConfig::get_block_mode())
+  switch (GUIConfig::block_mode()())
     {
     case GUIConfig::BLOCK_MODE_NONE:
       block_idx = 0;
@@ -82,7 +82,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   UiUtil::add_widget(layout, _("Block mode:"), block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  string current_locale = GUIConfig::get_locale();
+  string current_locale = GUIConfig::locale()();
 
   std::vector<std::string> all_linguas;
   string str(ALL_LINGUAS);
@@ -185,7 +185,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   QCheckBox *trayicon_cb = new QCheckBox;
   trayicon_cb->setText(_("Show system tray icon"));
-  connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
+  connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   layout->addWidget(trayicon_cb);
 
@@ -204,7 +204,7 @@ GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
   if (item != NULL)
     {
       TRACE_MSG(item->text().toStdString());
-      GUIConfig::set_locale(item->text().toStdString());
+      GUIConfig::locale().set(item->text().toStdString());
     }
   TRACE_EXIT();
 }
@@ -245,6 +245,6 @@ GeneralUiPreferencesPanel::on_block_changed()
     default:
       m = GUIConfig::BLOCK_MODE_ALL;
     }
-  GUIConfig::set_block_mode(m);
+  GUIConfig::block_mode().set(m);
 }
 

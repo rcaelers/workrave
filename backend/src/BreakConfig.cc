@@ -21,6 +21,8 @@
 
 #include "debug.hh"
 
+#include <boost/algorithm/string/predicate.hpp>
+
 #include "BreakConfig.hh"
 #include "CoreConfig.hh"
 #include "DayTimePred.hh"
@@ -46,8 +48,8 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
   load_timer_config();
   load_break_config();
   
-  configurator->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
-  configurator->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
+  configurator->add_listener(CoreConfig::key_timer(break_id), this);
+  configurator->add_listener(CoreConfig::key_break(break_id), this);
 }
 
 //! Destructor.
@@ -61,20 +63,17 @@ BreakConfig::load_timer_config()
   TRACE_ENTER("BreakConfig::load_timer_config");
 
   // Read break limit.
-  int limit;
-  configurator->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
+  int limit = CoreConfig::timer_limit(break_id)();
   timer->set_limit(limit);
   timer->set_limit_enabled(limit > 0);
 
   // Read autoreset interval
-  int autoreset;
-  configurator->get_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, autoreset);
+  int autoreset = CoreConfig::timer_auto_reset(break_id)();
   timer->set_auto_reset(autoreset);
   timer->set_auto_reset_enabled(autoreset > 0);
 
   // Read reset predicate
-  string reset_pred;
-  configurator->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
+  string reset_pred = CoreConfig::timer_reset_pred(break_id)();
   if (reset_pred != "")
     {
       DayTimePred *pred = create_time_pred(reset_pred);
@@ -82,15 +81,13 @@ BreakConfig::load_timer_config()
     }
 
   // Read the snooze time.
-  int snooze;
-  configurator->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
+  int snooze = CoreConfig::timer_snooze(break_id)();
   timer->set_snooze(snooze);
 
   // Read the monitor setting for the timer.
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      use_microbreak_activity = false;
-      configurator->get_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, use_microbreak_activity);
+      use_microbreak_activity = CoreConfig::timer_daily_limit_use_micro_break_activity()();
     }
   
   TRACE_EXIT();
@@ -100,12 +97,11 @@ void
 BreakConfig::load_break_config()
 {
   // Maximum number of prelude windows.
-  int max_preludes;
-  configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+  int max_preludes = CoreConfig::break_max_preludes(break_id)();
   break_state_model->set_max_number_of_preludes(max_preludes);
 
   // Break enabled?
-  configurator->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
+  enabled = CoreConfig::break_enabled(break_id)();
 
   if (enabled)
     {
@@ -134,14 +130,12 @@ BreakConfig::config_changed_notify(const string &key)
   TRACE_ENTER_MSG("BreakConfig::config_changed_notify", key);
   string name;
 
-  if (CoreConfig::starts_with(key, CoreConfig::CFG_KEY_BREAKS, name))
+  if (boost::starts_with(key, CoreConfig::key_breaks()))
     {
-      TRACE_MSG("break: " << name);
       load_break_config();
     }
-  else if (CoreConfig::starts_with(key, CoreConfig::CFG_KEY_TIMERS, name))
+  else if (boost::starts_with(key, CoreConfig::key_timers()))
     {
-      TRACE_MSG("timer: " << name);
       load_timer_config();
     }
   TRACE_EXIT();

@@ -1,5 +1,3 @@
-// CoreConfig.cc --- The WorkRave Core Configuration
-//
 // Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -29,6 +27,8 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::config;
+
+IConfigurator::Ptr CoreConfig::config;
 
 const string CoreConfig::CFG_KEY_MICRO_BREAK               = "micro_pause";
 const string CoreConfig::CFG_KEY_REST_BREAK                = "rest_break";
@@ -62,20 +62,7 @@ const string CoreConfig::CFG_KEY_OPERATION_MODE            = "general/operation-
 const string CoreConfig::CFG_KEY_USAGE_MODE                = "general/usage-mode";
 
 
-struct Defaults
-{
-  string name;
-
-  // Timer settings.
-  int limit;
-  int auto_reset;
-  string resetpred;
-  int snooze;
-
-  // Break settings
-  int max_preludes;
-
-} default_config[] =
+CoreConfig::Defaults CoreConfig::default_config[] =
   {
     {
       CoreConfig::CFG_KEY_MICRO_BREAK,
@@ -97,43 +84,11 @@ struct Defaults
   };
 
 
-bool
-CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)
-{
-  bool ret = false;
-
-  for (int i = 0; !ret && i < BREAK_ID_SIZEOF; i++)
-    {
-      if (key % BreakId(i) == str)
-        {
-          id = BreakId(i);
-          ret = true;
-        }
-    }
-
-  return ret;
-}
-
-//! Returns the name of the break (used in configuration)
 string
 CoreConfig::get_break_name(BreakId id)
 {
   Defaults &def = default_config[id];
   return def.name;
-}
-
-BreakId
-CoreConfig::get_break_id(const std::string &name)
-{
-  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
-    {
-      Defaults &def = default_config[break_id];
-      if (def.name == name)
-        {
-          return break_id;
-        }
-    }
-  return BREAK_ID_NONE;
 }
 
 void
@@ -143,100 +98,164 @@ CoreConfig::init(IConfigurator::Ptr config)
     {
       Defaults &def = default_config[break_id];
 
-      config->set_delay(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, 2);
-      config->set_delay(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, 2);
+      config->set_delay(timer_limit(break_id).key(), 2);
+      config->set_delay(timer_auto_reset(break_id).key(), 2);
 
       // Convert old settings.
 
-      config->rename_key(string("gui/breaks/%b/max_preludes") % break_id,
-                         CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id);
-
-      config->rename_key(string("gui/breaks/%b/enabled") % break_id,
-                         CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
-
-      config->remove_key(string("gui/breaks/%b/max_postpone") % break_id);
+      config->rename_key(expand("gui/breaks/%b/max_preludes", break_id), break_max_preludes(break_id).key());
+      config->rename_key(expand("gui/breaks/%b/enabled", break_id), break_enabled(break_id).key());
+      config->remove_key(expand("gui/breaks/%b/max_postpone", break_id));
 
       // Set defaults.
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id,
+      config->set_value(CoreConfig::timer_limit(break_id).key(),
                         def.limit,
                         CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id,
+      config->set_value(CoreConfig::timer_auto_reset(break_id).key(),
                         def.auto_reset,
                         CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id,
+      config->set_value(CoreConfig::timer_reset_pred(break_id).key(),
                         def.resetpred,
                         CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id,
+      config->set_value(CoreConfig::timer_snooze(break_id).key(),
                         def.snooze,
                         CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+      config->set_value(CoreConfig::break_max_preludes(break_id).key(),
                         def.max_preludes,
                         CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id,
+      config->set_value(CoreConfig::break_enabled(break_id).key(),
                         true,
                         CONFIG_FLAG_INITIAL);
     }
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY,
+  config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(),
                     false,
                     CONFIG_FLAG_INITIAL);
   
   string monitor_name;
-  bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, monitor_name);
+  bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
 
   if (ret && monitor_name == "micro_pause")
     {
-      config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % BREAK_ID_DAILY_LIMIT, "deprecated. replaced by use_microbreak_activity");
+      config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), "deprecated. replaced by use_microbreak_activity");
       config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
     }
 
 }
 
-
-bool
-CoreConfig::starts_with(const string &key, string prefix, string &name)
+string
+CoreConfig::expand(const string &key, workrave::BreakId id)
 {
-  bool ret = false;
-
-  // Search prefix (just in case some Configurator added a leading /)
-  string::size_type pos = key.rfind(prefix);
-  string k;
-
-  if (pos != string::npos)
+  string str = key;
+  string::size_type pos = 0;
+  string name = CoreConfig::get_break_name(id);
+  
+  while ((pos = str.find("%b", pos)) != string::npos)
     {
-      k = key.substr(pos + prefix.length());
-      pos = k.find('/');
-
-      if (pos != string::npos)
-        {
-          name = k.substr(0, pos);
-        }
-      ret = true;
+      str.replace(pos, 2, name);
+      pos++;
     }
-  return ret;
+  
+  return str;
 }
 
-namespace workrave
+std::string 
+CoreConfig::key_timer(workrave::BreakId break_id)
 {
-  std::string operator%(const string &key, BreakId id)
-  {
-    string str = key;
-    string::size_type pos = 0;
-    string name = CoreConfig::get_break_name(id);
-
-    while ((pos = str.find("%b", pos)) != string::npos)
-      {
-        str.replace(pos, 2, name);
-        pos++;
-      }
-
-    return str;
-  }
+  return expand(CFG_KEY_TIMER, break_id);
 }
 
+std::string
+CoreConfig:: key_break(workrave::BreakId break_id)
+{
+  return expand(CFG_KEY_BREAK, break_id);
+}
+
+std::string 
+CoreConfig::key_timers()
+{
+  return CFG_KEY_TIMERS;
+}
+
+std::string
+CoreConfig:: key_breaks()
+{
+  return CFG_KEY_BREAKS;
+}
+
+std::string
+CoreConfig:: key_monitor()
+{
+  return CFG_KEY_MONITOR;
+}
+
+Setting<int> CoreConfig::timer_limit(workrave::BreakId break_id)
+{
+  return Setting<int>(config, expand(CFG_KEY_TIMER_LIMIT, break_id));
+}
+
+Setting<int> CoreConfig::timer_auto_reset(workrave::BreakId break_id)
+{
+  return Setting<int>(config, expand(CFG_KEY_TIMER_AUTO_RESET, break_id));
+}
+
+Setting<std::string> CoreConfig::timer_reset_pred(workrave::BreakId break_id)
+{
+  return Setting<std::string>(config, expand(CFG_KEY_TIMER_RESET_PRED, break_id));
+}
+
+Setting<int> CoreConfig::timer_snooze(workrave::BreakId break_id)
+{
+  return Setting<int>(config, expand(CFG_KEY_TIMER_SNOOZE, break_id));
+}
+
+Setting<int> CoreConfig::timer_daily_limit_use_micro_break_activity()
+{
+  return Setting<int>(config, CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY);
+}
+
+Setting<int> CoreConfig::break_max_preludes(workrave::BreakId break_id)
+{
+  return Setting<int>(config, expand(CFG_KEY_BREAK_MAX_PRELUDES, break_id));
+}
+
+Setting<bool> CoreConfig::break_enabled(workrave::BreakId break_id)
+{
+  return Setting<bool>(config, expand(CFG_KEY_BREAK_ENABLED, break_id));
+}
+
+Setting<int> CoreConfig::monitor_noise()
+{
+  return Setting<int>(config, CFG_KEY_MONITOR_NOISE, 9000);
+}
+
+Setting<int> CoreConfig::monitor_activity()
+{
+  return Setting<int>(config, CFG_KEY_MONITOR_ACTIVITY, 1000);
+}
+
+Setting<int> CoreConfig::monitor_idle()
+{
+  return Setting<int>(config, CFG_KEY_MONITOR_IDLE, 5000);
+}
+
+Setting<std::string> CoreConfig::general_datadir()
+{
+  return Setting<std::string>(config, CFG_KEY_GENERAL_DATADIR);
+}
+
+Setting<int, workrave::OperationMode> CoreConfig::operation_mode()
+{
+  return Setting<int, workrave::OperationMode>(config, CFG_KEY_OPERATION_MODE);
+}
+
+Setting<int, workrave::UsageMode> CoreConfig::usage_mode()
+{
+  return Setting<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
+}

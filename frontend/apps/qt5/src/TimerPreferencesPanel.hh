@@ -53,7 +53,7 @@ private:
   QWidget *create_timers_panel();
 
 private:
-  BreakId break_id;
+  workrave::BreakId break_id;
   DataConnector::Ptr connector;
 
   SizeGroup* hsize_group;

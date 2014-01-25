@@ -305,13 +305,11 @@ BreakStateModel::stop_break()
 void
 BreakStateModel::override(BreakId id)
 {
-  int max_preludes;
-  configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+  int max_preludes = CoreConfig::break_max_preludes(break_id)();
 
   if (break_id != id)
     {
-      int max_preludes_other;
-      configurator->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % id, max_preludes_other);
+      int max_preludes_other = CoreConfig::break_max_preludes(id)();
       if (max_preludes_other != -1 && max_preludes_other < max_preludes)
         {
           max_preludes = max_preludes_other;

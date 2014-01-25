@@ -1,5 +1,3 @@
-// CoreConfig.hh --- Configuration keys of the core.
-//
 // Copyright (C) 2001 - 2009, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -21,11 +19,40 @@
 #define WORKRAVE_BACKEND_CORECONFIG_HH
 
 #include "ICore.hh"
+
 #include "config/IConfigurator.hh"
+#include "config/Setting.hh"
 
 class CoreConfig
 {
 public:
+  static std::string key_timers();
+  static std::string key_breaks();
+  static std::string key_timer(workrave::BreakId break_id);
+  static std::string key_break(workrave::BreakId break_id);
+  static std::string key_monitor();
+
+  static workrave::config::Setting<int> timer_limit(workrave::BreakId break_id);
+  static workrave::config::Setting<int> timer_auto_reset(workrave::BreakId break_id);
+  static workrave::config::Setting<std::string> timer_reset_pred(workrave::BreakId break_id);
+  static workrave::config::Setting<int> timer_snooze(workrave::BreakId break_id);
+
+  static workrave::config::Setting<int> timer_daily_limit_use_micro_break_activity();
+
+  static workrave::config::Setting<int> break_max_preludes(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> break_enabled(workrave::BreakId break_id);
+
+  static workrave::config::Setting<int> monitor_noise();
+  static workrave::config::Setting<int> monitor_activity();
+  static workrave::config::Setting<int> monitor_idle();
+  static workrave::config::Setting<std::string> general_datadir();
+  static workrave::config::Setting<int, workrave::OperationMode> operation_mode();
+  static workrave::config::Setting<int, workrave::UsageMode> usage_mode();
+
+private:
+  // Deprecated.
+  static const std::string CFG_KEY_TIMER_MONITOR;
+
   static const std::string CFG_KEY_MICRO_BREAK;
   static const std::string CFG_KEY_REST_BREAK;
   static const std::string CFG_KEY_DAILY_LIMIT;
@@ -52,16 +79,28 @@ public:
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;
 
-private:
-  // Deprecated.
-  static const std::string CFG_KEY_TIMER_MONITOR;
-  
+  struct Defaults
+  {
+    std::string name;
+    
+    // Timer settings.
+    int limit;
+    int auto_reset;
+    std::string resetpred;
+    int snooze;
+    
+    // Break settings
+    int max_preludes;
+  };
+
+
+  static Defaults default_config[];
+  static workrave::config::IConfigurator::Ptr config;
+
+  static std::string expand(const std::string &key, workrave::BreakId id);
 public:
   static void init(workrave::config::IConfigurator::Ptr config);
-  static bool starts_with(const std::string &key, std::string prefix, std::string &name);
-  static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
   static std::string get_break_name(workrave::BreakId id);
-  static workrave::BreakId get_break_id(const std::string &name);
 };
 
 #endif

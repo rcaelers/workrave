@@ -38,7 +38,7 @@ class BreakWindow :
   
 public:
   BreakWindow(int screen,
-              BreakId break_id,
+              workrave::BreakId break_id,
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
   virtual ~BreakWindow();
@@ -75,7 +75,7 @@ private:
 
 private:
   //! Break ID
-  BreakId break_id;
+  workrave::BreakId break_id;
 
   //! Information about the (multi)head.
   int screen;

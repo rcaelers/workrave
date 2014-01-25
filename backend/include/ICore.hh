@@ -111,8 +111,6 @@ namespace workrave
     //! Return DBUs remoting interface.
     virtual dbus::IDBus::Ptr get_dbus() const = 0;
   };
-
-  std::string operator%(const std::string &key, BreakId id);
 };
 
 #endif // WORKRAVE_BACKEND_ICORE_HH

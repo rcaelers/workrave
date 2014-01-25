@@ -217,7 +217,7 @@ Application::init_session()
 //Application::init_nls()
 //{
 //#if defined(ENABLE_NLS)
-//  string language = GUIConfig::get_locale();
+//  string language = GUIConfig::locale();
 //  if (language != "")
 //    {
 //      g_setenv("LANGUAGE", language.c_str(), 1);
@@ -681,9 +681,9 @@ Application::config_changed_notify(const std::string &key)
   TRACE_ENTER_MSG("Application::config_changed_notify", key);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  if (key == GUIConfig::CFG_KEY_LOCALE)
+  if (key == GUIConfig::locale().key())
     {
-      string locale = GUIConfig::get_locale();
+      string locale = GUIConfig::locale();
       Locale::set_locale(locale);
 
       // menus->locale_changed();
@@ -718,8 +718,8 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   //collect_garbage();
 
   BreakFlags break_flags = BREAK_FLAGS_NONE;
-  bool ignorable = GUIConfig::get_ignorable(break_id);
-  bool skippable = GUIConfig::get_skippable(break_id);
+  bool ignorable = GUIConfig::break_ignorable(break_id)();
+  bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
   {
@@ -799,7 +799,7 @@ Application::show_break_window()
       window->start();
     }
 
-  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
+  if (GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
     {
       toolkit->grab();
     }

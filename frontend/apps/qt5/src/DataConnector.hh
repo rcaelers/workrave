@@ -25,6 +25,7 @@
 
 #include "config/Config.hh"
 #include "ICore.hh"
+#include "config/Setting.hh"
 
 #include <QtGui>
 #include <QtWidgets>
@@ -62,6 +63,24 @@ public:
                DataConnection *connection,
                boost::function<bool (const std::string &, bool)> cb,
                dc::Flags flags = dc::NONE);
+
+  template<class T, class R = T>
+  void connect(workrave::config::Setting<T, R> setting,
+               DataConnection *connection,
+               dc::Flags flags = dc::NONE)
+  {
+    connect(setting.key(), connection, flags);
+  }
+
+  template<class T, class R = T>
+  void connect(workrave::config::Setting<T, R> setting,
+               DataConnection *connection,
+               boost::function<bool (const std::string &, bool)> cb,
+               dc::Flags flags = dc::NONE)
+  {
+    connect(setting.key(), connection, cb, flags);
+  }
+
 
 private:
   struct MonitoredWidget

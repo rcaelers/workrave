@@ -137,11 +137,11 @@ TimerBoxControl::init()
 
   // Listen for configugration changes.
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(GUIConfig::key_timerbox(name), this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
+      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
 
       break_position[i] = i;
       break_flags[i] = 0;
@@ -438,16 +438,16 @@ void
 TimerBoxControl::read_configuration()
 {
   TRACE_ENTER("TimerBoxControl::read_configuration");
-  cycle_time = GUIConfig::get_timerbox_cycle_time(name);
+  cycle_time = GUIConfig::timerbox_cycle_time(name)();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakId bid = (BreakId) i;
 
-      break_position[i] = GUIConfig::get_timerbox_timer_slot(name, bid);
-      break_flags[i] = GUIConfig::get_timerbox_timer_flags(name, bid);
-      break_imminent_time[i] = GUIConfig::get_timerbox_timer_imminent_time(name, bid);
+      break_position[i] = GUIConfig::timerbox_slot(name, bid)();
+      break_flags[i] = GUIConfig::timerbox_flags(name, bid)();
+      break_imminent_time[i] = GUIConfig::timerbox_imminent(name, bid)();
     }
-  view->set_enabled(GUIConfig::is_timerbox_enabled(name));
+  view->set_enabled(GUIConfig::timerbox_enabled(name)());
   TRACE_EXIT();
 }
 

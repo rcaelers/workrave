@@ -26,62 +26,6 @@
 
 using namespace std;
 
-inline int to_int(OperationMode mode)
-{
-  switch (mode)
-    {
-    case OperationMode::Normal:
-      return 0;
-    case OperationMode::Suspended:
-      return 1;
-    case OperationMode::Quiet:
-      return 2;
-    default:
-      return 0;
-    }
-}
-
-inline OperationMode operation_mode_from_int(int mode)
-{
-  switch (mode)
-    {
-    case 0:
-      return OperationMode::Normal;
-    case 1:
-      return OperationMode::Suspended;
-    case 2:
-      return OperationMode::Quiet;
-    default:
-      return OperationMode::Normal;
-    }
-}
-
-inline int to_int(UsageMode mode)
-{
-  switch (mode)
-    {
-    case UsageMode::Normal:
-      return 0;
-    case UsageMode::Reading:
-      return 1;
-    default:
-      return 0;
-    }
-}
-
-inline UsageMode usage_mode_from_int(int mode)
-{
-  switch (mode)
-    {
-    case 0:
-      return UsageMode::Normal;
-    case 1:
-      return UsageMode::Reading;
-    default:
-      return UsageMode::Normal;
-    }
-}
-
 CoreModes::Ptr
 CoreModes::create(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config)
 {
@@ -263,12 +207,11 @@ CoreModes::set_operation_mode_internal(
 
       operation_mode_changed_signal(operation_mode);
 
-      int cm;
-      if( persistent 
-          && ( !config->get_value( CoreConfig::CFG_KEY_OPERATION_MODE, cm ) 
-               || ( cm != to_int(mode) ) )
-          )
-        config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, to_int(mode) );
+      OperationMode cm = CoreConfig::operation_mode()();
+      if (persistent  && (cm != mode))
+        {
+          CoreConfig::operation_mode().set(mode);
+        }
 
       TRACE_RETURN( "No change: current is an override type but incoming is regular" );
       return;
@@ -336,7 +279,9 @@ CoreModes::set_operation_mode_internal(
           */
 
           if( persistent )
-              config->set_value( CoreConfig::CFG_KEY_OPERATION_MODE, to_int(operation_mode) );
+            {
+              CoreConfig::operation_mode().set(operation_mode);
+            }
 
           TRACE_MSG("Send event");
           operation_mode_changed_signal(operation_mode);
@@ -373,7 +318,7 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       if (persistent)
         {
-          config->set_value(CoreConfig::CFG_KEY_USAGE_MODE, to_int(mode));
+          CoreConfig::usage_mode().set(mode);
         }
 
       usage_mode_changed_signal(mode);
@@ -385,23 +330,14 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 void
 CoreModes::load_config()
 {
-  config->rename_key("gui/operation-mode", CoreConfig::CFG_KEY_OPERATION_MODE);
-  config->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
-  config->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
+  config->rename_key("gui/operation-mode", CoreConfig::operation_mode().key());
+  config->add_listener(CoreConfig::operation_mode().key(), this);
+  config->add_listener(CoreConfig::usage_mode().key(), this);
 
-  int mode;
-  OperationMode operation_mode = OperationMode::Normal;
-  if (config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
-    {
-      operation_mode = operation_mode_from_int(mode);
-    }
+  OperationMode operation_mode = CoreConfig::operation_mode()();
   set_operation_mode(operation_mode);
 
-  UsageMode usage_mode = UsageMode::Normal;
-  if (config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
-    {
-      usage_mode = usage_mode_from_int(mode);
-    }
+  UsageMode usage_mode = CoreConfig::usage_mode()();
   set_usage_mode(usage_mode);
 }
 
@@ -419,27 +355,16 @@ CoreModes::config_changed_notify(const string &key)
       path = key.substr(0, pos);
     }
 
-  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
+  if (key == CoreConfig::operation_mode().key())
     {
-      int mode;
-      OperationMode operation_mode = OperationMode::Normal;
-      if (config->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
-        {
-          operation_mode = operation_mode_from_int(mode);
-        }
+      OperationMode operation_mode = CoreConfig::operation_mode()();
       TRACE_MSG("Setting operation mode");
       set_operation_mode_internal(operation_mode, false);
     }
 
-  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
+  if (key == CoreConfig::usage_mode().key())
     {
-      int mode;
-      UsageMode usage_mode = UsageMode::Normal;
-      if (config->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
-        {
-          usage_mode = usage_mode_from_int(mode);
-        }
-      set_usage_mode(usage_mode);
+      UsageMode usage_mode = CoreConfig::usage_mode()();
       TRACE_MSG("Setting usage mode");
       set_usage_mode_internal(usage_mode, false);
     }

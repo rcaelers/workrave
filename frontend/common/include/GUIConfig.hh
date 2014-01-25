@@ -19,12 +19,50 @@
 #define GUICONFIG_HH
 
 #include "ICore.hh"
-
-using namespace workrave;
+#include "config/Setting.hh"
 
 class GUIConfig
 {
 public:
+  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
+
+  enum SlotType
+    {
+      BREAK_WHEN_IMMINENT = 1,
+      BREAK_WHEN_FIRST = 2,
+      BREAK_SKIP = 4,
+      BREAK_EXCLUSIVE = 8,
+      BREAK_DEFAULT = 16,
+      BREAK_HIDE = 32
+    };
+
+  static workrave::config::Setting<bool> break_auto_natural(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> break_ignorable(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> break_skippable(workrave::BreakId break_id);
+  static workrave::config::Setting<int>  break_exercises(workrave::BreakId break_id);
+  static workrave::config::Setting<int, GUIConfig::BlockMode> block_mode();
+  static workrave::config::Setting<std::string> locale();
+  static workrave::config::Setting<bool> trayicon_enabled();
+  static workrave::config::Setting<bool> closewarn_enabled();
+
+  static workrave::config::Setting<bool> main_window_always_on_top();
+  static workrave::config::Setting<bool> main_window_start_in_tray();
+  static workrave::config::Setting<int> main_window_x();
+  static workrave::config::Setting<int> main_window_y();
+  static workrave::config::Setting<int> main_window_head();
+
+  static workrave::config::Setting<int> timerbox_cycle_time(std::string box);
+  static workrave::config::Setting<int> timerbox_slot(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> timerbox_flags(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> timerbox_imminent(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<bool> timerbox_enabled(std::string box);
+
+  static const std::string key_main_window();
+  static const std::string key_timerbox(std::string box);
+
+  static void init();
+
+private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
@@ -42,62 +80,14 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
 
   static const std::string CFG_KEY_TIMERBOX;
-  static const std::string CFG_KEY_TIMERBOX_HORIZONTAL;
   static const std::string CFG_KEY_TIMERBOX_CYCLE_TIME;
   static const std::string CFG_KEY_TIMERBOX_POSITION;
   static const std::string CFG_KEY_TIMERBOX_FLAGS;
   static const std::string CFG_KEY_TIMERBOX_IMMINENT;
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
-  
-  static void init();
-
-  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
-  static BlockMode get_block_mode();
-  static void set_block_mode(BlockMode mode);
-
-  static std::string get_locale();
-  static void set_locale(std::string locale);
-
-  static bool get_trayicon_enabled();
-  static void set_trayicon_enabled(bool enabled);
-
-  static bool get_ignorable(BreakId id);
-  static bool get_skippable(BreakId id);
-  static void set_ignorable(BreakId id, bool b);
-  static int get_number_of_exercises(BreakId id);
-  static void set_number_of_exercises(BreakId id, int num);
-
-  static bool get_always_on_top();
-  static void set_always_on_top(bool b);
-
-  static void set_start_in_tray(bool b);
-  static bool get_start_in_tray();
-
-  static const std::string get_timerbox_timer_config_key(std::string name, workrave::BreakId timer, const std::string &key);
-  static int get_timerbox_cycle_time(std::string name);
-  static void set_timerbox_cycle_time(std::string name, int time);
-  static int get_timerbox_timer_imminent_time(std::string name, workrave::BreakId timer);
-  static void set_timerbox_timer_imminent_time(std::string name, workrave::BreakId timer, int time);
-  static int get_timerbox_timer_slot(std::string name, workrave::BreakId timer);
-  static void set_timerbox_timer_slot(std::string name, workrave::BreakId timer, int slot);
-
-  enum SlotType
-    {
-      BREAK_WHEN_IMMINENT = 1,
-      BREAK_WHEN_FIRST = 2,
-      BREAK_SKIP = 4,
-      BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16,
-      BREAK_HIDE = 32
-    };
-
-  static int get_timerbox_timer_flags(std::string name, workrave::BreakId timer);
-  static void set_timerbox_timer_flags(std::string name, workrave::BreakId timer, int flags);
-  static bool is_timerbox_enabled(std::string name);
-  static void set_timerbox_enabled(std::string name, bool enabled);
  
 private:
-  static std::string expand(const std::string &str, BreakId id);
+  static std::string expand(const std::string &str, workrave::BreakId id);
 };
 
 #endif

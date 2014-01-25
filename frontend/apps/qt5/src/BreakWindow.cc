@@ -296,7 +296,7 @@ BreakWindow::resume_non_ignorable_break()
         {
           TRACE_MSG("Break " << id << ": check ignorable");
 
-          bool ignorable = GUIConfig::get_ignorable(BreakId(id));
+          bool ignorable = GUIConfig::break_ignorable(BreakId(id))();
           if (!ignorable)
             {
               TRACE_MSG("Break " << id << " not ignorable");

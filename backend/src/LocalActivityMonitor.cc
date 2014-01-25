@@ -82,7 +82,7 @@ LocalActivityMonitor::init()
   InputMonitorFactory::init(configurator, display_name);
 
   load_config();
-  configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
+  configurator->add_listener(CoreConfig::key_monitor(), this);
 
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
@@ -354,7 +354,7 @@ LocalActivityMonitor::config_changed_notify(const string &key)
       path = key.substr(0, pos);
     }
 
-  if (path == CoreConfig::CFG_KEY_MONITOR)
+  if (path == CoreConfig::key_monitor())
     {
       load_config();
     }
@@ -368,34 +368,27 @@ LocalActivityMonitor::load_config()
 {
   TRACE_ENTER("LocalActivityMonitor::load_config");
 
-  int noise;
-  int activity;
-  int idle;
-
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
-    noise = 9000;
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
-    activity = 1000;
-  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
-    idle = 5000;
+  int noise = CoreConfig::monitor_noise()();
+  int activity = CoreConfig::monitor_activity()();
+  int idle = CoreConfig::monitor_idle()();
 
   // Pre 1.0 compatibility...
   if (noise < 50)
     {
       noise *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise);
+      CoreConfig::monitor_noise().set(noise);
     }
 
   if (activity < 50)
     {
       activity *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity);
+      CoreConfig::monitor_activity().set(noise);
     }
 
   if (idle < 50)
     {
       idle *= 1000;
-      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
+      CoreConfig::monitor_idle().set(noise);
     }
 
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);

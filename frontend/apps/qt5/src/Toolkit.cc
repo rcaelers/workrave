@@ -102,7 +102,7 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
 {
   IBreakWindow::Ptr ret;
   
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
    {
      ret = MicroBreakWindow::create(screen, break_flags, block_mode);

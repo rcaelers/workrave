@@ -179,9 +179,8 @@ Core::init_configurator()
         }
     }
   
-  string home;
-  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) &&
-      home != "")
+  string home = CoreConfig::general_datadir()();
+  if (home != "")
     {
       AssetPath::set_home_directory(home);
     }

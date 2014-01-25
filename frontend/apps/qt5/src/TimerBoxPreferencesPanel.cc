@@ -58,12 +58,12 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
   layout->addStretch();
 
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(GUIConfig::key_timerbox(name), this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = CoreFactory::get_core();
-      config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
+      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
     }
 
   
@@ -121,7 +121,7 @@ TimerBoxPreferencesPanel::create_page()
       // Always-on-top
       ontop_cb = new QCheckBox;
       ontop_cb->setText(_("The status window stays always on top of other windows"));
-      ontop_cb->setCheckState(GUIConfig::get_always_on_top() ? Qt::Checked : Qt::Unchecked);
+      ontop_cb->setCheckState(GUIConfig::main_window_always_on_top()() ? Qt::Checked : Qt::Unchecked);
 
       connect(ontop_cb, &QCheckBox::stateChanged, this, &TimerBoxPreferencesPanel::on_always_on_top_toggled);
     }
@@ -164,9 +164,9 @@ TimerBoxPreferencesPanel::create_page()
 void
 TimerBoxPreferencesPanel::init_page_values()
 {
-  int mp_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_MICRO_BREAK);
-  int rb_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_REST_BREAK);
-  int dl_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_DAILY_LIMIT);
+  int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
+  int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
+  int dl_slot = GUIConfig::timerbox_slot(name, BREAK_ID_DAILY_LIMIT)();
   int place;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
@@ -189,7 +189,7 @@ TimerBoxPreferencesPanel::init_page_values()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int flags = GUIConfig::get_timerbox_timer_flags(name, (BreakId) i);
+      int flags = GUIConfig::timerbox_flags(name, (BreakId) i)();
       int showhide;
       if (flags & GUIConfig::BREAK_HIDE)
         {
@@ -205,9 +205,9 @@ TimerBoxPreferencesPanel::init_page_values()
         }
       timer_display_button[i]->setCurrentIndex(showhide);
     }
-  cycle_entry->setValue(GUIConfig::get_timerbox_cycle_time(name));
+  cycle_entry->setValue(GUIConfig::timerbox_cycle_time(name)());
 
-  enabled_cb->setCheckState(GUIConfig::is_timerbox_enabled(name) ? Qt::Checked : Qt::Unchecked); 
+  enabled_cb->setCheckState(GUIConfig::timerbox_enabled(name)() ? Qt::Checked : Qt::Unchecked); 
   enable_buttons();
 }
 
@@ -232,7 +232,7 @@ TimerBoxPreferencesPanel::on_enabled_toggled()
 {
   bool on = enabled_cb->checkState() == Qt::Checked;
 
-  GUIConfig::set_timerbox_enabled(name, on);
+  GUIConfig::timerbox_enabled(name).set(on);
 
   enable_buttons();
 }
@@ -274,7 +274,7 @@ TimerBoxPreferencesPanel::on_place_changed()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      GUIConfig::set_timerbox_timer_slot(name, (BreakId) i, slot[i]);
+      GUIConfig::timerbox_slot(name, (BreakId) i).set(slot[i]);
     }
 }
 
@@ -297,7 +297,7 @@ TimerBoxPreferencesPanel::on_display_changed(int break_id)
       flags = GUIConfig::BREAK_WHEN_FIRST;
       break;
     }
-  GUIConfig::set_timerbox_timer_flags(name, (BreakId) break_id, flags);
+  GUIConfig::timerbox_flags(name, (BreakId) break_id).set(flags);
 
   enable_buttons();
 }
@@ -342,9 +342,9 @@ TimerBoxPreferencesPanel::enable_buttons(void)
         }
       if (count == 3)
         {
-          if (GUIConfig::is_timerbox_enabled(name))
+          if (GUIConfig::timerbox_enabled(name)())
             {
-              GUIConfig::set_timerbox_enabled(name, false);
+              GUIConfig::timerbox_enabled(name).set(false);
             }
           enabled_cb->setCheckState(Qt::Checked);
         }
@@ -361,14 +361,14 @@ void
 TimerBoxPreferencesPanel::on_cycle_time_changed()
 {
   int value = (int) cycle_entry->value();
-  GUIConfig::set_timerbox_cycle_time(name, value);
+  GUIConfig::timerbox_cycle_time(name).set(value);
 }
 
 
 void
 TimerBoxPreferencesPanel::on_always_on_top_toggled()
 {
-  GUIConfig::set_always_on_top(ontop_cb->checkState() == Qt::Checked);
+  GUIConfig::main_window_always_on_top().set((ontop_cb->checkState() == Qt::Checked));
 }
 
 
