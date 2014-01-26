@@ -67,6 +67,8 @@ Toolkit::~Toolkit()
 void
 Toolkit::init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme)
 {
+  setQuitOnLastWindowClosed(false);
+
   menu_handler = MenuHandler::create(menu);
   this->sound_theme = sound_theme;
 
