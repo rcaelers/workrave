@@ -33,25 +33,21 @@ MenuItem::create()
   return Ptr(new MenuItem());
 }
 
-
 MenuItem::Ptr
 MenuItem::create(const std::string &text, Activated activated, MenuItemType type)
 {
   return Ptr(new MenuItem(text, activated, type));
 }
 
-
 MenuItem::MenuItem()
   : type(MenuItemType::MENU), checked(false)
 {
 }
 
-
 MenuItem::MenuItem(const std::string &text, Activated activated, MenuItemType type)
   : text(text), activated(activated), type(type)
 {
 }
-
 
 const MenuItem::MenuItemList
 MenuItem::get_submenus() const
@@ -59,13 +55,11 @@ MenuItem::get_submenus() const
   return submenus;
 }
 
-
 const std::string &
 MenuItem::get_text() const
 {
   return text;
 }
-
 
 void
 MenuItem::set_text(const std::string &text)
@@ -77,20 +71,17 @@ MenuItem::set_text(const std::string &text)
     }
 }
 
-
 MenuItemType
 MenuItem::get_type() const
 {
   return type;
 }
 
-
 bool
 MenuItem::is_checked() const
 {
   return checked;
 }
-
 
 void
 MenuItem::set_checked(bool checked)
@@ -102,14 +93,25 @@ MenuItem::set_checked(bool checked)
     }
 }
 
-
 void
-MenuItem::add_menu(MenuItem::Ptr submenu)
+MenuItem::add_menu(MenuItem::Ptr submenu, MenuItem::Ptr before)
 {
-  submenus.push_back(submenu);
-  added_signal(submenu);
+  MenuItemList::iterator pos = submenus.end();
+  if (before)
+    {
+      pos = std::find(submenus.begin(), submenus.end(), before);
+    }
+
+  submenus.insert(pos, submenu);
+  added_signal(submenu, before);
 }
 
+void
+MenuItem::remove_menu(MenuItem::Ptr submenu)
+{
+  submenus.remove(submenu);
+  removed_signal(submenu);
+}
 
 void
 MenuItem::activate()
@@ -123,10 +125,15 @@ MenuItem::signal_changed()
   return changed_signal;
 }
 
-
-boost::signals2::signal<void(MenuItem::Ptr)> &
+boost::signals2::signal<void(MenuItem::Ptr, MenuItem::Ptr)> &
 MenuItem::signal_added()
 {
   return added_signal;
+}
+
+boost::signals2::signal<void(MenuItem::Ptr)> &
+MenuItem::signal_removed()
+{
+  return removed_signal;
 }
 

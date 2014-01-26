@@ -40,10 +40,16 @@ namespace detail
     typedef boost::shared_ptr<MenuEntry> Ptr;
     typedef std::list<Ptr> MenuEntries;
   
-    static Ptr create(MenuItem::Ptr menuitem);
+    static Ptr create(MenuItem::Ptr menuitem, QMenu *parent, QAction *before = nullptr);
 
+    MenuEntry(MenuItem::Ptr menuitem, QMenu *parent);
     virtual ~MenuEntry() {};
-    virtual void init(QMenu *parent, QAction *before = NULL) = 0;
+    virtual QAction* get_action() const = 0;
+    virtual MenuItem::Ptr get_menuitem() const;
+
+  protected:
+    MenuItem::Ptr menuitem;
+    QMenu *parent;
   };
 
   
@@ -54,19 +60,19 @@ namespace detail
   public:
     typedef boost::shared_ptr<Menu> Ptr;
   
-    Menu(MenuItem::Ptr menuitem);
+    Menu(MenuItem::Ptr menuitem, QMenu *parentQ, QAction *before);
     virtual ~Menu();
 
     void popup(int x, int y);
 
-    virtual void init(QMenu *parent, QAction *before = NULL);
+    virtual QAction* get_action() const;
 
   private:
-    void on_menu_added(MenuItem::Ptr added);
+    void on_menu_added(MenuItem::Ptr added, MenuItem::Ptr before);
+    void on_menu_removed(MenuItem::Ptr removed);
     void on_menu_changed();
   
   private:
-    MenuItem::Ptr menuitem;
     MenuEntries children;
     QMenu *menu;
   };
@@ -79,10 +85,10 @@ namespace detail
   public:
     typedef boost::shared_ptr<Action> Ptr;
 
-    Action(MenuItem::Ptr menuitem);
+    Action(MenuItem::Ptr menuitem, QMenu *parent, QAction *before);
     virtual ~Action();
 
-    virtual void init(QMenu *parent, QAction *before = NULL);
+    virtual QAction* get_action() const;
 
   public slots:
     void on_action(bool checked);
@@ -91,7 +97,6 @@ namespace detail
     void on_menu_changed();
   
   private:
-    MenuItem::Ptr menuitem;
     QAction *action;
   };
 }

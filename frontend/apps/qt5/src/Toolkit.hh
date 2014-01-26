@@ -92,7 +92,8 @@ private:
   boost::shared_ptr<MainWindow> main_window;
   boost::shared_ptr<PreferencesDialog> preferences_dialog;
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
-  
+
+  MenuItem::Ptr top_menu;
   MenuHandler::Ptr menu_handler;
   SoundTheme::Ptr sound_theme;
   

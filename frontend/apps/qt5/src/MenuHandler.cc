@@ -37,8 +37,7 @@ MenuHandler::create(MenuItem::Ptr top)
 
 MenuHandler::MenuHandler(MenuItem::Ptr top)
 {
-  qmenuitem = boost::make_shared<detail::Menu>(top);
-  qmenuitem->init(NULL);
+  qmenuitem = boost::make_shared<detail::Menu>(top, nullptr, nullptr);
 }
 
 MenuHandler::~MenuHandler()
@@ -56,58 +55,92 @@ namespace detail
 {
 
 MenuEntry::Ptr
-MenuEntry::create(MenuItem::Ptr menuitem)
+MenuEntry::create(MenuItem::Ptr menuitem, QMenu *parent, QAction *before)
 {
   MenuItemType type = menuitem->get_type();
 
   if (type == MenuItemType::MENU)
     {
-      return Ptr(new Menu(menuitem));
+      return Ptr(new Menu(menuitem, parent, before));
     }
   else
     {
-      return Ptr(new Action(menuitem));
+      return Ptr(new Action(menuitem, parent, before));
     }
 }
-
-
-Menu::Menu(MenuItem::Ptr menuitem)
-  : menuitem(menuitem), menu(NULL)
+  
+MenuEntry::MenuEntry(MenuItem::Ptr menuitem, QMenu *parent) : menuitem(menuitem), parent(parent)
 {
-  menuitem->signal_added().connect(boost::bind(&Menu::on_menu_added, this, _1)); 
+}
+
+
+MenuItem::Ptr 
+MenuEntry::get_menuitem() const
+{
+  return menuitem;
+}
+
+
+Menu::Menu(MenuItem::Ptr menuitem, QMenu *parent, QAction *before)
+  : MenuEntry(menuitem, parent), menu(NULL)
+{
+  menuitem->signal_added().connect(boost::bind(&Menu::on_menu_added, this, _1, _2)); 
+  menuitem->signal_removed().connect(boost::bind(&Menu::on_menu_removed, this, _1)); 
   menuitem->signal_changed().connect(boost::bind(&Menu::on_menu_changed, this)); 
-}
 
-
-Menu::~Menu()
-{
-}
-
-
-void
-Menu::init(QMenu *submenu, QAction *before)
-{
   const char *text = menuitem->get_text().c_str();
   
   menu = new QMenu(text);
 
   for (const MenuItem::Ptr &item : menuitem->get_submenus())
     {
-      MenuEntry::Ptr child = MenuEntry::create(item);
-      child->init(menu);
+      MenuEntry::Ptr child = MenuEntry::create(item, menu);
       children.push_back(child);
     }
 
-  if (submenu != NULL)
+  if (parent != NULL)
     {
-      submenu->insertMenu(before, menu);
+      parent->insertMenu(before, menu);
     }
 }
 
+Menu::~Menu()
+{
+}
+
+QAction *
+Menu::get_action() const
+{
+  return menu->menuAction();
+}
   
 void
-Menu::on_menu_added(MenuItem::Ptr added)
+Menu::on_menu_added(MenuItem::Ptr added, MenuItem::Ptr before)
 {
+  QAction *qbefore = nullptr;
+  MenuEntries::iterator pos = children.end();
+  if (before)
+    {
+      pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menuitem() == before; });
+      if (pos != children.end())
+        {
+          qbefore = (*pos)->get_action();
+        }
+    }
+
+  MenuEntry::Ptr child = MenuEntry::create(added, menu, qbefore);
+  children.insert(pos, child);
+}
+  
+
+void
+Menu::on_menu_removed(MenuItem::Ptr removed)
+{
+  MenuEntries::iterator pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menuitem() == removed; });
+  if (pos != children.end())
+    {
+      children.erase(pos);
+    }
 }
   
 
@@ -126,21 +159,11 @@ Menu::popup(int x, int y)
 }
   
 
-Action::Action(MenuItem::Ptr menuitem)
-  : menuitem(menuitem), action(NULL)
+Action::Action(MenuItem::Ptr menuitem, QMenu *parent, QAction *before)
+  : MenuEntry(menuitem, parent), action(NULL)
 {
   menuitem->signal_changed().connect(boost::bind(&Action::on_menu_changed, this)); 
-}
 
-
-Action::~Action()
-{
-}
-
-
-void
-Action::init(QMenu *submenu, QAction *before)
-{
   MenuItemType type = menuitem->get_type();
   const char *text = menuitem->get_text().c_str();
   bool checked = menuitem->is_checked();
@@ -156,9 +179,20 @@ Action::init(QMenu *submenu, QAction *before)
 
   connect(action, &QAction::triggered, this, &Action::on_action);
   
-  submenu->insertAction(before, action);
+  parent->insertAction(before, action);
 }
 
+
+Action::~Action()
+{
+}
+
+
+QAction *
+Action::get_action() const
+{
+  return action;
+}
   
 void
 Action::on_menu_changed()

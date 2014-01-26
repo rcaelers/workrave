@@ -117,7 +117,7 @@ MenuModel::init()
                           boost::bind(&MenuModel::on_menu_about, this));
   top->add_menu(item);
   
-  item = MenuItem::create(_("_Quit"),
+  item = MenuItem::create(_("Quit"),
                           boost::bind(&MenuModel::on_menu_quit, this));
   top->add_menu(item);
 

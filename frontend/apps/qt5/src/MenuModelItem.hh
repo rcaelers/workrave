@@ -36,9 +36,9 @@ enum class MenuItemType : int
 class MenuItem
 {
 public:
-  typedef boost::function<void ()> Activated;
   typedef boost::shared_ptr<MenuItem> Ptr;
   typedef std::list<MenuItem::Ptr> MenuItemList;
+  typedef boost::function<void ()> Activated;
   
   static Ptr create();
   static Ptr create(const std::string &text, Activated activated, MenuItemType type = MenuItemType::ACTION);
@@ -55,12 +55,14 @@ public:
   void set_checked(bool checked);
   
   const MenuItemList get_submenus() const;
-  void add_menu(MenuItem::Ptr submenu);
+  void add_menu(MenuItem::Ptr submenu, MenuItem::Ptr before = MenuItem::Ptr());
+  void remove_menu(MenuItem::Ptr submenu);
   
   void activate();
   
   boost::signals2::signal<void()> &signal_changed();
-  boost::signals2::signal<void(MenuItem::Ptr item)> &signal_added();
+  boost::signals2::signal<void(MenuItem::Ptr item, MenuItem::Ptr before)> &signal_added();
+  boost::signals2::signal<void(MenuItem::Ptr item)> &signal_removed();
   
 private:
   std::string text;
@@ -69,6 +71,7 @@ private:
   MenuItemList submenus;
   bool checked;
   boost::signals2::signal<void()> changed_signal;
-  boost::signals2::signal<void(MenuItem::Ptr item)> added_signal;
+  boost::signals2::signal<void(MenuItem::Ptr item, MenuItem::Ptr before)> added_signal;
+  boost::signals2::signal<void(MenuItem::Ptr item)> removed_signal;
 };
 #endif // MENUITEM_HH

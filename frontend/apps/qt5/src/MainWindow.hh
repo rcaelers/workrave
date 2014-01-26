@@ -36,6 +36,7 @@ public:
   ~MainWindow();
 
   void heartbeat();
+
 public slots:
   void on_show_contextmenu(const QPoint& pos);
 

@@ -126,7 +126,6 @@ Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)
   return PreludeWindow::create(screen, break_id);
 }
 
-
 void
 Toolkit::show_window(WindowType type)
 {
@@ -163,7 +162,6 @@ Toolkit::show_window(WindowType type)
     }
 }
 
-
 void
 Toolkit::hide_window(WindowType type)
 {
@@ -188,7 +186,7 @@ Toolkit::hide_window(WindowType type)
       exercises_dialog->hide();
       exercises_dialog.reset();
       break;
-}
+    }
 }
 
 int
@@ -198,7 +196,6 @@ Toolkit::get_screen_count() const
   return dw->screenCount();
 }
 
-
 void
 Toolkit::on_timer()
 {
@@ -206,7 +203,6 @@ Toolkit::on_timer()
 
   main_window->heartbeat();
 }
-
 
 void
 Toolkit::on_exercises_closed()
