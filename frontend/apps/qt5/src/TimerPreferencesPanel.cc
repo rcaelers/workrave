@@ -320,7 +320,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
   return true;
 }
 
-
 void
 TimerPreferencesPanel::on_enabled_toggled()
 {

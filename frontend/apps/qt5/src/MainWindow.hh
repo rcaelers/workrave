@@ -20,9 +20,6 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include <QDialog>
-#include <QVBoxLayout>
-
 #include "TimerBoxView.hh"
 #include "TimerBoxControl.hh"
 
@@ -30,7 +27,7 @@
 
 #include "MenuHandler.hh"
 
-class MainWindow : public QDialog
+class MainWindow : public TimerBoxView
 {
   Q_OBJECT
   
@@ -44,10 +41,7 @@ public slots:
 
 private:
   MenuHandler::Ptr menus;
-  
-  TimerBoxView *timer_box_view;
   TimerBoxControl *timer_box_control;
-  QVBoxLayout *layout;
 };
 
 #endif // MAINWINDOW_HH

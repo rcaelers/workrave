@@ -26,19 +26,13 @@
 #include "MenuModel.hh"
 
 MainWindow::MainWindow(MenuHandler::Ptr menus)
-  : QDialog(0, Qt::WindowTitleHint
-            | Qt::WindowSystemMenuHint),
+  : // QWidget(0, Qt::WindowTitleHint | Qt::WindowSystemMenuHint),
     menus(menus)
 {
-  timer_box_view = new TimerBoxView();
-  layout = new QVBoxLayout();
-  layout->setContentsMargins(0, 0, 0, 0);
-  
-  layout->addWidget(timer_box_view);
   setFixedSize(minimumSize());
-  setLayout(layout);
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
-  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
+  timer_box_control = new TimerBoxControl("main_window", *this);
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
@@ -47,17 +41,14 @@ MainWindow::MainWindow(MenuHandler::Ptr menus)
 
 MainWindow::~MainWindow()
 {
-  delete timer_box_view;
   delete timer_box_control;
 }
-
 
 void
 MainWindow::heartbeat()
 {
   timer_box_control->update();
 }
-
 
 void
 MainWindow::on_show_contextmenu(const QPoint &pos)

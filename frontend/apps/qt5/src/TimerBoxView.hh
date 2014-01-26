@@ -27,6 +27,7 @@
 #include <string>
 
 #include <QWidget>
+#include <QLabel>
 #include <QGridLayout>
 
 #include "TimerBoxViewBase.hh"
@@ -54,14 +55,13 @@ public:
   //virtual void set_geometry(Orientation orientation, int size);
 
 private:
-  void init_widgets();
   void init_table();
   void init();
 
   int get_number_of_timers() const;
   bool is_sheep_only() const;
   void set_sheep_only(bool sheep_only);
-  
+
   //!
   QGridLayout *layout;
   
@@ -71,14 +71,26 @@ private:
   //! Array of time bar widgets.
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
 
+  //! 
+  QLabel *sheep;
+
+  //! Reconfigure the panel.
+  bool reconfigure;
+
+  //! Size
+  int size;
+
   //! Current slot content.
-  int content[workrave::BREAK_ID_SIZEOF];
+  int current_content[workrave::BREAK_ID_SIZEOF];
+
+  //! New slot content.
+  int new_content[workrave::BREAK_ID_SIZEOF];
+
+  //! Number of visible breaks.
+  int visible_count;
 
   //! Only show the sheep
   bool sheep_only;
-
-  //!
-  bool reconfigure;
 };
 
 #endif // TIMERBOXVIEW_HH

@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QLabel>
 
+#include "utils/AssetPath.hh"
 #include "UI.hh"
 #include "SizeGroup.hh"
 #include "TimerBoxView.hh"
@@ -36,9 +37,20 @@ using namespace workrave::utils;
 using namespace workrave::ui;
 
 TimerBoxView::TimerBoxView() :
-  sheep_only(false),
-  reconfigure(false)
+  sheep(NULL),
+  reconfigure(true),
+  size(0),
+  visible_count(-1),
+  sheep_only(false)
 {
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      new_content[i] = BREAK_ID_NONE;
+      current_content[i] = BREAK_ID_NONE;
+      labels[i] = NULL;
+      bars[i] = NULL;
+    }
+
   init();
 }
 
@@ -61,28 +73,18 @@ TimerBoxView::init()
   TRACE_ENTER("TimerBoxView::init");
 
   layout = new QGridLayout();
+  layout->setSpacing(2);
+  layout->setContentsMargins(2, 2, 2, 2);
+
   setLayout(layout);
   
-  init_widgets();
-
-  for (auto &elem : content)
-    {
-      elem = BREAK_ID_NONE;
-    }
-
-  TRACE_EXIT();
-}
-
-void
-TimerBoxView::init_widgets()
-{
   SizeGroup *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
 
   for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       QPixmap pixmap(QString::fromStdString(Ui::get_break_icon_filename(i)));
                      
-      if (false) // i == BREAK_ID_REST_BREAK)
+      if (false) // TODO: i == BREAK_ID_REST_BREAK)
         {
           QPushButton *button = new QPushButton("");
           button->setIcon(pixmap);
@@ -102,6 +104,12 @@ TimerBoxView::init_widgets()
       bars[i]->set_progress(0, 60);
       bars[i]->set_text(_("Wait"));
     }
+
+  std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
+  QPixmap pixmap(QString::fromStdString(sheep_file));
+  sheep = new QLabel("");
+  sheep->setPixmap(pixmap);
+  // sheep->set_tooltip_text("Workrave");
 }
 
 int
@@ -110,9 +118,9 @@ TimerBoxView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (auto &elem : content)
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          if (elem != BREAK_ID_NONE)
+          if (new_content[i] != BREAK_ID_NONE)
             {
               number_of_timers++;
             }
@@ -129,22 +137,106 @@ TimerBoxView::init_table()
   int number_of_timers = get_number_of_timers();
   TRACE_MSG("number_of_timers = " << number_of_timers);
 
+  // Compute table dimensions.
+  int rows = number_of_timers;
+  int columns = 2;
+  int reverse = false;
+
+  if (rows == 0)
+    {
+      // Show sheep.
+      rows = 1;
+    }
+
+  bool remove_all = number_of_timers != visible_count;
+
+  // Remove old
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      int id = current_content[i];
+      if (id != -1 && (id != new_content[i] || remove_all))
+        {
+          TRACE_MSG("remove " << i << " " << id);
+          layout->removeWidget(labels[id]);
+          labels[id]->hide();
+          layout->removeWidget(bars[id]);
+          bars[id]->hide();
+          current_content[i] = -1;
+        }
+    }
+
+  // Remove sheep
+  if ((number_of_timers > 0 || remove_all) && visible_count == 0)
+    {
+      TRACE_MSG("remove sheep");
+      layout->removeWidget(sheep);
+      sheep->hide();
+      visible_count = -1;
+    }
+
+  // Add sheep.
+  if (number_of_timers == 0 && visible_count != 0)
+    {
+      TRACE_MSG("add sheep");
+      layout->addWidget(sheep, 0, 0);
+      sheep->show();
+    }
+
+
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
-      layout->addWidget(labels[i], i, 0);
-      layout->addWidget(bars[i], i, 1);
+      int id = new_content[i];
+      int cid = current_content[i];
+
+      if (id != cid)
+        {
+          int item = i;
+
+          if (reverse)
+            {
+              item = number_of_timers - i + 1;
+            }
+
+          current_content[i] = id;
+
+          int cur_row = (2 * item) / columns;
+          int cur_col = (2 * item) % columns;
+
+          layout->addWidget(labels[id], cur_row, cur_col);
+          labels[id]->show();
+
+          int bias = 1;
+          if (reverse)
+            {
+              bias = -1;
+            }
+
+          cur_row = (2 * item + bias) / columns;
+          cur_col = (2 * item + bias) % columns;
+
+          layout->addWidget(bars[id], cur_row, cur_col);
+          bars[id]->show();
+        }
     }
 
+  for (int i = number_of_timers; i < BREAK_ID_SIZEOF; i++)
+    {
+      current_content[i] = -1;
+    }
+
+  visible_count = number_of_timers;
+  
+  adjustSize();
   TRACE_EXIT();
 }
 
 void
 TimerBoxView::set_slot(BreakId id, int slot)
 {
-  if (content[slot] != id)
+  if (new_content[slot] != id)
     {
-      content[slot] = id;
+      new_content[slot] = id;
       reconfigure = true;
     }
 }
