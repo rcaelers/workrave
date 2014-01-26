@@ -157,6 +157,7 @@ Application::terminate()
 
   CoreFactory::get_configurator()->save();
 
+  toolkit->terminate();
   //collect_garbage();
 
   TRACE_EXIT();

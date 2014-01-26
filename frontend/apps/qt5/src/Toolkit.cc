@@ -79,6 +79,12 @@ Toolkit::init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme)
 }
 
 void
+Toolkit::terminate()
+{
+  exit();
+}
+
+void
 Toolkit::run()
 {
   exec();

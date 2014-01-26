@@ -45,6 +45,9 @@ public:
   virtual void init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
 
   //! 
+  virtual void terminate() = 0;
+
+  //! 
   virtual void run() = 0;
   
   //! 
