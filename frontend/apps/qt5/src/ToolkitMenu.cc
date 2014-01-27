@@ -190,6 +190,7 @@ ActionMenuEntry::on_menu_changed()
 void
 ActionMenuEntry::on_action(bool checked)
 {
+  menu_model->set_checked(checked);
   menu_model->activate();
 }
 
