@@ -64,14 +64,14 @@ private:
 
   //!
   QGridLayout *layout;
-  
+
   //! Array of time labels
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
 
   //! Array of time bar widgets.
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
 
-  //! 
+  //!
   QLabel *sheep;
 
   //! Reconfigure the panel.

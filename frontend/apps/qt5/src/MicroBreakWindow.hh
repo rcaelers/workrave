@@ -28,13 +28,13 @@
 class MicroBreakWindow : public BreakWindow
 {
   Q_OBJECT
-  
+
 public:
   MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~MicroBreakWindow();
 
   static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  
+
   virtual void set_progress(int value, int max_value);
   //void heartbeat();
 

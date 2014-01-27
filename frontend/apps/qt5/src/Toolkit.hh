@@ -23,7 +23,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
-#include <QApplication>  
+#include <QApplication>
 #include <QTimer>
 
 #include "IToolkit.hh"
@@ -41,7 +41,7 @@ class Toolkit : public QApplication, public IToolkit
   Q_OBJECT
 
 public:
-  
+
   typedef boost::shared_ptr<Toolkit> Ptr;
 
   static IToolkit::Ptr create(int argc, char **argv);
@@ -50,17 +50,17 @@ public:
   virtual ~Toolkit();
 
   virtual boost::signals2::signal<void()> &signal_timer();
-  
+
   //!
   virtual void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme);
 
-  //! 
+  //!
   virtual void terminate();
 
-  //! 
+  //!
   virtual void run();
 
-  //! 
+  //!
   virtual void grab();
 
   //!
@@ -88,7 +88,7 @@ public slots:
   void on_timer();
   void on_exercises_closed();
   void on_preferences_closed();
-  
+
 private:
   boost::shared_ptr<QTimer> heartbeat_timer;
 
@@ -99,10 +99,10 @@ private:
   MenuModel::Ptr menu_model;
   ToolkitMenu::Ptr dock_menu;
   SoundTheme::Ptr sound_theme;
-  
+
   //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
-  
+
 };
 
 #endif // TOOLKIT_HH

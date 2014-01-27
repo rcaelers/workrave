@@ -42,7 +42,7 @@ DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
-DataConnector::Ptr 
+DataConnector::Ptr
 DataConnector::create()
 {
   return Ptr(new DataConnector);

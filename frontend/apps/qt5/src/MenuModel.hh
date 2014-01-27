@@ -37,10 +37,10 @@ public:
   typedef boost::shared_ptr<MenuModel> Ptr;
   typedef std::list<MenuModel::Ptr> MenuModelList;
   typedef boost::function<void ()> Activated;
-  
+
   static Ptr create();
   static Ptr create(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);
-  
+
   MenuModel();
   MenuModel(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);
 
@@ -51,17 +51,17 @@ public:
 
   bool is_checked() const;
   void set_checked(bool checked);
-  
+
   const MenuModelList get_submenus() const;
   void add_menu(MenuModel::Ptr submenu, MenuModel::Ptr before = MenuModel::Ptr());
   void remove_menu(MenuModel::Ptr submenu);
-  
+
   void activate();
-  
+
   boost::signals2::signal<void()> &signal_changed();
   boost::signals2::signal<void(MenuModel::Ptr item, MenuModel::Ptr before)> &signal_added();
   boost::signals2::signal<void(MenuModel::Ptr item)> &signal_removed();
-  
+
 private:
   const std::string id;
   std::string text;

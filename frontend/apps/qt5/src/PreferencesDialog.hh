@@ -31,7 +31,7 @@
 class PreferencesDialog : public QDialog
 {
   Q_OBJECT
-  
+
 public:
   PreferencesDialog(SoundTheme::Ptr sound_theme);
   virtual ~PreferencesDialog();

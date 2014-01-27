@@ -39,17 +39,17 @@ public:
   typedef boost::shared_ptr<IToolkit> Ptr;
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
-  
-  //! 
+
+  //!
   virtual void init(MenuModel::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
 
-  //! 
+  //!
   virtual void terminate() = 0;
 
-  //! 
+  //!
   virtual void run() = 0;
-  
-  //! 
+
+  //!
   virtual void grab() = 0;
 
   //!
@@ -66,7 +66,7 @@ public:
 
   //!
   virtual void show_window(WindowType type) = 0;
-  
+
   //!
   virtual void hide_window(WindowType type) = 0;
 

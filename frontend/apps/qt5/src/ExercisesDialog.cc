@@ -40,11 +40,11 @@ ExercisesDialog::ExercisesDialog()
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
-  
+
   panel =  new ExercisesPanel(true);
   panel->set_exercise_count(0);
   panel->signal_stop().connect(boost::bind(&ExercisesDialog::on_stop, this));
-  
+
   layout->addWidget(panel);
 
   TRACE_EXIT();

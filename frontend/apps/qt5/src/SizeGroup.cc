@@ -65,7 +65,7 @@ SizeGroup::update()
 {
   int width = 0;
   int height = 0;
-    
+
   Q_FOREACH(QWidget* widget, widgets)
     {
       width = qMax(widget->sizeHint().width(), width);

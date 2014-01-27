@@ -28,7 +28,7 @@
 class MainWindow : public TimerBoxView
 {
   Q_OBJECT
-  
+
 public:
   explicit MainWindow(MenuModel::Ptr menu_model);
   ~MainWindow();

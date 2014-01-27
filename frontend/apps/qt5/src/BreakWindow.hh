@@ -35,7 +35,7 @@ class BreakWindow :
   public IBreakWindow
 {
   Q_OBJECT
-  
+
 public:
   BreakWindow(int screen,
               workrave::BreakId break_id,
@@ -57,11 +57,11 @@ protected:
   QAbstractButton *create_postpone_button();
   QAbstractButton *create_lock_button();
   QAbstractButton *create_shutdown_button();
-  
+
   BreakFlags get_break_flags() const { return break_flags; }
   Frame* get_frame() { return frame; }
   int get_screen() { return screen; }
-  
+
   void center();
 
 private:

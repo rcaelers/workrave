@@ -148,7 +148,7 @@ TimeBar::minimumSizeHint() const
 
   width = width + 2 * MARGINX;
   height = std::max(height + 2 * MARGINY, 20);
-  
+
   TRACE_MSG("width = " << width << "height = " << height);
   TRACE_EXIT();
   return QSize(width, height);
@@ -183,9 +183,9 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   option.lineWidth = 2;
   option.midLineWidth = 0;
 
-  painter.drawPrimitive(QStyle::PE_Frame, option);  
+  painter.drawPrimitive(QStyle::PE_Frame, option);
 
-  
+
   // Bar
   int bar_width = 0;
   if (bar_max_value > 0)
@@ -266,7 +266,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
 
 
   QString text = QString::fromStdString(bar_text);
-  
+
   int text_width = painter.fontMetrics().width(text);
   int text_height = painter.fontMetrics().height();
 
@@ -277,11 +277,11 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
     text_x = MARGINX;
   else
     text_x = (width() - text_width) / 2;
-  
+
   int text_y = (height() + text_height ) / 2 - MARGINY;
 
   TRACE_MSG("x = " << text_x << "y = " << text_y);
-  
+
   int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
   left_width += border_size;
 
@@ -295,7 +295,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   painter.drawText(text_x, text_y, text);
 
   //painter.setClipRegion(right_rect);
-  
+
   //painter.setPen(QColor("white"));
   //painter.drawText(text_x, text_y, text);
 

@@ -181,12 +181,12 @@ TimerBoxPreferencesPanel::init()
   setLayout(layout);
 
   layout->addWidget(enabled_cb);
-  
+
   QGroupBox *display_box = new QGroupBox(_("Display"));
   QVBoxLayout *display_layout = new QVBoxLayout;
   display_box->setLayout(display_layout);
   layout->addWidget(display_box);
-  
+
   display_layout->addWidget(enabled_cb);
 
   if (name == "main_window")
@@ -201,7 +201,7 @@ TimerBoxPreferencesPanel::init()
   QVBoxLayout *timers_layout = new QVBoxLayout;
   timers_box->setLayout(timers_layout);
   layout->addWidget(timers_box);
-  
+
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
@@ -223,7 +223,7 @@ TimerBoxPreferencesPanel::on_enabled_toggled(const std::string &key, bool write)
 }
 
 
-bool 
+bool
 TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::string &key, bool write)
 {
   if (write)

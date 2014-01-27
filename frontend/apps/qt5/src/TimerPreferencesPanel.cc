@@ -59,7 +59,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
 
   connector = DataConnector::create();
-  
+
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
@@ -86,7 +86,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
   grid->setColumnStretch(1, 1);
 
   connector->connect(CoreConfig::break_enabled(break_id), dc::wrap(enabled_cb));
-  
+
   TRACE_EXIT();
 }
 
@@ -116,7 +116,7 @@ TimerPreferencesPanel::create_prelude_panel()
   max_box->addWidget(max_prelude_spin);
   layout->addLayout(max_box);
   layout->addStretch();
-  
+
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(prelude_cb),
                      boost::bind(&TimerPreferencesPanel::on_preludes_changed, this, _1, _2));
@@ -178,7 +178,7 @@ TimerPreferencesPanel::create_options_panel()
     }
 
   layout->addStretch();
-  
+
   connector->connect(GUIConfig::break_ignorable(break_id), dc::wrap(ignorable_cb));
   connector->connect(GUIConfig::break_skippable(break_id), dc::wrap(skippable_cb));
   return box;
@@ -192,20 +192,20 @@ TimerPreferencesPanel::create_timers_panel()
   box->setLayout(layout);
 
   int row = 0;
-  
+
   // Limit time
   limit_tim = new TimeEntry();
   QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT
                                  ? _("Time before end:")
                                  : _("Time between breaks:"));
-  
+
   layout->addWidget(limit_lab, row, 0);
   layout->addWidget(limit_tim, row, 1);
   layout->setRowStretch(row, 0);
-  
+
   hsize_group->addWidget(limit_lab);
   row++;
-    
+
   // Auto-reset time
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
@@ -221,19 +221,19 @@ TimerPreferencesPanel::create_timers_panel()
 
       connector->connect(CoreConfig::timer_auto_reset(break_id), dc::wrap(auto_reset_tim));
     }
-  
+
   // Snooze time
   snooze_tim = new TimeEntry;
-  
+
   QLabel *snooze_lab = new QLabel(_("Postpone time:"));
   layout->addWidget(snooze_lab, row, 0);
   layout->addWidget(snooze_tim, row, 1);
   layout->setRowStretch(row, 0);
   row++;
-  
+
   layout->addWidget(new QWidget, row, 0);
   layout->setRowStretch(row, 1);
-  
+
   layout->setColumnStretch(1, 0);
   hsize_group->addWidget(snooze_lab);
   vsize_group->addWidget(box);

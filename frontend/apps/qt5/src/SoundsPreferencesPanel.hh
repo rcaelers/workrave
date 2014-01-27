@@ -29,7 +29,7 @@
 class SoundsPreferencesPanel : public QWidget
 {
   Q_OBJECT
-  
+
 public:
   SoundsPreferencesPanel(SoundTheme::Ptr sound_theme);
   virtual ~SoundsPreferencesPanel();
@@ -44,7 +44,7 @@ private:
   void on_sound_selected(const QString &filename);
 
   void update_theme_selection();
-  
+
 private:
   SoundTheme::Ptr sound_theme;
   DataConnector::Ptr connector;

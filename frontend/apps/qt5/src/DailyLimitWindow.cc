@@ -65,7 +65,7 @@ DailyLimitWindow::create_gui()
   QLabel *image = new QLabel;
   std::string file = AssetPath::complete_directory("daily-limit.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
-  
+
   // HBox
   QHBoxLayout *hbox = new QHBoxLayout;
   hbox->addWidget(image);
@@ -84,7 +84,7 @@ DailyLimitWindow::create_gui()
 
   QWidget *widget = new QWidget;
   widget->setLayout(box);
-  
+
   return widget;
 }
 

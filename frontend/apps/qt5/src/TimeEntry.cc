@@ -53,13 +53,13 @@ TimeEntry::TimeEntry()
   connect(secs, signal, this, &TimeEntry::on_value_changed);
   connect(hrs, signal, this, &TimeEntry::on_value_changed);
   connect(mins, signal, this, &TimeEntry::on_value_changed);
-  
+
   QLabel *semi1 = new QLabel(":");
   QLabel *semi2 = new QLabel(":");
 
   QHBoxLayout *layout = new QHBoxLayout;
   setLayout(layout);
-  
+
   layout->addWidget(hrs);
   layout->addWidget(semi1);
   layout->addWidget(mins);
@@ -105,4 +105,4 @@ TimeEntry::signal_value_changed()
 {
   return value_changed_signal;
 }
- 
+

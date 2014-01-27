@@ -112,7 +112,7 @@ IBreakWindow::Ptr
 Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flags)
 {
   IBreakWindow::Ptr ret;
-  
+
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
    {
@@ -146,7 +146,7 @@ Toolkit::show_window(WindowType type)
       main_window->show();
       main_window->raise();
       break;
-      
+
     case WindowType::Statistics:
       break;
 
@@ -181,7 +181,7 @@ Toolkit::hide_window(WindowType type)
     case WindowType::Main:
       main_window->hide();
       break;
-      
+
     case WindowType::Statistics:
       break;
 

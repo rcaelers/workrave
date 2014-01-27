@@ -36,7 +36,7 @@
 class ExercisesPanel : public QWidget
 {
   Q_OBJECT
-  
+
 public:
   explicit ExercisesPanel(bool standalone);
   ~ExercisesPanel();
@@ -46,7 +46,7 @@ public:
 
 public slots:
   void heartbeat();
-  
+
 private:
   void reset();
   void on_go_back();
@@ -69,7 +69,7 @@ private:
     return ret;
   }
 
-  
+
   QTimer *timer;
   QFrame *image_frame;
   QLabel *image;
@@ -80,13 +80,13 @@ private:
   QPushButton *pause_button;
   QPushButton *forward_button;
   QPushButton *stop_button;
-  
+
   // Glib::RefPtr<QSizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
-  
+
   int exercise_time;
   int seq_time;
   bool paused;

@@ -71,7 +71,7 @@ Frame::set_frame_style(const Style style)
   set_frame_width(dfw, border_width);
 }
 
-  
+
 void
 Frame::set_frame_color(const QColor &col)
 {
@@ -83,17 +83,17 @@ void
 Frame::set_frame_width(int frame, int border)
 {
   QRect fr = get_frame_rect();
-  
+
   frame_width = frame;
   border_width = border;
-  
+
   QRect cr = fr.isValid() ? fr : rect();
 
   cr.adjust(frame_width + border_width,
             frame_width + border_width,
             -frame_width - border_width,
             -frame_width - border_width);
-  
+
   setContentsMargins(cr.left(), cr.top(), rect().right() - cr.right(), rect().bottom() - cr.bottom());
 }
 
@@ -106,7 +106,7 @@ Frame::get_frame_rect() const
             -frame_width - border_width,
             frame_width + border_width,
             frame_width + border_width);
-  
+
   return fr;
 }
 
@@ -154,7 +154,7 @@ Frame::paintEvent(QPaintEvent *)
   opt.frameShape    = QFrame::Panel;
 
   paint.drawControl(QStyle::CE_ShapedFrame, opt);
-    
+
   if (frame_visible)
     {
       paint.fillRect(border_width, border_width,
@@ -177,4 +177,4 @@ Frame::signal_flash()
 {
   return flash_signal;
 }
- 
+

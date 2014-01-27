@@ -54,17 +54,17 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
   connector = DataConnector::create();
-  
+
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
-  
+
   notebook = new QTabWidget();
   layout->addWidget(notebook);
 
   notebook->setTabPosition(QTabWidget::West);
   notebook->setIconSize(QSize(100,100));
-  
+
   QWidget *timer_page = create_timer_page();
   add_page(_("Timers"), "time.png", timer_page);
 
@@ -97,7 +97,7 @@ PreferencesDialog::create_timer_page()
 
   hsize_group = new SizeGroup(Qt::Horizontal);
   vsize_group = new SizeGroup(Qt::Horizontal);
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
@@ -115,14 +115,14 @@ PreferencesDialog::create_timer_page()
 // #if defined(PLATFORM_OS_WIN32)
 //   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
 //   Gtk::Widget *monitoring_page = create_monitoring_page();
-  
+
 // #ifdef HAVE_GTK3
 //   tnotebook->append_page(*monitoring_page , *box);
 // #else
 //   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
 // #endif
 // #endif
-  
+
   return timer_tab;
 }
 

@@ -28,7 +28,7 @@
 class TimeEntry : public QWidget
 {
   Q_OBJECT
-  
+
 public:
   TimeEntry();
   virtual ~TimeEntry();

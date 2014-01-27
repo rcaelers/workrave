@@ -28,12 +28,12 @@ class IPreludeWindow
 {
 public:
   virtual ~IPreludeWindow() {}
-  
+
   typedef boost::shared_ptr<IPreludeWindow> Ptr;
-  
+
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
-  
+
   //! Stops (i.e. hides) the break window.
   virtual void stop() = 0;
 
@@ -48,7 +48,7 @@ public:
 
   //!
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
-  
+
 };
 
 

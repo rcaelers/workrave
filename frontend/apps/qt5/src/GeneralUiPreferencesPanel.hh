@@ -29,12 +29,12 @@
 class GeneralUiPreferencesPanel : public QWidget
 {
   Q_OBJECT
-  
+
 public:
   GeneralUiPreferencesPanel();
   virtual ~GeneralUiPreferencesPanel();
 
-  
+
 private:
   void on_block_changed();
 
@@ -48,7 +48,7 @@ private:
   QComboBox *block_button;
   QComboBox *languages_combo;
   QStandardItemModel *model;
-  
+
 #if defined(PLATFORM_OS_WIN32)
   QCheckBox *autostart_cb;
 #endif

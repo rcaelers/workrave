@@ -54,7 +54,7 @@ MenuEntry::Ptr
 MenuEntry::create(MenuModel::Ptr menu_model)
 {
   MenuModelType type = menu_model->get_type();
-  
+
   if (type == MenuModelType::MENU)
     {
       return Ptr(new SubMenuEntry(menu_model));
@@ -64,12 +64,12 @@ MenuEntry::create(MenuModel::Ptr menu_model)
       return Ptr(new ActionMenuEntry(menu_model));
     }
 }
-  
+
 MenuEntry::MenuEntry(MenuModel::Ptr menu_model) : menu_model(menu_model)
 {
 }
 
-MenuModel::Ptr 
+MenuModel::Ptr
 MenuEntry::get_menu_model() const
 {
   return menu_model;
@@ -84,13 +84,13 @@ SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model)
     {
       MenuEntry::Ptr child = MenuEntry::create(item);
       children.push_back(child);
-      
+
       menu->insertAction(0, child->get_action());
     }
 
-  menu_model->signal_added().connect(boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2)); 
-  menu_model->signal_removed().connect(boost::bind(&SubMenuEntry::on_menu_removed, this, _1)); 
-  menu_model->signal_changed().connect(boost::bind(&SubMenuEntry::on_menu_changed, this)); 
+  menu_model->signal_added().connect(boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2));
+  menu_model->signal_removed().connect(boost::bind(&SubMenuEntry::on_menu_removed, this, _1));
+  menu_model->signal_changed().connect(boost::bind(&SubMenuEntry::on_menu_changed, this));
 }
 
 SubMenuEntry::~SubMenuEntry()
@@ -126,7 +126,7 @@ SubMenuEntry::on_menu_removed(MenuModel::Ptr removed)
       children.erase(pos);
     }
 }
-  
+
 void
 SubMenuEntry::on_menu_changed()
 {
@@ -145,17 +145,17 @@ SubMenuEntry::get_menu() const
 {
   return menu;
 }
-  
+
 
 ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model)
   : MenuEntry(menu_model)
 {
-  menu_model->signal_changed().connect(boost::bind(&ActionMenuEntry::on_menu_changed, this)); 
+  menu_model->signal_changed().connect(boost::bind(&ActionMenuEntry::on_menu_changed, this));
 
   action = new QAction(menu_model->get_text().c_str(), this);
   action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);
   action->setChecked(menu_model->is_checked());
-      
+
   connect(action, &QAction::triggered, this, &ActionMenuEntry::on_action);
 }
 
@@ -168,7 +168,7 @@ ActionMenuEntry::get_action() const
 {
   return action;
 }
-  
+
 void
 ActionMenuEntry::on_menu_changed()
 {
@@ -185,5 +185,5 @@ ActionMenuEntry::on_action(bool checked)
 {
   menu_model->activate();
 }
-  
+
 }

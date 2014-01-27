@@ -37,7 +37,7 @@ namespace detail
   public:
     typedef boost::shared_ptr<MenuEntry> Ptr;
     typedef std::list<Ptr> MenuEntries;
-  
+
     static Ptr create(MenuModel::Ptr menu_model);
 
     MenuEntry(MenuModel::Ptr menu_model);
@@ -55,7 +55,7 @@ namespace detail
 
   public:
     typedef boost::shared_ptr<SubMenuEntry> Ptr;
-  
+
     SubMenuEntry(MenuModel::Ptr menu_model);
     virtual ~SubMenuEntry();
 
@@ -66,7 +66,7 @@ namespace detail
     void on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before);
     void on_menu_removed(MenuModel::Ptr removed);
     void on_menu_changed();
-  
+
   private:
     MenuEntries children;
     QMenu *menu;
@@ -86,10 +86,10 @@ namespace detail
 
   public slots:
     void on_action(bool checked);
-    
+
   private:
     void on_menu_changed();
-  
+
   private:
     QAction *action;
   };
@@ -108,7 +108,7 @@ public:
   virtual ~ToolkitMenu();
 
   QMenu *get_menu() const;
-  
+
 private:
   detail::SubMenuEntry::Ptr menu;
 };

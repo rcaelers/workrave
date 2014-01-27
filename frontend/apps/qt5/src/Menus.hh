@@ -74,7 +74,7 @@ public:
 
   void on_operation_mode_changed(const workrave::OperationMode m);
   void on_usage_mode_changed(const workrave::UsageMode m);
-  
+
 private:
   MenuModel::Ptr menu_model;
 
@@ -82,7 +82,7 @@ private:
   MenuModel::Ptr suspended_item;
   MenuModel::Ptr normal_item;
   MenuModel::Ptr reading_item;
-  
+
   IApplication::Ptr app;
   IToolkit::Ptr toolkit;
   workrave::ICore::Ptr core;

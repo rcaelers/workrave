@@ -75,45 +75,45 @@ Menus::init()
   workrave::UsageMode usage = core->get_usage_mode();
 
   MenuModel::Ptr item;
-  
+
   item = MenuModel::create(OPEN,
                           _("Open"),
                           boost::bind(&Menus::on_menu_open_main_window, this));
   menu_model->add_menu(item);
-  
+
   item = MenuModel::create(PREFERENCES,
                           _("Preferences"),
                           boost::bind(&Menus::on_menu_preferences, this));
   menu_model->add_menu(item);
-  
+
   item = MenuModel::create(REST_BREAK,
                           _("Rest break"),
                           boost::bind(&Menus::on_menu_restbreak_now, this));
   menu_model->add_menu(item);
-  
+
   item = MenuModel::create(EXERCISES,
                           _("Exercises"),
                           boost::bind(&Menus::on_menu_exercises, this));
   menu_model->add_menu(item);
-  
+
   MenuModel::Ptr modemenu = MenuModel::create(MODE, _("Mode"), 0, MenuModelType::MENU);
   menu_model->add_menu(modemenu);
-  
+
   normal_item = MenuModel::create(MODE_NORMAL,
                                  _("Normal"),
                                  boost::bind(&Menus::on_menu_normal, this),
                                  MenuModelType::RADIO);
   normal_item->set_checked(mode == workrave::OperationMode::Normal);
   modemenu->add_menu(normal_item);
-  
+
   suspended_item = MenuModel::create(MODE_SUSPENDED,
                                     _("Suspended"),
                                     boost::bind(&Menus::on_menu_suspend, this),
                                     MenuModelType::RADIO);
-  
+
   suspended_item->set_checked(mode == workrave::OperationMode::Suspended);
   modemenu->add_menu(suspended_item);
-  
+
   quiet_item = MenuModel::create(MODE_QUIET,
                                 _("Quiet"),
                                 boost::bind(&Menus::on_menu_quiet, this),
@@ -127,23 +127,23 @@ Menus::init()
                                   MenuModelType::CHECK);
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   menu_model->add_menu(reading_item);
-  
+
   item = MenuModel::create(STATISTICS,
                           _("Statistics"),
                           boost::bind(&Menus::on_menu_statistics, this));
   menu_model->add_menu(item);
-  
+
   item = MenuModel::create(ABOUT,
                           _("About..."),
                           boost::bind(&Menus::on_menu_about, this));
   menu_model->add_menu(item);
-  
+
   item = MenuModel::create(QUIT,
                           _("Quit"),
                           boost::bind(&Menus::on_menu_quit, this));
   menu_model->add_menu(item);
 
-  core->signal_operation_mode_changed().connect(boost::bind(&Menus::on_operation_mode_changed, this, _1)); 
+  core->signal_operation_mode_changed().connect(boost::bind(&Menus::on_operation_mode_changed, this, _1));
   core->signal_usage_mode_changed().connect(boost::bind(&Menus::on_usage_mode_changed, this, _1));
 }
 

@@ -42,17 +42,17 @@ ExercisesPanel::ExercisesPanel(bool standalone)
   QGridLayout *box = new QGridLayout;
   //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
   //mainLayout->setRowStretch(2, 1);
-    
+
   //QHBoxLayout *box = new QHBoxLayout;
 
   image = new QLabel;
   image->setFrameShape(QFrame::Panel);
   box->addWidget(image, 0, 0);
-  
+
   progress_bar = new QProgressBar;
   progress_bar->setOrientation(Qt::Vertical);
   progress_bar->setTextVisible(false);
-  
+
   box->addWidget(progress_bar, 0, 1);
 
   description_text = new QTextEdit;
@@ -62,23 +62,23 @@ ExercisesPanel::ExercisesPanel(bool standalone)
   description_scroll = new QScrollArea;
   description_scroll->setWidget(description_text);
   description_scroll->setWidgetResizable(true);
-  
+
   pause_button = new QPushButton;
 
   back_button =  new QPushButton;
   back_button->setIcon(QIcon::fromTheme("go-previous"));
-  
+
   forward_button =  new QPushButton;
   forward_button->setIcon(QIcon::fromTheme("go-next"));
 
   stop_button = new QPushButton;
   stop_button->setIcon(QIcon::fromTheme("window-close"));
 
-  
+
   if (standalone)
     {
       QDialogButtonBox *button_box = new QDialogButtonBox(Qt::Horizontal);
-      
+
       button_box->addButton(back_button, QDialogButtonBox::ActionRole);
       button_box->addButton(pause_button, QDialogButtonBox::ActionRole);
       button_box->addButton(forward_button, QDialogButtonBox::ActionRole);
@@ -92,12 +92,12 @@ ExercisesPanel::ExercisesPanel(bool standalone)
     {
       QHBoxLayout *button_box = new QHBoxLayout;
       QLabel *browse_label = new QLabel;
-      
+
       std::string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
       browse_label_text += ":</b>";
       browse_label->setText(browse_label_text.c_str());
-      
+
       button_box->addWidget(browse_label);
       button_box->addWidget(back_button);
       button_box->addWidget(pause_button);
@@ -115,7 +115,7 @@ ExercisesPanel::ExercisesPanel(bool standalone)
   connect(forward_button, &QPushButton::clicked, this, &ExercisesPanel::on_go_forward);
   connect(pause_button, &QPushButton::clicked, this, &ExercisesPanel::on_pause);
   connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
-  
+
   back_button->setToolTip(_("Previous exercise"));
   forward_button->setToolTip(_("Next exercise"));
   pause_button->setToolTip(_("Pause exercises"));
@@ -124,7 +124,7 @@ ExercisesPanel::ExercisesPanel(bool standalone)
   timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeat()));
   timer->start(1000);
-  
+
   exercise_count = 0;
   reset();
 
@@ -217,7 +217,7 @@ ExercisesPanel::refresh_sequence()
               image_iterator = exercise.sequence.begin();
             }
         }
-      
+
       show_image();
       if (exercise_time != 0)
         {
@@ -292,7 +292,7 @@ ExercisesPanel::refresh_pause()
       pause_button->setIcon(QIcon::fromTheme("media-playback-start"));
       //pause_button->setText(_("Pause"));
     }
-  
+
   if (paused)
     pause_button->setToolTip(_("Resume exercises"));
   else

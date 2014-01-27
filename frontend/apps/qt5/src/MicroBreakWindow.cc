@@ -70,7 +70,7 @@ MicroBreakWindow::create_gui()
   QLabel *image = new QLabel;
   std::string file = AssetPath::complete_directory("micro-break.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
-  
+
   // HBox
   QHBoxLayout *hbox = new QHBoxLayout;
   hbox->addWidget(image);
@@ -95,7 +95,7 @@ MicroBreakWindow::create_gui()
             }
 
           button_box->addStretch();
-          
+
           if ((get_break_flags() & BREAK_FLAGS_SKIPPABLE) != 0)
             {
               button_box->addWidget(create_skip_button(), 0);
@@ -138,7 +138,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
   std::string file = AssetPath::complete_directory("timer-rest-break.png", AssetPath::SEARCH_PATH_IMAGES);
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
-  
+
   QPushButton *button = new QPushButton(_("Rest break"));
   button->setIcon(icon);
   button->setIconSize(pixmap.rect().size());

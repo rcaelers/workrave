@@ -32,13 +32,13 @@
 class PreludeWindow : public QWidget, public IPreludeWindow
 {
   Q_OBJECT
-  
+
 public:
   PreludeWindow(int screen, workrave::BreakId break_id);
   virtual ~PreludeWindow();
 
   static IPreludeWindow::Ptr create(int screen, workrave::BreakId break_id);
-  
+
   virtual void start();
   virtual void stop();
   virtual void refresh();
@@ -67,13 +67,13 @@ private:
   bool flash_visible;
   std::string progress_text;
   bool did_avoid;
-  
+
   QVBoxLayout *layout;
   TimeBar *timebar;
   QLabel *label;
   QLabel *image;
   Frame* frame;
-  
+
 };
 
 #endif // PRELUDEWINDOW_HH

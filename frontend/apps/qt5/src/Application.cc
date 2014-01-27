@@ -124,9 +124,9 @@ Application::main()
   menus = Menus::create(shared_from_this(), toolkit, core);
 
   init_sound_player();
-  
+
   toolkit->init(menus->get_menu_model(), sound_theme);
-  
+
   //init_nls();
   //init_platform();
   //init_multihead();
@@ -135,14 +135,14 @@ Application::main()
   //init_gui();
   //init_startup_warnings();
 
-  toolkit->signal_timer().connect(boost::bind(&Application::on_timer, this)); 
+  toolkit->signal_timer().connect(boost::bind(&Application::on_timer, this));
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
   toolkit->run();
-  
+
   //cleanup_session();
 
   TRACE_EXIT();
@@ -169,18 +169,18 @@ bool
 Application::on_timer()
 {
   core->heartbeat();
-  
+
   if (!break_windows.empty() && muted)
     {
       bool user_active = core->is_user_active();
- 
+
       if (user_active)
         {
           sound_theme->restore_mute();
           muted = false;
         }
     }
-  
+
  return true;
 }
 
@@ -292,7 +292,7 @@ Application::init_core()
       b->signal_break_event().connect(boost::bind(&Application::on_break_event, this, BreakId(i), _1));
     }
 
-  core->signal_operation_mode_changed().connect(boost::bind(&Application::on_operation_mode_changed, this, _1)); 
+  core->signal_operation_mode_changed().connect(boost::bind(&Application::on_operation_mode_changed, this, _1));
 
   GUIConfig::init();
 }
@@ -557,7 +557,7 @@ Application::init_bus()
        {
          dbus->register_object_path("/org/workrave/Workrave/UI");
          dbus->register_service("org.workrave.Workrave");
-         
+
          extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
          init_DBusGUI(dbus);
 
@@ -733,7 +733,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
         }
     }
   else
-    { 
+    {
       if (ignorable)
         {
           break_flags |= BREAK_FLAGS_POSTPONABLE;

@@ -63,13 +63,13 @@ RestBreakWindow::create_gui()
 {
   // Add other widgets.
   QVBoxLayout *box = new QVBoxLayout;
-  
+
   pluggable_panel = new QHBoxLayout;
   box->addLayout(pluggable_panel);
 
   timebar = new TimeBar;
   box->addWidget(timebar);
-  
+
   QHBoxLayout *button_box = create_break_buttons(true, false);
   if (button_box != NULL)
     {
@@ -152,7 +152,7 @@ RestBreakWindow::create_info_panel()
   QLabel *image = new QLabel;
   std::string file = AssetPath::complete_directory("rest-break.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
-  
+
   std::string txt;
   if (get_break_flags() & BREAK_FLAGS_NATURAL)
     {
@@ -170,7 +170,7 @@ RestBreakWindow::create_info_panel()
     }
 
   lab->setText(txt.c_str());
-  
+
   // HBox
   QHBoxLayout *box = new QHBoxLayout;
   box->addWidget(image);
@@ -210,14 +210,14 @@ RestBreakWindow::install_exercises_panel()
     {
       set_ignore_activity(true);
       clear_pluggable_panel();
-      
+
       ExercisesPanel *exercises_panel = new ExercisesPanel(false);
-      
+
       pluggable_panel->addWidget(exercises_panel);
-      
+
       exercises_panel->set_exercise_count(get_exercise_count());
-      exercises_panel->signal_stop().connect(boost::bind(&RestBreakWindow::install_info_panel, this)); 
-      
+      exercises_panel->signal_stop().connect(boost::bind(&RestBreakWindow::install_info_panel, this));
+
     }
 }
 
@@ -238,13 +238,13 @@ RestBreakWindow::install_info_panel()
   while (w)
     {
       qDebug() << "b: " << w->size();
-      w->adjustSize(); 
+      w->adjustSize();
       qDebug() << "a: " << w->size();
       w = w->parentWidget();
     }
 
   center();
-  
+
   // GUIConfig::BlockMode block_mode = GUIConfig::cfg_block_mode();
   // if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
   //     screen == 0)

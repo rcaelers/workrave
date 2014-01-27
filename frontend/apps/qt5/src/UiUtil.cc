@@ -44,7 +44,7 @@ UiUtil::create_alert_text(const std::string &caption, const std::string &body)
       txt += "<p>";
       txt += body;
     }
-  
+
   boost::replace_all(txt, "\n", "<br>");
   return txt;
 }

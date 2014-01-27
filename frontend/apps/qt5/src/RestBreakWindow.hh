@@ -28,20 +28,20 @@
 class RestBreakWindow : public BreakWindow
 {
   Q_OBJECT
-  
+
 public:
   RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~RestBreakWindow();
 
   static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  
+
   void start();
   void set_progress(int value, int max_value);
 
 private:
   virtual QWidget *create_gui();
   virtual void update_break_window();
-  
+
   void draw_time_bar();
   void suspend_break();
   QHBoxLayout *create_info_panel();

@@ -28,14 +28,14 @@
 class ExercisesDialog : public QDialog
 {
   Q_OBJECT
-  
+
 public:
   ExercisesDialog();
   virtual ~ExercisesDialog();
 
 private:
   void on_stop();
-  
+
 private:
   ExercisesPanel *panel;
 };

@@ -46,9 +46,9 @@ class Application :
 {
 public:
   typedef boost::shared_ptr<Application> Ptr;
-  
+
   static Ptr create(int argc, char **argv, IToolkit::Ptr toolkit);
-  
+
   Application(int argc, char **argv, IToolkit::Ptr toolkit);
   virtual ~Application();
 
@@ -69,7 +69,7 @@ public:
   // IApplication
   virtual void restbreak_now();
   virtual void terminate();
-  
+
   // Internal public methods
   //void open_main_window();
   //void close_main_window();
@@ -113,7 +113,7 @@ private:
 
   void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
   void on_operation_mode_changed(const workrave::OperationMode m);
-  
+
 #if defined(PLATFORM_OS_UNIX)
   //bool on_grab_retry_timer();
 #endif
@@ -126,15 +126,15 @@ private:
   typedef std::vector<IPreludeWindow::Ptr> PreludeWindows;
   typedef PreludeWindows::iterator PreludeWindowsIter;
 
-  //! 
+  //!
   IToolkit::Ptr toolkit;
-  
+
   //! The Core controller
   workrave::ICore::Ptr core;
 
   //!
   Menus::Ptr menus;
-  
+
   //! The number of command line arguments.
   int argc;
 

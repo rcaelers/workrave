@@ -34,12 +34,12 @@ class TimerBoxPreferencesPanel :
   public workrave::config::IConfiguratorListener
 {
   Q_OBJECT
-  
+
 public:
   TimerBoxPreferencesPanel(std::string name);
   virtual ~TimerBoxPreferencesPanel();
-  
-private: 
+
+private:
   void init_enabled();
   void init_ontop();
   void init_placement();
@@ -65,7 +65,7 @@ private:
   QComboBox *place_button;
   QComboBox *timer_display_button[workrave::BREAK_ID_SIZEOF];
   QSpinBox *cycle_entry;
- 
+
 };
 
 #endif // TIMERBOXUIPREFERENCESPANEL_HH

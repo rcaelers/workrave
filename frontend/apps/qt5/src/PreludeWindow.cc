@@ -48,8 +48,8 @@ PreludeWindow::create(int screen, workrave::BreakId break_id)
 
 PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   : QWidget(0, Qt::Window
-            | Qt::WindowStaysOnTopHint 
-            | Qt::X11BypassWindowManagerHint 
+            | Qt::WindowStaysOnTopHint
+            | Qt::X11BypassWindowManagerHint
             | Qt::FramelessWindowHint
             | Qt::WindowDoesNotAcceptFocus),
     break_id(break_id),
@@ -63,7 +63,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
   timer->start(1000);
-     
+
   layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
 
@@ -87,27 +87,27 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
     default:
       break;
     }
-  
+
   image = new QLabel;
   std::string file = AssetPath::complete_directory("prelude-hint.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
-  
+
   frame = new Frame;
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6, 6);
-  frame->set_frame_visible(false); 
-  frame->signal_flash().connect(boost::bind(&PreludeWindow::on_frame_flash, this, _1)); 
+  frame->set_frame_visible(false);
+  frame->signal_flash().connect(boost::bind(&PreludeWindow::on_frame_flash, this, _1));
 
   QVBoxLayout *frameLayout = new QVBoxLayout;
   frame->setLayout(frameLayout);
-  
+
   layout->addWidget(frame);
-  
+
   QVBoxLayout *vlayout = new QVBoxLayout;
   vlayout->setSpacing(6);
   vlayout->addWidget(label);
   vlayout->addWidget(timebar);
-  
+
   QHBoxLayout *hlayout = new QHBoxLayout;
   hlayout->setSpacing(6);
 
@@ -115,7 +115,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   hlayout->addLayout(vlayout);
 
   frameLayout->addLayout(hlayout);
-  
+
   setLayout(layout);
 
   setAttribute(Qt::WA_Hover);
@@ -140,7 +140,7 @@ PreludeWindow::start()
   QDesktopWidget *dw = QApplication::desktop();
   const QRect	rect = dw->screenGeometry(screen);
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
-  
+
   TRACE_EXIT();
 }
 
@@ -152,7 +152,7 @@ PreludeWindow::stop()
 
   frame->set_frame_flashing(0);
   hide();
-  
+
   TRACE_EXIT();
 }
 
@@ -278,13 +278,13 @@ bool
 PreludeWindow::event(QEvent *event)
 {
   bool res = QWidget::event(event);
-  
+
   if (event->type() == QEvent::HoverEnter)
-    { 
+    {
       QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
       avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
-    
+
   return res;
 }
 
@@ -294,19 +294,19 @@ void
 PreludeWindow::avoid_pointer(int px, int py)
 {
   const QRect &geo = geometry();
-  
+
   px += geo.x();
   py += geo.y();
 
   QDesktopWidget *dw = QApplication::desktop();
   const QRect	rect = dw->screenGeometry(screen);
-  
+
   int screen_height = rect.height();
   int top_y = rect.y() + SCREEN_MARGIN;
   int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
   int winy = geo.y();
   int winx = geo.x();
-  
+
   if (winy < top_y + SCREEN_MARGIN)
     {
       winy = bottom_y;

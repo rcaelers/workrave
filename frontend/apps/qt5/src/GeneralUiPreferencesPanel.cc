@@ -57,7 +57,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   block_button->addItem(_("No blocking"));
   block_button->addItem(_("Block input"));
   block_button->addItem(_("Block input and screen"));
-  
+
   int block_idx;
   switch (GUIConfig::block_mode()())
     {
@@ -74,7 +74,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(block_button, signal, this, &GeneralUiPreferencesPanel::on_block_changed);
-  
+
   // Options
   QVBoxLayout *layout = new QVBoxLayout;
   setLayout(layout);
@@ -87,7 +87,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   std::vector<std::string> all_linguas;
   string str(ALL_LINGUAS);
   boost::split(all_linguas, str, boost::is_any_of(" "));
- 
+
   all_linguas.push_back("en");
 
   Locale::LanguageMap languages_current_locale;
@@ -109,11 +109,11 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   languages_view->setSelectionBehavior(QAbstractItemView::SelectRows);
   languages_view->setAllColumnsShowFocus(true);
   languages_view->setRootIsDecorated(false);
-    
+
   languages_combo->setEditable(false);
   languages_combo->setModel(model);
   languages_combo->setModelColumn(0);
-  
+
   model->setItem(0, 0, new QStandardItem(_("System default")));
   model->setItem(0, 1, new QStandardItem(""));
 
@@ -189,7 +189,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   layout->addWidget(trayicon_cb);
 
   layout->addStretch();
-  
+
   TRACE_EXIT();
 }
 

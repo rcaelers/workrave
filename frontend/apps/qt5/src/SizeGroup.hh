@@ -36,7 +36,7 @@ public:
 private:
   bool eventFilter(QObject*, QEvent* event);
   void update();
-  
+
 private:
   Qt::Orientations orientation;
   QTimer* timer;

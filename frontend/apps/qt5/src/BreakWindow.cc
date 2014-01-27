@@ -66,7 +66,7 @@ BreakWindow::BreakWindow(int screen,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode)
   : QWidget(0, Qt::Window
-            | Qt::WindowStaysOnTopHint 
+            | Qt::WindowStaysOnTopHint
             | Qt::FramelessWindowHint),
     break_id(break_id),
     screen(screen),
@@ -114,7 +114,7 @@ BreakWindow::init()
       frame->set_frame_style(Frame::STYLE_SOLID);
       frame->set_frame_width(6, 6);
       frame->set_frame_visible(false);
-      
+
       QVBoxLayout *frameLayout = new QVBoxLayout;
       frame->setLayout(frameLayout);
       frameLayout->addWidget(gui);
@@ -143,7 +143,7 @@ void
 BreakWindow::center()
 {
   qDebug() << "c: " << size();
-  
+
   QDesktopWidget *dw = QApplication::desktop();
   const QRect	rect = dw->screenGeometry(screen);
 
@@ -256,7 +256,7 @@ BreakWindow::on_postpone_button_clicked()
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
   ICore::Ptr core = CoreFactory::get_core();
   IBreak::Ptr b = core->get_break(break_id);
-  
+
   b->postpone_break();
   resume_non_ignorable_break();
 
@@ -288,7 +288,7 @@ BreakWindow::resume_non_ignorable_break()
   OperationMode mode = core->get_operation_mode();
 
   TRACE_MSG("break flags " << break_flags);
-  
+
   if (! (break_flags & BREAK_FLAGS_USER_INITIATED) &&
       mode == OperationMode::Normal)
     {

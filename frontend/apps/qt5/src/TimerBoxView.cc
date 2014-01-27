@@ -77,13 +77,13 @@ TimerBoxView::init()
   layout->setContentsMargins(2, 2, 2, 2);
 
   setLayout(layout);
-  
+
   SizeGroup *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
 
   for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       QPixmap pixmap(QString::fromStdString(Ui::get_break_icon_filename(i)));
-                     
+
       if (false) // TODO: i == BREAK_ID_REST_BREAK)
         {
           QPushButton *button = new QPushButton("");
@@ -226,7 +226,7 @@ TimerBoxView::init_table()
     }
 
   visible_count = number_of_timers;
-  
+
   adjustSize();
   TRACE_EXIT();
 }
