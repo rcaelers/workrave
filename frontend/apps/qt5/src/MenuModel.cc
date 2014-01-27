@@ -69,6 +69,12 @@ MenuModel::set_text(const std::string &text)
     }
 }
 
+std::string 
+MenuModel::get_id() const
+{
+  return id;
+}
+
 MenuModelType
 MenuModel::get_type() const
 {

@@ -72,7 +72,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   setQuitOnLastWindowClosed(false);
 
-  dock_menu = ToolkitMenu::create(menu_model);
+  dock_menu = ToolkitMenu::create(menu_model, [](MenuModel::Ptr menu) { std::cout << menu->get_id() << std::endl; return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
 
   main_window =  boost::make_shared<MainWindow>(menu_model);

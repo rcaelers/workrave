@@ -28,14 +28,14 @@ using namespace std;
 
 
 ToolkitMenu::Ptr
-ToolkitMenu::create(MenuModel::Ptr menu_model)
+ToolkitMenu::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
-  return Ptr(new ToolkitMenu(menu_model));
+  return Ptr(new ToolkitMenu(menu_model, filter));
 }
 
-ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model)
+ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
-  menu = boost::make_shared<detail::SubMenuEntry>(menu_model);
+  menu = boost::make_shared<detail::SubMenuEntry>(menu_model, filter);
 }
 
 ToolkitMenu::~ToolkitMenu()
@@ -51,21 +51,21 @@ ToolkitMenu::get_menu() const
 namespace detail
 {
 MenuEntry::Ptr
-MenuEntry::create(MenuModel::Ptr menu_model)
+MenuEntry::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
   MenuModelType type = menu_model->get_type();
 
   if (type == MenuModelType::MENU)
     {
-      return Ptr(new SubMenuEntry(menu_model));
+      return Ptr(new SubMenuEntry(menu_model, filter));
     }
   else
     {
-      return Ptr(new ActionMenuEntry(menu_model));
+      return Ptr(new ActionMenuEntry(menu_model, filter));
     }
 }
 
-MenuEntry::MenuEntry(MenuModel::Ptr menu_model) : menu_model(menu_model)
+  MenuEntry::MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter) : menu_model(menu_model), filter(filter)
 {
 }
 
@@ -75,17 +75,14 @@ MenuEntry::get_menu_model() const
   return menu_model;
 }
 
-SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model)
-  : MenuEntry(menu_model)
+SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
+  : MenuEntry(menu_model, filter)
 {
   menu = new QMenu(menu_model->get_text().c_str());
 
   for (const MenuModel::Ptr &item : menu_model->get_submenus())
     {
-      MenuEntry::Ptr child = MenuEntry::create(item);
-      children.push_back(child);
-
-      menu->insertAction(0, child->get_action());
+      add_menu(item, 0);
     }
 
   menu_model->signal_added().connect(boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2));
@@ -98,24 +95,34 @@ SubMenuEntry::~SubMenuEntry()
 }
 
 void
+SubMenuEntry::add_menu(MenuModel::Ptr menu_to_add, MenuModel::Ptr before)
+{
+  if (!filter || filter(menu_to_add))
+    {
+      QAction *before_action = nullptr;
+      MenuEntries::iterator pos = children.end();
+      if (before)
+        {
+          pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menu_model() == before; });
+          if (pos != children.end())
+            {
+              before_action = (*pos)->get_action();
+            }
+        }
+      
+      MenuEntry::Ptr child = MenuEntry::create(menu_to_add, filter);
+      children.insert(pos, child);
+      
+      menu->insertAction(before_action, child->get_action());
+    }
+}
+  
+void
 SubMenuEntry::on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before)
 {
-  QAction *before_action = nullptr;
-  MenuEntries::iterator pos = children.end();
-  if (before)
-    {
-      pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menu_model() == before; });
-      if (pos != children.end())
-        {
-          before_action = (*pos)->get_action();
-        }
-    }
-
-  MenuEntry::Ptr child = MenuEntry::create(added);
-  children.insert(pos, child);
-
-  menu->insertAction(before_action, child->get_action());
+  add_menu(added, before);
 }
+
 
 void
 SubMenuEntry::on_menu_removed(MenuModel::Ptr removed)
@@ -147,8 +154,8 @@ SubMenuEntry::get_menu() const
 }
 
 
-ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model)
-  : MenuEntry(menu_model)
+ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
+  : MenuEntry(menu_model, filter)
 {
   menu_model->signal_changed().connect(boost::bind(&ActionMenuEntry::on_menu_changed, this));
 

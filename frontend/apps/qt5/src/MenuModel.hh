@@ -47,6 +47,7 @@ public:
   const std::string &get_text() const;
   void set_text(const std::string &text);
 
+  std::string get_id() const;
   MenuModelType get_type() const;
 
   bool is_checked() const;

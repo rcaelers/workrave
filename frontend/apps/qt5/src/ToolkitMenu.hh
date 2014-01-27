@@ -28,6 +28,8 @@
 
 #include <QMenu>
 
+typedef std::function<bool (MenuModel::Ptr)> MenuModelFilter;
+
 namespace detail
 {
   class MenuEntry: public QObject
@@ -38,15 +40,16 @@ namespace detail
     typedef boost::shared_ptr<MenuEntry> Ptr;
     typedef std::list<Ptr> MenuEntries;
 
-    static Ptr create(MenuModel::Ptr menu_model);
+    static Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
 
-    MenuEntry(MenuModel::Ptr menu_model);
+    MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     virtual ~MenuEntry() {};
     virtual QAction* get_action() const = 0;
     virtual MenuModel::Ptr get_menu_model() const;
 
   protected:
     MenuModel::Ptr menu_model;
+    MenuModelFilter filter;
   };
 
   class SubMenuEntry: public MenuEntry
@@ -56,7 +59,7 @@ namespace detail
   public:
     typedef boost::shared_ptr<SubMenuEntry> Ptr;
 
-    SubMenuEntry(MenuModel::Ptr menu_model);
+    SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     virtual ~SubMenuEntry();
 
     QMenu *get_menu() const;
@@ -66,6 +69,8 @@ namespace detail
     void on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before);
     void on_menu_removed(MenuModel::Ptr removed);
     void on_menu_changed();
+
+    void add_menu(MenuModel::Ptr menu_to_add, MenuModel::Ptr before);
 
   private:
     MenuEntries children;
@@ -79,7 +84,7 @@ namespace detail
   public:
     typedef boost::shared_ptr<ActionMenuEntry> Ptr;
 
-    ActionMenuEntry(MenuModel::Ptr menu_model);
+    ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     virtual ~ActionMenuEntry();
 
     virtual QAction* get_action() const;
@@ -102,9 +107,9 @@ class ToolkitMenu : public QObject
 public:
   typedef boost::shared_ptr<ToolkitMenu> Ptr;
 
-  static Ptr create(MenuModel::Ptr top);
+  static Ptr create(MenuModel::Ptr top, MenuModelFilter filter = 0);
 
-  ToolkitMenu(MenuModel::Ptr top);
+  ToolkitMenu(MenuModel::Ptr top, MenuModelFilter filter = 0);
   virtual ~ToolkitMenu();
 
   QMenu *get_menu() const;
