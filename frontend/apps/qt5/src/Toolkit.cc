@@ -30,7 +30,7 @@
 
 #include "config/IConfigurator.hh"
 
-#include "MenuModel.hh"
+#include "Menus.hh"
 #include "GUIConfig.hh"
 
 #include "PreludeWindow.hh"
@@ -39,7 +39,7 @@
 #include "DailyLimitWindow.hh"
 #include "PreferencesDialog.hh"
 
-#include "MenuHandler.hh"
+#include "ToolkitMenu.hh"
 
 using namespace std;
 using namespace workrave;
@@ -65,14 +65,17 @@ Toolkit::~Toolkit()
 
 
 void
-Toolkit::init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme)
+Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 {
-  setQuitOnLastWindowClosed(false);
-
-  menu_handler = MenuHandler::create(menu);
+  this->menu_model = menu_model;
   this->sound_theme = sound_theme;
 
-  main_window =  boost::make_shared<MainWindow>(menu_handler);
+  setQuitOnLastWindowClosed(false);
+
+  dock_menu = ToolkitMenu::create(menu_model);
+  dock_menu->get_menu()->setAsDockMenu();
+
+  main_window =  boost::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 

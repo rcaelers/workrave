@@ -1,5 +1,3 @@
-// MenuHandler.cc
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -40,36 +38,33 @@ namespace detail
     typedef boost::shared_ptr<MenuEntry> Ptr;
     typedef std::list<Ptr> MenuEntries;
   
-    static Ptr create(MenuItem::Ptr menuitem, QMenu *parent, QAction *before = nullptr);
+    static Ptr create(MenuModel::Ptr menu_model);
 
-    MenuEntry(MenuItem::Ptr menuitem, QMenu *parent);
+    MenuEntry(MenuModel::Ptr menu_model);
     virtual ~MenuEntry() {};
     virtual QAction* get_action() const = 0;
-    virtual MenuItem::Ptr get_menuitem() const;
+    virtual MenuModel::Ptr get_menu_model() const;
 
   protected:
-    MenuItem::Ptr menuitem;
-    QMenu *parent;
+    MenuModel::Ptr menu_model;
   };
 
-  
-  class Menu: public MenuEntry
+  class SubMenuEntry: public MenuEntry
   {
     Q_OBJECT
 
   public:
-    typedef boost::shared_ptr<Menu> Ptr;
+    typedef boost::shared_ptr<SubMenuEntry> Ptr;
   
-    Menu(MenuItem::Ptr menuitem, QMenu *parentQ, QAction *before);
-    virtual ~Menu();
+    SubMenuEntry(MenuModel::Ptr menu_model);
+    virtual ~SubMenuEntry();
 
-    void popup(int x, int y);
-
+    QMenu *get_menu() const;
     virtual QAction* get_action() const;
 
   private:
-    void on_menu_added(MenuItem::Ptr added, MenuItem::Ptr before);
-    void on_menu_removed(MenuItem::Ptr removed);
+    void on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before);
+    void on_menu_removed(MenuModel::Ptr removed);
     void on_menu_changed();
   
   private:
@@ -77,16 +72,15 @@ namespace detail
     QMenu *menu;
   };
 
-
-  class Action : public MenuEntry
+  class ActionMenuEntry : public MenuEntry
   {
     Q_OBJECT
 
   public:
-    typedef boost::shared_ptr<Action> Ptr;
+    typedef boost::shared_ptr<ActionMenuEntry> Ptr;
 
-    Action(MenuItem::Ptr menuitem, QMenu *parent, QAction *before);
-    virtual ~Action();
+    ActionMenuEntry(MenuModel::Ptr menu_model);
+    virtual ~ActionMenuEntry();
 
     virtual QAction* get_action() const;
 
@@ -101,22 +95,22 @@ namespace detail
   };
 }
 
-class MenuHandler : public QObject
+class ToolkitMenu : public QObject
 {
   Q_OBJECT
 
 public:
-  typedef boost::shared_ptr<MenuHandler> Ptr;
+  typedef boost::shared_ptr<ToolkitMenu> Ptr;
 
-  static Ptr create(MenuItem::Ptr top);
+  static Ptr create(MenuModel::Ptr top);
 
-  MenuHandler(MenuItem::Ptr top);
-  virtual ~MenuHandler();
+  ToolkitMenu(MenuModel::Ptr top);
+  virtual ~ToolkitMenu();
 
-  virtual void popup(int x, int y);
+  QMenu *get_menu() const;
   
 private:
-  detail::Menu::Ptr qmenuitem;
+  detail::SubMenuEntry::Ptr menu;
 };
 
 

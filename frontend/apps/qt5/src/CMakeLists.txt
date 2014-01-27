@@ -22,9 +22,9 @@ set(SRC
   GeneralUiPreferencesPanel.cc
   SoundsPreferencesPanel.cc
   TimerBoxPreferencesPanel.cc
-  MenuHandler.cc
+  ToolkitMenu.cc
+  Menus.cc
   MenuModel.cc
-  MenuModelItem.cc
   )
 
 set(DESIGNER_UI
@@ -51,7 +51,7 @@ qt5_wrap_cpp(MOC_SRC
   GeneralUiPreferencesPanel.hh
   SoundsPreferencesPanel.hh
   TimerBoxPreferencesPanel.hh
-  MenuHandler.hh
+  ToolkitMenu.hh
 )
 
 

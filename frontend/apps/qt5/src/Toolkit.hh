@@ -28,13 +28,13 @@
 
 #include "IToolkit.hh"
 #include "CoreTypes.hh"
-#include "MenuModel.hh"
+#include "Menus.hh"
 
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "ExercisesDialog.hh"
 
-#include "MenuHandler.hh"
+#include "ToolkitMenu.hh"
 
 class Toolkit : public QApplication, public IToolkit
 {
@@ -52,7 +52,7 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer();
   
   //!
-  virtual void init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme);
+  virtual void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme);
 
   //! 
   virtual void terminate();
@@ -96,8 +96,8 @@ private:
   boost::shared_ptr<PreferencesDialog> preferences_dialog;
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
 
-  MenuItem::Ptr top_menu;
-  MenuHandler::Ptr menu_handler;
+  MenuModel::Ptr menu_model;
+  ToolkitMenu::Ptr dock_menu;
   SoundTheme::Ptr sound_theme;
   
   //! Timer signal.

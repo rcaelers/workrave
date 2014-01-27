@@ -1,5 +1,3 @@
-// MainWindow.cc
-//
 // Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -23,16 +21,17 @@
 #include "config.h"
 #endif
 
-#include "MenuModel.hh"
+#include "ToolkitMenu.hh"
 
-MainWindow::MainWindow(MenuHandler::Ptr menus)
-  : // QWidget(0, Qt::WindowTitleHint | Qt::WindowSystemMenuHint),
-    menus(menus)
+
+MainWindow::MainWindow(MenuModel::Ptr menu_model)
 {
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
   timer_box_control = new TimerBoxControl("main_window", *this);
+
+  menu = ToolkitMenu::create(menu_model);
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
@@ -54,5 +53,5 @@ void
 MainWindow::on_show_contextmenu(const QPoint &pos)
 {
   QPoint globalPos = mapToGlobal(pos);
-  menus->popup(globalPos.x(), globalPos.y());
+  menu->get_menu()->popup(globalPos);
 }

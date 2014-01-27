@@ -1,5 +1,3 @@
-// MainWindow.hh
-//
 // Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -25,14 +23,14 @@
 
 #include "IToolkit.hh"
 
-#include "MenuHandler.hh"
+#include "ToolkitMenu.hh"
 
 class MainWindow : public TimerBoxView
 {
   Q_OBJECT
   
 public:
-  explicit MainWindow(MenuHandler::Ptr menus);
+  explicit MainWindow(MenuModel::Ptr menu_model);
   ~MainWindow();
 
   void heartbeat();
@@ -41,7 +39,7 @@ public slots:
   void on_show_contextmenu(const QPoint& pos);
 
 private:
-  MenuHandler::Ptr menus;
+  ToolkitMenu::Ptr menu;
   TimerBoxControl *timer_box_control;
 };
 

@@ -1,5 +1,3 @@
-// MenuModel.cc
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -22,211 +20,118 @@
 #endif
 
 #include "nls.h"
-#include "debug.hh"
 
 #include "MenuModel.hh"
-#include "CoreTypes.hh"
 
 using namespace std;
-using namespace workrave;
 
 MenuModel::Ptr
-MenuModel::create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
+MenuModel::create()
 {
-  return Ptr(new MenuModel(app, toolkit, core));
+  return Ptr(new MenuModel());
 }
 
-
-MenuModel::MenuModel(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
-  : app(app), toolkit(toolkit), core(core)
+MenuModel::Ptr
+MenuModel::create(const std::string &id, const std::string &text, Activated activated, MenuModelType type)
 {
-  top = MenuItem::create();
-  init();
+  return Ptr(new MenuModel(id, text, activated, type));
 }
 
-
-MenuModel::~MenuModel()
+MenuModel::MenuModel()
+  : type(MenuModelType::MENU), checked(false)
 {
 }
 
-
-const MenuItem::Ptr
-MenuModel::get_top() const
+MenuModel::MenuModel(const std::string &id, const std::string &text, Activated activated, MenuModelType type)
+  : id(id), text(text), activated(activated), type(type)
 {
-  return top;
 }
 
-
-void
-MenuModel::init()
+const MenuModel::MenuModelList
+MenuModel::get_submenus() const
 {
-  workrave::OperationMode mode = core->get_operation_mode();
-  workrave::UsageMode usage = core->get_usage_mode();
+  return submenus;
+}
 
-  MenuItem::Ptr item;
-  
-  item = MenuItem::create(_("Open"),
-                          boost::bind(&MenuModel::on_menu_open_main_window, this));
-  top->add_menu(item);
-  
-  item = MenuItem::create(_("Preferences"),
-                          boost::bind(&MenuModel::on_menu_preferences, this));
-  top->add_menu(item);
-  
-  item = MenuItem::create(_("Rest break"),
-                          boost::bind(&MenuModel::on_menu_restbreak_now, this));
-  top->add_menu(item);
-  
-  item = MenuItem::create(_("Exercises"),
-                          boost::bind(&MenuModel::on_menu_exercises, this));
-  top->add_menu(item);
-  
-  MenuItem::Ptr modemenu = MenuItem::create(_("Mode"), 0, MenuItemType::MENU);
-  top->add_menu(modemenu);
-  
-  normal_item = MenuItem::create(_("Normal"),
-                                 boost::bind(&MenuModel::on_menu_normal, this),
-                                 MenuItemType::RADIO);
-  normal_item->set_checked(mode == workrave::OperationMode::Normal);
-  modemenu->add_menu(normal_item);
-  
-  suspended_item = MenuItem::create(_("Suspended"),
-                                    boost::bind(&MenuModel::on_menu_suspend, this),
-                                    MenuItemType::RADIO);
-  
-  suspended_item->set_checked(mode == workrave::OperationMode::Suspended);
-  modemenu->add_menu(suspended_item);
-  
-  quiet_item = MenuItem::create(_("Quiet"),
-                                boost::bind(&MenuModel::on_menu_quiet, this),
-                                MenuItemType::RADIO);
-  quiet_item->set_checked(mode == workrave::OperationMode::Quiet);
-  modemenu->add_menu(quiet_item);
-
-  reading_item = MenuItem::create(_("Reading mode"),
-                                  boost::bind(&MenuModel::on_menu_reading, this),
-                                  MenuItemType::CHECK);
-  reading_item->set_checked(usage == workrave::UsageMode::Reading);
-  top->add_menu(reading_item);
-  
-  item = MenuItem::create(_("Statistics"),
-                          boost::bind(&MenuModel::on_menu_statistics, this));
-  top->add_menu(item);
-  
-  item = MenuItem::create(_("About..."),
-                          boost::bind(&MenuModel::on_menu_about, this));
-  top->add_menu(item);
-  
-  item = MenuItem::create(_("Quit"),
-                          boost::bind(&MenuModel::on_menu_quit, this));
-  top->add_menu(item);
-
-  core->signal_operation_mode_changed().connect(boost::bind(&MenuModel::on_operation_mode_changed, this, _1)); 
-  core->signal_usage_mode_changed().connect(boost::bind(&MenuModel::on_usage_mode_changed, this, _1));
+const std::string &
+MenuModel::get_text() const
+{
+  return text;
 }
 
 void
-MenuModel::on_menu_open_main_window()
+MenuModel::set_text(const std::string &text)
 {
-  toolkit->show_window(IToolkit::WindowType::Main);
+  if (this->text != text)
+    {
+      this->text = text;
+      changed_signal();
+    }
+}
+
+MenuModelType
+MenuModel::get_type() const
+{
+  return type;
+}
+
+bool
+MenuModel::is_checked() const
+{
+  return checked;
 }
 
 void
-MenuModel::on_menu_restbreak_now()
+MenuModel::set_checked(bool checked)
 {
-  app->restbreak_now();
+  if (this->checked != checked)
+    {
+      this->checked = checked;
+      changed_signal();
+    }
 }
 
 void
-MenuModel::on_menu_about()
+MenuModel::add_menu(MenuModel::Ptr submenu, MenuModel::Ptr before)
 {
-  toolkit->show_window(IToolkit::WindowType::About);
+  MenuModelList::iterator pos = submenus.end();
+  if (before)
+    {
+      pos = std::find(submenus.begin(), submenus.end(), before);
+    }
+
+  submenus.insert(pos, submenu);
+  added_signal(submenu, before);
 }
 
 void
-MenuModel::on_menu_quit()
+MenuModel::remove_menu(MenuModel::Ptr submenu)
 {
-  app->terminate();
+  submenus.remove(submenu);
+  removed_signal(submenu);
 }
 
 void
-MenuModel::on_menu_preferences()
+MenuModel::activate()
 {
-  toolkit->show_window(IToolkit::WindowType::Preferences);
+  activated();
 }
 
-void
-MenuModel::on_menu_exercises()
+boost::signals2::signal<void()> &
+MenuModel::signal_changed()
 {
-  toolkit->show_window(IToolkit::WindowType::Exercises);
+  return changed_signal;
 }
 
-void
-MenuModel::on_menu_statistics()
+boost::signals2::signal<void(MenuModel::Ptr, MenuModel::Ptr)> &
+MenuModel::signal_added()
 {
-  toolkit->show_window(IToolkit::WindowType::Statistics);
+  return added_signal;
 }
 
-void
-MenuModel::on_menu_normal()
+boost::signals2::signal<void(MenuModel::Ptr)> &
+MenuModel::signal_removed()
 {
-  TRACE_ENTER("MenuModel::on_menu_normal");
-  set_operation_mode(OperationMode::Normal);
-  TRACE_EXIT();
+  return removed_signal;
 }
 
-void
-MenuModel::on_menu_suspend()
-{
-  TRACE_ENTER("MenuModel::on_menu_suspend");
-  set_operation_mode(OperationMode::Suspended);
-  TRACE_EXIT();
-}
-
-void
-MenuModel::on_menu_quiet()
-{
-  TRACE_ENTER("MenuModel::on_menu_quiet");
-  set_operation_mode(OperationMode::Quiet);
-  TRACE_EXIT();
-}
-
-void
-MenuModel::on_menu_reading()
-{
-  set_usage_mode(reading_item->is_checked() ? UsageMode::Reading : UsageMode::Normal);
-}
-
-void
-MenuModel::on_menu_reading(bool on)
-{
-  set_usage_mode(on ? UsageMode::Reading : UsageMode::Normal);
-}
-
-
-void
-MenuModel::set_operation_mode(OperationMode m)
-{
-  core->set_operation_mode(m);
-}
-
-
-void
-MenuModel::set_usage_mode(UsageMode m)
-{
-  core->set_usage_mode(m);
-}
-
-void
-MenuModel::on_operation_mode_changed(const OperationMode m)
-{
-  normal_item->set_checked(m == OperationMode::Normal);
-  suspended_item->set_checked(m == OperationMode::Suspended);
-  quiet_item->set_checked(m == OperationMode::Quiet);
-}
-
-void
-MenuModel::on_usage_mode_changed(const UsageMode m)
-{
-  reading_item->set_checked(m == UsageMode::Reading);
-}

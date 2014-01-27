@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -28,7 +27,7 @@
 #include "UiTypes.hh"
 
 #include "SoundTheme.hh"
-#include "MenuModelItem.hh"
+#include "MenuModel.hh"
 
 class IToolkit
 {
@@ -42,7 +41,7 @@ public:
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
   
   //! 
-  virtual void init(MenuItem::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
+  virtual void init(MenuModel::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
 
   //! 
   virtual void terminate() = 0;

@@ -1,5 +1,3 @@
-// MenuModel.cc
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -17,64 +15,63 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MENUMODEL_HH
-#define MENUMODEL_HH
+#ifndef MENUITEM_HH
+#define MENUITEM_HH
+
+#include <string>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
-#include "ICore.hh"
-
-#include "IToolkit.hh"
-#include "IApplication.hh"
-
-#include "MenuModelItem.hh"
+enum class MenuModelType : int
+{
+    MENU,
+    ACTION,
+    CHECK,
+    RADIO,
+};
 
 class MenuModel
 {
 public:
   typedef boost::shared_ptr<MenuModel> Ptr;
+  typedef std::list<MenuModel::Ptr> MenuModelList;
+  typedef boost::function<void ()> Activated;
+  
+  static Ptr create();
+  static Ptr create(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);
+  
+  MenuModel();
+  MenuModel(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);
 
-  static MenuModel::Ptr create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
+  const std::string &get_text() const;
+  void set_text(const std::string &text);
 
-  MenuModel(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
-  virtual ~MenuModel();
+  MenuModelType get_type() const;
 
-  const MenuItem::Ptr get_top() const;
-
-private:
-  void init();
-  void set_operation_mode(workrave::OperationMode m);
-  void set_usage_mode(workrave::UsageMode m);
-
-public:
-  // FIXME: for dbus interface.
-  void on_menu_open_main_window();
-  void on_menu_restbreak_now();
-  void on_menu_about();
-  void on_menu_quit();
-  void on_menu_preferences();
-  void on_menu_exercises();
-  void on_menu_statistics();
-  void on_menu_normal();
-  void on_menu_suspend();
-  void on_menu_quiet();
-  void on_menu_reading();
-  void on_menu_reading(bool on);
-
-  void on_operation_mode_changed(const workrave::OperationMode m);
-  void on_usage_mode_changed(const workrave::UsageMode m);
+  bool is_checked() const;
+  void set_checked(bool checked);
+  
+  const MenuModelList get_submenus() const;
+  void add_menu(MenuModel::Ptr submenu, MenuModel::Ptr before = MenuModel::Ptr());
+  void remove_menu(MenuModel::Ptr submenu);
+  
+  void activate();
+  
+  boost::signals2::signal<void()> &signal_changed();
+  boost::signals2::signal<void(MenuModel::Ptr item, MenuModel::Ptr before)> &signal_added();
+  boost::signals2::signal<void(MenuModel::Ptr item)> &signal_removed();
   
 private:
-  MenuItem::Ptr top;
-
-  MenuItem::Ptr quiet_item;
-  MenuItem::Ptr suspended_item;
-  MenuItem::Ptr normal_item;
-  MenuItem::Ptr reading_item;
-  
-  IApplication::Ptr app;
-  IToolkit::Ptr toolkit;
-  workrave::ICore::Ptr core;
+  const std::string id;
+  std::string text;
+  Activated activated;
+  MenuModelType type;
+  MenuModelList submenus;
+  bool checked;
+  boost::signals2::signal<void()> changed_signal;
+  boost::signals2::signal<void(MenuModel::Ptr item, MenuModel::Ptr before)> added_signal;
+  boost::signals2::signal<void(MenuModel::Ptr item)> removed_signal;
 };
 
-#endif // MENUMODEL_HH
+#endif // MENUITEM_HH

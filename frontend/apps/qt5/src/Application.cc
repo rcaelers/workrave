@@ -121,11 +121,11 @@ Application::main()
 
   init_core();
 
-  menus = MenuModel::create(shared_from_this(), toolkit, core);
+  menus = Menus::create(shared_from_this(), toolkit, core);
 
   init_sound_player();
   
-  toolkit->init(menus->get_top(), sound_theme);
+  toolkit->init(menus->get_menu_model(), sound_theme);
   
   //init_nls();
   //init_platform();

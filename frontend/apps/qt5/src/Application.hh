@@ -37,7 +37,7 @@
 #include "SoundTheme.hh"
 
 #include "Session.hh"
-#include "MenuModel.hh"
+#include "Menus.hh"
 
 class Application :
   public IApplication,
@@ -133,7 +133,7 @@ private:
   workrave::ICore::Ptr core;
 
   //!
-  MenuModel::Ptr menus;
+  Menus::Ptr menus;
   
   //! The number of command line arguments.
   int argc;
