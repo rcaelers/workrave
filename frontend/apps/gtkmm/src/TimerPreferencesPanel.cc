@@ -94,7 +94,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   pack_start(*enabled_cb, false, false, 0);
   pack_start(*box, false, false, 0);
 
-  connector->connect(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, dc::wrap(enabled_cb));
+  connector->connect(CoreConfig::break_enabled(break_id).key(), dc::wrap(enabled_cb));
 
   set_border_width(12);
 }
@@ -122,16 +122,16 @@ TimerPreferencesPanel::create_prelude_panel()
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add_widget(*max_box);
 
-  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+  connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(prelude_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
 
-  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+  connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(has_max_prelude_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
                      dc::NO_CONFIG);
 
-  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+  connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(max_prelude_spin),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
                      dc::NO_CONFIG);
@@ -162,7 +162,7 @@ TimerPreferencesPanel::create_options_panel()
         = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add_widget(*monitor_cb);
 
-      connector->connect(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY,
+      connector->connect(CoreConfig::timer_daily_limit_use_micro_break_activity(),
                          dc::wrap(monitor_cb));
     }
 
@@ -177,20 +177,20 @@ TimerPreferencesPanel::create_options_panel()
       auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start restbreak when screen is locked")));
       hig->add_widget(*auto_natural_cb);
 
-      connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
+      connector->connect(GUIConfig::break_auto_natural(break_id),
                          dc::wrap(auto_natural_cb));
     }
 
-  connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
+  connector->connect(GUIConfig::break_ignorable(break_id),
                      dc::wrap(ignorable_cb));
 
-  connector->connect(GUIConfig::CFG_KEY_BREAK_SKIPPABLE % break_id,
+  connector->connect(GUIConfig::break_skippable(break_id),
                      dc::wrap(skippable_cb));
 
 
   if (break_id == BREAK_ID_REST_BREAK)
     {
-      connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
+      connector->connect(GUIConfig::break_exercises(break_id),
                          dc::wrap(exercises_spin));
     }
 
@@ -235,9 +235,9 @@ TimerPreferencesPanel::create_timers_panel
 
   vsize_group->add_widget(*hig);
 
-  connector->connect(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, dc::wrap(limit_tim));
-  connector->connect(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, dc::wrap(auto_reset_tim));
-  connector->connect(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, dc::wrap(snooze_tim));
+  connector->connect(CoreConfig::timer_limit(break_id), dc::wrap(limit_tim));
+  connector->connect(CoreConfig::timer_auto_reset(break_id), dc::wrap(auto_reset_tim));
+  connector->connect(CoreConfig::timer_snooze(break_id), dc::wrap(snooze_tim));
 
   return hig;
 }

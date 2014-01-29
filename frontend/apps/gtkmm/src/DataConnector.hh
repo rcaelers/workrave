@@ -25,6 +25,7 @@
 #include <sigc++/sigc++.h>
 
 #include "config/Config.hh"
+#include "config/Setting.hh"
 #include "ICore.hh"
 
 class TimeEntry;
@@ -68,15 +69,15 @@ public:
                dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
-  void connect(Setting<T, R> setting,
+  void connect(workrave::config::Setting<T, R> setting,
                DataConnection *connection,
-               dc::Flags flags = dc::NONE);
+               dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, flags);
   }
 
   template<class T, class R = T>
-  void connect(Setting<T, R> setting,
+  void connect(workrave::config::Setting<T, R> setting,
                DataConnection *connection,
                sigc::slot<bool, const std::string &, bool> slot,
                dc::Flags flags = dc::NONE)

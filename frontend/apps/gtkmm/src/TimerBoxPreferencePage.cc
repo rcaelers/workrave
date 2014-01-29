@@ -55,12 +55,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   init_page_callbacks();
 
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(GUIConfig::key_timerbox(name), this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = CoreFactory::get_core();
-      config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
+      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
     }
 
   TRACE_EXIT();
@@ -135,7 +135,7 @@ TimerBoxPreferencePage::create_page()
         (new Gtk::CheckButton
          (_("The status window stays always on top of other windows")));
       ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
-      ontop_cb->set_active(GUIConfig::get_always_on_top());
+      ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
     }
   else if (name == "applet")
     {
@@ -174,9 +174,9 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
-  int mp_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_MICRO_BREAK);
-  int rb_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_REST_BREAK);
-  int dl_slot = GUIConfig::get_timerbox_timer_slot(name, BREAK_ID_DAILY_LIMIT);
+  int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
+  int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
+  int dl_slot = GUIConfig::timerbox_slot(name, BREAK_ID_DAILY_LIMIT)();
   int place;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
@@ -199,7 +199,7 @@ TimerBoxPreferencePage::init_page_values()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int flags = GUIConfig::get_timerbox_timer_flags(name, (BreakId) i);
+      int flags = GUIConfig::timerbox_flags(name, (BreakId) i)();
       int showhide;
       if (flags & GUIConfig::BREAK_HIDE)
         {
@@ -215,9 +215,9 @@ TimerBoxPreferencePage::init_page_values()
         }
       timer_display_button[i]->set_active(showhide);
     }
-  cycle_entry->set_value(GUIConfig::get_timerbox_cycle_time(name));
+  cycle_entry->set_value(GUIConfig::timerbox_cycle_time(name)());
 
-  enabled_cb->set_active(GUIConfig::is_timerbox_enabled(name));
+  enabled_cb->set_active(GUIConfig::timerbox_enabled(name)());
   enable_buttons();
 }
 
@@ -243,7 +243,7 @@ TimerBoxPreferencePage::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
 
-  GUIConfig::set_timerbox_enabled(name, on);
+  GUIConfig::timerbox_enabled(name).set(on);
 
   enable_buttons();
 }
@@ -285,7 +285,7 @@ TimerBoxPreferencePage::on_place_changed()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      GUIConfig::set_timerbox_timer_slot(name, (BreakId) i, slots[i]);
+      GUIConfig::timerbox_slot(name, (BreakId)i).set(slots[i]);
     }
 
 }
@@ -309,7 +309,7 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
       flags = GUIConfig::BREAK_WHEN_FIRST;
       break;
     }
-  GUIConfig::set_timerbox_timer_flags(name, (BreakId) break_id, flags);
+  GUIConfig::timerbox_flags(name, (BreakId) break_id).set(flags);
 
   enable_buttons();
 }
@@ -354,9 +354,9 @@ TimerBoxPreferencePage::enable_buttons(void)
         }
       if (count == 3)
         {
-          if (GUIConfig::is_timerbox_enabled(name))
+          if (GUIConfig::timerbox_enabled(name)())
             {
-              GUIConfig::set_timerbox_enabled(name, false);
+              GUIConfig::timerbox_enabled(name).set(false);
             }
           enabled_cb->set_active(false);
         }
@@ -373,14 +373,14 @@ void
 TimerBoxPreferencePage::on_cycle_time_changed()
 {
   int value = (int) cycle_entry->get_value();
-  GUIConfig::set_timerbox_cycle_time(name, value);
+  GUIConfig::timerbox_cycle_time(name).set(value);
 }
 
 
 void
 TimerBoxPreferencePage::on_always_on_top_toggled()
 {
-  GUIConfig::set_always_on_top(ontop_cb->get_active());
+  GUIConfig::main_window_always_on_top().set(ontop_cb->get_active());
 }
 
 

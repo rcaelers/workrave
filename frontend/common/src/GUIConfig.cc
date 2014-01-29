@@ -174,19 +174,19 @@ GUIConfig::main_window_start_in_tray()
 Setting<int>
 GUIConfig::main_window_x()
 {
-  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_X);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_X, 256);
 }
 
 Setting<int>
 GUIConfig::main_window_y()
 {
-  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_Y);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_Y, 256);
 }
 
 Setting<int>
 GUIConfig::main_window_head()
 {
-  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_HEAD);
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_HEAD, 0);
 }
 
 const std::string

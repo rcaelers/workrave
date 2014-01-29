@@ -128,8 +128,10 @@ link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
 # TODO: Also built prebuilt
-link_directories("${WORKRAVE_PREBUILT}/Release")
-link_directories("${SYS_ROOT}")
+if (PLATFORM_OS_WIN32 AND CROSSCOMPILING)
+  link_directories("${WORKRAVE_PREBUILT}/Release")
+  link_directories("${SYS_ROOT}")
+endif()
 
 add_executable(workrave ${SRC})
 

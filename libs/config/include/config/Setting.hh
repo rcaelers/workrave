@@ -40,22 +40,22 @@ namespace workrave
       {
       }
 
-      const std::string key()
+      const std::string key() const
       {
         return setting;
       }
 
-      const R operator()()
+      const R operator()() const
       {
         return get();
       }
 
-      const R operator()(const T def)
+      const R operator()(const T def) const
       {
         return get(def);
       }
 
-      const R get()
+      const R get() const
       {
         T ret = T();
         if (has_default_value)
@@ -69,7 +69,7 @@ namespace workrave
         return static_cast<R>(ret);
       }
 
-      const R get(const R def)
+      const R get(const R def) const
       {
         const T ret = T();
         config->get_value_with_default(setting, ret, static_cast<T>(def));

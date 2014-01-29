@@ -177,9 +177,9 @@ MainWindow::open_window()
       TRACE_MSG("moving to " << x << " " << y);
       move(x, y);
 
-      bool always_on_top = GUIConfig::get_always_on_top();
+      bool always_on_top = GUIConfig::main_window_always_on_top()();
       WindowHints::set_always_on_top(this, always_on_top);
-      GUIConfig::set_timerbox_enabled("main_window", true);
+      GUIConfig::timerbox_enabled("main_window").set(true);
     }
   TRACE_EXIT();
 }
@@ -206,7 +206,7 @@ MainWindow::close_window()
     }
 #endif
 
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
   TRACE_EXIT();
 }
 
@@ -286,7 +286,7 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
   //Gtk::Window::set_default_icon_name("workrave");
 
-  enabled = GUIConfig::is_timerbox_enabled("main_window");
+  enabled = GUIConfig::timerbox_enabled("main_window")();
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
@@ -378,7 +378,7 @@ MainWindow::init()
   set_title("Workrave");
 
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + "main_window", this);
+  config->add_listener(GUIConfig::key_timerbox("main_window"), this);
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
@@ -391,8 +391,8 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
-  bool new_enabled = GUIConfig::is_timerbox_enabled("main_window");
-  bool always_on_top = GUIConfig::get_always_on_top();
+  bool new_enabled = GUIConfig::timerbox_enabled("main_window")();
+  bool always_on_top = GUIConfig::main_window_always_on_top()();
 
   TRACE_MSG("can_close " << new_enabled);
   TRACE_MSG("enabled " << new_enabled);
@@ -446,7 +446,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   if (can_close)
     {
       close_window();
-      GUIConfig::set_timerbox_enabled("main_window", false);
+      GUIConfig::timerbox_enabled("main_window").set(false);
     }
   else
     {
@@ -487,9 +487,9 @@ void
 MainWindow::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key != GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD
-      && key != GUIConfig::CFG_KEY_MAIN_WINDOW_X
-      && key != GUIConfig::CFG_KEY_MAIN_WINDOW_Y)
+  if (key != GUIConfig::main_window_head().key()
+      && key != GUIConfig::main_window_x().key()
+      && key != GUIConfig::main_window_y().key())
     {
       setup();
     }
@@ -621,11 +621,9 @@ void
 MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
-  // FIXME: Default to right-bottom instead of 256x256
-  IConfigurator::Ptr cfg = CoreFactory::get_configurator();
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x, 256);
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y, 256);
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
+  x = GUIConfig::main_window_x()();
+  y = GUIConfig::main_window_y()();
+  head = GUIConfig::main_window_head()();
   if (head < 0)
     {
       head = 0;
@@ -638,12 +636,10 @@ MainWindow::get_start_position(int &x, int &y, int &head)
 void
 MainWindow::set_start_position(int x, int y, int head)
 {
-  TRACE_ENTER_MSG("MainWindow::set_start_position",
-                  x << " " << y << " " << head);
-  IConfigurator::Ptr cfg = CoreFactory::get_configurator();
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x);
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y);
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head);
+  TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y << " " << head);
+  GUIConfig::main_window_x().set(x);
+  GUIConfig::main_window_y().set(y);
+  GUIConfig::main_window_head().set(head);
   TRACE_EXIT();
 }
 

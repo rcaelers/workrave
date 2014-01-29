@@ -37,15 +37,15 @@ class PreludeWindow :
   public IPreludeWindow
 {
 public:
-  PreludeWindow(HeadInfo &head, BreakId break_id);
+  PreludeWindow(HeadInfo &head, workrave::BreakId break_id);
   virtual ~PreludeWindow();
 
   void start();
   void stop();
   void refresh();
   void set_progress(int value, int max_value);
-  void set_stage(IApp::PreludeStage stage);
-  void set_progress_text(IApp::PreludeProgressText text);
+  void set_stage(workrave::IApp::PreludeStage stage);
+  void set_progress_text(workrave::IApp::PreludeProgressText text);
 
 private:
   void on_frame_flash(bool frame_visible);

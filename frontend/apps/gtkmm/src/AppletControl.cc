@@ -123,7 +123,7 @@ AppletControl::init()
   
   // Read configuration and start monitoring it.
   IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + "applet", this);
+  config->add_listener(GUIConfig::key_timerbox("applet"), this);
 
   read_configuration();
 }
@@ -371,7 +371,7 @@ void
 AppletControl::read_configuration()
 {
   bool previous_enabled = enabled;
-  enabled = GUIConfig::is_timerbox_enabled("applet");
+  enabled = GUIConfig::timerbox_enabled("applet")();
 
   if (!enabled)
     {

@@ -28,6 +28,7 @@
 
 #include <gtkmm.h>
 
+
 #include "GenericDBusApplet.hh"
 
 #include "TimerBoxControl.hh"
@@ -61,7 +62,7 @@ GenericDBusApplet::GenericDBusApplet() :
       data[i].bar_secondary_max = 0;
     }
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  CoreFactory::get_configurator()->add_listener(GUIConfig::trayicon_enabled().key(), this);
 }
 
 
@@ -225,7 +226,7 @@ GenericDBusApplet::get_menu(MenuItems &out) const
 void
 GenericDBusApplet::get_tray_icon_enabled(bool &enabled) const
 {
-  enabled = GUIConfig::get_trayicon_enabled();
+  enabled = GUIConfig::trayicon_enabled()();
 }
 
 void
@@ -274,15 +275,12 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
   TRACE_EXIT();
 }
 
-
-
-
 void
 GenericDBusApplet::config_changed_notify(const std::string &key)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::config_changed_notify", key);
 
-  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+  if (key == GUIConfig::trayicon_enabled().key())
     {
       send_tray_icon_enabled();
     }
@@ -293,7 +291,7 @@ void
 GenericDBusApplet::send_tray_icon_enabled()
 {
   TRACE_ENTER("GenericDBusApplet::send_tray_icon_enabled");
-  bool on = GUIConfig::get_trayicon_enabled();
+  bool on = GUIConfig::trayicon_enabled()();
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);

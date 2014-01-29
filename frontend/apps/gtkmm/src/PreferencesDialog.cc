@@ -170,7 +170,7 @@ PreferencesDialog::create_gui_page()
 #endif
 
   int block_idx;
-  switch (GUIConfig::get_block_mode())
+  switch (GUIConfig::block_mode()())
     {
     case GUIConfig::BLOCK_MODE_NONE:
       block_idx = 0;
@@ -296,7 +296,7 @@ PreferencesDialog::create_gui_page()
   Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
   trayicon_cb->add(*trayicon_lab);
-  connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
+  connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   panel->add_widget(*trayicon_cb);
   
@@ -627,7 +627,7 @@ PreferencesDialog::on_block_changed()
     default:
       m = GUIConfig::BLOCK_MODE_ALL;
     }
-  GUIConfig::set_block_mode(m);
+  GUIConfig::block_mode().set(m);
 }
 
 int
@@ -643,7 +643,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 {
   TRACE_ENTER("PreferencesDialog::focus_in");
 
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       ICore::Ptr core = CoreFactory::get_core();

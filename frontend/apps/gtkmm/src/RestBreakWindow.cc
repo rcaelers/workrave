@@ -242,7 +242,7 @@ RestBreakWindow::get_exercise_count()
 
   if (Exercise::has_exercises())
     {
-      ret = GUIConfig::get_number_of_exercises(BREAK_ID_REST_BREAK);
+      ret = GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
     }
   return ret;
 }
@@ -286,7 +286,7 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->show_all();
   pluggable_panel->queue_resize();
 
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
       head.count == 0)
     {

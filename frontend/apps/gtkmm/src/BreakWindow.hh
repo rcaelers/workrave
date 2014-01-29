@@ -61,7 +61,7 @@ public:
       BREAK_FLAGS_USER_INITIATED  = 1 << 4
     };
 
-  BreakWindow(BreakId break_id,
+  BreakWindow(workrave::BreakId break_id,
               HeadInfo &head,
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
@@ -110,7 +110,7 @@ protected:
 
 private:
   //! Break ID
-  BreakId break_id;
+  workrave::BreakId break_id;
 
   //! GUI
   Gtk::Widget *gui;

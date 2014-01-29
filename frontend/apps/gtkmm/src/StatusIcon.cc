@@ -75,13 +75,13 @@ StatusIcon::init()
 {
   insert_icon();
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  CoreFactory::get_configurator()->add_listener(GUIConfig::trayicon_enabled().key(), this);
   
-  bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
+  bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   if (!tray_icon_enabled)
     {
       // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
-      GUIConfig::set_timerbox_enabled("main_window", true);
+      GUIConfig::timerbox_enabled("main_window").set(true);
     }
 
   status_icon->set_visible(tray_icon_enabled);
@@ -261,9 +261,9 @@ StatusIcon::config_changed_notify(const std::string &key)
 {
   TRACE_ENTER_MSG("StatusIcon::config_changed_notify", key);
 
-  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+  if (key == GUIConfig::trayicon_enabled().key())
     {
-      bool visible = GUIConfig::get_trayicon_enabled();
+      bool visible = GUIConfig::trayicon_enabled()();
       if (status_icon->get_visible() != visible)
         {
           visibility_changed_signal.emit();

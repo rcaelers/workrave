@@ -62,11 +62,7 @@ public:
 
   static void init();
 
-#ifndef HAVE_APP_GTK
-  //  Keep constants public until Gtkmm UI has switched.
 private:
-#endif
-
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;

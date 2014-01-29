@@ -48,6 +48,7 @@
 #include <gdk/gdkwin32.h>
 #endif
 
+using namespace workrave;
 using namespace workrave::utils;
 
 

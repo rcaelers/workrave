@@ -289,8 +289,7 @@ void
 GUI::on_main_window_closed()
 {
   TRACE_ENTER("GUI::on_main_window_closed");
-  bool closewarn = false;
-  CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
+  bool closewarn = GUIConfig::closewarn_enabled()();
   TRACE_MSG(closewarn);
   if (closewarn && !closewarn_shown)
     {
@@ -402,7 +401,7 @@ void
 GUI::init_nls()
 {
 #if defined(ENABLE_NLS)
-  string language = GUIConfig::get_locale();
+  string language = GUIConfig::locale()();
   if (language != "")
     {
       g_setenv("LANGUAGE", language.c_str(), 1);
@@ -812,7 +811,7 @@ IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
   IBreakWindow *ret = NULL;
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new MicroBreakWindow(head, break_flags, block_mode);
@@ -975,8 +974,8 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
-  bool ignorable = GUIConfig::get_ignorable(break_id);
-  bool skippable = GUIConfig::get_skippable(break_id);
+  bool ignorable = GUIConfig::break_ignorable(break_id)();
+  bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
   {
@@ -1079,7 +1078,7 @@ GUI::show_break_window()
         }
     }
 
-  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
+  if (GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
     {
       grab();
     }
@@ -1498,7 +1497,7 @@ GUI::on_status_icon_balloon_activate(const std::string &id)
 {
   if (id == "closewarn")
     {
-      CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+      GUIConfig::closewarn_enabled().set(false);
     }
 }
 
