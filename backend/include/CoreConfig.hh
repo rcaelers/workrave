@@ -49,7 +49,10 @@ public:
   static workrave::config::Setting<int, workrave::OperationMode> operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> usage_mode();
 
+#ifndef HAVE_APP_GTK
+  //  Keep constants public until Gtkmm UI has switched.
 private:
+#endif
   // Deprecated.
   static const std::string CFG_KEY_TIMER_MONITOR;
 
