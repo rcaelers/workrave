@@ -36,7 +36,7 @@ using namespace std;
 static string underscore_exceptions[] =
   {
     "general/usage-mode",
-    "gui/operation-mode",
+    "general/operation-mode",
   };
 
 GSettingsConfigurator::GSettingsConfigurator()
