@@ -32,14 +32,14 @@
 
 OSXSoundPlayer::OSXSoundPlayer()
 {
-#if HAVE_QUICKTIME
-  EnterMovies();
-#endif
+  soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
 }
 
 
 OSXSoundPlayer::~OSXSoundPlayer()
 {
+  [soundDictionary removeAllObjects];
+  [soundDictionary release];
 }
 
 bool
@@ -63,17 +63,13 @@ OSXSoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
 void
 OSXSoundPlayer::play_sound(std::string file, int volume)
 {
-  if (wav_file == NULL)
+  NSString* filename = [NSString stringWithUTF8String: file.c_str()];
+  NSSound *sound = [soundDictionary objectForKey:filename];
+  if (sound == nil) 
     {
-      wav_file = strdup(file.c_str());
-
-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-      NSString* fileName = [NSString stringWithUTF8String: wav_file];
-      QTMovie* movie = [[QTMovie alloc] initWithFile:fileName error:nil];
-      [movie play];
-      [pool release];
-
-      free((void*)wav_file);
-      wav_file = NULL;
+      sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
+      [soundDictionary setObject:sound forKey:filename];
     }
+  [sound stop];
+  [sound play];
 }
