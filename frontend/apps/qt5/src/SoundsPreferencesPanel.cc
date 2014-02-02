@@ -68,14 +68,14 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       sound_volume_scale->setSingleStep(1);
       sound_volume_scale->setPageStep(5);
 
-      connector->connect(SoundTheme::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale));
+      connector->connect(GUIConfig::sound_volume(), dc::wrap(sound_volume_scale));
 
       UiUtil::add_widget(sound_options_layout, _("Volume:"), sound_volume_scale);
     }
 
   enabled_cb = new QCheckBox;
   enabled_cb->setText(_("Enable sounds"));
-  connector->connect(SoundTheme::CFG_KEY_SOUND_ENABLED, dc::wrap(enabled_cb), boost::bind(&SoundsPreferencesPanel::on_enabled_changed, this, _1, _2));
+  connector->connect(GUIConfig::sound_enabled(), dc::wrap(enabled_cb), boost::bind(&SoundsPreferencesPanel::on_enabled_changed, this, _1, _2));
   sound_options_layout->addWidget(enabled_cb);
 
   if (sound_theme->capability(workrave::audio::SOUND_CAP_MUTE))
@@ -83,7 +83,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       // Volume
       QCheckBox *mute_cb = new QCheckBox;
       mute_cb->setText(_("Mute sounds during rest break and daily limit"));
-      connector->connect(SoundTheme::CFG_KEY_SOUND_MUTE, dc::wrap(mute_cb));
+      connector->connect(GUIConfig::sound_mute(), dc::wrap(mute_cb));
       sound_options_layout->addWidget(mute_cb);
     }
 
@@ -124,8 +124,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
        for (unsigned int i = 0; i < workrave::audio::SOUND_MAX; i++)
         {
-          bool sound_enabled = false;
-          sound_theme->get_sound_enabled((workrave::audio::SoundEvent)i, sound_enabled);
+          bool sound_enabled = sound_theme->get_sound_enabled((workrave::audio::SoundEvent)i);
 
           QStandardItem *item = new QStandardItem();
           sounds_model->setItem(i, 0, item);
@@ -180,10 +179,7 @@ SoundsPreferencesPanel::on_sound_theme_changed(int index)
 
   sound_theme->activate_theme(theme);
 
-  std::string filename;
-  if (sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) index, filename))
-    {
-    }
+  std::string filename = sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) index);
   TRACE_EXIT();
 }
 
@@ -198,8 +194,8 @@ SoundsPreferencesPanel::on_select_sound()
 {
   int row = sounds_view->currentIndex().row();
 
-  std::string filename;
-  if (sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row, filename))
+  std::string filename = sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row);
+  if (filename != "")
     {
       boost::filesystem::path path(filename);
       boost::filesystem::path dirname = path.parent_path();
@@ -223,8 +219,8 @@ SoundsPreferencesPanel::on_play_sound()
 {
   int row = sounds_view->currentIndex().row();
 
-  std::string filename;
-  if (sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row, filename))
+  std::string filename= sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row);
+  if (filename != "")
     {
       sound_theme->play_sound(filename);
     }

@@ -43,7 +43,6 @@ public:
   
   struct SoundRegistry
   {
-    const char *label;
     const char *id;
     const char *friendly_name;
   };
@@ -55,6 +54,8 @@ public:
   SoundTheme(workrave::config::IConfigurator::Ptr config);
   virtual ~SoundTheme();
 
+  void init();
+
   void play_sound(workrave::audio::SoundEvent snd, bool mute_after_playback = false);
   void play_sound(std::string wavfile);
   void restore_mute();
@@ -62,24 +63,18 @@ public:
   
   bool is_enabled();
   void set_enabled(bool enabled);
-  
-  void init();
 
-  bool get_sound_enabled(workrave::audio::SoundEvent snd, bool &enabled);
+  bool get_sound_enabled(workrave::audio::SoundEvent snd);
   void set_sound_enabled(workrave::audio::SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(workrave::audio::SoundEvent snd, std::string &filename);
+  std::string get_sound_wav_file(workrave::audio::SoundEvent snd);
   void set_sound_wav_file(workrave::audio::SoundEvent snd, const std::string &wav_file);
 
   void get_sound_themes(std::vector<Theme> &themes);
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
-  void sync_settings();
 
 #ifdef PLATFORM_OS_WIN32  
-  bool win32_get_sound_enabled(workrave::audio::SoundEvent snd, bool &enabled);
-  void win32_set_sound_enabled(workrave::audio::SoundEvent snd, bool enabled);
-  bool win32_get_sound_wav_file(workrave::audio::SoundEvent snd, std::string &wav_file);
-  void win32_set_sound_wav_file(workrave::audio::SoundEvent snd, const std::string &wav_file);
+  void win32_remove_deprecated_appevents();
 #endif
   
 private:
@@ -88,14 +83,6 @@ private:
 public:
   static SoundRegistry sound_registry[workrave::audio::SOUND_MAX];
 
-public:
-  static const char *CFG_KEY_SOUND_ENABLED;
-  static const char *CFG_KEY_SOUND_DEVICE;
-  static const char *CFG_KEY_SOUND_VOLUME;
-  static const char *CFG_KEY_SOUND_EVENTS;
-  static const char *CFG_KEY_SOUND_EVENTS_ENABLED;
-  static const char *CFG_KEY_SOUND_MUTE;
-  
 private:
   workrave::config::IConfigurator::Ptr config;
   workrave::audio::ISoundPlayer::Ptr player;

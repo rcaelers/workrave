@@ -780,12 +780,8 @@ PreferencesDialog::on_sound_play()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string filename;
-      bool valid = CoreFactory::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                              row[sound_model.label],
-                                                              filename);
-
-      if (valid && filename != "")
+      string filename = GUIConfig::sound_events(row[sound_model.label]);
+      if (filename != "")
         {
           IGUI *gui = GUI::get_instance();
           SoundTheme::Ptr snd = gui->get_sound_theme();
@@ -850,14 +846,11 @@ PreferencesDialog::on_sound_events_changed()
       Gtk::TreeModel::Row row = *iter;
 
       string event = (Glib::ustring) row[sound_model.label];
-      string filename;
-      bool valid = CoreFactory::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                              row[sound_model.label],
-                                                              filename);
+      string filename = GUIConfig::sound_events(row[sound_model.label]);
 
       TRACE_MSG(filename);
 
-      if (valid && filename != "")
+      if (filename != "")
         {
           inhibit_events++;
           fsbutton_filename = filename;
@@ -890,13 +883,10 @@ PreferencesDialog::on_sound_theme_changed()
         {
           Gtk::TreeModel::Row row = *iter;
           string event = (Glib::ustring) row[sound_model.label];
-          string filename;
 
-          bool valid = CoreFactory::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-                                                                  row[sound_model.label],
-                                                                  filename);
+          string filename = GUIConfig::sound_events(row[sound_model.label]);
 
-          if (valid && filename != "")
+          if (filename != "")
             {
               TRACE_MSG(filename << " " <<row[sound_model.label]);
               inhibit_events++;

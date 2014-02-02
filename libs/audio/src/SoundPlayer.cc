@@ -98,7 +98,6 @@ SoundPlayer::~SoundPlayer()
   delete driver;
 }
 
-
 void
 SoundPlayer::init()
 {

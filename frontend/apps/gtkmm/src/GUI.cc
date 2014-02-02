@@ -879,11 +879,10 @@ GUI::on_break_event(BreakId break_id, BreakEvent event)
     {
       if (event_map[i].id == break_id && event_map[i].break_event == event)
         {
-          bool mute = false;
           workrave::audio::SoundEvent snd = event_map[i].sound_event;
           TRACE_MSG("play " << event);
 
-          CoreFactory::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
+          bool mute = GUIConfig::sound_mute()();
           if (mute)
             {
               muted = true;

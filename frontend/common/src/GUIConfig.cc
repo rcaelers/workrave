@@ -56,6 +56,15 @@ const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
 const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
 const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
+const string GUIConfig::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const string GUIConfig::CFG_KEY_SOUND_DEVICE = "sound/device";
+const string GUIConfig::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const string GUIConfig::CFG_KEY_SOUND_MUTE = "sound/mute";
+const string GUIConfig::CFG_KEY_SOUND_EVENT = "sound/events/";
+const string GUIConfig::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
+
+
+
 void
 GUIConfig::init()
 {
@@ -226,4 +235,34 @@ Setting<bool>
 GUIConfig::timerbox_enabled(std::string box)
 {
   return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
+}
+
+workrave::config::Setting<bool> GUIConfig::sound_enabled()
+{
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_ENABLED, true);
+}
+
+workrave::config::Setting<std::string> GUIConfig::sound_device()
+{
+  return Setting<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_DEVICE, "");
+}
+
+workrave::config::Setting<int> GUIConfig::sound_volume()
+{
+  return Setting<int>(CoreFactory::get_configurator(), CFG_KEY_SOUND_VOLUME, 100);
+}
+
+workrave::config::Setting<bool> GUIConfig::sound_mute()
+{
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_MUTE, false);
+}
+
+workrave::config::Setting<bool> GUIConfig::sound_event_enabled(std::string event)
+{
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event + CFG_KEY_SOUND_EVENT_ENABLED, true);
+}
+
+workrave::config::Setting<std::string> GUIConfig::sound_event(std::string event)
+{
+  return Setting<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event, "");
 }
