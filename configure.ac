@@ -631,7 +631,7 @@ config_gtk_version=none
 
 if test "x$enable_gnome2" != "xyes"
 then
-   PKG_CHECK_MODULES(GTK3,
+   PKG_CHECK_MODULES(GTK,
       			glib-2.0 >= 2.28.0
       			gio-2.0 >= 2.26.0
       			gtk+-3.0 >= 3.0.0
@@ -807,14 +807,14 @@ config_gstreamer=no
 
 if test "x$enable_gstreamer" != "xno";
 then
-    PKG_CHECK_MODULES([GSTREAMER-0.10],
+    PKG_CHECK_MODULES([GSTREAMER],
                       [gstreamer-0.10],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [ ])
 		     
     if test "x$config_gstreamer" != "xyes";
     then
-        PKG_CHECK_MODULES([GSTREAMER-1.0],
+        PKG_CHECK_MODULES([GSTREAMER],
                       [gstreamer-1.0],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
