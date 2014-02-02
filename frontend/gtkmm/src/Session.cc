@@ -66,27 +66,28 @@ Session::set_idle(bool new_idle)
       core->force_idle();
     }
 
-  if (auto_natural)
+  if (new_idle && !is_idle)
     {
-      TRACE_MSG("Automatic natural break enabled");
-      if (new_idle && !is_idle)
+      TRACE_MSG("Now idle");
+      IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      
+      taking = rest_break->is_taking();
+      TRACE_MSG("taking " << taking);
+      if (!taking)
         {
-          TRACE_MSG("Now idle");
-          IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-
-          taking = rest_break->is_taking();
-          TRACE_MSG("taking " << taking);
-          if (!taking)
-            {
-              core->set_operation_mode_override( OPERATION_MODE_SUSPENDED, "screensaver" );
-            }
+          core->set_operation_mode_override( OPERATION_MODE_SUSPENDED, "screensaver" );
         }
-      else if (!new_idle && is_idle && !taking)
+    }
+  else if (!new_idle && is_idle && !taking)
+    {
+      TRACE_MSG("No longer idle");
+      core->remove_operation_mode_override( "screensaver" );
+      
+      if (auto_natural)
         {
-          TRACE_MSG("No longer idle");
+          TRACE_MSG("Automatic natural break enabled");
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-
-          core->remove_operation_mode_override( "screensaver" );
+          
           if (core->get_operation_mode() == OPERATION_MODE_NORMAL &&
               rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()
