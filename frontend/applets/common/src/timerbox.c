@@ -202,7 +202,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 {
   WorkraveTimerboxPrivate *priv = self->priv;
 
-  if (!priv->enabled || priv->filled_slots == 0 || priv->force_icon)
+  if ((priv->enabled && priv->filled_slots == 0) || priv->force_icon)
     {
       if (g_strcmp0("normal", priv->mode) == 0)
         {

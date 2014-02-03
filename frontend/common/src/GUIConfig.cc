@@ -41,6 +41,7 @@ const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
 const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
+const string GUIConfig::CFG_KEY_AUTOSTART          = "gui/autostart";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -91,6 +92,7 @@ GUIConfig::init()
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 }
 
@@ -160,6 +162,12 @@ Setting<bool>
 GUIConfig::closewarn_enabled()
 {
   return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_CLOSEWARN_ENABLED);
+}
+
+Setting<bool>
+GUIConfig::autostart_enabled()
+{
+  return Setting<bool>(CoreFactory::get_configurator(), CFG_KEY_AUTOSTART);
 }
 
 const std::string

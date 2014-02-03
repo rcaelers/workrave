@@ -74,7 +74,7 @@ Session::set_idle(bool new_idle)
   if (new_idle && !is_idle)
     {
       TRACE_MSG("Now idle");
-      IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
       
       taking = rest_break->is_taking();
       TRACE_MSG("taking " << taking);

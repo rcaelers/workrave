@@ -78,12 +78,6 @@ StatusIcon::init()
   CoreFactory::get_configurator()->add_listener(GUIConfig::trayicon_enabled().key(), this);
   
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
-  if (!tray_icon_enabled)
-    {
-      // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
-      GUIConfig::timerbox_enabled("main_window").set(true);
-    }
-
   status_icon->set_visible(tray_icon_enabled);
 }
 

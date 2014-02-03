@@ -124,6 +124,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
        for (unsigned int i = 0; i < workrave::audio::SOUND_MAX; i++)
         {
+          // TODO: not used:
           bool sound_enabled = sound_theme->get_sound_enabled((workrave::audio::SoundEvent)i);
 
           QStandardItem *item = new QStandardItem();
