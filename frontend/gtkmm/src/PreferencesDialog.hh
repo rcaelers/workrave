@@ -149,10 +149,10 @@ private:
   void update_theme_selection();
   void update_senstives();
 
-#if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *autostart_cb;
   void on_autostart_toggled();
 
+#if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *monitor_type_cb;
   void on_monitor_type_toggled();
   Gtk::Widget *create_monitoring_page();

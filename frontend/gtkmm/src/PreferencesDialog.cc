@@ -289,25 +289,38 @@ PreferencesDialog::create_gui_page()
   panel->add_label(_("Language:"), languages_combo);
 #endif
 
+  bool show_autostart = false;
+
 #if defined(PLATFORM_OS_WIN32)
-  Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on Windows startup"), false));
-  autostart_cb = Gtk::manage(new Gtk::CheckButton());
-  autostart_cb->add(*autostart_lab);
-  autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
-
-  panel->add(*autostart_cb);
-
-  char value[MAX_PATH];
-  bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
-  autostart_cb->set_active(rc);
+  show_autostart = true;
+#elif defined(PLATFORM_OS_UNIX)
+  const char *desktop = g_getenv("XDG_CURRENT_DESKTOP");
+  show_autostart = (g_strcmp0(desktop, "Unity") == 0);
+#endif  
+  
+  if (show_autostart)
+    {
+      Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
+      autostart_cb = Gtk::manage(new Gtk::CheckButton());
+      autostart_cb->add(*autostart_lab);
+      autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
+      panel->add_widget(*autostart_cb);
+      
+      connector->connect(GUIConfig::CFG_KEY_AUTOSTART, dc::wrap(autostart_cb));
+      
+#if defined(PLATFORM_OS_WIN32)
+      char value[MAX_PATH];
+      bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+      autostart_cb->set_active(rc);
 #endif
+    }
 
   Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
   trayicon_cb->add(*trayicon_lab);
   connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
 
-  panel->add_widget(*trayicon_cb);
+  panel->add_widget(*trayicon_cb, false, false);
   
   panel->set_border_width(12);
   return panel;
@@ -759,23 +772,25 @@ PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
 }
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
 void
 PreferencesDialog::on_autostart_toggled()
 {
   bool on = autostart_cb->get_active();
+
+#if defined(PLATFORM_OS_WIN32)
   gchar *value = NULL;
 
   if (on)
     {
       string appdir = Util::get_application_directory();
-
       value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
 
   Util::registry_set_value(RUNKEY, "Workrave", value);
+#endif
 }
 
+#if defined(PLATFORM_OS_WIN32)
 void
 PreferencesDialog::on_monitor_type_toggled()
 {
