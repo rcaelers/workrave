@@ -218,13 +218,17 @@ _workraveButton.prototype = {
     _onCommandReply : function(menuitems) {
     },
     
-    _onMenuCommand: function(item, event, command) {
+    _onMenuCommand : function(item, event, command) {
 	this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },
 
     _onMenuOpenCommand: function(item, event) {
 	global.log('workrave-applet: open');
 	this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
+    },
+
+    _functionExists: function(func) {
+        return (typeof(func) == typeof(Function));
     },
 
     _updateMenu : function(menuitems) {
@@ -276,7 +280,15 @@ _workraveButton.prototype = {
 		    else if ((flags & 8) != 0)
 		    {
 			popup = new PopupMenu.PopupMenuItem(text);
-			popup.setShowDot(active);
+                        
+                        if (this._functionExists(popup.setShowDot))
+                        {
+			    popup.setShowDot(active);
+                        }
+                        else if (this._functionExists(popup.setOrnament))
+                        {
+                            popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
+                        }
 		    }
 		    else 
 		    {
