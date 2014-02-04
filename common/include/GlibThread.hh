@@ -29,8 +29,8 @@
 class Thread
 {
 public:
-  Thread();
-  Thread(Runnable *runnable);
+  Thread(bool autodelete = false);
+  Thread(Runnable *runnable, bool autodelete = false);
   virtual ~Thread();
 
   virtual void run();
@@ -46,6 +46,7 @@ private:
 
   GThread *thread_handle;
   Runnable *runnable;
+  bool autodelete;
 };
 
 

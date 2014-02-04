@@ -251,7 +251,7 @@ private:
 
 
 SpeakerPlayer::SpeakerPlayer(short (*b)[2])
-  : Thread()
+  : Thread(true)
 {
   beeps = b;
 }

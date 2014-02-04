@@ -21,17 +21,19 @@
 
 #include <glib.h>
 
-Thread::Thread(Runnable *runnable)
+Thread::Thread(Runnable *runnable, bool autodelete)
 {
   thread_handle = NULL;
   this->runnable = runnable;
+  this->autodelete = autodelete;
 }
 
 
-Thread::Thread()
+Thread::Thread(bool autodelete)
 {
   thread_handle = NULL;
   this->runnable = NULL;
+  this->autodelete = autodelete;
 }
 
 Thread::~Thread()
@@ -101,7 +103,10 @@ Thread::thread_handler(gpointer data)
   if (t != NULL)
     {
       t->internal_run();
-      delete t;
+      if (t->autodelete)
+         {
+           delete t;
+         }
     }
 
   return 0;
