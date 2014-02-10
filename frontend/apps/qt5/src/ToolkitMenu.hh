@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include "utils/ScopedConnections.hh"
+
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -75,6 +77,7 @@ namespace detail
   private:
     MenuEntries children;
     QMenu *menu;
+    scoped_connections connections;
   };
 
   class ActionMenuEntry : public MenuEntry
@@ -97,6 +100,7 @@ namespace detail
 
   private:
     QAction *action;
+    scoped_connections connections;
   };
 }
 

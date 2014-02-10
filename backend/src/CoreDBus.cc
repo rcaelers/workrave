@@ -38,8 +38,8 @@ CoreDBus::create(CoreModes::Ptr modes, IDBus::Ptr dbus)
 
 CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus) : dbus(dbus)
 {
-  modes->signal_operation_mode_changed().connect(boost::bind(&CoreDBus::on_operation_mode_changed, this, _1)); 
-  modes->signal_usage_mode_changed().connect(boost::bind(&CoreDBus::on_usage_mode_changed, this, _1));
+  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&CoreDBus::on_operation_mode_changed, this, _1)); 
+  connections.connect(modes->signal_usage_mode_changed(), boost::bind(&CoreDBus::on_usage_mode_changed, this, _1));
 }
 
 void

@@ -22,6 +22,7 @@
 
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "BreakStateModel.hh"
 
@@ -45,6 +46,7 @@ private:
   BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   workrave::dbus::IDBus::Ptr dbus;
+  scoped_connections connections;
 };
 
 #endif // BREAKDBUS_HH

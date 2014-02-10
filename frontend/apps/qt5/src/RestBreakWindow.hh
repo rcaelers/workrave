@@ -20,6 +20,8 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
+#include "utils/ScopedConnections.hh"
+
 #include "BreakWindow.hh"
 #include "GUIConfig.hh"
 
@@ -63,6 +65,8 @@ private:
   int progress_max_value;
 
   QHBoxLayout *pluggable_panel;
+
+  scoped_connections connections;
 };
 
 #endif // RESTBREAKWINDOW_HH

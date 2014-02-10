@@ -20,6 +20,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "utils/ScopedConnections.hh"
+
 #include "ICore.hh"
 
 #include "IToolkit.hh"
@@ -86,6 +88,8 @@ private:
   IApplication::Ptr app;
   IToolkit::Ptr toolkit;
   workrave::ICore::Ptr core;
+
+  scoped_connections connections;
 };
 
 #endif // MENUS_HH

@@ -135,7 +135,7 @@ Application::main()
   //init_gui();
   //init_startup_warnings();
 
-  toolkit->signal_timer().connect(boost::bind(&Application::on_timer, this));
+  connections.connect(toolkit->signal_timer(), boost::bind(&Application::on_timer, this));
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
@@ -289,10 +289,10 @@ Application::init_core()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      b->signal_break_event().connect(boost::bind(&Application::on_break_event, this, BreakId(i), _1));
+      connections.connect(b->signal_break_event(), boost::bind(&Application::on_break_event, this, BreakId(i), _1));
     }
 
-  core->signal_operation_mode_changed().connect(boost::bind(&Application::on_operation_mode_changed, this, _1));
+  connections.connect(core->signal_operation_mode_changed(), boost::bind(&Application::on_operation_mode_changed, this, _1));
 
   GUIConfig::init();
 }

@@ -96,7 +96,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6, 6);
   frame->set_frame_visible(false);
-  frame->signal_flash().connect(boost::bind(&PreludeWindow::on_frame_flash, this, _1));
+  connections.connect(frame->signal_flash(), boost::bind(&PreludeWindow::on_frame_flash, this, _1));
 
   QVBoxLayout *frameLayout = new QVBoxLayout;
   frame->setLayout(frameLayout);

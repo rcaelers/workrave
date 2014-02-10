@@ -22,6 +22,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "utils/ScopedConnections.hh"
+
 #include "BreakStateModel.hh"
 #include "Statistics.hh"
 
@@ -49,6 +51,7 @@ private:
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
   Statistics::Ptr statistics;
+  scoped_connections connections;
 };
 
 #endif // BREAKSTATISTICS_HH

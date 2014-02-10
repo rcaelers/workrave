@@ -41,7 +41,7 @@ BreakStatistics::BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_st
   timer(timer),
   statistics(statistics)
 {
-  break_state_model->signal_break_event().connect(boost::bind(&BreakStatistics::on_break_event, this, _1));
+  connections.connect(break_state_model->signal_break_event(), boost::bind(&BreakStatistics::on_break_event, this, _1));
 }
 
 

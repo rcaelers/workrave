@@ -87,7 +87,7 @@ BreaksControl::~BreaksControl()
 void
 BreaksControl::init()
 {
-  modes->signal_operation_mode_changed().connect(boost::bind(&BreaksControl::on_operation_mode_changed, this, _1)); 
+  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&BreaksControl::on_operation_mode_changed, this, _1)); 
   
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
@@ -97,7 +97,7 @@ BreaksControl::init()
       timers[break_id]->enable();
 
       breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, configurator, dbus, hooks);
-      breaks[break_id]->signal_break_event().connect(boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
+      connections.connect(breaks[break_id]->signal_break_event(), boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
   
   reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor, modes);

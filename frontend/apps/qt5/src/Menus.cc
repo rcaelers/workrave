@@ -143,8 +143,8 @@ Menus::init()
                           boost::bind(&Menus::on_menu_quit, this));
   menu_model->add_menu(item);
 
-  core->signal_operation_mode_changed().connect(boost::bind(&Menus::on_operation_mode_changed, this, _1));
-  core->signal_usage_mode_changed().connect(boost::bind(&Menus::on_usage_mode_changed, this, _1));
+  connections.connect(core->signal_operation_mode_changed(), boost::bind(&Menus::on_operation_mode_changed, this, _1));
+  connections.connect(core->signal_usage_mode_changed(), boost::bind(&Menus::on_usage_mode_changed, this, _1));
 }
 
 void

@@ -21,6 +21,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
+#include "utils/ScopedConnections.hh"
+
 #include "Break.hh"
 #include "CoreModes.hh"
 #include "ActivityMonitor.hh"
@@ -61,6 +63,7 @@ private:
   bool suspended;
   bool forced_idle;
   State state;
+  scoped_connections connections;
 };
 
 #endif // READINGACTIVITYMONITOR_HH

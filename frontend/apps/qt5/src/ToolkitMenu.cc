@@ -85,9 +85,9 @@ SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
       add_menu(item, 0);
     }
 
-  menu_model->signal_added().connect(boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2));
-  menu_model->signal_removed().connect(boost::bind(&SubMenuEntry::on_menu_removed, this, _1));
-  menu_model->signal_changed().connect(boost::bind(&SubMenuEntry::on_menu_changed, this));
+  connections.connect(menu_model->signal_added(), boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2));
+  connections.connect(menu_model->signal_removed(), boost::bind(&SubMenuEntry::on_menu_removed, this, _1));
+  connections.connect(menu_model->signal_changed(), boost::bind(&SubMenuEntry::on_menu_changed, this));
 }
 
 SubMenuEntry::~SubMenuEntry()
@@ -157,7 +157,7 @@ SubMenuEntry::get_menu() const
 ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
   : MenuEntry(menu_model, filter)
 {
-  menu_model->signal_changed().connect(boost::bind(&ActionMenuEntry::on_menu_changed, this));
+  connections.connect(menu_model->signal_changed(), boost::bind(&ActionMenuEntry::on_menu_changed, this));
 
   action = new QAction(menu_model->get_text().c_str(), this);
   action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);

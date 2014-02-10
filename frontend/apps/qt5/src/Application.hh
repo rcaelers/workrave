@@ -25,6 +25,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "config/Config.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "IApp.hh"
 
@@ -194,6 +195,8 @@ private:
 
   //
   //bool closewarn_shown;
+
+  scoped_connections connections;
 };
 
 

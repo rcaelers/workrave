@@ -22,6 +22,8 @@
 
 #include "IPreludeWindow.hh"
 
+#include "utils/ScopedConnections.hh"
+
 #include "TimeBar.hh"
 #include "Frame.hh"
 
@@ -73,7 +75,7 @@ private:
   QLabel *label;
   QLabel *image;
   Frame* frame;
-
+  scoped_connections connections;
 };
 
 #endif // PRELUDEWINDOW_HH

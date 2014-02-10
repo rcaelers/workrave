@@ -47,8 +47,7 @@ void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
-
-  modes->signal_usage_mode_changed().connect(boost::bind(&ReadingActivityMonitor::on_usage_mode_changed, this, _1)); 
+  connections.connect(modes->signal_usage_mode_changed(), boost::bind(&ReadingActivityMonitor::on_usage_mode_changed, this, _1)); 
 }
 
 void

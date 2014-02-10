@@ -216,7 +216,7 @@ RestBreakWindow::install_exercises_panel()
       pluggable_panel->addWidget(exercises_panel);
 
       exercises_panel->set_exercise_count(get_exercise_count());
-      exercises_panel->signal_stop().connect(boost::bind(&RestBreakWindow::install_info_panel, this));
+      connections.connect(exercises_panel->signal_stop(), boost::bind(&RestBreakWindow::install_info_panel, this));
 
     }
 }

@@ -26,6 +26,7 @@
 
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "Break.hh"
 #include "Timer.hh"
@@ -103,6 +104,8 @@ private:
   
   InsistPolicy insist_policy;
   InsistPolicy active_insist_policy;
+
+  scoped_connections connections;
 };
 
 #endif // BREAKSCONTROL_HH
