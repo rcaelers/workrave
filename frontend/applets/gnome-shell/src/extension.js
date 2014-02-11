@@ -32,6 +32,9 @@ const IndicatorIface = <interface name="org.workrave.AppletInterface">
 <method name="GetMenu">
     <arg type="a(sii)" name="menuitems" direction="out" />
 </method>
+<method name="GetTrayIconEnabled">
+    <arg type="b" name="enabled" direction="out" />
+</method>
 <signal name="TimersUpdated">
     <arg type="(siiiiiii)" />
     <arg type="(siiiiiii)" />
@@ -39,6 +42,9 @@ const IndicatorIface = <interface name="org.workrave.AppletInterface">
 </signal>
 <signal name="MenuUpdated">
     <arg type="a(sii)" />
+</signal>
+<signal name="TrayIconUpdated">
+    <arg type="b" />
 </signal>
 </interface>
 
@@ -55,6 +61,7 @@ _workraveButton.prototype = {
         PanelMenu.Button.prototype._init.call(this, 0.0);
   
         this._timerbox = new Workrave.Timerbox();
+        this._force_icon = false;
 	this._height = 24;
 	this._bus_name = 'org.workrave.GnomeShellApplet';
 	this._bus_id = 0;
@@ -71,6 +78,7 @@ _workraveButton.prototype = {
 	this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
 	this._timers_updated_id = this._proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
 	this._menu_updated_id = this._proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
+	this._trayicon_updated_id = this._proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
 
 	this._updateMenu(null);
 
@@ -82,16 +90,15 @@ _workraveButton.prototype = {
  
     _onDestroy: function() 
     {
-	global.log('workrave-applet: onDestroy');
     	this._proxy.EmbedRemote(false, 'GnomeShellApplet');
 	this._stop();
 	this._destroy();
     },
 
     _destroy: function() {
-	global.log('workrave-applet: _destroy');
 	this._proxy.disconnectSignal(this._timers_updated_id);
 	this._proxy.disconnectSignal(this._menu_updated_id);
+	this._proxy.disconnectSignal(this._trayicon_updated_id);
 	this._proxy = null;
 
         this.actor.destroy();
@@ -99,11 +106,11 @@ _workraveButton.prototype = {
 
     _start: function()
     {
-	global.log('workrave-applet: starting');
 	if (! this._alive)
 	{
 	    this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
 	    this._proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
+	    this._proxy.GetTrayIconEnabledRemote(Lang.bind(this, this._onGetTrayIconEnabledReply));
     	    this._proxy.EmbedRemote(true, this._bus_name);
 	    this._timeoutId = Mainloop.timeout_add(5000, Lang.bind(this, this._onTimer));
 	    this._alive = true;
@@ -115,11 +122,11 @@ _workraveButton.prototype = {
     {
 	 if (this._alive)
 	 {
-	     global.log('workrave-applet: stopping');
 	     Mainloop.source_remove(this._timeoutId);
 	     Gio.DBus.session.unown_name(this._bus_id);
 	     this._bus_id = 0;
 	     this._timerbox.set_enabled(false);
+             this._timerbox.set_force_icon(false);
 	     this._area.queue_repaint();
 	     this._alive = false;
 	     this._updateMenu(null);
@@ -143,6 +150,7 @@ _workraveButton.prototype = {
 	if (this._update_count == 0)
 	{
 	    this._timerbox.set_enabled(false);
+            //this._timerbox.set_force_icon(false);
 	    this._area.queue_repaint();
 	}
 	this._update_count = 0;
@@ -151,12 +159,10 @@ _workraveButton.prototype = {
     },
 
     _onWorkraveAppeared: function(owner) {
-	global.log('workrave-applet: appeared');
 	this._start();
     },
 
     _onWorkraveVanished: function(oldOwner) {
-	global.log('workrave-applet: vanished');
 	this._stop();
     },
 
@@ -164,7 +170,6 @@ _workraveButton.prototype = {
 
 	if (! this._alive)
 	{
-	    global.log('workrave-applet: now alive');
 	    this._start();
 	}
 
@@ -178,6 +183,7 @@ _workraveButton.prototype = {
 	if (timebar != null)
 	{
 	    this._timerbox.set_enabled(true);
+            //this._timerbox.set_force_icon(this._force_icon);
 	    timebar.set_progress(microbreak[6], microbreak[7], microbreak[5]);
 	    timebar.set_secondary_progress(microbreak[3], microbreak[4], microbreak[2]);
 	    timebar.set_text(microbreak[0]);
@@ -187,6 +193,7 @@ _workraveButton.prototype = {
 	if (timebar != null)
 	{
 	    this._timerbox.set_enabled(true);
+            //this._timerbox.set_force_icon(this._force_icon);
 	    timebar.set_progress(restbreak[6], restbreak[7], restbreak[5]);
 	    timebar.set_secondary_progress(restbreak[3], restbreak[4], restbreak[2]);
 	    timebar.set_text(restbreak[0]);
@@ -196,6 +203,7 @@ _workraveButton.prototype = {
 	if (timebar != null)
 	{
 	    this._timerbox.set_enabled(true);
+            //this._timerbox.set_force_icon(this._force_icon);
 	    timebar.set_progress(daily[6], daily[7], daily[5]);
 	    timebar.set_secondary_progress(daily[3], daily[4], daily[2]);
 	    timebar.set_text(daily[0]);
@@ -211,8 +219,16 @@ _workraveButton.prototype = {
 	this._updateMenu(menuitems);
     },
 
+    _onGetTrayIconEnabledReply : function([enabled], excp) {
+	this._updateTrayIcon(enabled);
+    },
+
     _onMenuUpdated : function(emitter, senderName, [menuitems]) {
 	this._updateMenu(menuitems);
+    },
+
+    _onTrayIconUpdated : function(emitter, senderName, [enabled]) {
+	this._updateTrayIcon(enabled);
     },
 
     _onCommandReply : function(menuitems) {
@@ -223,12 +239,16 @@ _workraveButton.prototype = {
     },
 
     _onMenuOpenCommand: function(item, event) {
-	global.log('workrave-applet: open');
 	this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
     },
 
     _functionExists: function(func) {
         return (typeof(func) == typeof(Function));
+    },
+
+    _updateTrayIcon : function(enabled) {
+        this._force_icon = enabled;
+        this._timerbox.set_force_icon(this._force_icon);
     },
 
     _updateMenu : function(menuitems) {
@@ -312,13 +332,11 @@ function init(extensionMeta) {
 }
 
 function disable() {
-    global.log('workrave-applet: disable');
     workravePanelButton.destroy();
     workravePanelButton = null;
 }
 
 function enable() {
-    global.log('workrave-applet: enable');
     Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
     Gettext.textdomain("workrave");
  
