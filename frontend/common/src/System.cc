@@ -1,7 +1,15 @@
 // System.cc
 //
 // Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2014 Mateusz Jończyk
 // All rights reserved.
+// Some lock commands are imported from the KShutdown utility:
+//          http://kshutdown.sourceforge.net/
+//          file src/actions/lock.cpp
+//          Copyright (C) 2009  Konrad Twardowski
+// Mateusz Jończyk has read source code of xflock4, lxlock and enlightenment_remote,
+// but that did not influence the code in any way except for getting simple info on how
+// they work.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +37,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <algorithm>
+#include <iostream>
+
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
@@ -37,6 +48,12 @@
 #include "debug.hh"
 
 #if defined(PLATFORM_OS_UNIX)
+#include "ScreenLockCommandline.hh"
+
+#ifdef HAVE_DBUS_GIO
+#include "ScreenLockDBus.hh"
+#endif
+
 #include <X11/X.h>
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
@@ -44,7 +61,7 @@
 #ifdef HAVE_APP_GTK
 #include <gdk/gdkx.h>
 #endif
-#endif
+#endif //PLATFORM_OS_UNIX
 
 #if defined(HAVE_UNIX)
 #include <sys/wait.h>
@@ -114,10 +131,16 @@ const GUID CLSID_Shell =
 };
 #endif /* PLATFORM_OS_WIN32 */
 
+std::vector<IScreenLockMethod *> System::lock_commands;
+
 #if defined(PLATFORM_OS_UNIX)
 
+#ifdef HAVE_DBUS_GIO
+GDBusConnection* System::session_connection = NULL;
+GDBusConnection* System::system_connection = NULL;
+#endif
+
 bool System::lockable = false;
-std::string System::lock_display;
 bool System::shutdown_supported;
 
 #elif defined(PLATFORM_OS_WIN32)
@@ -126,10 +149,6 @@ HINSTANCE System::user32_dll = NULL;
 System::LockWorkStationFunc System::lock_func = NULL;
 bool System::shutdown_supported;
 
-#endif
-
-#ifdef HAVE_DBUS_GIO
-GDBusProxy *System::lock_proxy =  NULL;
 #endif
 
 bool
@@ -147,8 +166,8 @@ System::is_lockable()
 }
 
 #ifdef PLATFORM_OS_UNIX
-static bool
-invoke(const gchar* command, bool async = false)
+bool
+System::invoke(const gchar* command, bool async)
 {
   GError *error = NULL;
 
@@ -176,6 +195,8 @@ invoke(const gchar* command, bool async = false)
 }
 #endif
 
+/* Commented out to make diff more readable
+ * System::invoke, System::init_kde_lock, System::kde_lock(), System::lock()
 
 #ifdef HAVE_DBUS_GIO
 void
@@ -304,6 +325,232 @@ end:  // cleanup of created strings, jump to avoid duplication
     }
   TRACE_EXIT();
 }
+*/
+
+#ifdef PLATFORM_OS_UNIX
+
+#ifdef HAVE_DBUS_GIO
+void
+System::init_DBus()
+{
+  TRACE_ENTER("System::init_dbus()");
+  //session_connection = workrave::CoreFactory::get_dbus()->get_connection();
+
+  
+  GError *error = NULL;
+  session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
+  if (error != NULL)
+    {
+      //it is rare and serious, so report it the user
+      std::cerr << "Cannot establish connection to the session bus: " << error->message << std::endl;
+      g_error_free(error);
+      error = NULL;
+    }
+
+  system_connection = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &error);
+  if (error != NULL) 
+    {
+      std::cerr << "Cannot establish connection to the system bus: " << error->message << std::endl;
+      g_error_free(error);
+      error = NULL;
+    }
+
+  TRACE_EXIT();
+}
+
+
+inline bool System::add_DBus_lock_cmd(
+    const char *dbus_name, const char *dbus_path, const char *dbus_interface,
+    const char *dbus_lock_method, const char *dbus_method_to_check_existence)
+{
+  TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
+
+  // I wish we could use std::move here
+  IScreenLockMethod *lock_method = NULL;
+  lock_method = new ScreenLockDBus(session_connection,
+          dbus_name, dbus_path, dbus_interface,
+          dbus_lock_method, dbus_method_to_check_existence);
+  if (!lock_method->is_lock_supported())
+    {
+      delete lock_method;
+      lock_method = NULL;
+      TRACE_RETURN(false);
+      return false;
+    }
+  else
+    {
+      lock_commands.push_back(lock_method);
+      TRACE_RETURN(true);
+      return true;
+    }
+
+}
+
+void
+System::init_DBus_lock_commands()
+{
+  TRACE_ENTER("System::init_DBus_lock_commands");
+
+
+
+  if (session_connection)
+    {
+      //  Unity:
+      //    - Gnome screensaver API + gnome-screensaver-command works,
+      //    - is going to decrease dependence and use of GNOME:
+      //      https://blueprints.launchpad.net/unity/+spec/client-1311-unity7-lockscreen
+      //  GNOME
+      //      https://people.gnome.org/~mccann/gnome-screensaver/docs/gnome-screensaver.html#gs-method-GetSessionIdle
+      //    - Gnome is now implementing the Freedesktop API, but incompletely:
+      //      https://bugzilla.gnome.org/show_bug.cgi?id=689225
+      //      (look for "unimplemented" in the patch), the lock method is still unipmlemented
+      //    - therefore it is required to check the gnome API first.
+      //WORKS: Ubuntu 12.04: GNOME 3 fallback, Unity
+      add_DBus_lock_cmd(
+            "org.gnome.ScreenSaver", "/org/gnome/ScreenSaver", "org.gnome.ScreenSaver",
+            "Lock", "GetActive");
+
+      //  Cinnamon:   https://github.com/linuxmint/cinnamon-screensaver/blob/master/doc/dbus-interface.html
+      //    Same api as GNOME, but with different name,
+      add_DBus_lock_cmd(
+            "org.cinnamon.ScreenSaver", "/org/cinnamon/ScreenSaver", "org.cinnamon.ScreenSaver",
+            "Lock", "GetActive");
+
+      //  Mate: https://github.com/mate-desktop/mate-screensaver/blob/master/doc/dbus-interface.xml
+      //  Like GNOME
+      add_DBus_lock_cmd(
+                  "org.mate.ScreenSaver", "/org/mate/ScreenSaver", "org.mate.ScreenSaver",
+                  "Lock", "GetActive");
+
+
+      //The FreeDesktop API - the most important and most widely supported
+      //    LXDE:  https://github.com/lxde/lxqt-powermanagement/blob/master/idleness/idlenesswatcherd.cpp
+      //    KDE:
+      //      https://projects.kde.org/projects/kde/kde-workspace/repository/revisions/master/entry/ksmserver/screenlocker/dbus/org.freedesktop.ScreenSaver.xml
+      //      - there have been claims that this does not work in some installations, but I was unable to find
+      //      any traces of this in git:
+      //                        http://forum.kde.org/viewtopic.php?f=67&t=111003
+      //                      It was probably due to some upgrade problems (and/or a bug in KDE),
+      //                      because in fresh OpenSuse 12.3 (from LiveCD) this works correctly.
+      //    Razor-QT: https://github.com/Razor-qt/razor-qt/blob/master/razorqt-screenlocker/src/razorscreenlocker.cpp
+      //
+      //    The Freedesktop API that these DEs are implementing is being redrafted:
+      //      http://people.freedesktop.org/~hadess/idle-inhibition-spec/
+      //      http://lists.freedesktop.org/pipermail/xdg/2012-November/012577.html
+      //      http://lists.freedesktop.org/pipermail/xdg/2013-September/012875.html
+      //
+      //    the Lock method there is being removed (and not replaced with anything else).
+      //    Probably the DEs will support these APIs in the future in order not to break other software.
+
+      //Is only partially implemented by GNOME, so GNOME has to go before
+      //Works correctly on KDE4 (Ubuntu 12.04)
+      add_DBus_lock_cmd(
+            "org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
+            "Lock", "GetActive");
+
+      //	KDE - old screensaver API - partially verified both
+      add_DBus_lock_cmd(
+                  "org.kde.screensaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
+                  "Lock", "GetActive");
+      add_DBus_lock_cmd(
+                  "org.kde.krunner", "/ScreenSaver", "org.freedesktop.ScreenSaver",
+                  "Lock", "GetActive");
+
+      //              - there some accounts that when org.freedesktop.ScreenSaver does not work, this works:
+      //                      qdbus org.kde.ksmserver /ScreenSaver Lock
+      //                      but it is probably a side effect of the fact that implementation of org.kde.ksmserver
+      //                      is in the same process as of org.freedesktop.ScreenSaver
+      add_DBus_lock_cmd(
+                        "org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
+                        "Lock", "GetActive");
+
+      // EFL:
+      add_DBus_lock_cmd(
+                  "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop",
+                  "Lock", NULL);
+    }
+  TRACE_EXIT();
+}
+#endif //HAVE_DBUS_GIO
+
+inline void System::add_cmdline_lock_cmd(
+        const char *command_name, const char *parameters, bool async)
+{
+  TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
+  IScreenLockMethod *lock_method = NULL;
+  lock_method = new ScreenLockCommandline(command_name, parameters, async);
+  if (!lock_method->is_lock_supported())
+    {
+      delete lock_method;
+      lock_method = NULL;
+      TRACE_RETURN(false);
+    }
+  else
+    {
+      lock_commands.push_back(lock_method);
+      TRACE_RETURN(true);
+    }
+}
+
+void System::init_cmdline_lock_commands(const char *display)
+{
+  TRACE_ENTER_MSG("System::init_cmdline_lock_commands", display);
+
+  //Works: XFCE, i3, LXDE
+  add_cmdline_lock_cmd("gnome-screensaver-command", "--lock", false);
+  add_cmdline_lock_cmd("mate-screensaver-command", "--lock", false);
+  add_cmdline_lock_cmd("enlightenment_remote", "-desktop-lock", false);
+  add_cmdline_lock_cmd("xdg-screensaver", "lock", false);
+
+  if (display != NULL)
+    {
+      char *cmd = g_strdup_printf("-display \"%s\" -lock", display);
+      add_cmdline_lock_cmd("xscreensaver-command", cmd, false);
+      g_free(cmd);
+      cmd = NULL;
+    }
+  else
+    {
+      add_cmdline_lock_cmd("xscreensaver-command", "-lock", false);
+    }
+
+
+  //these two may call slock, which may be not user-friendly
+  //add_cmdline_lock_cmd("xflock4", NULL, true);
+  //add_cmdline_lock_cmd("lxlock", NULL, true);
+
+  if (display != NULL)
+    {
+      char *cmd = g_strdup_printf("-display \"%s\"", display);
+      add_cmdline_lock_cmd("xlock", cmd, true);
+      g_free(cmd);
+      cmd = NULL;
+    }
+  else
+    {
+      add_cmdline_lock_cmd("xlock", NULL, true);
+    }
+
+  TRACE_EXIT();
+}
+
+#endif
+
+
+void
+System::lock()
+{
+  TRACE_ENTER("System::lock");
+
+  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin();
+      iter != lock_commands.end(); ++iter)
+    {
+      if ((*iter)->lock())
+        break;
+    }
+
+  TRACE_EXIT();
+}
 
 bool
 System::is_shutdown_supported()
@@ -367,21 +614,14 @@ System::init(
   TRACE_ENTER("System::init");
 #if defined(PLATFORM_OS_UNIX)
 #ifdef HAVE_DBUS_GIO
-  init_kde_lock();
+  init_DBus();
+  init_DBus_lock_commands();
 #endif
+  init_cmdline_lock_commands(display);
 
-  gchar *program;
-  if ((program = g_find_program_in_path("xscreensaver-command")) != NULL)
-    lockable = true;
-  else if ((program = g_find_program_in_path("gnome-screensaver-command")) != NULL)
-    lockable = true;
-  else if ((program = g_find_program_in_path("xlock")) != NULL)
-    lockable = true;
-
-  if (lockable && display != NULL)
+  lockable = !lock_commands.empty();
+  if (lockable)
     {
-      g_free(program);
-      lock_display = display;
       TRACE_MSG("Locking enabled");
     }
   else
@@ -405,5 +645,24 @@ System::init(
     }
   shutdown_supported = shutdown_helper(false);
 #endif
+
   TRACE_EXIT();
 }
+
+void
+System::clear()
+{
+  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin();
+        iter != lock_commands.end(); ++iter)
+    {
+      delete *iter;
+    }
+  lock_commands.clear();
+#ifdef HAVE_DBUS_GIO
+  //we should call g_dbus_connection_close_sync here:
+  //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
+  g_object_unref(session_connection);
+  g_object_unref(session_connection);
+#endif
+}
+//TODO: lock before suspend/hibernate

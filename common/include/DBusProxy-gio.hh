@@ -24,6 +24,10 @@
 #ifndef DBUSPROXYGIO_HH
 #define DBUSPROXYGIO_HH
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "debug.hh"
 #include <glib.h>
 #include <gio/gio.h>
@@ -36,11 +40,12 @@ class DBusProxy
 private:
   GDBusProxy *proxy;
   GError *error;
+  GDBusProxyFlags flags;
   static bool get_all_strings_from_gvariant(GVariant *container, std::set<std::string> *services);
 
 
 public:
-  DBusProxy (): proxy(NULL), error(NULL) {}
+  DBusProxy (): proxy(NULL), error(NULL), flags(G_DBUS_PROXY_FLAGS_NONE) {}
   
   ~DBusProxy() { clear(); }
 
@@ -48,10 +53,20 @@ public:
 
 
   bool init(GBusType bus_type, const char *name, const char *object_path, 
-              const char *interface_name);
+              const char *interface_name,
+              GDBusProxyFlags flags_in =
+                  static_cast<GDBusProxyFlags>(
+                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+                      G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS)
+              );
 
   bool init_with_connection(GDBusConnection *connection, const char *name, const char *object_path, 
-              const char *interface_name); 
+              const char *interface_name,
+              GDBusProxyFlags flags_in =
+                  static_cast<GDBusProxyFlags>(
+                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+                      G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS)
+              );
 
   //Consumes (=deletes) method_parameters if it is floating
   //method_result may be null, in this case the result of the method is ignored

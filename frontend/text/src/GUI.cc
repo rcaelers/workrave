@@ -132,17 +132,18 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-  System::init();
-#else
-  System::init(NULL);
-#endif
-
   g_type_init();
 
   init_debug();
   init_core();
   init_sound_player();
+
+  #ifdef PLATFORM_OS_WIN32
+  System::init();
+#else
+  System::init(NULL);
+#endif
+
 
   // The main status window.
   main_window = new MainWindow();
@@ -161,6 +162,7 @@ GUI::main()
   delete main_window;
   main_window = NULL;
 
+  System::clear();
 #ifdef PLATFORM_OS_WIN32
   // Disable Windows structural exception handling.
   __except1;

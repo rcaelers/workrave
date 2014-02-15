@@ -24,11 +24,12 @@
 #include <iostream>
 
   bool DBusProxy::init_with_connection(GDBusConnection *connection, const char *name, const char *object_path, 
-              const char *interface_name) 
+              const char *interface_name, GDBusProxyFlags flags_in)
   {
     TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
+    this->flags = flags_in;
     proxy = g_dbus_proxy_new_sync(connection, 
-                                       G_DBUS_PROXY_FLAGS_NONE,
+                                       flags,
                                        NULL,
                                        name,
                                        object_path,
@@ -46,12 +47,13 @@
   }
 
   bool DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, 
-              const char *interface_name) 
+              const char *interface_name, GDBusProxyFlags flags_in)
   {
     TRACE_ENTER_MSG("DBus_proxy::init", name);
+    this->flags = flags_in;
     error = NULL;
     proxy = g_dbus_proxy_new_for_bus_sync(bus_type,
-                                               G_DBUS_PROXY_FLAGS_NONE,
+                                               flags,
                                                NULL,
                                                name,
                                                object_path,

@@ -36,9 +36,15 @@
 #include <string>
 #endif
 
+#include <vector>
+
 #if defined(HAVE_DBUS_GIO)
-#include <gio/gio.h>
+#include "DBusProxy.hh"
+#include <string>
+#include <set>
 #endif
+
+#include "IScreenLockMethod.hh"
 
 class System
 {
@@ -53,30 +59,39 @@ public:
                    const char *display
 #endif
                    );
+  static void clear();
 
 private:
-#ifdef HAVE_DBUS_GIO
-  static GDBusProxy *lock_proxy;
-#endif
+  static std::vector<IScreenLockMethod *> lock_commands;
 
 #if defined(PLATFORM_OS_UNIX)
-  static void init_kde_lock();
-  static bool kde_lock();
+
+#ifdef HAVE_DBUS_GIO
+  static void init_DBus();
+  static void init_DBus_lock_commands();
+  static inline bool add_DBus_lock_cmd(
+      const char *dbus_name, const char *dbus_path, const char *dbus_interface,
+      const char *dbus_lock_method, const char *dbus_method_to_check_existence);
+
+  static GDBusConnection* session_connection;
+  static GDBusConnection* system_connection;
+#endif
 
   static bool lockable;
-  static std::string lock_display;
   static bool shutdown_supported;
+  static inline void add_cmdline_lock_cmd(
+        const char *command_name, const char *parameters, bool async);
+  static void init_cmdline_lock_commands(const char *display);
+  static bool invoke(const gchar* command, bool async = false);
+#endif //defined(PLATFORM_OS_UNIX)
 
-#elif defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32)
   static bool shutdown_helper(bool for_real);
 
   typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
   static LockWorkStationFunc lock_func;
   static HINSTANCE user32_dll;
   static bool shutdown_supported;
-#elif defined(HAVE_DBUS_GIO)
-  static void init_kde_lock();
-  static bool kde_lock();
 #endif
 };
 
