@@ -32,7 +32,10 @@ libworkrave_frontend_common_la_SOURCES += \
 
 if HAVE_DBUS_GIO
 libworkrave_frontend_common_la_SOURCES += \
-			ScreenLockDBus.cc
+			ScreenLockDBus.cc	\
+			SystemStateChangeConsolekit.cc \
+			SystemStateChangeUPower.cc \
+			SystemStateChangeLogind.cc
 endif
 endif
 

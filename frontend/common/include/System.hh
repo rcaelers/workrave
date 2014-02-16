@@ -31,12 +31,12 @@
 #include <vector>
 
 #if defined(HAVE_DBUS_GIO)
-#include "DBusProxy.hh"
-#include <string>
-#include <set>
+#include <glib.h>
+#include <gio/gio.h>
 #endif
 
 #include "IScreenLockMethod.hh"
+#include "ISystemStateChangeMethod.hh"
 
 class System
 {
@@ -58,6 +58,7 @@ public:
 
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
+  static std::vector<ISystemStateChangeMethod *> system_state_commands;
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -67,6 +68,10 @@ private:
   static inline bool add_DBus_lock_cmd(
       const char *dbus_name, const char *dbus_path, const char *dbus_interface,
       const char *dbus_lock_method, const char *dbus_method_to_check_existence);
+
+  static void add_DBus_system_state_command(
+      ISystemStateChangeMethod *method);
+  static void init_DBus_system_state_commands();
 
   static GDBusConnection* session_connection;
   static GDBusConnection* system_connection;

@@ -52,6 +52,9 @@
 
 #ifdef HAVE_DBUS_GIO
 #include "ScreenLockDBus.hh"
+#include "SystemStateChangeConsolekit.hh"
+#include "SystemStateChangeLogind.hh"
+#include "SystemStateChangeUPower.hh"
 #endif
 #endif //PLATFORM_OS_UNIX
 
@@ -126,7 +129,7 @@ const GUID CLSID_Shell =
 #endif /* PLATFORM_OS_WIN32 */
 
 std::vector<IScreenLockMethod *> System::lock_commands;
-
+std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -143,39 +146,8 @@ bool System::shutdown_supported;
 
 #endif
 
-#ifdef PLATFORM_OS_UNIX
-bool
-System::invoke(const gchar* command, bool async)
-{
-  GError *error = NULL;
-
-  if(!async)
-    {
-      // synchronised call
-      gint exit_code;
-      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
-        {
-          g_error_free(error);
-          return false;
-        }
-      return WEXITSTATUS(exit_code) == 0;
-    }
-  else
-    {
-      // asynchronous call
-      if (!g_spawn_command_line_async(command, &error) )
-        {
-          g_error_free(error);
-          return false;
-        }
-      return true;
-    }
-}
-#endif
-
 
 #ifdef PLATFORM_OS_UNIX
-
 #ifdef HAVE_DBUS_GIO
 void
 System::init_DBus()
@@ -380,9 +352,7 @@ void System::init_cmdline_lock_commands(const char *display)
 
   TRACE_EXIT();
 }
-
 #endif
-
 
 void
 System::lock()
@@ -398,6 +368,72 @@ System::lock()
 
   TRACE_EXIT();
 }
+
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
+
+void System::add_DBus_system_state_command(
+      ISystemStateChangeMethod *method)
+{
+  TRACE_ENTER("System::add_DBus_system_state_command");
+
+  if (method->canDoAnything())
+    {
+      system_state_commands.push_back(method);
+      TRACE_MSG("DBus service is useful");
+    }
+  else
+    {
+      delete method;
+      method = NULL;
+      TRACE_MSG("DBus service is useless");
+    }
+
+  TRACE_EXIT();
+}
+
+void System::init_DBus_system_state_commands()
+{
+  TRACE_ENTER("System::init_DBus_system_state_commands");
+  if (system_connection)
+    {
+
+      //These three DBus interfaces are too diverse
+      //to implement support for them in one class
+      //Logind is the future so it goes first
+      add_DBus_system_state_command(
+                          new SystemStateChangeLogind(system_connection));
+
+      add_DBus_system_state_command(
+                          new SystemStateChangeUPower(system_connection));
+
+      //ConsoleKit is deprecated so goes last
+      add_DBus_system_state_command(
+                          new SystemStateChangeConsolekit(system_connection));
+
+      //Other interfaces:
+      //  GNOME:
+      //    - there is GNOME Session API:
+      //      https://git.gnome.org/browse/gnome-session/tree/gnome-session/org.gnome.SessionManager.xml
+      //      But shutdown/reboot require confirmation, so this is unusable to us,
+      //
+      //  KDE:
+      //    - there is some support, but probably not worth implementing it
+      //    http://askubuntu.com/questions/1871/how-can-i-safely-shutdown-reboot-logout-kde-from-the-command-line
+
+      //  Windows:
+      //  http://www.programmingsimplified.com/c-program-shutdown-computer
+      //    winxp
+      //        system("C:\\WINDOWS\\System32\\shutdown -s");
+      //    win7
+      //        system("C:\\WINDOWS\\System32\\shutdown /s");
+#undef ADD_DBUS_SERVICE
+
+
+    }
+  TRACE_EXIT();
+}
+
+#endif
 
 bool
 System::is_shutdown_supported()
@@ -417,12 +453,11 @@ void
 System::shutdown()
 {
 #if defined(PLATFORM_OS_UNIX)
-  gchar *program = NULL, *cmd = NULL;
-
-  if ((program = g_find_program_in_path("gnome-session-save")))
+  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
+        iter != system_state_commands.end(); ++iter)
     {
-      cmd = g_strdup_printf("%s --kill", program);
-      invoke(cmd, false);
+      if ((*iter)->shutdown())
+        break;
     }
 #elif defined(PLATFORM_OS_WIN32)
   shutdown_helper(true);
@@ -463,13 +498,20 @@ System::init(
 #ifdef HAVE_DBUS_GIO
   init_DBus();
   init_DBus_lock_commands();
+  init_DBus_system_state_commands();
 #endif
   init_cmdline_lock_commands(display);
 
   shutdown_supported = false;
-  if (!shutdown_supported && (g_find_program_in_path("gnome-session-save") != NULL))
+
+  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
+      iter != system_state_commands.end(); ++iter)
     {
-      shutdown_supported = true;
+      if ((*iter)->canShutdown())
+        {
+          shutdown_supported = true;
+          break;
+        }
     }
 
 #elif defined(PLATFORM_OS_WIN32)
@@ -508,6 +550,13 @@ System::clear()
       delete *iter;
     }
   lock_commands.clear();
+
+  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
+      iter != system_state_commands.end(); ++iter)
+    {
+      delete *iter;
+    }
+  system_state_commands.clear();
 #ifdef HAVE_DBUS_GIO
   //we should call g_dbus_connection_close_sync here:
   //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286

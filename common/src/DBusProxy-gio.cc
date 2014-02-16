@@ -23,6 +23,8 @@
 #include "DBusProxy-gio.hh"
 #include <iostream>
 
+
+
   bool DBusProxy::init_with_connection(GDBusConnection *connection, const char *name, const char *object_path, 
               const char *interface_name, GDBusProxyFlags flags_in)
   {
@@ -127,73 +129,27 @@
     return true;
   }
 
-  bool DBusProxy::give_list_of_all_available_services(GDBusConnection* connection, std::set<std::string> *services)
+  //Consumes (=deletes) method_parameters if it is floating
+  bool DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *method_parameters)
   {
-    TRACE_ENTER("DBusProxy::give_list_of_all_available_services");
-    DBusProxy proxy;
+    TRACE_ENTER_MSG("DBus_proxy::call_method_asynch_no_result", method_name);
+    if (proxy == NULL)
+      return false;
 
-    if (!proxy.init_with_connection(connection,
-        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus"))
+    if (error != NULL)
       {
-        TRACE_RETURN(false);
-        return false;
+        g_error_free(error);
+        error = NULL;
       }
 
-    GVariant *method_result = NULL;
-    if (!proxy.call_method("ListNames", NULL, &method_result))
-      {
-        TRACE_RETURN(false);
-        return false;
-      }
+    g_dbus_proxy_call(proxy, method_name,
+                              method_parameters,
+                              G_DBUS_CALL_FLAGS_NONE,
+                              -1,
+                              NULL,
+                              NULL,
+                              NULL);
 
-    services->clear();
-    bool ret = get_all_strings_from_gvariant(method_result, services);
-
-    g_variant_unref(method_result);
-
-    TRACE_RETURN(ret);
-    return ret;
-  }
-
-  //Based on an example in https://developer.gnome.org/glib/2.32/glib-GVariant.html#g-variant-iter-next-value
-  bool DBusProxy::get_all_strings_from_gvariant(GVariant *container, std::set<std::string> *services)
-  {
-    GVariantIter iter;
-    GVariant *child;
-
-    g_variant_iter_init (&iter, container);
-    while ((child = g_variant_iter_next_value (&iter)))
-      {
-        bool r = true;
-
-        if (g_variant_is_container (child))
-          {
-            r = get_all_strings_from_gvariant(child, services);
-          }
-        else
-          {
-            if (!g_variant_type_equal(g_variant_get_type(child), G_VARIANT_TYPE_STRING))
-              {
-                r = false;
-                std::cerr << "ERROR: org.freedesktop.DBus.ListNames returned data in strange format" << std::endl;
-              }
-            else
-              {
-                const char *cstr = g_variant_get_string(child, NULL);
-                //do not return unique connection names
-                if (cstr[0] != ':')
-                  {
-                    services->insert(std::string(cstr));
-                  }
-              }
-          }
-
-        g_variant_unref (child);
-        if (!r)
-          {
-            return false;
-          }
-      }
-
+    TRACE_EXIT();
     return true;
   }

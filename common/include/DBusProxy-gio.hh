@@ -41,16 +41,11 @@ private:
   GDBusProxy *proxy;
   GError *error;
   GDBusProxyFlags flags;
-  static bool get_all_strings_from_gvariant(GVariant *container, std::set<std::string> *services);
-
 
 public:
   DBusProxy (): proxy(NULL), error(NULL), flags(G_DBUS_PROXY_FLAGS_NONE) {}
   
   ~DBusProxy() { clear(); }
-
-  static bool give_list_of_all_available_services(GDBusConnection *connection, std::set<std::string> *services);
-
 
   bool init(GBusType bus_type, const char *name, const char *object_path, 
               const char *interface_name,
@@ -71,6 +66,10 @@ public:
   //Consumes (=deletes) method_parameters if it is floating
   //method_result may be null, in this case the result of the method is ignored
   bool call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result);
+
+  //Calls method asyncronously and does not accept result (no callback will be run)
+  //Consumes (=deletes) method_parameters if it is floating
+  bool call_method_asynch_no_result(const char *method_name, GVariant *method_parameters);
 
 
   void clear()
