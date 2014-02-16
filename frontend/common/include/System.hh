@@ -41,7 +41,7 @@
 class System
 {
 public:
-  static bool is_lockable();
+  static bool is_lockable() { return !lock_commands.empty(); };
   static bool is_shutdown_supported();
   static void lock();
   static void shutdown();
@@ -58,7 +58,6 @@ public:
 
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
-  static bool lockable;
 
 #if defined(PLATFORM_OS_UNIX)
 

@@ -126,7 +126,6 @@ const GUID CLSID_Shell =
 #endif /* PLATFORM_OS_WIN32 */
 
 std::vector<IScreenLockMethod *> System::lock_commands;
-bool System::lockable = false;
 
 
 #if defined(PLATFORM_OS_UNIX)
@@ -143,12 +142,6 @@ bool System::shutdown_supported;
 bool System::shutdown_supported;
 
 #endif
-
-bool
-System::is_lockable()
-{
-  return lockable;
-}
 
 #ifdef PLATFORM_OS_UNIX
 bool
@@ -494,8 +487,7 @@ System::init(
   shutdown_supported = shutdown_helper(false);
 #endif //defined (PLATFORM_OS_WIN32)
 
-  lockable = !lock_commands.empty();
-  if (lockable)
+  if (!lock_commands.empty())
     {
       TRACE_MSG("Locking enabled");
     }
