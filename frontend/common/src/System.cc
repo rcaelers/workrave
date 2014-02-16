@@ -53,14 +53,6 @@
 #ifdef HAVE_DBUS_GIO
 #include "ScreenLockDBus.hh"
 #endif
-
-#include <X11/X.h>
-#include <X11/Xproto.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#ifdef HAVE_APP_GTK
-#include <gdk/gdkx.h>
-#endif
 #endif //PLATFORM_OS_UNIX
 
 #if defined(HAVE_UNIX)

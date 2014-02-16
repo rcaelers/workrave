@@ -28,10 +28,6 @@
 #include <glib.h>
 #endif
 
-#if defined(PLATFORM_OS_UNIX)
-#include <string>
-#endif
-
 #include <vector>
 
 #if defined(HAVE_DBUS_GIO)
@@ -50,6 +46,9 @@ public:
   static void lock();
   static void shutdown();
 
+  //display will not be owned by System,
+  //the caller may free it after calling
+  //this function
   static void init(
 #if defined(PLATFORM_OS_UNIX)
                    const char *display
