@@ -1,5 +1,3 @@
-// System.hh
-//
 // Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -17,22 +15,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#ifndef W32SHUTDOWN_HH_
+#define W32SHUTDOWN_HH_
 
-#include "W32LockScreen.hh"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-W32LockScreen::W32LockScreen()
+#include "ISystemStateChangeMethod.hh"
+
+
+
+class W32Shutdown : public ISystemStateChangeMethod
 {
-  // Note: this memory is never freed
-  user32_dll = LoadLibrary("user32.dll");
-  if (user32_dll != NULL)
-    {
-      lock_func = (LockWorkStationFunc)
-          GetProcAddress(user32_dll, "LockWorkStation");
-    }
-}
+public:
+  W32Shutdown();
+  virtual
+  ~W32Shutdown() {};
 
-bool W32LockScreen::lock()
-{
-  (*lock_func)();
-  return true;
-}
+  virtual bool shutdown();
+  virtual bool canShutdown() { return shutdown_supported;}
+private:
+  bool shutdown_helper(bool for_real);
+  bool shutdown_supported;
+};
+
+#endif /* W32SHUTDOWN_HH_ */

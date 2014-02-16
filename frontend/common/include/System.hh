@@ -59,6 +59,7 @@ public:
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
   static std::vector<ISystemStateChangeMethod *> system_state_commands;
+  static bool shutdown_supported;
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -77,17 +78,12 @@ private:
   static GDBusConnection* system_connection;
 #endif
 
-  static bool shutdown_supported;
   static inline void add_cmdline_lock_cmd(
         const char *command_name, const char *parameters, bool async);
   static void init_cmdline_lock_commands(const char *display);
   static bool invoke(const gchar* command, bool async = false);
 #endif //defined(PLATFORM_OS_UNIX)
 
-#if defined(PLATFORM_OS_WIN32)
-  static bool shutdown_helper(bool for_real);
-  static bool shutdown_supported;
-#endif
 };
 
 #endif // SYSTEM_HH

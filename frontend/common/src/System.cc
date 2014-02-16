@@ -58,78 +58,18 @@
 #endif
 #endif //PLATFORM_OS_UNIX
 
+#ifdef PLATFORM_OS_WIN32
+#include "W32Shutdown.hh"
+#endif
+
 #if defined(HAVE_UNIX)
 #include <sys/wait.h>
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-#include "W32LockScreen.hh"
-
-#include <shlobj.h>
-#include <shldisp.h>
-#include "harpoon.h"
-
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-
-using namespace workrave;
-
-#ifndef HAVE_ISHELLDISPATCH
-#undef INTERFACE
-#define INTERFACE IShellDispatch
-DECLARE_INTERFACE_(IShellDispatch, IUnknown)
-{
-  STDMETHOD(QueryInterface)(THIS_ REFIID,PVOID*) PURE;
-  STDMETHOD_(ULONG,AddRef)(THIS) PURE;
-  STDMETHOD_(ULONG,Release)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy1)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy2)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy3)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy4)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy5)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy6)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy7)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy8)(THIS) PURE;
-  STDMETHOD_(ULONG,dummy9)(THIS) PURE;
-  STDMETHOD_(ULONG,dummya)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyb)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyc)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyd)(THIS) PURE;
-  STDMETHOD_(ULONG,dummye)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyf)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyg)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyh)(THIS) PURE;
-        STDMETHOD(ShutdownWindows)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyi)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyj)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyk)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyl)(THIS) PURE;
-  STDMETHOD_(ULONG,dummym)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyn)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyo)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyp)(THIS) PURE;
-  STDMETHOD_(ULONG,dummyq)(THIS) PURE;
-END_INTERFACE
-};
-typedef IShellDispatch *LPSHELLDISPATCH;
-#endif
-
-//uuid(D8F015C0-C278-11CE-A49E-444553540000);
-const GUID IID_IShellDispatch =
-{
-  0xD8F015C0, 0xc278, 0x11ce,
-  { 0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54 }
-};
-// 13709620-C279-11CE-A49E-444553540000
-const GUID CLSID_Shell =
-{
-  0x13709620, 0xc279, 0x11ce,
-  { 0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54 }
-};
-#endif /* PLATFORM_OS_WIN32 */
-
 std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
+bool System::shutdown_supported;
+
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -137,13 +77,6 @@ std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 GDBusConnection* System::session_connection = NULL;
 GDBusConnection* System::system_connection = NULL;
 #endif
-
-bool System::shutdown_supported;
-
-#elif defined(PLATFORM_OS_WIN32)
-
-bool System::shutdown_supported;
-
 #endif
 
 
@@ -433,58 +366,24 @@ void System::init_DBus_system_state_commands()
   TRACE_EXIT();
 }
 
-#endif
+#endif //PLATFORM_OS_UNIX
 
 bool
 System::is_shutdown_supported()
 {
-  bool ret;
-#if defined(PLATFORM_OS_UNIX)
-  ret = shutdown_supported;
-#elif defined(PLATFORM_OS_WIN32)
-  ret = shutdown_supported;
-#else
-  ret = false;
-#endif
-  return ret;
+  return shutdown_supported;
 }
 
 void
 System::shutdown()
 {
-#if defined(PLATFORM_OS_UNIX)
   for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
         iter != system_state_commands.end(); ++iter)
     {
       if ((*iter)->shutdown())
         break;
     }
-#elif defined(PLATFORM_OS_WIN32)
-  shutdown_helper(true);
-#endif
 }
-
-#ifdef PLATFORM_OS_WIN32
-bool
-System::shutdown_helper(bool for_real)
-{
-  bool ret = false;
-  IShellDispatch* pShellDispatch = NULL;
-  if (SUCCEEDED(::CoCreateInstance(CLSID_Shell, NULL, CLSCTX_SERVER,
-                                   IID_IShellDispatch,
-                                   (LPVOID*)&pShellDispatch)))
-    {
-      ret = true;
-      if (for_real)
-        {
-          harpoon_unblock_input();
-          pShellDispatch->ShutdownWindows();
-        }
-      pShellDispatch->Release();
-    }
-  return ret;
-}
-#endif
 
 void
 System::init(
@@ -502,18 +401,6 @@ System::init(
 #endif
   init_cmdline_lock_commands(display);
 
-  shutdown_supported = false;
-
-  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
-      iter != system_state_commands.end(); ++iter)
-    {
-      if ((*iter)->canShutdown())
-        {
-          shutdown_supported = true;
-          break;
-        }
-    }
-
 #elif defined(PLATFORM_OS_WIN32)
   IScreenLockMethod *winLock = new W32LockScreen();
   if (winLock->is_lock_supported())
@@ -526,8 +413,30 @@ System::init(
       winLock = NULL;
     }
 
-  shutdown_supported = shutdown_helper(false);
+  ISystemStateChangeMethod *winShut = new W32Shutdown();
+  if (winLock->canShutdown())
+    {
+      system_state_commands.push_back(winShut);
+    }
+  else
+    {
+      delete winShut;
+      winShut = NULL;
+    }
 #endif //defined (PLATFORM_OS_WIN32)
+
+
+  shutdown_supported = false;
+
+  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
+      iter != system_state_commands.end(); ++iter)
+    {
+      if ((*iter)->canShutdown())
+        {
+          shutdown_supported = true;
+          break;
+        }
+    }
 
   if (!lock_commands.empty())
     {
@@ -558,7 +467,7 @@ System::clear()
     }
   system_state_commands.clear();
 #ifdef HAVE_DBUS_GIO
-  //we should call g_dbus_connection_close_sync here:
+  //we shouldn't call g_dbus_connection_close_sync here:
   //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
   g_object_unref(session_connection);
   g_object_unref(session_connection);
