@@ -28,10 +28,6 @@
 #include <glib.h>
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
-#include <windows.h>
-#endif
-
 #if defined(PLATFORM_OS_UNIX)
 #include <string>
 #endif
@@ -63,6 +59,7 @@ public:
 
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
+  static bool lockable;
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -77,7 +74,6 @@ private:
   static GDBusConnection* system_connection;
 #endif
 
-  static bool lockable;
   static bool shutdown_supported;
   static inline void add_cmdline_lock_cmd(
         const char *command_name, const char *parameters, bool async);
@@ -87,10 +83,6 @@ private:
 
 #if defined(PLATFORM_OS_WIN32)
   static bool shutdown_helper(bool for_real);
-
-  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
-  static LockWorkStationFunc lock_func;
-  static HINSTANCE user32_dll;
   static bool shutdown_supported;
 #endif
 };

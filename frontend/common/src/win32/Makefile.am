@@ -20,6 +20,7 @@ libworkrave_frontend_common_win32_la_SOURCES = \
 			W32SoundPlayer.cc \
 			W32Mixer.cc \
 			Sound.cc \
+			W32LockScreen.cc \
 			$(dsound_sources)
 
 libworkrave_frontend_common_win32_la_CXXFLAGS = \

@@ -68,6 +68,8 @@
 #endif
 
 #ifdef PLATFORM_OS_WIN32
+#include "W32LockScreen.hh"
+
 #include <shlobj.h>
 #include <shldisp.h>
 #include "harpoon.h"
@@ -132,6 +134,8 @@ const GUID CLSID_Shell =
 #endif /* PLATFORM_OS_WIN32 */
 
 std::vector<IScreenLockMethod *> System::lock_commands;
+bool System::lockable = false;
+
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -140,13 +144,10 @@ GDBusConnection* System::session_connection = NULL;
 GDBusConnection* System::system_connection = NULL;
 #endif
 
-bool System::lockable = false;
 bool System::shutdown_supported;
 
 #elif defined(PLATFORM_OS_WIN32)
 
-HINSTANCE System::user32_dll = NULL;
-System::LockWorkStationFunc System::lock_func = NULL;
 bool System::shutdown_supported;
 
 #endif
@@ -154,15 +155,7 @@ bool System::shutdown_supported;
 bool
 System::is_lockable()
 {
-  bool ret;
-#if defined(PLATFORM_OS_UNIX)
-  ret = lockable;
-#elif defined(PLATFORM_OS_WIN32)
-  ret = lock_func != NULL;
-#else
-  ret = false;
-#endif
-  return ret;
+  return lockable;
 }
 
 #ifdef PLATFORM_OS_UNIX
@@ -488,6 +481,27 @@ System::init(
 #endif
   init_cmdline_lock_commands(display);
 
+  shutdown_supported = false;
+  if (!shutdown_supported && (g_find_program_in_path("gnome-session-save") != NULL))
+    {
+      shutdown_supported = true;
+    }
+
+#elif defined(PLATFORM_OS_WIN32)
+  IScreenLockMethod *winLock = new W32LockScreen();
+  if (winLock->is_lock_supported())
+    {
+      lock_commands.push_back(winLock);
+    }
+  else
+    {
+      delete winLock;
+      winLock = NULL;
+    }
+
+  shutdown_supported = shutdown_helper(false);
+#endif //defined (PLATFORM_OS_WIN32)
+
   lockable = !lock_commands.empty();
   if (lockable)
     {
@@ -497,23 +511,6 @@ System::init(
     {
       TRACE_MSG("Locking disabled");
     }
-
-  shutdown_supported = false;
-  if (!shutdown_supported && (g_find_program_in_path("gnome-session-save") != NULL))
-    {
-      shutdown_supported = true;
-    }
-
-#elif defined(PLATFORM_OS_WIN32)
-  // Note: this memory is never freed
-  user32_dll = LoadLibrary("user32.dll");
-  if (user32_dll != NULL)
-    {
-      lock_func = (LockWorkStationFunc)
-        GetProcAddress(user32_dll, "LockWorkStation");
-    }
-  shutdown_supported = shutdown_helper(false);
-#endif
 
   TRACE_EXIT();
 }
