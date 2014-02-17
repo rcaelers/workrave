@@ -38,13 +38,43 @@
 #include "IScreenLockMethod.hh"
 #include "ISystemStateChangeMethod.hh"
 
+
 class System
 {
 public:
-  static bool is_lockable() { return !lock_commands.empty(); };
-  static bool is_shutdown_supported();
+  class SystemOperation
+  {
+  public:
+    enum SystemOperationType {
+      SYSTEM_OPERATION_NONE,
+      SYSTEM_OPERATION_SHUTDOWN,
+      SYSTEM_OPERATION_SUSPEND,
+      SYSTEM_OPERATION_HIBERNATE,
+      SYSTEM_OPERATION_SUSPEND_HYBRID,
+    };
+    //A simple, English language name of the operation
+    //Not translated into native language here because
+    //this class is not concerned with UI
+    const char *name;
+    SystemOperationType type;
+
+    bool execute() const { return System::execute(type); }
+
+    bool operator< (const SystemOperation &other) const
+        { return this->type < other.type;  }
+  private:
+    SystemOperation(const char *name, const SystemOperationType type):
+          name(name), type(type) {};
+    friend class System;
+  };
+
+
+  static bool is_lockable() { return !lock_commands.empty(); }
   static void lock();
-  static void shutdown();
+
+  static std::vector<SystemOperation> get_supported_system_operations()
+      { return supported_system_operations; }
+  static bool execute(SystemOperation::SystemOperationType type);
 
   //display will not be owned by System,
   //the caller may free it after calling
@@ -59,8 +89,7 @@ public:
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
   static std::vector<ISystemStateChangeMethod *> system_state_commands;
-  static bool shutdown_supported;
-
+  static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
 
 #ifdef HAVE_DBUS_GIO

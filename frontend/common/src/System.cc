@@ -68,8 +68,7 @@
 
 std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
-bool System::shutdown_supported;
-
+std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX)
 
@@ -368,21 +367,45 @@ void System::init_DBus_system_state_commands()
 
 #endif //PLATFORM_OS_UNIX
 
-bool
-System::is_shutdown_supported()
+bool System::execute(SystemOperation::SystemOperationType type)
 {
-  return shutdown_supported;
-}
-
-void
-System::shutdown()
-{
-  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
-        iter != system_state_commands.end(); ++iter)
+  TRACE_ENTER("System::execute");
+  if (type == SystemOperation::SYSTEM_OPERATION_NONE)
     {
-      if ((*iter)->shutdown())
-        break;
+      return false;
     }
+  else
+    {
+      for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
+                      iter != system_state_commands.end(); ++iter)
+        {
+          bool ret = false;
+          switch (type)
+            {
+              case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+                ret = ((*iter)->shutdown());
+                break;
+              case SystemOperation::SYSTEM_OPERATION_SUSPEND:
+                ret = ((*iter)->suspend());
+                break;
+              case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+                ret = ((*iter)->hibernate());
+                break;
+              case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+                ret = ((*iter)->suspendHybrid());
+                break;
+              default:
+                throw "System::execute: Unknown system operation";
+            };
+          if (ret)
+            {
+              TRACE_RETURN(true);
+              return true;
+            }
+        }
+    }
+  TRACE_RETURN(false);
+  return false;
 }
 
 void
@@ -425,27 +448,32 @@ System::init(
     }
 #endif //defined (PLATFORM_OS_WIN32)
 
-
-  shutdown_supported = false;
-
   for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
       iter != system_state_commands.end(); ++iter)
     {
       if ((*iter)->canShutdown())
         {
-          shutdown_supported = true;
-          break;
+          supported_system_operations.push_back(
+              SystemOperation("Shutdown", SystemOperation::SYSTEM_OPERATION_SHUTDOWN));
+        }
+      if ((*iter)->canSuspend())
+        {
+          supported_system_operations.push_back(
+              SystemOperation("Suspend", SystemOperation::SYSTEM_OPERATION_SUSPEND));
+        }
+      if ((*iter)->canHibernate())
+        {
+          supported_system_operations.push_back(
+              SystemOperation("Hibernate", SystemOperation::SYSTEM_OPERATION_HIBERNATE));
+        }
+      if ((*iter)->canSuspendHybrid())
+        {
+          supported_system_operations.push_back(
+              SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
         }
     }
 
-  if (!lock_commands.empty())
-    {
-      TRACE_MSG("Locking enabled");
-    }
-  else
-    {
-      TRACE_MSG("Locking disabled");
-    }
+  std::sort(supported_system_operations.begin(), supported_system_operations.end());
 
   TRACE_EXIT();
 }
