@@ -105,7 +105,8 @@ RestBreakWindow::create_gui()
   timebar = Gtk::manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::Box *button_box = create_break_buttons(true, false);
+  Gtk::Box *button_box = create_break_buttons(true,
+      GUIConfig::get_shutdown_enabled(BREAK_ID_REST_BREAK));
   if (button_box)
     {
       vbox->pack_end(*Gtk::manage(button_box), Gtk::PACK_SHRINK, 6);
