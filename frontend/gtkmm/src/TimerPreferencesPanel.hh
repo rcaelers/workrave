@@ -90,6 +90,7 @@ private:
   Gtk::SpinButton *max_prelude_spin;
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> max_prelude_adjustment;
+  Gtk::CheckButton *allow_shutdown_cb;
 #else
   Gtk::Adjustment max_prelude_adjustment;
 #endif
