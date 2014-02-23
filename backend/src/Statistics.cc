@@ -37,8 +37,8 @@
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
 
-const char *WORKRAVESTATS="WorkRaveStats";
-const int STATSVERSION = 4;
+static const char *WORKRAVESTATS="WorkRaveStats";
+static const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 

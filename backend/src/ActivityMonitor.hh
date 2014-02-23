@@ -41,7 +41,7 @@ public:
   typedef boost::shared_ptr<ActivityMonitor> Ptr;
 
 public:
-  virtual ~ActivityMonitor() {};
+  virtual ~ActivityMonitor() {}
 
   virtual void init() = 0;
   virtual void terminate() = 0;

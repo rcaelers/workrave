@@ -57,12 +57,15 @@ void
 OSXSoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
 {
   (void) snd;
+  (void) volume;
 }
 
 
 void
 OSXSoundPlayer::play_sound(std::string file, int volume)
 {
+  (void) volume;
+
   NSString* filename = [NSString stringWithUTF8String: file.c_str()];
   NSSound *sound = [soundDictionary objectForKey:filename];
   if (sound == nil) 

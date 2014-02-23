@@ -112,6 +112,7 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
           // FALLTHROUGH
+          [[clang::fallthrough]];
 
         case VARIANT_TYPE_STRING:
           {
@@ -126,9 +127,6 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
               }
           }
           break;
-
-        default:
-          ret = false;
         }
     }
 
@@ -169,9 +167,6 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
         [[NSUserDefaults standardUserDefaults] setObject: string_value forKey: keystring];
       }
       break;
-
-    default:
-      ret = false;
     }
 
   TRACE_RETURN(ret);

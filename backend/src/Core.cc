@@ -39,12 +39,12 @@
 #include "dbus/IDBus.hh"
 #ifdef HAVE_DBUS
 #include "DBusWorkrave.hh"
+#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
+#define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 #endif
 
 using namespace workrave::dbus;
 
-#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
-#define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
 using namespace workrave::utils;
 
@@ -417,6 +417,8 @@ Core::set_powersave(bool down)
 void
 Core::report_external_activity(std::string who, bool act)
 {
+  (void) who;
+  (void) act;
   // TODO: fix this
   // monitor->report_external_activity(who, act);
 }

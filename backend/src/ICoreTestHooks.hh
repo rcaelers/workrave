@@ -39,6 +39,8 @@
 class ICoreTestHooks
 {
 public:
+  virtual ~ICoreTestHooks() {}
+
   typedef boost::shared_ptr<ICoreTestHooks> Ptr;
 
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;

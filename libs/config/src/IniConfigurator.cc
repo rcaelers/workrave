@@ -125,7 +125,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type,
         case VARIANT_TYPE_INT:
           out.int_value =  pt.get<int>(inikey);
           break;
-          
+
         case VARIANT_TYPE_BOOL:
           out.bool_value = pt.get<bool>(inikey);
           break;
@@ -136,14 +136,12 @@ IniConfigurator::get_value(const std::string &key, VariantType type,
           
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
-          // FALLTHROUGH
+          out.string_value = pt.get<string>(inikey);
+          break;
           
         case VARIANT_TYPE_STRING:
           out.string_value = pt.get<string>(inikey);
           break;
-          
-        default:
-          ret = false;
         }
     }
   catch (boost::property_tree::ptree_error)
@@ -182,9 +180,6 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
         case VARIANT_TYPE_STRING:
           pt.put(inikey, value.string_value);
           break;
-
-        default:
-          ret = false;
         }
     }
   catch (boost::property_tree::ptree_error)

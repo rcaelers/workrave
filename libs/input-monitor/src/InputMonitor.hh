@@ -25,14 +25,12 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-using namespace workrave::input_monitor;
-
 //!  Base for activity monitors.
-class InputMonitor : public IInputMonitor
+class InputMonitor : public workrave::input_monitor::IInputMonitor
 {
 public:
-  virtual void subscribe(IInputMonitorListener *listener);
-  virtual void unsubscribe(IInputMonitorListener *listener);
+  virtual void subscribe(workrave::input_monitor::IInputMonitorListener *listener);
+  virtual void unsubscribe(workrave::input_monitor::IInputMonitorListener *listener);
 
 protected:
   void fire_action();
@@ -41,7 +39,7 @@ protected:
   void fire_keyboard(bool repeat);
 
 private:
-  std::list<IInputMonitorListener *> listeners;
+  std::list<workrave::input_monitor::IInputMonitorListener *> listeners;
 };
 
 #endif // INPUTMONITOR_HH

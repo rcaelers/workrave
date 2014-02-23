@@ -23,6 +23,8 @@
 
 #include "InputMonitor.hh"
 
+using namespace workrave::input_monitor;
+
 void
 InputMonitor::subscribe(IInputMonitorListener *listener)
 {

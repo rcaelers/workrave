@@ -2,7 +2,9 @@ struct language_t
 {
    const char *code;
    const char *lang;
-} languages []= 
+};
+
+static language_t languages []= 
 {
 { "aa", "Afar" },
 { "ab", "Abkhazian" },
@@ -497,7 +499,9 @@ struct country_t
 {
    const char *code;
    const char *country;
-} countries []= 
+};
+
+static country_t countries []= 
 {
 { "AD", "Andorra" },
 { "AE", "United Arab Emirates" },

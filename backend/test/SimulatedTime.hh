@@ -46,7 +46,7 @@ public:
 
   void reset()
   {
-    std::tm tm = {0};
+    std::tm tm;
     tm.tm_sec = 0;
     tm.tm_min = 0;
     tm.tm_hour = 22;

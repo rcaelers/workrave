@@ -51,7 +51,7 @@ namespace workrave
         SOUND_CAP_EDIT,
         SOUND_CAP_VOLUME,
         SOUND_CAP_MUTE,
-        SOUND_CAP_EOS_EVENT,
+        SOUND_CAP_EOS_EVENT
       };
     
     class ISoundPlayer
@@ -61,7 +61,7 @@ namespace workrave
       
       static Ptr create();
       
-      virtual ~ISoundPlayer() {};
+      virtual ~ISoundPlayer() {}
       
       virtual void play_sound(SoundEvent snd, const std::string &wavfile, bool mute_after_playback, int volume) = 0;
       virtual void play_sound(const std::string &wavfile, int volume) = 0;

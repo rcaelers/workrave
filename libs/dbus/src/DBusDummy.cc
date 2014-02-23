@@ -73,6 +73,7 @@ DBusDummy::is_available() const
 bool
 DBusDummy::is_running(const std::string &name) const
 {
+  (void) name;
   return false;
 }
 

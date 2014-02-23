@@ -96,6 +96,7 @@ QtSettingsConfigurator::qt_get_value(const string &key, bool& exists) const
 bool
 QtSettingsConfigurator::remove_key(const std::string &key)
 {
+  (void)key;
   // TODO:
   return true;
 }

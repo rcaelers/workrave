@@ -135,14 +135,12 @@ XmlConfigurator::get_value(const std::string &key, VariantType type,
           
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
-          // FALLTHROUGH
+          out.string_value = pt.get<string>(xmlpath);
+          break;
           
         case VARIANT_TYPE_STRING:
           out.string_value = pt.get<string>(xmlpath);
           break;
-          
-        default:
-          ret = false;
         }
     }
   catch (boost::property_tree::ptree_error &e)
@@ -182,9 +180,6 @@ XmlConfigurator::set_value(const std::string &key, Variant &value)
         case VARIANT_TYPE_STRING:
           pt.put(xmlpath, value.string_value);
           break;
-
-        default:
-          ret = false;
         }
     }
   catch (boost::property_tree::ptree_error)

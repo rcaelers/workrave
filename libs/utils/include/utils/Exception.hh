@@ -41,12 +41,8 @@ namespace workrave
         detailed_information = parent.details() + ", " + detail;
       }
       
-      virtual ~Exception() throw()
-      {
-      }
-
       // FIXME: implement what
-      virtual std::string details() const throw()
+      virtual std::string details() const
       {
         return detailed_information;
       }

@@ -27,7 +27,6 @@ using namespace std;
 
 enum VariantType { VARIANT_TYPE_NONE,
                    VARIANT_TYPE_INT,
-                   VARIANT_TYPE_LONG,
                    VARIANT_TYPE_BOOL,
                    VARIANT_TYPE_DOUBLE,
                    VARIANT_TYPE_STRING };
@@ -52,12 +51,6 @@ public:
     int_value = v;
   }
 
-  Variant(long v)
-  {
-    type = VARIANT_TYPE_LONG;
-    int_value = v;
-  }
-
   Variant(bool v)
   {
     type = VARIANT_TYPE_BOOL;
@@ -79,10 +72,6 @@ public:
         int_value = rhs.int_value;
         break;
 
-      case VARIANT_TYPE_LONG:
-        long_value = rhs.long_value;
-        break;
-
       case VARIANT_TYPE_BOOL:
         bool_value = rhs.bool_value;
         break;
@@ -96,7 +85,6 @@ public:
         break;
 
       case VARIANT_TYPE_NONE:
-      default:
         break;
       }
   }
@@ -112,10 +100,6 @@ public:
             int_value = lid.int_value;
             break;
 
-          case VARIANT_TYPE_LONG:
-            long_value = lid.long_value;
-            break;
-
           case VARIANT_TYPE_BOOL:
             bool_value = lid.bool_value;
             break;
@@ -129,7 +113,6 @@ public:
             break;
 
           case VARIANT_TYPE_NONE:
-          default:
             break;
           }
       }
@@ -152,26 +135,19 @@ public:
       {
       case VARIANT_TYPE_INT:
         return int_value == lid.int_value;
-        break;
-        
-      case VARIANT_TYPE_LONG:
-        return long_value == lid.long_value;
-        break;
         
       case VARIANT_TYPE_BOOL:
         return bool_value == lid.bool_value;
-        break;
         
+        // FIXME: float compare
       case VARIANT_TYPE_DOUBLE:
         return double_value == lid.double_value;
-        break;
         
+        // FIXME: float compare
       case VARIANT_TYPE_STRING:
         return string_value == lid.string_value;
-        break;
         
       case VARIANT_TYPE_NONE:
-      default:
         return false;
       }
   }
@@ -193,7 +169,6 @@ public:
   union
   {
     int int_value;
-    long long_value;
     bool bool_value;
     double double_value;
   };

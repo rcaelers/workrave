@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,10 +39,9 @@ using namespace workrave::utils;
 
 
 // Constructs a new configurator.
-Configurator::Configurator(IConfigBackend *backend)
+Configurator::Configurator(IConfigBackend *backend) : backend(backend)
 {
   this->auto_save_time = 0;
-  this->backend = backend;
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);

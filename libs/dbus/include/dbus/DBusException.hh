@@ -42,7 +42,7 @@ namespace workrave
       {
       }
 
-      virtual ~DBusException() throw()
+      virtual ~DBusException()
       {
       }
     };
