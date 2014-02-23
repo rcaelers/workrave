@@ -32,21 +32,19 @@
 
 #include "nls.h"
 
-using namespace workrave::config;
-
 IInputMonitorFactory *InputMonitorFactory::factory = NULL;
 
 void
-InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
+InputMonitorFactory::init(const std::string &display)
 {
   if (factory == NULL)
     {
 #if defined(PLATFORM_OS_WIN32)
-      factory = new W32InputMonitorFactory(config);
+      factory = new W32InputMonitorFactory();
 #elif defined(PLATFORM_OS_OSX)
-      factory = new OSXInputMonitorFactory(config);
+      factory = new OSXInputMonitorFactory();
 #elif defined(PLATFORM_OS_UNIX)
-      factory = new UnixInputMonitorFactory(config);
+      factory = new UnixInputMonitorFactory();
 #endif
     }
 

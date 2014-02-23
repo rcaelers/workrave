@@ -21,6 +21,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "config/Config.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "BreakStateModel.hh"
 
@@ -28,15 +29,15 @@ class DayTimePred;
 
 using namespace workrave;
 
-class BreakConfig : public workrave::config::IConfiguratorListener
+class BreakConfig
 {
 public:
   typedef boost::shared_ptr<BreakConfig> Ptr;
  
 public:
-  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, workrave::config::IConfigurator::Ptr configurator);
+  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
-  BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, workrave::config::IConfigurator::Ptr configurator);
+  BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
   virtual ~BreakConfig();
 
   bool is_microbreak_used_for_activity() const;
@@ -45,16 +46,15 @@ public:
 private:  
   void load_timer_config();
   void load_break_config();
-  void config_changed_notify(const std::string &key);
   DayTimePred *create_time_pred(std::string spec);
 
 private:
   BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
-  workrave::config::IConfigurator::Ptr configurator;
   bool enabled;
   bool use_microbreak_activity;
+  scoped_connections connections;
 };
 
 #endif // BREAKCONFIG_HH

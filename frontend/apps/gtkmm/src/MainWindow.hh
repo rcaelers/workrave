@@ -30,8 +30,6 @@
 #include "TimerBoxControl.hh"
 #endif
 
-#include "config/IConfiguratorListener.hh"
-
 class TimerBoxControl;
 class TimerBoxGtkView;
 
@@ -39,8 +37,7 @@ using namespace workrave;
 using namespace workrave::config;
 
 class MainWindow :
-  public Gtk::Window,
-  public IConfiguratorListener
+  public Gtk::Window
 {
 public:
   MainWindow();
@@ -103,7 +100,6 @@ private:
   
 private:
   void setup();
-  void config_changed_notify(const std::string &key);
   void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
 

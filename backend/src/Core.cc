@@ -101,7 +101,7 @@ Core::init(IApp *app, const string &display_name)
 #endif
     {
       // LCOV_EXCL_START
-      monitor = LocalActivityMonitor::create(configurator, display_name);
+      monitor = LocalActivityMonitor::create(display_name);
       // LCOV_EXCL_STOP
    }
   
@@ -110,11 +110,11 @@ Core::init(IApp *app, const string &display_name)
   statistics = Statistics::create(monitor);
   statistics->init();
   
-  core_modes = CoreModes::create(monitor, configurator);
+  core_modes = CoreModes::create(monitor);
 
   core_dbus = CoreDBus::create(core_modes, dbus);
   
-  breaks_control = BreaksControl::create(application, monitor, core_modes, statistics, configurator, dbus, hooks);
+  breaks_control = BreaksControl::create(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
 
   init_bus();

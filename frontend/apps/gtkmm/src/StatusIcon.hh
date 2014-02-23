@@ -31,7 +31,6 @@
 #include <gtkmm/statusicon.h>
 
 #include "ICore.hh"
-#include "config/IConfiguratorListener.hh"
 
 #ifndef WR_CHECK_VERSION
 #define WR_CHECK_VERSION(comp,major,minor,micro)   \
@@ -53,8 +52,7 @@ using namespace workrave::config;
 
 class W32StatusIcon;
 
-class StatusIcon :
-  public IConfiguratorListener
+class StatusIcon
 {
 public:
   StatusIcon();
@@ -77,8 +75,6 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   void on_embedded_changed();
 
-  void config_changed_notify(const std::string &key);
-  
 #if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
 #endif

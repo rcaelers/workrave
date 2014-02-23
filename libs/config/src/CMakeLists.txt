@@ -3,6 +3,7 @@ set(SRC
   ConfiguratorFactory.cc
   IniConfigurator.cc
   XmlConfigurator.cc
+  SettingCache.cc
   )
 
 if (HAVE_QT5)

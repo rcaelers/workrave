@@ -25,12 +25,10 @@
 
 #include "debug.hh"
 
-#include "config/IConfigurator.hh"
-
 #include "OSXInputMonitorFactory.hh"
 #include "OSXInputMonitor.hh"
 
-OSXInputMonitorFactory::OSXInputMonitorFactory(IConfigurator::Ptr config) : config(config)
+OSXInputMonitorFactory::OSXInputMonitorFactory()
 {
   monitor = NULL;
 }

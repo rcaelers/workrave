@@ -58,14 +58,12 @@ public:
                     IApp *app,
                     Timer::Ptr timer,
                     ActivityMonitor::Ptr activity_monitor,
-                    workrave::config::IConfigurator::Ptr configurator,
                     CoreHooks::Ptr hooks);
 
   BreakStateModel(BreakId id,
                   IApp *app,
                   Timer::Ptr timer,
                   ActivityMonitor::Ptr activity_monitor,
-                  workrave::config::IConfigurator::Ptr configurator,
                   CoreHooks::Ptr hooks);
   virtual ~BreakStateModel();
 
@@ -117,9 +115,6 @@ private:
   //!
   ActivityMonitor::Ptr activity_monitor;
   
-  //! The Configurator
-  workrave::config::IConfigurator::Ptr configurator;
-
   CoreHooks::Ptr hooks;
 
   //! Current stage in the break.

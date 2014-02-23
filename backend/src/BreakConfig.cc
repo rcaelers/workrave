@@ -31,25 +31,24 @@ using namespace std;
 using namespace workrave::config;
 
 BreakConfig::Ptr
-BreakConfig::create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, IConfigurator::Ptr configurator)
+BreakConfig::create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer)
 {
-  return Ptr(new BreakConfig(break_id, break_state_model, timer, configurator));
+  return Ptr(new BreakConfig(break_id, break_state_model, timer));
 }
 
 
-BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, IConfigurator::Ptr configurator) :
+BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer) :
   break_id(break_id),
   break_state_model(break_state_model),
   timer(timer),
-  configurator(configurator),
   enabled(true),
   use_microbreak_activity(false)
 {
   load_timer_config();
   load_break_config();
   
-  configurator->add_listener(CoreConfig::key_timer(break_id), this);
-  configurator->add_listener(CoreConfig::key_break(break_id), this);
+  connections.add(CoreConfig::key_timer(break_id).connect(boost::bind(&BreakConfig::load_timer_config, this)));
+  connections.add(CoreConfig::key_break(break_id).connect(boost::bind(&BreakConfig::load_break_config, this)));
 }
 
 //! Destructor.
@@ -122,23 +121,6 @@ BreakConfig::load_break_config()
           timer->set_limit_enabled(false);
         }
     }
-}
-
-void
-BreakConfig::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("BreakConfig::config_changed_notify", key);
-  string name;
-
-  if (boost::starts_with(key, CoreConfig::key_breaks()))
-    {
-      load_break_config();
-    }
-  else if (boost::starts_with(key, CoreConfig::key_timers()))
-    {
-      load_timer_config();
-    }
-  TRACE_EXIT();
 }
 
 DayTimePred *

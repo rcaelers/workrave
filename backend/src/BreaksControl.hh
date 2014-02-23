@@ -50,7 +50,6 @@ public:
                     ActivityMonitor::Ptr activity_monitor,
                     CoreModes::Ptr modes,
                     Statistics::Ptr statistics,
-                    workrave::config::IConfigurator::Ptr configurator,
                     workrave::dbus::IDBus::Ptr dbus,
                     CoreHooks::Ptr hooks);
   
@@ -58,7 +57,6 @@ public:
                 ActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
-                workrave::config::IConfigurator::Ptr configurator,
                 workrave::dbus::IDBus::Ptr dbus,
                 CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
@@ -95,7 +93,6 @@ private:
 
   CoreModes::Ptr modes;
   Statistics::Ptr statistics;
-  workrave::config::IConfigurator::Ptr configurator;
   workrave::dbus::IDBus::Ptr dbus;
   CoreHooks::Ptr hooks;
   

@@ -79,7 +79,6 @@ public:
 class GUI :
   public IGUI,
   public IApp,
-  public IConfiguratorListener,
   public sigc::trackable
 {
 public:
@@ -145,7 +144,6 @@ private:
 
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
-  void config_changed_notify(const std::string &key);
 
   bool grab();
   void ungrab();

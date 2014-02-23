@@ -75,7 +75,14 @@ StatusIcon::init()
 {
   insert_icon();
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::trayicon_enabled().key(), this);
+  GUIConfig::trayicon_enabled().connect([&] (bool enabled)
+                                        {
+                                          if (status_icon->get_visible() != enabled)
+                                            {
+                                              visibility_changed_signal.emit();
+                                              status_icon->set_visible(visible);
+                                            }
+                                        });
   
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   status_icon->set_visible(tray_icon_enabled);
@@ -249,24 +256,6 @@ StatusIcon::win32_filter_func (void     *xevent,
   return ret;
 }
 #endif
-
-void
-StatusIcon::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("StatusIcon::config_changed_notify", key);
-
-  if (key == GUIConfig::trayicon_enabled().key())
-    {
-      bool visible = GUIConfig::trayicon_enabled()();
-      if (status_icon->get_visible() != visible)
-        {
-          visibility_changed_signal.emit();
-          status_icon->set_visible(visible);
-        }
-    }
-
-  TRACE_EXIT();
-}
 
 sigc::signal<void> &
 StatusIcon::signal_visibility_changed()

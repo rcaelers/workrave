@@ -39,9 +39,8 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
-  : error_reported(false),
-    config(config)
+UnixInputMonitorFactory::UnixInputMonitorFactory()
+  : error_reported(false)
 {
   monitor = NULL;
 }
@@ -70,9 +69,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
       
-      config->get_value_with_default("advanced/monitor",
-                                                              configure_monitor_method,
-                                                              "default");
+      config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       vector<string>::const_iterator start = available_monitors.end();
 

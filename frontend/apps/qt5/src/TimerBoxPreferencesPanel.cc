@@ -66,23 +66,17 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
 TimerBoxPreferencesPanel::~TimerBoxPreferencesPanel()
 {
   TRACE_ENTER("TimerBoxPreferencesPanel::~TimerBoxPreferencePanel");
-
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->remove_listener(this);
-
   TRACE_EXIT();
 }
 
 void
 TimerBoxPreferencesPanel::init_config()
 {
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::timerbox_enabled(name).key(), this);
+  connections.add(GUIConfig::timerbox_enabled(name).connect(boost::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore::Ptr core = CoreFactory::get_core();
-      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
     }
 }
 
@@ -353,13 +347,4 @@ TimerBoxPreferencesPanel::enable_buttons(void)
       cycle_entry->setEnabled(num_disabled != 3);
       ontop_cb->setEnabled(num_disabled != 3);
     }
-}
-
-void
-TimerBoxPreferencesPanel::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER("TimerBoxPreferencesPanel::config_changed_notify");
-  (void)key;
-  enable_buttons();
-  TRACE_EXIT();
 }

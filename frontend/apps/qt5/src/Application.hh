@@ -42,8 +42,7 @@
 
 class Application :
   public IApplication,
-  public workrave::IApp,
-  public workrave::config::IConfiguratorListener
+  public workrave::IApp
 {
 public:
   typedef boost::shared_ptr<Application> Ptr;
@@ -102,8 +101,6 @@ private:
   //void init_startup_warnings();
 
   //void init_qt_multihead();
-
-  void config_changed_notify(const std::string &key);
 
   //void process_visibility();
 

@@ -40,10 +40,9 @@ BreakStateModel::create(BreakId id,
                         IApp *app,
                         Timer::Ptr timer,
                         ActivityMonitor::Ptr activity_monitor,
-                        IConfigurator::Ptr configurator,
                         CoreHooks::Ptr hooks)
 {
-  return Ptr(new BreakStateModel(id, app, timer, activity_monitor, configurator, hooks));
+  return Ptr(new BreakStateModel(id, app, timer, activity_monitor, hooks));
 }
 
 
@@ -52,13 +51,11 @@ BreakStateModel::BreakStateModel(BreakId id,
                                  IApp *app,
                                  Timer::Ptr timer,
                                  ActivityMonitor::Ptr activity_monitor,
-                                 IConfigurator::Ptr configurator,
                                  CoreHooks::Ptr hooks) :
   break_id(id),
   application(app),
   timer(timer),
   activity_monitor(activity_monitor),
-  configurator(configurator),
   hooks(hooks),
   break_stage(BreakStage::None),
   prelude_time(0),

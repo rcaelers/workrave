@@ -27,18 +27,17 @@
 using namespace std;
 
 CoreModes::Ptr
-CoreModes::create(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config)
+CoreModes::create(ActivityMonitor::Ptr monitor)
 {
-  return Ptr(new CoreModes(monitor, config));
+  return Ptr(new CoreModes(monitor));
 }
 
 
-CoreModes::CoreModes(ActivityMonitor::Ptr monitor, IConfigurator::Ptr config) :
+CoreModes::CoreModes(ActivityMonitor::Ptr monitor) :
   operation_mode(OperationMode::Normal),
   operation_mode_regular(OperationMode::Normal),
   usage_mode(UsageMode::Normal),
-  monitor(monitor),
-  config(config)
+  monitor(monitor)
 {
   TRACE_ENTER("CoreModes::CoreModes");
   load_config();
@@ -330,43 +329,21 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 void
 CoreModes::load_config()
 {
-  config->rename_key("gui/operation-mode", CoreConfig::operation_mode().key());
-  config->add_listener(CoreConfig::operation_mode().key(), this);
-  config->add_listener(CoreConfig::usage_mode().key(), this);
-
+  connections.add(CoreConfig::operation_mode().connect([&] (OperationMode operation_mode)
+                                                       {
+                                                         TRACE_MSG("Setting operation mode");
+                                                         set_operation_mode_internal(operation_mode, false);
+                                                       }));
+  
+  connections.add(CoreConfig::usage_mode().connect([&] (UsageMode usage_mode)
+                                                   {
+                                                     TRACE_MSG("Setting usage mode");
+                                                     set_usage_mode_internal(usage_mode, false);
+                                                       }
+                                                   ));
   OperationMode operation_mode = CoreConfig::operation_mode()();
   set_operation_mode(operation_mode);
 
   UsageMode usage_mode = CoreConfig::usage_mode()();
   set_usage_mode(usage_mode);
-}
-
-
-//! Notification that the configuration has changed.
-void
-CoreModes::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("Core::config_changed_notify", key);
-  string::size_type pos = key.find('/');
-  string path;
-
-  if (pos != string::npos)
-    {
-      path = key.substr(0, pos);
-    }
-
-  if (key == CoreConfig::operation_mode().key())
-    {
-      OperationMode operation_mode = CoreConfig::operation_mode()();
-      TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(operation_mode, false);
-    }
-
-  if (key == CoreConfig::usage_mode().key())
-    {
-      UsageMode usage_mode = CoreConfig::usage_mode()();
-      TRACE_MSG("Setting usage mode");
-      set_usage_mode_internal(usage_mode, false);
-    }
-  TRACE_EXIT();
 }

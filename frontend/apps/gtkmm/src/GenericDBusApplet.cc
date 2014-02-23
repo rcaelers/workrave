@@ -62,7 +62,7 @@ GenericDBusApplet::GenericDBusApplet() :
       data[i].bar_secondary_max = 0;
     }
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::trayicon_enabled().key(), this);
+  connetions.add(GUIConfig::trayicon_enabled().connect(boost::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
 }
 
 
@@ -271,18 +271,6 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
           visible = false;
         }
       // TODO: unwatch or not? dbus->unwatch(name);
-    }
-  TRACE_EXIT();
-}
-
-void
-GenericDBusApplet::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("GenericDBusApplet::config_changed_notify", key);
-
-  if (key == GUIConfig::trayicon_enabled().key())
-    {
-      send_tray_icon_enabled();
     }
   TRACE_EXIT();
 }

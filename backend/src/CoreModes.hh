@@ -21,8 +21,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
-#include "config/IConfigurator.hh"
-#include "config/IConfiguratorListener.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "ActivityMonitor.hh"
 
@@ -32,14 +31,14 @@
 
 using namespace workrave;
 
-class CoreModes:  public IConfiguratorListener
+class CoreModes
 {
 public:
   typedef boost::shared_ptr<CoreModes> Ptr;
 
-  static CoreModes::Ptr create(ActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
+  static CoreModes::Ptr create(ActivityMonitor::Ptr monitor);
   
-  CoreModes(ActivityMonitor::Ptr monitor, workrave::config::IConfigurator::Ptr config);
+  CoreModes(ActivityMonitor::Ptr monitor);
   virtual ~CoreModes();
   
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
@@ -57,8 +56,6 @@ public:
 private:
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
-
-  void config_changed_notify(const std::string &key);
   void load_config();
   
 private:
@@ -77,14 +74,13 @@ private:
   //!
   ActivityMonitor::Ptr monitor;
   
-  //!
-  workrave::config::IConfigurator::Ptr config;
-
   //! Operation mode changed notification.
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
 
   //! Usage mode changed notification.
   boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
+
+  scoped_connections connections;
 };
 
 #endif // COREMODES_HH

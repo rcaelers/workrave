@@ -45,7 +45,6 @@ BreaksControl::create(IApp *app,
                       ActivityMonitor::Ptr activity_monitor,
                       CoreModes::Ptr modes,
                       Statistics::Ptr statistics,
-                      IConfigurator::Ptr configurator,
                       IDBus::Ptr dbus,
                       CoreHooks::Ptr hooks)
 {
@@ -53,7 +52,6 @@ BreaksControl::create(IApp *app,
                                activity_monitor,
                                modes,
                                statistics,
-                               configurator,
                                dbus,
                                hooks));
 }
@@ -63,14 +61,12 @@ BreaksControl::BreaksControl(IApp *app,
                              ActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
-                             IConfigurator::Ptr configurator,
                              IDBus::Ptr dbus,
                              CoreHooks::Ptr hooks) :
   application(app),
   activity_monitor(activity_monitor),
   modes(modes),
   statistics(statistics),
-  configurator(configurator),
   dbus(dbus),
   hooks(hooks),
   insist_policy(InsistPolicy::Halt),
@@ -96,7 +92,7 @@ BreaksControl::init()
       timers[break_id] = Timer::create(break_name);
       timers[break_id]->enable();
 
-      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, configurator, dbus, hooks);
+      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
       connections.connect(breaks[break_id]->signal_break_event(), boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
   

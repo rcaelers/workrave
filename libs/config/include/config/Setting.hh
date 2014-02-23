@@ -15,29 +15,89 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SETTING_HH
-#define SETTING_HH
+#ifndef WORKRAVE_CONFIG_SETTING_HH
+#define WORKRAVE_CONFIG_SETTING_HH
+
+#include <boost/signals2.hpp>
+#include <boost/noncopyable.hpp>
 
 #include "config/IConfigurator.hh"
+#include "config/IConfiguratorListener.hh"
 
 namespace workrave
 {
   namespace config
   {
-    template<class T, class R = T>
-    class Setting
+    class SettingBase
     {
+    public:
+      virtual ~SettingBase() {}
+    };
+
+    class SettingGroup : public SettingBase, IConfiguratorListener, boost::noncopyable
+    {
+    private:
+      typedef boost::signals2::signal<void()> NotifyType;
+
+    public:
+      explicit SettingGroup(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting)
+      {
+      }
+
+      virtual ~SettingGroup()
+      {
+      }
+
+      const std::string key() const
+      {
+        return setting;
+      }
+
+      boost::signals2::connection connect(NotifyType::slot_type slot)
+      {
+        config->add_listener(key(), this);
+        return signal.connect(slot);
+      }
+
+      virtual void config_changed_notify(const std::string &key)
+      {
+        (void)key;
+
+        if (signal.empty())
+          {
+            config->remove_listener(this);
+          }
+        
+        signal();
+      }
+
+    private:
+      workrave::config::IConfigurator::Ptr config;
+      std::string setting;
+      NotifyType signal;
+    };
+
+
+    template<class T, class R = T>
+    class Setting : public SettingBase, IConfiguratorListener, boost::noncopyable
+    {
+    private:
+      typedef boost::signals2::signal<void(const R&)> NotifyType;
+
     public:
       explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting) , has_default_value(false)
       {
+        std::cout << "Setting: " << setting<< std::endl;
       }
 
       Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting, R default_value) : config(config), setting(setting) , has_default_value(true), default_value(default_value)
       {
+        std::cout << "Setting: " << setting<< std::endl;
       }
 
       virtual ~Setting()
       {
+        std::cout << "~Setting: " << setting<< std::endl;
       }
 
       const std::string key() const
@@ -81,13 +141,32 @@ namespace workrave
         config->set_value(setting, static_cast<T>(val));
       }
 
+      boost::signals2::connection connect(typename NotifyType::slot_type slot)
+      {
+        config->add_listener(key(), this);
+        return signal.connect(slot);
+      }
+
+      virtual void config_changed_notify(const std::string &key)
+      {
+        (void)key;
+
+        if (signal.empty())
+          {
+            config->remove_listener(this);
+          }
+        
+        signal(get());
+      }
+
     private:
       workrave::config::IConfigurator::Ptr config;
       std::string setting;
       bool has_default_value;
       R default_value;
+      NotifyType signal;
     };
   }
 }
 
-#endif
+#endif // WORKRAVE_CONFIG_SETTING_HH

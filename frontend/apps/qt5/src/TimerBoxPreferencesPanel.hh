@@ -23,6 +23,8 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "utils/ScopedConnections.hh"
+
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
@@ -30,8 +32,7 @@
 #include "CoreTypes.hh"
 
 class TimerBoxPreferencesPanel :
-  public QGroupBox,
-  public workrave::config::IConfiguratorListener
+  public QGroupBox
 {
   Q_OBJECT
 
@@ -50,7 +51,6 @@ private:
 
   void enable_buttons();
   void on_place_changed();
-  void config_changed_notify(const std::string &key);
 
   bool on_enabled_toggled(const std::string &key, bool write);
   bool on_timer_display_changed(int break_id, const std::string &key, bool write);
@@ -66,6 +66,7 @@ private:
   QComboBox *timer_display_button[workrave::BREAK_ID_SIZEOF];
   QSpinBox *cycle_entry;
 
+  scoped_connections connections;
 };
 
 #endif // TIMERBOXUIPREFERENCESPANEL_HH

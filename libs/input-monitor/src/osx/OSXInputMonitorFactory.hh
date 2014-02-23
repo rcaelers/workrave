@@ -26,20 +26,18 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
 
-using namespace workrave::config;
 using namespace workrave::input_monitor;
 
 //! Factory to create input monitors.
 class OSXInputMonitorFactory : public IInputMonitorFactory
 {
 public:
-  OSXInputMonitorFactory(IConfigurator::Ptr config);
+  OSXInputMonitorFactory();
   virtual void init(const std::string &display);
   IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 
 private:
   IInputMonitor::Ptr monitor;
-  IConfigurator::Ptr config;
 };
 
 #endif // INPUTMONITORFACTORY_HH

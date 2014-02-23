@@ -37,15 +37,14 @@ using namespace std;
 using namespace workrave::utils;
 
 LocalActivityMonitor::Ptr
-LocalActivityMonitor::create(IConfigurator::Ptr configurator, const string &display_name)
+LocalActivityMonitor::create(const string &display_name)
 {
-  return Ptr(new LocalActivityMonitor(configurator, display_name));
+  return Ptr(new LocalActivityMonitor(display_name));
 }
 
     
 //! Constructor.
-LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr configurator, const string &display_name) :
-  configurator(configurator),
+LocalActivityMonitor::LocalActivityMonitor(const string &display_name) :
   display_name(display_name),
   state(ACTIVITY_MONITOR_IDLE),
   prev_x(-10),
@@ -79,10 +78,10 @@ LocalActivityMonitor::init()
 {
   TRACE_ENTER("LocalActivityMonitor::init");
 
-  InputMonitorFactory::init(configurator, display_name);
+  InputMonitorFactory::init(display_name);
 
   load_config();
-  configurator->add_listener(CoreConfig::key_monitor(), this);
+  connections.add(CoreConfig::key_monitor().connect(boost::bind(&LocalActivityMonitor::load_config, this)));
 
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
@@ -340,27 +339,6 @@ LocalActivityMonitor::call_listener()
         }
     }
 }
-
-//! Notification that the configuration has changed.
-void
-LocalActivityMonitor::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("LocalActivityMonitor::config_changed_notify", key);
-  string::size_type pos = key.find('/');
-  string path;
-
-  if (pos != string::npos)
-    {
-      path = key.substr(0, pos);
-    }
-
-  if (path == CoreConfig::key_monitor())
-    {
-      load_config();
-    }
-  TRACE_EXIT();
-}
-
 
 //! Loads the configuration of the monitor.
 void

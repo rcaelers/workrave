@@ -54,13 +54,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   enable_buttons();
   init_page_callbacks();
 
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::key_timerbox(name), this);
+  connections.add(GUIConfig::key_timerbox(name).connect(boost::bind(&TimerBoxPreferencePage::enable_buttons, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = CoreFactory::get_core();
-      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxPreferencePage::enable_buttons, this)));
     }
 
   TRACE_EXIT();
@@ -72,7 +71,6 @@ TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
 
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->remove_listener(this);
 
   TRACE_EXIT();
@@ -381,14 +379,4 @@ void
 TimerBoxPreferencePage::on_always_on_top_toggled()
 {
   GUIConfig::main_window_always_on_top().set(ontop_cb->get_active());
-}
-
-
-void
-TimerBoxPreferencePage::config_changed_notify(const string &key)
-{
-  TRACE_ENTER("TimerBoxPreferencePage::config_changed_notify");
-  (void)key;
-  enable_buttons();
-  TRACE_EXIT();
 }

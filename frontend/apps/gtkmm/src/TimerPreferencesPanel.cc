@@ -263,7 +263,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 
   inside = true;
 
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
   if (write)
     {
       int mp;

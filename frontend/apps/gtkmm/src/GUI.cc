@@ -451,7 +451,11 @@ GUI::init_nls()
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
+  GUIConfig::locale().connect([&] (const std::string &locale)
+                              {
+                                Locale::set_locale(locale);
+                                menus->locale_changed();
+                              });
 #endif
 
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
@@ -927,24 +931,6 @@ GUI::on_usage_mode_changed(const UsageMode m)
 {
   (void) m;
   menus->resync();
-}
-
-void
-GUI::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("GUI::config_changed_notify", key);
-
-#if defined(HAVE_LANGUAGE_SELECTION)
-  if (key == GUIConfig::CFG_KEY_LOCALE)
-    {
-      string locale = GUIConfig::get_locale();
-      Locale::set_locale(locale);
-
-      menus->locale_changed();
-    }
-#endif
-
-  TRACE_EXIT();
 }
 
 void

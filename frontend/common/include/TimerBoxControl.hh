@@ -22,16 +22,15 @@
 
 #include <string>
 
-#include "config/IConfiguratorListener.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "ICore.hh"
 #include "ITimerBoxView.hh"
 
-class TimerBoxControl : public workrave::config::IConfiguratorListener
+class TimerBoxControl
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView &view);
-  virtual ~TimerBoxControl();
 
   void init();
   void update();
@@ -39,13 +38,11 @@ public:
   void set_force_empty(bool s);
 
 private:
-  // IConfiguratorListener
-  void config_changed_notify(const std::string &key);
   void update_widgets();
   void init_table();
   void init_icon();
 
-  void read_configuration();
+  void load_configuration();
 
   void init_slot(int slot);
   void cycle_slots();
@@ -87,6 +84,8 @@ private:
 
   //! Never show any timers.
   bool force_empty;
+
+  scoped_connections connections;
 };
 
 #endif // TIMERBOXCONTROL_HH

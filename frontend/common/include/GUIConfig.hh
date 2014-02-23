@@ -36,38 +36,38 @@ public:
       BREAK_HIDE = 32
     };
 
-  static workrave::config::Setting<bool> break_auto_natural(workrave::BreakId break_id);
-  static workrave::config::Setting<bool> break_ignorable(workrave::BreakId break_id);
-  static workrave::config::Setting<bool> break_skippable(workrave::BreakId break_id);
-  static workrave::config::Setting<int>  break_exercises(workrave::BreakId break_id);
-  static workrave::config::Setting<int, GUIConfig::BlockMode> block_mode();
-  static workrave::config::Setting<std::string> locale();
-  static workrave::config::Setting<bool> trayicon_enabled();
-  static workrave::config::Setting<bool> closewarn_enabled();
-  static workrave::config::Setting<bool> autostart_enabled();
+  static workrave::config::Setting<bool> &break_auto_natural(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &break_ignorable(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &break_skippable(workrave::BreakId break_id);
+  static workrave::config::Setting<int> & break_exercises(workrave::BreakId break_id);
+  static workrave::config::Setting<int, GUIConfig::BlockMode> &block_mode();
+  static workrave::config::Setting<std::string> &locale();
+  static workrave::config::Setting<bool> &trayicon_enabled();
+  static workrave::config::Setting<bool> &closewarn_enabled();
+  static workrave::config::Setting<bool> &autostart_enabled();
 
-  static workrave::config::Setting<bool> main_window_always_on_top();
-  static workrave::config::Setting<bool> main_window_start_in_tray();
-  static workrave::config::Setting<int> main_window_x();
-  static workrave::config::Setting<int> main_window_y();
-  static workrave::config::Setting<int> main_window_head();
+  static workrave::config::Setting<bool> &main_window_always_on_top();
+  static workrave::config::Setting<bool> &main_window_start_in_tray();
+  static workrave::config::Setting<int> &main_window_x();
+  static workrave::config::Setting<int> &main_window_y();
+  static workrave::config::Setting<int> &main_window_head();
 
-  static workrave::config::Setting<int> timerbox_cycle_time(std::string box);
-  static workrave::config::Setting<int> timerbox_slot(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<int> timerbox_flags(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<int> timerbox_imminent(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<bool> timerbox_enabled(std::string box);
+  static workrave::config::Setting<int> &timerbox_cycle_time(std::string box);
+  static workrave::config::Setting<int> &timerbox_slot(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timerbox_flags(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timerbox_imminent(std::string box, workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &timerbox_enabled(std::string box);
 
-  static workrave::config::Setting<bool> sound_enabled();
-  static workrave::config::Setting<std::string> sound_device();
-  static workrave::config::Setting<int> sound_volume();
-  static workrave::config::Setting<bool> sound_mute();
-  static workrave::config::Setting<std::string> sound_event(std::string event);
-  static workrave::config::Setting<bool> sound_event_enabled(std::string event);
+  static workrave::config::Setting<bool> &sound_enabled();
+  static workrave::config::Setting<std::string> &sound_device();
+  static workrave::config::Setting<int> &sound_volume();
+  static workrave::config::Setting<bool> &sound_mute();
+  static workrave::config::Setting<std::string> &sound_event(std::string event);
+  static workrave::config::Setting<bool> &sound_event_enabled(std::string event);
 
-  static const std::string key_main_window();
-  static const std::string key_timerbox(std::string box);
-  static const std::string key_sound_events();
+  static workrave::config::SettingGroup &key_main_window();
+  static workrave::config::SettingGroup &key_timerbox(std::string box);
+  //static workrave::config::SettingGroup &key_sound_events();
 
   static void init();
 

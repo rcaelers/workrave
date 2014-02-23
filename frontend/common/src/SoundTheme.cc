@@ -97,13 +97,12 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
  **********************************************************************/
 
 SoundTheme::Ptr
-SoundTheme::create(workrave::config::IConfigurator::Ptr config)
+SoundTheme::create()
 {
-  return SoundTheme::Ptr(new SoundTheme(config));
+  return SoundTheme::Ptr();
 }
 
-SoundTheme::SoundTheme(workrave::config::IConfigurator::Ptr config)
-  : config(config)
+SoundTheme::SoundTheme()
 {
   player = ISoundPlayer::create();
 
@@ -358,7 +357,7 @@ SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
           
           if (filename != "")
             {
-              player->play_sound(snd, filename, false, volume);
+              player->play_sound(snd, filename, mute_after_playback, volume);
             }
         }
     }

@@ -22,6 +22,9 @@
 #include <string>
 
 #include "CoreConfig.hh"
+
+#include "config/SettingCache.hh"
+
 #include "ICore.hh"
 
 using namespace std;
@@ -94,6 +97,8 @@ CoreConfig::get_break_name(BreakId id)
 void
 CoreConfig::init(IConfigurator::Ptr config)
 {
+  config->rename_key("gui/operation-mode", CoreConfig::operation_mode().key());
+
   CoreConfig::config = config;
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
@@ -166,97 +171,110 @@ CoreConfig::expand(const string &key, workrave::BreakId id)
   return str;
 }
 
-std::string 
+SettingGroup &
 CoreConfig::key_timer(workrave::BreakId break_id)
 {
-  return expand(CFG_KEY_TIMER, break_id);
+  return SettingCache::group(config, expand(CFG_KEY_TIMER, break_id));
 }
 
-std::string
+SettingGroup &
 CoreConfig:: key_break(workrave::BreakId break_id)
 {
-  return expand(CFG_KEY_BREAK, break_id);
+  return SettingCache::group(config, expand(CFG_KEY_BREAK, break_id));
 }
 
-std::string 
+SettingGroup &
 CoreConfig::key_timers()
 {
-  return CFG_KEY_TIMERS;
+  return SettingCache::group(config, CFG_KEY_TIMERS);
 }
 
-std::string
+SettingGroup &
 CoreConfig:: key_breaks()
 {
-  return CFG_KEY_BREAKS;
+  return SettingCache::group(config, CFG_KEY_BREAKS);
 }
 
-std::string
+SettingGroup &
 CoreConfig:: key_monitor()
 {
-  return CFG_KEY_MONITOR;
+  return SettingCache::group(config, CFG_KEY_MONITOR);
 }
 
-Setting<int> CoreConfig::timer_limit(workrave::BreakId break_id)
+Setting<int> &
+CoreConfig::timer_limit(workrave::BreakId break_id)
 {
-  return Setting<int>(config, expand(CFG_KEY_TIMER_LIMIT, break_id));
+  return SettingCache::get<int>(config, expand(CFG_KEY_TIMER_LIMIT, break_id));
 }
 
-Setting<int> CoreConfig::timer_auto_reset(workrave::BreakId break_id)
+Setting<int> &
+CoreConfig::timer_auto_reset(workrave::BreakId break_id)
 {
-  return Setting<int>(config, expand(CFG_KEY_TIMER_AUTO_RESET, break_id));
+  return SettingCache::get<int>(config, expand(CFG_KEY_TIMER_AUTO_RESET, break_id));
 }
 
-Setting<std::string> CoreConfig::timer_reset_pred(workrave::BreakId break_id)
+Setting<std::string> &
+CoreConfig::timer_reset_pred(workrave::BreakId break_id)
 {
-  return Setting<std::string>(config, expand(CFG_KEY_TIMER_RESET_PRED, break_id));
+  return SettingCache::get<std::string>(config, expand(CFG_KEY_TIMER_RESET_PRED, break_id));
 }
 
-Setting<int> CoreConfig::timer_snooze(workrave::BreakId break_id)
+Setting<int> &
+CoreConfig::timer_snooze(workrave::BreakId break_id)
 {
-  return Setting<int>(config, expand(CFG_KEY_TIMER_SNOOZE, break_id));
+  return SettingCache::get<int>(config, expand(CFG_KEY_TIMER_SNOOZE, break_id));
 }
 
-Setting<int> CoreConfig::timer_daily_limit_use_micro_break_activity()
+Setting<int> &
+CoreConfig::timer_daily_limit_use_micro_break_activity()
 {
-  return Setting<int>(config, CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY);
+  return SettingCache::get<int>(config, CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY);
 }
 
-Setting<int> CoreConfig::break_max_preludes(workrave::BreakId break_id)
+Setting<int> &
+CoreConfig::break_max_preludes(workrave::BreakId break_id)
 {
-  return Setting<int>(config, expand(CFG_KEY_BREAK_MAX_PRELUDES, break_id));
+  return SettingCache::get<int>(config, expand(CFG_KEY_BREAK_MAX_PRELUDES, break_id));
 }
 
-Setting<bool> CoreConfig::break_enabled(workrave::BreakId break_id)
+Setting<bool> &
+CoreConfig::break_enabled(workrave::BreakId break_id)
 {
-  return Setting<bool>(config, expand(CFG_KEY_BREAK_ENABLED, break_id));
+  return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_ENABLED, break_id));
 }
 
-Setting<int> CoreConfig::monitor_noise()
+Setting<int> &
+CoreConfig::monitor_noise()
 {
-  return Setting<int>(config, CFG_KEY_MONITOR_NOISE, 9000);
+  return SettingCache::get<int>(config, CFG_KEY_MONITOR_NOISE, 9000);
 }
 
-Setting<int> CoreConfig::monitor_activity()
+Setting<int> &
+CoreConfig::monitor_activity()
 {
-  return Setting<int>(config, CFG_KEY_MONITOR_ACTIVITY, 1000);
+  return SettingCache::get<int>(config, CFG_KEY_MONITOR_ACTIVITY, 1000);
 }
 
-Setting<int> CoreConfig::monitor_idle()
+Setting<int> &
+CoreConfig::monitor_idle()
 {
-  return Setting<int>(config, CFG_KEY_MONITOR_IDLE, 5000);
+  return SettingCache::get<int>(config, CFG_KEY_MONITOR_IDLE, 5000);
 }
 
-Setting<std::string> CoreConfig::general_datadir()
+Setting<std::string> &
+CoreConfig::general_datadir()
 {
-  return Setting<std::string>(config, CFG_KEY_GENERAL_DATADIR);
+  return SettingCache::get<std::string>(config, CFG_KEY_GENERAL_DATADIR);
 }
 
-Setting<int, workrave::OperationMode> CoreConfig::operation_mode()
+Setting<int, workrave::OperationMode> &
+CoreConfig::operation_mode()
 {
-  return Setting<int, workrave::OperationMode>(config, CFG_KEY_OPERATION_MODE);
+  return SettingCache::get<int, workrave::OperationMode>(config, CFG_KEY_OPERATION_MODE);
 }
 
-Setting<int, workrave::UsageMode> CoreConfig::usage_mode()
+Setting<int, workrave::UsageMode> &
+CoreConfig::usage_mode()
 {
-  return Setting<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
+  return SettingCache::get<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
 }

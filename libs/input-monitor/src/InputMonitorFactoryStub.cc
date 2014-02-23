@@ -22,7 +22,6 @@
 #include "input-monitor/IInputMonitor.hh"
 
 using namespace workrave::input_monitor;
-using namespace workrave::config;
 
 class InputMonitorStub : public IInputMonitor
 {
@@ -36,7 +35,7 @@ public:
   
   virtual void terminate()
   {
-  };
+  }
   
   virtual void subscribe(IInputMonitorListener *listener)
   {
@@ -50,15 +49,15 @@ public:
 };
 
 void
-InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
+InputMonitorFactory::init(const std::string &display)
 {
-  (void) config;
   (void) display;
 }
 
 IInputMonitor::Ptr
 InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
+  (void)capability;
   return IInputMonitor::Ptr(new InputMonitorStub());
 }
 

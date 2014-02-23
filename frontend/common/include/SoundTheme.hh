@@ -49,9 +49,9 @@ public:
 
   typedef boost::shared_ptr<SoundTheme> Ptr;
       
-  static Ptr create(workrave::config::IConfigurator::Ptr config);
+  static Ptr create();
   
-  SoundTheme(workrave::config::IConfigurator::Ptr config);
+  SoundTheme();
   virtual ~SoundTheme();
 
   void init();
@@ -84,7 +84,6 @@ public:
   static SoundRegistry sound_registry[workrave::audio::SOUND_MAX];
 
 private:
-  workrave::config::IConfigurator::Ptr config;
   workrave::audio::ISoundPlayer::Ptr player;
 };
 

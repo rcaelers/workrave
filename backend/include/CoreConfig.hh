@@ -26,28 +26,28 @@
 class CoreConfig
 {
 public:
-  static std::string key_timers();
-  static std::string key_breaks();
-  static std::string key_timer(workrave::BreakId break_id);
-  static std::string key_break(workrave::BreakId break_id);
-  static std::string key_monitor();
+  static workrave::config::SettingGroup &key_timers();
+  static workrave::config::SettingGroup &key_breaks();
+  static workrave::config::SettingGroup &key_timer(workrave::BreakId break_id);
+  static workrave::config::SettingGroup &key_break(workrave::BreakId break_id);
+  static workrave::config::SettingGroup &key_monitor();
 
-  static workrave::config::Setting<int> timer_limit(workrave::BreakId break_id);
-  static workrave::config::Setting<int> timer_auto_reset(workrave::BreakId break_id);
-  static workrave::config::Setting<std::string> timer_reset_pred(workrave::BreakId break_id);
-  static workrave::config::Setting<int> timer_snooze(workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timer_limit(workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timer_auto_reset(workrave::BreakId break_id);
+  static workrave::config::Setting<std::string> &timer_reset_pred(workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timer_snooze(workrave::BreakId break_id);
 
-  static workrave::config::Setting<int> timer_daily_limit_use_micro_break_activity();
+  static workrave::config::Setting<int> &timer_daily_limit_use_micro_break_activity();
 
-  static workrave::config::Setting<int> break_max_preludes(workrave::BreakId break_id);
-  static workrave::config::Setting<bool> break_enabled(workrave::BreakId break_id);
+  static workrave::config::Setting<int> &break_max_preludes(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &break_enabled(workrave::BreakId break_id);
 
-  static workrave::config::Setting<int> monitor_noise();
-  static workrave::config::Setting<int> monitor_activity();
-  static workrave::config::Setting<int> monitor_idle();
-  static workrave::config::Setting<std::string> general_datadir();
-  static workrave::config::Setting<int, workrave::OperationMode> operation_mode();
-  static workrave::config::Setting<int, workrave::UsageMode> usage_mode();
+  static workrave::config::Setting<int> &monitor_noise();
+  static workrave::config::Setting<int> &monitor_activity();
+  static workrave::config::Setting<int> &monitor_idle();
+  static workrave::config::Setting<std::string> &general_datadir();
+  static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
+  static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
 
 private:
   static const std::string CFG_KEY_TIMER_MONITOR;

@@ -266,7 +266,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 
   inside = true;
 
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
   if (write)
     {
       int mp;
@@ -285,34 +284,30 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           mp = 0;
         }
-      config->set_value(key, mp);
+      CoreConfig::break_max_preludes(break_id).set(mp);
       set_prelude_sensitivity();
     }
   else
     {
-      int value;
-      bool ok = config->get_value(key, value);
-      if (ok)
+      int value = CoreConfig::break_max_preludes(break_id)();
+      if (value == -1)
         {
-          if (value == -1)
-            {
-              prelude_cb->setCheckState(Qt::Checked);
-              has_max_prelude_cb->setCheckState(Qt::Unchecked);
-            }
-          else if (value == 0)
-            {
-              prelude_cb->setCheckState(Qt::Unchecked);
-              has_max_prelude_cb->setCheckState(Qt::Unchecked);
-            }
-          else
-            {
-              prelude_cb->setCheckState(Qt::Checked);
-              has_max_prelude_cb->setCheckState(Qt::Checked);
-              max_prelude_spin->setValue(value);
-            }
-
-          set_prelude_sensitivity();
+          prelude_cb->setCheckState(Qt::Checked);
+          has_max_prelude_cb->setCheckState(Qt::Unchecked);
         }
+      else if (value == 0)
+        {
+          prelude_cb->setCheckState(Qt::Unchecked);
+          has_max_prelude_cb->setCheckState(Qt::Unchecked);
+        }
+      else
+        {
+          prelude_cb->setCheckState(Qt::Checked);
+          has_max_prelude_cb->setCheckState(Qt::Checked);
+          max_prelude_spin->setValue(value);
+        }
+      
+      set_prelude_sensitivity();
     }
 
   inside = false;

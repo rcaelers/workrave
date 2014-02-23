@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,8 +32,6 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "config/IConfigurator.hh"
-
 #include "ITimeBar.hh"
 #include "Text.hh"
 
@@ -57,15 +55,6 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
 {
   init();
 }
-
-
-
-//! Destructor.
-TimerBoxControl::~TimerBoxControl()
-{
-  CoreFactory::get_configurator()->remove_listener(this);
-}
-
 
 //! Updates the timerbox.
 void
@@ -135,13 +124,11 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
-  // Listen for configugration changes.
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::key_timerbox(name), this);
+  connections.add(GUIConfig::key_timerbox(name).connect(boost::bind(&TimerBoxControl::load_configuration, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      config->add_listener(CoreConfig::break_enabled(BreakId(i)).key(), this);
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxControl::load_configuration, this)));
 
       break_position[i] = i;
       break_flags[i] = 0;
@@ -155,9 +142,7 @@ TimerBoxControl::init()
     }
 
   // Load the configuration
-  read_configuration();
-
-  reconfigure = true;
+  load_configuration();
 
   TRACE_EXIT();
 }
@@ -237,9 +222,6 @@ TimerBoxControl::init_icon()
 
     case OperationMode::Quiet:
       view->set_icon(StatusIconType::Quiet);
-      break;
-
-    default:
       break;
     }
 }
@@ -435,9 +417,9 @@ TimerBoxControl::cycle_slots()
 
 //! Reads the applet configuration.
 void
-TimerBoxControl::read_configuration()
+TimerBoxControl::load_configuration()
 {
-  TRACE_ENTER("TimerBoxControl::read_configuration");
+  TRACE_ENTER("TimerBoxControl::load_configuration");
   cycle_time = GUIConfig::timerbox_cycle_time(name)();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -446,25 +428,10 @@ TimerBoxControl::read_configuration()
       break_position[i] = GUIConfig::timerbox_slot(name, bid)();
       break_flags[i] = GUIConfig::timerbox_flags(name, bid)();
       break_imminent_time[i] = GUIConfig::timerbox_imminent(name, bid)();
+
+      break_slot_cycle[i] = 0;
     }
   view->set_enabled(GUIConfig::timerbox_enabled(name)());
+  reconfigure = true;
   TRACE_EXIT();
 }
-
-
-//! Callback that the configuration has changed.
-void
-TimerBoxControl::config_changed_notify(const std::string &key)
-{
-  (void) key;
-
-  read_configuration();
-  for (auto &slot : break_slot_cycle)
-    {
-      slot = 0;
-    }
-
-  reconfigure = true;
-}
-
-

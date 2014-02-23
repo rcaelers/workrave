@@ -593,7 +593,7 @@ Application::init_sound_player()
       // Tell pulseaudio were are playing sound events
       Platform::setenv("PULSE_PROP_media.role", "event", 1);
 
-      sound_theme = SoundTheme::create(CoreFactory::get_configurator()); /* LEAK */
+      sound_theme = SoundTheme::create();
       sound_theme->init();
     }
   catch (workrave::utils::Exception)
@@ -676,23 +676,23 @@ Application::on_operation_mode_changed(const OperationMode m)
   //   }
 }
 
-void
-Application::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("Application::config_changed_notify", key);
+// void
+// Application::config_changed_notify(const std::string &key)
+// {
+//   TRACE_ENTER_MSG("Application::config_changed_notify", key);
 
-#if defined(HAVE_LANGUAGE_SELECTION)
-  if (key == GUIConfig::locale().key())
-    {
-      string locale = GUIConfig::locale();
-      Locale::set_locale(locale);
+// #if defined(HAVE_LANGUAGE_SELECTION)
+//   if (key == GUIConfig::locale().key())
+//     {
+//       string locale = GUIConfig::locale();
+//       Locale::set_locale(locale);
 
-      // menus->locale_changed();
-    }
-#endif
+//       // menus->locale_changed();
+//     }
+// #endif
 
-  TRACE_EXIT();
-}
+//   TRACE_EXIT();
+// }
 
 void
 Application::create_prelude_window(BreakId break_id)

@@ -46,7 +46,6 @@ public:
                     Timer::Ptr timer,
                     ActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
-                    workrave::config::IConfigurator::Ptr configurator,
                     workrave::dbus::IDBus::Ptr dbus,
                     CoreHooks::Ptr hooks);
   
@@ -55,7 +54,6 @@ public:
         Timer::Ptr timer,
         ActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
-        workrave::config::IConfigurator::Ptr configurator,
         workrave::dbus::IDBus::Ptr dbus,
         CoreHooks::Ptr hooks);
   virtual ~Break();

@@ -377,11 +377,12 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::key_timerbox("main_window"), this);
+  connections.add(GUIConfig::key_timerbox("main_window"), [] () { 
+      setup();
+    });
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
-
+    
   TRACE_EXIT();
 }
 
@@ -482,20 +483,6 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   TRACE_EXIT();
   return ret;
 }
-
-void
-MainWindow::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key != GUIConfig::main_window_head().key()
-      && key != GUIConfig::main_window_x().key()
-      && key != GUIConfig::main_window_y().key())
-    {
-      setup();
-    }
-  TRACE_EXIT();
-}
-
 
 #ifdef PLATFORM_OS_WIN32
 void

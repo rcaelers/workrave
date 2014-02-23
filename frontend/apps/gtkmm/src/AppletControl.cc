@@ -122,8 +122,7 @@ AppletControl::init()
     }
   
   // Read configuration and start monitoring it.
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(GUIConfig::key_timerbox("applet"), this);
+  connections.add(GUIConfig::key_timerbox("applet").connect(boost::bind(&AppletControl::read_configuration, this)));
 
   read_configuration();
 }
@@ -386,17 +385,6 @@ AppletControl::read_configuration()
     {
       hide();
     }
-}
-
-
-//! Callback that the configuration has changed.
-void
-AppletControl::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("AppletControl::config_changed_notify", key);
-  (void) key;
-  read_configuration();
-  TRACE_EXIT();
 }
 
 

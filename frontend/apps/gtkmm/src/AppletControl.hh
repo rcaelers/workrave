@@ -22,15 +22,12 @@
 
 #include "preinclude.h"
 
-#include "config/IConfiguratorListener.hh"
-
 #include "IAppletWindow.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 
-class AppletControl :
-  public IConfiguratorListener
+class AppletControl
 {
 public:
   enum AppletType
@@ -85,7 +82,6 @@ private:
   void on_applet_state_changed(AppletType type, IAppletWindow::AppletState state);
   void on_applet_request_activate(AppletType type);
   
-  void config_changed_notify(const std::string &key);
   void read_configuration();
   void check_visible();
   void show();

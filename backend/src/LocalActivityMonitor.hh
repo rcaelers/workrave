@@ -26,6 +26,7 @@
 #include "ActivityMonitor.hh"
 
 #include "config/Config.hh"
+#include "utils/ScopedConnections.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
@@ -34,13 +35,12 @@ using namespace workrave::input_monitor;
 
 class LocalActivityMonitor :
   public ActivityMonitor,
-  public IInputMonitorListener,
-  public IConfiguratorListener
+  public IInputMonitorListener
 {
 public:
-  static Ptr create(IConfigurator::Ptr configurator, const std::string &display_name);
+  static Ptr create(const std::string &display_name);
   
-  LocalActivityMonitor(IConfigurator::Ptr configurator, const std::string &display_name);
+  LocalActivityMonitor(const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
   virtual void init();
@@ -61,7 +61,6 @@ private:
   void call_listener();
 
   void load_config();
-  void config_changed_notify(const std::string &key);
   void set_parameters(int noise, int activity, int idle);
   void get_parameters(int &noise, int &activity, int &idle);
 
@@ -79,9 +78,6 @@ private:
     };
   
 private:
-  //! The Configurator.
-  IConfigurator::Ptr configurator;
-
   //! 
   std::string display_name;
   
@@ -120,6 +116,8 @@ private:
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
+
+  scoped_connections connections;
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

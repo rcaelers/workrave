@@ -23,8 +23,6 @@
 #include <string>
 #include <set>
 
-#include "config/IConfiguratorListener.hh"
-
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
@@ -40,7 +38,7 @@ namespace workrave
   }
 }
 
-class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch, public workrave::config::IConfiguratorListener
+class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch
 {
 public:
   struct TimerData
@@ -89,9 +87,6 @@ private:
   virtual void deactivate_applet();
   virtual void init_applet();
 
-  // IConfiguratorListener
-  void config_changed_notify(const std::string &key);
-  
   // ITimerBoxView
   virtual void set_slot(workrave::BreakId  id, int slot);
   virtual void set_time_bar(workrave::BreakId id,
