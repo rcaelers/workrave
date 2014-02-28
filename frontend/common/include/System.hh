@@ -47,11 +47,13 @@ public:
   public:
     enum SystemOperationType {
       SYSTEM_OPERATION_NONE,
+      SYSTEM_OPERATION_LOCK_SCREEN,
       SYSTEM_OPERATION_SHUTDOWN,
       SYSTEM_OPERATION_SUSPEND,
       SYSTEM_OPERATION_HIBERNATE,
       SYSTEM_OPERATION_SUSPEND_HYBRID,
     };
+
     //A simple, English language name of the operation
     //Not translated into native language here because
     //this class is not concerned with UI
@@ -70,7 +72,7 @@ public:
 
 
   static bool is_lockable() { return !lock_commands.empty(); }
-  static void lock();
+  static bool lock_screen();
 
   static std::vector<SystemOperation> get_supported_system_operations()
       { return supported_system_operations; }

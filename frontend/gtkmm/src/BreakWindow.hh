@@ -97,7 +97,6 @@ protected:
 
   Gtk::Box *create_break_buttons(bool lockable, bool shutdownable);
   void resume_non_ignorable_break();
-  void on_lock_button_clicked();
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
@@ -119,7 +118,7 @@ protected:
 protected:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();
-  Gtk::Button *create_lock_button();
+  Gtk::ComboBox *create_sysoper_combobox(bool shutdownable);
 
 private:
   //! Send response to this interface.
@@ -144,7 +143,6 @@ private:
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
-  Gtk::Button *lock_button;
 
   class SysoperModelColumns : public Gtk::TreeModelColumnRecord
     {
@@ -170,12 +168,10 @@ private:
   SysoperModelColumns *sysoper_model_columns;
 
   Gtk::ComboBox *sysoper_combobox;
-  const char *get_translated_operation_name(
-      System::SystemOperation::SystemOperationType type);
+  void get_operation_name_and_icon(
+      System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
-      const char *img_file_name,
       System::SystemOperation::SystemOperationType type);
-  Gtk::ComboBox *create_sysoper_combobox();
   void on_sysoper_combobox_changed();
 };
 

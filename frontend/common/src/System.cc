@@ -287,8 +287,8 @@ void System::init_cmdline_lock_commands(const char *display)
 }
 #endif
 
-void
-System::lock()
+bool
+System::lock_screen()
 {
   TRACE_ENTER("System::lock");
 
@@ -296,10 +296,14 @@ System::lock()
       iter != lock_commands.end(); ++iter)
     {
       if ((*iter)->lock())
-        break;
+        {
+          TRACE_RETURN(true);
+          return true;
+        }
     }
 
-  TRACE_EXIT();
+  TRACE_RETURN(false);
+  return false;
 }
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
@@ -375,6 +379,10 @@ bool System::execute(SystemOperation::SystemOperationType type)
     {
       return false;
     }
+  else if (type == SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
+    {
+      return lock_screen();
+    }
   else
     {
       for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
@@ -448,6 +456,12 @@ System::init(
       winShut = NULL;
     }
 #endif //defined (PLATFORM_OS_WIN32)
+
+  if (is_lockable())
+    {
+      supported_system_operations.push_back(
+          SystemOperation("Lock", SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN));
+    }
 
   for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
       iter != system_state_commands.end(); ++iter)
