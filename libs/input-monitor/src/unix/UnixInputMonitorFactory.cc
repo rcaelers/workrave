@@ -39,8 +39,9 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-UnixInputMonitorFactory::UnixInputMonitorFactory()
-  : error_reported(false)
+UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
+  : error_reported(false),
+    config(config)
 {
   monitor = NULL;
 }

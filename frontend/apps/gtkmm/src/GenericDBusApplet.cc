@@ -62,7 +62,7 @@ GenericDBusApplet::GenericDBusApplet() :
       data[i].bar_secondary_max = 0;
     }
 
-  connetions.add(GUIConfig::trayicon_enabled().connect(boost::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
+  connections.add(GUIConfig::trayicon_enabled().connect(boost::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
 }
 
 

@@ -52,21 +52,21 @@ public:
   static workrave::config::Setting<int> &main_window_y();
   static workrave::config::Setting<int> &main_window_head();
 
-  static workrave::config::Setting<int> &timerbox_cycle_time(std::string box);
-  static workrave::config::Setting<int> &timerbox_slot(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<int> &timerbox_flags(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<int> &timerbox_imminent(std::string box, workrave::BreakId break_id);
-  static workrave::config::Setting<bool> &timerbox_enabled(std::string box);
+  static workrave::config::Setting<int> &timerbox_cycle_time(const std::string &box);
+  static workrave::config::Setting<int> &timerbox_slot(const std::string &box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timerbox_flags(const std::string &box, workrave::BreakId break_id);
+  static workrave::config::Setting<int> &timerbox_imminent(const std::string &box, workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &timerbox_enabled(const std::string &box);
 
   static workrave::config::Setting<bool> &sound_enabled();
   static workrave::config::Setting<std::string> &sound_device();
   static workrave::config::Setting<int> &sound_volume();
   static workrave::config::Setting<bool> &sound_mute();
-  static workrave::config::Setting<std::string> &sound_event(std::string event);
-  static workrave::config::Setting<bool> &sound_event_enabled(std::string event);
+  static workrave::config::Setting<std::string> &sound_event(const std::string &event);
+  static workrave::config::Setting<bool> &sound_event_enabled(const std::string &event);
 
   static workrave::config::SettingGroup &key_main_window();
-  static workrave::config::SettingGroup &key_timerbox(std::string box);
+  static workrave::config::SettingGroup &key_timerbox(const std::string &box);
   //static workrave::config::SettingGroup &key_sound_events();
 
   static void init();

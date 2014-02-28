@@ -30,11 +30,10 @@
 #include "TimerBoxControl.hh"
 #endif
 
+#include "utils/ScopedConnections.hh"
+
 class TimerBoxControl;
 class TimerBoxGtkView;
-
-using namespace workrave;
-using namespace workrave::config;
 
 class MainWindow :
   public Gtk::Window
@@ -97,7 +96,9 @@ private:
 
   //!
   sigc::connection visible_connection;
-  
+
+  scoped_connections connections;
+
 private:
   void setup();
   void locate_window(GdkEventConfigure *event);

@@ -99,7 +99,7 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
 SoundTheme::Ptr
 SoundTheme::create()
 {
-  return SoundTheme::Ptr();
+  return SoundTheme::Ptr(new SoundTheme);
 }
 
 SoundTheme::SoundTheme()

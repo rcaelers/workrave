@@ -377,9 +377,9 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  connections.add(GUIConfig::key_timerbox("main_window"), [] () { 
-      setup();
-    });
+  connections.add(GUIConfig::key_timerbox("main_window").connect([&] () { 
+        setup();
+      }));
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
     

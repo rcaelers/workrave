@@ -26,7 +26,9 @@
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
+
 #include "dbus/IDBusWatch.hh"
+#include "utils/ScopedConnections.hh"
 
 class AppletControl;
 
@@ -114,6 +116,7 @@ private:
   MenuItems items;
   std::set<std::string> active_bus_names;
   workrave::dbus::IDBus::Ptr dbus;
+  scoped_connections connections;
 };
 
 #endif // GENERICDBUSAPPLET_HH

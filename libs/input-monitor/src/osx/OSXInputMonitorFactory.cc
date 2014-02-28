@@ -28,15 +28,16 @@
 #include "OSXInputMonitorFactory.hh"
 #include "OSXInputMonitor.hh"
 
-OSXInputMonitorFactory::OSXInputMonitorFactory()
+OSXInputMonitorFactory::OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
+  (void) config;
   monitor = NULL;
 }
 
 void
 OSXInputMonitorFactory::init(const std::string &display)
 {
-  (void)display;
+  (void) display;
 }
 
 

@@ -285,38 +285,34 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           mp = 0;
         }
-      config->set_value(key, mp);
+      CoreConfig::break_max_preludes(break_id).set(mp);
       set_prelude_sensitivity();
     }
   else
     {
-      int value;
-      bool ok = config->get_value(key, value);
-      if (ok)
+      int value = CoreConfig::break_max_preludes(break_id)();
+      if (value == -1)
         {
-          if (value == -1)
-            {
-              prelude_cb->set_active(true);
-              has_max_prelude_cb->set_active(false);
-            }
-          else if (value == 0)
-            {
-              prelude_cb->set_active(false);
-              has_max_prelude_cb->set_active(false);
-            }
-          else
-            {
-              prelude_cb->set_active(true);
-              has_max_prelude_cb->set_active(true);
-#ifdef HAVE_GTK3
-              max_prelude_adjustment->set_value(value);
-#else
-              max_prelude_adjustment.set_value(value);
-#endif
-            }
-
-          set_prelude_sensitivity();
+          prelude_cb->set_active(true);
+          has_max_prelude_cb->set_active(false);
         }
+      else if (value == 0)
+        {
+          prelude_cb->set_active(false);
+          has_max_prelude_cb->set_active(false);
+        }
+      else
+        {
+          prelude_cb->set_active(true);
+          has_max_prelude_cb->set_active(true);
+#ifdef HAVE_GTK3
+          max_prelude_adjustment->set_value(value);
+#else
+          max_prelude_adjustment.set_value(value);
+#endif
+        }
+
+      set_prelude_sensitivity();
     }
 
   inside = false;

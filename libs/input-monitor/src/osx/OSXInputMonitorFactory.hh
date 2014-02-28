@@ -32,7 +32,7 @@ using namespace workrave::input_monitor;
 class OSXInputMonitorFactory : public IInputMonitorFactory
 {
 public:
-  OSXInputMonitorFactory();
+  OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
   virtual void init(const std::string &display);
   IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 

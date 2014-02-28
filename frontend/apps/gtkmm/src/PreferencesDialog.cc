@@ -297,7 +297,7 @@ PreferencesDialog::create_gui_page()
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
       
-      connector->connect(GUIConfig::CFG_KEY_AUTOSTART, dc::wrap(autostart_cb));
+      connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
       
 #if defined(PLATFORM_OS_WIN32)
       char value[MAX_PATH];
@@ -356,7 +356,7 @@ PreferencesDialog::create_sounds_page()
       // Volume
       sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
       sound_volume_scale->set_increments(1.0, 5.0);
-      connector->connect(SoundTheme::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
+      connector->connect(GUIConfig::sound_volume(), dc::wrap(sound_volume_scale->get_adjustment()));
 
       hig->add_label(_("Volume:"), *sound_volume_scale, true, true);
     }
@@ -369,7 +369,7 @@ PreferencesDialog::create_sounds_page()
       mute_cb = Gtk::manage(new Gtk::CheckButton
                             (_("Mute sounds during rest break and daily limit")));
 
-      connector->connect(SoundTheme::CFG_KEY_SOUND_MUTE, dc::wrap(mute_cb));
+      connector->connect(GUIConfig::sound_mute(), dc::wrap(mute_cb));
 
       hig->add_widget(*mute_cb, true, true);
     }
@@ -395,8 +395,7 @@ PreferencesDialog::create_sounds_page()
           Gtk::TreeModel::iterator iter = sound_store->append();
           Gtk::TreeModel::Row row = *iter;
 
-          bool sound_enabled = false;
-          snd->get_sound_enabled((workrave::audio::SoundEvent)i, sound_enabled);
+          bool sound_enabled = snd->get_sound_enabled((workrave::audio::SoundEvent)i);
 
           row[sound_model.enabled] = sound_enabled;
           row[sound_model.selectable] = true;
@@ -742,9 +741,9 @@ PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
 void
 PreferencesDialog::on_autostart_toggled()
 {
+#if defined(PLATFORM_OS_WIN32)
   bool on = autostart_cb->get_active();
 
-#if defined(PLATFORM_OS_WIN32)
   gchar *value = NULL;
 
   if (on)
@@ -755,6 +754,7 @@ PreferencesDialog::on_autostart_toggled()
     }
 
   Platform::registry_set_value(RUNKEY, "Workrave", value);
+#endif
 }
 
 #if defined(PLATFORM_OS_WIN32)
@@ -795,7 +795,8 @@ PreferencesDialog::on_sound_play()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string filename = GUIConfig::sound_events(row[sound_model.label]);
+      string event = (Glib::ustring) row[sound_model.label];
+      string filename = GUIConfig::sound_event(event)();
       if (filename != "")
         {
           IGUI *gui = GUI::get_instance();
@@ -861,7 +862,7 @@ PreferencesDialog::on_sound_events_changed()
       Gtk::TreeModel::Row row = *iter;
 
       string event = (Glib::ustring) row[sound_model.label];
-      string filename = GUIConfig::sound_events(row[sound_model.label]);
+      string filename = GUIConfig::sound_event(event)();
 
       TRACE_MSG(filename);
 
@@ -898,8 +899,7 @@ PreferencesDialog::on_sound_theme_changed()
         {
           Gtk::TreeModel::Row row = *iter;
           string event = (Glib::ustring) row[sound_model.label];
-
-          string filename = GUIConfig::sound_events(row[sound_model.label]);
+          string filename = GUIConfig::sound_event(event)();
 
           if (filename != "")
             {

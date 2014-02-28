@@ -150,6 +150,8 @@ public:
       case VARIANT_TYPE_NONE:
         return false;
       }
+
+    return false;
   }
   
   virtual ~Variant()

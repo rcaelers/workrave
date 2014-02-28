@@ -30,6 +30,8 @@ namespace Gtk
 
 #include "ICore.hh"
 
+#include "utils/ScopedConnections.hh"
+
 #include <string>
 #include <gtkmm/box.h>
 
@@ -62,6 +64,7 @@ private:
   Gtk::ComboBoxText *place_button;
   Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF];
   Gtk::SpinButton *cycle_entry;
+  scoped_connections connections;
 };
 
 #ifndef GTKMM_CHECK_VERSION

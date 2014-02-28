@@ -31,7 +31,7 @@ using namespace workrave::input_monitor;
 class UnixInputMonitorFactory  : public IInputMonitorFactory
 {
 public:
-  UnixInputMonitorFactory();
+  UnixInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
   virtual void init(const std::string &display);
   virtual IInputMonitor::Ptr create_monitor(IInputMonitorFactory::MonitorCapability capability);
@@ -40,6 +40,7 @@ public:
   std::string actual_monitor_method;
   IInputMonitor::Ptr monitor;
   std::string display;
+  workrave::config::IConfigurator::Ptr config;
 };
 
 #endif // UNIXINPUTMONITORFACTORY_HH

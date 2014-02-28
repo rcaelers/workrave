@@ -70,9 +70,6 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
 TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
-
-  config->remove_listener(this);
-
   TRACE_EXIT();
 }
 

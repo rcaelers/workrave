@@ -80,7 +80,7 @@ StatusIcon::init()
                                           if (status_icon->get_visible() != enabled)
                                             {
                                               visibility_changed_signal.emit();
-                                              status_icon->set_visible(visible);
+                                              status_icon->set_visible(enabled);
                                             }
                                         });
   

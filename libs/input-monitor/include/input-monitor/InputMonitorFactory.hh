@@ -34,7 +34,7 @@ namespace workrave
     class InputMonitorFactory
     {
     public:
-      static void init(const std::string &display);
+      static void init(workrave::config::IConfigurator::Ptr config, const std::string &display);
       static IInputMonitor::Ptr create_monitor(IInputMonitorFactory::MonitorCapability capability);
 
     private:

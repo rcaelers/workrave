@@ -69,7 +69,7 @@ public:
                dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
-  void connect(workrave::config::Setting<T, R> setting,
+  void connect(workrave::config::Setting<T, R> &setting,
                DataConnection *connection,
                dc::Flags flags = dc::NONE)
   {
@@ -77,7 +77,7 @@ public:
   }
 
   template<class T, class R = T>
-  void connect(workrave::config::Setting<T, R> setting,
+  void connect(workrave::config::Setting<T, R> &setting,
                DataConnection *connection,
                sigc::slot<bool, const std::string &, bool> slot,
                dc::Flags flags = dc::NONE)

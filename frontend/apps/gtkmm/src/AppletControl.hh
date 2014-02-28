@@ -24,8 +24,7 @@
 
 #include "IAppletWindow.hh"
 
-using namespace workrave;
-using namespace workrave::config;
+#include "utils/ScopedConnections.hh"
 
 class AppletControl
 {
@@ -55,24 +54,15 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
 private:
-  //! All known applets
   IAppletWindow *applets[APPLET_SIZE];
-
-  //! Did applet acknowledge visibility?
   IAppletWindow::AppletState applet_state[APPLET_SIZE];
-
-  //!
   bool visible;
-  
-  //!
   bool enabled;
-
-  //!
   int delayed_show;
-
-  //!
   sigc::signal<void> visibility_changed_signal;
-  
+
+  scoped_connections connections;
+
 private:
   typedef IAppletWindow::AppletState AppletState;
 

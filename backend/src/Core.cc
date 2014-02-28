@@ -101,7 +101,7 @@ Core::init(IApp *app, const string &display_name)
 #endif
     {
       // LCOV_EXCL_START
-      monitor = LocalActivityMonitor::create(display_name);
+      monitor = LocalActivityMonitor::create(configurator, display_name);
       // LCOV_EXCL_STOP
    }
   

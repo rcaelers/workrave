@@ -169,6 +169,8 @@ GUI::~GUI()
   delete [] break_windows;
   delete [] heads;
 
+  CoreFactory::core.reset();
+
   TRACE_EXIT();
 }
 
@@ -843,7 +845,7 @@ GUI::init_sound_player()
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
 
-      sound_theme = SoundTheme::create(CoreFactory::get_configurator());
+      sound_theme = SoundTheme::create();
       sound_theme->init();
     }
   catch (workrave::utils::Exception)

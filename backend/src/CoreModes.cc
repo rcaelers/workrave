@@ -331,13 +331,11 @@ CoreModes::load_config()
 {
   connections.add(CoreConfig::operation_mode().connect([&] (OperationMode operation_mode)
                                                        {
-                                                         TRACE_MSG("Setting operation mode");
                                                          set_operation_mode_internal(operation_mode, false);
                                                        }));
   
   connections.add(CoreConfig::usage_mode().connect([&] (UsageMode usage_mode)
                                                    {
-                                                     TRACE_MSG("Setting usage mode");
                                                      set_usage_mode_internal(usage_mode, false);
                                                        }
                                                    ));

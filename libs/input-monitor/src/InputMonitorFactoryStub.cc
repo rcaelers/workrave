@@ -21,7 +21,10 @@
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
 
+#include "config/IConfigurator.hh"
+
 using namespace workrave::input_monitor;
+using namespace workrave::config;
 
 class InputMonitorStub : public IInputMonitor
 {
@@ -49,8 +52,9 @@ public:
 };
 
 void
-InputMonitorFactory::init(const std::string &display)
+InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 {
+  (void) config;
   (void) display;
 }
 

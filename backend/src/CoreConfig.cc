@@ -97,9 +97,10 @@ CoreConfig::get_break_name(BreakId id)
 void
 CoreConfig::init(IConfigurator::Ptr config)
 {
+  CoreConfig::config = config;
+
   config->rename_key("gui/operation-mode", CoreConfig::operation_mode().key());
 
-  CoreConfig::config = config;
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
       Defaults &def = default_config[break_id];

@@ -209,40 +209,40 @@ GUIConfig::main_window_head()
 }
 
 workrave::config::SettingGroup &
-GUIConfig::key_timerbox(std::string box)
+GUIConfig::key_timerbox(const std::string &box)
 {
   return SettingCache::group(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box);
 }
 
 Setting<int> &
-GUIConfig::timerbox_cycle_time(std::string box)
+GUIConfig::timerbox_cycle_time(const std::string &box)
 {
   return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_CYCLE_TIME, 10);
 }
 
 Setting<int> &
-GUIConfig::timerbox_slot(std::string box, workrave::BreakId break_id)
+GUIConfig::timerbox_slot(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
   return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION, (box == "applet" ? 0 : break_id));
 }
 
 Setting<int> &
-GUIConfig::timerbox_flags(std::string box, workrave::BreakId break_id)
+GUIConfig::timerbox_flags(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
   return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
 }
 
 Setting<int> &
-GUIConfig::timerbox_imminent(std::string box, workrave::BreakId break_id)
+GUIConfig::timerbox_imminent(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
   return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
 }
 
 Setting<bool> &
-GUIConfig::timerbox_enabled(std::string box)
+GUIConfig::timerbox_enabled(const std::string &box)
 {
   return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
 }
@@ -272,13 +272,13 @@ GUIConfig::sound_mute()
 }
 
 workrave::config::Setting<bool> &
-GUIConfig::sound_event_enabled(std::string event)
+GUIConfig::sound_event_enabled(const std::string &event)
 {
   return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event + CFG_KEY_SOUND_EVENT_ENABLED, true);
 }
 
 workrave::config::Setting<std::string> &
-GUIConfig::sound_event(std::string event)
+GUIConfig::sound_event(const std::string &event)
 {
   return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event, std::string());
 }

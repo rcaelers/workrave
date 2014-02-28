@@ -47,7 +47,6 @@ private:
   IConfigurator::Ptr config;
   IInputMonitor::Ptr activity_monitor;
   IInputMonitor::Ptr statistics_monitor;
-
   std::string actual_monitor_method;
 };
 

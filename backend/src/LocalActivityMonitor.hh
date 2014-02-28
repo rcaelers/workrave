@@ -38,9 +38,9 @@ class LocalActivityMonitor :
   public IInputMonitorListener
 {
 public:
-  static Ptr create(const std::string &display_name);
+  static Ptr create(IConfigurator::Ptr config, const std::string &display_name);
   
-  LocalActivityMonitor(const std::string &display_name);
+  LocalActivityMonitor(IConfigurator::Ptr config, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
   virtual void init();
@@ -78,6 +78,8 @@ private:
     };
   
 private:
+  IConfigurator::Ptr config;
+
   //! 
   std::string display_name;
   
