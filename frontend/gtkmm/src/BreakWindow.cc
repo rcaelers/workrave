@@ -605,17 +605,6 @@ BreakWindow::create_break_buttons(bool lockable,
     {
       box = new Gtk::HBox(false, 6);
 
-      //#ifdef HAVE_GTK3
-      if (lockable)
-        {
-          sysoper_combobox = create_sysoper_combobox(shutdownable);
-          if (sysoper_combobox != NULL)
-            {
-              box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
-            }
-        }
-      //#endif
-
       if (break_flags != BREAK_FLAGS_NONE)
         {
           Gtk::HButtonBox *button_box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
@@ -632,6 +621,18 @@ BreakWindow::create_break_buttons(bool lockable,
             }
           box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
         }
+
+      //#ifdef HAVE_GTK3
+      if (lockable)
+        {
+          sysoper_combobox = create_sysoper_combobox(shutdownable);
+          if (sysoper_combobox != NULL)
+            {
+              box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+            }
+        }
+      //#endif
+
     }
 
   return box;
