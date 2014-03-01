@@ -593,7 +593,7 @@ BreakWindow::resume_non_ignorable_break()
 
 //! Control buttons.
 Gtk::Box *
-BreakWindow::create_break_buttons(bool lockable,
+BreakWindow::create_bottom_box(bool lockable,
                                   bool shutdownable)
 {
   Gtk::HBox *box = NULL;

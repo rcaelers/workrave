@@ -76,10 +76,10 @@ DailyLimitWindow::create_gui()
   box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  Gtk::Box *button_box = create_break_buttons(true, true);
-  if (button_box)
+  Gtk::Box *bottom_box = create_bottom_box(true, true);
+  if (bottom_box)
     {
-      box->pack_start(*Gtk::manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);
+      box->pack_start(*Gtk::manage(bottom_box), Gtk::EXPAND | Gtk::FILL, 0);
     }
   return box;
 }

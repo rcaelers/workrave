@@ -95,7 +95,7 @@ protected:
 
   void center();
 
-  Gtk::Box *create_break_buttons(bool lockable, bool shutdownable);
+  Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
   void resume_non_ignorable_break();
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
