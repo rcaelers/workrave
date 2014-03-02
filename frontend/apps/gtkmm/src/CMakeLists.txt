@@ -128,7 +128,7 @@ link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
 # TODO: Also built prebuilt
-if (PLATFORM_OS_WIN32 AND CROSSCOMPILING)
+If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
   link_directories("${WORKRAVE_PREBUILT}/Release")
   link_directories("${SYS_ROOT}")
 endif()

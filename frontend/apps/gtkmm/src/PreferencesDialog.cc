@@ -139,7 +139,7 @@ PreferencesDialog::~PreferencesDialog()
   const Gtk::TreeModel::Row row = *iter;
   const Glib::ustring code = row[languages_columns.code];
 
-  GUIConfig::set_locale(code);
+  GUIConfig::locale().set(code);
 #endif
 
   ICore::Ptr core = CoreFactory::get_core();
@@ -191,7 +191,7 @@ PreferencesDialog::create_gui_page()
   panel->add_label(_("Block mode:"), *block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  string current_locale = GUIConfig::get_locale();
+  string current_locale = GUIConfig::locale()();
 
   languages_model = Gtk::ListStore::create(languages_columns);
   languages_combo.set_model(languages_model);
@@ -301,7 +301,7 @@ PreferencesDialog::create_gui_page()
       
 #if defined(PLATFORM_OS_WIN32)
       char value[MAX_PATH];
-      bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+      bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
       autostart_cb->set_active(rc);
 #endif
     }

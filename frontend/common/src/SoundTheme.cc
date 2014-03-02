@@ -30,7 +30,7 @@
 #include "nls.h"
 
 #ifdef PLATFORM_OS_WIN32
-#include "utils/Plaform.hh"
+#include "utils/Platform.hh"
 #endif
 
 #include <list>
@@ -403,19 +403,23 @@ SoundTheme::win32_remove_deprecated_appevents()
                          "WorkraveExercisesEnded",
                          "WorkraveExerciseStep"  };
   
-  string schems = "AppEvents\\Schemes\\Apps\\Workrave\\";
+  string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
   string event_labels = "AppEvents\\EventLabels\\";
 
   for (string id : ids)
     {
-      Platform::registry_set_value(schemes + id + "\\.current", NULL);
-      Platform::registry_set_value(schemes + id + "\\.default", NULL);
-      Platform::registry_set_value(schemes + id, NULL);
-      Platform::registry_set_value(event_labels + id, NULL);
+      string key = schemes + id + "\\.current";
+      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      key = schemes + id + "\\.default";
+      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      key = schemes + id;
+      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      key = event_labels + id;
+      Platform::registry_set_value(key.c_str(), NULL, NULL);
     }
 
   // FIXME: used in ChangeAutoRun.c
-  Platform::registry_set_value(schemes, "");
+  Platform::registry_set_value(schemes.c_str(), NULL, "");
 }
 
 

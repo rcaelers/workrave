@@ -439,10 +439,10 @@ MainWindow::on_delete_event(GdkEventAny *)
 #if defined(PLATFORM_OS_WIN32)
   win32_show(false);
   closed_signal.emit();
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
 #elif defined(PLATFORM_OS_OSX)
   close_window();
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
 #else
   if (can_close)
     {

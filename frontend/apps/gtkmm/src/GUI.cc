@@ -1510,7 +1510,7 @@ GUI::process_visibility()
 #ifdef PLATFORM_OS_WIN32
   if (!main_window->is_visible() && !applet_control->is_visible())
     {
-      GUIConfig::set_trayicon_enabled(true);
+      GUIConfig::trayicon_enabled().set(true);
     }
 #else
   bool can_close_main_window = applet_control->is_visible() || status_icon->is_visible();
