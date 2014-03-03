@@ -21,6 +21,7 @@ libworkrave_frontend_common_win32_la_SOURCES = \
 			W32Mixer.cc \
 			Sound.cc \
 			W32LockScreen.cc \
+			W32Shutdown.cc \
 			$(dsound_sources)
 
 libworkrave_frontend_common_win32_la_CXXFLAGS = \
@@ -28,6 +29,7 @@ libworkrave_frontend_common_win32_la_CXXFLAGS = \
 			-D_XOPEN_SOURCE=600 \
 			-W -I$(top_srcdir)/frontend/common/src \
 			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/common/win32/harpoon/include \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GLIB_CFLAGS@
 

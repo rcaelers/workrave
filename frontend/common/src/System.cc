@@ -60,6 +60,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include "W32Shutdown.hh"
+#include "W32LockScreen.hh"
 #endif
 
 #if defined(HAVE_UNIX)
@@ -437,7 +438,7 @@ System::init(
     }
 
   ISystemStateChangeMethod *winShut = new W32Shutdown();
-  if (winLock->canShutdown())
+  if (winShut->canShutdown())
     {
       system_state_commands.push_back(winShut);
     }

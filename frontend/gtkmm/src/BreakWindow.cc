@@ -97,11 +97,11 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   gui(NULL),
   visible(false),
   accel_added(false),
+  accel_group(NULL),
   postpone_button(NULL),
   skip_button(NULL),
   lock_button(NULL),
-  sysoper_combobox(NULL),
-  accel_group(NULL)
+  sysoper_combobox(NULL)
 #ifdef PLATFORM_OS_WIN32
   ,
   desktop_window( NULL ),
@@ -336,9 +336,6 @@ BreakWindow::create_lock_button()
 
 
 
-//I was unable to get Workrave to compile with GTK2
-//so it is better to disable it then introduce compile errors
-#ifdef HAVE_GTK3
 const char *
 BreakWindow::get_translated_operation_name(
     System::SystemOperation::SystemOperationType type)
@@ -469,9 +466,6 @@ BreakWindow::on_sysoper_combobox_changed()
   //this will fire this method again with SYSTEM_OPERATION_NONE active
   sysoper_combobox->set_active(0);
 }
-
-#endif
-
 
 
 //! Creates the skip button.
@@ -621,7 +615,7 @@ BreakWindow::create_break_buttons(bool lockable,
     {
       box = new Gtk::HBox(false, 6);
 
-#ifdef HAVE_GTK3
+      //#ifdef HAVE_GTK3
       if (shutdownable)
         {
           sysoper_combobox = create_sysoper_combobox();
@@ -630,7 +624,7 @@ BreakWindow::create_break_buttons(bool lockable,
               box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
             }
         }
-#endif
+      //#endif
 
       if (lockable || (break_flags != BREAK_FLAGS_NONE))
         {

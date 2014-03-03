@@ -141,11 +141,11 @@ private:
 #endif
 
   bool accel_added;
+  Glib::RefPtr<Gtk::AccelGroup> accel_group;
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
   Gtk::Button *lock_button;
 
-#ifdef HAVE_GTK3
   class SysoperModelColumns : public Gtk::TreeModelColumnRecord
     {
     public:
@@ -177,9 +177,6 @@ private:
       System::SystemOperation::SystemOperationType type);
   Gtk::ComboBox *create_sysoper_combobox();
   void on_sysoper_combobox_changed();
-#endif //HAVE_GTK3
-
-  Glib::RefPtr<Gtk::AccelGroup> accel_group;
 };
 
 inline BreakWindow::BreakFlags
