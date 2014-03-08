@@ -403,7 +403,7 @@ BreakWindow::create_sysoper_combobox()
 
   Glib::RefPtr<Gtk::ListStore> model = Gtk::ListStore::create(*sysoper_model_columns);
 
-  //comboBox->append("none", "Shutdown...");
+
   append_row_to_sysoper_model(model, "shutdown.png",
       System::SystemOperation::SYSTEM_OPERATION_NONE);
 
@@ -423,7 +423,12 @@ BreakWindow::create_sysoper_combobox()
   comboBox->pack_start(sysoper_model_columns->name);
 
   comboBox->set_active(0);
+#ifdef HAVE_GTK3
   comboBox->set_can_focus(false);
+#else
+  GTK_WIDGET_UNSET_FLAGS(comboBox->gobj(), GTK_CAN_FOCUS);
+#endif
+
   comboBox->signal_changed()
       .connect(
                 sigc::mem_fun(*this, &BreakWindow::on_sysoper_combobox_changed)
