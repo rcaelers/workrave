@@ -1,6 +1,6 @@
 // SoundsPreferencesPanel.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -68,14 +68,14 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       sound_volume_scale->setSingleStep(1);
       sound_volume_scale->setPageStep(5);
 
-      connector->connect(GUIConfig::sound_volume(), dc::wrap(sound_volume_scale));
+      connector->connect(SoundTheme::sound_volume(), dc::wrap(sound_volume_scale));
 
       UiUtil::add_widget(sound_options_layout, _("Volume:"), sound_volume_scale);
     }
 
   enabled_cb = new QCheckBox;
   enabled_cb->setText(_("Enable sounds"));
-  connector->connect(GUIConfig::sound_enabled(), dc::wrap(enabled_cb), boost::bind(&SoundsPreferencesPanel::on_enabled_changed, this, _1, _2));
+  connector->connect(SoundTheme::sound_enabled(), dc::wrap(enabled_cb));
   sound_options_layout->addWidget(enabled_cb);
 
   if (sound_theme->capability(workrave::audio::SOUND_CAP_MUTE))
@@ -83,76 +83,80 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       // Volume
       QCheckBox *mute_cb = new QCheckBox;
       mute_cb->setText(_("Mute sounds during rest break and daily limit"));
-      connector->connect(GUIConfig::sound_mute(), dc::wrap(mute_cb));
+      connector->connect(SoundTheme::sound_mute(), dc::wrap(mute_cb));
       sound_options_layout->addWidget(mute_cb);
     }
 
-   if (sound_theme->capability(workrave::audio::SOUND_CAP_EDIT))
-     {
-       QGroupBox *sound_events_box = new QGroupBox(_("Sound Events"));
-       layout->addWidget(sound_events_box);
-       QVBoxLayout *sound_events_layout = new QVBoxLayout;
-       sound_events_box->setLayout(sound_events_layout);
+  QGroupBox *sound_events_box = new QGroupBox(_("Sound Events"));
+  layout->addWidget(sound_events_box);
+  QVBoxLayout *sound_events_layout = new QVBoxLayout;
+  sound_events_box->setLayout(sound_events_layout);
 
-       sound_theme_button = new QComboBox;
-       UiUtil::add_widget(sound_events_layout, _("Sound Theme:"), sound_theme_button);
+  sound_theme_button = new QComboBox;
+  UiUtil::add_widget(sound_events_layout, _("Sound Theme:"), sound_theme_button);
+  
+  sound_theme_model = new QStandardItemModel();
+  sound_theme_button->setModel(sound_theme_model);
 
-       sound_theme_model = new QStandardItemModel();
-       sound_theme_button->setModel(sound_theme_model);
+  update_theme_selection();
 
-       update_theme_selection();
+  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(sound_theme_button, signal, this, &SoundsPreferencesPanel::on_sound_theme_changed);
 
-       void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
-       QObject::connect(sound_theme_button, signal, this, &SoundsPreferencesPanel::on_sound_theme_changed);
+  sounds_model = new QStandardItemModel(); // TODO: SOUND_MAX, 4);
+  sounds_view = new QTreeView;
+  sound_events_layout->addWidget(sounds_view);
 
-       sounds_model = new QStandardItemModel(workrave::audio::SOUND_MAX, 4);
-       sounds_view = new QTreeView;
-       sound_events_layout->addWidget(sounds_view);
+  sounds_view->setModel(sounds_model);
+  sounds_view->setSelectionBehavior(QAbstractItemView::SelectRows);
+  sounds_view->setAllColumnsShowFocus(true);
+  sounds_view->setRootIsDecorated(false);
 
-       sounds_view->setModel(sounds_model);
-       sounds_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-       sounds_view->setAllColumnsShowFocus(true);
-       sounds_view->setRootIsDecorated(false);
+  connect(sounds_view, &QTreeView::activated, this, &SoundsPreferencesPanel::on_sound_item_activated);
 
-       connect(sounds_view, &QTreeView::activated, this, &SoundsPreferencesPanel::on_sound_item_activated);
+  // sounds_view->setColumnWidth(0, 100);
+  // sounds_view->setColumnWidth(1, 200);
 
-       // sounds_view->setColumnWidth(0, 100);
-       // sounds_view->setColumnWidth(1, 200);
+  sounds_model->setHeaderData(0, Qt::Horizontal, _("Enabled"));
+  sounds_model->setHeaderData(1, Qt::Horizontal, _("Sound"));
 
-       sounds_model->setHeaderData(0, Qt::Horizontal, _("Enabled"));
-       sounds_model->setHeaderData(1, Qt::Horizontal, _("Sound"));
+  SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
-       for (unsigned int i = 0; i < workrave::audio::SOUND_MAX; i++)
-        {
-          // TODO: not used:
-          bool sound_enabled = sound_theme->get_sound_enabled((workrave::audio::SoundEvent)i);
+  int item_count = 0;
+  for (SoundTheme::SoundInfo snd : active_theme->sounds)
+    {
+      bool sound_enabled = SoundTheme::sound_event_enabled(snd.event)();
 
-          QStandardItem *item = new QStandardItem();
-          sounds_model->setItem(i, 0, item);
-          item->setCheckable(true);
-          item->setCheckState(Qt::Checked);
+      QStandardItem *item = new QStandardItem();
+      sounds_model->setItem(item_count, 0, item);
+      item->setCheckable(true);
+      item->setCheckState(sound_enabled ? Qt::Checked : Qt::Unchecked);
+      
+      sounds_model->setItem(item_count, 1, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_friendly_name(snd.event))));
+      sounds_model->setItem(item_count, 2, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_id(snd.event))));
+      sounds_model->setItem(item_count, 3, new QStandardItem(true));
+      
+      item_count++;
+    }
 
-          sounds_model->setItem(i, 1, new QStandardItem(_(SoundTheme::sound_registry[i].friendly_name)));
-          sounds_model->setItem(i, 2, new QStandardItem(SoundTheme::sound_registry[i].id));
-          sounds_model->setItem(i, 3, new QStandardItem(true));
-        }
+  sounds_view->setColumnHidden(2, true);
+  sounds_view->setColumnHidden(3, true);
+  connect(sounds_model, &QStandardItemModel::itemChanged, this, &SoundsPreferencesPanel::on_sound_item_changed);
+  
+  QHBoxLayout *sound_buttons_layout = new QHBoxLayout;
+  sound_events_layout->addLayout(sound_buttons_layout);
 
-       sounds_view->setColumnHidden(2, true);
-       sounds_view->setColumnHidden(3, true);
+  QPushButton *sound_play_button = new QPushButton(_("Play"));
+  sound_buttons_layout->addWidget(sound_play_button);
+  connect(sound_play_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_play_sound);
 
-       QHBoxLayout *sound_buttons_layout = new QHBoxLayout;
-       sound_events_layout->addLayout(sound_buttons_layout);
+  QPushButton *sound_select_button = new QPushButton("Choose");
+  sound_buttons_layout->addWidget(sound_select_button);
+  connect(sound_select_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_select_sound);
 
-       QPushButton *sound_play_button = new QPushButton(_("Play"));
-       sound_buttons_layout->addWidget(sound_play_button);
-       connect(sound_play_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_play_sound);
+  sound_buttons_layout->addStretch();
 
-       QPushButton *sound_select_button = new QPushButton("Choose");
-       sound_buttons_layout->addWidget(sound_select_button);
-       connect(sound_select_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_select_sound);
-
-       sound_buttons_layout->addStretch();
-     }
+  sounds_view->setCurrentIndex(sounds_model->index(0, 0));
 
   TRACE_EXIT();
 }
@@ -162,29 +166,6 @@ SoundsPreferencesPanel::~SoundsPreferencesPanel()
 {
 }
 
-
-bool
-SoundsPreferencesPanel::on_enabled_changed(const std::string &key, bool write)
-{
-  bool on = enabled_cb->checkState() == Qt::Checked;
-  sound_theme->set_enabled(on);
-  return false;
-}
-
-void
-SoundsPreferencesPanel::on_sound_theme_changed(int index)
-{
-  std::vector<SoundTheme::Theme> themes;
-  sound_theme->get_sound_themes(themes);
-  SoundTheme::Theme &theme = themes[index];
-
-  sound_theme->activate_theme(theme);
-
-  std::string filename = sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) index);
-  TRACE_EXIT();
-}
-
-
 void
 SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex & index)
 {
@@ -193,16 +174,14 @@ SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex & index)
 void
 SoundsPreferencesPanel::on_select_sound()
 {
-  int row = sounds_view->currentIndex().row();
-
-  std::string filename = sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row);
+  SoundEvent event = currentEvent();
+  std::string filename = SoundTheme::sound_event(event)();
   if (filename != "")
     {
       boost::filesystem::path path(filename);
       boost::filesystem::path dirname = path.parent_path();
       boost::filesystem::path basename = path.filename();
-
-
+      
       QFileDialog *fd = new QFileDialog(this);
       fd->setAttribute(Qt::WA_DeleteOnClose, true);
       fd->setFileMode(QFileDialog::ExistingFile);
@@ -214,13 +193,11 @@ SoundsPreferencesPanel::on_select_sound()
     }
 }
 
-
 void
 SoundsPreferencesPanel::on_play_sound()
 {
-  int row = sounds_view->currentIndex().row();
-
-  std::string filename= sound_theme->get_sound_wav_file((workrave::audio::SoundEvent) row);
+  SoundEvent event = currentEvent();
+  std::string filename = SoundTheme::sound_event(event)();
   if (filename != "")
     {
       sound_theme->play_sound(filename);
@@ -230,35 +207,70 @@ SoundsPreferencesPanel::on_play_sound()
 void
 SoundsPreferencesPanel::on_sound_selected(const QString &filename)
 {
-  int row = sounds_view->currentIndex().row();
-  sound_theme->set_sound_wav_file( (workrave::audio::SoundEvent)(int)row, filename.toStdString());
+  SoundEvent event = currentEvent();
+  SoundTheme::sound_event(event).set(filename.toStdString());
   update_theme_selection();
 }
 
+void 
+SoundsPreferencesPanel::on_sound_item_changed(QStandardItem *item)
+{
+  QStandardItem *iditem = sounds_model->item(item->index().row(), 2);
+  std::string id = iditem->text().toStdString();
+  SoundEvent event = SoundTheme::sound_id_to_event(id);
+
+  bool enabled = item->checkState() == Qt::Checked;
+  SoundTheme::sound_event_enabled(event).set(enabled);
+}
+
+void
+SoundsPreferencesPanel::on_sound_theme_changed(int index)
+{
+  TRACE_ENTER_MSG("SoundsPreferencesPanel::on_sound_theme_changed", index);
+  QStandardItem *item = sound_theme_model->item(index);
+  std::string theme_id = item->data().toString().toStdString();
+  TRACE_MSG(theme_id);
+  sound_theme->activate_theme(theme_id);
+  TRACE_EXIT();
+}
 
 void
 SoundsPreferencesPanel::update_theme_selection()
 {
   TRACE_ENTER("SoundsPreferencesPanel::update_theme_selection");
-
   sound_theme_model->clear();
 
-  std::vector<SoundTheme::Theme> themes;
-  sound_theme->get_sound_themes(themes);
-
-  int active_index = 0;
-  for (SoundTheme::Theme theme : themes)
+  SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
+  
+  int active_index = -1;
+  for (SoundTheme::ThemeInfo::Ptr theme : sound_theme->get_themes())
     {
-      QStandardItem *item = new QStandardItem(QString::fromStdString(theme.description));
+      QStandardItem *item = new QStandardItem(QString::fromStdString(theme->description));
+      item->setData(QVariant(QString::fromStdString(theme->theme_id)));
       sound_theme_model->appendRow(item);
-
-      if (theme.active)
+      
+      if (theme == active_theme)
         {
           active_index = sound_theme_model->indexFromItem(item).row();
         }
+    }
+
+  if (active_index == -1)
+    {
+      QStandardItem *item = new QStandardItem(QString::fromStdString(_("Custom")));
+      sound_theme_model->appendRow(item);
+      active_index = sound_theme_model->indexFromItem(item).row();
     }
 
   sound_theme_button->setCurrentIndex(active_index);
   TRACE_EXIT();
 }
 
+SoundEvent 
+SoundsPreferencesPanel::currentEvent() const
+{
+  const QModelIndex &index = sounds_view->currentIndex();
+  QStandardItem *item = sounds_model->item(index.row(), 2);
+  std::string id = item->text().toStdString();
+  return SoundTheme::sound_id_to_event(id);
+}

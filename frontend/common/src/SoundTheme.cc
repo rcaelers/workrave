@@ -29,18 +29,19 @@
 #include "debug.hh"
 #include "nls.h"
 
-#ifdef PLATFORM_OS_WIN32
-#include "utils/Platform.hh"
-#endif
-
 #include <list>
 #include <set>
 
 #include "SoundTheme.hh"
-#include "GUIConfig.hh"
-#include "config/IConfigurator.hh"
+#include "CoreFactory.hh"
 
+#include "config/IConfigurator.hh"
+#include "config/SettingCache.hh"
 #include "utils/AssetPath.hh"
+
+#ifdef PLATFORM_OS_WIN32
+#include "utils/Platform.hh"
+#endif
 
 using namespace workrave;
 using namespace workrave::config;
@@ -49,52 +50,155 @@ using namespace workrave::utils;
 using namespace std;
 
 SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
-{
-  { "break_prelude",
-    _("Break prompt")
-  },
+  {
+    {
+      SoundEvent::BreakPrelude,
+      "break_prelude",
+      _("Break prompt")
+    },
 
-  { "break_ignored",
-    _("Break ignored")
-  },
+    {
+      SoundEvent::BreakIgnored,
+      "break_ignored",
+      _("Break ignored")
+    },
 
-  { "rest_break_started",
-    _("Rest break started")
-  },
+    {
+      SoundEvent::RestBreakStarted,
+      "rest_break_started",
+      _("Rest break started")
+    },
 
-  { "rest_break_ended",
-    _("Rest break ended")
-  },
+    {
+      SoundEvent::RestBreakEnded,
+      "rest_break_ended",
+      _("Rest break ended")
+    },
 
-  { "micro_break_started",
-    _("Micro-break started")
-  },
+    {
+      SoundEvent::MicroBreakStarted,
+      "micro_break_started",
+      _("Micro-break started")
+    },
 
-  { "micro_break_ended",
-    _("Micro-break ended")
-  },
+    {
+      SoundEvent::MicroBreakEnded,
+      "micro_break_ended",
+      _("Micro-break ended")
+    },
 
-  { "daily_limit",
-    _("Daily limit")
-  },
+    {
+      SoundEvent::DailyLimit,
+      "daily_limit",
+      _("Daily limit")
+    },
   
-  {  "exercise_ended",
-    _("Exercise ended")
-  },
+    {
+      SoundEvent::ExerciseEnded,
+      "exercise_ended",
+      _("Exercise ended")
+    },
 
-  {  "exercises_ended",
-    _("Exercises ended")
-  },
+    {
+      SoundEvent::ExercisesEnded,
+      "exercises_ended",
+      _("Exercises ended")
+    },
 
-  {  "exercise_step",
-    _("Exercise change")
-  },
-};
+    {
+      SoundEvent::ExerciseStep,
+      "exercise_step",
+      _("Exercise change")
+    },
+  };
 
+const string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
+const string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
+const string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
+const string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
 
-/**********************************************************************
- * SoundTheme
- **********************************************************************/
+workrave::config::Setting<bool> &
+SoundTheme::sound_enabled()
+{
+  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_ENABLED, true);
+}
+
+workrave::config::Setting<std::string> &
+SoundTheme::sound_device()
+{
+  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_DEVICE, std::string());
+}
+
+workrave::config::Setting<int> &
+SoundTheme::sound_volume()
+{
+  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_SOUND_VOLUME, 100);
+}
+
+workrave::config::Setting<bool> &
+SoundTheme::sound_mute()
+{
+  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_MUTE, false);
+}
+
+workrave::config::Setting<bool> &
+SoundTheme::sound_event_enabled(const std::string &event)
+{
+  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event + CFG_KEY_SOUND_EVENT_ENABLED, true);
+}
+
+workrave::config::Setting<std::string> &
+SoundTheme::sound_event(const std::string &event)
+{
+  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event, std::string());
+}
+
+workrave::config::Setting<bool> &
+SoundTheme::sound_event_enabled(SoundEvent event)
+{
+  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
+}
+
+workrave::config::Setting<std::string> &
+SoundTheme::sound_event(SoundEvent event)
+{
+  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event), std::string());
+}
+
+SoundEvent 
+SoundTheme::sound_id_to_event(const std::string &id)
+{
+  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.id == id; });
+  if (item != std::end(sound_registry))
+    {
+      return item->event;
+    }
+  throw "FIXME";
+}
+
+const std::string
+SoundTheme::sound_event_to_id(SoundEvent event)
+{
+  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.event == event; });
+  if (item != std::end(sound_registry))
+    {
+      return item->id;
+    }
+  throw "FIXME";
+}
+
+const std::string
+SoundTheme::sound_event_to_friendly_name(SoundEvent event)
+{
+  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.event == event; });
+  if (item != std::end(sound_registry))
+    {
+      return item->friendly_name;
+    }
+  throw "FIXME";
+}
 
 SoundTheme::Ptr
 SoundTheme::create()
@@ -115,126 +219,61 @@ SoundTheme::~SoundTheme()
 {
 }
 
-
 void
 SoundTheme::init()
 {
   player->init();
+  load_themes();
   register_sound_events();
 }
 
 void
-SoundTheme::register_sound_events(string theme_name)
+SoundTheme::register_sound_events()
 {
-  TRACE_ENTER_MSG("SoundTheme::register_sound_events", theme_name);
-  if (theme_name == "")
+  TRACE_ENTER("SoundTheme::register_sound_events");
+
+  ThemeInfo::Ptr theme = get_theme("default");
+  if (theme)
     {
-      theme_name = "default";
-    }
-
-  boost::filesystem::path path(theme_name);
-  path /= "soundtheme";
-  
-  string file = AssetPath::complete_directory(path.string(), AssetPath::SEARCH_PATH_SOUNDS);
-  TRACE_MSG(file);
-
-  Theme theme;
-  load_sound_theme(file, theme);
-  
-  activate_theme(theme, false);
-
-  TRACE_EXIT();
-}
-
-
-void
-SoundTheme::activate_theme(const Theme &theme, bool force)
-{
-  int idx = 0;
-  for (vector<string>::const_iterator it = theme.files.begin();
-       it != theme.files.end() && idx < SOUND_MAX;
-       it++)
-    {
-      const string &filename = *it;
-      string current_filename = GUIConfig::sound_event(sound_registry[idx].id)();
-
-      boost::filesystem::path path(current_filename);
-      
-      if (force || !boost::filesystem::is_regular_file(path))
+      for (SoundInfo sound : theme->sounds)
         {
-          set_sound_wav_file((SoundEvent)idx, filename);
-        }
-
-      idx++;
-    }
-}
-
-void
-SoundTheme::load_sound_theme(const string &themefilename, Theme &theme)
-{
-  TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themefilename);
-
-  try
-    {
-      bool is_current = true;
-
-      boost::filesystem::path path(themefilename);
-      boost::filesystem::path themedir = path.parent_path();
-  
-      boost::property_tree::ptree pt;
-      boost::property_tree::ini_parser::read_ini(themefilename, pt);
-
-      theme.description = pt.get<std::string>("general.description");
-
-      int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
-      for (int i = 0; i < size; i++)
-        {
-          SoundRegistry *snd = &sound_registry[i];
-
-          string item = boost::str(boost::format("%1%.file") % snd->id);
-          string filename = pt.get<std::string>(item);
-
-          boost::filesystem::path soundpath(themedir);
-          soundpath /= filename;
-
-          soundpath = canonical(soundpath);
-
-          if (is_current)
+          boost::filesystem::path path(SoundTheme::sound_event(sound.event)());
+          if (!boost::filesystem::is_regular_file(path))
             {
-              string current = GUIConfig::sound_event(snd->id)();
-              if (current != soundpath.string())
-                {
-                  is_current = false;
-                }
+              SoundTheme::sound_event(sound.event).set(sound.filename);
             }
-
-          theme.files.push_back(soundpath.string());
-
-          theme.active = is_current;
         }
-      TRACE_MSG(is_current);
-    }
-  catch (boost::exception &)
-    {
-      theme.active = false;
     }
 
   TRACE_EXIT();
 }
 
+void
+SoundTheme::activate_theme(const std::string &theme_id)
+{
+  TRACE_ENTER_MSG("SoundTheme::activate_theme", theme_id);
+  ThemeInfo::Ptr theme = get_theme(theme_id);
+  if (theme)
+    {
+      for (SoundInfo sound : theme->sounds)
+        {
+          TRACE_MSG("activating " << sound.event << " " << sound.filename);
+          SoundTheme::sound_event(sound.event).set(sound.filename);
+        }
+    }
+  TRACE_EXIT();
+}
 
 void
-SoundTheme::get_sound_themes(std::vector<Theme> &themes)
+SoundTheme::load_themes()
 {
   TRACE_ENTER("SoundTheme::get_sound_themes");
-  set<string> searchpath = AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS);
-  bool has_active = false;
 
-  for (const auto & dirname : searchpath)
+  for (const auto &dirname : AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
     {
       boost::filesystem::path dirpath(dirname);
 
-      if (! boost::filesystem::is_directory(dirpath))
+      if (!boost::filesystem::is_directory(dirpath))
         {
           continue;
         }
@@ -244,136 +283,125 @@ SoundTheme::get_sound_themes(std::vector<Theme> &themes)
         {
           if (boost::filesystem::is_directory(it->status()))
             {
-              boost::filesystem::path file = it->path();
-              file /= "soundtheme";
-              
-              if (boost::filesystem::is_regular_file(file))
+              ThemeInfo::Ptr theme = load_sound_theme(it->path().string());
+              if (theme)
                 {
-                  Theme theme;
-                  
-                  load_sound_theme(file.string(), theme);
                   themes.push_back(theme);
-                  
-                  if (theme.active)
-                    {
-                      has_active = true;
-                    }
                 }
             }
-        }
-    }
-
-  if (!has_active)
-    {
-      Theme active_theme;
-
-      active_theme.active = true;
-      active_theme.description = _("Custom");
-
-      bool valid = true;
-      for (unsigned int i = 0; valid && i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
-        {
-          SoundRegistry *snd = &sound_registry[i];
-          string file = GUIConfig::sound_event(snd->id)();
-          if (file != "")
-            {
-              active_theme.files.push_back(file);
-            }
-        }
-
-      if (valid)
-        {
-          themes.push_back(active_theme);
         }
     }
 
   TRACE_EXIT();
 }
 
-bool
-SoundTheme::is_enabled()
+SoundTheme::ThemeInfo::Ptr
+SoundTheme::load_sound_theme(const string &themedir)
 {
-  return GUIConfig::sound_enabled()();
-}
-
-void
-SoundTheme::set_enabled(bool b)
-{
-  GUIConfig::sound_enabled().set(b);
-}
-
-bool
-SoundTheme::get_sound_enabled(SoundEvent snd)
-{
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
+  TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themedir);
+  ThemeInfo::Ptr theme(new ThemeInfo);
+  
+  try
     {
-      return GUIConfig::sound_event_enabled(sound_registry[snd].id)();
+      boost::filesystem::path file = themedir;
+      file /= "soundtheme";
+              
+      boost::filesystem::path path(themedir);
+  
+      boost::property_tree::ptree pt;
+      boost::property_tree::ini_parser::read_ini(file.string(), pt);
+      
+      theme->theme_id = path.stem().string();
+      theme->description = pt.get<std::string>("general.description");
+      TRACE_MSG("id = " << theme->theme_id);
+      TRACE_MSG("descr = " << theme->description);
+          
+      for (SoundRegistry &snd : sound_registry)
+        {
+          string filename = pt.get<std::string>(snd.id + ".file");
+              
+          boost::filesystem::path soundpath(themedir);
+          soundpath /= filename;
+          soundpath = canonical(soundpath);
+              
+          SoundInfo sound_info;
+          sound_info.event = sound_id_to_event(snd.id);
+          sound_info.filename = soundpath.string();
+          theme->sounds.push_back(sound_info);
+        }
+    }
+  catch (boost::exception &)
+    {
+      theme.reset();
     }
 
-  return false;
+  TRACE_EXIT();
+  return theme;
 }
 
-void
-SoundTheme::set_sound_enabled(SoundEvent snd, bool enabled)
+SoundTheme::ThemeInfos
+SoundTheme::get_themes()
 {
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
-    {
-      GUIConfig::sound_event_enabled(sound_registry[snd].id).set(enabled);
-    }
+  return themes;
 }
 
-
-string
-SoundTheme::get_sound_wav_file(SoundEvent snd)
+SoundTheme::ThemeInfo::Ptr
+SoundTheme::get_active_theme()
 {
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
+   for (SoundTheme::ThemeInfo::Ptr theme : themes)
     {
-      return GUIConfig::sound_event(sound_registry[snd].id)();
+      bool is_current = true;
+      for (SoundInfo sound : theme->sounds)
+        {
+          if (sound.filename != SoundTheme::sound_event(sound.event)())
+            {
+              is_current = false;
+              break;
+            }
+        }
+      if (is_current)
+        {
+          return theme;
+        }
     }
-  return "";
+
+  return ThemeInfo::Ptr();
 }
 
-void
-SoundTheme::set_sound_wav_file(SoundEvent snd, const string &wav_file)
+SoundTheme::ThemeInfo::Ptr 
+SoundTheme::get_theme(const std::string &theme_id)
 {
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
+  ThemeInfos::iterator it = std::find_if(themes.begin(), themes.end(), [&] (ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
+  if (it != themes.end())
     {
-      GUIConfig::sound_event(sound_registry[snd].id).set(wav_file);
+      return *it;
     }
+
+  return ThemeInfo::Ptr();
 }
 
 void
 SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
 {
   TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
-    {
-      bool enabled = get_sound_enabled(snd);
+  bool enabled = SoundTheme::sound_event_enabled(snd)();
 
-      if (enabled)
+  if (enabled)
+    {
+      string filename = SoundTheme::sound_event(snd)();
+      if (filename != "")
         {
-          string filename = get_sound_wav_file(snd);
-          int volume = GUIConfig::sound_volume()();
-          
-          if (filename != "")
-            {
-              player->play_sound(snd, filename, mute_after_playback, volume);
-            }
+          player->play_sound(filename, mute_after_playback, SoundTheme::sound_volume()());
         }
     }
+
   TRACE_EXIT();
 }
-
 
 void
 SoundTheme::play_sound(string wavfile)
 {
-  TRACE_ENTER("SoundPlayer::play_sound");
-
-  int volume = GUIConfig::sound_volume()();
-  
-  player->play_sound(wavfile, volume);
-  TRACE_EXIT();
+  player->play_sound(wavfile, false, SoundTheme::sound_volume()());
 }
 
 void

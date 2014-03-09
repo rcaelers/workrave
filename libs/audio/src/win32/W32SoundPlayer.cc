@@ -53,19 +53,9 @@ W32SoundPlayer::~W32SoundPlayer()
 }
 
 
-void
-W32SoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
-{
-}
-
-
 bool
 W32SoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_EDIT)
-    {
-      return true;
-    }
   if (cap == workrave::audio::SOUND_CAP_VOLUME)
     {
       return true;

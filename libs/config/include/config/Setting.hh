@@ -87,17 +87,14 @@ namespace workrave
     public:
       explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting) , has_default_value(false)
       {
-        std::cout << "Setting: " << setting<< std::endl;
       }
 
       Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting, R default_value) : config(config), setting(setting) , has_default_value(true), default_value(default_value)
       {
-        std::cout << "Setting: " << setting<< std::endl;
       }
 
       virtual ~Setting()
       {
-        std::cout << "~Setting: " << setting<< std::endl;
       }
 
       const std::string key() const

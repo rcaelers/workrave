@@ -25,6 +25,7 @@
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave::input_monitor;
 

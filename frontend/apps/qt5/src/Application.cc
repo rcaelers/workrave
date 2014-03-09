@@ -614,20 +614,20 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
   {
     BreakId id;
     BreakEvent break_event;
-    workrave::audio::SoundEvent sound_event;
+    SoundEvent sound_event;
   } event_mappings[] =
       {
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      workrave::audio::SOUND_MICRO_BREAK_STARTED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     workrave::audio::SOUND_MICRO_BREAK_ENDED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      workrave::audio::SOUND_REST_BREAK_STARTED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     workrave::audio::SOUND_REST_BREAK_ENDED },
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    workrave::audio::SOUND_BREAK_PRELUDE},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   workrave::audio::SOUND_BREAK_IGNORED},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      workrave::audio::SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      SoundEvent::MicroBreakStarted },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     SoundEvent::MicroBreakEnded },
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      SoundEvent::RestBreakStarted },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     SoundEvent::RestBreakEnded },
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      SoundEvent::MicroBreakEnded },
       };
 
   for (auto &event_mapping : event_mappings)
@@ -635,10 +635,10 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
       if (event_mapping.id == break_id && event_mapping.break_event == event)
         {
           bool mute = false;
-          workrave::audio::SoundEvent snd = event_mapping.sound_event;
+          SoundEvent snd = event_mapping.sound_event;
           TRACE_MSG("play " << static_cast<std::underlying_type<BreakEvent>::type>(event));
 
-          mute = GUIConfig::sound_mute()();
+          mute = SoundTheme::sound_mute()();
           if (mute)
             {
               muted = true;

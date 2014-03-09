@@ -28,63 +28,110 @@
 #include <boost/shared_ptr.hpp>
 
 #include "config/IConfigurator.hh"
+#include "config/Setting.hh"
 #include "audio/ISoundPlayer.hh"
+
+enum class SoundEvent
+  {
+    BreakPrelude,
+    BreakIgnored,
+    RestBreakStarted,
+    RestBreakEnded,
+    MicroBreakStarted,
+    MicroBreakEnded,
+    DailyLimit,
+    ExerciseEnded,
+    ExercisesEnded,
+    ExerciseStep,
+  };
 
 class SoundTheme
 {
 public:
-  class Theme
+  static workrave::config::Setting<bool> &sound_enabled();
+  static workrave::config::Setting<std::string> &sound_device();
+  static workrave::config::Setting<int> &sound_volume();
+  static workrave::config::Setting<bool> &sound_mute();
+  static workrave::config::Setting<std::string> &sound_event(SoundEvent event);
+  static workrave::config::Setting<bool> &sound_event_enabled(SoundEvent event);
+
+  class SoundInfo
   {
   public:
-    std::string description;
-    std::vector<std::string> files;
-    bool active;
-  };
-  
-  struct SoundRegistry
-  {
-    const char *id;
-    const char *friendly_name;
+    SoundEvent event;
+    std::string filename;
   };
 
+  class ThemeInfo
+  {
+  public:
+    typedef boost::shared_ptr<ThemeInfo> Ptr;
+
+    std::string theme_id;
+    std::string description;
+    std::vector<SoundInfo> sounds;
+  };
+  typedef std::list<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
+  
   typedef boost::shared_ptr<SoundTheme> Ptr;
-      
   static Ptr create();
   
   SoundTheme();
   virtual ~SoundTheme();
 
   void init();
-
-  void play_sound(workrave::audio::SoundEvent snd, bool mute_after_playback = false);
+  void play_sound(SoundEvent snd, bool mute_after_playback = false);
   void play_sound(std::string wavfile);
   void restore_mute();
   bool capability(workrave::audio::SoundCapability cap);
   
-  bool is_enabled();
-  void set_enabled(bool enabled);
+  ThemeInfo::Ptr get_active_theme();
+  ThemeInfo::Ptr get_theme(const std::string &theme_id);
+  ThemeInfos get_themes();
 
-  bool get_sound_enabled(workrave::audio::SoundEvent snd);
-  void set_sound_enabled(workrave::audio::SoundEvent snd, bool enabled);
-  std::string get_sound_wav_file(workrave::audio::SoundEvent snd);
-  void set_sound_wav_file(workrave::audio::SoundEvent snd, const std::string &wav_file);
+  void activate_theme(const std::string &theme_id);
 
-  void get_sound_themes(std::vector<Theme> &themes);
-  void load_sound_theme(const std::string &path, Theme &theme);
-  void activate_theme(const Theme &theme, bool force = true);
+  static SoundEvent sound_id_to_event(const std::string &id);
+  static const std::string sound_event_to_id(SoundEvent event);
+  static const std::string sound_event_to_friendly_name(SoundEvent event);
+  
+private:
+  void load_themes();
+  ThemeInfo::Ptr load_sound_theme(const std::string &themedir);
+  void register_sound_events();
 
 #ifdef PLATFORM_OS_WIN32  
   void win32_remove_deprecated_appevents();
 #endif
-  
-private:
-  void register_sound_events(std::string theme = "");
 
-public:
-  static SoundRegistry sound_registry[workrave::audio::SOUND_MAX];
+  static workrave::config::Setting<std::string> &sound_event(const std::string &event);
+  static workrave::config::Setting<bool> &sound_event_enabled(const std::string &event);
 
 private:
   workrave::audio::ISoundPlayer::Ptr player;
+  SoundTheme::ThemeInfos themes;
+  
+  struct SoundRegistry
+  {
+    SoundEvent event;
+    std::string id;
+    std::string friendly_name;
+  };
+
+  static SoundRegistry sound_registry[];
+
+  static const std::string CFG_KEY_SOUND_ENABLED;
+  static const std::string CFG_KEY_SOUND_DEVICE;
+  static const std::string CFG_KEY_SOUND_VOLUME;
+  static const std::string CFG_KEY_SOUND_EVENT;
+  static const std::string CFG_KEY_SOUND_EVENT_ENABLED;
+  static const std::string CFG_KEY_SOUND_MUTE;
 };
+
+inline std::ostream& operator<<(std::ostream& stream, SoundEvent event)
+{
+  stream << SoundTheme::sound_event_to_id(event);
+  return stream;
+}
 
 #endif // SOUNDTHEME_HH

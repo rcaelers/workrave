@@ -58,16 +58,8 @@ public:
   static workrave::config::Setting<int> &timerbox_imminent(const std::string &box, workrave::BreakId break_id);
   static workrave::config::Setting<bool> &timerbox_enabled(const std::string &box);
 
-  static workrave::config::Setting<bool> &sound_enabled();
-  static workrave::config::Setting<std::string> &sound_device();
-  static workrave::config::Setting<int> &sound_volume();
-  static workrave::config::Setting<bool> &sound_mute();
-  static workrave::config::Setting<std::string> &sound_event(const std::string &event);
-  static workrave::config::Setting<bool> &sound_event_enabled(const std::string &event);
-
   static workrave::config::SettingGroup &key_main_window();
   static workrave::config::SettingGroup &key_timerbox(const std::string &box);
-  //static workrave::config::SettingGroup &key_sound_events();
 
   static void init();
 
@@ -96,13 +88,6 @@ private:
   static const std::string CFG_KEY_TIMERBOX_IMMINENT;
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
 
-  static const std::string CFG_KEY_SOUND_ENABLED;
-  static const std::string CFG_KEY_SOUND_DEVICE;
-  static const std::string CFG_KEY_SOUND_VOLUME;
-  static const std::string CFG_KEY_SOUND_EVENT;
-  static const std::string CFG_KEY_SOUND_EVENT_ENABLED;
-  static const std::string CFG_KEY_SOUND_MUTE;
- 
 private:
   static std::string expand(const std::string &str, workrave::BreakId id);
 };

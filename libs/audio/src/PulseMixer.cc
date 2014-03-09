@@ -1,5 +1,3 @@
-// PulseMixer.cc --- PulseAudio mixer
-//
 // Copyright (C) 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

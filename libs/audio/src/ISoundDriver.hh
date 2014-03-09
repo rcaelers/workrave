@@ -1,6 +1,4 @@
-// ISoundDriver.hh
-//
-// Copyright (C) 2002 - 2010, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,14 +30,7 @@ public:
   virtual ~ISoundDriver() {}
 
   virtual void init(ISoundPlayerEvents *events = NULL) = 0;
-
-  //!
   virtual bool capability(workrave::audio::SoundCapability cap) = 0;
-
-  //! Plays sound, returns immediately.
-  virtual void play_sound(workrave::audio::SoundEvent snd, int volume) = 0;
-
-  //! Plays sound, returns immediately.
   virtual void play_sound(std::string wavfile, int volume) = 0;
 };
 

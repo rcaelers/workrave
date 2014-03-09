@@ -30,6 +30,32 @@
 #include <Cocoa/Cocoa.h>
 #include <QTKit/QTKit.h>
 
+@interface SoundDelegate : NSObject<NSSoundDelegate>
+{
+  OSXSoundPlayer *m_player;
+}
+
+- (id) initWithPlayer:(OSXSoundPlayer*)player;
+- (void)sound: (NSSound*)sound didFinishPlaying: (BOOL)finishedPlaying;
+@end
+
+@implementation SoundDelegate : NSObject
+
+- (id) initWithPlayer:(OSXSoundPlayer*)player
+{
+  self = [super init];
+  if (self) {
+    m_player = player;
+  }
+  return self;
+}
+
+- (void) sound: (NSSound *) sound didFinishPlaying: (BOOL) aBool
+{
+  m_player->fire_eos();
+}
+@end
+
 OSXSoundPlayer::OSXSoundPlayer()
 {
   soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -42,10 +68,21 @@ OSXSoundPlayer::~OSXSoundPlayer()
   [soundDictionary release];
 }
 
+void
+OSXSoundPlayer::init(ISoundPlayerEvents *events)
+{
+  this->events = events;
+}
+
+
 bool
 OSXSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_EDIT)
+  if (cap == workrave::audio::SOUND_CAP_VOLUME)
+    {
+      return true;
+    }
+  if (cap == workrave::audio::SOUND_CAP_EOS_EVENT)
     {
       return true;
     }
@@ -54,25 +91,23 @@ OSXSoundPlayer::capability(workrave::audio::SoundCapability cap)
 
 
 void
-OSXSoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
-{
-  (void) snd;
-  (void) volume;
-}
-
-
-void
 OSXSoundPlayer::play_sound(std::string file, int volume)
 {
-  (void) volume;
-
   NSString* filename = [NSString stringWithUTF8String: file.c_str()];
   NSSound *sound = [soundDictionary objectForKey:filename];
   if (sound == nil) 
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
+      [sound setDelegate: [[SoundDelegate alloc] initWithPlayer: this]]; // FIXME: leak?
       [soundDictionary setObject:sound forKey:filename];
     }
+  [sound setVolume: (float)(volume / 100.0)];
   [sound stop];
   [sound play];
+}
+
+void 
+OSXSoundPlayer::fire_eos()
+{
+  events->eos_event();
 }

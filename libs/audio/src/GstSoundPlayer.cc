@@ -1,6 +1,4 @@
-// GstSoundPlayer.cc --- Sound player
-//
-// Copyright (C) 2002 - 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,8 +26,6 @@
 #include "GstSoundPlayer.hh"
 #include "ISoundPlayerEvents.hh"
 
-#include <debug.hh>
-
 using namespace std;
 
 GstSoundPlayer::GstSoundPlayer()
@@ -40,13 +36,10 @@ GstSoundPlayer::GstSoundPlayer()
   gst_ok = gst_init_check(NULL, NULL, &error);
 	gst_registry_fork_set_enabled(FALSE);
 
-  if (!gst_ok)
+  if (error != NULL)
     {
-      if (error)
-        {
-          g_error_free(error);
-          error = NULL;
-        }
+      g_error_free(error);
+      error = NULL;
     }
 }
 
@@ -60,7 +53,6 @@ GstSoundPlayer::~GstSoundPlayer()
   TRACE_EXIT();
 }
 
-
 void
 GstSoundPlayer::init(ISoundPlayerEvents *events)
 {
@@ -70,10 +62,6 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_EDIT)
-    {
-      return true;
-    }
   if (cap == workrave::audio::SOUND_CAP_VOLUME)
     {
       return true;
@@ -85,16 +73,6 @@ GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 
   return false;
 }
-
-void
-GstSoundPlayer::play_sound(workrave::audio::SoundEvent snd, int volume)
-{
-  (void) snd;
-  (void) volume;
-  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", snd);
-  TRACE_EXIT();
-}
-
 
 void
 GstSoundPlayer::play_sound(std::string wavfile, int volume)

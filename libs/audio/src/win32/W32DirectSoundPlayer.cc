@@ -81,19 +81,9 @@ W32DirectSoundPlayer::init(ISoundPlayerEvents *events)
 }
 
 
-void
-W32DirectSoundPlayer::play_sound(SoundEvent snd, int volume)
-{
-}
-
-
 bool
 W32DirectSoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SOUND_CAP_EDIT)
-    {
-      return true;
-    }
   if (cap == SOUND_CAP_VOLUME)
     {
       return true;

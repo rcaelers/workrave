@@ -1,5 +1,3 @@
-// GstSoundPlayer.hh
-//
 // Copyright (C) 2008, 2009, 2010, 2013 Rob Caelers
 // All rights reserved.
 //
@@ -20,9 +18,9 @@
 #ifndef GSTSOUNDPLAYER_HH
 #define GSTSOUNDPLAYER_HH
 
-#include "ISoundDriver.hh"
-
 #ifdef HAVE_GSTREAMER
+
+#include "ISoundDriver.hh"
 
 #include <gst/gst.h>
 
@@ -34,16 +32,12 @@ public:
 
   void init(ISoundPlayerEvents *events);
   bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
 
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
-  //! GStreamer init OK.
   gboolean gst_ok;
-
-  //!
   ISoundPlayerEvents *events;
 
   struct WatchData

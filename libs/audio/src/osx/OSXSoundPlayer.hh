@@ -31,14 +31,19 @@ public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
   
-  void init(ISoundPlayerEvents *) {}
+  void init(ISoundPlayerEvents *);
   bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
+
+  void fire_eos();
+
+private:
+  ISoundPlayerEvents *events;
 
 #ifdef __OBJC__
   NSMutableDictionary *soundDictionary;
 #endif
 };
+
 
 #endif // OSXSOUNDPLAYER_HH

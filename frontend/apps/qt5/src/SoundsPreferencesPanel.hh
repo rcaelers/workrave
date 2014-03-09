@@ -35,15 +35,16 @@ public:
   virtual ~SoundsPreferencesPanel();
 
 private:
-  bool on_enabled_changed(const std::string &key, bool write);
-
   void on_sound_theme_changed(int index);
   void on_sound_item_activated(const QModelIndex & index);
   void on_select_sound();
   void on_play_sound();
   void on_sound_selected(const QString &filename);
+  void on_sound_item_changed(QStandardItem *item);
 
   void update_theme_selection();
+
+  SoundEvent currentEvent() const;
 
 private:
   SoundTheme::Ptr sound_theme;

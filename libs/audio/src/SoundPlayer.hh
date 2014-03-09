@@ -20,13 +20,6 @@
 #ifndef SOUNDPLAYER_HH
 #define SOUNDPLAYER_HH
 
-#include <string>
-#include <list>
-#include <vector>
-#include <map>
-
-#include "config/IConfigurator.hh"
-
 #include "ISoundDriver.hh"
 
 class IMixer;
@@ -37,8 +30,7 @@ public:
   SoundPlayer();
   virtual ~SoundPlayer();
 
-  void play_sound(workrave::audio::SoundEvent snd, const std::string &wavfile, bool mute_after_playback, int volume);
-  void play_sound(const std::string &wavfile, int volume);
+  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume);
 
   void init();
   bool capability(workrave::audio::SoundCapability cap);

@@ -35,7 +35,6 @@ public:
 
   void init(ISoundPlayerEvents *events);
   bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(workrave::audio::SoundEvent snd, int volume);
   void play_sound(std::string wavfile, int volume);
 
 private:

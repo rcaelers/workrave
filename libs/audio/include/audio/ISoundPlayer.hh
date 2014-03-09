@@ -29,26 +29,8 @@ namespace workrave
 {
   namespace audio
   {
-    enum SoundEvent
-      {
-        SOUND_MIN = 0,
-        SOUND_BREAK_PRELUDE = 0,
-        SOUND_BREAK_IGNORED,
-        SOUND_REST_BREAK_STARTED,
-        SOUND_REST_BREAK_ENDED,
-        SOUND_MICRO_BREAK_STARTED,
-        SOUND_MICRO_BREAK_ENDED,
-        SOUND_DAILY_LIMIT,
-        SOUND_EXERCISE_ENDED,
-        SOUND_EXERCISES_ENDED,
-        SOUND_EXERCISE_STEP,
-        SOUND_MAX
-      };
-    
     enum SoundCapability
       {
-        SOUND_CAP_EVENTS = 0,
-        SOUND_CAP_EDIT,
         SOUND_CAP_VOLUME,
         SOUND_CAP_MUTE,
         SOUND_CAP_EOS_EVENT
@@ -63,8 +45,7 @@ namespace workrave
       
       virtual ~ISoundPlayer() {}
       
-      virtual void play_sound(SoundEvent snd, const std::string &wavfile, bool mute_after_playback, int volume) = 0;
-      virtual void play_sound(const std::string &wavfile, int volume) = 0;
+      virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
       
       virtual void init() = 0;
       virtual bool capability(SoundCapability cap) = 0;

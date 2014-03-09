@@ -1,5 +1,3 @@
-// PulseMixer.hh
-//
 // Copyright (C) 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -20,8 +18,6 @@
 #ifndef PULSEMIXER_HH
 #define PULSEMIXER_HH
 
-#include "IMixer.hh"
-
 #ifdef HAVE_PULSE
 
 #include <map>
@@ -29,6 +25,8 @@
 #include <pulse/pulseaudio.h>
 #include <pulse/stream.h>
 #include <pulse/glib-mainloop.h>
+
+#include "IMixer.hh"
 
 class PulseMixer : public IMixer
 {

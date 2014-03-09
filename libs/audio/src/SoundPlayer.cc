@@ -1,5 +1,3 @@
-// SoundPlayer.cc --- Sound player
-//
 // Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -113,55 +111,32 @@ SoundPlayer::init()
 }
 
 void
-SoundPlayer::play_sound(SoundEvent snd, const std::string &wavfile, bool mute_after_playback, int volume)
+SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, int volume)
 {
-  TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
-  if (snd >= SOUND_MIN && snd < SOUND_MAX)
-    {
-      delayed_mute = false;
-      if (mute_after_playback &&
-          mixer != NULL && driver != NULL &&
-          driver->capability(SOUND_CAP_EOS_EVENT))
-        {
-          delayed_mute = true;
-        }
+  TRACE_ENTER_MSG("SoundPlayer::play_sound ", mute_after_playback << " " << volume);
+  delayed_mute = false;
+  
+if (mute_after_playback &&
+    mixer != NULL && driver != NULL &&
+    driver->capability(SOUND_CAP_EOS_EVENT))
+  {
+    delayed_mute = true;
+  }
 
-      if (driver != NULL)
-        {
-          if (driver->capability(SOUND_CAP_EVENTS))
-            {
-              driver->play_sound(snd, volume);
-            }
-          else
-            {
-              if (wavfile != "")
-                {
-                  driver->play_sound(wavfile, volume);
-                }
-              else
-                {
-                  delayed_mute = false;
-                }
-            }
-        }
-    }
+ if (driver != NULL)
+   {
+     if (wavfile != "")
+       {
+         driver->play_sound(wavfile, volume);
+       }
+     else
+       {
+         delayed_mute = false;
+       }
+   }
 
   TRACE_EXIT();
 }
-
-
-void
-SoundPlayer::play_sound(const std::string &wavfile, int volume)
-{
-  TRACE_ENTER("SoundPlayer::play_sound");
-  if (driver != NULL)
-    {
-      driver->play_sound(wavfile, volume);
-    }
-
-  TRACE_EXIT();
-}
-
 
 bool
 SoundPlayer::capability(SoundCapability cap)
@@ -193,7 +168,6 @@ SoundPlayer::restore_mute()
 
   TRACE_EXIT();
 }
-
 
 void
 SoundPlayer::eos_event()
