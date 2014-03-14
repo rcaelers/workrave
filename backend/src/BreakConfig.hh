@@ -38,7 +38,6 @@ public:
   static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
   BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
-  virtual ~BreakConfig();
 
   bool is_microbreak_used_for_activity() const;
   bool is_enabled() const; 

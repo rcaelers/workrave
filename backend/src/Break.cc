@@ -54,10 +54,6 @@ Break::Break(BreakId break_id,
   break_dbus = BreakDBus::create(break_id, break_state_model, dbus);
 }
 
-Break::~Break()
-{
-}
-
 boost::signals2::signal<void(BreakEvent)> &
 Break::signal_break_event()
 {

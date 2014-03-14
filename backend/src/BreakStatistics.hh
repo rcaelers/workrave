@@ -38,7 +38,6 @@ public:
   static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
   BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
-  virtual ~BreakStatistics();
 
   void daily_reset();
   

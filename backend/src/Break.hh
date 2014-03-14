@@ -56,7 +56,6 @@ public:
         Statistics::Ptr statistics,
         workrave::dbus::IDBus::Ptr dbus,
         CoreHooks::Ptr hooks);
-  virtual ~Break();
 
   // IBreak
   virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
@@ -81,7 +80,6 @@ public:
   void force_start_break(BreakHint break_hint);
   void override(BreakId id);
   void daily_reset();
-
   bool is_microbreak_used_for_activity() const;
   
 private:
