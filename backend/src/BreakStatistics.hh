@@ -39,11 +39,11 @@ public:
 
   BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
+  void update();
   void daily_reset();
   
 private:
   void on_break_event(BreakEvent stage);
-  void update();
 
 private:
   BreakId break_id;

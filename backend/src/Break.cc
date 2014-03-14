@@ -136,6 +136,7 @@ void
 Break::process()
 {
   break_state_model->process();
+  break_statistics->update();
 }
 
 void
