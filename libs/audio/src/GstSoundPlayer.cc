@@ -80,23 +80,7 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile << " " << volume);
 
 	GstElement *play = NULL;
-	GstElement *sink = NULL;
-  GstBus *bus = NULL;
-
-  string method = "automatic";
-
-  if (method == "automatic")
-    {
-      sink = gst_element_factory_make("autoaudiosink", "sink");
-    }
-  else if (method == "esd")
-    {
-      sink = gst_element_factory_make("esdsink", "sink");
-    }
-  else if (method == "alsa")
-    {
-      sink = gst_element_factory_make("alsasink", "sink");
-    }
+  GstElement *sink = gst_element_factory_make("autoaudiosink", "sink");
 
   if (sink != NULL)
     {
@@ -109,7 +93,7 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
       watch_data->player = this;
       watch_data->play = play;
 
-      bus = gst_pipeline_get_bus(GST_PIPELINE(play));
+      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
 
       char *uri = g_strdup_printf("file://%s", wavfile.c_str());
