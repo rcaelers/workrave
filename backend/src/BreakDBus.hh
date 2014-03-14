@@ -20,7 +20,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "config/Config.hh"
 #include "dbus/IDBus.hh"
 #include "utils/ScopedConnections.hh"
 
