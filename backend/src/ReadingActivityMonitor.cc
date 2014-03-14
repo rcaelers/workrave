@@ -25,12 +25,12 @@
 #include "debug.hh"
 
 ReadingActivityMonitor::Ptr
-ReadingActivityMonitor::create(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
+ReadingActivityMonitor::create(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
 {
   return Ptr(new ReadingActivityMonitor(monitor, modes));
 }
 
-ReadingActivityMonitor::ReadingActivityMonitor(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes) :
+ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes) :
   monitor(monitor),
   modes(modes),
   suspended(false),

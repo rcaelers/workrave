@@ -45,13 +45,13 @@ static const int STATSVERSION = 4;
 using namespace workrave::utils;
 
 Statistics::Ptr
-Statistics::create(ActivityMonitor::Ptr monitor)
+Statistics::create(IActivityMonitor::Ptr monitor)
 {
   return Ptr(new Statistics(monitor));
 }
 
 //! Constructor
-Statistics::Statistics(ActivityMonitor::Ptr monitor) :
+Statistics::Statistics(IActivityMonitor::Ptr monitor) :
   monitor(monitor),
   current_day(NULL),
   been_active(false),

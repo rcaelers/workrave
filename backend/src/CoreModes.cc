@@ -27,13 +27,13 @@
 using namespace std;
 
 CoreModes::Ptr
-CoreModes::create(ActivityMonitor::Ptr monitor)
+CoreModes::create(IActivityMonitor::Ptr monitor)
 {
   return Ptr(new CoreModes(monitor));
 }
 
 
-CoreModes::CoreModes(ActivityMonitor::Ptr monitor) :
+CoreModes::CoreModes(IActivityMonitor::Ptr monitor) :
   operation_mode(OperationMode::Normal),
   operation_mode_regular(OperationMode::Normal),
   usage_mode(UsageMode::Normal),

@@ -25,8 +25,7 @@
 
 #include "utils/ScopedConnections.hh"
 
-#include "ActivityMonitor.hh"
-
+#include "IActivityMonitor.hh"
 #include "CoreTypes.hh"
 
 using namespace workrave;
@@ -36,9 +35,9 @@ class CoreModes
 public:
   typedef boost::shared_ptr<CoreModes> Ptr;
 
-  static CoreModes::Ptr create(ActivityMonitor::Ptr monitor);
+  static CoreModes::Ptr create(IActivityMonitor::Ptr monitor);
   
-  CoreModes(ActivityMonitor::Ptr monitor);
+  CoreModes(IActivityMonitor::Ptr monitor);
   virtual ~CoreModes();
   
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
@@ -72,7 +71,7 @@ private:
   UsageMode usage_mode;
 
   //!
-  ActivityMonitor::Ptr monitor;
+  IActivityMonitor::Ptr monitor;
   
   //! Operation mode changed notification.
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;

@@ -25,7 +25,7 @@
 #include "config/IConfigurator.hh"
 
 #include "IBreak.hh"
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 #include "Timer.hh"
 #include "CoreTypes.hh"
 #include "CoreHooks.hh"
@@ -57,13 +57,13 @@ public:
   static Ptr create(BreakId id,
                     IApp *app,
                     Timer::Ptr timer,
-                    ActivityMonitor::Ptr activity_monitor,
+                    IActivityMonitor::Ptr activity_monitor,
                     CoreHooks::Ptr hooks);
 
   BreakStateModel(BreakId id,
                   IApp *app,
                   Timer::Ptr timer,
-                  ActivityMonitor::Ptr activity_monitor,
+                  IActivityMonitor::Ptr activity_monitor,
                   CoreHooks::Ptr hooks);
   virtual ~BreakStateModel();
 
@@ -84,7 +84,6 @@ public:
 
   void set_max_number_of_preludes(int max_preludes);
   void set_enabled(bool enabled);
-
   
 private:
   void force_idle();
@@ -113,7 +112,7 @@ private:
   Timer::Ptr timer;
 
   //!
-  ActivityMonitor::Ptr activity_monitor;
+  IActivityMonitor::Ptr activity_monitor;
   
   CoreHooks::Ptr hooks;
 

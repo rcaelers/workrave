@@ -28,7 +28,7 @@
 
 #include "IBreak.hh"
 #include "IApp.hh"
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 #include "Timer.hh"
 #include "CoreConfig.hh"
 
@@ -39,7 +39,7 @@ BreakStateModel::Ptr
 BreakStateModel::create(BreakId id,
                         IApp *app,
                         Timer::Ptr timer,
-                        ActivityMonitor::Ptr activity_monitor,
+                        IActivityMonitor::Ptr activity_monitor,
                         CoreHooks::Ptr hooks)
 {
   return Ptr(new BreakStateModel(id, app, timer, activity_monitor, hooks));
@@ -50,7 +50,7 @@ BreakStateModel::create(BreakId id,
 BreakStateModel::BreakStateModel(BreakId id,
                                  IApp *app,
                                  Timer::Ptr timer,
-                                 ActivityMonitor::Ptr activity_monitor,
+                                 IActivityMonitor::Ptr activity_monitor,
                                  CoreHooks::Ptr hooks) :
   break_id(id),
   application(app),

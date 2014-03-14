@@ -25,7 +25,7 @@
 
 #include "Break.hh"
 #include "CoreModes.hh"
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 #include "Timer.hh"
 
 using namespace workrave;
@@ -38,9 +38,9 @@ public:
   typedef boost::shared_ptr<ReadingActivityMonitor> Ptr;
 
 public:
-  static Ptr create(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
+  static Ptr create(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
 
-  ReadingActivityMonitor(ActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
+  ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
   virtual ~ReadingActivityMonitor();
 
   void handle_break_event(BreakId break_id, BreakEvent event);
@@ -58,7 +58,7 @@ private:
 private:
   enum State { Idle, Active, Prelude, Taking };
     
-  ActivityMonitor::Ptr monitor;
+  IActivityMonitor::Ptr monitor;
   CoreModes::Ptr modes;
   bool suspended;
   bool forced_idle;

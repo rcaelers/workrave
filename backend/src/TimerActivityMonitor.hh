@@ -22,7 +22,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 #include "Timer.hh"
 
 class TimerActivityMonitor
@@ -31,9 +31,9 @@ public:
   typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
 
 public:
-  static Ptr create(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
+  static Ptr create(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
 
-  TimerActivityMonitor(ActivityMonitor::Ptr monitor, Timer::Ptr timer);
+  TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
   virtual ~TimerActivityMonitor();
 
   void suspend();
@@ -42,7 +42,7 @@ public:
   void force_idle();
 
 private:
-  ActivityMonitor::Ptr monitor;
+  IActivityMonitor::Ptr monitor;
   Timer::Ptr timer;
   bool suspended;
   bool forced_idle;

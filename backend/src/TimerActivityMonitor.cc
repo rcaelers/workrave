@@ -26,12 +26,12 @@
 #include "debug.hh"
 
 TimerActivityMonitor::Ptr
-TimerActivityMonitor::create(ActivityMonitor::Ptr monitor, Timer::Ptr timer)
+TimerActivityMonitor::create(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
 {
   return Ptr(new TimerActivityMonitor(monitor, timer));
 }
 
-TimerActivityMonitor::TimerActivityMonitor(ActivityMonitor::Ptr monitor, Timer::Ptr timer) :
+TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer) :
   monitor(monitor),
   timer(timer),
   suspended(false),

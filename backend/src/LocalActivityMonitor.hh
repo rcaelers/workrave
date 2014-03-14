@@ -23,7 +23,7 @@
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 
 #include "config/Config.hh"
 #include "utils/ScopedConnections.hh"
@@ -34,7 +34,7 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 
 class LocalActivityMonitor :
-  public ActivityMonitor,
+  public IActivityMonitor,
   public IInputMonitorListener
 {
 public:

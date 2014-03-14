@@ -41,7 +41,7 @@ using namespace workrave::dbus;
 
 BreaksControl::Ptr
 BreaksControl::create(IApp *app,
-                      ActivityMonitor::Ptr activity_monitor,
+                      IActivityMonitor::Ptr activity_monitor,
                       CoreModes::Ptr modes,
                       Statistics::Ptr statistics,
                       IDBus::Ptr dbus,
@@ -57,7 +57,7 @@ BreaksControl::create(IApp *app,
 
 
 BreaksControl::BreaksControl(IApp *app,
-                             ActivityMonitor::Ptr activity_monitor,
+                             IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
                              IDBus::Ptr dbus,

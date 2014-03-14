@@ -30,7 +30,7 @@ Break::Ptr
 Break::create(BreakId break_id,
               IApp *app,
               Timer::Ptr timer,
-              ActivityMonitor::Ptr activity_monitor,
+              IActivityMonitor::Ptr activity_monitor,
               Statistics::Ptr statistics,
               IDBus::Ptr dbus,
               CoreHooks::Ptr hooks)
@@ -41,7 +41,7 @@ Break::create(BreakId break_id,
 Break::Break(BreakId break_id,
              IApp *app,
              Timer::Ptr timer,
-             ActivityMonitor::Ptr activity_monitor,
+             IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
              IDBus::Ptr dbus,
              CoreHooks::Ptr hooks)

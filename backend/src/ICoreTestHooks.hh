@@ -32,7 +32,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "config/IConfigurator.hh"
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 #include "CoreTypes.hh"
 #include "Timer.hh"
 
@@ -44,7 +44,7 @@ public:
   typedef boost::shared_ptr<ICoreTestHooks> Ptr;
 
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
-  virtual boost::function<ActivityMonitor::Ptr()> &hook_create_monitor() = 0;
+  virtual boost::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
   virtual boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
 

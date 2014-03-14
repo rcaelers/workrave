@@ -1,5 +1,3 @@
-// ActivityMonitor.hh --- ActivityMonitor functionality
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -35,13 +33,13 @@ public:
   virtual bool action_notify() = 0;
 };
 
-class ActivityMonitor
+class IActivityMonitor
 {
 public:
-  typedef boost::shared_ptr<ActivityMonitor> Ptr;
+  typedef boost::shared_ptr<IActivityMonitor> Ptr;
 
 public:
-  virtual ~ActivityMonitor() {}
+  virtual ~IActivityMonitor() {}
 
   virtual void init() = 0;
   virtual void terminate() = 0;
@@ -52,4 +50,4 @@ public:
   virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 
-#endif // LOCALACTIVITYMONITOR_HH
+#endif // ACTIVITYMONITOR_HH

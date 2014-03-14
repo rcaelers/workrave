@@ -20,9 +20,9 @@
 #ifndef ACTIVITYMONITORSTUB_HH
 #define ACTIVITYMONITORSTUB_HH
 
-#include "ActivityMonitor.hh"
+#include "IActivityMonitor.hh"
 
-class ActivityMonitorStub : public ActivityMonitor
+class ActivityMonitorStub : public IActivityMonitor
 {
 public:
   typedef boost::shared_ptr<ActivityMonitorStub> Ptr;

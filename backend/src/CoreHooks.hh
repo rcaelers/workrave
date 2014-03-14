@@ -36,14 +36,14 @@ public:
   
 #ifdef HAVE_TESTS
   virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator();
-  virtual boost::function<ActivityMonitor::Ptr()> &hook_create_monitor();
+  virtual boost::function<IActivityMonitor::Ptr()> &hook_create_monitor();
   virtual boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state();
 #endif
   
 private:
 #ifdef HAVE_TESTS
   boost::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
-  boost::function<ActivityMonitor::Ptr()> create_monitor_hook;
+  boost::function<IActivityMonitor::Ptr()> create_monitor_hook;
   boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> load_timer_state_hook;
 #endif
 };

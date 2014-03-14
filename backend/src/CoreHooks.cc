@@ -52,7 +52,7 @@ CoreHooks::hook_create_configurator()
   return create_configurator_hook;
 }
 
-boost::function<ActivityMonitor::Ptr()> &
+boost::function<IActivityMonitor::Ptr()> &
 CoreHooks::hook_create_monitor()
 {
   return create_monitor_hook;

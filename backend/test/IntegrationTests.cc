@@ -509,7 +509,7 @@ public:
     return user_active;
   }
 
-  ActivityMonitor::Ptr on_create_monitor()
+  IActivityMonitor::Ptr on_create_monitor()
   {
     monitor = boost::make_shared<ActivityMonitorStub>();
     return monitor;
