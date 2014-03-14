@@ -70,8 +70,6 @@ TimerBoxView::~TimerBoxView()
 void
 TimerBoxView::init()
 {
-  TRACE_ENTER("TimerBoxView::init");
-
   layout = new QGridLayout();
   layout->setSpacing(2);
   layout->setContentsMargins(2, 2, 2, 2);

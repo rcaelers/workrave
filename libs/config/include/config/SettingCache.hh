@@ -30,7 +30,7 @@ namespace workrave
 {
   namespace config
   {
-    class SettingCache  : public boost::noncopyable
+    class SettingCache : public boost::noncopyable
     {
     public:
       template<typename T, typename S = T>

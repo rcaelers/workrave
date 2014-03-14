@@ -1,6 +1,4 @@
-// SoundPlayer.hh
-//
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 -  2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,11 +28,10 @@ public:
   SoundPlayer();
   virtual ~SoundPlayer();
 
-  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume);
-
   void init();
   bool capability(workrave::audio::SoundCapability cap);
   void restore_mute();
+  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume);
 
   void eos_event();
 

@@ -25,14 +25,13 @@
 #include <fstream>
 #include <sstream>
 
-#include "BreaksControl.hh"
-#include "TimerActivityMonitor.hh"
-
 #include "utils/AssetPath.hh"
 #include "utils/TimeSource.hh"
 #include "dbus/IDBus.hh"
 
+#include "BreaksControl.hh"
 #include "CoreConfig.hh"
+#include "TimerActivityMonitor.hh"
 
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
@@ -78,7 +77,6 @@ BreaksControl::~BreaksControl()
 {
   save_state();
 }
-
 
 void
 BreaksControl::init()
@@ -134,7 +132,6 @@ BreaksControl::stop_all_breaks()
         }
     }
 }
-
 
 //! Forces the start of the specified break.
 void
@@ -326,9 +323,6 @@ BreaksControl::set_insist_policy(InsistPolicy p)
     }
   TRACE_EXIT();
 }
-
-
-
 
 //! Excecute the insist policy.
 void

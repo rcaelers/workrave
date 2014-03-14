@@ -1,5 +1,3 @@
-// BreakStatistics.cc
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -33,8 +31,6 @@ BreakStatistics::create(BreakId break_id, BreakStateModel::Ptr break_state_model
   return Ptr(new BreakStatistics(break_id, break_state_model, timer, statistics));
 }
 
-
-//! Construct a new Break Controller.
 BreakStatistics::BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics) :
   break_id(break_id),
   break_state_model(break_state_model),
@@ -102,5 +98,3 @@ BreakStatistics::update()
   
   statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)timer->get_total_overdue_time());
 }
-
-

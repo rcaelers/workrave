@@ -28,6 +28,7 @@
 #endif
 #include "CoreModes.hh"
 
+using namespace workrave;
 using namespace workrave::dbus;
 
 CoreDBus::Ptr

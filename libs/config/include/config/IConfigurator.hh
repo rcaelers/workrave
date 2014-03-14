@@ -1,5 +1,3 @@
-// IConfigurator.hh -- Interface to the Workrave configuration
-//
 // Copyright (C) 2001 - 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

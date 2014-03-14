@@ -111,15 +111,13 @@ Core::init(IApp *app, const string &display_name)
   statistics->init();
   
   core_modes = CoreModes::create(monitor);
-
   core_dbus = CoreDBus::create(core_modes, dbus);
-  
+
   breaks_control = BreaksControl::create(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
 
   init_bus();
 }
-
 
 
 //! Initializes the configurator.

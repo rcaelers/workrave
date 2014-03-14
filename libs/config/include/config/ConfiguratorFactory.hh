@@ -1,5 +1,3 @@
-// ConfiguratorFactory.hh
-//
 // Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -26,7 +24,6 @@ namespace workrave
 {
   namespace config
   {
-    //! Factory that creates configurators
     class ConfiguratorFactory
     {
     public:
@@ -37,7 +34,6 @@ namespace workrave
           FormatNative
         };
       
-      //! Creates a link server of the specified type.
       static IConfigurator::Ptr create(Format fmt);
     };
   }

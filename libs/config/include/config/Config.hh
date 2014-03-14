@@ -1,5 +1,3 @@
-// ConfiguratorFactory.hh
-//
 // Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

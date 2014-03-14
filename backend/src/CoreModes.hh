@@ -18,6 +18,8 @@
 #ifndef COREMODES_HH
 #define COREMODES_HH
 
+#include <string>
+#include <map>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
@@ -26,8 +28,6 @@
 #include "ActivityMonitor.hh"
 
 #include "CoreTypes.hh"
-#include <string>
-#include <map>
 
 using namespace workrave;
 
