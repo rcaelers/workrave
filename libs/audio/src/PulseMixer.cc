@@ -19,12 +19,9 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_PULSE
-
 #include "debug.hh"
 
 #include "PulseMixer.hh"
-#include <debug.hh>
 
 using namespace std;
 
@@ -38,15 +35,9 @@ PulseMixer::PulseMixer()
 
 PulseMixer::~PulseMixer()
 {
-  TRACE_ENTER("PulseMixer::~PulseMixer");
-
   pa_context_unref(context);
   pa_glib_mainloop_free(pa_mainloop);
-
-  TRACE_EXIT();
 }
-
-
 
 bool
 PulseMixer::set_mute(bool on)
@@ -116,7 +107,6 @@ PulseMixer::init()
   TRACE_EXIT()
 }
 
-
 void
 PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *user_data)
 {
@@ -154,7 +144,6 @@ PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t
     }
   TRACE_EXIT();
 }
-
 
 void
 PulseMixer::context_state_cb(pa_context *c, void *user_data)
@@ -255,7 +244,6 @@ PulseMixer::set_default_sink_name(const char *name)
   TRACE_EXIT();
 }
 
-
 void
 PulseMixer::remove_sink(uint32_t index)
 {
@@ -303,4 +291,3 @@ PulseMixer::update_sink(const pa_sink_info &info)
 
   TRACE_EXIT();
 }
-#endif

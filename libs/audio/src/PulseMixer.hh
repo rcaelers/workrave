@@ -18,8 +18,6 @@
 #ifndef PULSEMIXER_HH
 #define PULSEMIXER_HH
 
-#ifdef HAVE_PULSE
-
 #include <map>
 
 #include <pulse/pulseaudio.h>
@@ -63,7 +61,5 @@ private:
   SinkInfo *default_sink_info;
   std::string default_sink_name;
 };
-
-#endif
 
 #endif // PULSEMIXER_HH

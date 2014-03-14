@@ -18,8 +18,6 @@
 #ifndef GSTSOUNDPLAYER_HH
 #define GSTSOUNDPLAYER_HH
 
-#ifdef HAVE_GSTREAMER
-
 #include "ISoundDriver.hh"
 
 #include <gst/gst.h>
@@ -46,7 +44,5 @@ private:
     GstElement *play;
   };
 };
-
-#endif
 
 #endif // GSTSOUNDPLAYER_HH

@@ -19,8 +19,6 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_GSTREAMER
-
 #include "debug.hh"
 
 #include "GstSoundPlayer.hh"
@@ -28,8 +26,7 @@
 
 using namespace std;
 
-GstSoundPlayer::GstSoundPlayer()
-  : gst_ok(false)
+GstSoundPlayer::GstSoundPlayer() : gst_ok(false)
 {
 	GError *error = NULL;
 
@@ -45,12 +42,10 @@ GstSoundPlayer::GstSoundPlayer()
 
 GstSoundPlayer::~GstSoundPlayer()
 {
-  TRACE_ENTER("GstSoundPlayer::~GstSoundPlayer");
   if (gst_ok)
     {
   		gst_deinit();
     }
-  TRACE_EXIT();
 }
 
 void
@@ -62,16 +57,8 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_VOLUME)
-    {
-      return true;
-    }
-  if (cap == workrave::audio::SOUND_CAP_EOS_EVENT)
-    {
-      return true;
-    }
-
-  return false;
+  return (cap == workrave::audio::SOUND_CAP_VOLUME ||
+          cap == workrave::audio::SOUND_CAP_EOS_EVENT)
 }
 
 void
@@ -98,7 +85,6 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 
       char *uri = g_strdup_printf("file://%s", wavfile.c_str());
 
-      TRACE_MSG((float)volume);
       gst_element_set_state(play, GST_STATE_NULL);
 
       g_object_set(G_OBJECT(play),
@@ -115,7 +101,6 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
   TRACE_EXIT();
 }
 
-
 gboolean
 GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
@@ -126,7 +111,7 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 
   (void) bus;
 
-  switch (GST_MESSAGE_TYPE (msg))
+  switch (GST_MESSAGE_TYPE(msg))
     {
     case GST_MESSAGE_ERROR:
       gst_message_parse_error(msg, &err, NULL);
@@ -160,5 +145,3 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 
   return ret;
 }
-
-#endif

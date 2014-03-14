@@ -33,8 +33,6 @@
 
 #if defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
-#elif defined PLATFORM_OS_UNIX
-#include <X11/Xlib.h>
 #elif defined PLATFORM_OS_WIN32
 #include <windows.h>
 #include "W32SoundPlayer.hh"
@@ -51,10 +49,6 @@
 using namespace workrave;
 using namespace workrave::audio;
 using namespace std;
-
-/**********************************************************************
- * SoundPlayer
- **********************************************************************/
 
 ISoundPlayer::Ptr
 ISoundPlayer::create()
@@ -113,27 +107,27 @@ SoundPlayer::init()
 void
 SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, int volume)
 {
-  TRACE_ENTER_MSG("SoundPlayer::play_sound ", mute_after_playback << " " << volume);
+  TRACE_ENTER_MSG("SoundPlayer::play_sound ", wavfile << " " << mute_after_playback << " " << volume);
   delayed_mute = false;
   
-if (mute_after_playback &&
-    mixer != NULL && driver != NULL &&
-    driver->capability(SOUND_CAP_EOS_EVENT))
-  {
-    delayed_mute = true;
-  }
+  if (mute_after_playback &&
+      mixer != NULL && driver != NULL &&
+      driver->capability(SOUND_CAP_EOS_EVENT))
+    {
+      delayed_mute = true;
+    }
 
- if (driver != NULL)
-   {
-     if (wavfile != "")
-       {
-         driver->play_sound(wavfile, volume);
-       }
-     else
-       {
-         delayed_mute = false;
-       }
-   }
+  if (driver != NULL)
+    {
+      if (wavfile != "")
+        {
+          driver->play_sound(wavfile, volume);
+        }
+      else
+        {
+          delayed_mute = false;
+        }
+    }
 
   TRACE_EXIT();
 }
@@ -159,28 +153,21 @@ SoundPlayer::capability(SoundCapability cap)
 void
 SoundPlayer::restore_mute()
 {
-  TRACE_ENTER("SoundPlayer::restore_mute");
-
   if (mixer != NULL && must_unmute)
     {
       mixer->set_mute(false);
     }
-
-  TRACE_EXIT();
 }
 
 void
 SoundPlayer::eos_event()
 {
-  TRACE_ENTER("SoundPlayer::eos_event");
   if (delayed_mute && mixer != NULL)
     {
-      TRACE_MSG("delayed muting");
       bool was_muted = mixer->set_mute(true);
       if (!was_muted)
         {
           must_unmute = true;
         }
     }
-  TRACE_EXIT();
 }
