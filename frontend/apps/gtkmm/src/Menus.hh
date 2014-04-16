@@ -20,10 +20,10 @@
 #ifndef MENUS_HH
 #define MENUS_HH
 
-#include <sigc++/trackable.h>
-#include <gtkmm/aboutdialog.h>
+#include <gtkmm.h>
 
 #include "ICore.hh"
+#include "SoundTheme.hh"
 
 class IGUI;
 class StatisticsDialog;
@@ -43,7 +43,7 @@ class Menus :
   public sigc::trackable
 {
 public:
-  Menus();
+  explicit Menus(SoundTheme::Ptr sound_theme);
   ~Menus();
 
   //! Menus items to be synced.
@@ -136,6 +136,8 @@ private:
   IMenu *menus[MENU_SIZEOF];
 
   Gtk::AboutDialog *about;
+
+  SoundTheme::Ptr sound_theme;
 };
 
 #endif // MENUS_HH

@@ -83,11 +83,13 @@ using namespace workrave::utils;
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-Menus::Menus() :
+Menus::Menus(SoundTheme::Ptr sound_theme) :
   statistics_dialog(NULL),
   preferences_dialog(NULL),
   exercises_dialog(NULL),
-  about(NULL)
+  about(NULL),
+  sound_theme(sound_theme)
+
 {
   gui = GUI::get_instance();
 
@@ -258,7 +260,7 @@ Menus::on_menu_preferences()
 {
   if (preferences_dialog == NULL)
     {
-      preferences_dialog = new PreferencesDialog();
+      preferences_dialog = new PreferencesDialog(sound_theme);
       preferences_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_preferences_response));
 
       preferences_dialog->run();
