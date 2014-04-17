@@ -58,7 +58,7 @@ bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
   return (cap == workrave::audio::SOUND_CAP_VOLUME ||
-          cap == workrave::audio::SOUND_CAP_EOS_EVENT)
+          cap == workrave::audio::SOUND_CAP_EOS_EVENT);
 }
 
 void
