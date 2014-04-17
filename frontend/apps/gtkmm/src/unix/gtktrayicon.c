@@ -33,15 +33,12 @@
 #include <cairo-xlib.h>
 
 #include "gtk/gtk.h"
+#ifdef HAVE_GTK3
 #include "gtk/gtkx.h"
+#endif
 #include "gdk/gdk.h"
 
-//#include "gtkintl.h"
-//#include "gtkprivate.h"
 #include "gtktrayicon.h"
-//#include "gtktestutils.h"
-//#include "gtkdebug.h"
-//#include "gtktypebuiltins.h"
 
 #define SYSTEM_TRAY_REQUEST_DOCK    0
 #define SYSTEM_TRAY_BEGIN_MESSAGE   1

@@ -28,11 +28,11 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/audio/include
   )
 
-if (HAVE_DBUS AND NOT HAVE_GTK)
-  dbus_generate(DBusGUI ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
-  set(SRC ${SRC}
-    ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
-  )
-endif()
+#if (HAVE_DBUS AND NOT HAVE_GTK)
+#  dbus_generate(DBusGUI ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
+#  set(SRC ${SRC}
+#    ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
+#  )
+#endif()
 
 add_library(workrave-frontend-common STATIC ${SRC})

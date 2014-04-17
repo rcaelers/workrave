@@ -1,13 +1,11 @@
-if (UNIX AND NOT APPLE)
+if (HAVE_GTK3 AND UNIX AND NOT APPLE)
 
   set(SRC
     timebar.c
     timerbox.c
     )
   
-  if (HAVE_GTK)
-    include_directories(${GTK_INCLUDE_DIRS})
-  endif()
+  include_directories(${GTK_INCLUDE_DIRS})
   
   include_directories(
     ${CMAKE_SOURCE_DIR}/frontend/applets/common/include
