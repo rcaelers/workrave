@@ -28,7 +28,7 @@
 #include <QLabel>
 
 #include "utils/AssetPath.hh"
-#include "UI.hh"
+#include "Ui.hh"
 #include "SizeGroup.hh"
 #include "TimerBoxView.hh"
 
