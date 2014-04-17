@@ -35,17 +35,12 @@ if (PLATFORM_OS_UNIX)
   set(SRC ${SRC}
     unix/GnomeAppletMenu.cc
     unix/GnomeAppletWindow.cc
+    unix/IndicatorAppletMenu.cc
     unix/Plug.cc
     unix/X11SystrayAppletWindow.cc
     unix/desktop-window.c
     unix/gtktrayicon.c
     )
-
-  if (WITH_INDICATOR)
-    set(SRC ${SRC}
-      unix/GnomeAppletMenu.cc
-      )
-  endif()
 
   include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/unix)
 endif()
