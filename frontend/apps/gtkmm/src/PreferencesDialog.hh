@@ -53,8 +53,8 @@ using namespace workrave;
 class PreferencesDialog : public HigDialog
 {
 public:
-  PreferencesDialog();
-  ~PreferencesDialog();
+  explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
+  virtual ~PreferencesDialog();
 
   int run();
 
@@ -107,17 +107,16 @@ private:
   {
   public:
     SoundModel()
-    { add(enabled); add(description); add(selectable); add(label); add(event); }
+    { add(enabled); add(description); add(selectable); add(label); }
 
     Gtk::TreeModelColumn<bool> enabled;
     Gtk::TreeModelColumn<Glib::ustring> description;
     Gtk::TreeModelColumn<bool> selectable;
     Gtk::TreeModelColumn<Glib::ustring> label;
-    Gtk::TreeModelColumn<int> event;
   };
 
+  SoundTheme::Ptr sound_theme;
   DataConnector *connector;
-  std::vector<SoundTheme::Theme> sound_themes;
   Gtk::TreeView sound_treeview;
   SoundModel sound_model;
   Glib::RefPtr<Gtk::ListStore> sound_store;

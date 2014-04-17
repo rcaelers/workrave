@@ -724,7 +724,7 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-  menus = new Menus();
+  menus = new Menus(sound_theme);
 
   // The main status window.
   main_window = new MainWindow();
@@ -868,17 +868,17 @@ GUI::on_break_event(BreakId break_id, BreakEvent event)
     SoundEvent sound_event;
   } event_map[] =
       {
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    SOUND_BREAK_PRELUDE },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   SOUND_BREAK_IGNORED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      SOUND_MICRO_BREAK_STARTED },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     SOUND_MICRO_BREAK_ENDED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    SOUND_BREAK_PRELUDE },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   SOUND_BREAK_IGNORED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      SOUND_REST_BREAK_STARTED },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     SOUND_REST_BREAK_ENDED },
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    SOUND_BREAK_PRELUDE},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   SOUND_BREAK_IGNORED},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      SOUND_MICRO_BREAK_ENDED },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      SoundEvent::MicroBreakStarted },
+        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     SoundEvent::MicroBreakEnded },
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
+        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      SoundEvent::RestBreakStarted },
+        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     SoundEvent::RestBreakEnded },
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored},
+        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      SoundEvent::MicroBreakEnded },
       };
 
   for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
@@ -888,7 +888,7 @@ GUI::on_break_event(BreakId break_id, BreakEvent event)
           SoundEvent snd = event_map[i].sound_event;
           TRACE_MSG("play " << event);
 
-          bool mute = GUIConfig::sound_mute()();
+          bool mute = SoundTheme::sound_mute()();
           if (mute)
             {
               muted = true;

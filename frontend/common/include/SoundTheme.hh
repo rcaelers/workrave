@@ -21,7 +21,6 @@
 #define SOUNDTHEME_HH
 
 #include <string>
-#include <list>
 #include <vector>
 #include <map>
 
@@ -71,7 +70,7 @@ public:
     std::string description;
     std::vector<SoundInfo> sounds;
   };
-  typedef std::list<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
+  typedef std::vector<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
   
   typedef boost::shared_ptr<SoundTheme> Ptr;
   static Ptr create();

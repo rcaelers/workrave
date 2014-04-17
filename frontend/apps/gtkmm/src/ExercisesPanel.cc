@@ -421,7 +421,7 @@ ExercisesPanel::refresh_sequence()
       if (exercise_time != 0)
         {
           SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
-          snd->play_sound(workrave::audio::SOUND_EXERCISE_STEP);
+          snd->play_sound(SoundEvent::ExerciseStep);
         }
     }
 
@@ -515,8 +515,8 @@ ExercisesPanel::heartbeat()
           on_stop();
         }
       snd->play_sound(stopped
-                      ? workrave::audio::SOUND_EXERCISES_ENDED
-                      : workrave::audio::SOUND_EXERCISE_ENDED);
+                      ? SoundEvent::ExercisesEnded
+                      : SoundEvent::ExerciseEnded);
     }
   else
     {

@@ -74,8 +74,9 @@ using namespace workrave::utils;
 
 using namespace std;
 
-PreferencesDialog::PreferencesDialog()
+PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : HigDialog(_("Preferences"), false, false),
+    sound_theme(sound_theme),
     sound_button(NULL),
     block_button(NULL),
     sound_theme_button(NULL),
@@ -340,7 +341,7 @@ PreferencesDialog::create_sounds_page()
   sound_button->append_text(_("Play sounds using sound card"));
 #endif
   int idx;
-  if (! snd->is_enabled())
+  if (! SoundTheme::sound_enabled()())
     {
       idx = 0;
     }
@@ -356,7 +357,7 @@ PreferencesDialog::create_sounds_page()
       // Volume
       sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
       sound_volume_scale->set_increments(1.0, 5.0);
-      connector->connect(GUIConfig::sound_volume(), dc::wrap(sound_volume_scale->get_adjustment()));
+      connector->connect(SoundTheme::sound_volume(), dc::wrap(sound_volume_scale->get_adjustment()));
 
       hig->add_label(_("Volume:"), *sound_volume_scale, true, true);
     }
@@ -369,127 +370,127 @@ PreferencesDialog::create_sounds_page()
       mute_cb = Gtk::manage(new Gtk::CheckButton
                             (_("Mute sounds during rest break and daily limit")));
 
-      connector->connect(GUIConfig::sound_mute(), dc::wrap(mute_cb));
+      connector->connect(SoundTheme::sound_mute(), dc::wrap(mute_cb));
 
       hig->add_widget(*mute_cb, true, true);
     }
 
-  if (snd->capability(workrave::audio::SOUND_CAP_EDIT))
+  // Sound themes
+  hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
+  panel->pack_start(*hig, true, true, 0);
+
+  sound_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
+
+  update_theme_selection();
+
+  sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_theme_changed));
+  hig->add_label(_("Sound Theme:"), *sound_theme_button);
+
+  sound_store = Gtk::ListStore::create(sound_model);
+  sound_treeview.set_model(sound_store);
+
+  SoundTheme::ThemeInfo::Ptr active_theme = snd->get_active_theme();
+
+  int item_count = 0;
+  for (SoundTheme::SoundInfo snd : active_theme->sounds)
     {
-      // Sound themes
-      hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
-      panel->pack_start(*hig, true, true, 0);
+      bool sound_enabled = SoundTheme::sound_event_enabled(snd.event)();
 
-      sound_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
+      Gtk::TreeModel::iterator iter = sound_store->append();
+      Gtk::TreeModel::Row row = *iter;
 
-      update_theme_selection();
+      row[sound_model.enabled] = sound_enabled;
+      row[sound_model.selectable] = true;
+      row[sound_model.description] = SoundTheme::sound_event_to_friendly_name(snd.event);
+      row[sound_model.label] = SoundTheme::sound_event_to_id(snd.event);
+    }
 
-      sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_theme_changed));
-      hig->add_label(_("Sound Theme:"), *sound_theme_button);
+  sound_treeview.set_rules_hint();
+  sound_treeview.set_search_column(sound_model.description.index());
 
-      sound_store = Gtk::ListStore::create(sound_model);
-      sound_treeview.set_model(sound_store);
+  int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
+  Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
 
-      for (unsigned int i = 0; i < workrave::audio::SOUND_MAX; i++)
-        {
-          Gtk::TreeModel::iterator iter = sound_store->append();
-          Gtk::TreeModel::Row row = *iter;
+  Gtk::CellRendererToggle *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
 
-          bool sound_enabled = snd->get_sound_enabled((workrave::audio::SoundEvent)i);
+  cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
+  column = sound_treeview.get_column(cols_count - 1);
+  column->set_fixed_width(40);
 
-          row[sound_model.enabled] = sound_enabled;
-          row[sound_model.selectable] = true;
-          row[sound_model.description] = _(SoundTheme::sound_registry[i].friendly_name);
-          row[sound_model.label] = SoundTheme::sound_registry[i].id;
-          row[sound_model.event] = i;
-        }
+  Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
+  sound_scroll->add(sound_treeview);
+  sound_scroll->set_size_request(-1, 200);
+  sound_treeview.set_size_request(-1, 200);
 
-      sound_treeview.set_rules_hint();
-      sound_treeview.set_search_column(sound_model.description.index());
+  hig->add_widget(*sound_scroll, true, true);
 
-      int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
-      Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
 
-      Gtk::CellRendererToggle *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
+  sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
+  hbox->pack_start(*sound_play_button, false, false, 0);
 
-      cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
-      column = sound_treeview.get_column(cols_count - 1);
-      column->set_fixed_width(40);
+  fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"),
+                                                    Gtk::FILE_CHOOSER_ACTION_OPEN
+                                                    ));
 
-      Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
-      sound_scroll->add(sound_treeview);
-      sound_scroll->set_size_request(-1, 200);
-      sound_treeview.set_size_request(-1, 200);
-
-      hig->add_widget(*sound_scroll, true, true);
-
-      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
-
-      sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
-      hbox->pack_start(*sound_play_button, false, false, 0);
-
-      fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"),
-                                                        Gtk::FILE_CHOOSER_ACTION_OPEN
-                                                        ));
-
-      hbox->pack_start(*fsbutton, true, true, 0);
+  hbox->pack_start(*fsbutton, true, true, 0);
 
 #ifdef HAVE_GTK3
-      filefilter = Gtk::FileFilter::create();
+  filefilter = Gtk::FileFilter::create();
 #else
-      filefilter = new Gtk::FileFilter();
+  filefilter = new Gtk::FileFilter();
 #endif
 
-      filefilter->set_name(_("Wavefiles"));
+  filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WIN32
-      filefilter->add_pattern("*.wav");
+  filefilter->add_pattern("*.wav");
 #else
-      filefilter->add_mime_type("audio/x-wav");
+  filefilter->add_mime_type("audio/x-wav");
 #endif
 #ifdef HAVE_GTK3
-      fsbutton->add_filter(filefilter);
+  fsbutton->add_filter(filefilter);
 #else
-      fsbutton->add_filter(*filefilter);
+  fsbutton->add_filter(*filefilter);
 #endif
 
-      hig->add_widget(*hbox);
+  hig->add_widget(*hbox);
 
-      Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
-      Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
+  Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
+  Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
 
-      selector_hbox->pack_end(*selector_playbutton, false, false, 0);
-      selector_playbutton->show();
-      fsbutton->set_extra_widget(*selector_hbox);
+  selector_hbox->pack_end(*selector_playbutton, false, false, 0);
+  selector_playbutton->show();
+  fsbutton->set_extra_widget(*selector_hbox);
 
-      cell->signal_toggled().connect(sigc::mem_fun(*this,
-                                                   &PreferencesDialog::on_sound_enabled));
+  cell->signal_toggled().connect(sigc::mem_fun(*this,
+                                               &PreferencesDialog::on_sound_enabled));
 
-      sound_play_button->signal_clicked().connect(sigc::mem_fun(*this,
-                                                                &PreferencesDialog::on_sound_play));
+  sound_play_button->signal_clicked().connect(sigc::mem_fun(*this,
+                                                            &PreferencesDialog::on_sound_play));
 
-      selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this,
-                                                                  &PreferencesDialog::on_sound_filechooser_play));
+  selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this,
+                                                              &PreferencesDialog::on_sound_filechooser_play));
 
 #if WR_CHECK_VERSION(GTKMM,2,22,0)
-      fsbutton->signal_file_set().connect(sigc::mem_fun(*this,
-                                                        &PreferencesDialog::on_sound_filechooser_select));
+  fsbutton->signal_file_set().connect(sigc::mem_fun(*this,
+                                                    &PreferencesDialog::on_sound_filechooser_select));
 #else
-      fsbutton->signal_selection_changed().connect(sigc::mem_fun(*this,
-                                                                 &PreferencesDialog::on_sound_filechooser_select));
+  fsbutton->signal_selection_changed().connect(sigc::mem_fun(*this,
+                                                             &PreferencesDialog::on_sound_filechooser_select));
 #endif
 
-      Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-      selection->signal_changed().connect(sigc::mem_fun(*this,
-                                                        &PreferencesDialog::on_sound_events_changed));
+  Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
+  selection->signal_changed().connect(sigc::mem_fun(*this,
+                                                    &PreferencesDialog::on_sound_events_changed));
 
-      Gtk::TreeModel::iterator iter = sound_store->children().begin();
-      if (iter)
-        {
-          selection->select(iter);
-        }
-
-      update_senstives();
+  Gtk::TreeModel::iterator iter = sound_store->children().begin();
+  if (iter)
+    {
+      selection->select(iter);
     }
+
+  update_senstives();
+  
 
   panel->set_border_width(12);
   return panel;
@@ -596,7 +597,7 @@ PreferencesDialog::on_sound_changed()
   SoundTheme::Ptr snd = gui->get_sound_theme();
   
   int idx = sound_button->get_active_row_number();
-  snd->set_enabled(idx > 0);
+  SoundTheme::sound_enabled().set(idx > 0);
   update_senstives();
 }
 
@@ -775,12 +776,10 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
   if (iter)
     {
       Gtk::TreeRow row = *iter;
+      string id = (Glib::ustring) row[sound_model.label];
+      SoundEvent event = SoundTheme::sound_id_to_event(id);
 
-      IGUI *gui = GUI::get_instance();
-      SoundTheme::Ptr snd = gui->get_sound_theme();
-
-      snd->set_sound_enabled((workrave::audio::SoundEvent)(int)row[sound_model.event],
-                             row[sound_model.enabled]);
+      SoundTheme::sound_event_enabled(event).set(row[sound_model.enabled]);
     }
 }
 
@@ -795,8 +794,10 @@ PreferencesDialog::on_sound_play()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string event = (Glib::ustring) row[sound_model.label];
-      string filename = GUIConfig::sound_event(event)();
+      string id = (Glib::ustring) row[sound_model.label];
+      SoundEvent event = SoundTheme::sound_id_to_event(id);
+
+      std::string filename = SoundTheme::sound_event(event)();
       if (filename != "")
         {
           IGUI *gui = GUI::get_instance();
@@ -837,9 +838,10 @@ PreferencesDialog::on_sound_filechooser_select()
 
         TRACE_MSG(row[sound_model.label]);
 
-        IGUI *gui = GUI::get_instance();
-        SoundTheme::Ptr snd = gui->get_sound_theme();
-        snd->set_sound_wav_file( (workrave::audio::SoundEvent)(int)row[sound_model.event], filename);
+        string id = (Glib::ustring) row[sound_model.label];
+        SoundEvent event = SoundTheme::sound_id_to_event(id);
+        SoundTheme::sound_event(event).set(filename);
+
         TRACE_MSG(filename);
         update_theme_selection();
       }
@@ -861,8 +863,10 @@ PreferencesDialog::on_sound_events_changed()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string event = (Glib::ustring) row[sound_model.label];
-      string filename = GUIConfig::sound_event(event)();
+
+      string id = (Glib::ustring) row[sound_model.label];
+      SoundEvent event = SoundTheme::sound_id_to_event(id);
+      string filename = SoundTheme::sound_event(event)();
 
       TRACE_MSG(filename);
 
@@ -884,13 +888,13 @@ PreferencesDialog::on_sound_theme_changed()
   TRACE_ENTER("PreferencesDialog::on_sound_theme_changed");
   int idx = sound_theme_button->get_active_row_number();
 
-  if (idx >= 0 && idx < (int)sound_themes.size())
-    {
-      SoundTheme::Theme &theme = sound_themes[idx];
+  SoundTheme::ThemeInfos themes = sound_theme->get_themes();
 
-      IGUI *gui = GUI::get_instance();
-      SoundTheme::Ptr snd = gui->get_sound_theme();
-      snd->activate_theme(theme);
+  if (idx >= 0 && idx < (int)themes.size())
+    {
+      std::string theme_id = themes[idx]->theme_id;
+
+      sound_theme->activate_theme(theme_id);
 
       Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
       Gtk::TreeModel::iterator iter = selection->get_selected();
@@ -898,8 +902,9 @@ PreferencesDialog::on_sound_theme_changed()
       if (iter)
         {
           Gtk::TreeModel::Row row = *iter;
-          string event = (Glib::ustring) row[sound_model.label];
-          string filename = GUIConfig::sound_event(event)();
+          string id = (Glib::ustring) row[sound_model.label];
+          SoundEvent event = SoundTheme::sound_id_to_event(id);
+          string filename = SoundTheme::sound_event(event)();
 
           if (filename != "")
             {
@@ -919,11 +924,7 @@ void
 PreferencesDialog::update_theme_selection()
 {
   TRACE_ENTER("PreferencesDialog::update_theme_selection");
-  sound_themes.erase(sound_themes.begin(), sound_themes.end());
-
-  IGUI *gui = GUI::get_instance();
-  SoundTheme::Ptr snd = gui->get_sound_theme();
-  snd->get_sound_themes(sound_themes);
+  SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
 #if GTKMM_CHECK_VERSION(2, 24, 0)
   sound_theme_button->remove_all();
@@ -931,20 +932,20 @@ PreferencesDialog::update_theme_selection()
   sound_theme_button->clear_items();
 #endif
 
-  int idx = 0;
-  for (vector<SoundTheme::Theme>::iterator it = sound_themes.begin(); it != sound_themes.end(); it++)
+  int active_index = -1;
+  for (SoundTheme::ThemeInfo::Ptr theme : sound_theme->get_themes())
     {
 #if GTKMM_CHECK_VERSION(2, 24, 0)
-      sound_theme_button->append(it->description);
+      sound_theme_button->append(theme->description);
 #else
-      sound_theme_button->append_text(it->description);
+      sound_theme_button->append_text(theme->description);
 #endif
 
-      if (it->active)
+      if (theme == active_theme)
        {
-          sound_theme_button->set_active(idx);
+          sound_theme_button->set_active(active_index);
         }
-      idx++;
+      active_index++;
     }
   TRACE_EXIT();
 }
