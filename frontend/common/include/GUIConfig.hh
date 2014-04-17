@@ -93,3 +93,26 @@ private:
 };
 
 #endif
+
+  // CoreFactory::get_configurator()->get_value_with_default(
+  //   "advanced/force_focus_on_break_start",
+  //   force_focus_on_break_start,
+  //   true
+  //   );
+
+  //         CoreFactory::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
+
+  // CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
+  //                                                         monitor_type,
+  //                                                         "default");
+  //     bool valid = CoreFactory::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
+  //                                                             row[sound_model.label],
+  //                                                             filename);
+  //   // Should SetWindowOnTop() call IMEWindowMagic() ?
+  //   if( !CoreFactory::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
+
+  //   if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
+
+  //   if( !CoreFactory::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
+
+  //   if( CoreFactory::get_configurator()->get_value( "advanced/force_focus_functions", str ) )

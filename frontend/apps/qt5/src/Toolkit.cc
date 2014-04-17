@@ -72,8 +72,10 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   setQuitOnLastWindowClosed(false);
 
+#ifdef PLATFORM_OS_OSX
   dock_menu = ToolkitMenu::create(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
+#endif
 
   main_window =  boost::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
