@@ -55,12 +55,16 @@ private:
   int get_exercise_count();
 
 private:
+  //! The Time
   TimeBar *timebar;
+
+  //! Progress
   int progress_value;
+
+  //! Progress
   int progress_max_value;
 
   QHBoxLayout *pluggable_panel;
-  QWidget *block_window;
 
   scoped_connections connections;
 };
