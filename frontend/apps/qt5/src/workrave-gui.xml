@@ -8,13 +8,6 @@
     <include name="Orientation.hh"/>
   </import>
 
-  <enum name="Orientation" csymbol="Orientation">
-    <value name="up"    csymbol="ORIENTATION_UP"/>
-    <value name="right" csymbol="ORIENTATION_RIGHT"/>
-    <value name="down"  csymbol="ORIENTATION_DOWN"/>
-    <value name="left"  csymbol="ORIENTATION_LEFT"/>
-  </enum>
-
   <struct name="TimerData" csymbol="GenericDBusApplet::TimerData" condition="defined(HAVE_GTK)">
     <field type="string" name="bar_text"/>
     <field type="int32" name="slot"/>
@@ -75,18 +68,5 @@
     <signal name="MenuUpdated">
       <arg type="MenuItems" name="menuitems" hint="ref"/>
     </signal>
-  </interface>
-
-  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
-             condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)">
-    <method name="SetOrientation" csymbol="set_applet_orientation">
-      <arg type="Orientation" name="orientation" direction="in"/>
-    </method>
-
-    <method name="ButtonClicked" csymbol="button_clicked">
-      <arg type="uint32" name="button" direction="in"/>
-    </method>
-
-    <method name="EmbedRequest" csymbol="fire_gnome_applet"/>
   </interface>
 </unit>
