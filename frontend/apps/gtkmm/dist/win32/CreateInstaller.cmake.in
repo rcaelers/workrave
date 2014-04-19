@@ -4,7 +4,7 @@ list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/build/cmake/modules")
 message(STATUS "Resolving dependencies. This may take a while")
 set(CMAKE_OBJDUMP @CMAKE_OBJDUMP@)
 include(Win32ResolveDependencies)
-resolve_dependencies(@CMAKE_CURRENT_BINARY_DIR@/../../src/workrave.exe dependencies resolved_dependencies @SYS_ROOT@/bin)
+resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/workrave.exe" dependencies resolved_dependencies @SYS_ROOT@/bin)
 
 # TODO: Add dependencies for all installed plugins
 
@@ -16,5 +16,5 @@ execute_process(
   COMMAND "@WINE@" "@ISCC@" setup.iss
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
-  WORKING_DIRECTORY @CMAKE_CURRENT_BINARY_DIR@
+  WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
   )
