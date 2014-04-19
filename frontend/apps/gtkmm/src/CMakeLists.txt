@@ -129,7 +129,7 @@ link_directories(${INDICATOR_LIBPATH})
 
 # TODO: Also built prebuilt
 If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
-  link_directories("${WORKRAVE_PREBUILT}/Release")
+  link_directories("${PREBUILT_PATH}/Release")
   link_directories("${SYS_ROOT}")
 endif()
 

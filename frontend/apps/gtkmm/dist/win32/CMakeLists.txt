@@ -50,7 +50,7 @@ configure_file(
   ESCAPE_QUOTES
 )
 
-string(REPLACE "/" "\\" PREBUILTDIR ${WORKRAVE_PREBUILT})
+string(REPLACE "/" "\\" PREBUILTDIR ${PREBUILT_PATH})
 string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
 
 configure_file(

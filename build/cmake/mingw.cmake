@@ -1,5 +1,4 @@
 set(SYS_ROOT_PREFIX "")
-set(WORKRAVE_PREBUILT "/home/robc/src/tinderbox/prebuilt")
 
 set(TOOLCHAIN_ROOT "/usr/i686-w64-mingw32")
 set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/i686-w64-mingw32/sys-root/mingw/")

@@ -424,6 +424,12 @@ if (WIN32)
     set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
   endif()
   
+  option(PREBUILT_PATH "Location of prebuilt binaries" OFF)
+
+  if (NOT PREBUILT_PATH)
+    message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location if prebuilt win32")
+  endif()
+
   set (PLATFORM_OS_WIN32 ON)
   if (MSVC)
     set(PLATFORM_OS_WIN32_NATIVE 1)
