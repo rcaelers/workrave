@@ -5,7 +5,6 @@
     <include name="MenuModel.hh"/>
     <include name="GenericDBusApplet.hh"  condition="defined(NOT_DEFINED)"/>
     <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)"/>
-    <include name="Orientation.hh"/>
   </import>
 
   <struct name="TimerData" csymbol="GenericDBusApplet::TimerData" condition="defined(HAVE_GTK)">
