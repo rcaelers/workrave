@@ -9,7 +9,7 @@ resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/workrave.exe" depende
 # TODO: Add dependencies for all installed plugins
 
 foreach(dependency ${resolved_dependencies})
-  file (INSTALL ${dependency} DESTINATION @CMAKE_INSTALL_PREFIX@/dist/lib)
+  file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/dist/lib")
 endforeach()
 
 execute_process(
