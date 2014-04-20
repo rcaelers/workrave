@@ -2,7 +2,7 @@
 
 <unit name="DBusGUI">
   <import>
-    <include name="MenuModel.hh"/>
+    <include name="Menus.hh"/>
     <include name="GenericDBusApplet.hh"  condition="defined(NOT_DEFINED)"/>
     <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)"/>
   </import>
@@ -31,7 +31,7 @@
 	    condition="defined(HAVE_GTK)">
   </sequence>
 
-  <interface name="org.workrave.ControlInterface" csymbol="MenuModel">
+  <interface name="org.workrave.ControlInterface" csymbol="Menus">
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
     <method name="ReadingMode"           csymbol="on_menu_reading">
