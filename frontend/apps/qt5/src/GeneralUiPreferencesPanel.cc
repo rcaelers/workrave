@@ -37,6 +37,7 @@
 #include "TimerPreferencesPanel.hh"
 
 #include "utils/Locale.hh"
+#include "utils/Platform.hh"
 
 #include "ICore.hh"
 #include "UiUtil.hh"
@@ -45,6 +46,10 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
+
+#if defined(PLATFORM_OS_WIN32)
+#define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+#endif
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 {
@@ -178,7 +183,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   layout->addWidget(autostart_cb);
 
   char value[MAX_PATH];
-  bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+  bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
   autostart_cb->setCheckState(rc ? Qt::Checked : Qt::Unchecked);
 #endif
 

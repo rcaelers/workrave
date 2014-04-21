@@ -54,7 +54,6 @@ if (PLATFORM_OS_WIN32)
     win32/W32ForceFocus.cc
     win32/W32StatusIcon.cc
     win32/W32TrayMenu.cc
-    win32/dll_hell.c
     )
 
   configure_file(

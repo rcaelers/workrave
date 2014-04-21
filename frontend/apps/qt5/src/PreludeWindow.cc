@@ -17,11 +17,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "PreludeWindow.hh"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "PreludeWindow.hh"
 
 #include <QtGui>
 

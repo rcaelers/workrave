@@ -88,6 +88,12 @@ include_directories(
 
 include_directories()
 
+# TODO: Also built prebuilt
+If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
+  link_directories("${PREBUILT_PATH}/Release")
+  link_directories("${SYS_ROOT}")
+endif()
+
 add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
 if (APPLE)
@@ -131,18 +137,19 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 
 endif()
 
-#link_directories(${INDICATOR_LIBPATH})
-#target_link_libraries(workrave ${INDICATOR_LIBRARIES})
-#
-#if (WIN32)
-#  target_link_libraries(workrave harpoon)
-#  target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
-#
-#  configure_file(
-#    ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
-#    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
-#
-#endif(WIN32)
+if (PLATFORM_OS_WIN32)
+  target_link_libraries(Workrave intl)
+  target_link_libraries(Workrave harpoon)
+  target_link_libraries(Workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
+
+  include_directories(
+    ${CMAKE_SOURCE_DIR}/frontend/applets/win32/include
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    )
+
+   target_link_libraries(Workrave dxerr8 dsound dxguid)
+endif()
 
 install(TARGETS Workrave RUNTIME DESTINATION bin BUNDLE DESTINATION ".")
 
