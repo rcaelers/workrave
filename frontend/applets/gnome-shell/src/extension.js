@@ -21,32 +21,34 @@ const _ = Gettext.gettext;
 let start = GLib.get_monotonic_time();
 global.log('workrave-applet: start @ ' + start);
 
-const IndicatorIface = <interface name="org.workrave.AppletInterface">
-<method name="Embed">
-    <arg type="b" name="enabled" direction="in" />
-    <arg type="s" name="sender" direction="in" />
-</method>
-<method name="Command">
-    <arg type="i" name="command" direction="in" />
-</method>
-<method name="GetMenu">
-    <arg type="a(sii)" name="menuitems" direction="out" />
-</method>
-<method name="GetTrayIconEnabled">
-    <arg type="b" name="enabled" direction="out" />
-</method>
-<signal name="TimersUpdated">
-    <arg type="(siuuuuuu)" />
-    <arg type="(siuuuuuu)" />
-    <arg type="(siuuuuuu)" />
-</signal>
-<signal name="MenuUpdated">
-    <arg type="a(sii)" />
-</signal>
-<signal name="TrayIconUpdated">
-    <arg type="b" />
-</signal>
-</interface>
+const IndicatorIface = '<node>\
+    <interface name="org.workrave.AppletInterface"> \
+    <method name="Embed"> \
+        <arg type="b" name="enabled" direction="in" /> \
+        <arg type="s" name="sender" direction="in" /> \
+    </method> \
+    <method name="Command"> \
+        <arg type="i" name="command" direction="in" /> \
+    </method> \
+    <method name="GetMenu"> \
+        <arg type="a(sii)" name="menuitems" direction="out" /> \
+    </method> \
+    <method name="GetTrayIconEnabled"> \
+        <arg type="b" name="enabled" direction="out" /> \
+    </method> \
+    <signal name="TimersUpdated"> \
+        <arg type="(siuuuuuu)" /> \
+        <arg type="(siuuuuuu)" /> \
+        <arg type="(siuuuuuu)" /> \
+    </signal> \
+    <signal name="MenuUpdated"> \
+        <arg type="a(sii)" /> \
+    </signal> \
+    <signal name="TrayIconUpdated"> \
+        <arg type="b" /> \
+    </signal> \
+    </interface> \
+</node>';
 
 let IndicatorProxy = Gio.DBusProxy.makeProxyWrapper(IndicatorIface);
 
