@@ -261,7 +261,7 @@ DBusMarshallQt5::put_int64(const int64_t &value)
 
 
 QVariant
-DBusMarshallQt5::put_double(const double_t &value)
+DBusMarshallQt5::put_double(const double &value)
 {
 	return QVariant(value);
 }

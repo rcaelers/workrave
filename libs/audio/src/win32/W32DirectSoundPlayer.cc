@@ -37,7 +37,6 @@
 #endif
 #include <dsound.h>
 
-#include <glib.h>
 #include "W32DirectSoundPlayer.hh"
 
 #include "SoundPlayer.hh"
@@ -374,7 +373,7 @@ SoundClip::set_volume(int volume)
           dsVolume = 100 * (long) (20 * log10((double) volume / 100.0));
         }
 
-      dsVolume = CLAMP(dsVolume, -10000, 0);
+      dsVolume = dsVolume > 0 ? 0 : (dsVolume < -10000 ? -10000 : dsVolume);
 
       sound_buffer->SetVolume(dsVolume);
     }
