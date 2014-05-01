@@ -13,6 +13,7 @@ case "$PLATFORM" in
 	;;
     "windows")
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/build/cmake/mingw.cmake" "-DPREBUILT_PATH=/home/jenkins/prebuilt")
+        MAKE_FLAGS=-j4
 	;;
 esac
 
