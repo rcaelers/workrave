@@ -29,9 +29,11 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include "utils/AssetPath.hh"
 #include "nls.h"
-
 #include "debug.hh"
+
+using namespace workrave::utils;
 
 std::string
 UiUtil::create_alert_text(const std::string &caption, const std::string &body)
@@ -102,4 +104,13 @@ UiUtil::create_label(const std::string &text, bool bold)
       label->setText(QString::fromStdString(text));
     }
   return label;
+}
+
+
+QIcon 
+UiUtil::create_icon(std::string filename)
+{
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QIcon icon(pixmap);
+  return icon;
 }

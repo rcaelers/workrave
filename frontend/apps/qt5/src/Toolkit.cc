@@ -24,6 +24,8 @@
 #include "Toolkit.hh"
 
 #include <boost/make_shared.hpp>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
 
 #include <QDesktopWidget>
 #include <QApplication>
@@ -77,6 +79,9 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   dock_menu->get_menu()->setAsDockMenu();
 #endif
 
+  status_icon = boost::make_shared<StatusIcon>(menu_model);
+  status_icon->init();
+ 
   main_window =  boost::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
@@ -207,6 +212,18 @@ Toolkit::get_screen_count() const
 {
   QDesktopWidget *dw = QApplication::desktop();
   return dw->screenCount();
+}
+
+IStatusIcon::Ptr 
+Toolkit::get_status_icon() const
+{
+  return status_icon;
+}
+
+void 
+Toolkit::create_oneshot_timer(int ms, boost::function<void ()> func)
+{
+  new OneshotTimer(ms, func);
 }
 
 void

@@ -34,6 +34,7 @@
 #include "PreferencesDialog.hh"
 #include "ExercisesDialog.hh"
 
+#include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
 
 class Toolkit : public QApplication, public IToolkit
@@ -84,6 +85,12 @@ public:
   //!
   virtual void hide_window(WindowType type);
 
+  //!
+  virtual IStatusIcon::Ptr get_status_icon() const;
+                                                  
+  //!
+  virtual void create_oneshot_timer(int ms, boost::function<void ()> func);
+
 public slots:
   void on_timer();
   void on_exercises_closed();
@@ -95,6 +102,7 @@ private:
   boost::shared_ptr<MainWindow> main_window;
   boost::shared_ptr<PreferencesDialog> preferences_dialog;
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
+  boost::shared_ptr<IStatusIcon> status_icon;
 
   MenuModel::Ptr menu_model;
   ToolkitMenu::Ptr dock_menu;
@@ -103,6 +111,27 @@ private:
   //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
 
+};
+
+class OneshotTimer : public QObject
+{
+  Q_OBJECT
+
+public:
+  OneshotTimer(int ms, boost::function<void ()> func) : func(func)
+  {
+    QTimer::singleShot(ms, this, SLOT(exec()));
+  };
+
+public slots:
+  void exec()
+  {
+    func();
+    this->deleteLater();
+  };
+  
+private:
+    boost::function<void ()> func;
 };
 
 #endif // TOOLKIT_HH

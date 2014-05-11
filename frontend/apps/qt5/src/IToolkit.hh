@@ -20,10 +20,12 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <boost/function.hpp>
 
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
+#include "IStatusIcon.hh"
 #include "UiTypes.hh"
 
 #include "SoundTheme.hh"
@@ -72,6 +74,12 @@ public:
 
   //!
   virtual int get_screen_count() const = 0;
+
+  //!
+  virtual IStatusIcon::Ptr get_status_icon() const = 0;
+
+  virtual void create_oneshot_timer(int ms, boost::function<void ()> func) = 0;
+
 };
 
 #endif // ITOOLKIT_HH

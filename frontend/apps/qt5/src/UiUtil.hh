@@ -37,6 +37,8 @@ public:
   static void add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget);
   static void add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget);
   static void add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
+
+  static QIcon create_icon(std::string filename);
 };
 
 #endif // UIUTIL_HH

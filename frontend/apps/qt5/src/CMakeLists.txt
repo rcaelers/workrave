@@ -25,6 +25,7 @@ set(SRC
   ToolkitMenu.cc
   Menus.cc
   MenuModel.cc
+  StatusIcon.cc
   )
 
 set(DESIGNER_UI
@@ -52,6 +53,7 @@ qt5_wrap_cpp(MOC_SRC
   SoundsPreferencesPanel.hh
   TimerBoxPreferencesPanel.hh
   ToolkitMenu.hh
+  StatusIcon.hh
 )
 
 

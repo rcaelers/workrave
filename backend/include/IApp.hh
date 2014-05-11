@@ -57,7 +57,7 @@ namespace workrave
     //! Hide the break or prelude window.
     virtual void hide_break_window() = 0;
 
-    //! Hide the break or prelude window.
+    //! Show the break or prelude window.
     virtual void show_break_window() = 0;
 
     //! Refresh the content of the break or prelude window.

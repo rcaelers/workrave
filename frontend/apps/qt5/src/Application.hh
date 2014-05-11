@@ -98,24 +98,20 @@ private:
   //void init_gui();
   void init_bus();
   void init_session();
-  //void init_startup_warnings();
+  void init_startup_warnings();
 
   //void init_qt_multihead();
 
   //void process_visibility();
 
-  //void on_status_icon_balloon_activate(const std::string &id);
-  //void on_status_icon_activate();
+  void on_status_icon_balloon_activate(const std::string &id);
+  void on_status_icon_activate();
   //void on_visibility_changed();
   //void on_main_window_closed();
 
   void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
   void on_operation_mode_changed(const workrave::OperationMode m);
-
-#if defined(PLATFORM_OS_UNIX)
-  //bool on_grab_retry_timer();
-#endif
-  //bool on_operational_mode_warning_timer();
+  bool on_operation_mode_warning_timer();
 
 private:
   typedef std::vector<IBreakWindow::Ptr> BreakWindows;
@@ -177,9 +173,6 @@ private:
 
   //! Grab
   //WindowHints::Grab *grab_handle;
-
-  //! Status icon
-  //StatusIcon *status_icon;
 
   //! The applet controller
   //AppletControl *applet_control;

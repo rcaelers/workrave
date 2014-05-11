@@ -78,7 +78,6 @@ Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
   //grab_wanted(false),
 #endif
   //grab_handle(NULL),
-  //status_icon(NULL),
   //applet_control(NULL),
   muted(false)
   //closewarn_shown(false)
@@ -133,7 +132,7 @@ Application::main()
   init_bus();
   init_session();
   //init_gui();
-  //init_startup_warnings();
+  init_startup_warnings();
 
   connections.connect(toolkit->signal_timer(), boost::bind(&Application::on_timer, this));
   on_timer();
@@ -572,15 +571,15 @@ Application::init_bus()
    }
 }
 
-//void
-//Application::init_startup_warnings()
-//{
-//  OperationMode mode = core->get_operation_mode();
-//  if (mode != OperationMode::Normal)
-//    {
-//      Glib::signal_timeout().connect(sigc::mem_fun(*this, &Application::on_operational_mode_warning_timer), 5000);
-//    }
-//}
+void
+Application::init_startup_warnings()
+{
+ OperationMode mode = core->get_operation_mode();
+ if (mode != OperationMode::Normal)
+   {
+     toolkit->create_oneshot_timer(5000, boost::bind(&Application::on_operation_mode_warning_timer, this));
+   }
+}
 
 
 //! Initializes the sound player.
@@ -670,10 +669,11 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 void
 Application::on_operation_mode_changed(const OperationMode m)
 {
-  // if (status_icon)
-  //   {
-  //     status_icon->set_operation_mode(m);
-  //   }
+  IStatusIcon::Ptr status_icon = toolkit->get_status_icon();
+  if (status_icon)
+    {
+      status_icon->set_operation_mode(m);
+    }
 }
 
 // void
@@ -781,6 +781,9 @@ Application::hide_break_window()
 
   toolkit->ungrab();
 
+  break_windows.clear();
+  prelude_windows.clear();
+
   TRACE_EXIT();
 }
 
@@ -859,24 +862,28 @@ Application::set_prelude_progress_text(PreludeProgressText text)
 }
 
 
-//bool
-//Application::on_operational_mode_warning_timer()
-//{
-//  OperationMode mode = core->get_operation_mode();
-//  if (mode == OperationMode::Suspended)
-//    {
-//      status_icon->show_balloon("operation_mode",
-//                                _("Workrave is in suspended mode. "
-//                                  "Mouse and keyboard activity will not be monitored."));
-//    }
-//  else if (mode == OperationMode::Quiet)
-//    {
-//      status_icon->show_balloon("operation_mode",
-//                                _("Workrave is in quiet mode. "
-//                                  "No break windows will appear."));
-//    }
-//  return false;
-//}
+bool
+Application::on_operation_mode_warning_timer()
+{
+  IStatusIcon::Ptr status_icon = toolkit->get_status_icon();
+  if (status_icon)
+    {
+      OperationMode mode = core->get_operation_mode();
+      if (mode == OperationMode::Suspended)
+        {
+          status_icon->show_balloon("operation_mode",
+                                    _("Workrave is in suspended mode. "
+                                      "Mouse and keyboard activity will not be monitored."));
+        }
+      else if (mode == OperationMode::Quiet)
+        {
+          status_icon->show_balloon("operation_mode",
+                                    _("Workrave is in quiet mode. "
+                                      "No break windows will appear."));
+        }
+    }
+  return false;
+}
 
 //HeadInfo &
 //Application::get_head(int head)
