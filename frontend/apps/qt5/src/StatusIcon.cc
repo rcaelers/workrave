@@ -29,14 +29,6 @@
 #include "UiUtil.hh"
 #include "GUIConfig.hh"
 
-// #include "GUI.hh"
-// #include "CoreFactory.hh"
-// #include "config/IConfigurator.hh"
-// #include "GUIConfig.hh"
-// #include "Menus.hh"
-// #include "TimerBoxControl.hh"
-// #include "GtkUtil.hh"
-
 using namespace std;
 
 StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
@@ -61,17 +53,17 @@ StatusIcon::~StatusIcon()
 void
 StatusIcon::init()
 {
-  insert_icon();
+  ICore::Ptr core = CoreFactory::get_core();
+  connections.connect(core->signal_operation_mode_changed(), boost::bind(&StatusIcon::on_operation_mode_changed, this, _1));
+
+  OperationMode mode = core->get_operation_mode_regular();
+  tray_icon->setIcon(mode_icons[mode]);
 
   QObject::connect(tray_icon, &QSystemTrayIcon::activated, this, &StatusIcon::on_activate);
 
   GUIConfig::trayicon_enabled().connect([&] (bool enabled)
                                         {
-                                          if (tray_icon->isVisible() != enabled)
-                                            {
-                                              visibility_changed_signal();
-                                              tray_icon->setVisible(enabled);
-                                            }
+                                          tray_icon->setVisible(enabled);
                                         });
   
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
@@ -79,26 +71,11 @@ StatusIcon::init()
 }
 
 void
-StatusIcon::insert_icon()
+StatusIcon::on_operation_mode_changed(OperationMode m)
 {
-  // Create status icon
-  ICore::Ptr core = CoreFactory::get_core();
-  OperationMode mode = core->get_operation_mode_regular();
-  tray_icon->setIcon(mode_icons[mode]);
-}
-
-void
-StatusIcon::set_operation_mode(OperationMode m)
-{
-  TRACE_ENTER_MSG("StatusIcon::set_operation_mode", (int)m);
+  TRACE_ENTER_MSG("StatusIcon::on_operation_mode_changed", (int)m);
   tray_icon->setIcon(mode_icons[m]);
   TRACE_EXIT();
-}
-
-bool
-StatusIcon::is_visible() const
-{
-  return tray_icon->isVisible();
 }
 
 void
@@ -108,9 +85,9 @@ StatusIcon::set_tooltip(std::string& tip)
 }
 
 void
-StatusIcon::show_balloon(string id, const string &balloon)
+StatusIcon::show_balloon(string id, const std::string& title, const string &balloon)
 {
-  tray_icon->showMessage("Workrave", QString::fromStdString(balloon));
+  tray_icon->showMessage(QString::fromStdString(title), QString::fromStdString(balloon));
 }
 
 void
@@ -120,19 +97,7 @@ StatusIcon::on_activate(QSystemTrayIcon::ActivationReason reason)
 }
 
 boost::signals2::signal<void()> &
-StatusIcon::signal_visibility_changed()
-{
-  return visibility_changed_signal;
-}
-
-boost::signals2::signal<void()> &
 StatusIcon::signal_activate()
 {
   return activate_signal;
-}
-
-boost::signals2::signal<void(string)> &
-StatusIcon::signal_balloon_activate()
-{
-  return balloon_activate_signal;
 }

@@ -21,12 +21,13 @@
 #include <QSystemTrayIcon>
 #include <QIcon>
 
-#include "IStatusIcon.hh"
+#include "ICore.hh"
+#include "utils/ScopedConnections.hh"
 
 #include "MenuModel.hh"
 #include "ToolkitMenu.hh"
 
-class StatusIcon : public QObject, public IStatusIcon
+class StatusIcon : public QObject
 {
   Q_OBJECT
 
@@ -34,18 +35,14 @@ public:
   StatusIcon(MenuModel::Ptr menu_model);
   virtual ~StatusIcon();
 
-  virtual void init();
-  virtual void set_operation_mode(workrave::OperationMode m);
-  virtual void set_tooltip(std::string& tip);
-  virtual bool is_visible() const;
-  virtual void show_balloon(std::string id, const std::string& balloon);
-
-  virtual boost::signals2::signal<void()> &signal_visibility_changed();
-  virtual boost::signals2::signal<void()> &signal_activate();
-  virtual boost::signals2::signal<void(std::string)> &signal_balloon_activate();
+  void init();
+  void set_tooltip(std::string& tip);
+  void show_balloon(std::string id, const std::string& title, const std::string& balloon);
+  
+  boost::signals2::signal<void()> &signal_activate();
 
 private:
-  void insert_icon();
+  void on_operation_mode_changed(workrave::OperationMode m);
 
 public slots:
   void on_activate(QSystemTrayIcon::ActivationReason reason);
@@ -55,9 +52,8 @@ private:
   QSystemTrayIcon *tray_icon;
   ToolkitMenu::Ptr menu;
 
-  boost::signals2::signal<void()> visibility_changed_signal;
   boost::signals2::signal<void()> activate_signal;
-  boost::signals2::signal<void(std::string)> balloon_activate_signal;
+  scoped_connections connections;
 };
 
 #endif // STATUSICON_HH

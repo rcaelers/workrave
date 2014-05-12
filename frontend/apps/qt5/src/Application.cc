@@ -291,8 +291,6 @@ Application::init_core()
       connections.connect(b->signal_break_event(), boost::bind(&Application::on_break_event, this, BreakId(i), _1));
     }
 
-  connections.connect(core->signal_operation_mode_changed(), boost::bind(&Application::on_operation_mode_changed, this, _1));
-
   GUIConfig::init();
 }
 
@@ -666,16 +664,6 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 // }
 
 
-void
-Application::on_operation_mode_changed(const OperationMode m)
-{
-  IStatusIcon::Ptr status_icon = toolkit->get_status_icon();
-  if (status_icon)
-    {
-      status_icon->set_operation_mode(m);
-    }
-}
-
 // void
 // Application::config_changed_notify(const std::string &key)
 // {
@@ -865,22 +853,18 @@ Application::set_prelude_progress_text(PreludeProgressText text)
 bool
 Application::on_operation_mode_warning_timer()
 {
-  IStatusIcon::Ptr status_icon = toolkit->get_status_icon();
-  if (status_icon)
+  OperationMode mode = core->get_operation_mode();
+  if (mode == OperationMode::Suspended)
     {
-      OperationMode mode = core->get_operation_mode();
-      if (mode == OperationMode::Suspended)
-        {
-          status_icon->show_balloon("operation_mode",
-                                    _("Workrave is in suspended mode. "
-                                      "Mouse and keyboard activity will not be monitored."));
-        }
-      else if (mode == OperationMode::Quiet)
-        {
-          status_icon->show_balloon("operation_mode",
-                                    _("Workrave is in quiet mode. "
-                                      "No break windows will appear."));
-        }
+      toolkit->show_balloon("operation_mode", _("Workrave"),
+                            _("Workrave is in suspended mode. "
+                              "Mouse and keyboard activity will not be monitored."));
+    }
+  else if (mode == OperationMode::Quiet)
+    {
+      toolkit->show_balloon("operation_mode",  _("Workrave"),
+                            _("Workrave is in quiet mode. "
+                              "No break windows will appear."));
     }
   return false;
 }

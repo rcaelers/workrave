@@ -25,7 +25,7 @@
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IBreak.hh"
-#include "IStatusIcon.hh"
+#include "StatusIcon.hh"
 #include "UiTypes.hh"
 
 #include "SoundTheme.hh"
@@ -76,9 +76,9 @@ public:
   virtual int get_screen_count() const = 0;
 
   //!
-  virtual IStatusIcon::Ptr get_status_icon() const = 0;
-
   virtual void create_oneshot_timer(int ms, boost::function<void ()> func) = 0;
+
+  virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon) = 0;
 
 };
 

@@ -42,6 +42,7 @@
 #include "PreferencesDialog.hh"
 
 #include "ToolkitMenu.hh"
+#include "UiUtil.hh"
 
 using namespace std;
 using namespace workrave;
@@ -214,10 +215,10 @@ Toolkit::get_screen_count() const
   return dw->screenCount();
 }
 
-IStatusIcon::Ptr 
-Toolkit::get_status_icon() const
+void 
+Toolkit::show_balloon(std::string id, const std::string& title, const std::string& balloon)
 {
-  return status_icon;
+  status_icon->show_balloon(id, title, balloon);
 }
 
 void 

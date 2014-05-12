@@ -23,6 +23,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
+#include "utils/ScopedConnections.hh"
+
 #include <QApplication>
 #include <QTimer>
 
@@ -52,44 +54,19 @@ public:
 
   virtual boost::signals2::signal<void()> &signal_timer();
 
-  //!
   virtual void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme);
-
-  //!
   virtual void terminate();
-
-  //!
   virtual void run();
-
-  //!
   virtual void grab();
-
-  //!
   virtual void ungrab();
-
-  //!
   virtual std::string get_display_name();
-
-  //!
   virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags);
-
-  //!
   virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id);
-
-  //!
   virtual int get_screen_count() const;
-
-  //!
   virtual void show_window(WindowType type);
-
-  //!
   virtual void hide_window(WindowType type);
-
-  //!
-  virtual IStatusIcon::Ptr get_status_icon() const;
-                                                  
-  //!
   virtual void create_oneshot_timer(int ms, boost::function<void ()> func);
+  virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon);
 
 public slots:
   void on_timer();
@@ -102,7 +79,8 @@ private:
   boost::shared_ptr<MainWindow> main_window;
   boost::shared_ptr<PreferencesDialog> preferences_dialog;
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
-  boost::shared_ptr<IStatusIcon> status_icon;
+
+  boost::shared_ptr<StatusIcon> status_icon;
 
   MenuModel::Ptr menu_model;
   ToolkitMenu::Ptr dock_menu;
@@ -111,6 +89,7 @@ private:
   //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
 
+  scoped_connections connections;
 };
 
 class OneshotTimer : public QObject

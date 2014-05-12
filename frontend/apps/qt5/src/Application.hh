@@ -110,7 +110,6 @@ private:
   //void on_main_window_closed();
 
   void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
-  void on_operation_mode_changed(const workrave::OperationMode m);
   bool on_operation_mode_warning_timer();
 
 private:
