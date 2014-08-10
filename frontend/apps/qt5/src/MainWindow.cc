@@ -23,6 +23,7 @@
 
 #include "ToolkitMenu.hh"
 #include "Menus.hh"
+#include "GUIConfig.hh"
 
 MainWindow::MainWindow(MenuModel::Ptr menu_model)
 {
@@ -35,6 +36,19 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model)
   
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
+
+  GUIConfig::main_window_always_on_top().connect_and_get([&] (bool enabled)
+                                                         {
+                                                           if (enabled)
+                                                             {
+                                                               setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+                                                             }
+                                                           else
+                                                             {
+                                                               setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
+                                                             }
+                                                           show();
+                                                         });
 }
 
 

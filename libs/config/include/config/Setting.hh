@@ -144,6 +144,14 @@ namespace workrave
         return signal.connect(slot);
       }
 
+      boost::signals2::connection connect_and_get(typename NotifyType::slot_type slot)
+      {
+        config->add_listener(key(), this);
+        boost::signals2::connection ret = signal.connect(slot);
+        signal(get());
+        return ret;
+      }
+
       virtual void config_changed_notify(const std::string &key)
       {
         (void)key;
