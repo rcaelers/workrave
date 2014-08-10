@@ -25,8 +25,6 @@
 
 #include "ICore.hh"
 
-using namespace workrave;
-
 class UiUtil
 {
 public:

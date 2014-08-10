@@ -30,6 +30,7 @@
 #include "GUIConfig.hh"
 
 using namespace std;
+using namespace workrave;
 
 StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 {

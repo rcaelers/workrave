@@ -38,6 +38,7 @@
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
 
+using namespace workrave;
 using namespace workrave::utils;
 
 IBreakWindow::Ptr
