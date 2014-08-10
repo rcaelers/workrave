@@ -54,6 +54,10 @@
 // #include "desktop-window.h"
 // #endif
 
+#ifdef PLATFORM_OS_OSX
+#import <Cocoa/Cocoa.h>
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -78,7 +82,8 @@ BreakWindow::BreakWindow(int screen,
     postpone_button(NULL),
     skip_button(NULL),
     lock_button(NULL),
-    shutdown_button(NULL)
+    shutdown_button(NULL),
+    block_window(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   TRACE_EXIT();
@@ -372,14 +377,72 @@ BreakWindow::start()
   show();
   center();
 
-  // Set window hints.
-  // set_skip_pager_hint(true);
-  // set_skip_taskbar_hint(true);
-  // WindowHints::set_always_on_top(this, true);
-  // raise();
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+    {
+      block_window = new QWidget();
+      block_window->setParent(0);
+      block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
+      block_window->setAutoFillBackground(true);
+      block_window->setPalette(QPalette(Qt::black));
+      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
+      // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
-  TRACE_EXIT();
-}
+      block_window->showFullScreen();
+
+#ifdef PLATFORM_OS_OSX
+      NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock |
+        NSApplicationPresentationHideMenuBar |
+        NSApplicationPresentationDisableAppleMenu |
+        NSApplicationPresentationDisableProcessSwitching |
+        NSApplicationPresentationDisableForceQuit |
+        NSApplicationPresentationDisableSessionTermination |
+        NSApplicationPresentationDisableHideApplication);
+      [NSApp setPresentationOptions:options];
+#endif
+    }
+
+    // Alternative 1:
+
+    // int windowLevel = CGShieldingWindowLevel();
+    // NSRect windowRect = [[NSScreen mainScreen] frame];
+    // NSWindow *overlayWindow = [[NSWindow alloc]
+    //                            initWithContentRect:windowRect
+    //                            styleMask:NSBorderlessWindowMask
+    //                            backing:NSBackingStoreBuffered
+    //                            defer:NO
+    //                            screen:[NSScreen mainScreen]];
+
+    // [overlayWindow setReleasedWhenClosed:YES];
+    // [overlayWindow setLevel:windowLevel];
+    // [overlayWindow setBackgroundColor:[NSColor colorWithCalibratedRed:0.0
+    //                                    green:0.0
+    //                                    blue:0.0
+    //                                    alpha:0.5]];
+
+    // [overlayWindow setAlphaValue:1.0];
+    // [overlayWindow setOpaque:NO];
+    // [overlayWindow setIgnoresMouseEvents:NO];
+    // [overlayWindow makeKeyAndOrderFront:nil];
+
+    //  [self.window addChildWindow:overlayWindow ordered:NSWindowAbove];
+
+    // Alternative 2:
+
+    // NSView *view = [[NSView alloc] initWithFrame:CGRectZero];
+    // NSDictionary *options = @{NSFullScreenModeAllScreens: @(YES),
+    //                           NSFullScreenModeWindowLevel: @(NSScreenSaverWindowLevel)};
+    // [view enterFullScreenMode:[NSScreen mainScreen] withOptions:options];
+
+
+
+    // Set window hints.
+    // set_skip_pager_hint(true);
+    // set_skip_taskbar_hint(true);
+    // WindowHints::set_always_on_top(this, true);
+    // raise();
+
+    TRACE_EXIT();
+    }
 
 
 //! Stops the daily limit.
@@ -391,6 +454,15 @@ BreakWindow::stop()
   if (frame != NULL)
     {
       frame->set_frame_flashing(0);
+    }
+
+  if (block_window != NULL)
+    {
+      block_window->hide();
+
+#ifdef PLATFORM_OS_OSX
+      [NSApp setPresentationOptions: NSApplicationPresentationDefault];
+#endif
     }
 
   hide();

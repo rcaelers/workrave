@@ -99,6 +99,8 @@ private:
   QAbstractButton *skip_button;
   QAbstractButton *lock_button;
   QAbstractButton *shutdown_button;
+
+  QWidget *block_window;
 };
 
 #endif // BREAKWINDOW_HH

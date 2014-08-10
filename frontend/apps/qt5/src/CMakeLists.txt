@@ -106,6 +106,9 @@ if (APPLE)
                 MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
 		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
 		MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
+
+  set_source_files_properties(BreakWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+
 endif()
 
 target_link_libraries(Workrave workrave-frontend-common)
