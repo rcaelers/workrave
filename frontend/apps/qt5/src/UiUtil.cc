@@ -1,7 +1,7 @@
 // UiUtil.cc --- Ui utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
-// Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2003 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2011, 2014 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -75,6 +74,7 @@ UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
   layout->addLayout(box);
 }
 
+
 void
 UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
 {
@@ -85,11 +85,13 @@ UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
   layout->addLayout(box);
 }
 
+
 void
 UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
 {
   layout->addWidget(create_label(text, bold));
 }
+
 
 QLabel *
 UiUtil::create_label(const std::string &text, bool bold)

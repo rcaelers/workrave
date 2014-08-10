@@ -37,10 +37,7 @@ public:
   TimerPreferencesPanel(workrave::BreakId break_id, SizeGroup* hsize_group, SizeGroup* vsize_group);
   virtual ~TimerPreferencesPanel();
 
-protected:
-
 private:
-
   bool on_preludes_changed(const std::string &key, bool write);
 
   void on_exercises_changed();
