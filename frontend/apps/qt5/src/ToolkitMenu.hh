@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MENUHANDLER_HH
-#define MENUHANDLER_HH
+#ifndef TOOLKITMENU_HH
+#define TOOLKITMENU_HH
 
 #include "MenuModel.hh"
 
@@ -123,4 +123,4 @@ private:
 };
 
 
-#endif // MENUHANDLER_HH
+#endif // TOOLKITMENU_HH
