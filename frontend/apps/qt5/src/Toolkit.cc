@@ -89,6 +89,9 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   main_window->show();
   main_window->raise();
+  
+  dock = boost::make_shared<Dock>();
+  dock->init();
 }
 
 void

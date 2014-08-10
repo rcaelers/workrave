@@ -38,6 +38,7 @@
 
 #include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
+#include "Dock.hh"
 
 class Toolkit : public QApplication, public IToolkit
 {
@@ -81,6 +82,7 @@ private:
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
 
   boost::shared_ptr<StatusIcon> status_icon;
+  boost::shared_ptr<Dock> dock;
 
   MenuModel::Ptr menu_model;
   ToolkitMenu::Ptr dock_menu;
