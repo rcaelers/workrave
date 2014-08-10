@@ -26,8 +26,13 @@ set(SRC
   Menus.cc
   MenuModel.cc
   StatusIcon.cc
-  Dock.mm
   )
+
+if (PLATFORM_OS_OSX)
+   set(SRC ${SRC} 
+    Dock.mm
+   )
+endif()
 
 set(DESIGNER_UI
 )
@@ -55,8 +60,13 @@ qt5_wrap_cpp(MOC_SRC
   TimerBoxPreferencesPanel.hh
   ToolkitMenu.hh
   StatusIcon.hh
-  Dock.hh
 )
+
+if (PLATFORM_OS_OSX)
+   set(MOCSRC ${MOCSRC} 
+    Dock.hh
+   )
+endif()
 
 
 if (HAVE_DBUS)
@@ -93,9 +103,13 @@ include_directories(
 include_directories()
 
 # TODO: Also built prebuilt
-If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
-  link_directories("${PREBUILT_PATH}/Release")
-  link_directories("${SYS_ROOT}")
+if (PLATFORM_OS_WIN32)
+  if(CMAKE_CROSSCOMPILING)
+    link_directories("${PREBUILT_PATH}/Release")
+    link_directories("${SYS_ROOT}")
+  else()
+    link_directories("${CMAKE_SOURCE_DIR}/libs/hooks/Output/Release")
+  endif()
 endif()
 
 add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
@@ -118,6 +132,8 @@ target_link_libraries(Workrave workrave-libs-input-monitor)
 target_link_libraries(Workrave workrave-libs-audio)
 target_link_libraries(Workrave workrave-libs-dbus)
 target_link_libraries(Workrave workrave-libs-utils)
+
+link_directories(${Boost_LIBRARIES_DIR})
 
 #link_directories(${GDK_LIBPATH})
 #target_link_libraries(Workrave ${GDK_LIBRARIES})
@@ -145,7 +161,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 endif()
 
 if (PLATFORM_OS_WIN32)
-  target_link_libraries(Workrave intl)
+  # target_link_libraries(Workrave intl)
   target_link_libraries(Workrave harpoon)
   target_link_libraries(Workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 
@@ -155,7 +171,7 @@ if (PLATFORM_OS_WIN32)
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
     )
 
-   target_link_libraries(Workrave dxerr8 dsound dxguid)
+   target_link_libraries(Workrave dsound dxguid)
 endif()
 
 install(TARGETS Workrave RUNTIME DESTINATION bin BUNDLE DESTINATION ".")

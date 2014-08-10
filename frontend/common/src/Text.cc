@@ -37,6 +37,11 @@
 #include "nls.h"
 #include "Text.hh"
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#define snprintf _snprintf
+#define snwprintf _snwprintf
+#endif
+
 using namespace std;
 
 //! Converts the specified time to a string

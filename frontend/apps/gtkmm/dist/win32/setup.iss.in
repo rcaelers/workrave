@@ -53,11 +53,11 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 ;Name: "{app}\etc\dbus-1\session.d"
 
 [Files]
-Source: "@PREBUILTDIR@\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@PREBUILTDIR@\Release64\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@PREBUILTDIR@\Release64\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "WorkraveHelper.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@PREBUILTDIR@\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
-Source: "@PREBUILTDIR@\Release64\workrave-applet.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
+Source: "@HOOK_BINARY_DIR@\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "@HOOK_BINARY_DIR@\Release64\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "@HOOK_BINARY_DIR@\Release64\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "WorkraveHelper.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "@HOOK_BINARY_DIR@\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
+Source: "@APPLET_BINARY_DIR@\Release64\workrave-applet.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
 Source: "@INSTALLDIR@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\icons\hicolor\16x16\*.png"; DestDir: "{app}\share\images\16x16"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\icons\hicolor\24x24\*.png"; DestDir: "{app}\share\images\24x24"; Flags: ignoreversion recursesubdirs

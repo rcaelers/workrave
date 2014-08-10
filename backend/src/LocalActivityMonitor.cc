@@ -197,9 +197,9 @@ LocalActivityMonitor::set_parameters(int noise, int activity, int idle)
 void
 LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 {
-  noise = noise_threshold / 1000;
-  activity = activity_threshold / 1000;
-  idle = idle_threshold / 1000;
+  noise = static_cast<int>(noise_threshold / 1000);
+  activity = static_cast<int>(activity_threshold / 1000);
+  idle = static_cast<int>(idle_threshold / 1000);
 }
 
 

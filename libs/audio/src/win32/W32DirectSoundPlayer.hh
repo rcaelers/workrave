@@ -23,7 +23,6 @@
 #include "ISoundDriver.hh"
 
 #include <windows.h>
-#include <dxerr8.h>
 #include <dsound.h>
 #include <string>
 
@@ -86,6 +85,8 @@ private:
   void fill_buffer();
   bool is_buffer_lost();
   void restore_buffer();
+  std::string get_error_string(DWORD error_code);
+
 
 private:
   std::string filename;

@@ -32,9 +32,11 @@
 #include "crashlog.h"
 #include "harpoon.h"
 
-#include <algorithm>
 #include <fcntl.h>
 #include <io.h>
+
+#undef min
+#include <algorithm>
 
 #ifndef _O_APPEND
 #define _O_APPEND       0x0008

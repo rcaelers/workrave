@@ -1,0 +1,13 @@
+harpoon/src/Debug
+harpoon/src/Release
+harpoon/src/x64/Debug
+harpoon/src/x64/Release
+harpoonHelper/src/Debug
+harpoonHelper/src/Release
+harpoonHelper/src/x64/Debug
+harpoonHelper/src/x64/Release
+Output
+*.sdf
+*.opensdf
+*.suo
+*.user
