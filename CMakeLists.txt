@@ -2,6 +2,11 @@ project(Workrave)
 
 cmake_minimum_required(VERSION 2.8)
 
+	
+if(POLICY CMP0020)
+  cmake_policy(SET CMP0020 NEW)
+endif()
+
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
 
@@ -35,8 +40,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #
 #include(build/cmake/macros.cmake)
-
-find_package(PkgConfig REQUIRED)
 
 include(CheckLibraryExists)
 include(CheckStructHasMember)
@@ -79,32 +82,45 @@ endmacro()
 #----------------------------------------------------------------------------------------------------
 # Compiler
 
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11) 
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-CHECK_C_COMPILER_FLAG("-std=c99" COMPILER_SUPPORTS_C99)
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
-if(COMPILER_SUPPORTS_CXX11) 
-  set(CXX11_FLAGS -std=c++11)
-elseif(COMPILER_SUPPORTS_CXX0X) 
-  set(CXX11_FLAGS -std=c++01)
-else() 
-  message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.") 
+  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11) 
+  CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+
+  if(COMPILER_SUPPORTS_CXX11) 
+    set(CXX11_FLAGS -std=c++11)
+  elseif(COMPILER_SUPPORTS_CXX0X) 
+    set(CXX11_FLAGS -std=c++01)
+  elseif()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.") 
+  endif()
+
+  if (CXX11_FLAGS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX11_FLAGS}")
+    CHECK_CXX_COMPILER_FLAG("${CXX11_FLAGS} -stdlib=libc++" HAS_LIBCXX11)
+  endif()
+
+  CHECK_C_COMPILER_FLAG("-std=c99" COMPILER_SUPPORTS_C99)
+  if(COMPILER_SUPPORTS_C99) 
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+  endif()
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  if (NOT (MSVC11 OR MSVC12))
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.") 
+  endif()
 endif()
 
-if (CXX11_FLAGS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX11_FLAGS}")
-  CHECK_CXX_COMPILER_FLAG("${CXX11_FLAGS} -stdlib=libc++" HAS_LIBCXX11)
-endif()
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O2")
-
-if(COMPILER_SUPPORTS_C99) 
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O2")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O2")
   if (NOT WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
   endif()
@@ -145,6 +161,13 @@ set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
   message(FATAL_ERROR "Option ${WITH_UI} not supported for WITH_UI, valid entries are ${WITH_UI_VALUES}")
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Pkg-config
+
+if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
+   find_package(PkgConfig REQUIRED)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -293,20 +316,22 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # GStreamer
 
-option(WITH_GSTREAMER "Enable GStreamer audio" ON)
-
-if (WITH_GSTREAMER)
-  message("Checking for: GStreamer")
-
-  pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
-  if (GSTREAMER_FOUND)
-    set (HAVE_GSTREAMER ON)
-  else()
-    pkg_check_modules(GSTREAMER QUIET gstreamer-0.10)
+if (UNIX AND NOT APPLE)
+  option(WITH_GSTREAMER "Enable GStreamer audio" ON)
+  
+  if (WITH_GSTREAMER)
+    message("Checking for: GStreamer")
+  
+    pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
     if (GSTREAMER_FOUND)
       set (HAVE_GSTREAMER ON)
     else()
-      set (WITH_GSTREAMER OFF)
+      pkg_check_modules(GSTREAMER QUIET gstreamer-0.10)
+      if (GSTREAMER_FOUND)
+        set (HAVE_GSTREAMER ON)
+      else()
+        set (WITH_GSTREAMER OFF)
+      endif()
     endif()
   endif()
 endif()
@@ -314,54 +339,57 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Pulseaudio
 
-option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
-
-if (WITH_PULSE)
-  message("Checking for: Pulseaudio")
-
-  pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
+if (UNIX AND NOT APPLE)
+  option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
   
-  if (PULSE_FOUND)
-    set (HAVE_PULSE ON)
-  else()
-    set (WITH_PULSE OFF)
+  if (WITH_PULSE)
+    message("Checking for: Pulseaudio")
+  
+    pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
+    
+    if (PULSE_FOUND)
+      set (HAVE_PULSE ON)
+    else()
+      set (WITH_PULSE OFF)
+    endif()
   endif()
 endif()
-
 
 #----------------------------------------------------------------------------------------------------
 # Indicator
 
-option(WITH_INDICATOR "Enable Unity indicator support" ON)
-option(LOCALINSTALL "Install file locally instead of to system location" OFF)
+if (UNIX AND NOT APPLE)
+  option(WITH_INDICATOR "Enable Unity indicator support" ON)
+  option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
-if (WITH_INDICATOR)
-  message("Checking for: Unity Indicators")
+  if (WITH_INDICATOR)
+    message("Checking for: Unity Indicators")
 
-  find_package(GObjectIntrospection 0.9.12)
-  set(HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
+    find_package(GObjectIntrospection 0.9.12)
+    set(HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
 
-  if (HAVE_INTROSPECTION)
-    pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+    if (HAVE_INTROSPECTION)
+      pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+    endif()
+      
+    if (INDICATOR_FOUND)
+      set(HAVE_INDICATOR ON)
+    else()
+      set(WITH_INDICATOR OFF)
+    endif()
   endif()
-    
-  if (INDICATOR_FOUND)
-    set(HAVE_INDICATOR ON)
-  else()
-    set(WITH_INDICATOR OFF)
-  endif()
-endif()
 
-if (HAVE_INDICATOR)
-  if (LOCALINSTALL)
-    set(INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
-    set(INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
-  else()
-    pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
-    pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
+  if (HAVE_INDICATOR)
+    if (LOCALINSTALL)
+      set(INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
+      set(INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
+    else()
+      pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
+      pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
 
-    #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
-    #set(INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
+      #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
+      #set(INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
+    endif()
   endif()
 endif()
 
@@ -373,6 +401,10 @@ if (HAVE_TESTS)
 else()
   find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono)
 endif()
+
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIR})
+
 #----------------------------------------------------------------------------------------------------
 # Translations
 
@@ -426,10 +458,12 @@ if (WIN32)
     set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
   endif()
   
-  option(PREBUILT_PATH "Location of prebuilt binaries" OFF)
+  if (NOT MSVC)
+     option(PREBUILT_PATH "Location of prebuilt binaries" OFF)
 
-  if (NOT PREBUILT_PATH)
-    message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location if prebuilt win32")
+     if (NOT PREBUILT_PATH)
+        message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location if prebuilt win32")
+     endif()
   endif()
 
   set (PLATFORM_OS_WIN32 ON)
@@ -441,11 +475,11 @@ if (WIN32)
   set(HAVE_LANGUAGE_SELECTION TRUE)
 
   if(MSVC)
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
+    add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
   
-    SET(MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
-    SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
-    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
+    set(MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
+    set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 

@@ -64,7 +64,14 @@ configure_file(
   ESCAPE_QUOTES
 )
 
-string(REPLACE "/" "\\" PREBUILTDIR ${PREBUILT_PATH})
+if (MSVC)
+   set(APPLET_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/frontend/applets/win32/src/Output")
+   set(HOOK_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/hooks/Output")
+else()
+   string(REPLACE "/" "\\" APPLET_BINARY_DIR ${PREBUILT_PATH})
+   string(REPLACE "/" "\\" HOOK_BINARY_DIR ${PREBUILT_PATH})
+endif()
+
 string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
 
 configure_file(

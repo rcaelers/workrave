@@ -30,7 +30,7 @@
 
 #include <QMenu>
 
-typedef std::function<bool (MenuModel::Ptr)> MenuModelFilter;
+typedef boost::function<bool (MenuModel::Ptr)> MenuModelFilter;
 
 namespace detail
 {

@@ -57,6 +57,7 @@ public:
       case VARIANT_TYPE_STRING:
         return get_config_value(key, value.string_value);
       }
+	return false;
   }
 
 
@@ -79,6 +80,7 @@ public:
       case VARIANT_TYPE_STRING:
         return set_config_value(key, value.string_value);
       }
+	return false;
   }
 };
 
