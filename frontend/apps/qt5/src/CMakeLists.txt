@@ -63,7 +63,7 @@ qt5_wrap_cpp(MOC_SRC
 )
 
 if (PLATFORM_OS_OSX)
-   set(MOCSRC ${MOCSRC} 
+  qt5_wrap_cpp(MOC_SRC
     Dock.hh
    )
 endif()
