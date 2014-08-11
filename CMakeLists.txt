@@ -394,7 +394,18 @@ if (UNIX AND NOT APPLE)
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# Misc
+# Boost
+
+if(MSVC)
+  if (NOT DEFINED BOOST_ALL_DYN_LINK)
+    set(BOOST_ALL_DYN_LINK TRUE)
+  endif()
+
+  set(BOOST_ALL_DYN_LINK "${BOOST_ALL_DYN_LINK}" CACHE BOOL "boost enable dynamic linking")
+  if (BOOST_ALL_DYN_LINK)
+    add_definitions(-DBOOST_ALL_DYN_LINK)
+  endif()
+endif(MSVC)
 
 if (HAVE_TESTS)
   find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)

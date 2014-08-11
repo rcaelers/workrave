@@ -125,6 +125,10 @@ if (APPLE)
 
 endif()
 
+if (PLATFORM_OS_WIN32)
+   set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+endif()
+
 target_link_libraries(Workrave workrave-frontend-common)
 target_link_libraries(Workrave workrave-backend)
 target_link_libraries(Workrave workrave-libs-config)
@@ -172,6 +176,8 @@ if (PLATFORM_OS_WIN32)
     )
 
    target_link_libraries(Workrave dsound dxguid)
+   link_directories(${Boost_LIBRARY_DIR})
+
 endif()
 
 install(TARGETS Workrave RUNTIME DESTINATION bin BUNDLE DESTINATION ".")
