@@ -35,8 +35,13 @@ public:
 
   void heartbeat();
 
+  void moveEvent(QMoveEvent * event);
+
 public slots:
   void on_show_contextmenu(const QPoint& pos);
+
+private:
+  void move_to_start_position();
 
 private:
   ToolkitMenu::Ptr menu;
