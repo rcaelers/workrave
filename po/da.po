@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2013-10-28 20:44+0100\n"
-"PO-Revision-Date: 2011-02-16 19:20+0100\n"
-"Last-Translator: Christian Vejlbo <cve@vejlbo.dk>\n"
-"Language-Team:  <da@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-08-15 11:40+0100\n"
+"Last-Translator: Frederik Svarre <fsvarre@gmail.com>\n"
+"Language-Team: http://FSLab.dk <support@fslab.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n !=1;\n"
+"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: ../frontend/common/src/Text.cc:86
 #, c-format
@@ -38,7 +41,7 @@ msgstr "%s, fra %s til %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:255
 msgid "(font not available)"
-msgstr ""
+msgstr "(Skrifttype ikke tilgængelig)"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
@@ -59,27 +62,24 @@ msgid "Applet enabled"
 msgstr "Applet aktiveret"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"Dette program hjælper med at forebygge RSI syndrom (Repetetive Strain "
-"Injury).\n"
-"Endvidere kan det hjælpe brugere til bedre skærmvaner."
+"Hjælper med forebyggelse og bedring af RSI syndrom (Repetetive Strain Injury)"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
-msgstr "Skulder stræ"
+msgstr "Baglæns skulderstræk"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:164
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "Block input"
-msgstr "Bloker bruger input"
+msgstr "Bloker input"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:169
 msgid "Block input and screen"
-msgstr "Bloker alt"
+msgstr "Bloker input og skærm"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:191
 msgid "Block mode:"
@@ -87,7 +87,7 @@ msgstr "Blokeringsindstilling:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
-msgstr "Pause længde:"
+msgstr "Pauselængde:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, c-format
@@ -101,7 +101,7 @@ msgstr "Pauseanmodninger"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
-msgstr "Pause anmodninger"
+msgstr "Pauseanmodninger"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
@@ -109,7 +109,7 @@ msgstr "Pauser"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
-msgstr "Antal pauser udsat"
+msgstr "Udsatte pauser"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
@@ -120,9 +120,8 @@ msgid "Browse history"
 msgstr "Historik"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:419
-#, fuzzy
 msgid "Choose a sound"
-msgstr "Ingen lyde"
+msgstr "Vælg en lyd"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:14
 msgid ""
@@ -131,7 +130,7 @@ msgid ""
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
 "Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn "
-"nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre "
+"nu øjnene og se ind i mørket i dine håndflader. Øvelsen giver bedre "
 "afslapning til dine øjne sammenlignet med bare at lukke dem."
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
@@ -169,7 +168,7 @@ msgstr "Dato:"
 #. Delete button
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:151
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Slet al statistikhistorik"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, c-format
@@ -189,6 +188,8 @@ msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
+"Aktiver denne indstilling hvis Workrave ikke opfanger hvornår du bruger din "
+"computer"
 
 #. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
@@ -196,17 +197,16 @@ msgid "Enable timer"
 msgstr "Aktiver timer"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:303
-#, fuzzy
 msgid "End exercises"
-msgstr "Øvelser"
+msgstr "Afslut øvelser"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:632
 msgid "Error"
-msgstr ""
+msgstr "Fejl"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:403
 msgid "Event"
-msgstr ""
+msgstr "Hændelse"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:176
@@ -218,15 +218,15 @@ msgstr "Øvelser"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:263
 msgid "Exercises player"
-msgstr "Øvelser"
+msgstr "Øvelsesafspiller"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:628
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Sletning af filen mislykkedes!"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:618
 msgid "Files deleted!"
-msgstr ""
+msgstr "Filerne er slettet!"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
@@ -243,7 +243,7 @@ msgstr "Skjul"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:622
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:8
 msgid ""
@@ -256,7 +256,7 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/GUI.cc:778
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Kører Workrave allerede?"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:2
 msgid ""
@@ -265,7 +265,7 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
-"Hold den ene arm strukket skråt fremad ud i luften foran din brystkasse. Med "
+"Hold den ene arm strukket lige fremad ud i luften foran din brystkasse. Med "
 "din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker "
 "et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med "
 "den modsatte arm."
@@ -276,7 +276,7 @@ msgstr "Tastetryk:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:280
 msgid "Language:"
-msgstr ""
+msgstr "Sprog:"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid ""
@@ -304,7 +304,7 @@ msgstr ""
 
 #: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
-msgstr "Kig ind i mørke"
+msgstr "Se ind i mørke"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
@@ -326,15 +326,13 @@ msgstr "Mikropause:"
 #  Mode menu item
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
-#, fuzzy
 msgid "Mode"
-msgstr "_Tilstand"
+msgstr "Tilstand"
 
 #  Mode menu item
 #: ../frontend/gtkmm/src/GUI.cc:1446 ../frontend/gtkmm/src/GUI.cc:1450
-#, fuzzy
 msgid "Mode: "
-msgstr "_Tilstand"
+msgstr "Tilstand: "
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
@@ -361,27 +359,24 @@ msgid "Move the shoulders up and down"
 msgstr "Bevæg skuldrene op og ned"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Placer hvilepauser og daglig grænse på samme tidspunkt"
+msgstr "Lydløs under pause og daglig grænse"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Naturlige pauser afholdt"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:207
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Naturlige pauser afholdt"
+msgstr "Naturlig pause"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
-msgstr "Udstræk af nakke"
+msgstr "Udstrækning af nakke"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:298
-#, fuzzy
 msgid "Next exercise"
-msgstr "Antal øvelser:"
+msgstr "Næste øvelse"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:247
 #, c-format
@@ -391,7 +386,7 @@ msgstr "Næste hvilepause om %s"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:167
 msgid "No blocking"
-msgstr "Ingen"
+msgstr "Ingen blokering"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:323
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:326
@@ -400,9 +395,8 @@ msgstr "Ingen lyde"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#, fuzzy
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normal"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
 msgid "Number of exercises:"
@@ -410,9 +404,8 @@ msgstr "Antal øvelser:"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:188
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#, fuzzy
 msgid "Open"
-msgstr "Å_ben"
+msgstr "Åben"
 
 #  Options
 #. Options
@@ -431,24 +424,23 @@ msgstr "Pause"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:487
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Antal øvelser:"
+msgstr "Sæt øvelser på pause"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place all timers in one spot"
-msgstr "Placer alle pauser på samme tidspunkt"
+msgstr "Placer alle pauser ét sted"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:90
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:95
 msgid "Place micro-break and rest break in one spot"
-msgstr "Placér mikropauser og hvilepauser på samme tidspunkt"
+msgstr "Placér mikropauser og hvilepauser ét sted"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place rest break and daily limit in one spot"
-msgstr "Placer hvilepauser og daglig grænse på samme tidspunkt"
+msgstr "Placer hvilepauser og daglig grænse ét sted"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:89
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
@@ -463,7 +455,7 @@ msgstr "Placering:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:416
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:446
 msgid "Play"
-msgstr ""
+msgstr "Afspil"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:327
@@ -472,11 +464,11 @@ msgstr "Afspil lyde vha. lydkort"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
 msgid "Please relax for a few seconds"
-msgstr "Udnyt den lille pause til at slappe lidt af."
+msgstr "Slap venligst af i nogle sekunder"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Postpone time:"
-msgstr "Udsættelses-periode:"
+msgstr "Udsættelsestid:"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:78
@@ -487,7 +479,7 @@ msgstr "Indstillinger"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
-msgstr ""
+msgstr "Tidligere øvelse"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
@@ -495,7 +487,7 @@ msgstr "Anmod før afholdelse af pauser"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
-msgstr "Anmodede pauser holdt"
+msgstr "Anmodede pauser afholdt"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:18
 msgid ""
@@ -504,7 +496,7 @@ msgid ""
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
 "Tag fat på armlænene på din stol. Pres dig opad i armene indtil de er "
-"strækkede. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. "
+"strakte. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. "
 "Bevæg dig forsigtigt tibage på plads."
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:148
@@ -516,21 +508,19 @@ msgstr "St_ille"
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
 #: ../frontend/gtkmm/src/GUI.cc:1450
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
-#, fuzzy
 msgid "Quiet"
-msgstr "St_ille"
+msgstr "Stille"
 
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#, fuzzy
 msgid "Quit"
-msgstr "_Luk"
+msgstr "Luk"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "Reading mode"
-msgstr ""
+msgstr "Læsetilstand"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Regard micro-breaks as activity"
@@ -552,7 +542,7 @@ msgstr "Hvilepause"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:252
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
+msgstr "Hvilepause er overskredet med %s minutter"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:165
 #, c-format
@@ -568,9 +558,8 @@ msgid "Resume"
 msgstr "Genoptag"
 
 #: ../frontend/gtkmm/src/ExercisesPanel.cc:485
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Antal øvelser:"
+msgstr "Fortsæt øvelser"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid ""
@@ -584,7 +573,7 @@ msgstr ""
 
 #: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
-msgstr "Skulder/arm udstrækning"
+msgstr "Skulder-arm udstrækning"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:117
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:121
@@ -592,19 +581,16 @@ msgid "Show"
 msgstr "Vis"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
-#, fuzzy
 msgid "Show 'Postpone' button"
-msgstr "Vis knapperne 'Udsæt' samt 'Spring Over'"
+msgstr "Vis knappen 'Udsæt'"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
-#, fuzzy
 msgid "Show 'Skip' button"
-msgstr "Vis knapperne 'Udsæt' samt 'Spring Over'"
+msgstr "Vis knappen 'Spring over'"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
-#, fuzzy
 msgid "Show log"
-msgstr "_Vis logfil"
+msgstr "Vis log"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
@@ -613,39 +599,36 @@ msgstr "Vis kun første gang perioden udløber"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:131
 msgid "Show status window"
-msgstr "Vis status vindue"
+msgstr "Vis statusvindue"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Vis proceslinjeikon"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:333
-#, fuzzy
 msgid "Shut _down"
 msgstr "Luk _ned"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, c-format
 msgid "Silent in %s"
-msgstr "Tavs om %s"
+msgstr "Lydløs om %s"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
-msgstr ""
+msgstr "Lydhændelser"
 
 #  Options
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:314
-#, fuzzy
 msgid "Sound Options"
-msgstr "Muligheder"
+msgstr "Lydindstillinger"
 
 #  panel->add(*start_in_tray_cb);
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:375
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "Lyd:"
+msgstr "Lyd-tema:"
 
 #  panel->add(*start_in_tray_cb);
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
@@ -654,9 +637,8 @@ msgstr "Lyd:"
 
 #  panel->add(*start_in_tray_cb);
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:104
-#, fuzzy
 msgid "Sounds"
-msgstr "Lyd:"
+msgstr "Lyde"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:16
 msgid ""
@@ -670,11 +652,11 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:284
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Start Workrave når Windows startes"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:177
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Start pause når skærmen låses"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:6
 msgid ""
@@ -683,10 +665,10 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Se lige frem og find en behagelig position med hovedet. Læg højre øre mod "
-"højre skulder, så dine muskler på venstre side af halsen strækker. Hold "
-"strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre "
-"skulder. Udfør øvelsen to gange til hver side."
+"Se lige frem og find en behagelig position med hovedet. Læg langsomt højre "
+"øre mod højre skulder, så dine muskler på venstre side af halsen strækkes. "
+"Hold strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod "
+"venstre skulder. Udfør øvelsen to gange til hver side."
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:181
@@ -695,36 +677,36 @@ msgstr ""
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:157
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Statistiker"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "Status Window"
-msgstr "Status Vindue"
+msgstr "Statusvindue"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
 #: ../frontend/gtkmm/src/GUI.cc:1446
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#, fuzzy
 msgid "Suspended"
 msgstr "_Suspenderet"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:211
 msgid "System default"
-msgstr ""
+msgstr "Systemstandard"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
-#, fuzzy
 msgid "Take rest break now"
-msgstr "Næste hvilepause om %s"
+msgstr "Hold pause nu"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:629
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
+"Filerne indeholdende din statistikhistorik kunne ikke slettes. Vil du "
+"forsøge igen?"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:619
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "Filerne med din statistikhistorik er blevet slettet."
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
@@ -732,15 +714,15 @@ msgstr "Antallet af pauser du har udsat"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
-msgstr "Antal pauser afbrudt"
+msgstr "Antal pauser du er sprunget over"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
-msgstr "Antal gange du holdt pause efter at være blevet anmodet"
+msgstr "Antal gange du har holdt pause efter at være blevet anmodet om det"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
-msgstr "Antal gange du har holdt pause uden at være anmodet om det"
+msgstr "Antal gange du har holdt pause uden at blive anmodet om det"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:205
 msgid ""
@@ -752,7 +734,7 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Antal gange anmodninger om pauser er blevet gentaget"
+msgstr "Antal gange du er blevet bedt om at holde pause gentagne gange"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
 msgid "The status window stays always on top of other windows"
@@ -767,8 +749,8 @@ msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Den totale musebevægelse du ville have haft, hvis du havde bevæget din mus\n"
-"i lige linier mellem klik"
+"Den totale musebevægelse du ville have haft, hvis du havde bevæget din mus i "
+"lige linier mellem klik"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
@@ -791,9 +773,8 @@ msgid "The total time you were using the mouse"
 msgstr "Den totale tid du har brugt musen"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:208
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Du har brug for en hvilepause..."
+msgstr "Dette er din naturlige pause."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:214
 msgid ""
@@ -801,9 +782,9 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Nu har du hvilepause. Rejs dig jævnligt og gå lidt rundt\n"
-"væk fra computeren. Slap blot lidt af i et par minutter:\n"
-"stræk ud, slap af, tag lidt kaffe eller lignende. "
+"Nu har du hvilepause. Sørg for at rejse dig og\n"
+"gå væk fra computeren jævnligt. Gå blot rundt\n"
+"i nogle minutter, stræk ud og slap af."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
 #: ../frontend/gtkmm/src/Menus.cc:360
@@ -812,20 +793,19 @@ msgid ""
 "Injury (RSI)."
 msgstr ""
 "Dette program hjælper med at forebygge RSI syndrom (Repetetive Strain "
-"Injury).\n"
-"Endvidere kan det hjælpe brugere til bedre skærmvaner."
+"Injury)."
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
-msgstr "Tid før pause:"
+msgstr "Tid før ophør:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
-msgstr "Tid før pause:"
+msgstr "Tid mellem pauser:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
-msgstr "Tid til en mikropause ?"
+msgstr "Tid til en mikropause?"
 
 #  Notebook
 #. Notebook
@@ -848,12 +828,12 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter "
-"hovedet mod højre i to sekunder."
+"Drej hovedet mod venstre og bliv der i to sekunder. Drej derefter hovedet "
+"mod højre  og bliv der i to sekunder."
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:532
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Brug en alternativ skærm"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "User interface"
@@ -861,7 +841,7 @@ msgstr "Brugergrænseflade"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
-msgstr ""
+msgstr "Lydstyrke:"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
 msgid "Wait"
@@ -870,36 +850,39 @@ msgstr "Vent"
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:602
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:606
 msgid "Warning"
-msgstr ""
+msgstr "Advarsel"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:431
 msgid "Wavefiles"
-msgstr ""
+msgstr "Wave-filer"
 
 #: ../frontend/gtkmm/src/GUI.cc:776
-#, fuzzy
 msgid "Workrave failed to start"
-msgstr "Workrave-Applet"
+msgstr "Workrave kunne ikke starte"
 
 #: ../frontend/gtkmm/src/GUI.cc:1311
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrave er i tilstanden lydløs. Der vil ikke vises et pausevindue."
 
 #: ../frontend/gtkmm/src/GUI.cc:1305
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
+"Workrave er i tilstanden suspenderet. Mus og tastatur aktivitet vil ikke "
+"blive moniteret."
 
 #: ../frontend/gtkmm/src/GUI.cc:298
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave kører stadig. Du kan åbne Workrave ved at klikke på ikonet med det "
+"hvide får. Klik i dette felt for at deaktivere denne meddelelse"
 
 #: ../frontend/gtkmm/src/StatisticsDialog.cc:603
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "Du har valgt at slette din statistikhistorik. Ønsker du at fortsætte?"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -917,13 +900,12 @@ msgstr "Du har brug for en hvilepause..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
-msgstr "Du bør stoppe for i dag."
+msgstr "Du bør stoppe for i dag..."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:186
-#, fuzzy
 msgid "_About"
-msgstr "Om..."
+msgstr "_Om"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
 msgid "_Disconnect"
@@ -935,10 +917,9 @@ msgstr "_Øvelser"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
-msgstr ""
+msgstr "_Deltag"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:310
-#, fuzzy
 msgid "_Lock"
 msgstr "_Lås"
 
@@ -963,10 +944,9 @@ msgstr "_Normal"
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
-msgstr "Å_ben"
+msgstr "_Åbn"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:371
-#, fuzzy
 msgid "_Postpone"
 msgstr "_Udsæt"
 
@@ -982,7 +962,7 @@ msgstr "_Luk"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 msgid "_Reading mode"
-msgstr ""
+msgstr "_Læse tilstand"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
 msgid "_Reconnect"
@@ -1000,13 +980,12 @@ msgid "_Restbreak"
 msgstr "_Hvilepause"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:354
-#, fuzzy
 msgid "_Skip"
 msgstr "_Spring over"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
 msgid "_Statistics"
-msgstr "_Statistik"
+msgstr "_Statistikker"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:121
@@ -1355,22 +1334,3 @@ msgstr "_Suspenderet"
 
 #~ msgid "_Connect..."
 #~ msgstr "_Opret forbindelse..."
-
-#  Add the credits button
-#~ msgid "_Credits"
-#~ msgstr "_Credits"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumentation af:"
-
-#~ msgid "_Quiet"
-#~ msgstr "St_ille"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Vis historik"
-
-#~ msgid "_Translated by"
-#~ msgstr "_Oversat af"
-
-#~ msgid "_Written by"
-#~ msgstr "_Skrevet af:"
