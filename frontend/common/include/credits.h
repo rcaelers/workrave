@@ -43,6 +43,7 @@ const char *workrave_translators =
  /* cs */           "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
  /* de */           "Johannes Rohr <j.rohr@comlink.apc.org>\n"
  /* dk */           "Christian Vejlbo <christian@vejlbo.dk>\n"
+ /* dk */           "Frederik Svarre <fsvarre@gmail.com>\n"
  /* el */           "Prokopis Prokopidis <prokopidis@gmail.com>\n"
  /* eo */           "Eric lesh <eclesh@pacbell.net>\n"
  /* es */           "Pablo Rodriguez <ousia@gmx.net>\n"
