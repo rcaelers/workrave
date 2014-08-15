@@ -284,6 +284,10 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   # Can be removed with Qt 5.1
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
   
+  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" PATH)
+
+  message ( "loc : ${Qt_BIN_DIR}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
@@ -666,6 +670,14 @@ elseif (WIN32)
   install(
     FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt 
     DESTINATION ${DATADIR}/doc/workrave)
+endif()
+
+if (MSVC)
+   set(APPLET_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/frontend/applets/win32/src/Output")
+   set(HOOK_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/hooks/Output")
+else()
+   string(REPLACE "/" "\\" APPLET_BINARY_DIR ${PREBUILT_PATH})
+   string(REPLACE "/" "\\" HOOK_BINARY_DIR ${PREBUILT_PATH})
 endif()
 
 #----------------------------------------------------------------------------------------------------
