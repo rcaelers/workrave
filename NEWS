@@ -5,7 +5,31 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.10.2
+* Workrave 1.10.5
+
+** Updated tranlations:
+   - Danish (Frederik Svarre)
+
+* Workrave 1.10.4
+
+** Fix gnome-shell applet for Gnome 3.12.
+
+* Workrave 1.10.3
+
+** Bug fixes
+   - bug 1113: Unity Indicator icon doesn't change when in suspended mode
+   - bug 1114: Closing timer window closes program.
+   - bug 1120: make the GNOME shell extension compatible with GNOME 3.8
+   - bug 1136: Status window always appears on startup
+   - bug 1137: Make Workrave start up optional
+   - bug 1146: dconf changes not honored for /org/workrave/general/operation-mode
+   - bug 1147: Suspend timer during screensaver
+   - bug 1148: Double deallocation causes crashes during Workrave shutdown
+   - Fix Workrave icon on Unity
+   - Fix size of prelude window
+   - Fix size of unity indicator timebar
+   - Fixed compatibility with gnome-shell 3.10
+   - Allow Gnome Shell status icon to be enabled/disabled
 
 * Workrave 1.10.1
 
