@@ -38,7 +38,10 @@
 
 #include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
+
+#ifdef PLATFORM_OS_OSX
 #include "Dock.hh"
+#endif
 
 class Toolkit : public QApplication, public IToolkit
 {
@@ -82,10 +85,12 @@ private:
   boost::shared_ptr<ExercisesDialog> exercises_dialog;
 
   boost::shared_ptr<StatusIcon> status_icon;
-  boost::shared_ptr<Dock> dock;
 
-  MenuModel::Ptr menu_model;
+#ifdef PLATFORM_OS_OSX
+  boost::shared_ptr<Dock> dock;
   ToolkitMenu::Ptr dock_menu;
+#endif
+  MenuModel::Ptr menu_model;
   SoundTheme::Ptr sound_theme;
 
   //! Timer signal.

@@ -90,8 +90,10 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   main_window->show();
   main_window->raise();
   
+#ifdef PLATFORM_OS_OSX
   dock = boost::make_shared<Dock>();
   dock->init();
+#endif
 }
 
 void
