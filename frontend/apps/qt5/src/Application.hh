@@ -26,6 +26,7 @@
 
 #include "config/Config.hh"
 #include "utils/ScopedConnections.hh"
+#include "updater/Updater.hh"
 
 #include "IApp.hh"
 
@@ -99,6 +100,7 @@ private:
   void init_bus();
   void init_session();
   void init_startup_warnings();
+  void init_updater();
 
   //void init_qt_multihead();
 
@@ -127,6 +129,9 @@ private:
 
   //!
   Menus::Ptr menus;
+
+  //!
+  workrave::updater::Updater::Ptr updater;
 
   //! The number of command line arguments.
   int argc;

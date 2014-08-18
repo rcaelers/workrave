@@ -133,6 +133,7 @@ Application::main()
   init_session();
   //init_gui();
   init_startup_warnings();
+  init_updater();
 
   connections.connect(toolkit->signal_timer(), boost::bind(&Application::on_timer, this));
   on_timer();
@@ -579,6 +580,15 @@ Application::init_startup_warnings()
    }
 }
 
+void 
+Application::init_updater()
+{
+  updater = workrave::updater::Updater::create("http://snapshots.workrave.org/appcast/");
+  if (updater)
+    {
+      updater->check_for_updates();
+    }
+}
 
 //! Initializes the sound player.
 void
