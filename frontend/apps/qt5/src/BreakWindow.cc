@@ -386,8 +386,9 @@ BreakWindow::start()
       block_window->setPalette(QPalette(Qt::black));
       block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
-
+      
       block_window->showFullScreen();
+      block_window->raise();
 
 #ifdef PLATFORM_OS_OSX
       NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock |
@@ -439,10 +440,10 @@ BreakWindow::start()
     // set_skip_pager_hint(true);
     // set_skip_taskbar_hint(true);
     // WindowHints::set_always_on_top(this, true);
-    // raise();
+  raise();
 
-    TRACE_EXIT();
-    }
+  TRACE_EXIT();
+}
 
 
 //! Stops the daily limit.
