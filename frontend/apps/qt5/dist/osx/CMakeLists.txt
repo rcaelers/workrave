@@ -6,24 +6,25 @@ if (APPLE)
 
   include(InstallRequiredSystemLibraries)
   
-  SET(QT_PLUGINS_DIR "${_qt5Core_install_prefix}/plugins")
+  set(QT_PLUGINS_DIR "${_qt5Core_install_prefix}/plugins")
   
-  SET(plugin_dest_dir "Workrave.app/Contents/MacOS")
-  SET(qtconf_dest_dir "Workrave.app/Contents/Resources")
+  set(plugin_dest_dir "Workrave.app/Contents/MacOS")
+  set(qtconf_dest_dir "Workrave.app/Contents/Resources")
   
   message(${plugin_dest_dir})
   
-  INSTALL(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-  INSTALL(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-  INSTALL(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+  install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+  install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+#  install(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   
   # Install a qt.conf file.
   # This inserts some cmake code into the install script to write the file
-  INSTALL(CODE "
+  install(CODE "
     file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = MacOS/plugins/\")
     " COMPONENT Runtime)
   
   install(CODE "
+       cmake_policy(SET CMP0009 NEW)
        file(GLOB_RECURSE PLUGINS \"\${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/MacOS/*\")
        message(\"plugins \${PLUGINS}\")
        include(BundleUtilities)
