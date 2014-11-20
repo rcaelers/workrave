@@ -552,7 +552,7 @@ config_panelapplet4=no
 if test "x$enable_gnome3" != "xno" -a "x$config_dbus" = "xyes"
 then
     PKG_CHECK_MODULES([GNOME3],
-                      [libpanelapplet-4.0 \
+                      [libpanel-applet \
 		       gio-2.0 >= 2.26.0],
                       [config_gnome3=yes
                        config_panelapplet4=yes
