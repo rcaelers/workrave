@@ -585,17 +585,13 @@ workrave_applet_set_visible(WorkraveApplet *applet, gchar *name, gboolean visibl
 static void
 workrave_applet_set_all_visible(WorkraveApplet *applet, gboolean visible)
 {
-  workrave_applet_set_visible(applet, "Preferences", visible);
-  workrave_applet_set_visible(applet, "Restbreak", visible);
-  workrave_applet_set_visible(applet, "Network", visible);
-  workrave_applet_set_visible(applet, "Normal", visible);
-  workrave_applet_set_visible(applet, "Suspended", visible);
-  workrave_applet_set_visible(applet, "Quiet", visible);
-  workrave_applet_set_visible(applet, "Mode", visible);
-  workrave_applet_set_visible(applet, "Statistics", visible);
-  workrave_applet_set_visible(applet, "Exercises", visible);
-  workrave_applet_set_visible(applet, "ReadingMode", visible);
-  workrave_applet_set_visible(applet, "Quit", visible);
+  workrave_applet_set_visible(applet, "preferences", visible);
+  workrave_applet_set_visible(applet, "restbreak", visible);
+  workrave_applet_set_visible(applet, "mode", visible);
+  workrave_applet_set_visible(applet, "statistics", visible);
+  workrave_applet_set_visible(applet, "exercises", visible);
+  workrave_applet_set_visible(applet, "readingmode", visible);
+  workrave_applet_set_visible(applet, "quit", visible);
 }
 
 
