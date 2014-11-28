@@ -18,41 +18,47 @@
     <attribute name="action">workrave.statistics</attribute>
   </item>
 </section>
-<section>
-  <item>
-    <attribute name="label" translatable="yes">Normal</attribute>
-    <attribute name="action">workrave.mode</attribute>
-    <attribute name="target">0</attribute>
-  </item>
-  <item>
-    <attribute name="label" translatable="yes">Suspended</attribute>
-    <attribute name="action">workrave.mode</attribute>
-    <attribute name="target">1</attribute>
-  </item>
-  <item>
-    <attribute name="label" translatable="yes">Quiet</attribute>
-    <attribute name="action">workrave.mode</attribute>
-    <attribute name="target">2</attribute>
-  </item>
-</section>
-<section>
-  <item>
-    <attribute name="label" translatable="yes">_Join</attribute>
-    <attribute name="action">workrave.join</attribute>
-  </item>
-  <item>
-    <attribute name="label" translatable="yes">_Disconnect</attribute>
-    <attribute name="action">workrave.disconnect</attribute>
-  </item>
-  <item>
-    <attribute name="label" translatable="yes">_Reconnect</attribute>
-    <attribute name="action">workrave.reconnect</attribute>
-  </item>
-  <item>
-    <attribute name="label" translatable="yes">Show log</attribute>
-    <attribute name="action">workrave.showlog</attribute>
-  </item>
-</section>
+<submenu>
+  <attribute name="label" translatable="yes">_Mode</attribute>
+  <section>
+    <item>
+      <attribute name="label" translatable="yes">Normal</attribute>
+      <attribute name="action">workrave.mode</attribute>
+      <attribute name="target">0</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Suspended</attribute>
+      <attribute name="action">workrave.mode</attribute>
+      <attribute name="target">1</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Quiet</attribute>
+      <attribute name="action">workrave.mode</attribute>
+      <attribute name="target">2</attribute>
+    </item>
+  </section>
+</submenu>
+<submenu>
+  <attribute name="label" translatable="yes">_Network</attribute>
+  <section>
+    <item>
+      <attribute name="label" translatable="yes">_Join</attribute>
+      <attribute name="action">workrave.join</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Disconnect</attribute>
+      <attribute name="action">workrave.disconnect</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Reconnect</attribute>
+      <attribute name="action">workrave.reconnect</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Show log</attribute>
+      <attribute name="action">workrave.showlog</attribute>
+    </item>
+  </section>
+</submenu>
 <section>
   <item>
     <attribute name="label" translatable="yes">Reading mode</attribute>
