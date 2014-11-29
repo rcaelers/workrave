@@ -508,7 +508,11 @@ static void
 showlog_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  gboolean new_state = g_variant_get_boolean(value);
+  GVariant *state = g_action_get_state(G_ACTION(action));
+
+  gboolean new_state = !g_variant_get_boolean(state);
+  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
+  g_variant_unref(state);
 
   applet->priv->last_showlog_state = new_state;
 
@@ -530,7 +534,11 @@ static void
 reading_mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  gboolean new_state = g_variant_get_boolean(value);
+  GVariant *state = g_action_get_state(G_ACTION(action));
+
+  gboolean new_state = !g_variant_get_boolean(state);
+  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
+  g_variant_unref(state);
 
   applet->priv->last_reading_mode_state = new_state;
 
@@ -600,8 +608,8 @@ static const GActionEntry menu_actions [] = {
   { "join",        on_menu_connect     },
   { "disconnect",  on_menu_disconnect  },
   { "reconnect",   on_menu_reconnect   },
-  { "showlog",     NULL, "b", "false", showlog_callback },
-  { "readingmode", NULL, "b", "false", reading_mode_callback },
+  { "showlog",     showlog_callback,      NULL, "false" },
+  { "readingmode", reading_mode_callback, NULL, "false" },
   { "about",       on_menu_about       },
   { "quit",        on_menu_quit        },
 };
