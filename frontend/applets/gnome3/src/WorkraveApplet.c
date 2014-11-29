@@ -50,7 +50,6 @@ struct _WorkraveAppletPrivate
   int orientation;
   gboolean last_showlog_state;
   gboolean last_reading_mode_state;
-  int last_mode;
 
   GDBusObjectManagerServer *manager;
   guint service_id;
@@ -551,25 +550,22 @@ reading_mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data
 static void
 mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
+  g_simple_action_set_state(action, value);
+
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  const char *modes[] = { "normal", "suspended", "quiet" };
-  guchar mode = g_variant_get_byte(value);
 
-  if (mode >= 0 && mode < G_N_ELEMENTS(modes))
+  const gchar *mode = g_variant_get_string(value, 0);
+
+  if (applet->priv->core != NULL)
     {
-      applet->priv->last_mode = mode;
-
-      if (applet->priv->core != NULL)
-        {
-          g_dbus_proxy_call(applet->priv->core,
-                            "SetOperationMode",
-                            g_variant_new("(s)", modes[mode]),
-                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
-                            -1,
-                            NULL,
-                            (GAsyncReadyCallback) dbus_call_finish,
-                            &applet);
-        }
+      g_dbus_proxy_call(applet->priv->core,
+                        "SetOperationMode",
+                        g_variant_new("(s)", mode),
+                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                        -1,
+                        NULL,
+                        (GAsyncReadyCallback) dbus_call_finish,
+                        &applet);
     }
 }
 
@@ -594,14 +590,13 @@ workrave_applet_set_all_visible(WorkraveApplet *applet, gboolean visible)
   workrave_applet_set_visible(applet, "quit", visible);
 }
 
-
 static const GActionEntry menu_actions [] = {
   { "open",        on_menu_open        },
   { "statistics",  on_menu_statistics  },
   { "preferences", on_menu_preferences },
   { "exercises",   on_menu_exercises   },
   { "restbreak",   on_menu_restbreak   },
-  { "mode",        NULL, "y", "0", mode_callback },
+  { "mode",        mode_callback, "s", "'normal'" },
   { "join",        on_menu_connect     },
   { "disconnect",  on_menu_disconnect  },
   { "reconnect",   on_menu_reconnect   },
@@ -853,7 +848,6 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->orientation = 0;
   priv->last_showlog_state = FALSE;
   priv->last_reading_mode_state = FALSE;
-  priv->last_mode = 0;
   priv->manager = NULL;
   priv->service_id = 0;
   priv->support = NULL;

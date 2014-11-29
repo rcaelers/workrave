@@ -24,17 +24,17 @@
     <item>
       <attribute name="label" translatable="yes">Normal</attribute>
       <attribute name="action">workrave.mode</attribute>
-      <attribute name="target">0</attribute>
+      <attribute name="target">normal</attribute>
     </item>
     <item>
       <attribute name="label" translatable="yes">Suspended</attribute>
       <attribute name="action">workrave.mode</attribute>
-      <attribute name="target">1</attribute>
+      <attribute name="target">suspended</attribute>
     </item>
     <item>
       <attribute name="label" translatable="yes">Quiet</attribute>
       <attribute name="action">workrave.mode</attribute>
-      <attribute name="target">2</attribute>
+      <attribute name="target">quiet</attribute>
     </item>
   </section>
 </submenu>
