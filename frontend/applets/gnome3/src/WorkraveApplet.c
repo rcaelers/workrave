@@ -459,6 +459,21 @@ on_menu_quit(GSimpleAction *action, GVariant *parameter, gpointer user_data)
   menu_call(applet, "Quit");
 }
 
+static void
+on_menu_mode(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+{
+  g_action_change_state (G_ACTION(action), parameter);
+}
+
+static void
+on_menu_toggle(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+{
+  GVariant *state = g_action_get_state(G_ACTION(action));
+
+  gboolean new_state = !g_variant_get_boolean(state);
+  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
+  g_variant_unref(state);
+}
 
 static gboolean
 plug_removed(GtkSocket *socket, WorkraveApplet *applet)
@@ -508,12 +523,9 @@ static void
 showlog_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GVariant *state = g_action_get_state(G_ACTION(action));
+  g_simple_action_set_state(action, value);
 
-  gboolean new_state = !g_variant_get_boolean(state);
-  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
-  g_variant_unref(state);
-
+  gboolean new_state = g_variant_get_boolean(value);
   applet->priv->last_showlog_state = new_state;
 
   if (applet->priv->control != NULL)
@@ -534,12 +546,9 @@ static void
 reading_mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GVariant *state = g_action_get_state(G_ACTION(action));
+  g_simple_action_set_state(action, value);
 
-  gboolean new_state = !g_variant_get_boolean(state);
-  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
-  g_variant_unref(state);
-
+  gboolean new_state = g_variant_get_boolean(value);
   applet->priv->last_reading_mode_state = new_state;
 
   if (applet->priv->control != NULL)
@@ -604,12 +613,12 @@ static const GActionEntry menu_actions [] = {
   { "preferences", on_menu_preferences },
   { "exercises",   on_menu_exercises   },
   { "restbreak",   on_menu_restbreak   },
-  { "mode",        mode_callback, "s", "'normal'" },
+  { "mode",        on_menu_mode, "s", "'normal'", mode_callback },
   { "join",        on_menu_connect     },
   { "disconnect",  on_menu_disconnect  },
   { "reconnect",   on_menu_reconnect   },
-  { "showlog",     showlog_callback,      NULL, "false" },
-  { "readingmode", reading_mode_callback, NULL, "false" },
+  { "showlog",     on_menu_toggle, NULL, "false", showlog_callback },
+  { "readingmode", on_menu_toggle, NULL, "false", reading_mode_callback },
   { "about",       on_menu_about       },
   { "quit",        on_menu_quit        },
 };
