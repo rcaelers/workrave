@@ -107,8 +107,11 @@ on_set_menu_status(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
-  g_simple_action_set_state (action, g_variant_new_boolean (status));
+  gchar *action_name = g_ascii_strdown(name, -1);
+  GAction *action = g_simple_action_group_lookup(applet->priv->action_group, action_name);
+  g_free(action_name);
+
+  g_simple_action_set_state (G_SIMPLE_ACTION(action), g_variant_new_boolean (status));
   return TRUE;
 }
 
@@ -122,9 +125,11 @@ on_get_menu_status(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
-  GVariant *state;
-  g_object_get(action, "state", &state, NULL);
+  gchar *action_name = g_ascii_strdown(name, -1);
+  GAction *action = g_simple_action_group_lookup(applet->priv->action_group, action_name);
+  g_free(action_name);
+
+  GVariant *state = g_action_get_state(action);
   int status = g_variant_get_boolean(state);
   g_dbus_method_invocation_return_value(invocation, g_variant_new ("(u)", status));
   return TRUE;
@@ -135,8 +140,12 @@ on_set_menu_active(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
                    const gchar *name, gboolean status, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
-  g_simple_action_set_enabled(action, status);
+
+  gchar *action_name = g_ascii_strdown(name, -1);
+  GAction *action = g_simple_action_group_lookup(applet->priv->action_group, action_name);
+  g_free(action_name);
+
+  g_simple_action_set_enabled(G_SIMPLE_ACTION(action), status);
   return TRUE;
 }
 
@@ -144,9 +153,12 @@ static gboolean
 on_get_menu_active(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocation *invocation, const gchar *name, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
-  gboolean active;
-  g_object_get(action, "enabled", &active, NULL);
+
+  gchar *action_name = g_ascii_strdown(name, -1);
+  GAction *action = g_simple_action_group_lookup(applet->priv->action_group, action_name);
+  g_free(action_name);
+
+  gboolean active = g_action_get_enabled(action);
   g_dbus_method_invocation_return_value(invocation, g_variant_new ("(u)", active));
   return TRUE;
 }
@@ -590,8 +602,8 @@ mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 static void
 workrave_applet_set_visible(WorkraveApplet *applet, gchar *name, gboolean visible)
 {
-  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
-  g_simple_action_set_enabled(action, visible);
+  GAction *action = g_simple_action_group_lookup(applet->priv->action_group, name);
+  g_simple_action_set_enabled(G_SIMPLE_ACTION(action), visible);
 }
 
 
