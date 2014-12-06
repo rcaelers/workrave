@@ -566,7 +566,7 @@ if test "x$enable_gnome2" != "xno" -a "x$config_gnome3" = "xno"  -a "x$config_db
 then
     PKG_CHECK_MODULES([GNOME2],
                       [libpanelapplet-2.0 >= 2.0.10 \
-                       libbonobo-2.0 >= 2.0.0
+                       libbonobo-2.0 >= 2.0.0 \
                        gtk+-2.0 >= 2.6.0 \
                        gdk-2.0 >= 2.8 \
 		       dbus-glib-1],

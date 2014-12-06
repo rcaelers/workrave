@@ -29,6 +29,7 @@
 #define TRACE_RETURN(x)
 #define TRACE_EXIT()
 #define TRACE_MSG(x)
+#define TRACE_MSG2(x,y)
 
 #else
 
@@ -69,6 +70,10 @@ public:
 
 #define TRACE_MSG(msg)    g_log_mutex.lock(); \
                           std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
+                          g_log_mutex.unlock();
+
+#define TRACE_MSG2(x,y)   g_log_mutex.lock(); \
+                          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << x << " " << y << std::endl; \
                           g_log_mutex.unlock();
 
 #endif // TRACING

@@ -220,11 +220,11 @@ GUI::main()
 
   init_core();
   init_nls();
-  init_platform();
   init_debug();
   init_sound_player();
   init_multihead();
   init_dbus();
+  init_platform();
   init_session();
   init_gui();
   init_startup_warnings();
@@ -242,8 +242,8 @@ GUI::main()
   // Enter the event loop
   Gtk::Main::run();
 
+  System::clear();
   cleanup_session();
-
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
     {
       i->disconnect();

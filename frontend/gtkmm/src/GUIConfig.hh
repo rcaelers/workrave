@@ -31,6 +31,7 @@ public:
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
   static const std::string CFG_KEY_BREAK_EXERCISES;
+  static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_LOCALE;
   static const std::string CFG_KEY_TRAYICON_ENABLED;
@@ -59,6 +60,7 @@ public:
   static bool get_ignorable(BreakId id);
   static bool get_skippable(BreakId id);
   static void set_ignorable(BreakId id, bool b);
+  static bool get_shutdown_enabled(BreakId id);
   static int get_number_of_exercises(BreakId id);
   static void set_number_of_exercises(BreakId id, int num);
 
