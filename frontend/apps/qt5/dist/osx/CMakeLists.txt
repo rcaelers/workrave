@@ -15,7 +15,7 @@ if (APPLE)
   
   install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-#  install(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+  #install(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   
   # Install a qt.conf file.
   # This inserts some cmake code into the install script to write the file
@@ -26,9 +26,9 @@ if (APPLE)
   install(CODE "
        cmake_policy(SET CMP0009 NEW)
        file(GLOB_RECURSE PLUGINS \"\${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/MacOS/*\")
-       message(\"plugins \${PLUGINS}\")
        include(BundleUtilities)
        set(BU_CHMOD_BUNDLE_ITEMS ON)
+       set(BU_COPY_FULL_FRAMEWORK_CONTENTS ON)
        fixup_bundle(\"${APPS}\"   \"\${PLUGINS}\"   \"${DIRS}\")
        " COMPONENT Runtime)
   

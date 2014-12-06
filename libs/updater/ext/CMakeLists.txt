@@ -6,7 +6,7 @@ add_custom_target(Sparkle ALL
                              INSTALL_PATH=${CMAKE_CURRENT_BINARY_DIR}/sparkle/Release
                    COMMENT building Sparkle)
 
-install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/sparkle/Release" DESTINATION "Workrave.app/Contents/Frameworks")
+install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/sparkle/Release/Sparkle.framework" DESTINATION "Workrave.app/Contents/Frameworks")
 
 endif()
 

@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
