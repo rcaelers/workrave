@@ -173,6 +173,12 @@ Toolkit::show_window(WindowType type)
       break;
 
     case WindowType::About:
+      if (!about_dialog)
+        {
+          about_dialog = boost::make_shared<AboutDialog>();
+          connect(about_dialog.get(), &QDialog::accepted, this, &Toolkit::on_about_closed);
+        }
+      about_dialog->show();
       break;
 
     case WindowType::Exercises:
@@ -204,6 +210,7 @@ Toolkit::hide_window(WindowType type)
       break;
 
     case WindowType::About:
+      about_dialog->hide();
       break;
 
     case WindowType::Exercises:
@@ -250,6 +257,12 @@ void
 Toolkit::on_preferences_closed()
 {
   preferences_dialog.reset();
+}
+
+void
+Toolkit::on_about_closed()
+{
+  about_dialog.reset();
 }
 
 boost::signals2::signal<void()> &

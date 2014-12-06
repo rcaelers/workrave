@@ -1,5 +1,6 @@
 set(SRC
   main.cc
+  AboutDialog.cc
   Application.cc
   Frame.cc
   MainWindow.cc
@@ -39,6 +40,7 @@ set(DESIGNER_UI
 
 qt5_wrap_ui(HEADERS_UI ${DESIGNER_UI})
 qt5_wrap_cpp(MOC_SRC
+  AboutDialog.hh
   BreakWindow.hh
   MicroBreakWindow.hh
   DailyLimitWindow.hh
