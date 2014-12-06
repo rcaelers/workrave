@@ -54,6 +54,18 @@ public:
   static workrave::config::Setting<std::string> &sound_event(SoundEvent event);
   static workrave::config::Setting<bool> &sound_event_enabled(SoundEvent event);
 
+  static std::list<SoundEvent> events()
+    {
+      return std::list<SoundEvent>
+        {
+          SoundEvent::BreakPrelude, SoundEvent::BreakIgnored,
+            SoundEvent::MicroBreakStarted, SoundEvent::MicroBreakEnded,
+            SoundEvent::RestBreakStarted, SoundEvent::RestBreakEnded,
+            SoundEvent::DailyLimit,
+            SoundEvent::ExerciseEnded, SoundEvent::ExercisesEnded, SoundEvent::ExerciseStep
+            };
+    }
+
   class SoundInfo
   {
   public:
@@ -71,10 +83,10 @@ public:
     std::vector<SoundInfo> sounds;
   };
   typedef std::vector<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
-  
+
   typedef boost::shared_ptr<SoundTheme> Ptr;
   static Ptr create();
-  
+
   SoundTheme();
   virtual ~SoundTheme();
 
@@ -83,7 +95,7 @@ public:
   void play_sound(std::string wavfile);
   void restore_mute();
   bool capability(workrave::audio::SoundCapability cap);
-  
+
   ThemeInfo::Ptr get_active_theme();
   ThemeInfo::Ptr get_theme(const std::string &theme_id);
   ThemeInfos get_themes();
@@ -93,13 +105,13 @@ public:
   static SoundEvent sound_id_to_event(const std::string &id);
   static const std::string sound_event_to_id(SoundEvent event);
   static const std::string sound_event_to_friendly_name(SoundEvent event);
-  
+
 private:
   void load_themes();
   ThemeInfo::Ptr load_sound_theme(const std::string &themedir);
   void register_sound_events();
 
-#ifdef PLATFORM_OS_WIN32  
+#ifdef PLATFORM_OS_WIN32
   void win32_remove_deprecated_appevents();
 #endif
 
@@ -109,7 +121,7 @@ private:
 private:
   workrave::audio::ISoundPlayer::Ptr player;
   SoundTheme::ThemeInfos themes;
-  
+
   struct SoundRegistry
   {
     SoundEvent event;
