@@ -1,6 +1,6 @@
 // DayTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,32 +21,24 @@
 #include "config.h"
 #endif
 
+#ifdef TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# ifdef HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
 #include <cstdlib>
 #include <string>
 #include <stdio.h>
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
 #include "DayTimePred.hh"
 
 using namespace std;
-using namespace workrave;
-
-//! Sets the last time the predicate matched.
-void
-DayTimePred::set_last(time_t lastTime)
-{
-  last_time = lastTime;
-
-  ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
-
-  if (last_time == 0)
-    {
-      last_time = now;
-    }
-}
-
 
 int
 DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
@@ -79,7 +71,7 @@ bool
 DayTimePred::init(std::string spec)
 {
   bool ret = false;
-  std:: string::size_type pos = spec.find(':');
+  std::string::size_type pos = spec.find(':');
 
   if (pos != std::string::npos)
     {
@@ -122,14 +114,7 @@ DayTimePred::days_in_month(int month, int year)
 
 
 time_t
-DayTimePred::get_time_offset()
-{
-  return pred_hour*60*60 + pred_min*60;
-}
-
-
-time_t
-DayTimePred::get_next()
+DayTimePred::get_next(time_t last_time)
 {
   struct tm *ret;
 
@@ -164,13 +149,4 @@ DayTimePred::get_next()
     {
       return 0;
     }
-}
-
-
-string
-DayTimePred::to_string() const
-{
-  char buf[16];
-  sprintf(buf, "day/%d:%02d", pred_hour, pred_min);
-  return string(buf);
 }

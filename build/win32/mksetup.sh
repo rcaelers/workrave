@@ -1,6 +1,6 @@
 #!/bin/bash
 TINDERBOX_HOME=${HOME}/src/tinderbox
-WORKRAVE_GIT_DIR=${HOME}/src/workrave-v1_10
+WORKRAVE_GIT_DIR=${HOME}/src/workrave
 
 WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32

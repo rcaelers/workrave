@@ -1,6 +1,4 @@
-// IActivityMonitor.hh --- Interface definition for the Activity Monitor
-//
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,44 +15,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IACTIVITYMONITOR_HH
-#define IACTIVITYMONITOR_HH
+#ifndef ACTIVITYMONITOR_HH
+#define ACTIVITYMONITOR_HH
 
-class ActivityMonitorListener;
+#include "config/Config.hh"
 
-//! State of the activity monitor.
-enum ActivityState
-  {
-    ACTIVITY_UNKNOWN,
-    ACTIVITY_SUSPENDED,
-    ACTIVITY_IDLE,
-    ACTIVITY_NOISE,
-    ACTIVITY_ACTIVE
-  };
+using namespace workrave::config;
 
-//! Interface that all activity monitor implements.
+class IActivityMonitorListener
+{
+public:
+  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
+
+  virtual ~IActivityMonitorListener() {}
+
+  // Notification that the user is currently active.
+  virtual bool action_notify() = 0;
+};
+
 class IActivityMonitor
 {
 public:
+  typedef boost::shared_ptr<IActivityMonitor> Ptr;
+
+public:
   virtual ~IActivityMonitor() {}
 
-  //! Stops the activity monitoring.
+  virtual void init() = 0;
   virtual void terminate() = 0;
-
-  //! Suspends the activity monitoring.
   virtual void suspend() = 0;
-
-  //! Resumes the activity monitoring.
   virtual void resume() = 0;
-
-  //! Returns the current state
-  virtual ActivityState get_current_state() = 0;
-
-  //! Force state to be idle.
   virtual void force_idle() = 0;
-
-  //! Sets the callback for activity monitor events.
-  virtual void set_listener(ActivityMonitorListener *l) = 0;
+  virtual bool is_active() = 0;
+  virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 
-#endif // IACTIVITYMONITOR_HH
+#endif // ACTIVITYMONITOR_HH

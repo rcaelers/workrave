@@ -1,4 +1,9 @@
-/Release
-/Debug
-/Release64
-/Debug64
+Debug
+Release
+x64/Debug
+x64/Release
+Output
+*.sdf
+*.opensdf
+*.suo
+*.user

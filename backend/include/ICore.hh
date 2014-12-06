@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,73 +17,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICORE_HH
-#define ICORE_HH
+#ifndef WORKRAVE_BACKEND_ICORE_HH
+#define WORKRAVE_BACKEND_ICORE_HH
 
 #include <string>
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
-#include "enum.h"
+#include "CoreTypes.hh"
 
-namespace workrave {
+#include "config/IConfigurator.hh"
+#include "dbus/IDBus.hh"
 
+#include "IBreak.hh"
+#include "IStatistics.hh"
+#include "ICoreHooks.hh"
+
+namespace workrave
+{
   // Forward declaratons
-  class IBreak;
   class IApp;
-  class IStatistics;
-  class ICoreEventListener;
-  class INetwork;
-  class IDistributionManager;
-
-  //! ID of a break.
-  enum BreakId
-    {
-      BREAK_ID_NONE = -1,
-      BREAK_ID_MICRO_BREAK = 0,
-      BREAK_ID_REST_BREAK,
-      BREAK_ID_DAILY_LIMIT,
-      BREAK_ID_SIZEOF
-    };
-
-    enum BreakHint
-      {
-        BREAK_HINT_NONE = 0,
-
-        // Break was started on user request
-        BREAK_HINT_USER_INITIATED = 1,
-
-        // Natural break.
-        BREAK_HINT_NATURAL_BREAK = 2,
-
-      };
-
 
   //! Main interface of the backend.
   class ICore
   {
   public:
+    typedef boost::shared_ptr<ICore> Ptr;
+    
     virtual ~ICore() {}
 
-    //! The way a break is insisted.
-    enum InsistPolicy
-      {
-        //! Uninitialized policy
-        INSIST_POLICY_INVALID,
+    static ICore::Ptr create();
 
-        //! Halts the timer on activity.
-        INSIST_POLICY_HALT,
-
-        //! Resets the timer on activity.
-        INSIST_POLICY_RESET,
-
-        //! Ignores all activity.
-        INSIST_POLICY_IGNORE,
-
-        //! Number of policies.
-        INSIST_POLICY_SIZEOF
-      };
-
+    virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed() = 0;
+    virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed() = 0;
+    
     //! Initialize the Core. Must be called first.
-    virtual void init(int argc, char **argv, IApp *app, const std::string &display) = 0;
+    virtual void init(IApp *app, const std::string &display) = 0;
 
     //! Periodic heartbeat. The GUI *MUST* call this method every second.
     virtual void heartbeat() = 0;
@@ -92,18 +61,10 @@ namespace workrave {
     virtual void force_break(BreakId id, BreakHint break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak *get_break(BreakId id) = 0;
-
-    //! Return the break interface of the specified type.
-    virtual IBreak *get_break(std::string name) = 0;
+    virtual IBreak::Ptr get_break(BreakId id) = 0;
 
     //! Return the statistics interface.
-    virtual IStatistics *get_statistics() const = 0;
-
-#ifdef HAVE_DISTRIBUTION
-    //! Returns the distribution manager (if available).
-    virtual IDistributionManager *get_distribution_manager() const = 0;
-#endif
+    virtual IStatistics::Ptr get_statistics() const = 0;
 
     //! Is the user currently active?
     virtual bool is_user_active() const = 0;
@@ -114,17 +75,17 @@ namespace workrave {
     //! Retrieves the regular operation mode.
     virtual OperationMode get_operation_mode_regular() = 0;
 
-    //! Checks if operation_mode is an override.
-    virtual bool is_operation_mode_an_override() = 0;
-
     //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
 
     //! Temporarily overrides the operation mode.
-    virtual void set_operation_mode_override( OperationMode mode, const std::string &id ) = 0;
+    virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
 
     //! Removes the overriden operation mode.
-    virtual void remove_operation_mode_override( const std::string &id ) = 0;
+    virtual void remove_operation_mode_override(const std::string &id) = 0;
+
+    //! Checks if operation_mode is an override.
+    virtual bool is_operation_mode_an_override() = 0;
 
     //! Return the current usage mode.
     virtual UsageMode get_usage_mode() = 0;
@@ -132,26 +93,24 @@ namespace workrave {
     //! Set the usage mode.
     virtual void set_usage_mode(UsageMode mode) = 0;
 
-    //! Set the callback for activity monitor events.
-    virtual void set_core_events_listener(ICoreEventListener *l) = 0;
-
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
     virtual void set_powersave(bool down) = 0;
-
-    //! Notify the core that the computer time has changed
-    virtual void time_changed() = 0;
 
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
-    //! Return the current time
-    virtual time_t get_time() const = 0;
-
-    //! Return the current time
+    //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
-  };
 
-  std::string operator%(const std::string &key, BreakId id);
+    //! Return configuration
+    virtual config::IConfigurator::Ptr get_configurator() const = 0;
+
+    //! Return the hooks
+    virtual ICoreHooks::Ptr get_hooks() const = 0;
+
+    //! Return DBUs remoting interface.
+    virtual dbus::IDBus::Ptr get_dbus() const = 0;
+  };
 };
 
-#endif // ICORE_HH
+#endif // WORKRAVE_BACKEND_ICORE_HH
