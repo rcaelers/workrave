@@ -92,7 +92,7 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
       "daily_limit",
       _("Daily limit")
     },
-  
+
     {
       SoundEvent::ExerciseEnded,
       "exercise_ended",
@@ -167,7 +167,7 @@ SoundTheme::sound_event(SoundEvent event)
   return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event), std::string());
 }
 
-SoundEvent 
+SoundEvent
 SoundTheme::sound_id_to_event(const std::string &id)
 {
   SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.id == id; });
@@ -277,7 +277,7 @@ SoundTheme::load_themes()
         {
           continue;
         }
-      
+
       boost::filesystem::directory_iterator dir_end;
       for (boost::filesystem::directory_iterator it(dirname); it != dir_end; ++it)
         {
@@ -300,30 +300,30 @@ SoundTheme::load_sound_theme(const string &themedir)
 {
   TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themedir);
   ThemeInfo::Ptr theme(new ThemeInfo);
-  
+
   try
     {
       boost::filesystem::path file = themedir;
       file /= "soundtheme";
-              
+
       boost::filesystem::path path(themedir);
-  
+
       boost::property_tree::ptree pt;
       boost::property_tree::ini_parser::read_ini(file.string(), pt);
-      
+
       theme->theme_id = path.stem().string();
       theme->description = pt.get<std::string>("general.description");
       TRACE_MSG("id = " << theme->theme_id);
       TRACE_MSG("descr = " << theme->description);
-          
+
       for (SoundRegistry &snd : sound_registry)
         {
           string filename = pt.get<std::string>(snd.id + ".file");
-              
+
           boost::filesystem::path soundpath(themedir);
           soundpath /= filename;
           soundpath = canonical(soundpath);
-              
+
           SoundInfo sound_info;
           sound_info.event = sound_id_to_event(snd.id);
           sound_info.filename = soundpath.string();
@@ -365,10 +365,11 @@ SoundTheme::get_active_theme()
         }
     }
 
+
   return ThemeInfo::Ptr();
 }
 
-SoundTheme::ThemeInfo::Ptr 
+SoundTheme::ThemeInfo::Ptr
 SoundTheme::get_theme(const std::string &theme_id)
 {
   ThemeInfos::iterator it = std::find_if(themes.begin(), themes.end(), [&] (ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
@@ -430,7 +431,7 @@ SoundTheme::win32_remove_deprecated_appevents()
                          "WorkraveExerciseEnded",
                          "WorkraveExercisesEnded",
                          "WorkraveExerciseStep"  };
-  
+
   string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
   string event_labels = "AppEvents\\EventLabels\\";
 
