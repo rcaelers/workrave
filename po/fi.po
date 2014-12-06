@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2013-10-28 20:44+0100\n"
+"POT-Creation-Date: 2014-08-17 20:51+0200\n"
 "PO-Revision-Date: 2012-07-30 03:49+0300\n"
 "Last-Translator: Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi>\n"
 "Language-Team: Finnish <>\n"
@@ -17,211 +17,201 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../frontend/common/src/Text.cc:86
+#: ../frontend/common/src/Text.cc:91
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekuntia"
 
-#: ../frontend/common/src/Text.cc:82
+#: ../frontend/common/src/Text.cc:87
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minuuttia"
 
-#: ../frontend/common/src/Text.cc:78
+#: ../frontend/common/src/Text.cc:83
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d tuntia"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:396
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:396
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s %s–%s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:255
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:256
 msgid "(font not available)"
 msgstr "(fontti ei saatavilla)"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
 msgid "About..."
 msgstr "Tietoja..."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:313
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:313
 msgid "Activity"
 msgstr "Toiminta"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
 msgid "Applet"
 msgstr "Sovelma"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:142
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
 msgid "Applet enabled"
 msgstr "Sovelma otettu käyttöön"
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+#: ../frontend/apps/gtkmm/src/workrave.desktop.in.h:1
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Auttaa rasitusvammojen (RSI) ehkäisyssä ja niistä toipumisessa"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "Olkapään venytys taaksepäin"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:169
 msgid "Block input"
 msgstr "Estä syötteet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:166
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:170
 msgid "Block input and screen"
 msgstr "Estä syötteet ja näyttö"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:191
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:192
 msgid "Block mode:"
 msgstr "Estotila"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Tauon kesto"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
 #, c-format
 msgid "Break in %s"
 msgstr "Taukoon aikaa %s"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:113
 msgid "Break prompting"
 msgstr "Taukokehotus"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Taukokehotteita"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:194
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Taukoja"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Lykätyt tauot"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Ohitetut tauot"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:146
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:146
 msgid "Browse history"
 msgstr "Selaa historiaa"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:419
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
 msgid "Choose a sound"
 msgstr "Valitse ääni"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:14
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Peitä silmäsi kämmenilläsi niin että voit vielä avata silmäluomesi. Avaa nyt "
-"silmäsi ja katso kämmentesi pimeyteen. Tämä harjoite rentouttaa silmiäsi "
-"paremmin verrattuna pelkkään niiden sulkemiseen."
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Peitä silmäsi kämmenilläsi niin että voit vielä avata silmäluomesi. Avaa nyt silmäsi ja katso kämmentesi pimeyteen. Tämä harjoite rentouttaa silmiäsi paremmin verrattuna pelkkään niiden sulkemiseen."
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Cycle time:"
 msgstr "Vaihtoaika"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1439 ../frontend/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/apps/gtkmm/src/GUI.cc:1424
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
 msgid "Daily limit"
 msgstr "Päiväraja"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Päivärajoitus ylittynyt %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:265
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Päivärajoitukseen aikaa %s"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
 msgid "Daily limit:"
 msgstr "Päivärajoitus"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:240
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:240
 msgid "Daily usage"
 msgstr "Päivittäinen käyttö"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:158
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
 msgstr "Aika"
 
 #. Delete button
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:151
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:151
 msgid "Delete all statistics history"
 msgstr "Poista koko tilastohistoria"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
 #, c-format
 msgid "Disappears in %s"
 msgstr "Häviämiseen aikaa %s"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:148
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
 msgid "Display"
 msgstr "Näytä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:331
 msgid "Effective mouse movement:"
 msgstr "Tehokas hiiren liike"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:538
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-"Valitse tämä vaihtoehto jos Workrave ei tunnista milloin käytät "
-"tietokonettasi"
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:551
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr "Valitse tämä vaihtoehto jos Workrave ei tunnista milloin käytät tietokonettasi"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:72
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:72
 msgid "Enable timer"
 msgstr "Ota ajastin käyttöön"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
 msgid "End exercises"
 msgstr "Päätä harjoitteet"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:632
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:632
 msgid "Error"
 msgstr "Virhe"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:403
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:416
 msgid "Event"
 msgstr "Tapahtuma"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:176
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
-#: ../frontend/gtkmm/src/ExercisesDialog.cc:42
+#: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "Exercises"
 msgstr "Harjoitteet"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
 msgid "Exercises player"
 msgstr "Harjoitesoitin"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:628
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:628
 msgid "File deletion failed!"
 msgstr "Tiedoston poistaminen epäonnistui!"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:618
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:618
 msgid "Files deleted!"
 msgstr "Tiedostot poistettu!"
 
@@ -229,115 +219,88 @@ msgstr "Tiedostot poistettu!"
 msgid "Finger stretch"
 msgstr "Sormien venytys"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:100
 msgid "General"
 msgstr "Yleiset"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
 msgid "Hide"
 msgstr "Piilota"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:622
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:622
 msgid "Info"
 msgstr "Info"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:8
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Limitä sormesi selkäsi takana. Käännä sitten kyynärpääsi varoen sisäänpäin "
-"suoristaen käsivarsiasi. Pidä tämä asento viidestä 15:een sekuntia ja toista "
-"harjoite kahdesti."
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Limitä sormesi selkäsi takana. Käännä sitten kyynärpääsi varoen sisäänpäin suoristaen käsivarsiasi. Pidä tämä asento viidestä 15:een sekuntia ja toista harjoite kahdesti."
 
-#: ../frontend/gtkmm/src/GUI.cc:778
+#: ../frontend/apps/gtkmm/src/GUI.cc:782
 msgid "Is Workrave already running?"
 msgstr "Workrave 还在运行吗？"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:2
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Pidä toinen käsivarsi vaakatasossa venytettynä rintakehäsi edessä. Työnnä "
-"tätä käsivartta toisella käsivarrellasi kunnes tunnet lievän jännityksen "
-"olkapäässäsi. Pidä asento hetken, ja toista harjoitus toiselle kädellesi."
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Pidä toinen käsivarsi vaakatasossa venytettynä rintakehäsi edessä. Työnnä tätä käsivartta toisella käsivarrellasi kunnes tunnet lievän jännityksen olkapäässäsi. Pidä asento hetken, ja toista harjoitus toiselle kädellesi."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:340
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:340
 msgid "Keystrokes:"
 msgstr "Näppäinpainallukset"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:280
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:281
 msgid "Language:"
 msgstr "Kieli"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:10
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Katso näyttösi reunuksen vasempaan yläkulmaan. Seuraa reunusta oikeaan "
-"yläkulmaan. Jatka aina seuraavaan kulmaan kunnes olet kiertänyt reunuksen "
-"kahdesti. Tee sitten harjoite toiseen suuntaan."
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Katso näyttösi reunuksen vasempaan yläkulmaan. Seuraa reunusta oikeaan yläkulmaan. Jatka aina seuraavaan kulmaan kunnes olet kiertänyt reunuksen kahdesti. Tee sitten harjoite toiseen suuntaan."
 
 #: ../frontend/data/exercises/exercises.xml.in.h:12
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Katso kauimmaiseen pisteeseen näyttösi takana. Tarkenna silmäsi kaukaiseen "
-"kaukaiseen pisteeseen. Tarkenna sitten näyttösi reunukseen. Toista. Jos et "
-"pysty katsomaan kovin kauas näytöstäsi, käänny toiseen suuntaan jonne näet "
-"pidemmälle. Vaihda tarkennustasi sitten kaukaisen esineen ja kynän välillä, "
-"jota pidät samalla etäisyydellä kuin näyttöäsi."
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Katso kauimmaiseen pisteeseen näyttösi takana. Tarkenna silmäsi kaukaiseen kaukaiseen pisteeseen. Tarkenna sitten näyttösi reunukseen. Toista. Jos et pysty katsomaan kovin kauas näytöstäsi, käänny toiseen suuntaan jonne näet pidemmälle. Vaihda tarkennustasi sitten kaukaisen esineen ja kynän välillä, jota pidät samalla etäisyydellä kuin näyttöäsi."
 
 #: ../frontend/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Katso pimeyteen"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:119
 msgid "Maximum number of prompts:"
 msgstr "Kehotteiden enimmäismäärä"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1439 ../frontend/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:180
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/apps/gtkmm/src/GUI.cc:1424
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
 msgid "Micro-break"
 msgstr "Mikrotauko"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Micro-break:"
 msgstr "Mikrotauko"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:203
 msgid "Mode"
 msgstr "Tila"
 
-#: ../frontend/gtkmm/src/GUI.cc:1446 ../frontend/gtkmm/src/GUI.cc:1450
+#: ../frontend/apps/gtkmm/src/GUI.cc:1431
+#: ../frontend/apps/gtkmm/src/GUI.cc:1435
 msgid "Mode: "
 msgstr "Tila "
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:336
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:336
 msgid "Mouse button clicks:"
 msgstr "Hiiren klikkaukset"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse movement:"
 msgstr "Hiiren liike"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:323
 msgid "Mouse usage:"
 msgstr "Hiiren käyttö"
 
@@ -353,15 +316,15 @@ msgstr "Liikuta olkapäitä"
 msgid "Move the shoulders up and down"
 msgstr "Liikuta olkapäitä ylös ja alas"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:371
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Vaimenna äänet lepotauon ja päivittäisen rajoituksen aikana"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Luonnollisia taukoja pidetty"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
 msgid "Natural rest break"
 msgstr "Luonnollinen tauko"
 
@@ -369,218 +332,205 @@ msgstr "Luonnollinen tauko"
 msgid "Neck tilt stretch"
 msgstr "Niskankallistusvenytys"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
 msgid "Next exercise"
 msgstr "Seuraava harjoite"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:247
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Seuraavaan lepotaukoon aikaa %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:168
 msgid "No blocking"
 msgstr "Ei estoa"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:323
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:326
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:337
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:340
 msgid "No sounds"
 msgstr "Ei ääniä"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
 msgid "Normal"
 msgstr "Normaali"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:172
 msgid "Number of exercises:"
 msgstr "Harjoitteiden määrä"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:188
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
 msgid "Open"
 msgstr "Avaa"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Options"
 msgstr "Asetukset"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Yliaika"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause exercises"
 msgstr "Keskeytä harjoitteet"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
 msgid "Place all timers in one spot"
 msgstr "Sijoita kaikki ajastimet yhteen paikkaan"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:95
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
 msgid "Place micro-break and rest break in one spot"
 msgstr "Sijoita mikrotauko ja lepotauko yhteen paikkaan"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
 msgid "Place rest break and daily limit in one spot"
 msgstr "Sijoita lepotauko ja päivärajoitus yhteen paikkaan"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
 msgid "Place timers next to each other"
 msgstr "Sijoita ajastimet vierekkäin"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Placement:"
 msgstr "Sijainti"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:398
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:446
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:429
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:459
 msgid "Play"
 msgstr "Soita"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:327
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:338
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
 msgid "Play sounds using sound card"
 msgstr "Soita äänet äänikortilla"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
 msgid "Please relax for a few seconds"
 msgstr "Rentoudu muutaman sekunnin ajaksi"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Postpone time:"
 msgstr "Lykkäysaika"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:189
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:78
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:78
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
 msgstr "Edellinen harjoite"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Prompt before breaking"
 msgstr "Näytä kehote ennen taukoa"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Kehotettuja taukoja pidetty"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Laita kätesi tuolisi käsinojille kun olet istumassa ja paina vartaloasi "
-"ylöspäin kunnes käsivartesi ovat suorat. Yritä siirtää päätäsi vielä "
-"kauemmaksi liikuttamalla olkapäitäsi alemmas. Laskeudu hitaasti takaisin "
-"tuoliisi."
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Laita kätesi tuolisi käsinojille kun olet istumassa ja paina vartaloasi ylöspäin kunnes käsivartesi ovat suorat. Yritä siirtää päätäsi vielä kauemmaksi liikuttamalla olkapäitäsi alemmas. Laskeudu hitaasti takaisin tuoliisi."
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:85
 msgid "Q_uiet"
 msgstr "_Hiljainen"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
-#: ../frontend/gtkmm/src/GUI.cc:1450
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/gtkmm/src/GUI.cc:1435
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:199
 msgid "Quiet"
 msgstr "Hiljainen"
 
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
 msgid "Quit"
 msgstr "Lopeta"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:205
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "Reading mode"
 msgstr "阅读模式"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Regard micro-breaks as activity"
 msgstr "Laske mikrotauot toiminnaksi"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Toistetut kehotteet"
 
-#: ../frontend/gtkmm/src/GUI.cc:1439
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:148
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/apps/gtkmm/src/GUI.cc:1424
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
 msgid "Rest break"
 msgstr "Lepotauko"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:252
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Lepotauko myöhässä %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:165
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
 #, c-format
 msgid "Rest break for %s"
 msgstr "Lepotauon pituus %s"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
 msgid "Rest break:"
 msgstr "Lepotauko"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
 msgid "Resume"
 msgstr "Jatka"
 
-#: ../frontend/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume exercises"
 msgstr "Jatka harjoitteita"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:4
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Erota ja venytä sormiasi kunnes tunnet miedon jännityksen, ja pidä asento "
-"kymmenen sekunnin ajan. Rentoudu, sitten taivuta sormiasi rystysistä ja pidä "
-"taas kymmenen sekunnin ajan. Toista harjoite vielä kerran."
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Erota ja venytä sormiasi kunnes tunnet miedon jännityksen, ja pidä asento kymmenen sekunnin ajan. Rentoudu, sitten taivuta sormiasi rystysistä ja pidä taas kymmenen sekunnin ajan. Toista harjoite vielä kerran."
 
 #: ../frontend/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "Käsivarren ja olkapään venytys"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:121
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
 msgid "Show"
 msgstr "Näytä"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Näytä Lykkää- ja Ohita-painikkeet"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Näytä Lykkää- ja Ohita-painikkeet"
@@ -589,188 +539,164 @@ msgstr "Näytä Lykkää- ja Ohita-painikkeet"
 msgid "Show log"
 msgstr "Näytä loki"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
 msgid "Show only when this timer is first due"
 msgstr "Näytä vain kun tämä ajastin laukeaa ensimmäisenä"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show status window"
 msgstr "Näytä tilaikkuna"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:310
 msgid "Show system tray icon"
 msgstr "Näytä kuvake järjestelmätarjottimessa"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:333
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:333
 #, fuzzy
 msgid "Shut _down"
 msgstr "Sammuta"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Silent in %s"
 msgstr "Hiljaisuuteen aikaa %s"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:367
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:379
 msgid "Sound Events"
 msgstr "Äänitapahtumat"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:314
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:328
 msgid "Sound Options"
 msgstr "Ääniasetukset"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:375
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:387
 msgid "Sound Theme:"
 msgstr "Ääniteema"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:365
 msgid "Sound:"
 msgstr "Ääni"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:104
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:105
 msgid "Sounds"
 msgstr "Äänet"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:16
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Pyöritä oikeaa käsivarttasi ympäri, kuin lentokoneen propelli, vartalosi "
-"vieressä. Tee tämä neljä kertaa eteen, neljä kertaa taakse ja rentoudu "
-"muutaman sekunnin ajan. Toista vasemmalla käsivarrella."
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Pyöritä oikeaa käsivarttasi ympäri, kuin lentokoneen propelli, vartalosi vieressä. Tee tämä neljä kertaa eteen, neljä kertaa taakse ja rentoudu muutaman sekunnin ajan. Toista vasemmalla käsivarrella."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:284
-msgid "Start Workrave on Windows startup"
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:295
+#, fuzzy
+msgid "Start Workrave on logon"
 msgstr "Käynnistä Workrave Windowsin käynnistyessä"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:177
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:177
 msgid "Start restbreak when screen is locked"
 msgstr "当屏幕锁定时开始休息"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:6
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Aloita siten, että pääsi on mukavassa pystyasennossa. Kallista sitten "
-"päätäsi oikeaa olkapäätäsi kohti venyttääksesi hellästi lihaksia kaulasi "
-"vasemmalla puolella. Pidä asento viisi sekuntia. Kallista sitten päätäsi "
-"vasemmalle puolelle venyttääksesi toista puolta. Tee kaksi toistoa "
-"molemmille puolille."
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Aloita siten, että pääsi on mukavassa pystyasennossa. Kallista sitten päätäsi oikeaa olkapäätäsi kohti venyttääksesi hellästi lihaksia kaulasi vasemmalla puolella. Pidä asento viisi sekuntia. Kallista sitten päätäsi vasemmalle puolelle venyttääksesi toista puolta. Tee kaksi toistoa molemmille puolille."
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:181
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:59
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:209
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
 msgid "Statistics"
 msgstr "Tilastoja"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
 msgid "Status Window"
 msgstr "Tilaikkuna"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
-#: ../frontend/gtkmm/src/GUI.cc:1446
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/gtkmm/src/GUI.cc:1431
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:197
 msgid "Suspended"
 msgstr "Keskeytetty"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:211
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:212
 msgid "System default"
 msgstr "Järjestelmän oletus"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:191
 msgid "Take rest break now"
 msgstr "Pidä lepotauko nyt"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:629
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-"Tilastohistoriatiedostojen poistaminen epäonnistui. Yritetäänkö uudelleen?"
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:629
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr "Tilastohistoriatiedostojen poistaminen epäonnistui. Yritetäänkö uudelleen?"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:619
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:619
 msgid "The files containing your statistics history have been deleted."
 msgstr "Tilastohistoriasi sisältävät tiedostot on poistettu."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:231
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Lykättyjen taukojen määrä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:226
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Ohitettujen taukojen määrä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Kerrat, kun pidit tauon kehotteesta"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Kerrat, kun pidit tauon ilman kehotetta"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:205
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Kerrat, kun sinua kehotettiin pitämään tauko, poisluettuna toistetut "
-"kehotteet samasta tauosta"
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:205
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Kerrat, kun sinua kehotettiin pitämään tauko, poisluettuna toistetut kehotteet samasta tauosta"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Kerrat, kun sinua kehotettiin toistuvasti pitämään tauko"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
 msgid "The status window stays always on top of other windows"
 msgstr "Tilaikkuna pysyy aina muiden ikkunoiden yläpuolella"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:241
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:241
 msgid "The total computer usage"
 msgstr "Tietokoneen käyttö yhteensä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:332
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Hiiren liike, joka olisi tarvittu jos olisit siirtänyt hiiresi suorassa "
-"linjassa klikkausten välissä."
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:332
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Hiiren liike, joka olisi tarvittu jos olisit siirtänyt hiiresi suorassa linjassa klikkausten välissä."
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:341
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:341
 msgid "The total number of keys pressed"
 msgstr "Näppäinpainallusten yhteismäärä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:337
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:337
 msgid "The total number of mouse button clicks"
 msgstr "Hiiren klikkausten yhteismäärä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:328
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total on-screen mouse movement"
 msgstr "Hiiren liike näytöllä yhteensä"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:236
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "Kokonaisaika jonka tämä tauko oli yli"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:324
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:324
 msgid "The total time you were using the mouse"
 msgstr "Kokonaisaika jonka käytit hiirtä"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:208
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
 msgid "This is your natural rest break."
 msgstr "Tämä on luonnollinen lepotaukosi."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:214
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -781,29 +707,26 @@ msgstr ""
 "muutaman minuutin ajan, venyttele ja rentoudu."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/Menus.cc:360
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Tämä ohjelma auttaa rasitusvammojen (RSI) ehkäisyssä ja niistä toipumisessa."
+#: ../frontend/apps/gtkmm/src/Menus.cc:362
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Tämä ohjelma auttaa rasitusvammojen (RSI) ehkäisyssä ja niistä toipumisessa."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
 msgstr "Aika ennen loppumista"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
 msgstr "Aika taukojen välissä"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:108
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
 msgid "Time for a micro-break?"
 msgstr "Aika mikrotauolle?"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:116
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:205
 msgid "Timers"
 msgstr "Ajastimet"
 
@@ -816,65 +739,55 @@ msgid "Turn your head"
 msgstr "Käännä päätäsi"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:20
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Käännä päätäsi vasemmalle ja pidä se siellä kaksi sekuntia. Käännä sitten "
-"päätäsi oikealle ja pidä se siellä kaksi sekuntia."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Käännä päätäsi vasemmalle ja pidä se siellä kaksi sekuntia. Käännä sitten päätäsi oikealle ja pidä se siellä kaksi sekuntia."
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:532
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:545
 msgid "Use alternate monitor"
 msgstr "使用另一个监视器"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:118
 msgid "User interface"
 msgstr "Käyttöliittymä"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:362
 msgid "Volume:"
 msgstr "Äänenvoimakkuus"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
 msgid "Wait"
 msgstr "Odota"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:602
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:606
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:606
 msgid "Warning"
 msgstr "Varoitus"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:431
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:444
 msgid "Wavefiles"
 msgstr "Aaltotiedosto"
 
-#: ../frontend/gtkmm/src/GUI.cc:776
+#: ../frontend/apps/gtkmm/src/GUI.cc:780
 msgid "Workrave failed to start"
 msgstr "Workraven käynnistäminen epäonnistui"
 
-#: ../frontend/gtkmm/src/GUI.cc:1311
+#: ../frontend/apps/gtkmm/src/GUI.cc:1296
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave 处于离开模式。不会弹出休息窗口。"
 
-#: ../frontend/gtkmm/src/GUI.cc:1305
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
+#: ../frontend/apps/gtkmm/src/GUI.cc:1290
+msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr "Workrave 处于暂停模式。鼠标和键盘活动不会被监视。"
 
-#: ../frontend/gtkmm/src/GUI.cc:298
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-"Workrave 仍在运行。您可以通过点击白绵羊图表打开 Workrave。点击这个气球以不再"
-"显示本消息"
+#: ../frontend/apps/gtkmm/src/GUI.cc:299
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "Workrave 仍在运行。您可以通过点击白绵羊图表打开 Workrave。点击这个气球以不再显示本消息"
 
-#: ../frontend/gtkmm/src/StatisticsDialog.cc:603
+#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:603
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr "Olet poistamassa koko tilastohistoriaasi. Oletko varma?"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -884,16 +797,16 @@ msgstr ""
 "tietokoneella. Jos työpäiväsi ei ole vielä ohi,\n"
 "etsi muuta tekemistä, kuten asiakirjan lukeminen."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
 msgid "You need a rest break..."
 msgstr "Tarvitset lepotauon..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
 msgid "You should stop for today..."
 msgstr "Sinun pitäisi lopettaa tältä päivältä..."
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
 msgid "_About"
 msgstr "_Tietoja"
 
@@ -909,14 +822,14 @@ msgstr "_Harjoitteet"
 msgid "_Join"
 msgstr "加入"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:310
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:310
 msgid "_Lock"
 msgstr "_Lukitse"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Mode"
 msgstr "_Tila"
 
@@ -924,32 +837,32 @@ msgstr "_Tila"
 msgid "_Network"
 msgstr "_Verkko"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:79
 msgid "_Normal"
 msgstr "_Normaali"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Avaa"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:371
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:371
 msgid "_Postpone"
 msgstr "_Lykkää"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:171
 msgid "_Preferences"
 msgstr "A_setukset"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:191
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
 msgid "_Quit"
 msgstr "_Lopeta"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:154
 msgid "_Reading mode"
 msgstr "阅读模式(_R)"
 
@@ -957,10 +870,10 @@ msgstr "阅读模式(_R)"
 msgid "_Reconnect"
 msgstr "Yhdistä _uudelleen"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:102
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "_Rest break"
 msgstr "_Lepotauko"
 
@@ -968,7 +881,7 @@ msgstr "_Lepotauko"
 msgid "_Restbreak"
 msgstr "L_epotauko"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:354
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:354
 msgid "_Skip"
 msgstr "_Ohita"
 
@@ -976,9 +889,9 @@ msgstr "_Ohita"
 msgid "_Statistics"
 msgstr "T_ilastot"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:151
-#: ../frontend/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
+#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Suspended"
 msgstr "_Keskeytetty"
 
@@ -1009,8 +922,7 @@ msgstr "_Keskeytetty"
 #~ msgstr "Taukokehote"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr ""
-#~ "Oman isäntänimen selvittäminen epäonnistui. Poistetaan jakelu käytöstä."
+#~ msgstr "Oman isäntänimen selvittäminen epäonnistui. Poistetaan jakelu käytöstä."
 
 #~ msgid "Client %s access denied."
 #~ msgstr "Asiakkaan %s pääsy estetty."
@@ -1048,14 +960,8 @@ msgstr "_Keskeytetty"
 #~ msgid "Client timeout from %s."
 #~ msgstr "Asiakkaan %s yhteys katkesi."
 
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "闭上双眼并深呼吸，直到您可以放鬆。当呼吸吸入空气时，尽可能放慢速度。试著在"
-#~ "每次呼吸时慢慢的计算到 8。要更放松您的双眼，试着在暂停休息时也闭上双眼。"
+#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
+#~ msgstr "闭上双眼并深呼吸，直到您可以放鬆。当呼吸吸入空气时，尽可能放慢速度。试著在每次呼吸时慢慢的计算到 8。要更放松您的双眼，试着在暂停休息时也闭上双眼。"
 
 #~ msgid "Connect"
 #~ msgstr "Yhdistä"
@@ -1110,14 +1016,8 @@ msgstr "_Keskeytetty"
 #~ msgid "Exercises ended"
 #~ msgstr "Harjoitteet päättyivät"
 
-#~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
-#~ msgstr ""
-#~ "面对一面墙，然后把您的手放于高于肩膀之上，让您的胳膊轻微的弯曲。将您的身体"
-#~ "推向墙，而不改变您的胳膊角度。然后将身体推离墙面，一样不改变胳膊的角度。"
+#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
+#~ msgstr "面对一面墙，然后把您的手放于高于肩膀之上，让您的胳膊轻微的弯曲。将您的身体推向墙，而不改变您的胳膊角度。然后将身体推离墙面，一样不改变胳膊的角度。"
 
 #~ msgid "Host name"
 #~ msgstr "Isäntänimi"
@@ -1137,13 +1037,8 @@ msgstr "_Keskeytetty"
 #~ msgid "Inactive"
 #~ msgstr "静止"
 
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "保持您的头笔直，然后让您的下巴与地板平行。把您的头转回来(做双下巴的动作)。"
-#~ "保持两秒鐘并放松。然后用同一个方法做下个动作，再保持两秒并放松。"
+#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr "保持您的头笔直，然后让您的下巴与地板平行。把您的头转回来(做双下巴的动作)。保持两秒鐘并放松。然后用同一个方法做下个动作，再保持两秒并放松。"
 
 #~ msgid "Make sure that the RECORD extension is enabled in the X server."
 #~ msgstr "请确保 X 服务器启用了 RECORD 扩展。"
@@ -1243,24 +1138,11 @@ msgstr "_Keskeytetty"
 #~ msgid "Silent in"
 #~ msgstr "Hiljaisuuteen aikaa %s"
 
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "坐在您的桌子前面，并在桌面上张开手掌，让手指头指向自己的身体。轻轻的伸展您"
-#~ "的手脕与下臂。"
+#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr "坐在您的桌子前面，并在桌面上张开手掌，让手指头指向自己的身体。轻轻的伸展您的手脕与下臂。"
 
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "站起来，并试着不垫脚的让您的手碰到天花板。保持这个姿势一段时间。然后不弯曲"
-#~ "手臂，慢慢的让您的手指向地板。慢慢的弯腰让您的手(几乎)可以碰触到您的鞋子前"
-#~ "缘。然后慢慢的挺直您的背，直到再一次站直。"
+#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
+#~ msgstr "站起来，并试着不垫脚的让您的手碰到天花板。保持这个姿势一段时间。然后不弯曲手臂，慢慢的让您的手指向地板。慢慢的弯腰让您的手(几乎)可以碰触到您的鞋子前缘。然后慢慢的挺直您的背，直到再一次站直。"
 
 #, fuzzy
 #~ msgid "Starting %s"
