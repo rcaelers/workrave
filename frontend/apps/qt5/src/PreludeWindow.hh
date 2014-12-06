@@ -27,6 +27,10 @@
 #include "TimeBar.hh"
 #include "Frame.hh"
 
+#ifdef PLATFORM_OS_OSX
+#include "MouseMonitor.hh"
+#endif
+
 #include <QDialog>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -50,12 +54,8 @@ public:
 
 private:
   void on_frame_flash(bool frame_visible);
-
   void avoid_pointer(int x, int y);
-
-  //
   bool event(QEvent *event);
-
 
 private:
   const static int SCREEN_MARGIN = 20;
@@ -76,6 +76,10 @@ private:
   QLabel *image;
   Frame* frame;
   scoped_connections connections;
+
+#ifdef PLATFORM_OS_OSX
+  MouseMonitor::Ptr mouse_monitor;
+#endif
 };
 
 #endif // PRELUDEWINDOW_HH

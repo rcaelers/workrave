@@ -32,6 +32,7 @@ set(SRC
 if (PLATFORM_OS_OSX)
    set(SRC ${SRC} 
     Dock.mm
+    MouseMonitor.cc
    )
 endif()
 
@@ -124,7 +125,7 @@ if (APPLE)
 		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
 		MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
 
-  set_source_files_properties(BreakWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+  set_source_files_properties(BreakWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
 
 endif()
 

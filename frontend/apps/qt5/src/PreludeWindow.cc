@@ -23,6 +23,8 @@
 
 #include "PreludeWindow.hh"
 
+#include <boost/make_shared.hpp>
+
 #include <QtGui>
 
 #include <QStyle>
@@ -36,8 +38,11 @@
 #include "Text.hh"
 #include "utils/AssetPath.hh"
 
+
+
 using namespace workrave;
 using namespace workrave::utils;
+
 
 IPreludeWindow::Ptr
 PreludeWindow::create(int screen, workrave::BreakId break_id)
@@ -120,6 +125,10 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
+
+#ifdef PLATFORM_OS_OSX
+  mouse_monitor = boost::make_shared<MouseMonitor>(boost::bind(&PreludeWindow::avoid_pointer, this, _1, _2));
+#endif
 }
 
 PreludeWindow::~PreludeWindow()
@@ -141,8 +150,15 @@ PreludeWindow::start()
   const QRect	rect = dw->screenGeometry(screen);
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
 
+#ifdef PLATFORM_OS_OSX
+  mouse_monitor->start();
+#endif
+
+  raise();
   TRACE_EXIT();
 }
+
+
 
 //! Stops the microbreak.
 void
@@ -152,6 +168,10 @@ PreludeWindow::stop()
 
   frame->set_frame_flashing(0);
   hide();
+
+#ifdef PLATFORM_OS_OSX
+  mouse_monitor->stop();
+#endif
 
   TRACE_EXIT();
 }
@@ -274,17 +294,21 @@ PreludeWindow::on_frame_flash(bool frame_visible)
   TRACE_EXIT();
 }
 
+
 bool
 PreludeWindow::event(QEvent *event)
 {
-  bool res = QWidget::event(event);
+  TRACE_ENTER_MSG("PreludeWindow::event", event->type());
 
   if (event->type() == QEvent::HoverEnter)
     {
       QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
       avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
-
+  bool res = QWidget::event(event);
+  
+  TRACE_MSG(QApplication::activeModalWidget() << " " << QApplication::activeModalWidget());
+  TRACE_EXIT();
   return res;
 }
 
@@ -306,6 +330,14 @@ PreludeWindow::avoid_pointer(int px, int py)
   int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
   int winy = geo.y();
   int winx = geo.x();
+
+#ifdef PLATFORM_OS_OSX
+  if (!geo.contains(px, py))
+    {
+      return;
+    }
+#endif
+  std::cout << "avoid_pointer " << px << " " <<py <<std::endl;
 
   if (winy < top_y + SCREEN_MARGIN)
     {
@@ -330,3 +362,4 @@ PreludeWindow::avoid_pointer(int px, int py)
   move(winx, winy);
   did_avoid = true;
 }
+
