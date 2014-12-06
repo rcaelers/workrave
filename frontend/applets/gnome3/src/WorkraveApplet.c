@@ -40,7 +40,7 @@
 
 struct _WorkraveAppletPrivate
 {
-  GtkActionGroup *action_group;
+  GSimpleActionGroup *action_group;
   GtkWidget *hbox;
   GtkWidget *image;
   GtkWidget *socket;
@@ -50,7 +50,6 @@ struct _WorkraveAppletPrivate
   int orientation;
   gboolean last_showlog_state;
   gboolean last_reading_mode_state;
-  int last_mode;
 
   GDBusObjectManagerServer *manager;
   guint service_id;
@@ -108,13 +107,8 @@ on_set_menu_status(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
-  if (GTK_IS_TOGGLE_ACTION(action))
-    {
-      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-      gtk_toggle_action_set_active(toggle, status);
-
-    }
+  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
+  g_simple_action_set_state (action, g_variant_new_boolean (status));
   return TRUE;
 }
 
@@ -128,14 +122,11 @@ on_get_menu_status(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
-  if (GTK_IS_TOGGLE_ACTION(action))
-    {
-      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-      int status = gtk_toggle_action_get_active(toggle);
-
-      g_dbus_method_invocation_return_value(invocation, g_variant_new ("(u)", status));
-    }
+  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
+  GVariant *state;
+  g_object_get(action, "state", &state, NULL);
+  int status = g_variant_get_boolean(state);
+  g_dbus_method_invocation_return_value(invocation, g_variant_new ("(u)", status));
   return TRUE;
 }
 
@@ -144,8 +135,8 @@ on_set_menu_active(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocat
                    const gchar *name, gboolean status, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
-  gtk_action_set_visible(action, status);
+  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
+  g_simple_action_set_enabled(action, status);
   return TRUE;
 }
 
@@ -153,8 +144,9 @@ static gboolean
 on_get_menu_active(WorkraveGnomeAppletInterface *applet_dbus, GDBusMethodInvocation *invocation, const gchar *name, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
-  int active = gtk_action_get_visible(action);
+  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
+  gboolean active;
+  g_object_get(action, "enabled", &active, NULL);
   g_dbus_method_invocation_return_value(invocation, g_variant_new ("(u)", active));
   return TRUE;
 }
@@ -351,7 +343,7 @@ workrave_dbus_server_cleanup(WorkraveApplet *applet)
 
 
 static void
-on_menu_about(GtkAction *action, WorkraveApplet *applet)
+on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
@@ -405,56 +397,65 @@ menu_call(WorkraveApplet *applet, char *call)
 }
 
 static void
-on_menu_open(GtkAction *action, WorkraveApplet *applet)
+on_menu_open(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call_and_start(applet, "OpenMain");
 }
 
 static void
-on_menu_preferences(GtkAction *action, WorkraveApplet *applet)
+on_menu_preferences(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "Preferences");
 }
 
 static void
-on_menu_exercises(GtkAction *action, WorkraveApplet *applet)
+on_menu_exercises(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "Exercises");
 }
 
 static void
-on_menu_statistics(GtkAction *action, WorkraveApplet *applet)
+on_menu_statistics(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "Statistics");
 }
 
 static void
-on_menu_restbreak(GtkAction *action, WorkraveApplet *applet)
+on_menu_restbreak(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "RestBreak");
 }
 
 static void
-on_menu_connect(GtkAction *action, WorkraveApplet *applet)
+on_menu_connect(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "NetworkConnect");
 }
 
 static void
-on_menu_disconnect(GtkAction *action, WorkraveApplet *applet)
+on_menu_disconnect(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "NetworkDisconnect");
 }
 
 static void
-on_menu_reconnect(GtkAction *action, WorkraveApplet *applet)
+on_menu_reconnect(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "NetworkReconnect");
 }
 
 static void
-on_menu_quit(GtkAction *action, WorkraveApplet *applet)
+on_menu_quit(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   menu_call(applet, "Quit");
 }
 
@@ -504,15 +505,14 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 }
 
 static void
-showlog_callback(GtkAction *action, WorkraveApplet *applet)
+showlog_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
-  gboolean new_state = FALSE;
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  GVariant *state = g_action_get_state(G_ACTION(action));
 
-  if (GTK_IS_TOGGLE_ACTION(action))
-    {
-      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-      new_state = gtk_toggle_action_get_active(toggle);
-    }
+  gboolean new_state = !g_variant_get_boolean(state);
+  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
+  g_variant_unref(state);
 
   applet->priv->last_showlog_state = new_state;
 
@@ -531,15 +531,14 @@ showlog_callback(GtkAction *action, WorkraveApplet *applet)
 
 
 static void
-reading_mode_callback(GtkAction *action, WorkraveApplet *applet)
+reading_mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
-  gboolean new_state = FALSE;
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  GVariant *state = g_action_get_state(G_ACTION(action));
 
-  if (GTK_IS_TOGGLE_ACTION(action))
-    {
-      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-      new_state = gtk_toggle_action_get_active(toggle);
-    }
+  gboolean new_state = !g_variant_get_boolean(state);
+  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
+  g_variant_unref(state);
 
   applet->priv->last_reading_mode_state = new_state;
 
@@ -557,33 +556,24 @@ reading_mode_callback(GtkAction *action, WorkraveApplet *applet)
 }
 
 static void
-mode_callback(GtkRadioAction *action, GtkRadioAction *current, gpointer user_data)
+mode_callback(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
+  g_simple_action_set_state(action, value);
+
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  const char *modes[] = { "normal", "suspended", "quiet" };
-  int mode = 0;
 
-  if (GTK_IS_RADIO_ACTION(action))
+  const gchar *mode = g_variant_get_string(value, 0);
+
+  if (applet->priv->core != NULL)
     {
-      GtkRadioAction *toggle = GTK_RADIO_ACTION(action);
-      mode = gtk_radio_action_get_current_value(toggle);
-    }
-
-  if (mode >= 0 && mode < G_N_ELEMENTS(modes))
-    {
-      applet->priv->last_mode = mode;
-
-      if (applet->priv->core != NULL)
-        {
-          g_dbus_proxy_call(applet->priv->core,
-                            "SetOperationMode",
-                            g_variant_new("(s)", modes[mode]),
-                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
-                            -1,
-                            NULL,
-                            (GAsyncReadyCallback) dbus_call_finish,
-                            &applet);
-        }
+      g_dbus_proxy_call(applet->priv->core,
+                        "SetOperationMode",
+                        g_variant_new("(s)", mode),
+                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                        -1,
+                        NULL,
+                        (GAsyncReadyCallback) dbus_call_finish,
+                        &applet);
     }
 }
 
@@ -591,104 +581,38 @@ mode_callback(GtkRadioAction *action, GtkRadioAction *current, gpointer user_dat
 static void
 workrave_applet_set_visible(WorkraveApplet *applet, gchar *name, gboolean visible)
 {
-  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
-  gtk_action_set_visible(action, visible);
+  GSimpleAction *action = (GSimpleAction *) g_action_map_lookup_action (G_ACTION_MAP (applet->priv->action_group), name);
+  g_simple_action_set_enabled(action, visible);
 }
 
 
 static void
 workrave_applet_set_all_visible(WorkraveApplet *applet, gboolean visible)
 {
-  workrave_applet_set_visible(applet, "Preferences", visible);
-  workrave_applet_set_visible(applet, "Restbreak", visible);
-  workrave_applet_set_visible(applet, "Network", visible);
-  workrave_applet_set_visible(applet, "Normal", visible);
-  workrave_applet_set_visible(applet, "Suspended", visible);
-  workrave_applet_set_visible(applet, "Quiet", visible);
-  workrave_applet_set_visible(applet, "Mode", visible);
-  workrave_applet_set_visible(applet, "Statistics", visible);
-  workrave_applet_set_visible(applet, "Exercises", visible);
-  workrave_applet_set_visible(applet, "ReadingMode", visible);
-  workrave_applet_set_visible(applet, "Quit", visible);
+  workrave_applet_set_visible(applet, "preferences", visible);
+  workrave_applet_set_visible(applet, "restbreak", visible);
+  workrave_applet_set_visible(applet, "mode", visible);
+  workrave_applet_set_visible(applet, "statistics", visible);
+  workrave_applet_set_visible(applet, "exercises", visible);
+  workrave_applet_set_visible(applet, "readingmode", visible);
+  workrave_applet_set_visible(applet, "quit", visible);
 }
 
-
-static const GtkActionEntry menu_actions [] = {
-  { "Open", GTK_STOCK_OPEN, N_("_Open"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_open) },
-
-  { "Statistics", NULL, N_("_Statistics"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_statistics) },
-
-  { "Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_preferences) },
-
-  { "Exercises", NULL, N_("_Exercises"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_exercises) },
-
-  { "Restbreak", NULL, N_("_Restbreak"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_restbreak) },
-
-  { "Mode", NULL, N_("_Mode"),
-    NULL, NULL,
-    NULL },
-
-  { "Network", NULL, N_("_Network"),
-    NULL, NULL,
-    NULL },
-
-  { "Join", NULL, N_("_Join"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_connect) },
-
-  { "Disconnect", NULL, N_("_Disconnect"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_disconnect) },
-
-  { "Reconnect", NULL, N_("_Reconnect"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_reconnect) },
-
-  { "About", GTK_STOCK_ABOUT, N_("_About"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_about) },
-
-  { "Quit", GTK_STOCK_QUIT, N_("_Quit"),
-    NULL, NULL,
-    G_CALLBACK(on_menu_quit) },
+static const GActionEntry menu_actions [] = {
+  { "open",        on_menu_open        },
+  { "statistics",  on_menu_statistics  },
+  { "preferences", on_menu_preferences },
+  { "exercises",   on_menu_exercises   },
+  { "restbreak",   on_menu_restbreak   },
+  { "mode",        mode_callback, "s", "'normal'" },
+  { "join",        on_menu_connect     },
+  { "disconnect",  on_menu_disconnect  },
+  { "reconnect",   on_menu_reconnect   },
+  { "showlog",     showlog_callback,      NULL, "false" },
+  { "readingmode", reading_mode_callback, NULL, "false" },
+  { "about",       on_menu_about       },
+  { "quit",        on_menu_quit        },
 };
-
-
-static const GtkToggleActionEntry toggle_actions[] = {
-    { "ShowLog", NULL, N_("Show log"),
-      NULL, NULL,
-      G_CALLBACK(showlog_callback), FALSE },
-
-    { "ReadingMode", NULL, N_("Reading mode"),
-      NULL, NULL,
-      G_CALLBACK(reading_mode_callback), FALSE },
-};
-
-
-static const GtkRadioActionEntry mode_actions[] = {
-    { "Normal", NULL, N_("Normal"),
-      NULL, NULL,
-      0 },
-
-    { "Suspended", NULL, N_("Suspended"),
-      NULL, NULL,
-      1 },
-
-    { "Quiet", NULL, N_("Quiet"),
-      NULL, NULL,
-      2 },
-};
-
 
 static void
 workrave_applet_socket_realize(GtkWidget *widget, gpointer user_data)
@@ -829,26 +753,18 @@ workrave_applet_fill(WorkraveApplet *applet)
   GdkPixbuf *pixbuf = NULL;
   PanelAppletOrient orient;
 
-  applet->priv->action_group = gtk_action_group_new("WorkraveAppletActions");
-  gtk_action_group_set_translation_domain(applet->priv->action_group, GETTEXT_PACKAGE);
-  gtk_action_group_add_actions(applet->priv->action_group,
-                               menu_actions,
-                               G_N_ELEMENTS (menu_actions),
-                               applet);
-  gtk_action_group_add_toggle_actions(applet->priv->action_group,
-                                      toggle_actions,
-                                      G_N_ELEMENTS (toggle_actions),
-                                      applet);
-  gtk_action_group_add_radio_actions (applet->priv->action_group,
-                                      mode_actions,
-                                      G_N_ELEMENTS(mode_actions),
-                                      0,
-                                      G_CALLBACK(mode_callback),
-                                      applet);
+  applet->priv->action_group = g_simple_action_group_new();
+  g_action_map_add_action_entries (G_ACTION_MAP (applet->priv->action_group),
+                                   menu_actions,
+                                   G_N_ELEMENTS (menu_actions),
+                                   applet);
 
   gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-gnome-applet-menu.xml", NULL);
-  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group);
+  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group, GETTEXT_PACKAGE);
   g_free(ui_path);
+
+  gtk_widget_insert_action_group (GTK_WIDGET (applet), "workrave",
+                                  G_ACTION_GROUP (applet->priv->action_group));
 
   panel_applet_set_flags(PANEL_APPLET(applet), PANEL_APPLET_EXPAND_MINOR);
 
@@ -884,8 +800,6 @@ workrave_applet_fill(WorkraveApplet *applet)
 	g_signal_connect(applet->priv->hbox, "draw", G_CALLBACK(workrave_applet_draw), applet);
 
   gtk_container_set_border_width(GTK_CONTAINER(applet->priv->hbox), 0);
-
-  applet->priv->size = panel_applet_get_size(PANEL_APPLET(applet));
 
   orient = panel_applet_get_orient(PANEL_APPLET(applet));
 
@@ -942,7 +856,6 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->orientation = 0;
   priv->last_showlog_state = FALSE;
   priv->last_reading_mode_state = FALSE;
-  priv->last_mode = 0;
   priv->manager = NULL;
   priv->service_id = 0;
   priv->support = NULL;
