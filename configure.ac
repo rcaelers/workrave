@@ -555,11 +555,11 @@ then
                       libpanel-applet gio-2.0 >= 2.26.0,
                       [config_gnome3=yes
                        config_panelapplet5=yes
-                       AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5]),
+                       AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5])
                        AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])], 
-                       [ echo Foo])
+                       [ ])
 
-    if test "x$enable_panelapplet5" != "xyes"
+    if test "x$config_panelapplet5" != "xyes"
     then
        PKG_CHECK_MODULES([GNOME3],
                          [libpanelapplet-4.0 gio-2.0 >= 2.26.0],
