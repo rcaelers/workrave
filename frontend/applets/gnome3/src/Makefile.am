@@ -12,14 +12,20 @@ MAINTAINERCLEANFILES =  Makefile.in DBusGnomeApplet.xml DBusGUI.xml
 
 SUBDIRS = 
 
-if HAVE_PANELAPPLET4
+if HAVE_PANELAPPLET45
 
+if HAVE_PANELAPPLET4
+LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapplet-4.0`
+appletdir       		= $(datadir)/gnome-panel/4.0/applets
+else
 LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanel-applet`
+appletdir       		= $(datadir)/gnome-panel/5.0/applets
+endif
+
 APPLET_IN_PROCESS 		= false
 APPLET_LOCATION   		= $(libexecdir)/workrave-applet
 
-appletdir       		= $(datadir)/gnome-panel/5.0/applets
-applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
+gapplet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 $(applet_in_files): $(applet_in_files).in Makefile

@@ -781,7 +781,11 @@ workrave_applet_fill(WorkraveApplet *applet)
                                    applet);
 
   gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-gnome-applet-menu.xml", NULL);
+#ifdef HAVE_PANELAPPLET5
   panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group, GETTEXT_PACKAGE);
+#else
+  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group);
+#endif
   g_free(ui_path);
 
   gtk_widget_insert_action_group (GTK_WIDGET (applet), "workrave",
