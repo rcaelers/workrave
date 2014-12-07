@@ -84,7 +84,7 @@ GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 
 if HAVE_APP_GTKMM
 
-if HAVE_PANELAPPLET2
+if HAVE_PANELAPPLET
 extrasources +=		$(sourcesgnome2)
 endif
 
