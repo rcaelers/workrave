@@ -60,6 +60,7 @@
 #include "System.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
+#include "utils/AssetPath.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include "DesktopWindow.hh"
@@ -69,6 +70,7 @@
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::utils;
 
 //! Constructor
 /*!
@@ -95,10 +97,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   frame(NULL),
   gui(NULL),
   visible(false),
-#ifdef PLATFORM_OS_WIN32
-  desktop_window( NULL ),
-  force_focus_on_break_start( false ),
-  parent( 0 ),
   accel_added(false),
   accel_group(NULL),
   postpone_button(NULL),
@@ -358,12 +356,12 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
   if (sysoper_model_columns->has_button_images)
     {
       try {
-          string icon_path = Util::complete_directory(icon_name,
-                                            Util::SEARCH_PATH_IMAGES);
+          string icon_path = AssetPath::complete_directory(icon_name,
+                                            AssetPath::SEARCH_PATH_IMAGES);
           Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(icon_path);
           row[sysoper_model_columns->icon] = img;
       } catch (Glib::Error &e) {
-          TRACE_MSG2("Cannot read image:", icon_name);
+        TRACE_MSG("Cannot read image: " << icon_name);
       }
 
     }

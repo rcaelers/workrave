@@ -39,6 +39,7 @@ public:
   static workrave::config::Setting<bool> &break_auto_natural(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_ignorable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_skippable(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &break_enable_shutdown(workrave::BreakId break_id);
   static workrave::config::Setting<int> & break_exercises(workrave::BreakId break_id);
   static workrave::config::Setting<int, GUIConfig::BlockMode> &block_mode();
   static workrave::config::Setting<std::string> &locale();
@@ -67,6 +68,7 @@ private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
+  static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
   static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_LOCALE;

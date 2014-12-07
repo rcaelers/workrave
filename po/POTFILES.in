@@ -20,9 +20,6 @@ frontend/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
 frontend/applets/gnome3/src/workrave-gnome-applet.xml
 frontend/applets/indicator/src/indicator-workrave.c
 [type: gettext/glade]frontend/applets/gnome3/src/workrave-gnome-applet-menu.xml
-frontend/common/src/GstSoundPlayer.cc
-frontend/common/src/PulseMixer.cc
-frontend/common/src/SoundPlayer.cc
 frontend/applets/indicator/src/test.c
 frontend/apps/gtkmm/dist/win32/src/ChangeAutorun.c
 frontend/apps/gtkmm/dist/win32/src/zapper.c

@@ -37,6 +37,7 @@ using namespace workrave::config;
 
 const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
 const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE    = "gui/breaks/%b/skippable_break";
+const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN  = "gui/breaks/%b/enable_shutdown";
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
@@ -126,6 +127,12 @@ Setting<bool> &
 GUIConfig::break_skippable(workrave::BreakId break_id)
 {
   return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_SKIPPABLE, break_id), true);
+}
+
+Setting<bool> &
+GUIConfig::break_enable_shutdown(workrave::BreakId break_id)
+{
+  return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_ENABLE_SHUTDOWN, break_id), true);
 }
 
 Setting<int> &

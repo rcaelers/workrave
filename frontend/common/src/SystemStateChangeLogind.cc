@@ -86,7 +86,7 @@ bool SystemStateChangeLogind::check_method(const char *method_name)
       return false;
     }
 
-  TRACE_MSG2("Method returned:", cresult);
+  TRACE_MSG("Method returned: " << cresult);
   if (strcmp(cresult, "yes") == 0)
     {
       ret = true;

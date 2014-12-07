@@ -160,7 +160,7 @@
       <description></description>
     </key>
     <key type="b" name="enable-shutdown">
-      <default>true</default>
+      <default>false</default>
       <summary></summary>
       <description></description>
     </key>

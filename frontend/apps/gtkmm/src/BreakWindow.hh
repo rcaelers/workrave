@@ -122,12 +122,6 @@ private:
   //! Break windows visible?
   bool visible;
 
-#ifdef PLATFORM_OS_WIN32
-  DesktopWindow *desktop_window;
-  bool force_focus_on_break_start;
-  long parent;
-#endif
-
   bool accel_added;
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
   Gtk::Button *postpone_button;
@@ -157,6 +151,14 @@ private:
   SysoperModelColumns *sysoper_model_columns;
 
   Gtk::ComboBox *sysoper_combobox;
+  
+#ifdef PLATFORM_OS_WIN32
+  DesktopWindow *desktop_window;
+  bool force_focus_on_break_start;
+  long parent;
+#endif
+
+
   void get_operation_name_and_icon(
       System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,

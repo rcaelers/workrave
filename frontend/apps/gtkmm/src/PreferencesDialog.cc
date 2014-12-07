@@ -74,17 +74,21 @@ using namespace workrave::utils;
 
 using namespace std;
 
+
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : HigDialog(_("Preferences"), false, false),
-    sound_theme(sound_theme),
     sound_button(NULL),
     block_button(NULL),
     sound_theme_button(NULL),
+    sound_theme(sound_theme),
     connector(NULL),
     sound_volume_scale(NULL),
     sound_play_button(NULL),
+    mute_cb(NULL),
     fsbutton(NULL),
-    filefilter(NULL)
+    filefilter(NULL),
+    trayicon_cb(NULL),
+    autostart_cb(NULL)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -391,7 +395,6 @@ PreferencesDialog::create_sounds_page()
 
   SoundTheme::ThemeInfo::Ptr active_theme = snd->get_active_theme();
 
-  int item_count = 0;
   for (SoundTheme::SoundInfo snd : active_theme->sounds)
     {
       bool sound_enabled = SoundTheme::sound_event_enabled(snd.event)();

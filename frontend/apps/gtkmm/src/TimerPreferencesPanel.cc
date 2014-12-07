@@ -180,13 +180,11 @@ TimerPreferencesPanel::create_options_panel()
       connector->connect(GUIConfig::break_auto_natural(break_id),
                          dc::wrap(auto_natural_cb));
 
-#ifdef HAVE_GTK3
       allow_shutdown_cb = Gtk::manage(new Gtk::CheckButton(_("Enable shutting down the computer from the rest screen")));
       hig->add_widget(*allow_shutdown_cb);
 
-      connector->connect(GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN % break_id,
+      connector->connect(GUIConfig::break_enable_shutdown(break_id),
                          dc::wrap(allow_shutdown_cb));
-#endif
     }
 
   connector->connect(GUIConfig::break_ignorable(break_id),
