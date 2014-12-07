@@ -25,7 +25,7 @@ endif
 APPLET_IN_PROCESS 		= false
 APPLET_LOCATION   		= $(libexecdir)/workrave-applet
 
-gapplet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
+applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 $(applet_in_files): $(applet_in_files).in Makefile
