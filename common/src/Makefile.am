@@ -13,7 +13,8 @@ dbussources =
 if HAVE_DBUS
 if HAVE_DBUS_GIO
 dbussources += 		DBus-gio.cc \
-			DBusBinding-gio.cc
+			DBusBinding-gio.cc \
+			DBusProxy-gio.cc
 else
 dbussources += 		DBus-freedesktop.cc \
 			DBusBinding-freedesktop.cc

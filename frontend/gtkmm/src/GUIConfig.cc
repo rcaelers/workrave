@@ -37,6 +37,7 @@ const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_br
 const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE    = "gui/breaks/%b/skippable_break";
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
+const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
 const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
 const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
@@ -85,6 +86,10 @@ GUIConfig::init()
       config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, 
                         ignorable, 
                         CONFIG_FLAG_DEFAULT);
+
+      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId,
+                        true,
+                        CONFIG_FLAG_DEFAULT);
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
@@ -123,6 +128,17 @@ void
 GUIConfig::set_ignorable(BreakId id, bool b)
 {
   CoreFactory::get_configurator()->set_value(CFG_KEY_BREAK_IGNORABLE % id, b);
+}
+
+bool
+GUIConfig::get_shutdown_enabled(BreakId id)
+{
+  bool rc;
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_BREAK_ENABLE_SHUTDOWN % id,
+                             rc,
+                             true);
+  return rc;
 }
 
 //!

@@ -28,56 +28,93 @@
 #include <glib.h>
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
-#include <windows.h>
-#endif
-
-#if defined(PLATFORM_OS_UNIX)
-#include <string>
-#endif
+#include <vector>
 
 #if defined(HAVE_DBUS_GIO)
+#include <glib.h>
 #include <gio/gio.h>
 #endif
+
+#include "IScreenLockMethod.hh"
+#include "ISystemStateChangeMethod.hh"
+
 
 class System
 {
 public:
-  static bool is_lockable();
-  static bool is_shutdown_supported();
-  static void lock();
-  static void shutdown();
+  class SystemOperation
+  {
+  public:
+    enum SystemOperationType {
+      SYSTEM_OPERATION_NONE,
+      SYSTEM_OPERATION_LOCK_SCREEN,
+      SYSTEM_OPERATION_SHUTDOWN,
+      SYSTEM_OPERATION_SUSPEND,
+      SYSTEM_OPERATION_HIBERNATE,
+      SYSTEM_OPERATION_SUSPEND_HYBRID,
+    };
 
+    //A simple, English language name of the operation
+    //Not translated into native language here because
+    //this class is not concerned with UI
+    const char *name;
+    SystemOperationType type;
+
+    bool execute() const { return System::execute(type); }
+
+    bool operator< (const SystemOperation &other) const
+        { return this->type < other.type;  }
+  private:
+    SystemOperation(const char *name, const SystemOperationType type):
+          name(name), type(type) {};
+    friend class System;
+  };
+
+
+  static bool is_lockable() { return !lock_commands.empty(); }
+  static bool lock_screen();
+
+  static std::vector<SystemOperation> get_supported_system_operations()
+      { return supported_system_operations; }
+  static bool execute(SystemOperation::SystemOperationType type);
+
+  //display will not be owned by System,
+  //the caller may free it after calling
+  //this function
   static void init(
 #if defined(PLATFORM_OS_UNIX)
                    const char *display
 #endif
                    );
+  static void clear();
 
 private:
-#ifdef HAVE_DBUS_GIO
-  static GDBusProxy *lock_proxy;
-#endif
-
+  static std::vector<IScreenLockMethod *> lock_commands;
+  static std::vector<ISystemStateChangeMethod *> system_state_commands;
+  static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
-  static void init_kde_lock();
-  static bool kde_lock();
 
-  static bool lockable;
-  static std::string lock_display;
-  static bool shutdown_supported;
+#ifdef HAVE_DBUS_GIO
+  static void init_DBus();
+  static void init_DBus_lock_commands();
+  static inline bool add_DBus_lock_cmd(
+      const char *dbus_name, const char *dbus_path, const char *dbus_interface,
+      const char *dbus_lock_method, const char *dbus_method_to_check_existence);
 
-#elif defined(PLATFORM_OS_WIN32)
-  static bool shutdown_helper(bool for_real);
+  static void add_DBus_system_state_command(
+      ISystemStateChangeMethod *method);
+  static void init_DBus_system_state_commands();
 
-  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
-  static LockWorkStationFunc lock_func;
-  static HINSTANCE user32_dll;
-  static bool shutdown_supported;
-#elif defined(HAVE_DBUS_GIO)
-  static void init_kde_lock();
-  static bool kde_lock();
+  static GDBusConnection* session_connection;
+  static GDBusConnection* system_connection;
 #endif
+
+  static inline void add_cmdline_lock_cmd(
+        const char *command_name, const char *parameters, bool async);
+  static void init_cmdline_lock_commands(const char *display);
+  static bool invoke(const gchar* command, bool async = false);
+#endif //defined(PLATFORM_OS_UNIX)
+
 };
 
 #endif // SYSTEM_HH

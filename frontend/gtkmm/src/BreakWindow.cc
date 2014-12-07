@@ -23,6 +23,12 @@
 
 #include <ctime>
 
+#include <string.h>
+
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #ifdef PLATFORM_OS_WIN32
 #include "W32Compat.hh"
 #include "W32ForceFocus.hh"
@@ -91,11 +97,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   gui(NULL),
   visible(false),
   accel_added(false),
+  accel_group(NULL),
   postpone_button(NULL),
   skip_button(NULL),
-  lock_button(NULL),
-  shutdown_button(NULL),
-  accel_group(NULL)
+  sysoper_combobox(NULL)
 #ifdef PLATFORM_OS_WIN32
   ,
   desktop_window( NULL ),
@@ -302,53 +307,172 @@ BreakWindow::center()
   GtkUtil::center_window(*this, head);
 }
 
-
-
-//! Creates the lock button
-Gtk::Button *
-BreakWindow::create_lock_button()
+void
+BreakWindow::get_operation_name_and_icon(
+    System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name)
 {
-  Gtk::Button *ret;
-  if (System::is_lockable())
+  switch (type)
     {
-      ret = Gtk::manage(GtkUtil::create_image_button(_("_Lock"), "lock.png"));
-      ret->signal_clicked()
-        .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
-#ifdef HAVE_GTK3
-      ret->set_can_focus(false);
-#else
-      GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-#endif
-    }
-  else
-    {
-      ret = NULL;
-    }
-  return ret;
+      case System::SystemOperation::SYSTEM_OPERATION_NONE:
+        *name = _("Lock...");
+        *icon_name = "lock.png";
+        break;
+      case System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN:
+        *name = _("Lock");
+        *icon_name = "lock.png";
+        break;
+      case System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+        *name = _("Shutdown");
+        *icon_name = "shutdown.png";
+        break;
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
+        *name = _("Suspend");
+        *icon_name = "shutdown.png";
+        break;
+      case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+        *name = _("Hibernate");
+        *icon_name = "shutdown.png";
+        break;
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+        *name = _("Suspend hybrid");
+        *icon_name = "shutdown.png";
+        break;
+      default:
+        throw "System::execute: Unknown system operation";
+    };
+
 }
 
-//! Creates the lock button
-Gtk::Button *
-BreakWindow::create_shutdown_button()
+void
+BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
+    System::SystemOperation::SystemOperationType type)
 {
-  Gtk::Button *ret;
-  if (System::is_shutdown_supported())
+  TRACE_ENTER("BreakWindow::append_row_to_sysoper_model");
+
+  const char *name;
+  const char *icon_name;
+  get_operation_name_and_icon(type, &name, &icon_name);
+
+  Gtk::TreeRow row = *(model->append());
+  if (sysoper_model_columns->has_button_images)
     {
-      ret = Gtk::manage(GtkUtil::create_image_button(_("Shut _down"), "shutdown.png"));
-      ret->signal_clicked()
-        .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
-#ifdef HAVE_GTK3
-      ret->set_can_focus(false);
-#else
-      GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-#endif
+      try {
+          string icon_path = Util::complete_directory(icon_name,
+                                            Util::SEARCH_PATH_IMAGES);
+          Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(icon_path);
+          row[sysoper_model_columns->icon] = img;
+      } catch (Glib::Error &e) {
+          TRACE_MSG2("Cannot read image:", icon_name);
+      }
+
     }
-  else
-    {
-      ret = NULL;
-    }
-  return ret;
+  row[sysoper_model_columns->name] = Glib::ustring(name);
+  row[sysoper_model_columns->id] = type;
+  TRACE_EXIT()
 }
+
+//! Creates the combo box containing options to suspend/hibernate/shutdown/etc
+//based on:
+//  https://developer.gnome.org/gtkmm-tutorial/stable/sec-treeview-model.html.en
+//  http://www.lugod.org/presentations/gtkmm/treeview.html
+//  http://stackoverflow.com/questions/5894344/gtkmm-how-to-put-a-pixbuf-in-a-treeview
+Gtk::ComboBox *
+BreakWindow::create_sysoper_combobox(bool shutdownable)
+{
+  TRACE_ENTER("BreakWindow::create_sysoper_combobox");
+  supported_system_operations = System::get_supported_system_operations();
+  bool has_button_images = GtkUtil::has_button_images();
+
+  if (supported_system_operations.empty())
+    {
+      return NULL;
+    }
+
+  sysoper_model_columns = new SysoperModelColumns(has_button_images);
+
+  Glib::RefPtr<Gtk::ListStore> model = Gtk::ListStore::create(*sysoper_model_columns);
+
+  append_row_to_sysoper_model(model,
+      System::SystemOperation::SYSTEM_OPERATION_NONE);
+
+  for (std::vector<System::SystemOperation>::iterator iter = supported_system_operations.begin();
+      iter != supported_system_operations.end(); ++iter)
+    {
+      if (shutdownable || iter->type == System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
+        {
+          append_row_to_sysoper_model(model,
+              iter->type);
+        }
+    }
+
+  //if there are no operations to put in the combobox
+  if (model->children().empty())
+    {
+      delete sysoper_model_columns;
+      sysoper_model_columns = NULL;
+      TRACE_EXIT();
+      return NULL;
+    }
+
+  Gtk::ComboBox *comboBox = new Gtk::ComboBox();
+  comboBox->set_model(model);
+  if (has_button_images)
+    {
+      comboBox->pack_start(sysoper_model_columns->icon, false);
+    }
+  comboBox->pack_start(sysoper_model_columns->name);
+
+  comboBox->set_active(0);
+#ifdef HAVE_GTK3
+  comboBox->set_can_focus(false);
+#else
+  GTK_WIDGET_UNSET_FLAGS(comboBox->gobj(), GTK_CAN_FOCUS);
+#endif
+
+  comboBox->signal_changed()
+      .connect(
+                sigc::mem_fun(*this, &BreakWindow::on_sysoper_combobox_changed)
+          );
+  TRACE_EXIT();
+  return comboBox;
+}
+
+//! Shutdown/suspend/etc. button was clicked
+void
+BreakWindow::on_sysoper_combobox_changed()
+{
+  //based on https://developer.gnome.org/gtkmm-tutorial/stable/combobox-example-full.html.en
+  TRACE_ENTER("BreakWindow::on_sysoper_combobox_changed")
+  Gtk::ListStore::const_iterator iter = sysoper_combobox->get_active();
+  if (!iter)
+    {
+      TRACE_RETURN("!iter");
+      return;
+    }
+
+  Gtk::ListStore::Row row = *iter;
+  if (!row)
+    {
+      TRACE_RETURN("!row");
+      return;
+    }
+
+  if (row[sysoper_model_columns->id] == System::SystemOperation::SYSTEM_OPERATION_NONE)
+    {
+      TRACE_RETURN("SYSTEM_OPERATION_NONE");
+      return;
+    }
+
+  IGUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+  gui->interrupt_grab();
+
+  System::execute(row[sysoper_model_columns->id]);
+
+  //this will fire this method again with SYSTEM_OPERATION_NONE active
+  sysoper_combobox->set_active(0);
+}
+
 
 //! Creates the skip button.
 Gtk::Button *
@@ -381,33 +505,6 @@ BreakWindow::create_postpone_button()
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
 #endif
   return ret;
-}
-
-
-
-//! The lock button was clicked.
-void
-BreakWindow::on_lock_button_clicked()
-{
-  if (System::is_lockable())
-    {
-      IGUI *gui = GUI::get_instance();
-      assert(gui != NULL);
-
-      gui->interrupt_grab();
-      System::lock();
-    }
-}
-
-//! The lock button was clicked.
-void
-BreakWindow::on_shutdown_button_clicked()
-{
-  IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
-  gui->interrupt_grab();
-
-  System::shutdown();
 }
 
 
@@ -495,48 +592,47 @@ BreakWindow::resume_non_ignorable_break()
 }
 
 //! Control buttons.
-Gtk::HButtonBox *
-BreakWindow::create_break_buttons(bool lockable,
+Gtk::Box *
+BreakWindow::create_bottom_box(bool lockable,
                                   bool shutdownable)
 {
-  Gtk::HButtonBox *box = NULL;
+  Gtk::HBox *box = NULL;
 
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
+      box = new Gtk::HBox(false, 6);
 
-      if (shutdownable)
+      if (break_flags != BREAK_FLAGS_NONE)
         {
-          shutdown_button = create_shutdown_button();
-          if (shutdown_button != NULL)
+          Gtk::HButtonBox *button_box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
+          if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
             {
-              box->pack_end(*shutdown_button, Gtk::PACK_SHRINK, 0);
+              skip_button = create_skip_button();
+              button_box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
             }
+
+          if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+            {
+              postpone_button = create_postpone_button();
+              button_box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
+            }
+          box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
         }
 
+      //#ifdef HAVE_GTK3
       if (lockable)
         {
-          lock_button = create_lock_button();
-          if (lock_button != NULL)
+          sysoper_combobox = create_sysoper_combobox(shutdownable);
+          if (sysoper_combobox != NULL)
             {
-              box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
+              box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
             }
         }
+      //#endif
 
-      if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
-        {
-          skip_button = create_skip_button();
-          box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
-        }
-
-      if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
-        {
-          postpone_button = create_postpone_button();
-          box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
-        }
     }
 
   return box;

@@ -20,6 +20,10 @@
 #ifndef BREAKWINDOW_HH
 #define BREAKWINDOW_HH
 
+#ifdef HAVE_CONFIG
+#include "config.h"
+#endif
+
 #include <stdio.h>
 
 #include "preinclude.h"
@@ -31,6 +35,7 @@
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 #include "GUIConfig.hh"
+#include "System.hh"
 
 #ifdef PLATFORM_OS_WIN32
 class DesktopWindow;
@@ -44,7 +49,7 @@ namespace workrave
 namespace Gtk
 {
   class Button;
-  class HButtonBox;
+  class Box;
 }
 
 class Frame;
@@ -90,9 +95,8 @@ protected:
 
   void center();
 
-  Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable);
+  Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
   void resume_non_ignorable_break();
-  void on_lock_button_clicked();
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
@@ -110,11 +114,11 @@ protected:
   //! Flash frame
   Frame *frame;
 
+
 protected:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();
-  Gtk::Button *create_lock_button();
-  Gtk::Button *create_shutdown_button();
+  Gtk::ComboBox *create_sysoper_combobox(bool shutdownable);
 
 private:
   //! Send response to this interface.
@@ -136,11 +140,39 @@ private:
 #endif
 
   bool accel_added;
+  Glib::RefPtr<Gtk::AccelGroup> accel_group;
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
-  Gtk::Button *lock_button;
-  Gtk::Button *shutdown_button;
-  Glib::RefPtr<Gtk::AccelGroup> accel_group;
+
+  class SysoperModelColumns : public Gtk::TreeModelColumnRecord
+    {
+    public:
+      Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > icon;
+      Gtk::TreeModelColumn<Glib::ustring> name;
+      Gtk::TreeModelColumn<System::SystemOperation::SystemOperationType> id;
+      bool has_button_images;
+
+      SysoperModelColumns(bool has_button_images): has_button_images(has_button_images)
+        {
+          if (has_button_images)
+            {
+              add(icon);
+            }
+          add(name);
+          add(id);
+        }
+    };
+
+  //Supported system operations (like suspend, hibernate, shutdown)
+  std::vector<System::SystemOperation> supported_system_operations;
+  SysoperModelColumns *sysoper_model_columns;
+
+  Gtk::ComboBox *sysoper_combobox;
+  void get_operation_name_and_icon(
+      System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
+  void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
+      System::SystemOperation::SystemOperationType type);
+  void on_sysoper_combobox_changed();
 };
 
 inline BreakWindow::BreakFlags
