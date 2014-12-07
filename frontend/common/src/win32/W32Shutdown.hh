@@ -24,8 +24,6 @@
 
 #include "ISystemStateChangeMethod.hh"
 
-
-
 class W32Shutdown : public ISystemStateChangeMethod
 {
 public:

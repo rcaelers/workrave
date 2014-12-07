@@ -524,10 +524,10 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
             // {
             //     GtkUtil::update_mnemonic( window.shutdown_button, window.accel_group );
             // }
-            if( window.lock_button != NULL )
-            {
-                GtkUtil::update_mnemonic( window.lock_button, window.accel_group );
-            }
+            // if( window.lock_button != NULL )
+            // {
+            //     GtkUtil::update_mnemonic( window.lock_button, window.accel_group );
+            // }
             window.accel_added = true;
         }
     }
