@@ -25,7 +25,7 @@ AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules tar-ustar])
+AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules tar-ustar subdir-objects])
 dnl AM_SILENT_RULES([yes])
 
 GNOME_SHELL_VERSION=3.6.2

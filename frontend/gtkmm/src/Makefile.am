@@ -53,20 +53,20 @@ resource.rc: resource.rc.in
 		$(srcdir)/$@.in > $@
 
 # Additional distribution sources.
-DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
-sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
+DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution/
+sourcesdistribution = 	../../plugin/distribution/gtkmm/src/NetworkJoinDialog.cc \
+			../../plugin/distribution/gtkmm/src/NetworkLogDialog.cc \
+			../../plugin/distribution/gtkmm/src/NetworkPreferencePage.cc
 
 # Additional exercises sources.
 EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
-sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
-			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
-			${EXERCISES_HOME}/common/src/Exercise.cc
+sourcesexercises = 	../../plugin/exercises/gtkmm/src/ExercisesDialog.cc \
+			../../plugin/exercises/gtkmm/src/ExercisesPanel.cc \
+			../../plugin/exercises/common/src/Exercise.cc
 
 # Statistics.
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
-sourcesstatistics =	${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc
+sourcesstatistics =	../../plugin/statistics/gtkmm/src/StatisticsDialog.cc
 
 if HAVE_PYTHON_CHEETAH
 GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
@@ -277,7 +277,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/common/src
 
 if PLATFORM_OS_OSX
-CFLAGS += 		-xobjective-c
+AM_CFLAGS = 		-xobjective-c
 AM_CPPFLAGS =		-xobjective-c++
 endif
 
