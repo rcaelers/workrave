@@ -1,9 +1,11 @@
 EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
 		  org.gnome.panel.applet.WorkraveAppletFactory.service.in	\
-	  	  WorkraveApplet.c				 		\
+	  	  v4/WorkraveApplet.c				 		\
+	  	  v5/WorkraveApplet.c				 		\
 		  WorkraveApplet.h				 		\
 		  workrave-gnome-applet.xml					\
-		  workrave-gnome-applet-menu.xml
+		  v4/workrave-gnome-applet-menu.xml				\
+		  v5/workrave-gnome-applet-menu.xml
 
 BUILT_SOURCES   =
 CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(service_DATA) $(schemas_DATA)
@@ -14,19 +16,24 @@ SUBDIRS =
 
 if HAVE_PANELAPPLET45
 
+xmluidir    			= $(datadir)/gnome-panel/ui
+applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
+applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
+
 if HAVE_PANELAPPLET4
 LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapplet-4.0`
 appletdir       		= $(datadir)/gnome-panel/4.0/applets
+xmlui_DATA  			= v4/workrave-gnome-applet-menu.xml
+applet_source 			= v4/WorkraveApplet.c
 else
 LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanel-applet`
 appletdir       		= $(datadir)/gnome-panel/5.0/applets
+xmlui_DATA  			= v5/workrave-gnome-applet-menu.xml
+applet_source 			= v5/WorkraveApplet.c
 endif
 
 APPLET_IN_PROCESS 		= false
 APPLET_LOCATION   		= $(libexecdir)/workrave-applet
-
-applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
-applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 $(applet_in_files): $(applet_in_files).in Makefile
 	$(AM_V_GEN)sed \
@@ -46,9 +53,6 @@ org.gnome.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 	    -e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
 	    $< > $@
 
-xmluidir    			= $(datadir)/gnome-panel/ui
-xmlui_DATA  			= workrave-gnome-applet-menu.xml
-
 AM_CPPFLAGS 			= -I$(srcdir)
 
 FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
@@ -58,7 +62,7 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= WorkraveApplet.c workrave-gnome-applet-generated.c
+workrave_applet_SOURCES 	= ${applet_source} workrave-gnome-applet-generated.c
 workrave_applet_LDADD 		= @GNOME3_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
