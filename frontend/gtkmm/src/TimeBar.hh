@@ -72,8 +72,6 @@ protected:
   virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
   virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
   virtual void on_size_allocate(Gtk::Allocation& allocation);
-  // virtual void on_realize();
-  // virtual void on_unrealize();
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 #else
   virtual void on_realize();
