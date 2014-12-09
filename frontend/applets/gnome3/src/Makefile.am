@@ -56,6 +56,7 @@ org.gnome.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 AM_CPPFLAGS 			= -I$(srcdir)
 
 FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+				  -std=c99 -I$(srcdir)/../include -I$(srcdir)/../../common/include \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
@@ -63,7 +64,7 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 libexec_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= ${applet_source} workrave-gnome-applet-generated.c
-workrave_applet_LDADD 		= @GNOME3_LIBS@
+workrave_applet_LDADD 		= @GNOME3_LIBS@  -L$(builddir)/../../common/src -lworkrave-private-1.0
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
 

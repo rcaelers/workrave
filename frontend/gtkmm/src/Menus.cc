@@ -83,6 +83,8 @@
 #include "OSXGtkMenu.hh"
 #endif
 
+#include "MenuCommand.hh"
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.

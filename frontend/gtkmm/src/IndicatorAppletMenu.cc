@@ -109,44 +109,44 @@ IndicatorAppletMenu::init()
 	dbusmenu_server_set_root(server, root);
   dbusmenu_menuitem_property_set_bool(root, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
 
-  menu_item_append(root, _("Open"), Menus::MENU_COMMAND_OPEN);
-  menu_item_append(root, _("Preferences"), Menus::MENU_COMMAND_PREFERENCES);
-  menu_item_append(root, _("_Rest break"), Menus::MENU_COMMAND_REST_BREAK);
-  menu_item_append(root, _("Exercises"), Menus::MENU_COMMAND_EXERCISES);
+  menu_item_append(root, _("Open"), MENU_COMMAND_OPEN);
+  menu_item_append(root, _("Preferences"), MENU_COMMAND_PREFERENCES);
+  menu_item_append(root, _("_Rest break"), MENU_COMMAND_REST_BREAK);
+  menu_item_append(root, _("Exercises"), MENU_COMMAND_EXERCISES);
 
   DbusmenuMenuitem *mode_menu = menu_item_append(root, _("_Mode"));
 
-  menu_item_append(mode_menu, _("_Normal"), Radio, Menus::MENU_COMMAND_MODE_NORMAL);
-  menu_item_append(mode_menu, _("Q_uiet"), Radio, Menus::MENU_COMMAND_MODE_QUIET);
-  menu_item_append(mode_menu, _("_Suspended"), Radio, Menus::MENU_COMMAND_MODE_SUSPENDED);
+  menu_item_append(mode_menu, _("_Normal"), Radio, MENU_COMMAND_MODE_NORMAL);
+  menu_item_append(mode_menu, _("Q_uiet"), Radio, MENU_COMMAND_MODE_QUIET);
+  menu_item_append(mode_menu, _("_Suspended"), Radio, MENU_COMMAND_MODE_SUSPENDED);
 
   DbusmenuMenuitem *network_menu = menu_item_append(root, _("_Network"));
 
-  menu_item_append(network_menu, _("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT);
-  menu_item_append(network_menu, _("_Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT);
-  menu_item_append(network_menu, _("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT);
-  menu_item_append(network_menu, _("Show _log"), Check, Menus::MENU_COMMAND_NETWORK_LOG);
+  menu_item_append(network_menu, _("_Connect"), MENU_COMMAND_NETWORK_CONNECT);
+  menu_item_append(network_menu, _("_Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT);
+  menu_item_append(network_menu, _("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT);
+  menu_item_append(network_menu, _("Show _log"), Check, MENU_COMMAND_NETWORK_LOG);
 
-  menu_item_append(root, _("Reading mode"), Check, Menus::MENU_COMMAND_MODE_READING);
-  menu_item_append(root, _("Statistics"), Menus::MENU_COMMAND_STATISTICS);
-  menu_item_append(root, _("About..."), Menus::MENU_COMMAND_ABOUT);
-  menu_item_append(root, _("Quit"), Menus::MENU_COMMAND_QUIT);
+  menu_item_append(root, _("Reading mode"), Check, MENU_COMMAND_MODE_READING);
+  menu_item_append(root, _("Statistics"), MENU_COMMAND_STATISTICS);
+  menu_item_append(root, _("About..."), MENU_COMMAND_ABOUT);
+  menu_item_append(root, _("Quit"), MENU_COMMAND_QUIT);
 }
 
 void
 IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_NORMAL, mode == OPERATION_MODE_NORMAL);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_QUIET, mode == OPERATION_MODE_QUIET);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_SUSPENDED, mode == OPERATION_MODE_SUSPENDED);
-  menu_item_set_checked(Menus::MENU_COMMAND_MODE_READING, usage == USAGE_MODE_READING);
-  menu_item_set_checked(Menus::MENU_COMMAND_NETWORK_LOG, show_log);
+  menu_item_set_checked(MENU_COMMAND_MODE_NORMAL, mode == OPERATION_MODE_NORMAL);
+  menu_item_set_checked(MENU_COMMAND_MODE_QUIET, mode == OPERATION_MODE_QUIET);
+  menu_item_set_checked(MENU_COMMAND_MODE_SUSPENDED, mode == OPERATION_MODE_SUSPENDED);
+  menu_item_set_checked(MENU_COMMAND_MODE_READING, usage == USAGE_MODE_READING);
+  menu_item_set_checked(MENU_COMMAND_NETWORK_LOG, show_log);
 }
 
 int
 IndicatorAppletMenu::find_menu_item(DbusmenuMenuitem *item) const
 {
-  for (int i = 0; i < Menus::MENU_COMMAND_SIZEOF; i++)
+  for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
     {
       if (menu_items[i] == item)
         {

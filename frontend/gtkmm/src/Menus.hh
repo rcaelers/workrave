@@ -60,30 +60,7 @@ public:
       MENU_APPLET_GENERICDBUS,
       MENU_SIZEOF,
     };
-
-  
-  enum MenuCommand
-    {
-      // Note: Do NOT remove/change any of the commands.
-      // Append new items only at the end.
-      MENU_COMMAND_PREFERENCES,
-      MENU_COMMAND_EXERCISES,
-      MENU_COMMAND_REST_BREAK,
-      MENU_COMMAND_MODE_NORMAL,
-      MENU_COMMAND_MODE_QUIET,
-      MENU_COMMAND_MODE_SUSPENDED,
-      MENU_COMMAND_NETWORK_CONNECT,
-      MENU_COMMAND_NETWORK_DISCONNECT,
-      MENU_COMMAND_NETWORK_LOG,
-      MENU_COMMAND_NETWORK_RECONNECT,
-      MENU_COMMAND_STATISTICS,
-      MENU_COMMAND_ABOUT,
-      MENU_COMMAND_MODE_READING,
-      MENU_COMMAND_OPEN,
-      MENU_COMMAND_QUIT,
-      MENU_COMMAND_SIZEOF,
-    };
-
+ 
   void init(AppletControl *applet_control);
   void applet_command(short cmd);
   void resync();

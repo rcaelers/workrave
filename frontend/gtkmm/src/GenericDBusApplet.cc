@@ -33,6 +33,7 @@
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
+#include "MenuCommand.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
@@ -186,17 +187,17 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   items.clear();
   
-  add_menu_item(_("Open"),        Menus::MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Rest break"),  Menus::MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"),   Menus::MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Open"),        MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Exercises"),   MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
-  add_menu_item(_("Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Normal"),      MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Suspended"),   Menus::MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Suspended"),   MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Quiet"),       Menus::MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Quiet"),       MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
                 | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
@@ -204,21 +205,21 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
  
 #ifdef HAVE_DISTRIBUTION
   add_menu_item(_("Network"),     0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
-  add_menu_item(_("Connect"),    Menus::MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Disconnect"), Menus::MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Reconnect"),  Menus::MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show log"),   Menus::MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Connect"),    MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Reconnect"),  MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Show log"),   MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
                 | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
   add_menu_item(_("Network"),    0,                                      MENU_ITEM_FLAG_SUBMENU_END);
       
 #endif
-  add_menu_item(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
                 | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
-  add_menu_item(_("Statistics"),   Menus::MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("About..."),     Menus::MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
 
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
