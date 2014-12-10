@@ -55,16 +55,6 @@ public:
     int bar_primary_max;
   };
 
-  enum MenuItemFlags
-    {
-      MENU_ITEM_FLAG_NONE = 0,
-      MENU_ITEM_FLAG_SUBMENU_BEGIN = 1,
-      MENU_ITEM_FLAG_SUBMENU_END = 2,
-      MENU_ITEM_FLAG_CHECK = 4,
-      MENU_ITEM_FLAG_RADIO = 8,
-      MENU_ITEM_FLAG_ACTIVE = 16,
-    };
-
   struct MenuItem
   {
     std::string text;
@@ -82,6 +72,7 @@ public:
   virtual void get_tray_icon_enabled(bool &enabled) const;
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
+  virtual void button_clicked(int button);
   
 private:
   // IAppletWindow

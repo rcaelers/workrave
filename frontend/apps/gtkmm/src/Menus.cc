@@ -77,6 +77,7 @@
 #endif
 
 using namespace workrave::utils;
+#include "MenuEnums.hh"
 
 //! Constructor.
 /*!

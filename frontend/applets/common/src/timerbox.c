@@ -120,12 +120,6 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   self->priv->enabled = FALSE;
   self->priv->force_icon = FALSE;
   self->priv->mode = g_strdup("normal");
-    
-  /* initialize all public and private members to reasonable default values. */
-
-  /* If you need specific construction properties to complete initialization,
-   * delay initialization completion until the property is set.
-   */
 }
 
 
@@ -204,7 +198,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 
   if ((priv->enabled && priv->filled_slots == 0) || priv->force_icon)
     {
-      if (g_strcmp0("normal", priv->mode) == 0)
+      if (!priv->enabled || g_strcmp0("normal", priv->mode) == 0)
         {
           gdk_cairo_set_source_pixbuf(cr, priv->normal_sheep_icon, 0, 0);
         }

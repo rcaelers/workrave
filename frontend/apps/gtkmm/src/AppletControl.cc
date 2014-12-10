@@ -91,7 +91,7 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#if defined(HAVE_PANELAPPLET4)
+#if defined(HAVE_PANELAPPLET2)
   applets[APPLET_GNOME] = new GnomeAppletWindow();
 #endif
 

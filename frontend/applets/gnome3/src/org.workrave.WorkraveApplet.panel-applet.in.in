@@ -8,5 +8,5 @@ _Description=Workrave Applet
 [WorkraveApplet]
 _Name=Workrave
 _Description=Workrave Applet
-Icon=workrave-sheep
+Icon=workrave
 BonoboId=OAFIID:GNOME_WorkraveApplet;

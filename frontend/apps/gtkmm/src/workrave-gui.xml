@@ -5,7 +5,7 @@
     <include name="Menus.hh"/>
     <include name="GenericDBusApplet.hh"/>
     <include name="gdk/gdk.h"/>
-    <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)"/>
+    <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2)"/>
     <include name="UiTypes.hh"/>
   </import>
   
@@ -62,6 +62,10 @@
       <arg type="int32" name="command" direction="in"/>
     </method>
 
+    <method name="ButtonClicked" csymbol="button_clicked">
+      <arg type="uint32" name="button" direction="in"/>
+    </method>
+
     <method name="GetMenu" csymbol="get_menu">
       <arg type="MenuItems" name="menuitems" direction="out"/>
     </method>
@@ -85,8 +89,7 @@
     </signal>
   </interface>
     
-  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
-             condition="defined(HAVE_PANELAPPLET2) || defined(HAVE_PANELAPPLET4)">
+  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow" condition="defined(HAVE_PANELAPPLET2)">
     <method name="SetOrientation" csymbol="set_applet_orientation">
       <arg type="Orientation" name="orientation" direction="in"/>
     </method>

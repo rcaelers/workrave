@@ -1,6 +1,6 @@
 // System.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
 // Copyright (C) 2014 Mateusz Jończyk
 // All rights reserved.
 // Some lock commands are imported from the KShutdown utility:
@@ -29,7 +29,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #include <glib.h>
 #endif
 
@@ -42,7 +42,7 @@
 #include <algorithm>
 #include <iostream>
 
-#ifdef HAVE_STRINGS_H
+#if defined(HAVE_STRINGS_H)
 #include <strings.h>
 #endif
 
@@ -52,7 +52,7 @@
 #if defined(PLATFORM_OS_UNIX)
 #include "ScreenLockCommandline.hh"
 
-#ifdef HAVE_DBUS_GIO
+#if defined(HAVE_DBUS_GIO)
 #include "ScreenLockDBus.hh"
 #include "SystemStateChangeConsolekit.hh"
 #include "SystemStateChangeLogind.hh"
@@ -60,7 +60,7 @@
 #endif
 #endif //PLATFORM_OS_UNIX
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 #include "W32Shutdown.hh"
 #include "W32LockScreen.hh"
 #endif
@@ -73,23 +73,17 @@ std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
-#if defined(PLATFORM_OS_UNIX)
-
-#ifdef HAVE_DBUS_GIO
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
 GDBusConnection* System::session_connection = NULL;
 GDBusConnection* System::system_connection = NULL;
 #endif
-#endif
 
-
-#ifdef PLATFORM_OS_UNIX
-#ifdef HAVE_DBUS_GIO
+#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_DBUS_GIO)
 void
 System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
-  //session_connection = workrave::CoreFactory::get_dbus()->get_connection();
-
   
   GError *error = NULL;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
@@ -113,9 +107,9 @@ System::init_DBus()
 }
 
 
-inline bool System::add_DBus_lock_cmd(
-    const char *dbus_name, const char *dbus_path, const char *dbus_interface,
-    const char *dbus_lock_method, const char *dbus_method_to_check_existence)
+bool 
+System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const char *dbus_interface,
+                          const char *dbus_lock_method, const char *dbus_method_to_check_existence)
 {
   TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
 
@@ -137,15 +131,12 @@ inline bool System::add_DBus_lock_cmd(
       TRACE_RETURN(true);
       return true;
     }
-
 }
 
 void
 System::init_DBus_lock_commands()
 {
   TRACE_ENTER("System::init_DBus_lock_commands");
-
-
 
   if (session_connection)
     {
@@ -227,8 +218,8 @@ System::init_DBus_lock_commands()
 }
 #endif //HAVE_DBUS_GIO
 
-inline void System::add_cmdline_lock_cmd(
-        const char *command_name, const char *parameters, bool async)
+void 
+System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
   IScreenLockMethod *lock_method = NULL;
@@ -287,7 +278,7 @@ void System::init_cmdline_lock_commands(const char *display)
 
   TRACE_EXIT();
 }
-#endif
+#endif // PLATFORM_OS_UNIX
 
 bool
 System::lock_screen()
@@ -335,7 +326,6 @@ void System::init_DBus_system_state_commands()
   TRACE_ENTER("System::init_DBus_system_state_commands");
   if (system_connection)
     {
-
       //These three DBus interfaces are too diverse
       //to implement support for them in one class
       //Logind is the future so it goes first
@@ -366,8 +356,6 @@ void System::init_DBus_system_state_commands()
       //    win7
       //        system("C:\\WINDOWS\\System32\\shutdown /s");
 #undef ADD_DBUS_SERVICE
-
-
     }
   TRACE_EXIT();
 }
@@ -427,8 +415,9 @@ System::init(
              )
 {
   TRACE_ENTER("System::init");
+
 #if defined(PLATFORM_OS_UNIX)
-#ifdef HAVE_DBUS_GIO
+#if defined(HAVE_DBUS_GIO)
   init_DBus();
   init_DBus_lock_commands();
   init_DBus_system_state_commands();
@@ -511,7 +500,8 @@ System::clear()
       delete *iter;
     }
   system_state_commands.clear();
-#ifdef HAVE_DBUS_GIO
+
+#if defined(HAVE_DBUS_GIO)
   //we shouldn't call g_dbus_connection_close_sync here:
   //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
   g_object_unref(session_connection);

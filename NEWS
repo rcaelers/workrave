@@ -5,10 +5,17 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.6
+
+** Improved screen lock and shutdown in break window (Mateusz Jończyk)
+** Add suspend/hibernate option to break window on Linux (Mateusz Jończyk)
+
 * Workrave 1.10.5
 
 ** Updated tranlations:
    - Danish (Frederik Svarre)
+
+** Updates Desktop files (Francois Marier, Mike Manger) 
 
 * Workrave 1.10.4
 

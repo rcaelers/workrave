@@ -34,6 +34,7 @@
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
+#include "MenuEnums.hh"
 #include "CoreFactory.hh"
 #include "config/IConfigurator.hh"
 
@@ -186,28 +187,28 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
 
   items.clear();
   
-  add_menu_item(_("Open"),        Menus::MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Rest break"),  Menus::MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"),   Menus::MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Open"),        MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Exercises"),   MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
-  add_menu_item(_("Normal"),      Menus::MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Normal"),      MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
                 | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Suspended"),   Menus::MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Suspended"),   MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
                 | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Quiet"),       Menus::MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
+  add_menu_item(_("Quiet"),       MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
                 | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
   add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
  
-  add_menu_item(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
+  add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
                 | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
-  add_menu_item(_("Statistics"),   Menus::MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("About..."),     Menus::MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
 
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
@@ -245,6 +246,13 @@ GenericDBusApplet::applet_command(int command)
   IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
+}
+
+void
+GenericDBusApplet::button_clicked(int button)
+{
+  (void) button;
+  timer_box_control->force_cycle();
 }
 
 void

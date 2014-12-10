@@ -27,6 +27,7 @@
 
 #include "Menus.hh"
 #include "MenuBase.hh"
+#include "MenuEnums.hh"
 
 class GenericDBusApplet;
 
@@ -55,7 +56,7 @@ private:
 private:
   DbusmenuServer *server;
   DbusmenuMenuitem *root;
-  DbusmenuMenuitem *menu_items[Menus::MENU_COMMAND_SIZEOF];
+  DbusmenuMenuitem *menu_items[MENU_COMMAND_SIZEOF];
 };
 
 #endif // INDICATORAPPLETMENU_HH
