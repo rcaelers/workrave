@@ -220,6 +220,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
   add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("_Quit"),        MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
 
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
@@ -257,6 +258,13 @@ GenericDBusApplet::applet_command(int command)
   IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
+}
+
+void
+GenericDBusApplet::button_clicked(int button)
+{
+  (void) button;
+  timer_box_control->force_cycle();
 }
 
 void

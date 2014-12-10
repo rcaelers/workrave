@@ -81,6 +81,7 @@ public:
   virtual void get_tray_icon_enabled(bool &enabled) const;
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
+  virtual void button_clicked(int button);
   
 private:
   // IAppletWindow

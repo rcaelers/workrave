@@ -63,6 +63,10 @@
       <arg type="int32" name="command" direction="in"/>
     </method>
 
+    <method name="ButtonClicked" csymbol="button_clicked">
+      <arg type="uint32" name="button" direction="in"/>
+    </method>
+
     <method name="GetMenu" csymbol="get_menu">
       <arg type="MenuItems" name="menuitems" direction="out"/>
     </method>

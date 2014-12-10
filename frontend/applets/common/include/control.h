@@ -20,6 +20,8 @@
 
 #include <glib-object.h>
 
+#include "timerbox.h"
+
 #define WORKRAVE_TIMERBOX_CONTROL_TYPE                  (workrave_timerbox_control_get_type())
 #define WORKRAVE_TIMERBOX_CONTROL(obj)                  (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControl))
 #define WORKRAVE_IS_TIMERBOX_CONTROL(obj)               (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE))
@@ -53,8 +55,10 @@ GType workrave_timerbox_control_get_type(void);
 /* TODO: add gobject introspection */
 
 GtkImage *workrave_timerbox_control_get_image(WorkraveTimerboxControl *self);
+WorkraveTimerbox *workrave_timerbox_control_get_timerbox(WorkraveTimerboxControl *self);
 GDBusProxy *workrave_timerbox_control_get_applet_proxy(WorkraveTimerboxControl *self);
 GDBusProxy *workrave_timerbox_control_get_core_proxy(WorkraveTimerboxControl *self);
 GDBusProxy *workrave_timerbox_control_get_control_proxy(WorkraveTimerboxControl *self);
+void workrave_timerbox_control_show_tray_icon_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 
 #endif /* __WORKRAVE_TIMERBOX_CONTROL_H__ */
