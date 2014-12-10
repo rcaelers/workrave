@@ -33,7 +33,7 @@
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
-#include "MenuCommand.hh"
+#include "MenuEnums.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 

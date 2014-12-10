@@ -54,16 +54,6 @@ public:
     int bar_primary_max;
   };
 
-  enum MenuItemFlags
-    {
-      MENU_ITEM_FLAG_NONE = 0,
-      MENU_ITEM_FLAG_SUBMENU_BEGIN = 1,
-      MENU_ITEM_FLAG_SUBMENU_END = 2,
-      MENU_ITEM_FLAG_CHECK = 4,
-      MENU_ITEM_FLAG_RADIO = 8,
-      MENU_ITEM_FLAG_ACTIVE = 16,
-    };
-
   struct MenuItem
   {
     std::string text;

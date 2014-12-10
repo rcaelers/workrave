@@ -1,4 +1,4 @@
-// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 
 #include "WorkraveApplet.h"
 #include "control.h"
-#include "MenuCommand.hh"
+#include "MenuEnums.hh"
 
 #include "credits.h"
 #include "nls.h"
@@ -43,17 +43,6 @@ G_DEFINE_TYPE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
 
 static void workrave_applet_fill(WorkraveApplet *applet);
 static void dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data);
-
-// TODO: DUPLICATE CODE:
-enum MenuItemFlags
-  {
-    MENU_ITEM_FLAG_NONE = 0,
-    MENU_ITEM_FLAG_SUBMENU_BEGIN = 1,
-    MENU_ITEM_FLAG_SUBMENU_END = 2,
-    MENU_ITEM_FLAG_CHECK = 4,
-    MENU_ITEM_FLAG_RADIO = 8,
-    MENU_ITEM_FLAG_ACTIVE = 16,
-  };
 
 struct Menuitems
 {
@@ -148,23 +137,22 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
       visible[i] = menu_items[i].visible_when_not_running;
     }
   
-  // TODO: check if we have to free text.
   while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))  
     {
       int index = lookup_menu_command_by_id((enum MenuCommand)id);
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_items[index].action);
       if (index == -1)
         {
           continue;
         }
 
+      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_items[index].action);
+      
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
         {
           continue;
         }
 
-      printf("Enabled %d\n", index);
       visible[index] = TRUE;
       
       if (g_action_get_state_type(G_ACTION(action)) != NULL)
@@ -245,6 +233,10 @@ on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   int index = lookup_menu_command_by_action(g_action_get_name(G_ACTION(action)));
+  if (index == -1)
+    {
+      return;
+    }
 
   GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->priv->timerbox_control);
   if (proxy != NULL)
@@ -281,6 +273,10 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   gboolean new_state = g_variant_get_boolean(value);
   int index = lookup_menu_command_by_action(g_action_get_name(G_ACTION(action)));
+  if (index == -1)
+    {
+      return;
+    }
 
   g_simple_action_set_state(action, value);
   
@@ -335,24 +331,6 @@ static const GActionEntry menu_actions [] = {
   { "about",       on_menu_about      },
   { "quit",        on_menu_command    },
 };
-
-// TODO: still needed?
-static void
-force_no_focus_padding(GtkWidget *widget)
-{
-  GtkCssProvider *provider = gtk_css_provider_new();
-  gtk_css_provider_load_from_data(provider,
-                                  "WorkraveApplet {\n"
-                                  " -GtkWidget-focus-line-width: 0px;\n"
-                                  " -GtkWidget-focus-padding: 0px;\n"
-                                  "}", -1, NULL);
-
-  gtk_style_context_add_provider(gtk_widget_get_style_context(widget),
-                                 GTK_STYLE_PROVIDER(provider),
-                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  g_object_unref(provider);
-}
-
 
 static gboolean
 button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
@@ -417,9 +395,6 @@ workrave_applet_fill(WorkraveApplet *applet)
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
   panel_applet_set_background_widget(PANEL_APPLET(applet), GTK_WIDGET(applet));
 
-  force_no_focus_padding(GTK_WIDGET(applet));
-  force_no_focus_padding(GTK_WIDGET(applet->priv->image));
-
   gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet);
 
@@ -445,8 +420,6 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->alive = FALSE;
   
   workrave_applet_fill(applet);
-
-  force_no_focus_padding(GTK_WIDGET(applet));
 }
 
 

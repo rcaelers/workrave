@@ -83,7 +83,7 @@
 #include "OSXGtkMenu.hh"
 #endif
 
-#include "MenuCommand.hh"
+#include "MenuEnums.hh"
 
 //! Constructor.
 /*!
