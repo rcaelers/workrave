@@ -1064,6 +1064,8 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/indicator/include/Makefile
              frontend/applets/gnome-shell/Makefile
              frontend/applets/gnome-shell/src/Makefile
+             frontend/applets/cinnamon/Makefile
+             frontend/applets/cinnamon/src/Makefile
              frontend/gtkmm/Makefile
              frontend/gtkmm/osx/Makefile
              frontend/gtkmm/win32/Makefile

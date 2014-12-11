@@ -220,7 +220,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
   add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("_Quit"),        MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Quit"),         MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
 
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
