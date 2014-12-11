@@ -54,7 +54,7 @@ struct Menuitems
   char *dbuscmd;
 };
 
-static struct Menuitems menu_items[] =
+static struct Menuitems menu_data[] =
   {
     { MENU_COMMAND_OPEN,                  TRUE,  TRUE,  "open",         NULL,         "OpenMain"          },
     { MENU_COMMAND_PREFERENCES,           FALSE, FALSE, "preferences",  NULL,         "Preferences"       },
@@ -76,11 +76,11 @@ static struct Menuitems menu_items[] =
 //    { 0,                                  FALSE, FALSE, "network",      NULL,         NULL                },
 
 int
-lookup_menu_command_by_id(enum MenuCommand id)
+lookup_menu_index_by_id(enum MenuCommand id)
 {
-  for (int i = 0; i < sizeof(menu_items)/sizeof(struct Menuitems); i++)
+  for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      if (menu_items[i].id == id)
+      if (menu_data[i].id == id)
         {
           return i;
         }
@@ -90,11 +90,11 @@ lookup_menu_command_by_id(enum MenuCommand id)
 }
 
 int
-lookup_menu_command_by_action(const char *action)
+lookup_menu_index_by_action(const char *action)
 {
-  for (int i = 0; i < sizeof(menu_items)/sizeof(struct Menuitems); i++)
+  for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      if (g_strcmp0(menu_items[i].action, action) == 0)
+      if (g_strcmp0(menu_data[i].action, action) == 0)
         {
           return i;
         }
@@ -112,10 +112,10 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
   
   if (!alive)
     {
-      for (int i = 0; i < sizeof(menu_items)/sizeof(struct Menuitems); i++)
+      for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
         {
-          GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_items[i].action);
-          g_simple_action_set_enabled(G_SIMPLE_ACTION(action), menu_items[i].visible_when_not_running);
+          GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[i].action);
+          g_simple_action_set_enabled(G_SIMPLE_ACTION(action), menu_data[i].visible_when_not_running);
         }
     }
 }
@@ -131,21 +131,21 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
   int id;
   int flags;
 
-  gboolean visible[sizeof(menu_items)/sizeof(struct Menuitems)];
-  for (int i = 0; i < sizeof(menu_items)/sizeof(struct Menuitems); i++)
+  gboolean visible[sizeof(menu_data)/sizeof(struct Menuitems)];
+  for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      visible[i] = menu_items[i].visible_when_not_running;
+      visible[i] = menu_data[i].visible_when_not_running;
     }
   
   while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))  
     {
-      int index = lookup_menu_command_by_id((enum MenuCommand)id);
+      int index = lookup_menu_index_by_id((enum MenuCommand)id);
       if (index == -1)
         {
           continue;
         }
 
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_items[index].action);
+      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[index].action);
       
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
@@ -157,7 +157,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
       
       if (g_action_get_state_type(G_ACTION(action)) != NULL)
         {
-          if (menu_items[index].state == NULL)
+          if (menu_data[index].state == NULL)
             {
               g_simple_action_set_state(G_SIMPLE_ACTION(action), g_variant_new_boolean(flags & MENU_ITEM_FLAG_ACTIVE));
             }
@@ -165,7 +165,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
             {
               if (flags & MENU_ITEM_FLAG_ACTIVE)
                 {
-                  g_simple_action_set_state(G_SIMPLE_ACTION(action), g_variant_new_string(menu_items[index].state));
+                  g_simple_action_set_state(G_SIMPLE_ACTION(action), g_variant_new_string(menu_data[index].state));
                 }
             }
         }
@@ -173,9 +173,9 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
   
   g_variant_iter_free (iter);
 
-  for (int i = 0; i < sizeof(menu_items)/sizeof(struct Menuitems); i++)
+  for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_items[i].action);
+      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[i].action);
       g_simple_action_set_enabled(G_SIMPLE_ACTION(action), visible[i]);
     }
 }
@@ -232,7 +232,7 @@ static void
 on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  int index = lookup_menu_command_by_action(g_action_get_name(G_ACTION(action)));
+  int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
     {
       return;
@@ -242,9 +242,9 @@ on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
-                        menu_items[index].dbuscmd,
+                        menu_data[index].dbuscmd,
                         NULL,
-                        menu_items[index].autostart ? G_DBUS_CALL_FLAGS_NONE : G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                        menu_data[index].autostart ? G_DBUS_CALL_FLAGS_NONE : G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
                         NULL,
                         (GAsyncReadyCallback) dbus_call_finish,
@@ -272,7 +272,7 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   gboolean new_state = g_variant_get_boolean(value);
-  int index = lookup_menu_command_by_action(g_action_get_name(G_ACTION(action)));
+  int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
     {
       return;
@@ -284,7 +284,7 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
-                        menu_items[index].dbuscmd,
+                        menu_data[index].dbuscmd,
                         g_variant_new("(b)", new_state),
                         G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
