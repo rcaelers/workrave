@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <unit name="DBusWorkrave">
-
+  <import>
+    <include name="Core.hh"/>
+    <include name="Break.hh"/>
+    <include name="config/IConfigurator.hh"/>
+    <namespace name="workrave"/>
+  </import>
+  
+  <enum name="break_id" csymbol="BreakId">
+    <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+    <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+    <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+  </enum>
+  
+  <enum name="operation_mode" csymbol="OperationMode">
+    <value name="normal"    csymbol="OperationMode::Normal" value="0"/>
+    <value name="suspended" csymbol="OperationMode::Suspended"/>
+    <value name="quiet"     csymbol="OperationMode::Quiet"/>
+  </enum>
+  
+  <enum name="usage_mode" csymbol="UsageMode">
+    <value name="normal"    csymbol="UsageMode::Normal" value="0"/>
+    <value name="reading"   csymbol="UsageMode::Reading"/>
+  </enum>
+  
   <interface name="org.workrave.CoreInterface" csymbol="Core">
-
-    <import>
-      <include name="Core.hh"/>
-      <namespace name="workrave"/>
-    </import>
-
-    <enum name="operation_mode" csymbol="OperationMode">
-      <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
-      <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
-      <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
-    </enum>
-
-    <enum name="usage_mode" csymbol="UsageMode">
-      <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
-      <value name="reading"   csymbol="USAGE_MODE_READING"/>
-    </enum>
-    
-    <enum name="break_id" csymbol="BreakId">
-      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
-    </enum>
-
     <method name="SetOperationMode" csymbol="set_operation_mode">
       <arg type="operation_mode" name="mode" direction="in" />
     </method>
-
+    
     <method name="GetOperationMode" csymbol="get_operation_mode">
       <arg type="operation_mode" name="mode" direction="out" hint="return"/>
     </method>
-
+    
     <method name="SetUsageMode" csymbol="set_usage_mode">
       <arg type="usage_mode" name="mode" direction="in" />
     </method>
@@ -47,53 +47,9 @@
       <arg type="bool" name="act" direction="in" />
     </method>
 
-    <method name="IsTimerRunning" csymbol="is_timer_running">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="bool"    name="value"    direction="out" />
-    </method>
-
-    <method name="GetTimerIdle" csymbol="get_timer_idle">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"    name="value"    direction="out" hint="ptr"/>
-    </method>
-
-    <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
-    </method>
-    
-    <method name="GetTimerOverdue" csymbol="get_timer_overdue">
-      <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
-    </method>
-    
-    <method name="GetTime" csymbol="get_time">
-      <arg type="int32" name="value" direction="out" hint="return"/>
-    </method>
-
     <method name="IsActive" csymbol="is_user_active">
       <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
-
-    <method name="PostponeBreak" csymbol="postpone_break">
-      <arg type="break_id" name="timer_id" direction="in"/>
-    </method>
-
-    <method name="SkipBreak" csymbol="skip_break">
-      <arg type="break_id" name="timer_id" direction="in"/>
-    </method>
-
-    <signal name="MicrobreakChanged">
-      <arg type="string" name="progress"/>
-    </signal>
-    
-    <signal name="RestbreakChanged">
-      <arg type="string" name="progress"/>
-    </signal>
-    
-    <signal name="DailylimitChanged">
-      <arg type="string" name="progress"/>
-    </signal>
 
     <signal name="OperationModeChanged">
       <arg type="operation_mode" name="mode"/>
@@ -104,31 +60,31 @@
     </signal>
   </interface>
 
-  <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_TESTS)">
+  <interface name="org.workrave.BreakInterface" csymbol="Break">
+    <method name="IsTimerRunning" csymbol="is_running">
+      <arg type="bool"    name="value"    direction="out"  hint="return"/>
+    </method>
 
-    <import>
-      <include name="Test.hh"/>
-      <namespace name="workrave"/>
-    </import>
+    <method name="GetTimerIdle" csymbol="get_elapsed_idle_time">
+      <arg type="int32"    name="value"    direction="out" hint="return"/>
+    </method>
 
-    <enum name="break_id" csymbol="BreakId">
-      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
-    </enum>
-
-    <method name="Quit" csymbol="quit">
+    <method name="GetTimerElapsed" csymbol="get_elapsed_time">
+      <arg type="int32"     name="value"    direction="out" hint="return"/>
     </method>
     
-  </interface>
-
-  <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
-
-    <import>
-      <include name="IConfigurator.hh"/>
-      <namespace name="workrave"/>
-    </import>
+    <method name="GetTimerOverdue" csymbol="get_total_overdue_time">
+      <arg type="int32"     name="value"    direction="out" hint="return"/>
+    </method>
     
+    <method name="PostponeBreak" csymbol="postpone_break"/>
+    <method name="SkipBreak" csymbol="skip_break"/>
+
+    <signal name="Changed">
+      <arg type="string" name="progress"/>
+    </signal>
+  </interface>
+  <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
     <method name="SetString" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="string" name="value" direction="in" />
@@ -176,7 +132,5 @@
       <arg type="double" name="value" direction="out" />
       <arg type="bool"   name="found" direction="out" hint="return" />
     </method>
-
   </interface>
-
 </unit>

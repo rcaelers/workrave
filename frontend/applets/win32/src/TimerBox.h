@@ -23,7 +23,7 @@
 #include <windows.h>
 #include <time.h>
 
-#include "ICore.hh"
+#include "CoreTypes.hh"
 #include "Util.h"
 
 class TimeBar;

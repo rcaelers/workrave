@@ -72,7 +72,7 @@ bool SystemStateChangeUPower::check_method(const char *method_name)
 
   GVariant *result;
   if (!proxy.call_method(method_name, NULL, &result)) {
-    TRACE_MSG2(method_name, "failed");
+    TRACE_MSG(method_name << " failed");
     TRACE_RETURN(false);
     return false;
   }
@@ -98,7 +98,7 @@ bool SystemStateChangeUPower::check_property(const char *property_name)
 
   if (!r1)
     {
-      TRACE_MSG2(property_name, "failed");
+      TRACE_MSG(property_name << " failed");
       TRACE_RETURN(false);
       return false;
     }

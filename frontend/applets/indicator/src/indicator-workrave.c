@@ -38,13 +38,8 @@
 #include <libindicator/indicator-service-manager.h>
 
 /* DBusMenu */
-#ifdef HAVE_DBUSMENU_NEW_INCLUDES
 #include <libdbusmenu-gtk/menu.h>
 #include <libdbusmenu-gtk/menuitem.h>
-#else
-#include <libdbusmenu-gtk3/menu.h>
-#include <libdbusmenu-gtk3/menuitem.h>
-#endif
 
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
@@ -612,7 +607,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
   
   TimerData td[BREAK_ID_SIZEOF];
 
-  g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
+  g_variant_get(parameters, "((siiiiiii)(siiiiiii)(siiiiiii))",
                 &td[BREAK_ID_MICRO_BREAK].bar_text,
                 &td[BREAK_ID_MICRO_BREAK].slot,
                 &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,

@@ -1,7 +1,7 @@
 /*
  * workrave-timebar.c
  *
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ static void workrave_timebar_init(WorkraveTimebar *self);
 
 static void workrave_timebar_init_ui(WorkraveTimebar *self);
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
-static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
+static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
 
 G_DEFINE_TYPE(WorkraveTimebar, workrave_timebar, G_TYPE_OBJECT);
@@ -153,7 +153,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   cairo_clip(cr);
 
   // Frame
-  workrave_timebar_draw_frame(self, cr, 0, 0, priv->width, priv->height);
+  workrave_timebar_draw_frame(self, cr, priv->width, priv->height);
 
   int bar_width = 0;
   int sbar_width = 0;
@@ -319,7 +319,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
 static void
 workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
-                            int x, int y, int width, int height)
+                            int width, int height)
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
@@ -374,6 +374,7 @@ static void
 workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr,
                                  int x, int y, int width, int height)
 {
+  (void) self;
   cairo_rectangle(cr, x, y, width, height);
   cairo_fill(cr);
 }

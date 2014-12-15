@@ -1,6 +1,6 @@
 // TimerBoxViewBase.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 
 #include "ITimerBoxView.hh"
 
-using namespace workrave;
-
 class TimerBoxViewBase : public ITimerBoxView
 {
 public:
@@ -36,7 +34,7 @@ public:
     (void) tip;
   }
   
-  virtual void set_icon(IconType icon)
+  virtual void set_icon(StatusIconType icon)
   {
     (void) icon;
   }
