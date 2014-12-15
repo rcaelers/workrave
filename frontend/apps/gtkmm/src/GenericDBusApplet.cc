@@ -191,7 +191,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Exercises"),   MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_BEGIN);
+  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
   add_menu_item(_("Normal"),      MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
                 | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
@@ -201,7 +201,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
                 | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
 
-  add_menu_item(_("Mode"),        0,                                     MENU_ITEM_FLAG_SUBMENU_END);
+  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_END);
  
   add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
                 | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
@@ -209,7 +209,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
 
   add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
   add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
-
+  add_menu_item(_("Quit"),         MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
