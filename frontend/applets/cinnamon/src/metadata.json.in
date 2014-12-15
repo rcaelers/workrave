@@ -1,0 +1,6 @@
+{
+ "uuid": "@uuid@",
+ "name": "Workrave",
+ "description": "Applet that shows all the Workrave timers.",
+ "icon": "workrave"
+}

@@ -1,6 +1,4 @@
-// Break.hh
-//
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,100 +18,77 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include "ICore.hh"
-#include "IConfiguratorListener.hh"
+#include <boost/shared_ptr.hpp>
+
+#include "config/IConfigurator.hh"
+#include "dbus/IDBus.hh"
+
 #include "IBreak.hh"
 #include "Timer.hh"
+#include "Statistics.hh"
+#include "IActivityMonitor.hh"
+
+#include "BreakStateModel.hh"
+#include "BreakStatistics.hh"
+#include "BreakConfig.hh"
+#include "BreakDBus.hh"
 
 using namespace workrave;
 
-// Forward declarion of external interface.
-namespace workrave {
-  class IApp;
-  class IConfigurator;
-  class IBreak;
-}
-
-class BreakControl;
-
-class Break :
-  public IBreak,
-  public IConfiguratorListener
+class Break : public IBreak
 {
-private:
-  //! ID of the break.
-  BreakId break_id;
-
-  //! Name of the break (used in configuration)
-  std::string break_name;
-
-  //! Break config prefix
-  std::string break_prefix;
-
-  //! The Configurator
-  IConfigurator *config;
-
-  //!
-  IApp *application;
-
-  //! Interface pointer to the timer.
-  Timer *timer;
-
-  //! Interface pointer to the break controller.
-  BreakControl *break_control;
-
-  //! Break enabled?
-  bool enabled;
-
-  //!
-  UsageMode usage_mode;
+public:
+  typedef boost::shared_ptr<Break> Ptr;
 
 public:
-  Break();
-  virtual ~Break();
-
-  void init(BreakId id, IApp *app);
-
-  static std::string expand(const std::string &str, BreakId id);
-  static std::string get_name(BreakId id);
-
-  std::string expand(const std::string &str);
-  std::string get_name() const;
-  BreakId get_id() const;
-
-  Timer *get_timer() const;
-  BreakControl *get_break_control();
+  static Ptr create(BreakId id,
+                    IApp *app,
+                    Timer::Ptr timer,
+                    IActivityMonitor::Ptr activity_monitor,
+                    Statistics::Ptr statistics,
+                    workrave::dbus::IDBus::Ptr dbus,
+                    CoreHooks::Ptr hooks);
+  
+  Break(BreakId id,
+        IApp *app,
+        Timer::Ptr timer,
+        IActivityMonitor::Ptr activity_monitor,
+        Statistics::Ptr statistics,
+        workrave::dbus::IDBus::Ptr dbus,
+        CoreHooks::Ptr hooks);
 
   // IBreak
-  virtual bool is_enabled() const;
+  virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
+  virtual std::string get_name() const; 
+  virtual bool is_enabled() const; 
   virtual bool is_running() const;
-  virtual time_t get_elapsed_time() const;
-  virtual time_t get_elapsed_idle_time() const;
-  virtual time_t get_auto_reset() const;
-  virtual bool is_auto_reset_enabled() const;
-  virtual time_t get_limit() const;
-  virtual bool is_limit_enabled() const;
   virtual bool is_taking() const;
+  virtual bool is_active() const;
+  virtual int64_t get_elapsed_time() const;
+  virtual int64_t get_elapsed_idle_time() const;
+  virtual int64_t get_auto_reset() const;
+  virtual bool is_auto_reset_enabled() const;
+  virtual int64_t get_limit() const;
+  virtual bool is_limit_enabled() const;
+  virtual int64_t get_total_overdue_time() const;
+  virtual void postpone_break();
+  virtual void skip_break();
 
-  void set_usage_mode(UsageMode mode);
-
-  bool get_timer_activity_sensitive() const;
-
+  void process();
+  void start_break();
+  void stop_break();
+  void force_start_break(BreakHint break_hint);
   void override(BreakId id);
-
+  void daily_reset();
+  bool is_microbreak_used_for_activity() const;
+  
 private:
-  void config_changed_notify(const std::string &key);
-
-private:
-  void init_defaults();
-
-  void init_timer();
-  void load_timer_config();
-
-  void init_break_control();
-  void load_break_control_config();
-
-  bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
+  BreakId break_id;
+  Timer::Ptr timer;
+  BreakStateModel::Ptr break_state_model;
+  BreakStatistics::Ptr break_statistics;
+  BreakConfig::Ptr break_configuration;
+  BreakDBus::Ptr break_dbus;
 };
 
-#endif // TIMERDATA_HH
+#endif // BREAK_HH

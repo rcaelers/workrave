@@ -23,6 +23,10 @@
 
 #include "timebar.h"
 
+#ifdef USE_GTK2
+#include "compat.h"
+#endif
+
 #define WORKRAVE_TIMERBOX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxPrivate))
 
 static void workrave_timerbox_class_init(WorkraveTimerboxClass *klass);
@@ -120,12 +124,6 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   self->priv->enabled = FALSE;
   self->priv->force_icon = FALSE;
   self->priv->mode = g_strdup("normal");
-    
-  /* initialize all public and private members to reasonable default values. */
-
-  /* If you need specific construction properties to complete initialization,
-   * delay initialization completion until the property is set.
-   */
 }
 
 
@@ -152,8 +150,6 @@ workrave_timerbox_dispose(GObject *gobject)
 static void
 workrave_timerbox_finalize(GObject *gobject)
 {
-  //  WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
-
   /* Chain up to the parent class */
   G_OBJECT_CLASS(workrave_timerbox_parent_class)->finalize(gobject);
 }
@@ -163,7 +159,6 @@ static void
 workrave_timerbox_set_property(GObject *gobject, guint property_id, const GValue *value, GParamSpec *pspec)
 {
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
-  //GObject *obj;
 
   switch (property_id)
     {
@@ -204,7 +199,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 
   if ((priv->enabled && priv->filled_slots == 0) || priv->force_icon)
     {
-      if (g_strcmp0("normal", priv->mode) == 0)
+      if (!priv->enabled || g_strcmp0("normal", priv->mode) == 0)
         {
           gdk_cairo_set_source_pixbuf(cr, priv->normal_sheep_icon, 0, 0);
         }
@@ -363,7 +358,7 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   int height = 24;
 
   workrave_timerbox_compute_dimensions(self, &width, &height);
-  
+
   cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(surface);
 
@@ -372,7 +367,7 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   GdkPixbuf *pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, width, height);
   gtk_image_set_from_pixbuf(image, pixbuf);
 
-  gdk_pixbuf_unref(pixbuf);
+  g_object_unref(pixbuf);
   cairo_surface_destroy(surface);
   cairo_destroy(cr);
 }

@@ -36,7 +36,7 @@
 #include <iomanip>
 #include <fstream>
 #include <ctime>
-
+#include <string>
 extern std::ofstream g_log_stream;
 
 class Debug

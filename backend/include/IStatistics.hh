@@ -1,6 +1,6 @@
 // IStatistics.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ISTATISTICS_HH
-#define ISTATISTICS_HH
+#ifndef WORKRAVE_BACKEND_ISTATISTICS_HH
+#define WORKRAVE_BACKEND_ISTATISTICS_HH
 
 #include <time.h>
 
@@ -28,13 +28,15 @@ typedef __int64 int64_t;
 #include <stdint.h>
 #endif
 
-#include "ICore.hh"
+#include "CoreTypes.hh"
 
 namespace workrave {
 
   class IStatistics
   {
   public:
+    typedef boost::shared_ptr<IStatistics> Ptr;
+
     enum StatsBreakValueType
       {
         STATS_BREAKVALUE_PROMPTED = 0,
@@ -89,4 +91,4 @@ namespace workrave {
   };
 }
 
-#endif // ISTATISTICS_HH
+#endif // WORKRAVE_BACKEND_ISTATISTICS_HH

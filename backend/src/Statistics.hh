@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,42 +20,38 @@
 #ifndef STATISTICS_HH
 #define STATISTICS_HH
 
+#include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+
+#include <chrono>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <time.h>
 #include <string.h>
 
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+
 #include "IStatistics.hh"
-#include "IInputMonitorListener.hh"
-#include "Mutex.hh"
-
-// Forward declarion of external interface.
-namespace workrave {
-  class IBreak;
-}
-
-class TimePred;
-class PacketBuffer;
-class Core;
-class IInputMonitor;
+#include "IActivityMonitor.hh"
 
 using namespace workrave;
+using namespace workrave::input_monitor;
 using namespace std;
 
-#ifdef HAVE_DISTRIBUTION
-#include "IDistributionClientMessage.hh"
-#include "PacketBuffer.hh"
-#endif
-
-class Statistics :
-  public IStatistics,
-  public IInputMonitorListener
-#ifdef HAVE_DISTRIBUTION
-  ,
-  public IDistributionClientMessage
-#endif
+class Statistics
+  : public IStatistics,
+    public IInputMonitorListener
 {
+public:
+  typedef boost::shared_ptr<Statistics> Ptr;
+
+public:
+  static Ptr create(IActivityMonitor::Ptr monitor);
+
 private:
   enum StatsMarker
     {
@@ -72,7 +68,7 @@ private:
   struct DailyStatsImpl : public DailyStats
   {
     //! Total time that the mouse was moving.
-    GTimeVal total_mouse_time;
+    std::chrono::system_clock::time_point total_mouse_time;
 
     DailyStatsImpl()
     {
@@ -94,9 +90,6 @@ private:
 
       // Empty marker.
       start.tm_year = 0;
-
-      total_mouse_time.tv_sec = 0;
-      total_mouse_time.tv_usec = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
@@ -113,7 +106,7 @@ private:
 
 public:
   //! Constructor.
-  Statistics();
+  Statistics(IActivityMonitor::Ptr monitor);
 
   //! Destructor
   virtual ~Statistics();
@@ -121,7 +114,7 @@ public:
   bool delete_all_history();
 
 public:
-  void init(Core *core);
+  void init();
   void update();
   void dump();
   void start_new_day();
@@ -129,7 +122,7 @@ public:
   void increment_break_counter(BreakId, StatsBreakValueType st);
   void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
   void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
-
+  
   DailyStatsImpl *get_current_day() const;
   DailyStatsImpl *get_day(int day) const;
   void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
@@ -145,7 +138,6 @@ private:
   void keyboard_notify(bool repeat);
 
   bool load_current_day();
-  void update_current_day(bool active);
   void load_history();
 
 private:
@@ -158,23 +150,14 @@ private:
 
   void add_history(DailyStatsImpl *stats);
 
-#ifdef HAVE_DISTRIBUTION
-  void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                      PacketBuffer &buffer);
-  bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
-#endif
-
 private:
-  //! Interface to the core_control.
-  Core *core;
-
+  IActivityMonitor::Ptr monitor;
+  
   //! Mouse/Keyboard monitoring.
-  IInputMonitor *input_monitor;
+  IInputMonitor::Ptr input_monitor;
 
   //! Last time a mouse event was received.
-  GTimeVal last_mouse_time;
+  std::chrono::system_clock::time_point last_mouse_time;
 
   //! Statistics of current day.
   DailyStatsImpl *current_day;
@@ -186,7 +169,7 @@ private:
   History history;
 
   //! Internal locking
-  Mutex lock;
+  boost::mutex lock;
 
   //! Previous X coordinate
   int prev_x;

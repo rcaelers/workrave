@@ -1,0 +1,49 @@
+#cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
+#cmakedefine DBUS_BACKEND
+#cmakedefine ENABLE_NLS
+#cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
+#cmakedefine HAVE_APP_GTK
+#cmakedefine HAVE_APP_QT5
+#cmakedefine HAVE_DBUS
+#cmakedefine HAVE_DBUS_FREEDESKTOP
+#cmakedefine HAVE_DBUS_GIO
+#cmakedefine HAVE_DBUS_QT5
+#cmakedefine HAVE_DBUS_TEST_GIO
+#cmakedefine HAVE_DSOUND
+#cmakedefine HAVE_GCONF
+#cmakedefine HAVE_GLIB
+#cmakedefine HAVE_GNOME3
+#cmakedefine HAVE_GSETTINGS
+#cmakedefine HAVE_GSTREAMER
+#cmakedefine HAVE_GTK
+#cmakedefine HAVE_GTK3
+#cmakedefine HAVE_INDICATOR
+#cmakedefine HAVE_INTROSPECTION
+#cmakedefine HAVE_ISHELLDISPATCH
+#cmakedefine HAVE_LANGUAGE_SELECTION
+#cmakedefine HAVE_MMDEVICEAPI_H
+#cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
+#cmakedefine HAVE_NANOSLEEP
+#cmakedefine HAVE_PANELAPPLET4
+#cmakedefine HAVE_PULSE
+#cmakedefine HAVE_QT5
+#cmakedefine HAVE_REALPATH
+#cmakedefine HAVE_SCREENSAVER
+#cmakedefine HAVE_SETLOCALE
+#cmakedefine HAVE_STDLIB_H
+#cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCT
+#cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCTEX
+#cmakedefine HAVE_SYS_SELECT_H
+#cmakedefine HAVE_SYS_STAT_H
+#cmakedefine HAVE_SYS_TIME_H
+#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine HAVE_TESTS
+#cmakedefine HAVE_UNISTD_H 1
+#cmakedefine HAVE_XRECORD
+#cmakedefine PACKAGE_VERSION "${PACKAGE_VERSION}"
+#cmakedefine PLATFORM_OS_OSX
+#cmakedefine PLATFORM_OS_UNIX
+#cmakedefine PLATFORM_OS_WIN32
+#cmakedefine PLATFORM_OS_WIN32_NATIVE
+#cmakedefine STDC_HEADERS
+#cmakedefine TRACING

@@ -20,7 +20,7 @@
 #ifndef APPLET_H
 #define APPLET_H
 
-#include "ICore.hh"
+#include "CoreTypes.hh"
 using namespace workrave;
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
