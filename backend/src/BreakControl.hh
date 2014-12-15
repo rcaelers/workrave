@@ -81,6 +81,8 @@ public:
   void skip_break();
   void stop_prelude();
 
+  std::string get_current_stage();
+  
 private:
   void break_window_start();
   void prelude_window_start();
@@ -98,7 +100,10 @@ private:
   void update_break_window();
   void goto_stage(BreakStage stage);
   void suspend_break();
+  std::string get_stage_text(BreakStage stage);
   void send_signal(BreakStage stage);
+  void send_skipped();
+  void send_postponed();
 
 private:
   //! ID of the break controlled by this BreakControl.
