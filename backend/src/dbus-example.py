@@ -15,25 +15,26 @@ class WorkraveDBus:
         bus = dbus.SessionBus()
         obj = bus.get_object("org.workrave.Workrave", "/org/workrave/Workrave/Core")
 
-        workrave = dbus.Interface(obj, "org.workrave.CoreInterface")
+        self.workrave = dbus.Interface(obj, "org.workrave.CoreInterface")
+        self.config = dbus.Interface(obj, "org.workrave.ConfigInterface")
 
-        workrave.connect_to_signal("MicrobreakChanged",
-                                   self.microbreak_signal, sender_keyword='sender')
-        workrave.connect_to_signal("RestbreakChanged",
-                                   self.restbreak_signal, sender_keyword='sender')
-        workrave.connect_to_signal("DailylimitChanged",
-                                   self.dailylimit_signal, sender_keyword='sender')
+        self.workrave.connect_to_signal("MicrobreakChanged",
+                                   self.on_microbreak_changed, sender_keyword='sender')
+        self.workrave.connect_to_signal("RestbreakChanged",
+                                   self.on_restbreak_changed, sender_keyword='sender')
+        self.workrave.connect_to_signal("DailylimitChanged",
+                                   self.on_dailylimit_signal, sender_keyword='sender')
 
-    def microbreak_signal(self, progress, sender=None):
-        self.break_signal("microbreak", progress)
+    def on_microbreak_changed(self, progress, sender=None):
+        self.on_break_changed("microbreak", progress)
         
-    def restbreak_signal(self, progress, sender=None):
-        self.break_signal("restbreak", progress)
+    def on_restbreak_changed(self, progress, sender=None):
+        self.on_break_changed("restbreak", progress)
 
-    def dailylimit_signal(self, progress, sender=None):
-        self.break_signal("dailylimit", progress)
+    def on_dailylimit_signal(self, progress, sender=None):
+        self.on_break_changed("dailylimit", progress)
 
-    def break_signal(self, breakid, progress, sender=None):
+    def on_break_changed(self, breakid, progress, sender=None):
 
         if progress == "prelude":
             print "Break warning %s" % breakid
@@ -41,8 +42,27 @@ class WorkraveDBus:
             print "Break %s started" % breakid
         elif progress == "none":
             print "Break %s idle" % breakid
+            self.on_break_idle(breakid)
         else:
             print "Unknown progress for %s: %s" % (breakid, progress)
+
+    def on_break_idle(self, breakid):
+        if breakid == "microbreak":
+            configid = "micro_pause"
+        elif breakid == "restbreak":
+            configid = "rest_break"
+        elif breakid == "dailylimit":
+            configid = "daily_limit"
+            
+        limit = self.config.GetInt("/timers/%s/limit" % configid)[0]
+        autoreset = self.config.GetInt("timers/%s/auto_reset" % configid)[0]
+
+        if self.workrave.GetTimerIdle(breakid) >= autoreset:
+            print "Break %s taken" % breakid
+        elif self.workrave.GetTimerElapsed(breakid) < limit:
+            print "Break %s skipped" % breakid
+        else:
+            print "Break %s postponed"
 
 if __name__ == '__main__':
 
