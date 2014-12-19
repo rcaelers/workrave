@@ -206,7 +206,6 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
             {
               xfce_panel_plugin_menu_insert_item(applet->plugin, item);
             }
-          gtk_widget_show(GTK_WIDGET(item));
         }
       
       if (item != NULL)
@@ -217,6 +216,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
               gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), flags & MENU_ITEM_FLAG_ACTIVE);
             }
           applet->inhibit--;
+          gtk_widget_show(GTK_WIDGET(item));
         }
     }
   
