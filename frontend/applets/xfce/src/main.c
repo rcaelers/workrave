@@ -138,8 +138,6 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
 
-  printf("on_menu_changed\n");
-  
   char *text;
   int id;
   int flags;
@@ -148,7 +146,6 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
   GtkWidget *menu = NULL;
   while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
-      printf("on_menu_changed: %s %d %d\n", text, id, flags);
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
       if (index == -1)
         {
@@ -165,8 +162,6 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
       
       else if (item == NULL)
         {
-          printf("on_menu_changed add\n");
-          
           if (flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
             {
               menu = gtk_menu_new();
@@ -195,8 +190,6 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
               continue;
             }
           
-          printf("on_menu_changed add2x\n");
-
           applet->menu_items[id] = item;
           if (menu != NULL && !(flags & MENU_ITEM_FLAG_SUBMENU_BEGIN))
             {
@@ -253,15 +246,11 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
       return;
     }
 
-  printf("on_menu_command\n");
-  
   int index = lookup_menu_index_by_menu_item(applet, item);
   if (index == -1)
     {
       return;
     }
-
-  printf("on_menu_command : %d %d\n", index, menu_data[index].id);
 
   switch(menu_data[index].id)
     {
@@ -460,9 +449,6 @@ static void workrave_applet_construct(XfcePanelPlugin *plugin)
   applet->timerbox_control = NULL;
   applet->alive = FALSE;
   applet->inhibit = 0;
-  
-  printf("workrave_applet_construct\n");
-  g_debug("workrave_applet_construct\n");
   
   for (int i = 0; i < MENU_COMMAND_SIZEOF;i ++)
     {
