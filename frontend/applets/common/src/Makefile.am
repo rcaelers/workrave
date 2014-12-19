@@ -59,6 +59,6 @@ libworkrave_gtk2_private_1_0_la_LIBADD = \
 introspection_sources = $(libworkrave_private_1_0_la_SOURCES)
 
 endif
-EXTRA_DIST = 
+EXTRA_DIST = compat.h
 
 
