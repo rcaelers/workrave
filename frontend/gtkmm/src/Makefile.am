@@ -221,6 +221,9 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
+appdatadir = $(datarootdir)/appdata
+dist_appdata_DATA = workrave.appdata.xml
+
 workrave_SOURCES = \
 			AppletControl.cc \
 			AppletWindow.cc \

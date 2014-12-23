@@ -53,6 +53,20 @@
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
+
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
+  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+#endif
+  TRACE_EXIT();
+}
+
+StatusIcon::~StatusIcon()
+{
+}
+
+void
+StatusIcon::init()
+{
   // Preload icons
   const char *mode_files[] =
     {
@@ -71,23 +85,11 @@ StatusIcon::StatusIcon()
         }
       catch(...)
         {
-          TRACE_MSG("Failed to load " << file);
+          TRACE_RETURN("Failed to load " << file);
+          return;
         }
     }
 
-#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
-  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
-#endif
-  TRACE_EXIT();
-}
-
-StatusIcon::~StatusIcon()
-{
-}
-
-void
-StatusIcon::init()
-{
   insert_icon();
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
