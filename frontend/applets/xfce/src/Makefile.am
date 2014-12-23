@@ -8,7 +8,7 @@ xfce4_workrave_plugin_SOURCES = main.c
 
 #s-menu.c s-menu.h image.c image.h
 
-xfce4_workrave_plugin_CFLAGS =	-Wall -std=c99 -DPANEL_XFCE4 \
+xfce4_workrave_plugin_CFLAGS =	-Wall -std=c99 \
 				@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBXFCE4UTIL_CFLAGS) 	$(LIBXFCEGUI4_CFLAGS) $(LIBXFCE4PANEL_CFLAGS) \

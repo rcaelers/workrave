@@ -29,7 +29,7 @@ static void workrave_timebar_init(WorkraveTimebar *self);
 
 static void workrave_timebar_init_ui(WorkraveTimebar *self);
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
-static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
+static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
 
 G_DEFINE_TYPE(WorkraveTimebar, workrave_timebar, G_TYPE_OBJECT);
@@ -148,7 +148,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   cairo_clip(cr);
 
   // Frame
-  workrave_timebar_draw_frame(self, cr, 0, 0, priv->width, priv->height);
+  workrave_timebar_draw_frame(self, cr, priv->width, priv->height);
 
   int bar_width = 0;
   int sbar_width = 0;
@@ -289,19 +289,18 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
 static void
 workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
-                            int x, int y, int width, int height)
+                            int width, int height)
 {
   WorkraveTimebarPrivate *priv = WORKRAVE_TIMEBAR_GET_PRIVATE(self);
 
   gtk_style_context_save(priv->style_context);
   gtk_style_context_set_state(priv->style_context, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE);
-
-  
+ 
   gtk_render_frame(priv->style_context, cr, 0, 0, width -1, height -1);
 
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
-  cairo_rectangle(cr, x + BORDER_SIZE, y + BORDER_SIZE, width - 2 * BORDER_SIZE , height - 2 *BORDER_SIZE);
+  cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2 * BORDER_SIZE , height - 2 *BORDER_SIZE);
   cairo_fill(cr);
   
   gtk_style_context_restore(priv->style_context);
@@ -333,15 +332,30 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
 static void
 workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
-                            int x, int y, int width, int height)
+                            int width, int height)
 {
-  cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
-  cairo_rectangle(cr, x, y, width, height);
+  cairo_set_source_rgb(cr, 0.6, 0.6, 0.6);
+  cairo_set_line_width (cr, 1);
+  cairo_rectangle(cr, 0, 0, width, height);
   cairo_fill(cr);
 
+  cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+  cairo_move_to(cr, 1.5, 1.5);
+  cairo_line_to(cr, width - 1.5, 1.5);
+  cairo_move_to(cr, 1.5, 1.5);
+  cairo_line_to(cr, 1.5, height - 1.5);
+  cairo_stroke (cr);
+ 
+  cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+  cairo_move_to(cr, 1.5, height - 1.5);
+  cairo_line_to(cr, width - 1.5, height - 1.5);
+  cairo_move_to(cr, width - 1.5, 1.5);
+  cairo_line_to(cr, width - 1.5, height - 1.5);
+  cairo_stroke (cr);
+  
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
-  cairo_rectangle(cr, x + 2, y + 2, width - 4 , height - 4);
+  cairo_rectangle(cr, 2, 2, width - 4 , height - 4);
   cairo_fill(cr);
 }
 #endif 
@@ -363,17 +377,17 @@ workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, i
   *bar_width = 0;
   if (priv->bar_max_value > 0)
     {
-      *bar_width = (priv->bar_value * (priv->width - 2 * BORDER_SIZE) -1) / priv->bar_max_value;
+      *bar_width = (priv->bar_value * (priv->width - 2 * BORDER_SIZE)) / priv->bar_max_value;
     }
 
   // Secondary bar
   *sbar_width = 0;
   if (priv->secondary_bar_max_value >  0)
     {
-      *sbar_width = (priv->secondary_bar_value * (priv->width - 2 * BORDER_SIZE) -1) / priv->secondary_bar_max_value;
+      *sbar_width = (priv->secondary_bar_value * (priv->width - 2 * BORDER_SIZE)) / priv->secondary_bar_max_value;
     }
 
-  *bar_height = priv->height - 2 * BORDER_SIZE - 1;
+  *bar_height = priv->height - 2 * BORDER_SIZE;
 }
 
 

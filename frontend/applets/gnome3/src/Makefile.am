@@ -33,7 +33,7 @@ applet_source 			= v5/WorkraveApplet.c
 endif
 
 APPLET_IN_PROCESS 		= false
-APPLET_LOCATION   		= $(libexecdir)/workrave-applet
+APPLET_LOCATION   		= ${libdir}/gnome-applets/workrave-applet
 
 $(applet_in_files): $(applet_in_files).in Makefile
 	$(AM_V_GEN)sed \
@@ -61,7 +61,8 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
-libexec_PROGRAMS 		= workrave-applet
+libappletdir = ${libdir}/gnome-applets
+libapplet_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= ${applet_source} workrave-gnome-applet-generated.c
 workrave_applet_LDADD 		= @GNOME3_LIBS@  -L$(builddir)/../../common/src -lworkrave-private-1.0

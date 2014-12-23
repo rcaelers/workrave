@@ -85,7 +85,6 @@ StatusIcon::init()
         }
       catch(...)
         {
-          TRACE_RETURN("Failed to load " << file);
           return;
         }
     }

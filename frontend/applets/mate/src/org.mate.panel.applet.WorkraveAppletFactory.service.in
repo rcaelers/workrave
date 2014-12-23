@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.mate.panel.applet.WorkraveAppletFactory
+Exec=@LOCATION@

@@ -361,9 +361,6 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 static void
 workrave_applet_class_init(WorkraveAppletClass *class)
 {
-  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS(class);
-  PanelAppletClass *applet_class = PANEL_APPLET_CLASS(class);
-
   g_type_class_add_private(class, sizeof(WorkraveAppletPrivate));
 }
 
@@ -375,7 +372,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
 
-  workrave_timerbox_control_show_tray_icon_when_not_running(applet->priv->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->priv->timerbox_control, TRUE);
   
   applet->priv->action_group = g_simple_action_group_new();
   g_action_map_add_action_entries (G_ACTION_MAP (applet->priv->action_group),
@@ -404,7 +401,6 @@ workrave_applet_fill(WorkraveApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet));
 
   on_alive_changed(NULL, FALSE, applet);
-  // TODO: orientation?
 }
 
 static void

@@ -7,8 +7,17 @@
       <include name="Menus.hh"/>
     </import>
 
+    <enum name="operation_mode" csymbol="OperationMode">
+      <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
+      <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
+      <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
+    </enum>
+
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
+    <method name="SetOperationMode"      csymbol="on_set_operation_mode">
+      <arg type="operation_mode" name="mode" direction="in" />
+    </method>
     <method name="NetworkConnect"        csymbol="on_menu_network_join"/>
     <method name="NetworkLog"            csymbol="on_menu_network_log">
       <arg type="bool" name="show" direction="in"/>

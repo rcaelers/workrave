@@ -30,7 +30,9 @@ FLAGS				= @GNOME2_CFLAGS@ @DBUSGLIB_CFLAGS@ \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
-libexec_PROGRAMS 		= workrave-applet
+appletdir = ${libdir}/gnome-applets
+
+applet_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= WorkraveApplet.c
 workrave_applet_LDADD 		= @GNOME2_LIBS@ @DBUSGLIB_LIBS@
@@ -41,7 +43,7 @@ GNOME_WorkraveApplet.xml: GNOME_WorkraveApplet.xml.in
 	sed -e "s|\@PIXDIR\@|$(pkgdatadir)/images|" $< > $@
 
 Workrave-Applet.server.in: Workrave-Applet.server.in.in
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" -e "s|\@ICONSDIR\@|$(datadir)/icons/hicolor/48x48/apps|" $< > $@
+	sed -e "s|\@APPLETDIR\@|$(appletdir)|" -e "s|\@ICONSDIR\@|$(datadir)/icons/hicolor/48x48/apps|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 

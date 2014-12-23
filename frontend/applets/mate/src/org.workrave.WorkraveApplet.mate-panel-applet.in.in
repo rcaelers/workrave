@@ -1,0 +1,10 @@
+[Applet Factory]
+Id=WorkraveAppletFactory
+Location=@LOCATION@
+_Name=Workrave Applet Factory
+_Description=Workrave Applet
+
+[WorkraveApplet]
+_Name=Workrave
+_Description=Workrave Applet
+Icon=workrave

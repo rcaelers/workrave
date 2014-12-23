@@ -2,7 +2,7 @@
 
         <oaf_server     iid="OAFIID:GNOME_WorkraveApplet_Factory"
 	                type="exe"
-	                location="@LIBEXECDIR@/workrave-applet">
+	                location="@APPLETDIR@/workrave-applet">
 
         	<oaf_attribute name="repo_ids" type="stringv">
 	        	<item value="IDL:Bonobo/GenericFactory:1.0"/>

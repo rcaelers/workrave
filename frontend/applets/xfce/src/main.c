@@ -19,12 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef PANEL_MATE
-#include <mate-panel-applet.h>
-#endif
-#ifdef PANEL_XFCE4
 #include <libxfce4panel/xfce-panel-plugin.h>
-#endif
 
 #include <gio/gio.h>
 
@@ -36,9 +31,7 @@
 
 typedef struct _WorkraveApplet
 {
-#ifdef PANEL_XFCE4
   XfcePanelPlugin* plugin;
-#endif
   
   WorkraveTimerboxControl *timerbox_control;
   GtkImage *image;
@@ -60,9 +53,9 @@ struct Menuitems
   enum MenuCommand id;
   gboolean autostart;
   char *dbuscmd;
-  gboolean 
 };
 
+// TODO: move this meta data to GenericDbusApplet
 static struct Menuitems menu_data[] =
   {
     { MENU_COMMAND_OPEN,                  TRUE,  "OpenMain"          },
@@ -389,58 +382,19 @@ on_menu_mode_changed(const char *mode, WorkraveApplet *applet)
     }
 }
 
-#ifdef PANEL_MATE
-static gboolean workrave_applet_fill(MatePanelApplet *applet)
-#endif
-#ifdef PANEL_XFCE4
 static void workrave_applet_fill(WorkraveApplet *applet)
-#endif
 {
-#ifdef PANEL_MATE
-  mate_panel_applet_set_flags(applet,
-                              MATE_PANEL_APPLET_EXPAND_MAJOR |
-                              MATE_PANEL_APPLET_EXPAND_MINOR |
-                              MATE_PANEL_APPLET_HAS_HANDLE);
-
-  mate_panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
-#endif
-
   applet->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
   applet->image = workrave_timerbox_control_get_image(applet->timerbox_control);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
 
-  workrave_timerbox_control_show_tray_icon_when_not_running(applet->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
 
-#ifndef PANEL_XFCE4
-  gtk_container_add(GTK_CONTAINER(applet), applet->image);
+  gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->image));
   gtk_widget_show_all(GTK_WIDGET(applet));
-  return TRUE;
-#else
-  gtk_container_add(GTK_CONTAINER(applet->plugin), GTK_WIDGET(applet->image));
-#endif
 }
 
-#ifdef PANEL_MATE
-static gboolean workrave_applet_factory(MatePanelApplet *applet, const gchar *iid, gpointer data)
-{
-  gboolean retval = FALSE;
-  
-  if (!g_strcmp0(iid, "WorkraveApplet") == 0)
-    {
-      retval = workrave_applet_fill(applet);
-    }
-    
-  if (!retval)
-    {
-      exit(-1);
-    }
-    
-  return retval;
-}
-#endif
-
-#ifdef PANEL_XFCE4
 static void workrave_applet_construct(XfcePanelPlugin *plugin)
 {
   WorkraveApplet *applet = panel_slice_new0(WorkraveApplet);
@@ -459,17 +413,5 @@ static void workrave_applet_construct(XfcePanelPlugin *plugin)
   xfce_panel_plugin_set_expand(plugin, TRUE);
   gtk_widget_show_all(GTK_WIDGET(plugin));
 }
-#endif
 
-#ifdef PANEL_MATE
-MATE_PANEL_APPLET_OUT_PROCESS_FACTORY(
-    "WorkraveAppletFactory",
-    PANEL_TYPE_APPLET,
-    "WorkraveApplet",
-    workrave_applet_factory,
-    NULL);
-#endif
-
-#ifdef PANEL_XFCE4
 XFCE_PANEL_PLUGIN_REGISTER_EXTERNAL(workrave_applet_construct);
-#endif

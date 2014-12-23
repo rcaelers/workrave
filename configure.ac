@@ -77,6 +77,9 @@ AC_ARG_ENABLE(xfce,
               [AS_HELP_STRING([--enable-xfce],
                               [compile with preliminary XFCE applet support])])
 
+AC_ARG_ENABLE(mate,
+              [AS_HELP_STRING([--enable-mate],
+                              [compile with preliminary MATE applet support])])
 AC_ARG_ENABLE(dbus,
               [AS_HELP_STRING([--disable-dbus],
                               [compile without DBus support])])
@@ -294,6 +297,7 @@ then
     enable_xml=no
     enable_indicator=no
     enable_xfce=no
+    enable_mate=no
     
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
@@ -779,6 +783,26 @@ AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 
 dnl
+dnl Xfce
+dnl
+
+config_mate=no
+
+if test "x$enable_mate" != "xno" 
+then
+   PKG_CHECK_MODULES([LIBMATEPANEL],
+                      [libmatepanelapplet-4.0],
+                      [config_mate=yes
+                       AC_DEFINE(HAVE_MATE, 1, [Support for mate applet])],
+                      [if test "x$enable_mate" = "xyes"; then
+                          AC_MSG_ERROR([MATE Panel applet development headers not found.])
+                       fi])
+
+fi
+
+AM_CONDITIONAL(HAVE_MATE, test "x$config_mate" = "xyes")
+
+dnl
 dnl GConf
 dnl
 
@@ -1104,6 +1128,9 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/xfce/Makefile
              frontend/applets/xfce/src/Makefile
              frontend/applets/xfce/include/Makefile
+             frontend/applets/mate/Makefile
+             frontend/applets/mate/src/Makefile
+             frontend/applets/mate/include/Makefile
              frontend/applets/gnome-shell/Makefile
              frontend/applets/gnome-shell/src/Makefile
              frontend/applets/cinnamon/Makefile
@@ -1171,6 +1198,7 @@ echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
 echo "                 XFCE support :   ${config_xfce}"
+echo "                 MATE support :   ${config_mate}"
 if test "${config_dbus_gio}" = "yes"; then
 echo "                 DBUS support :   ${config_dbus} (GIO)"
 else
