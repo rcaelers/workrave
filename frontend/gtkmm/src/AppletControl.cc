@@ -139,6 +139,10 @@ AppletControl::show()
 
   rc = activate_applet(APPLET_GENERIC_DBUS);
   TRACE_MSG("Generic" << rc);
+  if (rc == AppletWindow::APPLET_STATE_ACTIVE)
+    {
+      specific = true;
+    }
 
   rc = activate_applet(APPLET_GNOME);
   TRACE_MSG("Gnome " << rc);
@@ -240,6 +244,7 @@ AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletStat
     {
       TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);
+      delayed_show = -1;
     }
 #endif
 

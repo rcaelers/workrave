@@ -523,6 +523,20 @@ Core::get_break(std::string name)
   return NULL;
 }
 
+
+std::string
+Core::get_break_stage(BreakId id)
+{
+  if (id >= 0 && id < BREAK_ID_SIZEOF)
+    {
+      return breaks[id].get_break_control()->get_current_stage();
+    }
+  else
+    {
+      return "";
+    }
+}
+
 #ifdef HAVE_DISTRIBUTION
 //! Returns the distribution manager.
 DistributionManager *

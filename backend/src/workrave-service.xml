@@ -71,6 +71,11 @@
       <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
+    <method name="GetBreakState" csymbol="get_break_stage">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="string"   name="stage"    direction="out" hint="return"/>
+    </method>
+    
     <method name="IsActive" csymbol="is_user_active">
       <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
@@ -102,7 +107,15 @@
     <signal name="UsageModeChanged">
       <arg type="usage_mode" name="mode"/>
     </signal>
-  </interface>
+
+    <signal name="BreakPostponed">
+      <arg type="break_id" name="timer_id"/>
+    </signal>
+
+    <signal name="BreakSkipped">
+      <arg type="break_id" name="timer_id"/>
+    </signal>
+</interface>
 
   <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_TESTS)">
 

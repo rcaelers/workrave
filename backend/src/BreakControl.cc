@@ -571,6 +571,8 @@ BreakControl::postpone_break()
 
       // and stop the break.
       stop_break(true);
+
+      send_postponed();
     }
 }
 
@@ -604,6 +606,8 @@ BreakControl::skip_break()
 
       // and stop the break.
       stop_break(false);
+
+      send_skipped();
     }
 }
 
@@ -724,15 +728,44 @@ BreakControl::post_event(CoreEvent event)
 }
 
 
-//! Send DBus signal when break stage changes.
 void
-BreakControl::send_signal(BreakStage stage)
+BreakControl::send_postponed()
 {
-  (void) stage;
-
 #ifdef HAVE_DBUS
-  const char *progress = NULL;
+  DBus *dbus = core->get_dbus();
+  org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
+  if (iface != NULL)
+    {
+      iface->BreakPostponed("/org/workrave/Workrave/Core", break_id);
+    }
+#endif
+}
+
+void
+BreakControl::send_skipped()
+{
+#ifdef HAVE_DBUS
+  DBus *dbus = core->get_dbus();
+  org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+
+  if (iface != NULL)
+    {
+      iface->BreakSkipped("/org/workrave/Workrave/Core", break_id);
+    }
+#endif
+}
+
+std::string
+BreakControl::get_current_stage()
+{
+  return get_stage_text(break_stage);
+}
+
+std::string
+BreakControl::get_stage_text(BreakStage stage)
+{
+  std::string progress;
   switch (stage)
     {
     case STAGE_NONE:
@@ -755,8 +788,19 @@ BreakControl::send_signal(BreakStage stage)
       progress = "break";
       break;
     }
+  return progress;
+}
 
-  if (progress != NULL)
+//! Send DBus signal when break stage changes.
+void
+BreakControl::send_signal(BreakStage stage)
+{
+  (void) stage;
+
+#ifdef HAVE_DBUS
+  std::string progress = get_stage_text(stage);
+
+  if (progress != "")
     {
       DBus *dbus = core->get_dbus();
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
@@ -782,6 +826,5 @@ BreakControl::send_signal(BreakStage stage)
             }
         }
     }
-
 #endif
 }

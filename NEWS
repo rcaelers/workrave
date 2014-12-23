@@ -9,6 +9,8 @@ http://www.workrave.org
 
 ** Improved screen lock and shutdown in break window (Mateusz Jończyk)
 ** Add suspend/hibernate option to break window on Linux (Mateusz Jończyk)
+** Add Cinnmon Applet
+** Add XFCE Applet
 
 * Workrave 1.10.5
 

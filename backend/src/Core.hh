@@ -95,6 +95,7 @@ public:
   Configurator *get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const;
+  std::string get_break_stage(BreakId id);
 
 #ifdef HAVE_DISTRIBUTION
   DistributionManager *get_distribution_manager() const;

@@ -1,0 +1,8 @@
+[Xfce Panel]
+Type=X-XFCE-PanelPlugin
+Encoding=UTF-8
+_Name=Workrave
+_Comment=Workrave
+Icon=workrave
+X-XFCE-Exec=@libexecdir@/xfce4/panel-plugins/xfce4-workrave-plugin
+X-XFCE-Unique=true

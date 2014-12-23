@@ -71,7 +71,11 @@ AC_ARG_ENABLE(gnome3,
 
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
-                              [compile with preliminary Unity indicator applet support])])
+                              [compile with Unity indicator applet support])])
+
+AC_ARG_ENABLE(xfce,
+              [AS_HELP_STRING([--enable-xfce],
+                              [compile with preliminary XFCE applet support])])
 
 AC_ARG_ENABLE(dbus,
               [AS_HELP_STRING([--disable-dbus],
@@ -289,6 +293,7 @@ then
     enable_gnome3=no
     enable_xml=no
     enable_indicator=no
+    enable_xfce=no
     
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
@@ -740,6 +745,40 @@ AC_SUBST(INDICATORICONSDIR)
 AM_CONDITIONAL(HAVE_INDICATOR, test "x$config_indicator" = "xyes")
 
 dnl
+dnl Xfce
+dnl
+
+config_xfce=no
+
+if test "x$enable_xfce" != "xno" 
+then
+      PKG_CHECK_MODULES([GTK2],
+                      [gtk+-2.0 >= 2.6.0
+                       gdk-2.0 >= 2.8 ],
+                      [config_gtk2=yes
+                       AC_DEFINE(HAVE_GTK2, 1, [Support for xfce applet])],
+                      [if test "x$enable_xfce" = "xyes"; then
+                          AC_MSG_ERROR([GTK2 development headers not found.])
+                       fi])
+
+   if test x$config_gtk2 = xyes
+   then
+      PKG_CHECK_MODULES([LIBXFCE4PANEL],
+                      [libxfce4panel-1.0 >= 4.4],
+                      [config_xfce=yes
+                       AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])],
+                      [if test "x$enable_xfce" = "xyes"; then
+                          AC_MSG_ERROR([XFCE Panel applet development headers not found.])
+                       fi])
+
+   fi
+fi
+
+AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
+AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
+
+
+dnl
 dnl GConf
 dnl
 
@@ -1062,8 +1101,13 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/indicator/Makefile
              frontend/applets/indicator/src/Makefile
              frontend/applets/indicator/include/Makefile
+             frontend/applets/xfce/Makefile
+             frontend/applets/xfce/src/Makefile
+             frontend/applets/xfce/include/Makefile
              frontend/applets/gnome-shell/Makefile
              frontend/applets/gnome-shell/src/Makefile
+             frontend/applets/cinnamon/Makefile
+             frontend/applets/cinnamon/src/Makefile
              frontend/gtkmm/Makefile
              frontend/gtkmm/osx/Makefile
              frontend/gtkmm/win32/Makefile
@@ -1126,6 +1170,7 @@ echo "              Gnome 2 support :   ${config_gnome2}"
 echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
+echo "                 XFCE support :   ${config_xfce}"
 if test "${config_dbus_gio}" = "yes"; then
 echo "                 DBUS support :   ${config_dbus} (GIO)"
 else

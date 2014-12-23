@@ -23,6 +23,10 @@
 
 #include "timebar.h"
 
+#ifdef USE_GTK2
+#include "compat.h"
+#endif
+
 #define WORKRAVE_TIMERBOX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxPrivate))
 
 static void workrave_timerbox_class_init(WorkraveTimerboxClass *klass);
@@ -146,8 +150,6 @@ workrave_timerbox_dispose(GObject *gobject)
 static void
 workrave_timerbox_finalize(GObject *gobject)
 {
-  //  WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
-
   /* Chain up to the parent class */
   G_OBJECT_CLASS(workrave_timerbox_parent_class)->finalize(gobject);
 }
@@ -157,7 +159,6 @@ static void
 workrave_timerbox_set_property(GObject *gobject, guint property_id, const GValue *value, GParamSpec *pspec)
 {
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
-  //GObject *obj;
 
   switch (property_id)
     {
@@ -357,7 +358,7 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   int height = 24;
 
   workrave_timerbox_compute_dimensions(self, &width, &height);
-  
+
   cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(surface);
 
