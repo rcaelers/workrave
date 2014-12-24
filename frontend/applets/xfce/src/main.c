@@ -390,6 +390,7 @@ static void workrave_applet_fill(WorkraveApplet *applet)
   g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
 
   gtk_container_add(GTK_CONTAINER(applet->plugin), GTK_WIDGET(applet->image));
   gtk_widget_show_all(GTK_WIDGET(applet->plugin));
