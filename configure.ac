@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 dnl
 
 m4_define([workrave_major_version], [1])
