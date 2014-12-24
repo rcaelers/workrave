@@ -391,8 +391,8 @@ static void workrave_applet_fill(WorkraveApplet *applet)
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
 
-  gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->image));
-  gtk_widget_show_all(GTK_WIDGET(applet));
+  gtk_container_add(GTK_CONTAINER(applet->plugin), GTK_WIDGET(applet->image));
+  gtk_widget_show_all(GTK_WIDGET(applet->plugin));
 }
 
 static void workrave_applet_construct(XfcePanelPlugin *plugin)
