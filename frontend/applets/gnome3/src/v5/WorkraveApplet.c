@@ -108,8 +108,6 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   applet->priv->alive = alive;
 
-  printf("on_alive_changed %d\n", alive);
-  
   if (!alive)
     {
       for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
