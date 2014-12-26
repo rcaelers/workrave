@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+ <id type="desktop">workrave.desktop</id>
+ <metadata_license>CC-BY-3.0</metadata_license>
+ <project_license>GPLv3+</project_license>
+ <name>Workrave</name>
+ <summary>Program that assists in the recovery and prevention of RSI</summary>
+ <description>
+  <p>
+  Workrave is a program that assists in the recovery and prevention of
+  Repetitive Strain Injury (RSI). The program frequently alerts you to
+  take micro-pauses, rest breaks and restricts you to your daily limit.
+  </p>
+  </description>
+ <screenshots>
+  <screenshot type="default" width="352" height="170">http://www.workrave.org/media/base/img/screenshots/rest-break.png</screenshot>
+ </screenshots>
+ <url type="homepage">http://www.workrave.org/</url>
+</application>

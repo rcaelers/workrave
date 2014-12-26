@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ public:
 
 private:
   void on_break_stage_changed(BreakStage stage);
+  void on_break_event(BreakEvent event);
   
 private:
   BreakId break_id;

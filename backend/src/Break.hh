@@ -81,7 +81,11 @@ public:
   void override(BreakId id);
   void daily_reset();
   bool is_microbreak_used_for_activity() const;
-  
+
+  // TODO: add custom string<->enum converters to dbus binding.
+  std::string get_break_stage() const;
+  static std::string get_stage_text(BreakStage stage);
+ 
 private:
   BreakId break_id;
   Timer::Ptr timer;

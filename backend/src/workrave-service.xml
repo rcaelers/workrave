@@ -7,7 +7,20 @@
     <include name="config/IConfigurator.hh"/>
     <namespace name="workrave"/>
   </import>
-  
+
+  <enum name="break_event" csymbol="workrave::BreakEvent">
+    <value name="show_prelude"       csymbol="BreakEvent::ShowPrelude"/>
+    <value name="show_break"         csymbol="BreakEvent::ShowBreak"/>
+    <value name="show_break_forced"  csymbol="BreakEvent::ShowBreakForced"/>
+    <value name="break_start"        csymbol="BreakEvent::BreakStart"/>
+    <value name="break_idle"         csymbol="BreakEvent::BreakIdle"/>
+    <value name="break_stop"         csymbol="BreakEvent::BreakStop"/>
+    <value name="break_ignored"      csymbol="BreakEvent::BreakIgnored"/>
+    <value name="break_postponed"    csymbol="BreakEvent::BreakPostponed"/>
+    <value name="break_skipped"      csymbol="BreakEvent::BreakSkipped"/>
+    <value name="break_taken"        csymbol="BreakEvent::BreakTaken"/>
+  </enum>
+
   <enum name="break_id" csymbol="BreakId">
     <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
     <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
@@ -80,10 +93,19 @@
     <method name="PostponeBreak" csymbol="postpone_break"/>
     <method name="SkipBreak" csymbol="skip_break"/>
 
-    <signal name="Changed">
-      <arg type="string" name="progress"/>
+    <method name="GetBreakState" csymbol="get_break_stage">
+      <arg type="string"   name="state"    direction="out" hint="return"/>
+    </method>
+
+    <signal name="BreakStateChanged">
+      <arg type="string" name="state"/>
+    </signal>
+    
+    <signal name="BreakEvent">
+      <arg type="break_event" name="event"/>
     </signal>
   </interface>
+  
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
     <method name="SetString" csymbol="set_value">
       <arg type="string" name="key" direction="in" />

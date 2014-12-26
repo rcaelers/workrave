@@ -217,13 +217,21 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
     case STYLE_BREAK_WINDOW:
       style_context->context_save();
 
-      style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->set_state((Gtk::StateFlags)0);
 
+      style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->render_background(cr, 0, 0, width, height);
+      
+      style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
+      style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->render_frame(cr, 0, 0, width, height);
-
+      
+      style_context->remove_class(GTK_STYLE_CLASS_FRAME);
+      style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->render_background(cr, 1, 1, width - 2, height -2);
+      
+      style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
+      style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->render_frame(cr, 1, 1, width - 2, height -2);
 
       style_context->context_restore();

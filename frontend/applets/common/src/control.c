@@ -67,8 +67,11 @@ struct _WorkraveTimerboxControlPrivate {
   
   gboolean workrave_running;
   gboolean alive;
-  gboolean show_tray_icon;
-  gboolean show_tray_icon_when_not_running;
+  
+  gboolean tray_icon_enabled;
+  enum WorkraveTimerboxControlTrayIconMode tray_icon_mode;
+  gboolean tray_icon_visible_when_not_running;
+
   guint timer;
   guint startup_timer;
   guint startup_count;
@@ -159,15 +162,51 @@ workrave_timerbox_control_get_image(WorkraveTimerboxControl *self)
   return priv->image;
 }
 
-void
-workrave_timerbox_control_show_tray_icon_when_not_running(WorkraveTimerboxControl *self, gboolean show)
+static void
+workrave_timerbox_control_update_show_tray_icon(WorkraveTimerboxControl *self)
 {
   WorkraveTimerboxControlPrivate *priv = WORKRAVE_TIMERBOX_CONTROL_GET_PRIVATE(self);
-  priv->show_tray_icon_when_not_running = show;
 
-  workrave_timerbox_set_force_icon(priv->timerbox, (priv->alive && priv->show_tray_icon) || priv->show_tray_icon_when_not_running);
+  if (priv->alive)
+    {
+      switch(priv->tray_icon_mode)
+        {
+        case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS:
+          workrave_timerbox_set_force_icon(priv->timerbox, TRUE);
+          break;
+          
+        case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_NEVER:
+          workrave_timerbox_set_force_icon(priv->timerbox, FALSE);
+          break;
+            
+        case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW:
+          workrave_timerbox_set_force_icon(priv->timerbox, priv->tray_icon_enabled);
+          break;
+        }
+    }
+  else
+    {
+      workrave_timerbox_set_force_icon(priv->timerbox, priv->tray_icon_visible_when_not_running);
+    }
+}
+
+void
+workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode)
+{
+  WorkraveTimerboxControlPrivate *priv = WORKRAVE_TIMERBOX_CONTROL_GET_PRIVATE(self);
+  priv->tray_icon_mode = mode;
+  workrave_timerbox_control_update_show_tray_icon(self);
+}
+
+void
+workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show)
+{
+  WorkraveTimerboxControlPrivate *priv = WORKRAVE_TIMERBOX_CONTROL_GET_PRIVATE(self);
+  priv->tray_icon_visible_when_not_running = show;
+
+  workrave_timerbox_control_update_show_tray_icon(self);
+  
   workrave_timerbox_update(priv->timerbox, priv->image);
-
   gtk_widget_show(GTK_WIDGET(priv->image));
 }
 
@@ -223,8 +262,9 @@ workrave_timerbox_control_init(WorkraveTimerboxControl *self)
   priv->watch_id = 0;
   priv->workrave_running = FALSE;
   priv->alive = FALSE;
-  priv->show_tray_icon = FALSE;
-  priv->show_tray_icon_when_not_running = FALSE;
+  priv->tray_icon_enabled = FALSE;
+  priv->tray_icon_mode = WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW;
+  priv->tray_icon_visible_when_not_running = FALSE;
   priv->timer = 0;
   priv->startup_timer = 0;
   priv->startup_count = 0;
@@ -346,7 +386,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
         {
           if (result != NULL)
             {
-              g_variant_get(result, "(b)", &priv->show_tray_icon);
+              g_variant_get(result, "(b)", &priv->tray_icon_enabled);
               g_variant_unref(result);
             }
         }
@@ -412,10 +452,11 @@ workrave_timerbox_control_stop(WorkraveTimerboxControl *self)
           priv->owner_id = 0;
         }
 
-      workrave_timerbox_set_enabled(priv->timerbox, FALSE);
-      workrave_timerbox_set_force_icon(priv->timerbox, priv->show_tray_icon_when_not_running);
-      workrave_timerbox_update(priv->timerbox, priv->image);
       priv->alive = FALSE;
+
+      workrave_timerbox_control_update_show_tray_icon(self);
+      workrave_timerbox_set_enabled(priv->timerbox, FALSE);
+      workrave_timerbox_update(priv->timerbox, priv->image);
       g_signal_emit (self, signals[ALIVE_CHANGED], 0, FALSE);
     }
 }
@@ -502,7 +543,7 @@ on_timer(gpointer user_data)
   if (priv->alive && priv->update_count == 0)
     {
       workrave_timerbox_set_enabled(priv->timerbox, FALSE);
-      workrave_timerbox_set_force_icon(priv->timerbox, priv->show_tray_icon_when_not_running);
+      workrave_timerbox_set_force_icon(priv->timerbox, priv->tray_icon_visible_when_not_running);
       workrave_timerbox_update(priv->timerbox, priv->image);
     }
   priv->update_count = 0;
@@ -616,8 +657,8 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 
   else if (g_strcmp0(signal_name, "TrayIconUpdated") == 0)
     {
-      g_variant_get(parameters, "(b)", &priv->show_tray_icon);
-      workrave_timerbox_set_force_icon(priv->timerbox, priv->show_tray_icon);
+      g_variant_get(parameters, "(b)", &priv->tray_icon_enabled);
+      workrave_timerbox_control_update_show_tray_icon(self);
       workrave_timerbox_update(priv->timerbox, priv->image);
     }
   
@@ -682,7 +723,7 @@ on_update_timers(WorkraveTimerboxControl *self, GVariant *parameters)
       if (timebar != NULL)
         {
           workrave_timerbox_set_enabled(priv->timerbox, TRUE);
-          workrave_timerbox_set_force_icon(priv->timerbox, priv->show_tray_icon);
+          workrave_timerbox_control_update_show_tray_icon(self);
           workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
           workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
           workrave_timebar_set_text(timebar, td[i].bar_text);

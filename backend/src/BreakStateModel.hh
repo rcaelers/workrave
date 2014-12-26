@@ -81,7 +81,8 @@ public:
 
   bool is_taking() const;
   bool is_active() const;
-
+  BreakStage get_break_stage() const;
+  
   void set_max_number_of_preludes(int max_preludes);
   void set_enabled(bool enabled);
   

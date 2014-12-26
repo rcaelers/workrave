@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
   string break_name = CoreConfig::get_break_name(break_id);
 
   connections.connect(break_state_model->signal_break_stage_changed(), boost::bind(&BreakDBus::on_break_stage_changed, this, _1));
+  connections.connect(break_state_model->signal_break_event(), boost::bind(&BreakDBus::on_break_event, this, _1));
 
   try
     {
@@ -67,45 +68,35 @@ BreakDBus::~BreakDBus()
 }
 
 void
+BreakDBus::on_break_event(BreakEvent event)
+{
+#ifdef HAVE_DBUS
+  org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
+  if (iface != NULL)
+    {
+      string break_name = CoreConfig::get_break_name(break_id);
+      iface->BreakEvent("/org/workrave/Workrave/Break/" + break_name, event);
+    }
+#endif
+}
+
+
+void
 BreakDBus::on_break_stage_changed(BreakStage stage)
 {
   (void) stage;
   (void) break_id;
   
 #ifdef HAVE_DBUS
-  const char *progress = NULL;
-  (void) progress;
-  
-  switch (stage)
-    {
-    case BreakStage::None:
-      progress = "none";
-      break;
+  std::string progress = Break::get_stage_text(stage);
 
-    case BreakStage::Snoozed:
-      progress = "none";
-      break;
-
-    case BreakStage::Delayed:
-      // Do not send this stage.
-      break;
-
-    case BreakStage::Prelude:
-      progress = "prelude";
-      break;
-
-    case BreakStage::Taking:
-      progress = "break";
-      break;
-    }
-
-  if (progress != NULL)
+  if (progress != "")
     {
       org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
       if (iface != NULL)
         {
           string break_name = CoreConfig::get_break_name(break_id);
-          iface->Changed("/org/workrave/Workrave/Break/" + break_name, progress);
+          iface->BreakStateChanged("/org/workrave/Workrave/Break/" + break_name, progress);
         }
     }
 #endif

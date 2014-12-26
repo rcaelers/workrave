@@ -187,3 +187,39 @@ Break::is_microbreak_used_for_activity() const
 {
   return break_configuration->is_microbreak_used_for_activity();
 }
+
+std::string
+Break::get_stage_text(BreakStage stage)
+{
+  std::string progress;
+  switch (stage)
+    {
+    case BreakStage::None:
+      progress = "none";
+      break;
+
+    case BreakStage::Snoozed:
+      progress = "none";
+      break;
+
+    case BreakStage::Delayed:
+      // Do not send this stage.
+      break;
+
+    case BreakStage::Prelude:
+      progress = "prelude";
+      break;
+
+    case BreakStage::Taking:
+      progress = "break";
+      break;
+    }
+  return progress;
+}
+
+
+std::string
+Break::get_break_stage() const
+{
+  return get_stage_text(break_state_model->get_break_stage());
+}

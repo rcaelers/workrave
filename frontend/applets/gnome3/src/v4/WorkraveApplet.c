@@ -417,7 +417,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
 
-  workrave_timerbox_control_show_tray_icon_when_not_running(applet->priv->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->priv->timerbox_control, TRUE);
 
   applet->priv->action_group = gtk_action_group_new("WorkraveAppletActions");
   gtk_action_group_set_translation_domain(applet->priv->action_group, GETTEXT_PACKAGE);

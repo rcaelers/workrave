@@ -341,6 +341,11 @@ BreakStateModel::is_active() const
   return break_stage != BreakStage::None && break_stage != BreakStage::Snoozed;
 }
 
+BreakStage
+BreakStateModel::get_break_stage() const
+{
+  return break_stage;
+}
 
 void BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
 {

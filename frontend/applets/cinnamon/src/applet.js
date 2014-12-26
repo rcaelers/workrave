@@ -68,7 +68,7 @@ MyApplet.prototype = {
 	this._bus_name = 'org.workrave.CinnamonApplet';
 	this._bus_id = 0;
 
-      	this._area = new St.DrawingArea(); // { style_class: "workrave", reactive: false});
+      	this._area = new St.DrawingArea();
 	this._area.set_width(this.width=24);
         this._area.set_height(this.height=this.panel_height);
         this._area.connect('repaint', Lang.bind(this, this._draw));
@@ -147,9 +147,9 @@ MyApplet.prototype = {
      _draw: function(area) {
 	 let [width, height] = area.get_surface_size();
 	 let cr = area.get_context();
-
+         
          let bar_height = this._timerbox.get_height();
-         this._area.set_height(this.height = bar_height);
+         this.actor.style = "padding-top: "+ ( (height - bar_height + 1) / 2) +"px;";
 	 this._timerbox.draw(cr);
     },
 
@@ -279,8 +279,6 @@ MyApplet.prototype = {
 		let text = indent + menuitems[item][0];
 		let command = menuitems[item][1];
 		let flags = menuitems[item][2];
-
-                //global.log('workrave-applet: _updateMenu ' + text + ' ' + command + ' ' + flags);
 		
 		if ((flags & 1) != 0)
 		{

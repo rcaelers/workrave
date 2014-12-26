@@ -1,5 +1,5 @@
-Workrave NEWS -- history of user-visible changes.  11 Feb 2014
-Copyright (C) 2001-2013 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes.  24 Dec 2014
+Copyright (C) 2001-2014 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
@@ -8,7 +8,17 @@ http://www.workrave.org
 * Workrave 1.10.6
 
 ** Improved screen lock and shutdown in break window (Mateusz Jończyk)
+
 ** Add suspend/hibernate option to break window on Linux (Mateusz Jończyk)
+
+** Gnome applet updated to work with latest Gnome 3 flashback (Dmitry Shachnev)
+
+** Applets added for Cinnamon, XFCE and MATE.
+
+** Bug fixes:
+   - Break window was transparent when blocking mode was set to 'input and screen'
+   - Text background in exercises window was black, making the text unreadable.
+   - In some cases the timers were shown twice in the panel
 
 * Workrave 1.10.5
 

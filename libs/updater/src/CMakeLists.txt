@@ -14,7 +14,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/updater/include
   ${CMAKE_SOURCE_DIR}/libs/updater/include/updater
   ${CMAKE_SOURCE_DIR}/libs/utils/include
-  "${CMAKE_CURRENT_BINARY_DIR}/../ext/sparkle/Release/Sparkle.framework/Headers"
+  "${CMAKE_CURRENT_SOURCe_DIR}/../ext/sparkle"
   )
 
 add_library(workrave-libs-updater STATIC ${SRC})

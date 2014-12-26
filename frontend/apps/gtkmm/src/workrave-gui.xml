@@ -9,6 +9,12 @@
     <include name="UiTypes.hh"/>
   </import>
   
+  <enum name="operation_mode" csymbol="OperationMode">
+    <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
+    <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
+    <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
+  </enum>
+  
   <enum name="Orientation" csymbol="Orientation">
     <value name="up"    csymbol="ORIENTATION_UP"/>
     <value name="right" csymbol="ORIENTATION_RIGHT"/>
@@ -42,6 +48,9 @@
   <interface name="org.workrave.ControlInterface" csymbol="Menus">
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
+    <method name="SetOperationMode"      csymbol="on_set_operation_mode">
+      <arg type="operation_mode" name="mode" direction="in" />
+    </method>
     <method name="ReadingMode"           csymbol="on_menu_reading">
       <arg type="bool" name="show" direction="in"/>
     </method>

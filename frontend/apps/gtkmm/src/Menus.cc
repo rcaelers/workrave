@@ -201,7 +201,7 @@ Menus::on_menu_restbreak_now()
 
 
 void
-Menus::set_operation_mode(OperationMode m)
+Menus::on_set_operation_mode(OperationMode m)
 {
   ICore::Ptr core = CoreFactory::get_core();
   core->set_operation_mode(m);
@@ -222,7 +222,7 @@ void
 Menus::on_menu_quiet()
 {
   TRACE_ENTER("Menus::on_menu_quiet");
-  set_operation_mode(OperationMode::Quiet);
+  on_set_operation_mode(OperationMode::Quiet);
   TRACE_EXIT();
 }
 
@@ -231,7 +231,7 @@ void
 Menus::on_menu_suspend()
 {
   TRACE_ENTER("Menus::on_menu_suspend");
-  set_operation_mode(OperationMode::Suspended);
+  on_set_operation_mode(OperationMode::Suspended);
   TRACE_EXIT();
 }
 
@@ -239,8 +239,7 @@ Menus::on_menu_suspend()
 void
 Menus::on_menu_normal()
 {
-  TRACE_ENTER("Menus::on_menu_normal");
-  set_operation_mode(OperationMode::Normal);
+  on_set_operation_mode(OperationMode::Normal);
   TRACE_EXIT();
 }
 

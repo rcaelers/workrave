@@ -55,7 +55,6 @@ using namespace std;
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
-
   mode_icons[OperationMode::Normal] = GtkUtil::create_image("workrave-icon-medium.png");
   mode_icons[OperationMode::Suspended] = GtkUtil::create_image("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_image("workrave-quiet-icon-medium.png");
