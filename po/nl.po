@@ -638,7 +638,7 @@ msgstr "Start Workrave wanneer Windows start"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
-msgstr "Toom het notificatie icoon"
+msgstr "Toon het notificatie icoon"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:314
