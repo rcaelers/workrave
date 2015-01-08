@@ -75,9 +75,12 @@ get_pixmap_prop (Window the_window, char *prop_id)
 
   Window desktop_window = get_desktop_window(the_window);
 
-  if(desktop_window == None)
+  if (desktop_window == None)
     desktop_window = GDK_ROOT_WINDOW();
 
+  if (desktop_window == None)
+    return None;
+  
   prop = XInternAtom(GDK_DISPLAY(), prop_id, True);
 
   if (prop == None)
@@ -93,22 +96,20 @@ get_pixmap_prop (Window the_window, char *prop_id)
   return None;
 }
 
-
-
 void
 set_desktop_background(GdkWindow *window)
 {
   Pixmap xpm = get_pixmap_prop(GDK_WINDOW_XWINDOW(window), "_XROOTPMAP_ID");
 
+#ifdef HAVE_GTK3
   if (xpm != None)
     {
-#ifdef HAVE_GTK3
       GdkScreen *screen = gdk_window_get_screen(window);
       Window root_return;
       int x, y;
       unsigned int width, height, bw, depth_ret;
       cairo_surface_t *surface = NULL;
-
+      
       gdk_error_trap_push();
       if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen),
                        xpm,
@@ -121,18 +122,27 @@ set_desktop_background(GdkWindow *window)
                                               width, height);
         }
       gdk_error_trap_pop_ignored ();
-
+      
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
       gdk_window_set_background_pattern(window, pattern);
-
+      
       cairo_surface_destroy(surface);
       // cairo_pattern_destroy      ???
+    }
+  else
+    {
+      GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
+      gdk_window_set_background_rgba(window, &black);
+    }
+      
 #else
-      GdkPixmap *gpm = gdk_pixmap_foreign_new(xpm);
+  if (xpm != None)
+    {
+      GDKPIXMAP *gpm = gdk_pixmap_foreign_new(xpm);
       gdk_window_set_back_pixmap (window, gpm, FALSE);
       g_object_unref (gpm);
-#endif
     }
+#endif
 }
 
 #endif
