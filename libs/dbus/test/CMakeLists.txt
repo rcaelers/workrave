@@ -36,7 +36,7 @@ if (HAVE_DBUS AND HAVE_QT5)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test ${Qt5DBus_LIBRARIES})
-  target_link_libraries(workrave-libs-dbus-test ${Boost_LIBRARIES})
+  target_link_libraries(workrave-libs-dbus-test ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
   target_link_libraries(workrave-libs-dbus-test-server-qt5 workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test-server-qt5 workrave-libs-utils)

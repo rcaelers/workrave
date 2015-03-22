@@ -31,7 +31,7 @@
 #include "debug.hh"
 
 ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async):
-        async(async)
+  async(async)
 {
   TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
   char *program_path = g_find_program_in_path(program_name);
@@ -63,20 +63,20 @@ ScreenLockCommandline::invoke(const gchar* command, bool async)
       // synchronised call
       gint exit_code;
       if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
-	{
-	  g_error_free(error);
-	  return false;
-	}
-      return WEXITSTATUS(exit_code) == 0;
+        {
+          g_error_free(error);
+          return false;
+        }
+      return g_spawn_check_exit_status(exit_code, NULL);
     }
   else
     {
       // asynchronous call
       if (!g_spawn_command_line_async(command, &error) )
-	{
-	  g_error_free(error);
-	  return false;
-	}
+        {
+          g_error_free(error);
+          return false;
+        }
       return true;
     }
 }

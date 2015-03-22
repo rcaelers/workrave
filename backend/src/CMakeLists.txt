@@ -40,3 +40,5 @@ include_directories(
   )
 
 add_library(workrave-backend STATIC ${SRC})
+
+target_link_libraries(workrave-backend ${CMAKE_THREAD_LIBS_INIT})

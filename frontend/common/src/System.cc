@@ -501,7 +501,7 @@ System::clear()
     }
   system_state_commands.clear();
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
   //we shouldn't call g_dbus_connection_close_sync here:
   //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
   g_object_unref(session_connection);

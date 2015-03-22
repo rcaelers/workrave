@@ -23,10 +23,10 @@ endif()
 
 if (WIN32)
   set(SRC ${SRC}
-    W32LockScreen.cc
-    W32Shutdown.cc
+    win32/W32LockScreen.cc
+    win32/W32Shutdown.cc
     )
-  include_directories(${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  include_directories(${CMAKE_SOURCE_DIR}/frontend/common/src/win32/ ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 
 include_directories(

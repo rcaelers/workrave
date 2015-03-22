@@ -129,9 +129,9 @@ if (APPLE)
 
 endif()
 
-if (PLATFORM_OS_WIN32)
-   set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-endif()
+#if (PLATFORM_OS_WIN32)
+#   set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+#endif()
 
 target_link_libraries(Workrave workrave-frontend-common)
 target_link_libraries(Workrave workrave-backend)
@@ -170,7 +170,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 endif()
 
 if (PLATFORM_OS_WIN32)
-  # target_link_libraries(Workrave intl)
+  target_link_libraries(Workrave intl)
   target_link_libraries(Workrave harpoon)
   target_link_libraries(Workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 

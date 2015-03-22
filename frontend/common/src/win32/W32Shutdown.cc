@@ -23,11 +23,6 @@
 #include <shldisp.h>
 #include "harpoon.h"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-
-using namespace workrave;
-
 #ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE
 #define INTERFACE IShellDispatch

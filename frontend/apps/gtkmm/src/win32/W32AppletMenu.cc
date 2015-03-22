@@ -32,6 +32,7 @@
 
 #include "GUI.hh"
 #include "Menus.hh"
+#include "MenuEnums.hh"
 #include "MainWindow.hh"
 #include "W32AppletWindow.hh"
 
@@ -71,24 +72,24 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage)
       W32AppletWindow *w32aw = applet_window;
       w32aw->init_menu(cmd_win);
 
-      w32aw->add_menu(_("_Open"), Menus::MENU_COMMAND_OPEN, 0);
-      w32aw->add_menu(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES, 0);
-      w32aw->add_menu(_("_Rest break"), Menus::MENU_COMMAND_REST_BREAK, 0);
-      w32aw->add_menu(_("Exercises"), Menus::MENU_COMMAND_EXERCISES, 0);
+      w32aw->add_menu(_("_Open"), MenuCommand::MENU_COMMAND_OPEN, 0);
+      w32aw->add_menu(_("Preferences"), MenuCommand::MENU_COMMAND_PREFERENCES, 0);
+      w32aw->add_menu(_("_Rest break"), MenuCommand::MENU_COMMAND_REST_BREAK, 0);
+      w32aw->add_menu(_("Exercises"), MenuCommand::MENU_COMMAND_EXERCISES, 0);
 
-      w32aw->add_menu(_("_Normal"), Menus::MENU_COMMAND_MODE_NORMAL,
+      w32aw->add_menu(_("_Normal"), MenuCommand::MENU_COMMAND_MODE_NORMAL,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OperationMode::Normal
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      w32aw->add_menu(_("Q_uiet"), Menus::MENU_COMMAND_MODE_QUIET,
+      w32aw->add_menu(_("Q_uiet"), MenuCommand::MENU_COMMAND_MODE_QUIET,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OperationMode::Quiet
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      w32aw->add_menu(_("_Suspended"), Menus::MENU_COMMAND_MODE_SUSPENDED,
+      w32aw->add_menu(_("_Suspended"), MenuCommand::MENU_COMMAND_MODE_SUSPENDED,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OperationMode::Suspended
@@ -97,14 +98,14 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage)
 
       w32aw->add_menu(_("_Mode"), 0, 0);
 
-      w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
+      w32aw->add_menu(_("Reading mode"), MenuCommand::MENU_COMMAND_MODE_READING,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |(usage == UsageMode::Reading
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
 
-      w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);
-      w32aw->add_menu(_("About..."), Menus::MENU_COMMAND_ABOUT, 0);
+      w32aw->add_menu(_("Statistics"), MenuCommand::MENU_COMMAND_STATISTICS, 0);
+      w32aw->add_menu(_("About..."), MenuCommand::MENU_COMMAND_ABOUT, 0);
     }
 
   TRACE_EXIT();

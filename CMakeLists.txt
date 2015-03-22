@@ -167,9 +167,9 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Pkg-config
 
-if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
+#if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
    find_package(PkgConfig REQUIRED)
-endif()
+#endif()
 
 #----------------------------------------------------------------------------------------------------
 # GTK
@@ -512,9 +512,10 @@ if (WIN32)
     "#include <mmdeviceapi.h>
      #include <endpointvolume.h>
 
-     static REFIID foo = __uuidof(IAudioEndpointVolume);
-     IMMDeviceEnumerator *device_enum = NULL;"
-    HAVE_MMDEVICEAPI_H
+     IAudioEndpointVolume *audio_endpoint_volume = NULL;
+     IMMDeviceEnumerator *device_enum = NULL;
+     int main(){return 0;}"
+     HAVE_MMDEVICEAPI_H
     )
 
   check_c_source_compiles(
@@ -589,6 +590,9 @@ check_include_files(strings.h HAVE_STRINGS_H)
 check_function_exists(nanosleep HAVE_NANOSLEEP)
 check_function_exists(realpath HAVE_REALPATH)
 check_function_exists(setlocale HAVE_SETLOCALE)
+
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+find_package(Threads)
 
 #----------------------------------------------------------------------------------------------------
 # Locations

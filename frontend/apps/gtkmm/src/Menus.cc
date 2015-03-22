@@ -239,6 +239,7 @@ Menus::on_menu_suspend()
 void
 Menus::on_menu_normal()
 {
+  TRACE_ENTER("Menus::on_menu_normal");
   on_set_operation_mode(OperationMode::Normal);
   TRACE_EXIT();
 }
