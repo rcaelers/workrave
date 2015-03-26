@@ -126,10 +126,9 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
     MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
   
-  set_source_files_properties(BreakWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+  set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 
   set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")
-  
 endif()
 
 #if (PLATFORM_OS_WIN32)

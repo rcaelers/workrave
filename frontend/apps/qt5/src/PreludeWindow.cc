@@ -32,17 +32,19 @@
 #include <QApplication>
 
 #include "IApp.hh"
+#include "UiUtil.hh"
 
 #include "debug.hh"
 #include "nls.h"
 #include "Text.hh"
 #include "utils/AssetPath.hh"
 
-
-
 using namespace workrave;
 using namespace workrave::utils;
 
+#ifdef PLATFORM_OS_OSX
+#import <Cocoa/Cocoa.h>
+#endif
 
 IPreludeWindow::Ptr
 PreludeWindow::create(int screen, workrave::BreakId break_id)
@@ -50,13 +52,8 @@ PreludeWindow::create(int screen, workrave::BreakId break_id)
   return Ptr(new PreludeWindow(screen, break_id));
 }
 
-
 PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
-  : QWidget(0, Qt::Window
-            | Qt::WindowStaysOnTopHint
-            | Qt::X11BypassWindowManagerHint
-            | Qt::FramelessWindowHint
-            | Qt::WindowDoesNotAcceptFocus),
+  : QWidget(0),
     break_id(break_id),
     screen(screen),
     progress_value(0),
@@ -64,7 +61,6 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
     flash_visible(false),
     did_avoid(false)
 {
-
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
   timer->start(1000);
@@ -73,29 +69,25 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   layout->setContentsMargins(1, 1, 1, 1);
 
   timebar = new TimeBar;
-  label = new QLabel;
 
+  std::string text;
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
-      label->setText(_("Time for a micro-break?"));
+      text = _("Time for a micro-break?");
       break;
 
     case BREAK_ID_REST_BREAK:
-      label->setText(_("You need a rest break..."));
+      text = _("You need a rest break...");
       break;
 
     case BREAK_ID_DAILY_LIMIT:
-      label->setText(_("You should stop for today..."));
-      break;
-
-    default:
+      text = _("You should stop for today...");
       break;
     }
-
-  image = new QLabel;
-  std::string file = AssetPath::complete_directory("prelude-hint.png", AssetPath::SEARCH_PATH_IMAGES);
-  image->setPixmap(QPixmap(file.c_str()));
+  
+  label = UiUtil::create_label(text, true);
+  image = UiUtil::create_image_label("prelude-hint.png");
 
   frame = new Frame;
   frame->set_frame_style(Frame::STYLE_SOLID);
@@ -123,6 +115,23 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 
   setLayout(layout);
 
+  // NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(winId());
+  // NSWindow *nswindow = [nsview window];
+  // [nswindow setCollectionBehavior: (NSWindowCollectionBehaviorCanJoinAllSpaces)];
+  
+  setWindowFlags(
+#ifdef PLATFORM_OS_OSX
+                 Qt::SubWindow |
+#else
+                 Qt::Tool |
+#endif
+                 Qt::FramelessWindowHint |
+                 Qt::WindowSystemMenuHint |
+                 Qt::WindowStaysOnTopHint |
+                 Qt::WindowDoesNotAcceptFocus |
+                 Qt::X11BypassWindowManagerHint
+                 );
+  
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
   
@@ -140,6 +149,12 @@ PreludeWindow::start()
 {
   TRACE_ENTER("PreludeWindow::start");
 
+  
+  //NSWindowCollectionBehavior behavior = [nswindow collectionBehavior];
+
+  //std::cout << "PreludeWindow behavior " << behavior << std::endl;
+
+   
   timebar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
   refresh();
   show();
@@ -152,7 +167,6 @@ PreludeWindow::start()
   mouse_monitor->start();
 #endif
 
-  raise();
   TRACE_EXIT();
 }
 
@@ -306,12 +320,11 @@ PreludeWindow::avoid_pointer(int px, int py)
 {
   const QRect &geo = geometry();
 
-  px += geo.x();
-  py += geo.y();
-
   QDesktopWidget *dw = QApplication::desktop();
   const QRect	rect = dw->screenGeometry(screen);
 
+  py = rect.height() - py;
+     
   int screen_height = rect.height();
   int top_y = rect.y() + SCREEN_MARGIN;
   int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
@@ -348,4 +361,3 @@ PreludeWindow::avoid_pointer(int px, int py)
   move(winx, winy);
   did_avoid = true;
 }
-
