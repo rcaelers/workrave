@@ -548,7 +548,7 @@ msgstr "Toon statusvenster"
 
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:310
 msgid "Show system tray icon"
-msgstr "Toom het notificatie icoon"
+msgstr "Toon het notificatie icoon"
 
 #: ../frontend/apps/gtkmm/src/BreakWindow.cc:333
 msgid "Shut _down"

@@ -108,8 +108,6 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   applet->priv->alive = alive;
 
-  printf("on_alive_changed %d\n", alive);
-  
   if (!alive)
     {
       for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
@@ -341,8 +339,7 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
     {
       GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(applet->priv->timerbox_control);
       if (proxy != NULL)
-        {
-          g_dbus_proxy_call(proxy,
+        {          g_dbus_proxy_call(proxy,
                             "ButtonClicked",
                             g_variant_new("(u)", event->button),
                             G_DBUS_CALL_FLAGS_NO_AUTO_START,
@@ -373,6 +370,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->priv->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_mode(applet->priv->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
   
   applet->priv->action_group = g_simple_action_group_new();
   g_action_map_add_action_entries (G_ACTION_MAP (applet->priv->action_group),
