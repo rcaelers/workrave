@@ -24,6 +24,7 @@
 #include "RestBreakWindow.hh"
 
 #include "preinclude.h"
+#include <boost/format.hpp>
 
 #include "debug.hh"
 #include "nls.h"
@@ -134,11 +135,10 @@ void
 RestBreakWindow::draw_time_bar()
 {
   time_t time = progress_max_value - progress_value;
-  char s[128];
-  sprintf(s, _("Rest break for %s"), Text::time_to_string(time, true).c_str());
-
+  std::string text = boost::str(boost::format(_("Rest break for %s")) % Text::time_to_string(time, true));
+  
   timebar->set_progress(progress_value, progress_max_value);
-  timebar->set_text(s);
+  timebar->set_text(text);
   timebar->update();
 }
 

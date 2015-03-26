@@ -23,6 +23,7 @@
 
 #include "PreludeWindow.hh"
 
+#include <boost/format.hpp>
 #include <boost/make_shared.hpp>
 
 #include <QtGui>
@@ -181,7 +182,7 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
-  char s[128] = "";
+  std::string s;
 
   timebar->set_progress(progress_value, progress_max_value);
 
@@ -191,7 +192,7 @@ PreludeWindow::refresh()
       if (tminus < 0)
         tminus = 0;
 
-      sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
+      s = boost::str(boost::format(progress_text) % Text::time_to_string(tminus));
     }
   timebar->set_text(s);
   timebar->update();
