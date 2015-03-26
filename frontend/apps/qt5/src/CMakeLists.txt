@@ -127,6 +127,8 @@ if (APPLE)
 
   set_source_files_properties(BreakWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
 
+  set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")
+  
 endif()
 
 #if (PLATFORM_OS_WIN32)
