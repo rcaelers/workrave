@@ -30,6 +30,7 @@ class UiUtil
 public:
   static std::string create_alert_text(const std::string &caption, const std::string &body);
   static QLabel *create_label(const std::string &text, bool bold = false);
+  static QLabel *create_image_label(const std::string &filename);
   static void clear_layout(QLayout* layout);
 
   static void add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget);
@@ -37,6 +38,9 @@ public:
   static void add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
 
   static QIcon create_icon(std::string filename);
+
+  static QPixmap create_pixmap(std::string filename, int height);
+  
 };
 
 #endif // UIUTIL_HH

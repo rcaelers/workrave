@@ -269,6 +269,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   find_package(Qt5Widgets REQUIRED)
   find_package(Qt5Core REQUIRED)
   find_package(Qt5Gui REQUIRED)
+  find_package(Qt5Svg REQUIRED)
   find_package(Qt5DBus QUIET)
 
   if (Qt5DBus_FOUND)

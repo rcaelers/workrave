@@ -25,6 +25,7 @@
 
 #include <QWidget>
 #include <QLayoutItem>
+#include <QSvgRenderer>
 
 #include <boost/algorithm/string.hpp>
 
@@ -99,7 +100,7 @@ UiUtil::create_label(const std::string &text, bool bold)
   QLabel *label = new QLabel;
   if (bold)
     {
-      label->setText(QString::fromStdString(std::string("<span weight=\"bold\">") + text + "</span>"));
+      label->setText(QString::fromStdString(std::string("<span style=\"font-size:20pt; font-weight:600;\" >") + text + "</span>"));
     }
   else
     {
@@ -108,6 +109,14 @@ UiUtil::create_label(const std::string &text, bool bold)
   return label;
 }
 
+QLabel *
+UiUtil::create_image_label(const std::string &filename)
+{
+  QLabel *label = new QLabel;
+  std::string file = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  label->setPixmap(QPixmap(file.c_str()));
+  return label;
+}
 
 QIcon 
 UiUtil::create_icon(std::string filename)
@@ -115,4 +124,18 @@ UiUtil::create_icon(std::string filename)
   QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
   QIcon icon(pixmap);
   return icon;
+}
+
+QPixmap
+UiUtil::create_pixmap(std::string filename, int height)
+{
+  std::string svg_filename = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+
+  QSvgRenderer svg(QString::fromStdString(svg_filename));
+  QPixmap pixmap(height, height);
+  
+  pixmap.fill(Qt::transparent);
+  QPainter painter(&pixmap);
+  svg.render(&painter, QRectF(0, 0, height, height));
+  return pixmap;
 }

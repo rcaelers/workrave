@@ -85,6 +85,7 @@ endif (HAVE_DBUS)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5Svg_DEFINITIONS})
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/apps/qt5/src/
@@ -150,6 +151,7 @@ link_directories(${Boost_LIBRARIES_DIR})
 #target_link_libraries(Workrave ${GDK_LIBRARIES})
 
 target_link_libraries(Workrave ${Qt5Widgets_LIBRARIES})
+target_link_libraries(Workrave ${Qt5Svg_LIBRARIES})
 target_link_libraries(Workrave ${Qt5DBus_LIBRARIES})
 target_link_libraries(Workrave ${Boost_LIBRARIES})
 target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
