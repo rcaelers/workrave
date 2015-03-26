@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2014-10-19 15:51+0200\n"
+"POT-Creation-Date: 2014-12-28 15:48+0100\n"
 "PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -38,13 +38,24 @@ msgstr "%s%d:%02d:%02d saat"
 msgid "%s, from %s to %s"
 msgstr "%2$s'den %3$s'ye kadar %1$s."
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:256
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:260
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#, c-format
+msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgstr ""
+
+#: ../frontend/apps/qt5/src/AboutDialog.cc:49
+#, fuzzy
+msgid "About Workrave"
+msgstr "Workrave"
+
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:137
 msgid "About..."
 msgstr "Workrave hakkında..."
 
@@ -52,11 +63,13 @@ msgstr "Workrave hakkında..."
 msgid "Activity"
 msgstr "Etkinlik"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:139
 msgid "Applet"
 msgstr "Panel takısı"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "Applet enabled"
 msgstr "Panel takısı etkin"
 
@@ -69,31 +82,45 @@ msgstr "Bu uygulama tekrar eden eklem incinmesinin (RSI) engellenmesi ve tedavis
 msgid "Backward shoulder stretch"
 msgstr "Omuz arkası kaslarını germe"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:165
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:173
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:63
 msgid "Block input"
 msgstr "Giriş aygıtlarını engelle"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:166
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:174
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:64
 msgid "Block input and screen"
 msgstr "Giriş aygıtlarını ve ekranı engelle"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:196
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:87
 msgid "Block mode:"
 msgstr "Engelleme kipi:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:224
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:213
 msgid "Break duration:"
 msgstr "Mola süresi:"
 
+#: ../frontend/common/src/SoundTheme.cc:63
+msgid "Break ignored"
+msgstr "Mola gözardı edildi"
+
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
 msgstr "%s sonra ara."
 
+#: ../frontend/common/src/SoundTheme.cc:57
+msgid "Break prompt"
+msgstr "Mola istemi"
+
 #. Prelude frame
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:105
 msgid "Break prompting"
 msgstr "Mola istemi"
 
@@ -117,7 +144,7 @@ msgstr "Atlanan molalar"
 msgid "Browse history"
 msgstr "Gözatma geçmişi"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:435
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Ses çıkarma"
@@ -126,7 +153,13 @@ msgstr "Ses çıkarma"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Gözlerinizi avuçlarınızla gözkapaklarınızı açabileceğiniz kadar kapatın, gözlerinizi açın ve avuçlarınızdaki karanlığa bakın. Bu alıştırma gözlerinizi basitçe kapatmaktan daha iyi bir rahatlama sağlar."
 
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
+#: ../frontend/common/src/SoundTheme.cc:371
+msgid "Custom"
+msgstr ""
+
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
 msgid "Cycle time:"
 msgstr "Döngü süresi:"
 
@@ -134,15 +167,20 @@ msgstr "Döngü süresi:"
 #: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
 #: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
+#: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "Günlük sınır"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Günlük sınırı %s önce aştınız"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
 #, c-format
 msgid "Daily limit in %s"
 msgstr "%s içerisinde günlük sınır"
@@ -165,11 +203,13 @@ msgid "Delete all statistics history"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
 msgstr "%s sonra kaybolacak"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:179
 msgid "Display"
 msgstr "Görüntüle"
 
@@ -177,16 +217,34 @@ msgstr "Görüntüle"
 msgid "Effective mouse movement:"
 msgstr "Etkin fare hareketi:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:551
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:183
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:77
+#, fuzzy
+msgid "Enable sounds"
+msgstr "Ses çıkarma"
+
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:554
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:72
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:67
 msgid "Enable timer"
 msgstr "Zamanlayıcıyı etkinleştir"
 
+#. sounds_view->setColumnWidth(0, 100);
+#. sounds_view->setColumnWidth(1, 200);
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:120
+#, fuzzy
+msgid "Enabled"
+msgstr "Zamanlayıcıyı etkinleştir"
+
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 #, fuzzy
 msgid "End exercises"
 msgstr "Alıştırmalar"
@@ -195,19 +253,34 @@ msgstr "Alıştırmalar"
 msgid "Error"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:419
 msgid "Event"
 msgstr ""
 
+#: ../frontend/common/src/SoundTheme.cc:111
+#, fuzzy
+msgid "Exercise change"
+msgstr "Alıştırma bitti"
+
+#: ../frontend/common/src/SoundTheme.cc:99
+msgid "Exercise ended"
+msgstr "Alıştırma bitti"
+
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/apps/qt5/src/Menus.cc:95
 msgid "Exercises"
 msgstr "Alıştırmalar"
 
+#: ../frontend/common/src/SoundTheme.cc:105
+msgid "Exercises ended"
+msgstr "Alıştırma hareketleri bitti"
+
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "Alıştırma öğretici"
 
@@ -223,12 +296,18 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Parmakları germe"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:100
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:104
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:136
 msgid "General"
 msgstr "Genel"
 
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:332
+msgid "Hibernate"
+msgstr ""
+
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:156
 msgid "Hide"
 msgstr "Gizle"
 
@@ -252,9 +331,20 @@ msgstr "Bir kolunuzu göğsünüzün önünde yatay olarak uzatın. Bu kolunuzu 
 msgid "Keystrokes:"
 msgstr "Tuş vuruşları:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:281
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:285
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:175
 msgid "Language:"
 msgstr ""
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#, fuzzy
+msgid "Lock"
+msgstr "_Kilitle"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:316
+#, fuzzy
+msgid "Lock..."
+msgstr "_Kilitle"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
@@ -269,6 +359,7 @@ msgid "Look into the darkness"
 msgstr "Karanlığa bakın"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:113
 msgid "Maximum number of prompts:"
 msgstr "En fazla onay isteği:"
 
@@ -278,16 +369,26 @@ msgstr "En fazla onay isteği:"
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "Kısa-mola"
+
+#: ../frontend/common/src/SoundTheme.cc:87
+msgid "Micro-break ended"
+msgstr "Kısa-mola bitti"
+
+#: ../frontend/common/src/SoundTheme.cc:81
+msgid "Micro-break started"
+msgstr "Kısa-mola başladı"
 
 #. Layout
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Micro-break:"
 msgstr "Kısa-mola:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:203
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
+#: ../frontend/apps/qt5/src/Menus.cc:99
 #, fuzzy
 msgid "Mode"
 msgstr "Çalış_ma biçimi"
@@ -322,7 +423,8 @@ msgstr "Omuzları hareket ettirin"
 msgid "Move the shoulders up and down"
 msgstr "Omuzlarınızı yukarı ve aşağı hareket ettirin"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:371
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:375
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:85
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Dinlenme molası ve günlük sınır zamanlayıcılarını tek kutuda sırayla göster"
@@ -332,6 +434,7 @@ msgid "Natural breaks taken"
 msgstr "Kendiliğinden verilen molalar"
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Kendiliğinden verilen molalar"
@@ -341,44 +444,53 @@ msgid "Neck tilt stretch"
 msgstr "Boynu eğip uzatma"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 #, fuzzy
 msgid "Next exercise"
 msgstr "Alıştırma sayısı:"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sonraki dinlenme molası %s sonra"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:164
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
 msgid "No blocking"
 msgstr "Engelleme"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:337
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "No sounds"
 msgstr "Ses çıkarma"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
+#: ../frontend/applets/mate/src/main.c:324
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/qt5/src/Menus.cc:103
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:165
 msgid "Number of exercises:"
 msgstr "Alıştırma sayısı:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../frontend/apps/qt5/src/Menus.cc:80
 #, fuzzy
 msgid "Open"
 msgstr "_Aç"
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:194
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:140
 msgid "Options"
 msgstr "Seçenekler"
 
@@ -386,71 +498,89 @@ msgstr "Seçenekler"
 msgid "Overdue time"
 msgstr "Gecikme süresi"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
 msgid "Pause"
 msgstr "Duraklat"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Alıştırma sayısı:"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
 msgid "Place all timers in one spot"
 msgstr "Tüm zamanlayıcıları tek kutuda sırayla göster"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
 msgid "Place micro-break and rest break in one spot"
 msgstr "Kısa-mola ve dinlenme molası zamanlayıcılarını tek kutuda sırayla göster"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
 msgid "Place rest break and daily limit in one spot"
 msgstr "Dinlenme molası ve günlük sınır zamanlayıcılarını tek kutuda sırayla göster"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:109
 msgid "Place timers next to each other"
 msgstr "Zamanlayıcıları yanyana yerleştir"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:191
 msgid "Placement:"
 msgstr "Yerleşim:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:429
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:459
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:462
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:149
 msgid "Play"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:338
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:345
 msgid "Play sounds using sound card"
 msgstr "Ses üretmek için ses kartı kullan"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "Birkaç saniye için rahatlayın"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#, fuzzy
+msgid "Postpone"
+msgstr "_Ertele"
+
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:239
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:228
 msgid "Postpone time:"
 msgstr "Erteleme süresi:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:78
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/apps/qt5/src/Menus.cc:85
 msgid "Preferences"
 msgstr "Tercihler"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:115
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:109
 msgid "Prompt before breaking"
 msgstr "Mola vermeden önce hatırlatarak onay al"
 
@@ -468,26 +598,35 @@ msgstr "Otururken ellerinizi koltuğunuzun kol desteklerine yerleştirin ve göv
 msgid "Q_uiet"
 msgstr "_Rahatsız etme"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
+#: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:118
 #, fuzzy
 msgid "Quiet"
 msgstr "_Rahatsız etme"
 
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#: ../frontend/apps/qt5/src/Menus.cc:142
 #, fuzzy
 msgid "Quit"
 msgstr "Çı_k"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:205
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
+#: ../frontend/applets/mate/src/main.c:317
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Reading mode"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:156
 msgid "Regard micro-breaks as activity"
 msgstr "Kısa-molaları çalışma olarak algıla"
 
@@ -496,36 +635,56 @@ msgid "Repeated prompts"
 msgstr "Tekrarlanan hatırlatmalar"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/apps/qt5/src/Menus.cc:90
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "Dinlenme molası"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Dinlenme molası %s gecikti"
 
+#: ../frontend/common/src/SoundTheme.cc:75
+msgid "Rest break ended"
+msgstr "Dinlenme molası bitti"
+
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
 #, c-format
 msgid "Rest break for %s"
 msgstr "%s için dinlenme molası"
+
+#: ../frontend/common/src/SoundTheme.cc:69
+msgid "Rest break started"
+msgstr "Dinlenme molası başladı"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
 msgid "Rest break:"
 msgstr "Dinlenme molası:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
 msgid "Resume"
 msgstr "Sürdür"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Alıştırma sayısı:"
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:189
+msgid "Select"
+msgstr ""
 
 #: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -537,68 +696,98 @@ msgstr "Omuz-kol uzatma"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
 msgid "Show"
 msgstr "Göster"
 
+#. Ignorable
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:145
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "'Ertele' ve 'Atla' düğmelerini göster"
 
+#. Skippable
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:149
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "'Ertele' ve 'Atla' düğmelerini göster"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:356
+#: ../frontend/applets/mate/src/main.c:313
 #, fuzzy
 msgid "Show log"
 msgstr "_Günlüğü göster"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
 msgid "Show only when this timer is first due"
 msgstr "Bu zamanlayıcıyı yalnızca geciktiği zaman göster"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:88
 msgid "Show status window"
 msgstr "Durum penceresini göster"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:314
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:191
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:333
+#: ../frontend/apps/qt5/src/BreakWindow.cc:192
 #, fuzzy
-msgid "Shut _down"
+msgid "Shut down"
+msgstr "Kapat"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:324
+#, fuzzy
+msgid "Shutdown"
 msgstr "Kapat"
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "%s sonra sessiz olacak."
 
+#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#, fuzzy
+msgid "Skip"
+msgstr "_Atla"
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:121
+#, fuzzy
+msgid "Sound"
+msgstr "Ses:"
+
 #. Sound themes
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:379
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:90
 msgid "Sound Events"
 msgstr ""
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:328
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:332
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:58
 #, fuzzy
 msgid "Sound Options"
 msgstr "Seçenekler"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:387
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:391
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:96
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Ses:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound:"
 msgstr "Ses:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:105
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:137
 #, fuzzy
 msgid "Sounds"
 msgstr "Ses:"
@@ -607,11 +796,17 @@ msgstr "Ses:"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Sağ kolunuzu yavaşça ve pervane gibi yuvarlak hareketlerle gövdenizin yanında döndürün. Bu hareketi 4 kez öne, 4 kez arkaya doğru tekrarlayın ve birkaç saniye rahatlayın. Sonra aynı alıştırmayı sol kolunuzla tekrarlayın."
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:295
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:180
+#, fuzzy
+msgid "Start Workrave on Windows startup"
+msgstr "Workrave panel takısı"
+
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:299
 msgid "Start Workrave on logon"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:177
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:174
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
@@ -619,27 +814,43 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Bu alıştırmaya başınız düz ve rahat bir konumdayken başlayın. Sonra başınızı sağ omzunuza doğru eğin ve ensenizin sol tarafındaki kasları gerin. Bu konumda  5 saniye kadar kaldıktan sonra başınızı diğer tarafı germek için sol tarafa doğru eğin. Bu alıştırmayı her iki taraf için ikişer kez tekrarlayın."
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:209
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../frontend/apps/qt5/src/Menus.cc:132
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:138
 msgid "Status Window"
 msgstr "Durum penceresi"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:328
+#, fuzzy
+msgid "Suspend"
+msgstr "_Duraklat"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:336
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "_Duraklat"
+
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
+#: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:197
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:110
 #, fuzzy
 msgid "Suspended"
 msgstr "_Duraklat"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:212
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:216
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:122
 msgid "System default"
 msgstr ""
 
@@ -681,6 +892,7 @@ msgid "The number of times you were repeatedly prompted to break"
 msgstr "Mola vermeniz için ardarda birkaç kez yapılan hatırlatmaların toplam sayısı"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "The status window stays always on top of other windows"
 msgstr "Durum penceresi her zaman diğer tüm pencerelerin üzerinde olsun"
 
@@ -713,11 +925,13 @@ msgid "The total time you were using the mouse"
 msgstr "Fare kullandığınız toplam süre"
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Bir dinlenme molasına ihtiyacınız var..."
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -727,27 +941,37 @@ msgstr ""
 "ve bilgisayarınızdan uzaklaşmalısınız. Sadece birkaç\n"
 "dakika etrafta dolaşın, gerinin ve rahatlayın."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/mate/src/main.c:206
+#: ../frontend/applets/xfce/src/main.c:291
 #: ../frontend/apps/gtkmm/src/Menus.cc:362
+#: ../frontend/apps/qt5/src/AboutDialog.cc:70
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Bu uygulama tekrar eden eklem incinmesinin (RSI) engellenmesi ve tedavisine yardımcı olur."
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:216
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:199
 msgid "Time before end:"
 msgstr "Bitmeden önceki süre:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:217
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:200
 msgid "Time between breaks:"
 msgstr "Molalar arasındaki süre:"
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
 msgid "Time for a micro-break?"
 msgstr "Kısa bir mola verelim mi?"
 
 #. Notebook
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:121
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:69
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:194
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:190
 msgid "Timers"
 msgstr "Zamanlayıcılar"
 
@@ -763,19 +987,22 @@ msgstr "Başınızı çevirin"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Başınızı sola çevirip 2 saniye bekleyin, sonra başınızı sağa çeviripiki saniye bekleyin."
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:545
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:548
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:118
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:122
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:72
 msgid "User interface"
 msgstr "Kullanıcı arayüzü"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:366
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:73
 msgid "Volume:"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "Bekle"
 
@@ -784,9 +1011,14 @@ msgstr "Bekle"
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:447
 msgid "Wavefiles"
 msgstr ""
+
+#: ../frontend/apps/qt5/src/Application.cc:626
+#: ../frontend/apps/qt5/src/Application.cc:632
+msgid "Workrave"
+msgstr "Workrave"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:780
 #, fuzzy
@@ -794,10 +1026,12 @@ msgid "Workrave failed to start"
 msgstr "Workrave panel takısı"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
+#: ../frontend/apps/qt5/src/Application.cc:633
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
+#: ../frontend/apps/qt5/src/Application.cc:627
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -810,6 +1044,7 @@ msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -820,44 +1055,53 @@ msgstr ""
 "yapacak belge incelemek gibi başka bir iş bulun."
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
 msgid "You need a rest break..."
 msgstr "Bir dinlenme molasına ihtiyacınız var..."
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
 msgid "You should stop for today..."
 msgstr "Bugün için artık durmalısınız..."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
+#: ../frontend/applets/mate/src/main.c:302
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
 #, fuzzy
 msgid "_About"
 msgstr "_Hakkında..."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:337
+#: ../frontend/applets/mate/src/main.c:294
 msgid "_Disconnect"
 msgstr "Bağlantıyı _kes"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:317
+#: ../frontend/applets/mate/src/main.c:274
 msgid "_Exercises"
 msgstr "_Alıştırmalar"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:333
+#: ../frontend/applets/mate/src/main.c:290
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:310
-#, fuzzy
-msgid "_Lock"
-msgstr "_Kilitle"
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:325
+#: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Mode"
 msgstr "Çalış_ma biçimi"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:329
+#: ../frontend/applets/mate/src/main.c:286
 msgid "_Network"
 msgstr "_Ağ"
 
@@ -867,22 +1111,28 @@ msgstr "_Ağ"
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
+#: ../frontend/applets/mate/src/main.c:262
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:371
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:498
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Ertele"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:313
+#: ../frontend/applets/mate/src/main.c:270
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:171
 msgid "_Preferences"
 msgstr "_Tercihler"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
+#: ../frontend/applets/mate/src/main.c:306
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
 msgid "_Quit"
 msgstr "Çı_k"
@@ -891,7 +1141,9 @@ msgstr "Çı_k"
 msgid "_Reading mode"
 msgstr ""
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:341
+#: ../frontend/applets/mate/src/main.c:298
 msgid "_Reconnect"
 msgstr "_Yeniden bağlan"
 
@@ -902,16 +1154,20 @@ msgstr "_Yeniden bağlan"
 msgid "_Rest break"
 msgstr "_Dinlenme molası"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:321
+#: ../frontend/applets/mate/src/main.c:278
 msgid "_Restbreak"
 msgstr "_Dinlenme molası"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:354
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:481
 #, fuzzy
 msgid "_Skip"
 msgstr "_Atla"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:309
+#: ../frontend/applets/mate/src/main.c:266
 msgid "_Statistics"
 msgstr "İ_statistikler"
 
@@ -920,6 +1176,10 @@ msgstr "İ_statistikler"
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Suspended"
 msgstr "_Duraklat"
+
+#: ../frontend/apps/gtkmm/src/workrave.desktop.in.h:2
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr ""
 
 #~ msgid "About %s"
 #~ msgstr "%s hakkında"
@@ -934,15 +1194,9 @@ msgstr "_Duraklat"
 #~ msgid "Advanced"
 #~ msgstr "Gelişmiş"
 
-#~ msgid "Break ignored"
-#~ msgstr "Mola gözardı edildi"
-
 #, fuzzy
 #~ msgid "Break in"
 #~ msgstr "%s sonra ara."
-
-#~ msgid "Break prompt"
-#~ msgstr "Mola istemi"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr "Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
@@ -1037,16 +1291,6 @@ msgstr "_Duraklat"
 #~ "Ağ üzerinde bağlanmak istediğiniz bilgisayarın adını\n"
 #~ "ve bağlantı noktası numarasını belirtin."
 
-#, fuzzy
-#~ msgid "Exercise change"
-#~ msgstr "Alıştırma bitti"
-
-#~ msgid "Exercise ended"
-#~ msgstr "Alıştırma bitti"
-
-#~ msgid "Exercises ended"
-#~ msgstr "Alıştırma hareketleri bitti"
-
 #~ msgid "Host name"
 #~ msgstr "Sunucu adı"
 
@@ -1064,12 +1308,6 @@ msgstr "_Duraklat"
 
 #~ msgid "Inactive"
 #~ msgstr "Hareketsiz"
-
-#~ msgid "Micro-break ended"
-#~ msgstr "Kısa-mola bitti"
-
-#~ msgid "Micro-break started"
-#~ msgstr "Kısa-mola başladı"
 
 #~ msgid "Network"
 #~ msgstr "Ağ"
@@ -1128,12 +1366,6 @@ msgstr "_Duraklat"
 #~ msgid "Requesting master status from %s."
 #~ msgstr "%s adresinden asıl sunucu durumu isteniyor."
 
-#~ msgid "Rest break ended"
-#~ msgstr "Dinlenme molası bitti"
-
-#~ msgid "Rest break started"
-#~ msgstr "Dinlenme molası başladı"
-
 #~ msgid "Server port:"
 #~ msgstr "Sunucu bağlantı noktası:"
 
@@ -1178,9 +1410,6 @@ msgstr "_Duraklat"
 
 #~ msgid "Username:"
 #~ msgstr "Kullanıcı adı:"
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
 #~ msgstr "Workrave panel takısı"
