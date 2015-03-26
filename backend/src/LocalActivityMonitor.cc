@@ -42,7 +42,7 @@ LocalActivityMonitor::create(IConfigurator::Ptr config, const string &display_na
   return Ptr(new LocalActivityMonitor(config, display_name));
 }
 
-    
+
 //! Constructor.
 LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const string &display_name) :
   config(config),
@@ -89,7 +89,7 @@ LocalActivityMonitor::init()
     {
       input_monitor->subscribe(this);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -219,7 +219,7 @@ LocalActivityMonitor::action_notify()
 {
   lock.lock();
   int64_t now = TimeSource::get_monotonic_time_usec();
-  
+
   switch (state)
     {
     case ACTIVITY_MONITOR_IDLE:
@@ -385,7 +385,7 @@ LocalActivityMonitor::load_config()
 //   // Default
 //   ActivityState state = local_monitor->get_state();
 //   int64_t current_time = TimeSource::get_monotonic_time_sec();
-  
+
 //   map<std::string, int64_t>::iterator i = external_activity.begin();
 //   while (i != external_activity.end())
 //     {

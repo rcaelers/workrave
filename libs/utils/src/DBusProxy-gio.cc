@@ -1,6 +1,6 @@
 // DBusProxy-gio.cc --- support for simple DBUS method execution
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // It is possible that it uses some code and ideas from the KShutdown utility:
 //              file src/actions/lock.cpp
@@ -25,12 +25,12 @@
 
 
 
-  bool DBusProxy::init_with_connection(GDBusConnection *connection, const char *name, const char *object_path, 
+  bool DBusProxy::init_with_connection(GDBusConnection *connection, const char *name, const char *object_path,
               const char *interface_name, GDBusProxyFlags flags_in)
   {
     TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
     this->flags = flags_in;
-    proxy = g_dbus_proxy_new_sync(connection, 
+    proxy = g_dbus_proxy_new_sync(connection,
                                        flags,
                                        NULL,
                                        name,
@@ -48,7 +48,7 @@
     return true;
   }
 
-  bool DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, 
+  bool DBusProxy::init(GBusType bus_type, const char *name, const char *object_path,
               const char *interface_name, GDBusProxyFlags flags_in)
   {
     TRACE_ENTER_MSG("DBus_proxy::init", name);
@@ -80,7 +80,7 @@
     TRACE_ENTER_MSG("DBus_proxy::call_method", method_name);
     if (proxy == NULL)
       return false;
-    
+
     if (error != NULL)
       {
         g_error_free(error);
@@ -97,7 +97,7 @@
     if (method_result == NULL)
       {
         if (result != NULL)
-          { 
+          {
             g_variant_unref(result);
             result = NULL;
           }
@@ -108,12 +108,12 @@
           {
             *method_result = NULL;
             if (result != NULL)
-              { 
+              {
                 g_variant_unref(result);
                 result = NULL;
               }
-          } 
-        else 
+          }
+        else
           {
             *method_result = result;
           }

@@ -25,27 +25,27 @@
 
 
 
-/* A critical section is a fast and light thread synchronization object in Windows. Critical 
-sections are used by creating a CRITICAL_SECTION object which must be initialized, can be locked 
+/* A critical section is a fast and light thread synchronization object in Windows. Critical
+sections are used by creating a CRITICAL_SECTION object which must be initialized, can be locked
 and unlocked multiple times, and then can be deleted.
 http://msdn.microsoft.com/en-us/library/windows/desktop/ms682530.aspx
 
-This class, W32CriticalSection, is an RAII wrapper around Microsoft's CRITICAL_SECTION object that 
-handles the initialization, locking/unlocking and deletion. The locking is thread re-entrant, 
+This class, W32CriticalSection, is an RAII wrapper around Microsoft's CRITICAL_SECTION object that
+handles the initialization, locking/unlocking and deletion. The locking is thread re-entrant,
 unlike Microsoft's own critical_section class which is not.
 
 
 
 To use W32CriticalSection:
 
-Add a W32CriticalSection object to your class or somewhere that it's available to your threads. 
-When creating the object you can specify the spin count, which specifies how many times to try for 
-the locked object instead of taking a context switch. While the latter sounds expensive, remember 
-that a context switch isn't needed unless the object is locked. Whether it's worthwhile to set the 
+Add a W32CriticalSection object to your class or somewhere that it's available to your threads.
+When creating the object you can specify the spin count, which specifies how many times to try for
+the locked object instead of taking a context switch. While the latter sounds expensive, remember
+that a context switch isn't needed unless the object is locked. Whether it's worthwhile to set the
 spin depends on how many threads are in contention and whether you've done some type of profiling.
 
-You then create a W32CriticalSection::Guard object in any scope of code that you need to lock and 
-unlock. ***That is important: The W32CriticalSection::Guard object's destructor is called when it 
+You then create a W32CriticalSection::Guard object in any scope of code that you need to lock and
+unlock. ***That is important: The W32CriticalSection::Guard object's destructor is called when it
 goes out of scope, and it will unlock the W32CriticalSection object that it locked.
 
 
@@ -64,7 +64,7 @@ void SomeFunction()
 Advanced:
 
 There are two nested guard classes, W32CriticalSection::AdvancedGuard and W32CriticalSection::Guard.
-A single W32CriticalSection::AdvancedGuard object can be used to guard multiple W32CriticalSection 
+A single W32CriticalSection::AdvancedGuard object can be used to guard multiple W32CriticalSection
 objects and locking and unlocking can be controlled by its methods:
 
 bool TryLock( W32CriticalSection &cs ): Calls TryEnterCriticalSection()
@@ -72,19 +72,19 @@ bool TryLockFor( W32CriticalSection &cs, DWORD milliseconds ): Calls TryEnterCri
 void Lock( W32CriticalSection &cs ): Calls EnterCriticalSection()
 void Unlock( W32CriticalSection &cs ): Calls LeaveCriticalSection()
 
-W32CriticalSection::Guard cannot be used on multiple W32CriticalSection objects and has none 
-of the above methods. Both W32CriticalSection::AdvancedGuard and W32CriticalSection::Guard destruct 
+W32CriticalSection::Guard cannot be used on multiple W32CriticalSection objects and has none
+of the above methods. Both W32CriticalSection::AdvancedGuard and W32CriticalSection::Guard destruct
 similar in that they unlock what that they had locked.
 
-To use W32CriticalSection::AdvancedGuard it is recommended to create and initialize in the scope of 
-what needs to be locked for the RAII advantage, like W32CriticalSection::Guard (see its example). 
-You can set an initial lock on construction or you can set one at any time by calling the Lock() 
+To use W32CriticalSection::AdvancedGuard it is recommended to create and initialize in the scope of
+what needs to be locked for the RAII advantage, like W32CriticalSection::Guard (see its example).
+You can set an initial lock on construction or you can set one at any time by calling the Lock()
 method (you do not need to do both on the same W32CriticalSection object although it's fine to do).
 
-The destructor for W32CriticalSection::AdvancedGuard calls LeaveCriticalSection() for every section 
-it has locked for the number of times it has not already unlocked. If you lock an object three 
-times and later unlock it once via Unlock() then when the destructor is called it calls 
-LeaveCriticalSection() twice for that object. And for multiple objects the unlocking order is 
+The destructor for W32CriticalSection::AdvancedGuard calls LeaveCriticalSection() for every section
+it has locked for the number of times it has not already unlocked. If you lock an object three
+times and later unlock it once via Unlock() then when the destructor is called it calls
+LeaveCriticalSection() twice for that object. And for multiple objects the unlocking order is!!
 reverse from the locking order. For (a convoluted) example:
 
 W32CriticalSection::AdvancedGuard guard( a );   // calls Lock( a )

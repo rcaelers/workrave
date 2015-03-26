@@ -118,7 +118,7 @@ UiUtil::create_image_label(const std::string &filename)
   return label;
 }
 
-QIcon 
+QIcon
 UiUtil::create_icon(std::string filename)
 {
   QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
@@ -133,7 +133,7 @@ UiUtil::create_pixmap(std::string filename, int height)
 
   QSvgRenderer svg(QString::fromStdString(svg_filename));
   QPixmap pixmap(height, height);
-  
+
   pixmap.fill(Qt::transparent);
   QPainter painter(&pixmap);
   svg.render(&painter, QRectF(0, 0, height, height));

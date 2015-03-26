@@ -38,7 +38,7 @@ protected:
 
 private:
   IConfigurator::Ptr config;
-  
+
   struct thread_struct
     {
       volatile bool active;

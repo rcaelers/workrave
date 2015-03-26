@@ -133,7 +133,7 @@ TimeBar::minimumSizeHint() const
   width = width + 2 * MARGINX;
   height = std::max(height + 2 * MARGINY, 20);
 
-  
+
   return QSize(width, height);
 }
 

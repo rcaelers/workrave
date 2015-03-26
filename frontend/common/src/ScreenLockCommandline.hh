@@ -1,6 +1,6 @@
 // SystemLockCommandline.hh -- support for locking the system using command line
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // Uses some code and ideas from the KShutdown utility: file src/actions/lock.cpp
 // Copyright (C) 2009  Konrad Twardowski
@@ -24,7 +24,7 @@
 
 #include "IScreenLockMethod.hh"
 #include "stdlib.h"
-//A method of locking the screen that 
+//A method of locking the screen that
 //does that by executing a command
 class ScreenLockCommandline : public IScreenLockMethod
 {

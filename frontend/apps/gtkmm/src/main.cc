@@ -47,7 +47,7 @@ run(int argc, char **argv)
 #endif
 
 #if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
-	SetUnhandledExceptionFilter(exception_filter);
+  SetUnhandledExceptionFilter(exception_filter);
 
 #if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
   // Enable Windows structural exception handling.

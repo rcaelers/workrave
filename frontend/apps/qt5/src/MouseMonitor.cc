@@ -55,7 +55,7 @@ MouseMonitor::start()
 {
   if (priv->monitor == nil)
     {
-      priv->monitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent *) 
+      priv->monitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent *)
                        {
                          NSPoint pos = [NSEvent mouseLocation];
                          priv->func(pos.x, pos.y);

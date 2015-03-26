@@ -52,7 +52,7 @@ class BreakStateModel :
 {
 public:
   typedef boost::shared_ptr<BreakStateModel> Ptr;
- 
+
 public:
   static Ptr create(BreakId id,
                     IApp *app,
@@ -82,14 +82,14 @@ public:
   bool is_taking() const;
   bool is_active() const;
   BreakStage get_break_stage() const;
-  
+
   void set_max_number_of_preludes(int max_preludes);
   void set_enabled(bool enabled);
-  
+
 private:
   void force_idle();
   void goto_stage(BreakStage stage);
-  
+
   void break_window_start();
   void break_window_update();
   void break_window_stop();
@@ -98,10 +98,10 @@ private:
   void prelude_window_stop();
 
   bool has_reached_max_preludes();
-  
+
   // IActivityMonitorListener
   bool action_notify();
-  
+
 private:
   //! ID of the break controlled by this Break.
   BreakId break_id;
@@ -114,7 +114,7 @@ private:
 
   //!
   IActivityMonitor::Ptr activity_monitor;
-  
+
   CoreHooks::Ptr hooks;
 
   //! Current stage in the break.

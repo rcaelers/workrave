@@ -81,8 +81,8 @@ BreaksControl::~BreaksControl()
 void
 BreaksControl::init()
 {
-  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&BreaksControl::on_operation_mode_changed, this, _1)); 
-  
+  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&BreaksControl::on_operation_mode_changed, this, _1));
+
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
       string break_name = CoreConfig::get_break_name(break_id);
@@ -93,12 +93,12 @@ BreaksControl::init()
       breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
       connections.connect(breaks[break_id]->signal_break_event(), boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
     }
-  
+
   reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor, modes);
   reading_activity_monitor->init();
 
   microbreak_activity_monitor = TimerActivityMonitor::create(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
-  
+
   load_state();
 }
 
@@ -114,7 +114,7 @@ BreaksControl::force_idle()
   activity_monitor->force_idle();
   microbreak_activity_monitor->force_idle();
   reading_activity_monitor->force_idle();
-  
+
   for (auto &timer : timers)
     {
       timer->stop_timer();
@@ -138,7 +138,7 @@ void
 BreaksControl::force_break(BreakId break_id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("BreaksControl::force_break", break_id << " " << break_hint);
-  
+
   if (break_id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
     {
       breaks[BREAK_ID_MICRO_BREAK]->stop_break();
@@ -198,9 +198,9 @@ BreaksControl::process_timers(bool user_is_active)
         {
           user_is_active_for_break = microbreak_activity_monitor->is_active();
         }
-      
+
       TimerEvent event = timers[break_id]->process(user_is_active_for_break);
-        
+
       if (breaks[break_id]->is_enabled())
         {
           switch (event)
@@ -380,7 +380,7 @@ BreaksControl::defrost()
       break;
 
     case InsistPolicy::Invalid:
-    case InsistPolicy::Reset: 
+    case InsistPolicy::Reset:
      break;
     }
 
@@ -445,7 +445,7 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
     }
 
   if (modes->get_usage_mode() == UsageMode::Reading)
-    {  
+    {
       reading_activity_monitor->handle_break_event(break_id, event);
     }
   TRACE_EXIT();
@@ -484,8 +484,8 @@ BreaksControl::load_state()
   ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
-  
-    
+
+
 #ifdef HAVE_TESTS
   if (!hooks->hook_load_timer_state().empty())
     {
@@ -496,7 +496,7 @@ BreaksControl::load_state()
     }
 #endif
   ifstream state_file(ss.str().c_str());
-  
+
   int version = 0;
   bool ok = state_file.good();
 

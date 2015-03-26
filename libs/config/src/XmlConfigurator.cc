@@ -47,7 +47,7 @@ XmlConfigurator::load(string filename)
 {
   TRACE_ENTER_MSG("XmlConfigurator::loada", filename);
   bool ret = false;
-  
+
   try
     {
       boost::property_tree::xml_parser::read_xml(filename, pt);
@@ -124,20 +124,20 @@ XmlConfigurator::get_value(const std::string &key, VariantType type,
         case VARIANT_TYPE_INT:
           out.int_value =  pt.get<int>(xmlpath);
           break;
-          
+
         case VARIANT_TYPE_BOOL:
           out.bool_value = pt.get<bool>(xmlpath);
           break;
-          
+
         case VARIANT_TYPE_DOUBLE:
           out.double_value = pt.get<double>(xmlpath);
           break;
-          
+
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
           out.string_value = pt.get<string>(xmlpath);
           break;
-          
+
         case VARIANT_TYPE_STRING:
           out.string_value = pt.get<string>(xmlpath);
           break;
@@ -157,7 +157,7 @@ bool
 XmlConfigurator::set_value(const std::string &key, Variant &value)
 {
   bool ret = true;
-  
+
   string xmlpath = path(key);
 
   try
@@ -186,7 +186,7 @@ XmlConfigurator::set_value(const std::string &key, Variant &value)
     {
       ret = false;
     }
-  
+
   return ret;
 }
 
@@ -198,6 +198,6 @@ XmlConfigurator::path(const string &key) const
 
   string attr = parts.back();
   parts.pop_back();
-  
+
   return string("workrave.") + boost::algorithm::join(parts, ".") + ".<xmlattr>." + attr;
 }

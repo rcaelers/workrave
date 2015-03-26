@@ -66,7 +66,7 @@ namespace workrave
       void *find_object(const std::string &path, const std::string &interface_name) const;
 
       friend class DBusBinding;
-      
+
       //! Bindings for interfaces.
       Bindings bindings;
 

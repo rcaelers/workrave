@@ -146,7 +146,7 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} *result)
 #if struct.condition
  \#if $struct.condition
 #end if
- 
+
 void
 ${model.name}_Marshall::get_${struct.qname}(GVariant *variant, ${struct.symbol()} *result)
 {
@@ -202,7 +202,7 @@ ${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} *result)
 #if seq.condition
  \#if $seq.condition
 #end if
- 
+
 void
 ${model.name}_Marshall::get_${seq.qname}(GVariant *variant, ${seq.symbol()} *result)
 {
@@ -248,7 +248,7 @@ ${model.name}_Marshall::put_${seq.qname}(const ${seq.symbol()} *result)
 #if dict.condition
  \#if $dict.condition
 #end if
- 
+
 void
 ${model.name}_Marshall::get_${dict.qname}(GVariant *variant, ${dict.symbol()} *result)
 {
@@ -312,7 +312,7 @@ ${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} *result)
 namespace $ns // interface $interface.name namespace
 {
 #end for
-  
+
 class ${interface.qname}_Stub : public DBusBindingGio, public ${interface.qname}, ${model.name}_Marshall
 {
 private:
@@ -398,7 +398,7 @@ ${interface.qname}_Stub::call(const std::string &method_name, void *object, GDBu
         }
       table++;
     }
-  
+
   throw DBusRemoteException()
     << message_info("Unknown method")
     << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
@@ -525,7 +525,7 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
 )
 {
   IDBusPrivateGio::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateGio>(dbus);
-  
+
   GDBusConnection *connection = p->get_connection();
   if (connection == NULL)
     {
@@ -598,7 +598,7 @@ ${interface.qname}_Stub::interface_introspect =
 #for $ns in reversed($interface.namespace_list)
 } // namespace $ns
 #end for
- 
+
 #if interface.condition != ''
  \#endif // $interface.condition
 #end if
@@ -617,4 +617,4 @@ void init_${model.name}(IDBus::Ptr dbus)
   #end if
 #end for
 }
- 
+

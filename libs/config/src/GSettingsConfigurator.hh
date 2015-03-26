@@ -53,18 +53,18 @@ private:
 
   std::string schema_base;
   std::string path_base;
-  
+
   typedef std::map<std::string, GSettings *> SettingsMap;
   typedef SettingsMap::iterator SettingsIter;
   typedef SettingsMap::const_iterator SettingsCIter;
 
-  //! 
+  //!
   SettingsMap settings;
-  
+
   void add_children();
   void key_split(const string &key, string &parent, std::string &child) const;
   GSettings *get_settings(const std::string &path, std::string &key) const;
-  
+
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);
 };
 

@@ -47,11 +47,11 @@ using namespace workrave;
 
 W32AlternateMonitor::W32AlternateMonitor(IConfigurator::Ptr config) :
   config( config ),
-	initialized( false ),
-	interval( 500 ),
-	thread_abort_event( NULL ),
-	thread_handle( NULL ),
-	thread_id( 0 )
+  initialized( false ),
+  interval( 500 ),
+  thread_abort_event( NULL ),
+  thread_handle( NULL ),
+  thread_id( 0 )
 {
   TRACE_ENTER( "W32AlternateMonitor::W32AlternateMonitor" );
 
@@ -71,68 +71,68 @@ W32AlternateMonitor::~W32AlternateMonitor()
 
 bool W32AlternateMonitor::init()
 {
-	TRACE_ENTER( "W32AlternateMonitor::init" );
+  TRACE_ENTER( "W32AlternateMonitor::init" );
 
-	if( initialized )
-		goto cleanup;
+  if( initialized )
+    goto cleanup;
 
-	config->get_value_with_default( "advanced/interval", interval, 500 );
+  config->get_value_with_default( "advanced/interval", interval, 500 );
 
-	SetLastError( 0 );
-	thread_abort_event = CreateEvent( NULL, FALSE, FALSE, NULL );
-	if( !thread_abort_event )
-	{
-		TRACE_MSG( "Thread abort event could not be created. GetLastError : " << GetLastError() );
-		goto cleanup;
-	}
+  SetLastError( 0 );
+  thread_abort_event = CreateEvent( NULL, FALSE, FALSE, NULL );
+  if( !thread_abort_event )
+  {
+    TRACE_MSG( "Thread abort event could not be created. GetLastError : " << GetLastError() );
+    goto cleanup;
+  }
 
-	thread_id = 0;
-	SetLastError( 0 );
-	thread_handle = CreateThread( NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id );
-	if( !thread_handle || !thread_id )
-	{
-		TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
-		goto cleanup;
-	}
+  thread_id = 0;
+  SetLastError( 0 );
+  thread_handle = CreateThread( NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id );
+  if( !thread_handle || !thread_id )
+  {
+    TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
+    goto cleanup;
+  }
 
-	Harpoon::init( config, NULL );
-	
-	initialized = true;
+  Harpoon::init( config, NULL );
+  
+  initialized = true;
 
 cleanup:
-	if( initialized == false )
-		terminate();
+  if( initialized == false )
+    terminate();
 
-	TRACE_EXIT();
-	return initialized;
+  TRACE_EXIT();
+  return initialized;
 }
 
 
 void W32AlternateMonitor::terminate()
 {
-	TRACE_ENTER( "W32AlternateMonitor::terminate" );
+  TRACE_ENTER( "W32AlternateMonitor::terminate" );
 
-	thread_id = 0;
+  thread_id = 0;
 
-	if( thread_handle )
-	{
-		SetEvent( thread_abort_event );
-		WaitForSingleObject( thread_handle, INFINITE );
-		CloseHandle( thread_handle );
-		thread_handle = NULL;
-	}
+  if( thread_handle )
+  {
+    SetEvent( thread_abort_event );
+    WaitForSingleObject( thread_handle, INFINITE );
+    CloseHandle( thread_handle );
+    thread_handle = NULL;
+  }
 
-	if( thread_abort_event )
-	{
-		CloseHandle( thread_abort_event );
-		thread_abort_event = NULL;
-	}
+  if( thread_abort_event )
+  {
+    CloseHandle( thread_abort_event );
+    thread_abort_event = NULL;
+  }
 
-	Harpoon::terminate();
-	
-	initialized = false;
+  Harpoon::terminate();
+  
+  initialized = false;
 
-	TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 
@@ -160,7 +160,7 @@ void W32AlternateMonitor::Monitor()
 
   lii.cbSize = sizeof( lii );
   lii.dwTime = GetTickCount();
-  
+
   while( thread_id == current_thread_id )
   /* Main loop */
   {

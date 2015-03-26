@@ -44,6 +44,6 @@ public slots:
 public:
   bool got;
 };
-  
+
 
 #endif // TEST_HH

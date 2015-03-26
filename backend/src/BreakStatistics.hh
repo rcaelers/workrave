@@ -41,7 +41,7 @@ public:
 
   void update();
   void daily_reset();
-  
+
 private:
   void on_break_event(BreakEvent stage);
 

@@ -86,7 +86,7 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
 {
   (void) stage;
   (void) break_id;
-  
+
 #ifdef HAVE_DBUS
   std::string progress = Break::get_stage_text(stage);
 

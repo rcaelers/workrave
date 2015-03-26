@@ -53,11 +53,11 @@ public:
 
 private:
   bool action_notify();
-  void on_usage_mode_changed(workrave::UsageMode mode); 
-  
+  void on_usage_mode_changed(workrave::UsageMode mode);
+
 private:
   enum State { Idle, Active, Prelude, Taking };
-    
+
   IActivityMonitor::Ptr monitor;
   CoreModes::Ptr modes;
   bool suspended;

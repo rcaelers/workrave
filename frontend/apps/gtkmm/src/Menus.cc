@@ -147,7 +147,7 @@ Menus::init(AppletControl *applet_control)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
 #endif
 #endif
-  
+
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -487,11 +487,11 @@ Menus::resync()
         {
           ICore::Ptr core = CoreFactory::get_core();
 
-          /* Use operation_mode_regular here to show the mode that will be restored 
-          if an override is in place. That is also necessary because if get_operation_mode() 
-          were called instead then that would cause a mode that's possibly an override to 
-          be returned. If that then the override mode menu item would be set_active() during 
-          the resync, and cause a signal that then calls back into core with the override mode 
+          /* Use operation_mode_regular here to show the mode that will be restored
+          if an override is in place. That is also necessary because if get_operation_mode()
+          were called instead then that would cause a mode that's possibly an override to
+          be returned. If that then the override mode menu item would be set_active() during
+          the resync, and cause a signal that then calls back into core with the override mode
           as a regular mode. That would erase whatever the user's regular mode was.
           */
           menus[i]->resync(core->get_operation_mode_regular(),

@@ -45,7 +45,7 @@ DBusBindingGio::~DBusBindingGio()
 void
 DBusMarshallGio::get_int(GVariant *v, int *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
@@ -55,13 +55,13 @@ DBusMarshallGio::get_int(GVariant *v, int *value)
         << expected_type_info("int");
     }
 
-	*value = g_variant_get_int32(v);
+  *value = g_variant_get_int32(v);
 }
 
 void
 DBusMarshallGio::get_uint8(GVariant *v, uint8_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BYTE))
     {
@@ -71,14 +71,14 @@ DBusMarshallGio::get_uint8(GVariant *v, uint8_t *value)
         << expected_type_info("uint8");
     }
 
-	*value = g_variant_get_byte(v);
+  *value = g_variant_get_byte(v);
 }
 
 
 void
 DBusMarshallGio::get_uint16(GVariant *v, uint16_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT16))
     {
@@ -88,14 +88,14 @@ DBusMarshallGio::get_uint16(GVariant *v, uint16_t *value)
         << expected_type_info("uint16");
     }
 
-	*value = g_variant_get_uint16(v);
+  *value = g_variant_get_uint16(v);
 }
 
 
 void
 DBusMarshallGio::get_int16(GVariant *v, int16_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT16))
     {
@@ -105,13 +105,13 @@ DBusMarshallGio::get_int16(GVariant *v, int16_t *value)
         << expected_type_info("int16");
     }
 
-	*value = g_variant_get_int16(v);
+  *value = g_variant_get_int16(v);
 }
 
 void
 DBusMarshallGio::get_uint32(GVariant *v, uint32_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT32))
     {
@@ -121,15 +121,15 @@ DBusMarshallGio::get_uint32(GVariant *v, uint32_t *value)
         << expected_type_info("uint32");
     }
 
-	*value = g_variant_get_uint32(v);
+  *value = g_variant_get_uint32(v);
 }
 
 
 void
 DBusMarshallGio::get_int32(GVariant *v, int32_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
-  
+  const GVariantType *argtype = g_variant_get_type(v);
+
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
       throw DBusRemoteException()
@@ -138,14 +138,14 @@ DBusMarshallGio::get_int32(GVariant *v, int32_t *value)
         << expected_type_info("int32");
     }
 
-	*value = g_variant_get_int32(v);
+  *value = g_variant_get_int32(v);
 }
 
 
 void
 DBusMarshallGio::get_uint64(GVariant *v, uint64_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT64))
     {
@@ -155,14 +155,14 @@ DBusMarshallGio::get_uint64(GVariant *v, uint64_t *value)
         << expected_type_info("uint64");
     }
 
-	*value = g_variant_get_uint64(v);
+  *value = g_variant_get_uint64(v);
 }
 
 
 void
 DBusMarshallGio::get_int64(GVariant *v, int64_t *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT64))
     {
@@ -172,14 +172,14 @@ DBusMarshallGio::get_int64(GVariant *v, int64_t *value)
         << expected_type_info("int64");
     }
 
-	*value = g_variant_get_int64(v);
+  *value = g_variant_get_int64(v);
 }
 
 
 void
 DBusMarshallGio::get_bool(GVariant *v, bool *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BOOLEAN))
     {
@@ -189,14 +189,14 @@ DBusMarshallGio::get_bool(GVariant *v, bool *value)
         << expected_type_info("bool");
     }
 
-	*value = g_variant_get_boolean(v);
+  *value = g_variant_get_boolean(v);
 }
 
 
 void
 DBusMarshallGio::get_double(GVariant *v, double *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_DOUBLE))
     {
@@ -206,14 +206,14 @@ DBusMarshallGio::get_double(GVariant *v, double *value)
         << expected_type_info("double");
     }
 
-	*value = g_variant_get_double(v);
+  *value = g_variant_get_double(v);
 }
 
 
 void
 DBusMarshallGio::get_string(GVariant *v, std::string *value)
 {
-	const GVariantType *argtype = g_variant_get_type(v);
+  const GVariantType *argtype = g_variant_get_type(v);
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_STRING))
     {
@@ -234,60 +234,60 @@ DBusMarshallGio::get_string(GVariant *v, std::string *value)
 GVariant *
 DBusMarshallGio::put_int(const int *value)
 {
-	return g_variant_new_int32(*value);
+  return g_variant_new_int32(*value);
 }
 
 GVariant *
 DBusMarshallGio::put_uint8(const uint8_t *value)
 {
-	return g_variant_new_byte(*value);
+  return g_variant_new_byte(*value);
 }
 
 GVariant *
 DBusMarshallGio::put_uint16(const uint16_t *value)
 {
-	return g_variant_new_uint16(*value);
+  return g_variant_new_uint16(*value);
 }
 
 
 GVariant *
 DBusMarshallGio::put_int16(const int16_t *value)
 {
-	return g_variant_new_int16(*value);
+  return g_variant_new_int16(*value);
 }
 
 GVariant *
 DBusMarshallGio::put_uint32(const uint32_t *value)
 {
-	return g_variant_new_uint32(*value);
+  return g_variant_new_uint32(*value);
 }
 
 
 GVariant *
 DBusMarshallGio::put_int32(const int32_t *value)
 {
-	return g_variant_new_int32(*value);
+  return g_variant_new_int32(*value);
 }
 
 
 GVariant *
 DBusMarshallGio::put_uint64(const uint64_t *value)
 {
-	return g_variant_new_uint64(*value);
+  return g_variant_new_uint64(*value);
 }
 
 
 GVariant *
 DBusMarshallGio::put_int64(const int64_t *value)
 {
-	return g_variant_new_int64(*value);
+  return g_variant_new_int64(*value);
 }
 
 
 GVariant *
 DBusMarshallGio::put_double(const double *value)
 {
-	return g_variant_new_double(*value);
+  return g_variant_new_double(*value);
 }
 
 
@@ -295,7 +295,7 @@ GVariant *
 DBusMarshallGio::put_bool(const bool *value)
 {
   gboolean v = *value;
-	return g_variant_new_boolean(v);
+  return g_variant_new_boolean(v);
 }
 
 
@@ -303,5 +303,5 @@ GVariant *
 DBusMarshallGio::put_string(const std::string *value)
 {
   const char *cstr = value->c_str();
-	return g_variant_new_string(cstr);
+  return g_variant_new_string(cstr);
 }

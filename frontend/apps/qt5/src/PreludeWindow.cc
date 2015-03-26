@@ -85,7 +85,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
       text = _("You should stop for today...");
       break;
     }
-  
+
   label = UiUtil::create_label(text, true);
   image = UiUtil::create_image_label("prelude-hint.png");
 
@@ -118,7 +118,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   // NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(winId());
   // NSWindow *nswindow = [nsview window];
   // [nswindow setCollectionBehavior: (NSWindowCollectionBehaviorCanJoinAllSpaces)];
-  
+
   setWindowFlags(
 #ifdef PLATFORM_OS_OSX
                  Qt::SubWindow |
@@ -131,10 +131,10 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
                  Qt::WindowDoesNotAcceptFocus |
                  Qt::X11BypassWindowManagerHint
                  );
-  
+
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
-  
+
 #ifdef PLATFORM_OS_OSX
   mouse_monitor = boost::make_shared<MouseMonitor>(boost::bind(&PreludeWindow::avoid_pointer, this, _1, _2));
 #endif
@@ -149,18 +149,18 @@ PreludeWindow::start()
 {
   TRACE_ENTER("PreludeWindow::start");
 
-  
+
   //NSWindowCollectionBehavior behavior = [nswindow collectionBehavior];
 
   //std::cout << "PreludeWindow behavior " << behavior << std::endl;
 
-   
+
   timebar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
   refresh();
   show();
 
   QDesktopWidget *dw = QApplication::desktop();
-  const QRect	rect = dw->screenGeometry(screen);
+  const QRect rect = dw->screenGeometry(screen);
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
 
 #ifdef PLATFORM_OS_OSX
@@ -275,7 +275,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       if (! did_avoid)
         {
           QDesktopWidget *dw = QApplication::desktop();
-          const QRect	rect = dw->screenGeometry(screen);
+          const QRect rect = dw->screenGeometry(screen);
 
           move(x(), rect.y() + SCREEN_MARGIN);
         }
@@ -309,7 +309,7 @@ PreludeWindow::event(QEvent *event)
       avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
   bool res = QWidget::event(event);
-  
+
   TRACE_MSG(QApplication::activeModalWidget());
   TRACE_EXIT();
   return res;
@@ -321,10 +321,10 @@ PreludeWindow::avoid_pointer(int px, int py)
   const QRect &geo = geometry();
 
   QDesktopWidget *dw = QApplication::desktop();
-  const QRect	rect = dw->screenGeometry(screen);
+  const QRect rect = dw->screenGeometry(screen);
 
   py = rect.height() - py;
-     
+
   int screen_height = rect.height();
   int top_y = rect.y() + SCREEN_MARGIN;
   int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;

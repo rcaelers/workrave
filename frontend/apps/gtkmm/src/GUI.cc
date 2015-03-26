@@ -192,7 +192,7 @@ GUI::main()
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
 #endif
-  
+
   if (!Glib::thread_supported())
     Glib::thread_init();
 
@@ -237,7 +237,7 @@ GUI::main()
     {
       i->disconnect();
     }
-    
+
   delete main_window;
   main_window = NULL;
 
@@ -491,7 +491,7 @@ GUI::init_core()
       b->signal_break_event().connect(boost::bind(&GUI::on_break_event, this, BreakId(i), _1));
     }
 
-  core->signal_operation_mode_changed().connect(boost::bind(&GUI::on_operation_mode_changed, this, _1)); 
+  core->signal_operation_mode_changed().connect(boost::bind(&GUI::on_operation_mode_changed, this, _1));
   core->signal_usage_mode_changed().connect(boost::bind(&GUI::on_usage_mode_changed, this, _1));
 
   GUIConfig::init();
@@ -751,14 +751,14 @@ GUI::init_gui()
   event_connections.push_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
   process_visibility();
-  
+
   workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus->is_available())
     {
       dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
     }
-  
+
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
 #endif
@@ -790,7 +790,7 @@ GUI::init_dbus()
 #ifdef HAVE_DBUS
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->register_service("org.workrave.Workrave");
-          
+
           extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
           init_DBusGUI(dbus);
 #endif
@@ -975,7 +975,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
         }
     }
   else
-    { 
+    {
       if (ignorable)
         {
           break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;

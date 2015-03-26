@@ -84,7 +84,7 @@ void
 System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
-  
+
   GError *error = NULL;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
   if (error != NULL)
@@ -96,7 +96,7 @@ System::init_DBus()
     }
 
   system_connection = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &error);
-  if (error != NULL) 
+  if (error != NULL)
     {
       std::cerr << "Cannot establish connection to the system bus: " << error->message << std::endl;
       g_error_free(error);
@@ -107,7 +107,7 @@ System::init_DBus()
 }
 
 
-bool 
+bool
 System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const char *dbus_interface,
                           const char *dbus_lock_method, const char *dbus_method_to_check_existence)
 {
@@ -193,7 +193,7 @@ System::init_DBus_lock_commands()
             "org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
             "Lock", "GetActive");
 
-      //	KDE - old screensaver API - partially verified both
+      //  KDE - old screensaver API - partially verified both
       add_DBus_lock_cmd(
                   "org.kde.screensaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
                   "Lock", "GetActive");
@@ -218,7 +218,7 @@ System::init_DBus_lock_commands()
 }
 #endif //HAVE_DBUS_GIO
 
-void 
+void
 System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);

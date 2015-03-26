@@ -73,7 +73,7 @@ public:
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
-  
+
 private:
   void init_configurator();
   void init_bus();
@@ -91,10 +91,10 @@ private:
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
 
-  //! 
+  //!
   CoreModes::Ptr core_modes;
 
-  //! 
+  //!
   CoreDBus::Ptr core_dbus;
 
   //! GUI Widget factory.

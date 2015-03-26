@@ -38,7 +38,7 @@ public:
   void init();
   void set_tooltip(std::string& tip);
   void show_balloon(std::string id, const std::string& title, const std::string& balloon);
-  
+
   boost::signals2::signal<void()> &signal_activate();
 
 private:

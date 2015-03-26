@@ -266,7 +266,7 @@ PreferencesDialog::create_gui_page()
     }
 
   languages_model->set_sort_column(languages_columns.current, Gtk::SORT_ASCENDING);
- 	languages_model->set_sort_func (languages_columns.current,
+  languages_model->set_sort_func (languages_columns.current,
                                   sigc::mem_fun(*this,
                                                 &PreferencesDialog::on_cell_data_compare));
 
@@ -292,8 +292,8 @@ PreferencesDialog::create_gui_page()
 #elif defined(PLATFORM_OS_UNIX)
   const char *desktop = g_getenv("XDG_CURRENT_DESKTOP");
   show_autostart = (g_strcmp0(desktop, "Unity") == 0);
-#endif  
-  
+#endif
+
   if (show_autostart)
     {
       Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
@@ -301,9 +301,9 @@ PreferencesDialog::create_gui_page()
       autostart_cb->add(*autostart_lab);
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
-      
+
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
-      
+
 #if defined(PLATFORM_OS_WIN32)
       char value[MAX_PATH];
       bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
@@ -317,7 +317,7 @@ PreferencesDialog::create_gui_page()
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   panel->add_widget(*trayicon_cb, false, false);
-  
+
   panel->set_border_width(12);
   return panel;
 }
@@ -334,7 +334,7 @@ PreferencesDialog::create_sounds_page()
 
   IGUI *gui = GUI::get_instance();
   SoundTheme::Ptr snd = gui->get_sound_theme();
-  
+
   // Sound types
   sound_button  = Gtk::manage(new Gtk::ComboBoxText());
 #if GTKMM_CHECK_VERSION(2, 24, 0)
@@ -493,7 +493,7 @@ PreferencesDialog::create_sounds_page()
     }
 
   update_senstives();
-  
+
 
   panel->set_border_width(12);
   return panel;
@@ -527,14 +527,14 @@ PreferencesDialog::create_timer_page()
 #if defined(PLATFORM_OS_WIN32)
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
-  
+
 #ifdef HAVE_GTK3
   tnotebook->append_page(*monitoring_page , *box);
 #else
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
 #endif
 #endif
-  
+
   return tnotebook;
 }
 
@@ -550,7 +550,7 @@ PreferencesDialog::create_monitoring_page()
   monitor_type_cb->add(*monitor_type_lab);
   monitor_type_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_monitor_type_toggled));
   panel->pack_start(*monitor_type_cb, false, false, 0);
-  
+
   Gtk::Label *monitor_type_help = Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
   panel->pack_start(*monitor_type_help, false, false, 0);
 
@@ -560,7 +560,7 @@ PreferencesDialog::create_monitoring_page()
                                                           "default");
 
 
-  
+
   monitor_type_cb->set_active(monitor_type != "default");
 
   return panel;
@@ -598,7 +598,7 @@ PreferencesDialog::on_sound_changed()
 {
   IGUI *gui = GUI::get_instance();
   SoundTheme::Ptr snd = gui->get_sound_theme();
-  
+
   int idx = sound_button->get_active_row_number();
   SoundTheme::sound_enabled().set(idx > 0);
   update_senstives();

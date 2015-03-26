@@ -65,31 +65,31 @@ W32AppletWindow::W32AppletWindow()
 
 W32AppletWindow::~W32AppletWindow()
 {
-	TRACE_ENTER("W32AppletWindow::~W32AppletWindow");
+  TRACE_ENTER("W32AppletWindow::~W32AppletWindow");
 
-	/* before this instance is destroyed we signal and wait for its worker thread to terminate. this 
-	isn't ideal because the gui will be blocked while we wait for termination if this destructor is 
-	called from the main thread. current conditions are acceptable, however. 2/12/2012
-	*/
-	heartbeat_data.enabled = false;
-	SetEvent( thread_abort_event );
-	if( thread_handle )
-	{
-		WaitForSingleObject( thread_handle, INFINITE );
-		CloseHandle( thread_handle );
-	}
+  /* before this instance is destroyed we signal and wait for its worker thread to terminate. this
+  isn't ideal because the gui will be blocked while we wait for termination if this destructor is
+  called from the main thread. current conditions are acceptable, however. 2/12/2012
+  */
+  heartbeat_data.enabled = false;
+  SetEvent( thread_abort_event );
+  if( thread_handle )
+  {
+    WaitForSingleObject( thread_handle, INFINITE );
+    CloseHandle( thread_handle );
+  }
 
-	if( thread_abort_event )
-		CloseHandle( thread_abort_event );
+  if( thread_abort_event )
+    CloseHandle( thread_abort_event );
 
-	if( heartbeat_data_event )
-		CloseHandle( heartbeat_data_event );
+  if( heartbeat_data_event )
+    CloseHandle( heartbeat_data_event );
 
-	DeleteCriticalSection(&heartbeat_data_lock);
+  DeleteCriticalSection(&heartbeat_data_lock);
 
-	delete timer_box_control;
+  delete timer_box_control;
 
-	TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 
@@ -234,7 +234,7 @@ W32AppletWindow::update_applet_window()
     {
       state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -242,39 +242,39 @@ W32AppletWindow::update_applet_window()
 void
 W32AppletWindow::set_enabled( bool enabled )
 {
-	TRACE_ENTER_MSG( "W32AppletWindow::set_enabled", enabled );
-	DWORD thread_exit_code = 0;
+  TRACE_ENTER_MSG( "W32AppletWindow::set_enabled", enabled );
+  DWORD thread_exit_code = 0;
 
-	heartbeat_data.enabled = enabled;
+  heartbeat_data.enabled = enabled;
 
-	if( !enabled )
-		return;
+  if( !enabled )
+    return;
 
-	if( thread_id 
-		&& thread_handle 
-		&& GetExitCodeThread( thread_handle, &thread_exit_code ) 
-		&& ( thread_exit_code == STILL_ACTIVE ) 
-	)
-		return;
+  if( thread_id
+    && thread_handle
+    && GetExitCodeThread( thread_handle, &thread_exit_code )
+    && ( thread_exit_code == STILL_ACTIVE )
+  )
+    return;
 
-	if( !thread_id )
-	{
-		// if there is no id but a handle then this instance's worker thread has exited or is exiting.
-		if( thread_handle )
-			CloseHandle( thread_handle );
+  if( !thread_id )
+  {
+    // if there is no id but a handle then this instance's worker thread has exited or is exiting.
+    if( thread_handle )
+      CloseHandle( thread_handle );
 
-		thread_id = 0;
-		SetLastError( 0 );
-		thread_handle = 
-			(HANDLE)_beginthreadex( NULL, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id );
+    thread_id = 0;
+    SetLastError( 0 );
+    thread_handle =
+      (HANDLE)_beginthreadex( NULL, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id );
 
-		if( !thread_handle || !thread_id )
-		{
-			TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
-		}
-	}
+    if( !thread_handle || !thread_id )
+    {
+      TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
+    }
+  }
 
-	TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 
@@ -292,36 +292,36 @@ W32AppletWindow::run_event_pipe_static( void *param )
 void
 W32AppletWindow::run_event_pipe()
 {
-	const DWORD current_thread_id = GetCurrentThreadId();
+  const DWORD current_thread_id = GetCurrentThreadId();
 
-	TRACE_ENTER_MSG( "W32AppletWindow::run_event_pipe [ id: ", current_thread_id << " ]" );
+  TRACE_ENTER_MSG( "W32AppletWindow::run_event_pipe [ id: ", current_thread_id << " ]" );
 
-	while( thread_id == current_thread_id )
-	{
-		/* JS: thread_abort_event must be first in the array of events. 
-		the index returned by WaitForMultipleObjectsEx() corresponds to the first 
-		signaled event in the array if more than one is signaled
-		*/
-		HANDLE events[ 2 ] = { thread_abort_event, heartbeat_data_event };
-		int const events_count = ( sizeof( events ) / sizeof( events[ 0 ] ) );
+  while( thread_id == current_thread_id )
+  {
+    /* JS: thread_abort_event must be first in the array of events.
+    the index returned by WaitForMultipleObjectsEx() corresponds to the first
+    signaled event in the array if more than one is signaled
+    */
+    HANDLE events[ 2 ] = { thread_abort_event, heartbeat_data_event };
+    int const events_count = ( sizeof( events ) / sizeof( events[ 0 ] ) );
 
-		DWORD wait_result = WaitForMultipleObjectsEx( events_count, events, FALSE, INFINITE, FALSE );
+    DWORD wait_result = WaitForMultipleObjectsEx( events_count, events, FALSE, INFINITE, FALSE );
 
-		if( ( wait_result == WAIT_FAILED ) || ( wait_result == ( WAIT_OBJECT_0 + 0 ) ) )
-			break;
-		
-		if( heartbeat_data.enabled && ( wait_result == ( WAIT_OBJECT_0 + 1 ) ) )
-		{
-			EnterCriticalSection( &heartbeat_data_lock );
+    if( ( wait_result == WAIT_FAILED ) || ( wait_result == ( WAIT_OBJECT_0 + 0 ) ) )
+      break;
+    
+    if( heartbeat_data.enabled && ( wait_result == ( WAIT_OBJECT_0 + 1 ) ) )
+    {
+      EnterCriticalSection( &heartbeat_data_lock );
 
-			update_time_bars();
-			update_menu();
+      update_time_bars();
+      update_menu();
 
-			LeaveCriticalSection( &heartbeat_data_lock );
-		}
-	}
+      LeaveCriticalSection( &heartbeat_data_lock );
+    }
+  }
 
-	TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 

@@ -71,7 +71,7 @@ private:
 
   void on_applet_state_changed(AppletType type, IAppletWindow::AppletState state);
   void on_applet_request_activate(AppletType type);
-  
+
   void read_configuration();
   void check_visible();
   void show();

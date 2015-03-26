@@ -30,7 +30,7 @@ namespace workrave
   {
     class IDBusWatch;
     class DBusBinding;
-    
+
     class IDBus
     {
     public:

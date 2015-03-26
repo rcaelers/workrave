@@ -192,10 +192,10 @@ void
 ${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result)
 {
   std::string value;
-	int argtype = dbus_message_iter_get_arg_type(reader);
+  int argtype = dbus_message_iter_get_arg_type(reader);
 
   if (argtype != DBUS_TYPE_STRING)
-		throw DBusRemoteException("Type mismatch. Excepted string");
+    throw DBusRemoteException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
 
@@ -463,7 +463,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   #end for
 
       IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
-    
+
       if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {
           throw DBusRemoteException("Cannot send");
@@ -590,7 +590,7 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
   #end for
 
       IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
-    
+
       if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {
           throw DBusRemoteException("Cannot send");
@@ -655,9 +655,9 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
 \#if $method.condition
 #end if
   ${method.qname}_async_closure *closure = (${method.qname}_async_closure *)user_data;
-	DBusMessage *reply = NULL;
+  DBusMessage *reply = NULL;
   DBusMessageIter reader;
-	DBusError error;
+  DBusError error;
   dbus_bool_t ok;
 
 #set have_out_args = False
@@ -672,7 +672,7 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
   #end if
 #end for
 
-	dbus_error_init(&error);
+  dbus_error_init(&error);
 
   try
     {

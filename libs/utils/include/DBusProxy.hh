@@ -1,6 +1,6 @@
 // DBusProxy.cc --- support for simple DBUS method execution
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

@@ -122,11 +122,11 @@ Exercise::parse_exercises(const char *file_name,
   read_xml(file_name, pt);
 
 #ifdef HAVE_GLIB
-  const char * const *languages =  g_get_language_names();  
+  const char * const *languages =  g_get_language_names();
 #else
-  const char * const *languages =  NULL;  
+  const char * const *languages =  NULL;
 #endif
-  
+
   for (boost::property_tree::ptree::value_type &v : pt.get_child("exercises"))
     {
       if (v.first == "exercise")
@@ -140,7 +140,7 @@ Exercise::parse_exercises(const char *file_name,
           for (boost::property_tree::ptree::value_type &ve : v.second)
             {
               string lang = ve.second.get<string>("<xmlattr>.xml:lang", "en");
-              
+
               if (ve.first == "title")
                 {
                   string title = v.second.get<string>("title");
@@ -168,7 +168,7 @@ Exercise::parse_exercises(const char *file_name,
                           int duration = vs.second.get<int>("<xmlattr>.duration", 1);
                           string src = vs.second.get<string>("<xmlattr>.src");
                           bool mirrorx = vs.second.get<string>("<xmlattr>.mirrorx", "no") == "yes";
-                          
+
                           exercise.sequence.push_back(Exercise::Image(src, duration, mirrorx));
                         }
                     }
@@ -176,7 +176,7 @@ Exercise::parse_exercises(const char *file_name,
             }
         }
     }
-  
+
 #ifdef TRACING
   for (auto &exercise : exercises)
     {

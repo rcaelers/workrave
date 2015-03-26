@@ -94,7 +94,7 @@ public:
   static GtkWindow *get_visible_tooltip_window();
 
   static Glib::RefPtr<Gdk::Pixbuf> create_image(const std::string &filename);
-  
+
 private:
   static Glib::Quark *label_quark;
 };

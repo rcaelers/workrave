@@ -62,22 +62,22 @@ namespace workrave
       // QDBusVirtualObject
       virtual QString introspect(const QString &path) const;
       virtual bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection);
-      
+
       void on_service_owner_changed(const QString & name, const QString & oldowner, const QString & newowner);
       void on_service_registered(const QString & name);
       void on_service_unregistered(const QString & name);
-      
+
     private:
       struct WatchData
       {
         IDBusWatch *callback;
         bool seen;
       };
-      
+
       typedef std::map<std::string, WatchData> Watched;
       typedef Watched::iterator WatchIter;
       typedef Watched::const_iterator WatchCIter;
-    
+
       //! Connection to the DBus.
       QDBusConnection connection;
 

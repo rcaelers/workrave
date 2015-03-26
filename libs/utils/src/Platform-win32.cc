@@ -118,19 +118,19 @@ std::wstring
 Platform::convert(const char* c)
 {
    std::string s(c);
-   
+
    return std::wstring(s.begin(), s.end());
 }
 
 int
-Platform::setenv(const char* name, const char* val, int) 
+Platform::setenv(const char* name, const char* val, int)
 {
-  return SetEnvironmentVariableW(convert(name).c_str(), convert(val).c_str()); 
+  return SetEnvironmentVariableW(convert(name).c_str(), convert(val).c_str());
 }
 
 int
-Platform::unsetenv(const char* name) 
-{ 
-  return SetEnvironmentVariableW(convert(name).c_str(), 0); 
+Platform::unsetenv(const char* name)
+{
+  return SetEnvironmentVariableW(convert(name).c_str(), 0);
 }
 

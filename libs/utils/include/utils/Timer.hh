@@ -25,7 +25,7 @@
 
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/thread/condition_variable.hpp>
-#include <boost/thread/mutex.hpp>    
+#include <boost/thread/mutex.hpp>
 #include <boost/thread/barrier.hpp>
 
 #include <glib.h>
@@ -43,7 +43,7 @@ namespace workrave
     {
     public:
       CallbackSyncer(unsigned long count) : count(count) { }
-      
+
       void notify()
       {
         TRACE_ENTER("Timer::notify");
@@ -53,7 +53,7 @@ namespace workrave
         TRACE_MSG(count);
         TRACE_EXIT();
       }
-      
+
       void wait()
       {
         TRACE_ENTER("Timer::wait");
@@ -72,7 +72,7 @@ namespace workrave
       unsigned long count;
     };
 #endif
-    
+
     //! A periodic timer.
     class Timer :
 #ifdef HAVE_TESTS
@@ -86,11 +86,11 @@ namespace workrave
 
       static Timer::Ptr get();
       Timer();
-      
-      //! 
+
+      //!
       void create(std::string name, gint64 interval, Callback callback);
 
-      //! 
+      //!
       void destroy(std::string name);
 
 #ifdef HAVE_TESTS
@@ -102,10 +102,10 @@ namespace workrave
     private:
       static gboolean static_on_idle(gpointer data);
 #endif
-      
+
     private:
       static gboolean static_on_timer(gpointer data);
-      
+
       class Info
       {
       public:
@@ -114,7 +114,7 @@ namespace workrave
                , next(0), context(NULL), syncer(NULL)
 #endif
         {}
-        
+
         gint64 interval;
         GSource *source;
         Callback callback;
@@ -123,16 +123,16 @@ namespace workrave
         gint64 next;
         GMainContext *context;
         CallbackSyncer *syncer;
-#endif        
+#endif
       };
 
       typedef std::map<std::string, Info*> TimerMap;
       typedef TimerMap::iterator TimerMapIter;
 
       static Timer::Ptr instance;
-      
+
       TimerMap timers;
-#ifdef HAVE_TESTS      
+#ifdef HAVE_TESTS
       bool simulated;
       gint64 current_time;
 #endif

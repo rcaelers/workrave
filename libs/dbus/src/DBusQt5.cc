@@ -97,8 +97,8 @@ bool
 DBusQt5::is_running(const std::string &name) const
 {
   QDBusConnectionInterface *i = connection.interface();
-  QDBusReply<QString>	reply = i->serviceOwner(QString::fromStdString(name));
-	return reply.isValid();
+  QDBusReply<QString> reply = i->serviceOwner(QString::fromStdString(name));
+  return reply.isValid();
 }
 
 void
@@ -125,7 +125,7 @@ DBusQt5::introspect(const QString &path) const
   ObjectCIter object_it = objects.find(path.toStdString());
   if (object_it != objects.end())
     {
-      for (auto &interface : object_it->second) 
+      for (auto &interface : object_it->second)
         {
           string interface_name = interface.first;
           DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
@@ -165,7 +165,7 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
       std::cout << "error : " << e.diag() << std::endl;
       message.createErrorReply(QString::fromStdString(e.error()),
                                QString::fromStdString(e.diag()));
-      
+
     }
 
   return success;

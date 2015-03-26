@@ -15,7 +15,7 @@ namespace workrave
     {
     public:
       Object() : count(0) { }
-      
+
       virtual ~Object() {}
 
     protected:
@@ -35,7 +35,7 @@ namespace workrave
             me.reset();
           }
       }
-      
+
     private:
       int count;
       boost::shared_ptr<Object> me;

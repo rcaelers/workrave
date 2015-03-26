@@ -80,7 +80,7 @@ get_pixmap_prop (Window the_window, char *prop_id)
 
   if (desktop_window == None)
     return None;
-  
+
   prop = XInternAtom(GDK_DISPLAY(), prop_id, True);
 
   if (prop == None)
@@ -109,7 +109,7 @@ set_desktop_background(GdkWindow *window)
       int x, y;
       unsigned int width, height, bw, depth_ret;
       cairo_surface_t *surface = NULL;
-      
+
       gdk_error_trap_push();
       if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen),
                        xpm,
@@ -122,10 +122,10 @@ set_desktop_background(GdkWindow *window)
                                               width, height);
         }
       gdk_error_trap_pop_ignored ();
-      
+
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
       gdk_window_set_background_pattern(window, pattern);
-      
+
       cairo_surface_destroy(surface);
       // cairo_pattern_destroy      ???
     }
@@ -134,7 +134,7 @@ set_desktop_background(GdkWindow *window)
       GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
       gdk_window_set_background_rgba(window, &black);
     }
-      
+
 #else
   if (xpm != None)
     {

@@ -172,7 +172,7 @@ X11InputMonitor::terminate()
 
   abort = true;
   monitor_thread->join();
-  
+
   TRACE_EXIT();
 }
 

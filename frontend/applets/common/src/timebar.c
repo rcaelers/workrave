@@ -81,9 +81,9 @@ struct _WorkraveTimebarPrivate
   int width;
   int height;
 
-#ifndef USE_GTK2  
+#ifndef USE_GTK2
   GtkStyleContext *style_context;
-#endif  
+#endif
   PangoContext *pango_context;
   PangoLayout *pango_layout;
 };
@@ -117,8 +117,8 @@ workrave_timebar_class_init(WorkraveTimebarClass *klass)
   gdk_rgba_parse(&bar_colors[COLOR_ID_INACTIVE_OVER_OVERDUE], "lightgreen");
   gdk_rgba_parse(&bar_colors[COLOR_ID_BG], "#eeeeee");
 }
-  
-  
+
+
 static void
 workrave_timebar_init(WorkraveTimebar *self)
 {
@@ -156,7 +156,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   workrave_timebar_compute_bar_dimensions(self, &bar_width, &sbar_width, &bar_height);
 
   // g_debug("bar_width %d %d", bar_width, sbar_width);
-  
+
   if (sbar_width > 0)
     {
       // Overlap
@@ -255,7 +255,7 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
 }
 
 
-#ifndef USE_GTK2  
+#ifndef USE_GTK2
 static void
 workrave_timebar_init_ui(WorkraveTimebar *self)
 {
@@ -267,7 +267,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
   gtk_style_context_set_path(priv->style_context, path);
   gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_TROUGH);
-  
+
   GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
@@ -295,14 +295,14 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
 
   gtk_style_context_save(priv->style_context);
   gtk_style_context_set_state(priv->style_context, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE);
- 
+
   gtk_render_frame(priv->style_context, cr, 0, 0, width -1, height -1);
 
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
   cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2 * BORDER_SIZE , height - 2 *BORDER_SIZE);
   cairo_fill(cr);
-  
+
   gtk_style_context_restore(priv->style_context);
 }
 
@@ -345,20 +345,20 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
   cairo_move_to(cr, 1.5, 1.5);
   cairo_line_to(cr, 1.5, height - 1.5);
   cairo_stroke (cr);
- 
+
   cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
   cairo_move_to(cr, 1.5, height - 1.5);
   cairo_line_to(cr, width - 1.5, height - 1.5);
   cairo_move_to(cr, width - 1.5, 1.5);
   cairo_line_to(cr, width - 1.5, height - 1.5);
   cairo_stroke (cr);
-  
+
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
   cairo_rectangle(cr, 2, 2, width - 4 , height - 4);
   cairo_fill(cr);
 }
-#endif 
+#endif
 
 static void
 workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr,

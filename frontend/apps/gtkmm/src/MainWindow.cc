@@ -221,7 +221,7 @@ MainWindow::set_can_close(bool can_close)
   if (!enabled)
     {
       if (can_close)
-        { 
+        {
           TRACE_MSG("hide");
           hide();
         }
@@ -377,12 +377,12 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  connections.add(GUIConfig::key_timerbox("main_window").connect([&] () { 
+  connections.add(GUIConfig::key_timerbox("main_window").connect([&] () {
         setup();
       }));
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
-    
+
   TRACE_EXIT();
 }
 
@@ -497,13 +497,13 @@ MainWindow::win32_show(bool b)
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
   visibility_changed_signal.emit();
-  
-	if (b)
-	  {
-		  present();
 
-		  if (hwnd != GetForegroundWindow())
-		    {
+  if (b)
+    {
+      present();
+
+      if (hwnd != GetForegroundWindow())
+        {
           if (show_retry_count == 0)
             {
               show_retry_count = 20;

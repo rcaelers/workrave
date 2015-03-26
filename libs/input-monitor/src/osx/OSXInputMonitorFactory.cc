@@ -42,7 +42,7 @@ OSXInputMonitorFactory::init(const std::string &display)
 
 
 //! Retrieves the input activity monitor
-IInputMonitor::Ptr 
+IInputMonitor::Ptr
 OSXInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   (void) capability;

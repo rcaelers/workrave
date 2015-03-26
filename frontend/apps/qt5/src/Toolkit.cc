@@ -82,14 +82,14 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   status_icon = boost::make_shared<StatusIcon>(menu_model);
   status_icon->init();
- 
+
   main_window =  boost::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 
   main_window->show();
   main_window->raise();
-  
+
 #ifdef PLATFORM_OS_OSX
   dock = boost::make_shared<Dock>();
   dock->init();
@@ -227,13 +227,13 @@ Toolkit::get_screen_count() const
   return dw->screenCount();
 }
 
-void 
+void
 Toolkit::show_balloon(std::string id, const std::string& title, const std::string& balloon)
 {
   status_icon->show_balloon(id, title, balloon);
 }
 
-void 
+void
 Toolkit::create_oneshot_timer(int ms, boost::function<void ()> func)
 {
   new OneshotTimer(ms, func);

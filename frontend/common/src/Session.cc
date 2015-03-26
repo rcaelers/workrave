@@ -75,7 +75,7 @@ Session::set_idle(bool new_idle)
     {
       TRACE_MSG("Now idle");
       IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
-      
+
       taking = rest_break->is_taking();
       TRACE_MSG("taking " << taking);
       if (!taking)
@@ -87,20 +87,20 @@ Session::set_idle(bool new_idle)
     {
       TRACE_MSG("No longer idle");
       core->remove_operation_mode_override( "screensaver" );
-      
+
       if (auto_natural)
         {
           TRACE_MSG("Automatic natural break enabled");
 
           IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
-          
+
           if (core->get_operation_mode() == OperationMode::Normal &&
               rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
-              
+
               if (overdue)
                 {
                   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
@@ -124,7 +124,7 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
 {
   (void) proxy;
   (void) sender_name;
-  
+
   Session *self = (Session *)user_data;
   int session_status;
 
@@ -135,12 +135,12 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
     }
 }
 
-      
+
 void
 Session::init_gnome()
 {
   TRACE_ENTER("Session::init_gnome");
-	GError *error = NULL;
+  GError *error = NULL;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,

@@ -109,14 +109,14 @@ SubMenuEntry::add_menu(MenuModel::Ptr menu_to_add, MenuModel::Ptr before)
               before_action = (*pos)->get_action();
             }
         }
-      
+
       MenuEntry::Ptr child = MenuEntry::create(menu_to_add, filter);
       children.insert(pos, child);
-      
+
       menu->insertAction(before_action, child->get_action());
     }
 }
-  
+
 void
 SubMenuEntry::on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before)
 {

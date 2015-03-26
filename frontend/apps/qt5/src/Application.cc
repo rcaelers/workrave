@@ -342,7 +342,7 @@ Application::init_startup_warnings()
    }
 }
 
-void 
+void
 Application::init_updater()
 {
   updater = workrave::updater::Updater::create("http://snapshots.workrave.org/appcast/");

@@ -54,7 +54,7 @@ UnixInputMonitorFactory::init(const std::string &display)
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor::Ptr 
+IInputMonitor::Ptr
 UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
@@ -64,12 +64,12 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
     {
       bool initialized = false;
       string configure_monitor_method;
-      
+
       vector<string> available_monitors;
       boost::split(available_monitors, HAVE_MONITORS, boost::is_any_of(","));
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
-      
+
       config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       vector<string>::const_iterator start = available_monitors.end();
@@ -91,7 +91,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
         {
           actual_monitor_method = *loop;
           TRACE_MSG("Test " <<  actual_monitor_method);
-          
+
           if (actual_monitor_method == "record")
             {
               monitor = IInputMonitor::Ptr(new RecordInputMonitor(display));
@@ -112,7 +112,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
               TRACE_MSG("Success");
               break;
             }
-          
+
           monitor.reset();
 
           loop++;
@@ -137,7 +137,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
               // TODO: report failure.
               // g_idle_add(static_report_failure, NULL);
             }
-          
+
           config->set_value("advanced/monitor", "default");
           config->save();
 

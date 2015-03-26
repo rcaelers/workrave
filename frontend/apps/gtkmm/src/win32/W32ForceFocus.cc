@@ -65,7 +65,7 @@ static W32CriticalSection cs_GetFunctions;
 
 
 /* Each of these flags will represent a function that can be used to force the window focus.
-The flags of functions that we want to use to try to force the window focus will be OR'd together 
+The flags of functions that we want to use to try to force the window focus will be OR'd together
 and then passed to a worker thread which will try each of the functions specified.
 */
 enum functions
@@ -83,8 +83,8 @@ enum functions
 
 /* W32ForceFocus::GetFunctions()
 
-Check for an existing configuration preference at advanced/force_focus_functions specifying which 
-functions we should use to try to force window focus. 
+Check for an existing configuration preference at advanced/force_focus_functions specifying which
+functions we should use to try to force window focus.
 
 -
 The names match to the focus functions' enumerated names. For example:
@@ -177,14 +177,14 @@ bool W32ForceFocus::GetForceFocusValue()
 
 Call GetForegroundWindow() repeatedly to get the foreground window. Try up to 'max_retries'.
 
-While the window manager is switching the foreground window it sets it as NULL temporarily. In some 
-cases the functions in this class cannot succeed without the current foreground window so that 
-value is unacceptable. We will use this function to wait a bit for any pending transition to 
+While the window manager is switching the foreground window it sets it as NULL temporarily. In some
+cases the functions in this class cannot succeed without the current foreground window so that
+value is unacceptable. We will use this function to wait a bit for any pending transition to
 complete.
 
-Empirical testing in my virtual machines shows an average transition takes two dozen retries. 
-However my development Vista x86 machine shows an average transition takes 150 retries. Not sure 
-why there's such a big discrepancy there, but maybe it's because I have so many windows open on 
+Empirical testing in my virtual machines shows an average transition takes two dozen retries.
+However my development Vista x86 machine shows an average transition takes 150 retries. Not sure
+why there's such a big discrepancy there, but maybe it's because I have so many windows open on
 this computer. For now I'm setting the default 'max_retries' to 200 to cover even heavy use cases.
 
 returns the foreground window or NULL if the window could not be found after 'max_retries'
@@ -220,8 +220,8 @@ Simulate an ALT keypress while setting 'hwnd' as the foreground window.
 The oldest known method (circa 1999) to bypass Microsoft's SetForegroundWindow() restrictions.
 
 From 'Programming Applications for Microsoft Windows' (Richter):
-"The system automatically unlocks the SetForegroundWindow function when the user presses the Alt 
-key or if the user explicitly brings a window to the foreground. This prevents an application from 
+"The system automatically unlocks the SetForegroundWindow function when the user presses the Alt
+key or if the user explicitly brings a window to the foreground. This prevents an application from
 keeping SetForegroundWindow locked all the time."
 
 returns true on success: ( GetForegroundWindow() == hwnd )
@@ -263,15 +263,15 @@ bool W32ForceFocus::AltKeypress( HWND hwnd )
 
 Attach to the current foreground window's thread queue and set 'hwnd' as the foreground window.
 
-This is another old and proven method to set the foreground window. Attach to the input queue of 
-whatever thread is currently receiving the raw input (ie the thread holding the current foreground 
+This is another old and proven method to set the foreground window. Attach to the input queue of
+whatever thread is currently receiving the raw input (ie the thread holding the current foreground
 window) and if successful set our window as the foreground window, then detach.
 
 Attaching can fail due to lack of privilege or if the target thread is not a GUI thread.
 
-This method is frought with problems because we're essentially sharing processing with another 
-thread and we can't predict that thread's behavior. Like most of the focus functions in this class 
-it should be called from a sacrificial worker thread so that if something goes wrong the rest of 
+This method is frought with problems because we're essentially sharing processing with another
+thread and we can't predict that thread's behavior. Like most of the focus functions in this class
+it should be called from a sacrificial worker thread so that if something goes wrong the rest of
 our program stays sane.
 
 returns true on success: ( GetForegroundWindow() == hwnd )
@@ -316,14 +316,14 @@ bool W32ForceFocus::AttachInput( HWND hwnd )
 
 Minimize and restore a dummy message window to set 'hwnd' as the foreground window.
 
-The minimization and restoration of a dummy window may allow it to take the foreground. If that 
+The minimization and restoration of a dummy window may allow it to take the foreground. If that
 happens foreground permissions have been acquired so set 'hwnd' as the foreground window.
 
 returns true on success: ( GetForegroundWindow() == hwnd )
 */
 bool W32ForceFocus::MinimizeRestore( HWND hwnd )
 {
-    WINDOWPLACEMENT wp = { 
+    WINDOWPLACEMENT wp = {
         sizeof( wp ),
         WPF_SETMINPOSITION,
         SW_MINIMIZE,
@@ -366,7 +366,7 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
         wp.showCmd = SW_RESTORE;
         SetWindowPlacement( message_hwnd, &wp );
 
-        /* wait for message_hwnd to become the foreground window. we'll continue regardless of 
+        /* wait for message_hwnd to become the foreground window. we'll continue regardless of
         whether or not it actually is because we're trying SetForegroundWindow() in any case.
         */
         foreground_hwnd = GetForegroundWindowTryHarder();
@@ -392,11 +392,11 @@ bool W32ForceFocus::MinimizeRestore( HWND hwnd )
 Create a sacrificial worker thread that attempts to run any of the focus hacks:
 AltKeypress(), AttachInput(), MinimizeRestore()
 
-Which of those will be run by the worker thread depend on the value returned by GetFunctions(), 
+Which of those will be run by the worker thread depend on the value returned by GetFunctions(),
 which caches the preference advanced/force_focus_functions. Review its comment block for more.
 
 You can optionally specify how many 'milliseconds_to_block' waiting for the worker thread to exit.
-By default this function waits for 200 milliseconds and then returns. If the worker thread is still 
+By default this function waits for 200 milliseconds and then returns. If the worker thread is still
 running then it may set 'hwnd' as the foreground window after this function has returned.
 
 returns true on success: ( GetForegroundWindow() == hwnd )
@@ -418,15 +418,15 @@ bool W32ForceFocus::ForceWindowFocus(
     HWND foreground_hwnd = GetForegroundWindow();
     if( foreground_hwnd == hwnd )
         return true;
-    
+
     /* Check if thread_handle is still open from a prior call.
 
-    If a handle to the last created worker thread is still open then that means that it did not 
+    If a handle to the last created worker thread is still open then that means that it did not
     terminate within the specified wait period for a prior call to this function to have caught it.
-    
-    If the thread has since terminated we can close out the handle and commence with creating a new 
-    worker thread. If it has not terminated it is still working or has hanged, and I don't think 
-    there's anything safe to do without affecting the integrity of the process. In that case we 
+
+    If the thread has since terminated we can close out the handle and commence with creating a new
+    worker thread. If it has not terminated it is still working or has hanged, and I don't think
+    there's anything safe to do without affecting the integrity of the process. In that case we
     stop here, and do not try to create another worker or mess with the current, and return false.
     */
     if( thread_handle )
@@ -453,7 +453,7 @@ bool W32ForceFocus::ForceWindowFocus(
     if( !thread_handle )
         return false;
 
-    /* We can wait a very short time but not indefinitely because it's possible one of the hacks 
+    /* We can wait a very short time but not indefinitely because it's possible one of the hacks
     caused our sacrificial worker thread to hang and also we don't want to interrupt our GUI thread.
     */
     if( WaitForSingleObject( thread_handle, milliseconds_to_block ) == WAIT_OBJECT_0 )
@@ -472,24 +472,24 @@ bool W32ForceFocus::ForceWindowFocus(
 
 ThreadProc. Should return 0 in any case.
 
-This is the procedure for the sacrificial worker thread. It reads static struct thread_info for the 
-hwnd (ti->hwnd) and the functions (ti->flags) that should be used to try to make hwnd the 
+This is the procedure for the sacrificial worker thread. It reads static struct thread_info for the
+hwnd (ti->hwnd) and the functions (ti->flags) that should be used to try to make hwnd the
 foreground window.
 
 This function's return is 0, however the actual return value is stored in ti->retval before return.
 
-On return ti->retval contains the flag for whichever W32ForceFocus function worked to set hwnd the 
+On return ti->retval contains the flag for whichever W32ForceFocus function worked to set hwnd the
 foreground window or 0 if unsuccessful.
 */
 DWORD WINAPI W32ForceFocus::thread_Worker( LPVOID recursive )
-{    
+{
     ti.retval = 0;
 
     if( !ti.flags || !ti.hwnd )
         return 0;
 
     /* If our desktop is not visible to the user then do not try to force the focus.
-    This call is in the worker thread because it might be more expensive in milliseconds if it has 
+    This call is in the worker thread because it might be more expensive in milliseconds if it has
     to check with an RPC and we don't want to disrupt the GUI thread.
     */
     if( !W32Compat::IsOurDesktopVisible() )
@@ -527,12 +527,12 @@ DWORD WINAPI W32ForceFocus::thread_Worker( LPVOID recursive )
     }
 
 
-    /* If we tried minimize and restore and it did not work, and any other method did not work, we 
-    can try minimize and restore again and the results may be different. As best I can tell this is 
-    because any of the above methods may "break" the foreground lock but for whatever reason our 
+    /* If we tried minimize and restore and it did not work, and any other method did not work, we
+    can try minimize and restore again and the results may be different. As best I can tell this is
+    because any of the above methods may "break" the foreground lock but for whatever reason our
     window might not be made the foreground window.
-    
-    The way I tested this is to spawn another worker thread and call only the minimize and restore 
+
+    The way I tested this is to spawn another worker thread and call only the minimize and restore
     and that works.
     */
     if( recursive && ( ti.flags & MINIMIZE_RESTORE ) )
@@ -546,6 +546,6 @@ DWORD WINAPI W32ForceFocus::thread_Worker( LPVOID recursive )
             CloseHandle( thread2 );
         }
     }
-    
+
     return 0;
 }

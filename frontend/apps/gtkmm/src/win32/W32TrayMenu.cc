@@ -133,7 +133,7 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
   else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
     {
       TRACE_MSG("enter " << hide_docklet_timer);
-      
+
       if (hide_docklet_timer != 0)
         {
           /* Cancel the hiding if we reenter */

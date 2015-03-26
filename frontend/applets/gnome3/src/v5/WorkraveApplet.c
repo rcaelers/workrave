@@ -124,7 +124,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
-  
+
   char *text;
   int id;
   int flags;
@@ -134,8 +134,8 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
     {
       visible[i] = menu_data[i].visible_when_not_running;
     }
-  
-  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))  
+
+  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
       if (index == -1)
@@ -144,7 +144,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
 
       GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[index].action);
-      
+
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
         {
@@ -152,7 +152,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
 
       visible[index] = TRUE;
-      
+
       if (g_action_get_state_type(G_ACTION(action)) != NULL)
         {
           if (menu_data[index].state == NULL)
@@ -168,7 +168,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
             }
         }
     }
-  
+
   g_variant_iter_free (iter);
 
   for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
@@ -178,7 +178,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
     }
 }
 
-      
+
 static void
 dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 {
@@ -277,7 +277,7 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
     }
 
   g_simple_action_set_state(action, value);
-  
+
   GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->priv->timerbox_control);
   if (proxy != NULL)
     {
@@ -371,7 +371,7 @@ workrave_applet_fill(WorkraveApplet *applet)
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->priv->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->priv->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
-  
+
   applet->priv->action_group = g_simple_action_group_new();
   g_action_map_add_action_entries (G_ACTION_MAP (applet->priv->action_group),
                                    menu_actions,
@@ -412,7 +412,7 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->image = NULL;
   priv->timerbox_control = NULL;
   priv->alive = FALSE;
-  
+
   workrave_applet_fill(applet);
 }
 

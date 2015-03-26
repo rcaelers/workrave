@@ -88,12 +88,12 @@ struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
     LOGFONT lfMenuFont;
     LOGFONT lfStatusFont;
     LOGFONT lfMessageFont;
-	/*
-	This is a pre-vista structure for compatibility across platforms.
-	Normally, when Vista is the target build (WINVER 0x0600),
-	NONCLIENTMETRICS structs contain an ifdef WINVER >= 0x0600:
-	int     iPaddedBorderWidth;
-	*/
+  /*
+  This is a pre-vista structure for compatibility across platforms.
+  Normally, when Vista is the target build (WINVER 0x0600),
+  NONCLIENTMETRICS structs contain an ifdef WINVER >= 0x0600:
+  int     iPaddedBorderWidth;
+  */
 };
 
 #endif // TIMEBAR_H

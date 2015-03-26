@@ -58,14 +58,14 @@ Debug::trace_string()
 
   stringstream ss;
   ss << logtime;
-  
+
   if (TimeSource::source)
     {
       auto tt = std::chrono::system_clock::now();
       auto ms = std::chrono::duration_cast<std::chrono::microseconds>(tt.time_since_epoch()).count();
 
       t = std::chrono::system_clock::to_time_t(tt);
-      
+
       tmlt = localtime(&t);
 
       strftime(logtime, 256, "%H:%M:%S", tmlt);
@@ -76,7 +76,7 @@ Debug::trace_string()
   return ss.str();
 
 #else
-  
+
   time_t t = (time_t) TimeSource::get_real_time_sec();
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
@@ -84,7 +84,7 @@ Debug::trace_string()
   stringstream ss;
   ss << logtime << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
   return ss.str();
-#endif  
+#endif
 }
 
 void
@@ -103,7 +103,7 @@ Debug::name(const std::string &name)
       delete g_log_streams[boost::this_thread::get_id()];
       g_log_streams.erase(boost::this_thread::get_id());
     }
-  
+
   g_thread_name.reset(new std::string(g_prefix + name));
   g_log_mutex.unlock();
 }
@@ -118,7 +118,7 @@ Debug::stream()
 
 #if defined(WIN32) || defined(PLATFORM_OS_WIN32)
       char path_buffer[MAX_PATH];
-  
+
       DWORD ret = GetTempPath(MAX_PATH, path_buffer);
       if (ret > MAX_PATH || ret == 0)
         {
@@ -128,7 +128,7 @@ Debug::stream()
         {
           debug_filename = path_buffer;
         }
-      
+
       boost::filesystem::path dir(debug_filename);
       boost::filesystem::create_directory(dir);
 
@@ -139,10 +139,10 @@ Debug::stream()
 #else
 #error Unknown platform.
 #endif
-      
+
       char logfile[128];
       time_t ltime;
-      
+
       time(&ltime);
       struct tm *tmlt = localtime(&ltime);
       strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);

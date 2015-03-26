@@ -59,26 +59,26 @@ public:
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(tt);
     current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
   }
-  
+
   virtual int64_t get_real_time_usec()
   {
     return current_time;
   }
-  
+
   virtual int64_t get_monotonic_time_usec()
   {
     return current_time;
   }
 
   int64_t current_time;
-  
+
 private:
   void init()
   {
     reset();
     workrave::utils::TimeSource::source = shared_from_this();
   }
-  
+
   static SimulatedTime::Ptr instance;
 };
 

@@ -47,7 +47,7 @@ public:
   void open_window();
   void close_window();
   void set_can_close(bool can_close);
-  
+
   void update();
   void relocate_window(int width, int height);
 
@@ -55,7 +55,7 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
   bool is_visible() const;
-  
+
 protected:
   bool on_button_press_event(GdkEventButton *event);
 
@@ -107,7 +107,7 @@ private:
   // UI Events.
   bool on_delete_event(GdkEventAny*);
   bool on_configure_event(GdkEventConfigure *event);
-  
+
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
 

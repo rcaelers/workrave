@@ -81,13 +81,13 @@ private:
   struct Defaults
   {
     std::string name;
-    
+
     // Timer settings.
     int limit;
     int auto_reset;
     std::string resetpred;
     int snooze;
-    
+
     // Break settings
     int max_preludes;
   };

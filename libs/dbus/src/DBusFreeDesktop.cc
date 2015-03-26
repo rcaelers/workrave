@@ -73,11 +73,11 @@ DBusFreeDesktop::~DBusFreeDesktop
 void
 DBusFreeDesktop::init()
 {
-	DBusError error;
+  DBusError error;
 
-	dbus_error_init(&error);
+  dbus_error_init(&error);
 
-	connection = dbus_bus_get_private(DBUS_BUS_STARTER, &error);
+  connection = dbus_bus_get_private(DBUS_BUS_STARTER, &error);
   if (dbus_error_is_set(&error))
     {
       connection = NULL;
@@ -85,7 +85,7 @@ DBusFreeDesktop::init()
       throw DBusRemoteException("Unable to obtain session bus");
     }
 
-	dbus_connection_set_exit_on_disconnect(connection, FALSE);
+  dbus_connection_set_exit_on_disconnect(connection, FALSE);
 
   connection_setup(NULL);
 }
@@ -95,17 +95,17 @@ DBusFreeDesktop::init()
 void
 DBusFreeDesktop::register_service(const std::string &service)
 {
-	DBusError error;
+  DBusError error;
   int result = 0;
 
-	dbus_error_init(&error);
+  dbus_error_init(&error);
 
-	result = dbus_bus_request_name(connection,
+  result = dbus_bus_request_name(connection,
                                  service.c_str(),
                                  DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE,
                                  &error);
 
-	if (dbus_error_is_set(&error))
+  if (dbus_error_is_set(&error))
     {
       dbus_connection_unref(connection);
       connection = NULL;
@@ -120,20 +120,20 @@ DBusFreeDesktop::register_service(const std::string &service)
 void
 DBusFreeDesktop::register_object_path(const string &object_path)
 {
-	static DBusObjectPathVTable vtable = { NULL,
+  static DBusObjectPathVTable vtable = { NULL,
                                          &DBusFreeDesktop::dispatch_static,
                                          NULL,
                                          NULL,
                                          NULL,
                                          NULL };
 
-	if (!dbus_connection_register_object_path(connection,
+  if (!dbus_connection_register_object_path(connection,
                                             object_path.c_str(),
                                             &vtable,
                                             this))
-	{
+  {
     throw DBusRemoteException("Unable to register object");
-	}
+  }
 }
 
 
@@ -256,15 +256,15 @@ DBusFreeDesktop::dispatch(DBusConnection *connection, DBusMessage *message)
     }
   catch (DBusException &e)
     {
-			DBusMessage *reply;
-      reply = dbus_message_new_error(message,	e.id().c_str(), e.details().c_str());
-			if (reply != NULL)
-			{
-				dbus_connection_send(connection, reply, NULL);
-				dbus_message_unref(reply);
-			}
+      DBusMessage *reply;
+      reply = dbus_message_new_error(message, e.id().c_str(), e.details().c_str());
+      if (reply != NULL)
+      {
+        dbus_connection_send(connection, reply, NULL);
+        dbus_message_unref(reply);
+      }
     }
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+  return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
 
 
@@ -281,16 +281,16 @@ DBusFreeDesktop::dispatch_static(DBusConnection *connection,
 static const char *
 dbus_gettext(const char **ptr)
 {
-	const char *text = *ptr;
-	*ptr += strlen(text) + 1;
-	return text;
+  const char *text = *ptr;
+  *ptr += strlen(text) + 1;
+  return text;
 }
 
 
 DBusHandlerResult
 DBusFreeDesktop::handle_introspect(DBusConnection *connection, DBusMessage *message)
 {
-	string str;
+  string str;
 
   string path = dbus_message_get_path(message);
 
@@ -412,20 +412,20 @@ DBusFreeDesktop::handle_method(DBusConnection *connection, DBusMessage *message)
 
 
 typedef struct {
-	DBusWatch *watch;
-	GSource *source;
+  DBusWatch *watch;
+  GSource *source;
   IDBus::Ptr dbus;
 } WatchData;
 
 typedef struct {
-	DBusTimeout *timeout;
-	guint id;
+  DBusTimeout *timeout;
+  guint id;
   IDBus::Ptr dbus;
 } TimeoutData;
 
 typedef struct {
-	GSource source;
-	DBusConnection *connection;
+  GSource source;
+  DBusConnection *connection;
 } QueueData;
 
 
@@ -433,11 +433,11 @@ typedef struct {
 gboolean
 DBusFreeDesktop::queue_prepare(GSource *source, gint *timeout)
 {
-	DBusConnection *connection = ((QueueData *) source)->connection;
+  DBusConnection *connection = ((QueueData *) source)->connection;
 
-	*timeout = -1;
+  *timeout = -1;
 
-	return (dbus_connection_get_dispatch_status(connection) == DBUS_DISPATCH_DATA_REMAINS);
+  return (dbus_connection_get_dispatch_status(connection) == DBUS_DISPATCH_DATA_REMAINS);
 }
 
 
@@ -445,7 +445,7 @@ gboolean
 DBusFreeDesktop::queue_check(GSource *source)
 {
   (void) source;
-	return FALSE;
+  return FALSE;
 }
 
 
@@ -455,13 +455,13 @@ DBusFreeDesktop::queue_dispatch(GSource *source, GSourceFunc callback, gpointer 
   (void) data;
   (void) callback;
 
-	DBusConnection *connection = ((QueueData *) source)->connection;
+  DBusConnection *connection = ((QueueData *) source)->connection;
 
-	dbus_connection_ref(connection);
-	dbus_connection_dispatch(connection);
-	dbus_connection_unref(connection);
+  dbus_connection_ref(connection);
+  dbus_connection_dispatch(connection);
+  dbus_connection_unref(connection);
 
-	return TRUE;
+  return TRUE;
 }
 
 gboolean
@@ -469,31 +469,31 @@ DBusFreeDesktop::watch_dispatch(GIOChannel *source, GIOCondition condition, gpoi
 {
   (void) source;
 
-	WatchData *watch_data = (WatchData *)data;
-	unsigned int flags = 0;
+  WatchData *watch_data = (WatchData *)data;
+  unsigned int flags = 0;
 
-	if (condition & G_IO_IN)
-		flags |= DBUS_WATCH_READABLE;
+  if (condition & G_IO_IN)
+    flags |= DBUS_WATCH_READABLE;
 
-	if (condition & G_IO_OUT)
-		flags |= DBUS_WATCH_WRITABLE;
+  if (condition & G_IO_OUT)
+    flags |= DBUS_WATCH_WRITABLE;
 
-	if (condition & G_IO_ERR)
-		flags |= DBUS_WATCH_ERROR;
+  if (condition & G_IO_ERR)
+    flags |= DBUS_WATCH_ERROR;
 
-	if (condition & G_IO_HUP)
-		flags |= DBUS_WATCH_HANGUP;
+  if (condition & G_IO_HUP)
+    flags |= DBUS_WATCH_HANGUP;
 
-	dbus_watch_handle(watch_data->watch, flags);
+  dbus_watch_handle(watch_data->watch, flags);
 
-	return TRUE;
+  return TRUE;
 }
 
 GSourceFuncs DBusFreeDesktop::queue_funcs = {
-	DBusFreeDesktop::queue_prepare,
-	DBusFreeDesktop::queue_check,
-	DBusFreeDesktop::queue_dispatch,
-	NULL,
+  DBusFreeDesktop::queue_prepare,
+  DBusFreeDesktop::queue_check,
+  DBusFreeDesktop::queue_dispatch,
+  NULL,
   NULL,
   NULL,
 };
@@ -501,20 +501,20 @@ GSourceFuncs DBusFreeDesktop::queue_funcs = {
 void
 DBusFreeDesktop::watch_finalize(gpointer data)
 {
-	WatchData *watch_data = (WatchData*) data;
+  WatchData *watch_data = (WatchData*) data;
 
-	if (watch_data->watch)
-		dbus_watch_set_data(watch_data->watch, NULL, NULL);
+  if (watch_data->watch)
+    dbus_watch_set_data(watch_data->watch, NULL, NULL);
 
-	g_free(watch_data);
+  g_free(watch_data);
 }
 
 void
 DBusFreeDesktop::watch_free(void *data)
 {
-	WatchData *watch_data = (WatchData*) data;
+  WatchData *watch_data = (WatchData*) data;
 
-	if (watch_data->source != NULL)
+  if (watch_data->source != NULL)
     {
       watch_data->dbus->watches = g_slist_remove(watch_data->dbus->watches, watch_data);
 
@@ -526,60 +526,60 @@ DBusFreeDesktop::watch_free(void *data)
 dbus_bool_t
 DBusFreeDesktop::watch_add(DBusWatch *watch, void *data)
 {
-	IDBus *dbus = (DBus*)data;
-	GIOCondition condition = (GIOCondition) (G_IO_ERR | G_IO_HUP);
-	GIOChannel *channel;
-	GSource *source;
-	WatchData *watch_data;
-	unsigned int flags;
-	int fd;
+  IDBus *dbus = (DBus*)data;
+  GIOCondition condition = (GIOCondition) (G_IO_ERR | G_IO_HUP);
+  GIOChannel *channel;
+  GSource *source;
+  WatchData *watch_data;
+  unsigned int flags;
+  int fd;
 
-	if (dbus_watch_get_enabled(watch) == FALSE)
-		return TRUE;
+  if (dbus_watch_get_enabled(watch) == FALSE)
+    return TRUE;
 
-	flags = dbus_watch_get_flags(watch);
+  flags = dbus_watch_get_flags(watch);
 
-	if (flags & DBUS_WATCH_READABLE)
-		condition = (GIOCondition) (condition | G_IO_IN);
+  if (flags & DBUS_WATCH_READABLE)
+    condition = (GIOCondition) (condition | G_IO_IN);
 
-	if (flags & DBUS_WATCH_WRITABLE)
-		condition = (GIOCondition) (condition | G_IO_OUT);
+  if (flags & DBUS_WATCH_WRITABLE)
+    condition = (GIOCondition) (condition | G_IO_OUT);
 
-	fd = dbus_watch_get_unix_fd(watch);
+  fd = dbus_watch_get_unix_fd(watch);
 
-	watch_data = g_new0(WatchData, 1);
+  watch_data = g_new0(WatchData, 1);
 
-	channel = g_io_channel_unix_new(fd);
+  channel = g_io_channel_unix_new(fd);
 
-	source = g_io_create_watch(channel, condition);
+  source = g_io_create_watch(channel, condition);
 
-	watch_data->watch = watch;
-	watch_data->source = source;
+  watch_data->watch = watch;
+  watch_data->source = source;
   watch_data->dbus = dbus;
 
-	g_source_set_callback(source, (GSourceFunc) watch_dispatch,
+  g_source_set_callback(source, (GSourceFunc) watch_dispatch,
                         watch_data, watch_finalize);
 
-	g_source_attach(source, dbus->context);
+  g_source_attach(source, dbus->context);
 
-	watch_data->dbus->watches = g_slist_prepend(watch_data->dbus->watches, watch_data);
+  watch_data->dbus->watches = g_slist_prepend(watch_data->dbus->watches, watch_data);
 
-	dbus_watch_set_data(watch, watch_data, watch_free);
+  dbus_watch_set_data(watch, watch_data, watch_free);
 
-	g_io_channel_unref(channel);
+  g_io_channel_unref(channel);
 
-	return TRUE;
+  return TRUE;
 }
 
 void
 DBusFreeDesktop::watch_remove(DBusWatch *watch, void *data)
 {
-	WatchData *watch_data = (WatchData*) dbus_watch_get_data(watch);
-	IDBus *dbus = (DBus*)data;
+  WatchData *watch_data = (WatchData*) dbus_watch_get_data(watch);
+  IDBus *dbus = (DBus*)data;
 
-	dbus_watch_set_data(watch, NULL, NULL);
+  dbus_watch_set_data(watch, NULL, NULL);
 
-	if (watch_data != NULL)
+  if (watch_data != NULL)
     {
       dbus->watches = g_slist_remove(dbus->watches, watch_data);
 
@@ -594,91 +594,91 @@ DBusFreeDesktop::watch_remove(DBusWatch *watch, void *data)
 void
 DBusFreeDesktop::watch_toggled(DBusWatch *watch, void *data)
 {
-	if (dbus_watch_get_enabled(watch))
-		watch_add(watch, data);
-	else
-		watch_remove(watch, data);
+  if (dbus_watch_get_enabled(watch))
+    watch_add(watch, data);
+  else
+    watch_remove(watch, data);
 }
 
 gboolean
 DBusFreeDesktop::timeout_dispatch(gpointer data)
 {
-	TimeoutData *timeout_data = (TimeoutData*) data;
+  TimeoutData *timeout_data = (TimeoutData*) data;
 
-	dbus_timeout_handle(timeout_data->timeout);
+  dbus_timeout_handle(timeout_data->timeout);
 
-	return FALSE;
+  return FALSE;
 }
 
 void
 DBusFreeDesktop::timeout_free(void *data)
 {
-	TimeoutData *timeout_data = (TimeoutData*)data;
+  TimeoutData *timeout_data = (TimeoutData*)data;
 
-	if (timeout_data->id > 0)
-		g_source_remove(timeout_data->id);
+  if (timeout_data->id > 0)
+    g_source_remove(timeout_data->id);
 
-	g_free(timeout_data);
+  g_free(timeout_data);
 }
 
 
 dbus_bool_t
 DBusFreeDesktop::timeout_add(DBusTimeout *timeout, void *data)
 {
-	TimeoutData *timeout_data;
+  TimeoutData *timeout_data;
   IDBus *dbus = (DBus *) data;
 
-	if (dbus_timeout_get_enabled(timeout) == FALSE)
-		return TRUE;
+  if (dbus_timeout_get_enabled(timeout) == FALSE)
+    return TRUE;
 
-	timeout_data = g_new0(TimeoutData, 1);
+  timeout_data = g_new0(TimeoutData, 1);
 
-	timeout_data->timeout = timeout;
+  timeout_data->timeout = timeout;
   timeout_data->dbus = dbus;
 
-	timeout_data->id = g_timeout_add(dbus_timeout_get_interval(timeout),
+  timeout_data->id = g_timeout_add(dbus_timeout_get_interval(timeout),
                                    timeout_dispatch, timeout_data);
 
-	dbus->timeouts = g_slist_prepend(dbus->timeouts, timeout_data);
+  dbus->timeouts = g_slist_prepend(dbus->timeouts, timeout_data);
 
-	dbus_timeout_set_data(timeout, timeout_data, timeout_free);
+  dbus_timeout_set_data(timeout, timeout_data, timeout_free);
 
-	return TRUE;
+  return TRUE;
 }
 
 void
 DBusFreeDesktop::timeout_remove(DBusTimeout *timeout, void *data)
 {
-	TimeoutData *timeout_data = (TimeoutData*)dbus_timeout_get_data(timeout);
+  TimeoutData *timeout_data = (TimeoutData*)dbus_timeout_get_data(timeout);
   IDBus *dbus = (DBus *) data;
 
-	if (timeout_data == NULL)
-		return;
+  if (timeout_data == NULL)
+    return;
 
-	dbus->timeouts = g_slist_remove(dbus->timeouts, timeout_data);
+  dbus->timeouts = g_slist_remove(dbus->timeouts, timeout_data);
 
-	if (timeout_data->id > 0)
-		g_source_remove(timeout_data->id);
+  if (timeout_data->id > 0)
+    g_source_remove(timeout_data->id);
 
-	timeout_data->id = 0;
+  timeout_data->id = 0;
 }
 
 
 void
 DBusFreeDesktop::timeout_toggled(DBusTimeout *timeout, void *data)
 {
-	if (dbus_timeout_get_enabled(timeout))
-		timeout_add(timeout, data);
-	else
-		timeout_remove(timeout, data);
+  if (dbus_timeout_get_enabled(timeout))
+    timeout_add(timeout, data);
+  else
+    timeout_remove(timeout, data);
 }
 
 
 void
 DBusFreeDesktop::wakeup(void *data)
 {
-	IDBus *dbus = (DBus*) data;
-	g_main_context_wakeup(dbus->context);
+  IDBus *dbus = (DBus*) data;
+  g_main_context_wakeup(dbus->context);
 }
 
 
@@ -688,12 +688,12 @@ DBusFreeDesktop::connection_setup(GMainContext *context)
   if (context == NULL)
     context = g_main_context_default();
 
-	context = g_main_context_ref(context);
+  context = g_main_context_ref(context);
 
-	queue = g_source_new(&queue_funcs, sizeof(QueueData));
-	((QueueData*)queue)->connection = connection;
+  queue = g_source_new(&queue_funcs, sizeof(QueueData));
+  ((QueueData*)queue)->connection = connection;
 
-	g_source_attach(queue, context);
+  g_source_attach(queue, context);
 
   dbus_connection_set_watch_functions(connection,
                                       watch_add,

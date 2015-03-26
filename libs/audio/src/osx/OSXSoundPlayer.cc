@@ -95,7 +95,7 @@ OSXSoundPlayer::play_sound(std::string file, int volume)
 {
   NSString* filename = [NSString stringWithUTF8String: file.c_str()];
   NSSound *sound = [soundDictionary objectForKey:filename];
-  if (sound == nil) 
+  if (sound == nil)
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
       [sound setDelegate: [[SoundDelegate alloc] initWithPlayer: this]]; // FIXME: leak?
@@ -106,7 +106,7 @@ OSXSoundPlayer::play_sound(std::string file, int volume)
   [sound play];
 }
 
-void 
+void
 OSXSoundPlayer::fire_eos()
 {
   events->eos_event();

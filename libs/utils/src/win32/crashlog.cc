@@ -79,7 +79,7 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
              (LPCSTR)"Workrave has unexpectedly crashed and failed to create a crash "
              "log. This is serious. Please report this to crashes@workrave.org or "
              "file a bugreport at: http://issues.workrave.org/. " ,
-			 (LPCSTR)"Double exception", MB_OK);
+       (LPCSTR)"Double exception", MB_OK);
 
   exit(1);
 }

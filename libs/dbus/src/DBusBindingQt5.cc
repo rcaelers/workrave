@@ -212,74 +212,74 @@ DBusMarshallQt5::get_string(const QVariant &variant, QString &value)
 QVariant
 DBusMarshallQt5::put_int(const int &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_uint8(const uint8_t &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_uint16(const uint16_t &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_int16(const int16_t &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_uint32(const uint32_t &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 
 QVariant
 DBusMarshallQt5::put_int32(const int32_t &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 
 QVariant
 DBusMarshallQt5::put_uint64(const uint64_t &value)
 {
-	return QVariant((qulonglong)value);
+  return QVariant((qulonglong)value);
 }
 
 QVariant
 DBusMarshallQt5::put_int64(const int64_t &value)
 {
-	return QVariant((qlonglong)value);
+  return QVariant((qlonglong)value);
 }
 
 
 QVariant
 DBusMarshallQt5::put_double(const double &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_bool(const bool &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }
 
 QVariant
 DBusMarshallQt5::put_string(const std::string &value)
 {
-	return QVariant(QString::fromStdString(value));
+  return QVariant(QString::fromStdString(value));
 }
 
 QVariant
 DBusMarshallQt5::put_string(const QString &value)
 {
-	return QVariant(value);
+  return QVariant(value);
 }

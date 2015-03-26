@@ -24,7 +24,7 @@
 using namespace workrave::ui;
 using namespace workrave::utils;
 
-const std::string 
+const std::string
 Ui::get_break_name(workrave::BreakId id)
 {
   switch (id)
@@ -43,7 +43,7 @@ Ui::get_break_name(workrave::BreakId id)
     }
 }
 
-const std::string 
+const std::string
 Ui::get_break_icon_filename(workrave::BreakId id)
 {
   std::string filename;
@@ -69,7 +69,7 @@ Ui::get_break_icon_filename(workrave::BreakId id)
   return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
 }
 
-const std::string 
+const std::string
 Ui::get_status_icon_filename(StatusIconType icon)
 {
   std::string filename;

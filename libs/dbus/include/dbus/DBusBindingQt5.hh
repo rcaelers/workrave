@@ -42,7 +42,7 @@ namespace workrave
 
       virtual QDBusConnection get_connection() = 0;
     };
-    
+
     class DBusBindingQt5 : public DBusBinding
     {
     public:

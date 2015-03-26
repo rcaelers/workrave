@@ -58,7 +58,7 @@ StatusIcon::StatusIcon()
   mode_icons[OperationMode::Normal] = GtkUtil::create_image("workrave-icon-medium.png");
   mode_icons[OperationMode::Suspended] = GtkUtil::create_image("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_image("workrave-quiet-icon-medium.png");
-  
+
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
@@ -82,7 +82,7 @@ StatusIcon::init()
                                               status_icon->set_visible(enabled);
                                             }
                                         });
-  
+
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   status_icon->set_visible(tray_icon_enabled);
 }
@@ -112,7 +112,7 @@ StatusIcon::insert_icon()
   // Hook up signals, missing from gtkmm
   GtkStatusIcon *gobj = status_icon->gobj();
 #endif
-  
+
 #ifdef HAVE_STATUSICON_SIGNAL
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));

@@ -47,7 +47,7 @@ W32InputMonitorFactory::init(const std::string &display)
 
 
 //! Retrieves the input activity monitor
-IInputMonitor::Ptr 
+IInputMonitor::Ptr
 W32InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   if (capability == CAPABILITY_ACTIVITY)
@@ -63,7 +63,7 @@ W32InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability c
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor::Ptr 
+IInputMonitor::Ptr
 W32InputMonitorFactory::create_activity_monitor()
 {
   TRACE_ENTER("W32InputMonitorFactory::create_activity_monitor");
@@ -186,7 +186,7 @@ W32InputMonitorFactory::create_activity_monitor()
 }
 
 //! Retrieves the current input monitor for detailed statistics
-IInputMonitor::Ptr 
+IInputMonitor::Ptr
 W32InputMonitorFactory::create_statistics_monitor()
 {
   TRACE_ENTER("W32InputMonitorFactory::create_statistics_monitor");

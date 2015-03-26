@@ -63,7 +63,7 @@ public:
   };
 
   typedef std::list<MenuItem> MenuItems;
- 
+
   GenericDBusApplet();
   virtual ~GenericDBusApplet();
 
@@ -73,7 +73,7 @@ public:
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
   virtual void button_clicked(int button);
-  
+
 private:
   // IAppletWindow
   virtual AppletState activate_applet();
@@ -92,14 +92,14 @@ private:
 
   // IDBusWatch
   virtual void bus_name_presence(const std::string &name, bool present);
-  
+
   // Menu
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
   void add_menu_item(const char *text, int command, int flags);
 
   void send_tray_icon_enabled();
-  
+
 private:
   bool enabled;
   bool visible;

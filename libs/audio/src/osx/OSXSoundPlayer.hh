@@ -30,7 +30,7 @@ class OSXSoundPlayer : public ISoundDriver
 public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
-  
+
   void init(ISoundPlayerEvents *);
   bool capability(workrave::audio::SoundCapability cap);
   void play_sound(std::string wavfile, int volume);

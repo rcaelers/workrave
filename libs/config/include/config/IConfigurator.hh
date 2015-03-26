@@ -50,7 +50,7 @@ namespace workrave
     {
     public:
       typedef boost::shared_ptr<IConfigurator> Ptr;
-  
+
     public:
       virtual ~IConfigurator() {}
 

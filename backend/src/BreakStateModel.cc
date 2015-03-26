@@ -295,7 +295,7 @@ BreakStateModel::stop_break()
   fake_break = false;
 
   break_event_signal(BreakEvent::BreakStop);
-  
+
   TRACE_EXIT();
 }
 
@@ -356,7 +356,7 @@ void
 BreakStateModel::goto_stage(BreakStage stage)
 {
   TRACE_ENTER_MSG("BreakStateModel::goto_stage", break_id << " " << static_cast<std::underlying_type<BreakStage>::type>(stage));
-  
+
   switch (stage)
     {
     case BreakStage::Delayed:
@@ -418,7 +418,7 @@ BreakStateModel::break_window_start()
   break_event_signal(forced_break
                      ? BreakEvent::ShowBreakForced
                      : BreakEvent::ShowBreak);
-  
+
   TRACE_EXIT();
 }
 
@@ -457,14 +457,14 @@ BreakStateModel::break_window_stop()
   TRACE_ENTER_MSG("BreakStateModel::break_window_stop", break_id);
 
   application->hide_break_window();
-  
+
   if (!fake_break)
     {
       // Update statistics and play sound if the break end
       // was "natural"
       int64_t idle = timer->get_elapsed_idle_time();
       int64_t reset = timer->get_auto_reset();
-      
+
       if (idle >= reset && !user_abort)
         {
           // Breaks end without user skip/postponing it.
@@ -483,7 +483,7 @@ BreakStateModel::prelude_window_start()
 
   prelude_count++;
   prelude_time = 0;
-  
+
   application->hide_break_window();
   application->create_prelude_window(break_id);
   application->set_prelude_stage(IApp::STAGE_INITIAL);

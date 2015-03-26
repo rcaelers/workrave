@@ -139,13 +139,13 @@ ${model.name}_Marshall::put_${enum.qname}(const ${enum.symbol()} &result)
 //
 // Structs
 //
- 
+
 #for struct in $model.structs
 
 #if struct.condition
  \#if $struct.condition
 #end if
- 
+
 void
 ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.symbol()} &result)
 {
@@ -160,7 +160,7 @@ ${model.name}_Marshall::get_${struct.qname}(const QVariant &variant, ${struct.sy
         << error_code_info(DBUS_ERROR_INVALID_ARGS)
         << expected_type_info("${struct.name}");
     }
-  
+
   arg.beginStructure();
 #set index = 0
 #for p in struct.fields
@@ -211,13 +211,13 @@ ${model.name}_Marshall::put_${struct.qname}(const ${struct.symbol()} &result)
 //
 // Sequences
 //
- 
+
 #for seq in $model.sequences
 
 #if seq.condition
  \#if $seq.condition
 #end if
- 
+
 void
 ${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()} &result)
 {
@@ -230,7 +230,7 @@ ${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()
         << error_code_info(DBUS_ERROR_INVALID_ARGS)
         << expected_type_info("${seq.name}");
     }
-  
+
   arg.beginArray();
 
   while (!arg.atEnd())
@@ -245,7 +245,7 @@ ${model.name}_Marshall::get_${seq.qname}(const QVariant &variant, ${seq.symbol()
           e << field_info(string("[") + boost::lexical_cast<string>(result.size()) + "]");
           throw;
         }
-      
+
       result.push_back(tmp);
     }
 
@@ -293,7 +293,7 @@ ${model.name}_Marshall::get_${dict.qname}(const QVariant &variant, ${dict.symbol
         << error_code_info(DBUS_ERROR_INVALID_ARGS)
         << expected_type_info("${dict.name}");
     }
-  
+
   arg.beginMap();
 
   while (!arg.atEnd())
@@ -356,7 +356,7 @@ ${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} &result)
 //
 // Interface $interface.name
 //
- 
+
 #if interface.condition != ''
 \#if $interface.condition
 #end if
@@ -365,7 +365,7 @@ ${model.name}_Marshall::put_${dict.qname}(const ${dict.symbol()} &result)
 namespace $ns // interface $interface.name namespace
 {
 #end for
-  
+
 class ${interface.qname}_Stub : public DBusBindingQt5, public ${interface.qname}, public ${model.name}_Marshall
 {
 private:
@@ -463,13 +463,13 @@ ${interface.qname}_Stub::call(void *object, const QDBusMessage &message, const Q
 //
 // Interface $interface.name methods
 //
-  
+
 #for method in $interface.methods
 
 //
 // Interface $interface.name method $method.name
 //
-  
+
 void
 ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &message, const QDBusConnection &connection)
 {
@@ -542,7 +542,7 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 #end if
 
      QDBusMessage reply = message.createReply();
-                                                                
+
 #if method.num_out_args > 0
   #for arg in method.params:
     #if arg.direction == 'out'
@@ -574,7 +574,7 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
 //
 // Interface $interface.name signals
 //
- 
+
 #for signal in interface.signals
 
 //
@@ -594,7 +594,7 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
 )
 {
   QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "${interface.name}", "${signal.name}");
-                                               
+
 #if len(signal.params) > 0
   #for arg in signal.params:
     #if 'ptr' in p.hint
@@ -642,7 +642,7 @@ ${interface.qname}_Stub::interface_introspect =
 #for $ns in reversed($interface.namespace_list)
 } // namespace $ns
 #end for
- 
+
 #if interface.condition != ''
  \#endif // $interface.condition
 #end if

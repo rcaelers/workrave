@@ -32,7 +32,7 @@ namespace workrave
 
     /* Monitoring is suspended. */
     Suspended,
-      
+
     /* Breaks are not reported to the user when due. */
     Quiet,
   };
@@ -53,7 +53,7 @@ namespace workrave
       }
     return stream;
   }
-  
+
   enum class UsageMode
   {
     /* Normal 'average' PC usage. */
@@ -76,14 +76,14 @@ namespace workrave
       }
     return stream;
   }
-  
+
   typedef int BreakId;
   const int BREAK_ID_NONE = -1;
   const int BREAK_ID_MICRO_BREAK = 0;
   const int BREAK_ID_REST_BREAK = 1;
   const int BREAK_ID_DAILY_LIMIT = 2;
   const int BREAK_ID_SIZEOF = 3;
-  
+
   enum BreakHint
     {
       BREAK_HINT_NONE = 0,

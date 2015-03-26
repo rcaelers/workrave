@@ -39,7 +39,7 @@ CoreDBus::create(CoreModes::Ptr modes, IDBus::Ptr dbus)
 
 CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus) : dbus(dbus)
 {
-  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&CoreDBus::on_operation_mode_changed, this, _1)); 
+  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&CoreDBus::on_operation_mode_changed, this, _1));
   connections.connect(modes->signal_usage_mode_changed(), boost::bind(&CoreDBus::on_usage_mode_changed, this, _1));
 }
 
@@ -52,7 +52,7 @@ CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
     {
       iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
     }
-#endif      
+#endif
 }
 
 void

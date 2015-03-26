@@ -39,7 +39,7 @@ namespace workrave
 
       virtual GDBusConnection *get_connection() const = 0;
     };
-    
+
     class DBusBindingGio : public DBusBinding
     {
     public:

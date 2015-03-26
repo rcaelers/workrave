@@ -62,7 +62,7 @@ private:
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-  sigc::signal<void> 	activate_signal;
+  sigc::signal<void>  activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
   sigc::signal<void, guint, guint32> popup_menu_signal;
 

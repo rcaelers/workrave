@@ -123,37 +123,37 @@ public:
   {
     return !operator==(lid);
   }
-  
+
   bool operator==(const Variant &lid)
   {
     if (type != lid.type)
       {
         return false;
       }
-    
+
     switch(lid.type)
       {
       case VARIANT_TYPE_INT:
         return int_value == lid.int_value;
-        
+
       case VARIANT_TYPE_BOOL:
         return bool_value == lid.bool_value;
-        
+
         // FIXME: float compare
       case VARIANT_TYPE_DOUBLE:
         return double_value == lid.double_value;
-        
+
         // FIXME: float compare
       case VARIANT_TYPE_STRING:
         return string_value == lid.string_value;
-        
+
       case VARIANT_TYPE_NONE:
         return false;
       }
 
     return false;
   }
-  
+
   virtual ~Variant()
   {
     type = VARIANT_TYPE_NONE;

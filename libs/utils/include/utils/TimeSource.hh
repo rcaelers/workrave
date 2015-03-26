@@ -31,7 +31,7 @@ namespace workrave
     {
     public:
       static const int64_t USEC_PER_SEC = 1000000;
-      
+
       //! Returns the system wall-clock time.
       static int64_t get_real_time_usec();
 
@@ -52,7 +52,7 @@ namespace workrave
 
       //! Synchronize current time.
       static void sync();
-      
+
     public:
       static ITimeSource::Ptr source;
       static int64_t synced_real_time;

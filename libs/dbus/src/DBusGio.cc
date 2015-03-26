@@ -131,12 +131,12 @@ DBusGio::update_object_registration(InterfaceData &data)
       TRACE_RETURN("No Connection");
       return;
     }
-  
+
   if (data.registration_id != 0)
     {
       g_dbus_connection_unregister_object(connection, data.registration_id);
     }
-      
+
   string introspection_xml = get_introspect(data.object_path, data.interface_name);
   TRACE_MSG("Intro: %s" << introspection_xml);
 
@@ -148,7 +148,7 @@ DBusGio::update_object_registration(InterfaceData &data)
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
     }
-  
+
   data.registration_id = g_dbus_connection_register_object(connection,
                                                            data.object_path.c_str(),
                                                            data.introspection_data->interfaces[0],
@@ -213,7 +213,7 @@ DBusGio::disconnect(const std::string &object_path, const std::string &interface
         {
           g_dbus_node_info_unref(interfaces[interface_name].introspection_data);
         }
-      
+
       interfaces.erase(interface_name);
     }
 }
@@ -267,8 +267,8 @@ bool
 DBusGio::is_running(const std::string &name) const
 {
   TRACE_ENTER("DBusGio::is_runninf");
-	GError *error = NULL;
-	gboolean running = FALSE;
+  GError *error = NULL;
+  gboolean running = FALSE;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,
@@ -310,7 +310,7 @@ DBusGio::is_running(const std::string &name) const
     }
 
   TRACE_RETURN(running);
-	return running;
+  return running;
 }
 
 
@@ -370,7 +370,7 @@ DBusGio::unwatch(const std::string &name)
 {
   guint id = watched[name].id;
   g_bus_unwatch_name(id);
-  watched.erase(name);  
+  watched.erase(name);
 }
 
 
@@ -378,11 +378,11 @@ string
 DBusGio::get_introspect(const string &object_path, const string &interface_name)
 {
   TRACE_ENTER_MSG("DBusGio::get_introspect", object_path);
-	string str;
- 
+  string str;
+
   str += "<!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN' 'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>\n";
   str += "<node name='" + object_path + "'>\n";
- 
+
   ObjectCIter object_it = objects.find(object_path);
   if (object_it != objects.end())
     {
@@ -421,7 +421,7 @@ DBusGio::on_method_call(GDBusConnection       *connection,
 {
   (void) connection;
   (void) sender;
-  
+
   try
     {
       DBusGio *self = (DBusGio *) user_data;
@@ -512,7 +512,7 @@ DBusGio::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointe
 
   DBusGio *self = (DBusGio *) user_data;
   self->connection = connection;
-  
+
   for (ObjectIter object_it = self->objects.begin();object_it != self->objects.end(); object_it++)
     {
       for (auto &iface : object_it->second.interfaces)

@@ -35,7 +35,7 @@ class Dock : public QObject
 public:
   Dock();
   virtual ~Dock();
-  
+
   void init();
 
 private:

@@ -69,7 +69,7 @@ MenuModel::set_text(const std::string &text)
     }
 }
 
-std::string 
+std::string
 MenuModel::get_id() const
 {
   return id;

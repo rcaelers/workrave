@@ -67,7 +67,7 @@ private:
   Drawable root;
 
   boost::mutex mutex;
-  boost::condition_variable cond;  
+  boost::condition_variable cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

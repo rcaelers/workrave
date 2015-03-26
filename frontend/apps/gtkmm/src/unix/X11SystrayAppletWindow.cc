@@ -337,7 +337,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
       TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
       TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
 
-      // hack... 
+      // hack...
       if (!view->is_sheep_only())
         {
           view->set_sheep_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);

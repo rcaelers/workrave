@@ -585,21 +585,21 @@ StatisticsDialog::on_history_goto_first()
 }
 
 
-void 
+void
 StatisticsDialog::on_history_delete_all()
 {
-    /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is 
-    triggered while the message boxes are shown. The user would have no way to interact 
+    /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
+    triggered while the message boxes are shown. The user would have no way to interact
     with the break window without closing out the dialog which may be hidden behind it.
-    Temporarily override operation mode to avoid catastrophe, and remove the 
+    Temporarily override operation mode to avoid catastrophe, and remove the
     override before any return.
     */
     const char funcname[] = "StatisticsDialog::on_history_delete_all";
     CoreFactory::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
 
     // Confirm the user's intention
-    string msg = HigUtil::create_alert_text( 
-        _("Warning"), 
+    string msg = HigUtil::create_alert_text(
+        _("Warning"),
         _("You have chosen to delete your statistics history. Continue?")
         );
     Gtk::MessageDialog mb_ask( *this, msg, true, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_YES_NO, false );
@@ -614,8 +614,8 @@ StatisticsDialog::on_history_delete_all()
         {
             if( statistics->delete_all_history() )
             {
-                msg = HigUtil::create_alert_text( 
-                    _("Files deleted!"), 
+                msg = HigUtil::create_alert_text(
+                    _("Files deleted!"),
                     _("The files containing your statistics history have been deleted.")
                     );
                 Gtk::MessageDialog mb_info( *this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false );
@@ -624,8 +624,8 @@ StatisticsDialog::on_history_delete_all()
                 break;
             }
 
-            msg = HigUtil::create_alert_text( 
-                _("File deletion failed!"), 
+            msg = HigUtil::create_alert_text(
+                _("File deletion failed!"),
                 _("The files containing your statistics history could not be deleted. Try again?")
                 );
             Gtk::MessageDialog mb_error( *this, msg, true, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_YES_NO, false );

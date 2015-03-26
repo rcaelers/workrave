@@ -40,7 +40,7 @@ public:
   static QIcon create_icon(std::string filename);
 
   static QPixmap create_pixmap(std::string filename, int height);
-  
+
 };
 
 #endif // UIUTIL_HH

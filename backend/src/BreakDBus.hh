@@ -41,7 +41,7 @@ public:
 private:
   void on_break_stage_changed(BreakStage stage);
   void on_break_event(BreakEvent event);
-  
+
 private:
   BreakId break_id;
   BreakStateModel::Ptr break_state_model;

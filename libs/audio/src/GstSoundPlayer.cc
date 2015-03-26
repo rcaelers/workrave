@@ -28,10 +28,10 @@ using namespace std;
 
 GstSoundPlayer::GstSoundPlayer() : gst_ok(false)
 {
-	GError *error = NULL;
+  GError *error = NULL;
 
   gst_ok = gst_init_check(NULL, NULL, &error);
-	gst_registry_fork_set_enabled(FALSE);
+  gst_registry_fork_set_enabled(FALSE);
 
   if (error != NULL)
     {
@@ -44,7 +44,7 @@ GstSoundPlayer::~GstSoundPlayer()
 {
   if (gst_ok)
     {
-  		gst_deinit();
+      gst_deinit();
     }
 }
 
@@ -66,7 +66,7 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 {
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile << " " << volume);
 
-	GstElement *play = NULL;
+  GstElement *play = NULL;
   GstElement *sink = gst_element_factory_make("autoaudiosink", "sink");
 
   if (sink != NULL)

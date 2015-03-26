@@ -124,7 +124,7 @@ RestBreakWindow::draw_time_bar()
 {
   time_t time = progress_max_value - progress_value;
   std::string text = boost::str(boost::format(_("Rest break for %s")) % Text::time_to_string(time, true));
-  
+
   timebar->set_progress(progress_value, progress_max_value);
   timebar->set_text(text);
   timebar->update();

@@ -65,8 +65,8 @@ AboutDialog::AboutDialog()
                                        _("This program assists in the prevention and recovery"
                                          " of Repetitive Strain Injury (RSI).")
                                        );
-                                       
-                                                       
+
+
   QLabel *description_label = new QLabel(QString::fromStdString(description));
   description_label->setWordWrap(true);
   description_label->setOpenExternalLinks(true);
@@ -80,7 +80,7 @@ AboutDialog::AboutDialog()
   QVBoxLayout *vbox = new QVBoxLayout;
   vbox->addWidget(description_label);
   vbox->addWidget(copyright_label);
-  
+
   QDialogButtonBox *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
   QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
 
@@ -90,13 +90,13 @@ AboutDialog::AboutDialog()
   QPixmap pixmap = UiUtil::create_pixmap("workrave-sheep.svg", 150);
   QLabel *logoLabel = new QLabel;
   logoLabel->setPixmap(pixmap);
-  
+
   layout->addWidget(logoLabel , 0, 0, 5, 1, Qt::AlignCenter);
   layout->addLayout(vbox, 0, 1, 4, 4);
   layout->addWidget(button_box, 4, 0, 1, 5);
 
   // TODO: add authors/translators.
-  
+
   TRACE_EXIT();
 }
 

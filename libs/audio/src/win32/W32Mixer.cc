@@ -126,20 +126,20 @@ W32Mixer::set_mute_mixer(bool on)
 {
   TRACE_ENTER_MSG("W32Mixer::set_mute_mixer", on);
 
-	MMRESULT result = MMSYSERR_NOERROR;
-	MIXERLINE mixer_line;
-	MIXERLINECONTROLS mixer_line_controls;
+  MMRESULT result = MMSYSERR_NOERROR;
+  MIXERLINE mixer_line;
+  MIXERLINECONTROLS mixer_line_controls;
   MIXERCONTROL *mixer_control = NULL;
-	int mute_control = -1;
+  int mute_control = -1;
   bool ret = false;
 
   memset(&mixer_line, 0, sizeof(MIXERLINE));
   memset(&mixer_line_controls, 0, sizeof(MIXERLINECONTROLS));
 
-	mixer_line.cbStruct = sizeof(MIXERLINE);
+  mixer_line.cbStruct = sizeof(MIXERLINE);
   mixer_line_controls.cbStruct = sizeof(MIXERLINECONTROLS);
 
-	result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
+  result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
   if (result == MMSYSERR_NOERROR)
     {
       mixer_control = new MIXERCONTROL[mixer_line.cControls];
@@ -174,7 +174,7 @@ W32Mixer::set_mute_mixer(bool on)
       MIXERCONTROLDETAILS mixer_control_details;
       memset(&mixer_control_details, 0, sizeof(MIXERCONTROLDETAILS));
 
-      mixer_control_details.cbStruct	     = sizeof(MIXERCONTROLDETAILS);
+      mixer_control_details.cbStruct       = sizeof(MIXERCONTROLDETAILS);
       mixer_control_details.dwControlID    = mute_control;
       mixer_control_details.cMultipleItems = 0;
       mixer_control_details.cChannels      = 1;

@@ -40,7 +40,7 @@ namespace workrave
 
       virtual void send(DBusMessage *msg) const = 0;
     };
-    
+
     struct DBusIntrospectArg
     {
       const char *name;
@@ -90,7 +90,7 @@ namespace workrave
       void put_bool(DBusMessageIter *it, const bool *value);
       void put_double(DBusMessageIter *it, const double *value);
       void put_string(DBusMessageIter *it, const std::string *value);
-      
+
       IDBus::Ptr dbus;
     };
   }

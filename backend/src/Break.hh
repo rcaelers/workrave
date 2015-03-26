@@ -48,7 +48,7 @@ public:
                     Statistics::Ptr statistics,
                     workrave::dbus::IDBus::Ptr dbus,
                     CoreHooks::Ptr hooks);
-  
+
   Break(BreakId id,
         IApp *app,
         Timer::Ptr timer,
@@ -59,8 +59,8 @@ public:
 
   // IBreak
   virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
-  virtual std::string get_name() const; 
-  virtual bool is_enabled() const; 
+  virtual std::string get_name() const;
+  virtual bool is_enabled() const;
   virtual bool is_running() const;
   virtual bool is_taking() const;
   virtual bool is_active() const;
@@ -85,7 +85,7 @@ public:
   // TODO: add custom string<->enum converters to dbus binding.
   std::string get_break_stage() const;
   static std::string get_stage_text(BreakStage stage);
- 
+
 private:
   BreakId break_id;
   Timer::Ptr timer;

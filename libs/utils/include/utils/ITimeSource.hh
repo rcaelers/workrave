@@ -32,7 +32,7 @@ namespace workrave
     {
     public:
       typedef boost::shared_ptr<ITimeSource> Ptr;
-    
+
       virtual ~ITimeSource() {}
 
       //! Returns the system wall-clock time.

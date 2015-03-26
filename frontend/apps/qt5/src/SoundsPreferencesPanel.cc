@@ -94,7 +94,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
   sound_theme_button = new QComboBox;
   UiUtil::add_widget(sound_events_layout, _("Sound Theme:"), sound_theme_button);
-  
+
   sound_theme_model = new QStandardItemModel();
   sound_theme_button->setModel(sound_theme_model);
 
@@ -131,18 +131,18 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       sounds_model->setItem(item_count, 0, item);
       item->setCheckable(true);
       item->setCheckState(sound_enabled ? Qt::Checked : Qt::Unchecked);
-      
+
       sounds_model->setItem(item_count, 1, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_friendly_name(snd.event))));
       sounds_model->setItem(item_count, 2, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_id(snd.event))));
       sounds_model->setItem(item_count, 3, new QStandardItem(true));
-      
+
       item_count++;
     }
 
   sounds_view->setColumnHidden(2, true);
   sounds_view->setColumnHidden(3, true);
   connect(sounds_model, &QStandardItemModel::itemChanged, this, &SoundsPreferencesPanel::on_sound_item_changed);
-  
+
   QHBoxLayout *sound_buttons_layout = new QHBoxLayout;
   sound_events_layout->addLayout(sound_buttons_layout);
 
@@ -181,7 +181,7 @@ SoundsPreferencesPanel::on_select_sound()
       boost::filesystem::path path(filename);
       boost::filesystem::path dirname = path.parent_path();
       boost::filesystem::path basename = path.filename();
-      
+
       QFileDialog *fd = new QFileDialog(this);
       fd->setAttribute(Qt::WA_DeleteOnClose, true);
       fd->setFileMode(QFileDialog::ExistingFile);
@@ -212,7 +212,7 @@ SoundsPreferencesPanel::on_sound_selected(const QString &filename)
   update_theme_selection();
 }
 
-void 
+void
 SoundsPreferencesPanel::on_sound_item_changed(QStandardItem *item)
 {
   QStandardItem *iditem = sounds_model->item(item->index().row(), 2);
@@ -241,14 +241,14 @@ SoundsPreferencesPanel::update_theme_selection()
   sound_theme_model->clear();
 
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
-  
+
   int active_index = -1;
   for (SoundTheme::ThemeInfo::Ptr theme : sound_theme->get_themes())
     {
       QStandardItem *item = new QStandardItem(QString::fromStdString(theme->description));
       item->setData(QVariant(QString::fromStdString(theme->theme_id)));
       sound_theme_model->appendRow(item);
-      
+
       if (theme == active_theme)
         {
           active_index = sound_theme_model->indexFromItem(item).row();
@@ -266,7 +266,7 @@ SoundsPreferencesPanel::update_theme_selection()
   TRACE_EXIT();
 }
 
-SoundEvent 
+SoundEvent
 SoundsPreferencesPanel::currentEvent() const
 {
   const QModelIndex &index = sounds_view->currentIndex();

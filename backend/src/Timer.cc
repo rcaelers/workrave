@@ -132,7 +132,7 @@ Timer::disable()
 
       timer_state = STATE_INVALID;
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -149,7 +149,7 @@ Timer::snooze_timer()
       elapsed_timespan_at_last_limit = get_elapsed_time();
       compute_next_limit_time();
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -328,7 +328,7 @@ TimerEvent
 Timer::process(bool user_is_active)
 {
   TRACE_ENTER_MSG("Timer::process", user_is_active);
-  
+
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
 
@@ -412,7 +412,7 @@ Timer::get_elapsed_idle_time() const
 }
 
 
-//! 
+//!
 bool
 Timer::is_running() const
 {

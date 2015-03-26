@@ -52,7 +52,7 @@ public:
                     Statistics::Ptr statistics,
                     workrave::dbus::IDBus::Ptr dbus,
                     CoreHooks::Ptr hooks);
-  
+
   BreaksControl(IApp *app,
                 IActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
@@ -83,7 +83,7 @@ private:
 
   void on_operation_mode_changed(const OperationMode m);
   void on_break_event(BreakId break_id, BreakEvent event);
-  
+
 private:
   IApp *application;
 
@@ -95,10 +95,10 @@ private:
   Statistics::Ptr statistics;
   workrave::dbus::IDBus::Ptr dbus;
   CoreHooks::Ptr hooks;
-  
+
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
   Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
-  
+
   InsistPolicy insist_policy;
   InsistPolicy active_insist_policy;
 

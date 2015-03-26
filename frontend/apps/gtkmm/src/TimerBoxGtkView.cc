@@ -193,7 +193,7 @@ TimerBoxGtkView::init_widgets()
           IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
-	        b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
+          b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           b->button_pressed.connect(sigc::mem_fun(*this,
                                                   &TimerBoxGtkView::on_restbreak_button_press_event));
           w = b;
@@ -454,7 +454,7 @@ TimerBoxGtkView::init_table()
   TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
   TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
 #endif
-  
+
   TRACE_EXIT();
 }
 

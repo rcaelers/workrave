@@ -64,10 +64,10 @@ struct _WorkraveTimerboxControlPrivate {
 
   guint owner_id;
   guint watch_id;
-  
+
   gboolean workrave_running;
   gboolean alive;
-  
+
   gboolean tray_icon_enabled;
   enum WorkraveTimerboxControlTrayIconMode tray_icon_mode;
   gboolean tray_icon_visible_when_not_running;
@@ -76,7 +76,7 @@ struct _WorkraveTimerboxControlPrivate {
   guint startup_timer;
   guint startup_count;
   guint update_count;
-  
+
   WorkraveTimerbox *timerbox;
 };
 
@@ -174,11 +174,11 @@ workrave_timerbox_control_update_show_tray_icon(WorkraveTimerboxControl *self)
         case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS:
           workrave_timerbox_set_force_icon(priv->timerbox, TRUE);
           break;
-          
+
         case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_NEVER:
           workrave_timerbox_set_force_icon(priv->timerbox, FALSE);
           break;
-            
+
         case WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW:
           workrave_timerbox_set_force_icon(priv->timerbox, priv->tray_icon_enabled);
           break;
@@ -205,7 +205,7 @@ workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerbo
   priv->tray_icon_visible_when_not_running = show;
 
   workrave_timerbox_control_update_show_tray_icon(self);
-  
+
   workrave_timerbox_update(priv->timerbox, priv->image);
   gtk_widget_show(GTK_WIDGET(priv->image));
 }
@@ -240,7 +240,7 @@ workrave_timerbox_control_class_init(WorkraveTimerboxControlClass *klass)
                   G_TYPE_NONE,
                   1,
                   G_TYPE_BOOLEAN);
-  
+
   object_class->dispose = workrave_timerbox_control_dispose;
   object_class->finalize = workrave_timerbox_control_finalize;
 }
@@ -274,7 +274,7 @@ workrave_timerbox_control_init(WorkraveTimerboxControl *self)
   priv->timerbox = g_object_new(WORKRAVE_TYPE_TIMERBOX, NULL);
 
   workrave_timerbox_control_create_dbus(self);
-  
+
   priv->watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION,
                                     "org.workrave.Workrave",
                                     G_BUS_NAME_WATCHER_FLAGS_NONE,
@@ -294,12 +294,12 @@ workrave_timerbox_control_dispose(GObject *object)
     {
       g_bus_unwatch_name(priv->watch_id);
     }
-  
+
   if (priv->owner_id != 0)
     {
       g_bus_unown_name(priv->owner_id);
     }
-  
+
   if (priv->timer != 0)
     {
       g_source_remove(priv->timer);
@@ -333,7 +333,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
     {
       return;
     }
-  
+
   priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
                                   WORKRAVE_DBUS_NAME,
                                   G_BUS_NAME_OWNER_FLAGS_NONE,
@@ -342,9 +342,9 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
                                   NULL,
                                   self,
                                   NULL);
-  
+
   GError *error = NULL;
-  
+
   if (error == NULL)
     {
       GVariant *result = g_dbus_proxy_call_sync(priv->applet_proxy,
@@ -354,7 +354,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request embedding for %s: %s", WORKRAVE_DBUS_APPLET_NAME, error->message);
@@ -377,7 +377,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request tray icon enabled for %s: %s", WORKRAVE_DBUS_APPLET_NAME, error->message);
@@ -401,7 +401,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request operation mode for %s: %s", WORKRAVE_DBUS_APPLET_NAME, error->message);
@@ -510,7 +510,7 @@ workrave_timerbox_control_create_dbus(WorkraveTimerboxControl *self)
                            priv->applet_proxy_cancel,
                            on_dbus_applet_ready,
                            self);
-      
+
   priv->core_proxy_cancel = g_cancellable_new();
   g_dbus_proxy_new_for_bus(G_BUS_TYPE_SESSION,
                            flags,
@@ -661,7 +661,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       workrave_timerbox_control_update_show_tray_icon(self);
       workrave_timerbox_update(priv->timerbox, priv->image);
     }
-  
+
   else if (g_strcmp0(signal_name, "OperationModeChanged") == 0)
     {
       gchar *mode;
@@ -682,7 +682,7 @@ on_update_timers(WorkraveTimerboxControl *self, GVariant *parameters)
     }
 
   priv->update_count++;
-  
+
   TimerData td[BREAK_ID_SIZEOF];
 
   g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",

@@ -86,7 +86,7 @@ namespace workrave {
       }
     return stream;
   }
-  
+
   //! Interface to retrieve information about a break.
   class IBreak
   {
@@ -132,7 +132,7 @@ namespace workrave {
 
     //! Returns the total overdue time since the last daily limit reset.
     virtual int64_t get_total_overdue_time() const = 0;
-    
+
     //! Request to postpone the break.
     virtual void postpone_break() = 0;
 

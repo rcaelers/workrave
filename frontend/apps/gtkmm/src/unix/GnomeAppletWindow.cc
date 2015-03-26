@@ -119,11 +119,11 @@ GnomeAppletWindow::activate_applet()
   if (ok && !applet_active)
     {
       long id = 0;
-      
+
       try
         {
           TRACE_MSG("obtaining applet info");
-          
+
           id = get_socketid();
           applet_size = get_size();
           applet_orientation = get_orientation();
@@ -337,7 +337,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     {
       properties = gtk_style_properties_new();
     }
- 
+
   if (plug == NULL)
     {
       return;
@@ -346,13 +346,13 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
   GtkWidget *widget = GTK_WIDGET(plug->gobj());
   gtk_widget_reset_style(widget);
 
-	switch (type)
+  switch (type)
     {
     case 0: //PANEL_NO_BACKGROUND:
       gtk_style_context_remove_provider(gtk_widget_get_style_context(widget),
                                         GTK_STYLE_PROVIDER(properties));
       break;
-        
+
     case 1: //PANEL_COLOR_BACKGROUND
         gtk_style_properties_set(properties, GTK_STATE_FLAG_NORMAL,
                                  "background-color", &color,
@@ -362,10 +362,10 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
                                      GTK_STYLE_PROVIDER(properties),
                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       break;
-  
+
     case 2: // PANEL_PIXMAP_BACKGROUND
       {
-        
+
         //int width, height;
 
         gdk_error_trap_push();
@@ -373,7 +373,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
         Display *dpy = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
         cairo_surface_t *surface = cairo_xlib_surface_create(dpy, xid, DefaultVisual(dpy, 0), 0, 0);
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
-        
+
         if (pattern != NULL)
           {
             gtk_style_properties_set (properties, GTK_STATE_FLAG_NORMAL,
@@ -395,7 +395,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
         (void) gdk_error_trap_pop();
       }
       break;
-      
+
     default:
       g_assert_not_reached ();
       break;
@@ -659,7 +659,7 @@ void
 GnomeAppletWindow::init_dbus()
 {
   TRACE_ENTER("GnomeAppletWindow::init_dbus");
-	GError *error = NULL;
+  GError *error = NULL;
 
   proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                         G_DBUS_PROXY_FLAGS_NONE,

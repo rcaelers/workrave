@@ -160,7 +160,7 @@ GenericDBusApplet::deactivate_applet()
   TRACE_EXIT();
 }
 
-//! 
+//!
 void
 GenericDBusApplet::applet_embed(bool enable, const string &sender)
 {
@@ -171,7 +171,7 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
       dbus->unwatch(*i);
     }
   active_bus_names.clear();
-  
+
   if (sender != "")
     {
       dbus->watch(sender, this);
@@ -186,7 +186,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   TRACE_ENTER("GenericDBusAppletMenu::resync");
 
   items.clear();
-  
+
   add_menu_item(_("Open"),        MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
@@ -202,7 +202,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
 
 
   add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_END);
- 
+
   add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
                 | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
@@ -214,7 +214,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
-  
+
   TRACE_EXIT();
 }
 

@@ -43,20 +43,20 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
   POINT pt = { x, y };
   HMONITOR monitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
   if (monitor)
-	{
-	  TRACE_MSG("Monitor found");
+  {
+    TRACE_MSG("Monitor found");
       MONITORINFO info = { 0, };
-	  info.cbSize = sizeof(info);
+    info.cbSize = sizeof(info);
 
-	  if (GetMonitorInfo(monitor, &info))
-		{
-		  x = info.rcMonitor.left;
-		  y = info.rcMonitor.top;
-		  w = info.rcMonitor.right - x;
-		  h = info.rcMonitor.bottom - y;
-		  TRACE_MSG("Monitor: " << x << ", " << y << ", " << w << ", " << h);
-		}
-	}
+    if (GetMonitorInfo(monitor, &info))
+    {
+      x = info.rcMonitor.left;
+      y = info.rcMonitor.top;
+      w = info.rcMonitor.right - x;
+      h = info.rcMonitor.bottom - y;
+      TRACE_MSG("Monitor: " << x << ", " << y << ", " << w << ", " << h);
+    }
+  }
 
   hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                         WINDOW_CLASS,

@@ -32,7 +32,7 @@ public:
   typedef boost::shared_ptr<CoreDBus> Ptr;
 
   static CoreDBus::Ptr create(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
-  
+
   CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 
 private:

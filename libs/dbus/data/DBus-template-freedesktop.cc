@@ -159,10 +159,10 @@ void
 ${interface.qname}_Stub::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result)
 {
   std::string value;
-	int argtype = dbus_message_iter_get_arg_type(reader);
+  int argtype = dbus_message_iter_get_arg_type(reader);
 
   if (argtype != DBUS_TYPE_STRING)
-		throw DBusRemoteException("Type mismatch. Excepted string");
+    throw DBusRemoteException("Type mismatch. Excepted string");
 
   get_string(reader, &value);
 

@@ -1,6 +1,6 @@
 // SystemLockDBus.cc -- support for locking the system using DBus
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@
 #include "ScreenLockDBus.hh"
 
 ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
-                  const char *dbus_name, const char *dbus_path, const char *dbus_interface, 
-                  const char *dbus_lock_method, const char *dbus_method_to_check_existence): 
+                  const char *dbus_name, const char *dbus_path, const char *dbus_interface,
+                  const char *dbus_lock_method, const char *dbus_method_to_check_existence):
                         dbus_lock_method(dbus_lock_method)
 {
   TRACE_ENTER_MSG("ScreenLockDBus::ScreenLockDBus", dbus_name);

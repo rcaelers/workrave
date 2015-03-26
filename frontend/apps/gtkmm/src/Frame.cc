@@ -144,7 +144,7 @@ Frame::get_request_mode_vfunc() const
 
 void
 Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
-{ 
+{
   TRACE_ENTER("Frame::get_preferred_width_vfunc");
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_width(minimum_width, natural_width);
@@ -211,7 +211,7 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
           cr->fill();
           cr->rectangle(0+frame_width, 0+height-frame_width, width-2*frame_width, frame_width);
           cr->fill();
-        }    
+        }
       break;
 
     case STYLE_BREAK_WINDOW:
@@ -221,15 +221,15 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 
       style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->render_background(cr, 0, 0, width, height);
-      
+
       style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->render_frame(cr, 0, 0, width, height);
-      
+
       style_context->remove_class(GTK_STYLE_CLASS_FRAME);
       style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->render_background(cr, 1, 1, width - 2, height -2);
-      
+
       style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->render_frame(cr, 1, 1, width - 2, height -2);

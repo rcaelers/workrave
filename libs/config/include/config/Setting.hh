@@ -67,7 +67,7 @@ namespace workrave
           {
             config->remove_listener(this);
           }
-        
+
         signal();
       }
 
@@ -160,7 +160,7 @@ namespace workrave
           {
             config->remove_listener(this);
           }
-        
+
         signal(get());
       }
 

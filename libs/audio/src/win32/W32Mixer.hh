@@ -34,18 +34,18 @@ typedef interface IPropertyStore IPropertyStore;
 
 typedef enum
   {
-    eRender	             = 0,
-    eCapture	           = 1,
-    eAll	               = 2,
+    eRender              = 0,
+    eCapture             = 1,
+    eAll                 = 2,
     EDataFlow_enum_count = 3
   } EDataFlow;
 
 typedef enum
   {
-    eConsole	          = 0,
-    eMultimedia	        = 1,
-    eCommunications	    = 2,
-    ERole_enum_count	  = 3,
+    eConsole            = 0,
+    eMultimedia         = 1,
+    eCommunications     = 2,
+    ERole_enum_count    = 3,
   } ERole;
 
 class IMMDevice : public IUnknown

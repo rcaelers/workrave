@@ -306,7 +306,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
           has_max_prelude_cb->setCheckState(Qt::Checked);
           max_prelude_spin->setValue(value);
         }
-      
+
       set_prelude_sensitivity();
     }
 

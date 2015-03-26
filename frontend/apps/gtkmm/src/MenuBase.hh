@@ -1,4 +1,4 @@
-// MenuBase.hh --- Menu 
+// MenuBase.hh --- Menu
 //
 // Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -32,12 +32,12 @@ public:
   virtual void init()
   {
   }
-  
+
   virtual void add_accel(Gtk::Window &window)
   {
     (void) window;
   }
-  
+
   virtual void popup(const guint button, const guint activate_time)
   {
     (void) button;

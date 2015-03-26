@@ -29,9 +29,9 @@ namespace workrave
     public:
       Updater();
       virtual ~Updater();
-  
+
       typedef boost::shared_ptr<Updater> Ptr;
-  
+
       static Ptr create(std::string appcast_url);
 
       virtual void check_for_updates() = 0;

@@ -42,7 +42,7 @@ namespace workrave
     {
     public:
       typedef boost::shared_ptr<DBusGio> Ptr;
-      
+
     public:
       static Ptr create();
 
@@ -64,7 +64,7 @@ namespace workrave
 
       void watch(const std::string &name, IDBusWatch *cb);
       void unwatch(const std::string &name);
-    
+
     private:
       typedef std::map<std::string, DBusBinding *> Bindings;
       typedef Bindings::iterator BindingIter;
@@ -73,7 +73,7 @@ namespace workrave
       typedef std::map<std::string, guint> Services;
       typedef Services::iterator ServicesIter;
       typedef Services::const_iterator ServicesCIter;
-    
+
       struct InterfaceData
       {
         InterfaceData() : introspection_data(NULL), registration_id(0), object(NULL) {}
@@ -84,7 +84,7 @@ namespace workrave
         guint registration_id;
         void *object;
       };
-    
+
       typedef std::map<std::string, InterfaceData> Interfaces;
       typedef Interfaces::iterator InterfaceIter;
       typedef Interfaces::const_iterator InterfaceCIter;
@@ -92,11 +92,11 @@ namespace workrave
       struct ObjectData
       {
         ObjectData() : registered(false) {}
-      
+
         Interfaces interfaces;
         bool registered;
       };
-      
+
       typedef std::map<std::string, ObjectData> Objects;
       typedef Objects::iterator ObjectIter;
       typedef Objects::const_iterator ObjectCIter;
@@ -107,11 +107,11 @@ namespace workrave
         IDBusWatch *callback;
         bool seen;
       };
-      
+
       typedef std::map<std::string, WatchData> Watched;
       typedef Watched::iterator WatchIter;
       typedef Watched::const_iterator WatchCIter;
-    
+
       void *find_object(const std::string &path, const std::string &interface_name) const;
       void send() const;
 
@@ -122,7 +122,7 @@ namespace workrave
       static void on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data);
 
       void bus_name_presence(const std::string &name, bool present);
-    
+
       static void on_method_call(GDBusConnection       *connection,
                                  const gchar           *sender,
                                  const gchar           *object_path,
@@ -140,7 +140,7 @@ namespace workrave
                       const gchar      *property_name,
                       GError          **error,
                       gpointer          user_data);
-    
+
 
       static gboolean
       on_set_property (GDBusConnection  *connection,
@@ -151,15 +151,15 @@ namespace workrave
                        GVariant         *value,
                        GError          **error,
                        gpointer          user_data);
-    
+
       static void on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
       static void on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
       static void on_name_lost(GDBusConnection *connection, const gchar *name, gpointer user_data);
-   
+
     private:
       //!
       Services services;
-    
+
       //! Bindings for interfaces.
       Bindings bindings;
 
@@ -168,7 +168,7 @@ namespace workrave
 
       //
       Watched watched;
-    
+
       GDBusConnection *connection;
 
       static const GDBusInterfaceVTable interface_vtable;

@@ -151,7 +151,7 @@ private:
   SysoperModelColumns *sysoper_model_columns;
 
   Gtk::ComboBox *sysoper_combobox;
-  
+
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
   bool force_focus_on_break_start;

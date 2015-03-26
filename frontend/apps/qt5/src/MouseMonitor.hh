@@ -28,7 +28,7 @@ public:
 
   MouseMonitor(boost::function<void(int,int)> func);
   ~MouseMonitor();
-  
+
   void start();
   void stop();
 

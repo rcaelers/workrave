@@ -33,7 +33,7 @@ namespace workrave
           FormatXml,
           FormatNative
         };
-      
+
       static IConfigurator::Ptr create(Format fmt);
     };
   }

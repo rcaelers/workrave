@@ -142,8 +142,8 @@ void W32Compat::_init()
     HMODULE winsta_lib = LoadLibraryA( "winsta" );
     if( winsta_lib )
     {
-        dyn_WinStationQueryInformationW = 
-            (PWINSTATIONQUERYINFORMATIONW)GetProcAddress( 
+        dyn_WinStationQueryInformationW =
+            (PWINSTATIONQUERYINFORMATIONW)GetProcAddress(
             winsta_lib,
             "WinStationQueryInformationW"
             );
@@ -179,24 +179,24 @@ void W32Compat::_init()
 void
 W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
 {
-	init();
+  init();
 
-	SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-		0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
+    0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
 
-	ResetWindow( hwnd, (bool)topmost );
+  ResetWindow( hwnd, (bool)topmost );
 
-	if( ime_magic && topmost )
-	{
-		IMEWindowMagic( hwnd );
-	}
+  if( ime_magic && topmost )
+  {
+    IMEWindowMagic( hwnd );
+  }
 
-	if( W32ForceFocus::GetForceFocusValue() && topmost )
-	{
-		W32ForceFocus::ForceWindowFocus( hwnd );
-	}
+  if( W32ForceFocus::GetForceFocusValue() && topmost )
+  {
+    W32ForceFocus::ForceWindowFocus( hwnd );
+  }
 
-	return;
+  return;
 }
 
 
@@ -209,86 +209,86 @@ W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
 void
 W32Compat::ResetWindow( HWND hwnd, bool topmost )
 {
-	init();
+  init();
 
-	if( !IsWindow( hwnd ) || reset_window_never )
-		return;
+  if( !IsWindow( hwnd ) || reset_window_never )
+    return;
 
-	bool reset = false;
-	DWORD gwl_exstyle = 0;
+  bool reset = false;
+  DWORD gwl_exstyle = 0;
 
-	WINDOWINFO gwi;
-	ZeroMemory( &gwi, sizeof( gwi ) );
-	gwi.cbSize = sizeof( WINDOWINFO );
+  WINDOWINFO gwi;
+  ZeroMemory( &gwi, sizeof( gwi ) );
+  gwi.cbSize = sizeof( WINDOWINFO );
 
 
-	SetLastError( 0 );
-	gwl_exstyle = (DWORD)GetWindowLong( hwnd, GWL_EXSTYLE );
-	if( !GetLastError() )
-	{
-		// if desired and actual topmost style differ, plan to reset
-		if( topmost != ( gwl_exstyle & WS_EX_TOPMOST ? true : false ) )
-			reset = true;
-	}
+  SetLastError( 0 );
+  gwl_exstyle = (DWORD)GetWindowLong( hwnd, GWL_EXSTYLE );
+  if( !GetLastError() )
+  {
+    // if desired and actual topmost style differ, plan to reset
+    if( topmost != ( gwl_exstyle & WS_EX_TOPMOST ? true : false ) )
+      reset = true;
+  }
 
-	SetLastError( 0 );
-	GetWindowInfo( hwnd, &gwi );
-	if( !GetLastError() )
-	{
-		// if desired and actual topmost style differ, plan to reset
-		if( topmost != ( gwi.dwExStyle & WS_EX_TOPMOST ? true : false ) )
-			reset = true;
-	}
+  SetLastError( 0 );
+  GetWindowInfo( hwnd, &gwi );
+  if( !GetLastError() )
+  {
+    // if desired and actual topmost style differ, plan to reset
+    if( topmost != ( gwi.dwExStyle & WS_EX_TOPMOST ? true : false ) )
+      reset = true;
+  }
 
 #ifdef BREAKAGE
-	const bool DEBUG = false;
-	DWORD valid_exstyle_diff = 0;
+  const bool DEBUG = false;
+  DWORD valid_exstyle_diff = 0;
 
-	// GetWindowInfo() and GetWindowLong() extended style info can differ.
-	// Compare the two results but filter valid values only.
-	valid_exstyle_diff = ( gwl_exstyle ^ gwi.dwExStyle ) & ~0xF1A08802;
-	if( valid_exstyle_diff || DEBUG )
-	{
-		// if the extended style info differs, plan to reset.
-		// e.g. gwl returned ws_ex_toolwindow but gwi didn't
-		reset = true;
+  // GetWindowInfo() and GetWindowLong() extended style info can differ.
+  // Compare the two results but filter valid values only.
+  valid_exstyle_diff = ( gwl_exstyle ^ gwi.dwExStyle ) & ~0xF1A08802;
+  if( valid_exstyle_diff || DEBUG )
+  {
+    // if the extended style info differs, plan to reset.
+    // e.g. gwl returned ws_ex_toolwindow but gwi didn't
+    reset = true;
 
-		// attempt to sync differences:
-		DWORD swl_exstyle = ( valid_exstyle_diff | gwl_exstyle ) & ~0xF1A08802;
+    // attempt to sync differences:
+    DWORD swl_exstyle = ( valid_exstyle_diff | gwl_exstyle ) & ~0xF1A08802;
 
-		if( ( swl_exstyle & WS_EX_APPWINDOW ) && ( swl_exstyle & WS_EX_TOOLWINDOW ) )
-		// this hasn't happened and shouldn't happen, but i suppose it could.
-		// if both styles are set change to appwindow only.
-		// why not toolwindow only? well, why are they both set in the first place?
-		// in this case it's better to make hwnd visible on the taskbar.
-		{
-			swl_exstyle &= ~WS_EX_TOOLWINDOW;
-		}
+    if( ( swl_exstyle & WS_EX_APPWINDOW ) && ( swl_exstyle & WS_EX_TOOLWINDOW ) )
+    // this hasn't happened and shouldn't happen, but i suppose it could.
+    // if both styles are set change to appwindow only.
+    // why not toolwindow only? well, why are they both set in the first place?
+    // in this case it's better to make hwnd visible on the taskbar.
+    {
+      swl_exstyle &= ~WS_EX_TOOLWINDOW;
+    }
 
-		ShowWindow( hwnd, SW_HIDE );
-		SetWindowLong( hwnd, GWL_EXSTYLE, (LONG)swl_exstyle );
-		ShowWindow( hwnd, SW_SHOWNA );
-	}
+    ShowWindow( hwnd, SW_HIDE );
+    SetWindowLong( hwnd, GWL_EXSTYLE, (LONG)swl_exstyle );
+    ShowWindow( hwnd, SW_SHOWNA );
+  }
 #endif
 
-	// "reset" window position in z-order.
-	// if the window is supposed to be topmost but is really not:
-	// set HWND_NOTOPMOST followed by HWND_TOPMOST
-	// the above sequence is key: review test results in 587#c17
-	//
-	// if the window is not supposed to be topmost but is, reverse:
-	// set HWND_TOPMOST followed by HWND_NOTOPMOST
-	// the reverse is currently unproven.
-	// i don't know of any problems removing the topmost style.
-	if( IsWindow( hwnd ) && ( reset || reset_window_always ) )
-	{
-		SetWindowPos( hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-			0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-		SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-			0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-	}
+  // "reset" window position in z-order.
+  // if the window is supposed to be topmost but is really not:
+  // set HWND_NOTOPMOST followed by HWND_TOPMOST
+  // the above sequence is key: review test results in 587#c17
+  //
+  // if the window is not supposed to be topmost but is, reverse:
+  // set HWND_TOPMOST followed by HWND_NOTOPMOST
+  // the reverse is currently unproven.
+  // i don't know of any problems removing the topmost style.
+  if( IsWindow( hwnd ) && ( reset || reset_window_always ) )
+  {
+    SetWindowPos( hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
+      0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+    SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
+      0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  }
 
-	return;
+  return;
 }
 
 
@@ -301,17 +301,17 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 void
 W32Compat::IMEWindowMagic( HWND hwnd )
 {
-	init();
+  init();
 
-	if( !IsWindow( hwnd ) )
-		return;
+  if( !IsWindow( hwnd ) )
+    return;
 
-	// This message works to make hwnd topmost without activation or focus.
-	// I found it by watching window messages. I don't know its intended use.
-	SendMessage( hwnd, 0x287, 0x17/*0x18*/, (LPARAM)hwnd );
+  // This message works to make hwnd topmost without activation or focus.
+  // I found it by watching window messages. I don't know its intended use.
+  SendMessage( hwnd, 0x287, 0x17/*0x18*/, (LPARAM)hwnd );
 
-	SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER |
-		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER |
+    SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
 }
 
 
@@ -327,7 +327,7 @@ returns true if our winstation is connected
 */
 bool W32Compat::IsOurWinStationConnected()
 {
-	init();
+  init();
 
     bool func_retval = false;
     DWORD bytes_returned = 0;
@@ -338,8 +338,8 @@ bool W32Compat::IsOurWinStationConnected()
     // TODO: check compiler warnings and native/mingw difference.
     WTS_INFO_CLASS *state = NULL;
 #endif
-    
-    if( WTSQuerySessionInformation( 
+
+    if( WTSQuerySessionInformation(
             WTS_CURRENT_SERVER_HANDLE,
             WTS_CURRENT_SESSION,
             WTSConnectState,
@@ -376,7 +376,7 @@ returns true if our winstation is locked
 */
 bool W32Compat::IsOurWinStationLocked()
 {
-	init();
+  init();
 
     BOOL locked = FALSE;
     DWORD bytes_returned = 0;
@@ -402,7 +402,7 @@ bool W32Compat::IsOurWinStationLocked()
 
 /* W32Compat::IsOurDesktopVisible()
 
-Check if our desktop can be viewed by the user: Check that our process' window station is connected 
+Check if our desktop can be viewed by the user: Check that our process' window station is connected
 and its input desktop is the same as our calling thread's desktop.
 
 If our desktop is visible that implies that this process' workstation is unlocked.
@@ -411,7 +411,7 @@ returns true if our desktop is visible
 */
 bool W32Compat::IsOurDesktopVisible()
 {
-	init();
+  init();
 
     bool func_retval = false;
 
@@ -532,11 +532,11 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
         }
     }
 
-    /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every 
+    /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every
     refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
     */
 
-  	HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
+    HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
     if( !hwnd )
         return;
 
@@ -547,7 +547,7 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
     // this checks if the window manager has disabled our topmost ability and resets it if necessary
     W32Compat::ResetWindow( hwnd, true );
 
-    /* If there are multiple break windows only force focus on the first, otherwise focus would be 
+    /* If there are multiple break windows only force focus on the first, otherwise focus would be
     continuously switched to each break window on every refresh, making interaction very difficult.
     */
     if( W32ForceFocus::GetForceFocusValue() && window.head.valid && ( window.head.count == 0 ) )

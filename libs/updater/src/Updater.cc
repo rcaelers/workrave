@@ -39,7 +39,7 @@ Updater::~Updater()
 }
 
 
-Updater::Ptr 
+Updater::Ptr
 Updater::create(std::string appcast_url)
 {
 #ifdef PLATFORM_OS_OSX

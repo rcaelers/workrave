@@ -416,7 +416,7 @@ ExercisesPanel::refresh_sequence()
           image_iterator = exercise.sequence.begin();
         }
       else
-  	    {
+        {
           image_iterator++;
           if (image_iterator == exercise.sequence.end())
             {

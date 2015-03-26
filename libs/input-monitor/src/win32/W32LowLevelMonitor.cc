@@ -248,7 +248,7 @@ void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
 
   if( !thread || !thread->handle )
     return;
-  
+
   do
     {
       Sleep( 1 );

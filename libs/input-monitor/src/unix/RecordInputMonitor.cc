@@ -141,7 +141,7 @@ RecordInputMonitor::terminate()
 
   abort = true;
   monitor_thread->join();
-  
+
   TRACE_EXIT();
 }
 
@@ -157,7 +157,7 @@ RecordInputMonitor::run()
       error_trap_exit();
       xrecord_datalink = NULL;
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -352,7 +352,7 @@ RecordInputMonitor::init_xrecord()
     {
       return false;
     }
-  
+
   if (XRecordQueryVersion(x11_display, &major, &minor))
     {
       xrecord_context = 0;

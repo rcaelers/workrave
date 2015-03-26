@@ -65,7 +65,7 @@ public:
 
   virtual void open_main_window() = 0;
   virtual void restbreak_now() = 0;
-  
+
   virtual void interrupt_grab() = 0;
 
   virtual int get_number_of_heads() const = 0;
@@ -157,7 +157,7 @@ private:
   void on_break_event(BreakId break_id, BreakEvent event);
   void on_operation_mode_changed(const OperationMode m);
   void on_usage_mode_changed(const UsageMode m);
-  
+
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
 #endif
@@ -256,7 +256,7 @@ private:
 
   // UI Event connections
   std::list<sigc::connection> event_connections;
-  
+
 };
 
 
@@ -284,7 +284,7 @@ GUI::get_main_window() const
 
 
 //! Returns the sound player
-inline SoundTheme::Ptr 
+inline SoundTheme::Ptr
 GUI::get_sound_theme() const
 {
   return sound_theme;

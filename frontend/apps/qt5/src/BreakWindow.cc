@@ -164,7 +164,7 @@ BreakWindow::center()
   qDebug() << "c: " << size();
 
   QDesktopWidget *dw = QApplication::desktop();
-  const QRect	rect = dw->screenGeometry(screen);
+  const QRect rect = dw->screenGeometry(screen);
 
   const QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
   qDebug() << "a: " << arect;
@@ -183,7 +183,7 @@ BreakWindow::create_lock_button()
       QPixmap pixmap(file.c_str());
       QIcon icon(pixmap);
 
-      button = new QPushButton;	
+      button = new QPushButton; 
       button->setIcon(icon);
       button->setIconSize(pixmap.rect().size());
 
@@ -392,7 +392,7 @@ BreakWindow::start()
   priv->active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
   [NSApp activateIgnoringOtherApps:YES];
 #endif
-  
+
   refresh();
   show();
   center();
@@ -408,24 +408,24 @@ BreakWindow::start()
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
 #ifdef PLATFORM_OS_OSX
-      
+
       NSWorkspace *mainWorkspace = [NSWorkspace sharedWorkspace];
       NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(block_window->winId());
       NSWindow *nswindow = [nsview window];
       //[NSScreen screens] objectAtIndex:0]]
       NSScreen *desktopScreen = [nswindow screen];
-		
+    
       NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
       NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
       //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
 
       CGImageRef cgImage = [desktopImage CGImageForProposedRect:NULL context:NULL hints:NULL];
       QPixmap pixmap = QtMac::fromCGImageRef(cgImage);
-        
+
       QPalette palette;
       palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
       block_window->setPalette(palette);
-      
+
       block_window->showFullScreen();
       block_window->raise();
 
@@ -506,7 +506,7 @@ BreakWindow::stop()
     }
 
   hide();
- 
+
 #ifdef PLATFORM_OS_OSX
   if (priv->active_app != nil)
     {
@@ -514,7 +514,7 @@ BreakWindow::stop()
       priv->active_app = nil;
     }
 #endif
-  
+
   TRACE_EXIT();
 }
 

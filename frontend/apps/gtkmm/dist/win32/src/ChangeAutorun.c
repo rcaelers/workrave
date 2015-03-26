@@ -21,24 +21,24 @@
 
 /*****
 * README, CHANGES REQUIRED
-* 
-* This program, ChangeAutorun, is called by Active Setup to change the autorun settings for a new 
+*
+* This program, ChangeAutorun, is called by Active Setup to change the autorun settings for a new
 * and/or existing user of your program.
-* 
-* Your installer should have added to its Active Setup key a StubPath value with data that will run 
+*
+* Your installer should have added to its Active Setup key a StubPath value with data that will run
 * this program. For more information search the internet for how to configure Active Setup.
 * Example:
 * "StubPath"="\"C:\\Program Files\\Workrave\\lib\\ChangeAutorun.exe\" -b"
-* 
+*
 * Typically you'd set your Active Setup StubPath to call ChangeAutorun with 'a' or 'b' or 'u'.
 * Run ChangeAutorun /? for all options.
-* 
+*
 * Options 'v' and 'z' are for testing purposes and must NOT be options in your ActiveSetup StubPath.
-* Either of those options will routinely show MessageBoxes with information only a developer could 
+* Either of those options will routinely show MessageBoxes with information only a developer could
 * care about and require user input to click 'OK' to the messages, stalling explorer initialization.
-* 
+*
 * REQUIRED CHANGES
-* If this is not the Workrave project you MUST change everything below (until the /END block), and 
+* If this is not the Workrave project you MUST change everything below (until the /END block), and
 * not use the GUID 180B0AC5-6FDA-438B-9466-C9894322B6BA. Generate your own GUID.
 */
 
@@ -55,19 +55,19 @@ This program will add a value of AUTORUN_VALUE to the key with data pointing to 
 */
 #define PROJECT   "Workrave"
 
-/* This is an HKCU key that has been set by your program after it is run by the user. It should not 
-be a key that is set by your installer. If ChangeAutorun is run with the -b option it needs to 
-determine whether or not the target program has previously been run by the user. It checks for the 
+/* This is an HKCU key that has been set by your program after it is run by the user. It should not
+be a key that is set by your installer. If ChangeAutorun is run with the -b option it needs to
+determine whether or not the target program has previously been run by the user. It checks for the
 existence of this key to determine that.
 */
 #define HKCU_PROJECT_KEY   "AppEvents\\Schemes\\Apps\\Workrave"
 
-/* This is your target program's executable name, with extension, and without path. It must be in 
+/* This is your target program's executable name, with extension, and without path. It must be in
 the same directory as this program.
 */
 #define TARGET   "workrave.exe"
 
-/* These are the options to pass to the target program. 
+/* These are the options to pass to the target program.
 For example:
 "--somearg \"abc\" -asdf"
 If no options use ""
@@ -82,14 +82,14 @@ If no options use ""
 
 /*****
 * COMPILING
-* 
-* I wrote this to create an autorun entry for an x86 target program (TARGET). When compiled x86, 
+*
+* I wrote this to create an autorun entry for an x86 target program (TARGET). When compiled x86,
 * and run on x86 or x64 platform it will access the 32-bit ACTIVE_SETUP_GUID, HKCU_PROJECT_KEY, etc.
-* 
-* You could probably use this program with an x64 TARGET if you compile it x64, and your installer 
+*
+* You could probably use this program with an x64 TARGET if you compile it x64, and your installer
 * writes to the 64-bit ACTIVE_SETUP_GUID. In that case this program should access the 64-bit keys.
 * I haven't tested that. If you do test it let me know what happens.
-* 
+*
 * cl /O2 /W4 /DUNICODE ChangeAutorun.c
 * gcc -O2 -Wall -Wextra -Wno-unknown-pragmas -Wno-unused-parameter -DUNICODE -mwindows -o ChangeAutorun.exe ChangeAutorun.c -lpsapi
 */
@@ -164,8 +164,8 @@ http://msdn.microsoft.com/en-us/library/windows/desktop/ms683198.aspx
 #define HKCU_AUTORUN_KEY   "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 
-/* if _UNICODE then the lengths of these global variables will be a count of wide characters in the 
-string. if not _UNICODE then the lengths will be a count of single byte characters. lengths here 
+/* if _UNICODE then the lengths of these global variables will be a count of wide characters in the
+string. if not _UNICODE then the lengths will be a count of single byte characters. lengths here
 will not be a count of multibyte characters even if _MBCS.
 */
 
@@ -182,7 +182,7 @@ TCHAR *target_directory;
 	int length_target_directory;
 
 /* The command line for the autorun entry. Initialized at runtime. Example:
-"C:\Program Files\Workrave\lib\workrave.exe" -whatever "some arg with spaces" -abc 
+"C:\Program Files\Workrave\lib\workrave.exe" -whatever "some arg with spaces" -abc
 */
 TCHAR *target_command;
 	int length_target_command;
@@ -227,7 +227,7 @@ void show_message(
 	if( !buffer )
 		return;
 	
-	length_buffer = 
+	length_buffer =
 		_sntprintf(
 			buffer,
 			max_length_buffer,
@@ -342,7 +342,7 @@ void free_global_variables()
 
 Initialize all global variables except g_verbose and any const.
 
-Returns TRUE if all variables were successfully initialized. If only some variables were 
+Returns TRUE if all variables were successfully initialized. If only some variables were
 initialized, those that couldn't be initialized will be cleared and this function will return FALSE.
 */
 BOOL init_global_variables()
@@ -477,7 +477,7 @@ BOOL init_global_variables()
 	/* what follows target_fullname cannot be all trailing spaces.
 	"\"C:\whatever.exe\" "
 	the legacy run key will not handle that properly and would not start whatever.exe
-	it will not start a program with trailing spaces. if there are options then trailing spaces can 
+	it will not start a program with trailing spaces. if there are options then trailing spaces can
 	follow that, so this is ok:
 	"\"C:\whatever.exe\" --arf "
 	*/
@@ -549,10 +549,10 @@ if 'users' == NEW_USERS then add only if TARGET has never before been started by
 if 'users' == ALL_USERS then add always.
 if 'users' == UPDATE_EXISTING_AUTORUN_ONLY then only update an existing entry.
 
-regardless of the value of 'users', if the user already has an autorun entry it is updated with the 
+regardless of the value of 'users', if the user already has an autorun entry it is updated with the
 new location.
 
-To determine if your TARGET program has ever before been run by the user, this function checks for 
+To determine if your TARGET program has ever before been run by the user, this function checks for
 the existence of HKCU registry key HKCU_PROJECT_KEY.
 */
 BOOL add_autorun_entry( enum users users )
@@ -605,7 +605,7 @@ BOOL add_autorun_entry( enum users users )
 			&& regkey_test_read( HKEY_CURRENT_USER, _T(HKCU_PROJECT_KEY) )
 			)
 		{
-			VERBOSE_MSG_DATA( 
+			VERBOSE_MSG_DATA(
 				_T("Existing project key and no existing autorun entry. No entry has been added."),
 				_T(HKCU_PROJECT_KEY)
 				);
@@ -757,7 +757,7 @@ BOOL remove_activesetup_entry()
 	
 	if( !deleted )
 	{
-		VERBOSE_ERR_DATA( 
+		VERBOSE_ERR_DATA(
 			_T("Your project's Active Setup key either does not exist or could not be deleted."),
 			subkey_default
 			);
@@ -815,7 +815,7 @@ BOOL check_global_literals()
 
 void show_help()
 {
-	MessageBoxA( 
+	MessageBoxA(
 		0,
 		"This is a configuration tool added by this project's installer.\n"
 			"This program is invoked by Microsoft's undocumented Active Setup.\n"
@@ -879,8 +879,8 @@ int APIENTRY WinMain(
 	char **argv = NULL;
 	
 	
-	SetErrorMode( 
-		( SEM_FAILCRITICALERRORS 
+	SetErrorMode(
+		( SEM_FAILCRITICALERRORS
 			| SEM_NOGPFAULTERRORBOX
 			| SEM_NOOPENFILEERRORBOX )
 		);
@@ -890,7 +890,7 @@ int APIENTRY WinMain(
 	if( argc <= 1 )
 		return 1;
 	
-	if( argc >= 2 
+	if( argc >= 2
 		&& ( ( argv[ 1 ][ 0 ] == '/' )
 			|| ( argv[ 1 ][ 0 ] == '-' ) )
 		)

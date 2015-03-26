@@ -30,13 +30,13 @@ class CoreFactory
 public:
   //! Returns the interface to the core.
   static workrave::ICore::Ptr get_core();
-  
+
   //! Returns the interface to the core's configurator.
   static workrave::config::IConfigurator::Ptr get_configurator();
-  
+
   //! Returns the interface to the DBUS facility.
   static workrave::dbus::IDBus::Ptr get_dbus();
-  
+
   //! The one and only core instance
   static workrave::ICore::Ptr core;
 };

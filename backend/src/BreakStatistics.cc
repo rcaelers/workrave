@@ -48,23 +48,23 @@ BreakStatistics::on_break_event(BreakEvent event)
     case BreakEvent::ShowPrelude:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
       break;
-        
+
     case BreakEvent::BreakStart:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
       break;
-        
+
     case BreakEvent::BreakPostponed:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
       break;
-        
+
     case BreakEvent::BreakSkipped:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
       break;
-        
+
     case BreakEvent::BreakTaken:
       statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
       break;
-        
+
     case BreakEvent::ShowBreak:
     case BreakEvent::ShowBreakForced:
     case BreakEvent::BreakIgnored:
@@ -88,6 +88,6 @@ BreakStatistics::update()
     {
       statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)timer->get_elapsed_time());
     }
-  
+
   statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)timer->get_total_overdue_time());
 }

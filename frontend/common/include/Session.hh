@@ -32,7 +32,7 @@ public:
   typedef boost::shared_ptr<Session> Ptr;
 
   static Session::Ptr create();
-  
+
   Session();
   void init();
 

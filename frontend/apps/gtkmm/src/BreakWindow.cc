@@ -130,9 +130,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
   // THEN position it. So:
-	HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-	SetFocus(hwnd);
-	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  SetFocus(hwnd);
+  SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 #endif
 
   if (mode == GUIConfig::BLOCK_MODE_NONE)
@@ -526,7 +526,7 @@ BreakWindow::on_postpone_button_clicked()
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
   ICore::Ptr core = CoreFactory::get_core();
   IBreak::Ptr b = core->get_break(break_id);
-  
+
   b->postpone_break();
   resume_non_ignorable_break();
 
@@ -558,7 +558,7 @@ BreakWindow::resume_non_ignorable_break()
   OperationMode mode = core->get_operation_mode();
 
   TRACE_MSG("break flags " << break_flags);
-  
+
   if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
       mode == OperationMode::Normal)
     {

@@ -104,9 +104,9 @@ IndicatorAppletMenu::menu_item_set_checked(int cmd, bool checked)
 void
 IndicatorAppletMenu::init()
 {
-	server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
-	root = dbusmenu_menuitem_new();
-	dbusmenu_server_set_root(server, root);
+  server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
+  root = dbusmenu_menuitem_new();
+  dbusmenu_server_set_root(server, root);
   dbusmenu_menuitem_property_set_bool(root, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
 
   menu_item_append(root, _("Open"), MENU_COMMAND_OPEN);

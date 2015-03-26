@@ -24,7 +24,7 @@
 #include "preinclude.h"
 
 #include <gtkmm.h>
-#ifdef HAVE_GTK3      
+#ifdef HAVE_GTK3
 #include <gdkmm/devicemanager.h>
 #endif
 
@@ -385,7 +385,7 @@ PreludeWindow::init_avoid_pointer()
       POINT p;
       GetCursorPos(&p);
 
-#ifdef HAVE_GTK3      
+#ifdef HAVE_GTK3
       Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
       Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
       Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();

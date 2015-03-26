@@ -36,10 +36,10 @@ public:
   typedef boost::shared_ptr<CoreModes> Ptr;
 
   static CoreModes::Ptr create(IActivityMonitor::Ptr monitor);
-  
+
   CoreModes(IActivityMonitor::Ptr monitor);
   virtual ~CoreModes();
-  
+
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed();
 
@@ -51,12 +51,12 @@ public:
   void remove_operation_mode_override(const std::string &id);
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
-  
+
 private:
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
   void load_config();
-  
+
 private:
   //! Current operation mode.
   OperationMode operation_mode;
@@ -72,7 +72,7 @@ private:
 
   //!
   IActivityMonitor::Ptr monitor;
-  
+
   //! Operation mode changed notification.
   boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
 

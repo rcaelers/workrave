@@ -54,7 +54,7 @@ private:
 
     // A handle to the worker thread
     static HANDLE thread_handle;
-    
+
     // Info needed by thread_Worker
     static struct thread_info
     {

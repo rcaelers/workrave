@@ -36,8 +36,8 @@
 //#include "audio/SoundPlayer.hh"
 #include "utils/Exception.hh"
 
-#define	SAMPLE_BITS		    (8)
-#define	WAVE_BUFFER_SIZE  (4096)
+#define SAMPLE_BITS       (8)
+#define WAVE_BUFFER_SIZE  (4096)
 
 using namespace workrave::utils;
 using namespace std;
@@ -182,11 +182,11 @@ W32SoundPlayer::open()
 int
 W32SoundPlayer::write(unsigned char *buf, size_t size)
 {
-	unsigned char *ptr = buf;
-	unsigned char *end = buf + size;
-	MMRESULT res;
+  unsigned char *ptr = buf;
+  unsigned char *end = buf + size;
+  MMRESULT res;
 
-	for (int i = buffer_position; ptr < end; i = (i + 1) % number_of_buffers)
+  for (int i = buffer_position; ptr < end; i = (i + 1) % number_of_buffers)
     {
       while ((buffers[i]->dwFlags & WHDR_INQUEUE) != 0)
         {
@@ -216,7 +216,7 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
         }
     }
 
-	return ptr - buf;
+  return ptr - buf;
 }
 
 void

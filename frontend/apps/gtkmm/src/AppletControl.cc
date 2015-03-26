@@ -98,7 +98,7 @@ AppletControl::init()
 #ifdef HAVE_DBUS
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
-  
+
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow();
 #endif
@@ -110,7 +110,7 @@ AppletControl::init()
 #ifdef PLATFORM_OS_OSX
   applets[APPLET_OSX] = new OSXAppletWindow();
 #endif
-  
+
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       if (applets[i] != NULL)
@@ -120,7 +120,7 @@ AppletControl::init()
           applets[i]->signal_request_activate().connect(sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_request_activate), (AppletType)i));
         }
     }
-  
+
   // Read configuration and start monitoring it.
   connections.add(GUIConfig::key_timerbox("applet").connect(boost::bind(&AppletControl::read_configuration, this)));
 
@@ -404,7 +404,7 @@ AppletControl::check_visible()
     {
       if (is_visible((AppletType)i))
         {
-          TRACE_MSG(i << " is visible"); 
+          TRACE_MSG(i << " is visible");
           count++;
         }
     }
@@ -419,7 +419,7 @@ AppletControl::check_visible()
       visible = new_visible;
       visibility_changed_signal.emit();
     }
-  
+
   TRACE_EXIT();
 }
 

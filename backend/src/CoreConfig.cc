@@ -47,7 +47,7 @@ const string CoreConfig::CFG_KEY_TIMER_SNOOZE              = "timers/%b/snooze";
 const string CoreConfig::CFG_KEY_TIMER_MONITOR             = "timers/%b/monitor";
 
 const string CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY = "timers/daily_limit/use_microbreak_activity";
-  
+
 const string CoreConfig::CFG_KEY_BREAKS                    = "breaks";
 const string CoreConfig::CFG_KEY_BREAK                     = "breaks/%b";
 
@@ -144,7 +144,7 @@ CoreConfig::init(IConfigurator::Ptr config)
   config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(),
                     false,
                     CONFIG_FLAG_INITIAL);
-  
+
   string monitor_name;
   bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
 
@@ -162,13 +162,13 @@ CoreConfig::expand(const string &key, workrave::BreakId id)
   string str = key;
   string::size_type pos = 0;
   string name = CoreConfig::get_break_name(id);
-  
+
   while ((pos = str.find("%b", pos)) != string::npos)
     {
       str.replace(pos, 2, name);
       pos++;
     }
-  
+
   return str;
 }
 

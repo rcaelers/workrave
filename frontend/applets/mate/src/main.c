@@ -18,7 +18,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
- 
+
 #include <mate-panel-applet.h>
 
 #include <gio/gio.h>
@@ -119,7 +119,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
-  
+
   char *text;
   int id;
   int flags;
@@ -129,8 +129,8 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
     {
       visible[i] = menu_data[i].visible_when_not_running;
     }
-  
-  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))  
+
+  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
       if (index == -1)
@@ -139,7 +139,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
 
       GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[index].action);
-      
+
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
         {
@@ -154,7 +154,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
         }
     }
-  
+
   g_variant_iter_free (iter);
 
   for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
@@ -219,7 +219,7 @@ on_menu_command(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   int index = lookup_menu_index_by_action(gtk_action_get_name(action));
   if (index == -1)
     {
@@ -347,7 +347,7 @@ static void workrave_applet_fill(WorkraveApplet *applet)
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
-  
+
   applet->action_group = gtk_action_group_new("WorkraveAppletActions");
   gtk_action_group_set_translation_domain(applet->action_group, GETTEXT_PACKAGE);
   gtk_action_group_add_actions(applet->action_group,
@@ -364,11 +364,11 @@ static void workrave_applet_fill(WorkraveApplet *applet)
                                       0,
                                       G_CALLBACK(on_menu_radio_changed),
                                       applet);
-  
-	gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
-	mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);
-	g_free(ui_path);
-  
+
+  gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
+  mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);
+  g_free(ui_path);
+
   gtk_container_add(GTK_CONTAINER(applet->applet), GTK_WIDGET(applet->image));
   gtk_widget_show_all(GTK_WIDGET(applet->applet));
 }
@@ -390,7 +390,7 @@ static gboolean workrave_applet_factory(MatePanelApplet *applet, const gchar *ii
       workrave_applet_fill(workrave_applet);
       retval = TRUE;
     }
-  
+
     return retval;
 }
 

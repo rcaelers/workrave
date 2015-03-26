@@ -53,7 +53,7 @@ private:
         const std::wstring &guid
         );
 
-    static bool read_from_registry_value( 
+    static bool read_from_registry_value(
         const enum reg reg, // HKLM or HKCU
         const std::wstring &guid,
         const std::wstring &value,

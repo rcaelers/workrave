@@ -38,8 +38,8 @@
 #include "SoundPlayer.hh"
 #include "utils/Exception.hh"
 
-#define	SAMPLE_BITS		    (8)
-#define	WAVE_BUFFER_SIZE  (4096)
+#define SAMPLE_BITS       (8)
+#define WAVE_BUFFER_SIZE  (4096)
 
 using namespace std;
 using namespace workrave;
@@ -101,7 +101,7 @@ W32DirectSoundPlayer::play_sound(string wavfile, int volume)
   if (wavfile != "")
     {
       DWORD id;
-      
+
       SoundClip *clip = new SoundClip(wavfile, events, volume);
       CloseHandle(CreateThread(NULL, 0, play_thread, clip, 0, &id));
     }
@@ -133,7 +133,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
     }
 
   delete clip;
-  
+
   TRACE_EXIT();
   return (DWORD) 0;
 }
@@ -189,11 +189,11 @@ SoundClip::~SoundClip()
 std::string
 SoundClip::get_error_string(DWORD error_code)
 {
-	wchar_t* buffer;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error_code, 0, (LPTSTR)&buffer, 0, NULL);
-	std::wstring str(buffer);
-	LocalFree(buffer);
-	return std::string(str.begin(), str.end());
+  wchar_t* buffer;
+  FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error_code, 0, (LPTSTR)&buffer, 0, NULL);
+  std::wstring str(buffer);
+  LocalFree(buffer);
+  return std::string(str.begin(), str.end());
 }
 
 void
@@ -214,7 +214,7 @@ SoundClip::init()
     {
       throw Exception(string("IDirectSound_SetCooperativeLevel") + get_error_string(hr));
     }
-  
+
   wave_file = new WaveFile(filename);
   wave_file->init();
 

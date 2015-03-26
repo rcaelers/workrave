@@ -118,7 +118,7 @@ public slots:
     func();
     this->deleteLater();
   };
-  
+
 private:
     boost::function<void ()> func;
 };

@@ -35,18 +35,18 @@ namespace workrave
         : detailed_information(detail)
       {
       }
-      
+
       explicit Exception(const Exception &parent, const std::string &detail)
       {
         detailed_information = parent.details() + ", " + detail;
       }
-      
+
       // FIXME: implement what
       virtual std::string details() const
       {
         return detailed_information;
       }
-      
+
     private:
       //
       std::string detailed_information;

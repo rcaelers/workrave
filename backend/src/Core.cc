@@ -89,7 +89,7 @@ Core::init(IApp *app, const string &display_name)
 
   dbus = IDBus::create();
   dbus->init();
-  
+
   init_configurator();
 
 #ifdef HAVE_TESTS
@@ -104,12 +104,12 @@ Core::init(IApp *app, const string &display_name)
       monitor = LocalActivityMonitor::create(configurator, display_name);
       // LCOV_EXCL_STOP
    }
-  
+
   monitor->init();
 
   statistics = Statistics::create(monitor);
   statistics->init();
-  
+
   core_modes = CoreModes::create(monitor);
   core_dbus = CoreDBus::create(core_modes, dbus);
 
@@ -176,7 +176,7 @@ Core::init_configurator()
             }
         }
     }
-  
+
   CoreConfig::init(configurator);
 
   string home = CoreConfig::general_datadir()();
@@ -217,7 +217,7 @@ Core::heartbeat()
   TRACE_ENTER("Core::heartbeat");
 
   TimeSource::sync();
-  
+
   // Process configuration
   configurator->heartbeat();
 
@@ -400,7 +400,7 @@ Core::set_powersave(bool down)
           set_operation_mode_override(OperationMode::Suspended, "powersave");
           powersave = true;
         }
-      
+
       breaks_control->save_state();
       statistics->update();
     }

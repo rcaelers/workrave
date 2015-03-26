@@ -24,14 +24,14 @@
 
 G_BEGIN_DECLS
 
-#define GTK_TYPE_TRAY_ICON		(wrgtk_tray_icon_get_type ())
-#define GTK_TRAY_ICON(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIcon))
-#define GTK_TRAY_ICON_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
-#define GTK_IS_TRAY_ICON(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_TRAY_ICON))
-#define GTK_IS_TRAY_ICON_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_TRAY_ICON))
-#define GTK_TRAY_ICON_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
+#define GTK_TYPE_TRAY_ICON    (wrgtk_tray_icon_get_type ())
+#define GTK_TRAY_ICON(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIcon))
+#define GTK_TRAY_ICON_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
+#define GTK_IS_TRAY_ICON(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_TRAY_ICON))
+#define GTK_IS_TRAY_ICON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_TRAY_ICON))
+#define GTK_TRAY_ICON_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
 
-typedef struct _WRGtkTrayIcon	   WRGtkTrayIcon;
+typedef struct _WRGtkTrayIcon    WRGtkTrayIcon;
 typedef struct _WRGtkTrayIconPrivate WRGtkTrayIconPrivate;
 typedef struct _WRGtkTrayIconClass   WRGtkTrayIconClass;
 
@@ -57,16 +57,16 @@ struct _WRGtkTrayIconClass
 GType          wrgtk_tray_icon_get_type         (void) G_GNUC_CONST;
 
 WRGtkTrayIcon   *wrgtk_tray_icon_new_for_screen  (GdkScreen   *screen,
-					       const gchar *name);
+                 const gchar *name);
 
 WRGtkTrayIcon   *wrgtk_tray_icon_new             (const gchar *name);
 
 guint          _wrgtk_tray_icon_send_message    (WRGtkTrayIcon *icon,
-					       gint         timeout,
-					       const gchar *message,
-					       gint         len);
+                 gint         timeout,
+                 const gchar *message,
+                 gint         len);
 void           _wrgtk_tray_icon_cancel_message  (WRGtkTrayIcon *icon,
-					       guint        id);
+                 guint        id);
 
 GtkOrientation wrgtk_tray_icon_get_orientation (WRGtkTrayIcon *icon);
 

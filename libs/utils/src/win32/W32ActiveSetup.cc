@@ -20,24 +20,24 @@
 /* Active Setup is post install data that's set by the Inno Setup installer.
 
 After Active Setup data is set it will be run for each user the next time that user logs on.
-However, in the case that the user hasn't yet logged off and then back on, any programs specified 
+However, in the case that the user hasn't yet logged off and then back on, any programs specified
 by Active Setup have not yet ran.
 
-In order to ensure the proper behavior of Workrave, Workrave's Active Setup key(s) should always be 
-checked before Workrave loads, and run if they haven't already. This module emulates the behavior 
+In order to ensure the proper behavior of Workrave, Workrave's Active Setup key(s) should always be
+checked before Workrave loads, and run if they haven't already. This module emulates the behavior
 of Microsoft's Active Setup.
 
 ##############################################WARNING##############################################
-Active Setup is undocumented and can be dangerous if not used properly. Its behavior is blocking 
-and there is no interaction available to the user in a typical case. In a typical case it will 
-block the explorer shell, with explorer running the Active Setup programs hidden from view and 
-waiting for them to complete before completing user initialization on logon. This emulation is very 
-similar. It was designed for the Workrave application to block before continuing execution until 
-Workrave's Active Setup programs have run and terminated. Therefore, it is extremely important that 
-any program put under the purview of Active Setup does not require any user interaction, does not 
-have any error message boxes, and has all its dependencies (so there are no message boxes about 
-failure to load libraries). The Workrave Active Setup program (I've only written one so far -- to 
-change a user's autorun settings) takes an extra step, to void user interaction during any 
+Active Setup is undocumented and can be dangerous if not used properly. Its behavior is blocking
+and there is no interaction available to the user in a typical case. In a typical case it will
+block the explorer shell, with explorer running the Active Setup programs hidden from view and
+waiting for them to complete before completing user initialization on logon. This emulation is very
+similar. It was designed for the Workrave application to block before continuing execution until
+Workrave's Active Setup programs have run and terminated. Therefore, it is extremely important that
+any program put under the purview of Active Setup does not require any user interaction, does not
+have any error message boxes, and has all its dependencies (so there are no message boxes about
+failure to load libraries). The Workrave Active Setup program (I've only written one so far -- to
+change a user's autorun settings) takes an extra step, to void user interaction during any
 potential crash.
 */
 
@@ -69,7 +69,7 @@ const REGSAM W32ActiveSetup::registry_view = ( W32ActiveSetup::is_os_64() ? KEY_
 /* The subkey path to HKLM/HKCU Active Setup GUIDs */
 const wchar_t W32ActiveSetup::component_path[] = L"SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\";
 
-/* Right now there is only one GUID key set by Inno and it's used by Workrave's 'ChangeAutorun' 
+/* Right now there is only one GUID key set by Inno and it's used by Workrave's 'ChangeAutorun'
 program, which adds/updates each user's Workrave autorun setting.
 */
 const wchar_t W32ActiveSetup::guid_autorun[] = L"{180B0AC5-6FDA-438B-9466-C9894322B6BA}";
@@ -85,7 +85,7 @@ bool W32ActiveSetup::is_os_64()
     SYSTEM_INFO si = { 0, };
 
     GetNativeSystemInfo( &si );
-    
+
     return( ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64 )
         || ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 )
         );
@@ -103,7 +103,7 @@ const WCHAR *W32ActiveSetup::get_user_profile_dir()
 
     if( buffer.size() && *buffer.begin() )
         return &buffer[ 0 ];
-    
+
     WCHAR *env_var = L"USERPROFILE";
 
     DWORD ret = GetEnvironmentVariableW( env_var, NULL, 0 );
@@ -127,7 +127,7 @@ Check for the existence of an Active Setup GUID key (HKLM or HKCU).
 
 returns true if the key exists
 */
-bool W32ActiveSetup::check_guid( 
+bool W32ActiveSetup::check_guid(
     const enum reg reg, // HKLM or HKCU
     const wstring &guid
     )
@@ -169,10 +169,10 @@ bool W32ActiveSetup::check_guid(
 
 /* W32ActiveSetup::is_guid_enabled()
 
-returns true if the HKLM Active Setup GUID key exists and the key value "IsInstalled" either does 
+returns true if the HKLM Active Setup GUID key exists and the key value "IsInstalled" either does
 not exist or does exist and does not have both a REG_DWORD type and data 0.
 
-Those conditions are based on the my testing in Windows XP SP3 x86. In most cases for GUID keys 
+Those conditions are based on the my testing in Windows XP SP3 x86. In most cases for GUID keys
 "IsInstalled" exists with a REG_DWORD type and data 1, in which case this function returns true.
 */
 bool W32ActiveSetup::is_guid_enabled(
@@ -231,7 +231,7 @@ Before this function does anything else 'data' is cleared. 'data' may be empty e
 
 returns true if the value exists in the registry. 'data' receives the value's data, if any.
 */
-bool W32ActiveSetup::read_from_registry_value( 
+bool W32ActiveSetup::read_from_registry_value(
     const enum reg reg, // HKLM or HKCU
     const wstring &guid,
     const wstring &value,
@@ -366,11 +366,11 @@ bool W32ActiveSetup::write_to_registry_value(
 
 
 /* W32ActiveSetup::get_version()
-Converts the REG_SZ data from value "Version" in an Active Setup GUID key (HKLM or HKCU) into a 
+Converts the REG_SZ data from value "Version" in an Active Setup GUID key (HKLM or HKCU) into a
 vector of 4 DWORDs.
 
 Active Setup observations:
-A valid "Version" value string of a GUID key has four parts or less, separated by comma. If a 
+A valid "Version" value string of a GUID key has four parts or less, separated by comma. If a
 number is greater than dword max the version is still valid, and that number is wrapped around.
 
 "2012,05,10,023701" returns DWORDs 2012, 5, 10, 23701
@@ -381,7 +381,7 @@ number is greater than dword max the version is still valid, and that number is 
 
 Before this function does anything else 'version' is cleared and then resized to 4 DWORDs.
 
-returns true if the "Version" value exists in the registry and it's valid. 'version' receives the 
+returns true if the "Version" value exists in the registry and it's valid. 'version' receives the
 version as a vector of 4 DWORDs.
 */
 bool W32ActiveSetup::get_version(
@@ -396,7 +396,7 @@ bool W32ActiveSetup::get_version(
     wstring data;
     if( !read_from_registry_value( reg, guid, L"Version", data ) )
         return false;
-    
+
     /* testing shows anything other than these characters invalidates the version string.
     Active Setup treats it the same as a version where all parts are zeroes
     */
@@ -440,7 +440,7 @@ bool W32ActiveSetup::get_version(
 
 /* W32ActiveSetup::set_version()
 
-Converts a vector of 4 DWORDs to a comma separated string of unsigned numbers and sets it as the 
+Converts a vector of 4 DWORDs to a comma separated string of unsigned numbers and sets it as the
 REG_SZ data for the "Version" value of an Active Setup GUID key.
 
 returns true on success
@@ -455,7 +455,7 @@ bool W32ActiveSetup::set_version(
 
     wstringstream ss;
     ss << version[ 0 ] << "," << version[ 1 ] << "," << version[ 2 ] << "," << version[ 3 ];
-    
+
     return write_to_registry_value( guid, L"Version", ss.str() );
 }
 
@@ -463,13 +463,13 @@ bool W32ActiveSetup::set_version(
 
 /* W32ActiveSetup::update()
 
-This function emulates Active Setup behavior. It should be called synchronously by the main thread 
+This function emulates Active Setup behavior. It should be called synchronously by the main thread
 before Workrave is initialized.
 
-The way Active Setup basically works is it checks the HKLM GUID key for a "Version" REG_SZ value 
-and compares it to the same HKCU GUID key's "Version" value. If the HKCU GUID key does not exist, 
-or its "Version" value does not exist, or its version is less than the HKLM version then Active 
-Setup will add/update the HKCU GUID key by copying any HKLM "Version" value to the HKCU "Version" 
+The way Active Setup basically works is it checks the HKLM GUID key for a "Version" REG_SZ value
+and compares it to the same HKCU GUID key's "Version" value. If the HKCU GUID key does not exist,
+or its "Version" value does not exist, or its version is less than the HKLM version then Active
+Setup will add/update the HKCU GUID key by copying any HKLM "Version" value to the HKCU "Version"
 value, and then execute the string contained in HKLM GUID key's "StubPath" value, if any.
 http://www.sepago.de/helge/2010/04/22/active-setup-explained/
 
@@ -487,7 +487,7 @@ bool W32ActiveSetup::update(
 
     vector<DWORD> hklm_version;
     get_version( HKLM, guid, hklm_version );
-    
+
     if( check_guid( HKCU, guid ) )
     {
         vector<DWORD> hkcu_version;
@@ -523,7 +523,7 @@ bool W32ActiveSetup::update(
         thread = NULL;
     }
 
-    /* Active Setup only attempts to run the StubPath, it doesn't record whether or not it was 
+    /* Active Setup only attempts to run the StubPath, it doesn't record whether or not it was
     successful in doing so.
     */
 
@@ -534,7 +534,7 @@ bool W32ActiveSetup::update(
 
 /* W32ActiveSetup::update_all()
 
-returns true if any of Workrave's HKLM Active Setup GUID keys needed to be installed in HKCU 
+returns true if any of Workrave's HKLM Active Setup GUID keys needed to be installed in HKCU
 Active Setup.
 */
 bool W32ActiveSetup::update_all()

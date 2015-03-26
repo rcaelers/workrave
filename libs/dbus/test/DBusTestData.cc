@@ -28,7 +28,7 @@
 #include "dbus/IDBus.hh"
 
 //! Constructor.
-DBusTestData::DBusTestData() 
+DBusTestData::DBusTestData()
 {
 }
 
@@ -82,7 +82,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Str
   QString e;
   argument >> e; message.m_enum = DBusTestData::str_to_enum(e.toStdString());
   argument.endStructure();
- 
+
   return argument;
 }
 
@@ -129,7 +129,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Str
   QString e;
   argument >> e; message.m_enum = DBusTestData::str_to_enum(e.toStdString());
   argument.endStructure();
- 
+
   return argument;
 }
 

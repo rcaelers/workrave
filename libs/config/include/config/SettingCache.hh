@@ -36,11 +36,11 @@ namespace workrave
       template<typename T, typename S = T>
       static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const std::string &key, const S &def = S())
       {
-        if (cache.find(key) == cache.end()) 
+        if (cache.find(key) == cache.end())
           {
             cache[key] = new workrave::config::Setting<T, S>(config, key, def);
-          } 
-        
+          }
+
         workrave::config::Setting<T, S> *ret = dynamic_cast<workrave::config::Setting<T,S> *>(cache[key]);
         assert(ret != NULL);
         return *ret;
@@ -48,11 +48,11 @@ namespace workrave
 
       static workrave::config::SettingGroup &group(IConfigurator::Ptr config, const std::string &key)
       {
-        if (cache.find(key) == cache.end()) 
+        if (cache.find(key) == cache.end())
           {
             cache[key] = new workrave::config::SettingGroup(config, key);
-          } 
-        
+          }
+
         workrave::config::SettingGroup *ret = dynamic_cast<workrave::config::SettingGroup *>(cache[key]);
         assert(ret != NULL);
         return *ret;

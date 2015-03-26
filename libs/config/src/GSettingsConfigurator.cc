@@ -89,7 +89,7 @@ bool
 GSettingsConfigurator::get_value(const std::string &full_path, VariantType type, Variant &out) const
 {
   bool ret = false;
-  
+
   string key;
   GSettings *child = get_settings(full_path, key);
   if (child != NULL)
@@ -151,7 +151,7 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
           out.type = type;
         }
     }
-  
+
   return ret;
 }
 
@@ -163,7 +163,7 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
 
   string key;
   GSettings *child = get_settings(full_path, key);
-  
+
   if (child != NULL)
     {
       switch(value.type)
@@ -252,7 +252,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
   string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
-  
+
   for (unsigned int i = 0; i < sizeof(underscore_exceptions) / sizeof(string); i++)
     {
       string mangled = boost::algorithm::replace_all_copy(underscore_exceptions[i], "-", "_");
@@ -263,7 +263,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
           break;
         }
     }
-  
+
   GSettingsConfigurator *self = (GSettingsConfigurator *) user_data;
   self->listener->config_changed_notify(changed);
 
@@ -301,7 +301,7 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   string schema = boost::algorithm::replace_all_copy(path, "/", ".");
 
   TRACE_MSG(key << " " << path << " " << schema);
-  
+
   SettingsCIter i = settings.find(schema_base + "." + schema);
   if (i == settings.end())
     {

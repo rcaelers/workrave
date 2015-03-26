@@ -41,7 +41,7 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
   mode_icons[workrave::OperationMode::Quiet] = UiUtil::create_icon("workrave-quiet-icon-medium.png");
 
   tray_icon = new QSystemTrayIcon();
-  
+
   menu = ToolkitMenu::create(menu_model);
   tray_icon->setContextMenu(menu->get_menu());
   TRACE_EXIT();
@@ -66,7 +66,7 @@ StatusIcon::init()
                                         {
                                           tray_icon->setVisible(enabled);
                                         });
-  
+
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   tray_icon->setVisible(tray_icon_enabled);
 }

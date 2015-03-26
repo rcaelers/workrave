@@ -64,7 +64,7 @@ public:
 #for $m in interface.signals
   virtual void ${m.qname}(const string &path #slurp
   #for p in m.params
-    #if p.hint == [] 
+    #if p.hint == []
       , $interface.get_type(p.type).symbol() $p.name#slurp
     #else if 'ptr' in p.hint
       , $interface.get_type(p.type).symbol() *$p.name#slurp

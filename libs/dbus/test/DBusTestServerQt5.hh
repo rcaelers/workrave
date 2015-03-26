@@ -43,7 +43,7 @@ public:
   void test_fire_signal();
   void test_fire_signal_without_args();
   void test_fire_signal_with_ref();
-  
+
 private:
   QCoreApplication *app;
   workrave::dbus::IDBus::Ptr dbus;

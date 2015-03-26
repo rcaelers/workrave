@@ -127,7 +127,7 @@ W32StatusIcon::show_balloon(string id, const Glib::ustring &balloon)
   gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
 
   current_id = id;
-  
+
   if (winfo != NULL && wtitle != NULL)
     {
       nid.uFlags |= NIF_INFO;
@@ -357,7 +357,7 @@ _gdk_win32_pixbuf_to_hicon_supports_alpha (void)
 
 static HBITMAP
 create_alpha_bitmap (gint     size,
-		     guchar **outdata)
+         guchar **outdata)
 {
   BITMAPV5HEADER bi;
   HDC hdc;
@@ -384,7 +384,7 @@ create_alpha_bitmap (gint     size,
       return NULL;
     }
   hBitmap = CreateDIBSection (hdc, (BITMAPINFO *)&bi, DIB_RGB_COLORS,
-			      (PVOID *) outdata, NULL, (DWORD)0);
+            (PVOID *) outdata, NULL, (DWORD)0);
   ReleaseDC (NULL, hdc);
 
   return hBitmap;
@@ -392,8 +392,8 @@ create_alpha_bitmap (gint     size,
 
 static HBITMAP
 create_color_bitmap (gint     size,
-		     guchar **outdata,
-		     gint     bits)
+         guchar **outdata,
+         gint     bits)
 {
   struct {
     BITMAPV4HEADER bmiHeader;
@@ -422,7 +422,7 @@ create_color_bitmap (gint     size,
       return NULL;
     }
   hBitmap = CreateDIBSection (hdc, (BITMAPINFO *)&bmi, DIB_RGB_COLORS,
-			      (PVOID *) outdata, NULL, (DWORD)0);
+            (PVOID *) outdata, NULL, (DWORD)0);
   ReleaseDC (NULL, hdc);
 
   return hBitmap;
@@ -430,8 +430,8 @@ create_color_bitmap (gint     size,
 
 static gboolean
 pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
-				HBITMAP   *color,
-				HBITMAP   *mask)
+        HBITMAP   *color,
+        HBITMAP   *mask)
 {
   /* Based on code from
    * http://www.dotnet247.com/247reference/msgs/13/66301.aspx
@@ -482,22 +482,22 @@ pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
       mask_bit = (0x80 >> (i_offset % 8));
       inrow = indata + (height-j-1)*rowstride;
       for (i = 0; i < width; i++)
-	{
-	  colorrow[4*i+0] = inrow[4*i+2];
-	  colorrow[4*i+1] = inrow[4*i+1];
-	  colorrow[4*i+2] = inrow[4*i+0];
-	  colorrow[4*i+3] = inrow[4*i+3];
-	  if (inrow[4*i+3] == 0)
-	    maskbyte[0] |= mask_bit;	/* turn ON bit */
-	  else
-	    maskbyte[0] &= ~mask_bit;	/* turn OFF bit */
-	  mask_bit >>= 1;
-	  if (mask_bit == 0)
-	    {
-	      mask_bit = 0x80;
-	      maskbyte++;
-	    }
-	}
+  {
+    colorrow[4*i+0] = inrow[4*i+2];
+    colorrow[4*i+1] = inrow[4*i+1];
+    colorrow[4*i+2] = inrow[4*i+0];
+    colorrow[4*i+3] = inrow[4*i+3];
+    if (inrow[4*i+3] == 0)
+      maskbyte[0] |= mask_bit;  /* turn ON bit */
+    else
+      maskbyte[0] &= ~mask_bit; /* turn OFF bit */
+    mask_bit >>= 1;
+    if (mask_bit == 0)
+      {
+        mask_bit = 0x80;
+        maskbyte++;
+      }
+  }
     }
 
   *color = hColorBitmap;
@@ -508,8 +508,8 @@ pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
 
 static gboolean
 pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
-			   HBITMAP   *color,
-			   HBITMAP   *mask)
+         HBITMAP   *color,
+         HBITMAP   *mask)
 {
   /* Based on code from
    * http://www.dotnet247.com/247reference/msgs/13/66301.aspx
@@ -568,26 +568,26 @@ pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
       mask_bit = (0x80 >> (i_offset % 8));
       inrow = indata + (height-j-1)*rowstride;
       for (i = 0; i < width; i++)
-	{
-	  if (has_alpha && inrow[nc*i+3] < 128)
-	    {
-	      colorrow[3*i+0] = colorrow[3*i+1] = colorrow[3*i+2] = 0;
-	      maskbyte[0] |= mask_bit;	/* turn ON bit */
-	    }
-	  else
-	    {
-	      colorrow[3*i+0] = inrow[nc*i+2];
-	      colorrow[3*i+1] = inrow[nc*i+1];
-	      colorrow[3*i+2] = inrow[nc*i+0];
-	      maskbyte[0] &= ~mask_bit;	/* turn OFF bit */
-	    }
-	  mask_bit >>= 1;
-	  if (mask_bit == 0)
-	    {
-	      mask_bit = 0x80;
-	      maskbyte++;
-	    }
-	}
+  {
+    if (has_alpha && inrow[nc*i+3] < 128)
+      {
+        colorrow[3*i+0] = colorrow[3*i+1] = colorrow[3*i+2] = 0;
+        maskbyte[0] |= mask_bit;  /* turn ON bit */
+      }
+    else
+      {
+        colorrow[3*i+0] = inrow[nc*i+2];
+        colorrow[3*i+1] = inrow[nc*i+1];
+        colorrow[3*i+2] = inrow[nc*i+0];
+        maskbyte[0] &= ~mask_bit; /* turn OFF bit */
+      }
+    mask_bit >>= 1;
+    if (mask_bit == 0)
+      {
+        mask_bit = 0x80;
+        maskbyte++;
+      }
+  }
     }
 
   *color = hColorBitmap;

@@ -33,16 +33,16 @@ class BreakConfig
 {
 public:
   typedef boost::shared_ptr<BreakConfig> Ptr;
- 
+
 public:
   static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
   BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
   bool is_microbreak_used_for_activity() const;
-  bool is_enabled() const; 
-  
-private:  
+  bool is_enabled() const;
+
+private:
   void load_timer_config();
   void load_break_config();
   DayTimePred *create_time_pred(std::string spec);

@@ -46,7 +46,7 @@ Timer::get()
 
 
 Timer::Timer()
-#ifdef HAVE_TESTS  
+#ifdef HAVE_TESTS
   : simulated(false), current_time(0)
 #endif
 {
@@ -65,20 +65,20 @@ Timer::create(string name, int64_t interval, Callback callback)
     {
       timers[id] = new Info();
     }
-  
+
   Info *info = timers[id];
   info->callback = callback;
 
 #ifdef HAVE_TESTS
   info->context = g_main_context_get_thread_default();
 #endif
-  
+
   if (info->interval != interval)
     {
       info->interval = interval;
-      
+
       if (info->source != NULL)
-        { 
+        {
           g_source_destroy(info->source);
           info->source = NULL;
         }
@@ -129,9 +129,9 @@ gboolean
 Timer::static_on_timer(gpointer data)
 {
   Info *info = (Info *)data;
-  
+
   info->callback();
-  
+
   return G_SOURCE_CONTINUE;
 }
 
@@ -141,7 +141,7 @@ gboolean
 Timer::static_on_idle(gpointer data)
 {
   Info *info = (Info *)data;
-  
+
   info->callback();
   info->syncer->notify();
   return FALSE;
@@ -171,7 +171,7 @@ Timer::set_simulated(bool on)
       for (TimerMapIter i = timers.begin(); i != timers.end(); i++)
         {
           if (i->second->source != NULL)
-            { 
+            {
               g_source_destroy(i->second->source);
               i->second->source = NULL;
             }
@@ -210,16 +210,16 @@ Timer::simulate(int64_t usec, int64_t delay)
               timers_to_call.push_back(i->second);
               i->second->next = current_time + i->second->interval;
             }
-          
+
           if (smallest == -1 || (i->second->next - current_time) < smallest)
             {
               smallest = i->second->interval;
             }
         }
       g_timer_mutex.unlock();
-      
+
       CallbackSyncer syncer(timers_to_call.size());
-      
+
       for (list<Info *>::iterator i = timers_to_call.begin(); i != timers_to_call.end(); i++)
         {
           (*i)->syncer = &syncer;

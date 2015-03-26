@@ -63,7 +63,7 @@ Platform::get_default_display()
     return xdisplay;
 }
 
-unsigned long 
+unsigned long
 Platform::get_default_root_window()
 {
 #if defined(HAVE_GTK)
@@ -73,21 +73,21 @@ Platform::get_default_root_window()
     QWindow *window = desktop->windowHandle();
     return window->winId();
 #else
-#error Platform unsupported    
+#error Platform unsupported
 #endif
 
 }
 #endif
 
 int
-Platform::setenv(const char* name, const char* val, int overwrite) 
+Platform::setenv(const char* name, const char* val, int overwrite)
 {
-  return ::setenv(name, val, overwrite); 
+  return ::setenv(name, val, overwrite);
 }
 
 int
-Platform::unsetenv(const char* name) 
-{ 
-  return ::unsetenv(name); 
+Platform::unsetenv(const char* name)
+{
+  return ::unsetenv(name);
 }
 

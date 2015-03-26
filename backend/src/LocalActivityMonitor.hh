@@ -39,7 +39,7 @@ class LocalActivityMonitor :
 {
 public:
   static Ptr create(IConfigurator::Ptr config, const std::string &display_name);
-  
+
   LocalActivityMonitor(IConfigurator::Ptr config, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
@@ -56,7 +56,7 @@ public:
   virtual void mouse_notify(int x, int y, int wheel = 0);
   virtual void button_notify(bool is_press);
   virtual void keyboard_notify(bool repeat);
-  
+
 private:
   void call_listener();
 
@@ -65,7 +65,7 @@ private:
   void get_parameters(int &noise, int &activity, int &idle);
 
   void process_state();
-  
+
   //! State of the activity monitor.
   enum LocalActivityMonitorState
     {
@@ -76,13 +76,13 @@ private:
       ACTIVITY_MONITOR_NOISE,
       ACTIVITY_MONITOR_ACTIVE
     };
-  
+
 private:
   IConfigurator::Ptr config;
 
-  //! 
+  //!
   std::string display_name;
-  
+
   //! The actual monitoring driver.
   IInputMonitor::Ptr input_monitor;
 

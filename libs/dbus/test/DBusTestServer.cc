@@ -41,7 +41,7 @@ ddd
 using namespace std;
 
 //! Constructor.
-DBusTestServer::DBusTestServer() 
+DBusTestServer::DBusTestServer()
 {
 }
 
@@ -64,16 +64,16 @@ DBusTestServer::test_basic_out_ref(int                     i_int,
                                    bool                    i_bool,
                                    double                  i_double,
                                    DBusTestData::Enum      i_enum,
-                                   int                     &o_int,   
-                                   uint8_t                 &o_uint8, 
-                                   int16_t                 &o_int16, 
+                                   int                     &o_int,
+                                   uint8_t                 &o_uint8,
+                                   int16_t                 &o_int16,
                                    uint16_t                &o_uint16,
-                                   int32_t                 &o_int32, 
+                                   int32_t                 &o_int32,
                                    uint32_t                &o_uint32,
-                                   int64_t                 &o_int64, 
+                                   int64_t                 &o_int64,
                                    uint64_t                &o_uint64,
                                    string                  &o_string,
-                                   bool                    &o_bool,  
+                                   bool                    &o_bool,
                                    double                  &o_double,
                                    DBusTestData::Enum      &o_enum
                                    )

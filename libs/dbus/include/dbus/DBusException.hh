@@ -33,7 +33,7 @@ namespace workrave
     extern const char *DBUS_ERROR_NOT_SUPPORTED;
     extern const char *DBUS_ERROR_INVALID_ARGS;
     extern const char *DBUS_ERROR_UNKNOWN_METHOD;
-    
+
     class DBusException : public workrave::utils::Exception
     {
     public:
@@ -51,15 +51,15 @@ namespace workrave
     typedef boost::error_info<struct tag_error_code_info, std::string> error_code_info;
     typedef boost::error_info<struct tag_oject_info, std::string> object_info;
     typedef boost::error_info<struct tag_interface_info, std::string> interface_info;
-    typedef boost::error_info<struct tag_method_info, std::string> method_info; 
-    typedef boost::error_info<struct tag_argument_info, std::string> argument_info; 
-    typedef boost::error_info<struct tag_type_info, std::string> actual_type_info; 
-    typedef boost::error_info<struct tag_expected_type_info, std::string> expected_type_info; 
-    typedef boost::error_info<struct tag_field_info, std::string> field_info; 
-    typedef boost::error_info<struct tag_parameter_info, std::string> parameter_info; 
+    typedef boost::error_info<struct tag_method_info, std::string> method_info;
+    typedef boost::error_info<struct tag_argument_info, std::string> argument_info;
+    typedef boost::error_info<struct tag_type_info, std::string> actual_type_info;
+    typedef boost::error_info<struct tag_expected_type_info, std::string> expected_type_info;
+    typedef boost::error_info<struct tag_field_info, std::string> field_info;
+    typedef boost::error_info<struct tag_parameter_info, std::string> parameter_info;
 
     typedef boost::error_info<struct tag_field_path_info, std::string> field_path_info;
-    
+
     class DBusRemoteException : public virtual boost::exception, public virtual std::exception
     {
     public:
@@ -86,7 +86,7 @@ namespace workrave
 
         return *this;
       }
-      
+
       void prepend_field(const std::string &field)
       {
         if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
@@ -98,7 +98,7 @@ namespace workrave
             *this << field_path_info(field);
           }
       }
-      
+
       std::string diag()
       {
         std::string ret;

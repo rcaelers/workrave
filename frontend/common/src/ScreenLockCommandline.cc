@@ -1,6 +1,6 @@
 // SystemLockCommandline.cc -- support for locking the system using command line
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // Uses some code and ideas from the KShutdown utility: file src/actions/lock.cpp
 // Copyright (C) 2009  Konrad Twardowski
@@ -45,7 +45,7 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
       cmd = g_strdup_printf("%s %s", program_path, parameters);
       g_free(program_path);
     }
-  else 
+  else
     {
       cmd = program_path;
     }

@@ -45,7 +45,7 @@ public:
 private:
   static W32InputMonitor *singleton;
   static void on_harpoon_event(HarpoonEvent *event);
-  
+
   IConfigurator::Ptr config;
 };
 

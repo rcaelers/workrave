@@ -40,7 +40,7 @@ CoreHooks::CoreHooks()
 }
 
 
-//! 
+//!
 CoreHooks::~CoreHooks()
 {
 }

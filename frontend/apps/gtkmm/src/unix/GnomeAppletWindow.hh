@@ -104,7 +104,7 @@ private:
   bool on_delete_event(GdkEventAny*);
   bool delete_event(GdkEventAny *event);
   void on_plug_size_allocate(Gtk::Allocation &allocation);
-  
+
   void cleanup_dbus();
   void init_dbus();
   guint32 get_socketid();
@@ -112,7 +112,7 @@ private:
   Orientation get_orientation();
   void set_menu_status(const std::string &menu, bool status);
   void set_menu_active(const std::string &menu, bool active);
-  
+
   GDBusProxy *proxy;
 };
 

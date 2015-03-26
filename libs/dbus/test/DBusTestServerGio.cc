@@ -35,7 +35,7 @@
 using namespace std;
 
 //! Constructor.
-DBusTestServerGio::DBusTestServerGio() 
+DBusTestServerGio::DBusTestServerGio()
 {
 }
 
@@ -56,7 +56,7 @@ DBusTestServerGio::run(int argc, char **argv)
 {
   (void) argc;
   (void) argv;
-  
+
 #ifdef TRACING
   Debug::name(std::string("server"));
 #endif
@@ -64,11 +64,11 @@ DBusTestServerGio::run(int argc, char **argv)
   try
     {
       GMainLoop *loop = g_main_loop_new(NULL, TRUE);
-      
+
       dbus = workrave::dbus::DBusGio::create();
-      
+
       dbus->init();
-        
+
       extern void init_DBusTestGio(workrave::dbus::IDBus::Ptr dbus);
       init_DBusTestGio(dbus);
 
@@ -107,7 +107,7 @@ DBusTestServerGio::test_fire_signal()
 
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
-    
+
   if (test != NULL)
     {
       test->Signal("/org/workrave/Test", par.m_int,
@@ -125,7 +125,7 @@ DBusTestServerGio::test_fire_signal()
                    l, m );
     }
 }
-     
+
 void
 DBusTestServerGio::test_fire_signal_without_args()
 {
@@ -158,7 +158,7 @@ DBusTestServerGio::test_fire_signal_with_ref()
 
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
-    
+
 
   if (test != NULL)
     {

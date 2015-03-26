@@ -39,7 +39,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model)
   timer_box_control = new TimerBoxControl("main_window", *this);
 
   menu = ToolkitMenu::create(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
-  
+
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
 
@@ -89,13 +89,13 @@ MainWindow::move_to_start_position()
     {
       head = 0;
     }
-  
+
   const QRect availableGeometry = desktop->availableGeometry(head);
 
   QRect geometry = frameGeometry();
   geometry.moveTo(x, y);
 
-  if (!geometry.intersects(availableGeometry)) 
+  if (!geometry.intersects(availableGeometry))
     {
       geometry.moveBottom(qMin(geometry.bottom(), availableGeometry.bottom()));
       geometry.moveLeft(qMax(geometry.left(), availableGeometry.left()));
@@ -118,7 +118,7 @@ MainWindow::on_show_contextmenu(const QPoint &pos)
   menu->get_menu()->popup(globalPos);
 }
 
-void 
+void
 MainWindow::moveEvent(QMoveEvent * event)
 {
   if (isVisible())

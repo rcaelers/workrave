@@ -85,7 +85,7 @@ struct _IndicatorWorkravePrivate {
 
   guint owner_id;
   guint watch_id;
-  
+
   gboolean workrave_running;
   gboolean alive;
   gboolean force_icon;
@@ -93,7 +93,7 @@ struct _IndicatorWorkravePrivate {
   guint startup_timer;
   guint startup_count;
   guint update_count;
-  
+
   WorkraveTimerbox *timerbox;
 };
 
@@ -193,7 +193,7 @@ indicator_workrave_init(IndicatorWorkrave *self)
   priv->timerbox = g_object_new(WORKRAVE_TYPE_TIMERBOX, NULL);
 
   indicator_workrave_create_dbus(self);
-  
+
   priv->watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION,
                                     "org.workrave.Workrave",
                                     G_BUS_NAME_WATCHER_FLAGS_NONE,
@@ -213,12 +213,12 @@ indicator_workrave_dispose(GObject *object)
     {
       g_bus_unwatch_name(priv->watch_id);
     }
-  
+
   if (priv->owner_id != 0)
     {
       g_bus_unown_name(priv->owner_id);
     }
-  
+
   if (priv->timer != 0)
     {
       g_source_remove(priv->timer);
@@ -304,7 +304,7 @@ indicator_workrave_start(IndicatorWorkrave *self)
     {
       return;
     }
-  
+
   priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
                                   DBUS_NAME,
                                   G_BUS_NAME_OWNER_FLAGS_NONE,
@@ -313,9 +313,9 @@ indicator_workrave_start(IndicatorWorkrave *self)
                                   NULL,
                                   self,
                                   NULL);
-  
+
   GError *error = NULL;
-  
+
   if (error == NULL)
     {
       GVariant *result = g_dbus_proxy_call_sync(priv->workrave_ui_proxy,
@@ -325,7 +325,7 @@ indicator_workrave_start(IndicatorWorkrave *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request embedding for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
@@ -348,7 +348,7 @@ indicator_workrave_start(IndicatorWorkrave *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request tray icon enabled for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
@@ -372,7 +372,7 @@ indicator_workrave_start(IndicatorWorkrave *self)
                                                 -1,
                                                 NULL,
                                                 &error);
-      
+
       if (error != NULL)
         {
           g_warning("Could not request operation mode for %s: %s", WORKRAVE_INDICATOR_SERVICE_NAME, error->message);
@@ -477,7 +477,7 @@ indicator_workrave_create_dbus(IndicatorWorkrave *self)
                            priv->workrave_ui_proxy_cancel,
                            on_dbus_ui_ready,
                            self);
-      
+
   priv->workrave_core_proxy_cancel = g_cancellable_new();
   g_dbus_proxy_new_for_bus(G_BUS_TYPE_SESSION,
                            flags,
@@ -583,7 +583,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       workrave_timerbox_set_force_icon(priv->timerbox, priv->force_icon);
       workrave_timerbox_update(priv->timerbox, priv->image);
     }
-  
+
   else if (g_strcmp0(signal_name, "OperationModeChanged") == 0)
     {
       gchar *mode;
@@ -604,7 +604,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
     }
 
   priv->update_count++;
-  
+
   TimerData td[BREAK_ID_SIZEOF];
 
   g_variant_get(parameters, "((siiiiiii)(siiiiiii)(siiiiiii))",

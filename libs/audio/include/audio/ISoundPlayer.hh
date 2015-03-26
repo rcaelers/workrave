@@ -32,14 +32,14 @@ namespace workrave
         SOUND_CAP_MUTE,
         SOUND_CAP_EOS_EVENT
       };
-    
+
     class ISoundPlayer
     {
     public:
       typedef boost::shared_ptr<ISoundPlayer> Ptr;
-      
+
       static Ptr create();
-      
+
       virtual ~ISoundPlayer() {}
 
       virtual void init() = 0;

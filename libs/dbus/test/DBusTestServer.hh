@@ -40,7 +40,7 @@ public:
   virtual ~DBusTestServer();
 
   virtual void run(int argc, char **argv) = 0;
-  
+
   // DBus
   void test_basic_out_ref(int                 i_int,
                     uint8_t             i_uint8,

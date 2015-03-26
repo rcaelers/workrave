@@ -78,11 +78,11 @@ private:
 #if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
 #endif
-  
+
 #if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
   void on_balloon_activate(std::string id);
 #endif
-  
+
 #ifndef HAVE_STATUSICON_SIGNAL
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
@@ -99,7 +99,7 @@ private:
   sigc::signal<void> activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
 
-  
+
 #ifdef USE_W32STATUSICON
   W32StatusIcon *status_icon;
 #else

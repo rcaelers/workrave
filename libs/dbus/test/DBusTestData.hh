@@ -67,7 +67,7 @@ public:
     double      m_double;
     Enum        m_enum;
   };
-  
+
   typedef std::list<StructWithAllBasicTypes> ListOfStructWithAllBasicTypes;
   typedef std::map<std::string, StructWithAllBasicTypes> MapOfStructWithAllBasicTypes;
 
@@ -81,17 +81,17 @@ public:
     {
       return m_key == other.m_key && m_data == other.m_data;
     }
-    
+
     int              m_key;
     int              m_data;
   };
-  
+
   typedef std::map<std::string, Data> DataMap;
   typedef std::list<Data> DataList;
 
   typedef std::map<std::string, std::string> StringMap;
   typedef std::list<std::string> StringList;
-  
+
   static std::string enum_to_str(DBusTestData::Enum value)
   {
     std::string ret;
@@ -145,7 +145,7 @@ public:
     return ret;
   }
 
-  
+
   DBusTestData();
   virtual ~DBusTestData();
 };

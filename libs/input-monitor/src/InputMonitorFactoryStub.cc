@@ -30,21 +30,21 @@ class InputMonitorStub : public IInputMonitor
 {
 public:
   virtual ~InputMonitorStub() {}
-  
+
   virtual bool init()
   {
     return true;
   }
-  
+
   virtual void terminate()
   {
   }
-  
+
   virtual void subscribe(IInputMonitorListener *listener)
   {
     (void) listener;
   }
-  
+
   virtual void unsubscribe(IInputMonitorListener *listener)
   {
     (void) listener;

@@ -114,7 +114,7 @@ Statistics::update()
       const time_t now = time(NULL);
       struct tm *tmnow = localtime(&now);
       current_day->stop = *tmnow;
-      
+
       if (!been_active)
         {
           current_day->start = *tmnow;
@@ -126,14 +126,14 @@ Statistics::update()
 }
 
 
-bool 
+bool
 Statistics::delete_all_history()
 {
     update();
 
     string histfile = AssetPath::get_home_directory() + "historystats";
     boost::filesystem::path histpath(histfile);
-    
+
     if( boost::filesystem::is_regular_file(histpath) && std::remove( histfile.c_str() ) )
     {
         return false;
@@ -214,7 +214,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 
   boost::filesystem::path path(ss.str());
   bool exists = boost::filesystem::is_regular_file(path);
-  
+
   ofstream stats_file(ss.str().c_str(), ios::app);
 
   if (!exists)

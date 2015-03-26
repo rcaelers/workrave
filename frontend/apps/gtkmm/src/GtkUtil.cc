@@ -420,7 +420,7 @@ GtkUtil::get_visible_tooltip_window()
     return func_retval;
 }
 
- 
+
 Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::create_image(const std::string &filename)
 {

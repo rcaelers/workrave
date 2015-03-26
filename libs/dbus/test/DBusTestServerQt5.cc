@@ -40,7 +40,7 @@
 using namespace std;
 
 //! Constructor.
-DBusTestServerQt5::DBusTestServerQt5() 
+DBusTestServerQt5::DBusTestServerQt5()
 {
 }
 
@@ -74,9 +74,9 @@ DBusTestServerQt5::run(int argc, char **argv)
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
       dbus = workrave::dbus::DBusQt5::create();
-     
+
       dbus->init();
-        
+
       extern void init_DBusTestQt(workrave::dbus::IDBus::Ptr dbus);
       init_DBusTestQt(dbus);
 
@@ -84,7 +84,7 @@ DBusTestServerQt5::run(int argc, char **argv)
       dbus->register_object_path(WORKRAVE_TEST_PATH);
       dbus->register_service(WORKRAVE_TEST_SERVICE);
 
-      app->exec();        
+      app->exec();
     }
   catch (workrave::dbus::DBusException &)
     {
@@ -115,7 +115,7 @@ DBusTestServerQt5::test_fire_signal()
 
   l.push_back(DBusTestData::Data(1, 2));
   m["1"] = DBusTestData::Data(1, 2);
-  
+
   if (test != NULL)
     {
       test->Signal("/org/workrave/Test", par.m_int,
@@ -133,7 +133,7 @@ DBusTestServerQt5::test_fire_signal()
                    l, m );
     }
 }
-     
+
 void
 DBusTestServerQt5::test_fire_signal_without_args()
 {
@@ -169,7 +169,7 @@ DBusTestServerQt5::test_fire_signal_with_ref()
 
   l.push_back(DBusTestData::Data(1, 2));
   m["1"] = DBusTestData::Data(1, 2);
-  
+
   if (test != NULL)
     {
       test->SignalWithRef("/org/workrave/Test", par.m_int,

@@ -66,7 +66,7 @@ ConfiguratorFactory::create(Format fmt)
       b = new GConfConfigurator();
 #endif
     }
-  
+
   if (fmt == FormatXml)
     {
       b = new XmlConfigurator();

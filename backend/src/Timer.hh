@@ -82,10 +82,10 @@ public:
   // Control
   void enable();
   void disable();
-  
+
   void snooze_timer();
   void inhibit_snooze();
-  
+
   void start_timer();
   void stop_timer();
   void reset_timer();
@@ -107,7 +107,7 @@ public:
   void set_daily_reset(DayTimePred *daily_reset);
   bool is_auto_reset_enabled() const;
   int64_t get_auto_reset() const;
-  int64_t get_next_reset_time() const; 
+  int64_t get_next_reset_time() const;
 
   // Limiting.
   void set_limit(int t);
@@ -122,7 +122,7 @@ public:
 
   // Timer ID
   std::string get_id() const;
-  
+
   // State serialization.
   std::string serialize_state() const;
   bool deserialize_state(const std::string &state, int version);
@@ -135,7 +135,7 @@ private:
   void compute_next_limit_time();
   void compute_next_reset_time();
   void compute_next_daily_reset_time();
-  
+
 private:
   //! Is this timer enabled ?
   bool timer_enabled;

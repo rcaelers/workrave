@@ -33,21 +33,21 @@ public:
   {
     (void) tip;
   }
-  
+
   virtual void set_icon(StatusIconType icon)
   {
     (void) icon;
   }
-  
+
   virtual void update_view()
   {
   }
-  
+
   virtual void set_enabled(bool enabled)
   {
     (void) enabled;
   }
-  
+
   virtual void set_geometry(Orientation orientation, int size)
   {
     (void) orientation;

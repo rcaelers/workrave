@@ -60,27 +60,27 @@ static void destroy( GtkWidget *widget,
 static void
 on_dbus_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
-	GError *error = NULL;
+  GError *error = NULL;
 
-	g_debug("indicator-workrave: workrave_proxy_cb");
+  g_debug("indicator-workrave: workrave_proxy_cb");
 
-	GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
+  GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
 
-	if (workrave_proxy_cancel != NULL)
+  if (workrave_proxy_cancel != NULL)
     {
       g_object_unref(workrave_proxy_cancel);
       workrave_proxy_cancel = NULL;
     }
 
-	if (error != NULL)
+  if (error != NULL)
     {
       g_warning("Could not grab DBus proxy: %s", error->message);
       g_error_free(error);
       return;
     }
 
-	workrave_proxy = proxy;
-	g_signal_connect(proxy, "g-signal", G_CALLBACK(receive_signal), NULL);
+  workrave_proxy = proxy;
+  g_signal_connect(proxy, "g-signal", G_CALLBACK(receive_signal), NULL);
 }
 
 typedef struct TimerData
@@ -99,12 +99,12 @@ static void
 receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
 
-	g_debug("indicator-workrave: signal %s", signal_name);
+  g_debug("indicator-workrave: signal %s", signal_name);
 
-	if (g_strcmp0(signal_name, "Update") == 0)
+  if (g_strcmp0(signal_name, "Update") == 0)
     {
     }
-	else if (g_strcmp0(signal_name, "Update") == 0)
+  else if (g_strcmp0(signal_name, "Update") == 0)
     {
       alive = TRUE;
       if (timer == 0)
@@ -176,7 +176,7 @@ on_timer(gpointer user_data)
     }
 
   alive = FALSE;
-	return TRUE;
+  return TRUE;
 }
 
 int main( int   argc,

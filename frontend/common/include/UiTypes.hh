@@ -20,7 +20,7 @@
 #define UITYPES_HH
 
 typedef int BreakFlags;
-  
+
 const static int BREAK_FLAGS_NONE            = 0;
 const static int BREAK_FLAGS_POSTPONABLE     = 1 << 0;
 const static int BREAK_FLAGS_SKIPPABLE       = 1 << 1;

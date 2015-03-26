@@ -45,7 +45,7 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
 {
   load_timer_config();
   load_break_config();
-  
+
   connections.add(CoreConfig::key_timer(break_id).connect(boost::bind(&BreakConfig::load_timer_config, this)));
   connections.add(CoreConfig::key_break(break_id).connect(boost::bind(&BreakConfig::load_break_config, this)));
 }
@@ -82,7 +82,7 @@ BreakConfig::load_timer_config()
     {
       use_microbreak_activity = CoreConfig::timer_daily_limit_use_micro_break_activity()();
     }
-  
+
   TRACE_EXIT();
 }
 

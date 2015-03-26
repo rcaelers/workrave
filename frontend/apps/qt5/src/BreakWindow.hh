@@ -104,7 +104,7 @@ private:
 
   QWidget *block_window;
 
-#ifdef PLATFORM_OS_OSX  
+#ifdef PLATFORM_OS_OSX
   class Private;
   boost::shared_ptr<Private> priv;
 #endif

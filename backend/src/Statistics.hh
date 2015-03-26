@@ -122,7 +122,7 @@ public:
   void increment_break_counter(BreakId, StatsBreakValueType st);
   void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
   void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
-  
+
   DailyStatsImpl *get_current_day() const;
   DailyStatsImpl *get_day(int day) const;
   void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
@@ -152,7 +152,7 @@ private:
 
 private:
   IActivityMonitor::Ptr monitor;
-  
+
   //! Mouse/Keyboard monitoring.
   IInputMonitor::Ptr input_monitor;
 

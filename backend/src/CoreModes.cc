@@ -80,8 +80,8 @@ CoreModes::get_operation_mode()
 OperationMode
 CoreModes::get_operation_mode_regular()
 {
-    /* operation_mode_regular is the same as operation_mode unless there's an 
-    override in place, in which case operation_mode is the current override mode and 
+    /* operation_mode_regular is the same as operation_mode unless there's an
+    override in place, in which case operation_mode is the current override mode and
     operation_mode_regular is the mode that will be restored once all overrides are removed
     */
     return operation_mode_regular;
@@ -126,23 +126,23 @@ CoreModes::remove_operation_mode_override( const std::string &id )
 
     operation_mode_overrides.erase( id );
 
-    /* If there are other overrides still in the queue then pass in the first 
-    override in the map. set_operation_mode_internal() will then search the 
+    /* If there are other overrides still in the queue then pass in the first
+    override in the map. set_operation_mode_internal() will then search the
     map for the most important override and set it as the active operation mode.
     */
     if( operation_mode_overrides.size() )
     {
-        set_operation_mode_internal( 
-            operation_mode_overrides.begin()->second, 
-            false, 
+        set_operation_mode_internal(
+            operation_mode_overrides.begin()->second,
+            false,
             operation_mode_overrides.begin()->first
             );
     }
     else
     {
-        /* if operation_mode_regular is the same as the active operation mode then just 
-        signal the mode has changed. During overrides the signal is not sent so it needs to 
-        be sent now. Because the modes are the same it would not be called by 
+        /* if operation_mode_regular is the same as the active operation mode then just
+        signal the mode has changed. During overrides the signal is not sent so it needs to
+        be sent now. Because the modes are the same it would not be called by
         set_operation_mode_internal().
         */
         if( operation_mode_regular == operation_mode )
@@ -162,8 +162,8 @@ CoreModes::remove_operation_mode_override( const std::string &id )
 //! Set the operation mode.
 void
 CoreModes::set_operation_mode_internal(
-    OperationMode mode, 
-    bool persistent, 
+    OperationMode mode,
+    bool persistent,
     const std::string &override_id /* default param: empty string */
     )
 {
@@ -187,7 +187,7 @@ CoreModes::set_operation_mode_internal(
                 operation_mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???" )
       << ( operation_mode_overrides.size() ? " (override)" : " (regular)" )
       );
-  
+
   if( ( mode != OperationMode::Normal )
       && ( mode != OperationMode::Quiet )
       && ( mode != OperationMode::Suspended )
@@ -197,7 +197,7 @@ CoreModes::set_operation_mode_internal(
       return;
   }
 
-  /* If the incoming operation mode is regular and the current operation mode is an 
+  /* If the incoming operation mode is regular and the current operation mode is an
   override then save the incoming operation mode and return.
   */
   if( !override_id.size() && operation_mode_overrides.size() )
@@ -215,7 +215,7 @@ CoreModes::set_operation_mode_internal(
       TRACE_RETURN( "No change: current is an override type but incoming is regular" );
       return;
   }
-  
+
   // If the incoming operation mode is tagged as an override
   if( override_id.size() )
   {
@@ -257,7 +257,7 @@ CoreModes::set_operation_mode_internal(
       OperationMode previous_mode = operation_mode;
 
       operation_mode = mode;
-      
+
       if( !operation_mode_overrides.size() )
           operation_mode_regular = operation_mode;
 
@@ -333,7 +333,7 @@ CoreModes::load_config()
                                                        {
                                                          set_operation_mode_internal(operation_mode, false);
                                                        }));
-  
+
   connections.add(CoreConfig::usage_mode().connect([&] (UsageMode usage_mode)
                                                    {
                                                      set_usage_mode_internal(usage_mode, false);

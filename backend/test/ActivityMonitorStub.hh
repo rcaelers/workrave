@@ -29,12 +29,12 @@ public:
 
 public:
   static Ptr create();
-  
+
   ActivityMonitorStub();
   virtual ~ActivityMonitorStub();
 
   void set_active(bool active);
-  
+
   virtual void init();
   virtual void terminate();
   virtual void suspend();

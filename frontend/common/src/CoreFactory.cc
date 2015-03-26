@@ -42,7 +42,7 @@ CoreFactory::get_core()
     {
       core = ICore::create();
     }
-  
+
   return core;
 }
 

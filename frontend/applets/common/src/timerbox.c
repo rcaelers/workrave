@@ -230,7 +230,7 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
         {
           x += gdk_pixbuf_get_width(priv->normal_sheep_icon);
         }
-      
+
       workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
       int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
@@ -280,7 +280,7 @@ static
 void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *height)
 {
   WorkraveTimerboxPrivate *priv = self->priv;
-  
+
   int bar_width, bar_height;
   workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
@@ -306,7 +306,7 @@ void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, in
 
 
 /**
- * workrave_timerbox_set_slot: 
+ * workrave_timerbox_set_slot:
  * @self: a @WorkraveTimerbox
  * @slot: slot to set
  * @brk: break to put in slot
@@ -346,8 +346,8 @@ workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, WorkraveBreakId brk
 
 
 /**
- * workrave_timerbox_update: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_update:
+ * @self: a @WorkraveTimerbox
  * @image: a @GtkImage where the timerbox will be drawn into
  *
  */
@@ -373,8 +373,8 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 }
 
 /**
- * workrave_timerbox_draw: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_draw:
+ * @self: a @WorkraveTimerbox
  * @cr: a @cairo_t where the timerbox will be drawn into
  *
  */
@@ -392,8 +392,8 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 }
 
 /**
- * workrave_timerbox_get_width: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_get_width:
+ * @self: a @WorkraveTimerbox
  *
  * Return value: (transfer none): The width of the @WorkraveTimerbox
  *
@@ -409,8 +409,8 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
 
 
 /**
- * workrave_timerbox_get_height: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_get_height:
+ * @self: a @WorkraveTimerbox
  *
  * Return value: (transfer none): The width of the @WorkraveTimerbox
  *
@@ -426,8 +426,8 @@ workrave_timerbox_get_height(WorkraveTimerbox *self)
 
 
 /**
- * workrave_timerbox_get_time_bar: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_get_time_bar:
+ * @self: a @WorkraveTimerbox
  * @timer: the ID of the #WorkraveTimebar to return
  *
  * Return value: (transfer none): The @WorkraveTimebar of the specified timer
@@ -442,9 +442,9 @@ workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer)
 
 
 /**
- * workrave_timerbox_set_enabled: 
- * @self: a @WorkraveTimerbox 
- * @enabled: 
+ * workrave_timerbox_set_enabled:
+ * @self: a @WorkraveTimerbox
+ * @enabled:
  *
  */
 void
@@ -456,8 +456,8 @@ workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled)
 
 
 /**
- * workrave_timerbox_set_force_icon: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_set_force_icon:
+ * @self: a @WorkraveTimerbox
  * @force: Whether the icon is always visible
  *
  */
@@ -469,9 +469,9 @@ workrave_timerbox_set_force_icon(WorkraveTimerbox *self, gboolean force)
 }
 
 /**
- * workrave_timerbox_set_operation_mode: 
- * @self: a @WorkraveTimerbox 
- * @mode: 
+ * workrave_timerbox_set_operation_mode:
+ * @self: a @WorkraveTimerbox
+ * @mode:
  *
  */
 void

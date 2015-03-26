@@ -43,14 +43,14 @@ namespace workrave
   {
   public:
     typedef boost::shared_ptr<ICore> Ptr;
-    
+
     virtual ~ICore() {}
 
     static ICore::Ptr create();
 
     virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed() = 0;
     virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed() = 0;
-    
+
     //! Initialize the Core. Must be called first.
     virtual void init(IApp *app, const std::string &display) = 0;
 

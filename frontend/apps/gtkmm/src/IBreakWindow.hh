@@ -30,8 +30,8 @@ public:
   virtual ~IBreakWindow() {}
 
   typedef boost::shared_ptr<IBreakWindow> Ptr;
-  
-  //! 
+
+  //!
   virtual void init() = 0;
 
   //! Starts (i.e. shows) the break window.

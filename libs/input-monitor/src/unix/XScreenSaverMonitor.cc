@@ -72,11 +72,11 @@ XScreenSaverMonitor::init()
 
   if (has_extension)
   {
-    
+
     screen_saver_info = XScreenSaverAllocInfo();
     monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&XScreenSaverMonitor::run, this)));
   }
-  
+
   TRACE_RETURN(has_extension);
   return has_extension;
 }
@@ -89,10 +89,10 @@ XScreenSaverMonitor::terminate()
   mutex.lock();
   abort = true;
   cond.notify_all();
-  mutex.unlock();  
-  
+  mutex.unlock();
+
   monitor_thread->join();
-  
+
   TRACE_EXIT();
 }
 
@@ -108,7 +108,7 @@ XScreenSaverMonitor::run()
     while (!abort)
       {
         XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
-          
+
         if (screen_saver_info->idle < 1000)
           {
             TRACE_MSG("action");
@@ -116,10 +116,10 @@ XScreenSaverMonitor::run()
             fire_action();
           }
 
-        boost::system_time timeout = boost::get_system_time()+ boost::posix_time::milliseconds(1000);      
+        boost::system_time timeout = boost::get_system_time()+ boost::posix_time::milliseconds(1000);
         cond.timed_wait(lock, timeout);
       }
   }
-  
+
   TRACE_EXIT();
 }

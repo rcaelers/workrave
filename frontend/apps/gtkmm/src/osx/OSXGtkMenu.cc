@@ -141,7 +141,7 @@ OSXGtkMenu::create_ui()
   //   { "new", new_window },
   //   { "quit", quit }
   // };
-  
+
   // GMenu *menu;
 
   // g_action_map_add_action_entries (G_ACTION_MAP (application), actions, G_N_ELEMENTS (actions), application);
@@ -150,11 +150,11 @@ OSXGtkMenu::create_ui()
   // g_menu_append (menu, "New", "app.new");
   // g_menu_append (menu, "Quit", "app.quit");
   // gtk_application_set_app_menu (application, G_MENU_MODEL (menu));
-  // g_object_unref (menu);  
+  // g_object_unref (menu);
 
   // app->set_appmenu()
 
-    
+
   // Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
   // Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
 
