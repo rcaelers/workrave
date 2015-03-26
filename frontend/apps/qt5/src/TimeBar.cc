@@ -200,7 +200,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
       sbar_width = (secondary_bar_value * (width() - 2 * border_size - 1)) / secondary_bar_max_value;
     }
 
-  int bar_height = height() - 2 * border_size - 1;
+  int bar_height = height() - 2 * border_size;
 
   if (sbar_width > 0)
     {
