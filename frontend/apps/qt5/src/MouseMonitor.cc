@@ -20,6 +20,7 @@
 #endif
 
 #include <boost/make_shared.hpp>
+#include <iostream>
 
 #include "MouseMonitor.hh"
 
