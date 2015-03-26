@@ -152,6 +152,7 @@ link_directories(${Boost_LIBRARIES_DIR})
 target_link_libraries(Workrave ${Qt5Widgets_LIBRARIES})
 target_link_libraries(Workrave ${Qt5Svg_LIBRARIES})
 target_link_libraries(Workrave ${Qt5DBus_LIBRARIES})
+target_link_libraries(Workrave ${Qt5MacExtras_LIBRARIES})
 target_link_libraries(Workrave ${Boost_LIBRARIES})
 target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
 

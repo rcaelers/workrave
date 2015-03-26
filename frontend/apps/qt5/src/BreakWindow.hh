@@ -23,6 +23,8 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include <boost/shared_ptr.hpp>
+
 #include "ICore.hh"
 #include "IBreakWindow.hh"
 #include "UiTypes.hh"
@@ -101,6 +103,11 @@ private:
   QAbstractButton *shutdown_button;
 
   QWidget *block_window;
+
+#ifdef PLATFORM_OS_OSX  
+  class Private;
+  boost::shared_ptr<Private> priv;
+#endif
 };
 
 #endif // BREAKWINDOW_HH

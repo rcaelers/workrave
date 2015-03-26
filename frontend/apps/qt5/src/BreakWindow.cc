@@ -27,11 +27,13 @@
 #include "config.h"
 #endif
 
-#include <QtGui>
+#include <boost/make_shared.hpp>
 
+#include <QtGui>
 #include <QStyle>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QtMacExtras>
 
 #include "debug.hh"
 #include "nls.h"
@@ -56,6 +58,17 @@
 
 #ifdef PLATFORM_OS_OSX
 #import <Cocoa/Cocoa.h>
+
+class BreakWindow::Private
+{
+public:
+  NSRunningApplication *active_app;
+
+public:
+  Private() : active_app(nil)
+  {
+  }
+};
 #endif
 
 using namespace workrave;
@@ -86,6 +99,7 @@ BreakWindow::BreakWindow(int screen,
     block_window(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
+  priv = boost::make_shared<Private>();
   TRACE_EXIT();
 }
 
@@ -284,7 +298,7 @@ BreakWindow::on_skip_button_clicked()
   TRACE_EXIT();
 }
 
-
+// TODO: move to backend.
 void
 BreakWindow::resume_non_ignorable_break()
 {
@@ -373,6 +387,12 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
 
+#ifdef PLATFORM_OS_OSX
+  NSLog(@"%@", [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier);
+  priv->active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
+  [NSApp activateIgnoringOtherApps:YES];
+#endif
+  
   refresh();
   show();
   center();
@@ -386,21 +406,44 @@ BreakWindow::start()
       block_window->setPalette(QPalette(Qt::black));
       block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
+
+#ifdef PLATFORM_OS_OSX
+      
+      NSWorkspace *mainWorkspace = [NSWorkspace sharedWorkspace];
+      NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(block_window->winId());
+      NSWindow *nswindow = [nsview window];
+      //[NSScreen screens] objectAtIndex:0]]
+      NSScreen *desktopScreen = [nswindow screen];
+		
+      NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
+      NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
+      //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
+
+      CGImageRef cgImage = [desktopImage CGImageForProposedRect:NULL context:NULL hints:NULL];
+      QPixmap pixmap = QtMac::fromCGImageRef(cgImage);
+        
+      QPalette palette;
+      palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
+      block_window->setPalette(palette);
       
       block_window->showFullScreen();
       block_window->raise();
 
-#ifdef PLATFORM_OS_OSX
-      NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock |
-        NSApplicationPresentationHideMenuBar |
-        NSApplicationPresentationDisableAppleMenu |
-        NSApplicationPresentationDisableProcessSwitching |
-        NSApplicationPresentationDisableForceQuit |
-        NSApplicationPresentationDisableSessionTermination |
-        NSApplicationPresentationDisableHideApplication);
+      NSApplicationPresentationOptions options =
+        (NSApplicationPresentationHideDock |
+         NSApplicationPresentationHideMenuBar |
+         NSApplicationPresentationDisableAppleMenu |
+         NSApplicationPresentationDisableProcessSwitching |
+         NSApplicationPresentationDisableForceQuit |
+         NSApplicationPresentationDisableSessionTermination |
+         NSApplicationPresentationDisableHideApplication);
       [NSApp setPresentationOptions:options];
 #endif
     }
+  // Set window hints.
+  // set_skip_pager_hint(true);
+  // set_skip_taskbar_hint(true);
+  // WindowHints::set_always_on_top(this, true);
 
     // Alternative 1:
 
@@ -436,10 +479,6 @@ BreakWindow::start()
 
 
 
-    // Set window hints.
-    // set_skip_pager_hint(true);
-    // set_skip_taskbar_hint(true);
-    // WindowHints::set_always_on_top(this, true);
   raise();
 
   TRACE_EXIT();
@@ -467,6 +506,15 @@ BreakWindow::stop()
     }
 
   hide();
+ 
+#ifdef PLATFORM_OS_OSX
+  if (priv->active_app != nil)
+    {
+      [priv->active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+      priv->active_app = nil;
+    }
+#endif
+  
   TRACE_EXIT();
 }
 

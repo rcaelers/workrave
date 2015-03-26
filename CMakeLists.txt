@@ -278,6 +278,11 @@ if ("${WITH_UI}" STREQUAL "Qt5")
     set (DBUS_BACKEND "qt5")
     include_directories(${Qt5DBus_INCLUDE_DIRS})
   endif()
+
+  if (APPLE)
+    find_package(Qt5MacExtras REQUIRED)
+  include_directories(${Qt5MacExtras_INCLUDE_DIRS})
+  endif()
   
   include_directories(${Qt5Core_INCLUDE_DIRS})
   include_directories(${Qt5Gui_INCLUDE_DIRS})
