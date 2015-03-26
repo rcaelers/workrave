@@ -51,48 +51,52 @@ AboutDialog::AboutDialog()
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-
   QGridLayout *layout = new QGridLayout(this);
   layout->setSizeConstraint(QLayout::SetFixedSize);
 
-  std::string description = boost::str(boost::format(_("<h3>Workrave %s %s</h3>"
-                                                       "<br/>"
-                                                       "%s<br/>"
-                                                       "<br/>"
-                                                       "%s<br/>"
+  std::string description = boost::str(boost::format(_("<h3>Workrave %s</h3>"
                                                        "<br/>"
                                                        "%s<br/>")) %
 #ifdef GIT_VERSION
-                                       (PACKAGE_VERSION  "\n(" GIT_VERSION ")") %
+                                       (PACKAGE_VERSION  "(" GIT_VERSION ")") %
 #else
                                        (PACKAGE_VERSION "") %
 #endif
-                                        _("This program assists in the prevention and recovery"
-                                          " of Repetitive Strain Injury (RSI).") %
-                                        workrave_copyright %
-                                        workrave_authors);
+                                       _("This program assists in the prevention and recovery"
+                                         " of Repetitive Strain Injury (RSI).")
+                                       );
                                        
                                                        
-  QLabel *copyRightLabel = new QLabel(QString::fromStdString(description));
-  copyRightLabel->setWordWrap(true);
-  copyRightLabel->setOpenExternalLinks(true);
-  copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  QLabel *description_label = new QLabel(QString::fromStdString(description));
+  description_label->setWordWrap(true);
+  description_label->setOpenExternalLinks(true);
+  description_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+
+  QLabel *copyright_label = new QLabel(QString::fromStdString(workrave_copyright));
+  copyright_label->setWordWrap(false);
+  copyright_label->setOpenExternalLinks(false);
+  copyright_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+
+  QVBoxLayout *vbox = new QVBoxLayout;
+  vbox->addWidget(description_label);
+  vbox->addWidget(copyright_label);
   
-  QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-  QPushButton *closeButton = buttonBox->button(QDialogButtonBox::Close);
+  QDialogButtonBox *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
+  QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
 
-  buttonBox->addButton(closeButton, QDialogButtonBox::ButtonRole(QDialogButtonBox::RejectRole | QDialogButtonBox::AcceptRole));
-  connect(buttonBox , SIGNAL(rejected()), this, SLOT(reject()));
+  button_box->addButton(closeButton, QDialogButtonBox::ButtonRole(QDialogButtonBox::RejectRole | QDialogButtonBox::AcceptRole));
+  connect(button_box , SIGNAL(rejected()), this, SLOT(reject()));
 
-  std::string logo_file = AssetPath::complete_directory("workrave.png", AssetPath::SEARCH_PATH_IMAGES);
-  QPixmap pixmap(logo_file.c_str());
+  QPixmap pixmap = UiUtil::create_pixmap("workrave-sheep.svg", 150);
   QLabel *logoLabel = new QLabel;
   logoLabel->setPixmap(pixmap);
+  
+  layout->addWidget(logoLabel , 0, 0, 5, 1, Qt::AlignCenter);
+  layout->addLayout(vbox, 0, 1, 4, 4);
+  layout->addWidget(button_box, 4, 0, 1, 5);
 
-  layout->addWidget(logoLabel , 0, 0, 1, 1);
-  layout->addWidget(copyRightLabel, 0, 1, 4, 4);
-  layout->addWidget(buttonBox, 4, 0, 1, 5);
-
+  // TODO: add authors/translators.
+  
   TRACE_EXIT();
 }
 
