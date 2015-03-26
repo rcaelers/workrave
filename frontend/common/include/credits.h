@@ -47,6 +47,7 @@ const char *workrave_translators =
  /* el */           "Prokopis Prokopidis <prokopidis@gmail.com>\n"
  /* eo */           "Eric lesh <eclesh@pacbell.net>\n"
  /* es */           "Pablo Rodriguez <ousia@gmx.net>\n"
+ /* es */           "Fco. Javier Serrador <fserrador@gmail.com>\n"
  /* et */           "Marko Väljaots <aatomik@hotmail.com>\n"
  /* fi */           "Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi>\n"
  /* fr 1 */         "Thomas Basset <thomas.basset@netcourrier.com>\n"
