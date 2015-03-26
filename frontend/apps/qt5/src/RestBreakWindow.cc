@@ -1,5 +1,3 @@
-// RestBreakWindow.cc --- window for the microbreak
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,7 +21,6 @@
 
 #include "RestBreakWindow.hh"
 
-#include "preinclude.h"
 #include <boost/format.hpp>
 
 #include "debug.hh"
@@ -48,7 +45,6 @@ RestBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode
   return Ptr(new RestBreakWindow(screen, break_flags, mode));
 }
 
-//! Constructor
 RestBreakWindow::RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
     timebar(NULL),
@@ -84,16 +80,12 @@ RestBreakWindow::create_gui()
   return widget;
 }
 
-
-//! Destructor.
 RestBreakWindow::~RestBreakWindow()
 {
   TRACE_ENTER("RestBreakWindow::~RestBreakWindow");
   TRACE_EXIT();
 }
 
-
-//! Starts the restbreak.
 void
 RestBreakWindow::start()
 {
@@ -113,14 +105,11 @@ RestBreakWindow::start()
   TRACE_EXIT();
 }
 
-
-//! Period timer callback.
 void
 RestBreakWindow::update_break_window()
 {
   draw_time_bar();
 }
-
 
 void
 RestBreakWindow::set_progress(int value, int max_value)
@@ -130,7 +119,6 @@ RestBreakWindow::set_progress(int value, int max_value)
 }
 
 
-//! Draws the timer bar.
 void
 RestBreakWindow::draw_time_bar()
 {
@@ -142,14 +130,10 @@ RestBreakWindow::draw_time_bar()
   timebar->update();
 }
 
-
 QHBoxLayout *
 RestBreakWindow::create_info_panel()
 {
-  // Label
   QLabel *lab = new QLabel;
-
-  // Icon
   QLabel *image = new QLabel;
   std::string file = AssetPath::complete_directory("rest-break.png", AssetPath::SEARCH_PATH_IMAGES);
   image->setPixmap(QPixmap(file.c_str()));
@@ -172,7 +156,6 @@ RestBreakWindow::create_info_panel()
 
   lab->setText(txt.c_str());
 
-  // HBox
   QHBoxLayout *box = new QHBoxLayout;
   box->addWidget(image);
   box->addWidget(lab);
@@ -183,9 +166,7 @@ RestBreakWindow::create_info_panel()
 void
 RestBreakWindow::clear_pluggable_panel()
 {
-  TRACE_ENTER("RestBreakWindow::clear_pluggable_panel");
   UiUtil::clear_layout(pluggable_panel);
-  TRACE_EXIT();
 }
 
 int
@@ -218,7 +199,6 @@ RestBreakWindow::install_exercises_panel()
 
       exercises_panel->set_exercise_count(get_exercise_count());
       connections.connect(exercises_panel->signal_stop(), boost::bind(&RestBreakWindow::install_info_panel, this));
-
     }
 }
 

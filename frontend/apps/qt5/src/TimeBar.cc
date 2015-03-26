@@ -52,7 +52,6 @@ TimeBar::TimeBar(QWidget *parent) :
   secondary_bar_value(0),
   secondary_bar_max_value(0),
   bar_text_align(0)
-
 {
   setBackgroundRole(QPalette::Base);
   setAutoFillBackground(true);
@@ -62,8 +61,6 @@ TimeBar::~TimeBar()
 {
 }
 
-
-//! Sets the time progress to be displayed.
 void
 TimeBar::set_progress(int value, int max_value)
 {
@@ -76,8 +73,6 @@ TimeBar::set_progress(int value, int max_value)
   bar_max_value = max_value;
 }
 
-
-//! Sets the secondary time progress to be displayed.
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
@@ -90,50 +85,39 @@ TimeBar::set_secondary_progress(int value, int max_value)
   secondary_bar_max_value = max_value;
 }
 
-
-//! Sets the text to be displayed.
 void
 TimeBar::set_text(std::string text)
 {
   bar_text = text;
 }
 
-
-//! Sets text alignment
 void
 TimeBar::set_text_alignment(int align)
 {
   bar_text_align = align;
 }
 
-//! Sets the color of the bar.
 void
 TimeBar::set_bar_color(ColorId color)
 {
   bar_color = color;
 }
 
-
-//! Sets the color of the secondary bar.
 void
 TimeBar::set_secondary_bar_color(ColorId color)
 {
   secondary_bar_color = color;
 }
 
-
-//! Updates the screen.
 void
 TimeBar::update()
 {
   QWidget::update();
 }
 
-
 QSize
 TimeBar::minimumSizeHint() const
 {
-  TRACE_ENTER("TimeBar::minimumSizeHint");
   QString text = QString::fromStdString(bar_text);
   int width = fontMetrics().width(text);
   int height = fontMetrics().height();
@@ -149,8 +133,7 @@ TimeBar::minimumSizeHint() const
   width = width + 2 * MARGINX;
   height = std::max(height + 2 * MARGINY, 20);
 
-  TRACE_MSG("width = " << width << "height = " << height);
-  TRACE_EXIT();
+  
   return QSize(width, height);
 }
 
@@ -184,7 +167,6 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   option.midLineWidth = 0;
 
   painter.drawPrimitive(QStyle::PE_Frame, option);
-
 
   // Bar
   int bar_width = 0;

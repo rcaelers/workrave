@@ -27,7 +27,6 @@
 #include <boost/make_shared.hpp>
 
 #include <QtGui>
-
 #include <QStyle>
 #include <QDesktopWidget>
 #include <QApplication>
@@ -126,7 +125,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
-
+  
 #ifdef PLATFORM_OS_OSX
   mouse_monitor = boost::make_shared<MouseMonitor>(boost::bind(&PreludeWindow::avoid_pointer, this, _1, _2));
 #endif
@@ -136,8 +135,6 @@ PreludeWindow::~PreludeWindow()
 {
 }
 
-
-//! Starts the microbreak.
 void
 PreludeWindow::start()
 {
@@ -159,9 +156,6 @@ PreludeWindow::start()
   TRACE_EXIT();
 }
 
-
-
-//! Stops the microbreak.
 void
 PreludeWindow::stop()
 {
@@ -177,8 +171,6 @@ PreludeWindow::stop()
   TRACE_EXIT();
 }
 
-
-//! Refresh window.
 void
 PreludeWindow::refresh()
 {
@@ -213,7 +205,6 @@ PreludeWindow::refresh()
 // #endif
 }
 
-
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
@@ -221,7 +212,6 @@ PreludeWindow::set_progress(int value, int max_value)
   progress_max_value = max_value;
   refresh();
 }
-
 
 void
 PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
@@ -241,7 +231,6 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
       break;
     }
 }
-
 
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
@@ -295,7 +284,6 @@ PreludeWindow::on_frame_flash(bool frame_visible)
   TRACE_EXIT();
 }
 
-
 bool
 PreludeWindow::event(QEvent *event)
 {
@@ -308,13 +296,11 @@ PreludeWindow::event(QEvent *event)
     }
   bool res = QWidget::event(event);
   
-  TRACE_MSG(QApplication::activeModalWidget() << " " << QApplication::activeModalWidget());
+  TRACE_MSG(QApplication::activeModalWidget());
   TRACE_EXIT();
   return res;
 }
 
-
-//! Move window if pointer is neat specified location.
 void
 PreludeWindow::avoid_pointer(int px, int py)
 {
@@ -338,7 +324,6 @@ PreludeWindow::avoid_pointer(int px, int py)
       return;
     }
 #endif
-  std::cout << "avoid_pointer " << px << " " <<py <<std::endl;
 
   if (winy < top_y + SCREEN_MARGIN)
     {

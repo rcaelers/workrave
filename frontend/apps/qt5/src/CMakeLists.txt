@@ -121,11 +121,11 @@ add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
 if (APPLE)
   set_target_properties(Workrave PROPERTIES
-		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist
-                MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
-		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
-		MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
-
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist
+    MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
+    MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
+  
   set_source_files_properties(BreakWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
 
   set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")

@@ -1,5 +1,6 @@
 if (APPLE)
 
+  
   set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
   set(PLUGINS "")
   set(DIRS ${QT_LIBRARY_DIRS})
