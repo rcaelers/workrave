@@ -26,6 +26,7 @@ if (APPLE)
   
   install(CODE "
        cmake_policy(SET CMP0009 NEW)
+       cmake_policy(SET CMP0011 NEW)
        file(GLOB_RECURSE PLUGINS \"\${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/MacOS/*\")
        include(BundleUtilities)
        set(BU_CHMOD_BUNDLE_ITEMS ON)
