@@ -366,7 +366,19 @@ SoundTheme::get_active_theme()
     }
 
 
-  return ThemeInfo::Ptr();
+  ThemeInfo::Ptr theme(new ThemeInfo);
+  theme->theme_id = "custom";
+  theme->description = _("Custom");
+
+  for (SoundRegistry &snd : sound_registry)
+    {
+      SoundInfo sound_info;
+      sound_info.event = sound_id_to_event(snd.id);
+      sound_info.filename = SoundTheme::sound_event(snd.event)();
+      theme->sounds.push_back(sound_info);
+    }
+
+  return theme;
 }
 
 SoundTheme::ThemeInfo::Ptr
@@ -450,6 +462,4 @@ SoundTheme::win32_remove_deprecated_appevents()
   // FIXME: used in ChangeAutoRun.c
   Platform::registry_set_value(schemes.c_str(), NULL, "");
 }
-
-
 #endif
