@@ -29,7 +29,6 @@ class DailyLimitWindow : public BreakWindow
 
 public:
   DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~DailyLimitWindow();
 
   static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
 

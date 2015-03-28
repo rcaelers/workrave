@@ -31,12 +31,10 @@ class MicroBreakWindow : public BreakWindow
 
 public:
   MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~MicroBreakWindow();
 
   static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
 
   virtual void set_progress(int value, int max_value);
-  //void heartbeat();
 
 protected:
   virtual QWidget *create_gui();
@@ -55,15 +53,6 @@ private:
 
   // Label
   QLabel *label;
-
-  //! Progress
-  int progress_value;
-
-  //! Progress
-  int progress_max_value;
-
-  //! Label size has been fixed?
-  bool fixed_size;
 };
 
 

@@ -49,6 +49,7 @@
 #include "utils/AssetPath.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
+#include "UiUtil.hh"
 
 // #if defined(PLATFORM_OS_WIN32)
 // #include "DesktopWindow.hh"
@@ -74,10 +75,6 @@ public:
 using namespace workrave;
 using namespace workrave::utils;
 
-//! Constructor
-/*!
- *  \param control The controller.
- */
 BreakWindow::BreakWindow(int screen,
                          BreakId break_id,
                          BreakFlags break_flags,
@@ -92,10 +89,6 @@ BreakWindow::BreakWindow(int screen,
     frame(NULL),
     is_flashing(false),
     gui(NULL),
-    postpone_button(NULL),
-    skip_button(NULL),
-    lock_button(NULL),
-    shutdown_button(NULL),
     block_window(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
@@ -104,7 +97,6 @@ BreakWindow::BreakWindow(int screen,
 }
 
 
-//! Init GUI
 void
 BreakWindow::init()
 {
@@ -142,8 +134,6 @@ BreakWindow::init()
     }
 }
 
-
-//! Destructor.
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
@@ -156,8 +146,6 @@ BreakWindow::~BreakWindow()
   TRACE_EXIT();
 }
 
-
-//! Centers the window.
 void
 BreakWindow::center()
 {
@@ -171,69 +159,50 @@ BreakWindow::center()
   setGeometry(arect);
 }
 
-
-//! Creates the lock button
-QAbstractButton *
-BreakWindow::create_lock_button()
+void
+BreakWindow::add_lock_button(QLayout *box)
 {
-  QPushButton *button = NULL;
   if (System::is_lockable())
     {
-      std::string file = AssetPath::complete_directory("lock.png", AssetPath::SEARCH_PATH_IMAGES);
-      QPixmap pixmap(file.c_str());
-      QIcon icon(pixmap);
-
-      button = new QPushButton; 
-      button->setIcon(icon);
-      button->setIconSize(pixmap.rect().size());
-
+      QPushButton *button = UiUtil::create_image_text_button("lock.png", _("Lock"));
+      box->addWidget(button);
       connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
     }
-  return button;
 }
 
-//! Creates the lock button
-QAbstractButton *
-BreakWindow::create_shutdown_button()
+void
+BreakWindow::add_shutdown_button(QLayout *box)
 {
-  QPushButton *button = NULL;
   if (false) // FIXME: System::is_shutdown_supported())
     {
-      std::string file = AssetPath::complete_directory("shutdown.png", AssetPath::SEARCH_PATH_IMAGES);
-      QPixmap pixmap(file.c_str());
-      QIcon icon(pixmap);
-
-      button = new QPushButton(_("Shut down"));
-      button->setIcon(icon);
-      button->setIconSize(pixmap.rect().size());
-
+      QPushButton *button = UiUtil::create_image_text_button("shutdown.png", _("Shut down"));
+      box->addWidget(button);
       connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
     }
-  return button;
 }
 
-
-//! Creates the skip button.
-QAbstractButton *
-BreakWindow::create_skip_button()
+void
+BreakWindow::add_skip_button(QLayout *box)
 {
-  QPushButton *button = new QPushButton(_("Skip"));
-  connect(button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
-  return button;
+  if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
+    {
+      QPushButton *button = new QPushButton(_("Skip"));
+      box->addWidget(button);
+      connect(button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
+    }
 }
 
-
-//! Creates the postpone button.
-QAbstractButton *
-BreakWindow::create_postpone_button()
+void
+BreakWindow::add_postpone_button(QLayout *box)
 {
-  QPushButton *button = new QPushButton(_("Postpone"));
-  connect(button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
-  return button;
+  if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+    {
+      QPushButton *button = new QPushButton(_("Postpone"));
+      box->addWidget(button);
+      connect(button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
+    }
 }
 
-
-//! The lock button was clicked.
 void
 BreakWindow::on_lock_button_clicked()
 {
@@ -245,7 +214,6 @@ BreakWindow::on_lock_button_clicked()
     }
 }
 
-//! The lock button was clicked.
 void
 BreakWindow::on_shutdown_button_clicked()
 {
@@ -268,7 +236,6 @@ BreakWindow::on_shutdown_button_clicked()
 // }
 
 
-//! The postpone button was clicked.
 void
 BreakWindow::on_postpone_button_clicked()
 {
@@ -282,9 +249,6 @@ BreakWindow::on_postpone_button_clicked()
   TRACE_EXIT();
 }
 
-
-
-//! The skip button was clicked.
 void
 BreakWindow::on_skip_button_clicked()
 {
@@ -308,8 +272,7 @@ BreakWindow::resume_non_ignorable_break()
 
   TRACE_MSG("break flags " << break_flags);
 
-  if (! (break_flags & BREAK_FLAGS_USER_INITIATED) &&
-      mode == OperationMode::Normal)
+  if (! (break_flags & BREAK_FLAGS_USER_INITIATED) && mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
@@ -335,10 +298,8 @@ BreakWindow::resume_non_ignorable_break()
     }
 }
 
-//! Control buttons.
 QHBoxLayout *
-BreakWindow::create_break_buttons(bool lockable,
-                                  bool shutdownable)
+BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 {
   QHBoxLayout *box = NULL;
 
@@ -348,40 +309,22 @@ BreakWindow::create_break_buttons(bool lockable,
 
       if (shutdownable)
         {
-          shutdown_button = create_shutdown_button();
-          if (shutdown_button != NULL)
-            {
-              box->addWidget(shutdown_button);
-            }
+          add_shutdown_button(box);
         }
 
       if (lockable)
         {
-          lock_button = create_lock_button();
-          if (lock_button != NULL)
-            {
-              box->addWidget(lock_button);
-            }
+          add_lock_button(box);
         }
 
-      if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
-        {
-          skip_button = create_skip_button();
-          box->addWidget(skip_button);
-        }
-
-      if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
-        {
-          postpone_button = create_postpone_button();
-          box->addWidget(postpone_button);
-        }
+      add_skip_button(box);
+      add_postpone_button(box);
     }
 
   return box;
 }
 
 
-//! Starts the daily limit.
 void
 BreakWindow::start()
 {
@@ -404,17 +347,16 @@ BreakWindow::start()
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
-      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
+      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 1: 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
 #ifdef PLATFORM_OS_OSX
-
       NSWorkspace *mainWorkspace = [NSWorkspace sharedWorkspace];
       NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(block_window->winId());
       NSWindow *nswindow = [nsview window];
       //[NSScreen screens] objectAtIndex:0]]
       NSScreen *desktopScreen = [nswindow screen];
-    
+
       NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
       NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
       //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
@@ -444,48 +386,11 @@ BreakWindow::start()
   // set_skip_pager_hint(true);
   // set_skip_taskbar_hint(true);
   // WindowHints::set_always_on_top(this, true);
-
-    // Alternative 1:
-
-    // int windowLevel = CGShieldingWindowLevel();
-    // NSRect windowRect = [[NSScreen mainScreen] frame];
-    // NSWindow *overlayWindow = [[NSWindow alloc]
-    //                            initWithContentRect:windowRect
-    //                            styleMask:NSBorderlessWindowMask
-    //                            backing:NSBackingStoreBuffered
-    //                            defer:NO
-    //                            screen:[NSScreen mainScreen]];
-
-    // [overlayWindow setReleasedWhenClosed:YES];
-    // [overlayWindow setLevel:windowLevel];
-    // [overlayWindow setBackgroundColor:[NSColor colorWithCalibratedRed:0.0
-    //                                    green:0.0
-    //                                    blue:0.0
-    //                                    alpha:0.5]];
-
-    // [overlayWindow setAlphaValue:1.0];
-    // [overlayWindow setOpaque:NO];
-    // [overlayWindow setIgnoresMouseEvents:NO];
-    // [overlayWindow makeKeyAndOrderFront:nil];
-
-    //  [self.window addChildWindow:overlayWindow ordered:NSWindowAbove];
-
-    // Alternative 2:
-
-    // NSView *view = [[NSView alloc] initWithFrame:CGRectZero];
-    // NSDictionary *options = @{NSFullScreenModeAllScreens: @(YES),
-    //                           NSFullScreenModeWindowLevel: @(NSScreenSaverWindowLevel)};
-    // [view enterFullScreenMode:[NSScreen mainScreen] withOptions:options];
-
-
-
   raise();
 
   TRACE_EXIT();
 }
 
-
-//! Stops the daily limit.
 void
 BreakWindow::stop()
 {
@@ -518,8 +423,6 @@ BreakWindow::stop()
   TRACE_EXIT();
 }
 
-
-//! Refresh
 void
 BreakWindow::refresh()
 {
@@ -528,7 +431,6 @@ BreakWindow::refresh()
 
   ICore::Ptr core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
-  Frame *frame = get_frame();
   if (frame != NULL)
     {
       if (user_active && !is_flashing)

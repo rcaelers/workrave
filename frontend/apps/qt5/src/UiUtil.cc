@@ -109,6 +109,30 @@ UiUtil::create_label(const std::string &text, bool bold)
   return label;
 }
 
+QPushButton *
+UiUtil::create_image_button(const std::string &filename)
+{
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QIcon icon(pixmap);
+
+  QPushButton *button = new QPushButton();
+  button->setIcon(icon);
+  button->setIconSize(pixmap.rect().size());
+  return button;
+}
+
+QPushButton *
+UiUtil::create_image_text_button(const std::string &filename, const std::string &text)
+{
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QIcon icon(pixmap);
+
+  QPushButton *button = new QPushButton(QString::fromStdString(text));
+  button->setIcon(icon);
+  button->setIconSize(pixmap.rect().size());
+  return button;
+}
+
 QLabel *
 UiUtil::create_image_label(const std::string &filename)
 {
@@ -138,4 +162,18 @@ UiUtil::create_pixmap(std::string filename, int height)
   QPainter painter(&pixmap);
   svg.render(&painter, QRectF(0, 0, height, height));
   return pixmap;
+}
+
+void
+UiUtil::invalidate(QLayout *layout)
+{
+  layout->invalidate();
+  QWidget *w = layout->parentWidget();
+  while (w)
+    {
+      qDebug() << "b: " << w->size();
+      w->adjustSize();
+      qDebug() << "a: " << w->size();
+      w = w->parentWidget();
+    }
 }

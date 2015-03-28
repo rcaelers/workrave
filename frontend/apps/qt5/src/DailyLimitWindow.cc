@@ -1,6 +1,6 @@
 // DailyLimitWindow.cc --- window for the daily limit
 //
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2015 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,11 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
-#include "nls.h"
-#include "debug.hh"
-
 #include "DailyLimitWindow.hh"
-#include "UiUtil.hh"
 
-#include "utils/AssetPath.hh"
+#include "nls.h"
+
+#include "UiUtil.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -39,61 +36,46 @@ DailyLimitWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMod
   return Ptr(new DailyLimitWindow(screen, break_flags, mode));
 }
 
-
-//! Construct a new Daily limit window.
 DailyLimitWindow::DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_DAILY_LIMIT, break_flags, mode)
 {
   setWindowTitle(_("Daily limit"));
 }
 
-
 QWidget *
 DailyLimitWindow::create_gui()
 {
-  // label
-  std::string txt = UiUtil::create_alert_text
+  QVBoxLayout *box = new QVBoxLayout;
+  QWidget *widget = new QWidget;
+  widget->setLayout(box);
+
+  std::string text = UiUtil::create_alert_text
     (_("Daily limit"),
      _("You have reached your daily limit. Please stop working\n"
        "behind the computer. If your working day is not over yet,\n"
        "find something else to do, such as reviewing a document."));
+  
+  QHBoxLayout *dailylimit_box = new QHBoxLayout;
+  QLabel *label = new QLabel(QString::fromStdString(text));
+  QLabel *image = UiUtil::create_image_label("daily-limit.png");
+  dailylimit_box->addWidget(image);
+  dailylimit_box->addWidget(label);
 
-  QLabel *label = new QLabel;
-  label->setText(txt.c_str());
+  box->addLayout(dailylimit_box);
 
-  // Icon
-  QLabel *image = new QLabel;
-  std::string file = AssetPath::complete_directory("daily-limit.png", AssetPath::SEARCH_PATH_IMAGES);
-  image->setPixmap(QPixmap(file.c_str()));
+  QHBoxLayout *button_box = new QHBoxLayout;
+  add_shutdown_button(box);
+  add_lock_button(box);
+  add_skip_button(box);
+  add_postpone_button(box);
 
-  // HBox
-  QHBoxLayout *hbox = new QHBoxLayout;
-  hbox->addWidget(image);
-  hbox->addWidget(label);
-
-  // Overall vbox
-  QVBoxLayout *box = new QVBoxLayout;
-  box->addLayout(hbox);
-
-  // Button box at the bottom.
-  QHBoxLayout *button_box = create_break_buttons(true, true);
-  if (button_box)
+  if (!button_box->isEmpty())
     {
       box->addLayout(button_box);
     }
 
-  QWidget *widget = new QWidget;
-  widget->setLayout(box);
-
   return widget;
 }
-
-
-//! Destructor.
-DailyLimitWindow::~DailyLimitWindow()
-{
-}
-
 
 void
 DailyLimitWindow::set_progress(int value, int max_value)

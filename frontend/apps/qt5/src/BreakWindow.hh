@@ -51,20 +51,20 @@ public:
   virtual void refresh();
 
 protected:
+  BreakFlags get_break_flags() const { return break_flags; }
+  int get_screen() { return screen; }
+  void center();
+
+  void add_skip_button(QLayout *box);
+  void add_postpone_button(QLayout *box);
+  void add_lock_button(QLayout *box);
+  void add_shutdown_button(QLayout *box);
+  
+private:
   virtual QWidget *create_gui() = 0;
   virtual void update_break_window();
 
   QHBoxLayout *create_break_buttons(bool lockable, bool shutdownable);
-  QAbstractButton *create_skip_button();
-  QAbstractButton *create_postpone_button();
-  QAbstractButton *create_lock_button();
-  QAbstractButton *create_shutdown_button();
-
-  BreakFlags get_break_flags() const { return break_flags; }
-  Frame* get_frame() { return frame; }
-  int get_screen() { return screen; }
-
-  void center();
 
 private:
   void resume_non_ignorable_break();
@@ -74,34 +74,14 @@ private:
   //  bool on_delete_event(GdkEventAny *);
   void on_postpone_button_clicked();
 
-
 private:
-  //! Break ID
   workrave::BreakId break_id;
-
-  //! Information about the (multi)head.
   int screen;
-
-  //! Insist
   GUIConfig::BlockMode block_mode;
-
-  //! Ignorable
   BreakFlags break_flags;
-
-  //! Flash frame
   Frame *frame;
-
-  //! Is currently flashing because user is active?
   bool is_flashing;
-
-  //! GUI
   QWidget *gui;
-
-  QAbstractButton *postpone_button;
-  QAbstractButton *skip_button;
-  QAbstractButton *lock_button;
-  QAbstractButton *shutdown_button;
-
   QWidget *block_window;
 
 #ifdef PLATFORM_OS_OSX
