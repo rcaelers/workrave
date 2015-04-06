@@ -525,10 +525,12 @@ if (WIN32)
     )
 
   check_c_source_compiles(
-    "#include <shlobj.h>
+    "#include <windows.h>
+     #include <shlobj.h>
+     
      IShellDispatch* pShellDispatch = NULL;
      int main(){return 0;}"
-    HAVE_ISHELLDISPATCH
+     HAVE_ISHELLDISPATCH
     )
 
   check_struct_has_member("MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)  
