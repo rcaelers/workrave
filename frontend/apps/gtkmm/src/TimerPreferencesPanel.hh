@@ -50,7 +50,7 @@ class TimerPreferencesPanel
   : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(BreakId timer,
+  TimerPreferencesPanel(workrave::BreakId timer,
                         Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                         Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel();
@@ -68,7 +68,7 @@ private:
   void on_enabled_toggled();
   void enable_buttons();
 
-  BreakId break_id;
+  workrave::BreakId break_id;
   DataConnector *connector;
 
   Gtk::CheckButton *ignorable_cb;

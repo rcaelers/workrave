@@ -76,8 +76,10 @@
 #include "OSXGtkMenu.hh"
 #endif
 
-using namespace workrave::utils;
 #include "MenuEnums.hh"
+
+using namespace std;
+using namespace workrave::utils;
 
 //! Constructor.
 /*!

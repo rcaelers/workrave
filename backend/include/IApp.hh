@@ -49,10 +49,10 @@ namespace workrave
     virtual ~IApp() {}
 
     //! Create a prelude window for specified break type.
-    virtual void create_prelude_window(BreakId break_id) = 0;
+    virtual void create_prelude_window(workrave::BreakId break_id) = 0;
 
     //! Create a break window for specified break type.
-    virtual void create_break_window(BreakId break_id, BreakHint break_hint) = 0;
+    virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint) = 0;
 
     //! Hide the break or prelude window.
     virtual void hide_break_window() = 0;

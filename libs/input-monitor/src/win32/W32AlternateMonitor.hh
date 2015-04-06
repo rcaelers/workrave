@@ -33,7 +33,7 @@ class W32AlternateMonitor :
   public InputMonitor
 {
 public:
-  W32AlternateMonitor(IConfigurator::Ptr config);
+  W32AlternateMonitor(workrave::config::IConfigurator::Ptr config);
   virtual ~W32AlternateMonitor();
   bool init();
   void terminate();
@@ -45,7 +45,7 @@ private:
   void Monitor();
   void Update( LASTINPUTINFO * );
 
-  IConfigurator::Ptr config;
+  workrave::config::IConfigurator::Ptr config;
   bool initialized;
   int interval;
   HANDLE thread_abort_event;

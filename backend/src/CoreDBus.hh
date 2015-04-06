@@ -36,8 +36,8 @@ public:
   CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 
 private:
-  void on_operation_mode_changed(const OperationMode m);
-  void on_usage_mode_changed(const UsageMode m);
+  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_usage_mode_changed(const workrave::UsageMode m);
 
 private:
   workrave::dbus::IDBus::Ptr dbus;

@@ -33,8 +33,9 @@
 #include "nls.h"
 
 using namespace workrave::config;
+using namespace workrave::input_monitor;
 
-IInputMonitorFactory *InputMonitorFactory::factory = NULL;
+workrave::input_monitor::IInputMonitorFactory *workrave::input_monitor::InputMonitorFactory::factory = NULL;
 
 void
 InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)

@@ -38,13 +38,9 @@
 #include "IStatistics.hh"
 #include "IActivityMonitor.hh"
 
-using namespace workrave;
-using namespace workrave::input_monitor;
-using namespace std;
-
 class Statistics
-  : public IStatistics,
-    public IInputMonitorListener
+  : public workrave::IStatistics,
+    public workrave::input_monitor::IInputMonitorListener
 {
 public:
   typedef boost::shared_ptr<Statistics> Ptr;
@@ -65,7 +61,7 @@ private:
     };
 
 
-  struct DailyStatsImpl : public DailyStats
+  struct DailyStatsImpl : public workrave::IStatistics::DailyStats
   {
     //! Total time that the mouse was moving.
     std::chrono::system_clock::time_point total_mouse_time;
@@ -75,7 +71,7 @@ private:
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));
 
-      for(int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for(int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
         {
           for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
             {
@@ -119,9 +115,9 @@ public:
   void dump();
   void start_new_day();
 
-  void increment_break_counter(BreakId, StatsBreakValueType st);
-  void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
-  void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
+  void increment_break_counter(workrave::BreakId, StatsBreakValueType st);
+  void set_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
+  void add_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
 
   DailyStatsImpl *get_current_day() const;
   DailyStatsImpl *get_day(int day) const;
@@ -154,7 +150,7 @@ private:
   IActivityMonitor::Ptr monitor;
 
   //! Mouse/Keyboard monitoring.
-  IInputMonitor::Ptr input_monitor;
+  workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! Last time a mouse event was received.
   std::chrono::system_clock::time_point last_mouse_time;

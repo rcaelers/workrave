@@ -33,24 +33,22 @@
 #include "BreakConfig.hh"
 #include "BreakDBus.hh"
 
-using namespace workrave;
-
-class Break : public IBreak
+class Break : public workrave::IBreak
 {
 public:
   typedef boost::shared_ptr<Break> Ptr;
 
 public:
-  static Ptr create(BreakId id,
-                    IApp *app,
+  static Ptr create(workrave::BreakId id,
+                    workrave::IApp *app,
                     Timer::Ptr timer,
                     IActivityMonitor::Ptr activity_monitor,
                     Statistics::Ptr statistics,
                     workrave::dbus::IDBus::Ptr dbus,
                     CoreHooks::Ptr hooks);
 
-  Break(BreakId id,
-        IApp *app,
+  Break(workrave::BreakId id,
+        workrave::IApp *app,
         Timer::Ptr timer,
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
@@ -58,7 +56,7 @@ public:
         CoreHooks::Ptr hooks);
 
   // IBreak
-  virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event();
+  virtual boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event();
   virtual std::string get_name() const;
   virtual bool is_enabled() const;
   virtual bool is_running() const;
@@ -77,8 +75,8 @@ public:
   void process();
   void start_break();
   void stop_break();
-  void force_start_break(BreakHint break_hint);
-  void override(BreakId id);
+  void force_start_break(workrave::BreakHint break_hint);
+  void override(workrave::BreakId id);
   void daily_reset();
   bool is_microbreak_used_for_activity() const;
 
@@ -87,7 +85,7 @@ public:
   static std::string get_stage_text(BreakStage stage);
 
 private:
-  BreakId break_id;
+  workrave::BreakId break_id;
   Timer::Ptr timer;
   BreakStateModel::Ptr break_state_model;
   BreakStatistics::Ptr break_statistics;

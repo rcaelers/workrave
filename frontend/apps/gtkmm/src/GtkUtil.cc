@@ -39,6 +39,7 @@
 #include "EventImage.hh"
 #include "HeadInfo.hh"
 
+using namespace std;
 using namespace workrave::utils;
 
 Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");

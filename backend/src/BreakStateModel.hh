@@ -35,8 +35,6 @@ namespace workrave {
   class IApp;
 }
 
-using namespace workrave;
-
 enum class BreakStage
 {
   None,
@@ -54,14 +52,14 @@ public:
   typedef boost::shared_ptr<BreakStateModel> Ptr;
 
 public:
-  static Ptr create(BreakId id,
-                    IApp *app,
+  static Ptr create(workrave::BreakId id,
+                    workrave::IApp *app,
                     Timer::Ptr timer,
                     IActivityMonitor::Ptr activity_monitor,
                     CoreHooks::Ptr hooks);
 
-  BreakStateModel(BreakId id,
-                  IApp *app,
+  BreakStateModel(workrave::BreakId id,
+                  workrave::IApp *app,
                   Timer::Ptr timer,
                   IActivityMonitor::Ptr activity_monitor,
                   CoreHooks::Ptr hooks);
@@ -70,13 +68,13 @@ public:
   void process();
 
   void start_break();
-  void force_start_break(BreakHint break_hint);
+  void force_start_break(workrave::BreakHint break_hint);
   void postpone_break();
   void skip_break();
   void stop_break();
-  void override(BreakId id);
+  void override(workrave::BreakId id);
 
-  boost::signals2::signal<void(BreakEvent)> &signal_break_event();
+  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event();
   boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
 
   bool is_taking() const;
@@ -104,10 +102,10 @@ private:
 
 private:
   //! ID of the break controlled by this Break.
-  BreakId break_id;
+  workrave::BreakId break_id;
 
   //! GUI Factory used to create the break/prelude windows.
-  IApp *application;
+  workrave::IApp *application;
 
   //! Interface to the timer controlling the break.
   Timer::Ptr timer;
@@ -145,13 +143,13 @@ private:
   bool delayed_abort;
 
   //! Break hint if break has been started.
-  BreakHint break_hint;
+  workrave::BreakHint break_hint;
 
   //! Break enabled?
   bool enabled;
 
   //!
-  boost::signals2::signal<void(BreakEvent)> break_event_signal;
+  boost::signals2::signal<void(workrave::BreakEvent)> break_event_signal;
   boost::signals2::signal<void(BreakStage)> break_stage_changed_signal;
 };
 

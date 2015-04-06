@@ -68,7 +68,7 @@ public:
              const guint activate_time);
 
 private:
-  void set_usage_mode(UsageMode m);
+  void set_usage_mode(workrave::UsageMode m);
   void on_menu_response(int response);
   void on_about_response(int response);
 
@@ -93,7 +93,7 @@ public:
   void on_menu_network_leave();
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
-  void on_set_operation_mode(OperationMode m);
+  void on_set_operation_mode(workrave::OperationMode m);
 
 #ifdef PLATFORM_OS_WIN32
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);

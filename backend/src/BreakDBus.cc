@@ -29,6 +29,7 @@
 
 #include "CoreConfig.hh"
 
+using namespace workrave;
 using namespace workrave::dbus;
 using namespace std;
 

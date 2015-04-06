@@ -36,6 +36,8 @@
 static const char *WORKRAVESTATE="WorkRaveState";
 static const int SAVESTATETIME = 60;
 
+using namespace std;
+using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::dbus;
 

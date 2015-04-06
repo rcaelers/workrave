@@ -20,6 +20,8 @@
 
 #include "QtSettingsConfigurator.hh"
 
+using namespace std;
+
 QtSettingsConfigurator::QtSettingsConfigurator(QSettings *s)
 {
   settings = s;

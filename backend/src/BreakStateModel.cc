@@ -33,6 +33,7 @@
 #include "CoreConfig.hh"
 
 using namespace std;
+using namespace workrave;
 using namespace workrave::config;
 
 BreakStateModel::Ptr

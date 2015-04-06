@@ -28,6 +28,8 @@
 #include "OSXInputMonitorFactory.hh"
 #include "OSXInputMonitor.hh"
 
+using namespace workrave::input_monitor;
+
 OSXInputMonitorFactory::OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
   (void) config;

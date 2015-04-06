@@ -59,7 +59,7 @@ public:
   ~StatusIcon();
 
   void init();
-  void set_operation_mode(OperationMode m);
+  void set_operation_mode(workrave::OperationMode m);
   void set_tooltip(std::string& tip);
   bool is_visible() const;
   void show_balloon(std::string id, const std::string& balloon);
@@ -93,7 +93,7 @@ private:
   static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
 
-  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
+  std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
   sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activate_signal;

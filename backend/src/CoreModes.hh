@@ -28,8 +28,6 @@
 #include "IActivityMonitor.hh"
 #include "CoreTypes.hh"
 
-using namespace workrave;
-
 class CoreModes
 {
 public:
@@ -43,41 +41,41 @@ public:
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed();
 
-  OperationMode get_operation_mode();
-  OperationMode get_operation_mode_regular();
+  workrave::OperationMode get_operation_mode();
+  workrave::OperationMode get_operation_mode_regular();
   bool is_operation_mode_an_override();
-  void set_operation_mode(OperationMode mode);
-  void set_operation_mode_override(OperationMode mode, const std::string &id);
+  void set_operation_mode(workrave::OperationMode mode);
+  void set_operation_mode_override(workrave::OperationMode mode, const std::string &id);
   void remove_operation_mode_override(const std::string &id);
-  UsageMode get_usage_mode();
-  void set_usage_mode(UsageMode mode);
+  workrave::UsageMode get_usage_mode();
+  void set_usage_mode(workrave::UsageMode mode);
 
 private:
-  void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
-  void set_usage_mode_internal(UsageMode mode, bool persistent);
+  void set_operation_mode_internal(workrave::OperationMode mode, bool persistent, const std::string &override_id = "");
+  void set_usage_mode_internal(workrave::UsageMode mode, bool persistent);
   void load_config();
 
 private:
   //! Current operation mode.
-  OperationMode operation_mode;
+  workrave::OperationMode operation_mode;
 
   //! The same as operation_mode unless operation_mode is an override mode.
-  OperationMode operation_mode_regular;
+  workrave::OperationMode operation_mode_regular;
 
   //! Active operation mode overrides.
-  std::map<std::string, OperationMode> operation_mode_overrides;
+  std::map<std::string, workrave::OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
-  UsageMode usage_mode;
+  workrave::UsageMode usage_mode;
 
   //!
   IActivityMonitor::Ptr monitor;
 
   //! Operation mode changed notification.
-  boost::signals2::signal<void(OperationMode)> operation_mode_changed_signal;
+  boost::signals2::signal<void(workrave::OperationMode)> operation_mode_changed_signal;
 
   //! Usage mode changed notification.
-  boost::signals2::signal<void(UsageMode)> usage_mode_changed_signal;
+  boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
 
   scoped_connections connections;
 };

@@ -28,6 +28,7 @@
 #include "DayTimePred.hh"
 
 using namespace std;
+using namespace workrave;
 using namespace workrave::config;
 
 BreakConfig::Ptr

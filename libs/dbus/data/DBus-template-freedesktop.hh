@@ -30,7 +30,7 @@ public:
   static $interface.qname *instance(const workrave::dbus::IDBus::Ptr dbus);
 
   #for $m in interface.signals
-  virtual void ${m.qname}(const string &path, #slurp
+  virtual void ${m.qname}(const std::string &path, #slurp
   #set comma = ''
   #for p in m.params
   $comma $interface.type2csymbol(p.type) $p.name#slurp

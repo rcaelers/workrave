@@ -25,25 +25,23 @@
 
 #include "BreakStateModel.hh"
 
-using namespace workrave;
-
 class BreakDBus
 {
 public:
   typedef boost::shared_ptr<BreakDBus> Ptr;
 
 public:
-  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
+  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
 
-  BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
+  BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
   virtual ~BreakDBus();
 
 private:
   void on_break_stage_changed(BreakStage stage);
-  void on_break_event(BreakEvent event);
+  void on_break_event(workrave::BreakEvent event);
 
 private:
-  BreakId break_id;
+  workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   workrave::dbus::IDBus::Ptr dbus;
   scoped_connections connections;

@@ -78,7 +78,7 @@ public:
 
 class GUI :
   public IGUI,
-  public IApp,
+  public workrave::IApp,
   public sigc::trackable
 {
 public:
@@ -95,8 +95,8 @@ public:
   void main();
 
   // GUIFactoryInterface methods
-  virtual void create_prelude_window(BreakId break_id);
-  virtual void create_break_window(BreakId break_id, BreakHint break_hint);
+  virtual void create_prelude_window(workrave::BreakId break_id);
+  virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint);
   virtual void hide_break_window();
   virtual void show_break_window();
   virtual void refresh_break_window();
@@ -143,7 +143,7 @@ private:
   void cleanup_session();
 
   void collect_garbage();
-  IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
+  IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
 
   bool grab();
   void ungrab();
@@ -154,9 +154,9 @@ private:
   void on_visibility_changed();
   void on_main_window_closed();
 
-  void on_break_event(BreakId break_id, BreakEvent event);
-  void on_operation_mode_changed(const OperationMode m);
-  void on_usage_mode_changed(const UsageMode m);
+  void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
+  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_usage_mode_changed(const workrave::UsageMode m);
 
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
@@ -193,7 +193,7 @@ private:
   int active_prelude_count;
 
   //! Current active break.
-  BreakId active_break_id;
+  workrave::BreakId active_break_id;
 
   //! The number of command line arguments.
   int argc;

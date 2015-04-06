@@ -3,8 +3,6 @@
 
 \#include "dbus/DBusBindingQt5.hh"
 
-using namespace std;
-
 //
 // Imports
 //
@@ -62,7 +60,7 @@ public:
   static $interface.qname *instance(const workrave::dbus::IDBus::Ptr dbus);
 
 #for $m in interface.signals
-  virtual void ${m.qname}(const string &path #slurp
+  virtual void ${m.qname}(const std::string &path #slurp
   #for p in m.params
     #if p.hint == []
       , $interface.get_type(p.type).symbol() $p.name#slurp

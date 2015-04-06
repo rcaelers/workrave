@@ -5,37 +5,36 @@
     <include name="Core.hh"/>
     <include name="Break.hh"/>
     <include name="config/IConfigurator.hh"/>
-    <namespace name="workrave"/>
   </import>
 
   <enum name="break_event" csymbol="workrave::BreakEvent">
-    <value name="show_prelude"       csymbol="BreakEvent::ShowPrelude"/>
-    <value name="show_break"         csymbol="BreakEvent::ShowBreak"/>
-    <value name="show_break_forced"  csymbol="BreakEvent::ShowBreakForced"/>
-    <value name="break_start"        csymbol="BreakEvent::BreakStart"/>
-    <value name="break_idle"         csymbol="BreakEvent::BreakIdle"/>
-    <value name="break_stop"         csymbol="BreakEvent::BreakStop"/>
-    <value name="break_ignored"      csymbol="BreakEvent::BreakIgnored"/>
-    <value name="break_postponed"    csymbol="BreakEvent::BreakPostponed"/>
-    <value name="break_skipped"      csymbol="BreakEvent::BreakSkipped"/>
-    <value name="break_taken"        csymbol="BreakEvent::BreakTaken"/>
+    <value name="show_prelude"       csymbol="workrave::BreakEvent::ShowPrelude"/>
+    <value name="show_break"         csymbol="workrave::BreakEvent::ShowBreak"/>
+    <value name="show_break_forced"  csymbol="workrave::BreakEvent::ShowBreakForced"/>
+    <value name="break_start"        csymbol="workrave::BreakEvent::BreakStart"/>
+    <value name="break_idle"         csymbol="workrave::BreakEvent::BreakIdle"/>
+    <value name="break_stop"         csymbol="workrave::BreakEvent::BreakStop"/>
+    <value name="break_ignored"      csymbol="workrave::BreakEvent::BreakIgnored"/>
+    <value name="break_postponed"    csymbol="workrave::BreakEvent::BreakPostponed"/>
+    <value name="break_skipped"      csymbol="workrave::BreakEvent::BreakSkipped"/>
+    <value name="break_taken"        csymbol="workrave::BreakEvent::BreakTaken"/>
   </enum>
 
-  <enum name="break_id" csymbol="BreakId">
-    <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-    <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-    <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+  <enum name="break_id" csymbol="workrave::BreakId">
+    <value name="microbreak"  csymbol="workrave::BREAK_ID_MICRO_BREAK" value="0"/>
+    <value name="restbreak"   csymbol="workrave::BREAK_ID_REST_BREAK"/>
+    <value name="dailylimit"  csymbol="workrave::BREAK_ID_DAILY_LIMIT"/>
   </enum>
   
-  <enum name="operation_mode" csymbol="OperationMode">
-    <value name="normal"    csymbol="OperationMode::Normal" value="0"/>
-    <value name="suspended" csymbol="OperationMode::Suspended"/>
-    <value name="quiet"     csymbol="OperationMode::Quiet"/>
+  <enum name="operation_mode" csymbol="workrave::OperationMode">
+    <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>
+    <value name="suspended" csymbol="workrave::OperationMode::Suspended"/>
+    <value name="quiet"     csymbol="workrave::OperationMode::Quiet"/>
   </enum>
   
-  <enum name="usage_mode" csymbol="UsageMode">
-    <value name="normal"    csymbol="UsageMode::Normal" value="0"/>
-    <value name="reading"   csymbol="UsageMode::Reading"/>
+  <enum name="usage_mode" csymbol="workrave::UsageMode">
+    <value name="normal"    csymbol="workrave::UsageMode::Normal" value="0"/>
+    <value name="reading"   csymbol="workrave::UsageMode::Reading"/>
   </enum>
   
   <interface name="org.workrave.CoreInterface" csymbol="Core">
@@ -106,7 +105,7 @@
     </signal>
   </interface>
   
-  <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
+  <interface name="org.workrave.ConfigInterface" csymbol="workrave::config::IConfigurator">
     <method name="SetString" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="string" name="value" direction="in" />

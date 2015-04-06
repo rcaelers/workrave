@@ -40,47 +40,47 @@ namespace workrave {
       BreakTaken,
       };
 
-  inline std::ostream& operator<<(std::ostream& stream, BreakEvent event)
+  inline std::ostream& operator<<(std::ostream& stream, workrave::BreakEvent event)
   {
     switch(event)
       {
-      case BreakEvent::ShowPrelude:
+      case workrave::BreakEvent::ShowPrelude:
         stream << "ShowPrelude";
         break;
 
-      case BreakEvent::ShowBreak:
+      case workrave::BreakEvent::ShowBreak:
         stream << "ShowBreak";
         break;
 
-      case BreakEvent::ShowBreakForced:
+      case workrave::BreakEvent::ShowBreakForced:
         stream << "ShowBreakForced";
         break;
 
-      case BreakEvent::BreakStart:
+      case workrave::BreakEvent::BreakStart:
         stream << "BreakStart";
         break;
 
-      case BreakEvent::BreakIdle:
+      case workrave::BreakEvent::BreakIdle:
         stream << "BreakIdle";
         break;
 
-      case BreakEvent::BreakStop:
+      case workrave::BreakEvent::BreakStop:
         stream << "BreakStop";
         break;
 
-      case BreakEvent::BreakIgnored:
+      case workrave::BreakEvent::BreakIgnored:
         stream << "BreakIgnored";
         break;
 
-      case BreakEvent::BreakPostponed:
+      case workrave::BreakEvent::BreakPostponed:
         stream << "BreakPostponed";
         break;
 
-      case BreakEvent::BreakSkipped:
+      case workrave::BreakEvent::BreakSkipped:
         stream << "BreakSkipped";
         break;
 
-      case BreakEvent::BreakTaken:
+      case workrave::BreakEvent::BreakTaken:
         stream << "BreakTaken";
         break;
       }
@@ -95,7 +95,7 @@ namespace workrave {
 
     virtual ~IBreak() {}
 
-    virtual boost::signals2::signal<void(BreakEvent)> &signal_break_event() = 0;
+    virtual boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() = 0;
 
     //! Returns the name of the break.
     virtual std::string get_name() const = 0;

@@ -30,17 +30,14 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-using namespace workrave::config;
-using namespace workrave::input_monitor;
-
 class LocalActivityMonitor :
   public IActivityMonitor,
-  public IInputMonitorListener
+  public workrave::input_monitor::IInputMonitorListener
 {
 public:
-  static Ptr create(IConfigurator::Ptr config, const std::string &display_name);
+  static Ptr create(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
 
-  LocalActivityMonitor(IConfigurator::Ptr config, const std::string &display_name);
+  LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
   virtual ~LocalActivityMonitor();
 
   virtual void init();
@@ -78,13 +75,13 @@ private:
     };
 
 private:
-  IConfigurator::Ptr config;
+  workrave::config::IConfigurator::Ptr config;
 
   //!
   std::string display_name;
 
   //! The actual monitoring driver.
-  IInputMonitor::Ptr input_monitor;
+  workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! the current state.
   LocalActivityMonitorState state;

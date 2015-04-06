@@ -42,7 +42,10 @@ static const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
+using namespace std;
+using namespace workrave;
 using namespace workrave::utils;
+using namespace workrave::input_monitor;
 
 Statistics::Ptr
 Statistics::create(IActivityMonitor::Ptr monitor)

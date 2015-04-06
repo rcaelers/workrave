@@ -48,7 +48,7 @@ public:
   virtual bool get_value(const std::string &key, VariantType type, Variant &value) const;
   virtual bool set_value(const std::string &key, Variant &value);
 
-  virtual void set_listener(IConfiguratorListener *listener);
+  virtual void set_listener(workrave::config::IConfiguratorListener *listener);
   virtual bool add_listener(const std::string &key_prefix);
   virtual bool remove_listener(const std::string &key_prefix);
 
@@ -68,7 +68,7 @@ private:
   std::string gconf_root;
 
   //! Send changes to.
-  IConfiguratorListener *listener;
+  workrave::config::IConfiguratorListener *listener;
 
   //! Callback.
   static void static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);

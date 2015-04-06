@@ -25,20 +25,18 @@
 
 #include "input-monitor/IInputMonitorFactory.hh"
 
-using namespace workrave::input_monitor;
-
 //! Factory to create input monitors.
-class UnixInputMonitorFactory  : public IInputMonitorFactory
+class UnixInputMonitorFactory  : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
   UnixInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
   virtual void init(const std::string &display);
-  virtual IInputMonitor::Ptr create_monitor(IInputMonitorFactory::MonitorCapability capability);
+  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
 
   bool error_reported;
   std::string actual_monitor_method;
-  IInputMonitor::Ptr monitor;
+  workrave::input_monitor::IInputMonitor::Ptr monitor;
   std::string display;
   workrave::config::IConfigurator::Ptr config;
 };

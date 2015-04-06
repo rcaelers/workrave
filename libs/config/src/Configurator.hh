@@ -31,11 +31,7 @@
 #include "IConfigBackend.hh"
 #include "Variant.hh"
 
-using namespace workrave;
-using namespace workrave::config;
-using namespace std;
-
-class Configurator : public IConfigurator, public IConfiguratorListener
+class Configurator : public workrave::config::IConfigurator, public workrave::config::IConfiguratorListener
 {
 public:
   Configurator(IConfigBackend *backend);
@@ -58,28 +54,28 @@ public:
   virtual bool get_value(const std::string &key, int &out) const;
   virtual bool get_value(const std::string &key, double &out) const;
 
-  virtual void get_value_with_default(const std::string & key, std::string &out, string s) const;
+  virtual void get_value_with_default(const std::string & key, std::string &out, std::string s) const;
   virtual void get_value_with_default(const std::string & key, bool &out, const bool def) const;
   virtual void get_value_with_default(const std::string & key, int &out, const int def) const;
   virtual void get_value_with_default(const std::string & key, double &out, const double def) const;
 
-  virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, const std::string &v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
 
   virtual bool get_typed_value(const std::string &key, std::string &t) const;
   virtual bool set_typed_value(const std::string &key, const std::string &t);
 
-  virtual bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener);
-  virtual bool remove_listener(IConfiguratorListener *listener);
-  virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener);
-  virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const;
+  virtual bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener);
+  virtual bool remove_listener(workrave::config::IConfiguratorListener *listener);
+  virtual bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener);
+  virtual bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const;
 
 private:
-  typedef std::list<std::pair<std::string, IConfiguratorListener *> > Listeners;
-  typedef std::list<std::pair<std::string, IConfiguratorListener *> >::iterator ListenerIter;
+  typedef std::list<std::pair<std::string, workrave::config::IConfiguratorListener *> > Listeners;
+  typedef std::list<std::pair<std::string, workrave::config::IConfiguratorListener *> >::iterator ListenerIter;
   typedef std::list<std::pair<std::string, IConfiguratorListener *> >::const_iterator ListenerCIter;
 
   //! Configuration change listeners.
@@ -109,9 +105,9 @@ private:
 
 
 private:
-  bool find_setting(const string &name, Setting &setting) const;
+  bool find_setting(const std::string &name, Setting &setting) const;
 
-  bool set_value(const std::string &key, Variant &value, ConfigFlags flags = CONFIG_FLAG_NONE);
+  bool set_value(const std::string &key, Variant &value, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
   bool get_value(const std::string &key, VariantType type, Variant &value) const;
 
   void fire_configurator_event(const std::string &key);

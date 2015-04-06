@@ -35,6 +35,7 @@
 #include "SoundTheme.hh"
 #include "debug.hh"
 
+using namespace std;
 using namespace workrave::utils;
 
 // This code can be removed once the following bug is closed:

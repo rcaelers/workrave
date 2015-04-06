@@ -43,7 +43,7 @@ public:
   virtual bool set_value(const std::string &key, Variant &value);
 
 private:
-  boost::property_tree::ptree::path_type path(const string &key) const;
+  boost::property_tree::ptree::path_type path(const std::string &key) const;
 
 private:
   boost::property_tree::ptree pt;

@@ -27,26 +27,24 @@
 #include "BreakStateModel.hh"
 #include "Statistics.hh"
 
-using namespace workrave;
-
 class BreakStatistics
 {
 public:
   typedef boost::shared_ptr<BreakStatistics> Ptr;
 
 public:
-  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
+  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
-  BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
+  BreakStatistics(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
   void update();
   void daily_reset();
 
 private:
-  void on_break_event(BreakEvent stage);
+  void on_break_event(workrave::BreakEvent stage);
 
 private:
-  BreakId break_id;
+  workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
   Statistics::Ptr statistics;

@@ -34,41 +34,39 @@
 #include "CoreModes.hh"
 #include "CoreDBus.hh"
 
-using namespace workrave;
-
 // Forward declarion of external interface.
 namespace workrave {
   class IApp;
 }
 
-class Core : public ICore
+class Core : public workrave::ICore
 {
 public:
   Core();
   virtual ~Core();
 
   // ICore
-  virtual boost::signals2::signal<void(OperationMode)> &signal_operation_mode_changed();
-  virtual boost::signals2::signal<void(UsageMode)> &signal_usage_mode_changed();
-  virtual void init(IApp *application, const std::string &display_name);
+  virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
+  virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed();
+  virtual void init(workrave::IApp *application, const std::string &display_name);
   virtual void heartbeat();
-  virtual void force_break(BreakId id, BreakHint break_hint);
-  virtual IBreak::Ptr get_break(BreakId id);
-  virtual IStatistics::Ptr get_statistics() const;
-  virtual IConfigurator::Ptr get_configurator() const;
+  virtual void force_break(workrave::BreakId id, workrave::BreakHint break_hint);
+  virtual workrave::IBreak::Ptr get_break(workrave::BreakId id);
+  virtual workrave::IStatistics::Ptr get_statistics() const;
+  virtual workrave::config::IConfigurator::Ptr get_configurator() const;
   virtual ICoreHooks::Ptr get_hooks() const;
-  virtual dbus::IDBus::Ptr get_dbus() const;
+  virtual workrave::dbus::IDBus::Ptr get_dbus() const;
   virtual bool is_user_active() const;
-  virtual OperationMode get_operation_mode();
-  virtual OperationMode get_operation_mode_regular();
+  virtual workrave::OperationMode get_operation_mode();
+  virtual workrave::OperationMode get_operation_mode_regular();
   virtual bool is_operation_mode_an_override();
-  virtual void set_operation_mode(OperationMode mode);
-  virtual void set_operation_mode_override(OperationMode mode, const std::string &id);
+  virtual void set_operation_mode(workrave::OperationMode mode);
+  virtual void set_operation_mode_override(workrave::OperationMode mode, const std::string &id);
   virtual void remove_operation_mode_override(const std::string &id);
-  virtual UsageMode get_usage_mode();
-  virtual void set_usage_mode(UsageMode mode);
+  virtual workrave::UsageMode get_usage_mode();
+  virtual void set_usage_mode(workrave::UsageMode mode);
   virtual void set_powersave(bool down);
-  virtual void set_insist_policy(InsistPolicy p);
+  virtual void set_insist_policy(workrave::InsistPolicy p);
   virtual void force_idle();
 
   // DBus functions.
@@ -83,7 +81,7 @@ private:
   BreaksControl::Ptr breaks_control;
 
   //! The Configurator.
-  IConfigurator::Ptr configurator;
+  workrave::config::IConfigurator::Ptr configurator;
 
   //! The activity monitor
   LocalActivityMonitor::Ptr monitor;
@@ -98,7 +96,7 @@ private:
   CoreDBus::Ptr core_dbus;
 
   //! GUI Widget factory.
-  IApp *application;
+  workrave::IApp *application;
 
   //! The statistics collector.
   Statistics::Ptr statistics;
@@ -107,7 +105,7 @@ private:
   bool powersave;
 
   //! DBUS bridge
-  dbus::IDBus::Ptr dbus;
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
 #endif // CORE_HH

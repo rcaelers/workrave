@@ -31,22 +31,22 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 
 //! Factory to create input monitors.
-class W32InputMonitorFactory : public IInputMonitorFactory
+class W32InputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
-  W32InputMonitorFactory(IConfigurator::Ptr config);
+  W32InputMonitorFactory(workrave::config::IConfigurator::Ptr config);
   virtual void init(const std::string &display);
-  virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability);
+  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 
 private:
-  IInputMonitor::Ptr create_statistics_monitor();
-  IInputMonitor::Ptr create_activity_monitor();
+  workrave::input_monitor::IInputMonitor::Ptr create_statistics_monitor();
+  workrave::input_monitor::IInputMonitor::Ptr create_activity_monitor();
 
 
 private:
-  IConfigurator::Ptr config;
-  IInputMonitor::Ptr activity_monitor;
-  IInputMonitor::Ptr statistics_monitor;
+  workrave::config::IConfigurator::Ptr config;
+  workrave::input_monitor::IInputMonitor::Ptr activity_monitor;
+  workrave::input_monitor::IInputMonitor::Ptr statistics_monitor;
   std::string actual_monitor_method;
 };
 

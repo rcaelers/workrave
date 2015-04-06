@@ -62,6 +62,7 @@ const int TIMEOUT = 1000;
 const int MARGINX = 8;
 const int MARGINY = 8;
 
+using namespace std;
 using namespace workrave::utils;
 
 //! Constructor

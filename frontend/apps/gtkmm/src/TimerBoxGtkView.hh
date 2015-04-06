@@ -47,8 +47,8 @@ public:
 
   void set_geometry(Orientation orientation, int size);
   int get_visible_count() const;
-  void set_slot(BreakId  id, int slot);
-  void set_time_bar(BreakId id,
+  void set_slot(workrave::BreakId  id, int slot);
+  void set_time_bar(workrave::BreakId id,
                     std::string text,
                     ITimeBar::ColorId primary_color,
                     int primary_value, int primary_max,
@@ -111,10 +111,10 @@ private:
   int table_reverse;
 
   //! Current slot content.
-  int current_content[BREAK_ID_SIZEOF];
+  int current_content[workrave::BREAK_ID_SIZEOF];
 
   //! New slot content.
-  int new_content[BREAK_ID_SIZEOF];
+  int new_content[workrave::BREAK_ID_SIZEOF];
 
   //! Number of visible breaks.
   int visible_count;

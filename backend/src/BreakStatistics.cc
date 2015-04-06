@@ -24,6 +24,7 @@
 #include "BreakStatistics.hh"
 
 using namespace std;
+using namespace workrave;
 
 BreakStatistics::Ptr
 BreakStatistics::create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics)

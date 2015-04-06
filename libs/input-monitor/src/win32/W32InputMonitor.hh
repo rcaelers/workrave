@@ -34,7 +34,7 @@ class W32InputMonitor :
 {
 public:
   //! Constructor.
-  W32InputMonitor(IConfigurator::Ptr config);
+  W32InputMonitor(workrave::config::IConfigurator::Ptr config);
 
   //! Destructor.
   virtual ~W32InputMonitor();
@@ -46,7 +46,7 @@ private:
   static W32InputMonitor *singleton;
   static void on_harpoon_event(HarpoonEvent *event);
 
-  IConfigurator::Ptr config;
+  workrave::config::IConfigurator::Ptr config;
 };
 
 #endif // W32INPUTMONITOR_HH

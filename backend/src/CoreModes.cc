@@ -25,6 +25,7 @@
 #include "CoreConfig.hh"
 
 using namespace std;
+using namespace workrave;
 
 CoreModes::Ptr
 CoreModes::create(IActivityMonitor::Ptr monitor)

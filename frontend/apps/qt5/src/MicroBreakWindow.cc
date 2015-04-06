@@ -33,6 +33,7 @@
 #include "UiUtil.hh"
 #include "Ui.hh"
 
+using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::ui;

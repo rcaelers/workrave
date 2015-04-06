@@ -21,8 +21,6 @@
 #include <string>
 #include <set>
 
-using namespace std;
-
 namespace workrave
 {
   namespace utils
@@ -41,15 +39,15 @@ namespace workrave
           SEARCH_PATH_SIZEOF
         };
 
-      static const string& get_home_directory();
-      static void set_home_directory(const string &home);
+      static const std::string& get_home_directory();
+      static void set_home_directory(const std::string &home);
 
-      static const set<string> &get_search_path(SearchPathId type);
-      static string complete_directory(string path, SearchPathId type);
+      static const std::set<std::string> &get_search_path(SearchPathId type);
+      static std::string complete_directory(std::string path, SearchPathId type);
 
     private:
-      static set<string> search_paths[SEARCH_PATH_SIZEOF];
-      static string home_directory;
+      static std::set<std::string> search_paths[SEARCH_PATH_SIZEOF];
+      static std::string home_directory;
     };
   }
 }

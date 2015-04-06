@@ -20,8 +20,6 @@
 
 #include "config/Config.hh"
 
-using namespace workrave::config;
-
 class IActivityMonitorListener
 {
 public:

@@ -40,8 +40,8 @@ public:
   virtual AppletState activate_applet();
   virtual void deactivate_applet();
 
-  void set_slot(BreakId  id, int slot);
-  void set_time_bar(BreakId id,
+  void set_slot(workrave::BreakId  id, int slot);
+  void set_time_bar(workrave::BreakId id,
                     std::string text,
                     ITimeBar::ColorId primary_color,
                     int primary_value, int primary_max,

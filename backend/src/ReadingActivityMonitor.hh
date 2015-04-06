@@ -28,8 +28,6 @@
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
 
-using namespace workrave;
-
 class ReadingActivityMonitor :
   public IActivityMonitorListener,
   public boost::enable_shared_from_this<ReadingActivityMonitor>
@@ -43,7 +41,7 @@ public:
   ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
   virtual ~ReadingActivityMonitor();
 
-  void handle_break_event(BreakId break_id, BreakEvent event);
+  void handle_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
 
   void init();
   void suspend();

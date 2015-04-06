@@ -43,9 +43,10 @@
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 #endif
 
+using namespace std;
+using namespace workrave;
+using namespace workrave::config;
 using namespace workrave::dbus;
-
-
 using namespace workrave::utils;
 
 ICore::Ptr

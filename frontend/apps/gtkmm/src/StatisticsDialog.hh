@@ -52,7 +52,7 @@ private:
   IStatistics::Ptr statistics;
 
   /** Labels for break stats. */
-  Gtk::Label *break_labels[BREAK_ID_SIZEOF][9];
+  Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9];
 
   /** Labels for break stats. */
   Gtk::Label *activity_labels[5];

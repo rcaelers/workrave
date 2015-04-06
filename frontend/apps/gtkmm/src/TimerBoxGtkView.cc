@@ -47,6 +47,7 @@
 #include "CoreFactory.hh"
 #include "IBreak.hh"
 
+using namespace std;
 using namespace workrave::utils;
 
 //! Constructor.

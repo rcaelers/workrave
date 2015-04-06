@@ -45,6 +45,8 @@
 #include "QtSettingsConfigurator.hh"
 #endif
 
+using namespace workrave::config;
+
 //! Creates a configurator of the specified type.
 IConfigurator::Ptr
 ConfiguratorFactory::create(Format fmt)

@@ -62,7 +62,7 @@ private:
   Gtk::CheckButton *ontop_cb;
   Gtk::CheckButton *enabled_cb;
   Gtk::ComboBoxText *place_button;
-  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF];
+  Gtk::ComboBoxText *timer_display_button[workrave::BREAK_ID_SIZEOF];
   Gtk::SpinButton *cycle_entry;
   scoped_connections connections;
 };

@@ -42,6 +42,7 @@
 #include "Hig.hh"
 #include "Frame.hh"
 
+using namespace std;
 using namespace workrave::utils;
 
 //! Construct a new Microbreak window.

@@ -37,6 +37,7 @@
 #include "utils/AssetPath.hh"
 #include "Hig.hh"
 
+using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 

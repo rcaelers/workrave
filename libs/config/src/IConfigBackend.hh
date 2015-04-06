@@ -30,9 +30,6 @@ namespace workrave
   }
 }
 
-using namespace workrave;
-using namespace workrave::config;
-
 #include "Variant.hh"
 
 class IConfigBackend
@@ -55,7 +52,7 @@ class IConfigBackendMonitoring
 public:
   virtual ~IConfigBackendMonitoring() {}
 
-  virtual void set_listener(IConfiguratorListener *listener) = 0;
+  virtual void set_listener(workrave::config::IConfiguratorListener *listener) = 0;
   virtual bool add_listener(const std::string &key_prefix) = 0;
   virtual bool remove_listener(const std::string &key_prefix) = 0;
 };

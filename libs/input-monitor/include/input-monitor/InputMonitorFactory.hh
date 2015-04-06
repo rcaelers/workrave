@@ -35,10 +35,10 @@ namespace workrave
     {
     public:
       static void init(workrave::config::IConfigurator::Ptr config, const std::string &display);
-      static IInputMonitor::Ptr create_monitor(IInputMonitorFactory::MonitorCapability capability);
+      static workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
 
     private:
-      static IInputMonitorFactory *factory;
+      static workrave::input_monitor::IInputMonitorFactory *factory;
     };
   }
 }

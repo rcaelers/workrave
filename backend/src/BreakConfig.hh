@@ -27,17 +27,15 @@
 
 class DayTimePred;
 
-using namespace workrave;
-
 class BreakConfig
 {
 public:
   typedef boost::shared_ptr<BreakConfig> Ptr;
 
 public:
-  static Ptr create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
+  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
-  BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
+  BreakConfig(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
   bool is_microbreak_used_for_activity() const;
   bool is_enabled() const;
@@ -48,7 +46,7 @@ private:
   DayTimePred *create_time_pred(std::string spec);
 
 private:
-  BreakId break_id;
+  workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
   bool enabled;

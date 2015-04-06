@@ -34,6 +34,8 @@
 #include "debug.hh"
 
 using namespace std;
+using namespace workrave::config;
+using namespace workrave::input_monitor;
 using namespace workrave::utils;
 
 LocalActivityMonitor::Ptr

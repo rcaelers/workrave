@@ -36,21 +36,21 @@ public:
 
   virtual bool remove_key(const std::string &key);
 
-  virtual bool get_config_value(const string &key, string &out) const;
-  virtual bool get_config_value(const string &key, bool &out) const;
-  virtual bool get_config_value(const string &key, int &out) const;
-  virtual bool get_config_value(const string &key, long &out) const;
-  virtual bool get_config_value(const string &key, double &out) const;
+  virtual bool get_config_value(const std::string &key, std::string &out) const;
+  virtual bool get_config_value(const std::string &key, bool &out) const;
+  virtual bool get_config_value(const std::string &key, int &out) const;
+  virtual bool get_config_value(const std::string &key, long &out) const;
+  virtual bool get_config_value(const std::string &key, double &out) const;
 
-  virtual bool set_config_value(const string &key, string v);
-  virtual bool set_config_value(const string &key, int v);
-  virtual bool set_config_value(const string &key, long v);
-  virtual bool set_config_value(const string &key, bool v);
-  virtual bool set_config_value(const string &key, double v);
+  virtual bool set_config_value(const std::string &key, std::string v);
+  virtual bool set_config_value(const std::string &key, int v);
+  virtual bool set_config_value(const std::string &key, long v);
+  virtual bool set_config_value(const std::string &key, bool v);
+  virtual bool set_config_value(const std::string &key, double v);
 
 protected:
-  QVariant qt_get_value(const string &key, bool& exists) const;
-  QString qt_key(const string &key) const;
+  QVariant qt_get_value(const std::string &key, bool& exists) const;
+  QString qt_key(const std::string &key) const;
   void dispose();
 
   QSettings *settings;

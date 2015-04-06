@@ -45,6 +45,8 @@
 #define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.AppletInterface"
 #define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
 
+using namespace std;
+
 //! Constructor.
 GenericDBusApplet::GenericDBusApplet() :
   enabled(false), visible(false)
