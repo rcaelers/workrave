@@ -3,7 +3,7 @@
  "uuid": "@uuid@",
  "name": "Workrave",
  "description": "Applet that shows all the Workrave timers.",
- "shell-version": [ "3.2", "3.3", "3.4", "3.5", "3.5.4", "3.6.0", "3.6", "3.8", "3.10", "3.12", "3.14", "@shell_current@" ],
+ "shell-version": [ "3.2", "3.3", "3.4", "3.5", "3.5.4", "3.6.0", "3.6", "3.8", "3.10", "3.12", "3.14", "3.16", "@shell_current@" ],
  "localedir": "@LOCALEDIR@",
  "url": "@url@"
 }
