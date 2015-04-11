@@ -31,7 +31,7 @@ class Frame : public QWidget
 
 public:
   explicit Frame(QWidget* parent = 0);
-  ~Frame();
+  ~Frame() override;
 
   enum Style
     {
@@ -51,7 +51,7 @@ public slots:
   void on_timer();
 
 protected:
-  void paintEvent(QPaintEvent *);
+  void paintEvent(QPaintEvent *) override;
 
 private:
   QRect get_frame_rect() const;

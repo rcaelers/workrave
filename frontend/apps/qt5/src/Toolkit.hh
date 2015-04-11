@@ -55,23 +55,23 @@ public:
   static IToolkit::Ptr create(int argc, char **argv);
 
   Toolkit(int argc, char **argv);
-  virtual ~Toolkit();
+  ~Toolkit() override;
 
-  virtual boost::signals2::signal<void()> &signal_timer();
+  boost::signals2::signal<void()> &signal_timer() override;
 
-  virtual void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme);
-  virtual void terminate();
-  virtual void run();
-  virtual void grab();
-  virtual void ungrab();
-  virtual std::string get_display_name();
-  virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags);
-  virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id);
-  virtual int get_screen_count() const;
-  virtual void show_window(WindowType type);
-  virtual void hide_window(WindowType type);
-  virtual void create_oneshot_timer(int ms, boost::function<void ()> func);
-  virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon);
+  void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
+  void terminate() override;
+  void run() override;
+  void grab() override;
+  void ungrab() override;
+  std::string get_display_name() override;
+  IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) override;
+  IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) override;
+  int get_screen_count() const override;
+  void show_window(WindowType type) override;
+  void hide_window(WindowType type) override;
+  void create_oneshot_timer(int ms, boost::function<void ()> func) override;
+  void show_balloon(std::string id, const std::string& title, const std::string& balloon) override;
 
 public slots:
   void on_timer();

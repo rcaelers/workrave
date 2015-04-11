@@ -35,43 +35,43 @@ class Configurator : public workrave::config::IConfigurator, public workrave::co
 {
 public:
   Configurator(IConfigBackend *backend);
-  virtual ~Configurator();
+  ~Configurator() override;
 
-  void heartbeat();
+  void heartbeat() override;
 
   // IConfigurator
-  virtual void set_delay(const std::string &name, int delay);
+  void set_delay(const std::string &name, int delay) override;
 
-  virtual bool load(std::string filename);
-  virtual bool save(std::string filename);
-  virtual bool save();
+  bool load(std::string filename) override;
+  bool save(std::string filename) override;
+  bool save() override;
 
-  virtual bool remove_key(const std::string &key) const;
-  virtual bool rename_key(const std::string &key, const std::string &new_key);
+  bool remove_key(const std::string &key) const override;
+  bool rename_key(const std::string &key, const std::string &new_key) override;
 
-  virtual bool get_value(const std::string &key, std::string &out) const;
-  virtual bool get_value(const std::string &key, bool &out) const;
-  virtual bool get_value(const std::string &key, int &out) const;
-  virtual bool get_value(const std::string &key, double &out) const;
+  bool get_value(const std::string &key, std::string &out) const override;
+  bool get_value(const std::string &key, bool &out) const override;
+  bool get_value(const std::string &key, int &out) const override;
+  bool get_value(const std::string &key, double &out) const override;
 
-  virtual void get_value_with_default(const std::string & key, std::string &out, std::string s) const;
-  virtual void get_value_with_default(const std::string & key, bool &out, const bool def) const;
-  virtual void get_value_with_default(const std::string & key, int &out, const int def) const;
-  virtual void get_value_with_default(const std::string & key, double &out, const double def) const;
+  void get_value_with_default(const std::string & key, std::string &out, std::string s) const override;
+  void get_value_with_default(const std::string & key, bool &out, const bool def) const override;
+  void get_value_with_default(const std::string & key, int &out, const int def) const override;
+  void get_value_with_default(const std::string & key, double &out, const double def) const override;
 
-  virtual bool set_value(const std::string &key, const std::string &v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  virtual bool set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  bool set_value(const std::string &key, const std::string &v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
-  virtual bool get_typed_value(const std::string &key, std::string &t) const;
-  virtual bool set_typed_value(const std::string &key, const std::string &t);
+  bool get_typed_value(const std::string &key, std::string &t) const override;
+  bool set_typed_value(const std::string &key, const std::string &t) override;
 
-  virtual bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener);
-  virtual bool remove_listener(workrave::config::IConfiguratorListener *listener);
-  virtual bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener);
-  virtual bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const;
+  bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
+  bool remove_listener(workrave::config::IConfiguratorListener *listener) override;
+  bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
+  bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const override;
 
 private:
   typedef std::list<std::pair<std::string, workrave::config::IConfiguratorListener *> > Listeners;
@@ -115,7 +115,7 @@ private:
   void strip_trailing_slash(std::string &key) const;
   void add_trailing_slash(std::string &key) const;
 
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
 private:
   //! Registered settings.

@@ -31,7 +31,7 @@ class TimeEntry : public QWidget
 
 public:
   TimeEntry();
-  virtual ~TimeEntry();
+  ~TimeEntry() override;
 
   time_t get_value();
   void set_value(time_t time);

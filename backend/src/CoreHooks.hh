@@ -32,12 +32,12 @@ public:
   static Ptr create();
 
   CoreHooks();
-  virtual ~CoreHooks();
+  ~CoreHooks() override;
 
 #ifdef HAVE_TESTS
-  virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator();
-  virtual boost::function<IActivityMonitor::Ptr()> &hook_create_monitor();
-  virtual boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state();
+  boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;
+  boost::function<IActivityMonitor::Ptr()> &hook_create_monitor() override;
+  boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() override;
 #endif
 
 private:

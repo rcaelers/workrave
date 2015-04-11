@@ -43,31 +43,31 @@ class Core : public workrave::ICore
 {
 public:
   Core();
-  virtual ~Core();
+  ~Core() override;
 
   // ICore
-  virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
-  virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed();
-  virtual void init(workrave::IApp *application, const std::string &display_name);
-  virtual void heartbeat();
-  virtual void force_break(workrave::BreakId id, workrave::BreakHint break_hint);
-  virtual workrave::IBreak::Ptr get_break(workrave::BreakId id);
-  virtual workrave::IStatistics::Ptr get_statistics() const;
-  virtual workrave::config::IConfigurator::Ptr get_configurator() const;
-  virtual ICoreHooks::Ptr get_hooks() const;
-  virtual workrave::dbus::IDBus::Ptr get_dbus() const;
-  virtual bool is_user_active() const;
-  virtual workrave::OperationMode get_operation_mode();
-  virtual workrave::OperationMode get_operation_mode_regular();
-  virtual bool is_operation_mode_an_override();
-  virtual void set_operation_mode(workrave::OperationMode mode);
-  virtual void set_operation_mode_override(workrave::OperationMode mode, const std::string &id);
-  virtual void remove_operation_mode_override(const std::string &id);
-  virtual workrave::UsageMode get_usage_mode();
-  virtual void set_usage_mode(workrave::UsageMode mode);
-  virtual void set_powersave(bool down);
-  virtual void set_insist_policy(workrave::InsistPolicy p);
-  virtual void force_idle();
+  boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
+  boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
+  void init(workrave::IApp *application, const std::string &display_name) override;
+  void heartbeat() override;
+  void force_break(workrave::BreakId id, workrave::BreakHint break_hint) override;
+  workrave::IBreak::Ptr get_break(workrave::BreakId id) override;
+  workrave::IStatistics::Ptr get_statistics() const override;
+  workrave::config::IConfigurator::Ptr get_configurator() const override;
+  ICoreHooks::Ptr get_hooks() const override;
+  workrave::dbus::IDBus::Ptr get_dbus() const override;
+  bool is_user_active() const override;
+  workrave::OperationMode get_operation_mode() override;
+  workrave::OperationMode get_operation_mode_regular() override;
+  bool is_operation_mode_an_override() override;
+  void set_operation_mode(workrave::OperationMode mode) override;
+  void set_operation_mode_override(workrave::OperationMode mode, const std::string &id) override;
+  void remove_operation_mode_override(const std::string &id) override;
+  workrave::UsageMode get_usage_mode() override;
+  void set_usage_mode(workrave::UsageMode mode) override;
+  void set_powersave(bool down) override;
+  void set_insist_policy(workrave::InsistPolicy p) override;
+  void force_idle() override;
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);

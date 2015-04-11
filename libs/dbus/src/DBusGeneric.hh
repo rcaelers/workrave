@@ -42,13 +42,13 @@ namespace workrave
       static Ptr create();
 
       DBusGeneric();
-      virtual ~DBusGeneric();
+      ~DBusGeneric() override;
 
-      void connect(const std::string &path, const std::string &interface_name, void *object);
-      void disconnect(const std::string &path, const std::string &interface_name);
+      void connect(const std::string &path, const std::string &interface_name, void *object) override;
+      void disconnect(const std::string &path, const std::string &interface_name) override;
 
-      void register_binding(const std::string &interface_name, DBusBinding *binding);
-      DBusBinding *find_binding(const std::string &interface_name) const;
+      void register_binding(const std::string &interface_name, DBusBinding *binding) override;
+      DBusBinding *find_binding(const std::string &interface_name) const override;
 
     protected:
       typedef std::map<std::string, DBusBinding *> Bindings;

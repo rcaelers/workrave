@@ -45,7 +45,7 @@ namespace detail
     static Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
 
     MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    virtual ~MenuEntry() {};
+    ~MenuEntry() override {};
     virtual QAction* get_action() const = 0;
     virtual MenuModel::Ptr get_menu_model() const;
 
@@ -62,10 +62,10 @@ namespace detail
     typedef boost::shared_ptr<SubMenuEntry> Ptr;
 
     SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    virtual ~SubMenuEntry();
+    ~SubMenuEntry() override;
 
     QMenu *get_menu() const;
-    virtual QAction* get_action() const;
+    QAction* get_action() const override;
 
   private:
     void on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before);
@@ -88,9 +88,9 @@ namespace detail
     typedef boost::shared_ptr<ActionMenuEntry> Ptr;
 
     ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    virtual ~ActionMenuEntry();
+    ~ActionMenuEntry() override;
 
-    virtual QAction* get_action() const;
+    QAction* get_action() const override;
 
   public slots:
     void on_action(bool checked);
@@ -114,7 +114,7 @@ public:
   static Ptr create(MenuModel::Ptr top, MenuModelFilter filter = 0);
 
   ToolkitMenu(MenuModel::Ptr top, MenuModelFilter filter = 0);
-  virtual ~ToolkitMenu();
+  ~ToolkitMenu() override;
 
   QMenu *get_menu() const;
 

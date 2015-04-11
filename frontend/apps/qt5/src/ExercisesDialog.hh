@@ -31,7 +31,7 @@ class ExercisesDialog : public QDialog
 
 public:
   ExercisesDialog();
-  virtual ~ExercisesDialog();
+  ~ExercisesDialog() override;
 
 private:
   void on_stop();

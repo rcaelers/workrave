@@ -32,7 +32,7 @@ class GeneralUiPreferencesPanel : public QWidget
 
 public:
   GeneralUiPreferencesPanel();
-  virtual ~GeneralUiPreferencesPanel();
+  ~GeneralUiPreferencesPanel() override;
 
 
 private:

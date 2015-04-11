@@ -45,23 +45,23 @@ namespace workrave
       static Ptr create();
 
       DBusQt5();
-      virtual ~DBusQt5();
+      ~DBusQt5() override;
 
       // IDBus
-      virtual void init();
-      virtual void register_service(const std::string &service);
-      virtual void register_object_path(const std::string &object_path);
-      virtual bool is_available() const;
-      virtual bool is_running(const std::string &name) const;
-      virtual void watch(const std::string &name, IDBusWatch *cb);
-      virtual void unwatch(const std::string &name);
+      void init() override;
+      void register_service(const std::string &service) override;
+      void register_object_path(const std::string &object_path) override;
+      bool is_available() const override;
+      bool is_running(const std::string &name) const override;
+      void watch(const std::string &name, IDBusWatch *cb) override;
+      void unwatch(const std::string &name) override;
 
       //! IDBusPrivateQt5
-      virtual QDBusConnection get_connection() { return connection; }
+      QDBusConnection get_connection() override { return connection; }
 
       // QDBusVirtualObject
-      virtual QString introspect(const QString &path) const;
-      virtual bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection);
+      QString introspect(const QString &path) const override;
+      bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection) override;
 
       void on_service_owner_changed(const QString & name, const QString & oldowner, const QString & newowner);
       void on_service_registered(const QString & name);

@@ -105,33 +105,33 @@ public:
   Statistics(IActivityMonitor::Ptr monitor);
 
   //! Destructor
-  virtual ~Statistics();
+  ~Statistics() override;
 
-  bool delete_all_history();
+  bool delete_all_history() override;
 
 public:
   void init();
-  void update();
-  void dump();
+  void update() override;
+  void dump() override;
   void start_new_day();
 
   void increment_break_counter(workrave::BreakId, StatsBreakValueType st);
   void set_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
   void add_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
 
-  DailyStatsImpl *get_current_day() const;
-  DailyStatsImpl *get_day(int day) const;
-  void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
+  DailyStatsImpl *get_current_day() const override;
+  DailyStatsImpl *get_day(int day) const override;
+  void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const override;
 
-  int get_history_size() const;
+  int get_history_size() const override;
   void set_counter(StatsValueType t, int value);
   int64_t get_counter(StatsValueType t);
 
 private:
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(bool is_press);
-  void keyboard_notify(bool repeat);
+  void action_notify() override;
+  void mouse_notify(int x, int y, int wheel = 0) override;
+  void button_notify(bool is_press) override;
+  void keyboard_notify(bool repeat) override;
 
   bool load_current_day();
   void load_history();

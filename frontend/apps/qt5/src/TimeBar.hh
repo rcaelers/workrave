@@ -34,23 +34,23 @@ class TimeBar : public QWidget, public ITimeBar
 
 public:
   explicit TimeBar(QWidget *parent = 0);
-  ~TimeBar();
+  ~TimeBar() override;
 
-  QSize minimumSizeHint() const;
-  QSize sizeHint() const;
+  QSize minimumSizeHint() const override;
+  QSize sizeHint() const override;
 
-  virtual void set_progress(int value, int max_value);
-  virtual void set_secondary_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
+  void set_secondary_progress(int value, int max_value) override;
 
-  virtual void set_text(std::string text);
-  virtual void set_text_alignment(int align);
+  void set_text(std::string text) override;
+  void set_text_alignment(int align) override;
 
-  virtual void update();
-  virtual void set_bar_color(ColorId color);
-  virtual void set_secondary_bar_color(ColorId color);
+  void update() override;
+  void set_bar_color(ColorId color) override;
+  void set_secondary_bar_color(ColorId color) override;
 
 protected:
-  void paintEvent(QPaintEvent *event);
+  void paintEvent(QPaintEvent *event) override;
 
 private:
 

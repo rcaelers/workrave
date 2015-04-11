@@ -41,21 +41,21 @@ class PreludeWindow : public QWidget, public IPreludeWindow
 
 public:
   PreludeWindow(int screen, workrave::BreakId break_id);
-  virtual ~PreludeWindow();
+  ~PreludeWindow() override;
 
   static IPreludeWindow::Ptr create(int screen, workrave::BreakId break_id);
 
-  virtual void start();
-  virtual void stop();
-  virtual void refresh();
-  virtual void set_progress(int value, int max_value);
-  virtual void set_stage(workrave::IApp::PreludeStage stage);
-  virtual void set_progress_text(workrave::IApp::PreludeProgressText text);
+  void start() override;
+  void stop() override;
+  void refresh() override;
+  void set_progress(int value, int max_value) override;
+  void set_stage(workrave::IApp::PreludeStage stage) override;
+  void set_progress_text(workrave::IApp::PreludeProgressText text) override;
 
 private:
   void on_frame_flash(bool frame_visible);
   void avoid_pointer(int x, int y);
-  bool event(QEvent *event);
+  bool event(QEvent *event) override;
 
 private:
   const static int SCREEN_MARGIN = 20;

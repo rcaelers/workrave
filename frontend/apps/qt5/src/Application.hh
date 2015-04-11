@@ -51,25 +51,25 @@ public:
   static Ptr create(int argc, char **argv, IToolkit::Ptr toolkit);
 
   Application(int argc, char **argv, IToolkit::Ptr toolkit);
-  virtual ~Application();
+  ~Application() override;
 
   SoundTheme::Ptr get_sound_theme() const;
   void main();
 
   // IApp methods
-  virtual void create_prelude_window(workrave::BreakId break_id);
-  virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint);
-  virtual void hide_break_window();
-  virtual void show_break_window();
-  virtual void refresh_break_window();
-  virtual void set_break_progress(int value, int max_value);
-  virtual void set_prelude_stage(PreludeStage stage);
-  virtual void set_prelude_progress_text(PreludeProgressText text);
+  void create_prelude_window(workrave::BreakId break_id) override;
+  void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint) override;
+  void hide_break_window() override;
+  void show_break_window() override;
+  void refresh_break_window() override;
+  void set_break_progress(int value, int max_value) override;
+  void set_prelude_stage(PreludeStage stage) override;
+  void set_prelude_progress_text(PreludeProgressText text) override;
   //virtual void terminate();
 
   // IApplication
-  virtual void restbreak_now();
-  virtual void terminate();
+  void restbreak_now() override;
+  void terminate() override;
 
   // Internal public methods
   //void open_main_window();

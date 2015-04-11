@@ -33,7 +33,7 @@ class StatusIcon : public QObject
 
 public:
   StatusIcon(MenuModel::Ptr menu_model);
-  virtual ~StatusIcon();
+  ~StatusIcon() override;
 
   void init();
   void set_tooltip(std::string& tip);

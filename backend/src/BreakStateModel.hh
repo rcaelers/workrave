@@ -63,7 +63,7 @@ public:
                   Timer::Ptr timer,
                   IActivityMonitor::Ptr activity_monitor,
                   CoreHooks::Ptr hooks);
-  virtual ~BreakStateModel();
+  ~BreakStateModel() override;
 
   void process();
 
@@ -98,7 +98,7 @@ private:
   bool has_reached_max_preludes();
 
   // IActivityMonitorListener
-  bool action_notify();
+  bool action_notify() override;
 
 private:
   //! ID of the break controlled by this Break.

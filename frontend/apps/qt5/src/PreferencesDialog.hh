@@ -34,7 +34,7 @@ class PreferencesDialog : public QDialog
 
 public:
   PreferencesDialog(SoundTheme::Ptr sound_theme);
-  virtual ~PreferencesDialog();
+  ~PreferencesDialog() override;
 
 protected:
 

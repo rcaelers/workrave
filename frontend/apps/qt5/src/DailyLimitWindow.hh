@@ -32,10 +32,10 @@ public:
 
   static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
 
-  void set_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
 
 protected:
-  virtual QWidget *create_gui();
+  QWidget *create_gui() override;
 };
 
 

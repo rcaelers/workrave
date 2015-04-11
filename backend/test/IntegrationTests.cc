@@ -104,10 +104,10 @@ public:
   {
   }
 
-  ~Backend()
+  ~Backend() override
   {
     out.close();
-   }
+  }
 
   void init_log_file()
   {
@@ -326,7 +326,7 @@ public:
       }
   }
 
-  virtual void create_prelude_window(BreakId break_id)
+  void create_prelude_window(BreakId break_id) override
   {
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
@@ -359,7 +359,7 @@ public:
     last_max_value = 0;
   }
 
-  virtual void create_break_window(BreakId break_id, BreakHint break_hint)
+  void create_break_window(BreakId break_id, BreakHint break_hint) override
   {
     log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
 
@@ -390,7 +390,7 @@ public:
     last_max_value = 0;
   }
 
-  virtual void hide_break_window()
+  void hide_break_window() override
   {
     if (active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE)
       {
@@ -404,13 +404,13 @@ public:
     active_prelude = BREAK_ID_NONE;
   }
 
-  virtual void show_break_window()
+  void show_break_window() override
   {
     log_actual("show");
     BOOST_REQUIRE(active_break != BREAK_ID_NONE || active_prelude  != BREAK_ID_NONE);
   }
 
-  virtual void refresh_break_window()
+  void refresh_break_window() override
   {
     log("refresh");
 
@@ -432,7 +432,7 @@ public:
     did_refresh = true;
   }
 
-  virtual void set_break_progress(int value, int max_value)
+  void set_break_progress(int value, int max_value) override
   {
     log("progress", boost::str(boost::format("value=%1% max_value=%2%") % value % max_value));
 
@@ -455,7 +455,7 @@ public:
     need_refresh = true;
   }
 
-  virtual void set_prelude_stage(PreludeStage stage)
+  void set_prelude_stage(PreludeStage stage) override
   {
     log("stage", boost::str(boost::format("stage=%1%") % stage));
 
@@ -465,7 +465,7 @@ public:
     prelude_stage_set = true;
   }
 
-  virtual void set_prelude_progress_text(PreludeProgressText text)
+  void set_prelude_progress_text(PreludeProgressText text) override
   {
     log("text", boost::str(boost::format("text=%1%") % text));
 

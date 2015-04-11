@@ -28,25 +28,25 @@ class QtSettingsConfigurator : public virtual IConfigBackend, public virtual Con
 {
 public:
   QtSettingsConfigurator(QSettings *settings = 0);
-  virtual ~QtSettingsConfigurator();
+  ~QtSettingsConfigurator() override;
 
-  virtual bool load(std::string filename);
-  virtual bool save(std::string filename);
-  virtual bool save();
+  bool load(std::string filename) override;
+  bool save(std::string filename) override;
+  bool save() override;
 
-  virtual bool remove_key(const std::string &key);
+  bool remove_key(const std::string &key) override;
 
-  virtual bool get_config_value(const std::string &key, std::string &out) const;
-  virtual bool get_config_value(const std::string &key, bool &out) const;
-  virtual bool get_config_value(const std::string &key, int &out) const;
-  virtual bool get_config_value(const std::string &key, long &out) const;
-  virtual bool get_config_value(const std::string &key, double &out) const;
+  bool get_config_value(const std::string &key, std::string &out) const override;
+  bool get_config_value(const std::string &key, bool &out) const override;
+  bool get_config_value(const std::string &key, int &out) const override;
+  bool get_config_value(const std::string &key, long &out) const override;
+  bool get_config_value(const std::string &key, double &out) const override;
 
-  virtual bool set_config_value(const std::string &key, std::string v);
-  virtual bool set_config_value(const std::string &key, int v);
-  virtual bool set_config_value(const std::string &key, long v);
-  virtual bool set_config_value(const std::string &key, bool v);
-  virtual bool set_config_value(const std::string &key, double v);
+  bool set_config_value(const std::string &key, std::string v) override;
+  bool set_config_value(const std::string &key, int v) override;
+  bool set_config_value(const std::string &key, long v) override;
+  bool set_config_value(const std::string &key, bool v) override;
+  bool set_config_value(const std::string &key, double v) override;
 
 protected:
   QVariant qt_get_value(const std::string &key, bool& exists) const;

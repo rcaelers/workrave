@@ -32,8 +32,8 @@ class OSXInputMonitorFactory : public workrave::input_monitor::IInputMonitorFact
 {
 public:
   OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
-  virtual void init(const std::string &display);
-  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability);
+  void init(const std::string &display) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
 
 private:
   workrave::input_monitor::IInputMonitor::Ptr monitor;

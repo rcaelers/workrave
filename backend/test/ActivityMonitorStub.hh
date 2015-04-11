@@ -31,17 +31,17 @@ public:
   static Ptr create();
 
   ActivityMonitorStub();
-  virtual ~ActivityMonitorStub();
+  ~ActivityMonitorStub() override;
 
   void set_active(bool active);
 
-  virtual void init();
-  virtual void terminate();
-  virtual void suspend();
-  virtual void resume();
-  virtual void force_idle();
-  virtual bool is_active();
-  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  void init() override;
+  void terminate() override;
+  void suspend() override;
+  void resume() override;
+  void force_idle() override;
+  bool is_active() override;
+  void set_listener(IActivityMonitorListener::Ptr l) override;
 
   void notify();
 

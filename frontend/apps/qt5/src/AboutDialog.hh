@@ -29,7 +29,7 @@ class AboutDialog : public QDialog
 
 public:
   AboutDialog();
-  virtual ~AboutDialog();
+  ~AboutDialog() override;
 
   //bool event(QEvent *event);
 };

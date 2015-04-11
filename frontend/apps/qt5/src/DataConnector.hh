@@ -110,7 +110,7 @@ class DataConnection :
 {
 public:
   DataConnection();
-  virtual ~DataConnection();
+  ~DataConnection() override;
 
   void set(dc::Flags flags, const std::string &key);
   virtual void init() = 0;

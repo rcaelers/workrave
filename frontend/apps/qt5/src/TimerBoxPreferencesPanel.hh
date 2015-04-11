@@ -38,7 +38,7 @@ class TimerBoxPreferencesPanel :
 
 public:
   TimerBoxPreferencesPanel(std::string name);
-  virtual ~TimerBoxPreferencesPanel();
+  ~TimerBoxPreferencesPanel() override;
 
 private:
   void init_enabled();

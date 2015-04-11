@@ -44,7 +44,7 @@ namespace workrave
       {
       }
 
-      virtual ~SettingGroup()
+      ~SettingGroup() override
       {
       }
 
@@ -59,7 +59,7 @@ namespace workrave
         return signal.connect(slot);
       }
 
-      virtual void config_changed_notify(const std::string &key)
+      void config_changed_notify(const std::string &key) override
       {
         (void)key;
 
@@ -93,7 +93,7 @@ namespace workrave
       {
       }
 
-      virtual ~Setting()
+      ~Setting() override
       {
       }
 
@@ -152,7 +152,7 @@ namespace workrave
         return ret;
       }
 
-      virtual void config_changed_notify(const std::string &key)
+      void config_changed_notify(const std::string &key) override
       {
         (void)key;
 

@@ -29,23 +29,23 @@ using namespace workrave::config;
 class InputMonitorStub : public IInputMonitor
 {
 public:
-  virtual ~InputMonitorStub() {}
+  ~InputMonitorStub() override {}
 
-  virtual bool init()
+  bool init() override
   {
     return true;
   }
 
-  virtual void terminate()
+  void terminate() override
   {
   }
 
-  virtual void subscribe(IInputMonitorListener *listener)
+  void subscribe(IInputMonitorListener *listener) override
   {
     (void) listener;
   }
 
-  virtual void unsubscribe(IInputMonitorListener *listener)
+  void unsubscribe(IInputMonitorListener *listener) override
   {
     (void) listener;
   }

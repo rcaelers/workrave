@@ -26,14 +26,14 @@ class SoundPlayer : public workrave::audio::ISoundPlayer, public ISoundPlayerEve
 {
 public:
   SoundPlayer();
-  virtual ~SoundPlayer();
+  ~SoundPlayer() override;
 
-  void init();
-  bool capability(workrave::audio::SoundCapability cap);
-  void restore_mute();
-  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume);
+  void init() override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void restore_mute() override;
+  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) override;
 
-  void eos_event();
+  void eos_event() override;
 
 private:
   ISoundDriver *driver;

@@ -29,8 +29,8 @@
 class InputMonitor : public workrave::input_monitor::IInputMonitor
 {
 public:
-  virtual void subscribe(workrave::input_monitor::IInputMonitorListener *listener);
-  virtual void unsubscribe(workrave::input_monitor::IInputMonitorListener *listener);
+  void subscribe(workrave::input_monitor::IInputMonitorListener *listener) override;
+  void unsubscribe(workrave::input_monitor::IInputMonitorListener *listener) override;
 
 protected:
   void fire_action();

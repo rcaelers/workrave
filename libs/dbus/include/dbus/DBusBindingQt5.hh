@@ -47,7 +47,7 @@ namespace workrave
     {
     public:
       DBusBindingQt5(IDBus::Ptr dbus);
-      virtual ~DBusBindingQt5();
+      ~DBusBindingQt5() override;
 
       virtual const char *get_interface_introspect() = 0;
       virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;

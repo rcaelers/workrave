@@ -43,12 +43,12 @@ public:
               workrave::BreakId break_id,
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
-  virtual ~BreakWindow();
+  ~BreakWindow() override;
 
-  virtual void init();
-  virtual void start();
-  virtual void stop();
-  virtual void refresh();
+  void init() override;
+  void start() override;
+  void stop() override;
+  void refresh() override;
 
 protected:
   BreakFlags get_break_flags() const { return break_flags; }

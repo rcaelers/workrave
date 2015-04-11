@@ -60,12 +60,12 @@ public:
     current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
   }
 
-  virtual int64_t get_real_time_usec()
+  int64_t get_real_time_usec() override
   {
     return current_time;
   }
 
-  virtual int64_t get_monotonic_time_usec()
+  int64_t get_monotonic_time_usec() override
   {
     return current_time;
   }

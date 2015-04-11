@@ -36,10 +36,10 @@ public:
   OSXInputMonitor();
 
   //! Destructor.
-  virtual ~OSXInputMonitor();
+  ~OSXInputMonitor() override;
 
-  bool init();
-  void terminate() ;
+  bool init() override;
+  void terminate() override ;
   void run();
 
 private:

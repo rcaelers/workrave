@@ -31,11 +31,11 @@ class MainWindow : public TimerBoxView
 
 public:
   explicit MainWindow(MenuModel::Ptr menu_model);
-  ~MainWindow();
+  ~MainWindow() override;
 
   void heartbeat();
 
-  void moveEvent(QMoveEvent * event);
+  void moveEvent(QMoveEvent * event) override;
 
 public slots:
   void on_show_contextmenu(const QPoint& pos);

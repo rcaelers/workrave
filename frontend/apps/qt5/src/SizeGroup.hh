@@ -29,12 +29,12 @@ class SizeGroup : public QObject
 
 public:
   SizeGroup(Qt::Orientations orientation, QObject* parent = 0);
-  ~SizeGroup();
+  ~SizeGroup() override;
 
   void addWidget(QWidget* widget);
 
 private:
-  bool eventFilter(QObject*, QEvent* event);
+  bool eventFilter(QObject*, QEvent* event) override;
   void update();
 
 private:

@@ -38,21 +38,21 @@ public:
   static Ptr create(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
 
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
-  virtual ~LocalActivityMonitor();
+  ~LocalActivityMonitor() override;
 
-  virtual void init();
-  virtual void terminate();
-  virtual void suspend();
-  virtual void resume();
-  virtual void force_idle();
-  virtual bool is_active();
-  virtual void set_listener(IActivityMonitorListener::Ptr l);
+  void init() override;
+  void terminate() override;
+  void suspend() override;
+  void resume() override;
+  void force_idle() override;
+  bool is_active() override;
+  void set_listener(IActivityMonitorListener::Ptr l) override;
 
   // IInputMonitorListener
-  virtual void action_notify();
-  virtual void mouse_notify(int x, int y, int wheel = 0);
-  virtual void button_notify(bool is_press);
-  virtual void keyboard_notify(bool repeat);
+  void action_notify() override;
+  void mouse_notify(int x, int y, int wheel = 0) override;
+  void button_notify(bool is_press) override;
+  void keyboard_notify(bool repeat) override;
 
 private:
   void call_listener();

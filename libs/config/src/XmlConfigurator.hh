@@ -32,15 +32,15 @@ class XmlConfigurator :
 {
 public:
   XmlConfigurator();
-  virtual ~XmlConfigurator();
+  ~XmlConfigurator() override;
 
-  virtual bool load(std::string filename);
-  virtual bool save(std::string filename);
-  virtual bool save();
+  bool load(std::string filename) override;
+  bool save(std::string filename) override;
+  bool save() override;
 
-  virtual bool remove_key(const std::string &key);
-  virtual bool get_value(const std::string &key, VariantType type, Variant &value) const;
-  virtual bool set_value(const std::string &key, Variant &value);
+  bool remove_key(const std::string &key) override;
+  bool get_value(const std::string &key, VariantType type, Variant &value) const override;
+  bool set_value(const std::string &key, Variant &value) override;
 
 private:
   std::string path(const std::string &key) const;

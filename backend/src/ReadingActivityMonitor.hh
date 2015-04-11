@@ -39,7 +39,7 @@ public:
   static Ptr create(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
 
   ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
-  virtual ~ReadingActivityMonitor();
+  ~ReadingActivityMonitor() override;
 
   void handle_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
 
@@ -50,7 +50,7 @@ public:
   bool is_active();
 
 private:
-  bool action_notify();
+  bool action_notify() override;
   void on_usage_mode_changed(workrave::UsageMode mode);
 
 private:

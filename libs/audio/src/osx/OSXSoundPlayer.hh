@@ -29,11 +29,11 @@ class OSXSoundPlayer : public ISoundDriver
 {
 public:
   OSXSoundPlayer();
-  virtual ~OSXSoundPlayer();
+  ~OSXSoundPlayer() override;
 
-  void init(ISoundPlayerEvents *);
-  bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(std::string wavfile, int volume);
+  void init(ISoundPlayerEvents *) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
 
   void fire_eos();
 

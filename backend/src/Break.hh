@@ -56,21 +56,21 @@ public:
         CoreHooks::Ptr hooks);
 
   // IBreak
-  virtual boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event();
-  virtual std::string get_name() const;
-  virtual bool is_enabled() const;
-  virtual bool is_running() const;
-  virtual bool is_taking() const;
-  virtual bool is_active() const;
-  virtual int64_t get_elapsed_time() const;
-  virtual int64_t get_elapsed_idle_time() const;
-  virtual int64_t get_auto_reset() const;
-  virtual bool is_auto_reset_enabled() const;
-  virtual int64_t get_limit() const;
-  virtual bool is_limit_enabled() const;
-  virtual int64_t get_total_overdue_time() const;
-  virtual void postpone_break();
-  virtual void skip_break();
+  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  std::string get_name() const override;
+  bool is_enabled() const override;
+  bool is_running() const override;
+  bool is_taking() const override;
+  bool is_active() const override;
+  int64_t get_elapsed_time() const override;
+  int64_t get_elapsed_idle_time() const override;
+  int64_t get_auto_reset() const override;
+  bool is_auto_reset_enabled() const override;
+  int64_t get_limit() const override;
+  bool is_limit_enabled() const override;
+  int64_t get_total_overdue_time() const override;
+  void postpone_break() override;
+  void skip_break() override;
 
   void process();
   void start_break();
