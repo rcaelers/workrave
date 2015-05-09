@@ -100,6 +100,7 @@ DataConnector::connect(const string &setting,
 }
 
 DataConnection::DataConnection()
+  : flags(dc::NONE)
 {
   config = CoreFactory::get_configurator();
 }

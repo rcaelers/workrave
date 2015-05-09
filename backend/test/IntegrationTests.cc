@@ -94,14 +94,27 @@ class Backend : public workrave::IApp
 public:
   Backend() :
     user_active(false),
+    start_time(0),
     active_break(BREAK_ID_NONE),
     active_prelude(BREAK_ID_NONE),
     timer(0),
     fake_break(false),
     fake_break_delta(0),
     forced_break(false),
-    max_preludes(3)
+    max_preludes(3),
+    did_refresh(0),
+    need_refresh(0),
+    prelude_stage_set(0),
+    prelude_text_set(0),
+    prelude_progress_set(0),
+    break_progress_set(0),
+    last_value(0),
+    last_max_value(0)
   {
+    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      {
+        prelude_count[i] = 0;
+      }
   }
 
   ~Backend() override

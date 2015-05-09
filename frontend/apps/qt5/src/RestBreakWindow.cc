@@ -46,7 +46,8 @@ RestBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode
 
 RestBreakWindow::RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
-    timebar(nullptr)
+    timebar(nullptr),
+    pluggable_panel(nullptr)
 {
   setWindowTitle(_("Rest break"));
 }
