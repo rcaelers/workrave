@@ -79,7 +79,7 @@ OSXInputMonitor::run()
                                                  CFSTR("HIDIdleTime"),
                                                  kCFAllocatorDefault,
                                                  0);
-      CFNumberGetValue((CFNumberRef)property,
+      CFNumberGetValue(reinterpret_cast<CFNumberRef>(property),
                        kCFNumberSInt64Type, &idle_time);
       CFRelease(property);
 

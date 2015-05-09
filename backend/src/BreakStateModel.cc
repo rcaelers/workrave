@@ -449,7 +449,7 @@ BreakStateModel::break_window_update()
       idle = duration;
     }
 
-  application->set_break_progress((int)idle, (int)duration);
+  application->set_break_progress(static_cast<int>(idle), static_cast<int>(duration));
 }
 
 void

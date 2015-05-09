@@ -61,7 +61,7 @@ Text::time_to_string(time_t time, bool display_units)
     {
       t[0] = 0;
     }
-  int hrs = (int)time/3600;
+  int hrs = static_cast<int>(time/3600);
   int min = (time / 60) % 60;
   int sec = time % 60;
 

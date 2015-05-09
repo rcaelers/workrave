@@ -100,17 +100,17 @@ test_dbus_basic(const char *method)
 
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
-  message << QVariant::fromValue((int)             inpar.m_int    );
-  message << QVariant::fromValue((uint8_t)         inpar.m_uint8  );
-  message << QVariant::fromValue((int16_t)         inpar.m_int16  );
-  message << QVariant::fromValue((uint16_t)        inpar.m_uint16 );
-  message << QVariant::fromValue((int32_t)         inpar.m_int32  );
-  message << QVariant::fromValue((uint32_t)        inpar.m_uint32 );
-  message << QVariant::fromValue((qlonglong)       inpar.m_int64  );
-  message << QVariant::fromValue((qulonglong)      inpar.m_uint64 );
+  message << QVariant::fromValue(static_cast<int>(inpar.m_int));
+  message << QVariant::fromValue(static_cast<uint8_t>(inpar.m_uint8));
+  message << QVariant::fromValue(static_cast<int16_t>(inpar.m_int16));
+  message << QVariant::fromValue(static_cast<uint16_t>(inpar.m_uint16));
+  message << QVariant::fromValue(static_cast<int32_t>(inpar.m_int32));
+  message << QVariant::fromValue(static_cast<uint32_t>(inpar.m_uint32));
+  message << QVariant::fromValue(static_cast<qlonglong>(inpar.m_int64));
+  message << QVariant::fromValue(static_cast<qulonglong>(inpar.m_uint64));
   message << QVariant::fromValue(QString::fromStdString(inpar.m_string));
-  message << QVariant::fromValue((bool)            inpar.m_bool   );
-  message << QVariant::fromValue((double)          inpar.m_double );
+  message << QVariant::fromValue(static_cast<bool>(inpar.m_bool));
+  message << QVariant::fromValue(static_cast<double>(inpar.m_double));
   message << QVariant::fromValue(QString::fromStdString(DBusTestData::enum_to_str(inpar.m_enum)));
 
   QDBusMessage reply = connection.call(message);
@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE(test_return_string)
 {
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "ReturnString");
-  message << QVariant::fromValue((int) 42);
+  message << QVariant::fromValue(static_cast<int>(42));
 
   QDBusMessage reply = connection.call(message);
   BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
@@ -290,7 +290,7 @@ BOOST_AUTO_TEST_CASE(test_return_int)
 {
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "ReturnInt");
-  message << QVariant::fromValue((int) 42);
+  message << QVariant::fromValue(static_cast<int>(42));
 
   QDBusMessage reply = connection.call(message);
   BOOST_REQUIRE_EQUAL(reply.type(), QDBusMessage::ReplyMessage);
@@ -373,17 +373,17 @@ BOOST_AUTO_TEST_CASE(test_test_error_basic)
 
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "BasicOutRef");
-  message << QVariant::fromValue((int)             inpar.m_int    );
-  message << QVariant::fromValue((uint8_t)         inpar.m_uint8  );
-  message << QVariant::fromValue((int16_t)         inpar.m_int16  );
+  message << QVariant::fromValue(static_cast<int>(inpar.m_int));
+  message << QVariant::fromValue(static_cast<uint8_t>(inpar.m_uint8));
+  message << QVariant::fromValue(static_cast<int16_t>(inpar.m_int16));
   message << QVariant::fromValue(QString::fromStdString(inpar.m_string));
-  message << QVariant::fromValue((uint16_t)        inpar.m_uint16 );
-  message << QVariant::fromValue((int32_t)         inpar.m_int32  );
-  message << QVariant::fromValue((uint32_t)        inpar.m_uint32 );
-  message << QVariant::fromValue((qlonglong)       inpar.m_int64  );
-  message << QVariant::fromValue((qulonglong)      inpar.m_uint64 );
-  message << QVariant::fromValue((bool)            inpar.m_bool   );
-  message << QVariant::fromValue((double)          inpar.m_double );
+  message << QVariant::fromValue(static_cast<uint16_t>(inpar.m_uint16));
+  message << QVariant::fromValue(static_cast<int32_t>(inpar.m_int32));
+  message << QVariant::fromValue(static_cast<uint32_t>(inpar.m_uint32));
+  message << QVariant::fromValue(static_cast<qlonglong>(inpar.m_int64));
+  message << QVariant::fromValue(static_cast<qulonglong>(inpar.m_uint64));
+  message << QVariant::fromValue(static_cast<bool>(inpar.m_bool));
+  message << QVariant::fromValue(static_cast<double>(inpar.m_double));
   message << QVariant::fromValue(QString::fromStdString(DBusTestData::enum_to_str(inpar.m_enum)));
 
   QDBusMessage reply = connection.call(message);

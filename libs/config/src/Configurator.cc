@@ -212,7 +212,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
           if (setting.delay)
             {
               DelayedConfig &d = delayed_config[key];
-              d.key = (string)key;
+              d.key = key;
               d.value = value;
               d.until = TimeSource::get_monotonic_time_sec() + setting.delay;
 

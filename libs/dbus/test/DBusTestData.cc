@@ -49,8 +49,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWit
   argument << message.m_uint16;
   argument << message.m_int32;
   argument << message.m_uint32;
-  argument << (qlonglong) message.m_int64;
-  argument << (qulonglong) message.m_uint64;
+  argument << static_cast<qlonglong>(message.m_int64);
+  argument << static_cast<qulonglong>(message.m_uint64);
   argument << QString::fromStdString(message.m_string);
   argument << message.m_bool;
   argument << message.m_double;
@@ -97,8 +97,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWit
   argument << QString::fromStdString(message.m_string);
   argument << message.m_int32;
   argument << message.m_uint32;
-  argument << (qlonglong) message.m_int64;
-  argument << (qulonglong) message.m_uint64;
+  argument << static_cast<qlonglong>(message.m_int64);
+  argument << static_cast<qulonglong>(message.m_uint64);
   argument << message.m_bool;
   argument << message.m_double;
   QString e = QString::fromStdString(DBusTestData::enum_to_str(message.m_enum));

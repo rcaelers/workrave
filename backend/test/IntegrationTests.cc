@@ -496,12 +496,12 @@ public:
 
   virtual void on_operation_mode_changed(const OperationMode m)
   {
-    log_actual("operationmode", boost::str(boost::format("mode=%1%") % (int)m));
+    log_actual("operationmode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
 
   virtual void on_usage_mode_changed(const UsageMode m)
   {
-    log_actual("usagemode", boost::str(boost::format("mode=%1%") % (int)m));
+    log_actual("usagemode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
 
   bool on_is_user_active(bool dummy)

@@ -87,8 +87,8 @@ BreakStatistics::update()
 {
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)timer->get_elapsed_time());
+      statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(timer->get_elapsed_time()));
     }
 
-  statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)timer->get_total_overdue_time());
+  statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, static_cast<int>(timer->get_total_overdue_time()));
 }

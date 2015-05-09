@@ -44,12 +44,12 @@ Locale::LanguageMap Locale::languages_native_locale;
 
 int compare_languages (const void *a, const void *b)
 {
-  return strcmp(((language_t *)a)->code, ((language_t *)b)->code);
+  return strcmp(static_cast<const language_t *>(a)->code, static_cast<const language_t *>(b)->code);
 }
 
 int compare_countries (const void *a, const void *b)
 {
-  return strcmp(((country_t*)a)->code, ((country_t*)b)->code);
+  return strcmp(static_cast<const country_t*>(a)->code, static_cast<const country_t*>(b)->code);
 }
 
 bool
@@ -58,11 +58,11 @@ Locale::get_language(const string &code, string &language)
   language_t key = { code.c_str(), NULL };
   language_t *val;
 
-  val = (language_t *) bsearch(&key,
+  val = reinterpret_cast<language_t *>( bsearch(&key,
                                languages,
                                sizeof(languages) / sizeof (language_t),
                                sizeof(language_t),
-                               compare_languages);
+                               compare_languages));
 
   if (val != NULL)
     {
@@ -78,11 +78,11 @@ Locale::get_country(const string &code, string &country)
   country_t key = { code.c_str(), NULL };
   country_t *val;
 
-  val = (country_t *) bsearch(&key,
+  val = reinterpret_cast<country_t *>( bsearch(&key,
                               countries,
                               sizeof(countries) / sizeof (country_t),
                               sizeof(country_t),
-                              compare_countries);
+                              compare_countries));
 
   if (val != NULL)
     {

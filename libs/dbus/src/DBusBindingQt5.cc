@@ -250,13 +250,13 @@ DBusMarshallQt5::put_int32(const int32_t &value)
 QVariant
 DBusMarshallQt5::put_uint64(const uint64_t &value)
 {
-  return QVariant((qulonglong)value);
+  return QVariant(static_cast<qulonglong>(value));
 }
 
 QVariant
 DBusMarshallQt5::put_int64(const int64_t &value)
 {
-  return QVariant((qlonglong)value);
+  return QVariant(static_cast<qlonglong>(value));
 }
 
 

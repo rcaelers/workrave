@@ -78,9 +78,9 @@ TimeEntry::~TimeEntry()
 void
 TimeEntry::set_value(time_t t)
 {
-  hrs->setValue((double)(t / (60*60)));
-  mins->setValue((double)((t / 60) % 60));
-  secs->setValue((double)(t % 60));
+  hrs->setValue(static_cast<double>(t / (60*60)));
+  mins->setValue(static_cast<double>((t / 60) % 60));
+  secs->setValue(static_cast<double>(t % 60));
 }
 
 //! Get time

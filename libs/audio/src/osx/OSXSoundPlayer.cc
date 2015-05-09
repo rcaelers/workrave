@@ -101,7 +101,7 @@ OSXSoundPlayer::play_sound(std::string file, int volume)
       [sound setDelegate: [[SoundDelegate alloc] initWithPlayer: this]]; // FIXME: leak?
       [soundDictionary setObject:sound forKey:filename];
     }
-  [sound setVolume: (float)(volume / 100.0)];
+  [sound setVolume: static_cast<float>(volume / 100.0)];
   [sound stop];
   [sound play];
 }

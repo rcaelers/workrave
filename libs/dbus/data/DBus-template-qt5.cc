@@ -480,7 +480,7 @@ ${interface.qname}_Stub::${method.name}(void *object, const QDBusMessage &messag
   try
     {
 #if method.symbol() != ""
-      ${interface.symbol()} *dbus_object = (${interface.symbol()} *) object;
+      ${interface.symbol()} *dbus_object = static_cast<${interface.symbol()} *>(object);
 #else
       (void) object;
 #end if

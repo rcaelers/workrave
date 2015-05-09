@@ -157,7 +157,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore::Ptr core = CoreFactory::get_core();
-      IBreak::Ptr b = core->get_break((BreakId)count);
+      IBreak::Ptr b = core->get_break(count);
 
       std::string text;
       ITimeBar::ColorId primary_color;
@@ -186,8 +186,8 @@ TimerBoxControl::update_widgets()
       secondary_color = ITimeBar::COLOR_ID_INACTIVE;
 
       // Timer is running, show elapsed time.
-      primary_val = (int)activeTime;
-      primary_max = (int)maxActiveTime;
+      primary_val = static_cast<int>(activeTime);
+      primary_max = static_cast<int>(maxActiveTime);
 
       primary_color = overdue
         ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
@@ -196,8 +196,8 @@ TimerBoxControl::update_widgets()
         {
           // resting.
           secondary_color = ITimeBar::COLOR_ID_INACTIVE;
-          secondary_val = (int)idleTime;
-          secondary_max = (int)breakDuration;
+          secondary_val = static_cast<int>(idleTime);
+          secondary_max = static_cast<int>(breakDuration);
         }
 
       view->set_time_bar(BreakId(count), text,
@@ -303,7 +303,7 @@ TimerBoxControl::init_slot(int slot)
       int flags = break_flags[id];
 
       ICore::Ptr core = CoreFactory::get_core();
-      IBreak::Ptr b = core->get_break((BreakId)i);
+      IBreak::Ptr b = core->get_break(i);
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
@@ -423,7 +423,7 @@ TimerBoxControl::load_configuration()
   cycle_time = GUIConfig::timerbox_cycle_time(name)();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      BreakId bid = (BreakId) i;
+      BreakId bid = i;
 
       break_position[i] = GUIConfig::timerbox_slot(name, bid)();
       break_flags[i] = GUIConfig::timerbox_flags(name, bid)();

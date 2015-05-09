@@ -273,7 +273,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           if (has_max_prelude_cb->checkState() == Qt::Checked)
             {
-              mp = (int) max_prelude_spin->value();
+              mp = static_cast<int>(max_prelude_spin->value());
             }
           else
             {

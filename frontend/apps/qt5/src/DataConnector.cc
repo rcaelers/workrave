@@ -353,7 +353,7 @@ DataConnectionTimeEntry::widget_changed_notify()
     {
       time_t value = widget->get_value();
 
-      config->set_value(key, (int)value);
+      config->set_value(key, static_cast<int>(value));
     }
 }
 
