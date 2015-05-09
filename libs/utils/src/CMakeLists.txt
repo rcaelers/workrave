@@ -42,6 +42,7 @@ include_directories(
   )
 
 add_library(workrave-libs-utils STATIC ${SRC})
+add_cppcheck(workrave-libs-utils)
 
 
 # TODO: Generate locale.inc

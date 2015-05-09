@@ -17,6 +17,7 @@ if (WITH_INDICATOR AND HAVE_GTK3)
     )
   
   add_library(workrave-frontend-applet-indicator SHARED ${SRC})
+  add_cppcheck(workrave-frontend-applet-indicator)
   
   set_target_properties(workrave-frontend-applet-indicator PROPERTIES OUTPUT_NAME workrave)
   

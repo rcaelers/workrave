@@ -47,3 +47,4 @@ include_directories(
 #endif()
 
 add_library(workrave-frontend-common STATIC ${SRC})
+add_cppcheck(workrave-frontend-common)

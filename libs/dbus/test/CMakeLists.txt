@@ -1,5 +1,7 @@
 if (HAVE_DBUS AND HAVE_QT5)
 
+  dbus_generate_with_backend(DBusTestQt ${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusTestQt.cc qt5)
+
   set(SERVER_QT5_SRC ${SERVER_QT5_SRC}
     DBusTestData.cc
     DBusTestServer.cc
@@ -17,7 +19,9 @@ if (HAVE_DBUS AND HAVE_QT5)
     )
   
   add_executable(workrave-libs-dbus-test ${TEST_SRC})
+  add_cppcheck(workrave-libs-dbus-test)
   add_executable(workrave-libs-dbus-test-server-qt5 ${SERVER_QT5_SRC})
+  add_cppcheck(workrave-libs-dbus-test-server-qt5)
   set_target_properties(workrave-libs-dbus-test-server-qt5 PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
   set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
   
@@ -31,7 +35,6 @@ if (HAVE_DBUS AND HAVE_QT5)
     target_link_libraries(workrave-libs-dbus-test-server-qt5 ${DBUS_LIBRARIES})
   endif()
   
-  dbus_generate_with_backend(DBusTestQt ${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusTestQt.cc qt5)
 
   target_link_libraries(workrave-libs-dbus-test workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
@@ -54,6 +57,7 @@ if (HAVE_DBUS AND HAVE_QT5)
       )
 
     add_executable(workrave-libs-dbus-test-server-gio ${SERVER_GIO_SRC})
+    add_cppcheck(workrave-libs-dbus-test-server-gio)
 
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_GIO=1")
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_GIO=1")

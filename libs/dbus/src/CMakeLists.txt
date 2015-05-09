@@ -33,6 +33,7 @@ include_directories(
   )
 
 add_library(workrave-libs-dbus STATIC ${SRC})
+add_cppcheck(workrave-libs-dbus)
 
 if (HAVE_DBUS_FREEDESKTOP)
   target_link_libraries(workrave-libs-dbus ${DBUS_LIBRARIES})
@@ -58,5 +59,6 @@ if (HAVE_DBUS_GIO)
 endif()
 
 add_library(workrave-libs-dbus-stub STATIC ${STUB_SRC})
+add_cppcheck(workrave-libs-dbus-stub)
 set_target_properties(workrave-libs-dbus-stub PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_DUMMY=1")
 

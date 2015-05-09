@@ -44,6 +44,7 @@ include_directories(
   )
 
 add_library(workrave-libs-audio STATIC ${SRC})
+add_cppcheck(workrave-libs-audio)
 
 if (HAVE_GSTREAMER)
   link_directories(${GSTREAMER_LIBPATH})

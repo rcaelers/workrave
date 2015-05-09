@@ -14,6 +14,7 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
     )
   
   add_library(workrave-private SHARED ${SRC})
+  add_cppcheck(workrave-private)
   link_directories(${GTK_LIBPATH})
   target_link_libraries(workrave-private ${GTK_LIBRARIES})
   

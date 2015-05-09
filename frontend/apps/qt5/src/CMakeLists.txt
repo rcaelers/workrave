@@ -118,6 +118,7 @@ if (PLATFORM_OS_WIN32)
 endif()
 
 add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
+add_cppcheck(Workrave)
 
 if (APPLE)
   set_target_properties(Workrave PROPERTIES

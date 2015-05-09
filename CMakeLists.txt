@@ -2,7 +2,6 @@ project(Workrave)
 
 cmake_minimum_required(VERSION 2.8)
 
-	
 if(POLICY CMP0020)
   cmake_policy(SET CMP0020 NEW)
 endif()
@@ -50,6 +49,7 @@ include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
+include(CppCheck)
 
 #----------------------------------------------------------------------------------------------------
 

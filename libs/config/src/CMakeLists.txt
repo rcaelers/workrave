@@ -40,6 +40,7 @@ include_directories(
   )
 
 add_library(workrave-libs-config STATIC ${SRC})
+add_cppcheck(workrave-libs-config)
 
 if (HAVE_GCONF)
   link_directories(${GCONF_LIBPATH})

@@ -10,8 +10,9 @@ macro(dbus_generate_with_backend NAME XML OUTFILE BACKEND)
   add_custom_command(
     OUTPUT ${OUTFILE}
     COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --backend=${BACKEND} -l C++ ${XML} ${NAME}
-	DEPENDS ${XML}
-  )
+    DEPENDS ${XML}
+    )
+  set_source_files_properties(${OUTFILE} PROPERTIES GENERATED TRUE)
 endmacro()
 
 macro(dbus_add_activation_service SOURCE)

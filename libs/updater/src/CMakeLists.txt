@@ -18,6 +18,7 @@ include_directories(
   )
 
 add_library(workrave-libs-updater STATIC ${SRC})
+add_cppcheck(workrave-libs-updater)
 
 if (PLATFORM_OS_OSX)
   set_target_properties(workrave-libs-updater PROPERTIES LINK_FLAGS "-Wl,-rpath/${CMAKE_CURRENT_BINARY_DIR}/../ext/sparkle/Release/")

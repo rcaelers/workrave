@@ -138,6 +138,7 @@ If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
 endif()
 
 add_executable(workrave ${SRC})
+add_cppcheck(workrave)
 
 target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)
