@@ -121,8 +121,6 @@ public:
 
   void init_core()
   {
-    string display_name = "";
-
     core = workrave::ICore::create();
 
     ICoreHooks::Ptr hooks = core->get_hooks();

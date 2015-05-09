@@ -144,8 +144,7 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
 {
   bool success = false;
   string path = message.path().toStdString();
-  string interface_name = message.interface().toStdString();;
-  string method = message.member().toStdString();;
+  string interface_name = message.interface().toStdString();
 
   try
     {

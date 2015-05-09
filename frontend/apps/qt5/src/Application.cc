@@ -280,8 +280,6 @@ Application::init_session()
 void
 Application::init_core()
 {
-  string display_name;
-
   core = CoreFactory::get_core();
   core->init(this, toolkit->get_display_name());
 

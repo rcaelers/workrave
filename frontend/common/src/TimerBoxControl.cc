@@ -373,7 +373,6 @@ TimerBoxControl::init_slot(int slot)
           if (flags & GUIConfig::BREAK_DEFAULT && flags & GUIConfig::BREAK_SKIP)
             {
               break_flags[id] &= ~GUIConfig::BREAK_SKIP;
-              breaks_left = 1;
               break;
             }
         }

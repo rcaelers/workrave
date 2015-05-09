@@ -251,7 +251,6 @@ bool
 Configurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;
-  Setting setting;
 
   TRACE_ENTER_MSG("Configurator::get_value", key);
 
@@ -420,7 +419,6 @@ Configurator::get_value_with_default(const string &key, int &out, const int def)
   if (! b)
     {
       out = def;
-      b = true;
     }
 }
 

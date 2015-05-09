@@ -136,15 +136,8 @@ TimerBoxView::init_table()
   TRACE_MSG("number_of_timers = " << number_of_timers);
 
   // Compute table dimensions.
-  int rows = number_of_timers;
   int columns = 2;
   int reverse = false;
-
-  if (rows == 0)
-    {
-      // Show sheep.
-      rows = 1;
-    }
 
   bool remove_all = number_of_timers != visible_count;
 
@@ -265,6 +258,7 @@ void
 TimerBoxView::set_icon(StatusIconType icon)
 {
   std::string file = Ui::get_status_icon_filename(icon);
+  // TODO:
 }
 
 void

@@ -314,7 +314,6 @@ void System::add_DBus_system_state_command(
   else
     {
       delete method;
-      method = NULL;
       TRACE_MSG("DBus service is useless");
     }
 
