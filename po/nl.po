@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2014-10-19 15:51+0200\n"
+"POT-Creation-Date: 2015-01-03 13:31+0100\n"
 "PO-Revision-Date: 2013-05-25 20:45+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -35,13 +35,24 @@ msgstr "%s%d:%02d:%02d uur"
 msgid "%s, from %s to %s"
 msgstr "%s, van %s tot %s"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:256
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:260
 msgid "(font not available)"
 msgstr "Lettertype niet beschikbaar"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#, c-format
+msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgstr ""
+
+#: ../frontend/apps/qt5/src/AboutDialog.cc:49
+#, fuzzy
+msgid "About Workrave"
+msgstr "Workrave"
+
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:137
 msgid "About..."
 msgstr "Info..."
 
@@ -49,11 +60,13 @@ msgstr "Info..."
 msgid "Activity"
 msgstr "Activiteit"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:139
 msgid "Applet"
 msgstr "Applet"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "Applet enabled"
 msgstr "Applet actief"
 
@@ -65,31 +78,45 @@ msgstr "Dit programma helpt bij het voorkomen en genezen van Repetitive Strain I
 msgid "Backward shoulder stretch"
 msgstr "Achterwaarts schouders strekken"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:165
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:173
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:63
 msgid "Block input"
 msgstr "Blokkeer invoer"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:166
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:174
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:64
 msgid "Block input and screen"
 msgstr "Blokkeer invoer en scherm"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:196
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:87
 msgid "Block mode:"
 msgstr "Blokkeer modus:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:224
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:213
 msgid "Break duration:"
 msgstr "Pauze tijdsduur:"
 
+#: ../frontend/common/src/SoundTheme.cc:63
+msgid "Break ignored"
+msgstr "Pauze genegeerd"
+
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
 msgstr "Pauze over %s"
 
+#: ../frontend/common/src/SoundTheme.cc:57
+msgid "Break prompt"
+msgstr "Verzoek tot pauze"
+
 #. Prelude frame
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:105
 msgid "Break prompting"
 msgstr "Verzoek tot pauze"
 
@@ -113,7 +140,7 @@ msgstr "Overgeslagen pauzes"
 msgid "Browse history"
 msgstr "Bladeren"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:435
 msgid "Choose a sound"
 msgstr "Kies aa geluid"
 
@@ -121,7 +148,13 @@ msgstr "Kies aa geluid"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening geeft meer rust dan dat je je ogen alleen maar sluit."
 
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
+#: ../frontend/common/src/SoundTheme.cc:371
+msgid "Custom"
+msgstr "Persoonlijk"
+
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
 msgid "Cycle time:"
 msgstr "Tijd tussen pauzewissel:"
 
@@ -129,15 +162,20 @@ msgstr "Tijd tussen pauzewissel:"
 #: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
 #: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
+#: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "%s over dagelijkse limiet"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Dagelijkse limiet over %s"
@@ -160,11 +198,13 @@ msgid "Delete all statistics history"
 msgstr "Verwijder alle statistiek geschiedenis"
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
 msgstr "Verdwijnt over %s"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:179
 msgid "Display"
 msgstr "Weergave"
 
@@ -172,7 +212,16 @@ msgstr "Weergave"
 msgid "Effective mouse movement:"
 msgstr "Effectieve muisbeweging:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:551
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:183
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:77
+#, fuzzy
+msgid "Enable sounds"
+msgstr "Geen geluid"
+
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:554
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 "Activeer deze optie indien Workrave niet correct muis en toetsenbord\n"
@@ -180,10 +229,19 @@ msgstr ""
 
 #. Enabled/Disabled checkbox
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:72
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:67
 msgid "Enable timer"
 msgstr "Activeer klok"
 
+#. sounds_view->setColumnWidth(0, 100);
+#. sounds_view->setColumnWidth(1, 200);
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:120
+#, fuzzy
+msgid "Enabled"
+msgstr "Activeer klok"
+
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 msgid "End exercises"
 msgstr "Stop oefeningen"
 
@@ -191,19 +249,33 @@ msgstr "Stop oefeningen"
 msgid "Error"
 msgstr "Fout"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:419
 msgid "Event"
 msgstr "Gebeurtenis"
 
+#: ../frontend/common/src/SoundTheme.cc:111
+msgid "Exercise change"
+msgstr "Volgende stap in oefening"
+
+#: ../frontend/common/src/SoundTheme.cc:99
+msgid "Exercise ended"
+msgstr "Einde oefening"
+
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../frontend/apps/qt5/src/Menus.cc:95
 msgid "Exercises"
 msgstr "Oefeningen"
 
+#: ../frontend/common/src/SoundTheme.cc:105
+msgid "Exercises ended"
+msgstr "Einde oefeningen"
+
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "Oefeningen"
 
@@ -219,12 +291,18 @@ msgstr "Bestanden gewist!"
 msgid "Finger stretch"
 msgstr "Vingers strekken"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:100
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:104
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:136
 msgid "General"
 msgstr "Algemeen"
 
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:332
+msgid "Hibernate"
+msgstr ""
+
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:156
 msgid "Hide"
 msgstr "Verberg"
 
@@ -248,9 +326,20 @@ msgstr "Hou een arm horizontaal uitgestrekt voor je borstkas. Druk deze met de a
 msgid "Keystrokes:"
 msgstr "Toetsaanslagen:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:281
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:285
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:175
 msgid "Language:"
 msgstr "Taal:"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#, fuzzy
+msgid "Lock"
+msgstr "_Vergrendelen"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:316
+#, fuzzy
+msgid "Lock..."
+msgstr "_Vergrendelen"
 
 #: ../frontend/data/exercises/exercises.xml.in.h:10
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
@@ -265,6 +354,7 @@ msgid "Look into the darkness"
 msgstr "Kijken in de duisternis"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:113
 msgid "Maximum number of prompts:"
 msgstr "Max. aantal verzoeken:"
 
@@ -274,16 +364,26 @@ msgstr "Max. aantal verzoeken:"
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "Micro-pauze"
+
+#: ../frontend/common/src/SoundTheme.cc:87
+msgid "Micro-break ended"
+msgstr "Einde micro-pauze"
+
+#: ../frontend/common/src/SoundTheme.cc:81
+msgid "Micro-break started"
+msgstr "Begin micro-pauze"
 
 #. Layout
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Micro-break:"
 msgstr "Micro-pauze:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:203
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
+#: ../frontend/apps/qt5/src/Menus.cc:99
 msgid "Mode"
 msgstr "_Modus"
 
@@ -316,7 +416,8 @@ msgstr "Beweeg de schouders"
 msgid "Move the shoulders up and down"
 msgstr "Beweeg de schouders op en neer"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:371
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:375
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:85
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Schakel geluid uit tijdens rustpauze en dagelijkse limiet"
 
@@ -325,6 +426,7 @@ msgid "Natural breaks taken"
 msgstr "Zelfstandig genomen pauzes"
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
 msgid "Natural rest break"
 msgstr "Zelfstandig genomen pauzes"
 
@@ -333,41 +435,50 @@ msgid "Neck tilt stretch"
 msgstr "Nek strekken"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 msgid "Next exercise"
 msgstr "Volgende oefening:"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Rustpauze over %s"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:164
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
 msgid "No blocking"
 msgstr "Geen blokkering"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:337
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:679
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
+#: ../frontend/applets/mate/src/main.c:324
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/qt5/src/Menus.cc:103
 msgid "Normal"
 msgstr "_Normaal"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:165
 msgid "Number of exercises:"
 msgstr "Aantal oefeningen:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:189
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../frontend/apps/qt5/src/Menus.cc:80
 msgid "Open"
 msgstr "_Open"
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:194
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:140
 msgid "Options"
 msgstr "Opties"
 
@@ -375,70 +486,88 @@ msgstr "Opties"
 msgid "Overdue time"
 msgstr "Overtijd"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
 msgid "Pause"
 msgstr "Pauzeer"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
 msgid "Pause exercises"
 msgstr "Pauzeer oefeningen:"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
 msgid "Place all timers in one spot"
 msgstr "Plaats alle klokken op dezelfde plek"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
 msgid "Place micro-break and rest break in one spot"
 msgstr "Plaats micro-pauze en rustpauze op één plek"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
 msgid "Place rest break and daily limit in one spot"
 msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:109
 msgid "Place timers next to each other"
 msgstr "Plaats de klokken naast elkaar"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:191
 msgid "Placement:"
 msgstr "Plaatsing:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:411
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:429
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:459
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:414
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:462
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:149
 msgid "Play"
 msgstr "Afspelen"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:338
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:345
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#, fuzzy
+msgid "Postpone"
+msgstr "_Uitstellen"
+
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:239
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:228
 msgid "Postpone time:"
 msgstr "Uitstel tijd:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:78
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../frontend/apps/qt5/src/Menus.cc:85
 msgid "Preferences"
 msgstr "Voorkeuren"
 
 #: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr "Vorige oefening"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:115
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:109
 msgid "Prompt before breaking"
 msgstr "Vraag alvorens te pauzeren"
 
@@ -456,24 +585,33 @@ msgstr "Zet je handen op de leuning van je stoel als je zit en duw je lichaam om
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
+#: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:199
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:118
 msgid "Quiet"
 msgstr "Stil"
 
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#: ../frontend/apps/qt5/src/Menus.cc:142
 msgid "Quit"
 msgstr "_Beeeindigen"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:672
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:205
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
+#: ../frontend/applets/mate/src/main.c:317
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Reading mode"
 msgstr "Lees modus"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:156
 msgid "Regard micro-breaks as activity"
 msgstr "Micro-pauzes tellen als werktijd"
 
@@ -482,35 +620,55 @@ msgid "Repeated prompts"
 msgstr "Herhaalde verzoeken"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/apps/qt5/src/Menus.cc:90
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "Rustpauze"
 
 #: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Rustpauze %s te laat"
 
+#: ../frontend/common/src/SoundTheme.cc:75
+msgid "Rest break ended"
+msgstr "Einde rustpauze"
+
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
 #, c-format
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
+
+#: ../frontend/common/src/SoundTheme.cc:69
+msgid "Rest break started"
+msgstr "Begin rustpauze"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
 msgid "Rest break:"
 msgstr "Rustpauze:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:480
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
 msgid "Resume"
 msgstr "Ga verder"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:485
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
 msgid "Resume exercises"
 msgstr "Vervolg oefeningen"
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:189
+msgid "Select"
+msgstr ""
 
 #: ../frontend/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -522,62 +680,93 @@ msgstr "Schouder-arm strekken"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
 msgid "Show"
 msgstr "Toon"
 
+#. Ignorable
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Show 'Postpone' button"
 msgstr "Toon 'Uitstellen'"
 
+#. Skippable
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:149
 msgid "Show 'Skip' button"
 msgstr "Toon 'Overslaan'"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:668
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:356
+#: ../frontend/applets/mate/src/main.c:313
 msgid "Show log"
 msgstr "Toon _logboek"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
 msgid "Show only when this timer is first due"
 msgstr "Toon alleen als deze als eerste afloopt"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:88
 msgid "Show status window"
 msgstr "Toon statusvenster"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:314
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:191
 msgid "Show system tray icon"
 msgstr "Toon het notificatie icoon"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:333
-msgid "Shut _down"
+#: ../frontend/apps/qt5/src/BreakWindow.cc:192
+#, fuzzy
+msgid "Shut down"
+msgstr "Uit_schakelen"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:324
+#, fuzzy
+msgid "Shutdown"
 msgstr "Uit_schakelen"
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "Stil over %s"
 
+#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#, fuzzy
+msgid "Skip"
+msgstr "_Overslaan"
+
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:121
+#, fuzzy
+msgid "Sound"
+msgstr "Geluid:"
+
 #. Sound themes
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:379
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:90
 msgid "Sound Events"
 msgstr "Geluiden:"
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:328
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:332
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:58
 msgid "Sound Options"
 msgstr "Geluid opties"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:387
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:391
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:96
 msgid "Sound Theme:"
 msgstr "Geluid thema:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:365
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound:"
 msgstr "Geluid:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:105
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:137
 msgid "Sounds"
 msgstr "Geluiden"
 
@@ -585,12 +774,18 @@ msgstr "Geluiden"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Draai je rechterarm langzaam rond als een vliegtuig propellor naast je lichaam. Doe dit 4 keer voorwaarts, 4 keer achterwaarts en ontspan een paar seconden. Herhaal dit voor de linkerarm."
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:295
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:180
+#, fuzzy
+msgid "Start Workrave on Windows startup"
+msgstr "Start Workrave wanneer Windows start"
+
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:299
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Start Workrave wanneer Windows start"
 
 #: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:177
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:174
 msgid "Start restbreak when screen is locked"
 msgstr "Start rustpauze zodra het scherm vergrendeld wordt"
 
@@ -598,26 +793,42 @@ msgstr "Start rustpauze zodra het scherm vergrendeld wordt"
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je hoofd naar de linker schouder toe om de rechter nekspieren te strekken. Herhaal deze oefening twee keer voor elke kant."
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:209
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../frontend/apps/qt5/src/Menus.cc:132
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:138
 msgid "Status Window"
 msgstr "Statusvenster"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:683
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:328
+#, fuzzy
+msgid "Suspend"
+msgstr "Uitgeschakeld"
+
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:336
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "Uitgeschakeld"
+
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
+#: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:197
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:110
 msgid "Suspended"
 msgstr "Uitgeschakeld"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:212
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:216
+#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:122
 msgid "System default"
 msgstr "Systeem standaard"
 
@@ -660,6 +871,7 @@ msgid "The number of times you were repeatedly prompted to break"
 msgstr "Het aantal keren dat je meermaals verzocht werd te pauzeren"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "The status window stays always on top of other windows"
 msgstr "Het statusvenster blijft boven alle andere vensters"
 
@@ -692,10 +904,12 @@ msgid "The total time you were using the mouse"
 msgstr "De tijdsduur gedurende welke je de muis gebruikte"
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
 msgid "This is your natural rest break."
 msgstr "Dit is een zelfstandig genomen pauze..."
 
 #: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -705,27 +919,37 @@ msgstr ""
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:371
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/mate/src/main.c:206
+#: ../frontend/applets/xfce/src/main.c:291
 #: ../frontend/apps/gtkmm/src/Menus.cc:362
+#: ../frontend/apps/qt5/src/AboutDialog.cc:70
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Dit programma helpt bij het voorkomen en genezen van Repetitive Strain Injury (RSI)."
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:216
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:199
 msgid "Time before end:"
 msgstr "Werktijd:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:217
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:200
 msgid "Time between breaks:"
 msgstr "Werktijd:"
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
 msgid "Time for a micro-break?"
 msgstr "Tijd voor een micro-pauze?"
 
 #. Notebook
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:121
 #: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:69
+#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:194
+#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:190
 msgid "Timers"
 msgstr "Tijden"
 
@@ -741,19 +965,22 @@ msgstr "Draai je hoofd"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Draai je hoofd naar links en houdt dat 2 seconden vast. Draai daarna je hoofd naar rechts en houdt dat 2 seconden vast."
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:545
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:548
 msgid "Use alternate monitor"
 msgstr "Gebruik alternatieve activiteitmonitor"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:118
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:122
+#: ../frontend/apps/qt5/src/PreferencesDialog.cc:72
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:362
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:366
+#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:73
 msgid "Volume:"
 msgstr "Volume:"
 
 #: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "Wacht"
 
@@ -762,19 +989,26 @@ msgstr "Wacht"
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:444
+#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:447
 msgid "Wavefiles"
 msgstr "Geluid bestanden"
+
+#: ../frontend/apps/qt5/src/Application.cc:626
+#: ../frontend/apps/qt5/src/Application.cc:632
+msgid "Workrave"
+msgstr "Workrave"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:780
 msgid "Workrave failed to start"
 msgstr "Workrave kon niet gestart worden"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
+#: ../frontend/apps/qt5/src/Application.cc:633
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave is in stille modus. Pauze vensters zullen niet getoond worden."
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
+#: ../frontend/apps/qt5/src/Application.cc:627
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 "Workrave is in uitgeschakelde modus. Muis en toetsenbord activiteit\n"
@@ -791,6 +1025,7 @@ msgid "You have chosen to delete your statistics history. Continue?"
 msgstr "De gehele statistiek geschiedenis wordt gewist. Doorgaan?"
 
 #: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -801,42 +1036,52 @@ msgstr ""
 "ga dan iets anders doen, bv. documenten reviewen."
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
 msgid "You need a rest break..."
 msgstr "Je bent toe aan een rustpauze..."
 
 #: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
 msgid "You should stop for today..."
 msgstr "Genoeg voor vandaag..."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
+#: ../frontend/applets/mate/src/main.c:302
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
 msgid "_About"
 msgstr "Info..."
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:649
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:337
+#: ../frontend/applets/mate/src/main.c:294
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:629
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:317
+#: ../frontend/applets/mate/src/main.c:274
 msgid "_Exercises"
 msgstr "Oefeningen"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:333
+#: ../frontend/applets/mate/src/main.c:290
 msgid "_Join"
 msgstr "Toetreden"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:310
-msgid "_Lock"
-msgstr "_Vergrendelen"
-
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:637
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:325
+#: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Mode"
 msgstr "_Modus"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:329
+#: ../frontend/applets/mate/src/main.c:286
 msgid "_Network"
 msgstr "_Netwerk"
 
@@ -846,21 +1091,27 @@ msgstr "_Netwerk"
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:617
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
+#: ../frontend/applets/mate/src/main.c:262
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Open"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:371
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:498
 msgid "_Postpone"
 msgstr "_Uitstellen"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:625
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:313
+#: ../frontend/applets/mate/src/main.c:270
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:171
 msgid "_Preferences"
 msgstr "Voorkeuren"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:661
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
+#: ../frontend/applets/mate/src/main.c:306
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
 msgid "_Quit"
 msgstr "_Beeeindigen"
@@ -869,7 +1120,9 @@ msgstr "_Beeeindigen"
 msgid "_Reading mode"
 msgstr "_Lees modus"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:653
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:341
+#: ../frontend/applets/mate/src/main.c:298
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
@@ -880,15 +1133,19 @@ msgstr "Opnieuw verbinden"
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:633
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:321
+#: ../frontend/applets/mate/src/main.c:278
 msgid "_Restbreak"
 msgstr "_Rustpauze"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:354
+#: ../frontend/apps/gtkmm/src/BreakWindow.cc:481
 msgid "_Skip"
 msgstr "_Overslaan"
 
-#: ../frontend/applets/gnome3/src/WorkraveApplet.c:621
+#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
+#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:309
+#: ../frontend/applets/mate/src/main.c:266
 msgid "_Statistics"
 msgstr "Statistieken"
 
@@ -897,6 +1154,10 @@ msgstr "Statistieken"
 #: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
+
+#: ../frontend/apps/gtkmm/src/workrave.desktop.in.h:2
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr ""
 
 #~ msgid "About %s"
 #~ msgstr "Over %s"
@@ -925,14 +1186,8 @@ msgstr "_Uitgeschakeld"
 #~ msgid "Block all"
 #~ msgstr "Blokkeer alles"
 
-#~ msgid "Break ignored"
-#~ msgstr "Pauze genegeerd"
-
 #~ msgid "Break in"
 #~ msgstr "Pauze over"
-
-#~ msgid "Break prompt"
-#~ msgstr "Verzoek tot pauze"
 
 #~ msgid "Break visible:"
 #~ msgstr "Pauze zichtbaar:"
@@ -997,9 +1252,6 @@ msgstr "_Uitgeschakeld"
 #~ msgid "Credits"
 #~ msgstr "Credits"
 
-#~ msgid "Custom"
-#~ msgstr "Persoonlijk"
-
 #~ msgid "Custom settings"
 #~ msgstr "Eigen instellingen"
 
@@ -1027,15 +1279,6 @@ msgstr "_Uitgeschakeld"
 #~ msgstr ""
 #~ "Geef de machine naam en poort nummer van een\n"
 #~ "computer uit het netwerk op."
-
-#~ msgid "Exercise change"
-#~ msgstr "Volgende stap in oefening"
-
-#~ msgid "Exercise ended"
-#~ msgstr "Einde oefening"
-
-#~ msgid "Exercises ended"
-#~ msgstr "Einde oefeningen"
 
 #~ msgid "Fist roll"
 #~ msgstr "Vuist rollen"
@@ -1088,12 +1331,6 @@ msgstr "_Uitgeschakeld"
 
 #~ msgid "Make sure that the RECORD extension is enabled in the X server."
 #~ msgstr "Zorg ervoor dat de RECORD extensie in de X server ingeschakeld is."
-
-#~ msgid "Micro-break ended"
-#~ msgstr "Einde micro-pauze"
-
-#~ msgid "Micro-break started"
-#~ msgstr "Begin micro-pauze"
 
 #~ msgid "Micro-pause ended"
 #~ msgstr "Einde micro-pauze"
@@ -1185,12 +1422,6 @@ msgstr "_Uitgeschakeld"
 
 #~ msgid "Resets at:"
 #~ msgstr "Herstart om:"
-
-#~ msgid "Rest break ended"
-#~ msgstr "Einde rustpauze"
-
-#~ msgid "Rest break started"
-#~ msgstr "Begin rustpauze"
 
 #~ msgid "Restbreak"
 #~ msgstr "Rustpauze"
@@ -1302,9 +1533,6 @@ msgstr "_Uitgeschakeld"
 
 #~ msgid "When multiple breaks are shown on a certain position, this value indicates the time each break is shown."
 #~ msgstr "De tijdsduur gedurende welke de pauze getoond wordt wanneer meerdere pauzes dezelfde plek delen."
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
 #~ msgstr "Workrave Applet"
