@@ -38,31 +38,31 @@ public:
   {
   }
 
-  Variant(std::string v)
+  explicit Variant(std::string v)
   {
     type = VARIANT_TYPE_STRING;
     string_value = v;
   }
 
-  Variant(int v)
+  explicit Variant(int v)
   {
     type = VARIANT_TYPE_INT;
     int_value = v;
   }
 
-  Variant(bool v)
+  explicit Variant(bool v)
   {
     type = VARIANT_TYPE_BOOL;
     bool_value = v;
   }
 
-  Variant(double v)
+  explicit Variant(double v)
   {
     type = VARIANT_TYPE_DOUBLE;
     double_value = v;
   }
 
-  Variant(const Variant &rhs)
+  explicit Variant(const Variant &rhs)
   {
     type = rhs.type;
     switch(rhs.type)

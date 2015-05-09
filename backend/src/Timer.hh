@@ -76,7 +76,7 @@ public:
   static Ptr create(const std::string &id);
 
   // Construction/Destruction.
-  Timer(const std::string &id);
+  explicit Timer(const std::string &id);
   virtual ~Timer();
 
   // Control

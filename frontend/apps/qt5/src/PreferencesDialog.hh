@@ -33,7 +33,7 @@ class PreferencesDialog : public QDialog
   Q_OBJECT
 
 public:
-  PreferencesDialog(SoundTheme::Ptr sound_theme);
+  explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
   ~PreferencesDialog() override;
 
 protected:

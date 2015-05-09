@@ -102,7 +102,7 @@ private:
 
 public:
   //! Constructor.
-  Statistics(IActivityMonitor::Ptr monitor);
+  explicit Statistics(IActivityMonitor::Ptr monitor);
 
   //! Destructor
   ~Statistics() override;

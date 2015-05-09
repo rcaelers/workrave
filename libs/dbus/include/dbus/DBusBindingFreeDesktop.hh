@@ -57,7 +57,7 @@ namespace workrave
     class DBusBindingFreeDesktop : public DBusBinding
     {
     public:
-      DBusBindingFreeDesktop(IDBus::Ptr dbus);
+      explicit DBusBindingFreeDesktop(IDBus::Ptr dbus);
       virtual ~DBusBindingFreeDesktop();
 
       virtual DBusIntrospect *get_method_introspect() = 0;

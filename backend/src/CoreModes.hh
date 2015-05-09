@@ -35,7 +35,7 @@ public:
 
   static CoreModes::Ptr create(IActivityMonitor::Ptr monitor);
 
-  CoreModes(IActivityMonitor::Ptr monitor);
+  explicit CoreModes(IActivityMonitor::Ptr monitor);
   virtual ~CoreModes();
 
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();

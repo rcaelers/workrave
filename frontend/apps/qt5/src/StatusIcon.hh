@@ -32,7 +32,7 @@ class StatusIcon : public QObject
   Q_OBJECT
 
 public:
-  StatusIcon(MenuModel::Ptr menu_model);
+  explicit StatusIcon(MenuModel::Ptr menu_model);
   ~StatusIcon() override;
 
   void init();

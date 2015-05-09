@@ -27,7 +27,7 @@
 class QtSettingsConfigurator : public virtual IConfigBackend, public virtual ConfigBackendAdapter
 {
 public:
-  QtSettingsConfigurator(QSettings *settings = 0);
+  explicit QtSettingsConfigurator(QSettings *settings = 0);
   ~QtSettingsConfigurator() override;
 
   bool load(std::string filename) override;

@@ -37,7 +37,7 @@ class TimerBoxPreferencesPanel :
   Q_OBJECT
 
 public:
-  TimerBoxPreferencesPanel(std::string name);
+  explicit TimerBoxPreferencesPanel(std::string name);
   ~TimerBoxPreferencesPanel() override;
 
 private:

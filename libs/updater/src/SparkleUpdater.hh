@@ -25,7 +25,7 @@
 class SparkleUpdater : public workrave::updater::Updater
 {
 public:
-  SparkleUpdater(std::string url);
+  explicit SparkleUpdater(std::string url);
   ~SparkleUpdater() override;
 
   void check_for_updates() override;

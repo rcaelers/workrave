@@ -34,7 +34,7 @@
 class Configurator : public workrave::config::IConfigurator, public workrave::config::IConfiguratorListener
 {
 public:
-  Configurator(IConfigBackend *backend);
+  explicit Configurator(IConfigBackend *backend);
   ~Configurator() override;
 
   void heartbeat() override;

@@ -26,7 +26,7 @@ class MouseMonitor
 public:
   typedef boost::shared_ptr<MouseMonitor> Ptr;
 
-  MouseMonitor(boost::function<void(int,int)> func);
+  explicit MouseMonitor(boost::function<void(int,int)> func);
   ~MouseMonitor();
 
   void start();

@@ -31,7 +31,7 @@ class SoundsPreferencesPanel : public QWidget
   Q_OBJECT
 
 public:
-  SoundsPreferencesPanel(SoundTheme::Ptr sound_theme);
+  explicit SoundsPreferencesPanel(SoundTheme::Ptr sound_theme);
   ~SoundsPreferencesPanel() override;
 
 private:

@@ -128,7 +128,7 @@ protected:
   class WrapperType : public DataConnection                             \
   {                                                                     \
   public:                                                               \
-    WrapperType(WidgetType widget)                                      \
+    explicit WrapperType(WidgetType widget)                             \
       : widget(widget)                                                  \
       {                                                                 \
       }                                                                 \

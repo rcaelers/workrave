@@ -39,7 +39,7 @@ class SystemStateChangeConsolekit : public ISystemStateChangeMethod
 {
 public:
   static const char *dbus_name;
-  SystemStateChangeConsolekit(GDBusConnection *connection);
+  explicit SystemStateChangeConsolekit(GDBusConnection *connection);
   virtual
   ~SystemStateChangeConsolekit() {};
 

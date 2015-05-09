@@ -41,7 +41,7 @@
 class SystemStateChangeUPower : public ISystemStateChangeMethod
 {
 public:
-  SystemStateChangeUPower(GDBusConnection *connection);
+  explicit SystemStateChangeUPower(GDBusConnection *connection);
   virtual
   ~SystemStateChangeUPower() {};
   virtual bool suspend() { return execute("Suspend"); }

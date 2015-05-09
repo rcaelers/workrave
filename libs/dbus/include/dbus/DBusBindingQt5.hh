@@ -46,7 +46,7 @@ namespace workrave
     class DBusBindingQt5 : public DBusBinding
     {
     public:
-      DBusBindingQt5(IDBus::Ptr dbus);
+      explicit DBusBindingQt5(IDBus::Ptr dbus);
       ~DBusBindingQt5() override;
 
       virtual const char *get_interface_introspect() = 0;

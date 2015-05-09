@@ -43,7 +43,7 @@ namespace workrave
     class DBusBindingGio : public DBusBinding
     {
     public:
-      DBusBindingGio(IDBus::Ptr dbus);
+      explicit DBusBindingGio(IDBus::Ptr dbus);
       virtual ~DBusBindingGio();
 
       virtual const char *get_interface_introspect() = 0;
