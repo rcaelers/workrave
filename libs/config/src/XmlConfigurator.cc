@@ -97,9 +97,8 @@ XmlConfigurator::remove_key(const std::string &key)
   bool ret = true;
 
   TRACE_ENTER_MSG("XmlConfigurator::remove_key", key);
-  string xmlpath = path(key);
-
-  //  pt.erase(xmlpath);
+  // string xmlpath = path(key);
+  // pt.erase(xmlpath);
 
   TRACE_EXIT();
   return ret;

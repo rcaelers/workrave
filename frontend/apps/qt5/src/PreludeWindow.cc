@@ -196,27 +196,29 @@ PreludeWindow::refresh()
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
       if (tminus < 0)
-        tminus = 0;
-
+        {
+          tminus = 0;
+        }
+      
       s = boost::str(boost::format(progress_text) % Text::time_to_string(tminus));
     }
   timebar->set_text(s);
   timebar->update();
 
-// #if defined(PLATFORM_OS_WIN32)
-// // Vista GTK phantom toplevel parent kludge:
-//   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-//   if( hwnd )
-//     {
-//       HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
-//       HWND hDesktop = GetDesktopWindow();
-//       if( hAncestor && hDesktop && hAncestor != hDesktop )
-//           hwnd = hAncestor;
-//       // Set toplevel window topmost!
-//       SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
-//           SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
-//     }
-// #endif
+  // #if defined(PLATFORM_OS_WIN32)
+  // // Vista GTK phantom toplevel parent kludge:
+  //   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  //   if( hwnd )
+  //     {
+  //       HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
+  //       HWND hDesktop = GetDesktopWindow();
+  //       if( hAncestor && hDesktop && hAncestor != hDesktop )
+  //           hwnd = hAncestor;
+  //       // Set toplevel window topmost!
+  //       SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
+  //           SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+  //     }
+  // #endif
 }
 
 void

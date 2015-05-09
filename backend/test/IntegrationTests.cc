@@ -546,7 +546,7 @@ public:
     return config;
   }
 
-  bool on_load_timer_state(Timer::Ptr[BREAK_ID_SIZEOF])
+  bool on_load_timer_state(Timer::Ptr breaks[BREAK_ID_SIZEOF])
   {
     return true;
   }

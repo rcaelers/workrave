@@ -206,7 +206,7 @@ BreakStateModel::force_start_break(BreakHint hint)
   TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id);
 
   break_hint = hint;
-  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK) ) != 0;
+  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -254,6 +254,7 @@ BreakStateModel::postpone_break()
       // and stop the break.
       stop_break();
     }
+  TRACE_EXIT();
 }
 
 void

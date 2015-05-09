@@ -50,7 +50,7 @@ SizeGroup::addWidget(QWidget* widget)
 
 
 bool
-SizeGroup::eventFilter(QObject*, QEvent* event)
+SizeGroup::eventFilter(QObject *o, QEvent *event)
 {
   if (event->type() == QEvent::Resize)
     {

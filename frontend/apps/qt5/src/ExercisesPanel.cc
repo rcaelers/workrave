@@ -294,9 +294,13 @@ ExercisesPanel::refresh_pause()
     }
 
   if (paused)
-    pause_button->setToolTip(_("Resume exercises"));
+    {
+      pause_button->setToolTip(_("Resume exercises"));
+    }
   else
-    pause_button->setToolTip(_("Pause exercises"));
+    {
+      pause_button->setToolTip(_("Pause exercises"));
+    }
 }
 
 
@@ -312,10 +316,14 @@ void
 ExercisesPanel::heartbeat()
 {
   if (paused || stopped)
-    return;
+    {
+      return;
+    }
 
   if (shuffled_exercises.size() == 0)
-    return;
+    {
+      return;
+    }
 
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;

@@ -262,7 +262,9 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
   static bool inside = false;
 
   if (inside)
-    return true;
+    {
+      return true;
+    }
 
   inside = true;
 

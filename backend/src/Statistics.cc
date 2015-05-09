@@ -132,41 +132,43 @@ Statistics::update()
 bool
 Statistics::delete_all_history()
 {
-    update();
+  update();
 
-    string histfile = AssetPath::get_home_directory() + "historystats";
-    boost::filesystem::path histpath(histfile);
+  string histfile = AssetPath::get_home_directory() + "historystats";
+  boost::filesystem::path histpath(histfile);
 
-    if( boost::filesystem::is_regular_file(histpath) && std::remove( histfile.c_str() ) )
+  if (boost::filesystem::is_regular_file(histpath) && std::remove(histfile.c_str()))
     {
-        return false;
+      return false;
     }
-    else
+  else
     {
-        for( vector<DailyStatsImpl *>::iterator i = history.begin(); ( i != history.end() ); delete *i++ )
-            ;
-
-        history.clear();
-    }
-
-    string todayfile = AssetPath::get_home_directory() + "todaystats";
-    boost::filesystem::path todaypath(todayfile);
-
-    if( boost::filesystem::is_regular_file(todaypath) && std::remove( todayfile.c_str() ) )
-    {
-        return false;
-    }
-    else
-    {
-        if( current_day )
+      for (vector<DailyStatsImpl *>::iterator i = history.begin(); (i != history.end()); ++i)
         {
-            delete current_day;
-            current_day = NULL;
+          delete *i;
         }
-        start_new_day();
-   }
 
-    return true;
+      history.clear();
+    }
+
+  string todayfile = AssetPath::get_home_directory() + "todaystats";
+  boost::filesystem::path todaypath(todayfile);
+
+  if (boost::filesystem::is_regular_file(todaypath) && std::remove(todayfile.c_str()))
+    {
+      return false;
+    }
+  else
+    {
+      if (current_day)
+        {
+          delete current_day;
+          current_day = NULL;
+        }
+      start_new_day();
+    }
+
+  return true;
 }
 
 
@@ -320,7 +322,7 @@ Statistics::add_history(DailyStatsImpl *stats)
               break;
             }
 
-          else if ( stats->start.tm_year > ref->start.tm_year
+          else if (stats->start.tm_year > ref->start.tm_year
                     || (stats->start.tm_year == ref->start.tm_year
                         && (stats->start.tm_mon > ref->start.tm_mon
                             || (stats->start.tm_mon == ref->start.tm_mon
@@ -337,7 +339,7 @@ Statistics::add_history(DailyStatsImpl *stats)
             found = true;
             break;
           }
-          i++;
+          ++i;
         }
 
       if (!found)
@@ -414,13 +416,12 @@ Statistics::load(ifstream &infile, bool history)
   while (ok && !infile.eof())
     {
       char line[BUFSIZ] = "";
-      char cmd;
 
       infile.getline(line, BUFSIZ);
 
       if (strlen(line) > 1)
         {
-          cmd = line[0];
+          char cmd = line[0];
 
           stringstream ss(line+1);
 
@@ -739,11 +740,11 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
       prev_y = y;
 
       // Sanity checks, ignore unreasonable large jumps...
-      if ( delta_x < MAX_JUMP && delta_y < MAX_JUMP &&
-          (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0 ))
+      if (delta_x < MAX_JUMP && delta_y < MAX_JUMP &&
+          (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0))
         {
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-          int distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -784,7 +785,7 @@ Statistics::button_notify(bool is_press)
           int delta_y = click_y - prev_y;
 
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-          int64_t distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int64_t distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -810,7 +811,9 @@ void
 Statistics::keyboard_notify(bool repeat)
 {
   if (repeat)
-    return;
+    {
+      return;
+    }
 
   lock.lock();
   if (current_day != NULL)

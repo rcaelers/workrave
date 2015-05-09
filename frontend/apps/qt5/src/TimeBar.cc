@@ -254,11 +254,17 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
 
   int text_x;
   if (bar_text_align > 0)
-    text_x = std::max(width() - text_width - MARGINX, 0);
+    {
+      text_x = std::max(width() - text_width - MARGINX, 0);
+    }
   else if (bar_text_align < 0)
-    text_x = MARGINX;
+    {
+      text_x = MARGINX;
+    }
   else
-    text_x = (width() - text_width) / 2;
+    {
+      text_x = (width() - text_width) / 2;
+    }
 
   int text_y = (height() + text_height ) / 2 - MARGINY;
 

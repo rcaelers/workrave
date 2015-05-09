@@ -136,7 +136,7 @@ Frame::on_timer()
 }
 
 void
-Frame::paintEvent(QPaintEvent *)
+Frame::paintEvent(QPaintEvent *pe)
 {
   QStylePainter paint(this);
 

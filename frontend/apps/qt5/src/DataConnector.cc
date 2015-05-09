@@ -157,8 +157,6 @@ DataConnectionQSpinBox::widget_changed_notify()
 void
 DataConnectionQSpinBox::config_changed_notify(const string &key)
 {
-  int value;
-
   bool skip = false;
   if (intercept)
     {
@@ -167,6 +165,7 @@ DataConnectionQSpinBox::config_changed_notify(const string &key)
 
   if (!skip)
     {
+      int value;
       if (config->get_value(key, value))
         {
           widget->setValue(value);

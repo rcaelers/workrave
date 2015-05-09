@@ -106,17 +106,17 @@ AssetPath::get_home_directory()
         }
 #elif defined(PLATFORM_OS_WIN32)
       void *pidl;
-      char buf[MAX_PATH];
       HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
                                               CSIDL_APPDATA, &pidl);
       if (SUCCEEDED(hr))
         {
+          char buf[MAX_PATH];
+
           SHGetPathFromIDList(pidl, buf);
           CoTaskMemFree(pidl);
 
           strcat (buf, "\\Workrave");
-          BOOL dirok = FALSE;
-          dirok = CreateDirectory(buf, NULL);
+          BOOL dirok = CreateDirectory(buf, NULL);
           if (! dirok)
             {
               if (GetLastError() == ERROR_ALREADY_EXISTS)
@@ -288,7 +288,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
 
   const set<string> &search_path = get_search_path(type);
 
-  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); i++)
+  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
       full_path = (*i);
       full_path /= path;
@@ -303,4 +303,4 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
   return full_path.string();
 }
 
-
+;

@@ -44,14 +44,22 @@ int
 DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
 {
   if (h1 < h2)
-    return -1;
+    {
+      return -1;
+    }
   else if (h1 > h2)
-    return 1;
+    {
+      return 1;
+    }
 
   if (m1 < m2)
-    return -1;
+    {
+      return -1;
+    }
   else if (m1 > m2)
-    return 1;
+    {
+      return 1;
+    }
 
   return 0;
 }
@@ -91,13 +99,11 @@ DayTimePred::init(std::string spec)
 int
 DayTimePred::days_in_month(int month, int year)
 {
-  int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
   if (month == 1)
     {
       // Feb
 
-      if (year % 4 == 0 && ( (year % 100 != 0) || (year % 400) == 0))
+      if (year % 4 == 0 && ((year % 100 != 0) || (year % 400) == 0))
         {
           return 29;
         }
@@ -108,6 +114,7 @@ DayTimePred::days_in_month(int month, int year)
     }
   else
     {
+      int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
       return days[month];
     }
 }

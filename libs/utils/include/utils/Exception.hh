@@ -37,8 +37,8 @@ namespace workrave
       }
 
       explicit Exception(const Exception &parent, const std::string &detail)
+        : detailed_information(parent.details() + ", " + detail)
       {
-        detailed_information = parent.details() + ", " + detail;
       }
 
       // FIXME: implement what
