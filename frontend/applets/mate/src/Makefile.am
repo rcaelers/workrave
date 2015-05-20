@@ -44,7 +44,9 @@ org.mate.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 xmluidir   = $(WORKRAVE_MENU_UI_DIR)
 xmlui_DATA = workrave-menu.xml
 
-CLEANFILES = $(applet_DATA) $(applet_DATA).in $(service_DATA)
+CLEANFILES = $(applet_DATA) $(applet_DATA).in $(service_DATA) \
+	org.workrave.WorkraveApplet.mate-panel-applet \
+	org.workrave.WorkraveApplet.mate-panel-applet.in
 
 EXTRA_DIST = \
 	org.workrave.WorkraveApplet.mate-panel-applet.in.in \
