@@ -132,8 +132,10 @@ link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
 # TODO: Also built prebuilt
-If (PLATFORM_OS_WIN32 AND CMAKE_CROSSCOMPILING)
-  link_directories("${PREBUILT_PATH}/Release")
+If (PLATFORM_OS_WIN32)
+  if (PREBUILT_PATH)
+    link_directories("${PREBUILT_PATH}/Release")
+  endif()
   link_directories("${SYS_ROOT}")
 endif()
 

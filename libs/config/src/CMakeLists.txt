@@ -6,6 +6,15 @@ set(SRC
   SettingCache.cc
   )
 
+if (PLATFORM_OS_WIN32)
+  set(SRC ${SRC} win32/W32Configurator.cc)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/win32)
+elseif (PLATFORM_OS_OSX)
+  set(SRC ${SRC} osx/OSXConfigurator.cc)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/osx)
+  set_source_files_properties(osx/OSXConfigurator.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+else()
+
 if (HAVE_QT5)
   set(SRC ${SRC} QtSettingsConfigurator.cc)
 endif()
@@ -20,16 +29,6 @@ if (WITH_GCONF)
   include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/unix)
 endif()
 
-if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} win32/W32Configurator.cc)
-  include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/win32)
-endif()
-
-if (PLATFORM_OS_OSX)
-  set(SRC ${SRC} osx/OSXConfigurator.cc)
-  include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/osx)
-
-  set_source_files_properties(osx/OSXConfigurator.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
 endif()
 
 include_directories(

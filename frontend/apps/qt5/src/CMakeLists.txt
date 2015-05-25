@@ -109,11 +109,13 @@ include_directories()
 
 # TODO: Also built prebuilt
 if (PLATFORM_OS_WIN32)
-  if(CMAKE_CROSSCOMPILING)
+  if (PREBUILT_PATH)
     link_directories("${PREBUILT_PATH}/Release")
-    link_directories("${SYS_ROOT}")
   else()
     link_directories("${CMAKE_SOURCE_DIR}/libs/hooks/Output/Release")
+  endif()
+  if (CMAKE_CROSSCOMPILING)
+    link_directories("${SYS_ROOT}")
   endif()
 endif()
 

@@ -12,8 +12,6 @@ if (APPLE)
   set(plugin_dest_dir "Workrave.app/Contents/MacOS")
   set(qtconf_dest_dir "Workrave.app/Contents/Resources")
   
-  message(${plugin_dest_dir})
-  
   install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   #install(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)

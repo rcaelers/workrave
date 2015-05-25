@@ -1,5 +1,6 @@
 # TODO: Duplicate information.
 list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/build/cmake/modules")
+string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
 
 message(STATUS "Resolving dependencies. This may take a while")
 set(CMAKE_OBJDUMP @CMAKE_OBJDUMP@)
@@ -8,8 +9,13 @@ resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/workrave.exe" depende
 
 # TODO: Add dependencies for all installed plugins
 
+set(LIBS_ISS "@CMAKE_CURRENT_BINARY_DIR@/libraries.iss")
+file(WRITE ${LIBS_ISS} ";\n")
 foreach(dependency ${resolved_dependencies})
-  file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/dist/lib")
+  get_filename_component(file ${dependency} NAME)
+
+  file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/lib")
+  file(APPEND ${LIBS_ISS} "Source: \"${INSTALLDIR}\\lib\\${file}\"; DestDir: \"{app}\\lib\"; Flags: ignoreversion;\n")
 endforeach()
 
 execute_process(
