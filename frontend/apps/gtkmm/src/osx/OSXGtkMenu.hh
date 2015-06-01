@@ -26,17 +26,6 @@
 
 #include "MainGtkMenu.hh"
 
-#ifdef HAVE_IGE_MAC_INTEGRATION
-#include "ige-mac-dock.h"
-#endif
-
-#ifdef HAVE_GTK_MAC_INTEGRATION
-#include "gtk-mac-dock.h"
-#define IgeMacDock GtkMacDock
-#endif
-
-
-
 class OSXGtkMenu
   : public MainGtkMenu
 {
@@ -48,8 +37,6 @@ public:
   virtual void popup(const guint button, const guint activate_time);
 
 private:
-  // static void dock_clicked(IgeMacDock *dock, void *data);
-  // static void dock_quit(IgeMacDock *dock, void *data);
 };
 
 #endif // OSXGTKMENU_HH

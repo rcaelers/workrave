@@ -35,7 +35,6 @@
 
 const int MARGINX = 4;
 const int MARGINY = 2;
-const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;

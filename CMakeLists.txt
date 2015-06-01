@@ -179,8 +179,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
 
   pkg_check_modules(
     GTK REQUIRED
-    gtkmm-3.0>=3.6.0
-    gtk+-3.0>=3.6.0)
+    gtkmm-3.0>=3.16.0
+    gtk+-3.0>=3.16.0)
   
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -728,7 +728,11 @@ set(CPACK_BINARY_DRAGNDROP ON)
 include(CPack)
 
 if (APPLE)
-  add_subdirectory(frontend/apps/qt5/dist/osx)
+  if ("${WITH_UI}" STREQUAL "Qt5")
+    add_subdirectory(frontend/apps/qt5/dist/osx)
+  #elseif ("${WITH_UI}" STREQUAL "Gtk+3")
+  #  add_subdirectory(frontend/apps/gtkmm/dist/win32)
+  endif()
 elseif(WIN32)
   if ("${WITH_UI}" STREQUAL "Qt5")
     add_subdirectory(frontend/apps/qt5/dist/win32)

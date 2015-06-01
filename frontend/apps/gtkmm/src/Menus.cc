@@ -116,11 +116,11 @@ Menus::init(AppletControl *applet_control)
 {
   IAppletWindow *applet_window = NULL;
 
-#if defined(PLATFORM_OS_OSX)
-  menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
-#else
+// #if defined(PLATFORM_OS_OSX)
+//   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
+// #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
-#endif
+//#endif
 
 #ifdef PLATFORM_OS_WIN32
   menus[MENU_MAINAPPLET] = new W32TrayMenu();

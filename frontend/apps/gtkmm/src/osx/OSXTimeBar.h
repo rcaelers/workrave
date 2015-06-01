@@ -4,13 +4,13 @@
 @interface OSXTimeBar : NSObject
 {
   //! Color of the time-bar.
-  ColorId color;
+  enum ColorId color;
 
   //! Color of the time-bar.
-  ColorId secondary_color;
+  enum ColorId secondary_color;
 
   //! Color of the text.
-  ColorId text_color;
+  enum ColorId text_color;
 
   //! The current value.
   int value;
@@ -29,15 +29,14 @@
 }
 
 - (void)drawRect:(NSRect)rect;
-- (void)dealloc;
 
 - (void) setText: (NSString*) text;
 - (void) setValue: (int) value;
 - (void) setMaxValue: (int) max_value;
-- (void) setColor: (ColorId) color;
+- (void) setColor: (enum ColorId) color;
 - (void) setSecondaryValue: (int) secondary_value;
 - (void) setSecondaryMaxValue: (int) secondary_max_value;
-- (void) setSecondaryColor: (ColorId) secondary_color;
+- (void) setSecondaryColor: (enum ColorId) secondary_color;
 
 
 @end

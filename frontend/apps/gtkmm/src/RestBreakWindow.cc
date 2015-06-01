@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-const int TIMEOUT = 1000;
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -58,9 +56,6 @@ const int TIMEOUT = 1000;
 
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
-
-const int MARGINX = 8;
-const int MARGINY = 8;
 
 using namespace std;
 using namespace workrave::utils;

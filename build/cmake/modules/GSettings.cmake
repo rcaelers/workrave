@@ -26,7 +26,7 @@ if (LOCALINSTALL)
   set(GSETTINGS_ABS_DIR "${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas/")
 else()
   set(GSETTINGS_DIR "${_glib_prefix}/share/glib-2.0/schemas/" CACHE INTERNAL "")
-  set(GSETTINGS_ABS_DIR "${GSETTINGS}")
+  set(GSETTINGS_ABS_DIR "${GSETTINGS_DIR}")
 endif()
 
 message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")

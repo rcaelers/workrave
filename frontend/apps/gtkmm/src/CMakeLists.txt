@@ -81,7 +81,11 @@ if (PLATFORM_OS_OSX)
     osx/OSXAppletWindow.cc
     osx/OSXGtkMenu.cc
     osx/OSXUtil.cc
+    osx/OSXStatusBarView.mm
+    osx/OSXTimeBar.mm
     )
+
+  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 
   include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/osx)
 endif()

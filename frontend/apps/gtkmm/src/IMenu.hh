@@ -21,6 +21,7 @@
 #define IMENU_HH
 
 #include <string>
+#include <glib.h>
 
 #include "CoreTypes.hh"
 

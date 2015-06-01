@@ -6,6 +6,10 @@ if (HAVE_TESTS)
     IntegrationTests.cc
     SimulatedTime.cc
     )
+
+  if (HAVE_APP_GTK)
+    link_directories(${GLIB_LIBRARY_DIRS})
+  endif()
   
   add_executable(workrave-test ${SRC})
   add_cppcheck(workrave-test)

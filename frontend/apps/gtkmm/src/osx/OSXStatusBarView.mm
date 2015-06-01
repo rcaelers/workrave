@@ -5,8 +5,7 @@
 
 - (id)initWithMenu:(NSMenu *)myMenu
 {
-  statusItem = [[[NSStatusBar systemStatusBar]
-                  statusItemWithLength:NSVariableStatusItemLength] retain];
+  statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
   self = [super initWithFrame:NSMakeRect(0, 0, 100, 22)];
 
   for (int i = 0; i < 3; i++)
@@ -15,7 +14,7 @@
     }
     
   if (self) {
-    menu = [myMenu retain];
+    menu = myMenu;
     [statusItem setView:self];
     [statusItem setTitle: @"World"];
     menuVisibility = NO;
@@ -51,11 +50,11 @@ secondaryMaxValue:(int)secondaryMaxValue;
   NSColor *color;
   if (!menuVisibility) 
     {
-      color = [[[NSColor blackColor] retain] autorelease];
+      color = [NSColor blackColor];
     }
   else
     {
-      color = [[[NSColor whiteColor] retain] autorelease];
+      color = [NSColor whiteColor];
     }
 	
   // draw item with status as background
@@ -83,9 +82,6 @@ secondaryMaxValue:(int)secondaryMaxValue;
 
 - (void)dealloc
 {
-  [menu release];
-  [statusItem release];
-  [super dealloc];
 }
 
 @end

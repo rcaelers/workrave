@@ -43,8 +43,7 @@ OSXAppletWindow::OSXAppletWindow()
   }
   NSMenuItem *item;
 
-  item = [[[NSMenuItem alloc] initWithTitle:@"Hello"
-                              action:nil keyEquivalent:@""] autorelease];
+  item = [[NSMenuItem alloc] initWithTitle:@"Hello" action:nil keyEquivalent:@""];
   // [item setTarget:self];
   [item setEnabled:YES];
   [menu addItem:item];
@@ -64,7 +63,7 @@ OSXAppletWindow::~OSXAppletWindow()
 
 
 void
-OSXAppletWindow::set_slot(BreakId id, int slot)
+OSXAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
   TRACE_ENTER_MSG("OSXAppletWindow::set_slot", int(id) << ", " << slot);
   TRACE_EXIT();
@@ -72,7 +71,7 @@ OSXAppletWindow::set_slot(BreakId id, int slot)
 
 
 void
-OSXAppletWindow::set_time_bar(BreakId id,
+OSXAppletWindow::set_time_bar(workrave::BreakId id,
                               std::string text,
                               ITimeBar::ColorId primary_color,
                               int primary_val, int primary_max,
