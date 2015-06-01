@@ -288,13 +288,16 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   include_directories(${Qt5Gui_INCLUDE_DIRS})
   include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-  # Can be removed with Qt 5.1
+  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
+
+  if (APPLE)
+    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/.." REALPATH)
+  endif()
+  
+  # TODO:
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
   
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" PATH)
-
-  message ( "loc : ${Qt_BIN_DIR}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)

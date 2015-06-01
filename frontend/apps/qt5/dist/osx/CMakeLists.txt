@@ -1,9 +1,8 @@
 if (APPLE)
-
-  
+ 
   set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
   set(PLUGINS "")
-  set(DIRS ${QT_LIBRARY_DIRS})
+  set(DIRS ${QT_INSTALL_PREFIX})
 
   include(InstallRequiredSystemLibraries)
   
@@ -33,5 +32,5 @@ if (APPLE)
        " COMPONENT Runtime)
   
   install(FILES "${CMAKE_SOURCE_DIR}/frontend/data/images/osx/workrave.icns" DESTINATION ${DATADIR} RENAME "Workrave.icns")
-  
+
 endif()
