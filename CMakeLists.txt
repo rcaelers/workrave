@@ -175,7 +175,7 @@ endif()
 # GTK
 
 if ("${WITH_UI}" STREQUAL "Gtk+3")
-  message("Checking for: Gtk 3")
+  message(STATUS "Checking for: Gtk 3")
 
   pkg_check_modules(
     GTK REQUIRED
@@ -203,7 +203,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
 endif()
 
 if ("${WITH_UI}" STREQUAL "Gtk+2")
-  message("Checking for: Gtk 2")
+  message(STATUS "Checking for: Gtk 2")
 
   pkg_check_modules(
     GTK REQUIRED
@@ -236,7 +236,7 @@ endif()
 option(WITH_GCONF "Enable GConf support" OFF)
 
 if (WITH_GCONF)
-  message("Checking for: Gnome GConf")
+  message(STATUS "Checking for: Gnome GConf")
 
   pkg_check_modules(GCONF QUIET gconf-2.0)
   if (GCONF_FOUND)
@@ -249,7 +249,7 @@ endif()
 option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" OFF)
 
 if (WITH_GNOME_CLASSIC_PANEL)
-  message("Checking for: Gnome 3 classic panel applets")
+  message(STATUS "Checking for: Gnome 3 classic panel applets")
 
   pkg_check_modules(PANELAPPLET4 QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
   if (PANELAPPLET4_FOUND)
@@ -264,7 +264,7 @@ endif()
 # Qt5
 
 if ("${WITH_UI}" STREQUAL "Qt5")
-  message("Checking for: Qt5")
+  message(STATUS "Checking for: Qt5")
 
   find_package(Qt5Widgets REQUIRED)
   find_package(Qt5Core REQUIRED)
@@ -305,7 +305,7 @@ endif()
 # DBus
 
 if (HAVE_DBUS)
-  message("Checking for: DBus")
+  message(STATUS "Checking for: DBus")
   
   find_package(PythonInterp)
   if (NOT PYTHONINTERP_FOUND)
@@ -331,7 +331,7 @@ if (UNIX AND NOT APPLE)
   option(WITH_GSTREAMER "Enable GStreamer audio" ON)
   
   if (WITH_GSTREAMER)
-    message("Checking for: GStreamer")
+    message(STATUS "Checking for: GStreamer")
   
     pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
     if (GSTREAMER_FOUND)
@@ -354,7 +354,7 @@ if (UNIX AND NOT APPLE)
   option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
   
   if (WITH_PULSE)
-    message("Checking for: Pulseaudio")
+    message(STATUS "Checking for: Pulseaudio")
   
     pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
     
@@ -374,7 +374,7 @@ if (UNIX AND NOT APPLE)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
   if (WITH_INDICATOR)
-    message("Checking for: Unity Indicators")
+    message(STATUS "Checking for: Unity Indicators")
 
     find_package(GObjectIntrospection 0.9.12)
     set(HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
@@ -416,7 +416,7 @@ if(MSVC)
   if (BOOST_ALL_DYN_LINK)
     add_definitions(-DBOOST_ALL_DYN_LINK)
   endif()
-endif(MSVC)
+endif()
 
 if (HAVE_TESTS)
   find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)
@@ -445,14 +445,14 @@ find_package(Libintl)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
 if (NOT GETTEXT_FOUND)
-  message("=== GetText not found - disabling i18n")
+  message(STATUS "GetText not found - disabling i18n")
 else()
   set(ENABLE_NLS ON)
-endif (NOT GETTEXT_FOUND)
+endif ()
 
 if (APPLE) # XXX: workaround intl for Mac OSX
-    set(GETTEXT_LIBRARIES ${LIBINTL_LIBRARIES})
-endif(APPLE)
+  set(GETTEXT_LIBRARIES ${LIBINTL_LIBRARIES})
+endif()
 
 set (GETTEXT_PACKAGE "workrave")
 
@@ -616,7 +616,7 @@ if (UNIX AND NOT APPLE)
   set (LOCALEDIR "${DATADIR}/locale")
 elseif (APPLE)
   set (BUNDLEDIR Workrave.app/Contents/)
-  set (BINDIR {BUNDLEDIR}/MacOS/)
+  set (BINDIR ${BUNDLEDIR}/MacOS/)
   set (DATADIR ${BUNDLEDIR}/Resources                       CACHE PATH "datadir")
   set (LIBDIR ${DATADIR}                                    CACHE PATH "libadir")
   set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
