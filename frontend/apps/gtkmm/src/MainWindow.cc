@@ -40,7 +40,7 @@
 #include <list>
 #include <gtkmm.h>
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"

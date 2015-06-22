@@ -51,7 +51,7 @@ OSXInputMonitor::init()
   io_service = IOServiceGetMatchingService(master,
                                            IOServiceMatching("IOHIDSystem"));
 
-  monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&OSXInputMonitor::run, this)));
+  monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&OSXInputMonitor::run, this)));
   return true;
 }
 

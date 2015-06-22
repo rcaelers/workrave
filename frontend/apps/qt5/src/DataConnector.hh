@@ -48,9 +48,7 @@ namespace dc
 class DataConnector
 {
 public:
-  typedef boost::shared_ptr<DataConnector> Ptr;
-
-  static Ptr create();
+  typedef std::shared_ptr<DataConnector> Ptr;
 
   DataConnector();
   ~DataConnector();
@@ -61,7 +59,7 @@ public:
 
   void connect(const std::string &setting,
                DataConnection *connection,
-               boost::function<bool (const std::string &, bool)> cb,
+               std::function<bool (const std::string &, bool)> cb,
                dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
@@ -75,7 +73,7 @@ public:
   template<class T, class R = T>
   void connect(workrave::config::Setting<T, R> &setting,
                DataConnection *connection,
-               boost::function<bool (const std::string &, bool)> cb,
+               std::function<bool (const std::string &, bool)> cb,
                dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, cb, flags);
@@ -115,7 +113,7 @@ public:
   void set(dc::Flags flags, const std::string &key);
   virtual void init() = 0;
 
-  boost::function<bool (const std::string &, bool)> intercept;
+  std::function<bool (const std::string &, bool)> intercept;
 
 protected:
   workrave::config::IConfigurator::Ptr config;

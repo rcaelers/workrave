@@ -20,7 +20,7 @@
 #ifndef FRAME_HH
 #define FRAME_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 #include <QtWidgets/qwidget.h>
@@ -56,7 +56,7 @@ protected:
 private:
   QRect get_frame_rect() const;
 
-  boost::shared_ptr<QTimer> heartbeat_timer;
+  std::shared_ptr<QTimer> heartbeat_timer;
 
 
   //! Frame border width

@@ -23,7 +23,6 @@
 #include <string>
 #include <map>
 
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/barrier.hpp>
@@ -78,10 +77,10 @@ namespace workrave
 #ifdef HAVE_TESTS
       public ITimeSource,
 #endif
-      public boost::enable_shared_from_this<Timer>
+      public std::enable_shared_from_this<Timer>
     {
     public:
-      typedef boost::shared_ptr<Timer> Ptr;
+      typedef std::shared_ptr<Timer> Ptr;
       typedef boost::function<void()> Callback;
 
       static Timer::Ptr get();

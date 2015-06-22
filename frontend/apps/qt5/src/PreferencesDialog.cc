@@ -39,7 +39,7 @@
 #include "ICore.hh"
 #include "UiUtil.hh"
 #include "Ui.hh"
-// #include "CoreFactory.hh"
+// #include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -53,7 +53,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
-  connector = DataConnector::create();
+  connector = std::make_shared<DataConnector>();
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);

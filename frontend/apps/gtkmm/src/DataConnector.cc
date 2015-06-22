@@ -33,7 +33,7 @@
 
 #include "config/IConfigurator.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -65,7 +65,7 @@ namespace dc
 //! Construct a new data connector.
 DataConnector::DataConnector()
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 
@@ -124,7 +124,7 @@ DataConnector::connect(const string &setting,
 //! Construct a new data connection
 DataConnection::DataConnection()
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 

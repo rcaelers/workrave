@@ -20,13 +20,11 @@
 #endif
 
 #include <boost/test/unit_test.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/make_shared.hpp>
 
 #include <iostream>
 #include <fstream>
@@ -134,21 +132,21 @@ public:
 
   void init_core()
   {
-    core = workrave::ICore::create();
+    core = workrave::CoreFactory::create();
 
     ICoreHooks::Ptr hooks = core->get_hooks();
-    ICoreTestHooks::Ptr test_hooks = boost::dynamic_pointer_cast<ICoreTestHooks>(hooks);
+    ICoreTestHooks::Ptr test_hooks = std::dynamic_pointer_cast<ICoreTestHooks>(hooks);
 
-    test_hooks->hook_create_configurator() = boost::bind(&Backend::on_create_configurator, this);
-    test_hooks->hook_create_monitor() = boost::bind(&Backend::on_create_monitor, this);
-    test_hooks->hook_load_timer_state() = boost::bind(&Backend::on_load_timer_state, this, _1);
+    test_hooks->hook_create_configurator() = std::bind(&Backend::on_create_configurator, this);
+    test_hooks->hook_create_monitor() = std::bind(&Backend::on_create_monitor, this);
+    test_hooks->hook_load_timer_state() = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
 
     core->init(this, "");
 
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
         IBreak::Ptr b = core->get_break(BreakId(i));
-        b->signal_break_event().connect(boost::bind(&Backend::on_break_event, this, BreakId(i), _1));
+        b->signal_break_event().connect(std::bind(&Backend::on_break_event, this, BreakId(i), std::placeholders::_1));
         prelude_count[i] = 0;
       }
 
@@ -157,8 +155,8 @@ public:
     core->set_operation_mode(OperationMode::Normal);
     core->set_usage_mode(UsageMode::Normal);
 
-    core->signal_operation_mode_changed().connect(boost::bind(&Backend::on_operation_mode_changed, this, _1));
-    core->signal_usage_mode_changed().connect(boost::bind(&Backend::on_usage_mode_changed, this, _1));
+    core->signal_operation_mode_changed().connect(std::bind(&Backend::on_operation_mode_changed, this, std::placeholders::_1));
+    core->signal_usage_mode_changed().connect(std::bind(&Backend::on_usage_mode_changed, this, std::placeholders::_1));
   }
 
 
@@ -522,7 +520,7 @@ public:
 
   IActivityMonitor::Ptr on_create_monitor()
   {
-    monitor = boost::make_shared<ActivityMonitorStub>();
+    monitor = std::make_shared<ActivityMonitorStub>();
     return monitor;
   }
 

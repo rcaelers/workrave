@@ -34,7 +34,7 @@
 #include "Text.hh"
 #include "utils/AssetPath.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 
 #include "PreludeWindow.hh"

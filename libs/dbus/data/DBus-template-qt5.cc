@@ -605,7 +605,7 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
   #end for
 #end if
 
-  IDBusPrivateQt5::Ptr priv = boost::dynamic_pointer_cast<IDBusPrivateQt5>(dbus);
+  IDBusPrivateQt5::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt5>(dbus);
   priv->get_connection().send(sig);
 }
 

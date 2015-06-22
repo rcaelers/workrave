@@ -20,25 +20,24 @@
 
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace workrave
 {
   namespace audio
   {
-    enum SoundCapability
+
+    enum class SoundCapability
       {
-        SOUND_CAP_VOLUME,
-        SOUND_CAP_MUTE,
-        SOUND_CAP_EOS_EVENT
+        VOLUME,
+        MUTE,
+        EOS_EVENT
       };
 
     class ISoundPlayer
     {
     public:
-      typedef boost::shared_ptr<ISoundPlayer> Ptr;
-
-      static Ptr create();
+      typedef std::shared_ptr<ISoundPlayer> Ptr;
 
       virtual ~ISoundPlayer() {}
 
@@ -46,6 +45,12 @@ namespace workrave
       virtual bool capability(SoundCapability cap) = 0;
       virtual void restore_mute() = 0;
       virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
+    };
+
+    class SoundPlayerFactory
+    {
+    public:
+      static ISoundPlayer::Ptr create();
     };
   }
 }

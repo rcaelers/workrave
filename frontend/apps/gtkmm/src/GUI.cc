@@ -50,7 +50,7 @@
 #include "IBreak.hh"
 #include "IBreakWindow.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "utils/Exception.hh"
 #include "utils/Locale.hh"
@@ -169,7 +169,7 @@ GUI::~GUI()
   delete [] break_windows;
   delete [] heads;
 
-  CoreFactory::core.reset();
+  Backend::core.reset();
 
   TRACE_EXIT();
 }
@@ -261,7 +261,7 @@ GUI::terminate()
   delete status_icon;
   status_icon = 0;
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 
   collect_garbage();
 
@@ -482,17 +482,17 @@ GUI::init_core()
     }
 #endif
 
-  core = CoreFactory::get_core();
+  core = Backend::get_core();
   core->init(this, display_name);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      b->signal_break_event().connect(boost::bind(&GUI::on_break_event, this, BreakId(i), _1));
+      b->signal_break_event().connect(std::bind(&GUI::on_break_event, this, BreakId(i), std::placeholders::_1));
     }
 
-  core->signal_operation_mode_changed().connect(boost::bind(&GUI::on_operation_mode_changed, this, _1));
-  core->signal_usage_mode_changed().connect(boost::bind(&GUI::on_usage_mode_changed, this, _1));
+  core->signal_operation_mode_changed().connect(std::bind(&GUI::on_operation_mode_changed, this, std::placeholders::_1));
+  core->signal_usage_mode_changed().connect(std::bind(&GUI::on_usage_mode_changed, this, std::placeholders::_1));
 
   GUIConfig::init();
 }
@@ -752,7 +752,7 @@ GUI::init_gui()
 
   process_visibility();
 
-  workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
   if (dbus->is_available())
     {
@@ -771,7 +771,7 @@ GUI::init_gui()
 void
 GUI::init_dbus()
 {
-  workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
   if (dbus->is_available())
     {
@@ -845,7 +845,7 @@ GUI::init_sound_player()
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
 
-      sound_theme = SoundTheme::create();
+      sound_theme = std::make_shared<SoundTheme>();
       sound_theme->init();
     }
   catch (workrave::utils::Exception)
@@ -1577,7 +1577,7 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMRESUMECRITICAL:
             {
               TRACE_MSG("Resume suspend");
-              ICore::Ptr core = CoreFactory::get_core();
+              ICore::Ptr core = Backend::get_core();
               core->set_powersave(false);
             }
             break;
@@ -1585,7 +1585,7 @@ GUI::win32_filter_func (void     *xevent,
           case PBT_APMSUSPEND:
             {
               TRACE_MSG("Suspend");
-              ICore::Ptr core = CoreFactory::get_core();
+              ICore::Ptr core = Backend::get_core();
               core->set_powersave(true);
             }
             break;

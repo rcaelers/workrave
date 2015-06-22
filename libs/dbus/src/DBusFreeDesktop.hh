@@ -24,7 +24,7 @@
 #include <map>
 #include <list>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <dbus/dbus.h>
 
@@ -39,11 +39,9 @@ namespace workrave
     class DBusFreeDesktop : public DBusGeneric, public IDBusPrivateFreeDesktop
     {
     public:
-      typedef boost::shared_ptr<DBusFreeDesktop> Ptr;
+      typedef std::shared_ptr<DBusFreeDesktop> Ptr;
 
     public:
-      static Ptr create();
-
       DBusFreeDesktop();
       virtual ~DBusFreeDesktop();
 

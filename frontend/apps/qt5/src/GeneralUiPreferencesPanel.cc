@@ -41,7 +41,7 @@
 
 #include "ICore.hh"
 #include "UiUtil.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 using namespace std;
 using namespace workrave;
@@ -55,7 +55,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 {
   TRACE_ENTER("GeneralUiPreferencesPanel::GeneralUiPreferencesPanel");
 
-  connector = DataConnector::create();
+  connector = std::make_shared<DataConnector>();
 
   // Block types
   block_button = new QComboBox;

@@ -30,19 +30,13 @@
 #include "TimeBar.hh"
 #include "UiUtil.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
-
-IBreakWindow::Ptr
-RestBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
-{
-  return Ptr(new RestBreakWindow(screen, break_flags, mode));
-}
 
 RestBreakWindow::RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
@@ -123,7 +117,7 @@ RestBreakWindow::install_exercises_panel()
 {
   UiUtil::clear_layout(pluggable_panel);
   
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Ignore);
   
   ExercisesPanel *exercises_panel = new ExercisesPanel(false);
@@ -131,7 +125,7 @@ RestBreakWindow::install_exercises_panel()
   pluggable_panel->addWidget(exercises_panel);
   
   exercises_panel->set_exercise_count(get_exercise_count());
-  connections.connect(exercises_panel->signal_stop(), boost::bind(&RestBreakWindow::install_info_panel, this));
+  connections.connect(exercises_panel->signal_stop(), std::bind(&RestBreakWindow::install_info_panel, this));
 }
 
 void
@@ -139,7 +133,7 @@ RestBreakWindow::install_info_panel()
 {
   UiUtil::clear_layout(pluggable_panel);  
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Halt);
   
   std::string text;

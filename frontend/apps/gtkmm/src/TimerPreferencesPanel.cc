@@ -33,7 +33,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
 #include "IBreak.hh"

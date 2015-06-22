@@ -29,9 +29,7 @@
 class CoreDBus
 {
 public:
-  typedef boost::shared_ptr<CoreDBus> Ptr;
-
-  static CoreDBus::Ptr create(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
+  typedef std::shared_ptr<CoreDBus> Ptr;
 
   CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 

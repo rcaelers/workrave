@@ -24,7 +24,7 @@
 #include <vector>
 #include <map>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"
@@ -76,7 +76,7 @@ public:
   class ThemeInfo
   {
   public:
-    typedef boost::shared_ptr<ThemeInfo> Ptr;
+    typedef std::shared_ptr<ThemeInfo> Ptr;
 
     std::string theme_id;
     std::string description;
@@ -84,8 +84,7 @@ public:
   };
   typedef std::vector<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
 
-  typedef boost::shared_ptr<SoundTheme> Ptr;
-  static Ptr create();
+  typedef std::shared_ptr<SoundTheme> Ptr;
 
   SoundTheme();
   virtual ~SoundTheme();

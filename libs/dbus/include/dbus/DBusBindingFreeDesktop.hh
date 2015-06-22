@@ -34,7 +34,7 @@ namespace workrave
     class IDBusPrivateFreeDesktop
     {
     public:
-      typedef boost::shared_ptr<IDBusPrivateFreeDesktop> Ptr;
+      typedef std::shared_ptr<IDBusPrivateFreeDesktop> Ptr;
 
       virtual ~IDBusPrivateFreeDesktop() {}
 

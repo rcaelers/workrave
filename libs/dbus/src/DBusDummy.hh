@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "dbus/IDBus.hh"
 
@@ -33,11 +33,9 @@ namespace workrave
     class DBusDummy : public IDBus
     {
     public:
-      typedef boost::shared_ptr<DBusDummy> Ptr;
+      typedef std::shared_ptr<DBusDummy> Ptr;
 
     public:
-      static Ptr create();
-
       DBusDummy();
       ~DBusDummy() override;
 

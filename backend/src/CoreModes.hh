@@ -20,7 +20,7 @@
 
 #include <string>
 #include <map>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 #include "utils/ScopedConnections.hh"
@@ -31,9 +31,7 @@
 class CoreModes
 {
 public:
-  typedef boost::shared_ptr<CoreModes> Ptr;
-
-  static CoreModes::Ptr create(IActivityMonitor::Ptr monitor);
+  typedef std::shared_ptr<CoreModes> Ptr;
 
   explicit CoreModes(IActivityMonitor::Ptr monitor);
   virtual ~CoreModes();

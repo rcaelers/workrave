@@ -20,7 +20,7 @@
 #ifndef STATISTICS_HH
 #define STATISTICS_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -43,10 +43,7 @@ class Statistics
     public workrave::input_monitor::IInputMonitorListener
 {
 public:
-  typedef boost::shared_ptr<Statistics> Ptr;
-
-public:
-  static Ptr create(IActivityMonitor::Ptr monitor);
+  typedef std::shared_ptr<Statistics> Ptr;
 
 private:
   enum StatsMarker

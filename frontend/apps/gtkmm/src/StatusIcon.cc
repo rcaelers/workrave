@@ -43,7 +43,7 @@
 #include "StatusIcon.hh"
 
 #include "GUI.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "Menus.hh"
@@ -91,7 +91,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON

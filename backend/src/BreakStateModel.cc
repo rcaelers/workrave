@@ -36,18 +36,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-BreakStateModel::Ptr
-BreakStateModel::create(BreakId id,
-                        IApp *app,
-                        Timer::Ptr timer,
-                        IActivityMonitor::Ptr activity_monitor,
-                        CoreHooks::Ptr hooks)
-{
-  return Ptr(new BreakStateModel(id, app, timer, activity_monitor, hooks));
-}
-
-
-//! Construct a new BreakStateModel Controller.
 BreakStateModel::BreakStateModel(BreakId id,
                                  IApp *app,
                                  Timer::Ptr timer,

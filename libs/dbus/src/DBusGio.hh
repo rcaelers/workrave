@@ -24,7 +24,7 @@
 #include <map>
 #include <list>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #undef signals
 #include <glib.h>
@@ -41,11 +41,9 @@ namespace workrave
     class DBusGio : public IDBus, public IDBusPrivateGio
     {
     public:
-      typedef boost::shared_ptr<DBusGio> Ptr;
+      typedef std::shared_ptr<DBusGio> Ptr;
 
     public:
-      static Ptr create();
-
       DBusGio();
       virtual ~DBusGio();
 

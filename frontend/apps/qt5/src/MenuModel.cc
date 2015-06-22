@@ -25,18 +25,6 @@
 
 using namespace std;
 
-MenuModel::Ptr
-MenuModel::create()
-{
-  return Ptr(new MenuModel());
-}
-
-MenuModel::Ptr
-MenuModel::create(const std::string &id, const std::string &text, Activated activated, MenuModelType type)
-{
-  return Ptr(new MenuModel(id, text, activated, type));
-}
-
 MenuModel::MenuModel()
   : type(MenuModelType::MENU), checked(false)
 {

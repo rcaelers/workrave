@@ -18,8 +18,7 @@
 #ifndef BREAKSTATEMODEL_HH
 #define BREAKSTATEMODEL_HH
 
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
@@ -46,18 +45,12 @@ enum class BreakStage
 
 class BreakStateModel :
   public IActivityMonitorListener,
-  public boost::enable_shared_from_this<BreakStateModel>
+  public std::enable_shared_from_this<BreakStateModel>
 {
 public:
-  typedef boost::shared_ptr<BreakStateModel> Ptr;
+  typedef std::shared_ptr<BreakStateModel> Ptr;
 
 public:
-  static Ptr create(workrave::BreakId id,
-                    workrave::IApp *app,
-                    Timer::Ptr timer,
-                    IActivityMonitor::Ptr activity_monitor,
-                    CoreHooks::Ptr hooks);
-
   BreakStateModel(workrave::BreakId id,
                   workrave::IApp *app,
                   Timer::Ptr timer,

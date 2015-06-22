@@ -47,13 +47,6 @@ using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::input_monitor;
 
-Statistics::Ptr
-Statistics::create(IActivityMonitor::Ptr monitor)
-{
-  return Ptr(new Statistics(monitor));
-}
-
-//! Constructor
 Statistics::Statistics(IActivityMonitor::Ptr monitor) :
   monitor(monitor),
   current_day(NULL),

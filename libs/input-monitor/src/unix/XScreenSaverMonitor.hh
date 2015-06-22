@@ -59,7 +59,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  boost::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<boost::thread> monitor_thread;
 
   //
   XScreenSaverInfo *screen_saver_info;

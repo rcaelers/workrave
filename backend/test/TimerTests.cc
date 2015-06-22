@@ -22,7 +22,6 @@
 #define BOOST_TEST_MODULE workrave
 #include <boost/test/unit_test.hpp>
 
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -42,7 +41,7 @@ public:
   Fixture()
   {
     sim = SimulatedTime::create();
-    timer = Timer::create("test");
+    timer = std::make_shared<Timer>("test");
   }
 
   ~Fixture()

@@ -24,7 +24,6 @@
 #include "PreludeWindow.hh"
 
 #include <boost/format.hpp>
-#include <boost/make_shared.hpp>
 
 #include <QtGui>
 #include <QStyle>
@@ -45,12 +44,6 @@ using namespace workrave::utils;
 #ifdef PLATFORM_OS_OSX
 #import <Cocoa/Cocoa.h>
 #endif
-
-IPreludeWindow::Ptr
-PreludeWindow::create(int screen, workrave::BreakId break_id)
-{
-  return Ptr(new PreludeWindow(screen, break_id));
-}
 
 PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   : QWidget(0),
@@ -93,7 +86,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6, 6);
   frame->set_frame_visible(false);
-  connections.connect(frame->signal_flash(), boost::bind(&PreludeWindow::on_frame_flash, this, _1));
+  connections.connect(frame->signal_flash(), std::bind(&PreludeWindow::on_frame_flash, this, std::placeholders::_1));
 
   QVBoxLayout *frameLayout = new QVBoxLayout;
   frame->setLayout(frameLayout);
@@ -136,7 +129,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   setAttribute(Qt::WA_ShowWithoutActivating);
 
 #ifdef PLATFORM_OS_OSX
-  mouse_monitor = boost::make_shared<MouseMonitor>(boost::bind(&PreludeWindow::avoid_pointer, this, _1, _2));
+  mouse_monitor = std::make_shared<MouseMonitor>(std::bind(&PreludeWindow::avoid_pointer, this, std::placeholders::_1, std::placeholders::_2));
 #endif
 }
 

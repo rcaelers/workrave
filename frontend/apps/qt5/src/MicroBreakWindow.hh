@@ -32,8 +32,6 @@ class MicroBreakWindow : public BreakWindow
 public:
   MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
 
-  static IBreakWindow::Ptr create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
-
   void set_progress(int value, int max_value) override;
 
 protected:

@@ -46,13 +46,6 @@ const GDBusInterfaceVTable DBusGio::interface_vtable =
   { NULL, }
 };
 
-DBusGio::Ptr
-DBusGio::create()
-{
-  return Ptr(new DBusGio());
-}
-
-
 //! Construct a new D-BUS bridge
 DBusGio::DBusGio()
   : connection(NULL)

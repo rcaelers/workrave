@@ -25,11 +25,9 @@
 class ActivityMonitorStub : public IActivityMonitor
 {
 public:
-  typedef boost::shared_ptr<ActivityMonitorStub> Ptr;
+  typedef std::shared_ptr<ActivityMonitorStub> Ptr;
 
 public:
-  static Ptr create();
-
   ActivityMonitorStub();
   ~ActivityMonitorStub() override;
 

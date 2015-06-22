@@ -18,7 +18,7 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "config/IConfigurator.hh"
 #include "dbus/IDBus.hh"
@@ -36,17 +36,9 @@
 class Break : public workrave::IBreak
 {
 public:
-  typedef boost::shared_ptr<Break> Ptr;
+  typedef std::shared_ptr<Break> Ptr;
 
 public:
-  static Ptr create(workrave::BreakId id,
-                    workrave::IApp *app,
-                    Timer::Ptr timer,
-                    IActivityMonitor::Ptr activity_monitor,
-                    Statistics::Ptr statistics,
-                    workrave::dbus::IDBus::Ptr dbus,
-                    CoreHooks::Ptr hooks);
-
   Break(workrave::BreakId id,
         workrave::IApp *app,
         Timer::Ptr timer,

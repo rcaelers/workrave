@@ -22,7 +22,7 @@
 
 #include <list>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "config/Config.hh"
 #include "utils/ScopedConnections.hh"
@@ -46,9 +46,7 @@ class Application :
   public workrave::IApp
 {
 public:
-  typedef boost::shared_ptr<Application> Ptr;
-
-  static Ptr create(int argc, char **argv, IToolkit::Ptr toolkit);
+  typedef std::shared_ptr<Application> Ptr;
 
   Application(int argc, char **argv, IToolkit::Ptr toolkit);
   ~Application() override;
@@ -112,7 +110,7 @@ private:
   //void on_main_window_closed();
 
   void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
-  bool on_operation_mode_warning_timer();
+  void on_operation_mode_warning_timer();
 
 private:
   typedef std::vector<IBreakWindow::Ptr> BreakWindows;

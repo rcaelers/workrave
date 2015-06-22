@@ -33,7 +33,7 @@ namespace workrave
     class IDBusPrivateGio
     {
     public:
-      typedef boost::shared_ptr<IDBusPrivateGio> Ptr;
+      typedef std::shared_ptr<IDBusPrivateGio> Ptr;
 
       virtual ~IDBusPrivateGio() {}
 

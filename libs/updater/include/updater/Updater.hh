@@ -18,7 +18,7 @@
 #ifndef WORKRAVE_UPDATE_UPDATER_HH
 #define WORKRAVE_UPDATE_UPDATER_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace workrave
 {
@@ -27,15 +27,17 @@ namespace workrave
     class Updater
     {
     public:
-      Updater();
-      virtual ~Updater();
+      typedef std::shared_ptr<Updater> Ptr;
 
-      typedef boost::shared_ptr<Updater> Ptr;
-
-      static Ptr create(std::string appcast_url);
-
+      virtual ~Updater() {}
       virtual void check_for_updates() = 0;
 
+    };
+
+    class UpdaterFactory
+    {
+    public:
+      static Updater::Ptr create(std::string appcast_url);
     };
   }
 }

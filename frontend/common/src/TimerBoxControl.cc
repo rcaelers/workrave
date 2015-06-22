@@ -35,7 +35,7 @@
 #include "ITimeBar.hh"
 #include "Text.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "CoreConfig.hh"
 #include "GUIConfig.hh"
 #include "IBreak.hh"
@@ -60,7 +60,7 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
 void
 TimerBoxControl::update()
 {
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (reconfigure)
@@ -124,11 +124,11 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
-  connections.add(GUIConfig::key_timerbox(name).connect(boost::bind(&TimerBoxControl::load_configuration, this)));
+  connections.add(GUIConfig::key_timerbox(name).connect(std::bind(&TimerBoxControl::load_configuration, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxControl::load_configuration, this)));
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(std::bind(&TimerBoxControl::load_configuration, this)));
 
       break_position[i] = i;
       break_flags[i] = 0;
@@ -156,7 +156,7 @@ TimerBoxControl::update_widgets()
 {
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      ICore::Ptr core = CoreFactory::get_core();
+      ICore::Ptr core = Backend::get_core();
       IBreak::Ptr b = core->get_break(count);
 
       std::string text;
@@ -280,7 +280,7 @@ TimerBoxControl::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore::Ptr core = CoreFactory::get_core();
+      ICore::Ptr core = Backend::get_core();
       IBreak::Ptr b = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
@@ -302,7 +302,7 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      ICore::Ptr core = CoreFactory::get_core();
+      ICore::Ptr core = Backend::get_core();
       IBreak::Ptr b = core->get_break(i);
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();

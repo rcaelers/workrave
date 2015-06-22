@@ -26,19 +26,13 @@
 using namespace std;
 using namespace workrave;
 
-BreakStatistics::Ptr
-BreakStatistics::create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics)
-{
-  return Ptr(new BreakStatistics(break_id, break_state_model, timer, statistics));
-}
-
 BreakStatistics::BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics) :
   break_id(break_id),
   break_state_model(break_state_model),
   timer(timer),
   statistics(statistics)
 {
-  connections.connect(break_state_model->signal_break_event(), boost::bind(&BreakStatistics::on_break_event, this, _1));
+  connections.connect(break_state_model->signal_break_event(), std::bind(&BreakStatistics::on_break_event, this, std::placeholders::_1));
 }
 
 void

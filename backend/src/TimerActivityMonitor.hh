@@ -20,7 +20,7 @@
 #ifndef TIMERACTIVITYMONITOR_HH
 #define TIMERACTIVITYMONITOR_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
@@ -28,11 +28,9 @@
 class TimerActivityMonitor
 {
 public:
-  typedef boost::shared_ptr<TimerActivityMonitor> Ptr;
+  typedef std::shared_ptr<TimerActivityMonitor> Ptr;
 
 public:
-  static Ptr create(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
-
   TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
   virtual ~TimerActivityMonitor();
 

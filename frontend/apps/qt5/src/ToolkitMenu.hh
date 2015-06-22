@@ -24,13 +24,12 @@
 
 #include "utils/ScopedConnections.hh"
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 #include <QMenu>
 
-typedef boost::function<bool (MenuModel::Ptr)> MenuModelFilter;
+typedef std::function<bool (MenuModel::Ptr)> MenuModelFilter;
 
 namespace detail
 {
@@ -39,11 +38,11 @@ namespace detail
     Q_OBJECT
 
   public:
-    typedef boost::shared_ptr<MenuEntry> Ptr;
+    typedef std::shared_ptr<MenuEntry> Ptr;
     typedef std::list<Ptr> MenuEntries;
 
-    static Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
-
+    Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
+    
     MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     ~MenuEntry() override {};
     virtual QAction* get_action() const = 0;
@@ -59,7 +58,7 @@ namespace detail
     Q_OBJECT
 
   public:
-    typedef boost::shared_ptr<SubMenuEntry> Ptr;
+    typedef std::shared_ptr<SubMenuEntry> Ptr;
 
     SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     ~SubMenuEntry() override;
@@ -85,7 +84,7 @@ namespace detail
     Q_OBJECT
 
   public:
-    typedef boost::shared_ptr<ActionMenuEntry> Ptr;
+    typedef std::shared_ptr<ActionMenuEntry> Ptr;
 
     ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
     ~ActionMenuEntry() override;
@@ -109,9 +108,7 @@ class ToolkitMenu : public QObject
   Q_OBJECT
 
 public:
-  typedef boost::shared_ptr<ToolkitMenu> Ptr;
-
-  static Ptr create(MenuModel::Ptr top, MenuModelFilter filter = 0);
+  typedef std::shared_ptr<ToolkitMenu> Ptr;
 
   ToolkitMenu(MenuModel::Ptr top, MenuModelFilter filter = 0);
   ~ToolkitMenu() override;

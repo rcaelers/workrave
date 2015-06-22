@@ -31,12 +31,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-BreakConfig::Ptr
-BreakConfig::create(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer)
-{
-  return Ptr(new BreakConfig(break_id, break_state_model, timer));
-}
-
 BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer) :
   break_id(break_id),
   break_state_model(break_state_model),
@@ -47,8 +41,8 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
   load_timer_config();
   load_break_config();
 
-  connections.add(CoreConfig::key_timer(break_id).connect(boost::bind(&BreakConfig::load_timer_config, this)));
-  connections.add(CoreConfig::key_break(break_id).connect(boost::bind(&BreakConfig::load_break_config, this)));
+  connections.add(CoreConfig::key_timer(break_id).connect(std::bind(&BreakConfig::load_timer_config, this)));
+  connections.add(CoreConfig::key_break(break_id).connect(std::bind(&BreakConfig::load_break_config, this)));
 }
 
 void

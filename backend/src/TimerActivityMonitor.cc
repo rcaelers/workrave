@@ -25,12 +25,6 @@
 
 #include "debug.hh"
 
-TimerActivityMonitor::Ptr
-TimerActivityMonitor::create(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
-{
-  return Ptr(new TimerActivityMonitor(monitor, timer));
-}
-
 TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer) :
   monitor(monitor),
   timer(timer),

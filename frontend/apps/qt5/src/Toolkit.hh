@@ -20,7 +20,7 @@
 #ifndef TOOLKIT_HH
 #define TOOLKIT_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 #include "utils/ScopedConnections.hh"
@@ -50,9 +50,7 @@ class Toolkit : public QApplication, public IToolkit
 
 public:
 
-  typedef boost::shared_ptr<Toolkit> Ptr;
-
-  static IToolkit::Ptr create(int argc, char **argv);
+  typedef std::shared_ptr<Toolkit> Ptr;
 
   Toolkit(int argc, char **argv);
   ~Toolkit() override;
@@ -70,7 +68,7 @@ public:
   int get_screen_count() const override;
   void show_window(WindowType type) override;
   void hide_window(WindowType type) override;
-  void create_oneshot_timer(int ms, boost::function<void ()> func) override;
+  void create_oneshot_timer(int ms, std::function<void ()> func) override;
   void show_balloon(std::string id, const std::string& title, const std::string& balloon) override;
 
 public slots:
@@ -80,17 +78,17 @@ public slots:
   void on_about_closed();
 
 private:
-  boost::shared_ptr<QTimer> heartbeat_timer;
+  std::shared_ptr<QTimer> heartbeat_timer;
 
-  boost::shared_ptr<MainWindow> main_window;
-  boost::shared_ptr<PreferencesDialog> preferences_dialog;
-  boost::shared_ptr<ExercisesDialog> exercises_dialog;
-  boost::shared_ptr<AboutDialog> about_dialog;
+  std::shared_ptr<MainWindow> main_window;
+  std::shared_ptr<PreferencesDialog> preferences_dialog;
+  std::shared_ptr<ExercisesDialog> exercises_dialog;
+  std::shared_ptr<AboutDialog> about_dialog;
 
-  boost::shared_ptr<StatusIcon> status_icon;
+  std::shared_ptr<StatusIcon> status_icon;
 
 #ifdef PLATFORM_OS_OSX
-  boost::shared_ptr<Dock> dock;
+  std::shared_ptr<Dock> dock;
   ToolkitMenu::Ptr dock_menu;
 #endif
   MenuModel::Ptr menu_model;
@@ -107,7 +105,7 @@ class OneshotTimer : public QObject
   Q_OBJECT
 
 public:
-  OneshotTimer(int ms, boost::function<void ()> func) : func(func)
+  OneshotTimer(int ms, std::function<void ()> func) : func(func)
   {
     QTimer::singleShot(ms, this, SLOT(exec()));
   };
@@ -120,7 +118,7 @@ public slots:
   };
 
 private:
-    boost::function<void ()> func;
+    std::function<void ()> func;
 };
 
 #endif // TOOLKIT_HH

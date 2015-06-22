@@ -18,7 +18,7 @@
 #ifndef MENUS_HH
 #define MENUS_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "utils/ScopedConnections.hh"
 
@@ -32,9 +32,7 @@
 class Menus
 {
 public:
-  typedef boost::shared_ptr<Menus> Ptr;
-
-  static Menus::Ptr create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
+  typedef std::shared_ptr<Menus> Ptr;
 
   Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
   virtual ~Menus();

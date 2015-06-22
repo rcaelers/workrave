@@ -19,14 +19,13 @@
 #ifndef IAPPLICATION_HH
 #define IAPPLICATION_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-class IApplication : public boost::enable_shared_from_this<IApplication>
+class IApplication : public std::enable_shared_from_this<IApplication>
 {
 public:
-  typedef boost::shared_ptr<IApplication> Ptr;
+  typedef std::shared_ptr<IApplication> Ptr;
 
   virtual ~IApplication() {}
 

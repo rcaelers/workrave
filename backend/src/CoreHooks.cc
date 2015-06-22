@@ -25,40 +25,30 @@
 
 #include "CoreHooks.hh"
 
-CoreHooks::Ptr
-CoreHooks::create()
-{
-  return Ptr(new CoreHooks());
-}
-
-
-//! Constructs a new CoreHooks.
 CoreHooks::CoreHooks()
 {
   TRACE_ENTER("CoreHooks::CoreHooks");
   TRACE_EXIT();
 }
 
-
-//!
 CoreHooks::~CoreHooks()
 {
 }
 
 #ifdef HAVE_TESTS
-boost::function<workrave::config::IConfigurator::Ptr()> &
+std::function<workrave::config::IConfigurator::Ptr()> &
 CoreHooks::hook_create_configurator()
 {
   return create_configurator_hook;
 }
 
-boost::function<IActivityMonitor::Ptr()> &
+std::function<IActivityMonitor::Ptr()> &
 CoreHooks::hook_create_monitor()
 {
   return create_monitor_hook;
 }
 
-boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &
+std::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &
 CoreHooks::hook_load_timer_state()
 {
   return load_timer_state_hook;

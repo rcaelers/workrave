@@ -25,7 +25,7 @@
 #include "config.h"
 //#endif
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 #include <QtGui>

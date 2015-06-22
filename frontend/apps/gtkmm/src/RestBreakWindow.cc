@@ -52,7 +52,7 @@
 
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
@@ -162,7 +162,7 @@ RestBreakWindow::draw_time_bar()
 
   timebar->set_text(s);
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != NULL)
     {
@@ -310,7 +310,7 @@ RestBreakWindow::install_info_panel()
 void
 RestBreakWindow::set_ignore_activity(bool i)
 {
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
 
 #ifdef PLATFORM_OS_WIN32
   if( W32ForceFocus::GetForceFocusValue() )

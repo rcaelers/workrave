@@ -47,7 +47,7 @@
 #include "nls.h"
 
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "StatisticsDialog.hh"
 #include "Text.hh"
@@ -60,7 +60,7 @@ StatisticsDialog::StatisticsDialog()
     daily_usage_label(NULL),
     date_label(NULL)
 {
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   statistics = core->get_statistics();
 
   for (int i = 0; i < 5; i++)
@@ -595,7 +595,7 @@ StatisticsDialog::on_history_delete_all()
     override before any return.
     */
     const char funcname[] = "StatisticsDialog::on_history_delete_all";
-    CoreFactory::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
+    Backend::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
 
     // Confirm the user's intention
     string msg = HigUtil::create_alert_text(
@@ -637,7 +637,7 @@ StatisticsDialog::on_history_delete_all()
     }
 
     // Remove this function's operation mode override
-    CoreFactory::get_core()->remove_operation_mode_override( funcname );
+    Backend::get_core()->remove_operation_mode_override( funcname );
 }
 
 

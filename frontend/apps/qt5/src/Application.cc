@@ -38,7 +38,7 @@
 #include "utils/Locale.hh"
 
 // Frontend common
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "GUIConfig.hh"
 
@@ -51,12 +51,6 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
-
-Application::Ptr
-Application::create(int argc, char **argv, IToolkit::Ptr toolkit)
-{
-  return Ptr(new Application(argc, argv, toolkit));
-}
 
 //! GUI Constructor.
 /*!
@@ -120,7 +114,7 @@ Application::main()
 
   init_core();
 
-  menus = Menus::create(shared_from_this(), toolkit, core);
+  menus = std::make_shared<Menus>(shared_from_this(), toolkit, core);
 
   init_sound_player();
 
@@ -135,7 +129,7 @@ Application::main()
   init_startup_warnings();
   init_updater();
 
-  connections.connect(toolkit->signal_timer(), boost::bind(&Application::on_timer, this));
+  connections.connect(toolkit->signal_timer(), std::bind(&Application::on_timer, this));
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
@@ -155,7 +149,7 @@ Application::terminate()
 {
   TRACE_ENTER("Application::terminate");
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 
   toolkit->terminate();
 
@@ -206,7 +200,7 @@ Application::init_session()
 {
  TRACE_ENTER("Application::init_session");
 
- session = Session::create();
+ session = std::make_shared<Session>();
  session->init();
 
  TRACE_EXIT();
@@ -265,7 +259,7 @@ Application::init_session()
 //  bind_textdomain_codeset("iso_3166", "UTF-8");
 //  bind_textdomain_codeset("iso_639", "UTF-8");
 //
-//  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
+//  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
 //#endif
 //
 //  bindtextdomain(GETTEXT_PACKAGE, locale_dir);
@@ -280,13 +274,13 @@ Application::init_session()
 void
 Application::init_core()
 {
-  core = CoreFactory::get_core();
+  core = Backend::get_core();
   core->init(this, toolkit->get_display_name());
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      connections.connect(b->signal_break_event(), boost::bind(&Application::on_break_event, this, BreakId(i), _1));
+      connections.connect(b->signal_break_event(), std::bind(&Application::on_break_event, this, BreakId(i), std::placeholders::_1));
     }
 
   GUIConfig::init();
@@ -296,7 +290,7 @@ Application::init_core()
 void
 Application::init_bus()
 {
- workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+ workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
  if (dbus->is_available())
    {
@@ -336,18 +330,18 @@ Application::init_startup_warnings()
  OperationMode mode = core->get_operation_mode();
  if (mode != OperationMode::Normal)
    {
-     toolkit->create_oneshot_timer(5000, boost::bind(&Application::on_operation_mode_warning_timer, this));
+     toolkit->create_oneshot_timer(5000, std::bind(&Application::on_operation_mode_warning_timer, this));
    }
 }
 
 void
 Application::init_updater()
 {
-  updater = workrave::updater::Updater::create("http://snapshots.workrave.org/appcast/");
-  if (updater)
-    {
-      updater->check_for_updates();
-    }
+  // updater = workrave::updater::std::make_shared<Updater>("http://snapshots.workrave.org/appcast/");
+  // if (updater)
+  //   {
+  //     updater->check_for_updates();
+  //   }
 }
 
 //! Initializes the sound player.
@@ -360,7 +354,7 @@ Application::init_sound_player()
       // Tell pulseaudio were are playing sound events
       Platform::setenv("PULSE_PROP_media.role", "event", 1);
 
-      sound_theme = SoundTheme::create();
+      sound_theme = std::make_shared<SoundTheme>();
       sound_theme->init();
     }
   catch (workrave::utils::Exception)
@@ -464,7 +458,6 @@ Application::create_prelude_window(BreakId break_id)
     }
 }
 
-
 void
 Application::create_break_window(BreakId break_id, BreakHint break_hint)
 {
@@ -540,7 +533,6 @@ Application::hide_break_window()
   TRACE_EXIT();
 }
 
-
 void
 Application::show_break_window()
 {
@@ -564,7 +556,6 @@ Application::show_break_window()
   TRACE_EXIT();
 }
 
-
 void
 Application::refresh_break_window()
 {
@@ -578,7 +569,6 @@ Application::refresh_break_window()
       window->refresh();
     }
 }
-
 
 void
 Application::set_break_progress(int value, int max_value)
@@ -594,7 +584,6 @@ Application::set_break_progress(int value, int max_value)
     }
 }
 
-
 void
 Application::set_prelude_stage(PreludeStage stage)
 {
@@ -603,7 +592,6 @@ Application::set_prelude_stage(PreludeStage stage)
       window->set_stage(stage);
     }
 }
-
 
 void
 Application::set_prelude_progress_text(PreludeProgressText text)
@@ -614,8 +602,7 @@ Application::set_prelude_progress_text(PreludeProgressText text)
     }
 }
 
-
-bool
+void
 Application::on_operation_mode_warning_timer()
 {
   OperationMode mode = core->get_operation_mode();
@@ -631,5 +618,4 @@ Application::on_operation_mode_warning_timer()
                             _("Workrave is in quiet mode. "
                               "No break windows will appear."));
     }
-  return false;
 }

@@ -27,18 +27,6 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::dbus;
 
-Break::Ptr
-Break::create(BreakId break_id,
-              IApp *app,
-              Timer::Ptr timer,
-              IActivityMonitor::Ptr activity_monitor,
-              Statistics::Ptr statistics,
-              IDBus::Ptr dbus,
-              CoreHooks::Ptr hooks)
-{
-  return Ptr(new Break(break_id, app, timer, activity_monitor, statistics, dbus, hooks));
-}
-
 Break::Break(BreakId break_id,
              IApp *app,
              Timer::Ptr timer,
@@ -49,10 +37,10 @@ Break::Break(BreakId break_id,
   : break_id(break_id),
     timer(timer)
 {
-  break_state_model = BreakStateModel::create(break_id, app, timer, activity_monitor, hooks);
-  break_statistics = BreakStatistics::create(break_id, break_state_model, timer, statistics);
-  break_configuration = BreakConfig::create(break_id, break_state_model, timer);
-  break_dbus = BreakDBus::create(break_id, break_state_model, dbus);
+  break_state_model = std::make_shared<BreakStateModel>(break_id, app, timer, activity_monitor, hooks);
+  break_statistics = std::make_shared<BreakStatistics>(break_id, break_state_model, timer, statistics);
+  break_configuration = std::make_shared<BreakConfig>(break_id, break_state_model, timer);
+  break_dbus = std::make_shared<BreakDBus>(break_id, break_state_model, dbus);
 }
 
 boost::signals2::signal<void(BreakEvent)> &

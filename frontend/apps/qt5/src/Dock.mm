@@ -26,13 +26,11 @@
 #import <AppKit/NSImage.h>
 #import <Foundation/NSString.h>
 
-#include <boost/make_shared.hpp>
-
 #include "Dock.hh"
 
 #include "utils/AssetPath.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "debug.hh"
 
@@ -184,7 +182,7 @@ public:
 
 Dock::Dock()
 {
-  priv = boost::make_shared<DockPrivate>();
+  priv = std::make_shared<DockPrivate>();
 }
 
 Dock::~Dock()
@@ -196,8 +194,8 @@ Dock::init()
 {
   TRACE_ENTER("Dock::init");
 
-  ICore::Ptr core = CoreFactory::get_core();
-  connections.connect(core->signal_operation_mode_changed(), boost::bind(&Dock::on_operation_mode_changed, this, _1));
+  ICore::Ptr core = Backend::get_core();
+  connections.connect(core->signal_operation_mode_changed(), std::bind(&Dock::on_operation_mode_changed, this, std::placeholders::_1));
 
   std::string filename = AssetPath::complete_directory("workrave.png", AssetPath::SEARCH_PATH_IMAGES);
   NSImage *icon = [[NSImage alloc] initWithContentsOfFile: [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]]];

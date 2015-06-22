@@ -20,7 +20,7 @@
 #ifndef SESSION_HH
 #define SESSION_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #if defined(HAVE_DBUS_GIO)
 #include <gio/gio.h>
@@ -29,9 +29,7 @@
 class Session
 {
 public:
-  typedef boost::shared_ptr<Session> Ptr;
-
-  static Session::Ptr create();
+  typedef std::shared_ptr<Session> Ptr;
 
   Session();
   void init();

@@ -57,7 +57,7 @@
 #include "GUIConfig.hh"
 #include "DataConnector.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 
 using namespace workrave::utils;
@@ -147,7 +147,7 @@ PreferencesDialog::~PreferencesDialog()
   GUIConfig::locale().set(code);
 #endif
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->remove_operation_mode_override( "preferences" );
 
   delete connector;
@@ -555,7 +555,7 @@ PreferencesDialog::create_monitoring_page()
   panel->pack_start(*monitor_type_help, false, false, 0);
 
   string monitor_type;
-  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
+  Backend::get_configurator()->get_value_with_default("advanced/monitor",
                                                           monitor_type,
                                                           "default");
 
@@ -662,7 +662,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
-      ICore::Ptr core = CoreFactory::get_core();
+      ICore::Ptr core = Backend::get_core();
 
       OperationMode mode = core->get_operation_mode();
       if (mode == OperationMode::Normal)
@@ -679,7 +679,7 @@ bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
 {
   TRACE_ENTER("PreferencesDialog::focus_out");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
 
   core->remove_operation_mode_override( "preferences" );
   TRACE_EXIT();
@@ -766,7 +766,7 @@ void
 PreferencesDialog::on_monitor_type_toggled()
 {
   bool on = monitor_type_cb->get_active();
-  CoreFactory::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
+  Backend::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
 }
 #endif
 

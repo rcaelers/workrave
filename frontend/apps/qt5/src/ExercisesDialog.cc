@@ -43,7 +43,7 @@ ExercisesDialog::ExercisesDialog()
 
   panel =  new ExercisesPanel(true);
   panel->set_exercise_count(0);
-  panel->signal_stop().connect(boost::bind(&ExercisesDialog::on_stop, this));
+  panel->signal_stop().connect(std::bind(&ExercisesDialog::on_stop, this));
 
   layout->addWidget(panel);
 

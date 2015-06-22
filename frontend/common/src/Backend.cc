@@ -1,4 +1,4 @@
-// CoreFactory.cc
+// Backend.cc
 //
 // Copyright (C) 2001, 2002, 2003, 2006, 2007, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -23,7 +23,7 @@
 
 #include <assert.h>
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "config/IConfigurator.hh"
 #include "ICore.hh"
@@ -32,15 +32,15 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::dbus;
 
-ICore::Ptr CoreFactory::core;
+ICore::Ptr Backend::core;
 
 //! Returns the interface to the core.
 ICore::Ptr
-CoreFactory::get_core()
+Backend::get_core()
 {
   if (!core)
     {
-      core = ICore::create();
+      core = CoreFactory::create();
     }
 
   return core;
@@ -49,7 +49,7 @@ CoreFactory::get_core()
 
 //! Returns the interface to the configurator
 IConfigurator::Ptr
-CoreFactory::get_configurator()
+Backend::get_configurator()
 {
   return get_core()->get_configurator();
 }
@@ -57,7 +57,7 @@ CoreFactory::get_configurator()
 
 //! Returns the interface to the D-BUS facility
 IDBus::Ptr
-CoreFactory::get_dbus()
+Backend::get_dbus()
 {
   return get_core()->get_dbus();
 }

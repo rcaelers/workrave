@@ -27,24 +27,22 @@ class CoreHooks : public ICoreHooks
 #endif
 {
 public:
-  typedef boost::shared_ptr<CoreHooks> Ptr;
-
-  static Ptr create();
+  typedef std::shared_ptr<CoreHooks> Ptr;
 
   CoreHooks();
   ~CoreHooks() override;
 
 #ifdef HAVE_TESTS
-  boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;
-  boost::function<IActivityMonitor::Ptr()> &hook_create_monitor() override;
-  boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() override;
+  std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;
+  std::function<IActivityMonitor::Ptr()> &hook_create_monitor() override;
+  std::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() override;
 #endif
 
 private:
 #ifdef HAVE_TESTS
-  boost::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
-  boost::function<IActivityMonitor::Ptr()> create_monitor_hook;
-  boost::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> load_timer_state_hook;
+  std::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
+  std::function<IActivityMonitor::Ptr()> create_monitor_hook;
+  std::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> load_timer_state_hook;
 #endif
 };
 

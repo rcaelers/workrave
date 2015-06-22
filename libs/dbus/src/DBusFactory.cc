@@ -17,13 +17,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+#include "dbus/DBusFactory.hh"
 
 #if defined(HAVE_DBUS_DUMMY)
 #include "DBusDummy.hh"
@@ -38,17 +38,17 @@
 #endif
 
 workrave::dbus::IDBus::Ptr
-workrave::dbus::IDBus::create()
+workrave::dbus::DBusFactory::create()
 {
 #if defined(HAVE_DBUS_DUMMY)
-  return workrave::dbus::DBusDummy::create();
+  return std::make_shared<workrave::dbus::DBusDummy>();
 #elif defined(HAVE_DBUS_QT5)
-  return workrave::dbus::DBusQt5::create();
+  return std::make_shared<workrave::dbus::DBusQt5>();
 #elif defined(HAVE_DBUS_GIO)
-  return workrave::dbus::DBusGio::create();
+  return std::make_shared<workrave::dbus::DBusGio>();
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-  return workrave::dbus::DBusFreeDesktop::create();
+  return std::make_shared<workrave::dbus::DBusFreeDesktop>();
 #else
-  return workrave::dbus::DBusDummy::create();
+  return std::make_shared<workrave::dbus::DBusDummy>();
 #endif
 }

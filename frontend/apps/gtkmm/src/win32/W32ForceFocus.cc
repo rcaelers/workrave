@@ -37,7 +37,7 @@
 #include <cctype>
 #include <algorithm>
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 #include "W32Compat.hh"
 #include "W32CriticalSection.hh"
@@ -109,7 +109,7 @@ DWORD W32ForceFocus::GetFunctions()
 
     string str;
 
-    if( CoreFactory::get_configurator()->get_value( "advanced/force_focus_functions", str ) )
+    if( Backend::get_configurator()->get_value( "advanced/force_focus_functions", str ) )
     {
         transform( str.begin(), str.end(), str.begin(), ::toupper );
 
@@ -161,7 +161,7 @@ bool W32ForceFocus::GetForceFocusValue()
     if( func_initialized )
         return force_focus;
 
-    CoreFactory::get_configurator()->get_value_with_default(
+    Backend::get_configurator()->get_value_with_default(
         "advanced/force_focus",
         force_focus,
         false

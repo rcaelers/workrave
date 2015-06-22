@@ -33,15 +33,6 @@ using namespace workrave;
 using namespace workrave::dbus;
 using namespace std;
 
-BreakDBus::Ptr
-BreakDBus::create(BreakId break_id,
-                  BreakStateModel::Ptr break_state_model,
-                  IDBus::Ptr dbus)
-{
-  return Ptr(new BreakDBus(break_id, break_state_model, dbus));
-}
-
-
 BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, IDBus::Ptr dbus)
   : break_id(break_id),
     break_state_model(break_state_model),
@@ -49,8 +40,8 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 {
   string break_name = CoreConfig::get_break_name(break_id);
 
-  connections.connect(break_state_model->signal_break_stage_changed(), boost::bind(&BreakDBus::on_break_stage_changed, this, _1));
-  connections.connect(break_state_model->signal_break_event(), boost::bind(&BreakDBus::on_break_event, this, _1));
+  connections.connect(break_state_model->signal_break_stage_changed(), std::bind(&BreakDBus::on_break_stage_changed, this, std::placeholders::_1));
+  connections.connect(break_state_model->signal_break_event(), std::bind(&BreakDBus::on_break_event, this, std::placeholders::_1));
 
   try
     {

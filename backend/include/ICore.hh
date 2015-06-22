@@ -21,7 +21,8 @@
 #define WORKRAVE_BACKEND_ICORE_HH
 
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
+
 #include <boost/signals2.hpp>
 
 #include "CoreTypes.hh"
@@ -42,11 +43,9 @@ namespace workrave
   class ICore
   {
   public:
-    typedef boost::shared_ptr<ICore> Ptr;
+    typedef std::shared_ptr<ICore> Ptr;
 
     virtual ~ICore() {}
-
-    static ICore::Ptr create();
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
     virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
@@ -110,6 +109,13 @@ namespace workrave
 
     //! Return DBUs remoting interface.
     virtual dbus::IDBus::Ptr get_dbus() const = 0;
+  };
+
+
+  class CoreFactory
+  {
+  public:
+    static ICore::Ptr create();
   };
 };
 

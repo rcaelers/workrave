@@ -19,7 +19,6 @@
 #include "config.h"
 #endif
 
-#include <boost/make_shared.hpp>
 
 #include "ToolkitMenu.hh"
 #include "MenuModel.hh"
@@ -27,15 +26,9 @@
 using namespace std;
 
 
-ToolkitMenu::Ptr
-ToolkitMenu::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
-{
-  return Ptr(new ToolkitMenu(menu_model, filter));
-}
-
 ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
-  menu = boost::make_shared<detail::SubMenuEntry>(menu_model, filter);
+  menu = std::make_shared<detail::SubMenuEntry>(menu_model, filter);
 }
 
 ToolkitMenu::~ToolkitMenu()
@@ -85,9 +78,9 @@ SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
       add_menu(item, 0);
     }
 
-  connections.connect(menu_model->signal_added(), boost::bind(&SubMenuEntry::on_menu_added, this, _1, _2));
-  connections.connect(menu_model->signal_removed(), boost::bind(&SubMenuEntry::on_menu_removed, this, _1));
-  connections.connect(menu_model->signal_changed(), boost::bind(&SubMenuEntry::on_menu_changed, this));
+  connections.connect(menu_model->signal_added(), std::bind(&SubMenuEntry::on_menu_added, this, std::placeholders::_1, std::placeholders::_2));
+  connections.connect(menu_model->signal_removed(), std::bind(&SubMenuEntry::on_menu_removed, this, std::placeholders::_1));
+  connections.connect(menu_model->signal_changed(), std::bind(&SubMenuEntry::on_menu_changed, this));
 }
 
 SubMenuEntry::~SubMenuEntry()
@@ -157,7 +150,7 @@ SubMenuEntry::get_menu() const
 ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
   : MenuEntry(menu_model, filter)
 {
-  connections.connect(menu_model->signal_changed(), boost::bind(&ActionMenuEntry::on_menu_changed, this));
+  connections.connect(menu_model->signal_changed(), std::bind(&ActionMenuEntry::on_menu_changed, this));
 
   action = new QAction(menu_model->get_text().c_str(), this);
   action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);

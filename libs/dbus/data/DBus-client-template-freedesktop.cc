@@ -462,7 +462,7 @@ $interface.type2csymbol(method.return_type()) ${interface.qname}_Impl::${method.
   #end if
   #end for
 
-      IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
+      IDBusPrivateQt5::Ptr p = std::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
 
       if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {
@@ -589,7 +589,7 @@ void ${interface.qname}_Impl::${method.qname}_async(#slurp
   #end if
   #end for
 
-      IDBusPrivateQt5::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
+      IDBusPrivateQt5::Ptr p = std::dynamic_pointer_cast<IDBusPrivateFreeDesktop>(dbus);
 
       if (!dbus_connection_send_with_reply(p->conn(), message, &pending, -1))
         {

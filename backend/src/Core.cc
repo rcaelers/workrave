@@ -36,7 +36,7 @@
 #include "CoreConfig.hh"
 #include "Statistics.hh"
 
-#include "dbus/IDBus.hh"
+#include "dbus/DBusFactory.hh"
 #ifdef HAVE_DBUS
 #include "DBusWorkrave.hh"
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
@@ -50,25 +50,21 @@ using namespace workrave::dbus;
 using namespace workrave::utils;
 
 ICore::Ptr
-ICore::create()
+CoreFactory::create()
 {
-  return Ptr(new Core());
+  return std::make_shared<Core>();
 }
 
-
-//! Constructs a new Core.
 Core::Core() :
   application(NULL),
   powersave(false)
 {
   TRACE_ENTER("Core::Core");
-  hooks = CoreHooks::create();
+  hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
   TRACE_EXIT();
 }
 
-
-//! Destructor.
 Core::~Core()
 {
   TRACE_ENTER("Core::~Core");
@@ -81,20 +77,18 @@ Core::~Core()
   TRACE_EXIT();
 }
 
-
-//! Initializes the core.
 void
 Core::init(IApp *app, const string &display_name)
 {
   application = app;
 
-  dbus = IDBus::create();
+  dbus = DBusFactory::create();
   dbus->init();
 
   init_configurator();
 
 #ifdef HAVE_TESTS
-  if (!hooks->hook_create_monitor().empty())
+  if (hooks->hook_create_monitor())
     {
       monitor = hooks->hook_create_monitor()();
     }
@@ -102,33 +96,31 @@ Core::init(IApp *app, const string &display_name)
 #endif
     {
       // LCOV_EXCL_START
-      monitor = LocalActivityMonitor::create(configurator, display_name);
+      monitor = std::make_shared<LocalActivityMonitor>(configurator, display_name);
       // LCOV_EXCL_STOP
    }
 
   monitor->init();
 
-  statistics = Statistics::create(monitor);
+  statistics = std::make_shared<Statistics>(monitor);
   statistics->init();
 
-  core_modes = CoreModes::create(monitor);
-  core_dbus = CoreDBus::create(core_modes, dbus);
+  core_modes = std::make_shared<CoreModes>(monitor);
+  core_dbus = std::make_shared<CoreDBus>(core_modes, dbus);
 
-  breaks_control = BreaksControl::create(application, monitor, core_modes, statistics, dbus, hooks);
+  breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
 
   init_bus();
 }
 
-
-//! Initializes the configurator.
 void
 Core::init_configurator()
 {
   string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
 
 #ifdef HAVE_TESTS
-  if (!hooks->hook_create_configurator().empty())
+  if (hooks->hook_create_configurator())
     {
       configurator = hooks->hook_create_configurator()();
     }

@@ -18,7 +18,7 @@
 #ifndef BREAKCONFIG_HH
 #define BREAKCONFIG_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "config/Config.hh"
 #include "utils/ScopedConnections.hh"
@@ -30,11 +30,9 @@ class DayTimePred;
 class BreakConfig
 {
 public:
-  typedef boost::shared_ptr<BreakConfig> Ptr;
+  typedef std::shared_ptr<BreakConfig> Ptr;
 
 public:
-  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
-
   BreakConfig(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
   bool is_microbreak_used_for_activity() const;

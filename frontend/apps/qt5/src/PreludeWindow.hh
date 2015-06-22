@@ -43,8 +43,6 @@ public:
   PreludeWindow(int screen, workrave::BreakId break_id);
   ~PreludeWindow() override;
 
-  static IPreludeWindow::Ptr create(int screen, workrave::BreakId break_id);
-
   void start() override;
   void stop() override;
   void refresh() override;

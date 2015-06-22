@@ -18,9 +18,8 @@
 #ifndef ITOOLKIT_HH
 #define ITOOLKIT_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
-#include <boost/function.hpp>
 
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
@@ -38,7 +37,7 @@ public:
 
   virtual ~IToolkit() {}
 
-  typedef boost::shared_ptr<IToolkit> Ptr;
+  typedef std::shared_ptr<IToolkit> Ptr;
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
 
@@ -76,7 +75,7 @@ public:
   virtual int get_screen_count() const = 0;
 
   //!
-  virtual void create_oneshot_timer(int ms, boost::function<void ()> func) = 0;
+  virtual void create_oneshot_timer(int ms, std::function<void ()> func) = 0;
 
   virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon) = 0;
 

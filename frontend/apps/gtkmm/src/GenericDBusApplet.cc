@@ -35,7 +35,7 @@
 #include "GUI.hh"
 #include "Menus.hh"
 #include "MenuEnums.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"
@@ -65,7 +65,7 @@ GenericDBusApplet::GenericDBusApplet() :
       data[i].bar_secondary_max = 0;
     }
 
-  connections.add(GUIConfig::trayicon_enabled().connect(boost::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
+  connections.add(GUIConfig::trayicon_enabled().connect(std::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
 }
 
 
@@ -119,7 +119,7 @@ GenericDBusApplet::init_applet()
 {
   try
     {
-      dbus = CoreFactory::get_dbus();
+      dbus = Backend::get_dbus();
       if (dbus->is_available())
         {
           dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,

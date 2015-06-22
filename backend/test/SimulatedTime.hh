@@ -19,20 +19,17 @@
 #define SIMULATEDTIME_HH
 
 #include <chrono>
-//#include <time.h>
-
-#include <boost/enable_shared_from_this.hpp>
 
 #include <boost/date_time/local_time/local_time.hpp>
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
 
-class SimulatedTime : public workrave::utils::ITimeSource, public boost::enable_shared_from_this<SimulatedTime>
+class SimulatedTime : public workrave::utils::ITimeSource, public std::enable_shared_from_this<SimulatedTime>
 {
 public:
-  typedef boost::shared_ptr<SimulatedTime> Ptr;
+  typedef std::shared_ptr<SimulatedTime> Ptr;
 
   static Ptr create()
   {
@@ -73,6 +70,8 @@ public:
   int64_t current_time;
 
 private:
+  SimulatedTime() {}
+  
   void init()
   {
     reset();

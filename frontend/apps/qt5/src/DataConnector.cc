@@ -29,7 +29,7 @@
 #include "TimeEntry.hh"
 
 #include "config/IConfigurator.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -42,15 +42,9 @@ DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
-DataConnector::Ptr
-DataConnector::create()
-{
-  return Ptr(new DataConnector);
-}
-
 DataConnector::DataConnector()
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 DataConnector::~DataConnector()
@@ -82,7 +76,7 @@ DataConnector::connect(const string &setting,
 void
 DataConnector::connect(const string &setting,
                        DataConnection *connection,
-                       boost::function<bool(const string &, bool)> cb,
+                       std::function<bool(const string &, bool)> cb,
                        dc::Flags flags)
 {
   if (connection != NULL)
@@ -102,7 +96,7 @@ DataConnector::connect(const string &setting,
 DataConnection::DataConnection()
   : flags(dc::NONE)
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 
@@ -335,7 +329,7 @@ void
 DataConnectionTimeEntry::init()
 {
   widget->signal_value_changed()
-    .connect(boost::bind(&DataConnectionTimeEntry::widget_changed_notify, this));
+    .connect(std::bind(&DataConnectionTimeEntry::widget_changed_notify, this));
   config_changed_notify(key);
 }
 

@@ -32,7 +32,7 @@
 
 #include "IBreak.hh"
 #include "config/IConfigurator.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 #include "CoreConfig.hh"
 #include "GtkUtil.hh"
@@ -54,12 +54,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   enable_buttons();
   init_page_callbacks();
 
-  connections.add(GUIConfig::key_timerbox(name).connect(boost::bind(&TimerBoxPreferencePage::enable_buttons, this)));
+  connections.add(GUIConfig::key_timerbox(name).connect(std::bind(&TimerBoxPreferencePage::enable_buttons, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore::Ptr core = CoreFactory::get_core();
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxPreferencePage::enable_buttons, this)));
+      ICore::Ptr core = Backend::get_core();
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(std::bind(&TimerBoxPreferencePage::enable_buttons, this)));
     }
 
   TRACE_EXIT();
@@ -330,7 +330,7 @@ TimerBoxPreferencePage::enable_buttons(void)
       place_button->set_sensitive(on && count != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore::Ptr core = CoreFactory::get_core();
+          ICore::Ptr core = Backend::get_core();
           IBreak::Ptr b = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
@@ -343,7 +343,7 @@ TimerBoxPreferencePage::enable_buttons(void)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore::Ptr core = CoreFactory::get_core();
+          ICore::Ptr core = Backend::get_core();
           IBreak::Ptr b = core->get_break(BreakId(i));
           timer_display_button[i]->set_sensitive(b->is_enabled());
         }

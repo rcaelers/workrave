@@ -47,7 +47,7 @@ private:
   bool terminate_loop;
 
   //! The activity monitor thread.
-  boost::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<boost::thread> monitor_thread;
 
   // OS X IO Service
   io_service_t io_service;

@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_DBUS_IDBUS_HH
 #define WORKRAVE_DBUS_IDBUS_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "dbus/DBusException.hh"
 
@@ -34,11 +34,9 @@ namespace workrave
     class IDBus
     {
     public:
-      typedef boost::shared_ptr<IDBus> Ptr;
+      typedef std::shared_ptr<IDBus> Ptr;
 
     public:
-      static Ptr create();
-
       virtual ~IDBus() {}
 
       virtual void init() = 0;

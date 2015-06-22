@@ -20,7 +20,7 @@
 #ifndef BREAKSTATISTICS_HH
 #define BREAKSTATISTICS_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "utils/ScopedConnections.hh"
 
@@ -30,11 +30,9 @@
 class BreakStatistics
 {
 public:
-  typedef boost::shared_ptr<BreakStatistics> Ptr;
+  typedef std::shared_ptr<BreakStatistics> Ptr;
 
 public:
-  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
-
   BreakStatistics(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
 
   void update();

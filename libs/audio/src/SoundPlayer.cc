@@ -51,9 +51,9 @@ using namespace workrave::audio;
 using namespace std;
 
 ISoundPlayer::Ptr
-ISoundPlayer::create()
+SoundPlayerFactory::create()
 {
-  return SoundPlayer::Ptr(new SoundPlayer());
+  return std::make_shared<SoundPlayer>();
 }
 
 SoundPlayer::SoundPlayer()
@@ -112,7 +112,7 @@ SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, in
 
   if (mute_after_playback &&
       mixer != NULL && driver != NULL &&
-      driver->capability(SOUND_CAP_EOS_EVENT))
+      driver->capability(SoundCapability::EOS_EVENT))
     {
       delayed_mute = true;
     }
@@ -137,7 +137,7 @@ SoundPlayer::capability(SoundCapability cap)
 {
   bool ret = false;
 
-  if (mixer != NULL && cap == SOUND_CAP_MUTE)
+  if (mixer != NULL && cap == SoundCapability::MUTE)
     {
       ret = true;
     }

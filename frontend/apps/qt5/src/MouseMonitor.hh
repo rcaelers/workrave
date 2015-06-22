@@ -18,15 +18,14 @@
 #ifndef MOUSEMONITOR_HH
 #define MOUSEMONITOR_HH
 
-#include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class MouseMonitor
 {
 public:
-  typedef boost::shared_ptr<MouseMonitor> Ptr;
+  typedef std::shared_ptr<MouseMonitor> Ptr;
 
-  explicit MouseMonitor(boost::function<void(int,int)> func);
+  explicit MouseMonitor(std::function<void(int,int)> func);
   ~MouseMonitor();
 
   void start();
@@ -34,7 +33,7 @@ public:
 
 private:
   class Private;
-  boost::shared_ptr<Private> priv;
+  std::shared_ptr<Private> priv;
 };
 
 #endif // MOUSEMONITOR_HH

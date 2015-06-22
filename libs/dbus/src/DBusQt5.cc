@@ -37,12 +37,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusQt5::Ptr
-DBusQt5::create()
-{
-  return Ptr(new DBusQt5());
-}
-
 //! Construct a new D-BUS bridge
 DBusQt5::DBusQt5()
   : connection(QDBusConnection::sessionBus()), watcher(this)

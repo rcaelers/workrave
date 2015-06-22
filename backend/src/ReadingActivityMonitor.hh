@@ -18,8 +18,7 @@
 #ifndef READINGACTIVITYMONITOR_HH
 #define READINGACTIVITYMONITOR_HH
 
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 
 #include "utils/ScopedConnections.hh"
 
@@ -30,14 +29,12 @@
 
 class ReadingActivityMonitor :
   public IActivityMonitorListener,
-  public boost::enable_shared_from_this<ReadingActivityMonitor>
+  public std::enable_shared_from_this<ReadingActivityMonitor>
 {
 public:
-  typedef boost::shared_ptr<ReadingActivityMonitor> Ptr;
+  typedef std::shared_ptr<ReadingActivityMonitor> Ptr;
 
 public:
-  static Ptr create(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
-
   ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
   ~ReadingActivityMonitor() override;
 

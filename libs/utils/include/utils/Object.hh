@@ -3,15 +3,13 @@
 
 #include "debug.hh"
 
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 namespace workrave
 {
   namespace utils
   {
-    class Object : public boost::enable_shared_from_this<Object>
+    class Object : public std::enable_shared_from_this<Object>
     {
     public:
       Object() : count(0) { }
@@ -24,7 +22,7 @@ namespace workrave
       {
         if (count++ == 0)
           {
-            me = boost::enable_shared_from_this<Object>::shared_from_this();
+            me = std::enable_shared_from_this<Object>::shared_from_this();
           }
       }
 
@@ -38,7 +36,7 @@ namespace workrave
 
     private:
       int count;
-      boost::shared_ptr<Object> me;
+      std::shared_ptr<Object> me;
     };
   }
 }

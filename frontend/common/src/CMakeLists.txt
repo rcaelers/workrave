@@ -1,5 +1,5 @@
 set(SRC
-  CoreFactory.cc
+  Backend.cc
   Exercise.cc
   GUIConfig.cc
   Session.cc

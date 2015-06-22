@@ -27,12 +27,6 @@
 using namespace workrave;
 using namespace workrave::input_monitor;
 
-ReadingActivityMonitor::Ptr
-ReadingActivityMonitor::create(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
-{
-  return Ptr(new ReadingActivityMonitor(monitor, modes));
-}
-
 ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes) :
   monitor(monitor),
   modes(modes),
@@ -50,7 +44,7 @@ void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
-  connections.connect(modes->signal_usage_mode_changed(), boost::bind(&ReadingActivityMonitor::on_usage_mode_changed, this, _1));
+  connections.connect(modes->signal_usage_mode_changed(), std::bind(&ReadingActivityMonitor::on_usage_mode_changed, this, std::placeholders::_1));
 }
 
 void

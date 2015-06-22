@@ -31,7 +31,7 @@
 
 #include "CoreConfig.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "TimeEntry.hh"
 
@@ -58,7 +58,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
 {
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
 
-  connector = DataConnector::create();
+  connector = std::make_shared<DataConnector>();
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
@@ -119,16 +119,16 @@ TimerPreferencesPanel::create_prelude_panel()
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(prelude_cb),
-                     boost::bind(&TimerPreferencesPanel::on_preludes_changed, this, _1, _2));
+                     std::bind(&TimerPreferencesPanel::on_preludes_changed, this, std::placeholders::_1, std::placeholders::_2));
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(has_max_prelude_cb),
-                     boost::bind(&TimerPreferencesPanel::on_preludes_changed, this, _1, _2),
+                     std::bind(&TimerPreferencesPanel::on_preludes_changed, this, std::placeholders::_1, std::placeholders::_2),
                      dc::NO_CONFIG);
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(max_prelude_spin),
-                     boost::bind(&TimerPreferencesPanel::on_preludes_changed, this, _1, _2),
+                     std::bind(&TimerPreferencesPanel::on_preludes_changed, this, std::placeholders::_1, std::placeholders::_2),
                      dc::NO_CONFIG);
   return box;
 }

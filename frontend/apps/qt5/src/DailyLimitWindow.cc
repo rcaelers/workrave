@@ -30,12 +30,6 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-IBreakWindow::Ptr
-DailyLimitWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
-{
-  return Ptr(new DailyLimitWindow(screen, break_flags, mode));
-}
-
 DailyLimitWindow::DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_DAILY_LIMIT, break_flags, mode)
 {

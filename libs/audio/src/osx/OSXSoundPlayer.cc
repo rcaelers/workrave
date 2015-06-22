@@ -78,11 +78,11 @@ OSXSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 OSXSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SoundCapability::VOLUME)
     {
       return true;
     }
-  if (cap == workrave::audio::SOUND_CAP_EOS_EVENT)
+  if (cap == workrave::audio::SoundCapability::EOS_EVENT)
     {
       return true;
     }

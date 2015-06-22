@@ -35,8 +35,6 @@ class LocalActivityMonitor :
   public workrave::input_monitor::IInputMonitorListener
 {
 public:
-  static Ptr create(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
-
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const std::string &display_name);
   ~LocalActivityMonitor() override;
 

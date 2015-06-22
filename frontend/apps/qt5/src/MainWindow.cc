@@ -38,7 +38,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model)
 
   timer_box_control = new TimerBoxControl("main_window", *this);
 
-  menu = ToolkitMenu::create(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));

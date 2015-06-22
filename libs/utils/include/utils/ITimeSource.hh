@@ -21,7 +21,7 @@
 #define WORKRAVE_UTILS_ITIMESOURCE_HH
 
 #include <stdint.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace workrave
 {
@@ -31,7 +31,7 @@ namespace workrave
     class ITimeSource
     {
     public:
-      typedef boost::shared_ptr<ITimeSource> Ptr;
+      typedef std::shared_ptr<ITimeSource> Ptr;
 
       virtual ~ITimeSource() {}
 

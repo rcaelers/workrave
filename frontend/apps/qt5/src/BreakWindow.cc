@@ -27,7 +27,6 @@
 #include "config.h"
 #endif
 
-#include <boost/make_shared.hpp>
 
 #include <QtGui>
 #include <QStyle>
@@ -38,24 +37,11 @@
 #include "debug.hh"
 #include "nls.h"
 
-// #include "config/IConfigurator.hh"
-
-// #include "GUI.hh"
-// #include "IBreak.hh"
-// #include "GtkUtil.hh"
-// #include "WindowHints.hh"
-// #include "Frame.hh"
 #include "System.hh"
 #include "utils/AssetPath.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "UiUtil.hh"
-
-// #if defined(PLATFORM_OS_WIN32)
-// #include "DesktopWindow.hh"
-// #elif defined(PLATFORM_OS_UNIX)
-// #include "desktop-window.h"
-// #endif
 
 #ifdef PLATFORM_OS_OSX
 #import <Cocoa/Cocoa.h>
@@ -92,7 +78,7 @@ BreakWindow::BreakWindow(int screen,
     block_window(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
-  priv = boost::make_shared<Private>();
+  priv = std::make_shared<Private>();
   TRACE_EXIT();
 }
 
@@ -136,27 +122,17 @@ BreakWindow::init()
 
 BreakWindow::~BreakWindow()
 {
-  TRACE_ENTER("BreakWindow::~BreakWindow");
-
   if (frame != NULL)
     {
       frame->set_frame_flashing(0);
     }
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::center()
 {
-  qDebug() << "c: " << size();
-
   QDesktopWidget *dw = QApplication::desktop();
-  const QRect rect = dw->screenGeometry(screen);
-
-  const QRect arect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
-  qDebug() << "a: " << arect;
-  setGeometry(arect);
+  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), dw->screenGeometry(screen)));
 }
 
 void
@@ -239,27 +215,21 @@ BreakWindow::on_shutdown_button_clicked()
 void
 BreakWindow::on_postpone_button_clicked()
 {
-  TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
   resume_non_ignorable_break();
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::on_skip_button_clicked()
 {
-  TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
   resume_non_ignorable_break();
-
-  TRACE_EXIT();
 }
 
 // TODO: move to backend.
@@ -267,7 +237,7 @@ void
 BreakWindow::resume_non_ignorable_break()
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   TRACE_MSG("break flags " << break_flags);
@@ -283,7 +253,7 @@ BreakWindow::resume_non_ignorable_break()
             {
               TRACE_MSG("Break " << id << " not ignorable");
 
-              ICore::Ptr core = CoreFactory::get_core();
+              ICore::Ptr core = Backend::get_core();
               IBreak::Ptr b = core->get_break(BreakId(id));
 
               if (b->get_elapsed_time() > b->get_limit())
@@ -324,7 +294,6 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
   return box;
 }
 
-
 void
 BreakWindow::start()
 {
@@ -347,7 +316,7 @@ BreakWindow::start()
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
-      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 1: 1);
+      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
 #ifdef PLATFORM_OS_OSX
@@ -429,7 +398,7 @@ BreakWindow::refresh()
   TRACE_ENTER("BreakWindow::refresh");
   update_break_window();
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != NULL)
     {

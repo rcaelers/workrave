@@ -59,7 +59,7 @@
 #include "Frame.hh"
 #include "System.hh"
 #include "ICore.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "utils/AssetPath.hh"
 
 #if defined(PLATFORM_OS_WIN32)
@@ -194,14 +194,14 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   if( W32ForceFocus::GetForceFocusValue() )
       initial_ignore_activity = true;
 
-  CoreFactory::get_configurator()->get_value_with_default(
+  Backend::get_configurator()->get_value_with_default(
     "advanced/force_focus_on_break_start",
     force_focus_on_break_start,
     true
     );
 #endif
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(initial_ignore_activity ?
                           InsistPolicy::Ignore :
                           InsistPolicy::Halt);
@@ -524,7 +524,7 @@ void
 BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
@@ -540,7 +540,7 @@ void
 BreakWindow::on_skip_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
@@ -554,7 +554,7 @@ void
 BreakWindow::resume_non_ignorable_break()
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   TRACE_MSG("break flags " << break_flags);
@@ -571,7 +571,7 @@ BreakWindow::resume_non_ignorable_break()
             {
               TRACE_MSG("Break " << id << " not ignorable");
 
-              ICore::Ptr core = CoreFactory::get_core();
+              ICore::Ptr core = Backend::get_core();
               IBreak::Ptr b = core->get_break(BreakId(id));
 
               if (b->get_elapsed_time() > b->get_limit())

@@ -1,4 +1,6 @@
-// Copyright (C) 20014 Rob Caelers <robc@krandor.org>
+// Backend.hh --- The main access point to the Core
+//
+// Copyright (C) 2001 - 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,35 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DOCK_HH
-#define DOCK_HH
-
-#include <QObject>
-
-#include <memory>
-
-#include "utils/ScopedConnections.hh"
+#ifndef COREFACTORY_HH
+#define COREFACTORY_HH
 
 #include "ICore.hh"
+#include "config/IConfigurator.hh"
+#include "dbus/IDBus.hh"
 
-class DockPrivate;
-
-class Dock : public QObject
+//! Main access points to the Core.
+class Backend
 {
-  Q_OBJECT
-
 public:
-  Dock();
-  ~Dock() override;
+  //! Returns the interface to the core.
+  static workrave::ICore::Ptr get_core();
 
-  void init();
+  //! Returns the interface to the core's configurator.
+  static workrave::config::IConfigurator::Ptr get_configurator();
 
-private:
-  void on_operation_mode_changed(workrave::OperationMode m);
+  //! Returns the interface to the DBUS facility.
+  static workrave::dbus::IDBus::Ptr get_dbus();
 
-private:
-  std::shared_ptr<DockPrivate> priv;
-  scoped_connections connections;
+  //! The one and only core instance
+  static workrave::ICore::Ptr core;
 };
 
-#endif // DOCK_HH
+#endif // COREFACTORY_HH

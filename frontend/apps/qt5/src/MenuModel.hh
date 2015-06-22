@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/signals2.hpp>
 
 enum class MenuModelType : int
@@ -34,12 +34,9 @@ enum class MenuModelType : int
 class MenuModel
 {
 public:
-  typedef boost::shared_ptr<MenuModel> Ptr;
+  typedef std::shared_ptr<MenuModel> Ptr;
   typedef std::list<MenuModel::Ptr> MenuModelList;
-  typedef boost::function<void ()> Activated;
-
-  static Ptr create();
-  static Ptr create(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);
+  typedef std::function<void ()> Activated;
 
   MenuModel();
   MenuModel(const std::string &id, const std::string &text, Activated activated, MenuModelType type = MenuModelType::ACTION);

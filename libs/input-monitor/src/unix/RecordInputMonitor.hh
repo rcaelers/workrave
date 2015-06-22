@@ -82,7 +82,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  boost::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<boost::thread> monitor_thread;
 
   //! XRecord context. Defines clients and events to capture.
   XRecordContext xrecord_context;

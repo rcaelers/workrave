@@ -18,7 +18,7 @@
 #ifndef WORKRAVE_CONFIG_ICONFIGURATOR_HH
 #define WORKRAVE_CONFIG_ICONFIGURATOR_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <string>
 #include <list>
@@ -49,7 +49,7 @@ namespace workrave
     class IConfigurator
     {
     public:
-      typedef boost::shared_ptr<IConfigurator> Ptr;
+      typedef std::shared_ptr<IConfigurator> Ptr;
 
     public:
       virtual ~IConfigurator() {}

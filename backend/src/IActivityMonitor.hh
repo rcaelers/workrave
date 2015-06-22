@@ -23,7 +23,7 @@
 class IActivityMonitorListener
 {
 public:
-  typedef boost::shared_ptr<IActivityMonitorListener> Ptr;
+  typedef std::shared_ptr<IActivityMonitorListener> Ptr;
 
   virtual ~IActivityMonitorListener() {}
 
@@ -34,7 +34,7 @@ public:
 class IActivityMonitor
 {
 public:
-  typedef boost::shared_ptr<IActivityMonitor> Ptr;
+  typedef std::shared_ptr<IActivityMonitor> Ptr;
 
 public:
   virtual ~IActivityMonitor() {}

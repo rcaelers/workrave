@@ -30,18 +30,12 @@
 
 #include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "IBreak.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 using namespace std;
-
-Session::Ptr
-Session::create()
-{
-  return Ptr(new Session());
-}
 
 Session::Session()
   : is_idle(false),
@@ -64,7 +58,7 @@ Session::set_idle(bool new_idle)
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
   bool auto_natural = GUIConfig::break_auto_natural(BREAK_ID_REST_BREAK)();
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
 
   if (core->get_usage_mode() == UsageMode::Reading)
     {

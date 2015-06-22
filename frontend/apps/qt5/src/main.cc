@@ -64,8 +64,8 @@ run(int argc, char **argv)
 #endif
 
   {
-    IToolkit::Ptr toolkit = Toolkit::create(argc, argv);
-    Application::Ptr app = Application::create(argc, argv, toolkit);
+    IToolkit::Ptr toolkit = std::make_shared<Toolkit>(argc, argv);
+    Application::Ptr app = std::make_shared<Application>(argc, argv, toolkit);
 
 #if defined(PLATFORM_OS_WIN32)
     dll_hell_check();

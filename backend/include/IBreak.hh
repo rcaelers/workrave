@@ -91,7 +91,7 @@ namespace workrave {
   class IBreak
   {
   public:
-    typedef boost::shared_ptr<IBreak> Ptr;
+    typedef std::shared_ptr<IBreak> Ptr;
 
     virtual ~IBreak() {}
 

@@ -41,17 +41,10 @@ const std::string Menus::MODE_READING = "workrave:mode_reading";
 const std::string Menus::OPEN = "workrave:open";
 const std::string Menus::QUIT = "workrave:quit";
 
-Menus::Ptr
-Menus::create(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
-{
-  return Ptr(new Menus(app, toolkit, core));
-}
-
-
 Menus::Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
   : app(app), toolkit(toolkit), core(core)
 {
-  menu_model = MenuModel::create();
+  menu_model = std::make_shared<MenuModel>();
   init();
 }
 
@@ -76,75 +69,75 @@ Menus::init()
 
   MenuModel::Ptr item;
 
-  item = MenuModel::create(OPEN,
-                          _("Open"),
-                          boost::bind(&Menus::on_menu_open_main_window, this));
+  item = std::make_shared<MenuModel>(OPEN,
+                                     _("Open"),
+                                     std::bind(&Menus::on_menu_open_main_window, this));
   menu_model->add_menu(item);
 
-  item = MenuModel::create(PREFERENCES,
-                          _("Preferences"),
-                          boost::bind(&Menus::on_menu_preferences, this));
+  item = std::make_shared<MenuModel>(PREFERENCES,
+                                     _("Preferences"),
+                                     std::bind(&Menus::on_menu_preferences, this));
   menu_model->add_menu(item);
 
-  item = MenuModel::create(REST_BREAK,
-                          _("Rest break"),
-                          boost::bind(&Menus::on_menu_restbreak_now, this));
+  item = std::make_shared<MenuModel>(REST_BREAK,
+                                     _("Rest break"),
+                                     std::bind(&Menus::on_menu_restbreak_now, this));
   menu_model->add_menu(item);
 
-  item = MenuModel::create(EXERCISES,
-                          _("Exercises"),
-                          boost::bind(&Menus::on_menu_exercises, this));
+  item = std::make_shared<MenuModel>(EXERCISES,
+                                     _("Exercises"),
+                                     std::bind(&Menus::on_menu_exercises, this));
   menu_model->add_menu(item);
 
-  MenuModel::Ptr modemenu = MenuModel::create(MODE, _("Mode"), 0, MenuModelType::MENU);
+  MenuModel::Ptr modemenu = std::make_shared<MenuModel>(MODE, _("Mode"), nullptr, MenuModelType::MENU);
   menu_model->add_menu(modemenu);
 
-  normal_item = MenuModel::create(MODE_NORMAL,
-                                 _("Normal"),
-                                 boost::bind(&Menus::on_menu_normal, this),
-                                 MenuModelType::RADIO);
+  normal_item = std::make_shared<MenuModel>(MODE_NORMAL,
+                                            _("Normal"),
+                                            std::bind(&Menus::on_menu_normal, this),
+                                            MenuModelType::RADIO);
   normal_item->set_checked(mode == workrave::OperationMode::Normal);
   modemenu->add_menu(normal_item);
 
-  suspended_item = MenuModel::create(MODE_SUSPENDED,
-                                    _("Suspended"),
-                                    boost::bind(&Menus::on_menu_suspend, this),
-                                    MenuModelType::RADIO);
+  suspended_item = std::make_shared<MenuModel>(MODE_SUSPENDED,
+                                               _("Suspended"),
+                                               std::bind(&Menus::on_menu_suspend, this),
+                                               MenuModelType::RADIO);
 
   suspended_item->set_checked(mode == workrave::OperationMode::Suspended);
   modemenu->add_menu(suspended_item);
 
-  quiet_item = MenuModel::create(MODE_QUIET,
-                                _("Quiet"),
-                                boost::bind(&Menus::on_menu_quiet, this),
-                                MenuModelType::RADIO);
+  quiet_item = std::make_shared<MenuModel>(MODE_QUIET,
+                                           _("Quiet"),
+                                           std::bind(&Menus::on_menu_quiet, this),
+                                           MenuModelType::RADIO);
   quiet_item->set_checked(mode == workrave::OperationMode::Quiet);
   modemenu->add_menu(quiet_item);
 
-  reading_item = MenuModel::create(MODE_READING,
-                                  _("Reading mode"),
-                                  boost::bind(&Menus::on_menu_reading, this),
-                                  MenuModelType::CHECK);
+  reading_item = std::make_shared<MenuModel>(MODE_READING,
+                                             _("Reading mode"),
+                                             std::bind(static_cast<void (Menus::*)()>(&Menus::on_menu_reading), this),
+                                             MenuModelType::CHECK);
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   menu_model->add_menu(reading_item);
 
-  item = MenuModel::create(STATISTICS,
-                          _("Statistics"),
-                          boost::bind(&Menus::on_menu_statistics, this));
+  item = std::make_shared<MenuModel>(STATISTICS,
+                                     _("Statistics"),
+                                     std::bind(&Menus::on_menu_statistics, this));
   menu_model->add_menu(item);
 
-  item = MenuModel::create(ABOUT,
-                          _("About..."),
-                          boost::bind(&Menus::on_menu_about, this));
+  item = std::make_shared<MenuModel>(ABOUT,
+                                     _("About..."),
+                                     std::bind(&Menus::on_menu_about, this));
   menu_model->add_menu(item);
 
-  item = MenuModel::create(QUIT,
-                          _("Quit"),
-                          boost::bind(&Menus::on_menu_quit, this));
+  item = std::make_shared<MenuModel>(QUIT,
+                                     _("Quit"),
+                                     std::bind(&Menus::on_menu_quit, this));
   menu_model->add_menu(item);
 
-  connections.connect(core->signal_operation_mode_changed(), boost::bind(&Menus::on_operation_mode_changed, this, _1));
-  connections.connect(core->signal_usage_mode_changed(), boost::bind(&Menus::on_usage_mode_changed, this, _1));
+  connections.connect(core->signal_operation_mode_changed(), std::bind(&Menus::on_operation_mode_changed, this, std::placeholders::_1));
+  connections.connect(core->signal_usage_mode_changed(), std::bind(&Menus::on_usage_mode_changed, this, std::placeholders::_1));
 }
 
 void

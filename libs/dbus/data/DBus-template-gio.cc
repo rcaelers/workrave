@@ -524,7 +524,7 @@ void ${interface.qname}_Stub::${signal.qname}(const string &path #slurp
   #end for
 )
 {
-  IDBusPrivateGio::Ptr p = boost::dynamic_pointer_cast<IDBusPrivateGio>(dbus);
+  IDBusPrivateGio::Ptr p = std::dynamic_pointer_cast<IDBusPrivateGio>(dbus);
 
   GDBusConnection *connection = p->get_connection();
   if (connection == NULL)

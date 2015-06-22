@@ -38,14 +38,6 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 using namespace workrave::utils;
 
-LocalActivityMonitor::Ptr
-LocalActivityMonitor::create(IConfigurator::Ptr config, const string &display_name)
-{
-  return Ptr(new LocalActivityMonitor(config, display_name));
-}
-
-
-//! Constructor.
 LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const string &display_name) :
   config(config),
   display_name(display_name),
@@ -66,8 +58,6 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const stri
   TRACE_EXIT();
 }
 
-
-//! Destructor.
 LocalActivityMonitor::~LocalActivityMonitor()
 {
   TRACE_ENTER("LocalActivityMonitor::~LocalActivityMonitor");
@@ -84,7 +74,7 @@ LocalActivityMonitor::init()
   InputMonitorFactory::init(config, display_name);
 
   load_config();
-  connections.add(CoreConfig::key_monitor().connect(boost::bind(&LocalActivityMonitor::load_config, this)));
+  connections.add(CoreConfig::key_monitor().connect(std::bind(&LocalActivityMonitor::load_config, this)));
 
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)

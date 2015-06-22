@@ -45,12 +45,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusFreeDesktop::Ptr
-DBusFreeDesktop::create()
-{
-  return Ptr(new DBusFreeDesktop());
-}
-
 //! Construct a new D-BUS bridge
 DBusFreeDesktop::DBusFreeDesktop()
   : connection(NULL), context(NULL), queue(NULL), watches(NULL), timeouts(NULL)

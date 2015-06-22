@@ -24,7 +24,7 @@
 #include <map>
 #include <list>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "dbus/IDBus.hh"
 #include "dbus/DBusBinding.hh"
@@ -36,11 +36,9 @@ namespace workrave
     class DBusGeneric : public IDBus
     {
     public:
-      typedef boost::shared_ptr<DBusGeneric> Ptr;
+      typedef std::shared_ptr<DBusGeneric> Ptr;
 
     public:
-      static Ptr create();
-
       DBusGeneric();
       ~DBusGeneric() override;
 

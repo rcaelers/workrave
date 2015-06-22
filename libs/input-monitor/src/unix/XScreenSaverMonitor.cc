@@ -74,7 +74,7 @@ XScreenSaverMonitor::init()
   {
 
     screen_saver_info = XScreenSaverAllocInfo();
-    monitor_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&XScreenSaverMonitor::run, this)));
+    monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&XScreenSaverMonitor::run, this)));
   }
 
   TRACE_RETURN(has_extension);

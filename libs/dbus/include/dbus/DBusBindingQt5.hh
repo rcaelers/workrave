@@ -36,7 +36,7 @@ namespace workrave
     class IDBusPrivateQt5
     {
     public:
-      typedef boost::shared_ptr<IDBusPrivateQt5> Ptr;
+      typedef std::shared_ptr<IDBusPrivateQt5> Ptr;
 
       virtual ~IDBusPrivateQt5() {}
 

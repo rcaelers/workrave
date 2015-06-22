@@ -41,23 +41,6 @@ using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::dbus;
 
-BreaksControl::Ptr
-BreaksControl::create(IApp *app,
-                      IActivityMonitor::Ptr activity_monitor,
-                      CoreModes::Ptr modes,
-                      Statistics::Ptr statistics,
-                      IDBus::Ptr dbus,
-                      CoreHooks::Ptr hooks)
-{
-  return Ptr(new BreaksControl(app,
-                               activity_monitor,
-                               modes,
-                               statistics,
-                               dbus,
-                               hooks));
-}
-
-
 BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
@@ -83,23 +66,23 @@ BreaksControl::~BreaksControl()
 void
 BreaksControl::init()
 {
-  connections.connect(modes->signal_operation_mode_changed(), boost::bind(&BreaksControl::on_operation_mode_changed, this, _1));
+  connections.connect(modes->signal_operation_mode_changed(), std::bind(&BreaksControl::on_operation_mode_changed, this, std::placeholders::_1));
 
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
       string break_name = CoreConfig::get_break_name(break_id);
 
-      timers[break_id] = Timer::create(break_name);
+      timers[break_id] = std::make_shared<Timer>(break_name);
       timers[break_id]->enable();
 
-      breaks[break_id] = Break::create(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
-      connections.connect(breaks[break_id]->signal_break_event(), boost::bind(&BreaksControl::on_break_event, this, break_id, _1));
+      breaks[break_id] = std::make_shared<Break>(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
+      connections.connect(breaks[break_id]->signal_break_event(), std::bind(&BreaksControl::on_break_event, this, break_id, std::placeholders::_1));
     }
 
-  reading_activity_monitor = ReadingActivityMonitor::create(activity_monitor, modes);
+  reading_activity_monitor = std::make_shared<ReadingActivityMonitor>(activity_monitor, modes);
   reading_activity_monitor->init();
 
-  microbreak_activity_monitor = TimerActivityMonitor::create(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
+  microbreak_activity_monitor = std::make_shared<TimerActivityMonitor>(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
 
   load_state();
 }
@@ -489,7 +472,7 @@ BreaksControl::load_state()
 
 
 #ifdef HAVE_TESTS
-  if (!hooks->hook_load_timer_state().empty())
+  if (hooks->hook_load_timer_state())
     {
       if (hooks->hook_load_timer_state()(timers))
         {

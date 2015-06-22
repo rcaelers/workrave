@@ -23,7 +23,7 @@
 
 #include "Timer.hh"
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "debug.hh"
 #include "utils/TimeSource.hh"
@@ -37,13 +37,6 @@
 
 using namespace std;
 using namespace workrave::utils;
-
-Timer::Ptr
-Timer::create(const std::string &id)
-{
-  return Ptr(new Timer(id));
-}
-
 
 //! Constructs a new break timer.
 Timer::Timer(const std::string &id) :

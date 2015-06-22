@@ -27,13 +27,6 @@
 using namespace std;
 using namespace workrave;
 
-CoreModes::Ptr
-CoreModes::create(IActivityMonitor::Ptr monitor)
-{
-  return Ptr(new CoreModes(monitor));
-}
-
-
 CoreModes::CoreModes(IActivityMonitor::Ptr monitor) :
   operation_mode(OperationMode::Normal),
   operation_mode_regular(OperationMode::Normal),

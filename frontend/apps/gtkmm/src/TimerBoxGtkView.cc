@@ -44,7 +44,7 @@
 #include "GUI.hh"
 #include "GtkUtil.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "IBreak.hh"
 
 using namespace std;

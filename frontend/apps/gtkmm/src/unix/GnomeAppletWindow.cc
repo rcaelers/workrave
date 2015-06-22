@@ -44,7 +44,7 @@
 #include "TimerBoxControl.hh"
 #include "Menus.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "dbus/IDBus.hh"
 
@@ -89,7 +89,7 @@ GnomeAppletWindow::init_applet()
 {
   try
     {
-      workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+      workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
       if (dbus->is_available())
         {
           dbus->connect("/org/workrave/Workrave/UI", "org.workrave.GnomeAppletSupportInterface", this);

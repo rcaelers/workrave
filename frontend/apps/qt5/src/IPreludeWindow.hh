@@ -20,7 +20,7 @@
 #ifndef IPRELUDEWINDOW_HH
 #define IPRELUDEWINDOW_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "IApp.hh"
 
@@ -29,7 +29,7 @@ class IPreludeWindow
 public:
   virtual ~IPreludeWindow() {}
 
-  typedef boost::shared_ptr<IPreludeWindow> Ptr;
+  typedef std::shared_ptr<IPreludeWindow> Ptr;
 
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;

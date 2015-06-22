@@ -27,7 +27,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "utils/AssetPath.hh"
 #include "Text.hh"
 #include "UiUtil.hh"
@@ -38,14 +38,6 @@ using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::ui;
 
-IBreakWindow::Ptr
-MicroBreakWindow::create(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
-{
-  return Ptr(new MicroBreakWindow(screen, break_flags, mode));
-}
-
-
-//! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode),
     time_bar(NULL),
@@ -71,7 +63,7 @@ MicroBreakWindow::create_gui()
   box->addLayout(hbox);
   box->addWidget(time_bar);
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr restbreak =  core->get_break(BREAK_ID_REST_BREAK);
 
   QHBoxLayout *button_box = new QHBoxLayout;
@@ -86,7 +78,7 @@ MicroBreakWindow::create_gui()
   add_skip_button(button_box);
   add_postpone_button(button_box);
 
-  if (!button_box->isEmpty())
+  //  if (!button_box->isEmpty())
     {
       box->addLayout(button_box);
     }
@@ -109,7 +101,7 @@ MicroBreakWindow::update_label()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_label");
 
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
 
   IBreak::Ptr restbreak_timer =  core->get_break(BREAK_ID_REST_BREAK);
   IBreak::Ptr daily_timer =  core->get_break(BREAK_ID_DAILY_LIMIT);

@@ -33,7 +33,7 @@
 #include <set>
 
 #include "SoundTheme.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
@@ -122,49 +122,49 @@ const string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
 workrave::config::Setting<bool> &
 SoundTheme::sound_enabled()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_SOUND_ENABLED, true);
 }
 
 workrave::config::Setting<std::string> &
 SoundTheme::sound_device()
 {
-  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_DEVICE, std::string());
+  return SettingCache::get<std::string>(Backend::get_configurator(), CFG_KEY_SOUND_DEVICE, std::string());
 }
 
 workrave::config::Setting<int> &
 SoundTheme::sound_volume()
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_SOUND_VOLUME, 100);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_SOUND_VOLUME, 100);
 }
 
 workrave::config::Setting<bool> &
 SoundTheme::sound_mute()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_MUTE, false);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_SOUND_MUTE, false);
 }
 
 workrave::config::Setting<bool> &
 SoundTheme::sound_event_enabled(const std::string &event)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event + CFG_KEY_SOUND_EVENT_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_SOUND_EVENT + event + CFG_KEY_SOUND_EVENT_ENABLED, true);
 }
 
 workrave::config::Setting<std::string> &
 SoundTheme::sound_event(const std::string &event)
 {
-  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + event, std::string());
+  return SettingCache::get<std::string>(Backend::get_configurator(), CFG_KEY_SOUND_EVENT + event, std::string());
 }
 
 workrave::config::Setting<bool> &
 SoundTheme::sound_event_enabled(SoundEvent event)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
 }
 
 workrave::config::Setting<std::string> &
 SoundTheme::sound_event(SoundEvent event)
 {
-  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event), std::string());
+  return SettingCache::get<std::string>(Backend::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event), std::string());
 }
 
 SoundEvent
@@ -200,15 +200,9 @@ SoundTheme::sound_event_to_friendly_name(SoundEvent event)
   throw "FIXME";
 }
 
-SoundTheme::Ptr
-SoundTheme::create()
-{
-  return SoundTheme::Ptr(new SoundTheme);
-}
-
 SoundTheme::SoundTheme()
 {
-  player = ISoundPlayer::create();
+  player = SoundPlayerFactory::create();
 
 #ifdef PLATFORM_OS_WIN32
   win32_remove_deprecated_appevents();

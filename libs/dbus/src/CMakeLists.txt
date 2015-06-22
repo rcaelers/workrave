@@ -21,7 +21,7 @@ if (HAVE_DBUS_QT5)
 endif()
 
 set(SRC ${SRC}
-  IDBus.cc
+  DBusFactory.cc
   DBusException.cc
   DBusDummy.cc
 )
@@ -44,7 +44,7 @@ if (HAVE_DBUS_TEST_GIO)
 endif()
 
 set(STUB_SRC ${STUB_SRC}
-  IDBus.cc
+  DBusFactory.cc
   DBusException.cc
   DBusDummy.cc
 )

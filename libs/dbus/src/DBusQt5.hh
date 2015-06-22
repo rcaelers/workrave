@@ -24,7 +24,7 @@
 #include <map>
 #include <list>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <QtDBus/QtDBus>
 
@@ -39,11 +39,9 @@ namespace workrave
     class DBusQt5 : public DBusGeneric, public IDBusPrivateQt5, public QDBusVirtualObject
     {
     public:
-      typedef boost::shared_ptr<DBusQt5> Ptr;
+      typedef std::shared_ptr<DBusQt5> Ptr;
 
     public:
-      static Ptr create();
-
       DBusQt5();
       ~DBusQt5() override;
 

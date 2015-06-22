@@ -20,7 +20,7 @@
 #ifndef TIMER_HH
 #define TIMER_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #ifdef TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -70,11 +70,9 @@ enum TimerEvent
 class Timer
 {
 public:
-  typedef boost::shared_ptr<Timer> Ptr;
+  typedef std::shared_ptr<Timer> Ptr;
 
 public:
-  static Ptr create(const std::string &id);
-
   // Construction/Destruction.
   explicit Timer(const std::string &id);
   virtual ~Timer();

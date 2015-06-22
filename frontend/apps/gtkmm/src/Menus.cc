@@ -41,7 +41,7 @@
 #include "StatisticsDialog.hh"
 #include "IStatistics.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 #include "config/IConfigurator.hh"
 
@@ -205,7 +205,7 @@ Menus::on_menu_restbreak_now()
 void
 Menus::on_set_operation_mode(OperationMode m)
 {
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->set_operation_mode(m);
   resync();
 }
@@ -214,7 +214,7 @@ Menus::on_set_operation_mode(OperationMode m)
 void
 Menus::set_usage_mode(UsageMode m)
 {
-  ICore::Ptr core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->set_usage_mode(m);
   resync();
 }
@@ -312,7 +312,7 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == NULL)
     {
-      ICore::Ptr core = CoreFactory::get_core();
+      ICore::Ptr core = Backend::get_core();
       IStatistics::Ptr stats = core->get_statistics();
       stats->update();
 
@@ -423,7 +423,7 @@ Menus::on_preferences_response(int response)
   assert(preferences_dialog != NULL);
   preferences_dialog->hide();
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 
   delete preferences_dialog;
   preferences_dialog = NULL;
@@ -464,7 +464,7 @@ Menus::applet_command(short cmd)
       break;
     case MENU_COMMAND_MODE_READING:
       {
-        ICore::Ptr core = CoreFactory::get_core();
+        ICore::Ptr core = Backend::get_core();
         on_menu_reading(core->get_usage_mode() == UsageMode::Normal);
       }
       break;
@@ -487,7 +487,7 @@ Menus::resync()
     {
       if (menus[i] != NULL)
         {
-          ICore::Ptr core = CoreFactory::get_core();
+          ICore::Ptr core = Backend::get_core();
 
           /* Use operation_mode_regular here to show the mode that will be restored
           if an override is in place. That is also necessary because if get_operation_mode()

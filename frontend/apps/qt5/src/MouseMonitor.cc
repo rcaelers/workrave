@@ -19,7 +19,6 @@
 #include "config.h"
 #endif
 
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "MouseMonitor.hh"
@@ -31,7 +30,7 @@ class MouseMonitor::Private
 {
 public:
   id monitor;
-  boost::function<void(int,int)> func;
+  std::function<void(int,int)> func;
 
 public:
   Private() : monitor(nil)
@@ -39,9 +38,9 @@ public:
   }
 };
 
-MouseMonitor::MouseMonitor(boost::function<void(int,int)> func)
+MouseMonitor::MouseMonitor(std::function<void(int,int)> func)
 {
-  priv = boost::make_shared<Private>();
+  priv = std::make_shared<Private>();
   priv->func = func;
 }
 

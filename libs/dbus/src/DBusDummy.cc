@@ -27,12 +27,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusDummy::Ptr
-DBusDummy::create()
-{
-  return Ptr(new DBusDummy());
-}
-
 DBusDummy::DBusDummy()
 {
 }

@@ -23,7 +23,7 @@
 
 #include "StatusIcon.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 
 #include "UiUtil.hh"
@@ -42,7 +42,7 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 
   tray_icon = new QSystemTrayIcon();
 
-  menu = ToolkitMenu::create(menu_model);
+  menu = std::make_shared<ToolkitMenu>(menu_model);
   tray_icon->setContextMenu(menu->get_menu());
   TRACE_EXIT();
 }
@@ -54,8 +54,8 @@ StatusIcon::~StatusIcon()
 void
 StatusIcon::init()
 {
-  ICore::Ptr core = CoreFactory::get_core();
-  connections.connect(core->signal_operation_mode_changed(), boost::bind(&StatusIcon::on_operation_mode_changed, this, _1));
+  ICore::Ptr core = Backend::get_core();
+  connections.connect(core->signal_operation_mode_changed(), std::bind(&StatusIcon::on_operation_mode_changed, this, std::placeholders::_1));
 
   OperationMode mode = core->get_operation_mode_regular();
   tray_icon->setIcon(mode_icons[mode]);

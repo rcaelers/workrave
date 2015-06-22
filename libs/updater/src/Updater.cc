@@ -19,7 +19,6 @@
 #include "config.h"
 #endif
 
-#include <boost/make_shared.hpp>
 
 #include "Updater.hh"
 
@@ -29,21 +28,11 @@
 
 using namespace workrave::updater;
 
-Updater::Updater()
-{
-}
-
-
-Updater::~Updater()
-{
-}
-
-
 Updater::Ptr
-Updater::create(std::string appcast_url)
+UpdaterFactory::create(std::string appcast_url)
 {
 #ifdef PLATFORM_OS_OSX
-  return boost::make_shared<SparkleUpdater>(appcast_url);
+  return std::make_shared<SparkleUpdater>(appcast_url);
 #endif
-  return Ptr();
+  return Updater::Ptr();
 }

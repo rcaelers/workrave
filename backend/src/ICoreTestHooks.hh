@@ -25,11 +25,9 @@
 #include <string>
 #include <map>
 #include <istream>
+#include <memory>
 
 #include <boost/signals2.hpp>
-#include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 #include "config/IConfigurator.hh"
 #include "IActivityMonitor.hh"
@@ -41,11 +39,11 @@ class ICoreTestHooks
 public:
   virtual ~ICoreTestHooks() {}
 
-  typedef boost::shared_ptr<ICoreTestHooks> Ptr;
+  typedef std::shared_ptr<ICoreTestHooks> Ptr;
 
-  virtual boost::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
-  virtual boost::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
-  virtual boost::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
+  virtual std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
+  virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
+  virtual std::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
 
 #endif

@@ -20,14 +20,13 @@
 #ifndef WORKRAVE_BACKEND_ICOREHOOKS_HH
 #define WORKRAVE_BACKEND_ICOREHOOKS_HH
 
+#include <memory>
 #include <boost/signals2.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-class ICoreHooks : public boost::enable_shared_from_this<ICoreHooks>
+class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
 {
 public:
-  typedef boost::shared_ptr<ICoreHooks> Ptr;
+  typedef std::shared_ptr<ICoreHooks> Ptr;
   virtual ~ICoreHooks() {}
 };
 

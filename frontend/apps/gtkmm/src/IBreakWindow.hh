@@ -18,7 +18,7 @@
 #ifndef IBREAKWINDOW_HH
 #define IBREAKWINDOW_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #ifdef HAVE_GTK
 #include <gtkmm.h>
@@ -29,7 +29,7 @@ class IBreakWindow
 public:
   virtual ~IBreakWindow() {}
 
-  typedef boost::shared_ptr<IBreakWindow> Ptr;
+  typedef std::shared_ptr<IBreakWindow> Ptr;
 
   //!
   virtual void init() = 0;

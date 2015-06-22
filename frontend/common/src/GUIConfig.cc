@@ -28,7 +28,7 @@
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "ICore.hh"
 #include "IBreak.hh"
 
@@ -64,7 +64,7 @@ const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 void
 GUIConfig::init()
 {
-  IConfigurator::Ptr config = CoreFactory::get_configurator();
+  IConfigurator::Ptr config = Backend::get_configurator();
 
   for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
     {
@@ -96,7 +96,7 @@ GUIConfig::init()
 string
 GUIConfig::expand(const string &key, workrave::BreakId id)
 {
-  workrave::IBreak::Ptr b = CoreFactory::get_core()->get_break(id);
+  workrave::IBreak::Ptr b = Backend::get_core()->get_break(id);
 
   string str = key;
   string::size_type pos = 0;
@@ -114,134 +114,134 @@ GUIConfig::expand(const string &key, workrave::BreakId id)
 Setting<bool> &
 GUIConfig::break_auto_natural(workrave::BreakId break_id)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_AUTO_NATURAL, break_id));
+  return SettingCache::get<bool>(Backend::get_configurator(), expand(CFG_KEY_BREAK_AUTO_NATURAL, break_id));
 }
 
 Setting<bool> &
 GUIConfig::break_ignorable(workrave::BreakId break_id)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_IGNORABLE, break_id), true);
+  return SettingCache::get<bool>(Backend::get_configurator(), expand(CFG_KEY_BREAK_IGNORABLE, break_id), true);
 }
 
 Setting<bool> &
 GUIConfig::break_skippable(workrave::BreakId break_id)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_SKIPPABLE, break_id), true);
+  return SettingCache::get<bool>(Backend::get_configurator(), expand(CFG_KEY_BREAK_SKIPPABLE, break_id), true);
 }
 
 Setting<bool> &
 GUIConfig::break_enable_shutdown(workrave::BreakId break_id)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_ENABLE_SHUTDOWN, break_id), true);
+  return SettingCache::get<bool>(Backend::get_configurator(), expand(CFG_KEY_BREAK_ENABLE_SHUTDOWN, break_id), true);
 }
 
 Setting<int> &
 GUIConfig::break_exercises(workrave::BreakId break_id)
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), expand(CFG_KEY_BREAK_EXERCISES, break_id), 0);
+  return SettingCache::get<int>(Backend::get_configurator(), expand(CFG_KEY_BREAK_EXERCISES, break_id), 0);
 }
 
 Setting<int, GUIConfig::BlockMode> &
 GUIConfig::block_mode()
 {
-  return SettingCache::get<int, BlockMode>(CoreFactory::get_configurator(), CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT);
+  return SettingCache::get<int, BlockMode>(Backend::get_configurator(), CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT);
 }
 
 Setting<std::string> &
 GUIConfig::locale()
 {
-  return SettingCache::get<std::string>(CoreFactory::get_configurator(), CFG_KEY_LOCALE, std::string());
+  return SettingCache::get<std::string>(Backend::get_configurator(), CFG_KEY_LOCALE, std::string());
 }
 
 Setting<bool> &
 GUIConfig::trayicon_enabled()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_TRAYICON_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_TRAYICON_ENABLED, true);
 }
 
 Setting<bool> &
 GUIConfig::closewarn_enabled()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_CLOSEWARN_ENABLED);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_CLOSEWARN_ENABLED);
 }
 
 Setting<bool> &
 GUIConfig::autostart_enabled()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_AUTOSTART);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_AUTOSTART);
 }
 
 workrave::config::SettingGroup &
 GUIConfig::key_main_window()
 {
-  return SettingCache::group(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW);
+  return SettingCache::group(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW);
 }
 
 Setting<bool> &
 GUIConfig::main_window_always_on_top()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, false);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, false);
 }
 
 Setting<bool> &
 GUIConfig::main_window_start_in_tray()
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_START_IN_TRAY, false);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW_START_IN_TRAY, false);
 }
 
 Setting<int> &
 GUIConfig::main_window_x()
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_X, 256);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW_X, 256);
 }
 
 Setting<int> &
 GUIConfig::main_window_y()
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_Y, 256);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW_Y, 256);
 }
 
 Setting<int> &
 GUIConfig::main_window_head()
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_MAIN_WINDOW_HEAD, 0);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_MAIN_WINDOW_HEAD, 0);
 }
 
 workrave::config::SettingGroup &
 GUIConfig::key_timerbox(const std::string &box)
 {
-  return SettingCache::group(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box);
+  return SettingCache::group(Backend::get_configurator(), CFG_KEY_TIMERBOX + box);
 }
 
 Setting<int> &
 GUIConfig::timerbox_cycle_time(const std::string &box)
 {
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_CYCLE_TIME, 10);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_CYCLE_TIME, 10);
 }
 
 Setting<int> &
 GUIConfig::timerbox_slot(const std::string &box, workrave::BreakId break_id)
 {
-  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION, (box == "applet" ? 0 : break_id));
+  workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION, (box == "applet" ? 0 : break_id));
 }
 
 Setting<int> &
 GUIConfig::timerbox_flags(const std::string &box, workrave::BreakId break_id)
 {
-  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
+  workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
 }
 
 Setting<int> &
 GUIConfig::timerbox_imminent(const std::string &box, workrave::BreakId break_id)
 {
-  workrave::IBreak::Ptr br = CoreFactory::get_core()->get_break(break_id);
-  return SettingCache::get<int>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
+  workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
+  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
 }
 
 Setting<bool> &
 GUIConfig::timerbox_enabled(const std::string &box)
 {
-  return SettingCache::get<bool>(CoreFactory::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
 }

@@ -37,7 +37,7 @@
 
 #include "ICore.hh"
 #include "UiUtil.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "DataConnector.hh"
 
 using namespace workrave;
@@ -50,7 +50,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 {
   TRACE_ENTER("SoundsPreferencesPanel::SoundsPreferencesPanel");
 
-  connector = DataConnector::create();
+  connector = std::make_shared<DataConnector>();
 
   QVBoxLayout *layout = new QVBoxLayout;
   setLayout(layout);
@@ -60,7 +60,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   QVBoxLayout *sound_options_layout = new QVBoxLayout;
   sound_options_box->setLayout(sound_options_layout);
 
-  if (sound_theme->capability(workrave::audio::SOUND_CAP_VOLUME))
+  if (sound_theme->capability(workrave::audio::SoundCapability::VOLUME))
     {
       QSlider *sound_volume_scale = new QSlider(Qt::Horizontal);
       sound_volume_scale->setMinimum(0);
@@ -78,7 +78,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   connector->connect(SoundTheme::sound_enabled(), dc::wrap(enabled_cb));
   sound_options_layout->addWidget(enabled_cb);
 
-  if (sound_theme->capability(workrave::audio::SOUND_CAP_MUTE))
+  if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {
       // Volume
       QCheckBox *mute_cb = new QCheckBox;

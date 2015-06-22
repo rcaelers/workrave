@@ -51,7 +51,7 @@
 #include "TimerBoxControl.hh"
 #include "Menus.hh"
 
-#include "CoreFactory.hh"
+#include "Backend.hh"
 #include "config/IConfigurator.hh"
 
 using namespace workrave;
@@ -122,7 +122,7 @@ AppletControl::init()
     }
 
   // Read configuration and start monitoring it.
-  connections.add(GUIConfig::key_timerbox("applet").connect(boost::bind(&AppletControl::read_configuration, this)));
+  connections.add(GUIConfig::key_timerbox("applet").connect(std::bind(&AppletControl::read_configuration, this)));
 
   read_configuration();
 }

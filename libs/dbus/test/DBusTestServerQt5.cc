@@ -73,7 +73,7 @@ DBusTestServerQt5::run(int argc, char **argv)
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
-      dbus = workrave::dbus::DBusQt5::create();
+      dbus = std::make_shared<workrave::dbus::DBusQt5>();
 
       dbus->init();
 

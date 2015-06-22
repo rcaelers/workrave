@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 #define WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace workrave
 {
@@ -33,7 +33,7 @@ namespace workrave
     class IInputMonitor
     {
     public:
-      typedef boost::shared_ptr<IInputMonitor> Ptr;
+      typedef std::shared_ptr<IInputMonitor> Ptr;
 
       virtual ~IInputMonitor() {}
 

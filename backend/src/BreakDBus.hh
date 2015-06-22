@@ -18,7 +18,7 @@
 #ifndef BREAKDBUS_HH
 #define BREAKDBUS_HH
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "dbus/IDBus.hh"
 #include "utils/ScopedConnections.hh"
@@ -28,11 +28,9 @@
 class BreakDBus
 {
 public:
-  typedef boost::shared_ptr<BreakDBus> Ptr;
+  typedef std::shared_ptr<BreakDBus> Ptr;
 
 public:
-  static Ptr create(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
-
   BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
   virtual ~BreakDBus();
 

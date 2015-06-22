@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "ICore.hh"
 #include "IBreakWindow.hh"
@@ -86,7 +86,7 @@ private:
 
 #ifdef PLATFORM_OS_OSX
   class Private;
-  boost::shared_ptr<Private> priv;
+  std::shared_ptr<Private> priv;
 #endif
 };
 

@@ -35,7 +35,7 @@
 #include "TimerBoxControl.hh"
 #include "UiUtil.hh"
 #include "Ui.hh"
-#include "CoreFactory.hh"
+#include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::ui;
@@ -46,7 +46,7 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
 {
   TRACE_ENTER("TimerBoxPreferencesPanel::TimerBoxPreferencesPanel");
 
-  connector = DataConnector::create();
+  connector = std::make_shared<DataConnector>();
 
   ontop_cb = new QCheckBox;
   enabled_cb = new QCheckBox();
@@ -72,11 +72,11 @@ TimerBoxPreferencesPanel::~TimerBoxPreferencesPanel()
 void
 TimerBoxPreferencesPanel::init_config()
 {
-  connections.add(GUIConfig::timerbox_enabled(name).connect(boost::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
+  connections.add(GUIConfig::timerbox_enabled(name).connect(std::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(boost::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(std::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
     }
 }
 
@@ -93,7 +93,7 @@ TimerBoxPreferencesPanel::init_enabled()
     }
 
   connector->connect(GUIConfig::timerbox_enabled(name), dc::wrap(enabled_cb),
-                     boost::bind(&TimerBoxPreferencesPanel::on_enabled_toggled, this, _1, _2));
+                     std::bind(&TimerBoxPreferencesPanel::on_enabled_toggled, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void
@@ -158,7 +158,7 @@ TimerBoxPreferencesPanel::init_timer_display()
       button->addItem(_("Show only when this timer is first due"));
 
       connector->connect(GUIConfig::timerbox_flags(name, i), dc::wrap(timer_display_button[i]),
-                         boost::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, _1, _2));
+                         std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
     }
 }
 
@@ -320,7 +320,7 @@ TimerBoxPreferencesPanel::enable_buttons(void)
       place_button->setEnabled(on && num_disabled != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore::Ptr core = CoreFactory::get_core();
+          ICore::Ptr core = Backend::get_core();
           IBreak::Ptr b = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
@@ -333,7 +333,7 @@ TimerBoxPreferencesPanel::enable_buttons(void)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore::Ptr core = CoreFactory::get_core();
+          ICore::Ptr core = Backend::get_core();
           IBreak::Ptr b = core->get_break(BreakId(i));
           timer_display_button[i]->setEnabled(b->is_enabled());
         }

@@ -23,9 +23,6 @@
 
 #include "Toolkit.hh"
 
-#include <boost/make_shared.hpp>
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 
 #include <QDesktopWidget>
 #include <QApplication>
@@ -48,13 +45,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-IToolkit::Ptr
-Toolkit::create(int argc, char **argv)
-{
-  return Ptr(new Toolkit(argc, argv));
-}
-
-
 Toolkit::Toolkit(int argc, char **argv)
   : QApplication(argc, argv),
     heartbeat_timer(new QTimer(this))
@@ -76,14 +66,14 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   setQuitOnLastWindowClosed(false);
 
 #ifdef PLATFORM_OS_OSX
-  dock_menu = ToolkitMenu::create(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
+  dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
 #endif
 
-  status_icon = boost::make_shared<StatusIcon>(menu_model);
+  status_icon = std::make_shared<StatusIcon>(menu_model);
   status_icon->init();
 
-  main_window =  boost::make_shared<MainWindow>(menu_model);
+  main_window =  std::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 
@@ -91,7 +81,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   main_window->raise();
 
 #ifdef PLATFORM_OS_OSX
-  dock = boost::make_shared<Dock>();
+  dock = std::make_shared<Dock>();
   dock->init();
 #endif
 }
@@ -129,15 +119,15 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
    {
-     ret = MicroBreakWindow::create(screen, break_flags, block_mode);
+     ret = std::make_shared<MicroBreakWindow>(screen, break_flags, block_mode);
    }
   else if (break_id == BREAK_ID_REST_BREAK)
    {
-     ret = RestBreakWindow::create(screen, break_flags, block_mode);
+     ret = std::make_shared<RestBreakWindow>(screen, break_flags, block_mode);
    }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
    {
-     ret = DailyLimitWindow::create(screen, break_flags, block_mode);
+     ret = std::make_shared<DailyLimitWindow>(screen, break_flags, block_mode);
    }
 
   return ret;
@@ -147,7 +137,7 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
 IPreludeWindow::Ptr
 Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)
 {
-  return PreludeWindow::create(screen, break_id);
+  return std::make_shared<PreludeWindow>(screen, break_id);
 }
 
 void
@@ -166,7 +156,7 @@ Toolkit::show_window(WindowType type)
     case WindowType::Preferences:
       if (!preferences_dialog)
         {
-          preferences_dialog = boost::make_shared<PreferencesDialog>(sound_theme);
+          preferences_dialog = std::make_shared<PreferencesDialog>(sound_theme);
           connect(preferences_dialog.get(), &QDialog::accepted, this, &Toolkit::on_preferences_closed);
         }
       preferences_dialog->show();
@@ -175,7 +165,7 @@ Toolkit::show_window(WindowType type)
     case WindowType::About:
       if (!about_dialog)
         {
-          about_dialog = boost::make_shared<AboutDialog>();
+          about_dialog = std::make_shared<AboutDialog>();
           connect(about_dialog.get(), &QDialog::accepted, this, &Toolkit::on_about_closed);
         }
       about_dialog->show();
@@ -184,7 +174,7 @@ Toolkit::show_window(WindowType type)
     case WindowType::Exercises:
       if (!exercises_dialog)
         {
-          exercises_dialog = boost::make_shared<ExercisesDialog>();
+          exercises_dialog = std::make_shared<ExercisesDialog>();
           connect(exercises_dialog.get(), &QDialog::accepted, this, &Toolkit::on_exercises_closed);
         }
       exercises_dialog->show();
@@ -234,7 +224,7 @@ Toolkit::show_balloon(std::string id, const std::string& title, const std::strin
 }
 
 void
-Toolkit::create_oneshot_timer(int ms, boost::function<void ()> func)
+Toolkit::create_oneshot_timer(int ms, std::function<void ()> func)
 {
   new OneshotTimer(ms, func);
 }

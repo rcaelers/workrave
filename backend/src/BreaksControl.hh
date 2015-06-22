@@ -22,7 +22,6 @@
 
 #include <vector>
 #include <map>
-#include <boost/enable_shared_from_this.hpp>
 
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
@@ -39,17 +38,10 @@
 #include "TimerActivityMonitor.hh"
 
 class BreaksControl :
-  public boost::enable_shared_from_this<BreaksControl>
+  public std::enable_shared_from_this<BreaksControl>
 {
 public:
-  typedef boost::shared_ptr<BreaksControl> Ptr;
-
-  static Ptr create(workrave::IApp *app,
-                    IActivityMonitor::Ptr activity_monitor,
-                    CoreModes::Ptr modes,
-                    Statistics::Ptr statistics,
-                    workrave::dbus::IDBus::Ptr dbus,
-                    CoreHooks::Ptr hooks);
+  typedef std::shared_ptr<BreaksControl> Ptr;
 
   BreaksControl(workrave::IApp *app,
                 IActivityMonitor::Ptr activity_monitor,
