@@ -35,6 +35,7 @@
 #include "Util.hh"
 #include "MainWindow.hh"
 #include "W32AppletWindow.hh"
+#include "MenuEnums.hh"
 
 using namespace std;
 using namespace workrave;
@@ -72,24 +73,24 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       W32AppletWindow *w32aw = applet_window;
       w32aw->init_menu(cmd_win);
 
-      w32aw->add_menu(_("_Open"), Menus::MENU_COMMAND_OPEN, 0);
-      w32aw->add_menu(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES, 0);
-      w32aw->add_menu(_("_Rest break"), Menus::MENU_COMMAND_REST_BREAK, 0);
-      w32aw->add_menu(_("Exercises"), Menus::MENU_COMMAND_EXERCISES, 0);
+      w32aw->add_menu(_("_Open"), MENU_COMMAND_OPEN, 0);
+      w32aw->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
+      w32aw->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
+      w32aw->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
 
-      w32aw->add_menu(_("_Normal"), Menus::MENU_COMMAND_MODE_NORMAL,
+      w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OPERATION_MODE_NORMAL
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      w32aw->add_menu(_("Q_uiet"), Menus::MENU_COMMAND_MODE_QUIET,
+      w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OPERATION_MODE_QUIET
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
-      w32aw->add_menu(_("_Suspended"), Menus::MENU_COMMAND_MODE_SUSPENDED,
+      w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(mode == OPERATION_MODE_SUSPENDED
@@ -99,17 +100,17 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
-      w32aw->add_menu(_("_Connect"), Menus::MENU_COMMAND_NETWORK_CONNECT,
+      w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Disconnect"),
-                      Menus::MENU_COMMAND_NETWORK_DISCONNECT,
+                      MENU_COMMAND_NETWORK_DISCONNECT,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
+      w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("Show _log"), Menus::MENU_COMMAND_NETWORK_LOG,
+      w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP
                       |(show_log
@@ -117,14 +118,14 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
                         : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
-      w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
+      w32aw->add_menu(_("Reading mode"), MENU_COMMAND_MODE_READING,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |(usage == USAGE_MODE_READING
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
 
-      w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);
-      w32aw->add_menu(_("About..."), Menus::MENU_COMMAND_ABOUT, 0);
+      w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
+      w32aw->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);
     }
 
   TRACE_EXIT();
