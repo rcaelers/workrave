@@ -83,6 +83,9 @@ private:
 
   /** Delete button */
   Gtk::Button *delete_btn;
+
+  bool current_week;
+  
   void on_history_delete_all();
 
   void init_gui();

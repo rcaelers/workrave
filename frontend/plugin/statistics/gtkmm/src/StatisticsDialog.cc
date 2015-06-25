@@ -501,7 +501,10 @@ StatisticsDialog::display_week_statistics()
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {
+      std::memset(&timeinfo, 0, sizeof(timeinfo));
       timeinfo.tm_mday = d - offset + i;
+      timeinfo.tm_mon = m;
+      timeinfo.tm_year = y - 1900;
       t = std::mktime(&timeinfo);
       time_loc = std::localtime(&t);
 
