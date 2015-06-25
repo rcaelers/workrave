@@ -43,7 +43,6 @@
 
 #include <ctime>
 #include <cstring>
-#include <iostream>
 
 #include <gtkmm.h>
 
@@ -64,7 +63,8 @@ StatisticsDialog::StatisticsDialog()
     statistics(NULL),
     daily_usage_time_label(NULL),
     weekly_usage_time_label(NULL),
-    date_label(NULL)
+    date_label(NULL),
+    current_week(false)
 {
   ICore *core = CoreFactory::get_core();
   statistics = core->get_statistics();
@@ -499,6 +499,7 @@ StatisticsDialog::display_week_statistics()
 
   int offset = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
   int64_t total_week = 0;
+  current_week = false;
   for (int i = 0; i < 7; i++)
     {
       std::memset(&timeinfo, 0, sizeof(timeinfo));
@@ -520,6 +521,8 @@ StatisticsDialog::display_week_statistics()
             {
               total_week += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
             }
+
+          current_week |= (idx == 0);
         }
     }
 
@@ -696,10 +699,7 @@ StatisticsDialog::on_history_delete_all()
 bool
 StatisticsDialog::on_timer()
 {
-  int idx, next, prev;
-  get_calendar_day_index(idx, next, prev);
-
-  if (idx == 0)
+  if (current_week)
     {
       statistics->update();
       display_calendar_date();
