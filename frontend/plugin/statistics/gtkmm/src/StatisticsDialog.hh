@@ -58,7 +58,10 @@ private:
   Gtk::Label *activity_labels[5];
 
   /** Labels for break stats. */
-  Gtk::Label *daily_usage_label;
+  Gtk::Label *daily_usage_time_label;
+ 
+  /** Labels for break stats. */
+  Gtk::Label *weekly_usage_time_label;
 
   /** Labels indicating the start time of the visible data. */
   Gtk::Label *date_label;
@@ -100,7 +103,7 @@ private:
   void display_calendar_date();
   void display_statistics(IStatistics::DailyStats *stats);
   void clear_display_statistics();
-
+  void display_week_statistics();
   bool on_timer();
 };
 

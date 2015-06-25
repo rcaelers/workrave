@@ -21,9 +21,7 @@ dbussources += 		DBus-freedesktop.cc \
 endif
 endif
 
-if HAVE_LANGUAGE_SELECTION
 localesources = 	Locale.cc
-endif
 
 libworkrave_common_la_SOURCES =  \
 			debug.cc \

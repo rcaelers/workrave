@@ -148,6 +148,7 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 {
   std::vector<std::string> all_linguas;
 
+#ifdef HAVE_LANGUAGE_SELECTION
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
 
@@ -171,12 +172,14 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
       Locale::lookup("iso_639", language_entry.language_name);
       Locale::lookup("iso_3166", language_entry.country_name);
     }
+#endif  
 }
 
 
 void
 Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
+#ifdef HAVE_LANGUAGE_SELECTION
   static bool init_done = false;
 
   if (init_done)
@@ -218,5 +221,62 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
   init_done = true;
   Locale::set_locale(lang_save);
   list = languages_native_locale;
+#endif
 }
+
+#ifdef PLATFORM_OS_WIN32
+#include <windows.h>
+#endif
+
+#ifdef PLATFORM_OS_UNIX
+#include <langinfo.h>
+#endif
+
+int
+Locale::get_week_start()
+{
+  int week_start = 0;
+  
+#ifdef PLATFORM_OS_WIN32
+  WCHAR wsDay[4];
+	if (
+#  if defined(_WIN32_WINNT_VISTA) && WINVER >= _WIN32_WINNT_VISTA && defined(LOCALE_NAME_USER_DEFAULT)
+      GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
+#  else
+      GetLocaleInfoW(LOCALE_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
+#  endif
+      )
+    {
+      char *ws = g_utf16_to_utf8(reinterpret_cast<const gunichar2*>(wsDay), -1, NULL, NULL, NULL);
+      if (ws != NULL)
+        {
+          week_start = (ws[0] - '0' + 1) % 7;
+          g_free(ws);
+        }
+    }
+#endif
+
+#ifdef PLATFORM_OS_UNIX
+  union { unsigned int word; char *string; } langinfo;
+  gint week_1stday = 0;
+  gint first_weekday = 1;
+  guint week_origin;
+  
+  langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
+  first_weekday = langinfo.string[0];
+  langinfo.string = nl_langinfo(_NL_TIME_WEEK_1STDAY);
+  week_origin = langinfo.word;
+  if (week_origin == 19971130) /* Sunday */
+    week_1stday = 0;
+  else if (week_origin == 19971201) /* Monday */
+    week_1stday = 1;
+  else
+    g_warning ("Unknown value of _NL_TIME_WEEK_1STDAY.\n");
+
+  week_start = (week_1stday + first_weekday - 1) % 7;
+#endif
+
+  return week_start;
+}
+
 
