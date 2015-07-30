@@ -121,7 +121,7 @@ frontend/apps/qt5/src/Toolkit.cc
 frontend/apps/qt5/src/ToolkitMenu.cc
 frontend/apps/qt5/src/UiUtil.cc
 frontend/apps/qt5/src/main.cc
-frontend/common/src/CoreFactory.cc
+frontend/common/src/Backend.cc
 frontend/common/src/Exercise.cc
 frontend/common/src/GUIConfig.cc
 frontend/common/src/ScreenLockCommandline.cc
@@ -168,7 +168,7 @@ libs/dbus/src/DBusFreeDesktop.cc
 libs/dbus/src/DBusGeneric.cc
 libs/dbus/src/DBusGio.cc
 libs/dbus/src/DBusQt5.cc
-libs/dbus/src/IDBus.cc
+libs/dbus/src/DBusFactory.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/input-monitor/src/InputMonitor.cc
 libs/input-monitor/src/InputMonitorFactory.cc
