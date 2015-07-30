@@ -29,7 +29,7 @@ if (PLATFORM_OS_OSX)
   set(SRC ${SRC}
     osx/OSXSoundPlayer.cc)
   include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/osx)
-  set_source_files_properties(osx/OSXSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+  set_source_files_properties(osx/OSXSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 endif()
 
 if (HAVE_GTK)

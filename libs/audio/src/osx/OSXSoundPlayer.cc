@@ -29,49 +29,63 @@
 
 #include <Cocoa/Cocoa.h>
 #include <QTKit/QTKit.h>
+#import "Foundation/Foundation.h"
 
 @interface SoundDelegate : NSObject<NSSoundDelegate>
 {
-  OSXSoundPlayer *m_player;
+  ISoundPlayerEvents *callback;
 }
 
-- (id) initWithPlayer:(OSXSoundPlayer*)player;
-- (void)sound: (NSSound*)sound didFinishPlaying: (BOOL)finishedPlaying;
+- (void) setCallback:(ISoundPlayerEvents*)callback;
+- (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying;
 @end
 
 @implementation SoundDelegate : NSObject
 
-- (id) initWithPlayer:(OSXSoundPlayer*)player
-{
-  self = [super init];
-  if (self) {
-    m_player = player;
-  }
-  return self;
+- (void) setCallback:(ISoundPlayerEvents*)aCallback;
+{ 
+  self->callback = aCallback;
 }
 
-- (void) sound: (NSSound *) sound didFinishPlaying: (BOOL) aBool
+- (void) sound: (NSSound *) sound didFinishPlaying: (BOOL)finishedPlaying
 {
-  m_player->fire_eos();
+  std::cout << "OSXSoundPlayer::eos_event\n";
+  callback->eos_event();
 }
 @end
 
+
+class OSXSoundPlayer::Private
+{
+public:
+  NSMutableDictionary *soundDictionary;
+  SoundDelegate *delegate;
+public:
+  Private()
+  {
+    soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
+    delegate = [SoundDelegate alloc];
+  }
+
+  ~Private()
+  {
+    std::cout << "OSXSoundPlayer::~Private\n";
+      
+    [soundDictionary removeAllObjects];
+  }
+};
+
 OSXSoundPlayer::OSXSoundPlayer()
 {
-  soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
+  priv = std::make_shared<Private>();
 }
 
-
-OSXSoundPlayer::~OSXSoundPlayer()
-{
-  [soundDictionary removeAllObjects];
-  [soundDictionary release];
-}
 
 void
 OSXSoundPlayer::init(ISoundPlayerEvents *events)
 {
   this->events = events;
+  [priv->delegate setCallback: events];
 }
 
 
@@ -94,12 +108,12 @@ void
 OSXSoundPlayer::play_sound(std::string file, int volume)
 {
   NSString* filename = [NSString stringWithUTF8String: file.c_str()];
-  NSSound *sound = [soundDictionary objectForKey:filename];
+  NSSound *sound = [priv->soundDictionary objectForKey:filename];
   if (sound == nil)
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
-      [sound setDelegate: [[SoundDelegate alloc] initWithPlayer: this]]; // FIXME: leak?
-      [soundDictionary setObject:sound forKey:filename];
+      [sound setDelegate: priv->delegate];
+      [priv->soundDictionary setObject:sound forKey:filename];
     }
   [sound setVolume: static_cast<float>(volume / 100.0)];
   [sound stop];

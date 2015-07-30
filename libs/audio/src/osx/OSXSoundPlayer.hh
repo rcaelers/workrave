@@ -21,15 +21,11 @@
 #define OSXSOUNDPLAYER_HH
 
 #include "ISoundDriver.hh"
-#ifdef __OBJC__
-#import "Foundation/Foundation.h"
-#endif
 
 class OSXSoundPlayer : public ISoundDriver
 {
 public:
   OSXSoundPlayer();
-  ~OSXSoundPlayer() override;
 
   void init(ISoundPlayerEvents *) override;
   bool capability(workrave::audio::SoundCapability cap) override;
@@ -40,9 +36,9 @@ public:
 private:
   ISoundPlayerEvents *events;
 
-#ifdef __OBJC__
-  NSMutableDictionary *soundDictionary;
-#endif
+private:
+  class Private;
+  std::shared_ptr<Private> priv;
 };
 
 
