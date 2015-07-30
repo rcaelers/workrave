@@ -12,7 +12,7 @@ if (PLATFORM_OS_WIN32)
 elseif (PLATFORM_OS_OSX)
   set(SRC ${SRC} osx/OSXConfigurator.cc)
   include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/osx)
-  set_source_files_properties(osx/OSXConfigurator.cc PROPERTIES COMPILE_FLAGS "-x objective-c++")  
+  set_source_files_properties(osx/OSXConfigurator.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 else()
 
 if (HAVE_QT5)
