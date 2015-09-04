@@ -50,6 +50,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
+include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 
