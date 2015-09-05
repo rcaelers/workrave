@@ -12,7 +12,11 @@ build/cmake/README (native compilation on windows) and
 build/win32/README (cross-compilation on Linux)
 
 Read the 'INSTALL' file for more detailed directions on compilation on
-Unix and OSX.
+Unix and OSX. In short:
+
+- create a build folder outside the workrave folder
+- enter it and run `cmake /path/to/workrave`
+- run make
 
 Workrave requires that development packages of at least the following
 software are installed. The version numbers mentioned have been tested
@@ -40,3 +44,10 @@ Optionally, the following packages are required for gnome support.
 - ORbit (2.14.10)
 - Bonobo (2.15.0)
 - panel-applet (2.19.3)
+
+KDE support requires Qt5:
+
+- qtcore (5.4.2)
+- qtgui (5.4.2)
+- qtsvg (5.4.2)
+- qtdbus (5.4.2)

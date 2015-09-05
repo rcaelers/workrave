@@ -10,10 +10,15 @@ set(SRC
   Ui.cc
  )
 
+if (PLATFORM_OS_UNIX)
+  set(SRC ${SRC}
+    ScreenLockCommandline.cc
+    )
+endif()
+
 if (HAVE_GTK)
   include_directories(${GTK_INCLUDE_DIRS})
   set(SRC ${SRC}
-    ScreenLockCommandline.cc
     ScreenLockDBus.cc
     SystemStateChangeConsolekit.cc
     SystemStateChangeLogind.cc

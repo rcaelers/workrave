@@ -50,6 +50,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
+include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 
@@ -168,8 +169,19 @@ endif()
 # Pkg-config
 
 if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
-   find_package(PkgConfig REQUIRED)
+  find_package(PkgConfig REQUIRED)
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# glib is required for frontend/common/src/System.cc
+
+pkg_check_modules(
+  GLIB REQUIRED
+  glib-2.0>=2.36.0)
+set (HAVE_GLIB ON)
+
+include_directories(${GLIB_INCLUDE_DIRS})
+
 
 #----------------------------------------------------------------------------------------------------
 # GTK

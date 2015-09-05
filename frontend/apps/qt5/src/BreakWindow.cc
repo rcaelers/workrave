@@ -32,7 +32,10 @@
 #include <QStyle>
 #include <QDesktopWidget>
 #include <QApplication>
+
+#ifdef PLATFORM_OS_OSX
 #include <QtMacExtras>
+#endif
 
 #include "debug.hh"
 #include "nls.h"
@@ -78,7 +81,9 @@ BreakWindow::BreakWindow(int screen,
     block_window(NULL)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
+#ifdef PLATFORM_OS_OSX
   priv = std::make_shared<Private>();
+#endif
   TRACE_EXIT();
 }
 
