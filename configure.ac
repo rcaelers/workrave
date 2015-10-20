@@ -413,6 +413,14 @@ then
     PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
     CPPFLAGS=$CPPFLAGS_save
+
+    with_cxx11=no
+    # Enable C++11 std if gtkmm >= 3.18.0
+    PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.18.0,
+      [ AX_CXX_COMPILE_STDCXX_11( [noext], [mandatory])
+        with_cxx11=yes
+      ]
+    )
 fi
 
 dnl
@@ -1211,6 +1219,9 @@ echo "           Pulseaudio support :   ${config_pulse}"
 fi
 echo "                    Exercises :   ${config_exercises}"
 echo ""
+if test "$platform_os_unix" = "yes"; then
+echo "                C++11 support :   ${with_cxx11}"
+fi
 echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"
 echo "                   Debug logs :   ${config_tracing}"
