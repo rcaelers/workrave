@@ -419,7 +419,8 @@ then
     PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.18.0,
       [ AX_CXX_COMPILE_STDCXX_11( [noext], [mandatory])
         with_cxx11=yes
-      ]
+      ],
+      []
     )
 fi
 
