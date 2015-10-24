@@ -52,6 +52,8 @@ namespace workrave
 
       static LanguageMap languages_native_locale;
 
+      static int get_week_start();
+
     private:
       void init();
     };

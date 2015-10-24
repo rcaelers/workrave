@@ -41,6 +41,9 @@
 #include <sstream>
 #include <stdio.h>
 
+#include <ctime>
+#include <cstring>
+
 #include <gtkmm.h>
 
 #include "debug.hh"
@@ -52,13 +55,17 @@
 #include "StatisticsDialog.hh"
 #include "Text.hh"
 #include "GtkUtil.hh"
+#include "Locale.hh"
 
 using namespace std;
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false),
-    daily_usage_label(NULL),
-    date_label(NULL)
+    daily_usage_time_label(NULL),
+    weekly_usage_time_label(NULL),
+    monthly_usage_time_label(NULL),
+    date_label(NULL),
+    update_usage_real_time(false)
 {
   ICore::Ptr core = Backend::get_core();
   statistics = core->get_statistics();
@@ -182,11 +189,6 @@ StatisticsDialog::init_gui()
   show_all();
 }
 
-
-
-
-
-
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
@@ -237,8 +239,23 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 
   Gtk::Widget *usage_label
     = GtkUtil::create_label_with_tooltip
-    (_("Daily usage"),
-     _("The total computer usage"));
+    (_("Usage"),
+      ("Active computer usage"));
+
+  Gtk::Widget *daily_usage_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Daily"),
+     _("The total computer usage for the selected day"));
+
+  Gtk::Widget *weekly_usage_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Weekly"),
+     _("The total computer usage for the whole week of the selected day"));
+
+  Gtk::Widget *monthly_usage_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Monthly"),
+     _("The total computer usage for the whole month of the selected day"));
 
   Gtk::HSeparator *hrule = Gtk::manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = Gtk::manage(new Gtk::VSeparator());
@@ -272,15 +289,29 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
 
   hrule = Gtk::manage(new Gtk::HSeparator());
-  vrule = Gtk::manage(new Gtk::VSeparator());
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 10, 12, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
-  daily_usage_label = Gtk::manage(new Gtk::Label());
+  daily_usage_time_label = Gtk::manage(new Gtk::Label());
+  weekly_usage_time_label = Gtk::manage(new Gtk::Label());
+  monthly_usage_time_label = Gtk::manage(new Gtk::Label());
+
+  vrule = Gtk::manage(new Gtk::VSeparator());
+  table->attach(*vrule, 1, 2, y, y + 3, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y);
+  GtkUtil::table_attach_right_aligned(*table, *weekly_usage_label, 3, y);
+  GtkUtil::table_attach_right_aligned(*table, *monthly_usage_label, 4, y);
+  y++;
+
+  hrule = Gtk::manage(new Gtk::HSeparator());
+  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
+  y++;
 
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
-  GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
+  GtkUtil::table_attach_right_aligned(*table, *daily_usage_time_label, 2, y);
+  GtkUtil::table_attach_right_aligned(*table, *weekly_usage_time_label, 3, y);
+  GtkUtil::table_attach_right_aligned(*table, *monthly_usage_time_label, 4, y);
+
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -360,12 +391,7 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 #else
   ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
 #endif
-
 }
-
-
-
-
 
 
 void
@@ -399,7 +425,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 
 
   int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-  daily_usage_label->set_text(Text::time_to_string(value));
+  daily_usage_time_label->set_text(Text::time_to_string(value));
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -474,14 +500,109 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss << value;
       activity_labels[4]->set_text(ss.str());
     }
+
 }
 
+void
+StatisticsDialog::display_week_statistics()
+{
+  guint y, m, d;
+  calendar->get_date(y, m, d);
+
+  std::tm timeinfo;
+  std::memset(&timeinfo, 0, sizeof(timeinfo));
+  timeinfo.tm_mday = d;
+  timeinfo.tm_mon = m;
+  timeinfo.tm_year = y - 1900;
+
+  std::time_t t = std::mktime(&timeinfo);
+  std::tm const *time_loc = std::localtime(&t);
+
+  int offset = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
+  int64_t total_week = 0;
+  for (int i = 0; i < 7; i++)
+    {
+      std::memset(&timeinfo, 0, sizeof(timeinfo));
+      timeinfo.tm_mday = d - offset + i;
+      timeinfo.tm_mon = m;
+      timeinfo.tm_year = y - 1900;
+      t = std::mktime(&timeinfo);
+      time_loc = std::localtime(&t);
+
+      int idx, next, prev;
+      statistics->get_day_index_by_date(time_loc->tm_year + 1900,
+                                        time_loc->tm_mon + 1,
+                                        time_loc->tm_mday, idx, next, prev);
+
+      if (idx >= 0)
+        {
+          IStatistics::DailyStats *stats = statistics->get_day(idx);
+          if (stats != NULL)
+            {
+              total_week += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
+            }
+
+          update_usage_real_time |= (idx == 0);
+        }
+    }
+
+  weekly_usage_time_label->set_text(total_week > 0 ? Text::time_to_string(total_week) : "");
+}
+
+void
+StatisticsDialog::display_month_statistics() {
+  guint y, m, d;
+  calendar->get_date(y, m, d);
+
+  guint max_mday;
+  if (m == 3 || m == 5 || m == 8 || m == 10)
+    {
+      max_mday = 30;
+    }
+  else if (m == 1)
+    {
+      bool is_leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+      if (is_leap)
+        {
+          max_mday = 29;
+        }
+      else
+        {
+          max_mday = 28;
+        }
+    }
+  else
+    {
+      max_mday = 31;
+    }
+
+  int64_t total_month = 0;
+  for (guint i = 1; i <= max_mday; i++)
+    {
+      int idx, next, prev;
+      statistics->get_day_index_by_date(y, m + 1, i, idx, next, prev);
+      if (idx >= 0)
+        {
+          IStatistics::DailyStats *stats = statistics->get_day(idx);
+          if (stats != NULL)
+            {
+              total_month += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
+            }
+
+          update_usage_real_time |= (idx == 0);
+        }
+    }
+
+  monthly_usage_time_label->set_text(total_month > 0 ? Text::time_to_string(total_month) : "");
+}
 
 void
 StatisticsDialog::clear_display_statistics()
 {
   date_label->set_text("");
-  daily_usage_label->set_text("");
+  daily_usage_time_label->set_text("");
+  weekly_usage_time_label->set_text("");
+  monthly_usage_time_label->set_text("");
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -544,6 +665,9 @@ StatisticsDialog::display_calendar_date()
     {
       clear_display_statistics();
     }
+  update_usage_real_time = false;
+  display_week_statistics();
+  display_month_statistics();
   forward_btn->set_sensitive(next >= 0);
   back_btn->set_sensitive(prev >= 0);
   last_btn->set_sensitive(idx != 0);
@@ -645,10 +769,7 @@ StatisticsDialog::on_history_delete_all()
 bool
 StatisticsDialog::on_timer()
 {
-  int idx, next, prev;
-  get_calendar_day_index(idx, next, prev);
-
-  if (idx == 0)
+  if (update_usage_real_time)
     {
       statistics->update();
       display_calendar_date();

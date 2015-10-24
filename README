@@ -38,6 +38,7 @@ during development.
 - GDome
 - GStreamer (0.10.10)
 - Libsigc++ (2.0.2)
+- Autoconf with Autoconf Macro Archive (2012.04.04)
 
 Optionally, the following packages are required for gnome support.
 
