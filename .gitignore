@@ -2,6 +2,7 @@ Makefile
 Makefile.in
 .deps
 .libs
+.dirstamp
 *.la
 *.lo
 *.o
@@ -24,6 +25,7 @@ Makefile.in
 /config.h
 /config.h.in
 /config.log
+/config.rpath
 /config.status
 /config.sub
 /configure
@@ -44,6 +46,7 @@ Makefile.in
 /mkinstalldirs
 /po-Makefile.in.in
 /po-mode.el
+/po/Makevars.template
 /root-ABOUT-NLS
 /stamp-gc-h
 /stamp-h
@@ -66,4 +69,8 @@ Makefile.in
 /COPYING.txt
 /NEWS.txt
 /README.txt
-/m4
+/m4/*.m4
+/ar-lib
+/frontend/applets/xfce/src/workrave-xfce-applet.desktop
+/frontend/applets/xfce/src/xfce4-workrave-plugin
+
