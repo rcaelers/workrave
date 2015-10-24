@@ -289,18 +289,22 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
 
   hrule = Gtk::manage(new Gtk::HSeparator());
-  vrule = Gtk::manage(new Gtk::VSeparator());
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 10, 12, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
   daily_usage_time_label = Gtk::manage(new Gtk::Label());
   weekly_usage_time_label = Gtk::manage(new Gtk::Label());
   monthly_usage_time_label = Gtk::manage(new Gtk::Label());
 
+  vrule = Gtk::manage(new Gtk::VSeparator());
+  table->attach(*vrule, 1, 2, y, y + 3, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y);
   GtkUtil::table_attach_right_aligned(*table, *weekly_usage_label, 3, y);
   GtkUtil::table_attach_right_aligned(*table, *monthly_usage_label, 4, y);
+  y++;
+
+  hrule = Gtk::manage(new Gtk::HSeparator());
+  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   y++;
 
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
