@@ -57,11 +57,17 @@ private:
   /** Labels for break stats. */
   Gtk::Label *activity_labels[5];
 
-  /** Labels for break stats. */
+  /** Usage label */
+  Gtk::Label *usage_label;
+
+  /** Daily time. */
   Gtk::Label *daily_usage_time_label;
  
-  /** Labels for break stats. */
+  /** Weekly time. */
   Gtk::Label *weekly_usage_time_label;
+
+  /** Monthly time */
+  Gtk::Label *monthly_usage_time_label;
 
   /** Labels indicating the start time of the visible data. */
   Gtk::Label *date_label;
@@ -84,7 +90,7 @@ private:
   /** Delete button */
   Gtk::Button *delete_btn;
 
-  bool current_week;
+  bool update_usage_real_time;
   
   void on_history_delete_all();
 
@@ -107,6 +113,7 @@ private:
   void display_statistics(IStatistics::DailyStats *stats);
   void clear_display_statistics();
   void display_week_statistics();
+  void display_month_statistics();
   bool on_timer();
 };
 
