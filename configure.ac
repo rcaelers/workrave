@@ -642,7 +642,7 @@ PKG_CHECK_MODULES([GLIB],
 
 
 config_gsettings=no		  
-if test "x$enable_gsettings" != "xno" -a "x$config_gnome3" = "xyes"
+if test "x$enable_gsettings" != "xno"
 then
    if test "x$platform_os_unix" == "xyes"; then		  
       GLIB_GSETTINGS
