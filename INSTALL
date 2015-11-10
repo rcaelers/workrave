@@ -52,10 +52,14 @@ of `autoconf'.
 
   1. install the needed dependencies: 
       
-      apt-get install autopoint intltool libxtst-dev libqtglib-2.0-0  \
-      python-cheetah libgtkmm-2.4-dev libxss-dev libxtst6-dbg \
-      libxext6-dbg libxss1-dbg libtool
-  
+      apt-get install autotools-dev autopoint gobject-introspection \
+         gsettings-desktop-schemas-dev intltool libdbusmenu-glib-dev \
+         libdbusmenu-gtk3-dev libgdome2-dev libgirepository1.0-dev \
+         libglib2.0-0 libglibmm-2.4-dev libgstreamer0.10-dev \
+         libgtkmm-3.0-dev libindicator3-dev libpanel-applet-4-dev \
+         libpulse-dev libsigc++-2.0-dev libxi-dev libxmu-dev \
+         libxtst-dev libxss-dev python-cheetah
+
   2. `cd' to the directory containing the package's source code and type `./autogen.sh` to generate configure
   
   3. type `./configure' to configure the package for your system.
