@@ -52,9 +52,9 @@ of `autoconf'.
 
   1. install the needed dependencies: 
       
-      apt-get install autopoint intltool libxtst-dev glib-2.0  \
-      python-cheetah glibmm-2.4 gtkmm-2.4 libxss-dev libxtst6-dbg \
-      libxext6-dbg libxss1-dbg
+      apt-get install autopoint intltool libxtst-dev libqtglib-2.0-0  \
+      python-cheetah libgtkmm-2.4-dev libxss-dev libxtst6-dbg \
+      libxext6-dbg libxss1-dbg libtool
   
   2. `cd' to the directory containing the package's source code and type `./autogen.sh` to generate configure
   
