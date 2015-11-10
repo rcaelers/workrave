@@ -104,6 +104,7 @@ before_script:
     ./configure \
       --enable-option-checking=fatal \
       --disable-static \
+      --disable-dependency-tracking \
       `conf_opt gconf` \
       `conf_opt gsettings` \
       `conf_opt xml` \
