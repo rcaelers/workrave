@@ -57,8 +57,8 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  return (cap == workrave::audio::SOUND_CAP_VOLUME ||
-          cap == workrave::audio::SOUND_CAP_EOS_EVENT);
+  return (cap == workrave::audio::SoundCapability::VOLUME ||
+          cap == workrave::audio::SoundCapability::EOS_EVENT);
 }
 
 void
