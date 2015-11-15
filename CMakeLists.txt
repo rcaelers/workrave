@@ -180,17 +180,6 @@ if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# glib is required for frontend/common/src/System.cc
-
-pkg_check_modules(
-  GLIB REQUIRED
-  glib-2.0>=2.36.0)
-set (HAVE_GLIB ON)
-
-include_directories(${GLIB_INCLUDE_DIRS})
-
-
-#----------------------------------------------------------------------------------------------------
 # GTK
 
 if ("${WITH_UI}" STREQUAL "Gtk+3")
@@ -320,6 +309,16 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
+
+
+  if (NOT APPLE)
+    # glib is required for frontend/common/src/System.cc
+    pkg_check_modules(
+      GLIB REQUIRED
+      glib-2.0>=2.36.0)
+    set (HAVE_GLIB ON)
+    include_directories(${GLIB_INCLUDE_DIRS})
+  endif()
 endif()
 
 
