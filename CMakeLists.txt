@@ -50,7 +50,11 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
-include(FindPkgConfig)
+
+if ( (NOT ("${WITH_UI}" STREQUAL "Qt5")) OR
+     (NOT APPLE))
+  include(FindPkgConfig)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 
