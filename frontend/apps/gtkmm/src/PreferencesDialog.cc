@@ -356,7 +356,7 @@ PreferencesDialog::create_sounds_page()
   sound_button->set_active(idx);
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
-  if (snd->capability(workrave::audio::SOUND_CAP_VOLUME))
+  if (snd->capability(workrave::audio::SoundCapability::VOLUME))
     {
       // Volume
       sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
@@ -368,7 +368,7 @@ PreferencesDialog::create_sounds_page()
 
   hig->add_label(_("Sound:"), *sound_button);
 
-  if (snd->capability(workrave::audio::SOUND_CAP_MUTE))
+  if (snd->capability(workrave::audio::SoundCapability::MUTE))
     {
       // Volume
       mute_cb = Gtk::manage(new Gtk::CheckButton

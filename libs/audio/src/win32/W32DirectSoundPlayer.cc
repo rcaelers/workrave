@@ -81,11 +81,11 @@ W32DirectSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 W32DirectSoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SoundCapability::VOLUME)
     {
       return true;
     }
-  if (cap == SOUND_CAP_EOS_EVENT)
+  if (cap == workrave::audio::SoundCapability::EOS_EVENT)
     {
       return true;
     }

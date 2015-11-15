@@ -56,7 +56,7 @@ W32SoundPlayer::~W32SoundPlayer()
 bool
 W32SoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == workrave::audio::SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SoundCapability::VOLUME)
     {
       return true;
     }

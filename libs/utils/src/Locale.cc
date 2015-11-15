@@ -174,7 +174,6 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
       Locale::lookup("iso_639", language_entry.language_name);
       Locale::lookup("iso_3166", language_entry.country_name);
     }
-#endif  
 }
 
 
@@ -226,6 +225,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
+#include <glib.h>
 #endif
 
 #ifdef PLATFORM_OS_UNIX

@@ -55,7 +55,7 @@
 #include "StatisticsDialog.hh"
 #include "Text.hh"
 #include "GtkUtil.hh"
-#include "Locale.hh"
+#include "utils/Locale.hh"
 
 using namespace std;
 
@@ -518,7 +518,7 @@ StatisticsDialog::display_week_statistics()
   std::time_t t = std::mktime(&timeinfo);
   std::tm const *time_loc = std::localtime(&t);
 
-  int offset = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
+  int offset = (time_loc->tm_wday - workrave::utils::Locale::get_week_start() + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {
