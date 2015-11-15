@@ -49,7 +49,6 @@
 
 - (void) sound: (NSSound *) sound didFinishPlaying: (BOOL)finishedPlaying
 {
-  std::cout << "OSXSoundPlayer::eos_event\n";
   callback->eos_event();
 }
 @end
@@ -69,8 +68,6 @@ public:
 
   ~Private()
   {
-    std::cout << "OSXSoundPlayer::~Private\n";
-      
     [soundDictionary removeAllObjects];
   }
 };
