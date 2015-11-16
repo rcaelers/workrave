@@ -46,8 +46,8 @@ if (PLATFORM_OS_UNIX)
         unix/IndicatorAppletMenu.cc
       )
     endif()
-    
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/unix)
+
+    include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/unix)
 endif()
 
 if (PLATFORM_OS_WIN32)
@@ -64,11 +64,11 @@ if (PLATFORM_OS_WIN32)
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
-  
+
   add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                      COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                                                   -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-	             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc			    
+	             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc			
                     )
    	
   set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
@@ -85,7 +85,7 @@ if (PLATFORM_OS_OSX)
     osx/OSXTimeBar.mm
     )
 
-  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
+  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
   include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/osx)
 endif()
@@ -98,7 +98,7 @@ if (HAVE_DBUS)
     )
 
   dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.service.in)
-  
+
 endif (HAVE_DBUS)
 
 set(SRC ${SRC}
@@ -119,7 +119,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/frontend/apps/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/common/include/
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
-  
+
   ${CMAKE_SOURCE_DIR}/libs/config/include/config
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${CMAKE_SOURCE_DIR}/libs/utils/include
@@ -127,7 +127,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/audio/include
 
   ${CMAKE_SOURCE_DIR}/backend/include/
-  
+
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
   )
@@ -145,6 +145,16 @@ endif()
 
 add_executable(workrave ${SRC})
 add_cppcheck(workrave)
+
+ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
+    COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_BINARY_DIR}/workrave.sym
+    COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
+        $<TARGET_FILE:workrave> ${CMAKE_BINARY_DIR}/workrave.dbg
+    COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
+        $<TARGET_FILE:workrave>
+    COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=${CMAKE_BINARY_DIR}/workrave.dbg
+        $<TARGET_FILE:workrave>
+    )
 
 target_link_libraries(workrave workrave-frontend-common)
 target_link_libraries(workrave workrave-backend)
