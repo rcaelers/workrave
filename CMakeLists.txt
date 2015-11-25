@@ -185,8 +185,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
 
   pkg_check_modules(
     GTK REQUIRED
-    gtkmm-3.0>=3.16.0
-    gtk+-3.0>=3.16.0)
+    gtkmm-3.0>=3.10.0
+    gtk+-3.0>=3.10.0)
   
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
