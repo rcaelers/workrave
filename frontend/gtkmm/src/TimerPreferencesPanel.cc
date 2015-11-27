@@ -170,6 +170,9 @@ TimerPreferencesPanel::create_options_panel()
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
   monitor_cb = NULL;
+  auto_natural_cb = NULL;
+  allow_shutdown_cb = NULL;
+
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
@@ -420,17 +423,26 @@ TimerPreferencesPanel::enable_buttons()
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
-  if (break_id == BREAK_ID_REST_BREAK)
+
+  if (auto_reset_tim != NULL)
     {
-        auto_reset_tim->set_sensitive(true);
+      auto_reset_tim->set_sensitive(on);
     }
-  else
-    {
-      if (auto_reset_tim != NULL)
-        {
-          auto_reset_tim->set_sensitive(on);
-        }
-    }
+
   snooze_tim->set_sensitive(on);
+
+  if (exercises_spin != NULL)
+    {
+      exercises_spin->set_sensitive(on);
+    }
+
+  if (auto_natural_cb != NULL)
+    {
+      auto_natural_cb->set_sensitive(on);
+    }
+  if (allow_shutdown_cb != NULL)
+    {
+      allow_shutdown_cb->set_sensitive(on);
+    }
   // max_prelude_spin->set_sensitive(on);
 }
