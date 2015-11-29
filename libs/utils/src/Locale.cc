@@ -223,24 +223,28 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #endif
 }
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 #include <windows.h>
 #include <glib.h>
 #endif
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 #include <langinfo.h>
 #include <glib.h>
+#endif
+
+#if defined(PLATFORM_OS_OSX)
+#import <Foundation/NSCalendar.h>
 #endif
 
 int
 Locale::get_week_start()
 {
   int week_start = 0;
-  
-#ifdef PLATFORM_OS_WIN32
+
+#if defined(PLATFORM_OS_WIN32)
   WCHAR wsDay[4];
-	if (
+  if (
 #  if defined(_WIN32_WINNT_VISTA) && WINVER >= _WIN32_WINNT_VISTA && defined(LOCALE_NAME_USER_DEFAULT)
       GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
 #  else
@@ -255,14 +259,16 @@ Locale::get_week_start()
           g_free(ws);
         }
     }
-#endif
 
-#ifdef PLATFORM_OS_UNIX
+#elif defined(PLATFORM_OS_OSX)
+  week_start = [[NSCalendar currentCalendar] firstWeekday];
+
+#elif defined(PLATFORM_OS_UNIX)
   union { unsigned int word; char *string; } langinfo;
-  gint week_1stday = 0;
-  gint first_weekday = 1;
-  guint week_origin;
-  
+  int week_1stday = 0;
+  int first_weekday = 1;
+  unsigned int week_origin;
+
   langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
   first_weekday = langinfo.string[0];
   langinfo.string = nl_langinfo(_NL_TIME_WEEK_1STDAY);
@@ -279,5 +285,3 @@ Locale::get_week_start()
 
   return week_start;
 }
-
-
