@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-01-03 13:31+0100\n"
+"POT-Creation-Date: 2015-11-07 19:15+0100\n"
 "PO-Revision-Date: 2011-02-16 19:19+0100\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
@@ -42,9 +42,9 @@ msgstr "%s, от %s до %s"
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#: ../frontend/apps/qt5/src/AboutDialog.cc:57
 #, c-format
-msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
 #: ../frontend/apps/qt5/src/AboutDialog.cc:49
@@ -52,10 +52,10 @@ msgstr ""
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/apps/qt5/src/Menus.cc:137
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/apps/qt5/src/Menus.cc:130
 msgid "About..."
 msgstr "Относно..."
 
@@ -108,7 +108,7 @@ msgstr "Продължителност на почивка:"
 msgid "Break ignored"
 msgstr "Почивката пренебрегната"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:311
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
@@ -155,7 +155,7 @@ msgid "Cover your eyes with your palms in such way that you can still open your 
 msgstr "Закрийте с длани очите си но така, че да можете да държите отворени клепачите си. Сега отворете очите си и се вгледайте в мрака във вашите длани. Това упражнение дава по-добро облекчение на очите Ви отколкото затварянето им."
 
 #: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
-#: ../frontend/common/src/SoundTheme.cc:371
+#: ../frontend/common/src/SoundTheme.cc:365
 msgid "Custom"
 msgstr ""
 
@@ -164,24 +164,24 @@ msgstr ""
 msgid "Cycle time:"
 msgstr "Време за цикъл:"
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:36
 #: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
 #: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "Дневен лимит"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Дневният лимит %s е просрочен"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Дневният лимит е след %s"
@@ -203,7 +203,7 @@ msgstr "Дата:"
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:315
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
@@ -246,7 +246,7 @@ msgstr "Разрешаване на таймер"
 msgid "Enabled"
 msgstr "Разрешаване на таймер"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:304
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 #, fuzzy
 msgid "End exercises"
@@ -270,11 +270,11 @@ msgid "Exercise ended"
 msgstr "Упражнението приключи"
 
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-#: ../frontend/apps/qt5/src/Menus.cc:95
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/apps/qt5/src/Menus.cc:88
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -282,7 +282,7 @@ msgstr "Упражнения"
 msgid "Exercises ended"
 msgstr "Упражненията приключиха"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:264
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "Демонстратор на упражненията"
@@ -340,6 +340,7 @@ msgid "Language:"
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#: ../frontend/apps/qt5/src/BreakWindow.cc:148
 #, fuzzy
 msgid "Lock"
 msgstr "_Заключване"
@@ -369,10 +370,10 @@ msgstr "Максимален брой напомняния:"
 # ОПРАВИМЕ: повтарящ се
 #. FIXME: duplicate
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:279
 #: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "Микро-почивка"
@@ -392,9 +393,9 @@ msgid "Micro-break:"
 msgstr "Микро-почивка:"
 
 # Меню Режим
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
-#: ../frontend/apps/qt5/src/Menus.cc:99
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/qt5/src/Menus.cc:92
 #, fuzzy
 msgid "Mode"
 msgstr "_Режим"
@@ -440,8 +441,8 @@ msgstr "Почивката и дневния лимит на едно място
 msgid "Natural breaks taken"
 msgstr "Оползотворени естествени почивки"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:143
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Оползотворени естествени почивки"
@@ -450,14 +451,14 @@ msgstr "Оползотворени естествени почивки"
 msgid "Neck tilt stretch"
 msgstr "Накланяне и разтягане врата"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 #, fuzzy
 msgid "Next exercise"
 msgstr "Брой упражнения:"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:133
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следващата почивка е след %s"
@@ -476,8 +477,8 @@ msgstr "Без звук"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
 #: ../frontend/applets/mate/src/main.c:324
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/apps/qt5/src/Menus.cc:103
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:96
 #, fuzzy
 msgid "Normal"
 msgstr "_Нормален"
@@ -487,9 +488,9 @@ msgstr "_Нормален"
 msgid "Number of exercises:"
 msgstr "Брой упражнения:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../frontend/apps/qt5/src/Menus.cc:80
+#: ../frontend/apps/qt5/src/Menus.cc:73
 #, fuzzy
 msgid "Open"
 msgstr "_Отваряне"
@@ -506,14 +507,14 @@ msgstr "Конфигуриране"
 msgid "Overdue time"
 msgstr "Просрочено време"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
 msgstr "Пауза"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:494
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:302
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Брой упражнения:"
@@ -559,12 +560,12 @@ msgstr ""
 msgid "Play sounds using sound card"
 msgstr "Просвирване на звуците през звуковата карта"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:127
 msgid "Please relax for a few seconds"
 msgstr "Моля отпуснете се за няколко секунди"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#: ../frontend/apps/qt5/src/BreakWindow.cc:181
 #, fuzzy
 msgid "Postpone"
 msgstr "_Отлагане"
@@ -574,15 +575,15 @@ msgstr "_Отлагане"
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-#: ../frontend/apps/qt5/src/Menus.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/qt5/src/Menus.cc:78
 msgid "Preferences"
 msgstr "Предпочитания"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr ""
@@ -602,7 +603,7 @@ msgstr "Седнали поставете ръце на облегалките �
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "Т_их"
 
@@ -610,15 +611,15 @@ msgstr "Т_их"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
 #: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/apps/qt5/src/Menus.cc:118
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/apps/qt5/src/Menus.cc:111
 #, fuzzy
 msgid "Quiet"
 msgstr "Т_их"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:214
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../frontend/apps/qt5/src/Menus.cc:142
+#: ../frontend/apps/qt5/src/Menus.cc:135
 #, fuzzy
 msgid "Quit"
 msgstr "_Изход"
@@ -626,10 +627,10 @@ msgstr "_Изход"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
 #: ../frontend/applets/mate/src/main.c:317
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:208
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/apps/qt5/src/Menus.cc:125
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../frontend/apps/qt5/src/Menus.cc:118
 msgid "Reading mode"
 msgstr ""
 
@@ -643,21 +644,21 @@ msgid "Repeated prompts"
 msgstr "Повтарящи се напомняния"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
-#: ../frontend/apps/qt5/src/Menus.cc:90
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:209
+#: ../frontend/apps/qt5/src/Menus.cc:83
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:46
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:149
 #: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "Почивка"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Почивката %s е просрочена"
@@ -666,8 +667,8 @@ msgstr "Почивката %s е просрочена"
 msgid "Rest break ended"
 msgstr "Почивката свърши"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "Почивка за %s"
@@ -680,12 +681,12 @@ msgstr "Почивката започна"
 msgid "Rest break:"
 msgstr "Почивка:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
 msgstr "Продължаване"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:298
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Брой упражнения:"
@@ -745,7 +746,7 @@ msgstr "Показване прозореца за състоянието"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:192
+#: ../frontend/apps/qt5/src/BreakWindow.cc:159
 #, fuzzy
 msgid "Shut down"
 msgstr "_Изключване"
@@ -755,13 +756,13 @@ msgstr "_Изключване"
 msgid "Shutdown"
 msgstr "_Изключване"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:319
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "Замлъква след %s"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#: ../frontend/apps/qt5/src/BreakWindow.cc:170
 #, fuzzy
 msgid "Skip"
 msgstr "_Пропускане"
@@ -827,13 +828,13 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Застанете с нормално изправена глава и леко я наклонете към дясното си рамо за да разтегнете леко мускулите отляво на врата. Задръжте тази позиция за 5 секунди. После наклонете глава наляво за да разтегнете и на другата страна. Направете по два пъти за всяка страна."
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:179
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/apps/qt5/src/Menus.cc:132
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -856,8 +857,8 @@ msgstr "_Летаргичен"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
 #: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/apps/qt5/src/Menus.cc:110
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:103
 #, fuzzy
 msgid "Suspended"
 msgstr "_Летаргичен"
@@ -867,7 +868,7 @@ msgstr "_Летаргичен"
 msgid "System default"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:192
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Следващата почивка е след %s"
@@ -937,14 +938,14 @@ msgstr "Общо време за което тази почивка е прос�
 msgid "The total time you were using the mouse"
 msgstr "Общо време на използване на мишката"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:144
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Вие имате нужда от почивка..."
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -956,11 +957,11 @@ msgstr ""
 "протегнете се, отпуснете се и си починете."
 
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:219
 #: ../frontend/applets/mate/src/main.c:206
 #: ../frontend/applets/xfce/src/main.c:291
-#: ../frontend/apps/gtkmm/src/Menus.cc:362
-#: ../frontend/apps/qt5/src/AboutDialog.cc:70
+#: ../frontend/apps/gtkmm/src/Menus.cc:365
+#: ../frontend/apps/qt5/src/AboutDialog.cc:65
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Тази програма подпомага при предотвратяване и възстановяване от ПИЕД - заболяване свързано с Продължителното Извършване на Еднотипни Движения (Repetitive Strain Injury - RSI)."
 
@@ -974,8 +975,8 @@ msgstr "Време преди завършване:"
 msgid "Time between breaks:"
 msgstr "Време между почиките:"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:70
 msgid "Time for a micro-break?"
 msgstr "Време за микро-почивка?"
 
@@ -1016,7 +1017,7 @@ msgstr "Потребителски интерфейс"
 msgid "Volume:"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:214
 #: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "Изчакване"
@@ -1030,8 +1031,8 @@ msgstr ""
 msgid "Wavefiles"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/Application.cc:626
-#: ../frontend/apps/qt5/src/Application.cc:632
+#: ../frontend/apps/qt5/src/Application.cc:611
+#: ../frontend/apps/qt5/src/Application.cc:617
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -1041,12 +1042,12 @@ msgid "Workrave failed to start"
 msgstr "Workrave - аплет"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
-#: ../frontend/apps/qt5/src/Application.cc:633
+#: ../frontend/apps/qt5/src/Application.cc:618
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
-#: ../frontend/apps/qt5/src/Application.cc:627
+#: ../frontend/apps/qt5/src/Application.cc:612
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -1058,8 +1059,8 @@ msgstr ""
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1070,20 +1071,20 @@ msgstr ""
 "не е свършил намерете си друго занимание напр.\n"
 "преглеждане на документи."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:74
 msgid "You need a rest break..."
 msgstr "Вие имате нужда от почивка..."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:78
 msgid "You should stop for today..."
 msgstr "Вие трябва да приключите за днес..."
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
 #: ../frontend/applets/mate/src/main.c:302
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:184
 #, fuzzy
 msgid "_About"
 msgstr "_Относно..."
@@ -1112,7 +1113,7 @@ msgstr ""
 #: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "_Режим"
 
@@ -1124,14 +1125,14 @@ msgstr "_Мрежа"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "_Нормален"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
 #: ../frontend/applets/mate/src/main.c:262
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_Отваряне"
 
@@ -1150,7 +1151,7 @@ msgstr "_Конфигуриране"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
 #: ../frontend/applets/mate/src/main.c:306
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:189
 msgid "_Quit"
 msgstr "_Изход"
 
@@ -1167,7 +1168,7 @@ msgstr "_Повторно свързване"
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_Почивка"
 
@@ -1190,7 +1191,7 @@ msgstr "_Статистика"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "_Летаргичен"
 
