@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-01-03 13:31+0100\n"
+"POT-Creation-Date: 2015-11-07 19:15+0100\n"
 "PO-Revision-Date: 2011-04-16 13:23+0330\n"
 "Last-Translator: Moein Gh <tarfandkhaneh@gmail.com>\n"
 "Language-Team:  <Tarfandkhaneh@Gmail.com>\n"
@@ -42,9 +42,9 @@ msgstr "%s, از %s به %s"
 msgid "(font not available)"
 msgstr "(فونت در دسترس نیست)"
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#: ../frontend/apps/qt5/src/AboutDialog.cc:57
 #, c-format
-msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
 #: ../frontend/apps/qt5/src/AboutDialog.cc:49
@@ -52,10 +52,10 @@ msgstr ""
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/apps/qt5/src/Menus.cc:137
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/apps/qt5/src/Menus.cc:130
 msgid "About..."
 msgstr "درباره..."
 
@@ -107,7 +107,7 @@ msgstr "مدت استراحت:"
 msgid "Break ignored"
 msgstr "Break ignored"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:311
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
@@ -152,7 +152,7 @@ msgid "Cover your eyes with your palms in such way that you can still open your 
 msgstr "با دست هایتان چشم ها را بپوشانید به نحوی که همچنان بتوانید پلک ها را باز نگه دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد."
 
 #: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
-#: ../frontend/common/src/SoundTheme.cc:371
+#: ../frontend/common/src/SoundTheme.cc:365
 msgid "Custom"
 msgstr "عادت"
 
@@ -161,24 +161,24 @@ msgstr "عادت"
 msgid "Cycle time:"
 msgstr "زمان چرخه:"
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:36
 #: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
 #: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "محدودیت روزانه"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "محدودیت روزانه %s سر رسیده"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
 msgid "Daily limit in %s"
 msgstr "محدودیت روزانه در %s"
@@ -200,7 +200,7 @@ msgstr "تاریخ:"
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:315
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
@@ -241,7 +241,7 @@ msgstr "فعال کردن تایمر"
 msgid "Enabled"
 msgstr "فعال کردن تایمر"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:304
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 msgid "End exercises"
 msgstr "پایان نرمش ها"
@@ -263,11 +263,11 @@ msgid "Exercise ended"
 msgstr "نرمش پایان یافت"
 
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-#: ../frontend/apps/qt5/src/Menus.cc:95
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/apps/qt5/src/Menus.cc:88
 msgid "Exercises"
 msgstr "نرمش ها"
 
@@ -275,7 +275,7 @@ msgstr "نرمش ها"
 msgid "Exercises ended"
 msgstr "نرمش ها پایان یافت"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:264
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "اجرا کننده ی نرمش ها"
@@ -333,6 +333,7 @@ msgid "Language:"
 msgstr "زبان:"
 
 #: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#: ../frontend/apps/qt5/src/BreakWindow.cc:148
 #, fuzzy
 msgid "Lock"
 msgstr "_قفل"
@@ -361,10 +362,10 @@ msgstr "بیش ترین تعداد وادار کننده ها:"
 
 #. FIXME: duplicate
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:279
 #: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "میکرو استراحت!"
@@ -382,9 +383,9 @@ msgstr "استراحت کوتاه شروع شد"
 msgid "Micro-break:"
 msgstr "میکرو استراحت!:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
-#: ../frontend/apps/qt5/src/Menus.cc:99
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/qt5/src/Menus.cc:92
 #, fuzzy
 msgid "Mode"
 msgstr "_حالت"
@@ -427,8 +428,8 @@ msgstr "صداها را در طول استراحت و محدودیت روزان�
 msgid "Natural breaks taken"
 msgstr "استراحت های عادی گرفته شده"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:143
 msgid "Natural rest break"
 msgstr "استراحت عادی"
 
@@ -436,13 +437,13 @@ msgstr "استراحت عادی"
 msgid "Neck tilt stretch"
 msgstr "کشیدن گردن به یک سمت"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 msgid "Next exercise"
 msgstr "نرمش بعدی"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:133
 #, c-format
 msgid "Next rest break in %s"
 msgstr "استراحت بعدی در %s"
@@ -461,8 +462,8 @@ msgstr "بدون صداها"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
 #: ../frontend/applets/mate/src/main.c:324
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/apps/qt5/src/Menus.cc:103
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:96
 msgid "Normal"
 msgstr "عادی"
 
@@ -471,9 +472,9 @@ msgstr "عادی"
 msgid "Number of exercises:"
 msgstr "تعداد نرمش ها:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../frontend/apps/qt5/src/Menus.cc:80
+#: ../frontend/apps/qt5/src/Menus.cc:73
 #, fuzzy
 msgid "Open"
 msgstr "_باز کردن"
@@ -489,14 +490,14 @@ msgstr "تنظیمات"
 msgid "Overdue time"
 msgstr "زمان سر رسیده"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
 msgstr "توقف کوتاه"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:494
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:302
 msgid "Pause exercises"
 msgstr "توقف کوتاه نرمش ها"
 
@@ -541,12 +542,12 @@ msgstr "پخش"
 msgid "Play sounds using sound card"
 msgstr "پخش شدن صداها با استفاده از کارت صدا"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:127
 msgid "Please relax for a few seconds"
 msgstr "لطفاً برای چند ثانیه ریلکس باشید"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#: ../frontend/apps/qt5/src/BreakWindow.cc:181
 #, fuzzy
 msgid "Postpone"
 msgstr "_به بعد موکول کردن"
@@ -556,15 +557,15 @@ msgstr "_به بعد موکول کردن"
 msgid "Postpone time:"
 msgstr "زمان به تعویق انداختن:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-#: ../frontend/apps/qt5/src/Menus.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/qt5/src/Menus.cc:78
 msgid "Preferences"
 msgstr "ترجیحات"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr "نرمش قبلی"
@@ -584,7 +585,7 @@ msgstr "در حالی که روی صندلی نشسته اید دست هایتا
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "Q_uiet"
 
@@ -592,14 +593,14 @@ msgstr "Q_uiet"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
 #: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/apps/qt5/src/Menus.cc:118
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/apps/qt5/src/Menus.cc:111
 msgid "Quiet"
 msgstr "خاموش"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:214
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../frontend/apps/qt5/src/Menus.cc:142
+#: ../frontend/apps/qt5/src/Menus.cc:135
 #, fuzzy
 msgid "Quit"
 msgstr "_خروج"
@@ -607,10 +608,10 @@ msgstr "_خروج"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
 #: ../frontend/applets/mate/src/main.c:317
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:208
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/apps/qt5/src/Menus.cc:125
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../frontend/apps/qt5/src/Menus.cc:118
 msgid "Reading mode"
 msgstr "حالت خواندن"
 
@@ -624,21 +625,21 @@ msgid "Repeated prompts"
 msgstr "وادار کننده های تکراری"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
-#: ../frontend/apps/qt5/src/Menus.cc:90
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:209
+#: ../frontend/apps/qt5/src/Menus.cc:83
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:46
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:149
 #: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "استراحت"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "استراحت %s سر رسیده"
@@ -647,8 +648,8 @@ msgstr "استراحت %s سر رسیده"
 msgid "Rest break ended"
 msgstr "استراحت تجدید نیرو پایان یافت"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "استراحت برای %s."
@@ -661,12 +662,12 @@ msgstr "استراحت تجدید نیرو شروع شد"
 msgid "Rest break:"
 msgstr "استراحت:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
 msgstr "ادامه"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:298
 msgid "Resume exercises"
 msgstr "ادامه ی نرمش ها"
 
@@ -724,7 +725,7 @@ msgstr "نمایش پنجره ی وضعیت"
 msgid "Show system tray icon"
 msgstr "آیکن سینی ویندوز را نشان بده"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:192
+#: ../frontend/apps/qt5/src/BreakWindow.cc:159
 #, fuzzy
 msgid "Shut down"
 msgstr "خاتمه دادن"
@@ -734,13 +735,13 @@ msgstr "خاتمه دادن"
 msgid "Shutdown"
 msgstr "خاتمه دادن"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:319
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "خاموش شدن در %s."
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#: ../frontend/apps/qt5/src/BreakWindow.cc:170
 #, fuzzy
 msgid "Skip"
 msgstr "_پرش"
@@ -800,13 +801,13 @@ msgstr "شروع استراحت عادی زمانی که صفحه نمایش ق�
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "   تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر خود را به طرف شانه ی سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه های سمت چپ گردنتان حس شود. این حالت را برای 5 ثانیه نگه دارید. سپس، سر را به طرف شانه ی سمت چپ خم کنید تا ماهیچه های سمت راست گردنتان کشیده شود. این تمرین را دوبار برای هر سمت انجام دهید."
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:179
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/apps/qt5/src/Menus.cc:132
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Statistics"
 msgstr "آمار"
 
@@ -829,8 +830,8 @@ msgstr "موکول"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
 #: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/apps/qt5/src/Menus.cc:110
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:103
 msgid "Suspended"
 msgstr "موکول"
 
@@ -839,7 +840,7 @@ msgstr "موکول"
 msgid "System default"
 msgstr "پیشفرض سیستم"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:192
 msgid "Take rest break now"
 msgstr "اکنون استراحت کنید"
 
@@ -908,13 +909,13 @@ msgstr "تعداد کل دفعاتی که این استراحت سر رسیده"
 msgid "The total time you were using the mouse"
 msgstr "کل زمانی که شما از ماوس استفاده کرده اید"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:144
 msgid "This is your natural rest break."
 msgstr "این استراحت عادی شماست"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -922,11 +923,11 @@ msgid ""
 msgstr "این استراحت شماست. بلند شوید و از کامپیوتر چند قدم دور شوید. فقط برای دقایقی کوتاه قدم بزنید، حرکات کششی انجام دهید و عضلات را شل (ریلکس) کنید."
 
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:219
 #: ../frontend/applets/mate/src/main.c:206
 #: ../frontend/applets/xfce/src/main.c:291
-#: ../frontend/apps/gtkmm/src/Menus.cc:362
-#: ../frontend/apps/qt5/src/AboutDialog.cc:70
+#: ../frontend/apps/gtkmm/src/Menus.cc:365
+#: ../frontend/apps/qt5/src/AboutDialog.cc:65
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "این برنامه کمک می کند به پیشگیری و بهبودی آسیب های فیزیکی مکرر."
 
@@ -940,8 +941,8 @@ msgstr "زمان قبل از پایان:"
 msgid "Time between breaks:"
 msgstr "زمان بین استراحت ها:"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:70
 msgid "Time for a micro-break?"
 msgstr "زمانی برای یک استراحت کوتاه؟"
 
@@ -981,7 +982,7 @@ msgstr "رابط کاربری"
 msgid "Volume:"
 msgstr "درجه صدا:"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:214
 #: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "منتظر باشید"
@@ -995,8 +996,8 @@ msgstr ""
 msgid "Wavefiles"
 msgstr "فایل های صوتی"
 
-#: ../frontend/apps/qt5/src/Application.cc:626
-#: ../frontend/apps/qt5/src/Application.cc:632
+#: ../frontend/apps/qt5/src/Application.cc:611
+#: ../frontend/apps/qt5/src/Application.cc:617
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -1005,12 +1006,12 @@ msgid "Workrave failed to start"
 msgstr "WorkRave موفق به شروع نشد"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
-#: ../frontend/apps/qt5/src/Application.cc:633
+#: ../frontend/apps/qt5/src/Application.cc:618
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "WorkRave در حالت خاموش قرار دارد. هیچ پنجره ی استراحتی پدیدار نخواهد شد."
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
-#: ../frontend/apps/qt5/src/Application.cc:627
+#: ../frontend/apps/qt5/src/Application.cc:612
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr "WorkRave در حالت موکول است. فعالیت موس و کیبرد نمی تواند ضبط شود."
 
@@ -1023,28 +1024,28 @@ msgstr "WorkRave هنوز در حال اجراست. شما می توانید ب�
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr "محدودیت روزانه ی شما تمام شد. لطفاً کارکردن با کامپیوتر را متوقف کنید. اگر روز کاری شما هنوز به پایان نرسیده، لطفاً کارهای دیگری انجام دهید، مانند بررسی یک متن یا سند."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:74
 msgid "You need a rest break..."
 msgstr "شما به یک استراحت نیاز دارید..."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:78
 msgid "You should stop for today..."
 msgstr "برای امروز کافیست..."
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
 #: ../frontend/applets/mate/src/main.c:302
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:184
 msgid "_About"
 msgstr "_درباره"
 
@@ -1071,7 +1072,7 @@ msgstr "_پیوستن"
 #: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "_حالت"
 
@@ -1083,14 +1084,14 @@ msgstr "_شبکه"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "_عادی"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
 #: ../frontend/applets/mate/src/main.c:262
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_باز کردن"
 
@@ -1108,7 +1109,7 @@ msgstr "_ترجیحات"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
 #: ../frontend/applets/mate/src/main.c:306
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:189
 msgid "_Quit"
 msgstr "_خروج"
 
@@ -1125,7 +1126,7 @@ msgstr "_اتصال مجدد"
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_استراحت"
 
@@ -1147,7 +1148,7 @@ msgstr "_آمار"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "_موکول"
 

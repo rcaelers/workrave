@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Srbija\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-01-03 13:31+0100\n"
+"POT-Creation-Date: 2015-11-07 19:15+0100\n"
 "PO-Revision-Date: 2012-04-05 12:58+0100\n"
 "Last-Translator: Goran Maricic <maricic.goran@gmail.com>\n"
 "Language-Team: Tehpro Serbian <it@tehpro.rs>\n"
@@ -42,9 +42,9 @@ msgstr "%s, od %s do %s"
 msgid "(font not available)"
 msgstr "(font nije dostupan)"
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#: ../frontend/apps/qt5/src/AboutDialog.cc:57
 #, c-format
-msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
 #: ../frontend/apps/qt5/src/AboutDialog.cc:49
@@ -52,10 +52,10 @@ msgstr ""
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/apps/qt5/src/Menus.cc:137
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/apps/qt5/src/Menus.cc:130
 msgid "About..."
 msgstr "O programu..."
 
@@ -107,7 +107,7 @@ msgstr "Trajanje odmora:"
 msgid "Break ignored"
 msgstr "Pauza ignorisana. "
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:311
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
@@ -152,7 +152,7 @@ msgid "Cover your eyes with your palms in such way that you can still open your 
 msgstr "Pokrijte oči dlanovim tako da još uvek možete podićii kapke. Sada otvorite oči i gledajte u tamu svojih dlanova. Ova vežba bolje odmara vaše oči nego da ste ih samo zatvorili."
 
 #: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
-#: ../frontend/common/src/SoundTheme.cc:371
+#: ../frontend/common/src/SoundTheme.cc:365
 msgid "Custom"
 msgstr "Ručno uređivanje"
 
@@ -161,24 +161,24 @@ msgstr "Ručno uređivanje"
 msgid "Cycle time:"
 msgstr "Vreme ciklusa:"
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:36
 #: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
 #: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "Dnevni limit"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Dnevni limit sa %s zakašnjenjem"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Dnevni limit za %s"
@@ -200,7 +200,7 @@ msgstr "Datum:"
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:315
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
@@ -242,7 +242,7 @@ msgstr "Uključi odbrojavanje"
 msgid "Enabled"
 msgstr "Uključi odbrojavanje"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:304
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 msgid "End exercises"
 msgstr "Završi vežbe"
@@ -264,11 +264,11 @@ msgid "Exercise ended"
 msgstr "Kraj vežbe"
 
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-#: ../frontend/apps/qt5/src/Menus.cc:95
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/apps/qt5/src/Menus.cc:88
 msgid "Exercises"
 msgstr "Vežbe"
 
@@ -276,7 +276,7 @@ msgstr "Vežbe"
 msgid "Exercises ended"
 msgstr "Kraj vežbi"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:264
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "Prikaz vežbi"
@@ -334,6 +334,7 @@ msgid "Language:"
 msgstr "Jezik:"
 
 #: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#: ../frontend/apps/qt5/src/BreakWindow.cc:148
 #, fuzzy
 msgid "Lock"
 msgstr "_Zaključaj"
@@ -362,10 +363,10 @@ msgstr "Maksimalan broj upozorenja"
 
 #. FIXME: duplicate
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:279
 #: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "Mikro pauza"
@@ -383,9 +384,9 @@ msgstr "Početak mikro vežbe"
 msgid "Micro-break:"
 msgstr "Mikro pauza:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
-#: ../frontend/apps/qt5/src/Menus.cc:99
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/qt5/src/Menus.cc:92
 msgid "Mode"
 msgstr "_Način rada"
 
@@ -427,8 +428,8 @@ msgstr "Ugasi zvuke za vreme pauze i dnevnog limita"
 msgid "Natural breaks taken"
 msgstr "Broj prirodnih pauza"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:143
 msgid "Natural rest break"
 msgstr "Prirodni odmor"
 
@@ -436,13 +437,13 @@ msgstr "Prirodni odmor"
 msgid "Neck tilt stretch"
 msgstr "Istezanje vrata"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 msgid "Next exercise"
 msgstr "Sledeća vežba"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:133
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sledeća pauza za odmor za %s"
@@ -461,8 +462,8 @@ msgstr "Bez zvuka"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
 #: ../frontend/applets/mate/src/main.c:324
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/apps/qt5/src/Menus.cc:103
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:96
 #, fuzzy
 msgid "Normal"
 msgstr "_Uobičajeno"
@@ -472,9 +473,9 @@ msgstr "_Uobičajeno"
 msgid "Number of exercises:"
 msgstr "Broj vežbi"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../frontend/apps/qt5/src/Menus.cc:80
+#: ../frontend/apps/qt5/src/Menus.cc:73
 msgid "Open"
 msgstr "Otvori"
 
@@ -489,14 +490,14 @@ msgstr "Mogućnosti"
 msgid "Overdue time"
 msgstr "Vreme kašnjenja"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
 msgstr "Pauza"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:494
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:302
 msgid "Pause exercises"
 msgstr "Zaustavi vežbe"
 
@@ -541,12 +542,12 @@ msgstr "Kreni"
 msgid "Play sounds using sound card"
 msgstr "Pusti zvuke koristeći zvučnu karticu"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:127
 msgid "Please relax for a few seconds"
 msgstr "Opustite se na nekoliko sekundi."
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#: ../frontend/apps/qt5/src/BreakWindow.cc:181
 #, fuzzy
 msgid "Postpone"
 msgstr "_Odloži"
@@ -556,15 +557,15 @@ msgstr "_Odloži"
 msgid "Postpone time:"
 msgstr "Odloži za:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-#: ../frontend/apps/qt5/src/Menus.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/qt5/src/Menus.cc:78
 msgid "Preferences"
 msgstr "Svojstva"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr "Prethodna vežba"
@@ -584,7 +585,7 @@ msgstr "Oslonite dlanove na rukodržače vaše stolicu dok sedite i pokuštajte 
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "_Tiho"
 
@@ -592,14 +593,14 @@ msgstr "_Tiho"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
 #: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/apps/qt5/src/Menus.cc:118
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/apps/qt5/src/Menus.cc:111
 msgid "Quiet"
 msgstr "_Tiho"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:214
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../frontend/apps/qt5/src/Menus.cc:142
+#: ../frontend/apps/qt5/src/Menus.cc:135
 #, fuzzy
 msgid "Quit"
 msgstr "_Izlaz"
@@ -607,10 +608,10 @@ msgstr "_Izlaz"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
 #: ../frontend/applets/mate/src/main.c:317
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:208
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/apps/qt5/src/Menus.cc:125
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../frontend/apps/qt5/src/Menus.cc:118
 msgid "Reading mode"
 msgstr "Načina rada - čitanje"
 
@@ -624,21 +625,21 @@ msgid "Repeated prompts"
 msgstr "Ponovljena upozorenja"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
-#: ../frontend/apps/qt5/src/Menus.cc:90
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:209
+#: ../frontend/apps/qt5/src/Menus.cc:83
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:46
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:149
 #: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "Pauza za odmor"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pauza za odmor sa %s zakašnjenjem"
@@ -647,8 +648,8 @@ msgstr "Pauza za odmor sa %s zakašnjenjem"
 msgid "Rest break ended"
 msgstr "Kraj pauze za odmor"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odmor za %s"
@@ -661,12 +662,12 @@ msgstr "Početak pauze za odmor"
 msgid "Rest break:"
 msgstr "Odmor:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
 msgstr "Nastavi"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:298
 msgid "Resume exercises"
 msgstr "Nastavi vežbe"
 
@@ -725,7 +726,7 @@ msgstr "Pokaži prozor statusa"
 msgid "Show system tray icon"
 msgstr "Prikaži sistemsku ikonu"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:192
+#: ../frontend/apps/qt5/src/BreakWindow.cc:159
 #, fuzzy
 msgid "Shut down"
 msgstr "_Ugasi"
@@ -735,13 +736,13 @@ msgstr "_Ugasi"
 msgid "Shutdown"
 msgstr "_Ugasi"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:319
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "Tiho za %s"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#: ../frontend/apps/qt5/src/BreakWindow.cc:170
 #, fuzzy
 msgid "Skip"
 msgstr "_Preskoči"
@@ -801,13 +802,13 @@ msgstr "Započni prirodni odmor kada je ekran zaključan"
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Krenite sa glavom iz uspravnog položaja. Polako nagnite glavu udesno prema ramenu da se istegnu mišići vrata s leve strane. Zadržite položaj nekoliko sekundi. Zatim, polako nagnite glavu prema levom ramenu da osetite istezanje mišića vrata desne strane. Ponovite vežbu nekoliko puta. "
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:179
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/apps/qt5/src/Menus.cc:132
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -830,8 +831,8 @@ msgstr "_Zaustavljeno"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
 #: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/apps/qt5/src/Menus.cc:110
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:103
 msgid "Suspended"
 msgstr "_Zaustavljeno"
 
@@ -840,7 +841,7 @@ msgstr "_Zaustavljeno"
 msgid "System default"
 msgstr "Fabrička podešavanja"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:192
 msgid "Take rest break now"
 msgstr "Sada napravi pauzu"
 
@@ -909,13 +910,13 @@ msgstr "Ukupno vreme koliko ste kasnili s ovom pauzom"
 msgid "The total time you were using the mouse"
 msgstr "Ukupno vreme koliko ste koristili miša"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:144
 msgid "This is your natural rest break."
 msgstr "Ovo je vaš prirodni odmor."
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -926,11 +927,11 @@ msgstr ""
 " nekoliko minuta, protegnite se i opustite. "
 
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:219
 #: ../frontend/applets/mate/src/main.c:206
 #: ../frontend/applets/xfce/src/main.c:291
-#: ../frontend/apps/gtkmm/src/Menus.cc:362
-#: ../frontend/apps/qt5/src/AboutDialog.cc:70
+#: ../frontend/apps/gtkmm/src/Menus.cc:365
+#: ../frontend/apps/qt5/src/AboutDialog.cc:65
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Ovaj program služi da pomogne pri prevenciji i oporavku od povreda koje nastaju pri učestalom ponavljanju istih radnji. (RSI)"
 
@@ -944,8 +945,8 @@ msgstr "Vreme do kraja:"
 msgid "Time between breaks:"
 msgstr "Vreme između odmora:"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:70
 msgid "Time for a micro-break?"
 msgstr "Vreme za mikro pauzu?"
 
@@ -985,7 +986,7 @@ msgstr "Korisničko sučelje"
 msgid "Volume:"
 msgstr "Jačina zvuka:"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:214
 #: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "Čekaj"
@@ -999,8 +1000,8 @@ msgstr ""
 msgid "Wavefiles"
 msgstr "Wave datoteke"
 
-#: ../frontend/apps/qt5/src/Application.cc:626
-#: ../frontend/apps/qt5/src/Application.cc:632
+#: ../frontend/apps/qt5/src/Application.cc:611
+#: ../frontend/apps/qt5/src/Application.cc:617
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -1009,12 +1010,12 @@ msgid "Workrave failed to start"
 msgstr "Workrave se nije pokrenuo"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
-#: ../frontend/apps/qt5/src/Application.cc:633
+#: ../frontend/apps/qt5/src/Application.cc:618
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Program je u tihom režimu. Nikakvi prozori upozorenja neće biti prikazivani."
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
-#: ../frontend/apps/qt5/src/Application.cc:627
+#: ../frontend/apps/qt5/src/Application.cc:612
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr "Program je suspendovan. Aktivnost miša i tastature neće biti praćena. "
 
@@ -1026,8 +1027,8 @@ msgstr "Workrave još uvek radi. Workrave-u možete pristupiti klikom na ikonu b
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1037,20 +1038,20 @@ msgstr ""
 "raditi na računaru. Ukoliko Vaš radni dan još nije gotov, \n"
 "nađite nešto drugo da radite npr. pregledajte neki dokument."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:74
 msgid "You need a rest break..."
 msgstr "Trebalo bi da napravite pauzu za odmor ..."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:78
 msgid "You should stop for today..."
 msgstr "Trebalo bi da završite za danas ..."
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
 #: ../frontend/applets/mate/src/main.c:302
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:184
 #, fuzzy
 msgid "_About"
 msgstr "_O programu ..."
@@ -1078,7 +1079,7 @@ msgstr "_Priključi se"
 #: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "_Način"
 
@@ -1090,14 +1091,14 @@ msgstr "_Mreža"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "_Uobičajeno"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
 #: ../frontend/applets/mate/src/main.c:262
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_Otvori"
 
@@ -1115,7 +1116,7 @@ msgstr "_Svojstva"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
 #: ../frontend/applets/mate/src/main.c:306
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:189
 msgid "_Quit"
 msgstr "_Izlaz"
 
@@ -1132,7 +1133,7 @@ msgstr "_Ponovno se poveži"
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_Pauza za odmor"
 
@@ -1154,7 +1155,7 @@ msgstr "_Statistika"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "_Zaustavljeno"
 

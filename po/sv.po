@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-01-03 13:31+0100\n"
+"POT-Creation-Date: 2015-11-07 19:15+0100\n"
 "PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -40,9 +40,9 @@ msgstr "%s, från %s till %s"
 msgid "(font not available)"
 msgstr "(typsnitt inte tillgängligt)"
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:58
+#: ../frontend/apps/qt5/src/AboutDialog.cc:57
 #, c-format
-msgid "<h3>Workrave %s %s</h3><br/>%s<br/><br/>%s<br/><br/>%s<br/>"
+msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
 #: ../frontend/apps/qt5/src/AboutDialog.cc:49
@@ -50,10 +50,10 @@ msgstr ""
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/apps/qt5/src/Menus.cc:137
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/apps/qt5/src/Menus.cc:130
 msgid "About..."
 msgstr "Om..."
 
@@ -105,7 +105,7 @@ msgstr "Längd på paus:"
 msgid "Break ignored"
 msgstr "Paus ignorerad"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:310
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:311
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:231
 #, c-format
 msgid "Break in %s"
@@ -150,7 +150,7 @@ msgid "Cover your eyes with your palms in such way that you can still open your 
 msgstr "Täck för dina ögon med dina handflator på så sätt att du fortfarande kan öppna dina ögonlock. Öppna nu ögonen och se in i mörkret i handflatorna. Denna övning ger bättre avlastning för ögonen jämfört med att bara stänga dem."
 
 #: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
-#: ../frontend/common/src/SoundTheme.cc:371
+#: ../frontend/common/src/SoundTheme.cc:365
 msgid "Custom"
 msgstr "Anpassad"
 
@@ -159,24 +159,24 @@ msgstr "Anpassad"
 msgid "Cycle time:"
 msgstr "Tidscykler:"
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:36
 #: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:56
 #: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "Daglig gräns"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:270
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:239
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig gräns överskriden med %s"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:265
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:234
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig gräns på %s"
@@ -198,7 +198,7 @@ msgstr "Datum:"
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:314
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:315
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:235
 #, c-format
 msgid "Disappears in %s"
@@ -239,7 +239,7 @@ msgstr "Aktivera tidtagare"
 msgid "Enabled"
 msgstr "Aktivera tidtagare"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:303
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:304
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
 msgid "End exercises"
 msgstr "Avsluta övningar"
@@ -261,11 +261,11 @@ msgid "Exercise ended"
 msgstr "Övning avslutad"
 
 #: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:176
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:175
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-#: ../frontend/apps/qt5/src/Menus.cc:95
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../frontend/apps/qt5/src/Menus.cc:88
 msgid "Exercises"
 msgstr "Övningar"
 
@@ -273,7 +273,7 @@ msgstr "Övningar"
 msgid "Exercises ended"
 msgstr "Övningar avslutade"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:263
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:264
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
 msgid "Exercises player"
 msgstr "Övningar"
@@ -331,6 +331,7 @@ msgid "Language:"
 msgstr "Språk:"
 
 #: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
+#: ../frontend/apps/qt5/src/BreakWindow.cc:148
 #, fuzzy
 msgid "Lock"
 msgstr "_Lås"
@@ -359,10 +360,10 @@ msgstr "Maximalt antal uppmaningar:"
 
 #. FIXME: duplicate
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:180
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:278
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:279
 #: ../frontend/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "Mikropaus"
@@ -380,9 +381,9 @@ msgstr "Mikropaus påbörjad"
 msgid "Micro-break:"
 msgstr "Mikropaus:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:204
-#: ../frontend/apps/qt5/src/Menus.cc:99
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/qt5/src/Menus.cc:92
 #, fuzzy
 msgid "Mode"
 msgstr "_Läge"
@@ -427,8 +428,8 @@ msgstr "Placera vilopaus och daglig gräns på samma ställe"
 msgid "Natural breaks taken"
 msgstr "Naturliga pauser tagna"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:207
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:161
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:143
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Naturliga pauser tagna"
@@ -437,13 +438,13 @@ msgstr "Naturliga pauser tagna"
 msgid "Neck tilt stretch"
 msgstr "Utsträckning av nacken"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
 msgid "Next exercise"
 msgstr "Nästa övning"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:247
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:216
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:133
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nästa vilopaus om %s"
@@ -462,8 +463,8 @@ msgstr "Inga ljud"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
 #: ../frontend/applets/mate/src/main.c:324
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/apps/qt5/src/Menus.cc:103
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
+#: ../frontend/apps/qt5/src/Menus.cc:96
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
@@ -473,9 +474,9 @@ msgstr "_Normal"
 msgid "Number of exercises:"
 msgstr "Antal övningar:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../frontend/apps/qt5/src/Menus.cc:80
+#: ../frontend/apps/qt5/src/Menus.cc:73
 #, fuzzy
 msgid "Open"
 msgstr "_Öppna"
@@ -491,14 +492,14 @@ msgstr "Alternativ"
 msgid "Overdue time"
 msgstr "Överskriden tid"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
 msgstr "Paus"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:493
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:494
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:299
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:302
 msgid "Pause exercises"
 msgstr "Pausa övningar"
 
@@ -543,12 +544,12 @@ msgstr "Spela upp"
 msgid "Play sounds using sound card"
 msgstr "Spela upp ljud med ljudkort"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:240
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:209
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:127
 msgid "Please relax for a few seconds"
 msgstr "Slappna av i ett par sekunder"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:216
+#: ../frontend/apps/qt5/src/BreakWindow.cc:181
 #, fuzzy
 msgid "Postpone"
 msgstr "_Flytta fram"
@@ -558,15 +559,15 @@ msgstr "_Flytta fram"
 msgid "Postpone time:"
 msgstr "Flytta fram tid:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-#: ../frontend/apps/qt5/src/Menus.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/qt5/src/Menus.cc:78
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
 msgid "Previous exercise"
 msgstr "Föregående övning"
@@ -586,7 +587,7 @@ msgstr "Ta tag i armstöden på din stol när du sitter ner och tryck din kropp 
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "_Tyst"
 
@@ -594,15 +595,15 @@ msgstr "_Tyst"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
 #: ../frontend/applets/mate/src/main.c:332
 #: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/apps/qt5/src/Menus.cc:118
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../frontend/apps/qt5/src/Menus.cc:111
 #, fuzzy
 msgid "Quiet"
 msgstr "_Tyst"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:214
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../frontend/apps/qt5/src/Menus.cc:142
+#: ../frontend/apps/qt5/src/Menus.cc:135
 #, fuzzy
 msgid "Quit"
 msgstr "_Avsluta"
@@ -610,10 +611,10 @@ msgstr "_Avsluta"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
 #: ../frontend/applets/mate/src/main.c:317
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:208
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/apps/qt5/src/Menus.cc:125
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../frontend/apps/qt5/src/Menus.cc:118
 msgid "Reading mode"
 msgstr ""
 
@@ -627,21 +628,21 @@ msgid "Repeated prompts"
 msgstr "Upprepade uppmaningar"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:170
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:148
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:213
-#: ../frontend/apps/qt5/src/Menus.cc:90
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:143
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:58
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:167
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:209
+#: ../frontend/apps/qt5/src/Menus.cc:83
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:46
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:149
 #: ../frontend/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "Vilopaus"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:252
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:221
+#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunkt för vilopaus har överskridits med %s minuter"
@@ -650,8 +651,8 @@ msgstr "Tidspunkt för vilopaus har överskridits med %s minuter"
 msgid "Rest break ended"
 msgstr "Vilopaus avslutad"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:165
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:138
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "Vilopaus i %s"
@@ -664,12 +665,12 @@ msgstr "Vilopaus påbörjad"
 msgid "Rest break:"
 msgstr "Vilopaus:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:486
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
 msgstr "Återuppta"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:491
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:297
+#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../frontend/apps/qt5/src/ExercisesPanel.cc:298
 msgid "Resume exercises"
 msgstr "Återuppta övningar"
 
@@ -728,7 +729,7 @@ msgstr "Visa statusfönster"
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:192
+#: ../frontend/apps/qt5/src/BreakWindow.cc:159
 #, fuzzy
 msgid "Shut down"
 msgstr "_Stäng ner"
@@ -738,13 +739,13 @@ msgstr "_Stäng ner"
 msgid "Shutdown"
 msgstr "_Stäng ner"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:319
 #: ../frontend/apps/qt5/src/PreludeWindow.cc:239
 #, c-format
 msgid "Silent in %s"
 msgstr "Tyst om %s"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:206
+#: ../frontend/apps/qt5/src/BreakWindow.cc:170
 #, fuzzy
 msgid "Skip"
 msgstr "_Hoppa över"
@@ -803,13 +804,13 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Se rakt fram och hitta en behaglig position med huvudet. Lägg sedan högra örat mot högra skuldran så att du försiktigt sträcker musklerna på vänstra sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida."
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:210
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:179
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/apps/qt5/src/Menus.cc:132
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../frontend/apps/qt5/src/Menus.cc:125
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -832,8 +833,8 @@ msgstr "V_iloläge"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
 #: ../frontend/applets/mate/src/main.c:328
 #: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/apps/qt5/src/Menus.cc:110
+#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../frontend/apps/qt5/src/Menus.cc:103
 #, fuzzy
 msgid "Suspended"
 msgstr "V_iloläge"
@@ -843,7 +844,7 @@ msgstr "V_iloläge"
 msgid "System default"
 msgstr "Systemstandard"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:192
 msgid "Take rest break now"
 msgstr "Ta en vilopaus nu"
 
@@ -912,14 +913,14 @@ msgstr "Den totala tiden som denna paus var fördröjd"
 msgid "The total time you were using the mouse"
 msgstr "Den totala tiden du har använt musen"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:162
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:144
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Du behöver ta en vilopaus..."
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:214
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:168
+#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../frontend/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -930,11 +931,11 @@ msgstr ""
 "runt i några minuter, stretcha och slappna av."
 
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:219
 #: ../frontend/applets/mate/src/main.c:206
 #: ../frontend/applets/xfce/src/main.c:291
-#: ../frontend/apps/gtkmm/src/Menus.cc:362
-#: ../frontend/apps/qt5/src/AboutDialog.cc:70
+#: ../frontend/apps/gtkmm/src/Menus.cc:365
+#: ../frontend/apps/qt5/src/AboutDialog.cc:65
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
 
@@ -948,8 +949,8 @@ msgstr "Tid före slut:"
 msgid "Time between breaks:"
 msgstr "Tid mellan pauser:"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:113
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:81
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:70
 msgid "Time for a micro-break?"
 msgstr "Dags för en mikropaus?"
 
@@ -989,7 +990,7 @@ msgstr "Användargränssnitt"
 msgid "Volume:"
 msgstr "Volym:"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:214
 #: ../frontend/apps/qt5/src/TimerBoxView.cc:103
 msgid "Wait"
 msgstr "Vänta"
@@ -1003,8 +1004,8 @@ msgstr ""
 msgid "Wavefiles"
 msgstr "Wave-filer"
 
-#: ../frontend/apps/qt5/src/Application.cc:626
-#: ../frontend/apps/qt5/src/Application.cc:632
+#: ../frontend/apps/qt5/src/Application.cc:611
+#: ../frontend/apps/qt5/src/Application.cc:617
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -1014,12 +1015,12 @@ msgid "Workrave failed to start"
 msgstr "Starta Workrave vid uppstart av Windows"
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1296
-#: ../frontend/apps/qt5/src/Application.cc:633
+#: ../frontend/apps/qt5/src/Application.cc:618
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #: ../frontend/apps/gtkmm/src/GUI.cc:1290
-#: ../frontend/apps/qt5/src/Application.cc:627
+#: ../frontend/apps/qt5/src/Application.cc:612
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -1031,8 +1032,8 @@ msgstr ""
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:57
+#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1042,20 +1043,20 @@ msgstr ""
 "Om din arbetsdag ännu inte är över, hitta på något\n"
 "annat att göra, såsom granska ett dokument."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:117
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:85
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:74
 msgid "You need a rest break..."
 msgstr "Du behöver ta en vilopaus..."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:121
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:89
+#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../frontend/apps/qt5/src/PreludeWindow.cc:78
 msgid "You should stop for today..."
 msgstr "Du bör sluta för idag..."
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
 #: ../frontend/applets/mate/src/main.c:302
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:184
 #, fuzzy
 msgid "_About"
 msgstr "_Om..."
@@ -1083,7 +1084,7 @@ msgstr ""
 #: ../frontend/applets/mate/src/main.c:282
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "_Läge"
 
@@ -1095,14 +1096,14 @@ msgstr "_Nätverk"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
 #: ../frontend/applets/mate/src/main.c:262
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "_Öppna"
 
@@ -1121,7 +1122,7 @@ msgstr "_Inställningar"
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
 #: ../frontend/applets/mate/src/main.c:306
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:191
+#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:189
 msgid "_Quit"
 msgstr "_Avsluta"
 
@@ -1138,7 +1139,7 @@ msgstr "_Återanslut"
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "_Vilopaus"
 
@@ -1161,7 +1162,7 @@ msgstr "_Statistik"
 
 #: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
 #: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "V_iloläge"
 

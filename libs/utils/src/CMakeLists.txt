@@ -27,6 +27,7 @@ endif()
 
 if (PLATFORM_OS_OSX)
   set(SRC ${SRC} Platform-unix.cc)
+  set_source_files_properties(Locale.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 endif()
 
 if (NOT PLATFORM_OS_UNIX)
