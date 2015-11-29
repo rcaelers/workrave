@@ -91,10 +91,6 @@
 #include <X11/Xlib.h>
 #endif
 
-#if defined(HAVE_GCONF)
-#include <gconf/gconf-client.h>
-#endif
-
 #if defined(interface)
 #undef interface
 #endif

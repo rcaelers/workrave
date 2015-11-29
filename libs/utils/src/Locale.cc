@@ -229,6 +229,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
 #ifdef PLATFORM_OS_UNIX
 #include <langinfo.h>
+#include <glib.h>
 #endif
 
 int

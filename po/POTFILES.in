@@ -1,6 +1,5 @@
 [type: gettext/glade]frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
 [type: gettext/glade]frontend/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
-backend/src/ActivityMonitor.cc
 backend/src/Break.cc
 backend/src/BreakConfig.cc
 backend/src/BreakDBus.cc
