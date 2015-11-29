@@ -57,8 +57,6 @@ extern "C"
 }
 #endif
 
-
-
 //! Constructor
 W32DirectSoundPlayer::W32DirectSoundPlayer()
 {
@@ -291,7 +289,7 @@ SoundClip::fill_buffer()
     }
 
   wave_file->reset_file();
-  int bytes_read = wave_file->read((BYTE*)locked_sound_buffer, locked_sound_buffer_size);
+  size_t bytes_read = wave_file->read((BYTE*)locked_sound_buffer, locked_sound_buffer_size);
 
   if (locked_sound_buffer_size - bytes_read > 0)
     {
@@ -525,7 +523,7 @@ WaveFile::read(BYTE *buffer, size_t size)
       throw Exception("mmioGetInfo");
     }
 
-  int pos = 0;
+  size_t pos = 0;
   do
     {
       size_t copy = mmioInfo.pchEndRead - mmioInfo.pchNext;

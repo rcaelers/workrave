@@ -40,7 +40,7 @@ private:
 
   void open();
   void close();
-  int write(unsigned char *buffer, size_t size);
+  size_t write(unsigned char *buffer, size_t size);
   void flush_buffer(int buffer);
   void load_wav_file(const std::string &filename);
 

@@ -18,6 +18,7 @@
 #ifndef WORKRAVE_UPDATE_UPDATER_HH
 #define WORKRAVE_UPDATE_UPDATER_HH
 
+#include<string>
 #include <memory>
 
 namespace workrave

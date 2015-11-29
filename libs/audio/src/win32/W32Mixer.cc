@@ -21,13 +21,19 @@
 #include "config.h"
 #endif
 
-#include <windows.h>
 #include <initguid.h>
+#include <windows.h>
 #include <mmsystem.h>
 #include "debug.hh"
 
 #include "W32Mixer.hh"
 #include <debug.hh>
+
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
+#define IID_IMMDeviceEnumerator __uuidof(IMMDeviceEnumerator)
+#define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)
+#endif
 
 using namespace std;
 

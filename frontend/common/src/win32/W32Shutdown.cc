@@ -93,7 +93,9 @@ W32Shutdown::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
-          harpoon_unblock_input();
+#ifdef HAVE_HARPOON
+	        harpoon_unblock_input();
+#endif
           pShellDispatch->ShutdownWindows();
         }
       pShellDispatch->Release();
@@ -105,4 +107,5 @@ bool
 W32Shutdown::shutdown()
 {
   shutdown_helper(true);
+  return true;
 }

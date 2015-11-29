@@ -708,7 +708,7 @@ Configurator::fire_configurator_event(const string &key)
 void
 Configurator::strip_leading_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 1)
     {
       if (key[0] == '/')
@@ -723,7 +723,7 @@ Configurator::strip_leading_slash(string &key) const
 void
 Configurator::strip_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] == '/')
@@ -738,7 +738,7 @@ Configurator::strip_trailing_slash(string &key) const
 void
 Configurator::add_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] != '/')

@@ -33,7 +33,6 @@
 
 #include "W32SoundPlayer.hh"
 
-//#include "audio/SoundPlayer.hh"
 #include "utils/Exception.hh"
 
 #define SAMPLE_BITS       (8)
@@ -179,7 +178,7 @@ W32SoundPlayer::open()
 }
 
 
-int
+size_t
 W32SoundPlayer::write(unsigned char *buf, size_t size)
 {
   unsigned char *ptr = buf;
@@ -199,7 +198,7 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
           WaitForSingleObject(wave_event, INFINITE);
         }
 
-      int chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
+      size_t chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
       if (ptr + chunck_size > end)
         {
           chunck_size = end - ptr;
@@ -373,7 +372,7 @@ W32SoundPlayer::load_wav_file(const string &filename)
     }
 
 
-  int pos = 0;
+  size_t pos = 0;
   do
     {
       size_t copy = mmio.pchEndRead - mmio.pchNext;

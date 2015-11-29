@@ -11,6 +11,7 @@
 #cmakedefine HAVE_DBUS_TEST_GIO
 #cmakedefine HAVE_DSOUND
 #cmakedefine HAVE_GCONF
+#cmakedefine HAVE_HARPOON
 #cmakedefine HAVE_GLIB
 #cmakedefine HAVE_GNOME3
 #cmakedefine HAVE_GSETTINGS

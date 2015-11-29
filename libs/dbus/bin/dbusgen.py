@@ -7,7 +7,7 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3, or (at your option)
 # any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -59,7 +59,7 @@ class TypeNode(NodeBase):
     type_sig = None
     top_node = None
     condition = None
-    
+
     def __init__(self, csymbol = None, type_sig = None):
         NodeBase.__init__(self)
         self.csymbol = csymbol
@@ -75,7 +75,7 @@ class TypeNode(NodeBase):
             return self.csymbol_internal
         else:
             return self.symbol()
-    
+
     def sig(self):
         return self.type_sig
 
@@ -98,7 +98,7 @@ class QStringTypeNode(TypeNode):
 
     def from_internal(s):
         return s + '.toStdString()'
-        
+
 class UserTypeNode(TypeNode):
     def __init__(self, top_node):
         TypeNode.__init__(self)
@@ -110,12 +110,12 @@ class UserTypeNode(TypeNode):
         self.csymbol = node.getAttribute('csymbol')
 
         self.top_node.types[self.name] = self
-            
+
     def sig(self):
-        print 'Signature of type ' + self.name + ' unknown'
+        print('Signature of type ' + self.name + ' unknown')
         sys.exit(1)
 
-   
+
 class TopNode(NodeBase):
     def __init__(self, inname, name, backend, header_ext):
         NodeBase.__init__(self)
@@ -137,7 +137,7 @@ class TopNode(NodeBase):
 
         self.include_filename = self.name + self.header_ext
         self.add_default_types()
-        
+
     def parse(self):
         dom = parse(self.file_name)
 
@@ -208,9 +208,9 @@ class TopNode(NodeBase):
         if typename in self.types:
             return self.types[typename]
         else:
-            print 'Cannot find type ' + typename
+            print('Cannot find type ' + typename)
             sys.exit(1)
-            
+
 class InterfaceNode(NodeBase):
     def __init__(self, top_node):
         NodeBase.__init__(self)
@@ -221,7 +221,7 @@ class InterfaceNode(NodeBase):
         self.qname = None
         self.namespace = None
         self.namespace_list = []
-        
+
         self.methods = []
         self.signals = []
 
@@ -234,7 +234,7 @@ class InterfaceNode(NodeBase):
         self.namespace = node.getAttribute('namespace')
         if self.namespace :
             self.namespace_list = self.namespace.split(".")
-        
+
         for child in node.childNodes:
             if child.nodeType == node.ELEMENT_NODE:
                 if child.nodeName == 'method':
@@ -248,7 +248,7 @@ class InterfaceNode(NodeBase):
 
     def get_type(self, type):
         return self.top_node.get_type(type)
-            
+
     def symbol(self):
         return self.csymbol
 
@@ -263,13 +263,13 @@ class MethodNode(NodeBase):
         self.params = []
         self.num_in_args = 0
         self.num_out_args = 0
-        
+
     def handle(self, node):
         self.name = node.getAttribute('name')
         self.csymbol = node.getAttribute('csymbol')
         self.qname = self.name.replace('.','_')
         self.condition = node.getAttribute('condition')
-        
+
         for child in node.childNodes:
             if child.nodeType == node.ELEMENT_NODE:
                 if child.nodeName == 'arg':
@@ -286,11 +286,11 @@ class MethodNode(NodeBase):
             self.num_in_args = self.num_in_args + 1
         if p.direction == 'out':
             self.num_out_args = self.num_out_args + 1
-            
+
         hint = node.getAttribute('hint')
         if hint != None and hint != '':
             p.hint = hint.split(',')
-            
+
         self.params.append(p)
 
     def introspect_sig(self):
@@ -336,7 +336,7 @@ class MethodNode(NodeBase):
             if 'return' in p.hint:
                 ret = p.name
         return ret
-        
+
 
 class SignalNode(NodeBase):
     def __init__(self, interface_node):
@@ -348,7 +348,7 @@ class SignalNode(NodeBase):
         self.csymbol = node.getAttribute('csymbol')
         self.qname = self.name.replace('.','_')
         self.params = []
-        
+
         for child in node.childNodes:
             if child.nodeType == node.ELEMENT_NODE:
                 if child.nodeName == 'arg':
@@ -363,7 +363,7 @@ class SignalNode(NodeBase):
         hint = node.getAttribute('hint')
         if hint != None and hint != '':
             p.hint = hint.split(',')
-        
+
         self.params.append(p)
 
     def introspect_sig(self):
@@ -418,7 +418,7 @@ class StructNode(TypeNode):
                     self.handle_field(child)
 
         self.top_node.types[self.name] = self
-        
+
     def handle_field(self, node):
         arg = ArgNode(self.top_node)
         arg.name = node.getAttribute('name')
@@ -447,7 +447,7 @@ class SequenceNode(TypeNode):
         self.qname = self.name.replace('.','_')
         self.container_type = node.getAttribute('container')
         self.data_type = node.getAttribute('type')
-        
+
         self.top_node.types[self.name] = self
 
     def sig(self):
@@ -470,7 +470,7 @@ class DictionaryNode(TypeNode):
         if self.csymbol == '':
             self.csymbol = 'std::map<%s,%s>' % ( self.top_node.get_type(self.key_type).symbol(),
                                                  self.top_node.get_type(self.value_type).symbol())
-        
+
         self.top_node.types[self.name] = self
 
     def sig(self):
@@ -484,32 +484,32 @@ class EnumNode(TypeNode):
         TypeNode.__init__(self)
         self.top_node = top_node
         self.count = 0
-        
+
     def handle(self, node):
         self.name = node.getAttribute('name')
         self.condition = node.getAttribute('condition')
         self.csymbol = node.getAttribute('csymbol')
         self.qname = self.name.replace('.','_')
         self.values = []
-        
+
         for child in node.childNodes:
             if child.nodeType == node.ELEMENT_NODE:
                 if child.nodeName == 'value':
                     self.handle_value(child)
 
         self.top_node.types[self.name] = self
-            
+
     def handle_value(self, node):
         arg = ArgNode(self.top_node)
 
         val = node.getAttribute('value')
         if val != '':
             self.count = int(val)
-            
+
         arg.name = node.getAttribute('name')
         arg.csymbol = node.getAttribute('csymbol')
         arg.value = self.count
-        
+
         self.values.append(arg)
 
     def sig(self):
@@ -523,7 +523,7 @@ class ImportNode(NodeBase):
         self.includes = []
         self.namespaces = []
         self.condition = None
-        
+
     def handle(self, node):
         self.condition = node.getAttribute('condition')
         for child in node.childNodes:
@@ -543,7 +543,7 @@ class ImportNode(NodeBase):
         condition = node.getAttribute('condition')
         self.namespaces.append((name, condition))
 
-   
+
 # Main program
 
 if __name__ == '__main__':
@@ -570,7 +570,7 @@ if __name__ == '__main__':
 
     if len(args) < 1 or len(args) > 2:
         parser.error("Expected one or two parameters")
-        
+
     if options.backend not in ["gio", "freedesktop", "qt5"]:
         parser.error("Unsupported backend: " + options.backend)
 
@@ -599,7 +599,7 @@ if __name__ == '__main__':
     name = None
     if len(args) >= 2:
         name = args[1]
-        
+
     binding = TopNode(args[0], name, options.backend, header_ext)
     binding.parse()
 
@@ -607,7 +607,7 @@ if __name__ == '__main__':
         t = Template(file=template_name)
         t.model = binding
         s = str(t)
-        
+
         ext = os.path.splitext(template_name)[1]
 
         f = open(binding.name + ext, 'w+')

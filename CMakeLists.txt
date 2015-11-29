@@ -1,6 +1,6 @@
 project(Workrave)
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.4)
 
 if(POLICY CMP0020)
   cmake_policy(SET CMP0020 NEW)
@@ -35,7 +35,7 @@ set (PACKAGE_VERSION ${VERSION})
 #
 set(CMAKE_BUILD_TYPE_INIT "Debug")
 
-# 
+#
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #
@@ -44,7 +44,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
 include(CheckCCompilerFlag)
-include(CheckCXXCompilerFlag) 
+include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
@@ -88,11 +88,11 @@ endmacro()
 #----------------------------------------------------------------------------------------------------
 # Compiler
 
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR
-    "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR
+    ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
 
-  CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14) 
-  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11) 
+  CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
+  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
   CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 
   if(COMPILER_SUPPORTS_CXX14)
@@ -102,7 +102,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR
   elseif(COMPILER_SUPPORTS_CXX0X)
     set(CXX11_FLAGS -std=c++01)
   elseif()
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.") 
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
   endif()
 
   if (CXX11_FLAGS)
@@ -111,15 +111,15 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR
   endif()
 
   CHECK_C_COMPILER_FLAG("-std=c99" COMPILER_SUPPORTS_C99)
-  if(COMPILER_SUPPORTS_C99) 
+  if(COMPILER_SUPPORTS_C99)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
   endif()
 
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  if (NOT (MSVC11 OR MSVC12))
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.") 
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+  if (NOT (MSVC11 OR MSVC12 OR MSVC13 OR MSVC14))
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
   endif()
 endif()
 
@@ -127,12 +127,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   if (NOT WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
   endif()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     GTK REQUIRED
     gtkmm-3.0>=3.16.0
     gtk+-3.0>=3.16.0)
-  
+
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
@@ -196,12 +196,13 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_DBUS_GIO ON)
   set (DBUS_BACKEND "gio")
   set (HAVE_APP_GTK ON)
+  set (HAVE_HARPOON ON)
 
   pkg_check_modules(
     GLIB REQUIRED
     glib-2.0>=2.36.0
     gio-2.0>=2.26.0)
- 
+
   include_directories(${GLIB_INCLUDE_DIRS})
 
   find_package(GSettings)
@@ -216,7 +217,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
     gtkmm-2.4>=2.24.0
     glibmm-2.4>=2.10
     gtk+-2.0>=2.6.0)
-  
+
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
@@ -224,12 +225,13 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
   set (HAVE_DBUS_GIO ON)
   set (DBUS_BACKEND "gio")
   set (HAVE_APP_GTK ON)
+  set (HAVE_HARPOON ON)
 
   pkg_check_modules(
     GLIB REQUIRED
     glib-2.0>=2.28.0
     gio-2.0>=2.26.0)
- 
+
   include_directories(${GLIB_INCLUDE_DIRS})
 
   find_package(GSettings)
@@ -289,7 +291,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
     find_package(Qt5MacExtras REQUIRED)
     include_directories(${Qt5MacExtras_INCLUDE_DIRS})
   endif()
-  
+
   include_directories(${Qt5Core_INCLUDE_DIRS})
   include_directories(${Qt5Gui_INCLUDE_DIRS})
   include_directories(${Qt5Widgets_INCLUDE_DIRS})
@@ -300,16 +302,16 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   if (APPLE)
     get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/.." REALPATH)
   endif()
-  
+
   # TODO:
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-  
+
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
 
-  if (NOT APPLE)
+  if ((NOT APPLE) AND (NOT WIN32))
     # glib is required for frontend/common/src/System.cc
     pkg_check_modules(
       GLIB REQUIRED
@@ -325,7 +327,8 @@ endif()
 
 if (HAVE_DBUS)
   message(STATUS "Checking for: DBus")
-  
+
+  set(Python_ADDITIONAL_VERSIONS 2.7)
   find_package(PythonInterp)
   if (NOT PYTHONINTERP_FOUND)
     set (HAVE_DBUS FALSE)
@@ -348,10 +351,10 @@ endif()
 
 if (UNIX AND NOT APPLE)
   option(WITH_GSTREAMER "Enable GStreamer audio" ON)
-  
+
   if (WITH_GSTREAMER)
     message(STATUS "Checking for: GStreamer")
-  
+
     pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
     if (GSTREAMER_FOUND)
       set (HAVE_GSTREAMER ON)
@@ -371,12 +374,12 @@ endif()
 
 if (UNIX AND NOT APPLE)
   option(WITH_PULSE "Enable Pulseaudio Mixer support" ON)
-  
+
   if (WITH_PULSE)
     message(STATUS "Checking for: Pulseaudio")
-  
+
     pkg_check_modules(PULSE glib-2.0 libpulse libpulse-mainloop-glib)
-    
+
     if (PULSE_FOUND)
       set (HAVE_PULSE ON)
     else()
@@ -401,7 +404,7 @@ if (UNIX AND NOT APPLE)
     if (HAVE_INTROSPECTION)
       pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
     endif()
-      
+
     if (INDICATOR_FOUND)
       set(HAVE_INDICATOR ON)
     else()
@@ -438,9 +441,9 @@ if(MSVC)
 endif()
 
 if (HAVE_TESTS)
-  find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono test_exec_monitor)
+  find_package(Boost 1.58.0 REQUIRED COMPONENTS system thread filesystem chrono date_time unit_test test_exec_monitor)
 else()
-  find_package(Boost 1.52.0 REQUIRED COMPONENTS system thread filesystem chrono)
+  find_package(Boost 1.58.0 REQUIRED COMPONENTS system thread filesystem chrono date_time)
 endif()
 
 include_directories(${Boost_INCLUDE_DIR})
@@ -498,37 +501,37 @@ if (WIN32)
   if(DEVELOPMENT_MODE)
     set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
   endif()
-  
-  if (NOT MSVC)
+
+  #if (NOT MSVC)
      option(PREBUILT_PATH "Location of prebuilt binaries" OFF)
 
      if (NOT PREBUILT_PATH)
         message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location if prebuilt win32")
      endif()
-  endif()
+  #endif()
 
   set (PLATFORM_OS_WIN32 ON)
   if (MSVC)
     set(PLATFORM_OS_WIN32_NATIVE 1)
   endif()
-  
+
   set (HAVE_GSETTINGS OFF)
   set(HAVE_LANGUAGE_SELECTION TRUE)
 
   if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
-  
+
     set(MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
     set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
-    add_definitions( 
+    add_definitions(
       -DWIN32
       -D_WINDOWS
       -D_WIN32_WINNT=0x0600
-      ) 
+      )
   endif()
 
   check_include_files(dsound.h HAVE_DSOUND)
@@ -546,15 +549,15 @@ if (WIN32)
   check_c_source_compiles(
     "#include <windows.h>
      #include <shlobj.h>
-     
+
      IShellDispatch* pShellDispatch = NULL;
      int main(){return 0;}"
      HAVE_ISHELLDISPATCH
     )
 
-  check_struct_has_member("MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)  
-  check_struct_has_member("MOUSEHOOKSTRUCTEX" mouseData "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCTEX)  
-  
+  check_struct_has_member("MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)
+  check_struct_has_member("MOUSEHOOKSTRUCTEX" mouseData "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCTEX)
+
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -584,23 +587,23 @@ if (UNIX AND NOT APPLE)
   set (HAVE_MONITORS "screensaver,record,x11events")
 
   find_package(X11)
-  
+
   check_library_exists(Xtst XRecordEnableContext "" HAVE_XRECORD)
 
   check_library_exists(Xext XScreenSaverRegister "" SCREENSAVER_IN_XEXT)
   if(SCREENSAVER_IN_XEXT)
-    set(XSS_LIB "Xext")			
+    set(XSS_LIB "Xext")
   else()
     check_library_exists(Xss XScreenSaverRegister "" SCREENSAVER_IN_XSS)
     if(SCREENSAVER_IN_XSS)
       set(XSS_LIB "Xss")
     endif()
   endif()
-  
+
   if (XSS_LIB)
     check_include_files(X11/extensions/scrnsaver.h HAVE_SCREENSAVER)
   endif()
-endif()  
+endif()
 
 #----------------------------------------------------------------------------------------------------
 #  misc checks
@@ -662,7 +665,7 @@ add_definitions(
 #----------------------------------------------------------------------------------------------------
 # Autoconf compatibility
 
-# compiler definitions 
+# compiler definitions
 add_definitions(-DHAVE_CONFIG_H=1)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -679,7 +682,7 @@ add_custom_target(dist
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 #----------------------------------------------------------------------------------------------------
-# 
+#
 
 add_subdirectory(po)
 add_subdirectory(libs)
@@ -700,7 +703,7 @@ elseif (WIN32)
   configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
   install(
-    FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt 
+    FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt
     DESTINATION ${DATADIR}/doc/workrave)
 endif()
 

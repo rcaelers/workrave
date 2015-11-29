@@ -128,6 +128,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
+#ifdef HAVE_HARPOON
               monitor = IInputMonitor::Ptr(new W32InputMonitor(config));
               initialized = monitor->init();
 
@@ -138,6 +139,10 @@ W32InputMonitorFactory::create_activity_monitor()
                   actual_monitor_method = "lowlevel";
                   TRACE_MSG("failed to init");
                 }
+#else
+				actual_monitor_method = "lowlevel";
+				TRACE_MSG("normal not available");
+#endif
             }
 
           max_tries--;

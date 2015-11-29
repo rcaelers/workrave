@@ -225,7 +225,6 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
-#include <glib.h>
 #endif
 
 #ifdef PLATFORM_OS_UNIX
@@ -236,7 +235,7 @@ int
 Locale::get_week_start()
 {
   int week_start = 0;
-  
+
 #ifdef PLATFORM_OS_WIN32
   WCHAR wsDay[4];
 	if (
@@ -247,12 +246,13 @@ Locale::get_week_start()
 #  endif
       )
     {
-      char *ws = g_utf16_to_utf8(reinterpret_cast<const gunichar2*>(wsDay), -1, NULL, NULL, NULL);
-      if (ws != NULL)
-        {
-          week_start = (ws[0] - '0' + 1) % 7;
-          g_free(ws);
-        }
+		  int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, 0, 0, 0, 0);
+		  if (required_size > 0)
+      {
+			  std::vector<char> buffer(required_size);
+			  WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, 0, 0);
+	          week_start = (buffer[0] - '0' + 1) % 7;
+      }
     }
 #endif
 
@@ -261,7 +261,7 @@ Locale::get_week_start()
   gint week_1stday = 0;
   gint first_weekday = 1;
   guint week_origin;
-  
+
   langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
   first_weekday = langinfo.string[0];
   langinfo.string = nl_langinfo(_NL_TIME_WEEK_1STDAY);
@@ -278,5 +278,3 @@ Locale::get_week_start()
 
   return week_start;
 }
-
-

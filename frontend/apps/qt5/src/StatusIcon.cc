@@ -42,7 +42,7 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 
   tray_icon = new QSystemTrayIcon();
 
-  menu = std::make_shared<ToolkitMenu>(menu_model);
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return true;  });
   tray_icon->setContextMenu(menu->get_menu());
   TRACE_EXIT();
 }

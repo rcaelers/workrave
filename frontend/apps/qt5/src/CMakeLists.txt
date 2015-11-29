@@ -30,7 +30,7 @@ set(SRC
   )
 
 if (PLATFORM_OS_OSX)
-   set(SRC ${SRC} 
+   set(SRC ${SRC}
     Dock.mm
     MouseMonitor.cc
    )
@@ -128,15 +128,15 @@ if (APPLE)
     MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
     MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
-  
-  set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
+
+  set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
   set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")
 endif()
 
-#if (PLATFORM_OS_WIN32)
-#   set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-#endif()
+if (PLATFORM_OS_WIN32)
+   set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+endif()
 
 target_link_libraries(Workrave workrave-frontend-common)
 target_link_libraries(Workrave workrave-backend)
@@ -177,19 +177,22 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 endif()
 
 if (PLATFORM_OS_WIN32)
-  target_link_libraries(Workrave intl)
-  target_link_libraries(Workrave harpoon)
+  target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
+  if (HAVE_HARPOON)
+     target_link_libraries(Workrave harpoon)
+  endif()
   target_link_libraries(Workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/frontend/applets/win32/include
-    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
-    )
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include)
 
-   target_link_libraries(Workrave dsound dxguid)
+	if (HAVE_HARPOON)
+      include_directories(
+        ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+	endif()
+
    link_directories(${Boost_LIBRARY_DIR})
-
 endif()
 
 install(TARGETS Workrave RUNTIME DESTINATION bin BUNDLE DESTINATION ".")

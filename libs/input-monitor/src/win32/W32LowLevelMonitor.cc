@@ -61,8 +61,9 @@ jay satiro, workrave project, september 2007
 #include "debug.hh"
 #include <sstream>
 #include "W32LowLevelMonitor.hh"
+#ifdef HAVE_HARPOON
 #include "input-monitor/Harpoon.hh"
-
+#endif
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
 
@@ -162,7 +163,9 @@ bool W32LowLevelMonitor::init()
       return false;
     }
 
+#ifdef HAVE_HARPOON
   Harpoon::init(config, NULL);
+#endif
 
   TRACE_EXIT();
   return true;
@@ -220,7 +223,9 @@ void W32LowLevelMonitor::terminate()
   terminate_thread( callback );
   terminate_thread( dispatch );
 
+#ifdef HAVE_HARPOON
   Harpoon::terminate();
+#endif
 }
 
 

@@ -79,8 +79,6 @@ W32Configurator::remove_key(const std::string &key)
   err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
   if (err == ERROR_SUCCESS)
     {
-      char buf[256]; // FIXME: yuck, should be dynamic.
-      DWORD size = sizeof(buf);
       err = RegDeleteKey(handle, c.c_str());
       if (err == ERROR_SUCCESS)
         {
@@ -328,7 +326,7 @@ W32Configurator::key_win32ify(const string &key) const
 void
 W32Configurator::strip_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] == '/')
@@ -343,7 +341,7 @@ W32Configurator::strip_trailing_slash(string &key) const
 void
 W32Configurator::add_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] != '/')

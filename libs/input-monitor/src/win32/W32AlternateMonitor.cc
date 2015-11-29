@@ -40,7 +40,9 @@
 #endif
 
 #include "W32AlternateMonitor.hh"
+#ifdef HAVE_HARPOON
 #include "input-monitor/Harpoon.hh"
+#endif
 
 using namespace workrave;
 
@@ -95,8 +97,10 @@ bool W32AlternateMonitor::init()
     goto cleanup;
   }
 
+#ifdef HAVE_HARPOON
   Harpoon::init( config, NULL );
-  
+#endif
+
   initialized = true;
 
 cleanup:
@@ -128,8 +132,10 @@ void W32AlternateMonitor::terminate()
     thread_abort_event = NULL;
   }
 
+#ifdef HAVE_HARPOON
   Harpoon::terminate();
-  
+#endif
+
   initialized = false;
 
   TRACE_EXIT();

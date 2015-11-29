@@ -10,7 +10,11 @@ if (TRANSLATIONS_1)
 endif()
 
 if (PLATFORM_OS_WIN32)
-  set(SRC ${SRC} Platform-win32.cc win32/crashlog.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc win32/dll_hell.c)
+  set(SRC ${SRC} Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc win32/dll_hell.c)
+  
+  if (NOT CMAKE_CL_64)
+    set(SRC ${SRC} win32/crashlog.cc)
+  endif()
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include

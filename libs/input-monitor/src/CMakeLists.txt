@@ -10,7 +10,7 @@ if (PLATFORM_OS_UNIX)
     unix/X11InputMonitor.cc
     unix/XScreenSaverMonitor.cc
     unix/UnixInputMonitorFactory.cc)
-  
+
   include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
 
   if (HAVE_GTK)
@@ -20,17 +20,21 @@ endif()
 
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC}
-    win32/Harpoon.cc
     win32/W32AlternateMonitor.cc
-    win32/W32InputMonitor.cc
     win32/W32InputMonitorFactory.cc
     win32/W32LowLevelMonitor.cc)
 
+  if (HAVE_HARPOON)
+    set(SRC ${SRC}
+      win32/W32InputMonitor.cc
+      win32/Harpoon.cc)
+    include_directories(
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include)
+  endif()
+
   include_directories(
-    ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include
-    )
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
 endif()
 
 if (PLATFORM_OS_OSX)

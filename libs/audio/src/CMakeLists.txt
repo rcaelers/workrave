@@ -59,3 +59,7 @@ endif()
 if (PLATFORM_OS_OSX)
   target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
 endif()
+
+if (PLATFORM_OS_WIN32)
+   target_link_libraries(workrave-libs-audio dsound dxguid)
+endif()
