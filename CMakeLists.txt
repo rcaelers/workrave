@@ -441,9 +441,9 @@ if(MSVC)
 endif()
 
 if (HAVE_TESTS)
-  find_package(Boost 1.58.0 REQUIRED COMPONENTS system thread filesystem chrono date_time unit_test test_exec_monitor)
+  find_package(Boost 1.54.0 REQUIRED COMPONENTS system thread filesystem chrono date_time unit_test test_exec_monitor)
 else()
-  find_package(Boost 1.58.0 REQUIRED COMPONENTS system thread filesystem chrono date_time)
+  find_package(Boost 1.54.0 REQUIRED COMPONENTS system thread filesystem chrono date_time)
 endif()
 
 include_directories(${Boost_INCLUDE_DIR})
