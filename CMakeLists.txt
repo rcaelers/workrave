@@ -1,6 +1,6 @@
 project(Workrave)
 
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.2)
 
 if(POLICY CMP0020)
   cmake_policy(SET CMP0020 NEW)
