@@ -196,13 +196,11 @@ TimerPreferencesPanel::create_options_panel()
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
                          dc::wrap(auto_natural_cb));
 
-#ifdef HAVE_GTK3
       allow_shutdown_cb = Gtk::manage(new Gtk::CheckButton(_("Enable shutting down the computer from the rest screen")));
       hig->add_widget(*allow_shutdown_cb);
 
       connector->connect(GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN % break_id,
                          dc::wrap(allow_shutdown_cb));
-#endif
     }
 
   connector->connect(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
@@ -442,9 +440,11 @@ TimerPreferencesPanel::enable_buttons()
     {
       auto_natural_cb->set_sensitive(on);
     }
+
   if (allow_shutdown_cb != NULL)
     {
       allow_shutdown_cb->set_sensitive(on);
     }
+
   // max_prelude_spin->set_sensitive(on);
 }
