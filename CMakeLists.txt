@@ -313,7 +313,6 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
-
   if ((NOT APPLE) AND (NOT WIN32))
     # glib is required for frontend/common/src/System.cc
     pkg_check_modules(
@@ -443,11 +442,16 @@ if(MSVC)
   endif()
 endif()
 
+set(BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine)
+
 if (HAVE_TESTS)
-  find_package(Boost 1.54.0 REQUIRED COMPONENTS system thread filesystem chrono date_time unit_test test_exec_monitor)
-else()
-  find_package(Boost 1.54.0 REQUIRED COMPONENTS system thread filesystem chrono date_time)
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
+  if (MSCV)
+    set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test)
+  endif()
 endif()
+
+find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
