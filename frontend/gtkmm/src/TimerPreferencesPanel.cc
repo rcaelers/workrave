@@ -431,10 +431,12 @@ TimerPreferencesPanel::enable_buttons()
 
   snooze_tim->set_sensitive(on);
 
+#ifdef HAVE_EXERCISES
   if (exercises_spin != NULL)
     {
       exercises_spin->set_sensitive(on);
     }
+#endif
 
   if (auto_natural_cb != NULL)
     {
