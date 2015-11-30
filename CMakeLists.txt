@@ -442,7 +442,7 @@ if(MSVC)
   endif()
 endif()
 
-set(BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine)
+set(BOOST_COMPONENTS system thread filesystem chrono date_time)
 
 if (HAVE_TESTS)
   set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
