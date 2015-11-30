@@ -6,7 +6,9 @@ if(POLICY CMP0020)
   cmake_policy(SET CMP0020 NEW)
 endif()
 cmake_policy(SET CMP0009 NEW)
-cmake_policy(SET CMP0054 NEW)
+if(POLICY CMP0054)
+   cmake_policy(SET CMP0054 NEW)
+endif()
 
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
