@@ -136,7 +136,8 @@ before_install: |
     brew install gettext
     brew link gettext --force
 
-    brew install qt5 cmake
+    brew install qt5
+    brew upgrade cmake
   }
 
 
