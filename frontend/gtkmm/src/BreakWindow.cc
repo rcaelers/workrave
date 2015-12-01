@@ -623,7 +623,7 @@ BreakWindow::create_bottom_box(bool lockable,
         }
 
       //#ifdef HAVE_GTK3
-      if (lockable)
+      if (lockable || shutdownable)
         {
           sysoper_combobox = create_sysoper_combobox(shutdownable);
           if (sysoper_combobox != NULL)

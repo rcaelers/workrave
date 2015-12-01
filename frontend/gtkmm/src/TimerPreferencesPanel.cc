@@ -170,6 +170,9 @@ TimerPreferencesPanel::create_options_panel()
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
   monitor_cb = NULL;
+  auto_natural_cb = NULL;
+  allow_shutdown_cb = NULL;
+
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
@@ -193,13 +196,11 @@ TimerPreferencesPanel::create_options_panel()
       connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
                          dc::wrap(auto_natural_cb));
 
-#ifdef HAVE_GTK3
       allow_shutdown_cb = Gtk::manage(new Gtk::CheckButton(_("Enable shutting down the computer from the rest screen")));
       hig->add_widget(*allow_shutdown_cb);
 
       connector->connect(GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN % break_id,
                          dc::wrap(allow_shutdown_cb));
-#endif
     }
 
   connector->connect(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
@@ -420,17 +421,30 @@ TimerPreferencesPanel::enable_buttons()
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
-  if (break_id == BREAK_ID_REST_BREAK)
+
+  if (auto_reset_tim != NULL)
     {
-        auto_reset_tim->set_sensitive(true);
+      auto_reset_tim->set_sensitive(on);
     }
-  else
-    {
-      if (auto_reset_tim != NULL)
-        {
-          auto_reset_tim->set_sensitive(on);
-        }
-    }
+
   snooze_tim->set_sensitive(on);
+
+#ifdef HAVE_EXERCISES
+  if (exercises_spin != NULL)
+    {
+      exercises_spin->set_sensitive(on);
+    }
+#endif
+
+  if (auto_natural_cb != NULL)
+    {
+      auto_natural_cb->set_sensitive(on);
+    }
+
+  if (allow_shutdown_cb != NULL)
+    {
+      allow_shutdown_cb->set_sensitive(on);
+    }
+
   // max_prelude_spin->set_sensitive(on);
 }
