@@ -26,13 +26,14 @@
 #include "GUIConfig.hh"
 
 #include "TimeBar.hh"
+#include "SoundTheme.hh"
 
 class RestBreakWindow : public BreakWindow
 {
   Q_OBJECT
 
 public:
-  RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  RestBreakWindow(SoundTheme::Ptr sound_theme, int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
 
   void set_progress(int value, int max_value) override;
 
@@ -46,6 +47,7 @@ private:
   int get_exercise_count();
 
 private:
+  SoundTheme::Ptr sound_theme;
   TimeBar *timebar;
   QHBoxLayout *pluggable_panel;
 

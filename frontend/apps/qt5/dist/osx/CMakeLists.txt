@@ -2,7 +2,7 @@ if (APPLE)
  
   set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
   set(PLUGINS "")
-  set(DIRS ${QT_INSTALL_PREFIX})
+  set(DIRS "${Boost_LIBRARY_DIRS};${QT_INSTALL_PREFIX}")
 
   include(InstallRequiredSystemLibraries)
   
@@ -13,7 +13,6 @@ if (APPLE)
   
   install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-  #install(DIRECTORY "${QT_PLUGINS_DIR}/accessible" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   
   # Install a qt.conf file.
   # This inserts some cmake code into the install script to write the file

@@ -123,7 +123,7 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
    }
   else if (break_id == BREAK_ID_REST_BREAK)
    {
-     ret = std::make_shared<RestBreakWindow>(screen, break_flags, block_mode);
+     ret = std::make_shared<RestBreakWindow>(sound_theme, screen, break_flags, block_mode);
    }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
    {
@@ -174,7 +174,7 @@ Toolkit::show_window(WindowType type)
     case WindowType::Exercises:
       if (!exercises_dialog)
         {
-          exercises_dialog = std::make_shared<ExercisesDialog>();
+          exercises_dialog = std::make_shared<ExercisesDialog>(sound_theme);
           connect(exercises_dialog.get(), &QDialog::accepted, this, &Toolkit::on_exercises_closed);
         }
       exercises_dialog->show();

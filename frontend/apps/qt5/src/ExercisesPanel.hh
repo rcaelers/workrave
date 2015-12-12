@@ -1,5 +1,3 @@
-// ExercisesPanel.hh --- Exercises panel
-//
 // Copyright (C) 2002 - 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -31,6 +29,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "SoundTheme.hh"
 #include "Exercise.hh"
 
 class ExercisesPanel : public QWidget
@@ -38,7 +37,7 @@ class ExercisesPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit ExercisesPanel(bool standalone);
+  explicit ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone);
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
@@ -70,18 +69,14 @@ private:
   }
 
 
+  SoundTheme::Ptr sound_theme;
   QTimer *timer;
-  QFrame *image_frame;
   QLabel *image;
   QProgressBar *progress_bar;
   QTextEdit *description_text;
   QScrollArea *description_scroll;
-  QPushButton *back_button;
   QPushButton *pause_button;
-  QPushButton *forward_button;
-  QPushButton *stop_button;
 
-  // Glib::RefPtr<QSizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
@@ -91,7 +86,6 @@ private:
   int seq_time;
   bool paused;
   bool stopped;
-  bool standalone;
   int exercise_num;
   int exercise_count;
   static int exercises_pointer;

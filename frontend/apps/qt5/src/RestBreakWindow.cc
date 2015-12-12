@@ -38,8 +38,9 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
+RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
+    sound_theme(sound_theme),
     timebar(nullptr),
     pluggable_panel(nullptr)
 {
@@ -120,7 +121,7 @@ RestBreakWindow::install_exercises_panel()
   ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Ignore);
   
-  ExercisesPanel *exercises_panel = new ExercisesPanel(false);
+  ExercisesPanel *exercises_panel = new ExercisesPanel(sound_theme, false);
   
   pluggable_panel->addWidget(exercises_panel);
   

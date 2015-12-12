@@ -26,24 +26,20 @@
 #include "utils/AssetPath.hh"
 #include "UiUtil.hh"
 #include "nls.h"
-// #include "SoundPlayer.hh"
 #include "debug.hh"
 
 using namespace workrave::utils;
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(bool standalone)
-  : exercises(Exercise::get_exercises())
+ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
+  : sound_theme(sound_theme),
+    exercises(Exercise::get_exercises())
 {
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
 
   QGridLayout *box = new QGridLayout;
-  //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
-  //mainLayout->setRowStretch(2, 1);
-
-  //QHBoxLayout *box = new QHBoxLayout;
 
   image = new QLabel;
   image->setFrameShape(QFrame::Panel);
@@ -65,15 +61,14 @@ ExercisesPanel::ExercisesPanel(bool standalone)
 
   pause_button = new QPushButton;
 
-  back_button =  new QPushButton;
+  QPushButton *back_button =  new QPushButton;
   back_button->setIcon(QIcon::fromTheme("go-previous"));
 
-  forward_button =  new QPushButton;
+  QPushButton *forward_button =  new QPushButton;
   forward_button->setIcon(QIcon::fromTheme("go-next"));
 
-  stop_button = new QPushButton;
+  QPushButton *stop_button = new QPushButton;
   stop_button->setIcon(QIcon::fromTheme("window-close"));
-
 
   if (standalone)
     {
@@ -221,8 +216,7 @@ ExercisesPanel::refresh_sequence()
       show_image();
       if (exercise_time != 0)
         {
-          // SoundPlayer *snd = GUI::get_instance()->get_sound_player();
-          // snd->play_sound(SOUND_EXERCISE_STEP);
+          sound_theme->play_sound(SoundEvent::ExerciseStep);
         }
     }
 
@@ -238,7 +232,6 @@ ExercisesPanel::refresh_progress()
   progress_bar->setValue(exercise.duration - exercise_time);
 }
 
-
 void
 ExercisesPanel::on_stop()
 {
@@ -248,7 +241,6 @@ ExercisesPanel::on_stop()
       stop_signal();
     }
 }
-
 
 void
 ExercisesPanel::on_go_back()
@@ -265,7 +257,6 @@ ExercisesPanel::on_go_back()
   start_exercise();
 }
 
-
 void
 ExercisesPanel::on_go_forward()
 {
@@ -278,19 +269,16 @@ ExercisesPanel::on_go_forward()
   start_exercise();
 }
 
-
 void
 ExercisesPanel::refresh_pause()
 {
   if (paused)
     {
       pause_button->setIcon(QIcon::fromTheme("media-playback-pause"));
-      //pause_button->setText(_("Resume"));
     }
   else
     {
       pause_button->setIcon(QIcon::fromTheme("media-playback-start"));
-      //pause_button->setText(_("Pause"));
     }
 
   if (paused)
@@ -303,14 +291,12 @@ ExercisesPanel::refresh_pause()
     }
 }
 
-
 void
 ExercisesPanel::on_pause()
 {
   paused = ! paused;
   refresh_pause();
 }
-
 
 void
 ExercisesPanel::heartbeat()
@@ -330,15 +316,14 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      //SoundPlayer *snd = GUI::get_instance()->get_sound_player();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
-      // snd->play_sound(stopped
-      //                 ? SOUND_EXERCISES_ENDED
-      //                 : SOUND_EXERCISE_ENDED);
+      sound_theme->play_sound(stopped
+                              ? SoundEvent::ExercisesEnded
+                              : SoundEvent::ExerciseEnded);
     }
   else
     {
@@ -347,13 +332,11 @@ ExercisesPanel::heartbeat()
     }
 }
 
-
 void
 ExercisesPanel::set_exercise_count(int num)
 {
   exercise_count = num;
 }
-
 
 boost::signals2::signal<void()> &
 ExercisesPanel::signal_stop()

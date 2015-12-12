@@ -1,5 +1,3 @@
-// ExercisesDialog.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -30,7 +28,7 @@ class ExercisesDialog : public QDialog
   Q_OBJECT
 
 public:
-  ExercisesDialog();
+  ExercisesDialog(SoundTheme::Ptr sound_theme);
   ~ExercisesDialog() override;
 
 private:

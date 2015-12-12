@@ -1,5 +1,3 @@
-// ExercisesDialog.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -31,7 +29,7 @@
 
 #include "ExercisesPanel.hh"
 
-ExercisesDialog::ExercisesDialog()
+ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
     panel(NULL)
 {
@@ -41,7 +39,7 @@ ExercisesDialog::ExercisesDialog()
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
-  panel =  new ExercisesPanel(true);
+  panel =  new ExercisesPanel(sound_theme, true);
   panel->set_exercise_count(0);
   panel->signal_stop().connect(std::bind(&ExercisesDialog::on_stop, this));
 
