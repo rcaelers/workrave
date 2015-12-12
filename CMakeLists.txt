@@ -692,8 +692,7 @@ add_custom_target(dist
 #
 
 add_subdirectory(po)
-add_subdirectory(libs)
-add_subdirectory(backend)
+add_subdirectory(src)
 add_subdirectory(frontend)
 
 #----------------------------------------------------------------------------------------------------
