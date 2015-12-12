@@ -299,6 +299,19 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
   return box;
 }
 
+#ifdef PLATFORM_OS_OSX
+
+NSString * colorToHexString (NSColor * color) {
+	NSMutableString * hexString = [[NSMutableString alloc] init];
+	[hexString appendString:@"#"];
+	[hexString appendFormat:@"%02x", (int)([color redComponent] * 255.0f)];
+	[hexString appendFormat:@"%02x", (int)([color greenComponent] * 255.0f)];
+	[hexString appendFormat:@"%02x", (int)([color blueComponent] * 255.0f)];
+	return hexString;
+}
+
+#endif
+
 void
 BreakWindow::start()
 {
@@ -331,16 +344,16 @@ BreakWindow::start()
       //[NSScreen screens] objectAtIndex:0]]
       NSScreen *desktopScreen = [nswindow screen];
 
-      NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
-      NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
-      //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
+      // NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
+      // NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
+      // //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
 
-      CGImageRef cgImage = [desktopImage CGImageForProposedRect:NULL context:NULL hints:NULL];
-      QPixmap pixmap = QtMac::fromCGImageRef(cgImage);
+      // CGImageRef cgImage = [desktopImage CGImageForProposedRect:NULL context:NULL hints:NULL];
+      // QPixmap pixmap = QtMac::fromCGImageRef(cgImage);
 
-      QPalette palette;
-      palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
-      block_window->setPalette(palette);
+      // QPalette palette;
+      // palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
+      // block_window->setPalette(palette);
 
       block_window->showFullScreen();
       block_window->raise();
@@ -350,10 +363,76 @@ BreakWindow::start()
          NSApplicationPresentationHideMenuBar |
          NSApplicationPresentationDisableAppleMenu |
          NSApplicationPresentationDisableProcessSwitching |
-         NSApplicationPresentationDisableForceQuit |
-         NSApplicationPresentationDisableSessionTermination |
+         // NSApplicationPresentationDisableForceQuit |
+         // NSApplicationPresentationDisableSessionTermination |
          NSApplicationPresentationDisableHideApplication);
       [NSApp setPresentationOptions:options];
+
+      NSDictionary * dictionary = [mainWorkspace desktopImageOptionsForScreen: desktopScreen];
+      //if ([dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey])
+      //{
+          NSNumber * clipping = [dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey];
+          if ([clipping boolValue]) {
+            printf("Clipping: YES\n");
+          } else {
+            printf("Clipping: NO\n");
+          }
+          //} else {
+          //printf("Clipping: NO (not defined)\n");
+          //}
+      if ([dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey]) {
+        NSColor * color = [dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey];
+        printf("Background: %s\n", [colorToHexString(color) UTF8String]);
+      }
+      if ([dictionary objectForKey:NSWorkspaceDesktopImageScalingKey]) {
+        NSImageScaling scaling = (NSImageScaling) [[dictionary objectForKey:NSWorkspaceDesktopImageScalingKey] integerValue];
+        switch (scaling) {
+				case NSImageScaleNone:
+					printf("Scaling: none\n");
+					break;
+				case NSImageScaleAxesIndependently:
+					printf("Scaling: stretch\n");
+					break;
+				case NSImageScaleProportionallyDown:
+					printf("Scaling: down\n");
+					break;
+				case NSImageScaleProportionallyUpOrDown:
+					printf("Scaling: updown\n");
+					break;
+				default:
+					printf("Scaling: unknown\n");
+					break;
+        }
+      } else {
+        printf("Scaling: updown (not defined)\n");
+      }
+
+      /* fit screen
+        Clipping: NO (not defined)
+        Background: #51a0aa
+        Scaling: updown (not defined)
+        
+        fit to screen
+        Clipping: NO
+        Background: #51a0aa
+        Scaling: updown
+
+        stretch to fiull screen
+        Clipping: NO (not defined)
+        Background: #51a0aa
+        Scaling: stretch
+
+        center
+        Clipping: NO (not defined)
+        Background: #51a0aa
+        Scaling: none
+
+        tile
+        Clipping: NO (not defined)
+        Background: #51a0aa
+        Scaling: updown (not defined)
+      */
+    
 #endif
     }
   // Set window hints.

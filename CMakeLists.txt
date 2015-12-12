@@ -692,8 +692,8 @@ add_custom_target(dist
 #
 
 add_subdirectory(po)
-add_subdirectory(src)
-add_subdirectory(frontend)
+add_subdirectory(libs)
+add_subdirectory(ui)
 
 #----------------------------------------------------------------------------------------------------
 # Install
