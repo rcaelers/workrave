@@ -46,11 +46,11 @@
 #include "utils/AssetPath.hh"
 #include "WindowHints.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 #include "Backend.hh"
 

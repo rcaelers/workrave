@@ -33,7 +33,7 @@
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/adjustment.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 class TimeEntry;
 class DataConnector;

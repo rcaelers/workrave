@@ -27,7 +27,7 @@
 #include "DBusWorkrave.hh"
 #endif
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 
 using namespace workrave;
 using namespace workrave::dbus;

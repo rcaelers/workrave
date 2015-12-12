@@ -28,7 +28,7 @@
 #include "utils/ScopedConnections.hh"
 #include "updater/Updater.hh"
 
-#include "IApp.hh"
+#include "core/IApp.hh"
 
 #include "Session.hh"
 #include "IBreakWindow.hh"

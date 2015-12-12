@@ -23,7 +23,7 @@
 #include "config/IConfigurator.hh"
 #include "dbus/IDBus.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 #include "IActivityMonitor.hh"

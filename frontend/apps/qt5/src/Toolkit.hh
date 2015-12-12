@@ -29,7 +29,7 @@
 #include <QTimer>
 
 #include "IToolkit.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 #include "Menus.hh"
 
 #include "MainWindow.hh"

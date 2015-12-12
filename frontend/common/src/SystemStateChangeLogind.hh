@@ -26,7 +26,7 @@
 #include "config.h"
 #endif
 
-#include "DBusProxy.hh"
+#include "utils/DBusProxy.hh"
 
 #include "ISystemStateChangeMethod.hh"
 

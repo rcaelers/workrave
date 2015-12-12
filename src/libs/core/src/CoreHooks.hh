@@ -18,7 +18,7 @@
 #ifndef COREHOOKS_HH
 #define COREHOOKS_HH
 
-#include "ICoreHooks.hh"
+#include "core/ICoreHooks.hh"
 #include "ICoreTestHooks.hh"
 
 class CoreHooks : public ICoreHooks

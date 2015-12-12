@@ -27,8 +27,8 @@
 #include <fstream>
 #include <stdio.h>
 
-#include "ICore.hh"
-#include "CoreTypes.hh"
+#include "core/ICore.hh"
+#include "core/CoreTypes.hh"
 #include "Application.hh"
 #include "Toolkit.hh"
 
@@ -36,9 +36,9 @@
 #include <io.h>
 #include <fcntl.h>
 
-#include "crashlog.h"
-#include "dll_hell.h"
-#include "W32ActiveSetup.hh"
+#include "utils/crashlog.h"
+#include "utils/dll_hell.h"
+#include "utils/W32ActiveSetup.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);

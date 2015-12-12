@@ -30,7 +30,7 @@
 #include "input-monitor/InputMonitorFactory.hh"
 #include "utils/TimeSource.hh"
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "debug.hh"
 
 using namespace std;

@@ -22,7 +22,7 @@
 
 #include "utils/ScopedConnections.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "IToolkit.hh"
 #include "IApplication.hh"

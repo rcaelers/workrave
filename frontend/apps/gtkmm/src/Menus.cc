@@ -39,10 +39,10 @@
 #include "PreferencesDialog.hh"
 
 #include "StatisticsDialog.hh"
-#include "IStatistics.hh"
+#include "core/IStatistics.hh"
 
 #include "Backend.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 
 #include "ExercisesDialog.hh"

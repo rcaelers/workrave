@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "GUIConfig.hh"
 
 #include "DataConnector.hh"

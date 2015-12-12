@@ -39,7 +39,7 @@
 #include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "UiUtil.hh"
 #include "Backend.hh"
 

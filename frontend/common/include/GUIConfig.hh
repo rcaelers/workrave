@@ -18,7 +18,7 @@
 #ifndef GUICONFIG_HH
 #define GUICONFIG_HH
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/Setting.hh"
 
 class GUIConfig

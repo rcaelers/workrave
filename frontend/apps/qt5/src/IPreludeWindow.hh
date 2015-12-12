@@ -22,7 +22,7 @@
 
 #include <memory>
 
-#include "IApp.hh"
+#include "core/IApp.hh"
 
 class IPreludeWindow
 {

@@ -26,7 +26,7 @@
 #include "utils/ScopedConnections.hh"
 
 #include "IActivityMonitor.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 class CoreModes
 {

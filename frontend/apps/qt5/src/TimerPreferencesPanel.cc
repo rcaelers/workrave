@@ -29,8 +29,8 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "CoreConfig.hh"
-#include "ICore.hh"
+#include "core/CoreConfig.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 
 #include "TimeEntry.hh"

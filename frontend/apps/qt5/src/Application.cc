@@ -31,8 +31,8 @@
 #include "config/IConfigurator.hh"
 
 // Backend includes.
-#include "IBreak.hh"
-#include "ICore.hh"
+#include "core/IBreak.hh"
+#include "core/ICore.hh"
 #include "utils/Exception.hh"
 #include "utils/Platform.hh"
 #include "utils/Locale.hh"

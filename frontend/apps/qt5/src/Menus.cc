@@ -23,7 +23,7 @@
 #include "debug.hh"
 
 #include "Menus.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 using namespace std;
 using namespace workrave;

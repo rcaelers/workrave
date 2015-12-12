@@ -31,7 +31,7 @@
 
 #include "config/IConfigurator.hh"
 #include "IActivityMonitor.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 #include "Timer.hh"
 
 class ICoreTestHooks

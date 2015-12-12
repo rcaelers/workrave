@@ -24,7 +24,7 @@
 #include "StatusIcon.hh"
 
 #include "Backend.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "UiUtil.hh"
 #include "GUIConfig.hh"

@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_BACKEND_IAPP_HH
 #define WORKRAVE_BACKEND_IAPP_HH
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 namespace workrave
 {

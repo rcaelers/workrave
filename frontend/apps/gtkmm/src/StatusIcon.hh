@@ -30,7 +30,7 @@
 #endif
 #include <gtkmm/statusicon.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #ifndef WR_CHECK_VERSION
 #define WR_CHECK_VERSION(comp,major,minor,micro)   \

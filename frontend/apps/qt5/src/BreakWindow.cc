@@ -42,7 +42,7 @@
 
 #include "System.hh"
 #include "utils/AssetPath.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 #include "UiUtil.hh"
 

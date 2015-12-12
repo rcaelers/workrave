@@ -36,7 +36,7 @@
 
 // #include "System.hh"
 #include "utils/AssetPath.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "UiUtil.hh"
 #include "Ui.hh"
 // #include "Backend.hh"

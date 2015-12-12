@@ -47,9 +47,9 @@
 #include "config/IConfigurator.hh"
 
 // Backend includes.
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "IBreakWindow.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 
 #include "utils/Exception.hh"

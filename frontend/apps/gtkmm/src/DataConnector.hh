@@ -26,7 +26,7 @@
 
 #include "config/Config.hh"
 #include "config/Setting.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 class TimeEntry;
 

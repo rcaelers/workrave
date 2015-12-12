@@ -28,7 +28,7 @@
 #include "Hig.hh"
 
 #include "IconListNotebook.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 
 #include "SoundTheme.hh"

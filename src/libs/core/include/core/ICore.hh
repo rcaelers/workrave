@@ -25,14 +25,14 @@
 
 #include <boost/signals2.hpp>
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 #include "config/IConfigurator.hh"
 #include "dbus/IDBus.hh"
 
-#include "IBreak.hh"
-#include "IStatistics.hh"
-#include "ICoreHooks.hh"
+#include "core/IBreak.hh"
+#include "core/IStatistics.hh"
+#include "core/ICoreHooks.hh"
 
 namespace workrave
 {

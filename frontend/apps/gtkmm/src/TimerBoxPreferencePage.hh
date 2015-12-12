@@ -28,7 +28,7 @@ namespace Gtk
   class CheckButton;
 }
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "utils/ScopedConnections.hh"
 

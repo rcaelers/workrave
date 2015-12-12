@@ -37,13 +37,13 @@
 #include <gtkmm.h>
 #include <gdk/gdkwin32.h>
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "BreakWindow.hh"
 #include "Backend.hh"
 #include "config/IConfigurator.hh"
 #include "GtkUtil.hh"
 #include "W32ForceFocus.hh"
-#include "W32CriticalSection.hh"
+#include "utils/W32CriticalSection.hh"
 #include "W32Compat.hh"
 
 using namespace workrave;

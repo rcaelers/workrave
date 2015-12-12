@@ -34,9 +34,9 @@
 #include "debug.hh"
 
 #include "Backend.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/IConfigurator.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 
 #include "TimeEntry.hh"
 #include "TimerPreferencesPanel.hh"
@@ -44,7 +44,7 @@
 #include "Hig.hh"
 
 #include "GUIConfig.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "DataConnector.hh"
 
 using namespace std;

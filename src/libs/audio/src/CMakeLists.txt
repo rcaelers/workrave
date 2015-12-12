@@ -22,13 +22,13 @@ if (PLATFORM_OS_WIN32)
     win32/W32Mixer.cc
     win32/W32SoundPlayer.cc
     )
-  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/win32)
+  include_directories(${CMAKE_SOURCE_DIR}/src/libs/audio/src/win32)
 endif()
 
 if (PLATFORM_OS_OSX)
   set(SRC ${SRC}
     osx/OSXSoundPlayer.cc)
-  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/src/libs/audio/src/osx)
   set_source_files_properties(osx/OSXSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
 endif()
 
@@ -37,10 +37,10 @@ if (HAVE_GTK)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/audio/src
-  ${CMAKE_SOURCE_DIR}/libs/audio/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${CMAKE_SOURCE_DIR}/src/libs/audio/src
+  ${CMAKE_SOURCE_DIR}/src/libs/audio/include
+  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/src/libs/config/include
   )
 
 add_library(workrave-libs-audio STATIC ${SRC})

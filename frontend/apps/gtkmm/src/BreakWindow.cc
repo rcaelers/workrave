@@ -53,12 +53,12 @@
 #include "config/IConfigurator.hh"
 
 #include "GUI.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
 #include "System.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 #include "utils/AssetPath.hh"
 

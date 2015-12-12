@@ -29,7 +29,7 @@
 #include "DataConnector.hh"
 
 #include "config/Config.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 class TimerBoxPreferencesPanel :
   public QGroupBox

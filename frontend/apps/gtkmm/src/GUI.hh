@@ -28,8 +28,8 @@
 #include "config/Config.hh"
 
 #include "HeadInfo.hh"
-#include "IBreak.hh"
-#include "IApp.hh"
+#include "core/IBreak.hh"
+#include "core/IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 #include "SoundTheme.hh"

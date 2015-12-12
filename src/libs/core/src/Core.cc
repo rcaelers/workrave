@@ -31,9 +31,9 @@
 #include "input-monitor/InputMonitorFactory.hh"
 
 #include "utils/AssetPath.hh"
-#include "IApp.hh"
+#include "core/IApp.hh"
 #include "Break.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "Statistics.hh"
 
 #include "dbus/DBusFactory.hh"

@@ -35,7 +35,7 @@
 #include "utils/AssetPath.hh"
 
 #include "Backend.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"

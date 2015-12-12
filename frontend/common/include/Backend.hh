@@ -20,7 +20,7 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 #include "dbus/IDBus.hh"
 

@@ -23,7 +23,7 @@
 
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "StatusIcon.hh"
 #include "UiTypes.hh"
 

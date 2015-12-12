@@ -23,10 +23,10 @@
 
 #include "config/IConfigurator.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 #include "CoreHooks.hh"
 
 // Forward declarion of external interface.

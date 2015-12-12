@@ -30,11 +30,11 @@
 
 #include "TimerBoxPreferencePage.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "config/IConfigurator.hh"
 #include "Backend.hh"
-#include "ICore.hh"
-#include "CoreConfig.hh"
+#include "core/ICore.hh"
+#include "core/CoreConfig.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "GUIConfig.hh"

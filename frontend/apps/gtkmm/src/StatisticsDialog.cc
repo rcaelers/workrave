@@ -49,7 +49,7 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 
 #include "StatisticsDialog.hh"

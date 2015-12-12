@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "crashlog.h"
+#include "utils/crashlog.h"
 #include "harpoon.h"
 
 #include <fcntl.h>

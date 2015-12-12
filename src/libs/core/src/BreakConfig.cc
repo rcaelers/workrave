@@ -24,7 +24,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 
 #include "BreakConfig.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "DayTimePred.hh"
 
 using namespace std;

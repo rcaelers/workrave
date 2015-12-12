@@ -1,3 +1,0 @@
-[submodule "libs/updater/ext/sparkle"]
-	path = libs/updater/ext/sparkle
-	url = https://github.com/sparkle-project/Sparkle.git

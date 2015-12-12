@@ -26,9 +26,9 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
   set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
 
   include_directories(
-    ${CMAKE_SOURCE_DIR}/libs/dbus/src
-    ${CMAKE_SOURCE_DIR}/libs/dbus/include
-    ${CMAKE_SOURCE_DIR}/libs/utils/include
+    ${CMAKE_SOURCE_DIR}/src/libs/dbus/src
+    ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
+    ${CMAKE_SOURCE_DIR}/src/libs/utils/include
     )
 
   if (HAVE_DBUS_FREEDESKTOP)

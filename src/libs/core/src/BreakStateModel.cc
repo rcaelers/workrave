@@ -26,11 +26,11 @@
 
 #include "BreakStateModel.hh"
 
-#include "IBreak.hh"
-#include "IApp.hh"
+#include "core/IBreak.hh"
+#include "core/IApp.hh"
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 
 using namespace std;
 using namespace workrave;

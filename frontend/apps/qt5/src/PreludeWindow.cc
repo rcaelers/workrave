@@ -30,7 +30,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 
-#include "IApp.hh"
+#include "core/IApp.hh"
 #include "UiUtil.hh"
 
 #include "debug.hh"

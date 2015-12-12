@@ -23,7 +23,7 @@
 #include <string>
 #include <glib.h>
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 class IMenu
 {

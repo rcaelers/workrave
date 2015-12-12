@@ -35,7 +35,7 @@
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-#include "IStatistics.hh"
+#include "core/IStatistics.hh"
 #include "IActivityMonitor.hh"
 
 class Statistics

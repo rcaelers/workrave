@@ -10,10 +10,10 @@ if (PLATFORM_OS_OSX)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/updater/src
-  ${CMAKE_SOURCE_DIR}/libs/updater/include
-  ${CMAKE_SOURCE_DIR}/libs/updater/include/updater
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/src/libs/updater/src
+  ${CMAKE_SOURCE_DIR}/src/libs/updater/include
+  ${CMAKE_SOURCE_DIR}/src/libs/updater/include/updater
+  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
   )
 
 # TODO:

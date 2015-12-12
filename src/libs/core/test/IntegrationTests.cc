@@ -30,9 +30,9 @@
 #include <fstream>
 #include <map>
 
-#include "ICore.hh"
-#include "IApp.hh"
-#include "IBreak.hh"
+#include "core/ICore.hh"
+#include "core/IApp.hh"
+#include "core/IBreak.hh"
 #include "Timer.hh"
 
 #include "utils/ITimeSource.hh"
@@ -40,7 +40,7 @@
 #include "config/Config.hh"
 #include "ICoreTestHooks.hh"
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 

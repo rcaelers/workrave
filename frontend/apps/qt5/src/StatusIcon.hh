@@ -21,7 +21,7 @@
 #include <QSystemTrayIcon>
 #include <QIcon>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "utils/ScopedConnections.hh"
 
 #include "MenuModel.hh"

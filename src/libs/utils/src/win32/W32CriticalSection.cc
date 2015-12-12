@@ -21,7 +21,7 @@
 
 #include <list>
 
-#include "W32CriticalSection.hh"
+#include "utils/W32CriticalSection.hh"
 
 
 

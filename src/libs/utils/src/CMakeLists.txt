@@ -17,7 +17,7 @@ if (PLATFORM_OS_WIN32)
   endif()
 
   include_directories(
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoon/include
     )
 endif()
 
@@ -42,8 +42,8 @@ if (HAVE_GTK)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/utils/include/utils
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/src/libs/utils/include/utils
+  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
   )
 
 add_library(workrave-libs-utils STATIC ${SRC})

@@ -31,7 +31,7 @@
 #include "config/IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "Backend.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 
 using namespace workrave;
 using namespace workrave::config;

@@ -20,7 +20,7 @@
 #endif
 
 #include "Break.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 
 using namespace std;
 using namespace workrave;

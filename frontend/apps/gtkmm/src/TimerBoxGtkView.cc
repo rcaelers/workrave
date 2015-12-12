@@ -45,7 +45,7 @@
 #include "GtkUtil.hh"
 
 #include "Backend.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 
 using namespace std;
 using namespace workrave::utils;

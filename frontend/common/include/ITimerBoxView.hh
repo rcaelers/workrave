@@ -23,7 +23,7 @@
 #include <string>
 
 #include "ITimeBar.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "UiTypes.hh"
 
 class ITimerBoxView

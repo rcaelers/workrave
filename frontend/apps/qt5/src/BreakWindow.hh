@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "IBreakWindow.hh"
 #include "UiTypes.hh"
 #include "GUIConfig.hh"

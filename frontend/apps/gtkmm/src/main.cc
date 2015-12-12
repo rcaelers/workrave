@@ -32,9 +32,9 @@
 #include <io.h>
 #include <fcntl.h>
 
-#include "crashlog.h"
-#include "dll_hell.h"
-#include "W32ActiveSetup.hh"
+#include "utils/crashlog.h"
+#include "utils/dll_hell.h"
+#include "utils/W32ActiveSetup.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);

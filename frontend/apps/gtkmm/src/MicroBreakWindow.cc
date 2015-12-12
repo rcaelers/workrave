@@ -30,7 +30,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "GUI.hh"
 #include "Backend.hh"
 #include "MicroBreakWindow.hh"

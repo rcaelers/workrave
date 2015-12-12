@@ -35,7 +35,7 @@
 
 #include "utils/Locale.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "UiUtil.hh"
 #include "Backend.hh"
 #include "DataConnector.hh"

@@ -111,22 +111,22 @@ set(SRC ${SRC}
     )
 
 if (HAVE_GSETTINGS)
-  gsettings_add_schemas(workrave-backend ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src)
+  gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/
-  ${CMAKE_SOURCE_DIR}/frontend/apps/common/include/
-  ${CMAKE_SOURCE_DIR}/frontend/common/include/
+  ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src
+  ${CMAKE_SOURCE_DIR}/frontend/apps/common/include
+  ${CMAKE_SOURCE_DIR}/frontend/common/include
   ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
 
-  ${CMAKE_SOURCE_DIR}/libs/config/include/config
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/libs/audio/include
+  ${CMAKE_SOURCE_DIR}/src/libs/config/include/config
+  ${CMAKE_SOURCE_DIR}/src/libs/config/include
+  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/src/libs/audio/include
 
-  ${CMAKE_SOURCE_DIR}/backend/include/
+  ${CMAKE_SOURCE_DIR}/src/libs/core/include
 
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
@@ -157,7 +157,7 @@ ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
     )
 
 target_link_libraries(workrave workrave-frontend-common)
-target_link_libraries(workrave workrave-backend)
+target_link_libraries(workrave workrave-libs-core)
 target_link_libraries(workrave workrave-libs-config)
 target_link_libraries(workrave workrave-libs-input-monitor)
 target_link_libraries(workrave workrave-libs-dbus)
@@ -189,8 +189,8 @@ if (WIN32)
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/frontend/applets/win32/include
-    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+    ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include
+    ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoon/include
     )
 
    target_link_libraries(workrave dxerr8 dsound dxguid)

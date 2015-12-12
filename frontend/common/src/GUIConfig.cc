@@ -29,8 +29,8 @@
 #include "config/SettingCache.hh"
 
 #include "Backend.hh"
-#include "ICore.hh"
-#include "IBreak.hh"
+#include "core/ICore.hh"
+#include "core/IBreak.hh"
 
 using namespace std;
 using namespace workrave::config;

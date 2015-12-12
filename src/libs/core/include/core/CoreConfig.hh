@@ -18,7 +18,7 @@
 #ifndef WORKRAVE_BACKEND_CORECONFIG_HH
 #define WORKRAVE_BACKEND_CORECONFIG_HH
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"

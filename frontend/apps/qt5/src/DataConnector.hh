@@ -24,7 +24,7 @@
 #include <list>
 
 #include "config/Config.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "config/Setting.hh"
 
 #include <QtGui>

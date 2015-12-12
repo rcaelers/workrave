@@ -30,7 +30,7 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "GUIConfig.hh"
 #include "TimerBoxControl.hh"
 #include "UiUtil.hh"

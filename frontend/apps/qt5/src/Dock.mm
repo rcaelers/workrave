@@ -29,7 +29,7 @@
 #include "Dock.hh"
 
 #include "utils/AssetPath.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "Backend.hh"
 
 #include "debug.hh"

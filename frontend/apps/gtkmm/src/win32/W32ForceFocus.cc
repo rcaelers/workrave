@@ -40,7 +40,7 @@
 #include "Backend.hh"
 #include "config/IConfigurator.hh"
 #include "W32Compat.hh"
-#include "W32CriticalSection.hh"
+#include "utils/W32CriticalSection.hh"
 #include "W32ForceFocus.hh"
 
 

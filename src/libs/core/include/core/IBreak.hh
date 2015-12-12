@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_BACKEND_IBREAK_HH
 #define WORKRAVE_BACKEND_IBREAK_HH
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 #include <boost/signals2.hpp>
 #include <string.h>

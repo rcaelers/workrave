@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 #include "UiTypes.hh"
 
 namespace workrave

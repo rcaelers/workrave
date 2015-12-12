@@ -30,7 +30,7 @@
 #include "dbus/IDBus.hh"
 
 #include "BreaksControl.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "TimerActivityMonitor.hh"
 
 static const char *WORKRAVESTATE="WorkRaveState";

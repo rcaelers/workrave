@@ -9,8 +9,8 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
   
   include_directories(
     ${CMAKE_SOURCE_DIR}/frontend/applets/common/include
-    ${CMAKE_SOURCE_DIR}/libs/utils/include
-    ${CMAKE_SOURCE_DIR}/libs/config/include
+    ${CMAKE_SOURCE_DIR}/src/libs/utils/include
+    ${CMAKE_SOURCE_DIR}/src/libs/config/include
     )
   
   add_library(workrave-private SHARED ${SRC})

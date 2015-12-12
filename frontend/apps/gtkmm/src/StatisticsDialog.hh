@@ -23,7 +23,7 @@
 #include "preinclude.h"
 #include <sstream>
 
-#include "IStatistics.hh"
+#include "core/IStatistics.hh"
 #include "Hig.hh"
 
 namespace Gtk

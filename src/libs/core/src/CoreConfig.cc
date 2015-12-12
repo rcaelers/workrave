@@ -21,11 +21,11 @@
 
 #include <string>
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 
 #include "config/SettingCache.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 using namespace std;
 using namespace workrave;

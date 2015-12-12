@@ -30,7 +30,7 @@
 #include "Break.hh"
 #include "Timer.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "CoreModes.hh"
 #include "CoreHooks.hh"
 #include "Statistics.hh"

@@ -26,7 +26,7 @@
 #include "Backend.hh"
 
 #include "config/IConfigurator.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 using namespace workrave;
 using namespace workrave::config;

@@ -55,7 +55,7 @@ potential crash.
 #include <iterator>
 #include <string>
 
-#include "W32ActiveSetup.hh"
+#include "utils/W32ActiveSetup.hh"
 
 using namespace std;
 

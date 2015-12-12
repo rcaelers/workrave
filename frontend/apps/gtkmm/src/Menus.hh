@@ -22,7 +22,7 @@
 
 #include <gtkmm.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "SoundTheme.hh"
 
 class IGUI;

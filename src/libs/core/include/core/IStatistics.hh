@@ -28,7 +28,7 @@ typedef __int64 int64_t;
 #include <stdint.h>
 #endif
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 namespace workrave {
 

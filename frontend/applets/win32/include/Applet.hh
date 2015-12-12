@@ -20,7 +20,7 @@
 #ifndef APPLET_H
 #define APPLET_H
 
-#include "CoreTypes.hh"
+#include "core/CoreTypes.hh"
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
 #define APPLET_BAR_TEXT_MAX_LENGTH 16

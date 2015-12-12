@@ -26,7 +26,7 @@
 #include "dbus/IDBus.hh"
 #include "config/IConfigurator.hh"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "LocalActivityMonitor.hh"
 #include "BreaksControl.hh"
 #include "Statistics.hh"

@@ -30,7 +30,7 @@
 
 #include <gtkmm.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"

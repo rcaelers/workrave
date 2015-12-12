@@ -36,9 +36,9 @@
 #include "Text.hh"
 
 #include "Backend.hh"
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 #include "GUIConfig.hh"
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 
 using namespace std;
 using namespace workrave;
