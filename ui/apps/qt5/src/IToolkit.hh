@@ -21,14 +21,14 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
+#include "commonui/SoundTheme.hh"
+#include "commonui/UiTypes.hh"
+#include "core/IBreak.hh"
+
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
-#include "core/IBreak.hh"
-#include "StatusIcon.hh"
-#include "UiTypes.hh"
-
-#include "SoundTheme.hh"
 #include "MenuModel.hh"
+#include "StatusIcon.hh"
 
 class IToolkit
 {

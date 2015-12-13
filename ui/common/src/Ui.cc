@@ -15,11 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "Ui.hh"
+
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
 #include "nls.h"
-
-#include "Ui.hh"
 
 using namespace workrave::ui;
 using namespace workrave::utils;

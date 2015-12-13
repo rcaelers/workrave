@@ -1,5 +1,3 @@
-// Application.cc --- The WorkRave GUI
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,24 +21,18 @@
 
 #include "Application.hh"
 
-#include "preinclude.h"
 #include "nls.h"
 #include "debug.hh"
 
-// Library includes
+#include "commonui/Backend.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/preinclude.h"
 #include "config/IConfigurator.hh"
-
-// Backend includes.
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
 #include "utils/Exception.hh"
-#include "utils/Platform.hh"
 #include "utils/Locale.hh"
-
-// Frontend common
-#include "Backend.hh"
-
-#include "GUIConfig.hh"
+#include "utils/Platform.hh"
 
 // DBus
 #if defined(interface)
@@ -225,7 +217,7 @@ Application::init_session()
 //#if defined(PLATFORM_OS_WIN32)
 //  string dir = Util::get_application_directory();
 //  // Use the pre-install locale location if workrave is running from its MSVC build directory.
-//  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
+//  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\ui" : "\\lib\\locale";
 //  locale_dir = dir.c_str();
 //#elif defined(PLATFORM_OS_OSX)
 //  char locale_path[MAXPATHLEN * 4];

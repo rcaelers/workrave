@@ -20,14 +20,13 @@
 
 #include "MenuModel.hh"
 
+#include <boost/signals2.hpp>
+#include <memory>
 #include <string>
 
-#include "utils/ScopedConnections.hh"
-
-#include <memory>
-#include <boost/signals2.hpp>
-
 #include <QMenu>
+
+#include "utils/ScopedConnections.hh"
 
 typedef std::function<bool (MenuModel::Ptr)> MenuModelFilter;
 

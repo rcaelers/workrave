@@ -1,5 +1,3 @@
-// PreludeWindow.cc
-//
 // Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -30,13 +28,14 @@
 #include <QDesktopWidget>
 #include <QApplication>
 
-#include "core/IApp.hh"
-#include "UiUtil.hh"
-
 #include "debug.hh"
 #include "nls.h"
-#include "Text.hh"
+
+#include "commonui/Text.hh"
+#include "core/IApp.hh"
 #include "utils/AssetPath.hh"
+
+#include "UiUtil.hh"
 
 using namespace workrave;
 using namespace workrave::utils;

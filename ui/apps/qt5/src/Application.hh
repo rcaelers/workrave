@@ -1,5 +1,3 @@
-// Application.hh --- The WorkRave Application
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -24,21 +22,18 @@
 #include <vector>
 #include <memory>
 
+#include "commonui/Session.hh"
+#include "commonui/Session.hh"
+#include "commonui/SoundTheme.hh"
 #include "config/Config.hh"
-#include "utils/ScopedConnections.hh"
-#include "updater/Updater.hh"
-
 #include "core/IApp.hh"
+#include "updater/Updater.hh"
+#include "utils/ScopedConnections.hh"
 
-#include "Session.hh"
+#include "IApplication.hh"
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "IToolkit.hh"
-#include "IApplication.hh"
-
-#include "SoundTheme.hh"
-
-#include "Session.hh"
 #include "Menus.hh"
 
 class Application :

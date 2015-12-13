@@ -1,5 +1,3 @@
-// TimerBoxPreferencesPanel.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,13 +21,12 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "config/Config.hh"
+#include "core/CoreTypes.hh"
 #include "utils/ScopedConnections.hh"
 
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
-
-#include "config/Config.hh"
-#include "core/CoreTypes.hh"
 
 class TimerBoxPreferencesPanel :
   public QGroupBox

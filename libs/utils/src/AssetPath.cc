@@ -208,9 +208,6 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert("/usr/local/share/workrave/images");
       searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(DATA_PATH)
-      searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\images");
-#endif
       searchPath.insert(app_dir + "\\share\\images");
 
 #elif defined(PLATFORM_OS_OSX)
@@ -229,9 +226,6 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert("/usr/local/share/sounds/workrave");
       searchPath.insert("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(DATA_PATH)
-    searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\sounds");
-#endif
       searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
@@ -263,9 +257,6 @@ AssetPath::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(DATA_PATH)
-    searchPath.insert(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
-#endif
       searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");

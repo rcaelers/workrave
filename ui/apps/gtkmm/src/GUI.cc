@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include "nls.h"
 #include "debug.hh"
 
@@ -50,7 +50,7 @@
 #include "core/IBreak.hh"
 #include "IBreakWindow.hh"
 #include "core/ICore.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 
 #include "utils/Exception.hh"
 #include "utils/Locale.hh"
@@ -59,19 +59,19 @@
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
 #include "DailyLimitWindow.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "MainWindow.hh"
 #include "Menus.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "SoundTheme.hh"
+#include "commonui/SoundTheme.hh"
 #include "StatusIcon.hh"
-#include "System.hh"
-#include "Text.hh"
+#include "commonui/System.hh"
+#include "commonui/Text.hh"
 #include "WindowHints.hh"
-#include "Session.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/Session.hh"
+#include "commonui/TimerBoxControl.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -414,7 +414,7 @@ GUI::init_nls()
   string dir = Platform::get_application_directory();
   // Use the pre-install locale location if workrave is running from its MSVC build directory.
   // TODO:
-  // dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
+  // dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\ui" : "\\lib\\locale";
   dir += "\\lib\\locale";
   locale_dir = dir.c_str();
 #elif defined(PLATFORM_OS_OSX)

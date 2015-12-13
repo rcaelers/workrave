@@ -1,6 +1,4 @@
-// main.cc --- Main
-//
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,23 +19,22 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "debug.hh"
 #include <fstream>
 #include <stdio.h>
 
-#include "core/ICore.hh"
-#include "core/CoreTypes.hh"
 #include "Application.hh"
 #include "Toolkit.hh"
+#include "core/CoreTypes.hh"
+#include "core/ICore.hh"
 
 #ifdef PLATFORM_OS_WIN32
 #include <io.h>
 #include <fcntl.h>
 
 #include "utils/crashlog.h"
-#include "utils/dll_hell.h"
 #include "utils/W32ActiveSetup.hh"
 #endif
 
@@ -66,10 +63,6 @@ run(int argc, char **argv)
   {
     IToolkit::Ptr toolkit = std::make_shared<Toolkit>(argc, argv);
     Application::Ptr app = std::make_shared<Application>(argc, argv, toolkit);
-
-#if defined(PLATFORM_OS_WIN32)
-    dll_hell_check();
-#endif
 
     app->main();
   }

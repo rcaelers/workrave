@@ -1,5 +1,3 @@
-// Tookit.cc
-//
 // Copyright (C) 2007 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,21 +21,18 @@
 
 #include "Toolkit.hh"
 
-
 #include <QDesktopWidget>
 #include <QApplication>
 
+#include "commonui/GUIConfig.hh"
 #include "config/IConfigurator.hh"
 
-#include "Menus.hh"
-#include "GUIConfig.hh"
-
-#include "PreludeWindow.hh"
-#include "MicroBreakWindow.hh"
-#include "RestBreakWindow.hh"
 #include "DailyLimitWindow.hh"
+#include "Menus.hh"
+#include "MicroBreakWindow.hh"
 #include "PreferencesDialog.hh"
-
+#include "PreludeWindow.hh"
+#include "RestBreakWindow.hh"
 #include "ToolkitMenu.hh"
 #include "UiUtil.hh"
 
@@ -51,11 +46,9 @@ Toolkit::Toolkit(int argc, char **argv)
 {
 }
 
-
 Toolkit::~Toolkit()
 {
 }
-
 
 void
 Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
@@ -132,7 +125,6 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
 
   return ret;
 }
-
 
 IPreludeWindow::Ptr
 Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)

@@ -1,5 +1,3 @@
-// PreludeWindow.hh
-//
 // Copyright (C) 2006, 2007, 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -20,20 +18,20 @@
 #ifndef PRELUDEWINDOW_HH
 #define PRELUDEWINDOW_HH
 
-#include "IPreludeWindow.hh"
+#include <QDialog>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include "utils/ScopedConnections.hh"
 
-#include "TimeBar.hh"
 #include "Frame.hh"
+#include "IPreludeWindow.hh"
+#include "TimeBar.hh"
 
 #ifdef PLATFORM_OS_OSX
 #include "MouseMonitor.hh"
 #endif
 
-#include <QDialog>
-#include <QLabel>
-#include <QVBoxLayout>
 
 class PreludeWindow : public QWidget, public IPreludeWindow
 {

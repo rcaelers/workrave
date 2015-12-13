@@ -20,14 +20,14 @@
 #ifndef W32APPLETWINDOW_HH
 #define W32APPLETWINDOW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include <windows.h>
 #include <process.h>
 #include <string>
 #include <gdk/gdkwin32.h>
 
-#include "TimerBoxViewBase.hh"
-#include "ITimeBar.hh"
+#include "commonui/TimerBoxViewBase.hh"
+#include "commonui/ITimeBar.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 

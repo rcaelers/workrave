@@ -1,5 +1,3 @@
-// RestBreakWindow.hh --- window for the microbreak
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -20,13 +18,12 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
+#include "commonui/GUIConfig.hh"
+#include "commonui/SoundTheme.hh"
 #include "utils/ScopedConnections.hh"
 
 #include "BreakWindow.hh"
-#include "GUIConfig.hh"
-
 #include "TimeBar.hh"
-#include "SoundTheme.hh"
 
 class RestBreakWindow : public BreakWindow
 {

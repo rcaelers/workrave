@@ -24,6 +24,7 @@
 
 #include "IScreenLockMethod.hh"
 #include "stdlib.h"
+
 //A method of locking the screen that
 //does that by executing a command
 class ScreenLockCommandline : public IScreenLockMethod

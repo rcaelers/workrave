@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "debug.hh"
 #include <fstream>
@@ -33,7 +33,6 @@
 #include <fcntl.h>
 
 #include "utils/crashlog.h"
-#include "utils/dll_hell.h"
 #include "utils/W32ActiveSetup.hh"
 #endif
 
@@ -60,10 +59,6 @@ run(int argc, char **argv)
 #endif
 
   GUI *gui = new GUI(argc, argv);
-
-#if defined(PLATFORM_OS_WIN32)
-  dll_hell_check();
-#endif
 
   gui->main();
 

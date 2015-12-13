@@ -1,5 +1,3 @@
-// PreferencesDialog.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -29,17 +27,15 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "TimerPreferencesPanel.hh"
+#include "commonui/Ui.hh"
+#include "core/ICore.hh"
+#include "utils/AssetPath.hh"
+
 #include "GeneralUiPreferencesPanel.hh"
 #include "SoundsPreferencesPanel.hh"
 #include "TimerBoxPreferencesPanel.hh"
-
-// #include "System.hh"
-#include "utils/AssetPath.hh"
-#include "core/ICore.hh"
+#include "TimerPreferencesPanel.hh"
 #include "UiUtil.hh"
-#include "Ui.hh"
-// #include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::utils;

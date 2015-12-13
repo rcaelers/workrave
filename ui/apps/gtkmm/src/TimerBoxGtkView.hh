@@ -20,12 +20,12 @@
 #ifndef TIMERBOXGTKVIEW_HH
 #define TIMERBOXGTKVIEW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <string>
 #include <gtkmm.h>
 
-#include "ITimerBoxView.hh"
+#include "commonui/ITimerBoxView.hh"
 #include "TimeBar.hh"
 #include "Menus.hh"
 

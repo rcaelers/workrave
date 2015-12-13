@@ -20,11 +20,11 @@
 #ifndef OSXAPPLETWINDOW_HH
 #define OSXAPPLETWINDOW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include <string>
 
-#include "TimerBoxViewBase.hh"
-#include "ITimeBar.hh"
+#include "commonui/TimerBoxViewBase.hh"
+#include "commonui/ITimeBar.hh"
 #include "AppletWindow.hh"
 
 #import "ColorId.h"

@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "debug.hh"
 
@@ -31,7 +31,7 @@
 #include <assert.h>
 
 #include "TimeBar.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;

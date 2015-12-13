@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -26,7 +26,7 @@
 #include "debug.hh"
 
 #include "W32AppletWindow.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 
 #if defined(interface)
 #undef interface
@@ -332,7 +332,7 @@ W32AppletWindow::init_menu(HWND hwnd)
   menu_sent = false;
 
   /*
-    As noted in frontend/win32/applet/include/applet.hh:
+    As noted in ui/win32/applet/include/applet.hh:
     We pass the command_window HWND as a LONG for compatibility.
   */
   menu_data.command_window = HandleToLong( hwnd );

@@ -1,5 +1,3 @@
-// DailyLimitWindow.hh --- window for the daily limit
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -21,7 +19,8 @@
 #define DAILYLIMITWINDOW_HH
 
 #include "BreakWindow.hh"
-#include "GUIConfig.hh"
+
+#include "commonui/GUIConfig.hh"
 
 class DailyLimitWindow : public BreakWindow
 {

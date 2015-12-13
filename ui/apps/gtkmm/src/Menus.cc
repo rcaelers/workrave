@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -25,7 +25,7 @@
 
 #include "nls.h"
 #include "debug.hh"
-#include "credits.h"
+#include "commonui/credits.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -41,12 +41,12 @@
 #include "StatisticsDialog.hh"
 #include "core/IStatistics.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 
 #include "ExercisesDialog.hh"
-#include "Exercise.hh"
+#include "commonui/Exercise.hh"
 
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
@@ -76,7 +76,7 @@
 #include "OSXGtkMenu.hh"
 #endif
 
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 
 using namespace std;
 using namespace workrave::utils;

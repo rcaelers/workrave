@@ -19,9 +19,9 @@
 #ifndef EXERCISES_PANEL_HH
 #define EXERCISES_PANEL_HH
 
-//#ifdef HAVE_CONFIG
+#ifdef HAVE_CONFIG
 #include "config.h"
-//#endif
+#endif
 
 #include <memory>
 #include <boost/signals2.hpp>
@@ -29,8 +29,8 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "SoundTheme.hh"
-#include "Exercise.hh"
+#include "commonui/SoundTheme.hh"
+#include "commonui/Exercise.hh"
 
 class ExercisesPanel : public QWidget
 {

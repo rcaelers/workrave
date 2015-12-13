@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -34,7 +34,7 @@
 #include "debug.hh"
 
 #include "ExercisesDialog.hh"
-#include "Exercise.hh"
+#include "commonui/Exercise.hh"
 
 
 

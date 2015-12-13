@@ -1,5 +1,3 @@
-// PreferencesDialog.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,10 +21,10 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "SizeGroup.hh"
-#include "DataConnector.hh"
+#include "commonui/SoundTheme.hh"
 
-#include "SoundTheme.hh"
+#include "DataConnector.hh"
+#include "SizeGroup.hh"
 
 class PreferencesDialog : public QDialog
 {

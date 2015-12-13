@@ -20,13 +20,15 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
-
 #include "ExercisesPanel.hh"
-#include "utils/AssetPath.hh"
-#include "UiUtil.hh"
+
 #include "nls.h"
 #include "debug.hh"
+
+#include "commonui/preinclude.h"
+#include "utils/AssetPath.hh"
+
+#include "UiUtil.hh"
 
 using namespace workrave::utils;
 

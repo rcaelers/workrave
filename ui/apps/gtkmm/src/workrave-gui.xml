@@ -6,7 +6,7 @@
     <include name="GenericDBusApplet.hh"/>
     <include name="gdk/gdk.h"/>
     <include name="GnomeAppletWindow.hh" condition="defined(HAVE_PANELAPPLET2)"/>
-    <include name="UiTypes.hh"/>
+    <include name="commonui/UiTypes.hh"/>
   </import>
   
   <enum name="operation_mode" csymbol="OperationMode">

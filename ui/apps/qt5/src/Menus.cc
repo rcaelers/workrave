@@ -19,10 +19,11 @@
 #include "config.h"
 #endif
 
+#include "Menus.hh"
+
 #include "nls.h"
 #include "debug.hh"
 
-#include "Menus.hh"
 #include "core/CoreTypes.hh"
 
 using namespace std;

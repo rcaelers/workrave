@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#include <assert.h>
-
 #include "Backend.hh"
 
 #include "config/IConfigurator.hh"

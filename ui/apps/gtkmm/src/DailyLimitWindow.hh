@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 
 class DailyLimitWindow :
   public BreakWindow

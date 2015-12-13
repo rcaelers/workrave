@@ -1,5 +1,3 @@
-// TimerPreferencesPanel.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -24,7 +22,7 @@
 #include <QtWidgets>
 
 #include "core/ICore.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 
 #include "DataConnector.hh"
 #include "SizeGroup.hh"

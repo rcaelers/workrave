@@ -20,7 +20,7 @@
 #ifndef APPLETCONTROL_HH
 #define APPLETCONTROL_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "IAppletWindow.hh"
 

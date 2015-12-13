@@ -15,6 +15,6 @@ if (APPLE)
        fixup_bundle(\"${APPS}\"   \"\${PLUGINS}\"   \"${DIRS}\")
        " COMPONENT Runtime)
   
-  install(FILES "${CMAKE_SOURCE_DIR}/frontend/data/images/osx/workrave.icns" DESTINATION ${DATADIR} RENAME "Workrave.icns")
+  install(FILES "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns" DESTINATION ${DATADIR} RENAME "Workrave.icns")
   
 endif()

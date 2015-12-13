@@ -19,9 +19,9 @@
 #include "config.h"
 #endif
 
-#include <iostream>
-
 #include "MouseMonitor.hh"
+
+#include <iostream>
 
 #include <Appkit/NSView.h>
 #include <Appkit/NSWindow.h>

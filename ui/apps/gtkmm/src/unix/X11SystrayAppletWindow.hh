@@ -20,11 +20,11 @@
 #ifndef X11SYSTRAYAPPLETWINDOW_HH
 #define X11SYSTRAYAPPLETWINDOW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include <stdio.h>
 
 #include "AppletWindow.hh"
-#include "UiTypes.hh"
+#include "commonui/UiTypes.hh"
 
 #include <sigc++/trackable.h>
 #include <gtkmm/bin.h>

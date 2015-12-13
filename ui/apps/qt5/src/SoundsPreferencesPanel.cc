@@ -1,5 +1,3 @@
-// SoundsPreferencesPanel.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -21,9 +19,9 @@
 #include "config.h"
 #endif
 
-#include <boost/filesystem.hpp>
-
 #include "SoundsPreferencesPanel.hh"
+
+#include <boost/filesystem.hpp>
 
 #include <QtGui>
 #include <QStyle>
@@ -31,14 +29,13 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "TimerPreferencesPanel.hh"
-
+#include "commonui/Backend.hh"
+#include "core/ICore.hh"
 #include "utils/Locale.hh"
 
-#include "core/ICore.hh"
-#include "UiUtil.hh"
-#include "Backend.hh"
 #include "DataConnector.hh"
+#include "TimerPreferencesPanel.hh"
+#include "UiUtil.hh"
 
 using namespace workrave;
 using namespace workrave::utils;

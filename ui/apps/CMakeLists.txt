@@ -1,4 +1,3 @@
-add_subdirectory(common)
 if (HAVE_APP_QT5)
   add_subdirectory(qt5)
 elseif (HAVE_APP_GTK)

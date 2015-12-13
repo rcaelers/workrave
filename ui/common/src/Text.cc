@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include "Text.hh"
+
 #include <stdio.h>
 
 #ifdef TIME_WITH_SYS_TIME
@@ -35,7 +37,6 @@
 #endif
 
 #include "nls.h"
-#include "Text.hh"
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #define snprintf _snprintf

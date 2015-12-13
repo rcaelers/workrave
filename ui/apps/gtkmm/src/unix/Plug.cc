@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include "debug.hh"
 
 #include <stdio.h>

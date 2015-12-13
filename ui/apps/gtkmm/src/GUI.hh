@@ -20,7 +20,7 @@
 #ifndef GUI_HH
 #define GUI_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <sigc++/trackable.h>
 #include <glibmm.h>
@@ -32,7 +32,7 @@
 #include "core/IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
-#include "SoundTheme.hh"
+#include "commonui/SoundTheme.hh"
 
 // GTKMM classes
 class MainWindow;

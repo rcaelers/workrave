@@ -1,6 +1,4 @@
-// TimerBoxViewBase.hh --- All timers
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,42 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERBOXVIEWBASE_HH
-#define TIMERBOXVIEWBASE_HH
+#ifndef WORKRAVE_APPS_COMMON_UI_HH
+#define WORKRAVE_APPS_COMMON_UI_HH
 
 #include <string>
 
-#include "ITimerBoxView.hh"
+#include "core/CoreTypes.hh"
+#include "commonui/UiTypes.hh"
 
-class TimerBoxViewBase : public ITimerBoxView
+namespace workrave
 {
-public:
-  ~TimerBoxViewBase() override {}
-
-  void set_tip(std::string tip) override
+  namespace ui
   {
-    (void) tip;
+    class Ui
+    {
+    public:
+      static const std::string get_break_name(workrave::BreakId id);
+      static const std::string get_break_icon_filename(workrave::BreakId id);
+      static const std::string get_status_icon_filename(StatusIconType id);
+    };
   }
+}
 
-  void set_icon(StatusIconType icon) override
-  {
-    (void) icon;
-  }
-
-  void update_view() override
-  {
-  }
-
-  void set_enabled(bool enabled) override
-  {
-    (void) enabled;
-  }
-
-  void set_geometry(Orientation orientation, int size) override
-  {
-    (void) orientation;
-    (void) size;
-  }
-};
-
-#endif // TIMERBOXVIEWBASE_HH
+#endif // WORKRAVE_APPS_COMMON_UI_HH

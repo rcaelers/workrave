@@ -88,19 +88,17 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5Svg_DEFINITIONS})
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/frontend/apps/qt5/src
-  ${CMAKE_SOURCE_DIR}/frontend/apps/common/include
-  ${CMAKE_SOURCE_DIR}/frontend/common/include
+  ${CMAKE_SOURCE_DIR}/ui/apps/qt5/src
+  ${CMAKE_SOURCE_DIR}/ui/common/include
+  ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
 
-  ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/audio/include
+  ${CMAKE_SOURCE_DIR}/libs/updater/include
 
-  ${CMAKE_SOURCE_DIR}/src/libs/config/include
-  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/src/libs/audio/include
-  ${CMAKE_SOURCE_DIR}/src/libs/updater/include
-
-  ${CMAKE_SOURCE_DIR}/src/libs/core/include
+  ${CMAKE_SOURCE_DIR}/libs/core/include
 
   #${INDICATOR_INCLUDE_DIRS}
   )
@@ -112,7 +110,7 @@ if (PLATFORM_OS_WIN32)
   if (PREBUILT_PATH)
     link_directories("${PREBUILT_PATH}/Release")
   else()
-    link_directories("${CMAKE_SOURCE_DIR}/src/libs/hooks/Output/Release")
+    link_directories("${CMAKE_SOURCE_DIR}/libs/hooks/Output/Release")
   endif()
   if (CMAKE_CROSSCOMPILING)
     link_directories("${SYS_ROOT}")
@@ -134,11 +132,11 @@ if (APPLE)
   ## TODO: set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WIN32_NATIVE)
    set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 endif()
 
-target_link_libraries(Workrave workrave-frontend-common)
+target_link_libraries(Workrave workrave-ui-common)
 target_link_libraries(Workrave workrave-libs-core)
 target_link_libraries(Workrave workrave-libs-config)
 target_link_libraries(Workrave workrave-libs-input-monitor)
@@ -184,12 +182,12 @@ if (PLATFORM_OS_WIN32)
   target_link_libraries(Workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 
   include_directories(
-    ${CMAKE_SOURCE_DIR}/frontend/applets/win32/include
-    ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include)
+    ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include)
 
 	if (HAVE_HARPOON)
       include_directories(
-        ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoon/include)
+        ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 	endif()
 
    link_directories(${Boost_LIBRARY_DIR})

@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -41,7 +41,7 @@
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
 #include "WindowHints.hh"
@@ -52,9 +52,9 @@
 
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 
-#include "Exercise.hh"
+#include "commonui/Exercise.hh"
 #include "ExercisesPanel.hh"
 
 using namespace std;

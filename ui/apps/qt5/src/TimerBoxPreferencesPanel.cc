@@ -19,10 +19,10 @@
 #include "config.h"
 #endif
 
+#include "TimerBoxPreferencesPanel.hh"
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
-
-#include "TimerBoxPreferencesPanel.hh"
 
 #include <QtGui>
 #include <QStyle>
@@ -30,12 +30,13 @@
 #include "debug.hh"
 #include "nls.h"
 
+#include "commonui/Backend.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/TimerBoxControl.hh"
+#include "commonui/Ui.hh"
 #include "core/CoreConfig.hh"
-#include "GUIConfig.hh"
-#include "TimerBoxControl.hh"
+
 #include "UiUtil.hh"
-#include "Ui.hh"
-#include "Backend.hh"
 
 using namespace workrave;
 using namespace workrave::ui;

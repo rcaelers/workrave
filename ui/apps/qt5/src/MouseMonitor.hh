@@ -19,6 +19,7 @@
 #define MOUSEMONITOR_HH
 
 #include <memory>
+#include <functional>
 
 class MouseMonitor
 {

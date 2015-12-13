@@ -32,11 +32,11 @@ endif()
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/backend/src
-  ${CMAKE_SOURCE_DIR}/src/libs/core/include
-  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/src/libs/config/include
-  ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include
-  ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/core/include
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+  ${CMAKE_SOURCE_DIR}/libs/dbus/include
   )
 
 add_library(workrave-libs-core STATIC ${SRC})

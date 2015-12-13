@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -40,11 +40,11 @@
 #include <list>
 #include <gtkmm.h>
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #include "GUI.hh"
 #include "utils/AssetPath.hh"
 #include "Menus.hh"

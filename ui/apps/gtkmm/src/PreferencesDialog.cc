@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "nls.h"
 #include "debug.hh"
@@ -54,10 +54,10 @@
 #include "TimerPreferencesPanel.hh"
 #include "utils/AssetPath.hh"
 #include "GUI.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "DataConnector.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 
 using namespace workrave::utils;

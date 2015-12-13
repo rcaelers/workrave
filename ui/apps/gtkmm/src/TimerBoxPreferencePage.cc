@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <gtkmm.h>
 
@@ -32,13 +32,13 @@
 
 #include "core/IBreak.hh"
 #include "config/IConfigurator.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "core/CoreConfig.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
-#include "GUIConfig.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/TimerBoxControl.hh"
 
 
 //! Constructs the Applet Preference Notebook page.

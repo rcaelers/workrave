@@ -18,11 +18,10 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include "TimerBoxView.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 
 #include "IToolkit.hh"
-
+#include "TimerBoxView.hh"
 #include "ToolkitMenu.hh"
 
 class MainWindow : public TimerBoxView

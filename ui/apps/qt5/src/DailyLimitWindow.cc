@@ -1,5 +1,3 @@
-// DailyLimitWindow.cc --- window for the daily limit
-//
 // Copyright (C) 2001 - 2015 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

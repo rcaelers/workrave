@@ -21,23 +21,23 @@
 #include "config.h"
 #endif
 
+#include "TimerBoxControl.hh"
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
 #include <iostream>
 
-#include "TimerBoxControl.hh"
-
 #include "nls.h"
 #include "debug.hh"
 
-#include "ITimeBar.hh"
-#include "Text.hh"
+#include "commonui/ITimeBar.hh"
+#include "commonui/Text.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/CoreConfig.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "core/IBreak.hh"
 
 using namespace std;

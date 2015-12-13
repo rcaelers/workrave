@@ -23,7 +23,7 @@
 #include <gtkmm.h>
 
 #include "core/ICore.hh"
-#include "SoundTheme.hh"
+#include "commonui/SoundTheme.hh"
 
 class IGUI;
 class StatisticsDialog;

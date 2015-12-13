@@ -37,7 +37,7 @@
 #include <cctype>
 #include <algorithm>
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "W32Compat.hh"
 #include "utils/W32CriticalSection.hh"

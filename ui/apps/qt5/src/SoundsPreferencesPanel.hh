@@ -1,5 +1,3 @@
-// SoundsPreferencesPanel.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,8 +21,9 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "commonui/SoundTheme.hh"
+
 #include "DataConnector.hh"
-#include "SoundTheme.hh"
 
 class SoundsPreferencesPanel : public QWidget
 {

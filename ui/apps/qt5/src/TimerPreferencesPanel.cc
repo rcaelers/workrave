@@ -1,5 +1,3 @@
-// TimerPreferencesPanel.cc
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -28,10 +26,9 @@
 
 #include "debug.hh"
 #include "nls.h"
-
+#include "commonui/Backend.hh"
 #include "core/CoreConfig.hh"
 #include "core/ICore.hh"
-#include "Backend.hh"
 
 #include "TimeEntry.hh"
 

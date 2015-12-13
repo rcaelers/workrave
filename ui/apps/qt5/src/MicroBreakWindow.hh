@@ -1,5 +1,3 @@
-// MicroBreakWindow.hh --- window for the microbreak
-//
 // Copyright (C) 2001 - 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -20,9 +18,9 @@
 #ifndef MICROBREAKWINDOW_HH
 #define MICROBREAKWINDOW_HH
 
-#include "BreakWindow.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 
+#include "BreakWindow.hh"
 #include "TimeBar.hh"
 
 class MicroBreakWindow : public BreakWindow

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-11-07 19:15+0100\n"
+"POT-Creation-Date: 2015-12-13 19:05+0100\n"
 "PO-Revision-Date: 2011-03-12 11:19+0800\n"
 "Last-Translator: Daniel YC Lin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -17,904 +17,908 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/common/src/Text.cc:91
+#: ../ui/common/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/common/src/Text.cc:87
+#: ../ui/common/src/Text.cc:88
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d 分"
 
-#: ../frontend/common/src/Text.cc:83
+#: ../ui/common/src/Text.cc:84
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d 時"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:396
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:422
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, 從 %s 到 %s"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:260
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:260
 msgid "(font not available)"
 msgstr "(找不到字型檔)"
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:57
+#: ../ui/apps/qt5/src/AboutDialog.cc:55
 #, c-format
 msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/AboutDialog.cc:49
+#: ../ui/apps/qt5/src/AboutDialog.cc:48
 #, fuzzy
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:213
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:108
-#: ../frontend/apps/qt5/src/Menus.cc:130
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../ui/apps/qt5/src/Menus.cc:131
 msgid "About..."
 msgstr "關於..."
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:313
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
 msgid "Activity"
 msgstr "活動"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:117
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:139
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:135
 msgid "Applet"
 msgstr "Applet"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:93
 msgid "Applet enabled"
 msgstr "啟動 Applet"
 
-#: ../frontend/apps/gtkmm/src/workrave.desktop.in.h:1
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:1
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:7
+#: ../ui/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "後肩伸展"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:169
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:63
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:61
 msgid "Block input"
 msgstr "封鎖輸入"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:174
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:64
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:174
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
 msgid "Block input and screen"
 msgstr "封鎖輸入與螢幕"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:196
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:87
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:196
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:85
 msgid "Block mode:"
 msgstr "封鎖模式:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:224
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:213
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:227
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:210
 msgid "Break duration:"
 msgstr "休息時間:"
 
-#: ../frontend/common/src/SoundTheme.cc:63
+#: ../ui/common/src/SoundTheme.cc:64
 msgid "Break ignored"
 msgstr "忽略休息"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:311
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:231
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:311
+#: ../ui/apps/qt5/src/PreludeWindow.cc:230
 #, c-format
 msgid "Break in %s"
 msgstr "休息 %s"
 
-#: ../frontend/common/src/SoundTheme.cc:57
+#: ../ui/common/src/SoundTheme.cc:58
 msgid "Break prompt"
 msgstr "休息提示"
 
 #. Prelude frame
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:105
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "休息提示"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:204
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
 msgid "Break prompts"
 msgstr "休息提示"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:194
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:196
 msgid "Breaks"
 msgstr "休息"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:230
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:232
 msgid "Breaks postponed"
 msgstr "休息延後次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:225
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:227
 msgid "Breaks skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:146
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:153
 msgid "Browse history"
 msgstr "瀏覽歷史紀錄"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:435
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
 msgid "Choose a sound"
 msgstr "選擇一個音效"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:14
+#: ../ui/data/exercises/exercises.xml.in.h:14
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "用您的手掌蓋住雙眼，這樣一來您可以繼續張開眼皮。現在打開雙眼，並注視手掌中的黑暗。將較於直接閉上雙眼，這樣可以讓您的眼睛得到比較好的休息。"
 
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:260
-#: ../frontend/common/src/SoundTheme.cc:365
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:257
+#: ../ui/common/src/SoundTheme.cc:366
 msgid "Custom"
 msgstr "調整"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:193
 msgid "Cycle time:"
 msgstr "週期:"
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:49
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:36
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:47
-#: ../frontend/common/src/SoundTheme.cc:93 ../frontend/common/src/Ui.cc:39
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:247
+#, fuzzy
+msgid "Daily"
+msgstr "每日限制"
+
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57 ../ui/apps/gtkmm/src/GUI.cc:1420
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
+#: ../ui/common/src/Ui.cc:39
 msgid "Daily limit"
 msgstr "每日限制"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:271
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "每日限制逾時 %s"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:266
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:146
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
 msgid "Daily limit in %s"
 msgstr "每日限制 %s"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
 msgid "Daily limit:"
 msgstr "日限制"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:240
-msgid "Daily usage"
-msgstr "日使用量"
-
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:158
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:165
 msgid "Date:"
 msgstr "日期:"
 
 #. Delete button
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:151
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:158
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:315
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:235
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:315
+#: ../ui/apps/qt5/src/PreludeWindow.cc:234
 #, c-format
 msgid "Disappears in %s"
 msgstr "自動消失 %s"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:179
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:180
 msgid "Display"
 msgstr "顯示"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:331
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:362
 msgid "Effective mouse movement:"
 msgstr "有效滑鼠移動距離:"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:183
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:186
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:77
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:74
 #, fuzzy
 msgid "Enable sounds"
 msgstr "無音效"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:554
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:554
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:72
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:67
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:72
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:64
 msgid "Enable timer"
 msgstr "啟動計時器"
 
 #. sounds_view->setColumnWidth(0, 100);
 #. sounds_view->setColumnWidth(1, 200);
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:120
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:117
 #, fuzzy
 msgid "Enabled"
 msgstr "啟動計時器"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:304
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:122
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:304
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:119
 msgid "End exercises"
 msgstr "結束體操"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:632
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:756
 msgid "Error"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:419
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:419
 msgid "Event"
 msgstr "事件"
 
-#: ../frontend/common/src/SoundTheme.cc:111
+#: ../ui/common/src/SoundTheme.cc:112
 msgid "Exercise change"
 msgstr "體操變更"
 
-#: ../frontend/common/src/SoundTheme.cc:99
+#: ../ui/common/src/SoundTheme.cc:100
 msgid "Exercise ended"
 msgstr "體操停止"
 
-#: ../frontend/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:195
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:175
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../frontend/apps/qt5/src/Menus.cc:88
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:175
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../ui/apps/qt5/src/Menus.cc:89
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/common/src/SoundTheme.cc:105
+#: ../ui/common/src/SoundTheme.cc:106
 msgid "Exercises ended"
 msgstr "體操停止"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:264
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:97
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:264
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:94
 msgid "Exercises player"
 msgstr "體操播放"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:628
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:752
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:618
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:742
 msgid "Files deleted!"
 msgstr ""
 
-#: ../frontend/data/exercises/exercises.xml.in.h:3
+#: ../ui/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "指頭伸展"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:104
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:136
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:104
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:132
 msgid "General"
 msgstr "一般"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:332
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:332
 msgid "Hibernate"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:156
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
 msgid "Hide"
 msgstr "隱藏"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:622
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:746
 msgid "Info"
 msgstr ""
 
-#: ../frontend/data/exercises/exercises.xml.in.h:8
+#: ../ui/data/exercises/exercises.xml.in.h:8
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "在您的背後交叉手指頭。然後將胳膊輕微的往前，以弄直手臂。保持這個姿勢五到十五秒。然後重複這個動作兩次。"
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:782
+#: ../ui/apps/gtkmm/src/GUI.cc:778
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/data/exercises/exercises.xml.in.h:2
+#: ../ui/data/exercises/exercises.xml.in.h:2
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
 msgstr "保持一隻手水平伸直於胸前。將另外一隻手放在這隻手上，直到您在肩膀上感覺輕微的壓力。稍微保持這個姿勢，然後在另外一隻手重複這個動作。"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:340
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:371
 msgid "Keystrokes:"
 msgstr "鍵次:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:285
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:175
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:285
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:173
 msgid "Language:"
 msgstr "語言:"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:320
-#: ../frontend/apps/qt5/src/BreakWindow.cc:148
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:320
+#: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "鎖定"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:316
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:316
 #, fuzzy
 msgid "Lock..."
 msgstr "鎖定"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:10
+#: ../ui/data/exercises/exercises.xml.in.h:10
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
 msgstr "注視您的螢幕左上角落的邊框。沿著邊框注視到右上腳略。繼續到下個角落直到重複兩次。然後反向進行。"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:12
+#: ../ui/data/exercises/exercises.xml.in.h:12
 msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
 msgstr "注視螢幕後面最遠的那一點。將焦點放置在遠端那點。幾秒後將焦點放在螢幕的邊緣。重複這個動作。如果您無法注視螢幕之後遙遠的距離，可以用一枝筆取代，並讓它保持與螢幕一樣遠的距離。"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:13
+#: ../ui/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "注視黑暗"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:119
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:110
 msgid "Maximum number of prompts:"
 msgstr "最多提示次數"
 
 #. FIXME: duplicate
-#: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:56
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:181
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:279
-#: ../frontend/common/src/Ui.cc:33
+#: ../ui/apps/gtkmm/src/GUI.cc:1420 ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:279 ../ui/common/src/Ui.cc:33
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/common/src/SoundTheme.cc:87
+#: ../ui/common/src/SoundTheme.cc:88
 msgid "Micro-break ended"
 msgstr "暫停結束"
 
-#: ../frontend/common/src/SoundTheme.cc:81
+#: ../ui/common/src/SoundTheme.cc:82
 msgid "Micro-break started"
 msgstr "暫停開始"
 
 #. Layout
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Micro-break:"
 msgstr "暫停:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:206
-#: ../frontend/apps/qt5/src/Menus.cc:92
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206 ../ui/apps/qt5/src/Menus.cc:93
 #, fuzzy
 msgid "Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GUI.cc:1435
+#: ../ui/apps/gtkmm/src/GUI.cc:1427 ../ui/apps/gtkmm/src/GUI.cc:1431
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:336
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:257
+msgid "Monthly"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:367
 msgid "Mouse button clicks:"
 msgstr "滑鼠點擊次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:327
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:358
 msgid "Mouse movement:"
 msgstr "滑鼠移動距離:"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:323
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:354
 msgid "Mouse usage:"
 msgstr "滑鼠使用:"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:9
+#: ../ui/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "眼球運動"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:15
+#: ../ui/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "肩膀運動"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:17
+#: ../ui/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "上下運動肩膀"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:375
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:85
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:375
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:82
 msgid "Mute sounds during rest break and daily limit"
 msgstr "當休息時關掉音效"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:220
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:222
 msgid "Natural breaks taken"
 msgstr "自行休息次數"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:203
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:143
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:143
 msgid "Natural rest break"
 msgstr "自行休息次數"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:5
+#: ../ui/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "傾斜脖子運動"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:120
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:299
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:117
 msgid "Next exercise"
 msgstr "下一個體操"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:248
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:133
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:133
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:60
 msgid "No blocking"
 msgstr "不封鎖"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:341
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:344
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "No sounds"
 msgstr "無音效"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
-#: ../frontend/applets/mate/src/main.c:324
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/apps/qt5/src/Menus.cc:96
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
+#: ../ui/applets/mate/src/main.c:324
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:97
 #, fuzzy
 msgid "Normal"
 msgstr "一般(_N)"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:172
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:165
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:175
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:162
 msgid "Number of exercises:"
 msgstr "體操次數"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../frontend/apps/qt5/src/Menus.cc:73
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/qt5/src/Menus.cc:74
 msgid "Open"
 msgstr "開啟(_O)"
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:144
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:140
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:137
 msgid "Options"
 msgstr "選項"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:235
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:237
 msgid "Overdue time"
 msgstr "逾時時間"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
 msgstr "暫停"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:300
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:494
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:121
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:302
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:494
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:118
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:292
 msgid "Pause exercises"
 msgstr "暫停體操"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:113
 msgid "Place all timers in one spot"
 msgstr "將所有的計時器放在一起"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
 msgid "Place micro-break and rest break in one spot"
 msgstr "將暫停與休息放在一起"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
 msgid "Place rest break and daily limit in one spot"
 msgstr "將休息與日限制放在一起"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:109
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
 msgid "Place timers next to each other"
 msgstr "並排計時器"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:191
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
 msgid "Placement:"
 msgstr "配置"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:414
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:432
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:462
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:149
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:414
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:462
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:146
 msgid "Play"
 msgstr "播放(_P)"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:342
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:345
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:345
 msgid "Play sounds using sound card"
 msgstr "使用音效卡播放"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:241
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:127
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:127
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:181
+#: ../ui/apps/qt5/src/BreakWindow.cc:179
 #, fuzzy
 msgid "Postpone"
 msgstr "延後"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:239
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:228
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:225
 msgid "Postpone time:"
 msgstr "延後時限:"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:79
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../frontend/apps/qt5/src/Menus.cc:78
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:79
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../ui/apps/qt5/src/Menus.cc:79
 msgid "Preferences"
 msgstr "偏好"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:298
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:119
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:116
 msgid "Previous exercise"
 msgstr "前一個體操"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:115
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:109
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:115
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
 msgstr "休息前顯示提示"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:215
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:217
 msgid "Prompted breaks taken"
 msgstr "休息提示次數"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:18
+#: ../ui/data/exercises/exercises.xml.in.h:18
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
 msgstr "坐在椅子上時將您的手放在椅子的扶手上，並使力舉起身體，直到您的手臂 挺直。試著讓您的頭不低於肩膀。緩緩的坐回椅子。"
 
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:148
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
 msgstr "暫停(_u)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
-#: ../frontend/applets/mate/src/main.c:332
-#: ../frontend/apps/gtkmm/src/GUI.cc:1435
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:202
-#: ../frontend/apps/qt5/src/Menus.cc:111
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
+#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1431
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../ui/apps/qt5/src/Menus.cc:112
 msgid "Quiet"
 msgstr "安靜(_u)"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:214
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../frontend/apps/qt5/src/Menus.cc:135
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:214
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#: ../ui/apps/qt5/src/Menus.cc:136
 #, fuzzy
 msgid "Quit"
 msgstr "離開(_Q)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
-#: ../frontend/applets/mate/src/main.c:317
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:208
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:101
-#: ../frontend/apps/qt5/src/Menus.cc:118
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
+#: ../ui/applets/mate/src/main.c:317
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:208
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../ui/apps/qt5/src/Menus.cc:119
 msgid "Reading mode"
 msgstr "讀取模式"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:162
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:156
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:165
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:153
 msgid "Regard micro-breaks as activity"
 msgstr "將暫停視為活動"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:210
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:212
 msgid "Repeated prompts"
 msgstr "重複提示"
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:1424
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/apps/gtkmm/src/GtkUtil.cc:171
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:149
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:209
-#: ../frontend/apps/qt5/src/Menus.cc:83
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:72
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:46
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:149
-#: ../frontend/common/src/Ui.cc:36
+#: ../ui/apps/gtkmm/src/GUI.cc:1420
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:209 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:46
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:149 ../ui/common/src/Ui.cc:36
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../frontend/apps/qt5/src/MicroBreakWindow.cc:137
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: ../frontend/common/src/SoundTheme.cc:75
+#: ../ui/common/src/SoundTheme.cc:76
 msgid "Rest break ended"
 msgstr "休息停止"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:161
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:97
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "休息 %s"
 
-#: ../frontend/common/src/SoundTheme.cc:69
+#: ../ui/common/src/SoundTheme.cc:70
 msgid "Rest break started"
 msgstr "休息開始"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
 msgid "Rest break:"
 msgstr "重置休息:"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
 msgstr "回復"
 
-#: ../frontend/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../frontend/apps/qt5/src/ExercisesPanel.cc:298
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:288
 msgid "Resume exercises"
 msgstr "恢復體操"
 
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:189
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:186
 msgid "Select"
 msgstr ""
 
-#: ../frontend/data/exercises/exercises.xml.in.h:4
+#: ../ui/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "分開並伸展您的手指頭，直到感受到張力，然後保持這個姿勢十秒鐘。放鬆，然後彎曲手指頭關節，保持姿勢十秒鐘。重複這個動作。"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:1
+#: ../ui/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "肩膀肌肉延伸運動"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
 msgid "Show"
 msgstr "顯示"
 
 #. Ignorable
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:148
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:145
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:142
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "顯示 '延後' 與 '略過' 按鈕"
 
 #. Skippable
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:153
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:149
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:146
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "顯示 '延後' 與 '略過' 按鈕"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:356
-#: ../frontend/applets/mate/src/main.c:313
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:355
+#: ../ui/applets/mate/src/main.c:313
 #, fuzzy
 msgid "Show log"
 msgstr "顯示紀錄(_L)"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:159
 msgid "Show only when this timer is first due"
 msgstr "只在第一次計時器到時顯示"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:88
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:89
 msgid "Show status window"
 msgstr "顯示狀態視窗"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:314
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:191
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:314
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:189
 msgid "Show system tray icon"
 msgstr "顯示小圖示到工作列"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:159
+#: ../ui/apps/qt5/src/BreakWindow.cc:157
 #, fuzzy
 msgid "Shut down"
 msgstr "關閉"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:324
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:324
 #, fuzzy
 msgid "Shutdown"
 msgstr "關閉"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:319
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:239
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:319
+#: ../ui/apps/qt5/src/PreludeWindow.cc:238
 #, c-format
 msgid "Silent in %s"
 msgstr "沉默 %s"
 
-#: ../frontend/apps/qt5/src/BreakWindow.cc:170
+#: ../ui/apps/qt5/src/BreakWindow.cc:168
 #, fuzzy
 msgid "Skip"
 msgstr "略過"
 
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:121
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:118
 #, fuzzy
 msgid "Sound"
 msgstr "音效:"
 
 #. Sound themes
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:383
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:90
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:383
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:87
 msgid "Sound Events"
 msgstr "音效事件"
 
 #. Options
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:332
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:58
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:332
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:55
 msgid "Sound Options"
 msgstr "音效選項"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:391
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:96
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:391
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:93
 msgid "Sound Theme:"
 msgstr "音效主題:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:369
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:369
 msgid "Sound:"
 msgstr "音效:"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:137
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:133
 msgid "Sounds"
 msgstr "音效"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:16
+#: ../ui/data/exercises/exercises.xml.in.h:16
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "慢慢像螺旋槳一樣在身體旋轉您的右手。順時針做四次，逆時針做四次然後放鬆幾秒。用左手重複做一次。"
 
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:180
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:178
 #, fuzzy
 msgid "Start Workrave on Windows startup"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:299
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:299
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:177
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:174
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:171
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/data/exercises/exercises.xml.in.h:6
+#: ../ui/data/exercises/exercises.xml.in.h:6
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "開始時您的頭處於舒適的筆直狀態。然後，緩慢的將頭傾斜在右肩上，輕輕的伸展您的左邊脖子，保持這個姿勢五秒鐘。然後，慢慢的將頭傾斜到左肩，以伸展另外一邊的脖子。每邊各做兩次。"
 
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:212
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:179
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:59
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:157
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../frontend/apps/qt5/src/Menus.cc:125
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:179
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:63
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:164
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../ui/apps/qt5/src/Menus.cc:126
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:113
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:138
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:134
 msgid "Status Window"
 msgstr "狀態視窗"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:328
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:328
 #, fuzzy
 msgid "Suspend"
 msgstr "暫停(_S)"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:336
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:336
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "暫停(_S)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
-#: ../frontend/applets/mate/src/main.c:328
-#: ../frontend/apps/gtkmm/src/GUI.cc:1431
-#: ../frontend/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/apps/qt5/src/Menus.cc:103
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
+#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1427
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../ui/apps/qt5/src/Menus.cc:104
 msgid "Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:216
-#: ../frontend/apps/qt5/src/GeneralUiPreferencesPanel.cc:122
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:216
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:120
 msgid "System default"
 msgstr "系統內定值"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:192
 msgid "Take rest break now"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:629
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:753
 msgid "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:619
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:743
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:231
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:233
 msgid "The number of breaks you postponed"
 msgstr "延後休息次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:226
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:228
 msgid "The number of breaks you skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:216
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:218
 msgid "The number of times you took a break when being prompted"
 msgstr "經休息提示後休息次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:221
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:223
 msgid "The number of times you took a break without being prompted"
 msgstr "未經休息提示自行休息次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:205
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:207
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
 msgstr "這個數目是您休息的次數，不含重複同一次休息的重複提示"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:211
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:213
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "被重複提示休息次數"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:103
 msgid "The status window stays always on top of other windows"
 msgstr "狀態視窗永遠保持在最上層"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:241
-msgid "The total computer usage"
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:248
+#, fuzzy
+msgid "The total computer usage for the selected day"
 msgstr "總電腦使用時間"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:332
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:258
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:253
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:363
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
 msgstr "滑鼠移動距離是紀錄兩次滑鼠點擊間的直線距離"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:341
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:372
 msgid "The total number of keys pressed"
 msgstr "鍵盤輸入的次數統計"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:337
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:368
 msgid "The total number of mouse button clicks"
 msgstr "總滑鼠點擊次數"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:328
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:359
 msgid "The total on-screen mouse movement"
 msgstr "總記滑鼠於螢幕移動距離"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:236
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:238
 msgid "The total time this break was overdue"
 msgstr "這次休息的總共時間逾時"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:324
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
 msgid "The total time you were using the mouse"
 msgstr "統計滑鼠使用時間"
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:204
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:144
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 msgid "This is your natural rest break."
 msgstr "您需要休息一下..."
 
-#: ../frontend/apps/gtkmm/src/RestBreakWindow.cc:210
-#: ../frontend/apps/qt5/src/RestBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -923,110 +927,113 @@ msgstr ""
 "這是您的休息時間。確認您至少站起來，並走離您的電腦。\n"
 "只要稍微走一走，伸展筋骨並放鬆幾分鐘。"
 
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:219
-#: ../frontend/applets/mate/src/main.c:206
-#: ../frontend/applets/xfce/src/main.c:291
-#: ../frontend/apps/gtkmm/src/Menus.cc:365
-#: ../frontend/apps/qt5/src/AboutDialog.cc:65
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
+#: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
+#: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
+#: ../ui/apps/gtkmm/src/Menus.cc:365 ../ui/apps/qt5/src/AboutDialog.cc:63
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:216
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:199
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:196
 msgid "Time before end:"
 msgstr "工作時間限制："
 
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:217
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:200
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:197
 msgid "Time between breaks:"
 msgstr "間隔多久休息:"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:114
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:70
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "暫停一下?"
 
 #. Notebook
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:121
-#: ../frontend/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../frontend/apps/gtkmm/src/TimerPreferencesPanel.cc:211
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:69
-#: ../frontend/apps/qt5/src/TimerBoxPreferencesPanel.cc:194
-#: ../frontend/apps/qt5/src/TimerPreferencesPanel.cc:190
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:65
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:195
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:187
 msgid "Timers"
 msgstr "計時器"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:11
+#: ../ui/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "訓練眼球焦點"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:19
+#: ../ui/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "轉動您的頭"
 
-#: ../frontend/data/exercises/exercises.xml.in.h:20
+#: ../ui/data/exercises/exercises.xml.in.h:20
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "把您的頭轉向左邊，並停在那裡兩秒鐘。然後將您的頭轉回右邊，並也停在那邊兩秒鐘。"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:548
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:242
+msgid "Usage"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:548
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:122
-#: ../frontend/apps/qt5/src/PreferencesDialog.cc:72
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:122
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:68
 msgid "User interface"
 msgstr "使用者介面"
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:366
-#: ../frontend/apps/qt5/src/SoundsPreferencesPanel.cc:73
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:70
 msgid "Volume:"
 msgstr "音量:"
 
-#: ../frontend/apps/gtkmm/src/TimerBoxGtkView.cc:214
-#: ../frontend/apps/qt5/src/TimerBoxView.cc:103
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:214
+#: ../ui/apps/qt5/src/TimerBoxView.cc:102
 msgid "Wait"
 msgstr "等待"
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:602
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:606
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:726
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:730
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/PreferencesDialog.cc:447
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:447
 msgid "Wavefiles"
 msgstr "音效檔(.wav)"
 
-#: ../frontend/apps/qt5/src/Application.cc:611
-#: ../frontend/apps/qt5/src/Application.cc:617
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:252
+msgid "Weekly"
+msgstr ""
+
+#: ../ui/apps/qt5/src/Application.cc:603 ../ui/apps/qt5/src/Application.cc:609
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:780
+#: ../ui/apps/gtkmm/src/GUI.cc:776
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:1296
-#: ../frontend/apps/qt5/src/Application.cc:618
+#: ../ui/apps/gtkmm/src/GUI.cc:1292 ../ui/apps/qt5/src/Application.cc:610
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:1290
-#: ../frontend/apps/qt5/src/Application.cc:612
+#: ../ui/apps/gtkmm/src/GUI.cc:1286 ../ui/apps/qt5/src/Application.cc:604
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/GUI.cc:299
+#: ../ui/apps/gtkmm/src/GUI.cc:295
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/StatisticsDialog.cc:603
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:727
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/apps/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/apps/qt5/src/DailyLimitWindow.cc:48
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1035,130 +1042,126 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:118
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:74
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "您需要休息一下..."
 
-#: ../frontend/apps/gtkmm/src/PreludeWindow.cc:122
-#: ../frontend/apps/qt5/src/PreludeWindow.cc:78
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "今天應該到此為止了..."
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
-#: ../frontend/applets/mate/src/main.c:302
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:184
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
+#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:184
 #, fuzzy
 msgid "_About"
 msgstr "關於(_A)..."
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:337
-#: ../frontend/applets/mate/src/main.c:294
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:336
+#: ../ui/applets/mate/src/main.c:294
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:317
-#: ../frontend/applets/mate/src/main.c:274
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:316
+#: ../ui/applets/mate/src/main.c:274
 msgid "_Exercises"
 msgstr "體操(_E)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:333
-#: ../frontend/applets/mate/src/main.c:290
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:332
+#: ../ui/applets/mate/src/main.c:290
 msgid "_Join"
 msgstr ""
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:325
-#: ../frontend/applets/mate/src/main.c:282
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:143
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
+#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:329
-#: ../frontend/applets/mate/src/main.c:286
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:328
+#: ../ui/applets/mate/src/main.c:286
 msgid "_Network"
 msgstr "網路(_N)"
 
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:145
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:145
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
 msgid "_Normal"
 msgstr "一般(_N)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
-#: ../frontend/applets/mate/src/main.c:262
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:304
+#: ../ui/applets/mate/src/main.c:262
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:498
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:498
 #, fuzzy
 msgid "_Postpone"
 msgstr "延後"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:313
-#: ../frontend/applets/mate/src/main.c:270
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:171
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
+#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:171
 msgid "_Preferences"
 msgstr "偏好(_P)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
-#: ../frontend/applets/mate/src/main.c:306
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:189
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:348
+#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:189
 msgid "_Quit"
 msgstr "離開(_Q)"
 
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:154
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:154
 msgid "_Reading mode"
 msgstr "讀取模式(_R)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:341
-#: ../frontend/applets/mate/src/main.c:298
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:340
+#: ../ui/applets/mate/src/main.c:298
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
 
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:102
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:102
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:165
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Rest break"
 msgstr "休息(_R)"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:321
-#: ../frontend/applets/mate/src/main.c:278
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:320
+#: ../ui/applets/mate/src/main.c:278
 msgid "_Restbreak"
 msgstr "休息(_R)"
 
-#: ../frontend/apps/gtkmm/src/BreakWindow.cc:481
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:481
 #, fuzzy
 msgid "_Skip"
 msgstr "略過"
 
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:309
-#: ../frontend/applets/mate/src/main.c:266
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:308
+#: ../ui/applets/mate/src/main.c:266
 msgid "_Statistics"
 msgstr "統計(_S)"
 
-#: ../frontend/apps/gtkmm/src/MainGtkMenu.cc:151
-#: ../frontend/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../frontend/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:151
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/apps/gtkmm/src/workrave.desktop.in.h:2
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:2
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
@@ -1241,6 +1244,9 @@ msgstr ""
 
 #~ msgid "Credits"
 #~ msgstr "功勳"
+
+#~ msgid "Daily usage"
+#~ msgstr "日使用量"
 
 #~ msgid "Disabling network operation."
 #~ msgstr "停用網路功能。"

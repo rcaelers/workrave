@@ -22,9 +22,9 @@
 
 #include <string>
 
-#include "ITimeBar.hh"
+#include "commonui/ITimeBar.hh"
 #include "core/ICore.hh"
-#include "UiTypes.hh"
+#include "commonui/UiTypes.hh"
 
 class ITimerBoxView
 {

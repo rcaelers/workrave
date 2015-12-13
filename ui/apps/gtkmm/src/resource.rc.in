@@ -29,6 +29,6 @@ VS_VERSION_INFO VERSIONINFO
     END
   END
 
-workrave	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/frontend/data/images/win32/workrave.ico"
-workravequiet	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/frontend/data/images/win32/workrave-quiet.ico"
-workravesusp	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/frontend/data/images/win32/workrave-suspended.ico"
+workrave	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/ui/data/images/win32/workrave.ico"
+workravequiet	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/ui/data/images/win32/workrave-quiet.ico"
+workravesusp	ICON    DISCARDABLE     "@CMAKE_SOURCE_DIR@/ui/data/images/win32/workrave-suspended.ico"

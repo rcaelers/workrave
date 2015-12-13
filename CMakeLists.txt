@@ -41,9 +41,6 @@ set(CMAKE_BUILD_TYPE_INIT "Debug")
 #
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-#
-#include(build/cmake/macros.cmake)
-
 include(CheckLibraryExists)
 include(CheckStructHasMember)
 include(CheckCCompilerFlag)
@@ -314,7 +311,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   set (HAVE_APP_QT5 ON)
 
   if ((NOT APPLE) AND (NOT WIN32))
-    # glib is required for frontend/common/src/System.cc
+    # glib is required for ui/common/src/System.cc
     pkg_check_modules(
       GLIB REQUIRED
       glib-2.0>=2.36.0)
@@ -504,11 +501,6 @@ endif()
 # platform - win32
 
 if (WIN32)
-  option(DEVELOPMENT_MODE "Development" OFF)
-  if(DEVELOPMENT_MODE)
-    set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-  endif()
-
   #if (NOT MSVC)
      option(PREBUILT_PATH "Location of prebuilt binaries" OFF)
 
@@ -718,7 +710,7 @@ if (WIN32)
       set(APPLET_BINARY_DIR ${PREBUILT_PATH})
       set(HOOK_BINARY_DIR ${PREBUILT_PATH})
    else()
-      set(APPLET_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/frontend/applets/win32/src/Output")
+      set(APPLET_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui/applets/win32/src/Output")
       set(HOOK_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/hooks/Output")
    endif()
 endif()
@@ -736,17 +728,17 @@ set(CPACK_PACKAGE_VERSION_PATCH         ${VERSION_PATCH})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
 set(CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME} v${VERSION}")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
-set(CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/frontend/data/images/osx/workrave.icns")
+set(CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns")
 set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
 
 if (APPLE)
   set(CPACK_GENERATOR "DragNDrop")
 
-  configure_file(${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+  configure_file(${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
 
   set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/DS_Store")
-  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/frontend/apps/qt5/dist/osx/dmg_background.png")
+  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/DS_Store")
+  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/dmg_background.png")
   set(CPACK_DMG_FORMAT "UDBZ")
 
   set(CPACK_OSX_PACKAGE_VERSION "10.6")
@@ -757,16 +749,16 @@ include(CPack)
 
 if (APPLE)
   if ("${WITH_UI}" STREQUAL "Qt5")
-    add_subdirectory(frontend/apps/qt5/dist/osx)
+    add_subdirectory(ui/apps/qt5/dist/osx)
   #elseif ("${WITH_UI}" STREQUAL "Gtk+3")
-  #  add_subdirectory(frontend/apps/gtkmm/dist/win32)
+  #  add_subdirectory(ui/apps/gtkmm/dist/win32)
   endif()
 elseif(WIN32)
   if ("${WITH_UI}" STREQUAL "Qt5")
-    add_subdirectory(frontend/apps/qt5/dist/win32)
+    add_subdirectory(ui/apps/qt5/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+2")
-    add_subdirectory(frontend/apps/gtkmm/dist/win32)
+    add_subdirectory(ui/apps/gtkmm/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+3")
-    add_subdirectory(frontend/apps/gtkmm/dist/win32)
+    add_subdirectory(ui/apps/gtkmm/dist/win32)
   endif()
 endif()

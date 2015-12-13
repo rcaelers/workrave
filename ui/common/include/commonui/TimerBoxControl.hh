@@ -25,7 +25,7 @@
 #include "utils/ScopedConnections.hh"
 
 #include "core/ICore.hh"
-#include "ITimerBoxView.hh"
+#include "commonui/ITimerBoxView.hh"
 
 class TimerBoxControl
 {

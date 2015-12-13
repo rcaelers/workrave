@@ -1,5 +1,3 @@
-// MicroBreakWindow.cc --- window for the microbreak
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -24,14 +22,16 @@
 #include "MicroBreakWindow.hh"
 
 #include <boost/format.hpp>
+
 #include "nls.h"
 #include "debug.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
+#include "commonui/Text.hh"
+#include "commonui/Ui.hh"
 #include "utils/AssetPath.hh"
-#include "Text.hh"
+
 #include "UiUtil.hh"
-#include "Ui.hh"
 
 using namespace std;
 using namespace workrave;

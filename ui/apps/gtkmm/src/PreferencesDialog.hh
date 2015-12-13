@@ -24,14 +24,14 @@
 
 #include <vector>
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include "Hig.hh"
 
 #include "IconListNotebook.hh"
 #include "core/ICore.hh"
 
 
-#include "SoundTheme.hh"
+#include "commonui/SoundTheme.hh"
 
 #include <gtkmm.h>
 //#include <gtkmmconfig.h>

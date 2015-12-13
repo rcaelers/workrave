@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -29,8 +29,8 @@
 #include "debug.hh"
 
 #include "config/IConfigurator.hh"
-#include "GUIConfig.hh"
-#include "Backend.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/Backend.hh"
 #include "core/IBreak.hh"
 
 using namespace workrave;

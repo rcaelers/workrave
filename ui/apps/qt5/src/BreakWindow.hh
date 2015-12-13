@@ -1,5 +1,3 @@
-// BreakWindow.hh --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -25,12 +23,12 @@
 
 #include <memory>
 
+#include "commonui/GUIConfig.hh"
+#include "commonui/UiTypes.hh"
 #include "core/ICore.hh"
-#include "IBreakWindow.hh"
-#include "UiTypes.hh"
-#include "GUIConfig.hh"
 
 #include "Frame.hh"
+#include "IBreakWindow.hh"
 
 class BreakWindow :
   public QWidget,

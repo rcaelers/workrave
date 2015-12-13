@@ -20,14 +20,14 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <string>
 #include <gtkmm.h>
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #endif
 
 #include "utils/ScopedConnections.hh"

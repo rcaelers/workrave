@@ -1,5 +1,3 @@
-// TimeBar.cc --- The WorkRave GUI
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -26,8 +24,8 @@
 #include <QStylePainter>
 #include <QStyleOptionProgressBar>
 
-#include "Text.hh"
 #include "debug.hh"
+#include "commonui/Text.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;

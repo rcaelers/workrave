@@ -20,7 +20,7 @@
 #ifndef GNOMEAPPLETWINDOW_HH
 #define GNOMEAPPLETWINDOW_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <stdio.h>
 #include <string>
@@ -29,7 +29,7 @@
 #include <sigc++/trackable.h>
 
 #include "AppletWindow.hh"
-#include "UiTypes.hh"
+#include "commonui/UiTypes.hh"
 
 class TimerBoxGtkView;
 class Plug;

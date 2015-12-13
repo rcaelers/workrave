@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include "commonui/SoundTheme.hh"
+
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
@@ -32,8 +34,7 @@
 #include <list>
 #include <set>
 
-#include "SoundTheme.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"

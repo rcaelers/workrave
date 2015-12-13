@@ -1,5 +1,3 @@
-// AboutDialog.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -30,8 +28,6 @@ class AboutDialog : public QDialog
 public:
   AboutDialog();
   ~AboutDialog() override;
-
-  //bool event(QEvent *event);
 };
 
 #endif // ABOUTDIALOG_HH

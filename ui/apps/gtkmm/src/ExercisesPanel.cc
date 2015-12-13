@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <algorithm>
 
@@ -32,7 +32,7 @@
 #include "utils/AssetPath.hh"
 #include "Hig.hh"
 #include "nls.h"
-#include "SoundTheme.hh"
+#include "commonui/SoundTheme.hh"
 #include "debug.hh"
 
 using namespace std;

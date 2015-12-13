@@ -1,4 +1,5 @@
-// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
+// LockScreen.hh - locking the screen on Windows
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,27 +15,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+//
 
-#ifndef WORKRAVE_APPS_COMMON_UI_HH
-#define WORKRAVE_APPS_COMMON_UI_HH
+#ifndef LOCKSCREEN_HH_
+#define LOCKSCREEN_HH_
 
-#include <string>
+#include "commonui/IScreenLockMethod.hh"
 
-#include "core/CoreTypes.hh"
-#include "UiTypes.hh"
 
-namespace workrave
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <windows.h>
+#include <stdlib.h>
+
+
+class W32LockScreen : public IScreenLockMethod
 {
-  namespace ui
-  {
-    class Ui
-    {
-    public:
-      static const std::string get_break_name(workrave::BreakId id);
-      static const std::string get_break_icon_filename(workrave::BreakId id);
-      static const std::string get_status_icon_filename(StatusIconType id);
-    };
-  }
-}
+public:
+  W32LockScreen();
+  virtual ~W32LockScreen() {};
+  virtual bool is_lock_supported() { return lock_func != NULL; };
+  virtual bool lock();
 
-#endif // WORKRAVE_APPS_COMMON_UI_HH
+private:
+  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
+  static LockWorkStationFunc lock_func;
+  static HINSTANCE user32_dll;
+
+};
+
+#endif /* LOCKSCREEN_HH_ */

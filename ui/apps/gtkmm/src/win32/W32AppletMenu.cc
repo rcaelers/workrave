@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -32,7 +32,7 @@
 
 #include "GUI.hh"
 #include "Menus.hh"
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 #include "MainWindow.hh"
 #include "W32AppletWindow.hh"
 

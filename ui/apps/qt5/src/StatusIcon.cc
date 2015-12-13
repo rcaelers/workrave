@@ -21,13 +21,12 @@
 
 #include "debug.hh"
 
-#include "StatusIcon.hh"
-
-#include "Backend.hh"
+#include "commonui/Backend.hh"
+#include "commonui/GUIConfig.hh"
 #include "core/ICore.hh"
 
+#include "StatusIcon.hh"
 #include "UiUtil.hh"
-#include "GUIConfig.hh"
 
 using namespace std;
 using namespace workrave;

@@ -1,5 +1,3 @@
-// UiUtil.cc --- Ui utilities
-//
 // Copyright (C) 2003 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2011, 2014 Rob Caelers <robc@krandor.nl>
 // All rights reserved.

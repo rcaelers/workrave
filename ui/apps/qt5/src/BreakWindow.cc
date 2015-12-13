@@ -1,5 +1,3 @@
-// BreakWindow.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -27,7 +25,6 @@
 #include "config.h"
 #endif
 
-
 #include <QtGui>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -40,10 +37,11 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "System.hh"
-#include "utils/AssetPath.hh"
+#include "commonui/Backend.hh"
+#include "commonui/System.hh"
 #include "core/ICore.hh"
-#include "Backend.hh"
+#include "utils/AssetPath.hh"
+
 #include "UiUtil.hh"
 
 #ifdef PLATFORM_OS_OSX

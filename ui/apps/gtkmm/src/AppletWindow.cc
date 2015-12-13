@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -26,8 +26,8 @@
 #include "debug.hh"
 
 #include "AppletWindow.hh"
-#include "ITimerBoxView.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/ITimerBoxView.hh"
+#include "commonui/TimerBoxControl.hh"
 
 AppletWindow::AppletWindow()
   : timer_box_view(0),

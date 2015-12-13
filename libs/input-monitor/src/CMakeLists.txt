@@ -11,7 +11,7 @@ if (PLATFORM_OS_UNIX)
     unix/XScreenSaverMonitor.cc
     unix/UnixInputMonitorFactory.cc)
 
-  include_directories(${CMAKE_SOURCE_DIR}/src/libs/input-monitor/src/unix)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
 
   if (HAVE_GTK)
     include_directories(${GTK_INCLUDE_DIRS})
@@ -29,12 +29,12 @@ if (PLATFORM_OS_WIN32)
       win32/W32InputMonitor.cc
       win32/Harpoon.cc)
     include_directories(
-      ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoon/include
-      ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoonHelper/include)
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include)
   endif()
 
   include_directories(
-    ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/src/win32)
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
 endif()
 
 if (PLATFORM_OS_OSX)
@@ -42,14 +42,14 @@ if (PLATFORM_OS_OSX)
     osx/OSXInputMonitor.cc
     osx/OSXInputMonitorFactory.cc)
 
-  include_directories(${CMAKE_SOURCE_DIR}/src/libs/input-monitor/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/osx)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/src
-  ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include
-  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/src/libs/config/include
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/libs/config/include
   )
 
 add_library(workrave-libs-input-monitor STATIC ${SRC})

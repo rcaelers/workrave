@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OSXTimeBar.h"
 
-#include "ITimeBar.hh"
+#include "commonui/ITimeBar.hh"
 
 @interface OSXStatusBarView : NSView {
 

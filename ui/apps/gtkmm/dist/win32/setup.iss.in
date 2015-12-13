@@ -65,14 +65,6 @@ Source: "@INSTALLDIR@\lib\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: I
 Source: "@INSTALLDIR@\share\themes\*.*"; DestDir: "{app}\share\themes\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\16x16\*.png"; DestDir: "{app}\share\images\16x16"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\24x24\*.png"; DestDir: "{app}\share\images\24x24"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\32x32\*.png"; DestDir: "{app}\share\images\32x32"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\48x48\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\64x64\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\96x96\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\128x128\*.png"; DestDir: "{app}\share\images\48x48"; Flags: ignoreversion recursesubdirs
-;Source: "@INSTALLDIR@\share\icons\hicolor\scalable\*.svg"; DestDir: "{app}\share\images\scalable"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\icons\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\glib-2.0\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\default\*.wav"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
@@ -81,7 +73,6 @@ Source: "@INSTALLDIR@\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\s
 Source: "@INSTALLDIR@\share\sounds\subtle\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\exercises\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "@INSTALLDIR@\share\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
-
 Source: "@INSTALLDIR@\share\doc\workrave\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\doc\workrave\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\doc\workrave\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
@@ -92,9 +83,7 @@ Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
-Root: HKLM; Subkey: "SOFTWARE\Workrave"; ValueName: "CommonGTK"; ValueType: string; ValueData: "{code:GetCommonGtkKey}";
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
-
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
@@ -193,45 +182,9 @@ begin
     Result := EnsureWorkraveIsNotRunning();
 end;
 
-function HasGtkRuntime(): Boolean;
-var
-  v: String;
-begin
-  Result := RegQueryStringValue(HKLM, 'Software\GTK\2.0', 'Version', v);
-end;
-
-function GetGtkRuntimePath(): String;
-var
-  b: Boolean;
-begin
-  b := RegQueryStringValue(HKLM, 'Software\GTK\2.0', 'Path', Result);
-  if not b then begin
-    Result := '';
-  end
-end;
-
-function IsGtkRuntimeToBeInstalled(): Boolean;
-var
-  i: Integer;
-begin
-    i := Pos(',gtk', WizardSelectedComponents(False));
-    Result := i <> 0;
-end;
-
-function GetCommonGtkKey(S: String): String;
-begin
-    Result := 'TRUE';
-    if (isGtkRuntimeToBeInstalled()) then begin
-        Result := 'FALSE';
-    end
-end;
-
 function GetAppPath(S: String): String;
 begin
   Result := WizardDirValue + '\lib';
-  if (not IsGtkRuntimeToBeInstalled()) then begin
-    Result := Result + ';' + GetGtkRuntimePath() + '\lib';    
-  end
 end;
 
 [Code]

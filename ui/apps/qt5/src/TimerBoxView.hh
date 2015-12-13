@@ -1,5 +1,3 @@
-// TimerBoxView.hh
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -30,7 +28,8 @@
 #include <QLabel>
 #include <QGridLayout>
 
-#include "TimerBoxViewBase.hh"
+#include "commonui/TimerBoxViewBase.hh"
+
 #include "TimeBar.hh"
 
 class TimerBoxView : public QWidget, public TimerBoxViewBase

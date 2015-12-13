@@ -15,12 +15,12 @@ if (HAVE_TESTS)
   add_cppcheck(workrave-test)
   
   include_directories(
-    ${CMAKE_SOURCE_DIR}/src/libs/core/src
-    ${CMAKE_SOURCE_DIR}/src/libs/core/include
-    ${CMAKE_SOURCE_DIR}/src/libs/utils/include
-    ${CMAKE_SOURCE_DIR}/src/libs/config/include
-    ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include
-    ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
+    ${CMAKE_SOURCE_DIR}/libs/core/src
+    ${CMAKE_SOURCE_DIR}/libs/core/include
+    ${CMAKE_SOURCE_DIR}/libs/utils/include
+    ${CMAKE_SOURCE_DIR}/libs/config/include
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+    ${CMAKE_SOURCE_DIR}/libs/dbus/include
     )
   
   target_link_libraries(workrave-test workrave-libs-core)

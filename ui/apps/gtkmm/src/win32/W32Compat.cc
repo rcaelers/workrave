@@ -39,7 +39,7 @@
 
 #include "core/IBreak.hh"
 #include "BreakWindow.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "GtkUtil.hh"
 #include "W32ForceFocus.hh"

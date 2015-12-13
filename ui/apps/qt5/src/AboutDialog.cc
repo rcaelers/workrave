@@ -1,5 +1,3 @@
-// AboutDialog.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -31,11 +29,12 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "utils/AssetPath.hh"
+#include "commonui/Ui.hh"
+#include "commonui/credits.h"
 #include "core/ICore.hh"
+#include "utils/AssetPath.hh"
+
 #include "UiUtil.hh"
-#include "Ui.hh"
-#include "credits.h"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -47,7 +46,6 @@ AboutDialog::AboutDialog()
   TRACE_ENTER("AboutDialog::AboutDialog");
 
   setWindowTitle(_("About Workrave"));
-  // setWindowIcon(...);
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
@@ -100,10 +98,6 @@ AboutDialog::AboutDialog()
   TRACE_EXIT();
 }
 
-
-//! Destructor.
 AboutDialog::~AboutDialog()
 {
-  TRACE_ENTER("AboutDialog::~AboutDialog");
-  TRACE_EXIT();
 }

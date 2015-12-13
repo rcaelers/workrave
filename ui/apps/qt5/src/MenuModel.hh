@@ -19,7 +19,6 @@
 #define MENUITEM_HH
 
 #include <string>
-
 #include <memory>
 #include <boost/signals2.hpp>
 

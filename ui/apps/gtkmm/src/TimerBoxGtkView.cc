@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -39,12 +39,12 @@
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/IBreak.hh"
 
 using namespace std;

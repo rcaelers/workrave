@@ -1,5 +1,3 @@
-// TimerBoxView.cc --- Timers Widgets
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -21,14 +19,15 @@
 #include "config.h"
 #endif
 
-#include "debug.hh"
-#include "nls.h"
-
 #include <QPushButton>
 #include <QLabel>
 
+#include "debug.hh"
+#include "nls.h"
+
+#include "commonui/Ui.hh"
 #include "utils/AssetPath.hh"
-#include "Ui.hh"
+
 #include "SizeGroup.hh"
 #include "TimerBoxView.hh"
 

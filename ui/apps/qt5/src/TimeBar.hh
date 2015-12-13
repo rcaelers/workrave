@@ -1,5 +1,3 @@
-// TimeBar.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -20,13 +18,9 @@
 #ifndef TIMEBAR_HH
 #define TIMEBAR_HH
 
-#include "ITimeBar.hh"
+#include "commonui/ITimeBar.hh"
 
 #include <QWidget>
-
-// namespace Ui {
-//   class TimeBar;
-//}
 
 class TimeBar : public QWidget, public ITimeBar
 {

@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <gtkmm/label.h>
 #include <gtkmm/box.h>
@@ -32,13 +32,13 @@
 
 #include "core/IBreak.hh"
 #include "GUI.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
 

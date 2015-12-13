@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <gtkmm.h>
 #ifdef HAVE_GTK3
@@ -31,10 +31,10 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "utils/AssetPath.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 
 #include "PreludeWindow.hh"

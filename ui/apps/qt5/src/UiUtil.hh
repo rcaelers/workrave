@@ -1,5 +1,3 @@
-// UiUtil.hh --- Ui utilities
-//
 // Copyright (C) 2003 - 2013 Raymond Penners & Rob Caelers
 // All rights reserved.
 //
@@ -20,8 +18,9 @@
 #ifndef UIUTIL_HH
 #define UIUTIL_HH
 
-#include <QtWidgets>
 #include <string>
+
+#include <QtWidgets>
 
 #include "core/ICore.hh"
 

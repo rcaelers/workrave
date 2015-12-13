@@ -21,14 +21,14 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include "GUIConfig.hh"
 
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "core/IBreak.hh"
 

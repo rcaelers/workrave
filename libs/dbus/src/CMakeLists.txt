@@ -28,8 +28,8 @@ set(SRC ${SRC}
 
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
   )
 
 add_library(workrave-libs-dbus STATIC ${SRC})

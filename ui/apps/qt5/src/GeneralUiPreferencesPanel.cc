@@ -21,12 +21,11 @@
 #include "config.h"
 #endif
 
+#define HAVE_LANGUAGE_SELECTION
+#include "GeneralUiPreferencesPanel.hh"
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
-
-#define HAVE_LANGUAGE_SELECTION
-
-#include "GeneralUiPreferencesPanel.hh"
 
 #include <QtGui>
 #include <QStyle>
@@ -34,14 +33,13 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "TimerPreferencesPanel.hh"
-
+#include "commonui/Backend.hh"
+#include "core/ICore.hh"
 #include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
-#include "core/ICore.hh"
+#include "TimerPreferencesPanel.hh"
 #include "UiUtil.hh"
-#include "Backend.hh"
 
 using namespace std;
 using namespace workrave;

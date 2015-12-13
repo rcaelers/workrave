@@ -26,7 +26,7 @@
 
 #include <stdio.h>
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <gtkmm.h>
 
@@ -34,8 +34,8 @@
 #include "IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
-#include "GUIConfig.hh"
-#include "System.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/System.hh"
 
 #ifdef PLATFORM_OS_WIN32
 class DesktopWindow;

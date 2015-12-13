@@ -24,7 +24,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include "Hig.hh"
 #include "ExercisesPanel.hh"
 

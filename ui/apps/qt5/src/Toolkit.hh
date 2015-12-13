@@ -1,5 +1,3 @@
-// Tookit.hh
-//
 // Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -23,20 +21,18 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
-#include "utils/ScopedConnections.hh"
-
 #include <QApplication>
 #include <QTimer>
 
-#include "IToolkit.hh"
 #include "core/CoreTypes.hh"
-#include "Menus.hh"
+#include "utils/ScopedConnections.hh"
 
-#include "MainWindow.hh"
-#include "PreferencesDialog.hh"
-#include "ExercisesDialog.hh"
 #include "AboutDialog.hh"
-
+#include "ExercisesDialog.hh"
+#include "IToolkit.hh"
+#include "MainWindow.hh"
+#include "Menus.hh"
+#include "PreferencesDialog.hh"
 #include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
 
@@ -49,7 +45,6 @@ class Toolkit : public QApplication, public IToolkit
   Q_OBJECT
 
 public:
-
   typedef std::shared_ptr<Toolkit> Ptr;
 
   Toolkit(int argc, char **argv);

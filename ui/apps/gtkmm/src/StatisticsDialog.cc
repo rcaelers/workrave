@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -50,10 +50,10 @@
 #include "nls.h"
 
 #include "core/ICore.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 
 #include "StatisticsDialog.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "GtkUtil.hh"
 #include "utils/Locale.hh"
 

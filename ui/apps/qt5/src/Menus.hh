@@ -20,13 +20,11 @@
 
 #include <memory>
 
+#include "core/ICore.hh"
 #include "utils/ScopedConnections.hh"
 
-#include "core/ICore.hh"
-
-#include "IToolkit.hh"
 #include "IApplication.hh"
-
+#include "IToolkit.hh"
 #include "MenuModel.hh"
 
 class Menus

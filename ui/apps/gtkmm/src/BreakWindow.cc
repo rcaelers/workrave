@@ -37,7 +37,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 #include "debug.hh"
 #include "nls.h"
 
@@ -57,9 +57,9 @@
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-#include "System.hh"
+#include "commonui/System.hh"
 #include "core/ICore.hh"
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "utils/AssetPath.hh"
 
 #if defined(PLATFORM_OS_WIN32)

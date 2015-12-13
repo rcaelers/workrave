@@ -21,15 +21,15 @@
 #include "config.h"
 #endif
 
-#include "debug.hh"
-
 #include <QMoveEvent>
 #include <QApplication>
 #include <QDesktopWidget>
 
+#include "debug.hh"
+#include "commonui/GUIConfig.hh"
+
 #include "ToolkitMenu.hh"
 #include "Menus.hh"
-#include "GUIConfig.hh"
 
 MainWindow::MainWindow(MenuModel::Ptr menu_model)
 {

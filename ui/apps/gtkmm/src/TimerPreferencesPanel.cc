@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -33,7 +33,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "Backend.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
@@ -43,7 +43,7 @@
 #include "GtkUtil.hh"
 #include "Hig.hh"
 
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "core/CoreConfig.hh"
 #include "DataConnector.hh"
 

@@ -1,5 +1,3 @@
-// TimeEntry.hh --- Entry widget for time
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

@@ -47,7 +47,7 @@ if (PLATFORM_OS_UNIX)
       )
     endif()
 
-    include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/unix)
+    include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/unix)
 endif()
 
 if (PLATFORM_OS_WIN32)
@@ -73,7 +73,7 @@ if (PLATFORM_OS_WIN32)
    	
   set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
 
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/win32)
+  include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
 endif()
 
 if (PLATFORM_OS_OSX)
@@ -87,7 +87,7 @@ if (PLATFORM_OS_OSX)
 
   set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
-  include_directories(${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/osx)
 endif()
 
 if (HAVE_DBUS)
@@ -111,22 +111,21 @@ set(SRC ${SRC}
     )
 
 if (HAVE_GSETTINGS)
-  gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src)
+  gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/frontend/apps/gtkmm/src
-  ${CMAKE_SOURCE_DIR}/frontend/apps/common/include
-  ${CMAKE_SOURCE_DIR}/frontend/common/include
-  ${CMAKE_SOURCE_DIR}/frontend/applets/indicator/include
+  ${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src
+  ${CMAKE_SOURCE_DIR}/ui/common/include
+  ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
 
-  ${CMAKE_SOURCE_DIR}/src/libs/config/include/config
-  ${CMAKE_SOURCE_DIR}/src/libs/config/include
-  ${CMAKE_SOURCE_DIR}/src/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/src/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/src/libs/audio/include
+  ${CMAKE_SOURCE_DIR}/libs/config/include/config
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  ${CMAKE_SOURCE_DIR}/libs/dbus/include
+  ${CMAKE_SOURCE_DIR}/libs/audio/include
 
-  ${CMAKE_SOURCE_DIR}/src/libs/core/include
+  ${CMAKE_SOURCE_DIR}/libs/core/include
 
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
@@ -156,7 +155,7 @@ ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
         $<TARGET_FILE:workrave>
     )
 
-target_link_libraries(workrave workrave-frontend-common)
+target_link_libraries(workrave workrave-ui-common)
 target_link_libraries(workrave workrave-libs-core)
 target_link_libraries(workrave workrave-libs-config)
 target_link_libraries(workrave workrave-libs-input-monitor)
@@ -188,9 +187,9 @@ if (WIN32)
   target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
 
   include_directories(
-    ${CMAKE_SOURCE_DIR}/frontend/applets/win32/include
-    ${CMAKE_SOURCE_DIR}/src/libs/input-monitor/include
-    ${CMAKE_SOURCE_DIR}/src/libs/hooks/harpoon/include
+    ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
+    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
     )
 
    target_link_libraries(workrave dxerr8 dsound dxguid)

@@ -20,7 +20,7 @@
 #ifndef TIMEENTRY_HH
 #define TIMEENTRY_HH
 
-#include "preinclude.h"
+#include "commonui/preinclude.h"
 
 #include <gtkmm/box.h>
 #include <gtkmm/adjustment.h>

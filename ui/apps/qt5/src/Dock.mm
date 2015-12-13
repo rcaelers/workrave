@@ -19,6 +19,8 @@
 #include "config.h"
 #endif
 
+#include "Dock.hh"
+
 #import <AppKit/NSApplication.h>
 #import <AppKit/NSBezierPath.h>
 #import <AppKit/NSColor.h>
@@ -26,13 +28,11 @@
 #import <AppKit/NSImage.h>
 #import <Foundation/NSString.h>
 
-#include "Dock.hh"
+#include "debug.hh"
 
 #include "utils/AssetPath.hh"
 #include "core/ICore.hh"
-#include "Backend.hh"
-
-#include "debug.hh"
+#include "commonui/Backend.hh"
 
 using namespace workrave;
 using namespace workrave::utils;

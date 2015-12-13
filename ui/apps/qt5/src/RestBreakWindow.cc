@@ -26,14 +26,13 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "Text.hh"
+#include "commonui/Backend.hh"
+#include "commonui/Exercise.hh"
+#include "commonui/Text.hh"
+
+#include "ExercisesPanel.hh"
 #include "TimeBar.hh"
 #include "UiUtil.hh"
-
-#include "Backend.hh"
-
-#include "Exercise.hh"
-#include "ExercisesPanel.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
