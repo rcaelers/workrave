@@ -53,7 +53,7 @@ resource.rc: resource.rc.in
 		$(srcdir)/$@.in > $@
 
 # Additional distribution sources.
-DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution/
+DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
 sourcesdistribution = 	../../plugin/distribution/gtkmm/src/NetworkJoinDialog.cc \
 			../../plugin/distribution/gtkmm/src/NetworkLogDialog.cc \
 			../../plugin/distribution/gtkmm/src/NetworkPreferencePage.cc
