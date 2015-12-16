@@ -30,7 +30,9 @@
 #include <assert.h>
 
 #include "utils/crashlog.h"
+#ifdef HAVE_HARPOON
 #include "harpoon.h"
+#endif
 
 #include <fcntl.h>
 
@@ -97,7 +99,9 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   __try1(double_exception_handler);
 
+#ifdef HAVE_HARPOON
   harpoon_unblock_input();
+#endif
 
 /*
  Modified for Unicode >= WinNT. No UnicoWS check for Me/98/95.

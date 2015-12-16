@@ -1,3 +1,7 @@
+if(POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+
 # TODO: Duplicate information.
 list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/build/cmake/modules")
 
@@ -11,10 +15,11 @@ function(gp_resolved_file_type_overridexx resolved_file type_var)
   endif()
 endfunction()
 
-if (CMAKE_CROSSCOMPILING)
-  set(CMAKE_OBJDUMP @CMAKE_OBJDUMP@)
+if (@CMAKE_CROSSCOMPILING@)
+
+  set(CMAKE_OBJDUMP "@CMAKE_OBJDUMP@")
   include(Win32ResolveDependencies)
-  resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/workrave.exe" dependencies resolved_dependencies @SYS_ROOT@/bin)
+  resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/Workrave.exe" dependencies resolved_dependencies "@SYS_ROOT@/bin")
 
   foreach(dependency ${resolved_dependencies})
     file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/dist/lib")
@@ -25,10 +30,8 @@ else()
   set(APPS "@CMAKE_INSTALL_PREFIX@/bin/Workrave.exe")
   set(PLUGINS "")
   set(DIRS "@Boost_LIBRARY_DIRS@;@Qt_BIN_DIR@;@HOOK_BINARY_DIR@/Release")
-  message("apps ${APPS} dirs ${DIRS}")
 
   file(GLOB_RECURSE PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/plugins/*")
-  message("plugins ${PLUGINS}")
   include(BundleUtilities)
   set(BU_CHMOD_BUNDLE_ITEMS ON)
   fixup_bundle("${APPS}"  "${PLUGINS}"  "${DIRS}")

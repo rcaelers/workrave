@@ -155,7 +155,7 @@ target_link_libraries(Workrave ${Qt5Svg_LIBRARIES})
 target_link_libraries(Workrave ${Qt5DBus_LIBRARIES})
 target_link_libraries(Workrave ${Qt5MacExtras_LIBRARIES})
 target_link_libraries(Workrave ${Boost_LIBRARIES})
-target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
+target_link_libraries(Workrave ${LIBINTL_LIBRARIES})
 
 #qt5_use_modules(helloworld Widgets Sql Network)
 
@@ -175,7 +175,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 endif()
 
 if (PLATFORM_OS_WIN32)
-  target_link_libraries(Workrave ${GETTEXT_LIBRARIES})
+  target_link_libraries(Workrave ${LIBINTL_LIBRARIES})
   if (HAVE_HARPOON)
      target_link_libraries(Workrave harpoon)
   endif()

@@ -30,7 +30,9 @@
 #include <assert.h>
 
 #include "utils/crashlog.h"
+#ifdef HAVE_HARPOON
 #include "harpoon.h"
+#endif
 
 #include <fcntl.h>
 #include <io.h>
@@ -122,9 +124,9 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #else
   __try1(double_exception_handler);
 #endif
-
+#ifdef HAVE_HARPOON
   harpoon_unblock_input();
-
+#endif
 
 
 

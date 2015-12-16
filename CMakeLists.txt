@@ -476,10 +476,6 @@ else()
   set(ENABLE_NLS ON)
 endif ()
 
-if (APPLE) # XXX: workaround intl for Mac OSX
-  set(GETTEXT_LIBRARIES ${LIBINTL_LIBRARIES})
-endif()
-
 set (GETTEXT_PACKAGE "workrave")
 
 # TODO: generate languages.iss for InnoSetup
