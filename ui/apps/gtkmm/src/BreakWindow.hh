@@ -35,7 +35,7 @@
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 #include "commonui/GUIConfig.hh"
-#include "commonui/System.hh"
+#include "session/System.hh"
 
 #ifdef PLATFORM_OS_WIN32
 class DesktopWindow;

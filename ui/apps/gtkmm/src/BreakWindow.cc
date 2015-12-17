@@ -57,7 +57,7 @@
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-#include "commonui/System.hh"
+#include "session/System.hh"
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
 #include "utils/AssetPath.hh"

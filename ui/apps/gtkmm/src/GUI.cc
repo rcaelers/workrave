@@ -67,7 +67,7 @@
 #include "RestBreakWindow.hh"
 #include "commonui/SoundTheme.hh"
 #include "StatusIcon.hh"
-#include "commonui/System.hh"
+#include "session/System.hh"
 #include "commonui/Text.hh"
 #include "WindowHints.hh"
 #include "commonui/Session.hh"

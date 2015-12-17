@@ -97,6 +97,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
   ${CMAKE_SOURCE_DIR}/libs/audio/include
   ${CMAKE_SOURCE_DIR}/libs/updater/include
+  ${CMAKE_SOURCE_DIR}/libs/session/include
 
   ${CMAKE_SOURCE_DIR}/libs/core/include
 
@@ -142,6 +143,7 @@ target_link_libraries(Workrave workrave-libs-config)
 target_link_libraries(Workrave workrave-libs-input-monitor)
 target_link_libraries(Workrave workrave-libs-audio)
 target_link_libraries(Workrave workrave-libs-dbus)
+target_link_libraries(Workrave workrave-libs-session)
 target_link_libraries(Workrave workrave-libs-utils)
 # TODO: target_link_libraries(Workrave workrave-libs-updater)
 

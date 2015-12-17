@@ -8,11 +8,28 @@ if (APPLE)
   
   set(QT_PLUGINS_DIR "${_qt5Core_install_prefix}/plugins")
   
-  set(plugin_dest_dir "Workrave.app/Contents/MacOS")
+  set(plugin_dest_dir "Workrave.app/Contents/MacOS/plugins")
   set(qtconf_dest_dir "Workrave.app/Contents/Resources")
+
+  set(IMAGE_PLUGINS QJpegPlugin QGifPlugin)
+  set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QCocoaIntegrationPlugin)
   
-  install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-  install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir}/plugins COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+  foreach(plugin ${PLATFORM_PLUGINS})
+    get_target_property(_loc Qt5::${plugin} LOCATION)
+    if (_loc)
+      install(FILES ${_loc} DESTINATION ${plugin_dest_dir}/platforms)
+    endif()
+  endforeach()  
+  
+  foreach(plugin ${IMAGE_PLUGINS})
+    get_target_property(_loc Qt5::${plugin} LOCATION)
+    if (_loc)
+      install(FILES ${_loc} DESTINATION ${plugin_dest_dir}/imageformats)
+    endif()
+  endforeach()  
+  
+  #install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+  #install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   
   # Install a qt.conf file.
   # This inserts some cmake code into the install script to write the file

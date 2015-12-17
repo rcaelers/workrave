@@ -1,5 +1,4 @@
-// LockScreen.hh - locking the screen on Windows
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,35 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//
 
-#ifndef LOCKSCREEN_HH_
-#define LOCKSCREEN_HH_
-
-#include "commonui/IScreenLockMethod.hh"
-
+#ifndef W32SHUTDOWN_HH_
+#define W32SHUTDOWN_HH_
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include <windows.h>
-#include <stdlib.h>
+#include "session/ISystemStateChangeMethod.hh"
 
-
-class W32LockScreen : public IScreenLockMethod
+class W32Shutdown : public ISystemStateChangeMethod
 {
 public:
-  W32LockScreen();
-  virtual ~W32LockScreen() {};
-  virtual bool is_lock_supported() { return lock_func != NULL; };
-  virtual bool lock();
+  W32Shutdown();
+  virtual
+  ~W32Shutdown() {};
 
+  virtual bool shutdown();
+  virtual bool canShutdown() { return shutdown_supported;}
 private:
-  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
-  static LockWorkStationFunc lock_func;
-  static HINSTANCE user32_dll;
-
+  bool shutdown_helper(bool for_real);
+  bool shutdown_supported;
 };
 
-#endif /* LOCKSCREEN_HH_ */
+#endif /* W32SHUTDOWN_HH_ */

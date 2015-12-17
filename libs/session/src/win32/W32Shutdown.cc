@@ -21,7 +21,10 @@
 
 #include <shlobj.h>
 #include <shldisp.h>
+
+#ifdef HAVE_HARPOON
 #include "harpoon.h"
+#endif
 
 #ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE

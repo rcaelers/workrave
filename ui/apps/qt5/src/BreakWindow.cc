@@ -38,8 +38,8 @@
 #include "nls.h"
 
 #include "commonui/Backend.hh"
-#include "commonui/System.hh"
 #include "core/ICore.hh"
+#include "session/System.hh"
 #include "utils/AssetPath.hh"
 
 #include "UiUtil.hh"

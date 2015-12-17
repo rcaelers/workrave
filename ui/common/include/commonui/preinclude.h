@@ -17,18 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
+/* #ifndef NOMINMAX */
+/* #define NOMINMAX */
+/* #endif */
 
-#undef THREAD_PRIORITY_NORMAL
-#undef THREAD_PRIORITY_LOW
-#undef THREAD_PRIORITY_HIGH
-#undef THREAD_PRIORITY_URGENT
-#undef DELETE
-#undef ERROR
-#undef OK
+/* #undef THREAD_PRIORITY_NORMAL */
+/* #undef THREAD_PRIORITY_LOW */
+/* #undef THREAD_PRIORITY_HIGH */
+/* #undef THREAD_PRIORITY_URGENT */
+/* #undef DELETE */
+/* #undef ERROR */
+/* #undef OK */
 
-#if defined(interface)
-#undef interface
-#endif
+/* #if defined(interface) */
+/* #undef interface */
+/* #endif */

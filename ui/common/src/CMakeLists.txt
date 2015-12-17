@@ -2,37 +2,12 @@ set(SRC
   Backend.cc
   Exercise.cc
   GUIConfig.cc
-  Session.cc
   SoundTheme.cc
-  System.cc
+  Session.cc
   Text.cc
   TimerBoxControl.cc
   Ui.cc
  )
-
-if (PLATFORM_OS_UNIX)
-  set(SRC ${SRC}
-    ScreenLockCommandline.cc
-    )
-endif()
-
-if (HAVE_GTK)
-  include_directories(${GTK_INCLUDE_DIRS})
-  set(SRC ${SRC}
-    ScreenLockDBus.cc
-    SystemStateChangeConsolekit.cc
-    SystemStateChangeLogind.cc
-    SystemStateChangeUPower.cc
-    )
-endif()
-
-if (WIN32)
-  set(SRC ${SRC}
-    win32/W32LockScreen.cc
-    win32/W32Shutdown.cc
-    )
-  include_directories(${CMAKE_SOURCE_DIR}/ui/common/src/win32/ ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
-endif()
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/ui/common/include/commonui
@@ -43,13 +18,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
   ${CMAKE_SOURCE_DIR}/libs/audio/include
   )
-
-#if (HAVE_DBUS AND NOT HAVE_GTK)
-#  dbus_generate(DBusGUI ${CMAKE_CURRENT_SOURCE_DIR}/src/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
-#  set(SRC ${SRC}
-#    ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
-#  )
-#endif()
 
 add_library(workrave-ui-common STATIC ${SRC})
 add_cppcheck(workrave-ui-common)

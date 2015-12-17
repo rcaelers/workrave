@@ -124,6 +124,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libs/utils/include
   ${CMAKE_SOURCE_DIR}/libs/dbus/include
   ${CMAKE_SOURCE_DIR}/libs/audio/include
+  ${CMAKE_SOURCE_DIR}/libs/session/include
 
   ${CMAKE_SOURCE_DIR}/libs/core/include
 
@@ -162,6 +163,7 @@ target_link_libraries(workrave workrave-libs-input-monitor)
 target_link_libraries(workrave workrave-libs-dbus)
 target_link_libraries(workrave workrave-libs-utils)
 target_link_libraries(workrave workrave-libs-audio)
+target_link_libraries(workrave workrave-libs-session)
 
 target_link_libraries(workrave ${GTK_LIBRARIES})
 target_link_libraries(workrave ${Boost_LIBRARIES})

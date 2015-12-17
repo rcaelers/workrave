@@ -31,8 +31,8 @@
 #include <gio/gio.h>
 #endif
 
-#include "commonui/IScreenLockMethod.hh"
-#include "commonui/ISystemStateChangeMethod.hh"
+#include "session/IScreenLockMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 
 class System
