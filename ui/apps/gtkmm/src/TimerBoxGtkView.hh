@@ -20,8 +20,6 @@
 #ifndef TIMERBOXGTKVIEW_HH
 #define TIMERBOXGTKVIEW_HH
 
-#include "commonui/preinclude.h"
-
 #include <string>
 #include <gtkmm.h>
 

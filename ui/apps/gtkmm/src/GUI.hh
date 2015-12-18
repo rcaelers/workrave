@@ -20,8 +20,6 @@
 #ifndef GUI_HH
 #define GUI_HH
 
-#include "commonui/preinclude.h"
-
 #include <sigc++/trackable.h>
 #include <glibmm.h>
 

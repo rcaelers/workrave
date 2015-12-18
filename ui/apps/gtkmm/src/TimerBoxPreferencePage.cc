@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
-
 #include <gtkmm.h>
 
 #include "nls.h"

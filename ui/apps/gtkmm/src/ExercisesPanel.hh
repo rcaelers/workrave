@@ -24,7 +24,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
 #include "commonui/Exercise.hh"
 
 #include <gtkmm.h>

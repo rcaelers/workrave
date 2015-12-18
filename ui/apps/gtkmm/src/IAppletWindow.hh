@@ -20,8 +20,6 @@
 #ifndef IAPPLETWINDOW_HH
 #define IAPPLETWINDOW_HH
 
-#include "commonui/preinclude.h"
-
 #include <string>
 #include <sigc++/sigc++.h>
 

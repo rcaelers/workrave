@@ -20,8 +20,6 @@
 #ifndef TIMERPREFERENCESPANEL_HH
 #define TIMERPREFERENCESPANEL_HH
 
-#include "commonui/preinclude.h"
-
 #ifdef HAVE_CONFIG
 #include "config.h"
 #endif

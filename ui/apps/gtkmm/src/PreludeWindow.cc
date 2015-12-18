@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
-
 #include <gtkmm.h>
 #ifdef HAVE_GTK3
 #include <gdkmm/devicemanager.h>

@@ -20,7 +20,6 @@
 #ifndef X11SYSTRAYAPPLETWINDOW_HH
 #define X11SYSTRAYAPPLETWINDOW_HH
 
-#include "commonui/preinclude.h"
 #include <stdio.h>
 
 #include "AppletWindow.hh"

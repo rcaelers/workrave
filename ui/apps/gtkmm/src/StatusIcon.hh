@@ -20,8 +20,6 @@
 #ifndef STATUSICON_HH
 #define STATUSICON_HH
 
-#include "commonui/preinclude.h"
-
 #ifdef PLATFORM_OS_WIN32
 //#if ! GTK_CHECK_VERSION(2,22,1)
 #define USE_W32STATUSICON 1

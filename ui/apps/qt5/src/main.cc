@@ -19,8 +19,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
-
 #include "debug.hh"
 #include <fstream>
 #include <stdio.h>

@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
-
 #include <gtkmm/label.h>
 #include <gtkmm/box.h>
 #include <gtkmm/image.h>

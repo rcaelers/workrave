@@ -20,8 +20,6 @@
 #ifndef APPLETCONTROL_HH
 #define APPLETCONTROL_HH
 
-#include "commonui/preinclude.h"
-
 #include "IAppletWindow.hh"
 
 #include "utils/ScopedConnections.hh"

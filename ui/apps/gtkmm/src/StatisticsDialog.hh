@@ -20,7 +20,6 @@
 #ifndef STATISTICSDIALOG_HH
 #define STATISTICSDIALOG_HH
 
-#include "commonui/preinclude.h"
 #include <sstream>
 
 #include "core/IStatistics.hh"

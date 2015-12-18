@@ -20,7 +20,6 @@
 #ifndef OSXAPPLETWINDOW_HH
 #define OSXAPPLETWINDOW_HH
 
-#include "commonui/preinclude.h"
 #include <string>
 
 #include "commonui/TimerBoxViewBase.hh"

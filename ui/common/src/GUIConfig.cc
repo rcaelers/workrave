@@ -21,8 +21,6 @@
 #include "config.h"
 #endif
 
-#include "commonui/preinclude.h"
-
 #include "GUIConfig.hh"
 
 #include "config/IConfigurator.hh"

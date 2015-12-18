@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include "commonui/preinclude.h"
-
 #include <algorithm>
 
 #include <string.h>

@@ -20,8 +20,6 @@
 #ifndef GNOMEAPPLETWINDOW_HH
 #define GNOMEAPPLETWINDOW_HH
 
-#include "commonui/preinclude.h"
-
 #include <stdio.h>
 #include <string>
 

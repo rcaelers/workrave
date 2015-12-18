@@ -20,8 +20,6 @@
 #ifndef HEADINFO_HH
 #define HEADINFO_HH
 
-#include "commonui/preinclude.h"
-
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif

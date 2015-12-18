@@ -26,7 +26,6 @@
 
 #include "commonui/Backend.hh"
 #include "commonui/GUIConfig.hh"
-#include "commonui/preinclude.h"
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
