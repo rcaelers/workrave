@@ -56,7 +56,7 @@ secondaryMaxValue:(int)secondaryMaxValue;
     {
       color = [NSColor whiteColor];
     }
-	
+        
   // draw item with status as background
   [statusItem drawStatusBarBackgroundInRect:[self frame] withHighlight:menuVisibility];
   
@@ -71,7 +71,7 @@ secondaryMaxValue:(int)secondaryMaxValue;
   [statusItem popUpStatusItemMenu:menu];
   menuVisibility = NO;
   [self setNeedsDisplay:YES];
-}	
+}       
 
 
 - (bool)isMenuVisible

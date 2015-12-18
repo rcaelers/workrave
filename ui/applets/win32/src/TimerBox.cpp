@@ -63,7 +63,7 @@ TimerBox::~TimerBox()
 void
 TimerBox::set_slot(int slot, BreakId brk)
 {
-	TRACE_ENTER_MSG("TimerBox::set_slot", slot << " " << brk);
+  TRACE_ENTER_MSG("TimerBox::set_slot", slot << " " << brk);
   BreakId old_brk = slot_to_break[slot];
   TRACE_MSG(old_brk);
   if (old_brk != brk)
@@ -97,7 +97,7 @@ TimerBox::set_slot(int slot, BreakId brk)
 void
 TimerBox::set_size(int w, int h)
 {
-	TRACE_ENTER_MSG("TimerBox::set_size", w << " " << h);
+  TRACE_ENTER_MSG("TimerBox::set_size", w << " " << h);
   width = w;
   height = h;
   TRACE_EXIT();
@@ -107,7 +107,7 @@ TimerBox::set_size(int w, int h)
 void
 TimerBox::update(bool repaint)
 {
-	TRACE_ENTER_MSG("TimerBox::update", repaint);
+  TRACE_ENTER_MSG("TimerBox::update", repaint);
   TransparentDamageControl ctrl;
   ctrl.BeginPaint(repaint);
   update_time_bars(ctrl);

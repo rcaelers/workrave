@@ -251,12 +251,12 @@ Locale::get_week_start()
 #  endif
       )
     {
-		  int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, 0, 0, 0, 0);
-		  if (required_size > 0)
+      int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, 0, 0, 0, 0);
+      if (required_size > 0)
       {
-			  std::vector<char> buffer(required_size);
-			  WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, 0, 0);
-	          week_start = (buffer[0] - '0' + 1) % 7;
+        std::vector<char> buffer(required_size);
+        WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, 0, 0);
+            week_start = (buffer[0] - '0' + 1) % 7;
       }
     }
 

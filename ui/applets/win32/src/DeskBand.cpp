@@ -559,10 +559,10 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_ERASEBKGND:
-	  if (pThis->m_CompositionEnabled)
-	  {
-		lResult = 1;
-	  }
+    if (pThis->m_CompositionEnabled)
+    {
+    lResult = 1;
+    }
       break;
 
     case WM_COMMAND:

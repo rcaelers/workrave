@@ -68,9 +68,9 @@ if (PLATFORM_OS_WIN32)
   add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                      COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                                                   -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-	             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc			
+                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc                    
                     )
-   	
+        
   set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
 
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)

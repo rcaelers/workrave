@@ -25,10 +25,10 @@
   </struct>
 
   <sequence name="MenuItems"
-	    container="std::list"
-	    type="MenuItem"
-	    csymbol="GenericDBusApplet::MenuItems"
-	    condition="defined(HAVE_GTK)">
+            container="std::list"
+            type="MenuItem"
+            csymbol="GenericDBusApplet::MenuItems"
+            condition="defined(HAVE_GTK)">
   </sequence>
 
   <interface name="org.workrave.ControlInterface" csymbol="Menus">

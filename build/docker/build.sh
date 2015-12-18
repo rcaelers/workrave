@@ -18,27 +18,27 @@ case "$PLATFORM" in
    "linux-gcc") 
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++" "-DCMAKE_C_COMPILER=gcc")
         MAKE_FLAGS=-j2
-	;;
+        ;;
     "linux-clang")
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
         MAKE_FLAGS=-j2
-	;;
+        ;;
     "windows")
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw.cmake" "-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         MAKE_FLAGS=-j2
-	;;
+        ;;
 esac
 
 case "$UI" in
    "Gtk+2") 
-	CMAKE_FLAGS+=("-DWITH_INDICATOR=OFF")
-	;;
+        CMAKE_FLAGS+=("-DWITH_INDICATOR=OFF")
+        ;;
 esac
 
 case "$BUILD" in
    "Debug") 
-	CMAKE_FLAGS+=("-DWITH_TRACING=ON")
-	;;
+        CMAKE_FLAGS+=("-DWITH_TRACING=ON")
+        ;;
 esac
 
 rm -rf ${BUILDDIR} ${INSTALLDIR}

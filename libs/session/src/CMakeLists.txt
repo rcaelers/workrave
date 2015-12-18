@@ -35,7 +35,3 @@ include_directories(
 
 add_library(workrave-libs-session STATIC ${SRC})
 add_cppcheck(workrave-libs-session)
-
-
-
-

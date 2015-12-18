@@ -294,8 +294,8 @@ TimeBar::init(HINSTANCE hinst)
       bar_colors[ITimeBar::COLOR_ID_BG] = bg;
 
       NONCLIENTMETRICS_PRE_VISTA_STRUCT ncm;
-	    LOGFONT lfDefault =
-	    // the default status font info on my system:
+      LOGFONT lfDefault =
+      // the default status font info on my system:
         {
           -12, 0, 0, 0, 400, 0, 0, 0, '\1', 0, 0, 0, 0, TEXT( "Tahoma" )
           //0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
@@ -304,7 +304,7 @@ TimeBar::init(HINSTANCE hinst)
       ZeroMemory( &ncm, sizeof( ncm ) );
       ncm.cbSize = sizeof( ncm );
       ncm.lfStatusFont = lfDefault;
-	  
+    
       if (!SystemParametersInfo( SPI_GETNONCLIENTMETRICS, sizeof( ncm ), &ncm, 0 ))
         // If SystemParametersInfo fails, use my default.
         // Now that we're filling a pre-vista NCM struct, there 

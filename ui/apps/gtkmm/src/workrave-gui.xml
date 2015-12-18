@@ -40,9 +40,9 @@
   </struct>
   
   <sequence name="MenuItems"
-	    container="std::list"
-	    type="MenuItem"
-	    csymbol="GenericDBusApplet::MenuItems">
+            container="std::list"
+            type="MenuItem"
+            csymbol="GenericDBusApplet::MenuItems">
   </sequence>
   
   <interface name="org.workrave.ControlInterface" csymbol="Menus">

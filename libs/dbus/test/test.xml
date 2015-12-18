@@ -28,7 +28,7 @@
   </enum>
   
   <struct name="SkippedStruct"
-	  csymbol="DBusTestData::SkippedStruct" condition="defined(NOT_DEFINED)">
+          csymbol="DBusTestData::SkippedStruct" condition="defined(NOT_DEFINED)">
     <field type="int"    name="m_int"/>
   </struct>
 
@@ -48,31 +48,31 @@
   </struct>
   
   <sequence name="ListOfStructWithAllBasicTypes"
-	    container="std::list"
-	    type="StructWithAllBasicTypes"
-	    csymbol="DBusTestData::ListOfStructWithAllBasicTypes">
+            container="std::list"
+            type="StructWithAllBasicTypes"
+            csymbol="DBusTestData::ListOfStructWithAllBasicTypes">
   </sequence>
 
   <sequence name="SkippedList"
-	    container="std::list"
-	    type="int"
-	    csymbol="DBusTestData::SkippedList"
-	    condition="defined(NOT_DEFINED)">
+            container="std::list"
+            type="int"
+            csymbol="DBusTestData::SkippedList"
+            condition="defined(NOT_DEFINED)">
   </sequence>
   
   <dictionary name="MapOfStructWithAllBasicTypes"
-	      container="std::map"
-	      key_type="string"
-	      value_type="StructWithAllBasicTypes"
-	      csymbol="DBusTestData::MapOfStructWithAllBasicTypes">
+              container="std::map"
+              key_type="string"
+              value_type="StructWithAllBasicTypes"
+              csymbol="DBusTestData::MapOfStructWithAllBasicTypes">
   </dictionary>
 
   <dictionary name="SkippedMap"
-	      container="std::map"
-	      key_type="string"
-	      value_type="string"
-	      csymbol="DBusTestData::SkippedMap"
-	      condition="defined(NOT_DEFINED)">
+              container="std::map"
+              key_type="string"
+              value_type="string"
+              csymbol="DBusTestData::SkippedMap"
+              condition="defined(NOT_DEFINED)">
   </dictionary>
   
   <struct name="Data" csymbol="DBusTestData::Data">
@@ -81,33 +81,33 @@
   </struct>
   
   <dictionary name="DataMap"
-	      container="std::map"
-	      key_type="string"
-	      value_type="Data"
-	      csymbol="DBusTestData::DataMap">
+              container="std::map"
+              key_type="string"
+              value_type="Data"
+              csymbol="DBusTestData::DataMap">
   </dictionary>
   
   <sequence name="DataList"
-	    container="std::list"
-	    type="Data"
-	    csymbol="DBusTestData::DataList">
+            container="std::list"
+            type="Data"
+            csymbol="DBusTestData::DataList">
   </sequence>
   
   <sequence name="StringList"
-	    container="std::list"
-	    type="string"
-	    csymbol="DBusTestData::StringList">
+            container="std::list"
+            type="string"
+            csymbol="DBusTestData::StringList">
   </sequence>
   
   <dictionary name="StringMap"
-	      container="std::map"
-	      key_type="string"
-	      value_type="string"
-	      csymbol="DBusTestData::StringMap">
+              container="std::map"
+              key_type="string"
+              value_type="string"
+              csymbol="DBusTestData::StringMap">
   </dictionary>
 
   <interface name="org.workrave.TestInterface"
-	     csymbol="DBusTestServer">
+             csymbol="DBusTestServer">
     <method name="BasicOutRef" csymbol="test_basic_out_ref">
       <arg type="int"    direction="in" name="i_int"/>
       <arg type="uint8"  direction="in" name="i_uint8"/>
@@ -240,7 +240,7 @@
   </interface>
 
   <interface name="org.workrave.MoreTestInterface"
-	     csymbol="DBusTestServer">
+             csymbol="DBusTestServer">
     <method name="ReturnList" csymbol="test_return_list">
       <arg type="DataList"  direction="out" hint="return" name="o_data"/>
     </method>

@@ -345,7 +345,7 @@ bool W32ActiveSetup::write_to_registry_value(
         &hkey,
         NULL
         );
-	
+  
     if( ret )
         return false;
 

@@ -187,10 +187,10 @@ if (PLATFORM_OS_WIN32)
     ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/include)
 
-	if (HAVE_HARPOON)
+        if (HAVE_HARPOON)
       include_directories(
         ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
-	endif()
+        endif()
 
    link_directories(${Boost_LIBRARY_DIR})
 endif()

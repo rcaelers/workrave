@@ -27,28 +27,28 @@ function onIndicatorUpdate (result, microbreak, restbreak, daily) {
     var timebar = timerbox.get_time_bar(0);
     if (timebar != null)
     {
-	timerbox.set_enabled(true);
-	timebar.set_progress(microbreak[6], microbreak[7], microbreak[5]);
-	timebar.set_secondary_progress(microbreak[3], microbreak[4], microbreak[2]);
-	timebar.set_text(microbreak[0]);
+        timerbox.set_enabled(true);
+        timebar.set_progress(microbreak[6], microbreak[7], microbreak[5]);
+        timebar.set_secondary_progress(microbreak[3], microbreak[4], microbreak[2]);
+        timebar.set_text(microbreak[0]);
     }
 
     timebar = timerbox.get_time_bar(1);
     if (timebar != null)
     {
-	timerbox.set_enabled(true);
-	timebar.set_progress(restbreak[6], restbreak[7], restbreak[5]);
-	timebar.set_secondary_progress(restbreak[3], restbreak[4], restbreak[2]);
-	timebar.set_text(restbreak[0]);
+        timerbox.set_enabled(true);
+        timebar.set_progress(restbreak[6], restbreak[7], restbreak[5]);
+        timebar.set_secondary_progress(restbreak[3], restbreak[4], restbreak[2]);
+        timebar.set_text(restbreak[0]);
     }
 
     timebar = timerbox.get_time_bar(2);
     if (timebar != null)
     {
-	timerbox.set_enabled(true);
-	timebar.set_progress(daily[6], daily[7], daily[5]);
-	timebar.set_secondary_progress(daily[3], daily[4], daily[2]);
-	timebar.set_text(daily[0]);
+        timerbox.set_enabled(true);
+        timebar.set_progress(daily[6], daily[7], daily[5]);
+        timebar.set_secondary_progress(daily[3], daily[4], daily[2]);
+        timebar.set_text(daily[0]);
     }
 
     // timerbox.draw(timerbox, );

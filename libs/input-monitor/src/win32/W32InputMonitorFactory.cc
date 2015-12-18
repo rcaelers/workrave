@@ -140,8 +140,8 @@ W32InputMonitorFactory::create_activity_monitor()
                   TRACE_MSG("failed to init");
                 }
 #else
-				actual_monitor_method = "lowlevel";
-				TRACE_MSG("normal not available");
+        actual_monitor_method = "lowlevel";
+        TRACE_MSG("normal not available");
 #endif
             }
 

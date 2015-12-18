@@ -300,12 +300,12 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 #ifdef PLATFORM_OS_OSX
 
 NSString * colorToHexString (NSColor * color) {
-	NSMutableString * hexString = [[NSMutableString alloc] init];
-	[hexString appendString:@"#"];
-	[hexString appendFormat:@"%02x", (int)([color redComponent] * 255.0f)];
-	[hexString appendFormat:@"%02x", (int)([color greenComponent] * 255.0f)];
-	[hexString appendFormat:@"%02x", (int)([color blueComponent] * 255.0f)];
-	return hexString;
+  NSMutableString * hexString = [[NSMutableString alloc] init];
+  [hexString appendString:@"#"];
+  [hexString appendFormat:@"%02x", (int)([color redComponent] * 255.0f)];
+  [hexString appendFormat:@"%02x", (int)([color greenComponent] * 255.0f)];
+  [hexString appendFormat:@"%02x", (int)([color blueComponent] * 255.0f)];
+  return hexString;
 }
 
 #endif
@@ -385,21 +385,21 @@ BreakWindow::start()
       if ([dictionary objectForKey:NSWorkspaceDesktopImageScalingKey]) {
         NSImageScaling scaling = (NSImageScaling) [[dictionary objectForKey:NSWorkspaceDesktopImageScalingKey] integerValue];
         switch (scaling) {
-				case NSImageScaleNone:
-					printf("Scaling: none\n");
-					break;
-				case NSImageScaleAxesIndependently:
-					printf("Scaling: stretch\n");
-					break;
-				case NSImageScaleProportionallyDown:
-					printf("Scaling: down\n");
-					break;
-				case NSImageScaleProportionallyUpOrDown:
-					printf("Scaling: updown\n");
-					break;
-				default:
-					printf("Scaling: unknown\n");
-					break;
+        case NSImageScaleNone:
+          printf("Scaling: none\n");
+          break;
+        case NSImageScaleAxesIndependently:
+          printf("Scaling: stretch\n");
+          break;
+        case NSImageScaleProportionallyDown:
+          printf("Scaling: down\n");
+          break;
+        case NSImageScaleProportionallyUpOrDown:
+          printf("Scaling: updown\n");
+          break;
+        default:
+          printf("Scaling: unknown\n");
+          break;
         }
       } else {
         printf("Scaling: updown (not defined)\n");
