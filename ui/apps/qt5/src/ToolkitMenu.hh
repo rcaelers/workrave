@@ -90,7 +90,7 @@ namespace detail
 
     QAction* get_action() const override;
 
-  public slots:
+  public Q_SLOTS:
     void on_action(bool checked);
 
   private:

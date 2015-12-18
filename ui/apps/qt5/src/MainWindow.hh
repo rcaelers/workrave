@@ -36,7 +36,7 @@ public:
 
   void moveEvent(QMoveEvent * event) override;
 
-public slots:
+public Q_SLOTS:
   void on_show_contextmenu(const QPoint& pos);
 
 private:

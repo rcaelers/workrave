@@ -45,7 +45,7 @@ public:
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
 
-public slots:
+public Q_SLOTS:
   void on_timer();
 
 protected:

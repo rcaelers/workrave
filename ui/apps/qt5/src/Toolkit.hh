@@ -66,7 +66,7 @@ public:
   void create_oneshot_timer(int ms, std::function<void ()> func) override;
   void show_balloon(std::string id, const std::string& title, const std::string& balloon) override;
 
-public slots:
+public Q_SLOTS:
   void on_timer();
   void on_exercises_closed();
   void on_preferences_closed();
@@ -105,7 +105,7 @@ public:
     QTimer::singleShot(ms, this, SLOT(exec()));
   };
 
-public slots:
+public Q_SLOTS:
   void exec()
   {
     func();

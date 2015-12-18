@@ -44,7 +44,7 @@ public:
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
 
-public slots:
+public Q_SLOTS:
   void on_activate(QSystemTrayIcon::ActivationReason reason);
 
 private:

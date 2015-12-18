@@ -198,6 +198,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_APP_GTK ON)
   set (HAVE_HARPOON ON)
 
+  # TODO: duplicate check, refactor
   pkg_check_modules(
     GLIB REQUIRED
     glib-2.0>=2.36.0
@@ -306,7 +307,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   # TODO:
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
@@ -314,8 +315,12 @@ if ("${WITH_UI}" STREQUAL "Qt5")
     # glib is required for ui/common/src/System.cc
     pkg_check_modules(
       GLIB REQUIRED
-      glib-2.0>=2.36.0)
+      glib-2.0>=2.28.0
+      gio-2.0>=2.26.0)
     set (HAVE_GLIB ON)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_GIO ON)
+    set (DBUS_BACKEND "gio")
     include_directories(${GLIB_INCLUDE_DIRS})
   endif()
 endif()

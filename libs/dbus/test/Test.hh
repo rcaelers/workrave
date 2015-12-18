@@ -30,17 +30,20 @@ class SignalReceiver : public QObject
 public:
   SignalReceiver() : got(false) {}
 
-public slots:
+public Q_SLOTS:
+  
   void on_signal_without_args()
   {
     std::cout << "got event" << std::endl;
     got = true;
   }
+  
   void on_signal()
   {
     std::cout << "got event" << std::endl;
     got = true;
   }
+
 public:
   bool got;
 };

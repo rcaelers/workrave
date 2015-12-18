@@ -43,7 +43,7 @@ public:
   void set_exercise_count(int num);
   boost::signals2::signal<void()> &signal_stop();
 
-public slots:
+public Q_SLOTS:
   void heartbeat();
 
 private:

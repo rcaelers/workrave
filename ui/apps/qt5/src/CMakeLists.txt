@@ -149,8 +149,8 @@ target_link_libraries(Workrave workrave-libs-utils)
 
 link_directories(${Boost_LIBRARIES_DIR})
 
-#link_directories(${GDK_LIBPATH})
-#target_link_libraries(Workrave ${GDK_LIBRARIES})
+link_directories(${GLIB_LIBPATH})
+target_link_libraries(Workrave ${GLIB_LIBRARIES})
 
 target_link_libraries(Workrave ${Qt5Widgets_LIBRARIES})
 target_link_libraries(Workrave ${Qt5Svg_LIBRARIES})
