@@ -21,14 +21,13 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
+#include "commonui/Backend.hh"
 #include "commonui/SoundTheme.hh"
 #include "commonui/UiTypes.hh"
-#include "core/IBreak.hh"
 
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 #include "MenuModel.hh"
-#include "StatusIcon.hh"
 
 class IToolkit
 {
@@ -41,44 +40,19 @@ public:
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
 
-  //!
   virtual void init(MenuModel::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
-
-  //!
   virtual void terminate() = 0;
-
-  //!
   virtual void run() = 0;
-
-  //!
   virtual void grab() = 0;
-
-  //!
   virtual void ungrab() = 0;
-
-  //!
   virtual std::string get_display_name() = 0;
-
-  //!
   virtual IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) = 0;
-
-  //!
   virtual IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) = 0;
-
-  //!
   virtual void show_window(WindowType type) = 0;
-
-  //!
   virtual void hide_window(WindowType type) = 0;
-
-  //!
   virtual int get_screen_count() const = 0;
-
-  //!
   virtual void create_oneshot_timer(int ms, std::function<void ()> func) = 0;
-
   virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon) = 0;
-
 };
 
 #endif // ITOOLKIT_HH

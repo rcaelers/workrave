@@ -18,6 +18,10 @@
 #ifndef TIMEENTRY_HH
 #define TIMEENTRY_HH
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include <boost/signals2.hpp>
 
 #include <QtGui>
@@ -29,7 +33,6 @@ class TimeEntry : public QWidget
 
 public:
   TimeEntry();
-  ~TimeEntry() override;
 
   time_t get_value();
   void set_value(time_t time);
@@ -40,12 +43,11 @@ private:
   void on_value_changed();
 
 private:
-  //! Value changed
   boost::signals2::signal<void()> value_changed_signal;
 
-   QSpinBox *hrs;
-   QSpinBox *mins;
-   QSpinBox *secs;
+  QSpinBox *hrs;
+  QSpinBox *mins;
+  QSpinBox *secs;
 };
 
 #endif // TIMEENTRY_HH

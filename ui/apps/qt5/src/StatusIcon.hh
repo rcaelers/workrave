@@ -18,14 +18,19 @@
 #ifndef STATUSICON_HH
 #define STATUSICON_HH
 
+#include <string>
+#include <memory>
+#include <boost/signals2.hpp>
+
 #include <QSystemTrayIcon>
 #include <QIcon>
 
-#include "core/ICore.hh"
+#include "core/CoreTypes.hh"
 #include "utils/ScopedConnections.hh"
 
 #include "MenuModel.hh"
-#include "ToolkitMenu.hh"
+
+class ToolkitMenu;
 
 class StatusIcon : public QObject
 {
@@ -33,11 +38,9 @@ class StatusIcon : public QObject
 
 public:
   explicit StatusIcon(MenuModel::Ptr menu_model);
-  ~StatusIcon() override;
 
-  void init();
-  void set_tooltip(std::string& tip);
-  void show_balloon(std::string id, const std::string& title, const std::string& balloon);
+  void set_tooltip(std::string &tip);
+  void show_balloon(std::string id, const std::string &title, const std::string &balloon);
 
   boost::signals2::signal<void()> &signal_activate();
 
@@ -49,8 +52,8 @@ public Q_SLOTS:
 
 private:
   std::map<workrave::OperationMode, QIcon> mode_icons;
-  QSystemTrayIcon *tray_icon;
-  ToolkitMenu::Ptr menu;
+  std::shared_ptr<QSystemTrayIcon> tray_icon;
+  std::shared_ptr<ToolkitMenu> menu;
 
   boost::signals2::signal<void()> activate_signal;
   scoped_connections connections;

@@ -94,10 +94,7 @@ private:
   typedef std::list<MonitoredWidget> Widgets;
   typedef Widgets::iterator WidgetIter;
 
-  //!
   Widgets connections;
-
-  //!
   workrave::config::IConfigurator::Ptr config;
 };
 

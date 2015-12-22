@@ -34,9 +34,6 @@ class Dock : public QObject
 
 public:
   Dock();
-  ~Dock() override;
-
-  void init();
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);

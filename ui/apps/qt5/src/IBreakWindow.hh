@@ -20,10 +20,6 @@
 
 #include <memory>
 
-#ifdef HAVE_GTK
-#include <gtkmm.h>
-#endif
-
 class IBreakWindow
 {
 public:
@@ -31,19 +27,10 @@ public:
 
   typedef std::shared_ptr<IBreakWindow> Ptr;
 
-  //!
   virtual void init() = 0;
-
-  //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
-
-  //! Stops (i.e. hides) the break window.
   virtual void stop() = 0;
-
-  //! Refreshes the content of the break window.
   virtual void refresh() = 0;
-
-  //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
 };
 

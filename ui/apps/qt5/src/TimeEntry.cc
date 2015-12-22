@@ -21,29 +21,22 @@
 
 #include "debug.hh"
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "TimeEntry.hh"
 
 TimeEntry::TimeEntry()
 {
   secs = new QSpinBox;
   secs->setWrapping(true);
-  //secs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   secs->setMinimum(0);
   secs->setMaximum(59);
 
   hrs = new QSpinBox;
   hrs->setWrapping(true);
-  //hrs->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   hrs->setMinimum(0);
   hrs->setMaximum(59);
 
   mins = new QSpinBox;
   mins->setWrapping(true);
-  //mins->setButtonSymbols(QAbstractSpinBox::PlusMinus);
   mins->setMinimum(0);
   mins->setMaximum(59);
 
@@ -65,14 +58,6 @@ TimeEntry::TimeEntry()
   layout->addWidget(secs);
 }
 
-
-//! Destructor.
-TimeEntry::~TimeEntry()
-{
-}
-
-
-//! Set time
 void
 TimeEntry::set_value(time_t t)
 {
@@ -81,7 +66,6 @@ TimeEntry::set_value(time_t t)
   secs->setValue(static_cast<double>(t % 60));
 }
 
-//! Get time
 time_t
 TimeEntry::get_value()
 {
@@ -96,7 +80,6 @@ TimeEntry::on_value_changed()
 {
   value_changed_signal();
 }
-
 
 boost::signals2::signal<void()> &
 TimeEntry::signal_value_changed()

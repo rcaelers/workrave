@@ -49,7 +49,6 @@ UiUtil::create_alert_text(const std::string &caption, const std::string &body)
   return txt;
 }
 
-
 void
 UiUtil::clear_layout(QLayout* layout)
 {
@@ -60,7 +59,6 @@ UiUtil::clear_layout(QLayout* layout)
       delete item;
     }
 }
-
 
 void
 UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
@@ -73,7 +71,6 @@ UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
   layout->addLayout(box);
 }
 
-
 void
 UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
 {
@@ -84,13 +81,11 @@ UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
   layout->addLayout(box);
 }
 
-
 void
 UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
 {
   layout->addWidget(create_label(text, bold));
 }
-
 
 QLabel *
 UiUtil::create_label(const std::string &text, bool bold)

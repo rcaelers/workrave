@@ -111,7 +111,7 @@ BreakWindow::init()
   else
     {
       frame = new Frame;
-      frame->set_frame_style(Frame::STYLE_SOLID);
+      frame->set_frame_style(Frame::Style::Solid);
       frame->set_frame_width(6, 6);
       frame->set_frame_visible(false);
 

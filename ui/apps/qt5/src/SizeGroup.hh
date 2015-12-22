@@ -27,17 +27,16 @@ class SizeGroup : public QObject
 
 public:
   SizeGroup(Qt::Orientations orientation, QObject* parent = 0);
-  ~SizeGroup() override;
 
   void addWidget(QWidget* widget);
 
 private:
   bool eventFilter(QObject*, QEvent* event) override;
   void update();
-
+  
 private:
   Qt::Orientations orientation;
-  QTimer* timer;
+  QTimer *timer;
   QList<QWidget*> widgets;
 };
 

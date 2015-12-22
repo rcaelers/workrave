@@ -29,6 +29,7 @@
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
+#include "session/System.hh"
 #include "utils/Exception.hh"
 #include "utils/Locale.hh"
 #include "utils/Platform.hh"
@@ -43,27 +44,9 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-//! GUI Constructor.
-/*!
- *  \param argc number of command line parameters.
- *  \param argv all command line parameters.
- */
 Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
   toolkit(toolkit),
-  //active_prelude_count(0),
   active_break_id(BREAK_ID_NONE),
-  //main_window(NULL),
-  //menus(0),
-  //break_window_destroy(false),
-  //prelude_window_destroy(false),
-  //heads(NULL),
-  //screen_width(-1),
-  //screen_height(-1),
-#if defined(PLATFORM_OS_UNIX)
-  //grab_wanted(false),
-#endif
-  //grab_handle(NULL),
-  //applet_control(NULL),
   muted(false)
   //closewarn_shown(false)
 {
@@ -76,28 +59,23 @@ Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
 }
 
 
-//! Destructor.
 Application::~Application()
 {
   TRACE_ENTER("GUI:~GUI");
 
-  //ungrab();
-
+  toolkit->ungrab();
   core.reset();
 
   TRACE_EXIT();
 }
 
 
-//! Forces a restbreak.
 void
 Application::restbreak_now()
 {
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
 }
 
-
-//! The main entry point.
 void
 Application::main()
 {
@@ -111,12 +89,10 @@ Application::main()
 
   toolkit->init(menus->get_menu_model(), sound_theme);
 
-  //init_nls();
-  //init_platform();
-  //init_multihead();
+  init_nls();
+  init_platform();
   init_bus();
   init_session();
-  //init_gui();
   init_startup_warnings();
   init_updater();
 
@@ -124,17 +100,11 @@ Application::main()
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
-
-  // Enter the event loop
   toolkit->run();
-
-  //cleanup_session();
 
   TRACE_EXIT();
 }
 
-
-//! Terminates the GUI.
 void
 Application::terminate()
 {
@@ -147,8 +117,6 @@ Application::terminate()
   TRACE_EXIT();
 }
 
-
-//! Periodic heartbeat.
 bool
 Application::on_timer()
 {
@@ -168,39 +136,23 @@ Application::on_timer()
  return true;
 }
 
-//void
-//Application::init_platform()
-//{
-//  TRACE_ENTER("Application::init_platform");
-//
-//#if defined(PLATFORM_OS_UNIX)
-//  char *display = gdk_get_display();
-//  System::init(display);
-//  g_free(display);
-//#else
-//  System::init();
-//#endif
-//
-//  srand((unsigned int)time(NULL));
-//  TRACE_EXIT();
-//}
-
+void
+Application::init_platform()
+{
+ System::init();
+ srand((unsigned int)time(NULL));
+}
 
 void
 Application::init_session()
 {
- TRACE_ENTER("Application::init_session");
-
  session = std::make_shared<Session>();
  session->init();
-
- TRACE_EXIT();
 }
 
-//! Initializes i18n.
-//void
-//Application::init_nls()
-//{
+void
+Application::init_nls()
+{
 //#if defined(ENABLE_NLS)
 //  string language = GUIConfig::locale();
 //  if (language != "")
@@ -258,7 +210,7 @@ Application::init_session()
 //  textdomain(GETTEXT_PACKAGE);
 //
 //#endif
-//}
+}
 
 
 //! Initializes the core.
@@ -287,6 +239,8 @@ Application::init_bus()
    {
      if (dbus->is_running("org.workrave.Workrave"))
        {
+         // TODO:
+         
          // Gtk::MessageDialog dialog(_("Workrave failed to start"),
          //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
          // dialog.set_secondary_text(_("Is Workrave already running?"));
@@ -328,6 +282,7 @@ Application::init_startup_warnings()
 void
 Application::init_updater()
 {
+  // TODO:
   // updater = workrave::updater::std::make_shared<Updater>("http://snapshots.workrave.org/appcast/");
   // if (updater)
   //   {
@@ -335,11 +290,9 @@ Application::init_updater()
   //   }
 }
 
-//! Initializes the sound player.
 void
 Application::init_sound_player()
 {
-  TRACE_ENTER("GUI:init_sound_player");
   try
     {
       // Tell pulseaudio were are playing sound events
@@ -350,9 +303,7 @@ Application::init_sound_player()
     }
   catch (workrave::utils::Exception)
     {
-      TRACE_MSG("No sound");
     }
-  TRACE_EXIT();
 }
 
 
@@ -418,6 +369,8 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 //   TRACE_EXIT();
 // }
 
+
+// TODO: locale update
 
 // void
 // Application::config_changed_notify(const std::string &key)

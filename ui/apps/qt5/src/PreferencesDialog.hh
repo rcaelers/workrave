@@ -18,6 +18,8 @@
 #ifndef PREFERENCESDIALOG_HH
 #define PREFERENCESDIALOG_HH
 
+#include <memory>
+
 #include <QtGui>
 #include <QtWidgets>
 
@@ -32,7 +34,6 @@ class PreferencesDialog : public QDialog
 
 public:
   explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
-  ~PreferencesDialog() override;
 
 protected:
 
@@ -44,8 +45,8 @@ private:
 
   QTabWidget *notebook;
 
-  SizeGroup* hsize_group;
-  SizeGroup* vsize_group;
+  std::shared_ptr<SizeGroup> hsize_group;
+  std::shared_ptr<SizeGroup> vsize_group;
 
   DataConnector::Ptr connector;
 };

@@ -19,6 +19,7 @@
 #define MENUS_HH
 
 #include <memory>
+#include <string>
 
 #include "core/ICore.hh"
 #include "utils/ScopedConnections.hh"
@@ -33,7 +34,6 @@ public:
   typedef std::shared_ptr<Menus> Ptr;
 
   Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
-  virtual ~Menus();
 
   const MenuModel::Ptr get_menu_model() const;
 
@@ -55,8 +55,6 @@ private:
   void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
 
-  // FIXME: for dbus interface.
-public:
   void on_menu_open_main_window();
   void on_menu_restbreak_now();
   void on_menu_about();
@@ -69,13 +67,11 @@ public:
   void on_menu_quiet();
   void on_menu_reading();
   void on_menu_reading(bool on);
-
   void on_operation_mode_changed(const workrave::OperationMode m);
   void on_usage_mode_changed(const workrave::UsageMode m);
 
 private:
   MenuModel::Ptr menu_model;
-
   MenuModel::Ptr quiet_item;
   MenuModel::Ptr suspended_item;
   MenuModel::Ptr normal_item;
@@ -86,6 +82,9 @@ private:
   workrave::ICore::Ptr core;
 
   scoped_connections connections;
+
+  // TODO: DBUS stubs, refactor 
+  friend class org_workrave_ControlInterface_Stub;
 };
 
 #endif // MENUS_HH

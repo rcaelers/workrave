@@ -31,7 +31,7 @@ class MouseMonitor::Private
 public:
   id monitor;
   std::function<void(int,int)> func;
-
+  
 public:
   Private() : monitor(nil)
   {
@@ -40,7 +40,7 @@ public:
 
 MouseMonitor::MouseMonitor(std::function<void(int,int)> func)
 {
-  priv = std::make_shared<Private>();
+  priv = std::make_unique<Private>();
   priv->func = func;
 }
 

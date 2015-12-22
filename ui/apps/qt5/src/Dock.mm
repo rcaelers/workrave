@@ -59,21 +59,21 @@ using namespace workrave::utils;
   DockTileBackground *dockTileBackground;
   DockTileTimers *dockTileTimers;
 }
-
 - (id)initWithParent:(DockPrivate*)parent;
 - (void)destroy;
 - (void)cleanup;
 - (void)setBackground:(NSImage *)image;
-
 @end
 
 @implementation DockTileBackground
 - (id)initWithFrame:(NSRect)frame parent:(DockPrivate*)parent
 {
   self = [super initWithFrame:frame];
-
+  
   if (self != nil)
-    p = parent;
+    {
+      p = parent;
+    }
 
   return self;
 }
@@ -86,8 +86,8 @@ using namespace workrave::utils;
 
 - (void)setBackground:(NSImage *)image
 {
-    backgroundImage = image;
-    [[NSApp dockTile] display];
+  backgroundImage = image;
+  [[NSApp dockTile] display];
 }
 @end
 
@@ -95,10 +95,12 @@ using namespace workrave::utils;
 - (id)initWithFrame:(NSRect)frame parent:(DockPrivate*)parent
 {
   self = [super initWithFrame:frame];
-
+  
   if (self != nil)
-    p = parent;
-
+    {
+      p = parent;
+    }
+  
   return self;
 }
 
@@ -108,51 +110,50 @@ using namespace workrave::utils;
 @end
 
 @implementation DockTileView
-
 - (id)initWithParent:(DockPrivate*)parent
 {
   self = [super init];
-
+  
   if (self != nil)
     {
       p = parent;
-
+      
       NSDockTile *dock = [[NSApplication sharedApplication] dockTile];
       [dock setContentView: self];
 
       CGRect dockRect = CGRectMake(0, 0, dock.size.width, dock.size.height);
-
+      
       dockTileBackground = [[DockTileBackground alloc] initWithFrame:NSRectFromCGRect(dockRect) parent:p];
       [self addSubview: dockTileBackground];
       
       dockTileTimers = [[DockTileTimers alloc] initWithFrame:NSRectFromCGRect(dockRect) parent:p];
       [self addSubview: dockTileTimers];
     }
-
+  
   return self;
 }
 
 - (void)destroy
 {
-    NSDockTile *dock = [[NSApplication sharedApplication] dockTile];
-    [dock setContentView: nil];
-
-    [self cleanup];
+  NSDockTile *dock = [[NSApplication sharedApplication] dockTile];
+  [dock setContentView: nil];
+  
+  [self cleanup];
 }
 
 - (void)cleanup
 {
-    if (dockTileBackground != nil)
+  if (dockTileBackground != nil)
     {
-        [dockTileBackground removeFromSuperview];
-        [dockTileBackground release];
-        dockTileBackground = nil;
+      [dockTileBackground removeFromSuperview];
+      [dockTileBackground release];
+      dockTileBackground = nil;
     }
-    if (dockTileTimers != nil)
+  if (dockTileTimers != nil)
     {
-        [dockTileTimers removeFromSuperview];
-        [dockTileTimers release];
-        dockTileTimers = nil;
+      [dockTileTimers removeFromSuperview];
+      [dockTileTimers release];
+      dockTileTimers = nil;
     }
 }
 
@@ -179,49 +180,32 @@ public:
   DockTileView *dockTile;
 };
 
-
 Dock::Dock()
 {
   priv = std::make_shared<DockPrivate>();
-}
-
-Dock::~Dock()
-{
-}
-
-void 
-Dock::init()
-{
-  TRACE_ENTER("Dock::init");
-
-  ICore::Ptr core = Backend::get_core();
-  connections.connect(core->signal_operation_mode_changed(), std::bind(&Dock::on_operation_mode_changed, this, std::placeholders::_1));
 
   std::string filename = AssetPath::complete_directory("workrave.png", AssetPath::SEARCH_PATH_IMAGES);
   NSImage *icon = [[NSImage alloc] initWithContentsOfFile: [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]]];
 
   [priv->dockTile setBackground:icon];
 
+  ICore::Ptr core = Backend::get_core();
+  connections.connect(core->signal_operation_mode_changed(), std::bind(&Dock::on_operation_mode_changed, this, std::placeholders::_1));
   OperationMode mode = core->get_operation_mode_regular();
   on_operation_mode_changed(mode);
-
-  TRACE_EXIT();
 }
 
 void
 Dock::on_operation_mode_changed(OperationMode m)
 {
-  TRACE_ENTER_MSG("Dock::on_operation_mode_changed", (int)m);
   std::string name;
   switch(m)
     {
-      case workrave::OperationMode::Normal:
-        break;
-      case workrave::OperationMode::Suspended:
-        break;
-      case workrave::OperationMode::Quiet:
-        break;
+    case workrave::OperationMode::Normal:
+      break;
+    case workrave::OperationMode::Suspended:
+      break;
+    case workrave::OperationMode::Quiet:
+      break;
     }
-
-  TRACE_EXIT();
 }

@@ -47,11 +47,10 @@ public:
                             int primary_value, int primary_max,
                             ITimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max) override;
-  //virtual void set_tip(std::string tip);
+
   void set_icon(StatusIconType icon) override;
   void update_view() override;
   void set_enabled(bool enabled) override;
-  //virtual void set_geometry(Orientation orientation, int size);
 
 private:
   void init_table();
@@ -61,34 +60,16 @@ private:
   bool is_sheep_only() const;
   void set_sheep_only(bool sheep_only);
 
-  //!
+private:  
   QGridLayout *layout;
-
-  //! Array of time labels
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
-
-  //! Array of time bar widgets.
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
-
-  //!
   QLabel *sheep;
-
-  //! Reconfigure the panel.
   bool reconfigure;
-
-  //! Size
   int size;
-
-  //! Current slot content.
   int current_content[workrave::BREAK_ID_SIZEOF];
-
-  //! New slot content.
   int new_content[workrave::BREAK_ID_SIZEOF];
-
-  //! Number of visible breaks.
   int visible_count;
-
-  //! Only show the sheep
   bool sheep_only;
 };
 

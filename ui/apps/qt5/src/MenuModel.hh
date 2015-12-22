@@ -19,6 +19,8 @@
 #define MENUITEM_HH
 
 #include <string>
+#include <list>
+#include <functional>
 #include <memory>
 #include <boost/signals2.hpp>
 

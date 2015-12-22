@@ -30,7 +30,6 @@ class MainWindow : public TimerBoxView
 
 public:
   explicit MainWindow(MenuModel::Ptr menu_model);
-  ~MainWindow() override;
 
   void heartbeat();
 
@@ -44,7 +43,7 @@ private:
 
 private:
   ToolkitMenu::Ptr menu;
-  TimerBoxControl *timer_box_control;
+  std::shared_ptr<TimerBoxControl> timer_box_control;
 };
 
 #endif // MAINWINDOW_HH

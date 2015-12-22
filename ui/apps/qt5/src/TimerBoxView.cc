@@ -49,21 +49,17 @@ TimerBoxView::TimerBoxView() :
       labels[i] = NULL;
       bars[i] = NULL;
     }
-
+  
   init();
 }
 
 TimerBoxView::~TimerBoxView()
 {
-  TRACE_ENTER("TimerBoxView::~TimerBoxView");
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       delete labels[i];
       delete bars[i];
     }
-
-  TRACE_EXIT();
 }
 
 void

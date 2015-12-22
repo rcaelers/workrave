@@ -115,7 +115,6 @@ DataConnection::set(dc::Flags flags, const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Spin Button                                                         *
@@ -229,7 +228,6 @@ DataConnectionQComboBox::init()
   config_changed_notify(key);
 }
 
-
 void
 DataConnectionQComboBox::widget_changed_notify()
 {
@@ -279,7 +277,6 @@ DataConnectionQAbstractSlider::init()
   QObject::connect(widget, signal, this, &DataConnectionQAbstractSlider::widget_changed_notify);
   config_changed_notify(key);
 }
-
 
 void
 DataConnectionQAbstractSlider::widget_changed_notify()

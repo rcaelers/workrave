@@ -35,7 +35,7 @@
 using namespace workrave;
 using namespace workrave::config;
 
-TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_group, SizeGroup* vsize_group)
+TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<SizeGroup> hsize_group, std::shared_ptr<SizeGroup> vsize_group)
   : QWidget(0, Qt::Window),
     break_id(break_id),
     hsize_group(hsize_group),
@@ -53,8 +53,6 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
     limit_tim(NULL),
     snooze_tim(NULL)
 {
-  TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
-
   connector = std::make_shared<DataConnector>();
 
   QVBoxLayout* layout = new QVBoxLayout();
@@ -83,18 +81,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, SizeGroup* hsize_
   grid->setColumnStretch(1, 1);
 
   connector->connect(CoreConfig::break_enabled(break_id), dc::wrap(enabled_cb));
-
-  TRACE_EXIT();
 }
-
-
-//! Destructor.
-TimerPreferencesPanel::~TimerPreferencesPanel()
-{
-  TRACE_ENTER("TimerPreferencesPanel::~TimerPreferencesPanel");
-  TRACE_EXIT();
-}
-
 
 QWidget *
 TimerPreferencesPanel::create_prelude_panel()
@@ -130,7 +117,6 @@ TimerPreferencesPanel::create_prelude_panel()
   return box;
 }
 
-
 QWidget *
 TimerPreferencesPanel::create_options_panel()
 {
@@ -138,15 +124,12 @@ TimerPreferencesPanel::create_options_panel()
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
-  // Ignorable
   ignorable_cb = new QCheckBox(_("Show 'Postpone' button"));
   layout->addWidget(ignorable_cb);
 
-  // Skippable
   skippable_cb = new QCheckBox(_("Show 'Skip' button"));
   layout->addWidget(skippable_cb);
 
-  // Break specific options
   monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -190,7 +173,6 @@ TimerPreferencesPanel::create_timers_panel()
 
   int row = 0;
 
-  // Limit time
   limit_tim = new TimeEntry();
   QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT
                                  ? _("Time before end:")
@@ -203,7 +185,6 @@ TimerPreferencesPanel::create_timers_panel()
   hsize_group->addWidget(limit_lab);
   row++;
 
-  // Auto-reset time
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
       auto_reset_tim = new TimeEntry();
@@ -219,7 +200,6 @@ TimerPreferencesPanel::create_timers_panel()
       connector->connect(CoreConfig::timer_auto_reset(break_id), dc::wrap(auto_reset_tim));
     }
 
-  // Snooze time
   snooze_tim = new TimeEntry;
 
   QLabel *snooze_lab = new QLabel(_("Postpone time:"));
@@ -241,7 +221,6 @@ TimerPreferencesPanel::create_timers_panel()
   return box;
 }
 
-
 void
 TimerPreferencesPanel::set_prelude_sensitivity()
 {
@@ -251,7 +230,6 @@ TimerPreferencesPanel::set_prelude_sensitivity()
   has_max_prelude_cb->setEnabled(has_preludes && on);
   max_prelude_spin->setEnabled(has_preludes && has_max && on);
 }
-
 
 bool
 TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
@@ -321,8 +299,6 @@ TimerPreferencesPanel::on_enabled_toggled()
   set_prelude_sensitivity();
 }
 
-
-//! Enable widgets
 void
 TimerPreferencesPanel::enable_buttons()
 {

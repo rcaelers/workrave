@@ -344,13 +344,7 @@ GUI::init_platform()
 {
   TRACE_ENTER("GUI::init_platform");
 
-#if defined(PLATFORM_OS_UNIX)
-  const char *display = gdk_display_get_name(gdk_display_get_default());
-  System::init(display);
-#else
   System::init();
-#endif
-
   srand((unsigned int)time(NULL));
   TRACE_EXIT();
 }

@@ -36,34 +36,29 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model)
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
-  timer_box_control = new TimerBoxControl("main_window", *this);
+  timer_box_control = std::make_shared<TimerBoxControl>("main_window", *this);
 
   menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
 
-  GUIConfig::main_window_always_on_top().connect_and_get([&] (bool enabled)
-                                                         {
-                                                           if (enabled)
-                                                             {
-                                                               setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-                                                             }
-                                                           else
-                                                             {
-                                                               setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
-                                                             }
-                                                           show();
-                                                         });
+  GUIConfig::main_window_always_on_top().attach([&] (bool enabled)
+                                                {
+                                                  if (enabled)
+                                                    {
+                                                      setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+                                                    }
+                                                  else
+                                                    {
+                                                      setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
+                                                    }
+                                                  show();
+                                                });
 
   move_to_start_position();
 }
 
-
-MainWindow::~MainWindow()
-{
-  delete timer_box_control;
-}
 
 void
 MainWindow::heartbeat()

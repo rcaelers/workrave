@@ -45,8 +45,6 @@ using namespace workrave::config;
 TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
   : name(name)
 {
-  TRACE_ENTER("TimerBoxPreferencesPanel::TimerBoxPreferencesPanel");
-
   connector = std::make_shared<DataConnector>();
 
   ontop_cb = new QCheckBox;
@@ -59,15 +57,6 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
   cycle_entry = new QSpinBox;
 
   init();
-  init_config();
-
-  TRACE_EXIT();
-}
-
-TimerBoxPreferencesPanel::~TimerBoxPreferencesPanel()
-{
-  TRACE_ENTER("TimerBoxPreferencesPanel::~TimerBoxPreferencePanel");
-  TRACE_EXIT();
 }
 
 void
@@ -202,8 +191,10 @@ TimerBoxPreferencesPanel::init()
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
 
   layout->addStretch();
-}
 
+  init_config();
+
+}
 
 bool
 TimerBoxPreferencesPanel::on_enabled_toggled(const std::string &key, bool write)

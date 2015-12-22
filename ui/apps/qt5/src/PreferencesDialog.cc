@@ -43,12 +43,8 @@ using namespace workrave::ui;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
-    notebook(NULL),
-    hsize_group(NULL),
-    vsize_group(NULL)
+    notebook(NULL)
 {
-  TRACE_ENTER("PreferencesDialog::PreferencesDialog");
-
   connector = std::make_shared<DataConnector>();
 
   QVBoxLayout* layout = new QVBoxLayout();
@@ -61,6 +57,9 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   notebook->setTabPosition(QTabWidget::West);
   notebook->setIconSize(QSize(100,100));
 
+  hsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
+  vsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
+  
   QWidget *timer_page = create_timer_page();
   add_page(_("Timers"), "time.png", timer_page);
 
@@ -71,19 +70,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   layout->addWidget(buttonBox);
 
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
-  TRACE_EXIT();
 }
-
-
-//! Destructor.
-PreferencesDialog::~PreferencesDialog()
-{
-  TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
-  delete hsize_group;
-  delete vsize_group;
-  TRACE_EXIT();
-}
-
 
 QWidget *
 PreferencesDialog::create_timer_page()
@@ -91,15 +78,9 @@ PreferencesDialog::create_timer_page()
   QTabWidget *timer_tab = new QTabWidget;
   timer_tab->setTabPosition(QTabWidget::North);
 
-  hsize_group = new SizeGroup(Qt::Horizontal);
-  vsize_group = new SizeGroup(Qt::Horizontal);
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
-
-      // FIXME: duplicate:
-      //const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
 
       std::string file = AssetPath::complete_directory(Ui::get_break_icon_filename(i), AssetPath::SEARCH_PATH_IMAGES);
       QPixmap pixmap(file.c_str());
@@ -107,17 +88,6 @@ PreferencesDialog::create_timer_page()
 
       timer_tab->addTab(panel, icon, QString::fromStdString(Ui::get_break_name(i)));
     }
-
-// #if defined(PLATFORM_OS_WIN32)
-//   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
-//   Gtk::Widget *monitoring_page = create_monitoring_page();
-
-// #ifdef HAVE_GTK3
-//   tnotebook->append_page(*monitoring_page , *box);
-// #else
-//   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
-// #endif
-// #endif
 
   return timer_tab;
 }

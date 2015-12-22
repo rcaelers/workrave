@@ -19,14 +19,14 @@
 #include "config.h"
 #endif
 
-#include "nls.h"
-
 #include "MenuModel.hh"
+
+#include "nls.h"
 
 using namespace std;
 
 MenuModel::MenuModel()
-  : type(MenuModelType::MENU), checked(false)
+  : id("workrave:root"), type(MenuModelType::MENU), checked(false)
 {
 }
 
@@ -128,4 +128,3 @@ MenuModel::signal_removed()
 {
   return removed_signal;
 }
-

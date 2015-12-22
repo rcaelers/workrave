@@ -64,7 +64,6 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 #endif
 
   status_icon = std::make_shared<StatusIcon>(menu_model);
-  status_icon->init();
 
   main_window =  std::make_shared<MainWindow>(menu_model);
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
@@ -75,7 +74,6 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
 #ifdef PLATFORM_OS_OSX
   dock = std::make_shared<Dock>();
-  dock->init();
 #endif
 }
 

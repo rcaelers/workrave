@@ -32,11 +32,6 @@ SizeGroup::SizeGroup(Qt::Orientations orientation, QObject* parent) : QObject(pa
   QObject::connect(timer, &QTimer::timeout, this, &SizeGroup::update);
 }
 
-SizeGroup::~SizeGroup()
-{
-}
-
-
 void
 SizeGroup::addWidget(QWidget* widget)
 {
@@ -45,7 +40,6 @@ SizeGroup::addWidget(QWidget* widget)
 
   timer->start();
 }
-
 
 bool
 SizeGroup::eventFilter(QObject *o, QEvent *event)
@@ -56,7 +50,6 @@ SizeGroup::eventFilter(QObject *o, QEvent *event)
     }
   return false;
 }
-
 
 void
 SizeGroup::update()

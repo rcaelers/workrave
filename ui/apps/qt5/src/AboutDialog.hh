@@ -27,7 +27,6 @@ class AboutDialog : public QDialog
 
 public:
   AboutDialog();
-  ~AboutDialog() override;
 };
 
 #endif // ABOUTDIALOG_HH

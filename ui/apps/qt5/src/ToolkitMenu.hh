@@ -43,7 +43,6 @@ namespace detail
     Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
     
     MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    ~MenuEntry() override {};
     virtual QAction* get_action() const = 0;
     virtual MenuModel::Ptr get_menu_model() const;
 
@@ -60,7 +59,6 @@ namespace detail
     typedef std::shared_ptr<SubMenuEntry> Ptr;
 
     SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    ~SubMenuEntry() override;
 
     QMenu *get_menu() const;
     QAction* get_action() const override;
@@ -86,7 +84,6 @@ namespace detail
     typedef std::shared_ptr<ActionMenuEntry> Ptr;
 
     ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    ~ActionMenuEntry() override;
 
     QAction* get_action() const override;
 
@@ -110,13 +107,11 @@ public:
   typedef std::shared_ptr<ToolkitMenu> Ptr;
 
   ToolkitMenu(MenuModel::Ptr top, MenuModelFilter filter = 0);
-  ~ToolkitMenu() override;
 
   QMenu *get_menu() const;
 
 private:
   detail::SubMenuEntry::Ptr menu;
 };
-
 
 #endif // TOOLKITMENU_HH

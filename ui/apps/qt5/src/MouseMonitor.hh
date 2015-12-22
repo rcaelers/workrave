@@ -34,7 +34,7 @@ public:
 
 private:
   class Private;
-  std::shared_ptr<Private> priv;
+  std::unique_ptr<Private> priv;
 };
 
 #endif // MOUSEMONITOR_HH

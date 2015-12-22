@@ -31,6 +31,7 @@ namespace workrave
     public:
 #ifdef PLATFORM_OS_UNIX
       static void *get_default_display();
+      static std::string get_default_display_name();
       static unsigned long get_default_root_window();
 #endif
 

@@ -35,5 +35,4 @@ protected:
   QWidget *create_gui() override;
 };
 
-
 #endif // DAILYLIMITWINDOW_HH

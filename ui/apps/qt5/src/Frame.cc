@@ -28,23 +28,17 @@
 
 Frame::Frame(QWidget* parent)
   : QWidget(parent),
-    heartbeat_timer(new QTimer(this)),
     frame_width(0),
     border_width(0),
     frame_color(QColor("black")),
-    frame_style(STYLE_SOLID),
+    frame_style(Style::Solid),
     frame_visible(true),
-    flash_delay(-1)
+    flash_delay(-1),
+    heartbeat_timer(new QTimer(this))
 {
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
 }
-
-
-Frame::~Frame()
-{
-}
-
-
+    
 void
 Frame::set_frame_visible(bool visible)
 {
@@ -59,16 +53,15 @@ Frame::set_frame_style(const Style style)
   int dfw = 1;
   switch (style)
     {
-    case STYLE_BREAK_WINDOW:
+    case Style::BreakWindow:
       dfw = 3;
       break;
-    case STYLE_SOLID:
+    case Style::Solid:
       dfw = 1;
       break;
     }
   set_frame_width(dfw, border_width);
 }
-
 
 void
 Frame::set_frame_color(const QColor &col)
@@ -76,12 +69,11 @@ Frame::set_frame_color(const QColor &col)
   frame_color = col;
 }
 
-
 void
 Frame::set_frame_width(int frame, int border)
 {
   QRect fr = get_frame_rect();
-
+  
   frame_width = frame;
   border_width = border;
 
@@ -94,7 +86,6 @@ Frame::set_frame_width(int frame, int border)
 
   setContentsMargins(cr.left(), cr.top(), rect().right() - cr.right(), rect().bottom() - cr.bottom());
 }
-
 
 QRect
 Frame::get_frame_rect() const
@@ -125,7 +116,6 @@ Frame::set_frame_flashing(int delay)
     }
   flash_delay = delay;
 }
-
 
 void
 Frame::on_timer()
@@ -175,4 +165,3 @@ Frame::signal_flash()
 {
   return flash_signal;
 }
-

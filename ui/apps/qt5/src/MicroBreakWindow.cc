@@ -93,14 +93,12 @@ void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
   // IGUI *gui = GUI::get_instance();
-  //gui->restbreak_now();
+  // gui->restbreak_now();
 }
 
 void
 MicroBreakWindow::update_label()
 {
-  TRACE_ENTER("MicroBreakWindow::refresh_label");
-
   ICore::Ptr core = Backend::get_core();
 
   IBreak::Ptr restbreak_timer =  core->get_break(BREAK_ID_REST_BREAK);
@@ -152,7 +150,6 @@ MicroBreakWindow::update_label()
     }
 
   label->setText(QString::fromStdString(UiUtil::create_alert_text(Ui::get_break_name(BREAK_ID_MICRO_BREAK), txt.c_str())));
-  TRACE_EXIT();
 }
 
 void

@@ -89,7 +89,6 @@ private:
   MenuModel::Ptr menu_model;
   SoundTheme::Ptr sound_theme;
 
-  //! Timer signal.
   boost::signals2::signal<void()> timer_signal;
 
   scoped_connections connections;

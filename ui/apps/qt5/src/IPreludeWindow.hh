@@ -29,25 +29,12 @@ public:
 
   typedef std::shared_ptr<IPreludeWindow> Ptr;
 
-  //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
-
-  //! Stops (i.e. hides) the break window.
   virtual void stop() = 0;
-
-  //! Refreshes the content of the break window.
   virtual void refresh() = 0;
-
-  //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
-
-  //!
   virtual void set_stage(workrave::IApp::PreludeStage stage) = 0;
-
-  //!
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
-
 };
-
 
 #endif // IPRELUDEWINDOW_HH

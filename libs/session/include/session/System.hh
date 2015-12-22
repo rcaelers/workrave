@@ -1,5 +1,3 @@
-// System.hh
-//
 // Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -33,7 +31,6 @@
 
 #include "session/IScreenLockMethod.hh"
 #include "session/ISystemStateChangeMethod.hh"
-
 
 class System
 {
@@ -77,11 +74,7 @@ public:
   //display will not be owned by System,
   //the caller may free it after calling
   //this function
-  static void init(
-#if defined(PLATFORM_OS_UNIX)
-                   const char *display
-#endif
-                   );
+  static void init();
   static void clear();
 
 private:

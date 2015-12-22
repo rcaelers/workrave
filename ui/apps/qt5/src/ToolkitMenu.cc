@@ -24,14 +24,9 @@
 
 using namespace std;
 
-
 ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
   menu = std::make_shared<detail::SubMenuEntry>(menu_model, filter);
-}
-
-ToolkitMenu::~ToolkitMenu()
-{
 }
 
 QMenu *
@@ -42,6 +37,7 @@ ToolkitMenu::get_menu() const
 
 namespace detail
 {
+
 MenuEntry::Ptr
 MenuEntry::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
@@ -57,7 +53,8 @@ MenuEntry::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
     }
 }
 
-  MenuEntry::MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter) : menu_model(menu_model), filter(filter)
+MenuEntry::MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
+  : menu_model(menu_model), filter(filter)
 {
 }
 
@@ -80,10 +77,6 @@ SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
   connections.connect(menu_model->signal_added(), std::bind(&SubMenuEntry::on_menu_added, this, std::placeholders::_1, std::placeholders::_2));
   connections.connect(menu_model->signal_removed(), std::bind(&SubMenuEntry::on_menu_removed, this, std::placeholders::_1));
   connections.connect(menu_model->signal_changed(), std::bind(&SubMenuEntry::on_menu_changed, this));
-}
-
-SubMenuEntry::~SubMenuEntry()
-{
 }
 
 void
@@ -156,10 +149,6 @@ ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filt
   action->setChecked(menu_model->is_checked());
 
   connect(action, &QAction::triggered, this, &ActionMenuEntry::on_action);
-}
-
-ActionMenuEntry::~ActionMenuEntry()
-{
 }
 
 QAction *

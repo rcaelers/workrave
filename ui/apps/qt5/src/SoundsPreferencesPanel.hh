@@ -31,7 +31,6 @@ class SoundsPreferencesPanel : public QWidget
 
 public:
   explicit SoundsPreferencesPanel(SoundTheme::Ptr sound_theme);
-  ~SoundsPreferencesPanel() override;
 
 private:
   void on_sound_theme_changed(int index);

@@ -24,8 +24,6 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "core/CoreTypes.hh"
-
 using namespace std;
 using namespace workrave;
 
@@ -49,18 +47,11 @@ Menus::Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr 
   init();
 }
 
-
-Menus::~Menus()
-{
-}
-
-
 const MenuModel::Ptr
 Menus::get_menu_model() const
 {
   return menu_model;
 }
-
 
 void
 Menus::init()
@@ -186,25 +177,19 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_normal()
 {
-  TRACE_ENTER("Menus::on_menu_normal");
   set_operation_mode(OperationMode::Normal);
-  TRACE_EXIT();
 }
 
 void
 Menus::on_menu_suspend()
 {
-  TRACE_ENTER("Menus::on_menu_suspend");
   set_operation_mode(OperationMode::Suspended);
-  TRACE_EXIT();
 }
 
 void
 Menus::on_menu_quiet()
 {
-  TRACE_ENTER("Menus::on_menu_quiet");
   set_operation_mode(OperationMode::Quiet);
-  TRACE_EXIT();
 }
 
 void
@@ -219,13 +204,11 @@ Menus::on_menu_reading(bool on)
   set_usage_mode(on ? UsageMode::Reading : UsageMode::Normal);
 }
 
-
 void
 Menus::set_operation_mode(OperationMode m)
 {
   core->set_operation_mode(m);
 }
-
 
 void
 Menus::set_usage_mode(UsageMode m)

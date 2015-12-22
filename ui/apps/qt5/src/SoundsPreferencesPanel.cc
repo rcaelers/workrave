@@ -45,8 +45,6 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
     connector(NULL),
     enabled_cb(NULL)
 {
-  TRACE_ENTER("SoundsPreferencesPanel::SoundsPreferencesPanel");
-
   connector = std::make_shared<DataConnector>();
 
   QVBoxLayout *layout = new QVBoxLayout;
@@ -77,7 +75,6 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {
-      // Volume
       QCheckBox *mute_cb = new QCheckBox;
       mute_cb->setText(_("Mute sounds during rest break and daily limit"));
       connector->connect(SoundTheme::sound_mute(), dc::wrap(mute_cb));
@@ -154,18 +151,12 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   sound_buttons_layout->addStretch();
 
   sounds_view->setCurrentIndex(sounds_model->index(0, 0));
-
-  TRACE_EXIT();
-}
-
-
-SoundsPreferencesPanel::~SoundsPreferencesPanel()
-{
 }
 
 void
 SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex & index)
 {
+  // TODO:
 }
 
 void
@@ -223,18 +214,14 @@ SoundsPreferencesPanel::on_sound_item_changed(QStandardItem *item)
 void
 SoundsPreferencesPanel::on_sound_theme_changed(int index)
 {
-  TRACE_ENTER_MSG("SoundsPreferencesPanel::on_sound_theme_changed", index);
   QStandardItem *item = sound_theme_model->item(index);
   std::string theme_id = item->data().toString().toStdString();
-  TRACE_MSG(theme_id);
   sound_theme->activate_theme(theme_id);
-  TRACE_EXIT();
 }
 
 void
 SoundsPreferencesPanel::update_theme_selection()
 {
-  TRACE_ENTER("SoundsPreferencesPanel::update_theme_selection");
   sound_theme_model->clear();
 
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
@@ -260,7 +247,6 @@ SoundsPreferencesPanel::update_theme_selection()
     }
 
   sound_theme_button->setCurrentIndex(active_index);
-  TRACE_EXIT();
 }
 
 SoundEvent

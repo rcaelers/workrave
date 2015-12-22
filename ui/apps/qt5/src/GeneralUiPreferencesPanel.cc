@@ -51,8 +51,6 @@ using namespace workrave::utils;
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 {
-  TRACE_ENTER("GeneralUiPreferencesPanel::GeneralUiPreferencesPanel");
-
   connector = std::make_shared<DataConnector>();
 
   // Block types
@@ -192,25 +190,16 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   layout->addWidget(trayicon_cb);
 
   layout->addStretch();
-
-  TRACE_EXIT();
 }
 
-
-//! Destructor.
 GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
 {
-  TRACE_ENTER("GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel");
-
   QStandardItem *item = model->item(languages_combo->currentIndex(), 2);
   if (item != NULL)
     {
-      TRACE_MSG(item->text().toStdString());
       GUIConfig::locale().set(item->text().toStdString());
     }
-  TRACE_EXIT();
 }
-
 
 #if defined(PLATFORM_OS_WIN32)
 void

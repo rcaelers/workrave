@@ -55,10 +55,6 @@ TimeBar::TimeBar(QWidget *parent) :
   setAutoFillBackground(true);
 }
 
-TimeBar::~TimeBar()
-{
-}
-
 void
 TimeBar::set_progress(int value, int max_value)
 {
@@ -141,13 +137,10 @@ TimeBar::sizeHint() const
   return minimumSizeHint();
 }
 
-
 void TimeBar::paintEvent(QPaintEvent * /* event */)
 {
   TRACE_ENTER("TimeBar::paintEvent");
   QStylePainter painter(this);
-  //painter.setPen(pen);
-  //painter.setBrush(brush);
 
   const int border_size = 1;
 
@@ -155,7 +148,6 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   painter.fillRect(0, 0, width() - 1, height() - 1, QColor("white"));
   painter.setPen(QColor("black"));
   painter.drawRect(0, 0, width() - 1, height() - 1);
-
 
   QStyleOptionFrame option;
   option.initFrom(this);
@@ -274,16 +266,8 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   QRegion left_rect(0, 0, left_width, height());
   QRegion right_rect(left_width, 0, width() - left_width, height());
 
-  //painter.setClipping(true);
-  //painter.setClipRegion(left_rect);
-
   painter.setPen(QColor("black"));
   painter.drawText(text_x, text_y, text);
-
-  //painter.setClipRegion(right_rect);
-
-  //painter.setPen(QColor("white"));
-  //painter.drawText(text_x, text_y, text);
 
   TRACE_MSG("width = " << text_width << "height = " << text_height);
   TRACE_EXIT();

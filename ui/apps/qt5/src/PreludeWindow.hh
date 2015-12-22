@@ -39,7 +39,6 @@ class PreludeWindow : public QWidget, public IPreludeWindow
 
 public:
   PreludeWindow(int screen, workrave::BreakId break_id);
-  ~PreludeWindow() override;
 
   void start() override;
   void stop() override;

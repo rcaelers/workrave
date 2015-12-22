@@ -68,7 +68,6 @@ private:
     return ret;
   }
 
-
   SoundTheme::Ptr sound_theme;
   QTimer *timer;
   QLabel *image;

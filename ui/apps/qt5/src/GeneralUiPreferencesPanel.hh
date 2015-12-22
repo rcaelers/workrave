@@ -30,8 +30,7 @@ class GeneralUiPreferencesPanel : public QWidget
 
 public:
   GeneralUiPreferencesPanel();
-  ~GeneralUiPreferencesPanel() override;
-
+  ~GeneralUiPreferencesPanel();
 
 private:
   void on_block_changed();

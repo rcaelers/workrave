@@ -21,14 +21,12 @@
 
 #include "AboutDialog.hh"
 
+#include <boost/format.hpp>
+
 #include <QtGui>
 #include <QStyle>
 
-#include <boost/format.hpp>
-
 #include "nls.h"
-#include "debug.hh"
-
 #include "commonui/Ui.hh"
 #include "commonui/credits.h"
 #include "core/ICore.hh"
@@ -43,15 +41,12 @@ using namespace workrave::ui;
 AboutDialog::AboutDialog()
   : QDialog()
 {
-  TRACE_ENTER("AboutDialog::AboutDialog");
-
   setWindowTitle(_("About Workrave"));
-
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
   QGridLayout *layout = new QGridLayout(this);
   layout->setSizeConstraint(QLayout::SetFixedSize);
-
+  
   std::string description = boost::str(boost::format(_("<h3>Workrave %s</h3>"
                                                        "<br/>"
                                                        "%s<br/>")) %
@@ -74,14 +69,14 @@ AboutDialog::AboutDialog()
   copyright_label->setWordWrap(false);
   copyright_label->setOpenExternalLinks(false);
   copyright_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
-
+  
   QVBoxLayout *vbox = new QVBoxLayout;
   vbox->addWidget(description_label);
   vbox->addWidget(copyright_label);
 
   QDialogButtonBox *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
   QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
-
+  
   button_box->addButton(closeButton, QDialogButtonBox::ButtonRole(QDialogButtonBox::RejectRole | QDialogButtonBox::AcceptRole));
   connect(button_box , SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -92,12 +87,6 @@ AboutDialog::AboutDialog()
   layout->addWidget(logoLabel , 0, 0, 5, 1, Qt::AlignCenter);
   layout->addLayout(vbox, 0, 1, 4, 4);
   layout->addWidget(button_box, 4, 0, 1, 5);
-
+  
   // TODO: add authors/translators.
-
-  TRACE_EXIT();
-}
-
-AboutDialog::~AboutDialog()
-{
 }

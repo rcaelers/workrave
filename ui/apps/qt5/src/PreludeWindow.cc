@@ -82,7 +82,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   image = UiUtil::create_image_label("prelude-hint.png");
 
   frame = new Frame;
-  frame->set_frame_style(Frame::STYLE_SOLID);
+  frame->set_frame_style(Frame::Style::Solid);
   frame->set_frame_width(6, 6);
   frame->set_frame_visible(false);
   connections.connect(frame->signal_flash(), std::bind(&PreludeWindow::on_frame_flash, this, std::placeholders::_1));
@@ -132,21 +132,9 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 #endif
 }
 
-PreludeWindow::~PreludeWindow()
-{
-}
-
 void
 PreludeWindow::start()
 {
-  TRACE_ENTER("PreludeWindow::start");
-
-
-  //NSWindowCollectionBehavior behavior = [nswindow collectionBehavior];
-
-  //std::cout << "PreludeWindow behavior " << behavior << std::endl;
-
-
   timebar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
   refresh();
   show();
@@ -158,23 +146,17 @@ PreludeWindow::start()
 #ifdef PLATFORM_OS_OSX
   mouse_monitor->start();
 #endif
-
-  TRACE_EXIT();
 }
 
 void
 PreludeWindow::stop()
 {
-  TRACE_ENTER("PreludeWindow::stop");
-
   frame->set_frame_flashing(0);
   hide();
 
 #ifdef PLATFORM_OS_OSX
   mouse_monitor->stop();
 #endif
-
-  TRACE_EXIT();
 }
 
 void
@@ -286,26 +268,19 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
 void
 PreludeWindow::on_frame_flash(bool frame_visible)
 {
-  TRACE_ENTER("PreludeWindow::on_frame_flash");
   flash_visible = frame_visible;
   refresh();
-  TRACE_EXIT();
 }
 
 bool
 PreludeWindow::event(QEvent *event)
 {
-  TRACE_ENTER_MSG("PreludeWindow::event", event->type());
-
   if (event->type() == QEvent::HoverEnter)
     {
       QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
       avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
   bool res = QWidget::event(event);
-
-  TRACE_MSG(QApplication::activeModalWidget());
-  TRACE_EXIT();
   return res;
 }
 

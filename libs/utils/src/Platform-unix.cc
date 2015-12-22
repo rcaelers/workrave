@@ -38,6 +38,10 @@
 #include <qdesktopwidget.h>
 #include <qapplication.h>
 #include <qpa/qplatformnativeinterface.h>
+
+#if defined(PLATFORM_OS_UNIX)
+#include <X11/Xlib.h>
+#endif
 #endif
 
 using namespace workrave::utils;
@@ -47,7 +51,7 @@ void *
 Platform::get_default_display()
 {
   void *xdisplay = NULL;
-
+ 
 #if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
   if (display != NULL)
@@ -60,9 +64,43 @@ Platform::get_default_display()
     {
       xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
     }
+#else
+#error Platform unsupported
 #endif
+  
+  return xdisplay;
+}
 
-    return xdisplay;
+std::string
+Platform::get_default_display_name()
+{
+  std::string ret;
+  
+#if defined(HAVE_GTK)
+  GdkDisplay *display = gdk_display_get_default();
+  if (display != NULL)
+    {
+      const gchar *name = gdk_display_get_name(display);
+      if (name != NULL)
+        {
+          ret = name;
+        }
+    }
+#elif defined(HAVE_QT5)
+  QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
+  if (native != NULL)
+    {
+      void *xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
+      char *name = XDisplayString(static_cast<Display*>(xdisplay));
+      if (name != NULL)
+        {
+          ret = name;
+        }
+    }
+#else
+#error Platform unsupported
+#endif
+  return ret;
 }
 
 unsigned long
@@ -71,9 +109,9 @@ Platform::get_default_root_window()
 #if defined(HAVE_GTK)
   return gdk_x11_get_default_root_xwindow();
 #elif defined(HAVE_QT5)
-    QDesktopWidget *desktop = QApplication::desktop();
-    QWindow *window = desktop->windowHandle();
-    return window->winId();
+  QDesktopWidget *desktop = QApplication::desktop();
+  QWindow *window = desktop->windowHandle();
+  return window->winId();
 #else
 #error Platform unsupported
 #endif

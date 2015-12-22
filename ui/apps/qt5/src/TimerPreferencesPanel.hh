@@ -32,8 +32,7 @@ class TimerPreferencesPanel : public QWidget
   Q_OBJECT
 
 public:
-  TimerPreferencesPanel(workrave::BreakId break_id, SizeGroup* hsize_group, SizeGroup* vsize_group);
-  ~TimerPreferencesPanel() override;
+  TimerPreferencesPanel(workrave::BreakId break_id, std::shared_ptr<SizeGroup> hsize_group, std::shared_ptr<SizeGroup> vsize_group);
 
 private:
   bool on_preludes_changed(const std::string &key, bool write);
@@ -51,8 +50,8 @@ private:
   workrave::BreakId break_id;
   DataConnector::Ptr connector;
 
-  SizeGroup* hsize_group;
-  SizeGroup* vsize_group;
+  std::shared_ptr<SizeGroup> hsize_group;
+  std::shared_ptr<SizeGroup> vsize_group;
 
   QCheckBox *enabled_cb;
   QCheckBox *auto_natural_cb;
