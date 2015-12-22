@@ -5,6 +5,20 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.8
+
+** UI tweak
+
+* Workrave 1.10.8
+
+** Extra statistics
+   - Weekly usage statistics (Rob Caelers)
+   - Monthly usage statistics (Denis Nikolaenko)
+
+** Fix gtkmm 3.18 compilation (Javier Tia, Denis Nikolaenko)
+
+** Support Gnome 3.16
+
 * Workrave 1.10.7
 
 ** Update translations:

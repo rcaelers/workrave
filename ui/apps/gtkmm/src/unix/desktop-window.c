@@ -138,7 +138,7 @@ set_desktop_background(GdkWindow *window)
 #else
   if (xpm != None)
     {
-      GDKPIXMAP *gpm = gdk_pixmap_foreign_new(xpm);
+      GdkPixmap *gpm = gdk_pixmap_foreign_new(xpm);
       gdk_window_set_back_pixmap (window, gpm, FALSE);
       g_object_unref (gpm);
     }

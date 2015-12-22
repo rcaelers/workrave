@@ -85,7 +85,8 @@ my $step = 24 * 3600;	# 24-hr steps
 my $heartbeat = 4 * $step;
 
 my (@DS);
-foreach my $breaktype qw(micro rest daily) {
+my @breaktypes qw(micro rest daily);
+foreach my $breaktype (@breaktypes) {
 	foreach my $breakstat (@breakstats) {
 		my $key = "$breaktype$breakstat";
 		push @DS, "DS:$key:GAUGE:$heartbeat:0:U";
