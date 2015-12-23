@@ -34,8 +34,6 @@ function copy_dir()
 
 TARGETDIR=$RUNTIMEDIR/runtime-base 
 
-copy_dir bin     gnet-2.0.dll                                   lib
-
 find $TARGETDIR -name "*.dll" -print | xargs $STRIP
 
 for lang in $ALL_LINGUAS; do
@@ -76,9 +74,7 @@ copy_dir  bin    intl.dll                           		lib
 copy_dir  bin    libexpat-1.dll                       		lib
 copy_dir  bin    freetype6.dll                       		lib
 copy_dir  bin    libpng*.dll                         		lib
-copy_dir  bin    jpeg62.dll                         		lib
 copy_dir  bin    libjpeg-7.dll                         		lib
-copy_dir  bin    libtiff3.dll                         		lib
 copy_dir  bin    libtiff-3.dll                         		lib
 copy_dir  bin    libfontconfig-1.dll                   		lib
 copy_dir  bin    libatk-1.0-0.dll                   		lib
@@ -96,16 +92,6 @@ copy_dir  bin    libpangowin32-1.0-0.dll            		lib
 copy_dir  bin    libpangocairo-1.0-0.dll                        lib
 copy_dir  bin    libcairo-2.dll                                 lib
 
-copy_dir  lib    gtk-2.0/$GTKVER/immodules/*.dll                   lib
-copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-ico.dll   lib 
-copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-png.dll   lib
-copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-pnm.dll   lib
-
-copy_dir  lib    pango/$PANVER/modules      			lib
-
-for lang in $ALL_LINGUAS; do
-    copy_dir lib locale/$lang lib  
-done
 for lang in $ALL_LINGUAS; do
     copy_dir share locale/$lang lib  
 done

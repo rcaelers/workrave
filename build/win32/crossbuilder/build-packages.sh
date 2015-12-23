@@ -26,9 +26,6 @@ GLIB_FILES="glib_2.28.1-1_win32.zip glib-dev_2.28.1-1_win32.zip"
 PIXBUF_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gdk-pixbuf/2.22"
 PIXBUF_FILES="gdk-pixbuf_2.22.1-1_win32.zip gdk-pixbuf-dev_2.22.1-1_win32.zip"
 
-#GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.16/"
-#GTK_FILES="gtk+_2.16.6-2_win32.zip gtk+-dev_2.16.6-2_win32.zip"
-
 GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/"
 GTK_FILES="gtk+_2.24.0-1_win32.zip gtk+-dev_2.24.0-1_win32.zip"
 
@@ -40,6 +37,8 @@ ATK_FILES="atk_1.32.0-1_win32.zip atk-dev_1.32.0-1_win32.zip"
 
 DBUS_URL="http://dbus.freedesktop.org/releases/dbus/"
 DBUS_FILES="dbus-1.5.6.tar.gz"
+
+GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
 
 # http://www.dgrigoriadis.net/post/2004/06/26/DirectXDevPak-for-Dev-Cpp.aspx
 # http://www.dgrigoriadis.net/file.axd?file=2009%2f2%2fDirectX90c.DevPak
@@ -53,10 +52,6 @@ DEP_FILES="cairo_1.10.2-1_win32.zip cairo-dev_1.10.2-1_win32.zip jpeg_7-1_win32.
 PKGCONFIG_URL="http://pkgconfig.freedesktop.org/releases/"
 PKGCONFIG_FILES="pkg-config-0.26.tar.gz"
 
-GNETSRC_URL="http://ftp.gnome.org/pub/GNOME/sources/gnet/2.0/"
-GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
-
-# UUID_URL=$SF_URL/e2fsprogs/
 SIGCPPSRC_URL=$GNOME_URL/libsigc++/2.2/
 GLIBMMSRC_URL=$GNOME_URL/glibmm/2.28/
 GTKMMSRC_URL=$GNOME_URL/gtkmm/2.24/
@@ -70,9 +65,6 @@ GLIBMMSRC_FILES="glibmm-2.28.2.tar.bz2"
 PANGOMMSRC_FILES="pangomm-2.28.2.tar.bz2"
 ATKMMSRC_FILES="atkmm-2.22.5.tar.bz2"
 CAIROMMSRC_FILES="cairomm-1.10.0.tar.gz"
-
-#GNETSRC_FILES="gnet-2.0.8.tar.gz"
-#UUID_FILES="e2fsprogs-libs-1.40.5.tar.gz"
 
 BINUTILS=binutils-2.16.91-20060119-1
 BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
@@ -132,18 +124,16 @@ download()
         download_files $ATK_URL $ATK_FILES
         download_files $DEP_URL $DEP_FILES
         
-        download_files $GNETSRC_URL $GNETSRC_FILES
         download_files $GLIBMMSRC_URL $GLIBMMSRC_FILES
         download_files $GTKMMSRC_URL $GTKMMSRC_FILES
         download_files $PANGOMMSRC_URL $PANGOMMSRC_FILES
         download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
         download_files $ATKMMSRC_URL $ATKMMSRC_FILES
         download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
-        download_files $UUID_URL $UUID_FILES
         download_files $DBUS_URL $DBUS_FILES
         download_files $PKGCONFIG_URL $PKGCONFIG_FILES
 
-        download_files $DIRECTX_URL $DIRECTX_FILE
+        # download_files $DIRECTX_URL $DIRECTX_FILE
 }
 
 unpack()
@@ -648,147 +638,6 @@ build_gtkmm()
 	cd "$TOPDIR"
 }
 
-build_gnet()
-{
-	cd "$BUILDDIR/$1/"
-
-        echo "Configuring Libgnet"
-        (       PKG_CONFIG_PATH=/usr/lib/pkgconfig ./configure -v --prefix=$PREFIX --disable-pthreads \
-		--with-gnu-as --with-gnu-ld &> configure.log
-        )
-	if test $? -ne 0; then
-		echo "configure failed - log available: libgnet-$TARGET/configure.log"
-		exit 1
-	fi
-
-        cp -a config.h.win32 config.h
-        
-	echo "Building Libgnet"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-            export CC='i686-w64-mingw32-gcc -mms-bitfields -mno-cygwin'
-            export CXX='i686-w64-mingw32-g++ -mms-bitfields -mno-cygwin'
-            cd src
-            make -f makefile.mingw &> make.log
-        )
-	if test $? -ne 0; then
-		echo "make failed - log available: libgnet-$TARGET/make.log"
-		exit 1
-	fi
-
-        
-	echo "Installing Libgnet"
-        mkdir -p $PREFIX/include/gnet-2.0
-        cp -a src/*.h $PREFIX/include/gnet-2.0
-        cp -a src/libgnet-2.0.a $PREFIX/lib
-        cp -a src/gnet-2.0.dll $PREFIX/bin
-        cp -a gnet-2.0.m4 $PREFIX/share/aclocal
-        cp -a gnetconfig.h $PREFIX/include/gnet-2.0
-
-	cat gnet-2.0.pc | sed -e 's/-pthread//' -e 's/-lrt//' > $PREFIX/lib/pkgconfig/gnet-2.0.pc
-	cd "$TOPDIR"
-}
-
-
-extract_bfd()
-{
-	cd "$BUILDDIR"
-	rm -rf "$BINUTILS"
-	echo "Extracting bfd"
-	gzip -dc "$SRCDIR/$BINUTILS_ARCHIVE" | tar xf -
-	cd "$TOPDIR"
-}
-
-configure_bfd()
-{
-	cd "$BUILDDIR"
-	rm -rf "binutils-$TARGET"-bfd
-	mkdir "binutils-$TARGET"-bfd
-	cd "binutils-$TARGET"-bfd
-	echo "Configuring bfd"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-	    "$BUILDDIR/$BINUTILS/bfd/configure" --prefix="$PREFIX" --host=$TARGET --target=$TARGET --enable-install-libbfd --enable-install-libiberty=yes CFLAGS=-g &> configure.log
-        )
-	cd "$TOPDIR"
-}
-
-build_bfd()
-{
-	cd "$BUILDDIR/binutils-$TARGET"-bfd
-	echo "Building bfd"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-	    make &> make.log
-        )
-        if test $? -ne 0; then
-	    echo "make failed - log available: binutils-$TARGET/make.log"
-	    exit 1
-	fi
-	cd "$TOPDIR"
-}
-
-install_bfd()
-{
-	cd "$BUILDDIR/binutils-$TARGET"-bfd
-	echo "Installing bfd"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-	    make install &> make-install.log
-        )
-	if test $? -ne 0; then
-	    echo "install failed - log available: binutils-$TARGET/make-install.log"
-	    exit 1
-	fi
-            
-	cd "$TOPDIR"
-}
-
-
-
-
-build_uuid()
-{
-	cd "$BUILDDIR"
-	rm -rf "libuuid-$TARGET"
-	mkdir "libuuid-$TARGET"
-
-	cd "$BUILDDIR/libuuid-$TARGET"
-
-        echo "Configuring e2fsprogs-libs"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-            "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
-                --target=$TARGET --host=$TARGET --build=i586-linux \
-                --with-cc=i686-w64-mingw32-gcc \
-                --with-linker=i686-w64-mingw32-ld \
-		--with-headers="$PREFIX/$TARGET/include" \
-                &> configure.log
-        )
-	if test $? -ne 0; then
-		echo "configure failed - log available: libuuid-$TARGET/configure.log"
-		exit 1
-	fi
-        
-	echo "Building Libuuid"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-            make -C lib/uuid &> make.log
-        )
-	if test $? -ne 0; then
-		echo "make failed - log available: libuuid-$TARGET/make.log"
-		exit 1
-	fi
-
-        
-	cd "$BUILDDIR/libuuid-$TARGET"
-	echo "Installing Libuuid"
-        (   . $TOPDIR/mingw32-x -gtk2.14
-            #make install &> make-install.log
-        )
-        if test $? -ne 0; then
-            echo "install failed - log available: libuuid-$TARGET/make-install.log"
-            exit 1
-        fi
-	cd "$TOPDIR"
-}
-
-
 build_dbus()
 {
 	cd "$BUILDDIR"
@@ -874,10 +723,12 @@ build_dbus()
 
 download
 unpack
-extract_directx
+#extract_directx
 
 fix_theme
 fix_pkgconfig
+
+mkdir $BUILDDIR
 
 extract_package "libsigc++-2.2.10" "libsigc++-2.2.10.tar.bz2"
 build_sigcpp "libsigc++-2.2.10"
@@ -897,7 +748,4 @@ build_atkmm "atkmm-2.22.5"
 extract_package "gtkmm-2.24.2" "gtkmm-2.24.2.tar.bz2"
 build_gtkmm "gtkmm-2.24.2"
 
-#extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
-#build_gnet "gnet-2.0.8"
-
-build_dbus
+# build_dbus

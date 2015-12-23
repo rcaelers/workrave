@@ -1,4 +1,3 @@
-#export CROSSROOT="/mnt/bulk/sources/mingw-opensuse/usr/i686-w64-mingw32/sys-root/mingw"
 export CROSSROOT="/usr/local/cross-packages-gtk2.14/"
 
 export CFLAGS="-I$CROSSROOT/include"
@@ -8,6 +7,5 @@ export LDFLAGS="-L$CROSSROOT/lib"
 
 export PKG_CONFIG_PATH="$CROSSROOT/lib/pkgconfig"
 export PKG_CONFIG_LIBDIR="$CROSSROOT/lib/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR=/mnt/bulk/sources/mingw-opensuse
 
 export TARGET=i686-w64-mingw32

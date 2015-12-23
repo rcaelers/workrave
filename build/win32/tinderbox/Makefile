@@ -3,7 +3,9 @@
 ######################################################################
 BUILD_DATE=`date +"%Y%m%d"`
 
-GIT_URL=git@github.com:rcaelers/workrave.git
+#GIT_URL=git@github.com:rcaelers/workrave.git
+
+GIT_URL=https://github.com/rcaelers/workrave.git
 
 TINDERBOX_HOME=${HOME}/src/tinderbox
 TINDERBOX_SNAPSHOTS_DIR=${TINDERBOX_HOME}/snapshots
@@ -11,34 +13,21 @@ TINDERBOX_BIN_DIR=${TINDERBOX_SNAPSHOTS_DIR}/${BUILD_DATE}
 
 WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32
-WIN32_ISCC=${HOME}/.wine/fake_windows/Program Files/Inno Setup 5/ISCC.exe
-WIN32_NMAKE=wine ${HOME}/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
+WIN32_ISCC=${HOME}/.wine/drive_c/Program Files/Inno Setup 5/ISCC.exe
 
 WORKRAVE_GIT_DIR=${TINDERBOX_HOME}/workrave
 CONF_FLAGS = --quiet
 
 WORKRAVE_GIT_BRANCH_PREFIX=origin
-WORKRAVE_GIT_BRANCH=master
-WORKRAVE_TAG=v1_9_4
+WORKRAVE_GIT_BRANCH=branch_v1_10
+WORKRAVE_TAG=v1_10
 
-#WORKRAVE_GIT_BRANCH_PREFIX=origin
-#WORKRAVE_GIT_BRANCH=master
-#WORKRAVE_TAG=master
-
-#WORKRAVE_GIT_BRANCH_PREFIX=refs/tags
-#WORKRAVE_GIT_BRANCH=v1_9_0-no-networking
-#WORKRAVE_TAG=v1_9_0-no-networking
-#CONF_FLAGS = --quiet --disable-distribution
-
-#WORKRAVE_GIT_BRANCH_PREFIX=origin
-#WORKRAVE_GIT_BRANCH=bug791
-#WORKRAVE_TAG=bug791
-
-WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
+WORKRAVE_LONG_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
+WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
 WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
-WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
+#WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
 
-export TINDERBOX_BUILD=yes
+#export TINDERBOX_BUILD=yes
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
@@ -101,7 +90,7 @@ workrave-win32-build-original=\
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release" ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	  bash ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	   $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
@@ -118,7 +107,7 @@ workrave-win32-build=\
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	  bash ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
 	  $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym)
 
@@ -132,10 +121,12 @@ workrave-win32-setup=\
 	( cd ${1}/frontend/gtkmm/win32/setup/; \
 	  unix2dos setup.iss; \
 	  wine "${WIN32_ISCC}" setup.iss ); \
-	mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
-	bzip2 -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.sym.bz2;
+	( cd ${WORKRAVE_GIT_DIR}; \
+	  git status; ); \
+	  mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
+	  bzip2 -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.sym.bz2;
 
-## bzip2 -c ${1}/frontend/gtkmm/src/workrave.debugsym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.debugsym.bz2
+## bzip2 -c ${1}/frontend/gtkmm/src/workrave.debugsym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.debugsym.bz2
 
 
 workrave-win32-release-dir: 
@@ -157,7 +148,7 @@ workrave-win32-debug-build: workrave-win32-debug-dir
 workrave-win32-debug-setup: workrave-win32-debug-build
 	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},debug-installer)
 	( cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src; \
-	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-debug.zip workrave.exe )
+	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-debug.zip workrave.exe )
 
 workrave-win32-all: \
 		workrave-win32-release-setup \
@@ -171,7 +162,7 @@ workrave-source:
 	( cd ${WORKRAVE_GIT_DIR}; \
 	  ./autogen.sh --disable-gnome \
 	  && make dist \
-	  && mv ${WORKRAVE_GIT_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz ${TINDERBOX_BIN_DIR}/workrave-src-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}.tar.gz )
+	  && mv ${WORKRAVE_GIT_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz ${TINDERBOX_BIN_DIR}/workrave-src-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}.tar.gz )
 
 
 ######################################################################
@@ -210,4 +201,4 @@ upload:
           rsync -rv --delete --rsh=ssh . workrave@liberator.krandor.org:/home/workrave/public_html )
 
 #	sitecopy --update snapshots
-	  
+
