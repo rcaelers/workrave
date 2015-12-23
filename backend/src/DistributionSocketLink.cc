@@ -1278,7 +1278,6 @@ DistributionSocketLink::forward_packet(PacketBuffer &packet, Client *dest, Clien
   TRACE_EXIT();
 }
 
-
 //! Sends a hello to the specified client.
 void
 DistributionSocketLink::send_hello(Client *client)
@@ -1290,11 +1289,18 @@ DistributionSocketLink::send_hello(Client *client)
   packet.create();
   init_packet(packet, PACKET_HELLO);
 
+  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
+
+  g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)get_my_id().c_str(), get_my_id().length());
+
   packet.pack_string(username);
-  packet.pack_string(password);
+  packet.pack_string(g_hmac_get_string(hmac));
   packet.pack_string(get_my_id());
   packet.pack_string(get_my_id()); // was: hostname
   packet.pack_ushort(server_port);
+
+  g_hmac_unref (hmac);
 
   send_packet(client, packet);
   TRACE_EXIT();
@@ -1315,8 +1321,13 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
 
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
 
-  if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
-       (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
+  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
+  g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)id, strlen(id));
+
+  if ( user != NULL && pass != NULL &&
+       (username == NULL || (strcmp(username, user) == 0)) &&
+       (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0) || strcmp(password, pass) == 0))
     {
       bool ok = set_client_id(client, id);
 
@@ -1347,10 +1358,10 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   g_free(id);
   g_free(pass);
 
+  g_hmac_unref (hmac);
+
   TRACE_EXIT();
 }
-
-
 
 //! Sends a hello to the specified client.
 void
