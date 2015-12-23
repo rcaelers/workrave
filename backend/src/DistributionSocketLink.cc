@@ -46,6 +46,10 @@
 
 #include "Util.hh"
 
+#ifdef PLATFORM_OS_WIN32
+#include "win32/ghmac.h"
+#endif
+
 using namespace std;
 
 //! Construct a new socket link.
