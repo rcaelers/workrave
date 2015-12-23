@@ -32,6 +32,7 @@
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
+#include "IDBusWatch.hh"
 
 namespace workrave {
   class IBreakResponse;
@@ -85,6 +86,7 @@ class GUI :
   public IApp,
   public ICoreEventListener,
   public IConfiguratorListener,
+  public IDBusWatch,
   public sigc::trackable
 {
 public:
@@ -117,6 +119,8 @@ public:
   void core_event_operation_mode_changed(const OperationMode m);
   void core_event_usage_mode_changed(const UsageMode m);
 
+  virtual void bus_name_presence(const std::string &name, bool present);
+  
   // Internal public methods
   void restbreak_now();
   void open_main_window();

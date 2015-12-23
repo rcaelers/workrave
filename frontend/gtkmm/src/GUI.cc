@@ -217,7 +217,7 @@ GUI::main()
       std::cout << "Failed to initialize: " << e.what() << std::endl;
       exit(1);
     }
-
+  
   init_core();
   init_nls();
   init_debug();
@@ -241,7 +241,6 @@ GUI::main()
 
   // Enter the event loop
   Gtk::Main::run();
-
   System::clear();
   cleanup_session();
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
@@ -256,7 +255,7 @@ GUI::main()
   applet_control = NULL;
 
   delete kit;
-
+  
   TRACE_EXIT();
 }
 
@@ -365,9 +364,8 @@ GUI::init_platform()
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-  char *display = gdk_get_display();
+  const char *display = gdk_display_get_name(gdk_display_get_default());
   System::init(display);
-  g_free(display);
 #else
   System::init();
 #endif
@@ -535,7 +533,7 @@ GUI::init_core()
   string display_name;
 
 #if defined(PLATFORM_OS_UNIX)
-  char *display = gdk_get_display();
+  const char *display = gdk_display_get_name(gdk_display_get_default());
   if (display != NULL)
     {
       display_name = display;
@@ -852,7 +850,7 @@ GUI::init_dbus()
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");
 #ifdef HAVE_DBUS_GIO
-          dbus->register_service("org.workrave.Workrave");
+          dbus->register_service("org.workrave.Workrave", this);
 #endif
           
           extern void init_DBusGUI(DBus *dbus);
@@ -863,6 +861,16 @@ GUI::init_dbus()
         }
     }
 #endif
+}
+
+void
+GUI::bus_name_presence(const std::string &name, bool present)
+{
+  if (name == "org.workrave.Workrave" && !present)
+    {
+      // Silent exit
+      exit(1);
+    }
 }
 
 void

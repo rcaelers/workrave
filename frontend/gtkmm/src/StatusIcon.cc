@@ -81,7 +81,7 @@ StatusIcon::init()
                                                   Util::SEARCH_PATH_IMAGES);
       try
         {
-          mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
+          mode_icons[(OperationMode)i] = Gdk::Pixbuf::create_from_file(file);
         }
       catch(...)
         {

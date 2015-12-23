@@ -22,6 +22,8 @@
 
 #include "preinclude.h"
 
+#include <map>
+
 #ifdef PLATFORM_OS_WIN32
 //#if ! GTK_CHECK_VERSION(2,22,1)
 #define USE_W32STATUSICON 1
@@ -95,7 +97,7 @@ private:
   static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
   
-  Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
+  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf> > mode_icons;
 
   sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activate_signal;

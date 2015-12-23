@@ -40,7 +40,7 @@ namespace workrave
     ~DBus();
 
     void init();
-    void register_service(const std::string &service);
+    void register_service(const std::string &service, IDBusWatch *cb);
     void register_object_path(const std::string &object_path);
     void connect(const std::string &path, const std::string &interface_name, void *object);
     void disconnect(const std::string &path, const std::string &interface_name);
@@ -160,9 +160,6 @@ namespace workrave
     //
     Watched watched;
     
-    //!
-    bool owner;
-
     GDBusConnection *connection;
 
     static const GDBusInterfaceVTable interface_vtable;
