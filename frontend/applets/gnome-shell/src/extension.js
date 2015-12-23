@@ -55,19 +55,20 @@ let IndicatorProxy = Gio.DBusProxy.makeProxyWrapper(IndicatorIface);
 function _workraveButton() {
     this._init();
 }
- 
+
 _workraveButton.prototype = {
     __proto__: PanelMenu.Button.prototype,
- 
+
     _init: function() {
         PanelMenu.Button.prototype._init.call(this, 0.0);
-  
+
         this._timerbox = new Workrave.Timerbox();
         this._force_icon = false;
 	this._height = 24;
 	this._bus_name = 'org.workrave.GnomeShellApplet';
 	this._bus_id = 0;
 
+	print("workrave1");
       	this._area = new St.DrawingArea({ style_class: "workrave", reactive: false});
 	this._area.set_width(this.width=24);
         this._area.set_height(this.height=24);
@@ -84,13 +85,26 @@ _workraveButton.prototype = {
 
 	this._updateMenu(null);
 
-        Gio.DBus.session.watch_name('org.workrave.Workrave',
-                                    Gio.BusNameWatcherFlags.NONE, // no auto launch
-                                    Lang.bind(this, this._onWorkraveAppeared),
-                                    Lang.bind(this, this._onWorkraveVanished));
+        MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
     },
- 
-    _onDestroy: function() 
+
+    _connect: function()
+    {
+    	try
+        {
+            Gio.DBus.session.watch_name('org.workrave.Workrave',
+                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
+                                        Lang.bind(this, this._onWorkraveAppeared),
+                                        Lang.bind(this, this._onWorkraveVanished));
+	    return false
+    	}
+    	catch(err)
+        {
+    	    return true
+    	}
+    },
+
+    _onDestroy: function()
     {
     	this._proxy.EmbedRemote(false, 'GnomeShellApplet');
 	this._stop();
@@ -235,7 +249,7 @@ _workraveButton.prototype = {
 
     _onCommandReply : function(menuitems) {
     },
-    
+
     _onMenuCommand : function(item, event, command) {
 	this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },
@@ -289,7 +303,7 @@ _workraveButton.prototype = {
 		{
 		    let active = ((flags & 16) != 0);
 		    let popup;
-		    
+		
 		    if (text == "")
 		    {
 			popup = new PopupSub.PopupSeparatorMenuItem();
@@ -302,7 +316,7 @@ _workraveButton.prototype = {
 		    else if ((flags & 8) != 0)
 		    {
 			popup = new PopupMenu.PopupMenuItem(text);
-                        
+
                         if (this._functionExists(popup.setShowDot))
                         {
 			    popup.setShowDot(active);
@@ -312,11 +326,11 @@ _workraveButton.prototype = {
                             popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
                         }
 		    }
-		    else 
+		    else
 		    {
 			popup = new PopupMenu.PopupMenuItem(text);
 		    }
-		    
+		
 		    popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
 		    current_menu.addMenuItem(popup);
 		}
@@ -341,7 +355,7 @@ function disable() {
 function enable() {
     Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
     Gettext.textdomain("workrave");
- 
+
     workravePanelButton = new _workraveButton();
     Main.panel.addToStatusArea('workrave-applet', workravePanelButton);
 }
