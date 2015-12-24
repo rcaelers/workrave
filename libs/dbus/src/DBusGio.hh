@@ -48,7 +48,7 @@ namespace workrave
       virtual ~DBusGio();
 
       virtual void init();
-      virtual void register_service(const std::string &service);
+      virtual void register_service(const std::string &service, IDBusWatch *cb);
       virtual void register_object_path(const std::string &object_path);
       virtual void connect(const std::string &path, const std::string &interface_name, void *object);
       virtual void disconnect(const std::string &path, const std::string &interface_name);

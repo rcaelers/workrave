@@ -84,12 +84,25 @@ _workraveButton.prototype = {
 
         this._updateMenu(null);
 
-        Gio.DBus.session.watch_name('org.workrave.Workrave',
-                                    Gio.BusNameWatcherFlags.NONE, // no auto launch
-                                    Lang.bind(this, this._onWorkraveAppeared),
-                                    Lang.bind(this, this._onWorkraveVanished));
+        MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
     },
  
+    _connect: function()
+    {
+    	try
+        {
+            Gio.DBus.session.watch_name('org.workrave.Workrave',
+                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
+                                        Lang.bind(this, this._onWorkraveAppeared),
+                                        Lang.bind(this, this._onWorkraveVanished));
+	    return false
+    	}
+    	catch(err)
+        {
+    	    return true
+    	}
+    },
+
     _onDestroy: function() 
     {
         this._proxy.EmbedRemote(false, 'GnomeShellApplet');

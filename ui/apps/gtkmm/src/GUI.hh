@@ -31,6 +31,7 @@
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 #include "commonui/SoundTheme.hh"
+#include "IDBusWatch.hh"
 
 // GTKMM classes
 class MainWindow;
@@ -77,6 +78,7 @@ public:
 class GUI :
   public IGUI,
   public workrave::IApp,
+  public workrave::dbus::IDBusWatch,
   public sigc::trackable
 {
 public:
@@ -105,6 +107,8 @@ public:
 
   //
 
+  virtual void bus_name_presence(const std::string &name, bool present);
+  
   // Internal public methods
   void restbreak_now();
   void open_main_window();

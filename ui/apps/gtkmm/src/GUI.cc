@@ -201,7 +201,7 @@ GUI::main()
       std::cout << "Failed to initialize: " << e.what() << std::endl;
       exit(1);
     }
-
+  
   init_core();
   init_nls();
   init_debug();
@@ -225,7 +225,6 @@ GUI::main()
 
   // Enter the event loop
   Gtk::Main::run();
-
   System::clear();
   cleanup_session();
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
@@ -240,7 +239,7 @@ GUI::main()
   applet_control = NULL;
 
   delete kit;
-
+  
   TRACE_EXIT();
 }
 
@@ -778,7 +777,7 @@ GUI::init_dbus()
         {
 #ifdef HAVE_DBUS
           dbus->register_object_path("/org/workrave/Workrave/UI");
-          dbus->register_service("org.workrave.Workrave");
+          dbus->register_service("org.workrave.Workrave", this);
 
           extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
           init_DBusGUI(dbus);
@@ -787,6 +786,16 @@ GUI::init_dbus()
       catch (workrave::dbus::DBusException &)
         {
         }
+    }
+}
+
+void
+GUI::bus_name_presence(const std::string &name, bool present)
+{
+  if (name == "org.workrave.Workrave" && !present)
+    {
+      // Silent exit
+      exit(1);
     }
 }
 

@@ -90,7 +90,7 @@ DBusGio::init()
 
 //! Registers the specified service
 void
-DBusGio::register_service(const std::string &service_name)
+DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
 {
   guint owner_id;
 
@@ -98,12 +98,17 @@ DBusGio::register_service(const std::string &service_name)
                             service_name.c_str(),
                             G_BUS_NAME_OWNER_FLAGS_NONE,
                             &DBusGio::on_bus_acquired,
-                            NULL, //&DBusGio::on_name_acquired,
-                            NULL, //&DBusGio::on_name_lost,
+                            &DBusGio::on_name_acquired,
+                            &DBusGio::on_name_lost,
                             this,
                             NULL);
 
   services[service_name] = owner_id;
+
+  watched[service_name].id = owner_id;
+  watched[service_name].callback = cb;
+  watched[service_name].seen = false;
+  
 }
 
 
@@ -522,8 +527,10 @@ DBusGio::on_name_acquired(GDBusConnection *connection, const gchar *name, gpoint
 {
   (void) connection;
   (void) name;
-  (void) user_data;
-  TRACE_ENTER_MSG("DBusGio::on_name_acquired", name);
+  TRACE_ENTER_MSG("DBus::on_name_acquired", name);
+  DBusGio *dbus = (DBus *)user_data;
+  dbus->bus_name_presence(name, true);
+  dbus->watched.erase(name);
   TRACE_EXIT();
 }
 
@@ -534,6 +541,10 @@ DBusGio::on_name_lost(GDBusConnection *connection, const gchar *name, gpointer u
   (void) connection;
   (void) name;
   (void) user_data;
-  TRACE_ENTER_MSG("DBusGio::on_name_lost", name);
+  TRACE_ENTER_MSG("DBus::on_name_lost", name);
+
+  DBusGio *dbus = (DBus *)user_data;
+  dbus->bus_name_presence(name, false);
+  dbus->watched.erase(name);
   TRACE_EXIT();
 }
