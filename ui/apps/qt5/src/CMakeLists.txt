@@ -27,6 +27,7 @@ set(SRC
   Menus.cc
   MenuModel.cc
   StatusIcon.cc
+  StatisticsDialog.cc
   )
 
 if (PLATFORM_OS_OSX)
@@ -63,6 +64,7 @@ qt5_wrap_cpp(MOC_SRC
   TimerBoxPreferencesPanel.hh
   ToolkitMenu.hh
   StatusIcon.hh
+  StatisticsDialog.hh
 )
 
 if (PLATFORM_OS_OSX)

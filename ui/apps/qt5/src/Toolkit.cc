@@ -28,12 +28,9 @@
 #include "config/IConfigurator.hh"
 
 #include "DailyLimitWindow.hh"
-#include "Menus.hh"
 #include "MicroBreakWindow.hh"
-#include "PreferencesDialog.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "ToolkitMenu.hh"
 #include "UiUtil.hh"
 
 using namespace std;
@@ -57,6 +54,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   this->sound_theme = sound_theme;
 
   setQuitOnLastWindowClosed(false);
+  setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
 #ifdef PLATFORM_OS_OSX
   dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
@@ -140,7 +138,14 @@ Toolkit::show_window(WindowType type)
       main_window->raise();
       break;
 
+    // TODO: refactor
     case WindowType::Statistics:
+      if (!statistics_dialog)
+        {
+          statistics_dialog = std::make_shared<StatisticsDialog>();
+          connect(statistics_dialog.get(), &QDialog::accepted, this, &Toolkit::on_statistics_closed);
+        }
+      statistics_dialog->show();
       break;
 
     case WindowType::Preferences:
@@ -227,10 +232,17 @@ Toolkit::on_timer()
   main_window->heartbeat();
 }
 
+// TODO: refactor merge _closed funtions
 void
 Toolkit::on_exercises_closed()
 {
   exercises_dialog.reset();
+}
+
+void
+Toolkit::on_statistics_closed()
+{
+  statistics_dialog.reset();
 }
 
 void

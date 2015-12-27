@@ -30,6 +30,8 @@ public:
   static std::string create_alert_text(const std::string &caption, const std::string &body);
   static QLabel *create_label(const std::string &text, bool bold = false);
   static QLabel *create_image_label(const std::string &filename);
+  static QLabel *create_label_for_break(workrave::BreakId id);
+  static QLabel *create_label_with_tooltip(const std::string &text, const std::string &tooltip);
   static QPushButton *create_image_button(const std::string &filename);
   static QPushButton *create_image_text_button(const std::string &filename, const std::string &text);
   
@@ -37,7 +39,7 @@ public:
 
   static void add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget);
   static void add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget);
-  static void add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
+  static QLabel *add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
 
   static QIcon create_icon(std::string filename);
 

@@ -28,6 +28,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "utils/AssetPath.hh"
+#include "commonui/Ui.hh"
 #include "nls.h"
 #include "debug.hh"
 
@@ -81,10 +82,12 @@ UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
   layout->addLayout(box);
 }
 
-void
+QLabel *
 UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
 {
-  layout->addWidget(create_label(text, bold));
+  QLabel *label = create_label(text, bold);
+  layout->addWidget(label);
+  return label;
 }
 
 QLabel *
@@ -99,6 +102,15 @@ UiUtil::create_label(const std::string &text, bool bold)
     {
       label->setText(QString::fromStdString(text));
     }
+  return label;
+}
+
+QLabel *
+UiUtil::create_label_with_tooltip(const std::string &text, const std::string &tooltip)
+{
+  QLabel *label = new QLabel;
+  label->setText(QString::fromStdString(text));
+  label->setToolTip(QString::fromStdString(tooltip));
   return label;
 }
 
@@ -155,6 +167,17 @@ UiUtil::create_pixmap(std::string filename, int height)
   QPainter painter(&pixmap);
   svg.render(&painter, QRectF(0, 0, height, height));
   return pixmap;
+}
+
+QLabel *
+UiUtil::create_label_for_break(workrave::BreakId id)
+{
+  QLabel *label = new QLabel;
+
+  std::string file = AssetPath::complete_directory(workrave::ui::Ui::get_break_icon_filename(id), AssetPath::SEARCH_PATH_IMAGES);
+  label->setPixmap(QPixmap(file.c_str()));
+  label->setText(QString::fromStdString(workrave::ui::Ui::get_break_name(id)));
+  return label;
 }
 
 void

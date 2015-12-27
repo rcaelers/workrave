@@ -33,6 +33,7 @@
 #include "MainWindow.hh"
 #include "Menus.hh"
 #include "PreferencesDialog.hh"
+#include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
 
@@ -53,6 +54,9 @@ public:
   boost::signals2::signal<void()> &signal_timer() override;
 
   void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
+
+
+  
   void terminate() override;
   void run() override;
   void grab() override;
@@ -70,8 +74,11 @@ public Q_SLOTS:
   void on_timer();
   void on_exercises_closed();
   void on_preferences_closed();
+  void on_statistics_closed();
   void on_about_closed();
 
+private:
+  
 private:
   std::shared_ptr<QTimer> heartbeat_timer;
 
@@ -79,6 +86,7 @@ private:
   std::shared_ptr<PreferencesDialog> preferences_dialog;
   std::shared_ptr<ExercisesDialog> exercises_dialog;
   std::shared_ptr<AboutDialog> about_dialog;
+  std::shared_ptr<StatisticsDialog> statistics_dialog;
 
   std::shared_ptr<StatusIcon> status_icon;
 
