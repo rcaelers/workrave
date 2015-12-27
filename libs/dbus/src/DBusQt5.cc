@@ -63,8 +63,9 @@ DBusQt5::init()
 
 //! Registers the specified service
 void
-DBusQt5::register_service(const std::string &service)
+DBusQt5::register_service(const std::string &service, IDBusWatch *cb)
 {
+  // TODO: use cb
   connection.registerService(QString::fromStdString(service));
 }
 
@@ -84,6 +85,7 @@ DBusQt5::register_object_path(const string &object_path)
 bool
 DBusQt5::is_available() const
 {
+
   return connection.isConnected();
 }
 

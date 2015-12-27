@@ -47,7 +47,7 @@ namespace workrave
 
       // IDBus
       void init() override;
-      void register_service(const std::string &service) override;
+      void register_service(const std::string &service, IDBusWatch *cb = nullptr) override;
       void register_object_path(const std::string &object_path) override;
       bool is_available() const override;
       bool is_running(const std::string &name) const override;

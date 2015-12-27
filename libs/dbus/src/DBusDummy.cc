@@ -44,9 +44,10 @@ DBusDummy::init()
 
 
 void
-DBusDummy::register_service(const std::string &service)
+DBusDummy::register_service(const std::string &service, IDBusWatch *cb)
 {
   (void) service;
+  (void) cb;
 }
 
 

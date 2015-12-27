@@ -31,7 +31,7 @@
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 #include "commonui/SoundTheme.hh"
-#include "IDBusWatch.hh"
+#include "dbus/IDBusWatch.hh"
 
 // GTKMM classes
 class MainWindow;
