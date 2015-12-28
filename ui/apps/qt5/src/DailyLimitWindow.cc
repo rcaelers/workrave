@@ -56,10 +56,10 @@ DailyLimitWindow::create_gui()
   box->addLayout(dailylimit_box);
 
   QHBoxLayout *button_box = new QHBoxLayout;
-  add_shutdown_button(box);
-  add_lock_button(box);
-  add_skip_button(box);
-  add_postpone_button(box);
+  add_shutdown_button(button_box);
+  add_lock_button(button_box);
+  add_skip_button(button_box);
+  add_postpone_button(button_box);
 
   if (!button_box->isEmpty())
     {
