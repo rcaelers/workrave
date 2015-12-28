@@ -35,7 +35,13 @@ int ExercisesPanel::exercises_pointer = 0;
 
 ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   : sound_theme(sound_theme),
-    exercises(Exercise::get_exercises())
+    exercises(Exercise::get_exercises()),
+    exercise_time(0),
+    seq_time(0),
+    paused(false),
+    stopped(false),
+    exercise_num(0),
+    exercise_count(0)
 {
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
@@ -63,25 +69,25 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   pause_button = new QPushButton;
 
   QPushButton *back_button =  new QPushButton;
-  back_button->setIcon(QIcon::fromTheme("go-previous"));
+  back_button->setIcon(QIcon::fromTheme("go-previous", UiUtil::create_icon("go-previous-symbolic.svg")));
 
   QPushButton *forward_button =  new QPushButton;
-  forward_button->setIcon(QIcon::fromTheme("go-next"));
+  forward_button->setIcon(QIcon::fromTheme("go-next", UiUtil::create_icon("go-next-symbolic.svg")));
 
   QPushButton *stop_button = new QPushButton;
-  stop_button->setIcon(QIcon::fromTheme("window-close"));
+  stop_button->setIcon(QIcon::fromTheme("window-close", UiUtil::create_icon("window-close-symbolic.svg")));
 
   if (standalone)
     {
-      QDialogButtonBox *button_box = new QDialogButtonBox(Qt::Horizontal);
+      QHBoxLayout *button_box = new QHBoxLayout();
 
-      button_box->addButton(back_button, QDialogButtonBox::ActionRole);
-      button_box->addButton(pause_button, QDialogButtonBox::ActionRole);
-      button_box->addButton(forward_button, QDialogButtonBox::ActionRole);
-      button_box->addButton(stop_button, QDialogButtonBox::ActionRole);
+      button_box->addWidget(stop_button);
+      button_box->addWidget(back_button);
+      button_box->addWidget(pause_button);
+      button_box->addWidget(forward_button);
 
       box->addWidget(description_scroll, 0, 2);
-      box->addWidget(button_box, 1, 0, 1, 3);
+      box->addLayout(button_box, 1, 0, 1, 3);
 
     }
   else
@@ -95,10 +101,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
       browse_label->setText(browse_label_text.c_str());
 
       button_box->addWidget(browse_label);
+      button_box->addWidget(stop_button);
       button_box->addWidget(back_button);
       button_box->addWidget(pause_button);
       button_box->addWidget(forward_button);
-      button_box->addWidget(stop_button);
 
       QVBoxLayout *description_box = new QVBoxLayout;
       description_box->addWidget(description_scroll);
@@ -121,7 +127,6 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeat()));
   timer->start(1000);
 
-  exercise_count = 0;
   reset();
 
   setLayout(box);
@@ -130,8 +135,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
 ExercisesPanel::~ExercisesPanel()
 {
   TRACE_ENTER("ExercisesPanel::~ExercisesPanel");
-  timer->stop();
-  delete timer;
+  // timer->stop();
   TRACE_EXIT();
 }
 
@@ -228,9 +232,11 @@ void
 ExercisesPanel::refresh_progress()
 {
   const Exercise &exercise = *exercise_iterator;
-  progress_bar->setMinimum(0);
-  progress_bar->setMaximum(exercise.duration);
+  progress_bar->setRange(0, exercise.duration);
   progress_bar->setValue(exercise.duration - exercise_time);
+  progress_bar->update();
+  
+  qDebug() << "refresh_progress " << exercise.duration <<" " << exercise_time;
 }
 
 void
@@ -275,11 +281,11 @@ ExercisesPanel::refresh_pause()
 {
   if (paused)
     {
-      pause_button->setIcon(QIcon::fromTheme("media-playback-pause"));
+      pause_button->setIcon(QIcon::fromTheme("media-playback-pause", UiUtil::create_icon("media-playback-pause-symbolic.svg")));
     }
   else
     {
-      pause_button->setIcon(QIcon::fromTheme("media-playback-start"));
+      pause_button->setIcon(QIcon::fromTheme("media-playback-start", UiUtil::create_icon("media-playback-start-symbolic.svg")));
     }
 
   if (paused)
@@ -312,8 +318,10 @@ ExercisesPanel::heartbeat()
       return;
     }
 
+  
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
+  qDebug() << "ExercisesPanel::heartbeat 1 " << exercise_time;
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
@@ -328,6 +336,7 @@ ExercisesPanel::heartbeat()
     }
   else
     {
+      qDebug() << "ExercisesPanel::heartbeat 2 " << exercise_time;
       refresh_sequence();
       refresh_progress();
     }
