@@ -139,7 +139,7 @@ before_install: |
     brew install gettext
     brew link gettext --force
 
-    brew install qt5
+    brew install qt5 python
   }
 
 
@@ -150,8 +150,8 @@ before_install: |
 # manual: `conf_opt_packages manual docbook-utils xmlto` \
 # xml:    `conf_opt_packages manual libgdome2-dev` \
 install:
-  - pip install --user Cheetah # required for dbus support, system (distro) wide include paths are ignored
   - install_$TRAVIS_OS_NAME
+  - pip install --user Cheetah # required for dbus support, system (distro) wide include paths are ignored
 
 before_script:
   - mkdir cmake-build
