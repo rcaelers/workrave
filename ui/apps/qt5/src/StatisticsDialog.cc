@@ -76,10 +76,6 @@ StatisticsDialog::StatisticsDialog()
   display_calendar_date();
 }
 
-StatisticsDialog::~StatisticsDialog()
-{
-}
-
 int
 StatisticsDialog::run()
 {

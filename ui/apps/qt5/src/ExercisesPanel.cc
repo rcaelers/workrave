@@ -132,13 +132,6 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   setLayout(box);
 }
 
-ExercisesPanel::~ExercisesPanel()
-{
-  TRACE_ENTER("ExercisesPanel::~ExercisesPanel");
-  // timer->stop();
-  TRACE_EXIT();
-}
-
 void
 ExercisesPanel::reset()
 {

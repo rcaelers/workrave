@@ -32,7 +32,6 @@ class StatisticsDialog : public QDialog
 
 public:
   StatisticsDialog();
-  ~StatisticsDialog();
 
   static const int BREAK_STATS = 7;
 
