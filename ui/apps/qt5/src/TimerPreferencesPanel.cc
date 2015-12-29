@@ -75,10 +75,8 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
   grid->addWidget(prelude, 0, 1);
   grid->addWidget(option, 1, 0);
 
-  grid->setRowStretch(0, 0);
-  grid->setRowStretch(1, 1);
-  grid->setColumnStretch(0, 0);
-  grid->setColumnStretch(1, 1);
+  grid->setColumnStretch(0,1);
+  grid->setColumnStretch(1,1);
 
   connector->connect(CoreConfig::break_enabled(break_id), dc::wrap(enabled_cb));
 }
@@ -180,7 +178,6 @@ TimerPreferencesPanel::create_timers_panel()
 
   layout->addWidget(limit_lab, row, 0);
   layout->addWidget(limit_tim, row, 1);
-  layout->setRowStretch(row, 0);
 
   hsize_group->addWidget(limit_lab);
   row++;
@@ -192,7 +189,6 @@ TimerPreferencesPanel::create_timers_panel()
 
       layout->addWidget(auto_reset_lab, row, 0);
       layout->addWidget(auto_reset_tim, row, 1);
-      layout->setRowStretch(row, 0);
 
       hsize_group->addWidget(auto_reset_lab);
       row++;
@@ -203,16 +199,14 @@ TimerPreferencesPanel::create_timers_panel()
   snooze_tim = new TimeEntry;
 
   QLabel *snooze_lab = new QLabel(_("Postpone time:"));
+  hsize_group->addWidget(snooze_lab);
   layout->addWidget(snooze_lab, row, 0);
   layout->addWidget(snooze_tim, row, 1);
-  layout->setRowStretch(row, 0);
   row++;
-
+ 
   layout->addWidget(new QWidget, row, 0);
-  layout->setRowStretch(row, 1);
+  layout->setRowStretch(row, 1000);
 
-  layout->setColumnStretch(1, 0);
-  hsize_group->addWidget(snooze_lab);
   vsize_group->addWidget(box);
 
   connector->connect(CoreConfig::timer_limit(break_id), dc::wrap(limit_tim));

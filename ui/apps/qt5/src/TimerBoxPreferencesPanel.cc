@@ -164,12 +164,10 @@ TimerBoxPreferencesPanel::init()
   layout = new QVBoxLayout;
   setLayout(layout);
 
-  layout->addWidget(enabled_cb);
-
   QGroupBox *display_box = new QGroupBox(_("Display"));
+  layout->addWidget(display_box);
   QVBoxLayout *display_layout = new QVBoxLayout;
   display_box->setLayout(display_layout);
-  layout->addWidget(display_box);
 
   display_layout->addWidget(enabled_cb);
 
@@ -182,9 +180,9 @@ TimerBoxPreferencesPanel::init()
   UiUtil::add_widget(display_layout, _("Cycle time:"), cycle_entry);
 
   QGroupBox *timers_box = new QGroupBox(_("Timers"));
+  layout->addWidget(timers_box);
   QVBoxLayout *timers_layout = new QVBoxLayout;
   timers_box->setLayout(timers_layout);
-  layout->addWidget(timers_box);
 
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);

@@ -108,12 +108,9 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
   connect(sounds_view, &QTreeView::activated, this, &SoundsPreferencesPanel::on_sound_item_activated);
 
-  // sounds_view->setColumnWidth(0, 100);
-  // sounds_view->setColumnWidth(1, 200);
-
-  sounds_model->setHeaderData(0, Qt::Horizontal, _("Enabled"));
-  sounds_model->setHeaderData(1, Qt::Horizontal, _("Sound"));
-
+  sounds_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromStdString(_("Enabled"))));
+  sounds_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromStdString(_("Sound"))));
+  
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
   int item_count = 0;

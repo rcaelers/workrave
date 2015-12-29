@@ -73,10 +73,7 @@ RestBreakWindow::create_gui()
   add_skip_button(button_box);
   add_postpone_button(button_box);
 
-  if (!button_box->isEmpty())
-    {
-      box->addLayout(button_box);
-    }
+  box->addLayout(button_box);
   
   QWidget *widget = new QWidget;
   widget->setLayout(box);
