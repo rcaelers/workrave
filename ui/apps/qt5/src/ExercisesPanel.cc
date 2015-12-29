@@ -228,8 +228,6 @@ ExercisesPanel::refresh_progress()
   progress_bar->setRange(0, exercise.duration);
   progress_bar->setValue(exercise.duration - exercise_time);
   progress_bar->update();
-  
-  qDebug() << "refresh_progress " << exercise.duration <<" " << exercise_time;
 }
 
 void
@@ -314,7 +312,6 @@ ExercisesPanel::heartbeat()
   
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
-  qDebug() << "ExercisesPanel::heartbeat 1 " << exercise_time;
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
@@ -329,7 +326,6 @@ ExercisesPanel::heartbeat()
     }
   else
     {
-      qDebug() << "ExercisesPanel::heartbeat 2 " << exercise_time;
       refresh_sequence();
       refresh_progress();
     }
