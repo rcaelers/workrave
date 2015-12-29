@@ -22,6 +22,7 @@
 #include <QtWidgets>
 
 #include <sstream>
+#include <memory>
 
 #include "core/IStatistics.hh"
 using namespace workrave;
