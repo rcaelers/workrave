@@ -102,6 +102,9 @@ before_install: |
   {
     echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99translations > /dev/null
     sudo sed -i 's/^deb-src/#deb-src/' /etc/apt/sources.list /etc/apt/sources.list.d/*
+    wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
+    sudo add-apt-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty main"
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     sudo apt-get update -q
     sudo apt-get -y -q -V --no-install-recommends install \
       build-essential \
