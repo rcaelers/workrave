@@ -120,7 +120,7 @@ before_install: |
       libboost-chrono-dev \
       `[[ $WITH_UI = "Gtk+2" ]] && echo libgtk2.0-dev libgtkmm-2.4-dev` \
       `[[ $WITH_UI = "Gtk+3" ]] && echo libgtk-3-dev libgtkmm-3.0-dev` \
-      `[[ $WITH_UI = "Qt5" ]] && echo qtbase5-dev libqt5svg5-dev qtbase5-private-dev` \
+      `[[ $WITH_UI = "Qt5" ]] && echo qtbase5-dev libqt5svg5-dev qtbase5-private-dev qttools5-dev-tools` \
       libgdome2-dev \
       `conf_opt_packages GCONF libgconf2-dev` \
       libdbus-glib-1-dev \
