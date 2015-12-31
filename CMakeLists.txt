@@ -285,6 +285,12 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   find_package(Qt5Gui REQUIRED)
   find_package(Qt5Svg REQUIRED)
   find_package(Qt5DBus QUIET)
+  find_package(Qt5LinguistTools REQUIRED)
+
+  if (Qt5LinguistTools_FOUND)
+	get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
+    get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
+	endif()
 
   if (Qt5DBus_FOUND)
     set (HAVE_DBUS ON)
