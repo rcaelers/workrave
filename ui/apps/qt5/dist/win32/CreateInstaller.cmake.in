@@ -1,3 +1,6 @@
+if(POLICY CMP0011)
+  cmake_policy(SET CMP0011 NEW)
+endif()
 if(POLICY CMP0012)
   cmake_policy(SET CMP0012 NEW)
 endif()
@@ -27,7 +30,7 @@ if (@CMAKE_CROSSCOMPILING@)
 
 else()
 
-  set(APPS "@CMAKE_INSTALL_PREFIX@/bin/Workrave.exe")
+  set(APPS "${CMAKE_INSTALL_PREFIX}/bin/Workrave.exe")
   set(PLUGINS "")
   set(DIRS "@Boost_LIBRARY_DIRS@;@Qt_BIN_DIR@;@HOOK_BINARY_DIR@/Release")
 
