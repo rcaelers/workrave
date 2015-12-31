@@ -7,6 +7,10 @@ file(GLOB POFILES ${CMAKE_CURRENT_SOURCE_DIR}/*.po)
 
 add_custom_target(translations ALL)
 
+if (GETTEXT_FOUND)
+  add_custom_target(update-po)
+endif()
+
 foreach (po_file ${POFILES})
   get_filename_component(language ${po_file} NAME_WE)
 

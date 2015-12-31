@@ -455,14 +455,14 @@ if(MSVC)
   endif()
 endif()
 
+set(BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
 set(BOOST_COMPONENTS system thread filesystem chrono date_time)
 
 if (HAVE_TESTS)
-  #set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
   if (MSCV)
     set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test)
   else()
-
+    set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
   endif()
 endif()
 
@@ -763,7 +763,12 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention too
 set(CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME_LOWER}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-git${CPACK_DATE}.${BUILD_REV}-${CMAKE_SYSTEM_PROCESSOR}")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
 set(CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns")
-set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
+
+if (WIN32)
+  set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
+else()
+  set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
+endif()
 
 if (APPLE)
   set(CPACK_GENERATOR "DragNDrop")
