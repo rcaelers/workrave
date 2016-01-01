@@ -287,11 +287,18 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   find_package(Qt5DBus QUIET)
   find_package(Qt5LinguistTools REQUIRED)
 
-  if (Qt5LinguistTools_FOUND)
-	get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
-    get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
-	endif()
+  get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
 
+  if(TARGET Qt5::lconvert)
+    get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
+  else()
+    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
+    find_program(QT_LCONVERT_EXECUTABLE
+                 NAMES lconvert-qt5 lconvert
+                 PATHS ${QT_LRELEASE_PATH}
+                 NO_DEFAULT_PATH)
+  endif()
+  
   if (Qt5DBus_FOUND)
     set (HAVE_DBUS ON)
     set (HAVE_DBUS_QT5 ON)
