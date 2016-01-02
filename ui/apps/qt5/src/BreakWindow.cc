@@ -115,9 +115,9 @@ BreakWindow::init()
       frame->set_frame_width(6, 6);
       frame->set_frame_visible(false);
 
-      QVBoxLayout *frameLayout = new QVBoxLayout;
-      frame->setLayout(frameLayout);
-      frameLayout->addWidget(gui);
+      QVBoxLayout *frame_layout = new QVBoxLayout;
+      frame->setLayout(frame_layout);
+      frame_layout->addWidget(gui);
 
       layout->addWidget(frame);
     }
