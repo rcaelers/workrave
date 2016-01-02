@@ -23,7 +23,7 @@
 
 #include "DataConnector.hh"
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "TimeEntry.hh"
 
 #include "config/IConfigurator.hh"

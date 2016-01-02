@@ -23,7 +23,7 @@
 #include <QLabel>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "commonui/Ui.hh"
 #include "utils/AssetPath.hh"

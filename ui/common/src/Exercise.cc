@@ -28,7 +28,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include "nls.h"
 #include "debug.hh"
 #include "utils/AssetPath.hh"
 

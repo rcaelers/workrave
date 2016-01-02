@@ -21,7 +21,7 @@
 
 #include "Application.hh"
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "commonui/Backend.hh"
@@ -31,7 +31,6 @@
 #include "core/ICore.hh"
 #include "session/System.hh"
 #include "utils/Exception.hh"
-#include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
 // DBus

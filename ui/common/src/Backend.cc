@@ -32,7 +32,6 @@ using namespace workrave::dbus;
 
 ICore::Ptr Backend::core;
 
-//! Returns the interface to the core.
 ICore::Ptr
 Backend::get_core()
 {
@@ -45,7 +44,6 @@ Backend::get_core()
 }
 
 
-//! Returns the interface to the configurator
 IConfigurator::Ptr
 Backend::get_configurator()
 {
@@ -53,7 +51,6 @@ Backend::get_configurator()
 }
 
 
-//! Returns the interface to the D-BUS facility
 IDBus::Ptr
 Backend::get_dbus()
 {

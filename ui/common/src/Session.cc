@@ -23,7 +23,6 @@
 
 #include "Session.hh"
 
-#include "nls.h"
 #include "debug.hh"
 
 #include "config/IConfigurator.hh"

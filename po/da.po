@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-12-13 19:05+0100\n"
+"POT-Creation-Date: 2016-01-02 18:45+0000\n"
 "PO-Revision-Date: 2014-08-15 11:40+0100\n"
 "Last-Translator: Frederik Svarre <fsvarre@gmail.com>\n"
 "Language-Team: http://FSLab.dk <support@fslab.dk>\n"
@@ -25,52 +25,52 @@ msgid "%s%d seconds"
 msgstr "%s%d sekunder"
 
 #: ../ui/common/src/Text.cc:88
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minutter"
 
 #: ../ui/common/src/Text.cc:84
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d timer"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:422
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:420
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, fra %s til %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:260
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
 msgid "(font not available)"
 msgstr "(Skrifttype ikke tilgængelig)"
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:55
+#: ../ui/apps/qt5/src/AboutDialog.cc:50
 #, c-format
 msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:48
+#: ../ui/apps/qt5/src/AboutDialog.cc:44
 #, fuzzy
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:108
-#: ../ui/apps/qt5/src/Menus.cc:131
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../ui/apps/qt5/src/Menus.cc:122
 msgid "About..."
 msgstr "Om..."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:342
 msgid "Activity"
 msgstr "Aktivitet"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:117
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:135
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
 msgid "Applet"
 msgstr "Applet"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "Applet aktiveret"
 
@@ -82,25 +82,25 @@ msgstr "Hjælper med forebyggelse og bedring af RSI syndrom (Repetetive Strain I
 msgid "Backward shoulder stretch"
 msgstr "Baglæns skulderstræk"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:61
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
 msgid "Block input"
 msgstr "Bloker input"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:174
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
 msgid "Block input and screen"
 msgstr "Bloker input og skærm"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:196
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:85
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
 msgid "Block mode:"
 msgstr "Blokeringsindstilling:"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:227
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:210
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "Pauselængde:"
 
@@ -108,8 +108,8 @@ msgstr "Pauselængde:"
 msgid "Break ignored"
 msgstr "Pause ignoreret"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:311
-#: ../ui/apps/qt5/src/PreludeWindow.cc:230
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
+#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "Pause om %s"
@@ -119,32 +119,32 @@ msgid "Break prompt"
 msgstr "Pause påmindelse"
 
 #. Prelude frame
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:102
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "Pauseanmodninger"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Pauseanmodninger"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:196
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Pauser"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:232
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Udsatte pauser"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:227
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Oversprungne pauser"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:153
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:151
 msgid "Browse history"
 msgstr "Historik"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
 msgid "Choose a sound"
 msgstr "Vælg en lyd"
 
@@ -152,106 +152,106 @@ msgstr "Vælg en lyd"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn nu øjnene og se ind i mørket i dine håndflader. Øvelsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:257
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
 #: ../ui/common/src/SoundTheme.cc:366
 msgid "Custom"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:193
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "Tidscyklus:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:247
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:245
 #, fuzzy
 msgid "Daily"
 msgstr "Daglig grænse"
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:49
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57 ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:39
+#: ../ui/common/src/Ui.cc:43
 msgid "Daily limit"
 msgstr "Daglig grænse"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig grænse overskredet med %s"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:266
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:146
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig grænse er nået om %s"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Daily limit:"
 msgstr "Daglig grænse:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:165
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:163
 msgid "Date:"
 msgstr "Dato:"
 
 #. Delete button
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:158
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:156
 msgid "Delete all statistics history"
 msgstr "Slet al statistikhistorik"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:315
-#: ../ui/apps/qt5/src/PreludeWindow.cc:234
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
+#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "Forsvinder om %s"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:180
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "Vis"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:362
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:360
 msgid "Effective mouse movement:"
 msgstr "Effektiv bevægelse af mus"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:74
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
 #, fuzzy
 msgid "Enable sounds"
 msgstr "Ingen lyde"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:554
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr "Aktiver denne indstilling hvis Workrave ikke opfanger hvornår du bruger din computer"
 
 #. Enabled/Disabled checkbox
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:72
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:64
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "Aktiver timer"
 
 #. sounds_view->setColumnWidth(0, 100);
 #. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
 #, fuzzy
 msgid "Enabled"
 msgstr "Aktiver timer"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:304
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:119
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 msgid "End exercises"
 msgstr "Afslut øvelser"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:756
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:754
 msgid "Error"
 msgstr "Fejl"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:419
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
 msgid "Event"
 msgstr "Hændelse"
 
@@ -264,12 +264,12 @@ msgstr "Øvelse afsluttet"
 msgid "Exercise ended"
 msgstr "Øvelse afsluttet"
 
-#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:175
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../ui/apps/qt5/src/Menus.cc:89
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../ui/apps/qt5/src/Menus.cc:80
 msgid "Exercises"
 msgstr "Øvelser"
 
@@ -277,16 +277,16 @@ msgstr "Øvelser"
 msgid "Exercises ended"
 msgstr "Øvelser afsluttet"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:264
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:94
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "Øvelsesafspiller"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:752
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:750
 msgid "File deletion failed!"
 msgstr "Sletning af filen mislykkedes!"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:742
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:740
 msgid "Files deleted!"
 msgstr "Filerne er slettet!"
 
@@ -294,22 +294,22 @@ msgstr "Filerne er slettet!"
 msgid "Finger stretch"
 msgstr "Udstrækning af fingre"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:104
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:132
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
 msgid "General"
 msgstr "Generelt"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:332
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:331
 msgid "Hibernate"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:746
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:744
 msgid "Info"
 msgstr "Info"
 
@@ -317,7 +317,7 @@ msgstr "Info"
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange."
 
-#: ../ui/apps/gtkmm/src/GUI.cc:778
+#: ../ui/apps/gtkmm/src/GUI.cc:770
 msgid "Is Workrave already running?"
 msgstr "Kører Workrave allerede?"
 
@@ -325,22 +325,22 @@ msgstr "Kører Workrave allerede?"
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
 msgstr "Hold den ene arm strukket lige fremad ud i luften foran din brystkasse. Med din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med den modsatte arm."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:371
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:369
 msgid "Keystrokes:"
 msgstr "Tastetryk:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:285
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:173
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
 msgid "Language:"
 msgstr "Sprog:"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:320
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:319
 #: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_Lås"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:316
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Lock..."
 msgstr "_Lås"
@@ -357,16 +357,16 @@ msgstr "Fokuser på det fjerneste punkt du kan se bagved din skærm. Efter et pa
 msgid "Look into the darkness"
 msgstr "Se ind i mørke"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:119
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Maksimalt antal anmodninger:"
 
 #. FIXME: duplicate
-#: ../ui/apps/gtkmm/src/GUI.cc:1420 ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:56
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:181
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:279 ../ui/common/src/Ui.cc:33
+#: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
 msgid "Micro-break"
 msgstr "Mikropause"
 
@@ -379,34 +379,34 @@ msgid "Micro-break started"
 msgstr "Mikropause startet"
 
 #. Layout
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Micro-break:"
 msgstr "Mikropause:"
 
 #  Mode menu item
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206 ../ui/apps/qt5/src/Menus.cc:93
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
 msgid "Mode"
 msgstr "Tilstand"
 
 #  Mode menu item
-#: ../ui/apps/gtkmm/src/GUI.cc:1427 ../ui/apps/gtkmm/src/GUI.cc:1431
+#: ../ui/apps/gtkmm/src/GUI.cc:1429 ../ui/apps/gtkmm/src/GUI.cc:1433
 msgid "Mode: "
 msgstr "Tilstand: "
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:257
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:255
 msgid "Monthly"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:367
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:365
 msgid "Mouse button clicks:"
 msgstr "Antal tryk på muse-knapper:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:358
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:356
 msgid "Mouse movement:"
 msgstr "Muse-bevægelse:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:354
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:352
 msgid "Mouse usage:"
 msgstr "Brug af mus:"
 
@@ -422,17 +422,17 @@ msgstr "Bevæg skuldrene"
 msgid "Move the shoulders up and down"
 msgstr "Bevæg skuldrene op og ned"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:375
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Lydløs under pause og daglig grænse"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:222
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Naturlige pauser afholdt"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:203
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:143
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 msgid "Natural rest break"
 msgstr "Naturlig pause"
 
@@ -440,112 +440,112 @@ msgstr "Naturlig pause"
 msgid "Neck tilt stretch"
 msgstr "Udstrækning af nakke"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:117
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 msgid "Next exercise"
 msgstr "Næste øvelse"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:248
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:133
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:60
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
 msgid "No blocking"
 msgstr "Ingen blokering"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
 msgid "No sounds"
 msgstr "Ingen lyde"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:97
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
 msgid "Normal"
 msgstr "Normal"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:175
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:162
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "Antal øvelser:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../ui/apps/qt5/src/Menus.cc:74
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:65
 msgid "Open"
 msgstr "Åben"
 
 #  Options
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:144
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:137
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "Muligheder"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:237
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Overskredet tid"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Pause"
 msgstr "Pause"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:300
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:494
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:118
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:292
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 msgid "Pause exercises"
 msgstr "Sæt øvelser på pause"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:113
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "Placer alle pauser ét sted"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Placér mikropauser og hvilepauser ét sted"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Placer hvilepauser og daglig grænse ét sted"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "Placér tiderne ved siden af hinanden"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "Placering:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:414
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:432
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:462
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
 msgid "Play"
 msgstr "Afspil"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:345
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "Play sounds using sound card"
 msgstr "Afspil lyde vha. lydkort"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:241
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:127
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "Slap venligst af i nogle sekunder"
 
@@ -554,30 +554,30 @@ msgstr "Slap venligst af i nogle sekunder"
 msgid "Postpone"
 msgstr "_Udsæt"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:242
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Udsættelsestid:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:79
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:79
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../ui/apps/qt5/src/Menus.cc:70
 msgid "Preferences"
 msgstr "Indstillinger"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:116
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr "Tidligere øvelse"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:115
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:106
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Anmod før afholdelse af pauser"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:217
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Anmodede pauser afholdt"
 
@@ -585,59 +585,59 @@ msgstr "Anmodede pauser afholdt"
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
 msgstr "Tag fat på armlænene på din stol. Pres dig opad i armene indtil de er strakte. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. Bevæg dig forsigtigt tibage på plads."
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:146
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:84
 msgid "Q_uiet"
 msgstr "St_ille"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1431
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:202
-#: ../ui/apps/qt5/src/Menus.cc:112
+#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../ui/apps/qt5/src/Menus.cc:103
 msgid "Quiet"
 msgstr "Stille"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:214
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../ui/apps/qt5/src/Menus.cc:136
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/qt5/src/Menus.cc:127
 msgid "Quit"
 msgstr "Luk"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:208
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
-#: ../ui/apps/qt5/src/Menus.cc:119
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/apps/qt5/src/Menus.cc:110
 msgid "Reading mode"
 msgstr "Læsetilstand"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:165
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "Betragt mikropauser som aktiviteter"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:212
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Gentagne anmodninger"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:149
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:209 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
 #: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:149 ../ui/common/src/Ui.cc:36
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
 msgid "Rest break"
 msgstr "Hvilepause"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:137
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Hvilepause er overskredet med %s minutter"
@@ -646,7 +646,7 @@ msgstr "Hvilepause er overskredet med %s minutter"
 msgid "Rest break ended"
 msgstr "Hvilepause afsluttet"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
@@ -656,20 +656,20 @@ msgstr "Hvilepause i %s"
 msgid "Rest break started"
 msgstr "Hvilepause startet"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Rest break:"
 msgstr "Hvilepause:"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume"
 msgstr "Genoptag"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:288
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 msgid "Resume exercises"
 msgstr "Fortsæt øvelser"
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:186
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
 msgid "Select"
 msgstr ""
 
@@ -681,21 +681,19 @@ msgstr "Stræk og spred dine fingre undtil du kan mærke et let stræk. Hold str
 msgid "Shoulder-arm stretch"
 msgstr "Skulder-arm udstrækning"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "Vis"
 
-#. Ignorable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:148
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 msgid "Show 'Postpone' button"
 msgstr "Vis knappen 'Udsæt'"
 
-#. Skippable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:153
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 msgid "Show 'Skip' button"
 msgstr "Vis knappen 'Spring over'"
 
@@ -705,19 +703,19 @@ msgstr "Vis knappen 'Spring over'"
 msgid "Show log"
 msgstr "Vis log"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 msgid "Show only when this timer is first due"
 msgstr "Vis kun første gang perioden udløber"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "Vis statusvindue"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:314
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:189
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
 msgid "Show system tray icon"
 msgstr "Vis proceslinjeikon"
 
@@ -726,13 +724,13 @@ msgstr "Vis proceslinjeikon"
 msgid "Shut down"
 msgstr "Luk _ned"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:324
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
 msgid "Shutdown"
 msgstr "Luk _ned"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:319
-#: ../ui/apps/qt5/src/PreludeWindow.cc:238
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
+#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "Lydløs om %s"
@@ -743,38 +741,38 @@ msgid "Skip"
 msgstr "_Spring over"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:118
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
 #, fuzzy
 msgid "Sound"
 msgstr "Lyd:"
 
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:383
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:87
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
 msgid "Sound Events"
 msgstr "Lydhændelser"
 
 #  Options
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:332
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:55
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
 msgid "Sound Options"
 msgstr "Lydindstillinger"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:391
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
 msgid "Sound Theme:"
 msgstr "Lyd-tema:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:369
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound:"
 msgstr "Lyd:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:133
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
 msgid "Sounds"
 msgstr "Lyde"
 
@@ -782,18 +780,18 @@ msgstr "Lyde"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Sving langsomt højre arm rundt i store cirker helt oppe ved øret. Udfør 4 sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen med venstre arm."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
 #, fuzzy
 msgid "Start Workrave on Windows startup"
 msgstr "Start Workrave når Windows startes"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:299
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Start Workrave når Windows startes"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr "Start pause når skærmen låses"
 
@@ -801,129 +799,128 @@ msgstr "Start pause når skærmen låses"
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Se lige frem og find en behagelig position med hovedet. Læg langsomt højre øre mod højre skulder, så dine muskler på venstre side af halsen strækkes. Hold strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre skulder. Udfør øvelsen to gange til hver side."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:179
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:63
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:164
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../ui/apps/qt5/src/Menus.cc:126
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../ui/apps/qt5/src/Menus.cc:117
 msgid "Statistics"
 msgstr "Statistiker"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:113
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:134
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
 msgid "Status Window"
 msgstr "Statusvindue"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:328
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:327
 #, fuzzy
 msgid "Suspend"
 msgstr "_Suspenderet"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:336
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:335
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Suspenderet"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1427
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:104
+#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
 msgid "Suspended"
 msgstr "_Suspenderet"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:216
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:120
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
 msgid "System default"
 msgstr "Systemstandard"
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:190
 msgid "Take rest break now"
 msgstr "Hold pause nu"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:753
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:751
 msgid "The files containing your statistics history could not be deleted. Try again?"
 msgstr "Filerne indeholdende din statistikhistorik kunne ikke slettes. Vil du forsøge igen?"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:743
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:741
 msgid "The files containing your statistics history have been deleted."
 msgstr "Filerne med din statistikhistorik er blevet slettet."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:233
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Antallet af pauser du har udsat"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:228
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Antal pauser du er sprunget over"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:218
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Antal gange du har holdt pause efter at være blevet anmodet om det"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:223
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Antal gange du har holdt pause uden at blive anmodet om det"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:207
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
 msgstr "Antal gange du blev bedt om at holde pause, eksklusiv gentagne anmodninger for den samme pause"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:213
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Antal gange du er blevet bedt om at holde pause gentagne gange"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:103
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "Statusvinduet er altid øverst"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:248
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:246
 #, fuzzy
 msgid "The total computer usage for the selected day"
 msgstr "Den totale computerbrug"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:258
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:256
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:253
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:251
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:363
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:361
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
 msgstr "Den totale musebevægelse du ville have haft, hvis du havde bevæget din mus i lige linier mellem klik"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:372
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:370
 msgid "The total number of keys pressed"
 msgstr "Det totale antal tastetryk"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:368
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:366
 msgid "The total number of mouse button clicks"
 msgstr "Det totale antal tryk på muse-knapper"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:359
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:357
 msgid "The total on-screen mouse movement"
 msgstr "Den totale bevægelse af musen på skærmen"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:238
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "Den totale tid denne pause har været forsinket"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:353
 msgid "The total time you were using the mouse"
 msgstr "Den totale tid du har brugt musen"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:204
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 msgid "This is your natural rest break."
 msgstr "Dette er din naturlige pause."
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:210
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -936,33 +933,33 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:365 ../ui/apps/qt5/src/AboutDialog.cc:63
+#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Dette program hjælper med at forebygge RSI syndrom (Repetetive Strain Injury)."
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:219
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:196
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "Tid før ophør:"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:197
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "Tid mellem pauser:"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
 #: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "Tid til en mikropause?"
 
 #  Notebook
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:65
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:195
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:187
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "Tidstællere"
 
@@ -978,67 +975,67 @@ msgstr "Drej hovedet"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Drej hovedet mod venstre og bliv der i to sekunder. Drej derefter hovedet mod højre  og bliv der i to sekunder."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:242
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:240
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:548
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
 msgid "Use alternate monitor"
 msgstr "Brug en alternativ skærm"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:122
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:68
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
 msgid "User interface"
 msgstr "Brugergrænseflade"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:70
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
 msgid "Volume:"
 msgstr "Lydstyrke:"
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:214
-#: ../ui/apps/qt5/src/TimerBoxView.cc:102
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "Vent"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:726
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:730
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:724
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:728
 msgid "Warning"
 msgstr "Advarsel"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:447
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
 msgid "Wavefiles"
 msgstr "Wave-filer"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:252
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:250
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:603 ../ui/apps/qt5/src/Application.cc:609
+#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:776
+#: ../ui/apps/gtkmm/src/GUI.cc:768
 msgid "Workrave failed to start"
 msgstr "Workrave kunne ikke starte"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1292 ../ui/apps/qt5/src/Application.cc:610
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave er i tilstanden lydløs. Der vil ikke vises et pausevindue."
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1286 ../ui/apps/qt5/src/Application.cc:604
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr "Workrave er i tilstanden suspenderet. Mus og tastatur aktivitet vil ikke blive moniteret."
 
-#: ../ui/apps/gtkmm/src/GUI.cc:295
+#: ../ui/apps/gtkmm/src/GUI.cc:293
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave kører stadig. Du kan åbne Workrave ved at klikke på ikonet med det hvide får. Klik i dette felt for at deaktivere denne meddelelse"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:727
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:725
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr "Du har valgt at slette din statistikhistorik. Ønsker du at fortsætte?"
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -1049,19 +1046,19 @@ msgstr ""
 "ved computeren. Hvis din arbejdsdag fortsætter, så løs \n"
 "en anden type opgave, eksempelvis gennemlæsning af et dokument. "
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
 #: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "Du har brug for en hvilepause..."
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
 #: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "Du bør stoppe for i dag..."
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:184
+#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:182
 msgid "_About"
 msgstr "_Om"
 
@@ -1086,9 +1083,9 @@ msgstr "_Deltag"
 #  Mode menu item
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:141
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Mode"
 msgstr "_Tilstand"
 
@@ -1098,36 +1095,36 @@ msgstr "_Tilstand"
 msgid "_Network"
 msgstr "_Netværk"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:145
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../ui/applets/mate/src/main.c:262
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "_Open"
 msgstr "_Åbn"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:498
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:497
 msgid "_Postpone"
 msgstr "_Udsæt"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:171
+#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:169
 msgid "_Preferences"
 msgstr "_Indstillinger"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:348
-#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:189
+#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:187
 msgid "_Quit"
 msgstr "_Luk"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:154
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:152
 msgid "_Reading mode"
 msgstr "_Læse tilstand"
 
@@ -1137,10 +1134,10 @@ msgstr "_Læse tilstand"
 msgid "_Reconnect"
 msgstr "_Genopret forbindelse"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:102
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:165
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:100
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:163
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Rest break"
 msgstr "_Hvilepause"
 
@@ -1150,7 +1147,7 @@ msgstr "_Hvilepause"
 msgid "_Restbreak"
 msgstr "_Hvilepause"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:481
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:480
 msgid "_Skip"
 msgstr "_Spring over"
 
@@ -1160,9 +1157,9 @@ msgstr "_Spring over"
 msgid "_Statistics"
 msgstr "_Statistikker"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:151
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:149
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Suspended"
 msgstr "_Suspenderet"
 

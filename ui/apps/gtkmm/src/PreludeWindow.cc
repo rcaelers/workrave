@@ -27,7 +27,7 @@
 #endif
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "commonui/Text.hh"
 #include "utils/AssetPath.hh"

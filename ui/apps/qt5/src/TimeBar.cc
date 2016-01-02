@@ -24,8 +24,8 @@
 #include <QStylePainter>
 #include <QStyleOptionProgressBar>
 
-#include "debug.hh"
 #include "commonui/Text.hh"
+#include "debug.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;

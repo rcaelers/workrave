@@ -27,7 +27,7 @@
 #include <math.h>
 #include <string.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include <X11/Xatom.h>
 #include <cairo-xlib.h>

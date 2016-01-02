@@ -26,7 +26,7 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "commonui/Ui.hh"
 #include "commonui/credits.h"
 #include "core/ICore.hh"

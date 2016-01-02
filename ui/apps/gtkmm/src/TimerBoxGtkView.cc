@@ -30,7 +30,7 @@
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/eventbox.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "EventButton.hh"

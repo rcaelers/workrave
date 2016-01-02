@@ -30,8 +30,6 @@
 #include "UnixInputMonitorFactory.hh"
 #endif
 
-#include "nls.h"
-
 using namespace workrave::config;
 using namespace workrave::input_monitor;
 

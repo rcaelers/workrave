@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "OSXGtkMenu.hh"

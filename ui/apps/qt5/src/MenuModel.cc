@@ -21,7 +21,7 @@
 
 #include "MenuModel.hh"
 
-#include "nls.h"
+#include "commonui/nls.h"
 
 using namespace std;
 

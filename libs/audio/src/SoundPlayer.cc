@@ -20,7 +20,6 @@
 #endif
 
 #include "debug.hh"
-#include "nls.h"
 
 #ifdef HAVE_REALPATH
 #include <limits.h>

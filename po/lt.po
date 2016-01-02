@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-12-13 19:05+0100\n"
+"POT-Creation-Date: 2016-01-02 18:45+0000\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
@@ -22,53 +22,53 @@ msgid "%s%d seconds"
 msgstr "%s%d sekundės"
 
 #: ../ui/common/src/Text.cc:88
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minutės"
 
 #: ../ui/common/src/Text.cc:84
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d valandos"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:422
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:420
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, nuo %s iki %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:260
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
 msgid "(font not available)"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:55
+#: ../ui/apps/qt5/src/AboutDialog.cc:50
 #, c-format
 msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:48
+#: ../ui/apps/qt5/src/AboutDialog.cc:44
 #, fuzzy
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:108
-#: ../ui/apps/qt5/src/Menus.cc:131
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../ui/apps/qt5/src/Menus.cc:122
 msgid "About..."
 msgstr "Apie..."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:342
 msgid "Activity"
 msgstr "Aktyvumas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:117
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:135
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
 #, fuzzy
 msgid "Applet"
 msgstr "Priedas"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "Priedas įjungtas"
 
@@ -81,25 +81,25 @@ msgstr "Ši programa padeda išvengti ir atsistatyti po Pakartotinės Jėgos Ža
 msgid "Backward shoulder stretch"
 msgstr "Atbulinis pečių įtempimas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:61
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
 msgid "Block input"
 msgstr "Užblokuoti įvestį"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:174
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
 msgid "Block input and screen"
 msgstr "Užblokutoi įvestį ir ekraną"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:196
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:85
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
 msgid "Block mode:"
 msgstr "Blokavimo režimas:"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:227
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:210
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "Pertraukų trukmė:"
 
@@ -107,8 +107,8 @@ msgstr "Pertraukų trukmė:"
 msgid "Break ignored"
 msgstr "Pertauka ignoruota"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:311
-#: ../ui/apps/qt5/src/PreludeWindow.cc:230
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
+#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "Pertauka po %s"
@@ -119,32 +119,32 @@ msgstr "Pertaukos užklausa"
 
 #  Prelude frame
 #. Prelude frame
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:102
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "Pertraukų užklausimas"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Pertraukų užklausos"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:196
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Pertaukos"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:232
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Atidėtos pertraukos"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:227
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Praleistos pertraukos"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:153
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:151
 msgid "Browse history"
 msgstr "Naršyti istoriją"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Be garsų"
@@ -153,109 +153,109 @@ msgstr "Be garsų"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Uždenk akis savo delnais taip, jog vis dar galėtum atsimerkti. Dabar atsimerk ir žiūrėk į savo delnų tamsą. Šis pratimas suteikia didesnį palengvėjimą, nei paprasčiausiai jas užmerkus."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:257
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
 #: ../ui/common/src/SoundTheme.cc:366
 msgid "Custom"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:193
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "Ciklo laikas:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:247
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:245
 #, fuzzy
 msgid "Daily"
 msgstr "Dienos limitas"
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:49
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57 ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:39
+#: ../ui/common/src/Ui.cc:43
 msgid "Daily limit"
 msgstr "Dienos limitas"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Dienos limitas"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:266
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:146
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Dienos limitas"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Daily limit:"
 msgstr "Dienos limitas:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:165
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:163
 msgid "Date:"
 msgstr "Data:"
 
 #. Delete button
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:158
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:156
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:315
-#: ../ui/apps/qt5/src/PreludeWindow.cc:234
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
+#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "Išnyks po %s"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:180
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "Rodyti"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:362
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:360
 msgid "Effective mouse movement:"
 msgstr "Efektyvus pelės judėjimas:"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:74
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
 #, fuzzy
 msgid "Enable sounds"
 msgstr "Be garsų"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:554
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #  Enabled/Disabled checkbox
 #. Enabled/Disabled checkbox
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:72
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:64
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "Įjungti laikmatį"
 
 #  Enabled/Disabled checkbox
 #. sounds_view->setColumnWidth(0, 100);
 #. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
 #, fuzzy
 msgid "Enabled"
 msgstr "Įjungti laikmatį"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:304
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:119
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 #, fuzzy
 msgid "End exercises"
 msgstr "Pratimai"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:756
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:754
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:419
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
 msgid "Event"
 msgstr ""
 
@@ -268,12 +268,12 @@ msgstr "Pratimas baigtas"
 msgid "Exercise ended"
 msgstr "Pratimas baigtas"
 
-#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:175
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../ui/apps/qt5/src/Menus.cc:89
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../ui/apps/qt5/src/Menus.cc:80
 msgid "Exercises"
 msgstr "Pratimai"
 
@@ -281,16 +281,16 @@ msgstr "Pratimai"
 msgid "Exercises ended"
 msgstr "Pratimai baigti"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:264
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:94
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "Pratimų grotuvas"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:752
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:750
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:742
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:740
 msgid "Files deleted!"
 msgstr ""
 
@@ -298,22 +298,22 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Pirštų įtempimas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:104
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:132
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
 msgid "General"
 msgstr "Bendra"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:332
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:331
 msgid "Hibernate"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "Paslėpti"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:746
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:744
 msgid "Info"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgstr ""
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Sunerk savo pirštus už nugaros. Tada švelniai pasuk savo alkūnes į vidų tiesindamas savo rankas. Pabūk tokioje pozoje nuo 5 iki 15 sekundžių. Pakartok šį pratimą du kartus."
 
-#: ../ui/apps/gtkmm/src/GUI.cc:778
+#: ../ui/apps/gtkmm/src/GUI.cc:770
 msgid "Is Workrave already running?"
 msgstr ""
 
@@ -329,22 +329,22 @@ msgstr ""
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
 msgstr "Laikyk vieną ranką horizontaliai ištiestą priekyje savo krūtinės. Stumk šia ranką su kita savo ranka link savęs, kol pajusi švelnų įtemptimą savo petyje. Pabūk tokio pozoje trumpam, tada pakartok šį pratima su kita ranka."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:371
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:369
 msgid "Keystrokes:"
 msgstr "Klavišų nuspaudimai:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:285
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:173
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
 msgid "Language:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:320
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:319
 #: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_Užrakinti"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:316
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Lock..."
 msgstr "_Užrakinti"
@@ -361,16 +361,16 @@ msgstr "Žiūrėk į tolimiausią tašką, kurį tu matai už savo vaizduoklio. 
 msgid "Look into the darkness"
 msgstr "Pažvelk į tamsą"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:119
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Didžiausias užklausų skaičius:"
 
 #. FIXME: duplicate
-#: ../ui/apps/gtkmm/src/GUI.cc:1420 ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:56
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:181
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:279 ../ui/common/src/Ui.cc:33
+#: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
 msgid "Micro-break"
 msgstr "Mikro-pertraukėlė"
 
@@ -384,36 +384,36 @@ msgstr "Mikro-pertraukėlė pradėta"
 
 #  Layout
 #. Layout
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Micro-break:"
 msgstr "Mikro-pertraukėlė:"
 
 #  Mode menu item
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206 ../ui/apps/qt5/src/Menus.cc:93
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
 #, fuzzy
 msgid "Mode"
 msgstr "Reži_mas"
 
 #  Mode menu item
-#: ../ui/apps/gtkmm/src/GUI.cc:1427 ../ui/apps/gtkmm/src/GUI.cc:1431
+#: ../ui/apps/gtkmm/src/GUI.cc:1429 ../ui/apps/gtkmm/src/GUI.cc:1433
 #, fuzzy
 msgid "Mode: "
 msgstr "Reži_mas"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:257
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:255
 msgid "Monthly"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:367
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:365
 msgid "Mouse button clicks:"
 msgstr "Pelės paspaudimų kiekis:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:358
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:356
 msgid "Mouse movement:"
 msgstr "Pelės judėjimas:"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:354
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:352
 msgid "Mouse usage:"
 msgstr "Pelės vartojimas:"
 
@@ -429,18 +429,18 @@ msgstr "Pajudink pečius"
 msgid "Move the shoulders up and down"
 msgstr "Pajudink pečius aukštyn ir žemyn"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:375
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Patalpinti poilsio pertrauka ir dienos limitą į vieną vietą"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:222
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Natūralios pertraukos"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:203
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:143
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Natūralios pertraukos"
@@ -449,116 +449,116 @@ msgstr "Natūralios pertraukos"
 msgid "Neck tilt stretch"
 msgstr "Pakreipto kaklo ištempimas"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:117
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 #, fuzzy
 msgid "Next exercise"
 msgstr "Pratimų kiekis:"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:248
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:133
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Iki kitos poilsio pertaukos liko %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:60
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
 msgid "No blocking"
 msgstr "Be blokavimo"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
 msgid "No sounds"
 msgstr "Be garsų"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:97
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
 #, fuzzy
 msgid "Normal"
 msgstr "_Normalus"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:175
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:162
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "Pratimų kiekis:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../ui/apps/qt5/src/Menus.cc:74
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:65
 #, fuzzy
 msgid "Open"
 msgstr "_Atidaryti"
 
 #  Options
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:144
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:137
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "Parinktys"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:237
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Pasivėlinęs laikas"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Pause"
 msgstr "Pristabdyti"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:300
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:494
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:118
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:292
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Pratimų kiekis:"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:113
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "Patalpinti visus laikmačius į vieną vietą"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Patalpinti mikro-pertraukėlę ir poilsio pertrauką į vieną vietą"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Patalpinti poilsio pertrauka ir dienos limitą į vieną vietą"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "Patalpinti laikmačius šalia"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "Patalpinimo vieta:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:414
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:432
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:462
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
 msgid "Play"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:345
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "Play sounds using sound card"
 msgstr "Groti garsus per garso plokšte"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:241
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:127
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "Atsipalaiduokite kelioms sekundėms"
 
@@ -567,30 +567,30 @@ msgstr "Atsipalaiduokite kelioms sekundėms"
 msgid "Postpone"
 msgstr "_Atidėti"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:242
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Atidėjimo laikas:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:79
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:79
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../ui/apps/qt5/src/Menus.cc:70
 msgid "Preferences"
 msgstr "Parinktys"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:116
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:115
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:106
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Paklausti prieš pertraukiant"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:217
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Pasiūlytos pertraukos"
 
@@ -598,24 +598,24 @@ msgstr "Pasiūlytos pertraukos"
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
 msgstr "Padėk savo rankas ant kedės rankų atlošų. Tada pasikelk ant rankų, kol šios taps tiesios. Pabandyk iškelti savo galvą į viršų. Lėtai nusileisk į savo kėdę."
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:146
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:84
 msgid "Q_uiet"
 msgstr "Tyl_us"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1431
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:202
-#: ../ui/apps/qt5/src/Menus.cc:112
+#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../ui/apps/qt5/src/Menus.cc:103
 #, fuzzy
 msgid "Quiet"
 msgstr "Tyl_us"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:214
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../ui/apps/qt5/src/Menus.cc:136
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/qt5/src/Menus.cc:127
 #, fuzzy
 msgid "Quit"
 msgstr "_Išeiti"
@@ -623,36 +623,36 @@ msgstr "_Išeiti"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:208
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
-#: ../ui/apps/qt5/src/Menus.cc:119
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/apps/qt5/src/Menus.cc:110
 msgid "Reading mode"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:165
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "Mikro-pertraukėles laikyti aktyvumu"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:212
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Pakartotos užklausos"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:149
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:209 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
 #: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:149 ../ui/common/src/Ui.cc:36
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
 msgid "Rest break"
 msgstr "Poilsio pertrauka"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:137
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Poilsio pertrauka %s praleista"
@@ -661,7 +661,7 @@ msgstr "Poilsio pertrauka %s praleista"
 msgid "Rest break ended"
 msgstr "Poilsio pertrauka baigta"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
@@ -671,21 +671,21 @@ msgstr "Iki poilsio pertraukos pabaigos liko %s"
 msgid "Rest break started"
 msgstr "Poilsio pertrauka pradėta"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Rest break:"
 msgstr "Poilsio pertrauka:"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume"
 msgstr "Pratęsti"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:288
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Pratimų kiekis:"
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:186
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
 msgid "Select"
 msgstr ""
 
@@ -697,22 +697,20 @@ msgstr "Išskėsk savo pirštus kol pajausi švelnią įtempą ir palaikyk juos 
 msgid "Shoulder-arm stretch"
 msgstr "Peties-rankos įtempimas"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "Parodyti"
 
-#. Ignorable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:148
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Rodyti 'Atidėti' ir 'Praleisti' mygtukus"
 
-#. Skippable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:153
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Rodyti 'Atidėti' ir 'Praleisti' mygtukus"
@@ -724,20 +722,20 @@ msgstr "Rodyti 'Atidėti' ir 'Praleisti' mygtukus"
 msgid "Show log"
 msgstr "Parodyti žurna_lą"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 #, fuzzy
 msgid "Show only when this timer is first due"
 msgstr "Parodyti tik tada, kai šis laikmatis pasirodo pirmą kartą"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "Rodyti būsenos langą"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:314
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:189
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
 msgid "Show system tray icon"
 msgstr ""
 
@@ -746,13 +744,13 @@ msgstr ""
 msgid "Shut down"
 msgstr "_Išjungti"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:324
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
 msgid "Shutdown"
 msgstr "_Išjungti"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:319
-#: ../ui/apps/qt5/src/PreludeWindow.cc:238
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
+#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "Tylus po %s"
@@ -763,40 +761,40 @@ msgid "Skip"
 msgstr "_Praleisti"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:118
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
 #, fuzzy
 msgid "Sound"
 msgstr "Garsas:"
 
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:383
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:87
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
 msgid "Sound Events"
 msgstr ""
 
 #  Options
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:332
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:55
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
 #, fuzzy
 msgid "Sound Options"
 msgstr "Parinktys"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:391
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Garsas:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:369
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound:"
 msgstr "Garsas:"
 
 #  panel->add(*start_in_tray_cb);
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:133
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
 #, fuzzy
 msgid "Sounds"
 msgstr "Garsas:"
@@ -805,17 +803,17 @@ msgstr "Garsas:"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Lėtai suk savo dešinę ranką kaip lėktuvo propelerį ratu šalia savo kūno. Pasuk 4 kartus į priekį, 4 kartus atgal ir keliom sekundėm atsipalaiduok. Pakartok su kairia ranka."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
 #, fuzzy
 msgid "Start Workrave on Windows startup"
 msgstr "Workrave priedas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:299
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
 msgid "Start Workrave on logon"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
@@ -823,133 +821,132 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Pradėk laikydamas savo galvą patogioje pozicijoje. Tada lėtai palenk galvą link dešinio peties, jog išsitemptų kairios kaklo pusės raumenys. Pabūk šioje pozoje 5-ias sekundes. Tada palenk galvą link kairio peties, taip įtempdamas dešinės pusės kaklo raumenis. Pakartok šį pratimą du kartus kiekvienai pusei."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:179
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:63
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:164
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../ui/apps/qt5/src/Menus.cc:126
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../ui/apps/qt5/src/Menus.cc:117
 msgid "Statistics"
 msgstr "Statistika"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:113
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:134
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
 msgid "Status Window"
 msgstr "Būsenos langas"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:328
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:327
 #, fuzzy
 msgid "Suspend"
 msgstr "_Sustabdytas"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:336
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:335
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Sustabdytas"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1427
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:104
+#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
 #, fuzzy
 msgid "Suspended"
 msgstr "_Sustabdytas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:216
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:120
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
 msgid "System default"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:190
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Iki kitos poilsio pertaukos liko %s"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:753
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:751
 msgid "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:743
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:741
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:233
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Atidėtų pertraukų skaičius"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:228
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Praleistų pertraukų skaičius"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:218
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Skaičius pasiūlytų ir priimtų pertraukų"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:223
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Pertaukų skaičius, kai tu pats jas darei"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:207
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
 msgstr "Užklausų pertraukoms skaičius, įskaičiuojant ir tas pakartotas užklausas tai pačiai pertaukai."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:213
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Pakartotų užklausų (tai pačiai pertaukai) kiekis"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:103
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "Būsenos langas visuomet būna virš kitų langų"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:248
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:246
 #, fuzzy
 msgid "The total computer usage for the selected day"
 msgstr "Visas kompiuterio vartojimas"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:258
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:256
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:253
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:251
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:363
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:361
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
 msgstr "Visas numanomas pelės judėjimas, jeigu tu būtum judėjęs tiesiomis linijomis tarp pelės paspaudimų"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:372
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:370
 msgid "The total number of keys pressed"
 msgstr "Visas nuspaustų klavišų skaičius"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:368
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:366
 msgid "The total number of mouse button clicks"
 msgstr "Visas pelės paspaudimų kiekis"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:359
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:357
 msgid "The total on-screen mouse movement"
 msgstr "Visas pelės judėjimas ekrane"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:238
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:236
 #, fuzzy
 msgid "The total time this break was overdue"
 msgstr "Visas laikas, kai ši pertrauka vėlavo"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:353
 msgid "The total time you were using the mouse"
 msgstr "Visas pelės vartojimo laikas"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:204
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Tau reikia poilsio pertraukos..."
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:210
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -962,33 +959,33 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:365 ../ui/apps/qt5/src/AboutDialog.cc:63
+#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Ši programa padeda išvengti ir atsistatyti po Pakartotinės Jėgos Žalos (RSI)."
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:219
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:196
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "Laikas iki pabaigos:"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:197
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "Laikas tarp pertraukų:"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
 #: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "Laikas mikro-pertraukėlei?"
 
 #  Notebook
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:65
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:195
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:187
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "Laikmačiai"
 
@@ -1004,68 +1001,68 @@ msgstr "Pasuk galvą"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Pasuk galvą kairėn ir palaikyk 2 sekundes. Tada pasuk galvą dešinėn ir palaikyk 2 sekundes."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:242
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:240
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:548
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:122
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:68
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
 msgid "User interface"
 msgstr "Vartotojo sąsaja"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:70
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
 msgid "Volume:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:214
-#: ../ui/apps/qt5/src/TimerBoxView.cc:102
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "Laukti"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:726
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:730
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:724
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:728
 msgid "Warning"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:447
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
 msgid "Wavefiles"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:252
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:250
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:603 ../ui/apps/qt5/src/Application.cc:609
+#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:776
+#: ../ui/apps/gtkmm/src/GUI.cc:768
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave priedas"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1292 ../ui/apps/qt5/src/Application.cc:610
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1286 ../ui/apps/qt5/src/Application.cc:604
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:295
+#: ../ui/apps/gtkmm/src/GUI.cc:293
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:727
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:725
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -1076,19 +1073,19 @@ msgstr ""
 "Jei tavo darbo diena dar nepasibaigė, susirask kokį nors \n"
 "kitą darba, pavyzdžiui peržiūrėk dokumentus."
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
 #: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "Tau reikia poilsio pertraukos..."
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
 #: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "Šiandien jau turėtum baigti..."
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:184
+#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:182
 #, fuzzy
 msgid "_About"
 msgstr "_Apie..."
@@ -1114,9 +1111,9 @@ msgstr ""
 #  Mode menu item
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:141
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Mode"
 msgstr "Reži_mas"
 
@@ -1126,37 +1123,37 @@ msgstr "Reži_mas"
 msgid "_Network"
 msgstr "Ti_nklas"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:145
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
 msgid "_Normal"
 msgstr "_Normalus"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../ui/applets/mate/src/main.c:262
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "_Open"
 msgstr "_Atidaryti"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:498
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:497
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Atidėti"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:171
+#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:169
 msgid "_Preferences"
 msgstr "_Parinktys"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:348
-#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:189
+#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:187
 msgid "_Quit"
 msgstr "_Išeiti"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:154
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:152
 msgid "_Reading mode"
 msgstr ""
 
@@ -1166,10 +1163,10 @@ msgstr ""
 msgid "_Reconnect"
 msgstr "P_risijungti iš naujo"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:102
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:165
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:100
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:163
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Rest break"
 msgstr "Poilsio pe_rtauka"
 
@@ -1179,7 +1176,7 @@ msgstr "Poilsio pe_rtauka"
 msgid "_Restbreak"
 msgstr "Poilsio pe_rtrauka"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:481
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:480
 #, fuzzy
 msgid "_Skip"
 msgstr "_Praleisti"
@@ -1190,9 +1187,9 @@ msgstr "_Praleisti"
 msgid "_Statistics"
 msgstr "_Statistika"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:151
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:149
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Suspended"
 msgstr "_Sustabdytas"
 

@@ -492,17 +492,21 @@ endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
 find_package(Gettext)
-find_package(Libintl)
-
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
-if (NOT GETTEXT_FOUND)
-  message(STATUS "GetText not found - disabling i18n")
-else()
+if (HAVE_QT5)
   set(ENABLE_NLS ON)
-endif ()
+else()
+  find_package(Libintl)
+  
+  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
+    message(STATUS "GetText not found - disabling i18n")
+  else()
+    set(ENABLE_NLS ON)
+    set(GETTEXT_PACKAGE "workrave")
+  endif()
+endif()
 
-set (GETTEXT_PACKAGE "workrave")
 
 # TODO: generate languages.iss for InnoSetup
 

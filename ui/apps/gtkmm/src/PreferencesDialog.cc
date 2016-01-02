@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #ifdef HAVE_UNISTD_H
@@ -41,7 +41,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "utils/Locale.hh"
+#include "Locale.hh"
 #include "utils/Platform.hh"
 
 #include "GtkUtil.hh"

@@ -25,7 +25,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/image.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "core/IBreak.hh"

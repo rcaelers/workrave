@@ -29,7 +29,7 @@
 #include <boost/format.hpp>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include <list>
 #include <set>

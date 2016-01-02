@@ -29,12 +29,10 @@
 
 #include <iostream>
 
-#include "nls.h"
 #include "debug.hh"
 
 #include "commonui/ITimeBar.hh"
 #include "commonui/Text.hh"
-
 #include "commonui/Backend.hh"
 #include "core/CoreConfig.hh"
 #include "commonui/GUIConfig.hh"

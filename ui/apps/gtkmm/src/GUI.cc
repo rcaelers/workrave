@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include <iostream>
@@ -52,7 +52,7 @@
 #include "commonui/Backend.hh"
 
 #include "utils/Exception.hh"
-#include "utils/Locale.hh"
+#include "Locale.hh"
 #include "utils/Platform.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"

@@ -31,11 +31,10 @@
 #include <QStyle>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
-#include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
 #include "TimerPreferencesPanel.hh"
@@ -83,19 +82,13 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   UiUtil::add_widget(layout, _("Block mode:"), block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  string current_locale = GUIConfig::locale()();
+  string current_locale_name = GUIConfig::locale()();
 
   std::vector<std::string> all_linguas;
   string str(ALL_LINGUAS);
   boost::split(all_linguas, str, boost::is_any_of(" "));
 
   all_linguas.push_back("en");
-
-  Locale::LanguageMap languages_current_locale;
-  Locale::LanguageMap languages_native_locale;
-
-  Locale::get_all_languages_in_current_locale(languages_current_locale);
-  Locale::get_all_languages_in_native_locale(languages_native_locale);
 
   languages_combo = new QComboBox();
   model = new QStandardItemModel(all_linguas.size(), 2);
@@ -118,50 +111,41 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   model->setItem(0, 0, new QStandardItem(_("System default")));
   model->setItem(0, 1, new QStandardItem(""));
 
+  QLocale current_locale;
+  
   int row = 1;
   int selected = 0;
   for (auto code : all_linguas)
     {
-      if (current_locale == code)
+      if (current_locale_name == code)
         {
           selected = row;
         }
 
-      string txt = languages_current_locale[code].language_name;
-      if (txt.empty())
+      QLocale l(QString::fromStdString(code));
+
+      
+      QString language = l.nativeLanguageName();
+      QString country = l.nativeCountryName();
+
+      if (language == "")
         {
-          txt = "Unrecognized language: (" + code + ")";
+          language = QString::fromStdString(code);
         }
-      else if (languages_current_locale[code].country_name != "")
+      
+      if (country != "")
         {
-          txt += " (" + languages_current_locale[code].country_name + ")";
+          language += " (" + country + ")";
         }
+      
+      model->setItem(row, 0, new QStandardItem(language));
 
-      model->setItem(row, 0, new QStandardItem(txt.c_str()));
-
-      if (languages_current_locale[code].language_name !=
-          languages_native_locale[code].language_name)
-        {
-          txt = languages_native_locale[code].language_name;
-          if (languages_native_locale[code].country_name != "")
-            {
-              txt += " (" + languages_native_locale[code].country_name + ")";
-            }
-
-          // Glib::RefPtr<Pango::Layout> pl = create_pango_layout(txt);
-          // if (pl->get_unknown_glyphs_count() > 0)
-          //   {
-          //     txt = _("(font not available)");
-          //     row[languages_columns.enabled] = false;
-          //   }
-
-          QStandardItem *item = new QStandardItem(txt.c_str());
-          item->setTextAlignment(Qt::AlignRight);
-          model->setItem(row, 1, item);
-
-          item = new QStandardItem(code.c_str());
-          model->setItem(row, 2, item);
-        }
+      QStandardItem *item = new QStandardItem("");
+      item->setTextAlignment(Qt::AlignRight);
+      model->setItem(row, 1, item);
+          
+      item = new QStandardItem(code.c_str());
+      model->setItem(row, 2, item);
 
       row++;
     }

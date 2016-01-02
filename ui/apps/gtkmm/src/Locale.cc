@@ -21,8 +21,10 @@
 #include "config.h"
 #endif
 
+#include "Locale.hh"
+
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include <cstdlib>
 #include <stdio.h>
@@ -30,7 +32,6 @@
 #include <string.h>
 #include <boost/algorithm/string.hpp>
 
-#include "utils/Locale.hh"
 #include "utils/Platform.hh"
 
 #include "locale.inc"
@@ -71,6 +72,7 @@ Locale::get_language(const string &code, string &language)
     }
   return false;
 }
+
 
 bool
 Locale::get_country(const string &code, string &country)

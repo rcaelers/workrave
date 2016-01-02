@@ -43,14 +43,13 @@
 #include <cstring>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
+#include "commonui/Text.hh"
 
 #include "StatisticsDialog.hh"
-#include "commonui/Text.hh"
-#include "utils/Locale.hh"
 
 #include "UiUtil.hh"
 
@@ -492,7 +491,10 @@ StatisticsDialog::display_week_statistics()
   std::time_t t = std::mktime(&timeinfo);
   std::tm const *time_loc = std::localtime(&t);
 
-  int offset = (time_loc->tm_wday - workrave::utils::Locale::get_week_start() + 7) % 7;
+  QLocale locale;
+  int week_start = locale.firstDayOfWeek() % 7;
+  
+  int offset = (time_loc->tm_wday - week_start + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {

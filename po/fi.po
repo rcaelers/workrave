@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2015-12-13 19:05+0100\n"
+"POT-Creation-Date: 2016-01-02 18:45+0000\n"
 "PO-Revision-Date: 2012-07-30 03:49+0300\n"
 "Last-Translator: Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi>\n"
 "Language-Team: Finnish <>\n"
@@ -23,52 +23,52 @@ msgid "%s%d seconds"
 msgstr "%s%d sekuntia"
 
 #: ../ui/common/src/Text.cc:88
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minuuttia"
 
 #: ../ui/common/src/Text.cc:84
-#, c-format
+#, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d tuntia"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:422
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:420
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s %s–%s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:260
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
 msgid "(font not available)"
 msgstr "(fontti ei saatavilla)"
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:55
+#: ../ui/apps/qt5/src/AboutDialog.cc:50
 #, c-format
 msgid "<h3>Workrave %s</h3><br/>%s<br/>"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:48
+#: ../ui/apps/qt5/src/AboutDialog.cc:44
 #, fuzzy
 msgid "About Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:108
-#: ../ui/apps/qt5/src/Menus.cc:131
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../ui/apps/qt5/src/Menus.cc:122
 msgid "About..."
 msgstr "Tietoja..."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:342
 msgid "Activity"
 msgstr "Toiminta"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:117
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:135
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
 msgid "Applet"
 msgstr "Sovelma"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "Sovelma otettu käyttöön"
 
@@ -80,25 +80,25 @@ msgstr "Auttaa rasitusvammojen (RSI) ehkäisyssä ja niistä toipumisessa"
 msgid "Backward shoulder stretch"
 msgstr "Olkapään venytys taaksepäin"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:61
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
 msgid "Block input"
 msgstr "Estä syötteet"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:174
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
 msgid "Block input and screen"
 msgstr "Estä syötteet ja näyttö"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:196
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:85
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
 msgid "Block mode:"
 msgstr "Estotila"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:227
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:210
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "Tauon kesto"
 
@@ -106,8 +106,8 @@ msgstr "Tauon kesto"
 msgid "Break ignored"
 msgstr "Tauko hylätty"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:311
-#: ../ui/apps/qt5/src/PreludeWindow.cc:230
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
+#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "Taukoon aikaa %s"
@@ -117,32 +117,32 @@ msgid "Break prompt"
 msgstr "Taukokehote"
 
 #. Prelude frame
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:102
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "Taukokehotus"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:204
 msgid "Break prompts"
 msgstr "Taukokehotteita"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:196
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:194
 msgid "Breaks"
 msgstr "Taukoja"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:232
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr "Lykätyt tauot"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:227
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks skipped"
 msgstr "Ohitetut tauot"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:153
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:151
 msgid "Browse history"
 msgstr "Selaa historiaa"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
 msgid "Choose a sound"
 msgstr "Valitse ääni"
 
@@ -150,106 +150,106 @@ msgstr "Valitse ääni"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Peitä silmäsi kämmenilläsi niin että voit vielä avata silmäluomesi. Avaa nyt silmäsi ja katso kämmentesi pimeyteen. Tämä harjoite rentouttaa silmiäsi paremmin verrattuna pelkkään niiden sulkemiseen."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:257
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
 #: ../ui/common/src/SoundTheme.cc:366
 msgid "Custom"
 msgstr "Mukautettu"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:193
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "Vaihtoaika"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:247
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:245
 #, fuzzy
 msgid "Daily"
 msgstr "Päiväraja"
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:49
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57 ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:39
+#: ../ui/common/src/Ui.cc:43
 msgid "Daily limit"
 msgstr "Päiväraja"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Päivärajoitus ylittynyt %s"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:266
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:146
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Päivärajoitukseen aikaa %s"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 msgid "Daily limit:"
 msgstr "Päivärajoitus"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:165
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:163
 msgid "Date:"
 msgstr "Aika"
 
 #. Delete button
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:158
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:156
 msgid "Delete all statistics history"
 msgstr "Poista koko tilastohistoria"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:315
-#: ../ui/apps/qt5/src/PreludeWindow.cc:234
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
+#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "Häviämiseen aikaa %s"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:180
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "Näytä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:362
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:360
 msgid "Effective mouse movement:"
 msgstr "Tehokas hiiren liike"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:74
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
 #, fuzzy
 msgid "Enable sounds"
 msgstr "Ei ääniä"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:554
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr "Valitse tämä vaihtoehto jos Workrave ei tunnista milloin käytät tietokonettasi"
 
 #. Enabled/Disabled checkbox
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:72
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:64
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "Ota ajastin käyttöön"
 
 #. sounds_view->setColumnWidth(0, 100);
 #. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
 #, fuzzy
 msgid "Enabled"
 msgstr "Ota ajastin käyttöön"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:304
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:119
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 msgid "End exercises"
 msgstr "Päätä harjoitteet"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:756
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:754
 msgid "Error"
 msgstr "Virhe"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:419
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
 msgid "Event"
 msgstr "Tapahtuma"
 
@@ -261,12 +261,12 @@ msgstr "Harjoitteen vaihto"
 msgid "Exercise ended"
 msgstr "Harjoite päättyi"
 
-#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:175
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
-#: ../ui/apps/qt5/src/Menus.cc:89
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../ui/apps/qt5/src/Menus.cc:80
 msgid "Exercises"
 msgstr "Harjoitteet"
 
@@ -274,16 +274,16 @@ msgstr "Harjoitteet"
 msgid "Exercises ended"
 msgstr "Harjoitteet päättyivät"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:264
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:94
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "Harjoitesoitin"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:752
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:750
 msgid "File deletion failed!"
 msgstr "Tiedoston poistaminen epäonnistui!"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:742
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:740
 msgid "Files deleted!"
 msgstr "Tiedostot poistettu!"
 
@@ -291,22 +291,22 @@ msgstr "Tiedostot poistettu!"
 msgid "Finger stretch"
 msgstr "Sormien venytys"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:104
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:132
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
 msgid "General"
 msgstr "Yleiset"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:332
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:331
 msgid "Hibernate"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "Piilota"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:746
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:744
 msgid "Info"
 msgstr "Info"
 
@@ -314,7 +314,7 @@ msgstr "Info"
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Limitä sormesi selkäsi takana. Käännä sitten kyynärpääsi varoen sisäänpäin suoristaen käsivarsiasi. Pidä tämä asento viidestä 15:een sekuntia ja toista harjoite kahdesti."
 
-#: ../ui/apps/gtkmm/src/GUI.cc:778
+#: ../ui/apps/gtkmm/src/GUI.cc:770
 msgid "Is Workrave already running?"
 msgstr "Workrave 还在运行吗？"
 
@@ -322,22 +322,22 @@ msgstr "Workrave 还在运行吗？"
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
 msgstr "Pidä toinen käsivarsi vaakatasossa venytettynä rintakehäsi edessä. Työnnä tätä käsivartta toisella käsivarrellasi kunnes tunnet lievän jännityksen olkapäässäsi. Pidä asento hetken, ja toista harjoitus toiselle kädellesi."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:371
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:369
 msgid "Keystrokes:"
 msgstr "Näppäinpainallukset"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:285
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:173
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
 msgid "Language:"
 msgstr "Kieli"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:320
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:319
 #: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_Lukitse"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:316
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Lock..."
 msgstr "_Lukitse"
@@ -354,16 +354,16 @@ msgstr "Katso kauimmaiseen pisteeseen näyttösi takana. Tarkenna silmäsi kauka
 msgid "Look into the darkness"
 msgstr "Katso pimeyteen"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:119
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Kehotteiden enimmäismäärä"
 
 #. FIXME: duplicate
-#: ../ui/apps/gtkmm/src/GUI.cc:1420 ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:56
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:181
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:279 ../ui/common/src/Ui.cc:33
+#: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
 msgid "Micro-break"
 msgstr "Mikrotauko"
 
@@ -376,32 +376,32 @@ msgid "Micro-break started"
 msgstr "Mikrotauko alkoi"
 
 #. Layout
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Micro-break:"
 msgstr "Mikrotauko"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206 ../ui/apps/qt5/src/Menus.cc:93
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
 msgid "Mode"
 msgstr "Tila"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1427 ../ui/apps/gtkmm/src/GUI.cc:1431
+#: ../ui/apps/gtkmm/src/GUI.cc:1429 ../ui/apps/gtkmm/src/GUI.cc:1433
 msgid "Mode: "
 msgstr "Tila "
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:257
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:255
 msgid "Monthly"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:367
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:365
 msgid "Mouse button clicks:"
 msgstr "Hiiren klikkaukset"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:358
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:356
 msgid "Mouse movement:"
 msgstr "Hiiren liike"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:354
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:352
 msgid "Mouse usage:"
 msgstr "Hiiren käyttö"
 
@@ -417,17 +417,17 @@ msgstr "Liikuta olkapäitä"
 msgid "Move the shoulders up and down"
 msgstr "Liikuta olkapäitä ylös ja alas"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:375
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Vaimenna äänet lepotauon ja päivittäisen rajoituksen aikana"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:222
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:220
 msgid "Natural breaks taken"
 msgstr "Luonnollisia taukoja pidetty"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:203
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:143
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 msgid "Natural rest break"
 msgstr "Luonnollinen tauko"
 
@@ -435,111 +435,111 @@ msgstr "Luonnollinen tauko"
 msgid "Neck tilt stretch"
 msgstr "Niskankallistusvenytys"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:299
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:117
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 msgid "Next exercise"
 msgstr "Seuraava harjoite"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:248
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:133
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Seuraavaan lepotaukoon aikaa %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:60
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
 msgid "No blocking"
 msgstr "Ei estoa"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
 msgid "No sounds"
 msgstr "Ei ääniä"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:97
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
 msgid "Normal"
 msgstr "Normaali"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:175
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:162
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "Harjoitteiden määrä"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ../ui/apps/qt5/src/Menus.cc:74
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:65
 msgid "Open"
 msgstr "Avaa"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:144
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:137
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "Asetukset"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:237
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:235
 msgid "Overdue time"
 msgstr "Yliaika"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:300
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:494
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:118
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:292
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 msgid "Pause exercises"
 msgstr "Keskeytä harjoitteet"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:113
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "Sijoita kaikki ajastimet yhteen paikkaan"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Sijoita mikrotauko ja lepotauko yhteen paikkaan"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Sijoita lepotauko ja päivärajoitus yhteen paikkaan"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "Sijoita ajastimet vierekkäin"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "Sijainti"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:414
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:432
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:462
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
 msgid "Play"
 msgstr "Soita"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:345
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "Play sounds using sound card"
 msgstr "Soita äänet äänikortilla"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:241
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:127
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "Rentoudu muutaman sekunnin ajaksi"
 
@@ -548,30 +548,30 @@ msgstr "Rentoudu muutaman sekunnin ajaksi"
 msgid "Postpone"
 msgstr "_Lykkää"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:242
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:225
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Lykkäysaika"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:79
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:79
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ../ui/apps/qt5/src/Menus.cc:70
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:116
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr "Edellinen harjoite"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:115
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:106
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Näytä kehote ennen taukoa"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:217
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:215
 msgid "Prompted breaks taken"
 msgstr "Kehotettuja taukoja pidetty"
 
@@ -579,59 +579,59 @@ msgstr "Kehotettuja taukoja pidetty"
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
 msgstr "Laita kätesi tuolisi käsinojille kun olet istumassa ja paina vartaloasi ylöspäin kunnes käsivartesi ovat suorat. Yritä siirtää päätäsi vielä kauemmaksi liikuttamalla olkapäitäsi alemmas. Laskeudu hitaasti takaisin tuoliisi."
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:146
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:84
 msgid "Q_uiet"
 msgstr "_Hiljainen"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1431
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:202
-#: ../ui/apps/qt5/src/Menus.cc:112
+#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../ui/apps/qt5/src/Menus.cc:103
 msgid "Quiet"
 msgstr "Hiljainen"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:214
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
-#: ../ui/apps/qt5/src/Menus.cc:136
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/qt5/src/Menus.cc:127
 msgid "Quit"
 msgstr "Lopeta"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:208
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
-#: ../ui/apps/qt5/src/Menus.cc:119
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/apps/qt5/src/Menus.cc:110
 msgid "Reading mode"
 msgstr "阅读模式"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:165
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "Laske mikrotauot toiminnaksi"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:212
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:210
 msgid "Repeated prompts"
 msgstr "Toistetut kehotteet"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1420
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:149
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:209 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GUI.cc:1422
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
 #: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:149 ../ui/common/src/Ui.cc:36
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
 msgid "Rest break"
 msgstr "Lepotauko"
 
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:137
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Lepotauko myöhässä %s"
@@ -640,7 +640,7 @@ msgstr "Lepotauko myöhässä %s"
 msgid "Rest break ended"
 msgstr "Lepotauko päättyi"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
 #: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
@@ -650,20 +650,20 @@ msgstr "Lepotauon pituus %s"
 msgid "Rest break started"
 msgstr "Lepotauko alkoi"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Rest break:"
 msgstr "Lepotauko"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:485
 msgid "Resume"
 msgstr "Jatka"
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:288
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 msgid "Resume exercises"
 msgstr "Jatka harjoitteita"
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:186
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
 msgid "Select"
 msgstr ""
 
@@ -675,22 +675,20 @@ msgstr "Erota ja venytä sormiasi kunnes tunnet miedon jännityksen, ja pidä as
 msgid "Shoulder-arm stretch"
 msgstr "Käsivarren ja olkapään venytys"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "Näytä"
 
-#. Ignorable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:148
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Näytä Lykkää- ja Ohita-painikkeet"
 
-#. Skippable
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:153
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:146
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Näytä Lykkää- ja Ohita-painikkeet"
@@ -701,19 +699,19 @@ msgstr "Näytä Lykkää- ja Ohita-painikkeet"
 msgid "Show log"
 msgstr "Näytä loki"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 msgid "Show only when this timer is first due"
 msgstr "Näytä vain kun tämä ajastin laukeaa ensimmäisenä"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "Näytä tilaikkuna"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:314
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:189
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
 msgid "Show system tray icon"
 msgstr "Näytä kuvake järjestelmätarjottimessa"
 
@@ -722,13 +720,13 @@ msgstr "Näytä kuvake järjestelmätarjottimessa"
 msgid "Shut down"
 msgstr "Sammuta"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:324
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
 msgid "Shutdown"
 msgstr "Sammuta"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:319
-#: ../ui/apps/qt5/src/PreludeWindow.cc:238
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
+#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "Hiljaisuuteen aikaa %s"
@@ -738,34 +736,34 @@ msgstr "Hiljaisuuteen aikaa %s"
 msgid "Skip"
 msgstr "_Ohita"
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:118
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
 #, fuzzy
 msgid "Sound"
 msgstr "Ääni"
 
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:383
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:87
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
 msgid "Sound Events"
 msgstr "Äänitapahtumat"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:332
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:55
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
 msgid "Sound Options"
 msgstr "Ääniasetukset"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:391
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:93
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
 msgid "Sound Theme:"
 msgstr "Ääniteema"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:369
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound:"
 msgstr "Ääni"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:133
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
 msgid "Sounds"
 msgstr "Äänet"
 
@@ -773,18 +771,18 @@ msgstr "Äänet"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Pyöritä oikeaa käsivarttasi ympäri, kuin lentokoneen propelli, vartalosi vieressä. Tee tämä neljä kertaa eteen, neljä kertaa taakse ja rentoudu muutaman sekunnin ajan. Toista vasemmalla käsivarrella."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
 #, fuzzy
 msgid "Start Workrave on Windows startup"
 msgstr "Käynnistä Workrave Windowsin käynnistyessä"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:299
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Käynnistä Workrave Windowsin käynnistyessä"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr "当屏幕锁定时开始休息"
 
@@ -792,129 +790,128 @@ msgstr "当屏幕锁定时开始休息"
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Aloita siten, että pääsi on mukavassa pystyasennossa. Kallista sitten päätäsi oikeaa olkapäätäsi kohti venyttääksesi hellästi lihaksia kaulasi vasemmalla puolella. Pidä asento viisi sekuntia. Kallista sitten päätäsi vasemmalle puolelle venyttääksesi toista puolta. Tee kaksi toistoa molemmille puolille."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:179
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:63
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:164
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
-#: ../ui/apps/qt5/src/Menus.cc:126
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../ui/apps/qt5/src/Menus.cc:117
 msgid "Statistics"
 msgstr "Tilastoja"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:113
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:134
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
 msgid "Status Window"
 msgstr "Tilaikkuna"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:328
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:327
 #, fuzzy
 msgid "Suspend"
 msgstr "Keskeytetty"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:336
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:335
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "Keskeytetty"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1427
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:104
+#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
 msgid "Suspended"
 msgstr "Keskeytetty"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:216
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:120
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
 msgid "System default"
 msgstr "Järjestelmän oletus"
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:192
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:190
 msgid "Take rest break now"
 msgstr "Pidä lepotauko nyt"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:753
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:751
 msgid "The files containing your statistics history could not be deleted. Try again?"
 msgstr "Tilastohistoriatiedostojen poistaminen epäonnistui. Yritetäänkö uudelleen?"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:743
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:741
 msgid "The files containing your statistics history have been deleted."
 msgstr "Tilastohistoriasi sisältävät tiedostot on poistettu."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:233
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:231
 msgid "The number of breaks you postponed"
 msgstr "Lykättyjen taukojen määrä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:228
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you skipped"
 msgstr "Ohitettujen taukojen määrä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:218
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break when being prompted"
 msgstr "Kerrat, kun pidit tauon kehotteesta"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:223
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of times you took a break without being prompted"
 msgstr "Kerrat, kun pidit tauon ilman kehotetta"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:207
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
 msgstr "Kerrat, kun sinua kehotettiin pitämään tauko, poisluettuna toistetut kehotteet samasta tauosta"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:213
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Kerrat, kun sinua kehotettiin toistuvasti pitämään tauko"
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:103
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "Tilaikkuna pysyy aina muiden ikkunoiden yläpuolella"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:248
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:246
 #, fuzzy
 msgid "The total computer usage for the selected day"
 msgstr "Tietokoneen käyttö yhteensä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:258
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:256
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:253
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:251
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:363
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:361
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
 msgstr "Hiiren liike, joka olisi tarvittu jos olisit siirtänyt hiiresi suorassa linjassa klikkausten välissä."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:372
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:370
 msgid "The total number of keys pressed"
 msgstr "Näppäinpainallusten yhteismäärä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:368
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:366
 msgid "The total number of mouse button clicks"
 msgstr "Hiiren klikkausten yhteismäärä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:359
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:357
 msgid "The total on-screen mouse movement"
 msgstr "Hiiren liike näytöllä yhteensä"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:238
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total time this break was overdue"
 msgstr "Kokonaisaika jonka tämä tauko oli yli"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:353
 msgid "The total time you were using the mouse"
 msgstr "Kokonaisaika jonka käytit hiirtä"
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:204
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 msgid "This is your natural rest break."
 msgstr "Tämä on luonnollinen lepotaukosi."
 
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:210
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -927,32 +924,32 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:365 ../ui/apps/qt5/src/AboutDialog.cc:63
+#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Tämä ohjelma auttaa rasitusvammojen (RSI) ehkäisyssä ja niistä toipumisessa."
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:219
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:196
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "Aika ennen loppumista"
 
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:197
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "Aika taukojen välissä"
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
 #: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "Aika mikrotauolle?"
 
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:65
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:195
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:187
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "Ajastimet"
 
@@ -968,67 +965,67 @@ msgstr "Käännä päätäsi"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Käännä päätäsi vasemmalle ja pidä se siellä kaksi sekuntia. Käännä sitten päätäsi oikealle ja pidä se siellä kaksi sekuntia."
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:242
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:240
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:548
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
 msgid "Use alternate monitor"
 msgstr "使用另一个监视器"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:122
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:68
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
 msgid "User interface"
 msgstr "Käyttöliittymä"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:70
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
 msgid "Volume:"
 msgstr "Äänenvoimakkuus"
 
-#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:214
-#: ../ui/apps/qt5/src/TimerBoxView.cc:102
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
+#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "Odota"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:726
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:730
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:724
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:728
 msgid "Warning"
 msgstr "Varoitus"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:447
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
 msgid "Wavefiles"
 msgstr "Aaltotiedosto"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:252
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:250
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:603 ../ui/apps/qt5/src/Application.cc:609
+#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:776
+#: ../ui/apps/gtkmm/src/GUI.cc:768
 msgid "Workrave failed to start"
 msgstr "Workraven käynnistäminen epäonnistui"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1292 ../ui/apps/qt5/src/Application.cc:610
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave 处于离开模式。不会弹出休息窗口。"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1286 ../ui/apps/qt5/src/Application.cc:604
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr "Workrave 处于暂停模式。鼠标和键盘活动不会被监视。"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:295
+#: ../ui/apps/gtkmm/src/GUI.cc:293
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave 仍在运行。您可以通过点击白绵羊图表打开 Workrave。点击这个气球以不再显示本消息"
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:727
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:725
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr "Olet poistamassa koko tilastohistoriaasi. Oletko varma?"
 
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
 #: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -1039,19 +1036,19 @@ msgstr ""
 "tietokoneella. Jos työpäiväsi ei ole vielä ohi,\n"
 "etsi muuta tekemistä, kuten asiakirjan lukeminen."
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
 #: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "Tarvitset lepotauon..."
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
 #: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "Sinun pitäisi lopettaa tältä päivältä..."
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:184
+#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:182
 msgid "_About"
 msgstr "_Tietoja"
 
@@ -1075,9 +1072,9 @@ msgstr "加入"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:141
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Mode"
 msgstr "_Tila"
 
@@ -1087,36 +1084,36 @@ msgstr "_Tila"
 msgid "_Network"
 msgstr "_Verkko"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:145
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
 msgid "_Normal"
 msgstr "_Normaali"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../ui/applets/mate/src/main.c:262
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "_Open"
 msgstr "_Avaa"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:498
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:497
 msgid "_Postpone"
 msgstr "_Lykkää"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:171
+#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:169
 msgid "_Preferences"
 msgstr "A_setukset"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:348
-#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:189
+#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:187
 msgid "_Quit"
 msgstr "_Lopeta"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:154
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:152
 msgid "_Reading mode"
 msgstr "阅读模式(_R)"
 
@@ -1126,10 +1123,10 @@ msgstr "阅读模式(_R)"
 msgid "_Reconnect"
 msgstr "Yhdistä _uudelleen"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:102
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:165
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:100
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:163
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "_Rest break"
 msgstr "_Lepotauko"
 
@@ -1139,7 +1136,7 @@ msgstr "_Lepotauko"
 msgid "_Restbreak"
 msgstr "L_epotauko"
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:481
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:480
 msgid "_Skip"
 msgstr "_Ohita"
 
@@ -1149,9 +1146,9 @@ msgstr "_Ohita"
 msgid "_Statistics"
 msgstr "T_ilastot"
 
-#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:151
-#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:149
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Suspended"
 msgstr "_Keskeytetty"
 

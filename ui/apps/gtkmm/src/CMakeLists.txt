@@ -14,6 +14,7 @@ set(SRC
   Hig.cc
   IconListCellRenderer.cc
   IconListNotebook.cc
+  Locale.cc
   MainGtkMenu.cc
   MainWindow.cc
   Menus.cc
@@ -85,7 +86,7 @@ if (PLATFORM_OS_OSX)
     osx/OSXTimeBar.mm
     )
 
-  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc Locale.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/osx)
 endif()

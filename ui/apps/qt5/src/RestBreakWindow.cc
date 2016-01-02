@@ -24,11 +24,11 @@
 #include <boost/format.hpp>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "commonui/Backend.hh"
-#include "commonui/Exercise.hh"
 #include "commonui/Text.hh"
+#include "commonui/Exercise.hh"
 
 #include "ExercisesPanel.hh"
 #include "TimeBar.hh"

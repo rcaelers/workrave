@@ -29,7 +29,7 @@
 #include "GUI.hh"
 #include "utils/AssetPath.hh"
 #include "Hig.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 #include "commonui/SoundTheme.hh"
 #include "debug.hh"
 

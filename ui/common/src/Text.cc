@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "Text.hh"
+#include "commonui/Text.hh"
 
 #include <stdio.h>
 
@@ -36,7 +36,7 @@
 # endif
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #define snprintf _snprintf

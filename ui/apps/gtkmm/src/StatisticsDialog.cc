@@ -45,7 +45,7 @@
 #include <gtkmm.h>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
@@ -53,7 +53,7 @@
 #include "StatisticsDialog.hh"
 #include "commonui/Text.hh"
 #include "GtkUtil.hh"
-#include "utils/Locale.hh"
+#include "Locale.hh"
 
 using namespace std;
 

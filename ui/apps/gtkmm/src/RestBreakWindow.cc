@@ -35,7 +35,7 @@
 #include <gtkmm/label.h>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"

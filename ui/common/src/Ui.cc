@@ -15,11 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "Ui.hh"
 
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 using namespace workrave::ui;
 using namespace workrave::utils;

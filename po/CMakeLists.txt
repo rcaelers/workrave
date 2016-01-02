@@ -70,8 +70,7 @@ endforeach ()
 if (GETTEXT_FOUND AND INTLTOOL_MERGE_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
 
-  set(XGETTEXT_ARGS "")
-  ## --from-code=UTF-8 -C -kde -ci18n -k_ -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 -ktr2i18n:1 -kI18N_NOOP:1 -kI18N_NOOP2:1c,2 -kaliasLocale -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3")
+  set(XGETTEXT_ARGS "-C --qt --keyword=_ --keyword=N_ --keyword=q_ --keyword=qc_:1,2c -keyword=translate:2 --keyword=translate:2,3c --from-code=utf-8")
 
   add_custom_command(
     OUTPUT ${POTFILE}

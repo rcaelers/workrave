@@ -38,7 +38,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
