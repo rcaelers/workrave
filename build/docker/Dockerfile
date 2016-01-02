@@ -39,6 +39,7 @@ RUN dnf -y install \
                 python-cheetah \
                 qt5-qtbase-devel \
                 qt5-qtsvg-devel \
+                qt5-qttools-devel \
                 tar \
                 which \
                 wine \
