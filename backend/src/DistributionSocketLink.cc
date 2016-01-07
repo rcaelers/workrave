@@ -28,6 +28,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 #include "nls.h"
 
@@ -1237,14 +1238,20 @@ DistributionSocketLink::process_client_packet(Client *client)
           break;
         }
 
-      if (forward)
+      if (forward &&
+          find(clients.begin(), clients.end(), client) != clients.end())
         {
           forward_packet_except(packet, client, source);
         }
     }
 
-  packet.clear();
-  packet.resize(0);
+  if (find(clients.begin(), clients.end(), client) != clients.end())
+    {
+      // hack... client may have been removed...
+      packet.clear();
+      packet.resize(0);
+    }
+  
   TRACE_EXIT();
 }
 
@@ -1293,9 +1300,9 @@ DistributionSocketLink::get_random_string() const
   static const char alphanum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   std::string rnd;
   
-  for (int i = 0; i < 64; ++i)
+  for (int i = 0; i < 100; ++i)
     {
-      rnd += alphanum[g_random_int() % (sizeof(alphanum) - 1)];
+      rnd += alphanum[g_random_int_range(0, sizeof(alphanum) - 1)];
     }
   
   return rnd;
@@ -1312,21 +1319,15 @@ DistributionSocketLink::send_hello1(Client *client)
   packet.create();
   init_packet(packet, PACKET_HELLO1);
   
-  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
   string rnd = get_random_string();
-  
-  g_hmac_update(hmac, (const guchar *)username, strlen(username));
-  g_hmac_update(hmac, (const guchar *)rnd.c_str(), rnd.length());
-  g_hmac_update(hmac, (const guchar *)get_my_id().c_str(), get_my_id().length());
+  client->challenge = rnd;
+
+  TRACE_MSG(username << " " << get_my_id() << " " << rnd);
   
   packet.pack_string(username);
-  packet.pack_string(g_hmac_get_string(hmac));
   packet.pack_string(get_my_id());
   packet.pack_string(rnd);
-  packet.pack_ushort(server_port);
-  
-  g_hmac_unref (hmac);
-  
+
   send_packet(client, packet);
   TRACE_EXIT();
 }
@@ -1339,27 +1340,20 @@ DistributionSocketLink::handle_hello1(PacketBuffer &packet, Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_hello1");
   
   gchar *user = packet.unpack_string();
-  gchar *pass = packet.unpack_string();
   gchar *id = packet.unpack_string();
   gchar *rnd = packet.unpack_string();
-  /* int port = */ packet.unpack_ushort();
+
+  TRACE_MSG(user << " " << id << " " << rnd);
   
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
   
-  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
-  g_hmac_update(hmac, (const guchar *)username, strlen(username));
-  g_hmac_update(hmac, (const guchar *)rnd, strlen(rnd));
-  g_hmac_update(hmac, (const guchar *)id, strlen(id));
-  
-  if ( user != NULL && pass != NULL &&
-       (username == NULL || (strcmp(username, user) == 0)) &&
-       (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0)))
+  if (user != NULL &&  (username == NULL || (strcmp(username, user) == 0)))
     {
-      send_hello2(client);
+      send_hello2(client, rnd);
     }
   else
     {
-      // Incorrect password.
+      // Incorrect user.
       dist_manager->log(_("Client %s access denied."),
                         id != NULL ? id : "Unknown");
       remove_client(client);
@@ -1367,37 +1361,31 @@ DistributionSocketLink::handle_hello1(PacketBuffer &packet, Client *client)
   
   g_free(user);
   g_free(id);
-  g_free(pass);
   g_free(rnd);
   
-  g_hmac_unref (hmac);
-
   TRACE_EXIT();
 }
 
 //! Sends a hello to the specified client.
 void
-DistributionSocketLink::send_hello2(Client *client)
+DistributionSocketLink::send_hello2(Client *client, gchar *rnd)
 {
-  TRACE_ENTER("DistributionSocketLink::send_hello2");
-
+  TRACE_ENTER_MSG("DistributionSocketLink::send_hello2", username << " " << rnd << " " << get_my_id());
+  
   PacketBuffer packet;
 
   packet.create();
   init_packet(packet, PACKET_HELLO2);
   
   GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
-  string rnd = get_random_string();
-  
+
   g_hmac_update(hmac, (const guchar *)username, strlen(username));
-  g_hmac_update(hmac, (const guchar *)rnd.c_str(), rnd.length());
+  g_hmac_update(hmac, (const guchar *)rnd, strlen(rnd));
   g_hmac_update(hmac, (const guchar *)get_my_id().c_str(), get_my_id().length());
 
   packet.pack_string(username);
   packet.pack_string(g_hmac_get_string(hmac));
   packet.pack_string(get_my_id());
-  packet.pack_string(rnd); 
-  packet.pack_ushort(server_port);
 
   g_hmac_unref (hmac);
 
@@ -1415,14 +1403,14 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
   gchar *user = packet.unpack_string();
   gchar *pass = packet.unpack_string();
   gchar *id = packet.unpack_string();
-  gchar *rnd = packet.unpack_string();
-  /* int port = */ packet.unpack_ushort();
 
+  TRACE_MSG(user << " " << pass << " " << id << " " << client->challenge);
+  
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
 
   GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
   g_hmac_update(hmac, (const guchar *)username, strlen(username));
-  g_hmac_update(hmac, (const guchar *)rnd, strlen(rnd));
+  g_hmac_update(hmac, (const guchar *)client->challenge.c_str(), client->challenge.length());
   g_hmac_update(hmac, (const guchar *)id, strlen(id));
 
   if ( user != NULL && pass != NULL &&
@@ -1458,7 +1446,6 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
   g_free(user);
   g_free(id);
   g_free(pass);
-  g_free(rnd);
 
   g_hmac_unref (hmac);
 

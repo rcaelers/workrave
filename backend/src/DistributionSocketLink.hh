@@ -108,8 +108,8 @@ private:
       id(NULL),
       hostname(NULL),
       port(0),
-      welcome(false),
       sent_client_list(false),
+      welcome(false),
       reconnect_count(0),
       reconnect_time(0),
       next_claim_time(0),
@@ -144,6 +144,9 @@ private:
     //! ID
     gchar *id;
 
+    //! Challenge
+    std::string challenge;
+    
     //! Canonical IP.
     gchar *hostname;
 
@@ -247,7 +250,7 @@ private:
   void handle_claim_reject(PacketBuffer &packet, Client *client);
 
   void send_hello1(Client *client);
-  void send_hello2(Client *client);
+  void send_hello2(Client *client, gchar *rnd);
   void send_signoff(Client *to, Client *signedoff_client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
