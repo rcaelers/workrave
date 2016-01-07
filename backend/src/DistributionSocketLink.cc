@@ -1463,7 +1463,7 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
   g_hmac_unref (hmac);
 
   TRACE_EXIT();
-       }
+}
   
 //! Sends a hello to the specified client.
 void
