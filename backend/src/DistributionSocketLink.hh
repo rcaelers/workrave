@@ -56,7 +56,7 @@ class DistributionSocketLink :
 public:
 private:
   enum PacketCommand {
-    PACKET_HELLO        = 0x0001,
+    PACKET_HELLO1       = 0x0001,
     PACKET_CLAIM        = 0x0002,
     PACKET_CLIENT_LIST  = 0x0003,
     PACKET_WELCOME      = 0x0004,
@@ -65,6 +65,7 @@ private:
     PACKET_DUPLICATE    = 0x0007,
     PACKET_CLAIM_REJECT = 0x0008,
     PACKET_SIGNOFF      = 0x0009,
+    PACKET_HELLO2       = 0x000A,
   };
 
   enum PacketFlags {
@@ -107,6 +108,7 @@ private:
       id(NULL),
       hostname(NULL),
       port(0),
+      welcome(false),
       sent_client_list(false),
       reconnect_count(0),
       reconnect_time(0),
@@ -150,6 +152,9 @@ private:
 
     //!
     bool sent_client_list;
+
+    //!
+    bool welcome;
 
     //!
     PacketBuffer packet;
@@ -230,7 +235,8 @@ private:
   void forward_packet(PacketBuffer &packet, Client *dest, Client *source);
 
   void process_client_packet(Client *client);
-  void handle_hello(PacketBuffer &packet, Client *client);
+  void handle_hello1(PacketBuffer &packet, Client *client);
+  void handle_hello2(PacketBuffer &packet, Client *client);
   void handle_signoff(PacketBuffer &packet, Client *client);
   void handle_welcome(PacketBuffer &packet, Client *client);
   void handle_duplicate(PacketBuffer &packet, Client *client);
@@ -240,7 +246,8 @@ private:
   void handle_client_message(PacketBuffer &packet, Client *client);
   void handle_claim_reject(PacketBuffer &packet, Client *client);
 
-  void send_hello(Client *client);
+  void send_hello1(Client *client);
+  void send_hello2(Client *client);
   void send_signoff(Client *to, Client *signedoff_client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
@@ -255,6 +262,8 @@ private:
   void read_configuration();
   void config_changed_notify(const string &key);
 
+  std::string get_random_string() const;
+  
 private:
   typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
 

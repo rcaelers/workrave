@@ -992,7 +992,7 @@ DistributionSocketLink::init_packet(PacketBuffer &packet, PacketCommand cmd)
   // Length.
   packet.pack_ushort(0);
   // Version
-  packet.pack_byte(2);
+  packet.pack_byte(3);
   // Flags
   packet.pack_byte(0);
   // Command
@@ -1192,8 +1192,13 @@ DistributionSocketLink::process_client_packet(Client *client)
     {
       switch (type)
         {
-        case PACKET_HELLO:
-          handle_hello(packet, source);
+        case PACKET_HELLO1:
+          handle_hello1(packet, source);
+          forward = false;
+          break;
+
+        case PACKET_HELLO2:
+          handle_hello2(packet, source);
           forward = false;
           break;
 
@@ -1282,26 +1287,116 @@ DistributionSocketLink::forward_packet(PacketBuffer &packet, Client *dest, Clien
   TRACE_EXIT();
 }
 
+string
+DistributionSocketLink::get_random_string() const
+{
+  static const char alphanum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  std::string rnd;
+  
+  for (int i = 0; i < 64; ++i)
+    {
+      rnd += alphanum[g_random_int() % (sizeof(alphanum) - 1)];
+    }
+  
+  return rnd;
+}
+
 //! Sends a hello to the specified client.
 void
-DistributionSocketLink::send_hello(Client *client)
+DistributionSocketLink::send_hello1(Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::send_hello");
+  TRACE_ENTER("DistributionSocketLink::send_hello1");
+  
+  PacketBuffer packet;
+  
+  packet.create();
+  init_packet(packet, PACKET_HELLO1);
+  
+  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
+  string rnd = get_random_string();
+  
+  g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)rnd.c_str(), rnd.length());
+  g_hmac_update(hmac, (const guchar *)get_my_id().c_str(), get_my_id().length());
+  
+  packet.pack_string(username);
+  packet.pack_string(g_hmac_get_string(hmac));
+  packet.pack_string(get_my_id());
+  packet.pack_string(rnd);
+  packet.pack_ushort(server_port);
+  
+  g_hmac_unref (hmac);
+  
+  send_packet(client, packet);
+  TRACE_EXIT();
+}
+
+
+//! Handles a Hello from the specified client.
+void
+DistributionSocketLink::handle_hello1(PacketBuffer &packet, Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::handle_hello1");
+  
+  gchar *user = packet.unpack_string();
+  gchar *pass = packet.unpack_string();
+  gchar *id = packet.unpack_string();
+  gchar *rnd = packet.unpack_string();
+  /* int port = */ packet.unpack_ushort();
+  
+  dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
+  
+  GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
+  g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)rnd, strlen(rnd));
+  g_hmac_update(hmac, (const guchar *)id, strlen(id));
+  
+  if ( user != NULL && pass != NULL &&
+       (username == NULL || (strcmp(username, user) == 0)) &&
+       (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0)))
+    {
+      send_hello2(client);
+    }
+  else
+    {
+      // Incorrect password.
+      dist_manager->log(_("Client %s access denied."),
+                        id != NULL ? id : "Unknown");
+      remove_client(client);
+    }
+  
+  g_free(user);
+  g_free(id);
+  g_free(pass);
+  g_free(rnd);
+  
+  g_hmac_unref (hmac);
+
+  TRACE_EXIT();
+}
+
+//! Sends a hello to the specified client.
+void
+DistributionSocketLink::send_hello2(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::send_hello2");
 
   PacketBuffer packet;
 
   packet.create();
-  init_packet(packet, PACKET_HELLO);
-
+  init_packet(packet, PACKET_HELLO2);
+  
   GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
-
+  string rnd = get_random_string();
+  
   g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)rnd.c_str(), rnd.length());
   g_hmac_update(hmac, (const guchar *)get_my_id().c_str(), get_my_id().length());
 
   packet.pack_string(username);
   packet.pack_string(g_hmac_get_string(hmac));
   packet.pack_string(get_my_id());
-  packet.pack_string(get_my_id()); // was: hostname
+  packet.pack_string(rnd); 
   packet.pack_ushort(server_port);
 
   g_hmac_unref (hmac);
@@ -1313,25 +1408,26 @@ DistributionSocketLink::send_hello(Client *client)
 
 //! Handles a Hello from the specified client.
 void
-DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
+DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::handle_hello");
+  TRACE_ENTER("DistributionSocketLink::handle_hello2");
 
   gchar *user = packet.unpack_string();
   gchar *pass = packet.unpack_string();
   gchar *id = packet.unpack_string();
-  /* gchar *name = */ packet.unpack_string();
+  gchar *rnd = packet.unpack_string();
   /* int port = */ packet.unpack_ushort();
 
   dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
 
   GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
   g_hmac_update(hmac, (const guchar *)username, strlen(username));
+  g_hmac_update(hmac, (const guchar *)rnd, strlen(rnd));
   g_hmac_update(hmac, (const guchar *)id, strlen(id));
 
   if ( user != NULL && pass != NULL &&
        (username == NULL || (strcmp(username, user) == 0)) &&
-       (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0) || strcmp(password, pass) == 0))
+       (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0)))
     {
       bool ok = set_client_id(client, id);
 
@@ -1339,6 +1435,7 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
         {
           // Welcome!
           send_welcome(client);
+          client->welcome = true;
         }
       else
         {
@@ -1361,12 +1458,13 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   g_free(user);
   g_free(id);
   g_free(pass);
+  g_free(rnd);
 
   g_hmac_unref (hmac);
 
   TRACE_EXIT();
-}
-
+       }
+  
 //! Sends a hello to the specified client.
 void
 DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
@@ -1409,7 +1507,10 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_signoff");
 
-  (void) client;
+  if (!client->welcome)
+    {
+      return;
+    }
 
   gchar *id = packet.unpack_string();
   Client *c = NULL;
@@ -1519,6 +1620,8 @@ DistributionSocketLink::handle_welcome(PacketBuffer &packet, Client *client)
 
   if (ok)
     {
+      client->welcome = true;
+      
       // The connected client offers the master client.
       // This info will be received in the client list.
       // So, we no longer know who's master...
@@ -1628,6 +1731,12 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
 {
   TRACE_ENTER("DistributionSocketLink::handle_client_list");
 
+  if (!client->welcome)
+    {
+      TRACE_EXIT();
+      return false;;
+    }
+  
   // Extract data.
   gint num_clients = packet.unpack_ushort();
   gint flags = packet.unpack_ushort();
@@ -1785,6 +1894,12 @@ DistributionSocketLink::handle_claim(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_claim");
 
+  if (!client->welcome)
+    {
+      TRACE_EXIT();
+      return;
+    }
+  
   /*gint count = */ packet.unpack_ushort();
 
   if (i_am_master && master_locked)
@@ -1844,6 +1959,12 @@ DistributionSocketLink::handle_claim_reject(PacketBuffer &packet, Client *client
   TRACE_ENTER("DistributionSocketLink::handle_claim");
   (void) packet;
 
+  if (!client->welcome)
+    {
+      TRACE_EXIT();
+      return;
+    }
+  
   if (client != master_client)
     {
       dist_manager->log(_("Non-master client %s rejected master request."),
@@ -1904,7 +2025,6 @@ DistributionSocketLink::send_new_master(Client *client)
     }
 
   TRACE_EXIT();
-
 }
 
 
@@ -1914,6 +2034,12 @@ DistributionSocketLink::handle_new_master(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_new_master");
 
+  if (!client->welcome)
+    {
+      TRACE_EXIT();
+      return;
+    }
+  
   for (list<Client *>::iterator i = clients.begin(); i != clients.end(); i++)
     {
       (*i)->reject_count = 0;
@@ -1986,8 +2112,13 @@ void
 DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink:handle_client_message");
-  (void) client;
 
+  if (!client->welcome)
+    {
+      TRACE_EXIT();
+      return;
+    }
+  
   bool will_i_become_master = false;
 
   // dist_manager->log(_("Reveived client message from client %s:%d."), client->hostname, client->port);
@@ -2088,6 +2219,8 @@ DistributionSocketLink::socket_accepted(ISocketServer *scon, ISocket *ccon)
       ccon->set_data(client);
       ccon->set_listener(this);
       clients.push_back(client);
+
+      send_hello1(client);
     }
   TRACE_EXIT();
 }
@@ -2198,8 +2331,6 @@ DistributionSocketLink::socket_connected(ISocket *con, void *data)
   client->reconnect_time = 0;
   client->outbound = true;
   client->socket = con;
-
-  send_hello(client);
 
   TRACE_EXIT();
 }

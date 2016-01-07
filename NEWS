@@ -7,6 +7,11 @@ http://www.workrave.org
 
 * Workrave 1.10.11
 
+** Improved security of network protocol.
+
+   NOTE: this is a backward incompatible change.
+   This version of Workrave will no longer connect to older Workrave versions.
+   
 ** Minor improvements
 
 * Workrave 1.10.8
