@@ -85,7 +85,7 @@ _workraveButton.prototype = {
 
 	this._updateMenu(null);
 
-        MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
+        Mainloop.timeout_add(1000, Lang.bind(this, this._connect));
     },
 
     _connect: function()
