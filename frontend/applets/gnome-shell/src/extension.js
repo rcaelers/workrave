@@ -275,7 +275,7 @@ _workraveButton.prototype = {
 
 	if (menuitems == null || menuitems.length == 0)
 	{
-	    let popup = new PopupMenu.PopupMenuItem(_("Open"));
+	    let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
 	    popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
 	    current_menu.addMenuItem(popup);
 	}
