@@ -27,7 +27,6 @@
 #include "debug.hh"
 #include "commonui/nls.h"
 
-#include "commonui/Ui.hh"
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
 
@@ -35,11 +34,11 @@
 #include "SoundsPreferencesPanel.hh"
 #include "TimerBoxPreferencesPanel.hh"
 #include "TimerPreferencesPanel.hh"
+#include "Ui.hh"
 #include "UiUtil.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
-using namespace workrave::ui;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
@@ -61,10 +60,10 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   vsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
   
   QWidget *timer_page = create_timer_page();
-  add_page(_("Timers"), "time.png", timer_page);
+  add_page(tr("Timers"), "time.png", timer_page);
 
   QWidget *gui_page = create_ui_page(sound_theme);
-  add_page(_("User interface"), "display.png", gui_page);
+  add_page(tr("User interface"), "display.png", gui_page);
 
   QDialogButtonBox *buttonBox =  new QDialogButtonBox(QDialogButtonBox::Close);
   layout->addWidget(buttonBox);
@@ -82,11 +81,10 @@ PreferencesDialog::create_timer_page()
     {
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
 
-      std::string file = AssetPath::complete_directory(Ui::get_break_icon_filename(i), AssetPath::SEARCH_PATH_IMAGES);
-      QPixmap pixmap(file.c_str());
+      QPixmap pixmap(Ui::get_break_icon_filename(i));
       QIcon icon(pixmap);
 
-      timer_tab->addTab(panel, icon, QString::fromStdString(Ui::get_break_name(i)));
+      timer_tab->addTab(panel, icon, Ui::get_break_name(i));
     }
 
   return timer_tab;
@@ -99,16 +97,16 @@ PreferencesDialog::create_ui_page(SoundTheme::Ptr sound_theme)
   QTabWidget *timer_tab = new QTabWidget;
   timer_tab->setTabPosition(QTabWidget::North);
 
-  timer_tab->addTab(new GeneralUiPreferencesPanel(), _("General"));
-  timer_tab->addTab(new SoundsPreferencesPanel(sound_theme), _("Sounds"));
-  timer_tab->addTab(new TimerBoxPreferencesPanel("main_window"), _("Status Window"));
-  timer_tab->addTab(new TimerBoxPreferencesPanel("applet"), _("Applet"));
+  timer_tab->addTab(new GeneralUiPreferencesPanel(), tr("General"));
+  timer_tab->addTab(new SoundsPreferencesPanel(sound_theme), tr("Sounds"));
+  timer_tab->addTab(new TimerBoxPreferencesPanel("main_window"), tr("Status Window"));
+  timer_tab->addTab(new TimerBoxPreferencesPanel("applet"), tr("Applet"));
 
   return timer_tab;
 }
 
 void
-PreferencesDialog::add_page(const char *label, const char *image, QWidget *page)
+PreferencesDialog::add_page(const QString &label, const char *image, QWidget *page)
 {
   std::string file = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES);
   QPixmap pixmap(file.c_str());

@@ -46,56 +46,46 @@ class Toolkit : public QApplication, public IToolkit
   Q_OBJECT
 
 public:
-  typedef std::shared_ptr<Toolkit> Ptr;
-
   Toolkit(int argc, char **argv);
   ~Toolkit() override;
 
   boost::signals2::signal<void()> &signal_timer() override;
 
   void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
-
-
-  
   void terminate() override;
   void run() override;
-  void grab() override;
-  void ungrab() override;
   std::string get_display_name() override;
   IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) override;
   IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) override;
-  int get_screen_count() const override;
   void show_window(WindowType type) override;
-  void hide_window(WindowType type) override;
+  int get_screen_count() const override;
   void create_oneshot_timer(int ms, std::function<void ()> func) override;
   void show_balloon(std::string id, const std::string& title, const std::string& balloon) override;
 
 public Q_SLOTS:
   void on_timer();
-  void on_exercises_closed();
-  void on_preferences_closed();
-  void on_statistics_closed();
-  void on_about_closed();
 
 private:
+  void init_translations();
+    
+private:
+  QTimer *heartbeat_timer;
   
-private:
-  std::shared_ptr<QTimer> heartbeat_timer;
-
-  std::shared_ptr<MainWindow> main_window;
-  std::shared_ptr<PreferencesDialog> preferences_dialog;
-  std::shared_ptr<ExercisesDialog> exercises_dialog;
-  std::shared_ptr<AboutDialog> about_dialog;
-  std::shared_ptr<StatisticsDialog> statistics_dialog;
-
+  MainWindow *main_window;
   std::shared_ptr<StatusIcon> status_icon;
+
+  QPointer<PreferencesDialog> preferences_dialog;
+  QPointer<ExercisesDialog> exercises_dialog;
+  QPointer<AboutDialog> about_dialog;
+  QPointer<StatisticsDialog> statistics_dialog;
 
 #ifdef PLATFORM_OS_OSX
   std::shared_ptr<Dock> dock;
-  ToolkitMenu::Ptr dock_menu;
+  std::shared_ptr<ToolkitMenu> dock_menu;
 #endif
-  MenuModel::Ptr menu_model;
-  SoundTheme::Ptr sound_theme;
+
+  std::shared_ptr<MenuModel> menu_model;
+  std::shared_ptr<SoundTheme> sound_theme;
 
   boost::signals2::signal<void()> timer_signal;
 

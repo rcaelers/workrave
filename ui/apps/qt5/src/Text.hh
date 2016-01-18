@@ -1,4 +1,6 @@
-// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
+// Text.hh
+//
+// Copyright (C) 2002, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,26 +17,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_APPS_COMMON_UI_HH
-#define WORKRAVE_APPS_COMMON_UI_HH
+#ifndef TEXT_HH
+#define TEXT_HH
 
-#include <string>
+#include <QCoreApplication>
+#include <QString>
 
-#include "core/CoreTypes.hh"
-#include "commonui/UiTypes.hh"
+#include <time.h>
 
-namespace workrave
+class Text
 {
-  namespace ui
-  {
-    class Ui
-    {
-    public:
-      static const std::string get_break_name(workrave::BreakId id);
-      static const std::string get_break_icon_filename(workrave::BreakId id);
-      static const std::string get_status_icon_filename(StatusIconType id);
-    };
-  }
-}
+  Q_DECLARE_TR_FUNCTIONS(Application);
 
-#endif // WORKRAVE_APPS_COMMON_UI_HH
+public:
+  static QString time_to_string(time_t t, bool display_units = false);
+};
+
+#endif // TEXT_HH

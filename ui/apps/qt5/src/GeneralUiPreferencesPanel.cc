@@ -54,9 +54,9 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   // Block types
   block_button = new QComboBox;
-  block_button->addItem(_("No blocking"));
-  block_button->addItem(_("Block input"));
-  block_button->addItem(_("Block input and screen"));
+  block_button->addItem(tr("No blocking"));
+  block_button->addItem(tr("Block input"));
+  block_button->addItem(tr("Block input and screen"));
 
   int block_idx;
   switch (GUIConfig::block_mode()())
@@ -79,7 +79,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   QVBoxLayout *layout = new QVBoxLayout;
   setLayout(layout);
 
-  UiUtil::add_widget(layout, _("Block mode:"), block_button);
+  UiUtil::add_widget(layout, tr("Block mode:"), block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   string current_locale_name = GUIConfig::locale()();
@@ -108,7 +108,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   languages_combo->setModel(model);
   languages_combo->setModelColumn(0);
 
-  model->setItem(0, 0, new QStandardItem(_("System default")));
+  model->setItem(0, 0, new QStandardItem(tr("System default")));
   model->setItem(0, 1, new QStandardItem(""));
 
   QLocale current_locale;
@@ -152,12 +152,12 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   languages_view->setColumnHidden(2, true);
   languages_combo->setCurrentIndex(selected);
-  UiUtil::add_widget(layout, _("Language:"), languages_combo);
+  UiUtil::add_widget(layout, tr("Language:"), languages_combo);
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
   QCheckBox *autostart_cb = new QCheckBox;
-  autostart_cb->setText(_("Start Workrave on Windows startup"));
+  autostart_cb->setText(tr("Start Workrave on Windows startup"));
   connect(autostart_cb, &QCheckBox::stateChanged, this, &GeneralUiPreferencesPanel::on_autostart_toggled);
 
   layout->addWidget(autostart_cb);
@@ -168,7 +168,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 #endif
 
   QCheckBox *trayicon_cb = new QCheckBox;
-  trayicon_cb->setText(_("Show system tray icon"));
+  trayicon_cb->setText(tr("Show system tray icon"));
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   layout->addWidget(trayicon_cb);

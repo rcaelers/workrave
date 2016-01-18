@@ -32,14 +32,12 @@
 
 #include "commonui/Backend.hh"
 #include "commonui/GUIConfig.hh"
-#include "commonui/TimerBoxControl.hh"
-#include "commonui/Ui.hh"
 #include "core/CoreConfig.hh"
 
+#include "Ui.hh"
 #include "UiUtil.hh"
 
 using namespace workrave;
-using namespace workrave::ui;
 using namespace workrave::config;
 
 TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
@@ -75,11 +73,11 @@ TimerBoxPreferencesPanel::init_enabled()
 {
   if (name == "main_window")
     {
-      enabled_cb->setText(_("Show status window"));
+      enabled_cb->setText(tr("Show status window"));
     }
   else if (name == "applet")
     {
-      enabled_cb->setText(_("Applet enabled"));
+      enabled_cb->setText(tr("Applet enabled"));
     }
 
   connector->connect(GUIConfig::timerbox_enabled(name), dc::wrap(enabled_cb),
@@ -89,17 +87,17 @@ TimerBoxPreferencesPanel::init_enabled()
 void
 TimerBoxPreferencesPanel::init_ontop()
 {
-  ontop_cb->setText(_("The status window stays always on top of other windows"));
+  ontop_cb->setText(tr("The status window stays always on top of other windows"));
   connector->connect(GUIConfig::main_window_always_on_top(), dc::wrap(ontop_cb));
 }
 
 void
 TimerBoxPreferencesPanel::init_placement()
 {
-  place_button->addItem(_("Place timers next to each other"));
-  place_button->addItem(_("Place micro-break and rest break in one spot"));
-  place_button->addItem(_("Place rest break and daily limit in one spot"));
-  place_button->addItem(_("Place all timers in one spot"));
+  place_button->addItem(tr("Place timers next to each other"));
+  place_button->addItem(tr("Place micro-break and rest break in one spot"));
+  place_button->addItem(tr("Place rest break and daily limit in one spot"));
+  place_button->addItem(tr("Place all timers in one spot"));
 
   int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
   int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
@@ -143,9 +141,9 @@ TimerBoxPreferencesPanel::init_timer_display()
       timer_display_button[i] = new QComboBox;
       QComboBox *button = timer_display_button[i];
 
-      button->addItem(_("Hide"));
-      button->addItem(_("Show"));
-      button->addItem(_("Show only when this timer is first due"));
+      button->addItem(tr("Hide"));
+      button->addItem(tr("Show"));
+      button->addItem(tr("Show only when this timer is first due"));
 
       connector->connect(GUIConfig::timerbox_flags(name, i), dc::wrap(timer_display_button[i]),
                          std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
@@ -166,7 +164,7 @@ TimerBoxPreferencesPanel::init()
 
   layout->addWidget(enabled_cb);
 
-  QGroupBox *display_box = new QGroupBox(_("Display"));
+  QGroupBox *display_box = new QGroupBox(tr("Display"));
   QVBoxLayout *display_layout = new QVBoxLayout;
   display_box->setLayout(display_layout);
   layout->addWidget(display_box);
@@ -178,10 +176,10 @@ TimerBoxPreferencesPanel::init()
       display_layout->addWidget(ontop_cb);
     }
 
-  UiUtil::add_widget(display_layout, _("Placement:"), place_button);
-  UiUtil::add_widget(display_layout, _("Cycle time:"), cycle_entry);
+  UiUtil::add_widget(display_layout, tr("Placement:"), place_button);
+  UiUtil::add_widget(display_layout, tr("Cycle time:"), cycle_entry);
 
-  QGroupBox *timers_box = new QGroupBox(_("Timers"));
+  QGroupBox *timers_box = new QGroupBox(tr("Timers"));
   QVBoxLayout *timers_layout = new QVBoxLayout;
   timers_box->setLayout(timers_layout);
   layout->addWidget(timers_box);

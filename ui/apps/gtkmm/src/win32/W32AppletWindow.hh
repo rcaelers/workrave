@@ -26,7 +26,7 @@
 #include <gdk/gdkwin32.h>
 
 #include "commonui/TimerBoxViewBase.hh"
-#include "commonui/ITimeBar.hh"
+#include "commonui/UiTypes.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
@@ -41,10 +41,10 @@ public:
 
   void set_slot(workrave::BreakId  id, int slot);
   void set_time_bar(workrave::BreakId id,
-                    std::string text,
-                    ITimeBar::ColorId primary_color,
+                    int value,
+                    TimerColorId primary_color,
                     int primary_value, int primary_max,
-                    ITimeBar::ColorId secondary_color,
+                    TimerColorId secondary_color,
                     int secondary_value, int secondary_max);
   void update_view();
   void update_time_bars();

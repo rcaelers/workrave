@@ -95,10 +95,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
       QHBoxLayout *button_box = new QHBoxLayout;
       QLabel *browse_label = new QLabel;
 
-      std::string browse_label_text = "<b>";
-      browse_label_text += _("Exercises player");
+      QString browse_label_text = "<b>";
+      browse_label_text += tr("Exercises player");
       browse_label_text += ":</b>";
-      browse_label->setText(browse_label_text.c_str());
+      browse_label->setText(browse_label_text);
 
       button_box->addWidget(browse_label);
       button_box->addWidget(stop_button);
@@ -118,10 +118,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   connect(pause_button, &QPushButton::clicked, this, &ExercisesPanel::on_pause);
   connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
 
-  back_button->setToolTip(_("Previous exercise"));
-  forward_button->setToolTip(_("Next exercise"));
-  pause_button->setToolTip(_("Pause exercises"));
-  stop_button->setToolTip(_("End exercises"));
+  back_button->setToolTip(tr("Previous exercise"));
+  forward_button->setToolTip(tr("Next exercise"));
+  pause_button->setToolTip(tr("Pause exercises"));
+  stop_button->setToolTip(tr("End exercises"));
 
   timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeat()));
@@ -130,6 +130,11 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   reset();
 
   setLayout(box);
+}
+
+ExercisesPanel::~ExercisesPanel()
+{
+  qDebug() << "ExercisesPanel ~";
 }
 
 void
@@ -156,10 +161,10 @@ ExercisesPanel::start_exercise()
     {
       const Exercise &exercise = *exercise_iterator;
 
-      std::string txt = UiUtil::create_alert_text(exercise.title.c_str(),
-                                                  exercise.description.c_str());
+      QString txt = UiUtil::create_alert_text(exercise.title.c_str(),
+                                              exercise.description.c_str());
 
-      description_text->setText(txt.c_str());
+      description_text->setText(txt);
       exercise_time = 0;
       seq_time = 0;
       image_iterator = exercise.sequence.end();
@@ -283,11 +288,11 @@ ExercisesPanel::refresh_pause()
 
   if (paused)
     {
-      pause_button->setToolTip(_("Resume exercises"));
+      pause_button->setToolTip(tr("Resume exercises"));
     }
   else
     {
-      pause_button->setToolTip(_("Pause exercises"));
+      pause_button->setToolTip(tr("Pause exercises"));
     }
 }
 

@@ -25,7 +25,8 @@
 #include "debug.hh"
 #include "commonui/nls.h"
 
-#include "commonui/Ui.hh"
+#include "Text.hh"
+#include "Ui.hh"
 #include "utils/AssetPath.hh"
 
 #include "SizeGroup.hh"
@@ -33,7 +34,6 @@
 
 using namespace workrave;
 using namespace workrave::utils;
-using namespace workrave::ui;
 
 TimerBoxView::TimerBoxView() :
   sheep(NULL),
@@ -75,7 +75,7 @@ TimerBoxView::init()
 
   for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QPixmap pixmap(QString::fromStdString(Ui::get_break_icon_filename(i)));
+      QPixmap pixmap(Ui::get_break_icon_filename(i));
 
       if (false) // TODO: i == BREAK_ID_REST_BREAK)
         {
@@ -95,9 +95,10 @@ TimerBoxView::init()
       bars[i] = new TimeBar();
       bars[i]->set_text_alignment(1);
       bars[i]->set_progress(0, 60);
-      bars[i]->set_text(_("Wait"));
+      bars[i]->set_text(tr("Wait"));
     }
 
+  // TODO: move to UiUtil
   std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
   QPixmap pixmap(QString::fromStdString(sheep_file));
   sheep = new QLabel("");
@@ -229,19 +230,19 @@ TimerBoxView::set_slot(BreakId id, int slot)
 
 void
 TimerBoxView::set_time_bar(BreakId id,
-                           std::string text, ITimeBar::ColorId primary_color,
+                           int value, TimerColorId primary_color,
                            int primary_val, int primary_max,
-                           ITimeBar::ColorId secondary_color,
+                           TimerColorId secondary_color,
                            int secondary_val, int secondary_max)
 {
   TRACE_ENTER_MSG("TimerBoxView::set_time_bar", id);
 
-  TRACE_MSG(text);
+  TRACE_MSG(value);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
   TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
 
   TimeBar *bar = bars[id];
-  bar->set_text(text);
+  bar->set_text(Text::time_to_string(value));
   bar->set_bar_color(primary_color);
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);
@@ -252,7 +253,7 @@ TimerBoxView::set_time_bar(BreakId id,
 void
 TimerBoxView::set_icon(StatusIconType icon)
 {
-  std::string file = Ui::get_status_icon_filename(icon);
+ QString file = Ui::get_status_icon_filename(icon);
   // TODO:
 }
 

@@ -42,11 +42,11 @@ public:
 
   void set_slot(workrave::BreakId  id, int slot) override;
   void set_time_bar(workrave::BreakId id,
-                            std::string text,
-                            ITimeBar::ColorId primary_color,
-                            int primary_value, int primary_max,
-                            ITimeBar::ColorId secondary_color,
-                            int secondary_value, int secondary_max) override;
+                    int value,
+                    TimerColorId primary_color,
+                    int primary_value, int primary_max,
+                    TimerColorId secondary_color,
+                    int secondary_value, int secondary_max) override;
 
   void set_icon(StatusIconType icon) override;
   void update_view() override;

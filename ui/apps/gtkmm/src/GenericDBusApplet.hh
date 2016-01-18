@@ -83,10 +83,10 @@ private:
   // ITimerBoxView
   virtual void set_slot(workrave::BreakId  id, int slot);
   virtual void set_time_bar(workrave::BreakId id,
-                            std::string text,
-                            ITimeBar::ColorId primary_color,
+                            int value,
+                            TimerColorId primary_color,
                             int primary_value, int primary_max,
-                            ITimeBar::ColorId secondary_color,
+                            TimerColorId secondary_color,
                             int secondary_value, int secondary_max);
   virtual void update_view();
 

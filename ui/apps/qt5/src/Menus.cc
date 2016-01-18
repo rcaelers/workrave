@@ -40,7 +40,9 @@ const std::string Menus::MODE_READING = "workrave:mode_reading";
 const std::string Menus::OPEN = "workrave:open";
 const std::string Menus::QUIT = "workrave:quit";
 
-Menus::Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core)
+Menus::Menus(std::shared_ptr<IApplication> app,
+             std::shared_ptr<IToolkit> toolkit,
+             std::shared_ptr<workrave::ICore> core)
   : app(app), toolkit(toolkit), core(core)
 {
   menu_model = std::make_shared<MenuModel>();
@@ -62,37 +64,37 @@ Menus::init()
   MenuModel::Ptr item;
 
   item = std::make_shared<MenuModel>(OPEN,
-                                     _("Open"),
+                                     tr("Open").toStdString(),
                                      std::bind(&Menus::on_menu_open_main_window, this));
   menu_model->add_menu(item);
 
   item = std::make_shared<MenuModel>(PREFERENCES,
-                                     _("Preferences"),
+                                     tr("Preferences").toStdString(),
                                      std::bind(&Menus::on_menu_preferences, this));
   menu_model->add_menu(item);
 
   item = std::make_shared<MenuModel>(REST_BREAK,
-                                     _("Rest break"),
+                                     tr("Rest break").toStdString(),
                                      std::bind(&Menus::on_menu_restbreak_now, this));
   menu_model->add_menu(item);
 
   item = std::make_shared<MenuModel>(EXERCISES,
-                                     _("Exercises"),
+                                     tr("Exercises").toStdString(),
                                      std::bind(&Menus::on_menu_exercises, this));
   menu_model->add_menu(item);
 
-  MenuModel::Ptr modemenu = std::make_shared<MenuModel>(MODE, _("Mode"), nullptr, MenuModelType::MENU);
+  MenuModel::Ptr modemenu = std::make_shared<MenuModel>(MODE, tr("Mode").toStdString(), nullptr, MenuModelType::MENU);
   menu_model->add_menu(modemenu);
 
   normal_item = std::make_shared<MenuModel>(MODE_NORMAL,
-                                            _("Normal"),
+                                            tr("Normal").toStdString(),
                                             std::bind(&Menus::on_menu_normal, this),
                                             MenuModelType::RADIO);
   normal_item->set_checked(mode == workrave::OperationMode::Normal);
   modemenu->add_menu(normal_item);
 
   suspended_item = std::make_shared<MenuModel>(MODE_SUSPENDED,
-                                               _("Suspended"),
+                                               tr("Suspended").toStdString(),
                                                std::bind(&Menus::on_menu_suspend, this),
                                                MenuModelType::RADIO);
 
@@ -100,31 +102,31 @@ Menus::init()
   modemenu->add_menu(suspended_item);
 
   quiet_item = std::make_shared<MenuModel>(MODE_QUIET,
-                                           _("Quiet"),
+                                           tr("Quiet").toStdString(),
                                            std::bind(&Menus::on_menu_quiet, this),
                                            MenuModelType::RADIO);
   quiet_item->set_checked(mode == workrave::OperationMode::Quiet);
   modemenu->add_menu(quiet_item);
 
   reading_item = std::make_shared<MenuModel>(MODE_READING,
-                                             _("Reading mode"),
+                                             tr("Reading mode").toStdString(),
                                              std::bind(static_cast<void (Menus::*)()>(&Menus::on_menu_reading), this),
                                              MenuModelType::CHECK);
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   menu_model->add_menu(reading_item);
 
   item = std::make_shared<MenuModel>(STATISTICS,
-                                     _("Statistics"),
+                                     tr("Statistics").toStdString(),
                                      std::bind(&Menus::on_menu_statistics, this));
   menu_model->add_menu(item);
 
   item = std::make_shared<MenuModel>(ABOUT,
-                                     _("About..."),
+                                     tr("About...").toStdString(),
                                      std::bind(&Menus::on_menu_about, this));
   menu_model->add_menu(item);
 
   item = std::make_shared<MenuModel>(QUIT,
-                                     _("Quit"),
+                                     tr("Quit").toStdString(),
                                      std::bind(&Menus::on_menu_quit, this));
   menu_model->add_menu(item);
 

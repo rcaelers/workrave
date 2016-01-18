@@ -31,11 +31,9 @@
 
 #include "debug.hh"
 
-#include "commonui/ITimeBar.hh"
-#include "commonui/Text.hh"
 #include "commonui/Backend.hh"
-#include "core/CoreConfig.hh"
 #include "commonui/GUIConfig.hh"
+#include "core/CoreConfig.hh"
 #include "core/IBreak.hh"
 
 using namespace std;
@@ -44,8 +42,8 @@ using namespace workrave::config;
 
 
 //! Constructor.
-TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
-  view(&v),
+TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v) :
+  view(v),
   cycle_time(10),
   name(n),
   force_duration(0),
@@ -157,10 +155,10 @@ TimerBoxControl::update_widgets()
       ICore::Ptr core = Backend::get_core();
       IBreak::Ptr b = core->get_break(count);
 
-      std::string text;
-      ITimeBar::ColorId primary_color;
+      int value;
+      TimerColorId primary_color;
       int primary_val, primary_max;
-      ITimeBar::ColorId secondary_color;
+      TimerColorId secondary_color;
       int secondary_val, secondary_max;
 
       // Collect some data.
@@ -170,35 +168,35 @@ TimerBoxControl::update_widgets()
       time_t idleTime = b->get_elapsed_idle_time();
       bool overdue = (maxActiveTime < activeTime);
 
-      // Set the text
+      // Set the value
       if (b->is_limit_enabled() && maxActiveTime != 0)
         {
-          text = Text::time_to_string(maxActiveTime - activeTime);
+          value = maxActiveTime - activeTime;
         }
       else
         {
-          text = Text::time_to_string(activeTime);
+          value = activeTime;
         }
       // And set the bar.
       secondary_val = secondary_max = 0;
-      secondary_color = ITimeBar::COLOR_ID_INACTIVE;
+      secondary_color = TimerColorId::Inactive;
 
       // Timer is running, show elapsed time.
       primary_val = static_cast<int>(activeTime);
       primary_max = static_cast<int>(maxActiveTime);
 
       primary_color = overdue
-        ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
+        ? TimerColorId::Overdue : TimerColorId::Active;
 
       if (b->is_auto_reset_enabled() && breakDuration != 0)
         {
           // resting.
-          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
+          secondary_color = TimerColorId::Inactive;
           secondary_val = static_cast<int>(idleTime);
           secondary_max = static_cast<int>(breakDuration);
         }
 
-      view->set_time_bar(BreakId(count), text,
+      view->set_time_bar(BreakId(count), value,
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
     }

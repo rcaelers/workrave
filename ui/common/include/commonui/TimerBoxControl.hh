@@ -30,7 +30,7 @@
 class TimerBoxControl
 {
 public:
-  TimerBoxControl(std::string name, ITimerBoxView &view);
+  TimerBoxControl(std::string name, ITimerBoxView *view);
 
   void init();
   void update();

@@ -1,33 +1,36 @@
 set(SRC
-  main.cc
   AboutDialog.cc
   Application.cc
-  Frame.cc
-  MainWindow.cc
-  PreludeWindow.cc
-  TimerBoxView.cc
-  TimeBar.cc
-  Toolkit.cc
   BreakWindow.cc
-  MicroBreakWindow.cc
   DailyLimitWindow.cc
-  RestBreakWindow.cc
-  UiUtil.cc
-  ExercisesPanel.cc
-  ExercisesDialog.cc
-  PreferencesDialog.cc
-  TimerPreferencesPanel.cc
-  TimeEntry.cc
-  SizeGroup.cc
   DataConnector.cc
+  ExercisesDialog.cc
+  ExercisesPanel.cc
+  Frame.cc
   GeneralUiPreferencesPanel.cc
-  SoundsPreferencesPanel.cc
-  TimerBoxPreferencesPanel.cc
-  ToolkitMenu.cc
-  Menus.cc
+  MainWindow.cc
   MenuModel.cc
-  StatusIcon.cc
+  Menus.cc
+  MicroBreakWindow.cc
+  PreferencesDialog.cc
+  PreludeWindow.cc
+  RestBreakWindow.cc
+  SizeGroup.cc
+  SoundsPreferencesPanel.cc
   StatisticsDialog.cc
+  StatusIcon.cc
+  Text.cc
+  TimeBar.cc
+  TimeEntry.cc
+  TimerBoxPreferencesPanel.cc
+  TimerBoxView.cc
+  TimerPreferencesPanel.cc
+  Toolkit.cc
+  ToolkitMenu.cc
+  Ui.cc
+  UiUtil.cc
+  main.cc
+  qformat.cc
   )
 
 if (PLATFORM_OS_OSX)
@@ -44,27 +47,27 @@ qt5_wrap_ui(HEADERS_UI ${DESIGNER_UI})
 qt5_wrap_cpp(MOC_SRC
   AboutDialog.hh
   BreakWindow.hh
-  MicroBreakWindow.hh
   DailyLimitWindow.hh
-  RestBreakWindow.hh
-  MainWindow.hh
-  PreludeWindow.hh
-  TimeBar.hh
-  TimerBoxView.hh
-  Toolkit.hh
-  Frame.hh
-  ExercisesPanel.hh
   ExercisesDialog.hh
-  PreferencesDialog.hh
-  TimerPreferencesPanel.hh
-  TimeEntry.hh
-  SizeGroup.hh
+  ExercisesPanel.hh
+  Frame.hh
   GeneralUiPreferencesPanel.hh
+  MainWindow.hh
+  MicroBreakWindow.hh
+  PreferencesDialog.hh
+  PreludeWindow.hh
+  RestBreakWindow.hh
+  SizeGroup.hh
   SoundsPreferencesPanel.hh
-  TimerBoxPreferencesPanel.hh
-  ToolkitMenu.hh
-  StatusIcon.hh
   StatisticsDialog.hh
+  StatusIcon.hh
+  TimeBar.hh
+  TimeEntry.hh
+  TimerBoxPreferencesPanel.hh
+  TimerBoxView.hh
+  TimerPreferencesPanel.hh
+  Toolkit.hh
+  ToolkitMenu.hh
 )
 
 if (PLATFORM_OS_OSX)

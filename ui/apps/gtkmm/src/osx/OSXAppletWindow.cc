@@ -21,6 +21,7 @@
 #endif
 
 #include "commonui/nls.h"
+#include "Text.hh"
 #include "debug.hh"
 
 #include "OSXAppletWindow.hh"
@@ -72,15 +73,15 @@ OSXAppletWindow::set_slot(workrave::BreakId id, int slot)
 
 void
 OSXAppletWindow::set_time_bar(workrave::BreakId id,
-                              std::string text,
-                              ITimeBar::ColorId primary_color,
+                              int value,
+                              TimerColorId primary_color,
                               int primary_val, int primary_max,
-                              ITimeBar::ColorId secondary_color,
+                              TimerColorId secondary_color,
                               int secondary_val, int secondary_max)
 {
-  TRACE_ENTER_MSG("OSXAppletWindow::set_time_bar", int(id) << "=" << text);
+  TRACE_ENTER_MSG("OSXAppletWindow::set_time_bar", int(id) << "=" << value);
 
-  NSString *bar_text = [NSString stringWithCString: text.c_str() encoding: NSASCIIStringEncoding];
+  NSString *bar_text = [NSString stringWithCString: Text::time_to_string(value) encoding: NSASCIIStringEncoding];
 
   [view setBreak: id
         text: bar_text
@@ -95,21 +96,21 @@ OSXAppletWindow::set_time_bar(workrave::BreakId id,
 }
 
 ColorId
-OSXAppletWindow::convertColorId(ITimeBar::ColorId colorId)
+OSXAppletWindow::convertColorId(TimerColorId colorId)
 {
   switch (colorId)
     {
-    case ITimeBar::COLOR_ID_INACTIVE:
-      return COLOR_ID_INACTIVE;
-    case ITimeBar::COLOR_ID_OVERDUE:
-      return COLOR_ID_OVERDUE;
-    case ITimeBar::COLOR_ID_ACTIVE:
-      return COLOR_ID_ACTIVE;
+    case TimerColorId::Inactive:
+      return TimerColorId::Inactive;
+    case TimerColorId::Overdue:
+      return TimerColorId::Overdue;
+    case TimerColorId::Active:
+      return TimerColorId::Active;
     default:
-      return COLOR_ID_ACTIVE;
+      return TimerColorId::Active;
     }
 
-  return COLOR_ID_INACTIVE;
+  return TimerColorId::Inactive;
 }
 
 AppletWindow::AppletState

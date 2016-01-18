@@ -287,7 +287,7 @@ MainWindow::init()
   enabled = GUIConfig::timerbox_enabled("main_window")();
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
-  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
+  timer_box_control = new TimerBoxControl("main_window", timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
   add(*timer_box_view);
@@ -431,8 +431,6 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
-  IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
 
 #if defined(PLATFORM_OS_WIN32)
   win32_show(false);
@@ -449,6 +447,7 @@ MainWindow::on_delete_event(GdkEventAny *)
     }
   else
     {
+      IGUI *gui = GUI::get_instance();
       gui->terminate();
     }
 #endif

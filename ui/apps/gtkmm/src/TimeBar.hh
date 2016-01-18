@@ -25,9 +25,9 @@
 #include <gtkmm.h>
 #include <gdkmm.h>
 
-#include "commonui/ITimeBar.hh"
+#include "commonui/UiTypes.hh"
 
-class TimeBar : public Gtk::DrawingArea, public ITimeBar
+class TimeBar : public Gtk::DrawingArea
 {
 public:
   TimeBar();
@@ -39,8 +39,8 @@ public:
   void set_text(std::string text);
 
   void update();
-  void set_bar_color(ColorId color);
-  void set_secondary_bar_color(ColorId color);
+  void set_bar_color(TimerColorId color);
+  void set_secondary_bar_color(TimerColorId color);
   void set_text_alignment(int align);
 
   void set_border_size(int size);
@@ -81,7 +81,7 @@ protected:
 #endif
 
 private:
-  static Gdk::Color bar_colors[COLOR_ID_SIZEOF];
+  static std::map<TimerColorId, Gdk::Color> bar_colors;
 
 #ifndef HAVE_GTK3
   //! Graphic context.
@@ -89,10 +89,10 @@ private:
 #endif
 
   //! Color of the time-bar.
-  ColorId bar_color;
+  TimerColorId bar_color;
 
   //! Color of the time-bar.
-  ColorId secondary_bar_color;
+  TimerColorId secondary_bar_color;
 
   //! Color of the text.
   Gdk::Color bar_text_color;

@@ -21,29 +21,28 @@
 
 #include "MicroBreakWindow.hh"
 
-#include <boost/format.hpp>
 
 #include "commonui/nls.h"
 #include "debug.hh"
 
 #include "commonui/Backend.hh"
-#include "commonui/Text.hh"
-#include "commonui/Ui.hh"
+#include "Text.hh"
 #include "utils/AssetPath.hh"
 
+#include "Ui.hh"
 #include "UiUtil.hh"
+#include "qformat.hh"
 
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
-using namespace workrave::ui;
 
 MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode),
     time_bar(NULL),
     label(NULL)
 {
-  setWindowTitle(QString::fromStdString(Ui::get_break_name(BREAK_ID_MICRO_BREAK)));
+  setWindowTitle(Ui::get_break_name(BREAK_ID_MICRO_BREAK));
 }
 
 QWidget *
@@ -69,7 +68,7 @@ MicroBreakWindow::create_gui()
   QHBoxLayout *button_box = new QHBoxLayout;
   if (restbreak->is_enabled())
     {
-      QPushButton *button = UiUtil::create_image_text_button("timer-rest-break.png", _("Rest break"));
+      QPushButton *button = UiUtil::create_image_text_button("timer-rest-break.png", tr("Rest break"));
       connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
       button_box->addWidget(button);
       button_box->addStretch();
@@ -119,17 +118,18 @@ MicroBreakWindow::update_label()
         }
     }
 
-  std::string txt(_("Please relax for a few seconds"));
+  // TODO: fix ugly std::string/QString conversionses
+  QString txt(tr("Please relax for a few seconds"));
   if (show_next == BREAK_ID_REST_BREAK)
     {
       txt += "<br>";
       if (rb >= 0)
         {
-          txt += boost::str(boost::format(_("Next rest break in %s")) % Text::time_to_string(rb, true));
+          txt += qstr(qformat(tr("Next rest break in %s")) % Text::time_to_string(rb, true));
         }
       else
         {
-          txt += boost::str(boost::format(_("Rest break %s overdue")) % Text::time_to_string(-rb, true));
+          txt += qstr(qformat(tr("Rest break %s overdue")) % Text::time_to_string(-rb, true));
         }
 
     }
@@ -138,15 +138,15 @@ MicroBreakWindow::update_label()
       txt += "<br>";
       if (dl >= 0)
         {
-          txt += boost::str(boost::format(_("Daily limit in %s")) % Text::time_to_string(dl, true));
+          txt += qstr(qformat(tr("Daily limit in %s")) % Text::time_to_string(dl, true));
         }
       else
         {
-          txt += boost::str(boost::format(_("Daily limit %s overdue")) % Text::time_to_string(-dl, true));
+          txt += qstr(qformat(tr("Daily limit %s overdue")) % Text::time_to_string(-dl, true));
         }
     }
 
-  label->setText(QString::fromStdString(UiUtil::create_alert_text(Ui::get_break_name(BREAK_ID_MICRO_BREAK), txt.c_str())));
+  label->setText(UiUtil::create_alert_text(Ui::get_break_name(BREAK_ID_MICRO_BREAK), txt));
 }
 
 void
@@ -160,7 +160,7 @@ void
 MicroBreakWindow::set_progress(int value, int max_value)
 {
   time_t time = max_value - value;
-  string s = Ui::get_break_name(BREAK_ID_MICRO_BREAK);
+  QString s = Ui::get_break_name(BREAK_ID_MICRO_BREAK);
   s += ' ';
   s += Text::time_to_string(time);
 

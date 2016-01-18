@@ -62,7 +62,7 @@ private:
   int progress_max_value;
 
   bool flash_visible;
-  std::string progress_text;
+  QString progress_text;
   bool did_avoid;
 
   QVBoxLayout *layout;

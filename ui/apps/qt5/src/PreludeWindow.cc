@@ -21,7 +21,6 @@
 
 #include "PreludeWindow.hh"
 
-#include <boost/format.hpp>
 
 #include <QtGui>
 #include <QStyle>
@@ -31,11 +30,12 @@
 #include "debug.hh"
 #include "commonui/nls.h"
 
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "core/IApp.hh"
 #include "utils/AssetPath.hh"
 
 #include "UiUtil.hh"
+#include "qformat.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -62,19 +62,19 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 
   timebar = new TimeBar;
 
-  std::string text;
+  QString text;
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
-      text = _("Time for a micro-break?");
+      text = tr("Time for a micro-break?");
       break;
 
     case BREAK_ID_REST_BREAK:
-      text = _("You need a rest break...");
+      text = tr("You need a rest break...");
       break;
 
     case BREAK_ID_DAILY_LIMIT:
-      text = _("You should stop for today...");
+      text = tr("You should stop for today...");
       break;
     }
 
@@ -135,7 +135,7 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
 void
 PreludeWindow::start()
 {
-  timebar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+  timebar->set_bar_color(TimerColorId::Overdue);
   refresh();
   show();
 
@@ -162,7 +162,7 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
-  std::string s;
+  QString s;
 
   timebar->set_progress(progress_value, progress_max_value);
 
@@ -174,7 +174,7 @@ PreludeWindow::refresh()
           tminus = 0;
         }
       
-      s = boost::str(boost::format(progress_text) % Text::time_to_string(tminus));
+      s = qstr(qformat(progress_text) % Text::time_to_string(tminus));
     }
   timebar->set_text(s);
   timebar->update();
@@ -209,15 +209,15 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
   switch (text)
     {
     case IApp::PROGRESS_TEXT_BREAK_IN:
-      progress_text = _("Break in %s");
+      progress_text = tr("Break in %s");
       break;
 
     case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
-      progress_text = _("Disappears in %s");
+      progress_text = tr("Disappears in %s");
       break;
 
     case IApp::PROGRESS_TEXT_SILENT_IN:
-      progress_text = _("Silent in %s");
+      progress_text = tr("Silent in %s");
       break;
     }
 }

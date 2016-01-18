@@ -143,7 +143,7 @@ BreakWindow::add_lock_button(QLayout *box)
 {
   if (System::is_lockable())
     {
-      QPushButton *button = UiUtil::create_image_text_button("lock.png", _("Lock"));
+      QPushButton *button = UiUtil::create_image_text_button("lock.png", tr("Lock"));
       box->addWidget(button);
       connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
     }
@@ -154,7 +154,7 @@ BreakWindow::add_shutdown_button(QLayout *box)
 {
   if (false) // FIXME: System::is_shutdown_supported())
     {
-      QPushButton *button = UiUtil::create_image_text_button("shutdown.png", _("Shut down"));
+      QPushButton *button = UiUtil::create_image_text_button("shutdown.png", tr("Shut down"));
       box->addWidget(button);
       connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
     }
@@ -165,7 +165,7 @@ BreakWindow::add_skip_button(QLayout *box)
 {
   if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
     {
-      QPushButton *button = new QPushButton(_("Skip"));
+      QPushButton *button = new QPushButton(tr("Skip"));
       box->addWidget(button);
       connect(button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
     }
@@ -176,7 +176,7 @@ BreakWindow::add_postpone_button(QLayout *box)
 {
   if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
     {
-      QPushButton *button = new QPushButton(_("Postpone"));
+      QPushButton *button = new QPushButton(tr("Postpone"));
       box->addWidget(button);
       connect(button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
     }

@@ -43,7 +43,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-Application::Application(int argc, char **argv, IToolkit::Ptr toolkit) :
+Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit) :
   toolkit(toolkit),
   active_break_id(BREAK_ID_NONE),
   muted(false)
@@ -62,7 +62,6 @@ Application::~Application()
 {
   TRACE_ENTER("GUI:~GUI");
 
-  toolkit->ungrab();
   core.reset();
 
   TRACE_EXIT();
@@ -240,9 +239,9 @@ Application::init_bus()
        {
          // TODO:
          
-         // Gtk::MessageDialog dialog(_("Workrave failed to start"),
+         // Gtk::MessageDialog dialog(tr("Workrave failed to start"),
          //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-         // dialog.set_secondary_text(_("Is Workrave already running?"));
+         // dialog.set_secondary_text(tr("Is Workrave already running?"));
          // dialog.show();
          // dialog.run();
          exit(1);
@@ -353,12 +352,12 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 
 //   if (event == CORE_EVENT_MONITOR_FAILURE)
 //     {
-//       string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
+//       string msg = tr("Workrave could not monitor your keyboard and mouse activity.\n");
 
 // #ifdef PLATFORM_OS_UNIX
-//       msg += _("Make sure that the RECORD extension is enabled in the X server.");
+//       msg += tr("Make sure that the RECORD extension is enabled in the X server.");
 // #endif
-//       Gtk::MessageDialog dialog(_("Workrave failed to start"),
+//       Gtk::MessageDialog dialog(tr("Workrave failed to start"),
 //                                 false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
 //       dialog.set_secondary_text(msg);
 //       dialog.show();
@@ -468,8 +467,6 @@ Application::hide_break_window()
       window->stop();
     }
 
-  toolkit->ungrab();
-
   break_windows.clear();
   prelude_windows.clear();
 
@@ -489,11 +486,6 @@ Application::show_break_window()
   for (auto &window : break_windows)
     {
       window->start();
-    }
-
-  if (GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
-    {
-      toolkit->grab();
     }
 
   TRACE_EXIT();
@@ -551,14 +543,16 @@ Application::on_operation_mode_warning_timer()
   OperationMode mode = core->get_operation_mode();
   if (mode == OperationMode::Suspended)
     {
-      toolkit->show_balloon("operation_mode", _("Workrave"),
-                            _("Workrave is in suspended mode. "
-                              "Mouse and keyboard activity will not be monitored."));
+      toolkit->show_balloon("operation_mode",
+                            tr("Workrave").toStdString(),
+                            tr("Workrave is in suspended mode. "
+                               "Mouse and keyboard activity will not be monitored.").toStdString());
     }
   else if (mode == OperationMode::Quiet)
     {
-      toolkit->show_balloon("operation_mode",  _("Workrave"),
-                            _("Workrave is in quiet mode. "
-                              "No break windows will appear."));
+      toolkit->show_balloon("operation_mode",
+                            tr("Workrave").toStdString(),
+                            tr("Workrave is in quiet mode. "
+                               "No break windows will appear.").toStdString());
     }
 }

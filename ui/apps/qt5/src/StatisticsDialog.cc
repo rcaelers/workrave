@@ -39,6 +39,9 @@
 #include <sstream>
 #include <stdio.h>
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+
 #include <ctime>
 #include <cstring>
 
@@ -47,11 +50,12 @@
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 
 #include "StatisticsDialog.hh"
 
 #include "UiUtil.hh"
+#include "qformat.hh"
 
 using namespace std;
 
@@ -115,7 +119,7 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_navigation_box(QLayout *parent)
 {
-  QGroupBox *box = new QGroupBox(_("Browse history"));
+  QGroupBox *box = new QGroupBox(tr("Browse history"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
   parent->addWidget(box);
@@ -149,7 +153,7 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
 	connect(calendar, &QCalendarWidget::currentPageChanged, this, &StatisticsDialog::on_calendar_month_changed);
   layout->addWidget(calendar);
 
-  delete_button = new QPushButton(_("Delete all statistics history"));
+  delete_button = new QPushButton(tr("Delete all statistics history"));
   delete_button->setIcon(QIcon::fromTheme("edit-delete"));
   connect(delete_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_delete_all);
 
@@ -159,12 +163,12 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
 void
 StatisticsDialog::create_statistics_box(QLayout *parent)
 {
-  QGroupBox *box = new QGroupBox(_("Statistics"));
+  QGroupBox *box = new QGroupBox(tr("Statistics"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
   parent->addWidget(box);
 
-  date_label = UiUtil::add_label(layout, _("Date:"));
+  date_label = UiUtil::add_label(layout, tr("Date:"));
   
   create_break_page(layout);
 }
@@ -177,59 +181,59 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   
   QWidget *unique_label
     = UiUtil::create_label_with_tooltip
-    (_("Break prompts"),
-     _("The number of times you were prompted to break, excluding"
+    (tr("Break prompts"),
+     tr("The number of times you were prompted to break, excluding"
        " repeated prompts for the same break"));
 
   QWidget *prompted_label
     = UiUtil::create_label_with_tooltip
-    (_("Repeated prompts"),
-     _("The number of times you were repeatedly prompted to break"));
+    (tr("Repeated prompts"),
+     tr("The number of times you were repeatedly prompted to break"));
 
   QWidget *taken_label
     = UiUtil::create_label_with_tooltip
-    (_("Prompted breaks taken"),
-     _("The number of times you took a break when being prompted"));
+    (tr("Prompted breaks taken"),
+     tr("The number of times you took a break when being prompted"));
 
   QWidget *natural_label
     = UiUtil::create_label_with_tooltip
-    (_("Natural breaks taken"),
-     _("The number of times you took a break without being prompted"));
+    (tr("Natural breaks taken"),
+     tr("The number of times you took a break without being prompted"));
 
   QWidget *skipped_label
     = UiUtil::create_label_with_tooltip
-    (_("Breaks skipped"),
-     _("The number of breaks you skipped"));
+    (tr("Breaks skipped"),
+     tr("The number of breaks you skipped"));
 
   QWidget *postponed_label
     = UiUtil::create_label_with_tooltip
-    (_("Breaks postponed"),
-     _("The number of breaks you postponed"));
+    (tr("Breaks postponed"),
+     tr("The number of breaks you postponed"));
 
   QWidget *overdue_label
     = UiUtil::create_label_with_tooltip
-    (_("Overdue time"),
-     _("The total time this break was overdue"));
+    (tr("Overdue time"),
+     tr("The total time this break was overdue"));
 
   QWidget *usage_label
     = UiUtil::create_label_with_tooltip
-    (_("Usage"),
+    (tr("Usage"),
       ("Active computer usage"));
 
   QWidget *daily_usage_label
     = UiUtil::create_label_with_tooltip
-    (_("Daily"),
-     _("The total computer usage for the selected day"));
+    (tr("Daily"),
+     tr("The total computer usage for the selected day"));
 
   QWidget *weekly_usage_label
     = UiUtil::create_label_with_tooltip
-    (_("Weekly"),
-     _("The total computer usage for the whole week of the selected day"));
+    (tr("Weekly"),
+     tr("The total computer usage for the whole week of the selected day"));
 
   QWidget *monthly_usage_label
     = UiUtil::create_label_with_tooltip
-    (_("Monthly"),
-     _("The total computer usage for the whole month of the selected day"));
+    (tr("Monthly"),
+     tr("The total computer usage for the whole month of the selected day"));
 
   QFrame *hrule = new QFrame();
   QFrame *vrule = new QFrame();
@@ -307,64 +311,6 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
     }
 }
 
-
-// void
-// StatisticsDialog::create_activity_page(QWidget *tnotebook)
-// {
-//   QHBoxLayout *box = new QHBoxLayout(false, 3);
-//   QLabel *lab = new QLabel(_("Activity"));
-//   box->pack_start(*lab, false, false, 0);
-
-//   QTable *table = new QTable(8, 5, false);
-//   table->set_row_spacings(2);
-//   table->set_col_spacings(6);
-//   table->set_border_width(6);
-
-//   QWidget *mouse_time_label
-//     = UiUtil::create_label_with_tooltip
-//     (_("Mouse usage:"),
-//      _("The total time you were using the mouse"));
-//   QWidget *mouse_movement_label
-//     = UiUtil::create_label_with_tooltip
-//     (_("Mouse movement:"),
-//      _("The total on-screen mouse movement"));
-//   QWidget *mouse_click_movement_label
-//     = UiUtil::create_label_with_tooltip
-//     (_("Effective mouse movement:"),
-//      _("The total mouse movement you would have had if you moved your "
-//        "mouse in straight lines between clicks"));
-//   QWidget *mouse_clicks_label
-//     = UiUtil::create_label_with_tooltip
-//     (_("Mouse button clicks:"),
-//      _("The total number of mouse button clicks"));
-//   QWidget *keystrokes_label
-//     = UiUtil::create_label_with_tooltip
-//     (_("Keystrokes:"),
-//      _("The total number of keys pressed"));
-
-
-//   int y = 0;
-//   table->addWidget(mouse_time_label, 0, y++);
-//   table->addWidget(mouse_movement_label, 0, y++);
-//   table->addWidget(mouse_click_movement_label, 0, y++);
-//   table->addWidget(mouse_clicks_label, 0, y++);
-//   table->addWidget(keystrokes_label, 0, y++);
-
-//   for (int i = 0; i < 5; i++)
-//     {
-//       activity_labels[i] = new QLabel();
-//       table->addWidget(activity_labels[i], 1, i);
-//     }
-
-//   box->show_all();
-// #ifdef HAVE_GTK3
-//   ((QTabWidget *)tnotebook)->append_page(*tablebox);
-// #else
-//   ((QTabWidget *)tnotebook)->pages().push_back(QTabWidget_Helpers::TabElem(*tablebox));
-// #endif
-// }
-
-
 void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
@@ -382,96 +328,54 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       date_label->setText("-");
     }
   else
-    {
-      char date[100];
-      char start[100];
-      char stop[100];
-      strftime(date, sizeof(date), "%x", &stats->start);
-      strftime(start, sizeof(start), "%X", &stats->start);
-      strftime(stop, sizeof(stop), "%X", &stats->stop);
-      char buf[200];
-      sprintf(buf, _("%s, from %s to %s"), date, start, stop);
-      date_label->setText(buf);
+    {    
+      std::stringstream ss;
+      ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%x")));
+      boost::posix_time::ptime pt = boost::posix_time::ptime_from_tm(stats->start);
+      ss << pt; 
+      string date = ss.str();
+      
+      ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%X")));
+      ss << pt; 
+      string start = ss.str();
+      pt = boost::posix_time::ptime_from_tm(stats->stop);
+      ss << pt; 
+      string stop = ss.str();
+      
+      QString text = qstr(qformat(tr("%s, from %s to %s")) % date % start % stop);
+      
+      date_label->setText(text);
     }
 
 
   int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-  daily_usage_time_label->setText(QString::fromStdString(Text::time_to_string(value)));
+  daily_usage_time_label->setText(Text::time_to_string(value));
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      stringstream ss;
-
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS];
-      ss.str("");
-      ss << value;
-      break_labels[i][0]->setText(QString::fromStdString(ss.str()));
+      break_labels[i][0]->setText(QString::number(value));
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED]
-        - value;
-      ss.str("");
-      ss << value;
-      break_labels[i][1]->setText(QString::fromStdString(ss.str()));
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED] - value;
+      break_labels[i][1]->setText(QString::number(value));
 
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TAKEN];
-      ss.str("");
-      ss << value;
-      break_labels[i][2]->setText(QString::fromStdString(ss.str()));
+      break_labels[i][2]->setText(QString::number(value));
 
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN];
-      ss.str("");
-      ss << value;
-      break_labels[i][3]->setText(QString::fromStdString(ss.str()));
+      break_labels[i][3]->setText(QString::number(value));
 
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_SKIPPED];
-      ss.str("");
-      ss << value;
-      break_labels[i][4]->setText(QString::fromStdString(ss.str()));
+      break_labels[i][4]->setText(QString::number(value));
 
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_POSTPONED];
-      ss.str("");
-      ss << value;
-      break_labels[i][5]->setText(QString::fromStdString(ss.str()));
+      break_labels[i][5]->setText(QString::number(value));
 
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
-      break_labels[i][6]->setText(QString::fromStdString(Text::time_to_string(value)));
+      break_labels[i][6]->setText(Text::time_to_string(value));
     }
-
-  stringstream ss;
-
-  if (activity_labels[0] != NULL)
-    {
-      // Label not available is OS X
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
-      if (value > 24 * 60 * 60) {
-        value = 0;
-      }
-      activity_labels[0]->setText(QString::fromStdString(Text::time_to_string(value)));
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[1]->setText(QString::fromStdString(ss.str()));
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[2]->setText(QString::fromStdString(ss.str()));
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
-      ss.str("");
-      ss << value;
-      activity_labels[3]->setText(QString::fromStdString(ss.str()));
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
-      ss.str("");
-      ss << value;
-      activity_labels[4]->setText(QString::fromStdString(ss.str()));
-    }
-
 }
 
 void
@@ -522,7 +426,7 @@ StatisticsDialog::display_week_statistics()
         }
     }
 
-  weekly_usage_time_label->setText(total_week > 0 ? QString::fromStdString(Text::time_to_string(total_week)) : "");
+  weekly_usage_time_label->setText(total_week > 0 ? Text::time_to_string(total_week) : "");
 }
 
 void
@@ -570,7 +474,7 @@ StatisticsDialog::display_month_statistics() {
         }
     }
 
-  monthly_usage_time_label->setText(total_month > 0 ? QString::fromStdString(Text::time_to_string(total_month)) : "");
+  monthly_usage_time_label->setText(total_month > 0 ? Text::time_to_string(total_month) : "");
 }
 
 void
@@ -695,11 +599,11 @@ StatisticsDialog::on_history_delete_all()
 
     // // Confirm the user's intention
     // string msg = UiUtil::create_alert_text(
-    //     _("Warning"),
-    //     _("You have chosen to delete your statistics history. Continue?")
+    //     tr("Warning"),
+    //     tr("You have chosen to delete your statistics history. Continue?")
     //     );
     // QMessageDialog mb_ask( *this, msg, true, QMESSAGE_WARNING, QBUTTONS_YES_NO, false );
-    // mb_ask.set_title( _("Warning") );
+    // mb_ask.set_title( tr("Warning") );
     // mb_ask.get_widget_for_response( QRESPONSE_NO )->grab_default();
     // if( mb_ask.run() == QRESPONSE_YES )
     // {
@@ -711,21 +615,21 @@ StatisticsDialog::on_history_delete_all()
     //         if( statistics->delete_all_history() )
     //         {
     //             msg = UiUtil::create_alert_text(
-    //                 _("Files deleted!"),
-    //                 _("The files containing your statistics history have been deleted.")
+    //                 tr("Files deleted!"),
+    //                 tr("The files containing your statistics history have been deleted.")
     //                 );
     //             QMessageDialog mb_info( *this, msg, true, QMESSAGE_INFO, QBUTTONS_OK, false );
-    //             mb_info.set_title( _("Info") );
+    //             mb_info.set_title( tr("Info") );
     //             mb_info.run();
     //             break;
     //         }
 
     //         msg = UiUtil::create_alert_text(
-    //             _("File deletion failed!"),
-    //             _("The files containing your statistics history could not be deleted. Try again?")
+    //             tr("File deletion failed!"),
+    //             tr("The files containing your statistics history could not be deleted. Try again?")
     //             );
     //         QMessageDialog mb_error( *this, msg, true, QMESSAGE_ERROR, QBUTTONS_YES_NO, false );
-    //         mb_error.set_title( _("Error") );
+    //         mb_error.set_title( tr("Error") );
     //         mb_error.get_widget_for_response( QRESPONSE_NO )->grab_default();
     //         if( mb_error.run() != QRESPONSE_YES )
     //             break;

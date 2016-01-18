@@ -25,18 +25,6 @@
 class ITimeBar
 {
 public:
-  enum ColorId
-    {
-      COLOR_ID_ACTIVE = 0,
-      COLOR_ID_INACTIVE,
-      COLOR_ID_OVERDUE,
-      COLOR_ID_1_ACTIVE_DURING_BREAK,
-      COLOR_ID_2_ACTIVE_DURING_BREAK,
-      COLOR_ID_INACTIVE_OVER_ACTIVE,
-      COLOR_ID_INACTIVE_OVER_OVERDUE,
-      COLOR_ID_BG,
-      COLOR_ID_SIZEOF
-    };
 
   virtual ~ITimeBar() {}
 

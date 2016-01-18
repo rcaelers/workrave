@@ -31,7 +31,7 @@ using namespace workrave::utils;
 DailyLimitWindow::DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_DAILY_LIMIT, break_flags, mode)
 {
-  setWindowTitle(_("Daily limit"));
+  setWindowTitle(tr("Daily limit"));
 }
 
 QWidget *
@@ -41,14 +41,14 @@ DailyLimitWindow::create_gui()
   QWidget *widget = new QWidget;
   widget->setLayout(box);
 
-  std::string text = UiUtil::create_alert_text
-    (_("Daily limit"),
-     _("You have reached your daily limit. Please stop working\n"
+  QString text = UiUtil::create_alert_text
+    (tr("Daily limit"),
+     tr("You have reached your daily limit. Please stop working\n"
        "behind the computer. If your working day is not over yet,\n"
        "find something else to do, such as reviewing a document."));
   
   QHBoxLayout *dailylimit_box = new QHBoxLayout;
-  QLabel *label = new QLabel(QString::fromStdString(text));
+  QLabel *label = new QLabel(text);
   QLabel *image = UiUtil::create_image_label("daily-limit.png");
   dailylimit_box->addWidget(image);
   dailylimit_box->addWidget(label);

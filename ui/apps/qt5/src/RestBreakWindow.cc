@@ -21,18 +21,18 @@
 
 #include "RestBreakWindow.hh"
 
-#include <boost/format.hpp>
 
 #include "debug.hh"
 #include "commonui/nls.h"
 
 #include "commonui/Backend.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "commonui/Exercise.hh"
 
 #include "ExercisesPanel.hh"
 #include "TimeBar.hh"
 #include "UiUtil.hh"
+#include "qformat.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -43,7 +43,7 @@ RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, int screen, BreakF
     timebar(nullptr),
     pluggable_panel(nullptr)
 {
-  setWindowTitle(_("Rest break"));
+  setWindowTitle(tr("Rest break"));
 }
 
 QWidget *
@@ -91,7 +91,7 @@ void
 RestBreakWindow::set_progress(int value, int max_value)
 {
   time_t time = max_value - value;
-  std::string text = boost::str(boost::format(_("Rest break for %s")) % Text::time_to_string(time, true));
+  QString text = qstr(qformat(tr("Rest break for %s")) % Text::time_to_string(time, true));
 
   timebar->set_progress(value, max_value);
   timebar->set_text(text);
@@ -128,28 +128,29 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
+  qDebug() << "RestBreakWindow::install_info_panel; clear";
   UiUtil::clear_layout(pluggable_panel);  
 
   ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Halt);
   
-  std::string text;
+  QString text;
   if (get_break_flags() & BREAK_FLAGS_NATURAL)
     {
       text = UiUtil::create_alert_text
-        (_("Natural rest break"),
-         _("This is your natural rest break."));
+        (tr("Natural rest break"),
+         tr("This is your natural rest break."));
     }
   else
     {
       text = UiUtil::create_alert_text
-        (_("Rest break"),
-         _("This is your rest break. Make sure you stand up and\n"
+        (tr("Rest break"),
+         tr("This is your rest break. Make sure you stand up and\n"
            "walk away from your computer on a regular basis. Just\n"
            "walk around for a few minutes, stretch, and relax."));
     }
 
-  QLabel *label = new QLabel(QString::fromStdString(text));
+  QLabel *label = new QLabel(text);
   QLabel *image = UiUtil::create_image_label("rest-break.png");
   
   QHBoxLayout *restbreak_panel = new QHBoxLayout;
@@ -158,6 +159,7 @@ RestBreakWindow::install_info_panel()
   
   pluggable_panel->addLayout(restbreak_panel);
 
+  qDebug() << "RestBreakWindow::install_info_panel; invalidate";
   UiUtil::invalidate(pluggable_panel);
   center();
 

@@ -55,61 +55,51 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
     {
       SoundEvent::BreakPrelude,
       "break_prelude",
-      _("Break prompt")
     },
 
     {
       SoundEvent::BreakIgnored,
       "break_ignored",
-      _("Break ignored")
     },
 
     {
       SoundEvent::RestBreakStarted,
       "rest_break_started",
-      _("Rest break started")
     },
 
     {
       SoundEvent::RestBreakEnded,
       "rest_break_ended",
-      _("Rest break ended")
     },
 
     {
       SoundEvent::MicroBreakStarted,
       "micro_break_started",
-      _("Micro-break started")
     },
 
     {
       SoundEvent::MicroBreakEnded,
       "micro_break_ended",
-      _("Micro-break ended")
     },
 
     {
       SoundEvent::DailyLimit,
       "daily_limit",
-      _("Daily limit")
     },
 
     {
       SoundEvent::ExerciseEnded,
       "exercise_ended",
-      _("Exercise ended")
     },
 
     {
       SoundEvent::ExercisesEnded,
       "exercises_ended",
-      _("Exercises ended")
     },
 
     {
       SoundEvent::ExerciseStep,
       "exercise_step",
-      _("Exercise change")
     },
   };
 
@@ -186,17 +176,6 @@ SoundTheme::sound_event_to_id(SoundEvent event)
   if (item != std::end(sound_registry))
     {
       return item->id;
-    }
-  throw "FIXME";
-}
-
-const std::string
-SoundTheme::sound_event_to_friendly_name(SoundEvent event)
-{
-  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.event == event; });
-  if (item != std::end(sound_registry))
-    {
-      return item->friendly_name;
     }
   throw "FIXME";
 }
@@ -363,7 +342,7 @@ SoundTheme::get_active_theme()
 
   ThemeInfo::Ptr theme(new ThemeInfo);
   theme->theme_id = "custom";
-  theme->description = _("Custom");
+  theme->description = "";
 
   for (SoundRegistry &snd : sound_registry)
     {

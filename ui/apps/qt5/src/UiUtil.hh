@@ -27,26 +27,24 @@
 class UiUtil
 {
 public:
-  static std::string create_alert_text(const std::string &caption, const std::string &body);
-  static QLabel *create_label(const std::string &text, bool bold = false);
-  static QLabel *create_image_label(const std::string &filename);
+  static QString create_alert_text(const QString &caption, const QString &body);
+  static QLabel *create_label(const QString &text, bool bold = false);
+  static QLabel *create_image_label(const QString &filename);
   static QLabel *create_label_for_break(workrave::BreakId id);
-  static QLabel *create_label_with_tooltip(const std::string &text, const std::string &tooltip);
-  static QPushButton *create_image_button(const std::string &filename);
-  static QPushButton *create_image_text_button(const std::string &filename, const std::string &text);
+  static QLabel *create_label_with_tooltip(const QString &text, const QString &tooltip);
+  static QPushButton *create_image_button(const QString &filename);
+  static QPushButton *create_image_text_button(const QString &filename, const QString &text);
   
   static void clear_layout(QLayout* layout);
 
-  static void add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget);
+  static void add_widget(QBoxLayout *layout, const QString &text, QWidget* widget);
   static void add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget);
-  static QLabel *add_label(QBoxLayout *layout, const std::string &text, bool bold = false);
+  static QLabel *add_label(QBoxLayout *layout, const QString &text, bool bold = false);
 
-  static QIcon create_icon(std::string filename);
-
-  static QPixmap create_pixmap(std::string filename, int height);
+  static QIcon create_icon(const QString &filename);
+  static QPixmap create_pixmap(const QString &filename, int height);
 
   static void invalidate(QLayout *layout);
-  
 };
 
 #endif // UIUTIL_HH

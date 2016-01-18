@@ -1,4 +1,5 @@
-// Copyright (C) 2015 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2003 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2011, 2014 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,20 +14,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
-#ifndef ABOUTDIALOG_HH
-#define ABOUTDIALOG_HH
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <QtGui>
-#include <QtWidgets>
+#include "qformat.hh"
 
-class AboutDialog : public QDialog
+template<>
+qformat& qformat::operator%(const QString & v)
 {
-  Q_OBJECT
+  fmt % v.toStdString();
+    return *this;
+}
 
-public:
-  AboutDialog();
-};
-
-#endif // ABOUTDIALOG_HH
+QString qstr(const qformat &f)
+{
+  return f.str();
+}

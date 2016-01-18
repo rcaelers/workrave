@@ -25,44 +25,43 @@
 #include "utils/AssetPath.hh"
 #include "commonui/nls.h"
 
-using namespace workrave::ui;
 using namespace workrave::utils;
 
-const std::string
+QString
 Ui::get_break_name(workrave::BreakId id)
 {
   switch (id)
     {
-    case BREAK_ID_MICRO_BREAK:
-      return _("Micro-break");
+    case workrave::BREAK_ID_MICRO_BREAK:
+      return tr("Micro-break");
 
-    case BREAK_ID_REST_BREAK:
-      return _("Rest break");
+    case workrave::BREAK_ID_REST_BREAK:
+      return tr("Rest break");
 
-    case BREAK_ID_DAILY_LIMIT:
-      return _("Daily limit");
+    case workrave::BREAK_ID_DAILY_LIMIT:
+      return tr("Daily limit");
 
     default:
       throw Exception("Invalid break id");
     }
 }
 
-const std::string
+QString
 Ui::get_break_icon_filename(workrave::BreakId id)
 {
   std::string filename;
 
   switch (id)
     {
-    case BREAK_ID_MICRO_BREAK:
+    case workrave::BREAK_ID_MICRO_BREAK:
       filename = "timer-micro-break.png";
       break;
 
-    case BREAK_ID_REST_BREAK:
+    case workrave::BREAK_ID_REST_BREAK:
       filename = "timer-rest-break.png";
       break;
 
-    case BREAK_ID_DAILY_LIMIT:
+    case workrave::BREAK_ID_DAILY_LIMIT:
       filename = "timer-daily.png";
       break;
 
@@ -70,10 +69,50 @@ Ui::get_break_icon_filename(workrave::BreakId id)
       throw Exception("Invalid break id");
     }
 
-  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  return QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES));
 }
 
-const std::string
+QString
+Ui::get_sound_event_name(SoundEvent event)
+{
+  switch (event)
+    {
+    case SoundEvent::BreakPrelude:
+      return tr("Break prompt");
+      
+    case SoundEvent::BreakIgnored:
+      return tr("Break ignored");
+      
+    case SoundEvent::RestBreakStarted:
+      return tr("Rest break started");
+      
+    case SoundEvent::RestBreakEnded:
+      return tr("Rest break ended");
+      
+    case SoundEvent::MicroBreakStarted:
+      return tr("Micro-break started");
+      
+    case SoundEvent::MicroBreakEnded:
+      return tr("Micro-break ended");
+      
+    case SoundEvent::DailyLimit:
+      return tr("Daily limit");
+      
+    case SoundEvent::ExerciseEnded:
+      return tr("Exercise ended");
+      
+    case SoundEvent::ExercisesEnded:
+      return tr("Exercises ended");
+      
+    case SoundEvent::ExerciseStep:
+      return tr("Exercise change");
+      
+    default:
+      return tr("?");
+    }
+}
+
+QString
 Ui::get_status_icon_filename(StatusIconType icon)
 {
   std::string filename;
@@ -93,5 +132,5 @@ Ui::get_status_icon_filename(StatusIconType icon)
       break;
     }
 
-  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  return QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES));
 }

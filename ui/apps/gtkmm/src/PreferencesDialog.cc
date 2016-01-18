@@ -54,6 +54,7 @@
 #include "GUI.hh"
 #include "commonui/GUIConfig.hh"
 #include "DataConnector.hh"
+#include "Ui.hh"
 
 #include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
@@ -402,7 +403,7 @@ PreferencesDialog::create_sounds_page()
 
       row[sound_model.enabled] = sound_enabled;
       row[sound_model.selectable] = true;
-      row[sound_model.description] = SoundTheme::sound_event_to_friendly_name(snd.event);
+      row[sound_model.description] = Ui::get_sound_event_name(snd.event);
       row[sound_model.label] = SoundTheme::sound_event_to_id(snd.event);
     }
 

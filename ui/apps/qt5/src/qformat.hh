@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ABOUTDIALOG_HH
-#define ABOUTDIALOG_HH
+#ifndef QFORMAT_HH
+#define QFORMAT_HH
 
-#include <QtGui>
-#include <QtWidgets>
+#include <QString>
+#include <boost/format.hpp>
 
-class AboutDialog : public QDialog
+class qformat : public boost::format
 {
-  Q_OBJECT
-
 public:
-  AboutDialog();
+  qformat(const QString &str) : fmt(str.toStdString())
+  {
+  }
+
+  template<typename T>
+  qformat& operator%(const T & v)
+  {
+    fmt % v;
+    return *this;
+  }
+
+  QString str() const
+  {
+    return QString::fromStdString(fmt.str());
+  }
+
+private:
+  boost::format fmt;
 };
 
-#endif // ABOUTDIALOG_HH
+
+template<>
+qformat& qformat::operator%(const QString & v);
+
+
+QString qstr(const qformat &f);
+
+#endif // QFORMAT_HH

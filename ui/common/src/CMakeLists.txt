@@ -4,9 +4,7 @@ set(SRC
   GUIConfig.cc
   SoundTheme.cc
   Session.cc
-  Text.cc
   TimerBoxControl.cc
-  Ui.cc
  )
 
 include_directories(

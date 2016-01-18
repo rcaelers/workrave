@@ -59,8 +59,8 @@ run(int argc, char **argv)
 #endif
 
   {
-    IToolkit::Ptr toolkit = std::make_shared<Toolkit>(argc, argv);
-    Application::Ptr app = std::make_shared<Application>(argc, argv, toolkit);
+    std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
+    std::shared_ptr<Application> app = std::make_shared<Application>(argc, argv, toolkit);
 
     app->main();
   }

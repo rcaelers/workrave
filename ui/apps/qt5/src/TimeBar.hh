@@ -18,11 +18,11 @@
 #ifndef TIMEBAR_HH
 #define TIMEBAR_HH
 
-#include "commonui/ITimeBar.hh"
+#include "commonui/UiTypes.hh"
 
 #include <QWidget>
 
-class TimeBar : public QWidget, public ITimeBar
+class TimeBar : public QWidget
 {
   Q_OBJECT
 
@@ -32,30 +32,30 @@ public:
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
 
-  void set_progress(int value, int max_value) override;
-  void set_secondary_progress(int value, int max_value) override;
+  void set_progress(int value, int max_value);
+  void set_secondary_progress(int value, int max_value);
  
-  void set_bar_color(ColorId color) override;
-  void set_secondary_bar_color(ColorId color) override;
+  void set_bar_color(TimerColorId color);
+  void set_secondary_bar_color(TimerColorId color);
  
-  void set_text(std::string text) override;
-  void set_text_alignment(int align) override;
+  void set_text(const QString &text);
+  void set_text_alignment(int align);
 
-  void update() override;
+  void update();
 
 protected:
   void paintEvent(QPaintEvent *event) override;
 
 private:
-  static QColor bar_colors[COLOR_ID_SIZEOF];
+  static std::map<TimerColorId, QColor> bar_colors;
 
-  ColorId bar_color;
-  ColorId secondary_bar_color;
+  TimerColorId bar_color;
+  TimerColorId secondary_bar_color;
   int bar_value;
   int bar_max_value;
   int secondary_bar_value;
   int secondary_bar_max_value;
-  std::string bar_text;
+  QString bar_text;
   int bar_text_align;
 };
 

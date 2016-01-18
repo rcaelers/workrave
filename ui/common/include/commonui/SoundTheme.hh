@@ -103,7 +103,6 @@ public:
 
   static SoundEvent sound_id_to_event(const std::string &id);
   static const std::string sound_event_to_id(SoundEvent event);
-  static const std::string sound_event_to_friendly_name(SoundEvent event);
 
 private:
   void load_themes();
@@ -125,7 +124,6 @@ private:
   {
     SoundEvent event;
     std::string id;
-    std::string friendly_name;
   };
 
   static SoundRegistry sound_registry[];

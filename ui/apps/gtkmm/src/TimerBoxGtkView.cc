@@ -37,7 +37,7 @@
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
@@ -470,19 +470,19 @@ TimerBoxGtkView::set_slot(BreakId id, int slot)
 
 void
 TimerBoxGtkView::set_time_bar(BreakId id,
-                              std::string text, TimeBar::ColorId primary_color,
+                              int value, TimerColorId primary_color,
                               int primary_val, int primary_max,
-                              TimeBar::ColorId secondary_color,
+                              TimerColorId secondary_color,
                               int secondary_val, int secondary_max)
 {
   TRACE_ENTER_MSG("TimerBoxGtkView::set_time_bar", id);
 
-  TRACE_MSG(text);
+  TRACE_MSG(value);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
   TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
 
   TimeBar *bar = bars[id];
-  bar->set_text(text);
+  bar->set_text(Text::time_to_string(value));
   bar->set_bar_color(primary_color);
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);

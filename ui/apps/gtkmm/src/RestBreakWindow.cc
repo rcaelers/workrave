@@ -39,7 +39,7 @@
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
 #include "WindowHints.hh"

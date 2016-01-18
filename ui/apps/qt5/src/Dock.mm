@@ -28,8 +28,6 @@
 #import <AppKit/NSImage.h>
 #import <Foundation/NSString.h>
 
-#include "debug.hh"
-
 #include "utils/AssetPath.hh"
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"

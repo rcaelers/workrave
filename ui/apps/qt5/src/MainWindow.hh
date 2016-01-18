@@ -24,12 +24,12 @@
 #include "TimerBoxView.hh"
 #include "ToolkitMenu.hh"
 
-class MainWindow : public TimerBoxView
+class MainWindow : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit MainWindow(MenuModel::Ptr menu_model);
+  explicit MainWindow(MenuModel::Ptr menu_model, QWidget *parent);
 
   void heartbeat();
 
@@ -42,8 +42,10 @@ private:
   void move_to_start_position();
 
 private:
-  ToolkitMenu::Ptr menu;
+  std::shared_ptr<ToolkitMenu> menu;
   std::shared_ptr<TimerBoxControl> timer_box_control;
+  TimerBoxView *timer_box_view;
 };
+
 
 #endif // MAINWINDOW_HH

@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2015 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,46 +21,44 @@
 
 #include "AboutDialog.hh"
 
-#include <boost/format.hpp>
-
 #include <QtGui>
 #include <QStyle>
 
 #include "commonui/nls.h"
-#include "commonui/Ui.hh"
 #include "commonui/credits.h"
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
 
+#include "Ui.hh"
 #include "UiUtil.hh"
+#include "qformat.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
-using namespace workrave::ui;
 
 AboutDialog::AboutDialog()
   : QDialog()
 {
-  setWindowTitle(_("About Workrave"));
+  setWindowTitle(tr("About Workrave"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
   QGridLayout *layout = new QGridLayout(this);
   layout->setSizeConstraint(QLayout::SetFixedSize);
-  
-  std::string description = boost::str(boost::format(_("<h3>Workrave %s</h3>"
-                                                       "<br/>"
-                                                       "%s<br/>")) %
+
+  QString description = qstr(qformat(tr("<h3>Workrave %s</h3>"
+                                        "<br/>%s<br/>"))
+                             %
 #ifdef GIT_VERSION
-                                       (PACKAGE_VERSION  "(" GIT_VERSION ")") %
+                             (PACKAGE_VERSION  "(" GIT_VERSION ")") %
 #else
-                                       (PACKAGE_VERSION "") %
+                             (PACKAGE_VERSION "") %
 #endif
-                                       _("This program assists in the prevention and recovery"
-                                         " of Repetitive Strain Injury (RSI).")
-                                       );
+                             tr("This program assists in the prevention and recovery"
+                                " of Repetitive Strain Injury (RSI).").toStdString()
+                             );
 
 
-  QLabel *description_label = new QLabel(QString::fromStdString(description));
+  QLabel *description_label = new QLabel(description);
   description_label->setWordWrap(true);
   description_label->setOpenExternalLinks(true);
   description_label->setTextInteractionFlags(Qt::TextBrowserInteraction);

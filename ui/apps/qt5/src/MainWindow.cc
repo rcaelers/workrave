@@ -31,13 +31,21 @@
 #include "ToolkitMenu.hh"
 #include "Menus.hh"
 
-MainWindow::MainWindow(MenuModel::Ptr menu_model)
+MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
+  : QWidget(parent)
 {
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
-  timer_box_control = std::make_shared<TimerBoxControl>("main_window", *this);
+  timer_box_view = new TimerBoxView;
+  timer_box_control = std::make_shared<TimerBoxControl>("main_window", timer_box_view);
 
+  QVBoxLayout *layout = new QVBoxLayout();
+  layout->setContentsMargins(1, 1, 1, 1);
+  setLayout(layout);
+  
+  layout->addWidget(timer_box_view);
+  
   menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);

@@ -34,6 +34,7 @@
 
 #include "DataConnector.hh"
 #include "TimerPreferencesPanel.hh"
+#include "Ui.hh"
 #include "UiUtil.hh"
 
 using namespace workrave;
@@ -49,7 +50,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   QVBoxLayout *layout = new QVBoxLayout;
   setLayout(layout);
 
-  QGroupBox *sound_options_box = new QGroupBox(_("Sound Options"));
+  QGroupBox *sound_options_box = new QGroupBox(tr("Sound Options"));
   layout->addWidget(sound_options_box);
   QVBoxLayout *sound_options_layout = new QVBoxLayout;
   sound_options_box->setLayout(sound_options_layout);
@@ -64,29 +65,29 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
       connector->connect(SoundTheme::sound_volume(), dc::wrap(sound_volume_scale));
 
-      UiUtil::add_widget(sound_options_layout, _("Volume:"), sound_volume_scale);
+      UiUtil::add_widget(sound_options_layout, tr("Volume:"), sound_volume_scale);
     }
 
   enabled_cb = new QCheckBox;
-  enabled_cb->setText(_("Enable sounds"));
+  enabled_cb->setText(tr("Enable sounds"));
   connector->connect(SoundTheme::sound_enabled(), dc::wrap(enabled_cb));
   sound_options_layout->addWidget(enabled_cb);
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {
       QCheckBox *mute_cb = new QCheckBox;
-      mute_cb->setText(_("Mute sounds during rest break and daily limit"));
+      mute_cb->setText(tr("Mute sounds during rest break and daily limit"));
       connector->connect(SoundTheme::sound_mute(), dc::wrap(mute_cb));
       sound_options_layout->addWidget(mute_cb);
     }
 
-  QGroupBox *sound_events_box = new QGroupBox(_("Sound Events"));
+  QGroupBox *sound_events_box = new QGroupBox(tr("Sound Events"));
   layout->addWidget(sound_events_box);
   QVBoxLayout *sound_events_layout = new QVBoxLayout;
   sound_events_box->setLayout(sound_events_layout);
 
   sound_theme_button = new QComboBox;
-  UiUtil::add_widget(sound_events_layout, _("Sound Theme:"), sound_theme_button);
+  UiUtil::add_widget(sound_events_layout, tr("Sound Theme:"), sound_theme_button);
 
   sound_theme_model = new QStandardItemModel();
   sound_theme_button->setModel(sound_theme_model);
@@ -110,8 +111,8 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   // sounds_view->setColumnWidth(0, 100);
   // sounds_view->setColumnWidth(1, 200);
 
-  sounds_model->setHeaderData(0, Qt::Horizontal, _("Enabled"));
-  sounds_model->setHeaderData(1, Qt::Horizontal, _("Sound"));
+  sounds_model->setHeaderData(0, Qt::Horizontal, tr("Enabled"));
+  sounds_model->setHeaderData(1, Qt::Horizontal, tr("Sound"));
 
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
@@ -125,7 +126,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
       item->setCheckable(true);
       item->setCheckState(sound_enabled ? Qt::Checked : Qt::Unchecked);
 
-      sounds_model->setItem(item_count, 1, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_friendly_name(snd.event))));
+      sounds_model->setItem(item_count, 1, new QStandardItem(Ui::get_sound_event_name(snd.event)));
       sounds_model->setItem(item_count, 2, new QStandardItem(QString::fromStdString(SoundTheme::sound_event_to_id(snd.event))));
       sounds_model->setItem(item_count, 3, new QStandardItem(true));
 
@@ -139,7 +140,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   QHBoxLayout *sound_buttons_layout = new QHBoxLayout;
   sound_events_layout->addLayout(sound_buttons_layout);
 
-  QPushButton *sound_play_button = new QPushButton(_("Play"));
+  QPushButton *sound_play_button = new QPushButton(tr("Play"));
   sound_buttons_layout->addWidget(sound_play_button);
   connect(sound_play_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_play_sound);
 
@@ -173,7 +174,7 @@ SoundsPreferencesPanel::on_select_sound()
       fd->setAttribute(Qt::WA_DeleteOnClose, true);
       fd->setFileMode(QFileDialog::ExistingFile);
       fd->setDirectory(QString::fromStdString(dirname.string()));
-      fd->setLabelText(QFileDialog::Accept, _("Select"));
+      fd->setLabelText(QFileDialog::Accept, tr("Select"));
       fd->show();
 
       connect(fd, &QFileDialog::fileSelected, this, &SoundsPreferencesPanel::on_sound_selected);
@@ -240,7 +241,7 @@ SoundsPreferencesPanel::update_theme_selection()
 
   if (active_index == -1)
     {
-      QStandardItem *item = new QStandardItem(QString::fromStdString(_("Custom")));
+      QStandardItem *item = new QStandardItem(tr("Custom"));
       sound_theme_model->appendRow(item);
       active_index = sound_theme_model->indexFromItem(item).row();
     }

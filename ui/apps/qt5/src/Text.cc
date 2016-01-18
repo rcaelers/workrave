@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "commonui/Text.hh"
+#include "Text.hh"
 
 #include <stdio.h>
 
@@ -38,30 +38,22 @@
 
 #include "commonui/nls.h"
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#define snprintf _snprintf
-#define snwprintf _snwprintf
-#endif
+#include "qformat.hh"
 
 using namespace std;
 
 //! Converts the specified time to a string
-string
+QString
 Text::time_to_string(time_t time, bool display_units)
 {
-  char s[128] = "";
-  char t[2];
-
+  QString ret;
+  
   if (time < 0)
     {
-      t[0] = '-';
-      t[1] = 0;
+      ret += '-';
       time = -time;
     }
-  else
-    {
-      t[0] = 0;
-    }
+
   int hrs = static_cast<int>(time/3600);
   int min = (time / 60) % 60;
   int sec = time % 60;
@@ -70,28 +62,28 @@ Text::time_to_string(time_t time, bool display_units)
     {
       if (hrs > 0)
         {
-          snprintf(s, sizeof(s), "%s%d:%02d:%02d", t, hrs, min, sec);
+          ret += qstr(qformat(tr("%s%d:%02d:%02d")) % "" % hrs % min % sec);
         }
       else
         {
-          snprintf(s, sizeof(s), "%s%d:%02d", t, min, sec);
+          ret += qstr(qformat(tr("%s%d:%02d")) % "" % min % sec);
         }
     }
   else
     {
       if (hrs > 0)
         {
-          snprintf(s, sizeof(s), _("%s%d:%02d:%02d hours"), t, hrs, min, sec);
+          ret += qstr(qformat(tr("%s%d:%02d:%02d hours")) % "" % hrs % min % sec);
         }
       else if (min > 0)
         {
-          snprintf(s, sizeof(s), _("%s%d:%02d minutes"), t, min, sec);
+          ret += qstr(qformat(tr("%s%d:%02d minutes")) % "" % min % sec);
         }
       else
         {
-          snprintf(s, sizeof(s), _("%s%d seconds"), t, sec);
+          ret += qstr(qformat(tr("%s%d seconds")) % "" % sec);
         }
     }
 
-  return s;
+  return ret;
 }

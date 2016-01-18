@@ -36,7 +36,7 @@
 #include "TimeBar.hh"
 #include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
 

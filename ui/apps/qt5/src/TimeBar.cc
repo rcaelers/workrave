@@ -24,27 +24,28 @@
 #include <QStylePainter>
 #include <QStyleOptionProgressBar>
 
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "debug.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;
 
-QColor TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] =
-  {
-    QColor("lightblue"),
-    QColor("lightgreen"),
-    QColor("orange"),
-    QColor("red"),
-    QColor("#e00000"),
-    QColor("#00d4b2"),
-    QColor("lightgreen"),
+
+std::map<TimerColorId, QColor> TimeBar::bar_colors {
+  { TimerColorId::Active, QColor("lightblue") },
+  { TimerColorId::Inactive, QColor("lightgreen") },
+  { TimerColorId::Overdue, QColor("orange") },
+  { TimerColorId::ActiveDuringBreak1, QColor("red") },
+  { TimerColorId::ActiveDuringBreak2, QColor("#e00000") },
+  { TimerColorId::InactiveOverActive, QColor("#00d4b2") },
+  { TimerColorId::InactiveOverOverdue, QColor("lightgreen")},
+  { TimerColorId::InactiveOverOverdue, QColor("#777777")},
   };
 
 TimeBar::TimeBar(QWidget *parent) :
   QWidget(parent),
-  bar_color(COLOR_ID_ACTIVE),
-  secondary_bar_color(COLOR_ID_ACTIVE),
+  bar_color(TimerColorId::Active),
+  secondary_bar_color(TimerColorId::Active),
   bar_value(0),
   bar_max_value(0),
   secondary_bar_value(0),
@@ -80,7 +81,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
 }
 
 void
-TimeBar::set_text(std::string text)
+TimeBar::set_text(const QString &text)
 {
   bar_text = text;
 }
@@ -92,13 +93,13 @@ TimeBar::set_text_alignment(int align)
 }
 
 void
-TimeBar::set_bar_color(ColorId color)
+TimeBar::set_bar_color(TimerColorId color)
 {
   bar_color = color;
 }
 
 void
-TimeBar::set_secondary_bar_color(ColorId color)
+TimeBar::set_secondary_bar_color(TimerColorId color)
 {
   secondary_bar_color = color;
 }
@@ -112,11 +113,10 @@ TimeBar::update()
 QSize
 TimeBar::minimumSizeHint() const
 {
-  QString text = QString::fromStdString(bar_text);
-  int width = fontMetrics().width(text);
+  int width = fontMetrics().width(bar_text);
   int height = fontMetrics().height();
 
-  QString full_text = QString::fromStdString(Text::time_to_string(-(59+59*60+9*60*60)));
+  QString full_text = Text::time_to_string(-(59+59*60+9*60*60));
   int full_width = fontMetrics().width(full_text);
 
   if (full_width > width)
@@ -182,22 +182,22 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
       // but there are some weird boundary cases
       // in which this still happens.. need to check
       // this out some time.
-      // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      ColorId overlap_color;
+      // assert(secondary_bar_color == TimerColorId::Inactive);
+      TimerColorId overlap_color;
       switch (bar_color)
         {
-        case COLOR_ID_ACTIVE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+        case TimerColorId::Active:
+          overlap_color = TimerColorId::InactiveOverActive;
           break;
-        case COLOR_ID_OVERDUE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
+        case TimerColorId::Overdue:
+          overlap_color = TimerColorId::InactiveOverOverdue;
           break;
         default:
           // We could abort() because this is not supported
           // but there are some weird boundary cases
           // in which this still happens.. need to check
           // this out some time.
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = TimerColorId::InactiveOverActive;
         }
 
       if (sbar_width >= bar_width)
@@ -237,9 +237,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
     }
 
 
-  QString text = QString::fromStdString(bar_text);
-
-  int text_width = painter.fontMetrics().width(text);
+  int text_width = painter.fontMetrics().width(bar_text);
   int text_height = painter.fontMetrics().height();
 
   int text_x;
@@ -267,7 +265,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
   QRegion right_rect(left_width, 0, width() - left_width, height());
 
   painter.setPen(QColor("black"));
-  painter.drawText(text_x, text_y, text);
+  painter.drawText(text_x, text_y, bar_text);
 
   TRACE_MSG("width = " << text_width << "height = " << text_height);
   TRACE_EXIT();

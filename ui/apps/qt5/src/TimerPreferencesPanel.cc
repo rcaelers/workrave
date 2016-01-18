@@ -59,7 +59,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
-  enabled_cb = new QCheckBox(_("Enable timer"));
+  enabled_cb = new QCheckBox(tr("Enable timer"));
   connect(enabled_cb, &QCheckBox::stateChanged, this, &TimerPreferencesPanel::on_enabled_toggled);
 
   layout->addWidget(enabled_cb);
@@ -86,15 +86,15 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
 QWidget *
 TimerPreferencesPanel::create_prelude_panel()
 {
-  QGroupBox *box =new QGroupBox(_("Break prompting"));
+  QGroupBox *box =new QGroupBox(tr("Break prompting"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
-  prelude_cb = new QCheckBox(_("Prompt before breaking"));
+  prelude_cb = new QCheckBox(tr("Prompt before breaking"));
   layout->addWidget(prelude_cb);
 
   QHBoxLayout *max_box = new QHBoxLayout;
-  has_max_prelude_cb = new QCheckBox(_("Maximum number of prompts:"));
+  has_max_prelude_cb = new QCheckBox(tr("Maximum number of prompts:"));
   max_prelude_spin = new QSpinBox;
   max_box->addWidget(has_max_prelude_cb);
   max_box->addWidget(max_prelude_spin);
@@ -120,20 +120,20 @@ TimerPreferencesPanel::create_prelude_panel()
 QWidget *
 TimerPreferencesPanel::create_options_panel()
 {
-  QGroupBox *box = new QGroupBox(_("Options"));
+  QGroupBox *box = new QGroupBox(tr("Options"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
-  ignorable_cb = new QCheckBox(_("Show 'Postpone' button"));
+  ignorable_cb = new QCheckBox(tr("Show 'Postpone' button"));
   layout->addWidget(ignorable_cb);
 
-  skippable_cb = new QCheckBox(_("Show 'Skip' button"));
+  skippable_cb = new QCheckBox(tr("Show 'Skip' button"));
   layout->addWidget(skippable_cb);
 
   monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      monitor_cb = new QCheckBox(_("Regard micro-breaks as activity"));
+      monitor_cb = new QCheckBox(tr("Regard micro-breaks as activity"));
       layout->addWidget(monitor_cb);
 
       connector->connect(CoreConfig::timer_daily_limit_use_micro_break_activity(), dc::wrap(monitor_cb));
@@ -142,7 +142,7 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_REST_BREAK)
     {
       QHBoxLayout *exercises_box = new QHBoxLayout;
-      QLabel *exercises_lab = new QLabel(_("Number of exercises:"));
+      QLabel *exercises_lab = new QLabel(tr("Number of exercises:"));
       exercises_spin = new QSpinBox;
 
       exercises_box->addWidget(exercises_lab);
@@ -151,7 +151,7 @@ TimerPreferencesPanel::create_options_panel()
 
       connector->connect(GUIConfig::break_exercises(break_id), dc::wrap(exercises_spin));
 
-      auto_natural_cb = new QCheckBox(_("Start restbreak when screen is locked"));
+      auto_natural_cb = new QCheckBox(tr("Start restbreak when screen is locked"));
       layout->addWidget(auto_natural_cb);
 
       connector->connect(GUIConfig::break_auto_natural(break_id), dc::wrap(auto_natural_cb));
@@ -167,7 +167,7 @@ TimerPreferencesPanel::create_options_panel()
 QWidget *
 TimerPreferencesPanel::create_timers_panel()
 {
-  QGroupBox *box = new QGroupBox(_("Timers"));
+  QGroupBox *box = new QGroupBox(tr("Timers"));
   QGridLayout *layout = new QGridLayout;
   box->setLayout(layout);
 
@@ -175,8 +175,8 @@ TimerPreferencesPanel::create_timers_panel()
 
   limit_tim = new TimeEntry();
   QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT
-                                 ? _("Time before end:")
-                                 : _("Time between breaks:"));
+                                 ? tr("Time before end:")
+                                 : tr("Time between breaks:"));
 
   layout->addWidget(limit_lab, row, 0);
   layout->addWidget(limit_tim, row, 1);
@@ -188,7 +188,7 @@ TimerPreferencesPanel::create_timers_panel()
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
       auto_reset_tim = new TimeEntry();
-      QLabel *auto_reset_lab = new QLabel(_("Break duration:"));
+      QLabel *auto_reset_lab = new QLabel(tr("Break duration:"));
 
       layout->addWidget(auto_reset_lab, row, 0);
       layout->addWidget(auto_reset_tim, row, 1);
@@ -202,7 +202,7 @@ TimerPreferencesPanel::create_timers_panel()
 
   snooze_tim = new TimeEntry;
 
-  QLabel *snooze_lab = new QLabel(_("Postpone time:"));
+  QLabel *snooze_lab = new QLabel(tr("Postpone time:"));
   layout->addWidget(snooze_lab, row, 0);
   layout->addWidget(snooze_tim, row, 1);
   layout->setRowStretch(row, 0);

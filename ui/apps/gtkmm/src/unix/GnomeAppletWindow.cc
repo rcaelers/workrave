@@ -156,7 +156,7 @@ GnomeAppletWindow::activate_applet()
 
           view = new TimerBoxGtkView(Menus::MENU_NONE, true);
           timer_box_view = view;
-          timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+          timer_box_control = new TimerBoxControl("applet", timer_box_view);
 
           view->set_geometry(applet_orientation, applet_size);
           view->show_all();

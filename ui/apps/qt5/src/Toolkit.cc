@@ -53,9 +53,11 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   this->menu_model = menu_model;
   this->sound_theme = sound_theme;
 
+  init_translations();
+ 
   setQuitOnLastWindowClosed(false);
   setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
+  
 #ifdef PLATFORM_OS_OSX
   dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
@@ -63,8 +65,8 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   status_icon = std::make_shared<StatusIcon>(menu_model);
 
-  main_window =  std::make_shared<MainWindow>(menu_model);
-  connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
+  main_window =  new MainWindow(menu_model, 0);
+  connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 
   main_window->show();
@@ -73,6 +75,11 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 #ifdef PLATFORM_OS_OSX
   dock = std::make_shared<Dock>();
 #endif
+}
+
+void
+Toolkit::init_translations()
+{
 }
 
 void
@@ -85,14 +92,6 @@ void
 Toolkit::run()
 {
   exec();
-}
-
-void Toolkit::grab()
-{
-}
-
-void Toolkit::ungrab()
-{
 }
 
 std::string Toolkit::get_display_name()
@@ -138,12 +137,11 @@ Toolkit::show_window(WindowType type)
       main_window->raise();
       break;
 
-    // TODO: refactor
     case WindowType::Statistics:
       if (!statistics_dialog)
         {
-          statistics_dialog = std::make_shared<StatisticsDialog>();
-          connect(statistics_dialog.get(), &QDialog::accepted, this, &Toolkit::on_statistics_closed);
+          statistics_dialog = new StatisticsDialog;
+          statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       statistics_dialog->show();
       break;
@@ -151,8 +149,8 @@ Toolkit::show_window(WindowType type)
     case WindowType::Preferences:
       if (!preferences_dialog)
         {
-          preferences_dialog = std::make_shared<PreferencesDialog>(sound_theme);
-          connect(preferences_dialog.get(), &QDialog::accepted, this, &Toolkit::on_preferences_closed);
+          preferences_dialog = new PreferencesDialog(sound_theme);
+          preferences_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       preferences_dialog->show();
       break;
@@ -160,8 +158,8 @@ Toolkit::show_window(WindowType type)
     case WindowType::About:
       if (!about_dialog)
         {
-          about_dialog = std::make_shared<AboutDialog>();
-          connect(about_dialog.get(), &QDialog::accepted, this, &Toolkit::on_about_closed);
+          about_dialog = new AboutDialog;
+          statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       about_dialog->show();
       break;
@@ -169,38 +167,10 @@ Toolkit::show_window(WindowType type)
     case WindowType::Exercises:
       if (!exercises_dialog)
         {
-          exercises_dialog = std::make_shared<ExercisesDialog>(sound_theme);
-          connect(exercises_dialog.get(), &QDialog::accepted, this, &Toolkit::on_exercises_closed);
+          exercises_dialog = new ExercisesDialog(sound_theme);
+          statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       exercises_dialog->show();
-      break;
-    }
-}
-
-void
-Toolkit::hide_window(WindowType type)
-{
-  switch (type)
-    {
-    case WindowType::Main:
-      main_window->hide();
-      break;
-
-    case WindowType::Statistics:
-      break;
-
-    case WindowType::Preferences:
-      preferences_dialog->hide();
-      preferences_dialog.reset();
-      break;
-
-    case WindowType::About:
-      about_dialog->hide();
-      break;
-
-    case WindowType::Exercises:
-      exercises_dialog->hide();
-      exercises_dialog.reset();
       break;
     }
 }
@@ -218,6 +188,13 @@ Toolkit::show_balloon(std::string id, const std::string& title, const std::strin
   status_icon->show_balloon(id, title, balloon);
 }
 
+// std::string
+// Toolkit::translate(const char *text, const char *disambiguation, int n)
+// {
+//   QString ret = translator->translate("", text, disambiguation, n);
+//   return ret.toStdString();
+// }
+
 void
 Toolkit::create_oneshot_timer(int ms, std::function<void ()> func)
 {
@@ -230,31 +207,6 @@ Toolkit::on_timer()
   timer_signal();
 
   main_window->heartbeat();
-}
-
-// TODO: refactor merge _closed funtions
-void
-Toolkit::on_exercises_closed()
-{
-  exercises_dialog.reset();
-}
-
-void
-Toolkit::on_statistics_closed()
-{
-  statistics_dialog.reset();
-}
-
-void
-Toolkit::on_preferences_closed()
-{
-  preferences_dialog.reset();
-}
-
-void
-Toolkit::on_about_closed()
-{
-  about_dialog.reset();
 }
 
 boost::signals2::signal<void()> &

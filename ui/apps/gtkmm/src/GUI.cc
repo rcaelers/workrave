@@ -67,7 +67,7 @@
 #include "commonui/SoundTheme.hh"
 #include "StatusIcon.hh"
 #include "session/System.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "WindowHints.hh"
 #include "commonui/Session.hh"
 #include "commonui/TimerBoxControl.hh"

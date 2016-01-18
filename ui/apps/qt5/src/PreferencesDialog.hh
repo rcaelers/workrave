@@ -38,7 +38,7 @@ public:
 protected:
 
 private:
-  void add_page(const char *label, const char *image, QWidget *widget);
+  void add_page(const QString &label, const char *image, QWidget *widget);
 
   QWidget *create_timer_page();
   QWidget *create_ui_page(SoundTheme::Ptr sound_theme);

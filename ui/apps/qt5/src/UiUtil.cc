@@ -28,16 +28,17 @@
 #include <boost/algorithm/string.hpp>
 
 #include "utils/AssetPath.hh"
-#include "commonui/Ui.hh"
 #include "commonui/nls.h"
 #include "debug.hh"
 
+#include "Ui.hh"
+
 using namespace workrave::utils;
 
-std::string
-UiUtil::create_alert_text(const std::string &caption, const std::string &body)
+QString
+UiUtil::create_alert_text(const QString &caption, const QString &body)
 {
-  std::string txt = "<span style=\"font-size:20pt; font-weight:600;\">";
+  QString txt = "<span style=\"font-size:20pt; font-weight:600;\">";
   txt += caption;
   txt += "</span>";
   if (body != "")
@@ -46,26 +47,26 @@ UiUtil::create_alert_text(const std::string &caption, const std::string &body)
       txt += body;
     }
 
-  boost::replace_all(txt, "\n", "<br>");
+  txt.replace("\n", "<br>");
   return txt;
 }
 
 void
-UiUtil::clear_layout(QLayout* layout)
+UiUtil::clear_layout(QLayout *layout)
 {
-  while (QLayoutItem* item = layout->takeAt(0))
+  while (QLayoutItem *item = layout->takeAt(0))
     {
-      QWidget* widget = item->widget();
+      QWidget *widget = item->widget();
       delete widget;
       delete item;
     }
 }
 
 void
-UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
+UiUtil::add_widget(QBoxLayout *layout, const QString &text, QWidget *widget)
 {
   QHBoxLayout *box = new QHBoxLayout;
-  QLabel *lab = new QLabel(text.c_str());
+  QLabel *lab = new QLabel(text);
 
   box->addWidget(lab);
   box->addWidget(widget);
@@ -73,7 +74,7 @@ UiUtil::add_widget(QBoxLayout *layout, const std::string &text, QWidget* widget)
 }
 
 void
-UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
+UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget *widget)
 {
   QHBoxLayout *box = new QHBoxLayout;
 
@@ -83,7 +84,7 @@ UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget)
 }
 
 QLabel *
-UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
+UiUtil::add_label(QBoxLayout *layout, const QString &text, bool bold)
 {
   QLabel *label = create_label(text, bold);
   layout->addWidget(label);
@@ -91,33 +92,33 @@ UiUtil::add_label(QBoxLayout *layout, const std::string &text, bool bold)
 }
 
 QLabel *
-UiUtil::create_label(const std::string &text, bool bold)
+UiUtil::create_label(const QString &text, bool bold)
 {
   QLabel *label = new QLabel;
   if (bold)
     {
-      label->setText(QString::fromStdString(std::string("<span style=\"font-size:20pt; font-weight:600;\" >") + text + "</span>"));
+      label->setText(QString("<span style=\"font-size:20pt; font-weight:600;\" >") + text + "</span>");
     }
   else
     {
-      label->setText(QString::fromStdString(text));
+      label->setText(text);
     }
   return label;
 }
 
 QLabel *
-UiUtil::create_label_with_tooltip(const std::string &text, const std::string &tooltip)
+UiUtil::create_label_with_tooltip(const QString &text, const QString &tooltip)
 {
   QLabel *label = new QLabel;
-  label->setText(QString::fromStdString(text));
-  label->setToolTip(QString::fromStdString(tooltip));
+  label->setText(text);
+  label->setToolTip(tooltip);
   return label;
 }
 
 QPushButton *
-UiUtil::create_image_button(const std::string &filename)
+UiUtil::create_image_button(const QString &filename)
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
   QIcon icon(pixmap);
 
   QPushButton *button = new QPushButton();
@@ -127,38 +128,38 @@ UiUtil::create_image_button(const std::string &filename)
 }
 
 QPushButton *
-UiUtil::create_image_text_button(const std::string &filename, const std::string &text)
+UiUtil::create_image_text_button(const QString &filename, const QString &text)
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
   QIcon icon(pixmap);
 
-  QPushButton *button = new QPushButton(QString::fromStdString(text));
+  QPushButton *button = new QPushButton(text);
   button->setIcon(icon);
   button->setIconSize(pixmap.rect().size());
   return button;
 }
 
 QLabel *
-UiUtil::create_image_label(const std::string &filename)
+UiUtil::create_image_label(const QString &filename)
 {
   QLabel *label = new QLabel;
-  std::string file = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
   label->setPixmap(QPixmap(file.c_str()));
   return label;
 }
 
 QIcon
-UiUtil::create_icon(std::string filename)
+UiUtil::create_icon(const QString &filename)
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
   QIcon icon(pixmap);
   return icon;
 }
 
 QPixmap
-UiUtil::create_pixmap(std::string filename, int height)
+UiUtil::create_pixmap(const QString &filename, int height)
 {
-  std::string svg_filename = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  std::string svg_filename = AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
 
   QSvgRenderer svg(QString::fromStdString(svg_filename));
   QPixmap pixmap(height, height);
@@ -174,9 +175,8 @@ UiUtil::create_label_for_break(workrave::BreakId id)
 {
   QLabel *label = new QLabel;
 
-  std::string file = AssetPath::complete_directory(workrave::ui::Ui::get_break_icon_filename(id), AssetPath::SEARCH_PATH_IMAGES);
-  label->setPixmap(QPixmap(file.c_str()));
-  label->setText(QString::fromStdString(workrave::ui::Ui::get_break_name(id)));
+  label->setPixmap(QPixmap(Ui::get_break_icon_filename(id)));
+  label->setText(Ui::get_break_name(id));
   return label;
 }
 

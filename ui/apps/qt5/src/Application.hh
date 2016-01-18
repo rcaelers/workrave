@@ -22,6 +22,8 @@
 #include <vector>
 #include <memory>
 
+#include <QCoreApplication>
+
 #include "commonui/Session.hh"
 #include "commonui/Session.hh"
 #include "commonui/SoundTheme.hh"
@@ -40,10 +42,12 @@ class Application :
   public IApplication,
   public workrave::IApp
 {
+  Q_DECLARE_TR_FUNCTIONS(Application);
+  
 public:
   typedef std::shared_ptr<Application> Ptr;
 
-  Application(int argc, char **argv, IToolkit::Ptr toolkit);
+  Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
   ~Application() override;
 
   SoundTheme::Ptr get_sound_theme() const;
@@ -87,10 +91,10 @@ private:
   typedef std::vector<IPreludeWindow::Ptr> PreludeWindows;
   typedef PreludeWindows::iterator PreludeWindowsIter;
 
-  IToolkit::Ptr toolkit;
-  workrave::ICore::Ptr core;
-  Menus::Ptr menus;
-  workrave::updater::Updater::Ptr updater;
+  std::shared_ptr<IToolkit> toolkit;
+  std::shared_ptr<workrave::ICore> core;
+  std::shared_ptr<Menus> menus;
+  std::shared_ptr<workrave::updater::Updater> updater;
   int argc;
   char **argv;
   SoundTheme::Ptr sound_theme;

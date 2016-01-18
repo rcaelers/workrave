@@ -21,6 +21,8 @@
 #include <memory>
 #include <string>
 
+#include <QCoreApplication>
+
 #include "core/ICore.hh"
 #include "utils/ScopedConnections.hh"
 
@@ -30,10 +32,14 @@
 
 class Menus
 {
+  Q_DECLARE_TR_FUNCTIONS(Menus);
+
 public:
   typedef std::shared_ptr<Menus> Ptr;
 
-  Menus(IApplication::Ptr app, IToolkit::Ptr toolkit, workrave::ICore::Ptr core);
+  Menus(std::shared_ptr<IApplication> app,
+        std::shared_ptr<IToolkit> toolkit,
+        std::shared_ptr<workrave::ICore> core);
 
   const MenuModel::Ptr get_menu_model() const;
 
@@ -77,9 +83,9 @@ private:
   MenuModel::Ptr normal_item;
   MenuModel::Ptr reading_item;
 
-  IApplication::Ptr app;
-  IToolkit::Ptr toolkit;
-  workrave::ICore::Ptr core;
+  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IToolkit> toolkit;
+  std::shared_ptr<workrave::ICore> core;
 
   scoped_connections connections;
 

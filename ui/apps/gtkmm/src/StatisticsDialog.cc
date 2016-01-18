@@ -51,7 +51,7 @@
 #include "commonui/Backend.hh"
 
 #include "StatisticsDialog.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "GtkUtil.hh"
 #include "Locale.hh"
 

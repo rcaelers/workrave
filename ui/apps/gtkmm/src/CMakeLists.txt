@@ -23,11 +23,13 @@ set(SRC
   PreludeWindow.cc
   RestBreakWindow.cc
   StatusIcon.cc
+  Text.cc
   TimeBar.cc
   TimeEntry.cc
   TimerBoxGtkView.cc
   TimerBoxPreferencePage.cc
   TimerPreferencesPanel.cc
+  Ui.cc
   WindowHints.cc
   main.cc
   )

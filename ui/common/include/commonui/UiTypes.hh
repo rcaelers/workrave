@@ -35,6 +35,17 @@ enum class StatusIconType
     Suspended
   };
 
+enum class TimerColorId
+{
+  Active = 0,
+  Inactive,
+  Overdue,
+  ActiveDuringBreak1,
+  ActiveDuringBreak2,
+  InactiveOverActive,
+  InactiveOverOverdue,
+  Bg,
+};
 
 enum Orientation
   {

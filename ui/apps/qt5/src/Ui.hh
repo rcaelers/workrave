@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ABOUTDIALOG_HH
-#define ABOUTDIALOG_HH
+#ifndef UI_HH
+#define UI_HH
 
-#include <QtGui>
-#include <QtWidgets>
+#include <QCoreApplication>
+#include <QString>
 
-class AboutDialog : public QDialog
+#include "core/CoreTypes.hh"
+#include "commonui/UiTypes.hh"
+#include "commonui/SoundTheme.hh"
+
+class Ui
 {
-  Q_OBJECT
+  Q_DECLARE_TR_FUNCTIONS(Application);
 
 public:
-  AboutDialog();
+  static QString get_break_name(workrave::BreakId id);
+  static QString get_break_icon_filename(workrave::BreakId id);
+  static QString get_status_icon_filename(StatusIconType id);
+  static QString get_sound_event_name(SoundEvent event);
 };
 
-#endif // ABOUTDIALOG_HH
+#endif // UI_HH
