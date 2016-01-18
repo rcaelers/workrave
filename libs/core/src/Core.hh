@@ -21,7 +21,6 @@
 #define CORE_HH
 
 #include <string>
-#include <map>
 
 #include "dbus/IDBus.hh"
 #include "config/IConfigurator.hh"

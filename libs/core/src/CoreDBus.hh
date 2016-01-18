@@ -24,7 +24,6 @@
 #include "CoreModes.hh"
 
 #include <string>
-#include <map>
 
 class CoreDBus
 {

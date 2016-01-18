@@ -20,9 +20,6 @@
 #ifndef BREAKSCONTROL_HH
 #define BREAKSCONTROL_HH
 
-#include <vector>
-#include <map>
-
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
 #include "utils/ScopedConnections.hh"

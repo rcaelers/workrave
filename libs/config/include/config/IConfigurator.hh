@@ -19,10 +19,7 @@
 #define WORKRAVE_CONFIG_ICONFIGURATOR_HH
 
 #include <memory>
-
 #include <string>
-#include <list>
-#include <map>
 
 namespace workrave
 {

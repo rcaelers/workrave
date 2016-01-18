@@ -23,7 +23,6 @@
 #ifdef HAVE_TESTS
 
 #include <string>
-#include <map>
 #include <istream>
 #include <memory>
 

@@ -22,7 +22,6 @@
 
 #include <string>
 #include <list>
-#include <map>
 
 #include <windows.h>
 #include "IConfigBackend.hh"

@@ -21,7 +21,6 @@
 #define WORKRAVE_DBUS_DBUSFREEDESKTOP_HH
 
 #include <string>
-#include <map>
 #include <list>
 
 #include <memory>
