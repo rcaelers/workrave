@@ -32,8 +32,18 @@ RUN dnf -y install \
                 mingw32-gtkmm24 \
                 mingw32-gtkmm30 \
                 mingw32-openssl \
+                mingw32-qt5-qttools \
                 mingw32-qt5-qtbase-devel \
                 mingw32-qt5-qtsvg \
+                mingw32-boost \
+                mingw64-dbus \
+                mingw64-gcc \
+                mingw64-gcc-c++ \
+                mingw64-gettext \
+                mingw64-openssl \
+                mingw64-qt5-qttools \
+                mingw64-qt5-qtbase-devel \
+                mingw64-qt5-qtsvg \
                 openssl-devel \
                 pulseaudio-libs-devel \
                 python-cheetah \

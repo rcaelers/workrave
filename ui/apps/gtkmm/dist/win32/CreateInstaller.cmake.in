@@ -19,8 +19,10 @@ foreach(dependency ${resolved_dependencies})
 endforeach()
 
 execute_process(
-  COMMAND "@WINE@" "@ISCC@" setup.iss
+  COMMAND "@WINE@" "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
   WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
   )
+
+message("Setup: ${out}")
