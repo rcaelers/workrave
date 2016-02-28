@@ -97,7 +97,8 @@ of `autoconf'.
   9. Often, you can also type `make uninstall' to remove the installed
      files again.  In practice, not all packages have tested that
      uninstallation works correctly, even though it is required by the
-     GNU Coding Standards.
+     GNU Coding Standards.  On Debian systems you should use dh_make to 
+     create a debian package, see https://wiki.debian.org/HowToPackageForDebian#A.27.27Debianization.27.27
 
   10. Some packages, particularly those that use Automake, provide `make
      distcheck', which can by used by developers to test that all other
