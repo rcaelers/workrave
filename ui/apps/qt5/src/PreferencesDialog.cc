@@ -25,7 +25,6 @@
 #include <QStyle>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"

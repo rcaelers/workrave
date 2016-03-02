@@ -22,7 +22,6 @@
 
 #include "ExercisesPanel.hh"
 
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "utils/AssetPath.hh"

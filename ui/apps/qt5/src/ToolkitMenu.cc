@@ -22,8 +22,6 @@
 #include "ToolkitMenu.hh"
 #include "MenuModel.hh"
 
-using namespace std;
-
 ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuModelFilter filter)
 {
   menu = std::make_shared<detail::SubMenuEntry>(menu_model, filter);
@@ -67,7 +65,7 @@ MenuEntry::get_menu_model() const
 SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
   : MenuEntry(menu_model, filter)
 {
-  menu = new QMenu(menu_model->get_text().c_str());
+  menu = new QMenu(tr(menu_model->get_text().c_str()));
 
   for (const MenuModel::Ptr &item : menu_model->get_submenus())
     {

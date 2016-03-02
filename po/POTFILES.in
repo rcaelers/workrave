@@ -162,6 +162,8 @@ ui/apps/gtkmm/src/win32/W32ForceFocus.cc
 ui/apps/gtkmm/src/win32/W32StatusIcon.cc
 ui/apps/gtkmm/src/win32/W32TrayMenu.cc
 ui/apps/gtkmm/src/workrave.desktop.in
+ui/apps/gtkmm/src/Text.cc
+ui/apps/gtkmm/src/Ui.cc
 ui/apps/qt5/src/AboutDialog.cc
 ui/apps/qt5/src/Application.cc
 ui/apps/qt5/src/BreakWindow.cc
@@ -191,12 +193,12 @@ ui/apps/qt5/src/Toolkit.cc
 ui/apps/qt5/src/ToolkitMenu.cc
 ui/apps/qt5/src/UiUtil.cc
 ui/apps/qt5/src/main.cc
+ui/apps/qt5/src/Text.cc
+ui/apps/qt5/src/Ui.cc
 ui/common/src/Backend.cc
 ui/common/src/Exercise.cc
 ui/common/src/GUIConfig.cc
 ui/common/src/Session.cc
 ui/common/src/SoundTheme.cc
-ui/common/src/Text.cc
 ui/common/src/TimerBoxControl.cc
-ui/common/src/Ui.cc
 ui/data/exercises/exercises.xml.in

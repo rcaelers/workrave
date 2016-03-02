@@ -23,7 +23,6 @@
 
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
-#include "commonui/nls.h"
 
 using namespace workrave::utils;
 

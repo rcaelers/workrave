@@ -28,7 +28,6 @@
 #include <QApplication>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include "Text.hh"
 #include "core/IApp.hh"

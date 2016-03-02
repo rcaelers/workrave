@@ -39,8 +39,8 @@ class StatusIcon : public QObject
 public:
   explicit StatusIcon(MenuModel::Ptr menu_model);
 
-  void set_tooltip(std::string &tip);
-  void show_balloon(std::string id, const std::string &title, const std::string &balloon);
+  void set_tooltip(const QString &tip);
+  void show_balloon(const QString &id, const QString &title, const QString &balloon);
 
   boost::signals2::signal<void()> &signal_activate();
 

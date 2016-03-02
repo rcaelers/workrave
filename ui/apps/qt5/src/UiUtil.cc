@@ -28,7 +28,6 @@
 #include <boost/algorithm/string.hpp>
 
 #include "utils/AssetPath.hh"
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "Ui.hh"

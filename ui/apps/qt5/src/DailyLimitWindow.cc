@@ -21,8 +21,6 @@
 
 #include "DailyLimitWindow.hh"
 
-#include "commonui/nls.h"
-
 #include "UiUtil.hh"
 
 using namespace workrave;

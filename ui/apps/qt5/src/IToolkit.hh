@@ -47,7 +47,7 @@ public:
   virtual void show_window(WindowType type) = 0;
   virtual int get_screen_count() const = 0;
   virtual void create_oneshot_timer(int ms, std::function<void ()> func) = 0;
-  virtual void show_balloon(std::string id, const std::string& title, const std::string& balloon) = 0;
+  virtual void show_balloon(const std::string &id, const std::string& title, const std::string& balloon) = 0;
 };
 
 #endif // ITOOLKIT_HH

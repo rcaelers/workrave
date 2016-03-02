@@ -27,7 +27,6 @@
 #include "ToolkitMenu.hh"
 #include "UiUtil.hh"
 
-using namespace std;
 using namespace workrave;
 
 StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
@@ -58,15 +57,15 @@ StatusIcon::on_operation_mode_changed(OperationMode m)
 }
 
 void
-StatusIcon::set_tooltip(std::string& tip)
+StatusIcon::set_tooltip(const QString &tip)
 {
-  tray_icon->setToolTip(QString::fromStdString(tip));
+  tray_icon->setToolTip(tip);
 }
 
 void
-StatusIcon::show_balloon(string id, const std::string& title, const string &balloon)
+StatusIcon::show_balloon(const QString &id, const QString& title, const QString &balloon)
 {
-  tray_icon->showMessage(QString::fromStdString(title), QString::fromStdString(balloon));
+  tray_icon->showMessage(title, balloon);
 }
 
 void
