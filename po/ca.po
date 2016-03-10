@@ -1,15 +1,15 @@
 # Catalan translation of Workrave.
-# Copyright © 2005, 2010, 2011, 2012 Free Software Foundation, Inc.
+# Copyright © 2005, 2010, 2011, 2012, 2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the workrave package.
-# Jordi Mallach <jordi@sindominio.net>, 2005, 2010, 2011, 2012.
+# Jordi Mallach <jordi@sindominio.net>, 2005, 2010, 2011, 2012, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.9.908\n"
+"Project-Id-Version: workrave 1.10.10\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2013-05-25 20:31+0200\n"
 "PO-Revision-Date: 2012-03-31 11:14+0200\n"
-"Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
+"Last-Translator: Jordi Mallach <jordi@mallach.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -864,14 +864,12 @@ msgid "Maximum number of prompts:"
 msgstr "Nombre màxim de preguntes:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
 msgid "Show 'Postpone' button"
-msgstr "Mostra els botons «Ajorna» i «Omet»"
+msgstr "Mostra el botó «Ajorna»"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
-#, fuzzy
 msgid "Show 'Skip' button"
-msgstr "Mostra els botons «Ajorna» i «Omet»"
+msgstr "Mostra els botó «Omet»"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Suspend timer when inactive"
@@ -1185,7 +1183,7 @@ msgstr "Navega l'historial"
 #. Delete button
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Suprimeix tot l'historial d'estadístiques"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Date:"
@@ -1320,36 +1318,36 @@ msgstr "%s, de %s a %s"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:606
 msgid "Warning"
-msgstr ""
+msgstr "Avís"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:603
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "Heu seleccionat suprimir el vostre historial d'estadístiques. Voleu continuar?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
 msgid "Files deleted!"
-msgstr ""
+msgstr "S'ha suprimit els fitxers!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:619
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "S'ha suprimit els fitxers que contenien l'historial d'estadístiques."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:622
 msgid "Info"
-msgstr ""
+msgstr "Informació"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Ha fallat la supressió dels fitxers!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:629
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
+msgstr "No s'ha pogut suprimir els fitxers que contenen les vostres estadístiques. Voleu tornar-ho a provar?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:632
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #~ msgid "u1 %s."
 #~ msgstr "u1 %s."
