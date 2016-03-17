@@ -21,10 +21,6 @@
 
 #include "MenuModel.hh"
 
-#include "commonui/nls.h"
-
-using namespace std;
-
 MenuModel::MenuModel()
   : id("workrave:root"), type(MenuModelType::MENU), checked(false)
 {

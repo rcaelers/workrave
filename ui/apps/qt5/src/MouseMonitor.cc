@@ -22,6 +22,7 @@
 #include "MouseMonitor.hh"
 
 #include <iostream>
+#include <memory>
 
 #include <Appkit/NSView.h>
 #include <Appkit/NSWindow.h>

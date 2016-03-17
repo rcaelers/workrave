@@ -33,7 +33,6 @@
 #include "RestBreakWindow.hh"
 #include "UiUtil.hh"
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
@@ -159,7 +158,7 @@ Toolkit::show_window(WindowType type)
       if (!about_dialog)
         {
           about_dialog = new AboutDialog;
-          statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
+          about_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       about_dialog->show();
       break;
@@ -183,9 +182,11 @@ Toolkit::get_screen_count() const
 }
 
 void
-Toolkit::show_balloon(std::string id, const std::string& title, const std::string& balloon)
+Toolkit::show_balloon(const std::string &id, const std::string& title, const std::string& balloon)
 {
-  status_icon->show_balloon(id, title, balloon);
+  status_icon->show_balloon(QString::fromStdString(id),
+                            QString::fromStdString(title),
+                            QString::fromStdString(balloon));
 }
 
 // std::string

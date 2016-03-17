@@ -28,7 +28,6 @@
 #include <QStyle>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include "commonui/Backend.hh"
 #include "commonui/GUIConfig.hh"

@@ -29,7 +29,6 @@
 #include <boost/format.hpp>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include <list>
 #include <set>

@@ -24,7 +24,6 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "commonui/nls.h"
 #include "commonui/credits.h"
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
@@ -54,7 +53,7 @@ AboutDialog::AboutDialog()
                              (PACKAGE_VERSION "") %
 #endif
                              tr("This program assists in the prevention and recovery"
-                                " of Repetitive Strain Injury (RSI).").toStdString()
+                                " of Repetitive Strain Injury (RSI).")
                              );
 
 
@@ -63,7 +62,7 @@ AboutDialog::AboutDialog()
   description_label->setOpenExternalLinks(true);
   description_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
-  QLabel *copyright_label = new QLabel(QString::fromStdString(workrave_copyright));
+  QLabel *copyright_label = new QLabel(workrave_copyright);
   copyright_label->setWordWrap(false);
   copyright_label->setOpenExternalLinks(false);
   copyright_label->setTextInteractionFlags(Qt::TextBrowserInteraction);

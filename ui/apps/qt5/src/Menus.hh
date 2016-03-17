@@ -21,8 +21,6 @@
 #include <memory>
 #include <string>
 
-#include <QCoreApplication>
-
 #include "core/ICore.hh"
 #include "utils/ScopedConnections.hh"
 
@@ -32,8 +30,6 @@
 
 class Menus
 {
-  Q_DECLARE_TR_FUNCTIONS(Menus);
-
 public:
   typedef std::shared_ptr<Menus> Ptr;
 

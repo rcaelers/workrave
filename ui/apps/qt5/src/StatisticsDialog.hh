@@ -25,7 +25,6 @@
 #include <memory>
 
 #include "core/IStatistics.hh"
-using namespace workrave;
 
 class StatisticsDialog : public QDialog
 {
@@ -39,7 +38,7 @@ public:
   int run();
 
 private:
-  IStatistics::Ptr statistics;
+  workrave::IStatistics::Ptr statistics;
 
   QLabel *break_labels[workrave::BREAK_ID_SIZEOF][9];
   QLabel *activity_labels[5];
@@ -79,7 +78,7 @@ private:
   void on_history_goto_last();
   void on_history_goto_first();
   void display_calendar_date();
-  void display_statistics(IStatistics::DailyStats *stats);
+  void display_statistics(workrave::IStatistics::DailyStats *stats);
   void clear_display_statistics();
   void display_week_statistics();
   void display_month_statistics();

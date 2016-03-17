@@ -31,7 +31,6 @@
 #include <QStyle>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
@@ -40,7 +39,6 @@
 #include "TimerPreferencesPanel.hh"
 #include "UiUtil.hh"
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -82,10 +80,10 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   UiUtil::add_widget(layout, tr("Block mode:"), block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  string current_locale_name = GUIConfig::locale()();
+  std::string current_locale_name = GUIConfig::locale()();
 
   std::vector<std::string> all_linguas;
-  string str(ALL_LINGUAS);
+  std::string str(ALL_LINGUAS);
   boost::split(all_linguas, str, boost::is_any_of(" "));
 
   all_linguas.push_back("en");

@@ -24,7 +24,7 @@
 
 #if defined(HAVE_QT5)
 
-// TODO: give error?
+#define N_(String) (String)
 
 #else // Gettext
 

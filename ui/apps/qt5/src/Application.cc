@@ -21,7 +21,6 @@
 
 #include "Application.hh"
 
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "commonui/Backend.hh"
@@ -39,7 +38,6 @@
 #endif
 #include "dbus/IDBus.hh"
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -544,14 +542,14 @@ Application::on_operation_mode_warning_timer()
   if (mode == OperationMode::Suspended)
     {
       toolkit->show_balloon("operation_mode",
-                            tr("Workrave").toStdString(),
+                            "Workrave",
                             tr("Workrave is in suspended mode. "
                                "Mouse and keyboard activity will not be monitored.").toStdString());
     }
   else if (mode == OperationMode::Quiet)
     {
       toolkit->show_balloon("operation_mode",
-                            tr("Workrave").toStdString(),
+                            "Workrave",
                             tr("Workrave is in quiet mode. "
                                "No break windows will appear.").toStdString());
     }

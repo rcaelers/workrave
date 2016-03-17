@@ -46,7 +46,6 @@
 #include <cstring>
 
 #include "debug.hh"
-#include "commonui/nls.h"
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
@@ -57,7 +56,7 @@
 #include "UiUtil.hh"
 #include "qformat.hh"
 
-using namespace std;
+using namespace workrave;
 
 StatisticsDialog::StatisticsDialog()
   : QDialog(),
@@ -333,14 +332,14 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%x")));
       boost::posix_time::ptime pt = boost::posix_time::ptime_from_tm(stats->start);
       ss << pt; 
-      string date = ss.str();
+      std::string date = ss.str();
       
       ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%X")));
       ss << pt; 
-      string start = ss.str();
+      std::string start = ss.str();
       pt = boost::posix_time::ptime_from_tm(stats->stop);
       ss << pt; 
-      string stop = ss.str();
+      std::string stop = ss.str();
       
       QString text = qstr(qformat(tr("%s, from %s to %s")) % date % start % stop);
       
@@ -654,7 +653,7 @@ StatisticsDialog::on_timer()
 }
 
 void
-StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
+StatisticsDialog::stream_distance(std::stringstream &stream, int64_t pixels)
 {
   // char buf[64];
 

@@ -1,6 +1,6 @@
 project(Workrave)
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 if(POLICY CMP0009)
   cmake_policy(SET CMP0009 NEW)
@@ -93,40 +93,11 @@ endmacro()
 #----------------------------------------------------------------------------------------------------
 # Compiler
 
-if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR
-    ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-  CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
-  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-  CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-
-  if(COMPILER_SUPPORTS_CXX14)
-    set(CXX11_FLAGS -std=c++14)
-  elseif(COMPILER_SUPPORTS_CXX11)
-    set(CXX11_FLAGS -std=c++11)
-  elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CXX11_FLAGS -std=c++01)
-  elseif()
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
-  endif()
-
-  if (CXX11_FLAGS)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX11_FLAGS}")
-    CHECK_CXX_COMPILER_FLAG("${CXX11_FLAGS} -stdlib=libc++" HAS_LIBCXX11)
-  endif()
-
-  CHECK_C_COMPILER_FLAG("-std=c99" COMPILER_SUPPORTS_C99)
-  if(COMPILER_SUPPORTS_C99)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-  endif()
-
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-  if (NOT (MSVC11 OR MSVC12 OR MSVC13 OR MSVC14))
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
-  endif()
-endif()
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
@@ -298,7 +269,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
                  PATHS ${QT_LRELEASE_PATH}
                  NO_DEFAULT_PATH)
   endif()
-  
+
   if (Qt5DBus_FOUND)
     set (HAVE_DBUS ON)
     set (HAVE_DBUS_QT5 ON)
@@ -463,7 +434,6 @@ if(MSVC)
 endif()
 
 set(BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
-set(BOOST_COMPONENTS system thread filesystem chrono date_time)
 
 if (HAVE_TESTS)
   if (MSCV)
@@ -498,7 +468,7 @@ if (HAVE_QT5)
   set(ENABLE_NLS ON)
 else()
   find_package(Libintl)
-  
+
   if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
     message(STATUS "GetText not found - disabling i18n")
   else()
@@ -590,10 +560,6 @@ endif()
 
 if (APPLE)
   set (PLATFORM_OS_OSX ON)
-
-  if (HAS_LIBCXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-  endif()
 
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
@@ -747,15 +713,15 @@ endif()
 # Get the build revision, note that this can get out-of-sync, so for packaging run cmake first.
 set(MY_WC_HASH "unknown")
 if(EXISTS ${CMAKE_SOURCE_DIR}/.git/)
-	find_package(Git)
-	if(GIT_FOUND)
-		message(STATUS "Found Git: ${GIT_EXECUTABLE}")
-		execute_process(COMMAND git rev-parse --short HEAD
-		                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		                OUTPUT_VARIABLE MY_WC_HASH
-		                OUTPUT_STRIP_TRAILING_WHITESPACE
-		                ERROR_QUIET)
-	endif()
+        find_package(Git)
+        if(GIT_FOUND)
+                message(STATUS "Found Git: ${GIT_EXECUTABLE}")
+                execute_process(COMMAND git rev-parse --short HEAD
+                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                                OUTPUT_VARIABLE MY_WC_HASH
+                                OUTPUT_STRIP_TRAILING_WHITESPACE
+                                ERROR_QUIET)
+        endif()
 endif()
 set(BUILD_REV ${MY_WC_HASH})
 unset(MY_WC_HASH)

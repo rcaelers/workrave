@@ -36,11 +36,7 @@
 # endif
 #endif
 
-#include "commonui/nls.h"
-
 #include "qformat.hh"
-
-using namespace std;
 
 //! Converts the specified time to a string
 QString

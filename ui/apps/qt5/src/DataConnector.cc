@@ -23,7 +23,6 @@
 
 #include "DataConnector.hh"
 
-#include "commonui/nls.h"
 #include "TimeEntry.hh"
 
 #include "config/IConfigurator.hh"
@@ -31,7 +30,6 @@
 
 using namespace workrave;
 using namespace workrave::config;
-using namespace std;
 
 // Define connector for standard qt widgets.
 DEFINE_DATA_TYPE_PTR(QCheckBox, DataConnectionQCheckBox);
@@ -54,7 +52,7 @@ DataConnector::~DataConnector()
 }
 
 void
-DataConnector::connect(const string &setting,
+DataConnector::connect(const std::string &setting,
                        DataConnection *connection,
                        dc::Flags flags)
 {
@@ -72,9 +70,9 @@ DataConnector::connect(const string &setting,
 }
 
 void
-DataConnector::connect(const string &setting,
+DataConnector::connect(const std::string &setting,
                        DataConnection *connection,
-                       std::function<bool(const string &, bool)> cb,
+                       std::function<bool(const std::string &, bool)> cb,
                        dc::Flags flags)
 {
   if (connection != NULL)
@@ -104,7 +102,7 @@ DataConnection::~DataConnection()
 }
 
 void
-DataConnection::set(dc::Flags flags, const string &key)
+DataConnection::set(dc::Flags flags, const std::string &key)
 {
   this->flags = flags;
   this->key = key;
@@ -147,7 +145,7 @@ DataConnectionQSpinBox::widget_changed_notify()
 }
 
 void
-DataConnectionQSpinBox::config_changed_notify(const string &key)
+DataConnectionQSpinBox::config_changed_notify(const std::string &key)
 {
   bool skip = false;
   if (intercept)
@@ -196,7 +194,7 @@ DataConnectionQCheckBox::widget_changed_notify()
 }
 
 void
-DataConnectionQCheckBox::config_changed_notify(const string &key)
+DataConnectionQCheckBox::config_changed_notify(const std::string &key)
 {
   bool skip = false;
   if (intercept)
@@ -246,7 +244,7 @@ DataConnectionQComboBox::widget_changed_notify()
 }
 
 void
-DataConnectionQComboBox::config_changed_notify(const string &key)
+DataConnectionQComboBox::config_changed_notify(const std::string &key)
 {
   bool skip = false;
   if (intercept)
@@ -296,7 +294,7 @@ DataConnectionQAbstractSlider::widget_changed_notify()
 }
 
 void
-DataConnectionQAbstractSlider::config_changed_notify(const string &key)
+DataConnectionQAbstractSlider::config_changed_notify(const std::string &key)
 {
   bool skip = false;
   if (intercept)
@@ -347,7 +345,7 @@ DataConnectionTimeEntry::widget_changed_notify()
 }
 
 void
-DataConnectionTimeEntry::config_changed_notify(const string &key)
+DataConnectionTimeEntry::config_changed_notify(const std::string &key)
 {
   bool skip = false;
   if (intercept)

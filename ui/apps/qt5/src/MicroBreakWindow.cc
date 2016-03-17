@@ -21,8 +21,6 @@
 
 #include "MicroBreakWindow.hh"
 
-
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "commonui/Backend.hh"
@@ -33,7 +31,6 @@
 #include "UiUtil.hh"
 #include "qformat.hh"
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
