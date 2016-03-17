@@ -180,9 +180,9 @@ TimerBoxPreferencesPanel::init()
   UiUtil::add_widget(display_layout, tr("Cycle time:"), cycle_entry);
 
   QGroupBox *timers_box = new QGroupBox(tr("Timers"));
+  layout->addWidget(timers_box);
   QVBoxLayout *timers_layout = new QVBoxLayout;
   timers_box->setLayout(timers_layout);
-  layout->addWidget(timers_box);
 
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
   UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);

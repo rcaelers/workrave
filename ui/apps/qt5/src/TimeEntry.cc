@@ -51,11 +51,14 @@ TimeEntry::TimeEntry()
   QHBoxLayout *layout = new QHBoxLayout;
   setLayout(layout);
 
-  layout->addWidget(hrs);
+  layout->addWidget(hrs, 1);
   layout->addWidget(semi1);
-  layout->addWidget(mins);
+  layout->addWidget(mins, 1);
   layout->addWidget(semi2);
-  layout->addWidget(secs);
+  layout->addWidget(secs, 1);
+
+  layout->setContentsMargins(1, 1, 1, 1);
+  layout->setSpacing(2);
 }
 
 void

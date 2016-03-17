@@ -28,8 +28,7 @@
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
-class TimerBoxPreferencesPanel :
-  public QGroupBox
+class TimerBoxPreferencesPanel : public QWidget
 {
   Q_OBJECT
 
