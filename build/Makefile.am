@@ -26,14 +26,9 @@ EXTRA_DIST =	cmake/CMakeLists.txt \
 		cmake/modules/FindPerl.cmake \
 		cmake/modules/FindPythonInterp.cmake \
 		win32/README \
-		win32/crossbuilder/build-cross.sh \
 		win32/crossbuilder/build-packages.sh \
-		win32/crossbuilder/gnet-2.0.8.diff \
-		win32/crossbuilder/mingw-utils-0.3.diff \
-		win32/crossbuilder/mingw32 \
+		win32/crossbuilder/mingw32-x \
+		win32/crossbuilder/dbus.diff \
 		win32/tinderbox/Makefile \
 		win32/tinderbox/bin/make-runtime.sh \
-		win32/tinderbox/bin/mingw32 \
-		win32/tinderbox/bin/nightlybuild \
-		win32/tinderbox/bin/vcvars32.sh
-
+		win32/tinderbox/bin/mingw32
