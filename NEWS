@@ -5,6 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.12
+
+** Updated Catalan translation (Jordi Mallach)
+
+** Fixed Gnome Shell applet (Amir Mohammadi)
+
 * Workrave 1.10.11
 
 ** Improved security of network protocol.
