@@ -52,8 +52,6 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   this->menu_model = menu_model;
   this->sound_theme = sound_theme;
 
-  init_translations();
- 
   setQuitOnLastWindowClosed(false);
   setAttribute(Qt::AA_UseHighDpiPixmaps, true);
   
@@ -74,11 +72,6 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 #ifdef PLATFORM_OS_OSX
   dock = std::make_shared<Dock>();
 #endif
-}
-
-void
-Toolkit::init_translations()
-{
 }
 
 void
@@ -182,19 +175,12 @@ Toolkit::get_screen_count() const
 }
 
 void
-Toolkit::show_balloon(const std::string &id, const std::string& title, const std::string& balloon)
+Toolkit::show_balloon(const std::string &id, const std::string &title, const std::string &balloon)
 {
   status_icon->show_balloon(QString::fromStdString(id),
                             QString::fromStdString(title),
                             QString::fromStdString(balloon));
 }
-
-// std::string
-// Toolkit::translate(const char *text, const char *disambiguation, int n)
-// {
-//   QString ret = translator->translate("", text, disambiguation, n);
-//   return ret.toStdString();
-// }
 
 void
 Toolkit::create_oneshot_timer(int ms, std::function<void ()> func)

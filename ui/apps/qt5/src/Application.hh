@@ -42,8 +42,6 @@ class Application :
   public IApplication,
   public workrave::IApp
 {
-  Q_DECLARE_TR_FUNCTIONS(Application);
-  
 public:
   typedef std::shared_ptr<Application> Ptr;
 
@@ -70,7 +68,6 @@ public:
 private:
   bool on_timer();
   void init_platform();
-  void init_nls();
   void init_core();
   void init_sound_player();
   void init_bus();
