@@ -86,7 +86,8 @@ Toolkit::run()
   exec();
 }
 
-std::string Toolkit::get_display_name()
+std::string
+Toolkit::get_display_name()
 {
   return "";
 }
