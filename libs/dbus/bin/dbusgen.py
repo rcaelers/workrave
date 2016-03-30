@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013, 2016 Rob Caelers <robc@krandor.nl>
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -22,8 +22,8 @@ import string
 import sys
 import os
 import xml
+import jinja2
 
-from Cheetah.Template import Template
 from optparse import OptionParser
 from xml.dom.minidom import parse
 
@@ -117,7 +117,7 @@ class UserTypeNode(TypeNode):
 
 
 class TopNode(NodeBase):
-    def __init__(self, inname, name, backend, header_ext):
+    def __init__(self, inname, name, backend):
         NodeBase.__init__(self)
         self.file_name = inname
         self.namespace = None
@@ -125,7 +125,6 @@ class TopNode(NodeBase):
         self.name = name
         self.guard = ""
         self.backend = backend
-        self.header_ext = header_ext
         self.interfaces = []
         self.interfaces_map = {}
         self.types = {}
@@ -135,7 +134,7 @@ class TopNode(NodeBase):
         self.enums = []
         self.imports = []
 
-        self.include_filename = self.name + self.header_ext
+        self.include_filename = self.name
         self.add_default_types()
 
     def parse(self):
@@ -547,71 +546,30 @@ class ImportNode(NodeBase):
 # Main program
 
 if __name__ == '__main__':
-    usage = "usage: %prog [options] <introspect.xml> [out-filename-prefix]"
+    usage = "usage: %prog [options] <introspect.xml> <template> <out-filename>"
     parser = OptionParser(usage=usage)
-    parser.add_option("-l", "--language",
-                      dest="language",
-                      help="Generate stubs for this language")
-    parser.add_option("-b", "--backend",
-                      dest="backend",
-                      help="DBUS backend to use: freedesktop or gip")
-    parser.add_option("-c", "--client",
-                      action="store_true", dest="client",
-                      help="Generate client stubs")
-    parser.add_option("-s", "--server",
-                      action="store_true", dest="server",
-                      help="Generate server stubs"
-                      )
     (options, args) = parser.parse_args()
 
-    templates = []
-    directory = os.path.dirname(sys.argv[0])
+    if len(args) != 3:
+        parser.error("Expected three parameters")
 
+    directory = os.path.dirname(args[1])
+    filename = os.path.basename(args[1])
+    backend = filename.split('-')[0]
 
-    if len(args) < 1 or len(args) > 2:
-        parser.error("Expected one or two parameters")
+    base = os.path.splitext(os.path.basename(args[2]))[0]
 
-    if options.backend not in ["gio", "freedesktop", "qt5"]:
-        parser.error("Unsupported backend: " + options.backend)
+    loader = jinja2.FileSystemLoader(directory, followlinks=True)
+    environment = jinja2.Environment(loader=loader, trim_blocks=True)
+    template = environment.get_template(filename)
 
-    if options.language:
-        if options.language == 'C':
-            header_ext=".h"
-        elif options.language == 'C++':
-            if options.client:
-                templates.append(directory+"/../data/DBus-client-template-" + options.backend + ".cc")
-                templates.append(directory+"/../data/DBus-client-template-" + options.backend + ".hh")
-            if options.server:
-                templates.append(directory+"/../data/DBus-template-" + options.backend + ".cc")
-                templates.append(directory+"/../data/DBus-template-" + options.backend + ".hh")
-            header_ext=".hh"
-        elif options.language == 'xml':
-            templates.append(directory+"/../data/DBus-xml.xml")
-            header_ext=".xml"
-        else:
-            parser.error("Unsupported language: " + options.language)
-            sys.exit(1)
-
-    if len(templates) == 0:
-        parser.error("Specify language")
-        sys.exit(1)
-
-    name = None
-    if len(args) >= 2:
-        name = args[1]
-
-    binding = TopNode(args[0], name, options.backend, header_ext)
+    binding = TopNode(args[0], base, backend)
     binding.parse()
 
-    for template_name in templates:
-        t = Template(file=template_name)
-        t.model = binding
-        s = str(t)
+    output = template.render( { 'model' : binding })
 
-        ext = os.path.splitext(template_name)[1]
-
-        f = open(binding.name + ext, 'w+')
-        try:
-            f.write(s)
-        finally:
-            f.close()
+    f = open(args[2], 'w+')
+    try:
+        f.write(output)
+    finally:
+        f.close()

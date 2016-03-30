@@ -55,6 +55,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
+include(FindPythonModule)
 
 if ( (NOT ("${WITH_UI}" STREQUAL "Qt5")) OR
      (NOT APPLE))
@@ -314,19 +315,25 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   endif()
 endif()
 
+#----------------------------------------------------------------------------------------------------
+# Python
+
+set(Python_ADDITIONAL_VERSIONS 3.5 3.4 3.3 3.2 3.1 3.0)
+find_package(PythonInterp)
 
 #----------------------------------------------------------------------------------------------------
 # DBus
 
 if (HAVE_DBUS)
-  message(STATUS "Checking for: DBus")
+  message(STATUS "Checking for: Jinja2")
 
-  set(Python_ADDITIONAL_VERSIONS 2.7)
-  find_package(PythonInterp)
-  if (NOT PYTHONINTERP_FOUND)
-    set (HAVE_DBUS FALSE)
-  else()
-    include(DBus)
+  if (PYTHONINTERP_FOUND)
+    find_python_module(jinja2)
+    if (NOT PY_JINJA2)
+      set (HAVE_DBUS FALSE)
+    else()
+      include(DBus)
+    endif()
   endif()
 endif()
 
@@ -337,7 +344,6 @@ if (HAVE_DBUS_FREEDESKTOP)
     )
 endif()
 
-# TODO: check python Cheetah
 
 #----------------------------------------------------------------------------------------------------
 # GStreamer
