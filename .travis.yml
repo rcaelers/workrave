@@ -103,12 +103,13 @@ before_install: |
     echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99translations > /dev/null
     sudo sed -i 's/^deb-src/#deb-src/' /etc/apt/sources.list /etc/apt/sources.list.d/*
     wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
-    sudo add-apt-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty main"
+    sudo add-apt-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.8 main"
     sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     sudo apt-get update -q
     sudo apt-get -y -q -V --no-install-recommends install \
       build-essential \
-      `[[ $CXX = "clang++" ]] && echo clang` \
+      `[[ $CXX = "clang++" ]] && echo clang-3.8` \
+      `[[ $CXX = "g++" ]] && echo gcc-5 g++-5` \
       intltool \
       libxtst-dev \
       libxss-dev \
@@ -136,8 +137,8 @@ before_install: |
     # use clang from distro, Travis supplied clang (3.5.0) seems to be broken
     # https://llvm.org/bugs/show_bug.cgi?id=18402
     if [[ $CXX = "clang++" ]]; then
-      export CC=/usr/bin/clang
-      export CXX=/usr/bin/clang++
+      export CC=/usr/bin/clang-3.8
+      export CXX=/usr/bin/clang++-3.8
     fi
   }
   install_osx()
@@ -158,7 +159,7 @@ before_install: |
 # xml:    `conf_opt_packages manual libgdome2-dev` \
 install:
   - install_$TRAVIS_OS_NAME
-  - pip install --user Cheetah # required for dbus support, system (distro) wide include paths are ignored
+  - pip install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
 before_script:
   - mkdir cmake-build
