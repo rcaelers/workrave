@@ -109,7 +109,7 @@ before_install: |
     sudo apt-get -y -q -V --no-install-recommends install \
       build-essential \
       `[[ $CXX = "clang++" ]] && echo clang-3.8` \
-      `[[ $CXX = "g++" ]] && echo gcc-5 g++-5` \
+      gcc-5 g++-5 \
       intltool \
       libxtst-dev \
       libxss-dev \
@@ -138,7 +138,7 @@ before_install: |
     # https://llvm.org/bugs/show_bug.cgi?id=18402
     if [[ $CXX = "clang++" ]]; then
       export CC=/usr/bin/clang-3.8
-      export CXX=/usr/bin/clang++-3.8
+      export CXX="/usr/bin/clang++-3.8 -cxx-isystem=/usr/lib/gcc/x86_64-linux-gnu/5.3"
     fi
   }
   install_osx()
