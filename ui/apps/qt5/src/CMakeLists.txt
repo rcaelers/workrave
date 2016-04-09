@@ -125,6 +125,7 @@ endif()
 
 add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
 add_cppcheck(Workrave)
+configure_file(project.vcxproj.user.in ${CMAKE_CURRENT_BINARY_DIR}/Workrave.vcxproj.user @ONLY)
 
 if (APPLE)
   set_target_properties(Workrave PROPERTIES
