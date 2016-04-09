@@ -50,7 +50,6 @@ public:
   ~Toolkit() override;
 
   boost::signals2::signal<void()> &signal_timer() override;
-
   void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
   void terminate() override;
   void run() override;
@@ -60,13 +59,12 @@ public:
   void show_window(WindowType type) override;
   int get_screen_count() const override;
   void create_oneshot_timer(int ms, std::function<void ()> func) override;
-  void show_balloon(const std::string &id, const std::string& title, const std::string& balloon) override;
+  void show_balloon(const std::string &id, const std::string &title, const std::string &balloon) override;
 
 public Q_SLOTS:
   void on_timer();
 
 private:
-  void init_translations();
     
 private:
   QTimer *heartbeat_timer;

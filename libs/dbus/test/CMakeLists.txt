@@ -1,6 +1,8 @@
 if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
 
-  dbus_generate_with_backend(DBusTestQt ${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusTestQt.cc qt5)
+  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt5)
+  dbus_generate_xml(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt5)
+  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestGio gio)
 
   set(SERVER_QT5_SRC ${SERVER_QT5_SRC}
     DBusTestData.cc
@@ -46,7 +48,6 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
   target_link_libraries(workrave-libs-dbus-test-server-qt5 ${Boost_LIBRARIES})
 
   if (HAVE_DBUS_TEST_GIO)
-    dbus_generate_with_backend(DBusTestGio ${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusTestGio.cc gio)
 
     set(SERVER_GIO_SRC ${SERVER_GIO_SRC}
       DBusTestData.cc

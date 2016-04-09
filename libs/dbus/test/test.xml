@@ -5,6 +5,9 @@
     <include name="DBusTestData.hh"/>
     <include name="DBusTestServer.hh"/>
     <include name="DoesNotExists.hh" condition="defined(NOT_DEFINED)"/>
+    <include name="DoesNotExists.hh" condition="defined(NOT_DEFINED)"/>
+    <namespace name="foo" condition="defined(NOT_DEFINED)"/>
+    <namespace name="bar" condition="defined(NOT_DEFINED)"/>
   </import>
 
   <import condition="defined(NOT_DEFINED)">
@@ -107,7 +110,8 @@
   </dictionary>
 
   <interface name="org.workrave.TestInterface"
-             csymbol="DBusTestServer">
+             csymbol="DBusTestServer"
+             namespace="org.workrave.test">
     <method name="BasicOutRef" csymbol="test_basic_out_ref">
       <arg type="int"    direction="in" name="i_int"/>
       <arg type="uint8"  direction="in" name="i_uint8"/>

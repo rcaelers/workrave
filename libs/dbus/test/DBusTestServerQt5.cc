@@ -38,6 +38,7 @@
 #define  WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 using namespace std;
+using namespace org::workrave::test;
 
 //! Constructor.
 DBusTestServerQt5::DBusTestServerQt5()

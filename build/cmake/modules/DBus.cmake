@@ -1,18 +1,59 @@
-macro(dbus_generate NAME XML OUTFILE)
+set (DBUSGEN ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py)
+set (TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
+
+macro(dbus_generate_source XML DIRECTORY NAME)
+  set (opt_args ${ARGN})
+
+  list(LENGTH opt_args num_opt_args)
+  if (${num_opt_args} GREATER 0)
+    list(GET opt_args 0 backend)
+  else()
+    set(backend ${DBUS_BACKEND})
+  endif ()
+
+  set(cc_template "${TEMPLATE_DIR}/${backend}-cc.jinja")
+  set(cc_output   "${DIRECTORY}/${NAME}.cc")
+
+  set(hh_template "${TEMPLATE_DIR}/${backend}-hh.jinja")
+  set(hh_output   "${DIRECTORY}/${NAME}.hh")
+
   add_custom_command(
-    OUTPUT ${OUTFILE}
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --backend=${DBUS_BACKEND} -l C++ ${XML} ${NAME}
-        DEPENDS ${XML}
-  )
+    OUTPUT ${hh_output}
+    COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${hh_template} ${hh_output}
+    DEPENDS ${XML} ${hh_template}
+    )
+
+  add_custom_command(
+    OUTPUT ${cc_output}
+    COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${cc_template} ${cc_output}
+    DEPENDS ${XML} ${cc_template} ${hh_output}
+    )
+
+  add_custom_target(
+    ${NAME}_dbus_source_target ALL
+    DEPENDS ${OUTFILE}
+    )
+
+  set_source_files_properties(${cc_output} PROPERTIES GENERATED TRUE)
+  set_source_files_properties(${hh_output} PROPERTIES GENERATED TRUE)
 endmacro()
 
-macro(dbus_generate_with_backend NAME XML OUTFILE BACKEND)
+macro(dbus_generate_xml XML DIRECTORY NAME)
+  set(template "${TEMPLATE_DIR}/Xml-xml.jinja")
+  set(output   "${DIRECTORY}/${NAME}.xml")
+
   add_custom_command(
-    OUTPUT ${OUTFILE}
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py -s --backend=${BACKEND} -l C++ ${XML} ${NAME}
-    DEPENDS ${XML}
+    OUTPUT ${output}
+    COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${template} ${output}
+    DEPENDS ${XML} ${template}
     )
-  set_source_files_properties(${OUTFILE} PROPERTIES GENERATED TRUE)
+
+  add_custom_target(
+    ${NAME}_dbus_xml_target ALL
+    DEPENDS ${OUTFILE}
+    )
+
+  set_source_files_properties(${output} PROPERTIES GENERATED TRUE)
 endmacro()
 
 macro(dbus_add_activation_service SOURCE)

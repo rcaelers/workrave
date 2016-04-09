@@ -19,7 +19,8 @@ set(SRC
   )
 
 if (HAVE_DBUS)
-  dbus_generate(DBusWorkrave ${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc)
+  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkrave)
+
   set(SRC ${SRC}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
   )

@@ -25,6 +25,7 @@
 
 #include "commonui/Backend.hh"
 #include "commonui/GUIConfig.hh"
+#include "commonui/nls.h"
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
@@ -85,7 +86,6 @@ Application::main()
 
   toolkit->init(menus->get_menu_model(), sound_theme);
 
-  init_nls();
   init_platform();
   init_bus();
   init_session();
@@ -147,70 +147,6 @@ Application::init_session()
 }
 
 void
-Application::init_nls()
-{
-//#if defined(ENABLE_NLS)
-//  string language = GUIConfig::locale();
-//  if (language != "")
-//    {
-//      g_setenv("LANGUAGE", language.c_str(), 1);
-//    }
-//
-//#  if !defined(HAVE_GTK3)
-//  gtk_set_locale();
-//#  endif
-//  const char *locale_dir;
-//
-//#if defined(PLATFORM_OS_WIN32)
-//  string dir = Util::get_application_directory();
-//  // Use the pre-install locale location if workrave is running from its MSVC build directory.
-//  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\ui" : "\\lib\\locale";
-//  locale_dir = dir.c_str();
-//#elif defined(PLATFORM_OS_OSX)
-//  char locale_path[MAXPATHLEN * 4];
-//  char execpath[MAXPATHLEN+1];
-//  uint32_t pathsz = sizeof (execpath);
-//
-//  _NSGetExecutablePath(execpath, &pathsz);
-//
-//  gchar *dir_path = g_path_get_dirname(execpath);
-//  strcpy(locale_path, dir_path);
-//  g_free(dir_path);
-//
-//  // Locale
-//  strcat(locale_path, "/../Resources/locale");
-//  locale_dir = locale_path;
-//#else
-//  locale_dir = GNOMELOCALEDIR;
-//#  endif
-//
-//#  ifdef HAVE_SETLOCALE
-//  setlocale(LC_ALL, "");
-//#  endif
-//
-//#if defined(PLATFORM_OS_WIN32)
-//  bindtextdomain("gtk20", locale_dir);
-//  bindtextdomain("iso_3166", locale_dir);
-//  bindtextdomain("iso_639", locale_dir);
-//  bindtextdomain("glib20", locale_dir);
-//  bind_textdomain_codeset("gk20", "UTF-8");
-//  bind_textdomain_codeset("glib20", "UTF-8");
-//  bind_textdomain_codeset("iso_3166", "UTF-8");
-//  bind_textdomain_codeset("iso_639", "UTF-8");
-//
-//  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
-//#endif
-//
-//  bindtextdomain(GETTEXT_PACKAGE, locale_dir);
-//  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-//  textdomain(GETTEXT_PACKAGE);
-//
-//#endif
-}
-
-
-//! Initializes the core.
-void
 Application::init_core()
 {
   core = Backend::get_core();
@@ -224,7 +160,6 @@ Application::init_core()
 
   GUIConfig::init();
 }
-
 
 void
 Application::init_bus()
@@ -543,14 +478,14 @@ Application::on_operation_mode_warning_timer()
     {
       toolkit->show_balloon("operation_mode",
                             "Workrave",
-                            tr("Workrave is in suspended mode. "
-                               "Mouse and keyboard activity will not be monitored.").toStdString());
+                            N_("Workrave is in suspended mode. "
+                               "Mouse and keyboard activity will not be monitored."));
     }
   else if (mode == OperationMode::Quiet)
     {
       toolkit->show_balloon("operation_mode",
                             "Workrave",
-                            tr("Workrave is in quiet mode. "
-                               "No break windows will appear.").toStdString());
+                            N_("Workrave is in quiet mode. "
+                               "No break windows will appear."));
     }
 }

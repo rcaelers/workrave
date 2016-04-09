@@ -94,7 +94,8 @@ if (PLATFORM_OS_OSX)
 endif()
 
 if (HAVE_DBUS)
-  dbus_generate(DBusGUI ${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
+  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
+  
   set(SRC ${SRC}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
     GenericDBusApplet.cc

@@ -40,10 +40,6 @@ libs/core/test/ActivityMonitorStub.cc
 libs/core/test/IntegrationTests.cc
 libs/core/test/SimulatedTime.cc
 libs/core/test/TimerTests.cc
-libs/dbus/data/DBus-client-template-freedesktop.cc
-libs/dbus/data/DBus-template-freedesktop.cc
-libs/dbus/data/DBus-template-gio.cc
-libs/dbus/data/DBus-template-qt5.cc
 libs/dbus/src/DBusBindingFreeDesktop.cc
 libs/dbus/src/DBusBindingGio.cc
 libs/dbus/src/DBusBindingQt5.cc
