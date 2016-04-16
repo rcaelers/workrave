@@ -12,7 +12,7 @@ set(CMAKE_RC_COMPILER  i686-w64-mingw64-windres)
 
 # TODO: Find ISCC.exe, support native
 set (WINE wine)
-set (ISCC "c:/Program Files/Inno Setup 5/ISCC.exe")
+set (ISCC "/build/inno/app/ISCC.exe")
 
 set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_ROOT} ${SYS_ROOT})
 

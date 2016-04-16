@@ -14,6 +14,7 @@ RUN dnf -y install \
                 gstreamer1-devel \
                 gtkmm24-devel \
                 gtkmm30-devel \
+                innoextract \
                 intltool \
                 libXScrnSaver-devel \
                 libXtst-devel \
@@ -53,14 +54,9 @@ RUN dnf -y install \
                 tar \
                 which \
                 wine \
-                xorg-x11-server-Xvfb \
-                xorg-x11-xauth \
                 xz
-                
-RUN curl -O http://files.jrsoftware.org/is/5/isetup-5.5.5-unicode.exe
-RUN xvfb-run wine isetup-5.5.5-unicode.exe /SILENT /VERYSILENT /SP- /SUPPRESSMSGBOXES /NORESTART
 
-# RUN innoextract -d /inno /isetup-5.5.5-unicode.exe
+RUN mkdir -p /build
+RUN cd /build && curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && innoextract -d /build/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
+RUN cd /build && curl -O http://snapshots.workrave.org/.prebuilt/workrave-win32-prebuilt.tar.xz && tar xvfJ ./workrave-win32-prebuilt.tar.xz && rm ./workrave-win32-prebuilt.tar.xz
 
-RUN mkdir /build 
-RUN cd /build && curl -O http://snapshots.workrave.org/.prebuilt/workrave-win32-prebuilt.tar.xz && tar xvfJ ./workrave-win32-prebuilt.tar.xz
