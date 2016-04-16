@@ -54,14 +54,9 @@ elseif ("${WITH_UI}" STREQUAL "Gtk+3")
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
   install (FILES ${SYS_ROOT}/share/themes/Default/gtk-3.0/gtk-keys.css DESTINATION share/themes/Default/gtk-3.0)
 
-  set(SYSTEM_DEFAULT_THEME ${CMAKE_INSTALL_PREFIX}/share/icons/Adwaita)
-  install (DIRECTORY ${SYS_ROOT}/share/icons DESTINATION share)
-
   install(
         CODE
         "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/etc/gtk-3.0/settings.ini\" \"[Settings]\\ngtk-theme-name=gtk-win32\\n\")"
-        CODE
-        "execute_process(COMMAND gtk-update-icon-cache -t -f ${SYSTEM_DEFAULT_THEME})"
   )
 
 endif()
