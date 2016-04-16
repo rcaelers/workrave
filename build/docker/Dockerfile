@@ -47,7 +47,6 @@ RUN dnf -y install \
                 mingw64-qt5-qtsvg \
                 openssl-devel \
                 pulseaudio-libs-devel \
-                python-cheetah \
                 qt5-qtbase-devel \
                 qt5-qtsvg-devel \
                 qt5-qttools-devel \
@@ -60,3 +59,4 @@ RUN mkdir -p /build
 RUN cd /build && curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && innoextract -d /build/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
 RUN cd /build && curl -O http://snapshots.workrave.org/.prebuilt/workrave-win32-prebuilt.tar.xz && tar xvfJ ./workrave-win32-prebuilt.tar.xz && rm ./workrave-win32-prebuilt.tar.xz
 
+RUN pip3 install Jinja2
