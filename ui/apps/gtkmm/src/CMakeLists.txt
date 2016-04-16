@@ -160,7 +160,7 @@ ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
         $<TARGET_FILE:workrave>
  )
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
 endif()
 
