@@ -297,10 +297,14 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   # TODO:
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS")
+  set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
+  if (Qt5_POSITION_INDEPENDENT_CODE)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+  endif()
+  
   if ((NOT APPLE) AND (NOT WIN32))
     # glib is required for ui/common/src/System.cc
     pkg_check_modules(
