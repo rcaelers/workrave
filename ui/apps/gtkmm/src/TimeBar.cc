@@ -227,7 +227,7 @@ void TimeBar::on_realize()
   bar_colors[TimerColorId::Bg] = bg;
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
-  for (auto c : bar_colors)
+  for (auto & c : bar_colors)
     {
       colormap->alloc_color(c.second);
     }
@@ -265,7 +265,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
-  for (auto c : bar_colors)
+  for (auto &c : bar_colors)
     {
       colormap->alloc_color(c.second);
     }
