@@ -377,7 +377,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
 //  http://www.lugod.org/presentations/gtkmm/treeview.html
 //  http://stackoverflow.com/questions/5894344/gtkmm-how-to-put-a-pixbuf-in-a-treeview
 Gtk::ComboBox *
-BreakWindow::create_sysoper_combobox(bool shutdownable)
+BreakWindow::create_sysoper_combobox()
 {
   TRACE_ENTER("BreakWindow::create_sysoper_combobox");
   supported_system_operations = System::get_supported_system_operations();
@@ -398,11 +398,8 @@ BreakWindow::create_sysoper_combobox(bool shutdownable)
   for (std::vector<System::SystemOperation>::iterator iter = supported_system_operations.begin();
       iter != supported_system_operations.end(); ++iter)
     {
-      if (shutdownable || iter->type == System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
-        {
-          append_row_to_sysoper_model(model,
-              iter->type);
-        }
+      append_row_to_sysoper_model(model,
+          iter->type);
     }
 
   //if there are no operations to put in the combobox
@@ -507,6 +504,24 @@ BreakWindow::create_postpone_button()
   return ret;
 }
 
+//! Creates the lock button.
+Gtk::Button *
+BreakWindow::create_lock_button()
+{
+  Gtk::Button *ret;
+  const char *name;
+  const char *icon_name;
+  get_operation_name_and_icon(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN, &name, &icon_name);
+  ret = Gtk::manage(GtkUtil::create_image_button(name, icon_name));
+  ret->signal_clicked()
+    .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
+#ifdef HAVE_GTK3
+  ret->set_can_focus(false);
+#else
+  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+#endif
+  return ret;
+}
 
 //! User has closed the main window.
 bool
@@ -552,6 +567,16 @@ BreakWindow::on_skip_button_clicked()
       break_response->skip_break(break_id);
       resume_non_ignorable_break();
     }
+}
+
+//! The lock button was clicked.
+void
+BreakWindow::on_lock_button_clicked()
+{
+  IGUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+  gui->interrupt_grab();
+  System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
 }
 
 
@@ -625,10 +650,21 @@ BreakWindow::create_bottom_box(bool lockable,
       //#ifdef HAVE_GTK3
       if (lockable || shutdownable)
         {
-          sysoper_combobox = create_sysoper_combobox(shutdownable);
-          if (sysoper_combobox != NULL)
+          if (shutdownable)
             {
-              box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+              sysoper_combobox = create_sysoper_combobox();
+              if (sysoper_combobox != NULL)
+                {
+                  box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+                }
+            }
+          else
+            {
+              lock_button = create_lock_button();
+              if (lock_button != NULL)
+                {
+                  box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
+                }
             }
         }
       //#endif
