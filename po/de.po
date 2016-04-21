@@ -901,7 +901,7 @@ msgid ""
 msgstr ""
 "Dies ist Ihre Ruhepause. Achten Sie darauf, dass Sie regelmäßig\n"
 "aufstehen und Ihren Computerarbeitsplatz verlassen. Gehen Sie einfach\n"
-"ein paar Minuten umher, strecken sie sich aus und entspannen Sie\n"
+"ein paar Minuten umher, strecken Sie sich aus und entspannen Sie\n"
 "sich."
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
