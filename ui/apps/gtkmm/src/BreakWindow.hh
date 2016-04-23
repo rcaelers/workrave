@@ -91,6 +91,7 @@ protected:
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
   void on_postpone_button_clicked();
+  void on_lock_button_clicked();
 
   //! Information about the (multi)head.
   HeadInfo head;
@@ -108,7 +109,8 @@ protected:
 protected:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();
-  Gtk::ComboBox *create_sysoper_combobox(bool shutdownable);
+  Gtk::Button *create_lock_button();
+  Gtk::ComboBox *create_sysoper_combobox();
 
 private:
   //! Break ID
@@ -122,6 +124,7 @@ private:
 
   bool accel_added;
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
+  Gtk::Button *lock_button;
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
 

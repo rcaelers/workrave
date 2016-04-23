@@ -1,15 +1,15 @@
 # Catalan translation of Workrave.
-# Copyright © 2005, 2010, 2011, 2012 Free Software Foundation, Inc.
+# Copyright © 2005, 2010, 2011, 2012, 2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the workrave package.
-# Jordi Mallach <jordi@sindominio.net>, 2005, 2010, 2011, 2012.
+# Jordi Mallach <jordi@sindominio.net>, 2005, 2010, 2011, 2012, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.9.908\n"
+"Project-Id-Version: workrave 1.10.10\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2016-01-02 18:45+0000\n"
 "PO-Revision-Date: 2012-03-31 11:14+0200\n"
-"Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
+"Last-Translator: Jordi Mallach <jordi@mallach.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -780,6 +780,14 @@ msgstr "Inicia el Workrave en iniciar el Windows"
 msgid "Start Workrave on logon"
 msgstr "Inicia el Workrave en iniciar el Windows"
 
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
+msgid "Show 'Postpone' button"
+msgstr "Mostra el botó «Ajorna»"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
+msgid "Show 'Skip' button"
+msgstr "Mostra els botó «Omet»"
+
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
 #: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
@@ -1236,6 +1244,11 @@ msgstr ""
 #~ msgid "Disable connection to session manager"
 #~ msgstr "Inhabilita la connexió al gestor de sessions"
 
+#. Delete button
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+msgid "Delete all statistics history"
+msgstr "Suprimeix tot l'historial d'estadístiques"
+
 #~ msgid "Disabling network operation."
 #~ msgstr "S'està inhabilitant el funcionament en xarxa."
 
@@ -1353,6 +1366,40 @@ msgstr ""
 
 #~ msgid "Show session management options"
 #~ msgstr "Mostra les opcions de gestió de la sessió"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:606
+msgid "Warning"
+msgstr "Avís"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:603
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "Heu seleccionat suprimir el vostre historial d'estadístiques. Voleu continuar?"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
+msgid "Files deleted!"
+msgstr "S'ha suprimit els fitxers!"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:619
+msgid "The files containing your statistics history have been deleted."
+msgstr "S'ha suprimit els fitxers que contenien l'historial d'estadístiques."
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:622
+msgid "Info"
+msgstr "Informació"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
+msgid "File deletion failed!"
+msgstr "Ha fallat la supressió dels fitxers!"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:629
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr "No s'ha pogut suprimir els fitxers que contenen les vostres estadístiques. Voleu tornar-ho a provar?"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:632
+msgid "Error"
+msgstr "Error"
 
 #~ msgid "Specify file containing saved configuration"
 #~ msgstr "Especifica el fitxer que conté la configuració desada"

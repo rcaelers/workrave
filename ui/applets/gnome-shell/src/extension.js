@@ -77,14 +77,14 @@ _workraveButton.prototype = {
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
+	this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI', Lang.bind(this, this._connect));
         this._timers_updated_id = this._proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
         this._menu_updated_id = this._proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
         this._trayicon_updated_id = this._proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
 
         this._updateMenu(null);
 
-        MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
+        // MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
     },
  
     _connect: function()
@@ -274,7 +274,7 @@ _workraveButton.prototype = {
 
         if (menuitems == null || menuitems.length == 0)
         {
-            let popup = new PopupMenu.PopupMenuItem(_("Open"));
+	    let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
             popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
             current_menu.addMenuItem(popup);
         }
