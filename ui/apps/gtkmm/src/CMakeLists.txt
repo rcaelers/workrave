@@ -71,9 +71,9 @@ if (PLATFORM_OS_WIN32)
   add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                      COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                                                   -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc                    
+                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
                     )
-        
+
   set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
 
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
@@ -95,7 +95,7 @@ endif()
 
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
-  
+
   set(SRC ${SRC}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
     GenericDBusApplet.cc
@@ -139,12 +139,13 @@ include_directories(
 link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
-# TODO: Also built prebuilt
 If (PLATFORM_OS_WIN32)
   if (PREBUILT_PATH)
     link_directories("${PREBUILT_PATH}/Release")
   endif()
-  link_directories("${SYS_ROOT}")
+  if (CMAKE_CROSSCOMPILING OR MSYS)
+    link_directories("${SYS_ROOT}")
+  endif()
 endif()
 
 add_executable(workrave ${SRC})

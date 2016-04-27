@@ -2,16 +2,16 @@ project(Workrave)
 
 cmake_minimum_required(VERSION 3.1)
 
-if(POLICY CMP0009)
+if (POLICY CMP0009)
   cmake_policy(SET CMP0009 NEW)
 endif()
-if(POLICY CMP0011)
+if (POLICY CMP0011)
   cmake_policy(SET CMP0011 NEW)
 endif()
-if(POLICY CMP0020)
+if (POLICY CMP0020)
   cmake_policy(SET CMP0020 NEW)
 endif()
-if(POLICY CMP0054)
+if (POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
 endif()
 
@@ -26,25 +26,25 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set(VERSION_MAJOR   "1")
-set(VERSION_MINOR   "11")
-set(VERSION_RELEASE "1")
-#set(VERSION_PATCH   "0")
+set (VERSION_MAJOR   "1")
+set (VERSION_MINOR   "11")
+set (VERSION_RELEASE "1")
+#set (VERSION_PATCH   "0")
 if (VERSION_PATCH)
-    set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
-    set(RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},${VERSION_PATCH}" )
+    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
+    set (RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},${VERSION_PATCH}" )
 else ()
-    set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
-    set(RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},0" )
+    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
+    set (RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},0" )
 endif ()
 
 set (PACKAGE_VERSION ${VERSION})
 
 #
-set(CMAKE_BUILD_TYPE_INIT "Debug")
+set (CMAKE_BUILD_TYPE_INIT "Debug")
 
 #
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set (CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include(CheckLibraryExists)
 include(CheckStructHasMember)
@@ -67,12 +67,6 @@ endif()
 # TODO: GIT_VERSION
 
 #----------------------------------------------------------------------------------------------------
-# Define output location.
-
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "" FORCE)
-#set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib CACHE INTERNAL "" FORCE)
-
-#----------------------------------------------------------------------------------------------------
 # Macros
 
 macro(pkgconfig_get_var OUT PKG VARNAME)
@@ -87,29 +81,38 @@ macro(pkgconfig_get_var OUT PKG VARNAME)
     string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
     string(REGEX REPLACE " +$" ""  _result "${_result}")
     separate_arguments(_result)
-    set(${OUT} ${_result} CACHE INTERNAL "")
+    set (${OUT} ${_result} CACHE INTERNAL "")
   endif()
 endmacro()
 
 #----------------------------------------------------------------------------------------------------
 # Compiler
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set (CMAKE_C_STANDARD 11)
+set (CMAKE_C_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   if (NOT WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
   endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Platform
+
+set (PLATFORM_ARCH 32)
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set (PLATFORM_ARCH 64)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -133,18 +136,25 @@ endif()
 option(WITH_COVERAGE "Enable coverage" OFF)
 
 if (WITH_COVERAGE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fno-inline -ftest-coverage -fprofile-arcs")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fno-inline -ftest-coverage -fprofile-arcs")
 endif()
 
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection
 
-set(WITH_UI "Qt5" CACHE STRING "UI Toolkit to use")
-set(WITH_UI_VALUES "Qt5" "Gtk+3" "Gtk+2")
+set (WITH_UI "Qt5" CACHE STRING "UI Toolkit to use")
+set (WITH_UI_VALUES "Qt5" "Gtk+3" "Gtk+2" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
   message(FATAL_ERROR "Option ${WITH_UI} not supported for WITH_UI, valid entries are ${WITH_UI_VALUES}")
+endif()
+
+if ("${WITH_UI}" STREQUAL "None"
+    AND (${PLATFORM_ARCH} EQUAL 64)
+    AND WIN32)
+  set (BUILD_ONLY_64_BIT_FOR_WIN32 TRUE)
+  message(STATUS "Building ONLY 64 bit support ")
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -152,6 +162,30 @@ endif()
 
 if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
   find_package(PkgConfig REQUIRED)
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Python
+
+set (Python_ADDITIONAL_VERSIONS 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+find_package(PythonInterp)
+
+#----------------------------------------------------------------------------------------------------
+# DBus
+
+option(WITH_DBUS "Enable dbus" ON)
+
+include(DBus)
+
+if (WITH_DBUS)
+  message(STATUS "Checking for: Jinja2")
+
+  if (PYTHONINTERP_FOUND)
+    find_python_module(jinja2)
+  endif()
+  if (NOT PY_JINJA2)
+    set (WITH_DBUS FALSE)
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -169,11 +203,14 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
   set (HAVE_GTK3 ON)
-  set (HAVE_DBUS ON)
-  set (HAVE_DBUS_GIO ON)
-  set (DBUS_BACKEND "gio")
   set (HAVE_APP_GTK ON)
   set (HAVE_HARPOON ON)
+
+  if (WITH_DBUS)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_GIO ON)
+    set (DBUS_BACKEND "gio")
+  endif()
 
   # TODO: duplicate check, refactor
   pkg_check_modules(
@@ -184,7 +221,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   include_directories(${GLIB_INCLUDE_DIRS})
 
   find_package(GSettings)
-
 endif()
 
 if ("${WITH_UI}" STREQUAL "Gtk+2")
@@ -199,11 +235,14 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
-  set (HAVE_DBUS ON)
-  set (HAVE_DBUS_GIO ON)
-  set (DBUS_BACKEND "gio")
   set (HAVE_APP_GTK ON)
   set (HAVE_HARPOON ON)
+
+  if (WITH_DBUS)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_GIO ON)
+    set (DBUS_BACKEND "gio")
+  endif()
 
   pkg_check_modules(
     GLIB REQUIRED
@@ -213,7 +252,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
   include_directories(${GLIB_INCLUDE_DIRS})
 
   find_package(GSettings)
-
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -256,12 +294,11 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   find_package(Qt5Core REQUIRED)
   find_package(Qt5Gui REQUIRED)
   find_package(Qt5Svg REQUIRED)
-  find_package(Qt5DBus QUIET)
   find_package(Qt5LinguistTools REQUIRED)
 
   get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
 
-  if(TARGET Qt5::lconvert)
+  if (TARGET Qt5::lconvert)
     get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
   else()
     get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
@@ -271,11 +308,14 @@ if ("${WITH_UI}" STREQUAL "Qt5")
                  NO_DEFAULT_PATH)
   endif()
 
-  if (Qt5DBus_FOUND)
-    set (HAVE_DBUS ON)
-    set (HAVE_DBUS_QT5 ON)
-    set (DBUS_BACKEND "qt5")
-    include_directories(${Qt5DBus_INCLUDE_DIRS})
+  if (WITH_DBUS)
+    find_package(Qt5DBus QUIET)
+    if (Qt5DBus_FOUND)
+      set (HAVE_DBUS ON)
+      set (HAVE_DBUS_QT5 ON)
+      set (DBUS_BACKEND "qt5")
+      include_directories(${Qt5DBus_INCLUDE_DIRS})
+    endif()
   endif()
 
   if (APPLE)
@@ -297,14 +337,14 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   # TODO:
   include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
-  set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
+  set (CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT5 ON)
   set (HAVE_APP_QT5 ON)
 
   if (Qt5_POSITION_INDEPENDENT_CODE)
-    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
   endif()
-  
+
   if ((NOT APPLE) AND (NOT WIN32))
     # glib is required for ui/common/src/System.cc
     pkg_check_modules(
@@ -312,42 +352,13 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       glib-2.0>=2.28.0
       gio-2.0>=2.26.0)
     set (HAVE_GLIB ON)
-    set (HAVE_DBUS ON)
-    set (HAVE_DBUS_GIO ON)
-    set (DBUS_BACKEND "gio")
     include_directories(${GLIB_INCLUDE_DIRS})
   endif()
-endif()
 
-#----------------------------------------------------------------------------------------------------
-# Python
-
-set(Python_ADDITIONAL_VERSIONS 3.5 3.4 3.3 3.2 3.1 3.0)
-find_package(PythonInterp)
-
-#----------------------------------------------------------------------------------------------------
-# DBus
-
-if (HAVE_DBUS)
-  message(STATUS "Checking for: Jinja2")
-
-  if (PYTHONINTERP_FOUND)
-    find_python_module(jinja2)
-    if (NOT PY_JINJA2)
-      set (HAVE_DBUS FALSE)
-    else()
-      include(DBus)
-    endif()
+  if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
+    message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
   endif()
 endif()
-
-if (HAVE_DBUS_FREEDESKTOP)
-  include_directories(
-    ${DBUS_INCLUDE_DIR}
-    ${DBUS_ARCH_INCLUDE_DIR}
-    )
-endif()
-
 
 #----------------------------------------------------------------------------------------------------
 # GStreamer
@@ -402,29 +413,29 @@ if (UNIX AND NOT APPLE)
     message(STATUS "Checking for: Unity Indicators")
 
     find_package(GObjectIntrospection 0.9.12)
-    set(HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
+    set (HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
 
     if (HAVE_INTROSPECTION)
       pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
     endif()
 
     if (INDICATOR_FOUND)
-      set(HAVE_INDICATOR ON)
+      set (HAVE_INDICATOR ON)
     else()
-      set(WITH_INDICATOR OFF)
+      set (WITH_INDICATOR OFF)
     endif()
   endif()
 
   if (HAVE_INDICATOR)
     if (LOCALINSTALL)
-      set(INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
-      set(INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
+      set (INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
+      set (INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
     else()
       pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
       pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
 
       #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
-      #set(INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
+      #set (INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
     endif()
   endif()
 endif()
@@ -432,56 +443,58 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Boost
 
-if(MSVC)
-  if (NOT DEFINED BOOST_ALL_DYN_LINK)
-    set(BOOST_ALL_DYN_LINK TRUE)
+if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+  if (MSVC)
+    if (NOT DEFINED BOOST_ALL_DYN_LINK)
+      set (BOOST_ALL_DYN_LINK TRUE)
+    endif()
+
+    set (BOOST_ALL_DYN_LINK "${BOOST_ALL_DYN_LINK}" CACHE BOOL "boost enable dynamic linking")
+    if (BOOST_ALL_DYN_LINK)
+      add_definitions(-DBOOST_ALL_DYN_LINK)
+    endif()
   endif()
 
-  set(BOOST_ALL_DYN_LINK "${BOOST_ALL_DYN_LINK}" CACHE BOOL "boost enable dynamic linking")
-  if (BOOST_ALL_DYN_LINK)
-    add_definitions(-DBOOST_ALL_DYN_LINK)
+  set (BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
+  #set (Boost_DEBUG ON)
+
+  if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
+    if (CMAKE_CL_64)
+      set (_arch lib64)
+    else()
+      message(FATAL_ERROR "32 bit compilation not supported on Windows")
+    endif()
+    if (MSVC_VERSION EQUAL 1900)
+      set (_vsver 14)
+    else()
+        message(FATAL_ERROR "Visual Studio 2015 is required to compile Workrave on Windows")
+    endif()
+    set (_libdir "${_arch}-msvc-${_vsver}.0")
+
+    if (EXISTS "${BOOST_ROOT}/${_libdir}")
+      set (BOOST_LIBRARYDIR "${BOOST_ROOT}/${_libdir}" CACHE PATH "")
+    endif()
   endif()
+
+  if (HAVE_TESTS)
+      set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
+  endif()
+
+  find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+
+  include_directories(${Boost_INCLUDE_DIR})
+  link_directories(${Boost_LIBRARY_DIR})
+  add_definitions(-DBOOST_LOG_DYN_LINK)
 endif()
-
-set(BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
-#set(Boost_DEBUG ON)
-
-if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
-  if (CMAKE_CL_64)
-    set(_arch lib64)
-  else()
-    message(FATAL_ERROR "32 bit compilation not supported on Windows")
-  endif()
-  if (MSVC_VERSION EQUAL 1900)
-    set(_vsver 14)
-  else()
-      message(FATAL_ERROR "Visual Studio 2015 is required to compile Workrave on Windows")
-  endif()
-  set(_libdir "${_arch}-msvc-${_vsver}.0")
-
-  if (EXISTS "${BOOST_ROOT}/${_libdir}")
-    set(BOOST_LIBRARYDIR "${BOOST_ROOT}/${_libdir}" CACHE PATH "")
-  endif()
-endif()
-
-if (HAVE_TESTS)
-    set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
-endif()
-
-find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
-add_definitions(-DBOOST_LOG_DYN_LINK)
 
 #----------------------------------------------------------------------------------------------------
 # Translations
 
-set(ALL_LINGUAS "")
+set (ALL_LINGUAS "")
 file(STRINGS "${CMAKE_SOURCE_DIR}/po/LINGUAS" pofile)
 foreach(line ${pofile})
-  if("${line}" MATCHES "^[a-zA-Z]")
-    set(ALL_LINGUAS "${ALL_LINGUAS}${line} ")
+  if ("${line}" MATCHES "^[a-zA-Z]")
+    set (ALL_LINGUAS "${ALL_LINGUAS}${line} ")
   endif()
 endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
@@ -490,18 +503,17 @@ find_package(Gettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
 if (HAVE_QT5)
-  set(ENABLE_NLS ON)
+  set (ENABLE_NLS ON)
 else()
   find_package(Libintl)
 
   if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
     message(STATUS "GetText not found - disabling i18n")
   else()
-    set(ENABLE_NLS ON)
-    set(GETTEXT_PACKAGE "workrave")
+    set (ENABLE_NLS ON)
+    set (GETTEXT_PACKAGE "workrave")
   endif()
 endif()
-
 
 # TODO: generate languages.iss for InnoSetup
 
@@ -513,7 +525,7 @@ include(Intltool)
 option(WITH_TRACING "Enable debug tracing" OFF)
 
 if (WITH_TRACING)
-  set(TRACING ON)
+  set (TRACING ON)
   #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
 
@@ -522,28 +534,46 @@ endif()
 # platform - win32
 
 if (WIN32)
-  if (NOT MSVC)
-     set(PREBUILT_PATH "" CACHE STRING "Location of prebuilt binaries")
-
-     if (NOT PREBUILT_PATH)
-        message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location if prebuilt win32")
-     endif()
-  endif()
-
   set (PLATFORM_OS_WIN32 ON)
   if (MSVC)
-    set(PLATFORM_OS_WIN32_NATIVE 1)
+    set (PLATFORM_OS_WIN32_NATIVE 1)
+  endif()
+
+  if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+
+    # TODO: merge these two options and auto-detect style.
+    set (PATH_64BIT "" CACHE STRING "Location of 64 bit build install")
+    set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt 32 and 64 bit targets")
+
+    if ( (NOT PATH_64BIT) AND (NOT PREBUILT_PATH))
+       message(FATAL_ERROR "Use -DPATH_64BIT=location or -DPREBUILT_PATH=location to specify location of 64 bit libraries")
+    endif()
+  endif()
+
+  if (NOT ISCC)
+    get_filename_component(PROGRAM_FILES_PATH
+        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
+
+    get_filename_component(PROGRAM_FILES_X86_PATH
+        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
+
+    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 5" "${PROGRAM_FILES_X86_PATH}/Inno Setup 5")
+    find_program(ISCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
+  endif()
+
+  if (MSYS AND NOT SYS_ROOT)
+    set (SYS_ROOT "/msys64/mingw${PLATFORM_ARCH}")
   endif()
 
   set (HAVE_GSETTINGS OFF)
-  set(HAVE_LANGUAGE_SELECTION TRUE)
+  set (HAVE_LANGUAGE_SELECTION TRUE)
 
-  if(MSVC)
+  if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
 
-    set(MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
-    set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
+    set (MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
+    set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
+    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
@@ -581,7 +611,7 @@ if (WIN32)
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# platform - apple
+# platform - OS X
 
 if (APPLE)
   set (PLATFORM_OS_OSX ON)
@@ -594,7 +624,7 @@ if (APPLE)
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# platform - unix
+# platform - Unix
 
 if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
@@ -607,12 +637,12 @@ if (UNIX AND NOT APPLE)
   check_library_exists(Xtst XRecordEnableContext "" HAVE_XRECORD)
 
   check_library_exists(Xext XScreenSaverRegister "" SCREENSAVER_IN_XEXT)
-  if(SCREENSAVER_IN_XEXT)
-    set(XSS_LIB "Xext")
+  if (SCREENSAVER_IN_XEXT)
+    set (XSS_LIB "Xext")
   else()
     check_library_exists(Xss XScreenSaverRegister "" SCREENSAVER_IN_XSS)
-    if(SCREENSAVER_IN_XSS)
-      set(XSS_LIB "Xss")
+    if (SCREENSAVER_IN_XSS)
+      set (XSS_LIB "Xss")
     endif()
   endif()
 
@@ -637,7 +667,7 @@ check_function_exists(nanosleep HAVE_NANOSLEEP)
 check_function_exists(realpath HAVE_REALPATH)
 check_function_exists(setlocale HAVE_SETLOCALE)
 
-set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
 find_package(Threads)
 
 #----------------------------------------------------------------------------------------------------
@@ -691,7 +721,7 @@ configure_file(${CMAKE_SOURCE_DIR}/build/cmake/config.h.in ${CMAKE_CURRENT_BINAR
 #----------------------------------------------------------------------------------------------------
 # Make dist.
 
-set(ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PACKAGE_VERSION})
+set (ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PACKAGE_VERSION})
 add_custom_target(dist
     COMMAND git archive --prefix=${ARCHIVE_NAME}/ HEAD
         | bzip2 > ${CMAKE_BINARY_DIR}/${ARCHIVE_NAME}.tar.bz2
@@ -700,9 +730,14 @@ add_custom_target(dist
 #----------------------------------------------------------------------------------------------------
 #
 
-add_subdirectory(po)
-add_subdirectory(libs)
-add_subdirectory(ui)
+if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+  add_subdirectory(po)
+  add_subdirectory(libs)
+  add_subdirectory(ui)
+else()
+  add_subdirectory(libs/hooks)
+  add_subdirectory(ui/applets/win32)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Install
@@ -723,12 +758,10 @@ elseif (WIN32)
 endif()
 
 if (WIN32)
+  # TODO: refactor
    if (PREBUILT_PATH)
-      set(APPLET_BINARY_DIR ${PREBUILT_PATH})
-      set(HOOK_BINARY_DIR ${PREBUILT_PATH})
-   else()
-      set(APPLET_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui/applets/win32/src/Output")
-      set(HOOK_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/hooks/Output")
+      set (APPLET_BINARY_DIR ${PREBUILT_PATH})
+      set (HOOK_BINARY_DIR ${PREBUILT_PATH})
    endif()
 endif()
 
@@ -736,10 +769,10 @@ endif()
 # App Bundle
 
 # Get the build revision, note that this can get out-of-sync, so for packaging run cmake first.
-set(MY_WC_HASH "unknown")
-if(EXISTS ${CMAKE_SOURCE_DIR}/.git/)
+set (MY_WC_HASH "unknown")
+if (EXISTS ${CMAKE_SOURCE_DIR}/.git/)
         find_package(Git)
-        if(GIT_FOUND)
+        if (GIT_FOUND)
                 message(STATUS "Found Git: ${GIT_EXECUTABLE}")
                 execute_process(COMMAND git rev-parse --short HEAD
                                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -748,54 +781,54 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/.git/)
                                 ERROR_QUIET)
         endif()
 endif()
-set(BUILD_REV ${MY_WC_HASH})
-unset(MY_WC_HASH)
+set (BUILD_REV ${MY_WC_HASH})
+unset (MY_WC_HASH)
 
 execute_process(COMMAND date "+%Y%m%d" OUTPUT_VARIABLE CPACK_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
-set(CPACK_PACKAGE_NAME                  "${PROJECT_NAME}")
-set(CPACK_PACKAGE_VENDOR                "Rob Caelers, Raymond Penners, Ray Satiro")
-set(CPACK_PACKAGE_EXECUTABLES           "${PROJECT_NAME};${PROJECT_NAME}")
-set(CPACK_PACKAGE_VERSION                "${VERSION}")
-set(CPACK_PACKAGE_VERSION_MAJOR         ${VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR         ${VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH         ${VERSION_RELEASE})
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
-set(CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME_LOWER}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-git${CPACK_DATE}.${BUILD_REV}-${CMAKE_SYSTEM_PROCESSOR}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
-set(CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns")
+set (CPACK_PACKAGE_NAME                  "${PROJECT_NAME}")
+set (CPACK_PACKAGE_VENDOR                "Rob Caelers, Raymond Penners, Ray Satiro")
+set (CPACK_PACKAGE_EXECUTABLES           "${PROJECT_NAME};${PROJECT_NAME}")
+set (CPACK_PACKAGE_VERSION                "${VERSION}")
+set (CPACK_PACKAGE_VERSION_MAJOR         ${VERSION_MAJOR})
+set (CPACK_PACKAGE_VERSION_MINOR         ${VERSION_MINOR})
+set (CPACK_PACKAGE_VERSION_PATCH         ${VERSION_RELEASE})
+set (CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
+set (CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME_LOWER}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-git${CPACK_DATE}.${BUILD_REV}-${CMAKE_SYSTEM_PROCESSOR}")
+set (CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
+set (CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns")
 
 if (WIN32)
-  set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
+  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
 else()
-  set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
+  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
 endif()
 
 if (APPLE)
-  set(CPACK_GENERATOR "DragNDrop")
+  set (CPACK_GENERATOR "DragNDrop")
 
   configure_file(${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
 
-  set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set(CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/DS_Store")
-  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/dmg_background.png")
-  set(CPACK_DMG_FORMAT "UDBZ")
+  set (CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
+  set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/DS_Store")
+  set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/dmg_background.png")
+  set (CPACK_DMG_FORMAT "UDBZ")
 
-  set(CPACK_OSX_PACKAGE_VERSION "10.6")
+  set (CPACK_OSX_PACKAGE_VERSION "10.6")
 endif()
 
 if (WIN32)
-  set(CPACK_GENERATOR "WIX")
-  set(CPACK_WIX_PRODUCT_ICON ${CMAKE_SOURCE_DIR}/ui/data/images/win32/workrave.ico)
-  set(CPACK_WIX_UPGRADE_GUID "1D49C891-626A-4AFB-88EF-319D35390FCB")
+  set (CPACK_GENERATOR "WIX")
+  set (CPACK_WIX_PRODUCT_ICON ${CMAKE_SOURCE_DIR}/ui/data/images/win32/workrave.ico)
+  set (CPACK_WIX_UPGRADE_GUID "1D49C891-626A-4AFB-88EF-319D35390FCB")
 
-  #set(CPACK_WIX_TEMPLATE ${LIBDIR}/package/installer_wix/WIX.template)
-  set(CPACK_WIX_UI_BANNER ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/banner.png)
-  set(CPACK_WIX_UI_DIALOG ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/dialog.png)
+  #set (CPACK_WIX_TEMPLATE ${LIBDIR}/package/installer_wix/WIX.template)
+  set (CPACK_WIX_UI_BANNER ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/banner.png)
+  set (CPACK_WIX_UI_DIALOG ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/dialog.png)
 
   #force lzma instead of deflate
-  set(CPACK_WIX_LIGHT_EXTRA_FLAGS -dcl:high)
+  set (CPACK_WIX_LIGHT_EXTRA_FLAGS -dcl:high)
 endif()
 
 include(CPack)
@@ -804,8 +837,10 @@ if (APPLE)
   if ("${WITH_UI}" STREQUAL "Qt5")
     add_subdirectory(ui/apps/qt5/dist/osx)
   endif()
-elseif(WIN32)
-  if ("${WITH_UI}" STREQUAL "Qt5")
+elseif (WIN32)
+  if (BUILD_ONLY_64_BIT_FOR_WIN32)
+    add_subdirectory(build/win64)
+  elseif ("${WITH_UI}" STREQUAL "Qt5")
     add_subdirectory(ui/apps/qt5/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+2")
     add_subdirectory(ui/apps/gtkmm/dist/win32)

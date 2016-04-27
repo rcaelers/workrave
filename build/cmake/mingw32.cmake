@@ -10,7 +10,6 @@ set(CMAKE_C_COMPILER   i686-w64-mingw32-gcc)
 set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
 set(CMAKE_RC_COMPILER  i686-w64-mingw32-windres)
 
-# TODO: Find ISCC.exe, support native
 set (WINE wine)
 set (ISCC "/build/inno/app/ISCC.exe")
 

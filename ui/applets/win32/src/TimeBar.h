@@ -22,6 +22,7 @@
 
 #include <windows.h>
 #include <time.h>
+#include <map>
 
 #include "commonui/ITimeBar.hh"
 #include "Applet.hh"
@@ -41,8 +42,8 @@ public:
   void set_text(const char *text);
 
   void update();
-  void set_bar_color(ITimeBar::ColorId color);
-  void set_secondary_bar_color(ITimeBar::ColorId color);
+  void set_bar_color(TimerColorId color);
+  void set_secondary_bar_color(TimerColorId color);
 
   void get_size(int &width, int &height);
   HWND get_handle() const { return hwnd; };
@@ -55,13 +56,13 @@ private:
   int bar_value;
   int secondary_bar_max_value;
   int secondary_bar_value;
-  ITimeBar::ColorId secondary_bar_color;
-  ITimeBar::ColorId bar_color;
+  TimerColorId secondary_bar_color;
+  TimerColorId bar_color;
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH];
   PaintHelper *paint_helper;
 
   static HFONT bar_font;
-  static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];
+  static std::map<TimerColorId, HBRUSH> bar_colors;
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
                                    LPARAM lParam);

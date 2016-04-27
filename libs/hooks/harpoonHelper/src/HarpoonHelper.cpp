@@ -25,7 +25,7 @@
 #include <windows.h>
 #include <winuser.h>
 #include "HarpoonHelper.h"
-#include "Debug.h" 
+#include "Debug.h"
 #include "Config.h"
 
 using namespace std;
@@ -99,7 +99,7 @@ HarpoonHelper::init(HINSTANCE hInstance)
   bool debug = false;
   bool mouse_lowlevel = false;
   bool keyboard_lowlevel = true;
-  
+
   if (LOBYTE(LOWORD(GetVersion())) >= 6)
     {
       mouse_lowlevel = true;
@@ -109,7 +109,7 @@ HarpoonHelper::init(HINSTANCE hInstance)
   config.get_value("advanced/harpoon/debug", debug);
   config.get_value("advanced/harpoon/mouse_lowlevel", mouse_lowlevel);
   config.get_value("advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel);
- 
+
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
       TRACE_RETURN(false);
@@ -168,7 +168,7 @@ HarpoonHelper::init_critical_filename_list()
   strcpy(critical_filename_list[2], args);
 
   TRACE_MSG(args);
-  
+
   int filecount = 0;
   config.get_value("advanced/critical_files/filecount", filecount);
 
@@ -181,13 +181,13 @@ HarpoonHelper::init_critical_filename_list()
 
       char loc[40];
       string buffer;
-    
+
       for(i = 1; i <= filecount; ++i)
         {
           sprintf(loc, "advanced/critical_files/file%d", i );
           if (config.get_value(loc, buffer))
             {
-              strncpy_s(critical_filename_list[i + 2], buffer.c_str(), 510);
+             strcpy_s(critical_filename_list[i + 2], 510, buffer.c_str());
              critical_filename_list[i][510] = '\0';
             }
         }
@@ -301,12 +301,16 @@ HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
           TRACE_MSG("block");
           harpoon_block_input();
         break;
-      
+
         case HARPOON_HELPER_UNBLOCK:
           TRACE_MSG("unblock");
           harpoon_unblock_input();
         break;
-      } 
+
+	    case HARPOON_HELPER_NOTHING:
+		case HARPOON_HELPER_EVENT__SIZEOF:
+	    break;
+      }
   }
 
   TRACE_EXIT();

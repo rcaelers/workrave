@@ -1,9 +1,9 @@
-harpoon/src/Debug
-harpoon/src/Release
+harpoon/src/Win32/Debug
+harpoon/src/Win32/Release
 harpoon/src/x64/Debug
 harpoon/src/x64/Release
-harpoonHelper/src/Debug
-harpoonHelper/src/Release
+harpoonHelper/src/Win32/Debug
+harpoonHelper/src/Win32/Release
 harpoonHelper/src/x64/Debug
 harpoonHelper/src/x64/Release
 Output
@@ -11,3 +11,6 @@ Output
 *.opensdf
 *.suo
 *.user
+*.db
+*.opendb
+

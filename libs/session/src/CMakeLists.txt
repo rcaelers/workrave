@@ -6,10 +6,7 @@ if (PLATFORM_OS_UNIX)
   set(SRC ${SRC}
     ScreenLockCommandline.cc
     )
-endif()
 
-if (HAVE_GLIB)
-  include_directories(${GLIB_INCLUDE_DIRS})
   set(SRC ${SRC}
     ScreenLockDBus.cc
     SystemStateChangeConsolekit.cc

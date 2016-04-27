@@ -21,6 +21,7 @@
 #define ITIMEBAR_HH
 
 #include <string>
+#include "commonui/UiTypes.hh"
 
 class ITimeBar
 {
@@ -35,9 +36,8 @@ public:
   virtual void set_text_alignment(int align) = 0;
 
   virtual void update() = 0;
-  virtual void set_bar_color(ColorId color) = 0;
-  virtual void set_secondary_bar_color(ColorId color) = 0;
+  virtual void set_bar_color(TimerColorId color) = 0;
+  virtual void set_secondary_bar_color(TimerColorId color) = 0;
 };
-
 
 #endif // ITIMEBAR_HH

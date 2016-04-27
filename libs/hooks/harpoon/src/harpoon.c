@@ -698,8 +698,6 @@ harpoon_keyboard_block_hook (int code, WPARAM wpar, LPARAM lpar)
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
-  BOOL forcecallnext = TRUE;
-
   if (code >= 0)
     {
        //if (is_app_blocked() && block_input)

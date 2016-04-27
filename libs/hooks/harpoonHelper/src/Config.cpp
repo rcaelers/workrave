@@ -164,7 +164,7 @@ Config::key_win32ify(const string &key) const
 void
 Config::strip_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] == '/')
@@ -179,7 +179,7 @@ Config::strip_trailing_slash(string &key) const
 void
 Config::add_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] != '/')

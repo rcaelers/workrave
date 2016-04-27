@@ -376,7 +376,7 @@ CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
 
   if (!pfCanRenderComposited)
     return E_INVALIDARG;
-  
+
   *pfCanRenderComposited = TRUE;
   TRACE_EXIT();
   return S_OK;
@@ -388,7 +388,7 @@ CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
   TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
     return E_INVALIDARG;
-  
+
   *pfCompositionEnabled = m_CompositionEnabled;
   TRACE_EXIT();
   return S_OK;
@@ -483,7 +483,7 @@ CDeskBand::QueryContextMenu(HMENU hMenu,
               InsertMenuW(hMenu,
                           indexMenu++,
                           MF_POPUP | flags,
-                          (UINT) popup,
+                          (UINT_PTR) popup,
                           textw);
               popup = NULL;
             }
@@ -512,7 +512,7 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 
   if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow( get_command_window() ))
     {
-      SendMessage( get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, NULL );
+      SendMessage( get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, 0 );
       ret = NOERROR;
     }
   else
@@ -595,7 +595,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
     case WM_LBUTTONUP:
       SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window),
-                  WM_USER + 1, 0, NULL);
+                  WM_USER + 1, 0, 0);
       break;
     }
 
@@ -657,8 +657,8 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
           if (bar != NULL)
             {
               bar->set_text(data->bar_text[b]);
-              bar->set_bar_color((ITimeBar::ColorId) data->bar_primary_color[b]);
-              bar->set_secondary_bar_color((ITimeBar::ColorId) data->bar_secondary_color[b]);
+              bar->set_bar_color((TimerColorId) data->bar_primary_color[b]);
+              bar->set_secondary_bar_color((TimerColorId) data->bar_secondary_color[b]);
               bar->set_progress(data->bar_primary_val[b], data->bar_primary_max[b]);
               bar->set_secondary_progress(data->bar_secondary_val[b], data->bar_secondary_max[b]);
             }
@@ -776,7 +776,7 @@ CDeskBand::RegisterAndCreateWindow()
                               NULL,
                               g_hInst,
                               (LPVOID)this);
-      
+
       m_TimerBox = new TimerBox(h, g_hInst, this);
     }
 

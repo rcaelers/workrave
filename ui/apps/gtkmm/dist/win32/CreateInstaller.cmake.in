@@ -18,11 +18,26 @@ foreach(dependency ${resolved_dependencies})
   file(APPEND ${LIBS_ISS} "Source: \"${INSTALLDIR}\\lib\\${file}\"; DestDir: \"{app}\\lib\"; Flags: ignoreversion;\n")
 endforeach()
 
-execute_process(
-  COMMAND "@WINE@" "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
-  OUTPUT_VARIABLE out
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
-  )
+file(GLOB FILES64BIT @CMAKE_INSTALL_PREFIX@/lib64)
+foreach(file ${FILES64BIT}/*.*)
+  get_filename_component(file ${file} NAME)
+  file(APPEND ${LIBS_ISS} "Source: \"${INSTALLDIR}\\lib64\\${file}\"; DestDir: \"{app}\\lib64\"; Flags: ignoreversion 64bit;\n")
+endforeach()
+
+if (@CMAKE_CROSSCOMPILING@)
+  execute_process(
+    COMMAND "@WINE@" "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
+    OUTPUT_VARIABLE out
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
+    )
+else()
+  execute_process(
+    COMMAND "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
+    OUTPUT_VARIABLE out
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
+    )
+endif()
 
 message("Setup: ${out}")

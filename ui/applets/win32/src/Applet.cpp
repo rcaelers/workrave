@@ -25,7 +25,10 @@
 #include "ClsFact.h"
 #include <shlwapi.h>
 
+#if !defined(__GNUC__)
 #pragma data_seg(".text")
+#endif
+
 #define INITGUID
 #include <initguid.h>
 #include <shlguid.h>
@@ -33,7 +36,9 @@
 
 #include "Debug.h"
 
+#if !defined(__GNUC__)
 #pragma data_seg()
+#endif
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
 BOOL RegisterServer(CLSID, LPTSTR, BOOL reg);
@@ -174,7 +179,6 @@ typedef struct{
 BOOL
 RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
 {
-  int      i;
   HKEY     hKey;
   LRESULT  lResult;
   DWORD    dwDisp;
@@ -216,7 +220,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
   if (reg)
     {
       //register the CLSID entries
-      for(i = 0; i < sizeof(ClsidEntries)/sizeof(ClsidEntries[0]); i++)
+      for(size_t i = 0; i < sizeof(ClsidEntries)/sizeof(ClsidEntries[0]); i++)
         {
           //create the sub key string - for this case, insert the file extension
           wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
@@ -341,4 +345,3 @@ RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
 
   return SUCCEEDED(hr);
 }
-

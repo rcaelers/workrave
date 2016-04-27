@@ -10,4 +10,8 @@ if (HAVE_INDICATOR)
   add_subdirectory(indicator)
 endif()
 
+if (WIN32)
+  add_subdirectory(win32)
+endif()
+
 add_subdirectory(gnome-shell)
