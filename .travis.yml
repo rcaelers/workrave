@@ -159,7 +159,7 @@ before_install: |
 # xml:    `conf_opt_packages manual libgdome2-dev` \
 install:
   - install_$TRAVIS_OS_NAME
-  - pip install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
+  - pip3 install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
 before_script:
   - mkdir cmake-build
