@@ -7,12 +7,14 @@ if (PLATFORM_OS_UNIX)
     ScreenLockCommandline.cc
     )
 
-  set(SRC ${SRC}
-    ScreenLockDBus.cc
-    SystemStateChangeConsolekit.cc
-    SystemStateChangeLogind.cc
-    SystemStateChangeUPower.cc
-    )
+  if (HAVE_DBUS_GIO)
+    set(SRC ${SRC}
+      ScreenLockDBus.cc
+      SystemStateChangeConsolekit.cc
+      SystemStateChangeLogind.cc
+      SystemStateChangeUPower.cc
+      )
+   endif()
 endif()
 
 if (WIN32)
