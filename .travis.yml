@@ -147,7 +147,7 @@ before_install: |
     brew install gettext
     brew link gettext --force
 
-    brew install qt5 python cmake
+    brew install qt5 python3 cmake
   }
 
 
