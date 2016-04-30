@@ -677,7 +677,7 @@ disable_button_focus(GtkWidget *w)
 {
 	if (GTK_IS_CONTAINER(w))
   {
-		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_focus, NULL);
+		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_button_focus, NULL);
   }
 
   if (GTK_IS_BUTTON(w))
