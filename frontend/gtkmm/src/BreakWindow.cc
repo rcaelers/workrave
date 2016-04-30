@@ -70,6 +70,7 @@
 
 using namespace workrave;
 
+
 //! Constructor
 /*!
  *  \param control The controller.
@@ -418,14 +419,7 @@ BreakWindow::create_sysoper_combobox()
       comboBox->pack_start(sysoper_model_columns->icon, false);
     }
   comboBox->pack_start(sysoper_model_columns->name);
-
   comboBox->set_active(0);
-#ifdef HAVE_GTK3
-  comboBox->set_can_focus(false);
-#else
-  GTK_WIDGET_UNSET_FLAGS(comboBox->gobj(), GTK_CAN_FOCUS);
-#endif
-
   comboBox->signal_changed()
       .connect(
                 sigc::mem_fun(*this, &BreakWindow::on_sysoper_combobox_changed)
@@ -684,6 +678,20 @@ BreakWindow::init()
   TRACE_EXIT();
 }
 
+static void
+disable_button_focus(GtkWidget *w)
+{
+	if (GTK_IS_CONTAINER(w))
+  {
+		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_button_focus, NULL);
+  }
+
+  if (GTK_IS_BUTTON(w))
+  {
+    gtk_widget_set_can_focus(w, FALSE);
+  }
+}
+
 //! Starts the daily limit.
 void
 BreakWindow::start()
@@ -716,6 +724,21 @@ BreakWindow::start()
 
   // In case the show_all resized the window...
   center();
+
+  // Setting "can focus" of the sysoper combobox to false is not enough to
+  // prevent the combobox from taking the focus. A combobox has an internal
+  // button that still has 'can focus' set to true.
+  // So, unset 'can focus' of this button...
+  disable_button_focus(GTK_WIDGET(sysoper_combobox->gobj()));
+
+  // ...and clear the focus of the break window, which already focussed
+  // the button.
+  GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
+  if (gtk_widget_is_toplevel (toplevel))
+    {
+      gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+    }
+
   TRACE_EXIT();
 }
 
