@@ -5,6 +5,11 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.14
+
+** Fixed issue where pressing the down key during a restbreak would
+   lock the screen (bug #1242
+
 * Workrave 1.10.13
 
 ** Use button instead of combobox if only 'Lock' is available in
