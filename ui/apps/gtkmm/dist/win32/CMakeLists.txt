@@ -64,19 +64,15 @@ install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.
 install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
 install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
-if (HOOK_BINARY_DIR)
-  install (FILES ${HOOK_BINARY_DIR}/Release/harpoon.dll DESTINATION lib)
-  install (FILES ${HOOK_BINARY_DIR}/Release64/harpoon64.dll DESTINATION lib64)
-  install (FILES ${HOOK_BINARY_DIR}/Release64/WorkraveHelper.exe DESTINATION lib64)
-endif()
-if (APPLET_BINARY_DIR)
-  install (FILES ${APPLET_BINARY_DIR}/Release/workrave-applet.dll DESTINATION lib)
-  install (FILES ${APPLET_BINARY_DIR}/Release64/workrave-applet64.dll DESTINATION lib64)
-endif()
-
-if (PATH_64BIT)
-  file(GLOB FILES64BIT ${PATH_64BIT}/lib/*.*)
+if (HAVE_PREBUILT_CMAKE)
+  file(GLOB FILES64BIT ${PREBUILT_PATH}/lib/*.*)
   install(FILES ${FILES64BIT} DESTINATION lib64)
+elseif(HAVE_PREBUILT_VISUAL_STUDIO)
+  install (FILES ${PREBUILT_PATH}/Release/harpoon.dll DESTINATION lib)
+  install (FILES ${PREBUILT_PATH}/Release64/harpoon64.dll DESTINATION lib64)
+  install (FILES ${PREBUILT_PATH}/Release64/harpoonHelper.exe DESTINATION lib64 RENAME WorkraveHelper.exe)
+  install (FILES ${PREBUILT_PATH}/Release/workrave-applet.dll DESTINATION lib)
+  install (FILES ${PREBUILT_PATH}/Release64/workrave-applet64.dll DESTINATION lib64)
 endif()
 
 configure_file(

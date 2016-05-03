@@ -112,11 +112,7 @@ include_directories(
 include_directories()
 
 if (PLATFORM_OS_WIN32)
-  if (PREBUILT_PATH)
-    link_directories("${PREBUILT_PATH}/Release")
-  else()
-    link_directories("${CMAKE_SOURCE_DIR}/libs/hooks/Output/Release")
-  endif()
+    link_directories("${HOOK_BINARY_DIR}")
   if (CMAKE_CROSSCOMPILING OR MSYS)
     link_directories("${SYS_ROOT}")
   endif()

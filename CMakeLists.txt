@@ -85,6 +85,16 @@ macro(pkgconfig_get_var OUT PKG VARNAME)
   endif()
 endmacro()
 
+macro(files_exists OUT DIRECTORY FILES)
+set (${OUT} TRUE)
+  foreach(file ${FILES})
+    if (NOT EXISTS "${DIRECTORY}/${file}")
+      set (${OUT} FALSE)
+      message(STATUS "${DIRECTORY}/${file}")
+    endif()
+  endforeach()
+endmacro()
+
 #----------------------------------------------------------------------------------------------------
 # Compiler
 
@@ -540,13 +550,46 @@ if (WIN32)
   endif()
 
   if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+    set(PREBUILT_VISUAL_STUDIO_TARGETS
+      "Release64/workrave-applet64.dll"
+      "Release64/harpoonHelper.exe"
+      "Release64/harpoon64.dll"
+      "Release/workrave-applet.dll"
+      "Release/harpoon.dll")
 
-    # TODO: merge these two options and auto-detect style.
-    set (PATH_64BIT "" CACHE STRING "Location of 64 bit build install")
-    set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt 32 and 64 bit targets")
+    set(PREBUILT_CMAKE_TARGETS
+      "lib/workrave-applet64.dll"
+      "lib/WorkraveHelper.exe"
+      "lib/harpoon64.dll")
 
-    if ( (NOT PATH_64BIT) AND (NOT PREBUILT_PATH))
-       message(FATAL_ERROR "Use -DPATH_64BIT=location or -DPREBUILT_PATH=location to specify location of 64 bit libraries")
+    set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt targets")
+
+    if (NOT PREBUILT_PATH)
+      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${CMAKE_SOURCE_DIR}" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
+      if (HAVE_PREBUILT_VISUAL_STUDIO)
+        set(PREBUILT_PATH ${CMAKE_SOURCE_DIR})
+      endif()
+    endif()
+
+    if (NOT HAVE_PREBUILT_VISUAL_STUDIO)
+      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${PREBUILT_PATH}" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
+    endif()
+
+    if (NOT HAVE_PREBUILT_VISUAL_STUDIO)
+      files_exists(HAVE_PREBUILT_CMAKE "${PREBUILT_PATH}" "${PREBUILT_CMAKE_TARGETS}")
+    endif()
+
+    if (HAVE_PREBUILT_CMAKE)
+      set (HOOK_BINARY_DIR "${CMAKE_BINARY_DIR}/libs/hooks/harpoon/src")
+      message(STATUS "Using prebuilt 64 bit targets from ${PREBUILT_PATH}")
+    elseif(HAVE_PREBUILT_VISUAL_STUDIO)
+      set (HOOK_BINARY_DIR "${PREBUILT_PATH}/Release")
+      message(STATUS "Using prebuilt 32/64 bit targets from ${PREBUILT_PATH}")
+    else()
+      message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
+    endif()
+
+    if (NOT (HAVE_PREBUILT_CMAKE OR HAVE_PREBUILT_VISUAL_STUDIO))
     endif()
   endif()
 

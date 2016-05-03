@@ -1,4 +1,4 @@
-if (WIN32 AND (NOT PREBUILT_PATH))
+if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
   set(SOURCES Applet.cpp
               ClsFact.cpp
               Debug.cpp
