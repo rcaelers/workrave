@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2013-05-25 20:31+0200\n"
-"PO-Revision-Date: 2011-03-12 11:19+0800\n"
+"PO-Revision-Date: 2016-05-04 14:45+0800\n"
 "Last-Translator: Daniel YC Lin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
-"Language: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../backend/src/DistributionSocketLink.cc:131
 #, c-format
@@ -194,16 +195,17 @@ msgstr "模式(_M)"
 msgid "_Normal"
 msgstr "一般(_N)"
 
+# 勿擾(_Q)
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Quiet"
-msgstr "靜止(_Q)"
+msgstr "勿擾(_Q)"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:150
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Suspended"
-msgstr "暫停(_S)"
+msgstr "停止(_S)"
 
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:641
@@ -278,7 +280,7 @@ msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive St
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:645
 msgid "_Join"
-msgstr ""
+msgstr "加入(_J)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:657
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
@@ -302,13 +304,13 @@ msgstr "一般(_N)"
 #: ../frontend/gtkmm/src/GUI.cc:1498
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Suspended"
-msgstr "暫停(_S)"
+msgstr "停止(_S)"
 
 #: ../frontend/applets/gnome3/src/WorkraveApplet.c:687
 #: ../frontend/gtkmm/src/GUI.cc:1502
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:185
 msgid "Quiet"
-msgstr "安靜(_u)"
+msgstr "勿擾(_u)"
 
 #: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
@@ -328,11 +330,11 @@ msgstr "休息停止"
 
 #: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Micro-break started"
-msgstr "暫停開始"
+msgstr "稍息開始"
 
 #: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break ended"
-msgstr "暫停結束"
+msgstr "稍息結束"
 
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
@@ -406,6 +408,8 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave 仍在運行中。您可以點擊白綿羊的圖示來開啟 workrave視窗。點擊以關閉此"
+"對話框。"
 
 #: ../frontend/gtkmm/src/GUI.cc:833 ../frontend/gtkmm/src/GUI.cc:948
 #, fuzzy
@@ -414,25 +418,25 @@ msgstr "當系統啟動時自動啟動 workrave"
 
 #: ../frontend/gtkmm/src/GUI.cc:835
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Workrave 是否正在運行中？"
 
 #: ../frontend/gtkmm/src/GUI.cc:943
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave 無法監控您的鍵盤與滑鼠活動\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:946
 msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
+msgstr "請確認 X server 中 RECORD 附加元件已被啟用"
 
 #: ../frontend/gtkmm/src/GUI.cc:1357
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
-msgstr ""
+msgstr "Workrave 處於停止模式中，將不會監控滑鼠與鍵盤活動"
 
 #: ../frontend/gtkmm/src/GUI.cc:1363
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrave 處於勿擾模式中，將不會提醒您休息"
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1491 ../frontend/gtkmm/src/GtkUtil.cc:168
@@ -440,7 +444,7 @@ msgstr ""
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:179
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:277
 msgid "Micro-break"
-msgstr "暫停"
+msgstr "稍息"
 
 #: ../frontend/gtkmm/src/GUI.cc:1491
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:177
@@ -528,7 +532,7 @@ msgstr "休息(_R)"
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:147
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:86
 msgid "Q_uiet"
-msgstr "暫停(_u)"
+msgstr "暫停(_U)"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
@@ -709,17 +713,17 @@ msgstr "音效檔(.wav)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:530
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "使用其他螢幕"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:536
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
-msgstr ""
+msgstr "開啟此選項如果 Workrave 無法偵測您是否在使用電腦"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:107
 msgid "Time for a micro-break?"
-msgstr "暫停一下?"
+msgstr "稍息一下?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:111
 msgid "You need a rest break..."
@@ -782,7 +786,7 @@ msgstr "並排計時器"
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place micro-break and rest break in one spot"
-msgstr "將暫停與休息放在一起"
+msgstr "將稍息與休息放在一起"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
@@ -836,11 +840,11 @@ msgstr "週期:"
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 msgid "Micro-break:"
-msgstr "暫停:"
+msgstr "稍息:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Rest break:"
-msgstr "重置休息:"
+msgstr "休息:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Daily limit:"
@@ -880,7 +884,7 @@ msgstr "未活動時暫停計時器"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:176
 msgid "Regard micro-breaks as activity"
-msgstr "將暫停視為活動"
+msgstr "視稍息為使用電腦"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
@@ -888,7 +892,7 @@ msgstr "體操次數"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:190
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "螢幕鎖定時開始計算休息時間"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:232
 msgid "Time before end:"
@@ -1294,36 +1298,36 @@ msgstr "%s, 從 %s 到 %s"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:602
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:606
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:603
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "你已選擇要清除您的統計資料。您確定嗎？"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:618
 msgid "Files deleted!"
-msgstr ""
+msgstr "刪除成功！"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:619
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "您的統計資料已遭刪除"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:622
 msgid "Info"
-msgstr ""
+msgstr "資訊"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:628
 msgid "File deletion failed!"
-msgstr ""
+msgstr "刪除失敗"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:629
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
+msgstr "您的統計資料刪除失敗。重試？"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:632
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #~ msgid "Orientation"
 #~ msgstr "方向"
