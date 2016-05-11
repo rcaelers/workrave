@@ -725,18 +725,21 @@ BreakWindow::start()
   // In case the show_all resized the window...
   center();
 
-  // Setting "can focus" of the sysoper combobox to false is not enough to
-  // prevent the combobox from taking the focus. A combobox has an internal
-  // button that still has 'can focus' set to true.
-  // So, unset 'can focus' of this button...
-  disable_button_focus(GTK_WIDGET(sysoper_combobox->gobj()));
-
-  // ...and clear the focus of the break window, which already focussed
-  // the button.
-  GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
-  if (gtk_widget_is_toplevel (toplevel))
+  if (sysoper_combobox != NULL)
     {
-      gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+      // Setting "can focus" of the sysoper combobox to false is not enough to
+      // prevent the combobox from taking the focus. A combobox has an internal
+      // button that still has 'can focus' set to true.
+      // So, unset 'can focus' of this button...
+      disable_button_focus(GTK_WIDGET(sysoper_combobox->gobj()));
+      
+      // ...and clear the focus of the break window, which already focussed
+      // the button.
+      GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
+      if (gtk_widget_is_toplevel (toplevel))
+        {
+          gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+        }
     }
 
   TRACE_EXIT();
