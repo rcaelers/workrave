@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GCONFCONFIGURATOR_HH
-#define GCONFCONFIGURATOR_HH
+#ifndef GSETTINGSCONFIGURATOR_HH
+#define GSETTINGSCONFIGURATOR_HH
 
 #include <string>
 #include <map>
@@ -69,4 +69,4 @@ private:
 };
 
 
-#endif // GCONFCONFIGURATOR_HH
+#endif // GGSETTINGSCONFIGURATOR_HH
