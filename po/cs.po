@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2016-01-02 18:45+0000\n"
+"POT-Creation-Date: 2016-03-30 21:16+0200\n"
 "PO-Revision-Date: 2011-02-16 19:20+0100\n"
 "Last-Translator: Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../ui/common/src/Text.cc:92
+#: ../ui/apps/gtkmm/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekund"
 
-#: ../ui/common/src/Text.cc:88
+#: ../ui/apps/gtkmm/src/Text.cc:88
 #, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minut"
 
-#: ../ui/common/src/Text.cc:84
+#: ../ui/apps/gtkmm/src/Text.cc:84
 #, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d hodin"
@@ -37,24 +37,18 @@ msgstr "%s%d:%02d:%02d hodin"
 msgid "%s, from %s to %s"
 msgstr "%s, od %s do %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:259
 msgid "(font not available)"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:50
-#, c-format
-msgid "<h3>Workrave %s</h3><br/>%s<br/>"
+#: ../ui/apps/gtkmm/src/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:44
-#, fuzzy
-msgid "About Workrave"
-msgstr "Workrave"
-
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../ui/apps/qt5/src/Menus.cc:122
+#: ../ui/apps/qt5/src/Menus.cc:123
 msgid "About..."
 msgstr "O..."
 
@@ -62,13 +56,11 @@ msgstr "O..."
 msgid "Activity"
 msgstr "Aktivita"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:116
 msgid "Applet"
 msgstr "Aplet"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "Povolit aplet"
 
@@ -81,45 +73,39 @@ msgstr "Tento program podporuje prevenci a regeneraci opakovaných bolestivých 
 msgid "Backward shoulder stretch"
 msgstr "Zadní propnutí ramen"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "Blokovat vstupní zařízení"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "Blokovat vstupní zařízení a obrazovku"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:195
 msgid "Block mode:"
 msgstr "Blokující mód:"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "Trvání pauzy:"
 
-#: ../ui/common/src/SoundTheme.cc:64
+#: ../ui/apps/gtkmm/src/Ui.cc:86
 msgid "Break ignored"
 msgstr "Pauza zamítnuta"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
-#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "Pauza v %s"
 
-#: ../ui/common/src/SoundTheme.cc:58
+#: ../ui/apps/gtkmm/src/Ui.cc:83
 msgid "Break prompt"
 msgstr "Upozornění na pauzu"
 
 #. Prelude frame
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "Připomenutí pauzy"
 
@@ -143,7 +129,7 @@ msgstr "Přeskočených pauz"
 msgid "Browse history"
 msgstr "Prohlížet historii"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:434
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Bez zvuků"
@@ -152,13 +138,7 @@ msgstr "Bez zvuků"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Zakryjte si oči svými dlaněmi tak, že stále můžete otevírat oči. Nyní otevřete oči a dívejte se do tmy vašich dlaní. Toto cvičení lépe uleví vašim očím než pouhé zavření."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
-#: ../ui/common/src/SoundTheme.cc:366
-msgid "Custom"
-msgstr ""
-
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "Doba cyklu:"
 
@@ -169,21 +149,17 @@ msgstr "Denní limit"
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:43
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169 ../ui/apps/gtkmm/src/Ui.cc:44
+#: ../ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Denní limit"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Denní limit o %s překročen"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Denní limit za %s"
@@ -202,13 +178,11 @@ msgid "Delete all statistics history"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
-#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "Zmizí za %s"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "Zobrazit"
 
@@ -220,30 +194,16 @@ msgstr "Užitečný pohyb myši:"
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
-#, fuzzy
-msgid "Enable sounds"
-msgstr "Bez zvuků"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:553
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "Povolit časovač"
 
-#. sounds_view->setColumnWidth(0, 100);
-#. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
-#, fuzzy
-msgid "Enabled"
-msgstr "Povolit časovač"
-
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 #, fuzzy
 msgid "End exercises"
 msgstr "Cvičení"
@@ -252,34 +212,33 @@ msgstr "Cvičení"
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:418
 msgid "Event"
 msgstr ""
 
-#: ../ui/common/src/SoundTheme.cc:112
+#: ../ui/apps/gtkmm/src/Ui.cc:110
 #, fuzzy
 msgid "Exercise change"
 msgstr "Konec cviku"
 
-#: ../ui/common/src/SoundTheme.cc:100
+#: ../ui/apps/gtkmm/src/Ui.cc:104
 msgid "Exercise ended"
 msgstr "Konec cviku"
 
 #: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:80
+#: ../ui/apps/qt5/src/Menus.cc:81
 msgid "Exercises"
 msgstr "Cvičení"
 
-#: ../ui/common/src/SoundTheme.cc:106
+#: ../ui/apps/gtkmm/src/Ui.cc:107
 msgid "Exercises ended"
 msgstr "Konec cvičení"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "Cvičitel"
 
@@ -295,8 +254,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Protažení prstů"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:103
 msgid "General"
 msgstr "Obecné"
 
@@ -306,7 +264,6 @@ msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "Schovat"
 
@@ -330,13 +287,11 @@ msgstr "Držte jednu ruku předpaženou před vašim hrudníkem. Tlačte tuto ru
 msgid "Keystrokes:"
 msgstr "Klávesových úhozů"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:284
 msgid "Language:"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:319
-#: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_Zámek"
@@ -359,7 +314,6 @@ msgid "Look into the darkness"
 msgstr "Pohled do tmy"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Maximální počet připomenutí:"
 
@@ -367,15 +321,15 @@ msgstr "Maximální počet připomenutí:"
 #: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
-#: ../ui/common/src/SoundTheme.cc:88
+#: ../ui/apps/gtkmm/src/Ui.cc:98
 msgid "Micro-break ended"
 msgstr "Konec Mikro-pauzy"
 
-#: ../ui/common/src/SoundTheme.cc:82
+#: ../ui/apps/gtkmm/src/Ui.cc:95
 msgid "Micro-break started"
 msgstr "Začátek mikro-pauzy"
 
@@ -384,8 +338,8 @@ msgstr "Začátek mikro-pauzy"
 msgid "Micro-break:"
 msgstr "Mikro-pauza:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:205 ../ui/apps/qt5/src/Menus.cc:85
 #, fuzzy
 msgid "Mode"
 msgstr "_Mód"
@@ -423,8 +377,7 @@ msgstr "Pohyb ramenou"
 msgid "Move the shoulders up and down"
 msgstr "Pohyb ramenou nahoru a dolů"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Umístit přestávku a denní limit na jedno místo"
@@ -434,7 +387,6 @@ msgid "Natural breaks taken"
 msgstr "Přirozeně vykonaných pauz"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Přirozeně vykonaných pauz"
@@ -444,52 +396,47 @@ msgid "Neck tilt stretch"
 msgstr "Protažení krku úklonem do strany"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 #, fuzzy
 msgid "Next exercise"
 msgstr "Počet cvičení:"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Další přestávka za %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "Neblokovat"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "No sounds"
 msgstr "Bez zvuků"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ../ui/apps/qt5/src/Menus.cc:89
 #, fuzzy
 msgid "Normal"
 msgstr "_Normální"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "Počet cvičení:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ../ui/apps/qt5/src/Menus.cc:65
+#: ../ui/apps/qt5/src/Menus.cc:66
 #, fuzzy
 msgid "Open"
 msgstr "_Otevřít"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:193
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "Možnosti"
 
@@ -503,83 +450,66 @@ msgstr "Pauza"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Počet cvičení:"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "Umístit všechny časovače na jedno místo"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Umístit mikro-pauzu a přestávku na jedno místo"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Umístit přestávku a denní limit na jedno místo"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "Umístit časovače jeden vedle druhého"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "Umístění:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:413
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:431
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:461
 msgid "Play"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "Play sounds using sound card"
 msgstr "Přehrávat zvuky za použití zvukové karty"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "Prosím odpočívejte několik sekund"
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:179
-#, fuzzy
-msgid "Postpone"
-msgstr "_Odložit"
-
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Čas odložení:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-#: ../ui/apps/qt5/src/Menus.cc:70
+#: ../ui/apps/qt5/src/Menus.cc:71
 msgid "Preferences"
 msgstr "Nastavení"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Připomenout před pauzou"
 
@@ -600,15 +530,15 @@ msgstr "Ne_rušící"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
 #: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:103
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:201
+#: ../ui/apps/qt5/src/Menus.cc:104
 #, fuzzy
 msgid "Quiet"
 msgstr "Ne_rušící"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/qt5/src/Menus.cc:127
+#: ../ui/apps/qt5/src/Menus.cc:128
 #, fuzzy
 msgid "Quit"
 msgstr "_Konec"
@@ -616,15 +546,14 @@ msgstr "_Konec"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:207
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-#: ../ui/apps/qt5/src/Menus.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:111
 msgid "Reading mode"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "Považovat mikro-pauzy za aktivitu"
 
@@ -633,34 +562,30 @@ msgid "Repeated prompts"
 msgstr "Opakovaných upozornění"
 
 #: ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/gtkmm/src/Ui.cc:41
+#: ../ui/apps/qt5/src/Menus.cc:76
 msgid "Rest break"
 msgstr "Přestávka"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Přestávka o %s opožděná"
 
-#: ../ui/common/src/SoundTheme.cc:76
+#: ../ui/apps/gtkmm/src/Ui.cc:92
 msgid "Rest break ended"
 msgstr "Konec přestávky"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "Přestávka po %s"
 
-#: ../ui/common/src/SoundTheme.cc:70
+#: ../ui/apps/gtkmm/src/Ui.cc:89
 msgid "Rest break started"
 msgstr "Začátek přestávky"
 
@@ -673,14 +598,9 @@ msgid "Resume"
 msgstr "Obnovit"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Počet cvičení:"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
-msgid "Select"
-msgstr ""
 
 #: ../ui/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -692,18 +612,15 @@ msgstr "Protažení ramen a rukou"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "Zobrazit"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Zobrazit tlačítka 'Odložit' a 'Přeskočit'"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Zobrazit tlačítka 'Odložit' a 'Přeskočit'"
@@ -717,24 +634,16 @@ msgstr "Zobrazit _záznam"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 msgid "Show only when this timer is first due"
 msgstr "Zobrazit pouze, když časovač vyprší jako první"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "Zobrazit stavové okno"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:313
 msgid "Show system tray icon"
 msgstr ""
-
-#: ../ui/apps/qt5/src/BreakWindow.cc:157
-#, fuzzy
-msgid "Shut down"
-msgstr "_Vypnout"
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
@@ -742,46 +651,31 @@ msgid "Shutdown"
 msgstr "_Vypnout"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
-#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "Tichý v %s"
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:168
-#, fuzzy
-msgid "Skip"
-msgstr "_Přeskočit"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
-#, fuzzy
-msgid "Sound"
-msgstr "Zvuk:"
-
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:382
 msgid "Sound Events"
 msgstr ""
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:331
 #, fuzzy
 msgid "Sound Options"
 msgstr "Možnosti"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:390
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Zvuk:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:368
 msgid "Sound:"
 msgstr "Zvuk:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:108
 #, fuzzy
 msgid "Sounds"
 msgstr "Zvuk:"
@@ -790,17 +684,11 @@ msgstr "Zvuk:"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Otáčejte pravou rukou pomalu vedle těla jako letadlová vrtule. Udělejte to čtyřikrát dopředu, čtyřikrát dozadu a na chvíli se uvolněte. Opakujte s levou rukou."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
-#, fuzzy
-msgid "Start Workrave on Windows startup"
-msgstr "Workrave aplet"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:298
 msgid "Start Workrave on logon"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
@@ -808,18 +696,17 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Začněte s hlavou v pohodlně vzpřímené poloze. Potom pomalu naklánějte hlavu k pravému rameni do lehkého protažení svalů na levé straně krku. Vydržte v této poloze pět sekund. Potom naklánějte hlavu na levou stranu do lehkého protažení. Na obě strany to udělejte dvakrát."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-#: ../ui/apps/qt5/src/Menus.cc:117
+#: ../ui/apps/qt5/src/Menus.cc:118
 msgid "Statistics"
 msgstr "Statistika"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "Status Window"
 msgstr "Stavové okno"
 
@@ -836,13 +723,12 @@ msgstr "_Zastavený"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
 #: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:199 ../ui/apps/qt5/src/Menus.cc:96
 #, fuzzy
 msgid "Suspended"
 msgstr "_Zastavený"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
 msgstr ""
 
@@ -886,7 +772,6 @@ msgid "The number of times you were repeatedly prompted to break"
 msgstr "Počet opakovaných upozornění na pauzu"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "Stavové okno obvykle umístit nad všemi dalšími okny"
 
@@ -930,13 +815,11 @@ msgid "The total time you were using the mouse"
 msgstr "Celkový čas, po který jste používal myš"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Potřebujete přestávku..."
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 #, fuzzy
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
@@ -950,32 +833,26 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
+#: ../ui/apps/gtkmm/src/Menus.cc:363
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Tento program podporuje prevenci a regeneraci opakovaných bolestivých napětí (RSI)."
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "Čas před koncem:"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "Čas mezi pauzami:"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
-#: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "Čas na mikro-pauzu?"
 
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "Časovače"
 
@@ -995,22 +872,19 @@ msgstr "Otočte hlavou doleva a vydržte zde dvě sekundy. Potom otočte hlavu d
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:547
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
 msgid "User interface"
 msgstr "Uživatelské rozhraní"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:365
 msgid "Volume:"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
-#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "Čekat"
 
@@ -1019,7 +893,7 @@ msgstr "Čekat"
 msgid "Warning"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:446
 msgid "Wavefiles"
 msgstr ""
 
@@ -1027,20 +901,16 @@ msgstr ""
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../ui/apps/gtkmm/src/GUI.cc:768
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave aplet"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:488
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:481
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -1053,7 +923,6 @@ msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1064,12 +933,10 @@ msgstr ""
 "k práci něco jiného, například kontrolu dokumentů."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
-#: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "Potřebujete přestávku..."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
-#: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "Měl byste pro dnešek skončit..."
 
@@ -1189,6 +1056,10 @@ msgstr ""
 #~ msgid "About %s"
 #~ msgstr "O %s"
 
+#, fuzzy
+#~ msgid "About Workrave"
+#~ msgstr "Workrave"
+
 #~ msgid "Accepted new client."
 #~ msgstr "Akceptován nový klient."
 
@@ -1295,6 +1166,14 @@ msgstr ""
 #~ msgid "Enable networking"
 #~ msgstr "Povolit připojení do sítě"
 
+#, fuzzy
+#~ msgid "Enable sounds"
+#~ msgstr "Bez zvuků"
+
+#, fuzzy
+#~ msgid "Enabled"
+#~ msgstr "Povolit časovač"
+
 #~ msgid ""
 #~ "Enter the host name and port number of a computer\n"
 #~ "in the network you wish to connect to."
@@ -1364,6 +1243,10 @@ msgstr ""
 #~ msgstr "Port:"
 
 #, fuzzy
+#~ msgid "Postpone"
+#~ msgstr "_Odložit"
+
+#, fuzzy
 #~ msgid "Reconnect"
 #~ msgstr "_Obnovit spojení"
 
@@ -1405,14 +1288,30 @@ msgstr ""
 #~ msgstr "Zobrazit _záznam"
 
 #, fuzzy
+#~ msgid "Shut down"
+#~ msgstr "_Vypnout"
+
+#, fuzzy
 #~ msgid "Silent in"
 #~ msgstr "Tichý v %s"
+
+#, fuzzy
+#~ msgid "Skip"
+#~ msgstr "_Přeskočit"
+
+#, fuzzy
+#~ msgid "Sound"
+#~ msgstr "Zvuk:"
 
 #~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
 #~ msgstr "Stůjte u svého stolu a položte obě dlaně na stůl s prsty směrem k tělu. Zlehka napínejte zápěstí a dolní část rukou."
 
 #~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
 #~ msgstr "Vstaňte a zkuste rukama dosáhnout na strop bez zvednutí pat. Chvíli zůstaňte v této poloze. Potom spusťte ruce pomalu zpět k tělu, přitom je neohýbejte v loktech. Pokračujete v pohybu směrem k podlaze ohýbáním zad a pokuste se (pokud můžete) ruce položit před nohy. Opět se pomalu vracejte zpět do vzpřímené polohy."
+
+#, fuzzy
+#~ msgid "Start Workrave on Windows startup"
+#~ msgstr "Workrave aplet"
 
 #, fuzzy
 #~ msgid "Starting %s"
@@ -1447,6 +1346,9 @@ msgstr ""
 
 #~ msgid "Username:"
 #~ msgstr "Jméno:"
+
+#~ msgid "Workrave"
+#~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
 #~ msgstr "Workrave aplet"

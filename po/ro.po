@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2016-01-02 18:45+0000\n"
+"POT-Creation-Date: 2016-03-30 21:16+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -16,17 +16,17 @@ msgstr ""
 "X-Generator: Narro 0.9.2 on http://tradu.softwareliber.ro\n"
 "Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 
-#: ../ui/common/src/Text.cc:92
+#: ../ui/apps/gtkmm/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d secunde"
 
-#: ../ui/common/src/Text.cc:88
+#: ../ui/apps/gtkmm/src/Text.cc:88
 #, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minute"
 
-#: ../ui/common/src/Text.cc:84
+#: ../ui/apps/gtkmm/src/Text.cc:84
 #, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d ore"
@@ -36,24 +36,18 @@ msgstr "%s%d:%02d:%02d ore"
 msgid "%s, from %s to %s"
 msgstr "%s, de la %s la %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:259
 msgid "(font not available)"
 msgstr "(font indisponibil)"
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:50
-#, c-format
-msgid "<h3>Workrave %s</h3><br/>%s<br/>"
+#: ../ui/apps/gtkmm/src/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:44
-#, fuzzy
-msgid "About Workrave"
-msgstr "Workrave"
-
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../ui/apps/qt5/src/Menus.cc:122
+#: ../ui/apps/qt5/src/Menus.cc:123
 msgid "About..."
 msgstr "Despre..."
 
@@ -61,13 +55,11 @@ msgstr "Despre..."
 msgid "Activity"
 msgstr "Activitate"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:116
 msgid "Applet"
 msgstr "Applet"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "Applet activat"
 
@@ -79,45 +71,39 @@ msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 msgid "Backward shoulder stretch"
 msgstr "Întindeți umerii în spate"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "Blochează dispozitivele de intrare"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "Blochează dispozitivele de intrare și ecranul"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:195
 msgid "Block mode:"
 msgstr "Mod de blocare:"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "Durata pauzei:"
 
-#: ../ui/common/src/SoundTheme.cc:64
+#: ../ui/apps/gtkmm/src/Ui.cc:86
 msgid "Break ignored"
 msgstr "Pauză ignorată"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
-#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ../ui/common/src/SoundTheme.cc:58
+#: ../ui/apps/gtkmm/src/Ui.cc:83
 msgid "Break prompt"
 msgstr "Pauză sugerată"
 
 #. Prelude frame
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "Sugerarea pauzei"
 
@@ -141,7 +127,7 @@ msgstr "Pauze peste care s-a sărit"
 msgid "Browse history"
 msgstr "Răsfoiește istoricul"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:434
 msgid "Choose a sound"
 msgstr "Alegeți un sunet"
 
@@ -149,13 +135,7 @@ msgstr "Alegeți un sunet"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Acoperiți-vă ochii cu palmele în așa fel încât să puteți să vă puteți mișca pleoapele. Acum deschideți ochii și priviți în întunericul creat de palmele dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați ține închiși."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
-#: ../ui/common/src/SoundTheme.cc:366
-msgid "Custom"
-msgstr "Particularizat"
-
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "Timp ciclic:"
 
@@ -166,21 +146,17 @@ msgstr "Limită zilnică"
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:43
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169 ../ui/apps/gtkmm/src/Ui.cc:44
+#: ../ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Limită zilnică"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Limita zilnică amânată cu %s"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Limita zilnică în %s"
@@ -199,13 +175,11 @@ msgid "Delete all statistics history"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
-#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "Dispare în %s"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "Afișare"
 
@@ -217,30 +191,16 @@ msgstr "Mișcarea efectivă a mausului:"
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
-#, fuzzy
-msgid "Enable sounds"
-msgstr "Fără sunete"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:553
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "Activează cronometrul"
 
-#. sounds_view->setColumnWidth(0, 100);
-#. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
-#, fuzzy
-msgid "Enabled"
-msgstr "Activează cronometrul"
-
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 msgid "End exercises"
 msgstr "Încheie exercițiile"
 
@@ -248,33 +208,32 @@ msgstr "Încheie exercițiile"
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:418
 msgid "Event"
 msgstr "Eveniment"
 
-#: ../ui/common/src/SoundTheme.cc:112
+#: ../ui/apps/gtkmm/src/Ui.cc:110
 msgid "Exercise change"
 msgstr "Schimbare de exercițiu"
 
-#: ../ui/common/src/SoundTheme.cc:100
+#: ../ui/apps/gtkmm/src/Ui.cc:104
 msgid "Exercise ended"
 msgstr "Exercițiul s-a încheiat"
 
 #: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:80
+#: ../ui/apps/qt5/src/Menus.cc:81
 msgid "Exercises"
 msgstr "Exerciții"
 
-#: ../ui/common/src/SoundTheme.cc:106
+#: ../ui/apps/gtkmm/src/Ui.cc:107
 msgid "Exercises ended"
 msgstr "Exercițiile s-au încheiat"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "Program de redare a exercițiilor"
 
@@ -290,8 +249,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Întindeți-vă degetele"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:103
 msgid "General"
 msgstr "General"
 
@@ -301,7 +259,6 @@ msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "Ascunde"
 
@@ -325,13 +282,11 @@ msgstr "Țineți un braț întins orizontal în fața dumneavoastră. Împingeț
 msgid "Keystrokes:"
 msgstr "Taste apăsate:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:284
 msgid "Language:"
 msgstr "Limbă:"
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:319
-#: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_Blochează"
@@ -354,7 +309,6 @@ msgid "Look into the darkness"
 msgstr "Priviți în întuneric"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Numărul maxim de sugerări:"
 
@@ -362,15 +316,15 @@ msgstr "Numărul maxim de sugerări:"
 #: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ../ui/common/src/SoundTheme.cc:88
+#: ../ui/apps/gtkmm/src/Ui.cc:98
 msgid "Micro-break ended"
 msgstr "Micropauza s-a încheiat"
 
-#: ../ui/common/src/SoundTheme.cc:82
+#: ../ui/apps/gtkmm/src/Ui.cc:95
 msgid "Micro-break started"
 msgstr "Micropauza a început"
 
@@ -379,8 +333,8 @@ msgstr "Micropauza a început"
 msgid "Micro-break:"
 msgstr "Micropauză:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:205 ../ui/apps/qt5/src/Menus.cc:85
 #, fuzzy
 msgid "Mode"
 msgstr "_Mod"
@@ -418,8 +372,7 @@ msgstr "Mișcați-vă umerii"
 msgid "Move the shoulders up and down"
 msgstr "Mișcați-vă umerii în sus și în jos"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
@@ -429,7 +382,6 @@ msgid "Natural breaks taken"
 msgstr "Pauze naturale luate"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Pauze naturale luate"
@@ -439,51 +391,46 @@ msgid "Neck tilt stretch"
 msgstr "Înclinați capul pentru întinderea gâtului"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 msgid "Next exercise"
 msgstr "Următorul exercițiu"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Următoarea pauză de odihnă în %s"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "Fără blocare"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "No sounds"
 msgstr "Fără sunete"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ../ui/apps/qt5/src/Menus.cc:89
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "Numărul de exerciții:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ../ui/apps/qt5/src/Menus.cc:65
+#: ../ui/apps/qt5/src/Menus.cc:66
 #, fuzzy
 msgid "Open"
 msgstr "_Deschide"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:193
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "Opțiuni"
 
@@ -497,82 +444,65 @@ msgstr "Pauză"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 msgid "Pause exercises"
 msgstr "Pune exercițiile pe pauză"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "Plasează toate cronometrele în același loc"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Plasează micropauza și pauza de odihnă în același loc"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "Plasează cronometrele unul lângă altul"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "Plasament:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:413
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:431
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:461
 msgid "Play"
 msgstr "Redare"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "Play sounds using sound card"
 msgstr "Redă sunetele folosind placa de sunet"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "Relaxați-vă pentru câteva secunde"
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:179
-#, fuzzy
-msgid "Postpone"
-msgstr "_Amână"
-
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Amânare cu:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-#: ../ui/apps/qt5/src/Menus.cc:70
+#: ../ui/apps/qt5/src/Menus.cc:71
 msgid "Preferences"
 msgstr "Preferințe"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr "Exercițiul precedent"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Sugerează înainte de pauză"
 
@@ -593,15 +523,15 @@ msgstr "_Silențios"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
 #: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:103
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:201
+#: ../ui/apps/qt5/src/Menus.cc:104
 #, fuzzy
 msgid "Quiet"
 msgstr "_Silențios"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/qt5/src/Menus.cc:127
+#: ../ui/apps/qt5/src/Menus.cc:128
 #, fuzzy
 msgid "Quit"
 msgstr "_Închide"
@@ -609,15 +539,14 @@ msgstr "_Închide"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:207
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-#: ../ui/apps/qt5/src/Menus.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:111
 msgid "Reading mode"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "Tratează micropauzele ca activitate"
 
@@ -626,34 +555,30 @@ msgid "Repeated prompts"
 msgstr "Sugestii repetate"
 
 #: ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/gtkmm/src/Ui.cc:41
+#: ../ui/apps/qt5/src/Menus.cc:76
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pauză de odihnă amânată cu %s"
 
-#: ../ui/common/src/SoundTheme.cc:76
+#: ../ui/apps/gtkmm/src/Ui.cc:92
 msgid "Rest break ended"
 msgstr "Pauza de odihnă s-a încheiat"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "Pauză de odihnă pentru %s"
 
-#: ../ui/common/src/SoundTheme.cc:70
+#: ../ui/apps/gtkmm/src/Ui.cc:89
 msgid "Rest break started"
 msgstr "Pauza de odihnă a început"
 
@@ -666,13 +591,8 @@ msgid "Resume"
 msgstr "Continuă"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
-msgid "Select"
-msgstr ""
 
 #: ../ui/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -684,18 +604,15 @@ msgstr "Întindeți umărul și cotul"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "Arată"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
@@ -709,24 +626,16 @@ msgstr "Arată jurna_lul"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 msgid "Show only when this timer is first due"
 msgstr "Arată numai când cronometrul acesta e primul care expiră"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "Arată fereastra de stare"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:313
 msgid "Show system tray icon"
 msgstr ""
-
-#: ../ui/apps/qt5/src/BreakWindow.cc:157
-#, fuzzy
-msgid "Shut down"
-msgstr "_Închidere"
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
@@ -734,44 +643,29 @@ msgid "Shutdown"
 msgstr "_Închidere"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
-#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "Silețions în %s"
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:168
-#, fuzzy
-msgid "Skip"
-msgstr "_Sari peste"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
-#, fuzzy
-msgid "Sound"
-msgstr "Sunet:"
-
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:382
 msgid "Sound Events"
 msgstr "Evenimente sonore"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:331
 msgid "Sound Options"
 msgstr "Opțiuni legate de sunet"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:390
 msgid "Sound Theme:"
 msgstr "Tema sunetelor:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:368
 msgid "Sound:"
 msgstr "Sunet:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:108
 msgid "Sounds"
 msgstr "Sunete"
 
@@ -779,18 +673,12 @@ msgstr "Sunete"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Rotiți brațul drept ca o elice în dreptul corpului. Faceți asta de 4 ori înainte și de 4 ori înapoi după care relaxați-vă pentru câteva secunde. Repetați cu brațul stâng."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
-#, fuzzy
-msgid "Start Workrave on Windows startup"
-msgstr "Pornește Workrave odată cu Windows"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:298
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Pornește Workrave odată cu Windows"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
@@ -798,18 +686,17 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Începeți prin a găsi o poziție confortabilă a capului. Apoi, înclinați capul încet spre umărul drept pentru a întinde ușor mușchii de pe partea stânga a gâtului dumneavoastră. Mențineți poziția pentru 5 secunde. Apoi, înclinați ușor capul spre umărul stâng pentru a întinde cealaltă parte. Faceți acest lucru de două ori pentru fiecare parte."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-#: ../ui/apps/qt5/src/Menus.cc:117
+#: ../ui/apps/qt5/src/Menus.cc:118
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "Status Window"
 msgstr "Fereastra de stare"
 
@@ -826,13 +713,12 @@ msgstr "_Suspendat"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
 #: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:199 ../ui/apps/qt5/src/Menus.cc:96
 #, fuzzy
 msgid "Suspended"
 msgstr "_Suspendat"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
 msgstr "Definit de sistem"
 
@@ -873,7 +759,6 @@ msgid "The number of times you were repeatedly prompted to break"
 msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
 
@@ -915,13 +800,11 @@ msgid "The total time you were using the mouse"
 msgstr "Timpul total în care ați folosit mausul"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -934,32 +817,26 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
+#: ../ui/apps/gtkmm/src/Menus.cc:363
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
-#: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "E timpul pentru o micropauză?"
 
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "Cronometre"
 
@@ -979,22 +856,19 @@ msgstr "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi 
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:547
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
 msgid "User interface"
 msgstr "Interfața cu utilizatorul"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:365
 msgid "Volume:"
 msgstr "Volum:"
 
 #: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
-#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "Așteaptă"
 
@@ -1003,7 +877,7 @@ msgstr "Așteaptă"
 msgid "Warning"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:446
 msgid "Wavefiles"
 msgstr "Fișiere wav"
 
@@ -1011,20 +885,16 @@ msgstr "Fișiere wav"
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../ui/apps/gtkmm/src/GUI.cc:768
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:488
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:481
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -1037,7 +907,6 @@ msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1048,12 +917,10 @@ msgstr ""
 "Dacă ziua de lucru nu s-a încheiat încă, găsiți altceva de făcut, cum ar fi revizuirea unui document."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
-#: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
-#: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "Ar trebui să încheiați pe ziua de azi..."
 
@@ -1170,6 +1037,10 @@ msgstr "_Suspendat"
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
+#, fuzzy
+#~ msgid "About Workrave"
+#~ msgstr "Workrave"
+
 #~ msgid "Accepted new client."
 #~ msgstr "S-a acceptat un client nou."
 
@@ -1251,6 +1122,9 @@ msgstr ""
 #~ msgid "Could not enable network operation."
 #~ msgstr "Nu se poate activa lucrul în rețea."
 
+#~ msgid "Custom"
+#~ msgstr "Particularizat"
+
 #~ msgid "Daily usage"
 #~ msgstr "Uz zilnic"
 
@@ -1270,6 +1144,14 @@ msgstr ""
 
 #~ msgid "Enable networking"
 #~ msgstr "Activează lucrul cu rețeaua"
+
+#, fuzzy
+#~ msgid "Enable sounds"
+#~ msgstr "Fără sunete"
+
+#, fuzzy
+#~ msgid "Enabled"
+#~ msgstr "Activează cronometrul"
 
 #~ msgid ""
 #~ "Enter the host name and port number of a computer\n"
@@ -1322,6 +1204,10 @@ msgstr ""
 #~ msgstr "Port:"
 
 #, fuzzy
+#~ msgid "Postpone"
+#~ msgstr "_Amână"
+
+#, fuzzy
 #~ msgid "Reconnect"
 #~ msgstr "_Reconectare"
 
@@ -1356,8 +1242,24 @@ msgstr ""
 #~ msgid "Show _log"
 #~ msgstr "Arată jurna_lul"
 
+#, fuzzy
+#~ msgid "Shut down"
+#~ msgstr "_Închidere"
+
 #~ msgid "Silent in"
 #~ msgstr "Silențiozitate în"
+
+#, fuzzy
+#~ msgid "Skip"
+#~ msgstr "_Sari peste"
+
+#, fuzzy
+#~ msgid "Sound"
+#~ msgstr "Sunet:"
+
+#, fuzzy
+#~ msgid "Start Workrave on Windows startup"
+#~ msgstr "Pornește Workrave odată cu Windows"
 
 #, fuzzy
 #~ msgid "Starting %s"
@@ -1388,6 +1290,9 @@ msgstr ""
 
 #~ msgid "Username:"
 #~ msgstr "Nume de utilizator:"
+
+#~ msgid "Workrave"
+#~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
 #~ msgstr "Applet Workrave"
