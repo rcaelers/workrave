@@ -115,7 +115,7 @@ BreakConfig::load_break_config()
 DayTimePred *
 BreakConfig::create_time_pred(string spec)
 {
-  DayTimePred *pred = 0;
+  DayTimePred *pred = nullptr;
   bool ok = false;
 
   std::string type;
@@ -137,7 +137,7 @@ BreakConfig::create_time_pred(string spec)
   if (pred && !ok)
     {
       delete pred;
-      pred = NULL;
+      pred = nullptr;
     }
 
   return pred;

@@ -127,7 +127,7 @@ DayTimePred::get_next(time_t last_time)
 
   ret = localtime(&last_time);
 
-  if (ret != NULL)
+  if (ret != nullptr)
     {
       if (time_cmp(ret->tm_hour, ret->tm_min, pred_hour, pred_min) >= 0)
         {

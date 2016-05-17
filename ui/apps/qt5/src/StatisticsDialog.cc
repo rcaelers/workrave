@@ -60,10 +60,10 @@ using namespace workrave;
 
 StatisticsDialog::StatisticsDialog()
   : QDialog(),
-    daily_usage_time_label(NULL),
-    weekly_usage_time_label(NULL),
-    monthly_usage_time_label(NULL),
-    date_label(NULL),
+    daily_usage_time_label(nullptr),
+    weekly_usage_time_label(nullptr),
+    monthly_usage_time_label(nullptr),
+    date_label(nullptr),
     update_usage_real_time(false)
 {
   ICore::Ptr core = Backend::get_core();
@@ -71,7 +71,7 @@ StatisticsDialog::StatisticsDialog()
 
   for (int i = 0; i < 5; i++)
     {
-      activity_labels[i] = NULL;
+      activity_labels[i] = nullptr;
     }
 
   init_gui();
@@ -316,7 +316,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
   IStatistics::DailyStats empty;
   bool is_empty;
 
-  is_empty = stats == NULL;
+  is_empty = stats == nullptr;
   if (is_empty)
     {
       stats = &empty;
@@ -416,7 +416,7 @@ StatisticsDialog::display_week_statistics()
       if (idx >= 0)
         {
           IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != NULL)
+          if (stats != nullptr)
             {
               total_week += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
             }
@@ -464,7 +464,7 @@ StatisticsDialog::display_month_statistics() {
       if (idx >= 0)
         {
           IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != NULL)
+          if (stats != nullptr)
             {
               total_month += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
             }
@@ -493,7 +493,7 @@ StatisticsDialog::clear_display_statistics()
     }
   for (int i = 0; i <= 4; i++)
     {
-      if (activity_labels[i] != NULL)
+      if (activity_labels[i] != nullptr)
         {
           activity_labels[i]->setText("");
         }
@@ -534,7 +534,7 @@ StatisticsDialog::display_calendar_date()
 {
   int idx, next, prev;
   get_calendar_day_index(idx, next, prev);
-  IStatistics::DailyStats *stats = NULL;
+  IStatistics::DailyStats *stats = nullptr;
   if (idx >= 0)
     {
       stats = statistics->get_day(idx);

@@ -35,7 +35,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 TimerBoxView::TimerBoxView() :
-  sheep(NULL),
+  sheep(nullptr),
   reconfigure(true),
   size(0),
   visible_count(-1),
@@ -45,8 +45,8 @@ TimerBoxView::TimerBoxView() :
     {
       new_content[i] = BREAK_ID_NONE;
       current_content[i] = BREAK_ID_NONE;
-      labels[i] = NULL;
-      bars[i] = NULL;
+      labels[i] = nullptr;
+      bars[i] = nullptr;
     }
   
   init();

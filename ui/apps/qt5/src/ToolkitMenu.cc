@@ -69,7 +69,7 @@ SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
 
   for (const MenuModel::Ptr &item : menu_model->get_submenus())
     {
-      add_menu(item, 0);
+      add_menu(item, nullptr);
     }
 
   connections.connect(menu_model->signal_added(), std::bind(&SubMenuEntry::on_menu_added, this, std::placeholders::_1, std::placeholders::_2));
@@ -158,7 +158,7 @@ ActionMenuEntry::get_action() const
 void
 ActionMenuEntry::on_menu_changed()
 {
-  if (action != NULL)
+  if (action != nullptr)
     {
       action->setText(menu_model->get_text().c_str());
       action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);

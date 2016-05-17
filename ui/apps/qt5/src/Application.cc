@@ -136,7 +136,7 @@ void
 Application::init_platform()
 {
  System::init();
- srand((unsigned int)time(NULL));
+ srand((unsigned int)time(nullptr));
 }
 
 void

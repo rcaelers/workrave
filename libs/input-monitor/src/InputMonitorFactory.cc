@@ -33,12 +33,12 @@
 using namespace workrave::config;
 using namespace workrave::input_monitor;
 
-workrave::input_monitor::IInputMonitorFactory *workrave::input_monitor::InputMonitorFactory::factory = NULL;
+workrave::input_monitor::IInputMonitorFactory *workrave::input_monitor::InputMonitorFactory::factory = nullptr;
 
 void
 InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 {
-  if (factory == NULL)
+  if (factory == nullptr)
     {
 #if defined(PLATFORM_OS_WIN32)
       factory = new W32InputMonitorFactory(config);
@@ -49,7 +49,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 #endif
     }
 
-  if (factory != NULL)
+  if (factory != nullptr)
     {
       factory->init(display);
     }
@@ -58,7 +58,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 IInputMonitor::Ptr
 InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  if (factory != NULL)
+  if (factory != nullptr)
     {
       return factory->create_monitor(capability);
     }

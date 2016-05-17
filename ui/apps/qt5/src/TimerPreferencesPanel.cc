@@ -35,22 +35,22 @@ using namespace workrave;
 using namespace workrave::config;
 
 TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<SizeGroup> hsize_group, std::shared_ptr<SizeGroup> vsize_group)
-  : QWidget(0, Qt::Window),
+  : QWidget(nullptr, Qt::Window),
     break_id(break_id),
     hsize_group(hsize_group),
     vsize_group(vsize_group),
-    enabled_cb(NULL),
-    auto_natural_cb(NULL),
-    has_max_prelude_cb(NULL),
-    ignorable_cb(NULL),
-    monitor_cb(NULL),
-    prelude_cb(NULL),
-    skippable_cb(NULL),
-    exercises_spin(NULL),
-    max_prelude_spin(NULL),
-    auto_reset_tim(NULL),
-    limit_tim(NULL),
-    snooze_tim(NULL)
+    enabled_cb(nullptr),
+    auto_natural_cb(nullptr),
+    has_max_prelude_cb(nullptr),
+    ignorable_cb(nullptr),
+    monitor_cb(nullptr),
+    prelude_cb(nullptr),
+    skippable_cb(nullptr),
+    exercises_spin(nullptr),
+    max_prelude_spin(nullptr),
+    auto_reset_tim(nullptr),
+    limit_tim(nullptr),
+    snooze_tim(nullptr)
 {
   connector = std::make_shared<DataConnector>();
 
@@ -127,7 +127,7 @@ TimerPreferencesPanel::create_options_panel()
   skippable_cb = new QCheckBox(tr("Show 'Skip' button"));
   layout->addWidget(skippable_cb);
 
-  monitor_cb = NULL;
+  monitor_cb = nullptr;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb = new QCheckBox(tr("Regard micro-breaks as activity"));
@@ -301,7 +301,7 @@ TimerPreferencesPanel::enable_buttons()
   ignorable_cb->setEnabled(on);
   skippable_cb->setEnabled(on);
 
-  if (monitor_cb != NULL)
+  if (monitor_cb != nullptr)
     {
       monitor_cb->setEnabled(on);
     }
@@ -317,7 +317,7 @@ TimerPreferencesPanel::enable_buttons()
     }
   else
     {
-      if (auto_reset_tim != NULL)
+      if (auto_reset_tim != nullptr)
         {
           auto_reset_tim->setEnabled(on);
         }

@@ -125,7 +125,7 @@ DBusQt5::introspect(const QString &path) const
         {
           string interface_name = interface.first;
           DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
-          if (binding != NULL)
+          if (binding != nullptr)
             {
               str += binding->get_interface_introspect();
             }
@@ -145,10 +145,10 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
   try
     {
       void *cobject = find_object(path, interface_name);
-      if (cobject != NULL)
+      if (cobject != nullptr)
         {
           DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
-          if (binding != NULL)
+          if (binding != nullptr)
             {
               success = binding->call(cobject, message, connection);
             }

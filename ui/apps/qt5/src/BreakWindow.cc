@@ -65,17 +65,17 @@ BreakWindow::BreakWindow(int screen,
                          BreakId break_id,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode)
-  : QWidget(0, Qt::Window
+  : QWidget(nullptr, Qt::Window
             | Qt::WindowStaysOnTopHint
             | Qt::FramelessWindowHint),
     break_id(break_id),
     screen(screen),
     block_mode(mode),
     break_flags(break_flags),
-    frame(NULL),
+    frame(nullptr),
     is_flashing(false),
-    gui(NULL),
-    block_window(NULL)
+    gui(nullptr),
+    block_window(nullptr)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 #ifdef PLATFORM_OS_OSX
@@ -124,7 +124,7 @@ BreakWindow::init()
 
 BreakWindow::~BreakWindow()
 {
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
@@ -273,7 +273,7 @@ BreakWindow::resume_non_ignorable_break()
 QHBoxLayout *
 BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 {
-  QHBoxLayout *box = NULL;
+  QHBoxLayout *box = nullptr;
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
@@ -327,7 +327,7 @@ BreakWindow::start()
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       block_window = new QWidget();
-      block_window->setParent(0);
+      block_window->setParent(nullptr);
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
@@ -446,12 +446,12 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
 
-  if (block_window != NULL)
+  if (block_window != nullptr)
     {
       block_window->hide();
 
@@ -481,7 +481,7 @@ BreakWindow::refresh()
 
   ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       if (user_active && !is_flashing)
         {

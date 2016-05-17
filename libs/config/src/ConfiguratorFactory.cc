@@ -51,8 +51,8 @@ using namespace workrave::config;
 IConfigurator::Ptr
 ConfiguratorFactory::create(Format fmt)
 {
-  Configurator *c =  NULL;
-  IConfigBackend *b = NULL;
+  Configurator *c =  nullptr;
+  IConfigBackend *b = nullptr;
 
   if (fmt == FormatNative)
     {
@@ -79,7 +79,7 @@ ConfiguratorFactory::create(Format fmt)
       b = new IniConfigurator();
     }
 
-  if (b != NULL)
+  if (b != nullptr)
     {
       c = new Configurator(b);
     }

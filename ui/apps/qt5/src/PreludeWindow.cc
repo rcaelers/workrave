@@ -44,7 +44,7 @@ using namespace workrave::utils;
 #endif
 
 PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
-  : QWidget(0),
+  : QWidget(nullptr),
     break_id(break_id),
     screen(screen),
     progress_value(0),
@@ -224,7 +224,7 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
-  const char *icon = NULL;
+  const char *icon = nullptr;
   switch(stage)
     {
     case IApp::STAGE_INITIAL:
@@ -257,7 +257,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       break;
     }
 
-  if (icon != NULL)
+  if (icon != nullptr)
     {
       std::string file = AssetPath::complete_directory(icon, AssetPath::SEARCH_PATH_IMAGES);
       image->setPixmap(QPixmap(file.c_str()));

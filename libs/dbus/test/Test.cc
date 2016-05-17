@@ -60,7 +60,7 @@ struct Fixture
 
     int argc = 1;
     char argv1[] = "test";
-    char* argv[] = {argv1, NULL};
+    char* argv[] = {argv1, nullptr};
     app = new QCoreApplication(argc, argv);
 
     qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypes>();
