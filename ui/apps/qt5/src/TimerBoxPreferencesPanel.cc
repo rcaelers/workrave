@@ -291,7 +291,7 @@ TimerBoxPreferencesPanel::on_place_changed()
 }
 
 void
-TimerBoxPreferencesPanel::enable_buttons(void)
+TimerBoxPreferencesPanel::enable_buttons()
 {
   int num_disabled = 0;
   for (auto &button : timer_display_button)
