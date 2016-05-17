@@ -37,8 +37,7 @@ DBusBindingQt5::DBusBindingQt5(IDBus::Ptr dbus)
 }
 
 DBusBindingQt5::~DBusBindingQt5()
-{
-}
+= default;
 
 void
 DBusMarshallQt5::get_uint8(const QVariant &variant, uint8_t &value)

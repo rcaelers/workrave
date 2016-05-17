@@ -43,8 +43,7 @@ DBusGeneric::DBusGeneric()
 
 //! Destruct the D-BUS bridge
 DBusGeneric::~DBusGeneric()
-{
-}
+= default;
 
 
 //! Connect a D-DBUS object/interface to a C object

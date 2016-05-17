@@ -45,8 +45,7 @@ public:
   }
 
   ~Fixture()
-  {
-  }
+  = default;
 
   void init()
   {

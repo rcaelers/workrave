@@ -38,8 +38,7 @@ XmlConfigurator::XmlConfigurator()
 
 
 XmlConfigurator::~XmlConfigurator()
-{
-}
+= default;
 
 
 bool

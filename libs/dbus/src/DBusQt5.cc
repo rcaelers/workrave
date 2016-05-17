@@ -47,8 +47,7 @@ DBusQt5::DBusQt5()
 
 //! Destruct the D-BUS bridge
 DBusQt5::~DBusQt5()
-{
-}
+= default;
 
 
 //! Initialize D-BUS bridge

@@ -39,8 +39,7 @@ OSXConfigurator::OSXConfigurator()
 
 
 OSXConfigurator::~OSXConfigurator()
-{
-}
+= default;
 
 
 bool

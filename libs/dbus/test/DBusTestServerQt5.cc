@@ -48,8 +48,7 @@ DBusTestServerQt5::DBusTestServerQt5()
 
 //! Destructor.
 DBusTestServerQt5::~DBusTestServerQt5()
-{
-}
+= default;
 
 int main(int argc, char **argv)
 {

@@ -33,8 +33,7 @@ DBusDummy::DBusDummy()
 
 
 DBusDummy::~DBusDummy()
-{
-}
+= default;
 
 
 void
