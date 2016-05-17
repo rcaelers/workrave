@@ -72,7 +72,7 @@ TimerBoxView::init()
 
   SizeGroup *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
 
-  for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       QPixmap pixmap(Ui::get_break_icon_filename(i));
 

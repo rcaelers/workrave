@@ -89,7 +89,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   all_linguas.push_back("en");
 
   languages_combo = new QComboBox();
-  model = new QStandardItemModel(all_linguas.size(), 2);
+  model = new QStandardItemModel(static_cast<int>(all_linguas.size()), 2);
 
   QTreeView *languages_view = new QTreeView;
   languages_combo->setView(languages_view);

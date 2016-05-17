@@ -28,8 +28,10 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   if (PLATFORM_ARCH EQUAL 32)
     set(APPLET_TARGET "workrave-applet")
+    set(APPLET_INSTALL_DIR "lib")
   else()
     set(APPLET_TARGET "workrave-applet64")
+    set(APPLET_INSTALL_DIR "lib64")
   endif()
 
   add_library(${APPLET_TARGET} SHARED ${SOURCES})
@@ -38,6 +40,6 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
   target_link_libraries(${APPLET_TARGET} shlwapi) #   kernel32 user32 gdi32 winspool comdlg32 advapi32  shell32 ole32 oleaut32 uuid odbc32 odbccp32)
 
   install(TARGETS ${APPLET_TARGET}
-          RUNTIME DESTINATION lib
+          RUNTIME DESTINATION ${APPLET_INSTALL_DIR}
   )
 endif()

@@ -74,7 +74,7 @@ Platform::registry_set_value(const char *path, const char *name,
       if (value != NULL)
         {
           err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
-                              strlen(value)+1);
+			  static_cast<DWORD>(strlen(value)+1));
         }
       else
         {

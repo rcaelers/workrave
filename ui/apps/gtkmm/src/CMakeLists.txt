@@ -150,7 +150,7 @@ add_executable(workrave ${SRC})
 add_cppcheck(workrave)
 
 ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
-    COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
+    # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
     COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
         $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
     COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded

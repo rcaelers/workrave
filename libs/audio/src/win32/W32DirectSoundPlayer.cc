@@ -483,7 +483,7 @@ WaveFile::init()
   TRACE_EXIT();
 }
 
-size_t
+DWORD
 WaveFile::get_size()
 {
     return sample_size;
