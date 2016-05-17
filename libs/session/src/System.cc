@@ -286,10 +286,9 @@ System::lock_screen()
 {
   TRACE_ENTER("System::lock");
 
-  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin();
-      iter != lock_commands.end(); ++iter)
+  for (auto & lock_command : lock_commands)
     {
-      if ((*iter)->lock())
+      if (lock_command->lock())
         {
           TRACE_RETURN(true);
           return true;
@@ -375,23 +374,22 @@ bool System::execute(SystemOperation::SystemOperationType type)
     }
   else
     {
-      for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
-                      iter != system_state_commands.end(); ++iter)
+      for (auto & system_state_command : system_state_commands)
         {
           bool ret = false;
           switch (type)
             {
               case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-                ret = ((*iter)->shutdown());
+                ret = (system_state_command->shutdown());
                 break;
               case SystemOperation::SYSTEM_OPERATION_SUSPEND:
-                ret = ((*iter)->suspend());
+                ret = (system_state_command->suspend());
                 break;
               case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-                ret = ((*iter)->hibernate());
+                ret = (system_state_command->hibernate());
                 break;
               case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-                ret = ((*iter)->suspendHybrid());
+                ret = (system_state_command->suspendHybrid());
                 break;
               default:
                 throw "System::execute: Unknown system operation";
@@ -454,25 +452,24 @@ System::init()
           SystemOperation("Lock", SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN));
     }
 
-  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
-      iter != system_state_commands.end(); ++iter)
+  for (auto & system_state_command : system_state_commands)
     {
-      if ((*iter)->canShutdown())
+      if (system_state_command->canShutdown())
         {
           supported_system_operations.push_back(
               SystemOperation("Shutdown", SystemOperation::SYSTEM_OPERATION_SHUTDOWN));
         }
-      if ((*iter)->canSuspend())
+      if (system_state_command->canSuspend())
         {
           supported_system_operations.push_back(
               SystemOperation("Suspend", SystemOperation::SYSTEM_OPERATION_SUSPEND));
         }
-      if ((*iter)->canHibernate())
+      if (system_state_command->canHibernate())
         {
           supported_system_operations.push_back(
               SystemOperation("Hibernate", SystemOperation::SYSTEM_OPERATION_HIBERNATE));
         }
-      if ((*iter)->canSuspendHybrid())
+      if (system_state_command->canSuspendHybrid())
         {
           supported_system_operations.push_back(
               SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
@@ -487,17 +484,15 @@ System::init()
 void
 System::clear()
 {
-  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin();
-        iter != lock_commands.end(); ++iter)
+  for (auto & lock_command : lock_commands)
     {
-      delete *iter;
+      delete lock_command;
     }
   lock_commands.clear();
 
-  for (std::vector<ISystemStateChangeMethod*>::iterator iter = system_state_commands.begin();
-      iter != system_state_commands.end(); ++iter)
+  for (auto & system_state_command : system_state_commands)
     {
-      delete *iter;
+      delete system_state_command;
     }
   system_state_commands.clear();
 

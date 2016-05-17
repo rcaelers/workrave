@@ -263,9 +263,9 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
     }
 
   stats_file << "m " << STATS_VALUE_SIZEOF << " ";
-  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+  for(int64_t misc_stat : stats->misc_stats)
     {
-      stats_file << stats->misc_stats[j] << " ";
+      stats_file << misc_stat << " ";
     }
   stats_file << endl;
 
@@ -591,10 +591,8 @@ Statistics::dump()
     }
 
   ss << "stats ";
-  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+  for(int64_t value : current_day->misc_stats)
     {
-      int64_t value = current_day->misc_stats[j];
-
       ss  << value << " ";
     }
 

@@ -111,9 +111,9 @@ TimerBoxView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int timer : new_content)
         {
-          if (new_content[i] != BREAK_ID_NONE)
+          if (timer != BREAK_ID_NONE)
             {
               number_of_timers++;
             }
