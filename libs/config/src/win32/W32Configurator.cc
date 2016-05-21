@@ -235,7 +235,7 @@ W32Configurator::set_config_value(const string &key, string v)
                        NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
-      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *) v.c_str(), v.length()+1);
+      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *) v.c_str(), static_cast<DWORD>(v.length()+1));
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
     }

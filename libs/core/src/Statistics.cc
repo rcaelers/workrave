@@ -620,7 +620,7 @@ Statistics::get_day(int day) const
     {
       if (day > 0)
         {
-          day = history.size() - day;
+          day = static_cast<int>(history.size()) - day;
         }
       else
         {
@@ -643,9 +643,9 @@ Statistics::get_day_index_by_date(int y, int m, int d,
 {
   TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
   idx = next = prev = -1;
-  for (int i = 0; i <= int(history.size()); i++)
+  for (int i = 0; i <= static_cast<int>(history.size()); i++)
     {
-      int j = history.size() - i;
+      int j = static_cast<int>(history.size() - i);
       DailyStatsImpl *stats = j == 0 ? current_day : history[i];
       if (idx < 0 && stats->starts_at_date(y, m, d))
         {
@@ -677,7 +677,7 @@ Statistics::get_day_index_by_date(int y, int m, int d,
 int
 Statistics::get_history_size() const
 {
-  return history.size();
+  return static_cast<int>(history.size());
 }
 
 

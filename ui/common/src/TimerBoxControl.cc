@@ -155,7 +155,7 @@ TimerBoxControl::update_widgets()
       ICore::Ptr core = Backend::get_core();
       IBreak::Ptr b = core->get_break(count);
 
-      int value;
+      time_t value;
       TimerColorId primary_color;
       int primary_val, primary_max;
       TimerColorId secondary_color;
@@ -196,7 +196,7 @@ TimerBoxControl::update_widgets()
           secondary_max = static_cast<int>(breakDuration);
         }
 
-      view->set_time_bar(BreakId(count), value,
+      view->set_time_bar(BreakId(count), static_cast<int>(value),
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
     }

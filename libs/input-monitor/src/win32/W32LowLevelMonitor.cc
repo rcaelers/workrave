@@ -308,12 +308,12 @@ DWORD W32LowLevelMonitor::dispatch_thread()
               // msg.wParam == x coord
               // msg.lParam == y coord
               case WM_MOUSEMOVE:
-                  fire_mouse( msg.wParam, msg.lParam, 0 );
+                  fire_mouse( static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 0 );
                   break;
 
               case WM_MOUSEWHEEL:
               case WM_MOUSEHWHEEL:
-                  fire_mouse( msg.wParam, msg.lParam, 1 );
+                  fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 1 );
                   break;
 
               case WM_LBUTTONDOWN:

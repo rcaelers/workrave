@@ -135,7 +135,7 @@ W32SoundPlayer::open()
   buffer_position            = 0;
 
   res = waveOutOpen(&waveout, WAVE_MAPPER, &format,
-                    (DWORD) wave_event, (DWORD) 0,CALLBACK_EVENT);
+                    (DWORD_PTR) wave_event, (DWORD_PTR) 0, CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("waveOutOpen");
@@ -198,10 +198,10 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
           WaitForSingleObject(wave_event, INFINITE);
         }
 
-      size_t chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
+      DWORD chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
       if (ptr + chunck_size > end)
         {
-          chunck_size = end - ptr;
+          chunck_size = static_cast<DWORD>(end - ptr);
         }
 
       memcpy(buffers[i]->lpData + buffers[i]->dwBytesRecorded, ptr, chunck_size);

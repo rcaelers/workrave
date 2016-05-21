@@ -1,14 +1,19 @@
-set(SRC
-  src/zapper.c
-  )
+set(SRC src/zapper.c)
 
 add_library(zapper-0 SHARED ${SRC})
+set_target_properties(zapper-0 PROPERTIES LINK_FLAGS "-static-libgcc")
+
 install(TARGETS zapper-0 RUNTIME DESTINATION dist)
 
 install (FILES WizModernImage.bmp DESTINATION dist)
 install (FILES WizModernSmall.bmp DESTINATION dist)
 
+string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+
 file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
+
+set(LANG_ISS "${CMAKE_CURRENT_BINARY_DIR}/lang.iss")
+file(WRITE ${LANG_ISS} "; Translations\n")
 
 foreach (po_file ${POFILES})
   get_filename_component(language ${po_file} NAME_WE)
@@ -38,6 +43,8 @@ foreach (po_file ${POFILES})
     install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
     # TODO: else: give warning, once
   endif()
+
+  file(APPEND ${LANG_ISS} "Source: \"${INSTALLDIR}\\lib\\locale\\${language}\\LC_MESSAGES\\*.*\"; DestDir: \"{app}\\lib\\locale\\${language}\\LC_MESSAGES\"; Flags: ignoreversion;\n")
 endforeach()
 
 if ("${WITH_UI}" STREQUAL "Gtk+2")
@@ -65,7 +72,7 @@ install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/
 install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
 if (HAVE_PREBUILT_CMAKE)
-  file(GLOB FILES64BIT ${PREBUILT_PATH}/lib/*.*)
+  file(GLOB FILES64BIT ${PREBUILT_PATH}/lib64/*.*)
   install(FILES ${FILES64BIT} DESTINATION lib64)
 elseif(HAVE_PREBUILT_VISUAL_STUDIO)
   install (FILES ${PREBUILT_PATH}/Release/harpoon.dll DESTINATION lib)
@@ -82,7 +89,6 @@ configure_file(
   ESCAPE_QUOTES
 )
 
-string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"

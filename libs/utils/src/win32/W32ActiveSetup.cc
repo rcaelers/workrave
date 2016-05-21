@@ -112,7 +112,7 @@ const WCHAR *W32ActiveSetup::get_user_profile_dir()
 
     buffer.resize( ret );
 
-    ret  = GetEnvironmentVariableW( env_var, &buffer[ 0 ], buffer.size() );
+    ret  = GetEnvironmentVariableW( env_var, &buffer[ 0 ], static_cast<DWORD>(buffer.size()) );
     if( !ret || ( ret >= buffer.size() ) || !*buffer.begin() )
         return NULL;
 
@@ -355,7 +355,7 @@ bool W32ActiveSetup::write_to_registry_value(
         0,
         REG_SZ,
         (const BYTE *)data.c_str(),
-        ( ( data.length() + 1 ) * sizeof( wchar_t ) )
+		static_cast<int>( ( data.length() + 1 ) * sizeof( wchar_t ) )
     );
 
     CloseHandle( hkey );

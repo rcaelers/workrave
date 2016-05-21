@@ -90,7 +90,6 @@ set (${OUT} TRUE)
   foreach(file ${FILES})
     if (NOT EXISTS "${DIRECTORY}/${file}")
       set (${OUT} FALSE)
-      message(STATUS "${DIRECTORY}/${file}")
     endif()
   endforeach()
 endmacro()
@@ -558,16 +557,16 @@ if (WIN32)
       "Release/harpoon.dll")
 
     set(PREBUILT_CMAKE_TARGETS
-      "lib/workrave-applet64.dll"
-      "lib/WorkraveHelper.exe"
-      "lib/harpoon64.dll")
+      "lib64/workrave-applet64.dll"
+      "lib64/WorkraveHelper.exe"
+      "lib64/harpoon64.dll")
 
     set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt targets")
 
     if (NOT PREBUILT_PATH)
-      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${CMAKE_SOURCE_DIR}" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
+      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${CMAKE_SOURCE_DIR}/Output" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
       if (HAVE_PREBUILT_VISUAL_STUDIO)
-        set(PREBUILT_PATH ${CMAKE_SOURCE_DIR})
+        set(PREBUILT_PATH "${CMAKE_SOURCE_DIR}/Output")
       endif()
     endif()
 

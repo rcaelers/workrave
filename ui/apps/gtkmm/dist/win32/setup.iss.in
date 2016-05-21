@@ -55,18 +55,17 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 ;;Name: "{app}\etc\dbus-1\session.d"
 
 [Files]
+Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
 Source: "@INSTALLDIR@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs;
-#include "libraries.iss"
 Source: "@INSTALLDIR@\lib\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALLDIR@\lib64\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALLDIR@\lib64\WorkraveHelper.exe"; DestDir: "{app}\lib"; DestName: "WorkraveHelper.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALLDIR@\lib\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
-Source: "@INSTALLDIR@\lib64\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
-Source: "@INSTALLDIR@\share\themes\*.*"; DestDir: "{app}\share\themes\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
+Source: "@INSTALLDIR@\lib\gtk-2.0\*.*"; DestDir: "{app}\lib\gtk-2.0"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\icons\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALLDIR@\share\glib-2.0\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\glib-2.0\*.*"; DestDir: "{app}\share\glib-2.0"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\themes\*.*"; DestDir: "{app}\share\themes"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\default\*.wav"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\default\soundtheme"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
@@ -77,8 +76,9 @@ Source: "@INSTALLDIR@\share\doc\workrave\COPYING.txt"; DestDir: "{app}"; DestNam
 Source: "@INSTALLDIR@\share\doc\workrave\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\doc\workrave\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\doc\workrave\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
+
+#include "libraries.iss"
+#include "lang.iss"
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
