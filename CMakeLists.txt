@@ -587,9 +587,6 @@ if (WIN32)
     else()
       message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
     endif()
-
-    if (NOT (HAVE_PREBUILT_CMAKE OR HAVE_PREBUILT_VISUAL_STUDIO))
-    endif()
   endif()
 
   if (NOT ISCC)
