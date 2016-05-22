@@ -21,10 +21,6 @@
 
 #include "BreakWindow.hh"
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <QtGui>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -35,7 +31,6 @@
 #endif
 
 #include "debug.hh"
-
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "session/System.hh"
@@ -65,9 +60,7 @@ BreakWindow::BreakWindow(int screen,
                          BreakId break_id,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode)
-  : QWidget(nullptr, Qt::Window
-            | Qt::WindowStaysOnTopHint
-            | Qt::FramelessWindowHint),
+  : QWidget(nullptr, Qt::Window),
     break_id(break_id),
     screen(screen),
     block_mode(mode),
@@ -81,6 +74,7 @@ BreakWindow::BreakWindow(int screen,
 #ifdef PLATFORM_OS_OSX
   priv = std::make_shared<Private>();
 #endif
+
   TRACE_EXIT();
 }
 
@@ -90,14 +84,13 @@ BreakWindow::init()
 {
   gui = create_gui();
 
-  // if (mode != GUIConfig::BLOCK_MODE_NONE)
-  //   {
-  //     // Disable titlebar to appear like a popup
-  //     set_decorated(false);
-  //     set_skip_taskbar_hint(true);
-  //     set_skip_pager_hint(true);
-  //     window->set_functions(Gdk::FUNC_MOVE);
-  //   }
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+    {
+      setWindowFlags(windowFlags()
+                     | Qt::WindowStaysOnTopHint
+                     | Qt::FramelessWindowHint
+                     | Qt::SplashScreen);
+    }
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
@@ -408,7 +401,7 @@ BreakWindow::start()
         Clipping: NO (not defined)
         Background: #51a0aa
         Scaling: updown (not defined)
-        
+
         fit to screen
         Clipping: NO
         Background: #51a0aa
@@ -429,7 +422,7 @@ BreakWindow::start()
         Background: #51a0aa
         Scaling: updown (not defined)
       */
-    
+
 #endif
     }
   // Set window hints.
