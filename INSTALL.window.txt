@@ -1,0 +1,124 @@
+Compiling Workrave with MSYS2
+=============================
+
+MSYS2/MinGW-w64 can be used to build the gtk2, gtk3 and qt5 Workave UI.
+The Qt5 UI is incomplete. The instructions below show compilatio of the gtk2 UI.
+
+Install dependencies
+--------------------
+
+Make sure all dependencies are installed:
+
+  - Install MSYS2
+    http://msys2.github.io/
+
+    Follow the instructions on the MSYS2 website.
+
+  - Install Inno Setup
+    http://www.jrsoftware.org/isinfo.php
+
+  - Install Visual Studio 2015 (Optional)
+
+  - Install MinGW-w64 packages
+
+    Open a MSYS2 command prompt:
+
+    pacman -S git make                     \
+              intltool                     \
+              mingw-w64-i686-gtkmm         \
+              mingw-w64-i686-boost         \
+              mingw-w64-i686-gcc           \
+              mingw-w64-i686-pkg-config    \
+              mingw-w64-i686-cmake         \
+              mingw-w64-i686-libtool       \
+              mingw-w64-i686-iso-codes     \
+              mingw-w64-i686-gettext       \
+              mingw-w64-x86_64-boost       \
+              mingw-w64-x86_64-cmake       \
+              mingw-w64-x86_64-gcc         \
+              mingw-w64-x86_64-pkg-config  \
+
+Compiling the 64 bit parts of Workrave
+--------------------------------------
+
+This can be done using MinGW or Visual Studio 2015.
+
+Using Visual Studio 2015:
+
+  - Open workrave\libs\hooks\harpoon.sln and build *all* configurations
+  - Open workrave\ui\applets\win32\src\Applet.sln and build *all* configurations
+
+Using Mingw:
+
+  - Open a MinGW-w64 Win64 Shell
+
+    Enter the following commands.
+
+      mkdir -p build/workrave-mingw64-noui
+      mkdir -p build/workrave-mingw64-noui-install
+
+      cd build/workrave-mingw64-noui
+      cmake <LOCATION-TO-WORKRAVE-SOURCES> -G"MSYS Makefiles" \
+          -DWITH_UI=None \
+          -DCMAKE_INSTALL_PREFIX=../workrave-mingw64-noui-install \
+          -DCMAKE_BUILD_TYPE=Release
+      make install
+
+Compiling the 32 bit parts of Workrave
+-------------------------------------
+
+  - Open a MinGW-w64 Win32 Shell
+
+    Enter the following commands.
+
+      mkdir -p build/workrave-mingw32-gtk2
+      mkdir -p build/workrave-mingw32-gtk2-install
+
+      cd build/workrave-mingw32-gtk2
+      cmake <LOCATION-TO-WORKRAVE-SOURCES> -G"MSYS Makefiles" \
+          -DWITH_UI=Gtk+2 \
+          -DCMAKE_INSTALL_PREFIX=../workrave-mingw32-gtk2-install \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DPREBUILT_PATH=../workrave-mingw64-noui-install
+      make install
+
+    Note: "-DPREBUILT_PATH=../workrave-mingw64-noui-install" must be omitted
+          if the 64 bit parts have been build using Visual Studio.
+
+Visual Studio 2015 (VC 14)
+==========================
+
+Note: Visual Studio can only be used to build the (incomplete) Qt5 UI.
+The gtkmm UI can only be compiled using MSYS.
+
+Make sure all dependencies are installed:
+
+  - Visual Studio 2015 (Update 2)
+
+  - CMake (3.5.2)
+    https://cmake.org/download/
+
+  - Qt (5.6.0)
+    https://www.qt.io/download-open-source/
+
+    Download 64 bit version for Visual Studio 2015
+
+  - Boost 64-bit (1.61.0)
+    https://sourceforge.net/projects/boost/files/boost-binaries/
+
+    Download 64 bit version for Visual Studio 2015
+    e.g. boost_1_61_0-msvc-14.0-64.exe
+
+Open a command prompt
+
+    mkdir workrave-build
+    cd workrave-build
+
+    cmake <LOCATION-OF-WORKRAVE-SOURCE>\src\workrave -G"Visual Studio 14 2015 Win64" -DWITH_UI=Qt5 -DCMAKE_BUILD_TYPE_INIT=Release \
+          -DCMAKE_INSTALL_PREFIX="<INSTALL-LOCATION>" -DCMAKE_PREFIX_PATH="<PATH-TO-QT>" -DBOOST_ROOT="<PATH-TO-BOOST>"
+
+    e.g.
+    cmake .. -G"Visual Studio 14 2015 Win64" -DWITH_UI=Qt5 -DCMAKE_BUILD_TYPE_INIT=Release \
+          -DCMAKE_INSTALL_PREFIX="C:\Workrave" -DCMAKE_PREFIX_PATH="C:\Qt\5.6\msvc2015_64" -DBOOST_ROOT="C:\local\boost_1_61_0"
+
+    Open Workrave solution in visual studio (locatied in workrave-build directory)
