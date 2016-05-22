@@ -189,8 +189,7 @@ SoundTheme::SoundTheme()
 }
 
 SoundTheme::~SoundTheme()
-{
-}
+= default;
 
 void
 SoundTheme::init()

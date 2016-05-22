@@ -34,8 +34,7 @@ TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer:
 }
 
 TimerActivityMonitor::~TimerActivityMonitor()
-{
-}
+= default;
 
 void
 TimerActivityMonitor::suspend()

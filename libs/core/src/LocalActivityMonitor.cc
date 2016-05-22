@@ -77,7 +77,7 @@ LocalActivityMonitor::init()
   connections.add(CoreConfig::key_monitor().connect(std::bind(&LocalActivityMonitor::load_config, this)));
 
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
     }
@@ -92,7 +92,7 @@ LocalActivityMonitor::terminate()
 {
   TRACE_ENTER("LocalActivityMonitor::terminate");
 
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->terminate();
     }

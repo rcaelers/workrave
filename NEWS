@@ -1,9 +1,29 @@
-Workrave NEWS -- history of user-visible changes.  24 Dec 2014
+Workrave NEWS -- history of user-visible changes.  11 May 2016
 Copyright (C) 2001-2014 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
+
+* Workrave 1.10.15
+
+** Fix crash when no shutdown/hibernate options are available.
+
+** Updated traditional Chinese translation (Kevin Kuan)
+
+* Workrave 1.10.14
+
+** Fixed issue where pressing the down key during a restbreak would
+   lock the screen (bug #1242)
+
+* Workrave 1.10.13
+
+** Use button instead of combobox if only 'Lock' is available in
+   restbreak window (pedantic-git)
+
+** Update german translation (rsnitsch)
+
+** Support Gnome Shell 3.20 (Francois Marier) 
 
 * Workrave 1.10.12
 
@@ -20,7 +40,7 @@ http://www.workrave.org
    
 ** Minor improvements
 
-* Workrave 1.10.8
+* Workrave 1.10.9
 
 ** UI tweak
 
@@ -682,7 +702,7 @@ the last program exit.
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2016 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the

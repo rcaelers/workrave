@@ -35,7 +35,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 TimerBoxView::TimerBoxView() :
-  sheep(NULL),
+  sheep(nullptr),
   reconfigure(true),
   size(0),
   visible_count(-1),
@@ -45,8 +45,8 @@ TimerBoxView::TimerBoxView() :
     {
       new_content[i] = BREAK_ID_NONE;
       current_content[i] = BREAK_ID_NONE;
-      labels[i] = NULL;
-      bars[i] = NULL;
+      labels[i] = nullptr;
+      bars[i] = nullptr;
     }
   
   init();
@@ -111,9 +111,9 @@ TimerBoxView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int timer : new_content)
         {
-          if (new_content[i] != BREAK_ID_NONE)
+          if (timer != BREAK_ID_NONE)
             {
               number_of_timers++;
             }

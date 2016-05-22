@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2016-01-02 18:45+0000\n"
+"POT-Creation-Date: 2016-03-30 21:16+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -14,17 +14,17 @@ msgstr ""
 "X-Poedit-Country: Korea\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../ui/common/src/Text.cc:92
+#: ../ui/apps/gtkmm/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d 초"
 
-#: ../ui/common/src/Text.cc:88
+#: ../ui/apps/gtkmm/src/Text.cc:88
 #, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d 분 %02d 초"
 
-#: ../ui/common/src/Text.cc:84
+#: ../ui/apps/gtkmm/src/Text.cc:84
 #, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d 시간 %02d 분 %02d 초"
@@ -34,24 +34,18 @@ msgstr "%s%d 시간 %02d 분 %02d 초"
 msgid "%s, from %s to %s"
 msgstr "%s,  %s 부터 %s 까지"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:258
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:259
 msgid "(font not available)"
 msgstr "(글꼴을 사용할 수 없음)"
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:50
-#, c-format
-msgid "<h3>Workrave %s</h3><br/>%s<br/>"
+#: ../ui/apps/gtkmm/src/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ../ui/apps/qt5/src/AboutDialog.cc:44
-#, fuzzy
-msgid "About Workrave"
-msgstr "Workrave"
-
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../ui/apps/qt5/src/Menus.cc:122
+#: ../ui/apps/qt5/src/Menus.cc:123
 msgid "About..."
 msgstr "제품정보..."
 
@@ -59,13 +53,11 @@ msgstr "제품정보..."
 msgid "Activity"
 msgstr "활동"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:115
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:105
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:116
 msgid "Applet"
 msgstr "애플릿"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:82
 msgid "Applet enabled"
 msgstr "애플릿 사용"
 
@@ -77,45 +69,39 @@ msgstr "반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 
 msgid "Backward shoulder stretch"
 msgstr "뒤쪽으로 어깨를 뻗습니다."
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:58
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input"
 msgstr "입력 차단"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:59
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
 msgid "Block input and screen"
 msgstr "입력과 화면 차단"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:82
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:195
 msgid "Block mode:"
 msgstr "차단 방식"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:225
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:191
 msgid "Break duration:"
 msgstr "휴식 시간:"
 
-#: ../ui/common/src/SoundTheme.cc:64
+#: ../ui/apps/gtkmm/src/Ui.cc:86
 msgid "Break ignored"
 msgstr "무시된 휴식 "
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:309
-#: ../ui/apps/qt5/src/PreludeWindow.cc:212
 #, c-format
 msgid "Break in %s"
 msgstr "%s 경과 후 휴식"
 
-#: ../ui/common/src/SoundTheme.cc:58
+#: ../ui/apps/gtkmm/src/Ui.cc:83
 msgid "Break prompt"
 msgstr "휴식 알림"
 
 #. Prelude frame
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:111
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:89
 msgid "Break prompting"
 msgstr "휴식 알림"
 
@@ -139,7 +125,7 @@ msgstr "건너뛴 휴식"
 msgid "Browse history"
 msgstr "탐색 기록"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:433
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:434
 msgid "Choose a sound"
 msgstr "소리 선택"
 
@@ -147,13 +133,7 @@ msgstr "소리 선택"
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "손바닥으로 눈을 덮는 데, 눈꺼풀이 뜰 수 있는 정도로 말이죠. 이제 눈을 뜨고서 손바닥의 어둠을 응시합니다. 이런 훈련은 단순히 눈을 감는 것과 비교하여 여러분에게 보다 높은 안정감을 줍니다."
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:243
-#: ../ui/common/src/SoundTheme.cc:366
-msgid "Custom"
-msgstr "사용자 설정"
-
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:182
 msgid "Cycle time:"
 msgstr "시간 주기:"
 
@@ -164,21 +144,17 @@ msgstr "일일 제한"
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:169
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
-#: ../ui/common/src/Ui.cc:43
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:169 ../ui/apps/gtkmm/src/Ui.cc:44
+#: ../ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "일일 제한"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:269
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:148
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "일간 제한 %s를 넘어섬"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:264
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:144
 #, c-format
 msgid "Daily limit in %s"
 msgstr "%s으로 일간 제한"
@@ -197,13 +173,11 @@ msgid "Delete all statistics history"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:313
-#: ../ui/apps/qt5/src/PreludeWindow.cc:216
 #, c-format
 msgid "Disappears in %s"
 msgstr "%s 후에 사라짐"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:169
 msgid "Display"
 msgstr "표시"
 
@@ -215,30 +189,16 @@ msgstr "의미있는 마우스 움직임:"
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:71
-#, fuzzy
-msgid "Enable sounds"
-msgstr "소리사용 안함"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:552
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:553
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr ""
 
 #. Enabled/Disabled checkbox
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:70
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:62
 msgid "Enable timer"
 msgstr "시간 조절기 사용"
 
-#. sounds_view->setColumnWidth(0, 100);
-#. sounds_view->setColumnWidth(1, 200);
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:113
-#, fuzzy
-msgid "Enabled"
-msgstr "시간 조절기 사용"
-
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:302
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:124
 msgid "End exercises"
 msgstr "운동 종료"
 
@@ -246,33 +206,32 @@ msgstr "운동 종료"
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:417
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:418
 msgid "Event"
 msgstr "활동"
 
-#: ../ui/common/src/SoundTheme.cc:112
+#: ../ui/apps/gtkmm/src/Ui.cc:110
 msgid "Exercise change"
 msgstr "운동 바꾸기"
 
-#: ../ui/common/src/SoundTheme.cc:100
+#: ../ui/apps/gtkmm/src/Ui.cc:104
 msgid "Exercise ended"
 msgstr "운동 종료됨"
 
 #: ../ui/apps/gtkmm/src/ExercisesDialog.cc:40
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:173
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../ui/apps/qt5/src/Menus.cc:80
+#: ../ui/apps/qt5/src/Menus.cc:81
 msgid "Exercises"
 msgstr "운동"
 
-#: ../ui/common/src/SoundTheme.cc:106
+#: ../ui/apps/gtkmm/src/Ui.cc:107
 msgid "Exercises ended"
 msgstr "운동이 종료됨"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:262
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:99
 msgid "Exercises player"
 msgstr "운동 연습자"
 
@@ -288,8 +247,7 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "손가락을 뻗습니다"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:102
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:102
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:103
 msgid "General"
 msgstr "일반"
 
@@ -299,7 +257,6 @@ msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:146
 msgid "Hide"
 msgstr "숨기기"
 
@@ -323,13 +280,11 @@ msgstr "가슴 앞으로 한 팔을 수평으로 뻗은 상태에서 다른 쪽 
 msgid "Keystrokes:"
 msgstr "키입력:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:283
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:155
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:284
 msgid "Language:"
 msgstr "언어:"
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:319
-#: ../ui/apps/qt5/src/BreakWindow.cc:146
 #, fuzzy
 msgid "Lock"
 msgstr "_잠금"
@@ -352,7 +307,6 @@ msgid "Look into the darkness"
 msgstr "어둠 속을 바라 봅니다."
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:117
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "최대 알림 수:"
 
@@ -360,15 +314,15 @@ msgstr "최대 알림 수:"
 #: ../ui/apps/gtkmm/src/GUI.cc:1422 ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:179
-#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/common/src/Ui.cc:37
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:277 ../ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr "잠깐 휴식"
 
-#: ../ui/common/src/SoundTheme.cc:88
+#: ../ui/apps/gtkmm/src/Ui.cc:98
 msgid "Micro-break ended"
 msgstr "잠깐의 휴식이 끝남"
 
-#: ../ui/common/src/SoundTheme.cc:82
+#: ../ui/apps/gtkmm/src/Ui.cc:95
 msgid "Micro-break started"
 msgstr "잠깐 휴식 시작됨"
 
@@ -377,8 +331,8 @@ msgstr "잠깐 휴식 시작됨"
 msgid "Micro-break:"
 msgstr "잠깐 휴식:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:204 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:205 ../ui/apps/qt5/src/Menus.cc:85
 #, fuzzy
 msgid "Mode"
 msgstr "작업방식(_M)"
@@ -415,8 +369,7 @@ msgstr "어깨를 움직입니다"
 msgid "Move the shoulders up and down"
 msgstr "어깨를 위 아래로 움직입니다"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:373
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:78
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 msgid "Mute sounds during rest break and daily limit"
 msgstr "정규 휴식과 일일 제한 동안에는 소리 죽이기"
 
@@ -425,7 +378,6 @@ msgid "Natural breaks taken"
 msgstr "자연스럽게 취한 휴식"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:201
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 msgid "Natural rest break"
 msgstr "자연스런 휴식"
 
@@ -434,51 +386,46 @@ msgid "Neck tilt stretch"
 msgstr "목을 기울여 뻗어줍니다"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:297
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:122
 msgid "Next exercise"
 msgstr "다음 운동"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:131
 #, c-format
 msgid "Next rest break in %s"
 msgstr "다음 휴식은 %s 후입니다"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:166
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:57
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:167
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:171
 msgid "No blocking"
 msgstr "차단하지 않음"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:339
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
 msgid "No sounds"
 msgstr "소리사용 안함"
 
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../ui/applets/mate/src/main.c:324
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196 ../ui/apps/qt5/src/Menus.cc:88
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ../ui/apps/qt5/src/Menus.cc:89
 #, fuzzy
 msgid "Normal"
 msgstr "보통(_N)"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:145
 msgid "Number of exercises:"
 msgstr "운동 횟수:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ../ui/apps/qt5/src/Menus.cc:65
+#: ../ui/apps/qt5/src/Menus.cc:66
 #, fuzzy
 msgid "Open"
 msgstr "열기(_O)"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:193
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:123
 msgid "Options"
 msgstr "선택사항"
 
@@ -492,82 +439,65 @@ msgstr "잠시 대기"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:123
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:295
 msgid "Pause exercises"
 msgstr "운동 잠시 중지"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:102
 msgid "Place all timers in one spot"
 msgstr "모든 시간 조절기를 한 곳에  둠"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "잠깐 휴식과 정규 휴식을 한 곳에 둠"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "정규 휴식과 일일 제한은 한 곳에 둠"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:99
 msgid "Place timers next to each other"
 msgstr "시간 조절(기)를 서로 옆에 둠"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:181
 msgid "Placement:"
 msgstr "위치 :"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:412
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:430
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:460
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:142
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:413
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:431
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:461
 msgid "Play"
 msgstr "재생"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:340
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:343
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
 msgid "Play sounds using sound card"
 msgstr "사운드카드를 사용하여 소리 재생"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:239
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:125
 msgid "Please relax for a few seconds"
 msgstr "잠시동안 긴장을 푸세요."
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:179
-#, fuzzy
-msgid "Postpone"
-msgstr "_연기시킴"
-
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:240
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "연기 시간:"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-#: ../ui/apps/qt5/src/Menus.cc:70
+#: ../ui/apps/qt5/src/Menus.cc:71
 msgid "Preferences"
 msgstr "환경설정"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:296
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:121
 msgid "Previous exercise"
 msgstr "이전 운동"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "휴식 전 알림"
 
@@ -588,14 +518,14 @@ msgstr "조~용(_u)"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
 #: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1433
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
-#: ../ui/apps/qt5/src/Menus.cc:103
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:201
+#: ../ui/apps/qt5/src/Menus.cc:104
 msgid "Quiet"
 msgstr "조용"
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ../ui/apps/qt5/src/Menus.cc:127
+#: ../ui/apps/qt5/src/Menus.cc:128
 #, fuzzy
 msgid "Quit"
 msgstr "끝내기(_Q)"
@@ -603,15 +533,14 @@ msgstr "끝내기(_Q)"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../ui/applets/mate/src/main.c:317
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:207
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-#: ../ui/apps/qt5/src/Menus.cc:110
+#: ../ui/apps/qt5/src/Menus.cc:111
 msgid "Reading mode"
 msgstr "읽기방식"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:136
 msgid "Regard micro-breaks as activity"
 msgstr "잠깐 휴식을 활동으로 간주"
 
@@ -620,34 +549,30 @@ msgid "Repeated prompts"
 msgstr "반복된 알림"
 
 #: ../ui/apps/gtkmm/src/GUI.cc:1422
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:74
-#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/qt5/src/Menus.cc:75
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:46
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:150 ../ui/common/src/Ui.cc:40
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207 ../ui/apps/gtkmm/src/Ui.cc:41
+#: ../ui/apps/qt5/src/Menus.cc:76
 msgid "Rest break"
 msgstr "정규 휴식"
 
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-#: ../ui/apps/qt5/src/MicroBreakWindow.cc:135
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "%s 초과 휴식"
 
-#: ../ui/common/src/SoundTheme.cc:76
+#: ../ui/apps/gtkmm/src/Ui.cc:92
 msgid "Rest break ended"
 msgstr "정규 휴식 끝남"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:159
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:97
 #, c-format
 msgid "Rest break for %s"
 msgstr "%s 동안 휴식"
 
-#: ../ui/common/src/SoundTheme.cc:70
+#: ../ui/apps/gtkmm/src/Ui.cc:89
 msgid "Rest break started"
 msgstr "휴식 시작됨"
 
@@ -660,13 +585,8 @@ msgid "Resume"
 msgstr "다시 시작"
 
 #: ../ui/apps/gtkmm/src/ExercisesPanel.cc:490
-#: ../ui/apps/qt5/src/ExercisesPanel.cc:291
 msgid "Resume exercises"
 msgstr "운동 다시 시작"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:176
-msgid "Select"
-msgstr ""
 
 #: ../ui/data/exercises/exercises.xml.in.h:4
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -678,18 +598,15 @@ msgstr "어깨-팔 펴기"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:147
 msgid "Show"
 msgstr "보이기"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:127
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "'연기시킴'과 '건너뛰기' 버튼 보이기"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:151
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:130
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "'연기시킴'과 '건너뛰기' 버튼 보이기"
@@ -703,24 +620,16 @@ msgstr "로그표시(_l)"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:148
 msgid "Show only when this timer is first due"
 msgstr "시간조절(기)가 처음 설정된 때만 표시"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:78
 msgid "Show status window"
 msgstr "상태 창에 표시"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:312
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:171
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:313
 msgid "Show system tray icon"
 msgstr "시계표시줄에 아이콘 표시"
-
-#: ../ui/apps/qt5/src/BreakWindow.cc:157
-#, fuzzy
-msgid "Shut down"
-msgstr "_종료"
 
 #: ../ui/apps/gtkmm/src/BreakWindow.cc:323
 #, fuzzy
@@ -728,44 +637,29 @@ msgid "Shutdown"
 msgstr "_종료"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:317
-#: ../ui/apps/qt5/src/PreludeWindow.cc:220
 #, c-format
 msgid "Silent in %s"
 msgstr "%s 경과 후 잠잠잠"
 
-#: ../ui/apps/qt5/src/BreakWindow.cc:168
-#, fuzzy
-msgid "Skip"
-msgstr "_건너뛰기"
-
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:114
-#, fuzzy
-msgid "Sound"
-msgstr "소리:"
-
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:381
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:83
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:382
 msgid "Sound Events"
 msgstr "소리 효과"
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:52
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:331
 msgid "Sound Options"
 msgstr "소리 선택사항"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:389
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:89
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:390
 msgid "Sound Theme:"
 msgstr "소리 테마:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:367
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:368
 msgid "Sound:"
 msgstr "소리:"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:107
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:103
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:108
 msgid "Sounds"
 msgstr "소리"
 
@@ -773,18 +667,12 @@ msgstr "소리"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "오른쪽 팔을 느리게 몸의 옆으로 비행기 프로펠러처럼 돌립니다. 이것을 앞 쪽으로 4회 하고, 뒤쪽으로 4회 합니다. 그리고 잠깐 긴장을 풀고. 왼쪽 팔로 반복합니다."
 
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:160
-#, fuzzy
-msgid "Start Workrave on Windows startup"
-msgstr "윈도우즈 시작시 Workrave 시작"
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:297
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:298
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "윈도우즈 시작시 Workrave 시작"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
@@ -792,18 +680,17 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "머리를 편안한 방향으로 뻗습니다.  그리고 느리게 머리를 오른쪽 어깨 쪽으로 기울여 목의 왼쪽 근육을 부드럽게 뻗을 수 있게 합니다. 이 동작을 5초 동안 유지합니다. 그리고, 머리를 왼쪽으로 기울여 반대쪽으로 뻗습니다. 이 동작을 각각 2번 합니다."
 
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:211
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:177
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:61
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:162
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-#: ../ui/apps/qt5/src/Menus.cc:117
+#: ../ui/apps/qt5/src/Menus.cc:118
 msgid "Statistics"
 msgstr "통계"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:104
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "Status Window"
 msgstr "상태 창"
 
@@ -820,12 +707,11 @@ msgstr "일시중지"
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
 #: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1429
-#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:95
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:199 ../ui/apps/qt5/src/Menus.cc:96
 msgid "Suspended"
 msgstr "일시중지"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:214
-#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:111
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:215
 msgid "System default"
 msgstr "시스템 설정 사용"
 
@@ -866,7 +752,6 @@ msgid "The number of times you were repeatedly prompted to break"
 msgstr "반복적으로 휴식을 알린 횟수"
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:92
 msgid "The status window stays always on top of other windows"
 msgstr "상태 창은 다른 창 위에 항상 표시함"
 
@@ -908,12 +793,10 @@ msgid "The total time you were using the mouse"
 msgstr "마우스를 사용한 총 시간"
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:202
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:145
 msgid "This is your natural rest break."
 msgstr "이것은 여러분이 선택한 휴식입니다."
 
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:208
-#: ../ui/apps/qt5/src/RestBreakWindow.cc:151
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -926,32 +809,26 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
 #: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
-#: ../ui/apps/gtkmm/src/Menus.cc:363 ../ui/apps/qt5/src/AboutDialog.cc:58
+#: ../ui/apps/gtkmm/src/Menus.cc:363
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "이 프로그램은 반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 도움을 제공합니다."
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:217
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:178
 msgid "Time before end:"
 msgstr "전에 :"
 
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:179
 msgid "Time between breaks:"
 msgstr "휴식 간 시간:"
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
-#: ../ui/apps/qt5/src/PreludeWindow.cc:69
 msgid "Time for a micro-break?"
 msgstr "잠깐의 휴식 어때요 ?"
 
 #. Notebook
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:119
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:64
-#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:184
-#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:170
 msgid "Timers"
 msgstr "시간 조절(기)"
 
@@ -971,22 +848,19 @@ msgstr "머리를 왼쪽으로 돌려서 2초 동안 그대로 유지합니다. 
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:546
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:547
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ../ui/apps/qt5/src/PreferencesDialog.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
 msgid "User interface"
 msgstr "사용자 화면"
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
-#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:67
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:365
 msgid "Volume:"
 msgstr "소리 크기:"
 
 #: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:212
-#: ../ui/apps/qt5/src/TimerBoxView.cc:98
 msgid "Wait"
 msgstr "기다려"
 
@@ -995,7 +869,7 @@ msgstr "기다려"
 msgid "Warning"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:445
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:446
 msgid "Wavefiles"
 msgstr "Wav 파일"
 
@@ -1003,20 +877,16 @@ msgstr "Wav 파일"
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/qt5/src/Application.cc:554 ../ui/apps/qt5/src/Application.cc:560
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../ui/apps/gtkmm/src/GUI.cc:768
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "윈도우즈 시작시 Workrave 시작"
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:561
+#: ../ui/apps/gtkmm/src/GUI.cc:1294 ../ui/apps/qt5/src/Application.cc:488
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:555
+#: ../ui/apps/gtkmm/src/GUI.cc:1288 ../ui/apps/qt5/src/Application.cc:481
 msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
 msgstr ""
 
@@ -1029,7 +899,6 @@ msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57
-#: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -1040,12 +909,10 @@ msgstr ""
 "다른 일을 찾아보세요. 예를 들어, 문서 검토같은..."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
-#: ../ui/apps/qt5/src/PreludeWindow.cc:73
 msgid "You need a rest break..."
 msgstr "휴식이 필요해요..."
 
 #: ../ui/apps/gtkmm/src/PreludeWindow.cc:120
-#: ../ui/apps/qt5/src/PreludeWindow.cc:77
 msgid "You should stop for today..."
 msgstr "오늘은 그만해야 해요..."
 
@@ -1162,6 +1029,10 @@ msgstr "일시중지(_S)"
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
+#, fuzzy
+#~ msgid "About Workrave"
+#~ msgstr "Workrave"
+
 #~ msgid "Accepted new client."
 #~ msgstr "새로운 클라언트 "
 
@@ -1229,6 +1100,9 @@ msgstr ""
 #~ msgid "Could not enable network operation."
 #~ msgstr "네트워크 작업을 할 수 없음"
 
+#~ msgid "Custom"
+#~ msgstr "사용자 설정"
+
 #~ msgid "Daily usage"
 #~ msgstr "일일 사용량"
 
@@ -1247,6 +1121,14 @@ msgstr ""
 
 #~ msgid "Enable networking"
 #~ msgstr "네트워킹 사용"
+
+#, fuzzy
+#~ msgid "Enable sounds"
+#~ msgstr "소리사용 안함"
+
+#, fuzzy
+#~ msgid "Enabled"
+#~ msgstr "시간 조절기 사용"
 
 #~ msgid ""
 #~ "Enter the host name and port number of a computer\n"
@@ -1310,6 +1192,10 @@ msgstr ""
 #~ msgstr "포트:"
 
 #, fuzzy
+#~ msgid "Postpone"
+#~ msgstr "_연기시킴"
+
+#, fuzzy
 #~ msgid "Reading Mode"
 #~ msgstr "읽기방식"
 
@@ -1351,11 +1237,27 @@ msgstr ""
 #~ msgid "Show session management options"
 #~ msgstr "세션 관리 선택사항 표시"
 
+#, fuzzy
+#~ msgid "Shut down"
+#~ msgstr "_종료"
+
+#, fuzzy
+#~ msgid "Skip"
+#~ msgstr "_건너뛰기"
+
+#, fuzzy
+#~ msgid "Sound"
+#~ msgstr "소리:"
+
 #~ msgid "Specify file containing saved configuration"
 #~ msgstr "저장된 환경설장 파일 지정"
 
 #~ msgid "Specify session management ID"
 #~ msgstr "세션 관리 ID 지정"
+
+#, fuzzy
+#~ msgid "Start Workrave on Windows startup"
+#~ msgstr "윈도우즈 시작시 Workrave 시작"
 
 #~ msgid "Starting %s"
 #~ msgstr "%s 시작 중"
@@ -1381,6 +1283,9 @@ msgstr ""
 
 #~ msgid "Username:"
 #~ msgstr "사용자명:"
+
+#~ msgid "Workrave"
+#~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
 #~ msgstr "Workrave 애플릿"

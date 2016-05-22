@@ -109,9 +109,9 @@ public:
     last_value(0),
     last_max_value(0)
   {
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    for (int & i : prelude_count)
       {
-        prelude_count[i] = 0;
+        i = 0;
       }
   }
 

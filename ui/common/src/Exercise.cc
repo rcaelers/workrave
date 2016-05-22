@@ -45,7 +45,7 @@ exercise_parse_update_i18n_attribute(const char * const *languages,
                                      const std::string &new_value,
                                      const std::string &new_lang)
 {
- if (languages != NULL)
+ if (languages != nullptr)
     {
       const char *nl = new_lang.c_str();
       size_t nl_len = strlen(nl);
@@ -57,7 +57,7 @@ exercise_parse_update_i18n_attribute(const char * const *languages,
           nl_len = 2;
         }
 
-      for (r = 0; languages[r] != NULL; r++)
+      for (r = 0; languages[r] != nullptr; r++)
         {
           const char *lang = (const char *) languages[r];
 
@@ -67,7 +67,7 @@ exercise_parse_update_i18n_attribute(const char * const *languages,
             }
         }
 
-      if (languages[r] == NULL)
+      if (languages[r] == nullptr)
         {
           // Language not found...
           if (cur_rank < 0)
@@ -123,7 +123,7 @@ Exercise::parse_exercises(const char *file_name,
 #ifdef HAVE_GLIB
   const char * const *languages =  g_get_language_names();
 #else
-  const char * const *languages =  NULL;
+  const char * const *languages =  nullptr;
 #endif
 
   for (boost::property_tree::ptree::value_type &v : pt.get_child("exercises"))
@@ -145,7 +145,7 @@ Exercise::parse_exercises(const char *file_name,
                   string title = v.second.get<string>("title");
 
                   exercise_parse_update_i18n_attribute
-                        (NULL, exercise.title,
+                        (nullptr, exercise.title,
                          title_lang_rank, title, lang);
                 }
               else if (ve.first == "description")

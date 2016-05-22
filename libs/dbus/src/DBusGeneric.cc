@@ -43,8 +43,7 @@ DBusGeneric::DBusGeneric()
 
 //! Destruct the D-BUS bridge
 DBusGeneric::~DBusGeneric()
-{
-}
+= default;
 
 
 //! Connect a D-DBUS object/interface to a C object
@@ -52,7 +51,7 @@ void
 DBusGeneric::connect(const std::string &object_path, const std::string &interface_name, void *cobject)
 {
   DBusBinding *binding = find_binding(interface_name);
-  if (binding == NULL)
+  if (binding == nullptr)
     {
       throw DBusException("No such interface");
     }
@@ -99,7 +98,7 @@ DBusGeneric::register_binding(const std::string &name, DBusBinding *interface)
 DBusBinding *
 DBusGeneric::find_binding(const std::string &interface_name) const
 {
-  DBusBinding *ret = NULL;
+  DBusBinding *ret = nullptr;
 
   BindingCIter it = bindings.find(interface_name);
   if (it != bindings.end())
@@ -114,7 +113,7 @@ DBusGeneric::find_binding(const std::string &interface_name) const
 void *
 DBusGeneric::find_object(const std::string &path, const std::string &interface_name) const
 {
-  void *cobject = NULL;
+  void *cobject = nullptr;
 
   ObjectCIter object_it = objects.find(path);
   if (object_it != objects.end())

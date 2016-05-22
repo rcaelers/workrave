@@ -49,7 +49,7 @@ using namespace workrave::input_monitor;
 
 Statistics::Statistics(IActivityMonitor::Ptr monitor) :
   monitor(monitor),
-  current_day(NULL),
+  current_day(nullptr),
   been_active(false),
   prev_x(-1),
   prev_y(-1),
@@ -71,7 +71,7 @@ Statistics::~Statistics()
 
   delete current_day;
 
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->unsubscribe(this);
     }
@@ -83,12 +83,12 @@ void
 Statistics::init()
 {
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
     }
 
-  current_day = NULL;
+  current_day = nullptr;
   bool ok = load_current_day();
   if (!ok)
     {
@@ -107,7 +107,7 @@ Statistics::update()
 
   if (monitor->is_active())
     {
-      const time_t now = time(NULL);
+      const time_t now = time(nullptr);
       struct tm *tmnow = localtime(&now);
       current_day->stop = *tmnow;
 
@@ -156,7 +156,7 @@ Statistics::delete_all_history()
       if (current_day)
         {
           delete current_day;
-          current_day = NULL;
+          current_day = nullptr;
         }
       start_new_day();
     }
@@ -170,17 +170,17 @@ void
 Statistics::start_new_day()
 {
   TRACE_ENTER("Statistics::start_new_day");
-  const time_t now = time(NULL);
+  const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
-  if (current_day == NULL ||
+  if (current_day == nullptr ||
       tmnow->tm_mday !=  current_day->start.tm_mday ||
       tmnow->tm_mon  !=  current_day->start.tm_mon  ||
       tmnow->tm_year !=  current_day->start.tm_year
       )
     {
       TRACE_MSG("New day");
-      if (current_day != NULL)
+      if (current_day != nullptr)
         {
           TRACE_MSG("Save old day");
           day_to_history(current_day);
@@ -263,9 +263,9 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
     }
 
   stats_file << "m " << STATS_VALUE_SIZEOF << " ";
-  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+  for(int64_t misc_stat : stats->misc_stats)
     {
-      stats_file << stats->misc_stats[j] << " ";
+      stats_file << misc_stat << " ";
     }
   stats_file << endl;
 
@@ -358,7 +358,7 @@ Statistics::load_current_day()
   been_active = true;
 
   TRACE_EXIT();
-  return current_day != NULL;
+  return current_day != nullptr;
 }
 
 
@@ -385,7 +385,7 @@ Statistics::load(ifstream &infile, bool history)
 {
   TRACE_ENTER("Statistics::load");
 
-  DailyStatsImpl *stats = NULL;
+  DailyStatsImpl *stats = nullptr;
 
   bool ok = infile.good();
 
@@ -420,12 +420,12 @@ Statistics::load(ifstream &infile, bool history)
 
           if (cmd == 'D')
             {
-              if (history && stats != NULL)
+              if (history && stats != nullptr)
                 {
                   add_history(stats);
-                  stats = NULL;
+                  stats = nullptr;
                 }
-              else if (!history && stats != NULL)
+              else if (!history && stats != nullptr)
                 {
                   /* Corrupt today stats */
                   return;
@@ -449,7 +449,7 @@ Statistics::load(ifstream &infile, bool history)
                   current_day = stats;
                 }
             }
-          else if (stats != NULL)
+          else if (stats != nullptr)
             {
               if (cmd == 'B')
                 {
@@ -509,7 +509,7 @@ Statistics::load(ifstream &infile, bool history)
         }
     }
 
-  if (history && stats != NULL)
+  if (history && stats != nullptr)
     {
       add_history(stats);
     }
@@ -522,7 +522,7 @@ Statistics::load(ifstream &infile, bool history)
 void
 Statistics::increment_break_counter(BreakId bt, StatsBreakValueType st)
 {
-  if (current_day == NULL)
+  if (current_day == nullptr)
     {
       start_new_day();
     }
@@ -534,7 +534,7 @@ Statistics::increment_break_counter(BreakId bt, StatsBreakValueType st)
 void
 Statistics::set_break_counter(BreakId bt, StatsBreakValueType st, int value)
 {
-  if (current_day == NULL)
+  if (current_day == nullptr)
     {
       start_new_day();
     }
@@ -547,7 +547,7 @@ Statistics::set_break_counter(BreakId bt, StatsBreakValueType st, int value)
 void
 Statistics::add_break_counter(BreakId bt, StatsBreakValueType st, int value)
 {
-  if (current_day == NULL)
+  if (current_day == nullptr)
     {
       start_new_day();
     }
@@ -591,10 +591,8 @@ Statistics::dump()
     }
 
   ss << "stats ";
-  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+  for(int64_t value : current_day->misc_stats)
     {
-      int64_t value = current_day->misc_stats[j];
-
       ss  << value << " ";
     }
 
@@ -612,7 +610,7 @@ Statistics::get_current_day() const
 Statistics::DailyStatsImpl *
 Statistics::get_day(int day) const
 {
-  DailyStatsImpl *ret = NULL;
+  DailyStatsImpl *ret = nullptr;
 
   if (day == 0)
     {
@@ -718,7 +716,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
 
   lock.lock();
 
-  if (current_day != NULL && x >=0 && y >= 0)
+  if (current_day != nullptr && x >=0 && y >= 0)
     {
       int delta_x = sensitivity;
       int delta_y = sensitivity;
@@ -769,7 +767,7 @@ void
 Statistics::button_notify(bool is_press)
 {
   lock.lock();
-  if (current_day != NULL)
+  if (current_day != nullptr)
     {
       if (click_x != -1 && click_y != -1 &&
           prev_x != -1  && prev_y != -1)
@@ -809,7 +807,7 @@ Statistics::keyboard_notify(bool repeat)
     }
 
   lock.lock();
-  if (current_day != NULL)
+  if (current_day != nullptr)
     {
       current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES]++;
     }

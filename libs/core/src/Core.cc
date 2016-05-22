@@ -56,7 +56,7 @@ CoreFactory::create()
 }
 
 Core::Core() :
-  application(NULL),
+  application(nullptr),
   powersave(false)
 {
   TRACE_ENTER("Core::Core");
@@ -137,7 +137,7 @@ Core::init_configurator()
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
-      if (configurator == NULL)
+      if (configurator == nullptr)
         {
           string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
@@ -157,7 +157,7 @@ Core::init_configurator()
             }
         }
 
-      if (configurator == NULL)
+      if (configurator == nullptr)
         {
           ini_file = AssetPath::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);

@@ -37,8 +37,7 @@ ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, Co
 }
 
 ReadingActivityMonitor::~ReadingActivityMonitor()
-{
-}
+= default;
 
 void
 ReadingActivityMonitor::init()

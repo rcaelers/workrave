@@ -43,8 +43,7 @@ Toolkit::Toolkit(int argc, char **argv)
 }
 
 Toolkit::~Toolkit()
-{
-}
+= default;
 
 void
 Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
@@ -62,7 +61,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   status_icon = std::make_shared<StatusIcon>(menu_model);
 
-  main_window =  new MainWindow(menu_model, 0);
+  main_window =  new MainWindow(menu_model, nullptr);
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 

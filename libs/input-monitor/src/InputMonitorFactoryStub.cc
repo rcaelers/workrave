@@ -29,7 +29,7 @@ using namespace workrave::config;
 class InputMonitorStub : public IInputMonitor
 {
 public:
-  ~InputMonitorStub() override {}
+  ~InputMonitorStub() override = default;
 
   bool init() override
   {

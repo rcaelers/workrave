@@ -42,7 +42,7 @@ CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
 {
 #ifdef HAVE_DBUS
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-  if (iface != NULL)
+  if (iface != nullptr)
     {
       iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
     }
@@ -54,7 +54,7 @@ CoreDBus::on_usage_mode_changed(const UsageMode usage_mode)
 {
 #ifdef HAVE_DBUS
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-  if (iface != NULL)
+  if (iface != nullptr)
     {
       iface->UsageModeChanged("/org/workrave/Workrave/Core", usage_mode);
     }

@@ -29,14 +29,12 @@
 
 //! Constructor.
 DBusTestData::DBusTestData()
-{
-}
+= default;
 
 
 //! Destructor.
 DBusTestData::~DBusTestData()
-{
-}
+= default;
 
 #ifdef DBUS_BACKEND_QT5
 QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes& message)

@@ -42,14 +42,12 @@ using namespace std;
 
 //! Constructor.
 DBusTestServer::DBusTestServer()
-{
-}
+= default;
 
 
 //! Destructor.
 DBusTestServer::~DBusTestServer()
-{
-}
+= default;
 
 void
 DBusTestServer::test_basic_out_ref(int                     i_int,

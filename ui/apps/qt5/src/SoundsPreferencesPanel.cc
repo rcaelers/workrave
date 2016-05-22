@@ -40,8 +40,8 @@ using namespace workrave::utils;
 
 SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   : sound_theme(sound_theme),
-    connector(NULL),
-    enabled_cb(NULL)
+    connector(nullptr),
+    enabled_cb(nullptr)
 {
   connector = std::make_shared<DataConnector>();
 
@@ -95,7 +95,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(sound_theme_button, signal, this, &SoundsPreferencesPanel::on_sound_theme_changed);
 
-  sounds_model = new QStandardItemModel(); // TODO: SOUND_MAX, 4);
+  sounds_model = new QStandardItemModel();
   sounds_view = new QTreeView;
   sound_events_layout->addWidget(sounds_view);
 

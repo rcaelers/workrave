@@ -150,7 +150,7 @@ Debug::stream()
       stringstream ss;
       ss << debug_filename << logfile << "-" <<  boost::this_thread::get_id();
 
-      if (g_thread_name.get() != NULL)
+      if (g_thread_name.get() != nullptr)
         {
           ss << "-" << *g_thread_name;
         }

@@ -48,8 +48,7 @@ DBusTestServerQt5::DBusTestServerQt5()
 
 //! Destructor.
 DBusTestServerQt5::~DBusTestServerQt5()
-{
-}
+= default;
 
 int main(int argc, char **argv)
 {
@@ -117,7 +116,7 @@ DBusTestServerQt5::test_fire_signal()
   l.push_back(DBusTestData::Data(1, 2));
   m["1"] = DBusTestData::Data(1, 2);
 
-  if (test != NULL)
+  if (test != nullptr)
     {
       test->Signal("/org/workrave/Test", par.m_int,
                    par.m_uint8  ,
@@ -140,7 +139,7 @@ DBusTestServerQt5::test_fire_signal_without_args()
 {
   org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
 
-  if (test != NULL)
+  if (test != nullptr)
     {
       test->SignalWithoutArgs("/org/workrave/Test");
     }
@@ -171,7 +170,7 @@ DBusTestServerQt5::test_fire_signal_with_ref()
   l.push_back(DBusTestData::Data(1, 2));
   m["1"] = DBusTestData::Data(1, 2);
 
-  if (test != NULL)
+  if (test != nullptr)
     {
       test->SignalWithRef("/org/workrave/Test", par.m_int,
                           par.m_uint8  ,

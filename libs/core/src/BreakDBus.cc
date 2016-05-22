@@ -56,15 +56,14 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 
 
 BreakDBus::~BreakDBus()
-{
-}
+= default;
 
 void
 BreakDBus::on_break_event(BreakEvent event)
 {
 #ifdef HAVE_DBUS
   org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
-  if (iface != NULL)
+  if (iface != nullptr)
     {
       string break_name = CoreConfig::get_break_name(break_id);
       iface->BreakEvent("/org/workrave/Workrave/Break/" + break_name, event);
@@ -85,7 +84,7 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
   if (progress != "")
     {
       org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
-      if (iface != NULL)
+      if (iface != nullptr)
         {
           string break_name = CoreConfig::get_break_name(break_id);
           iface->BreakStateChanged("/org/workrave/Workrave/Break/" + break_name, progress);

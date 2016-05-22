@@ -76,7 +76,7 @@ SoundPlayer::SoundPlayer()
 #elif defined PLATFORM_OS_WIN32
     new W32Mixer()
 #else
-    NULL
+    nullptr
 #endif
     ;
 
@@ -92,12 +92,12 @@ SoundPlayer::~SoundPlayer()
 void
 SoundPlayer::init()
 {
-  if (driver != NULL)
+  if (driver != nullptr)
     {
       driver->init(this);
     }
 
-  if (mixer != NULL)
+  if (mixer != nullptr)
     {
       mixer->init();
     }
@@ -110,13 +110,13 @@ SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, in
   delayed_mute = false;
 
   if (mute_after_playback &&
-      mixer != NULL && driver != NULL &&
+      mixer != nullptr && driver != nullptr &&
       driver->capability(SoundCapability::EOS_EVENT))
     {
       delayed_mute = true;
     }
 
-  if (driver != NULL)
+  if (driver != nullptr)
     {
       if (wavfile != "")
         {
@@ -136,12 +136,12 @@ SoundPlayer::capability(SoundCapability cap)
 {
   bool ret = false;
 
-  if (mixer != NULL && cap == SoundCapability::MUTE)
+  if (mixer != nullptr && cap == SoundCapability::MUTE)
     {
       ret = true;
     }
 
-  if (!ret && driver != NULL)
+  if (!ret && driver != nullptr)
     {
       ret = driver->capability(cap);
     }
@@ -152,7 +152,7 @@ SoundPlayer::capability(SoundCapability cap)
 void
 SoundPlayer::restore_mute()
 {
-  if (mixer != NULL && must_unmute)
+  if (mixer != nullptr && must_unmute)
     {
       mixer->set_mute(false);
     }
@@ -161,7 +161,7 @@ SoundPlayer::restore_mute()
 void
 SoundPlayer::eos_event()
 {
-  if (delayed_mute && mixer != NULL)
+  if (delayed_mute && mixer != nullptr)
     {
       bool was_muted = mixer->set_mute(true);
       if (!was_muted)

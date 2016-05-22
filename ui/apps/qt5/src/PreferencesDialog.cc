@@ -41,7 +41,7 @@ using namespace workrave::utils;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
-    notebook(NULL)
+    notebook(nullptr)
 {
   connector = std::make_shared<DataConnector>();
 

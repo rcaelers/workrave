@@ -56,7 +56,7 @@ DataConnector::connect(const std::string &setting,
                        DataConnection *connection,
                        dc::Flags flags)
 {
-  if (connection != NULL)
+  if (connection != nullptr)
     {
       MonitoredWidget mw;
 
@@ -75,7 +75,7 @@ DataConnector::connect(const std::string &setting,
                        std::function<bool(const std::string &, bool)> cb,
                        dc::Flags flags)
 {
-  if (connection != NULL)
+  if (connection != nullptr)
     {
       MonitoredWidget mw;
 

@@ -73,7 +73,7 @@ TimerBoxControl::update()
     {
       if (force_duration == 0)
         {
-          time_t t = time(NULL);
+          time_t t = time(nullptr);
           if (t % cycle_time == 0)
             {
               init_table();

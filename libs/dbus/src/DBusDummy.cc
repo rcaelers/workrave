@@ -33,8 +33,7 @@ DBusDummy::DBusDummy()
 
 
 DBusDummy::~DBusDummy()
-{
-}
+= default;
 
 
 void
@@ -115,5 +114,5 @@ DBusBinding *
 DBusDummy::find_binding(const std::string &interface_name) const
 {
   (void) interface_name;
-  return NULL;
+  return nullptr;
 }

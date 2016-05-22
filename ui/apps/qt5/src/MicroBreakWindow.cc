@@ -36,8 +36,8 @@ using namespace workrave::utils;
 
 MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode),
-    time_bar(NULL),
-    label(NULL)
+    time_bar(nullptr),
+    label(nullptr)
 {
   setWindowTitle(Ui::get_break_name(BREAK_ID_MICRO_BREAK));
 }

@@ -30,7 +30,7 @@
 
 ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
   : QDialog(),
-    panel(NULL)
+    panel(nullptr)
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 

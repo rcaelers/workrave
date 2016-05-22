@@ -47,9 +47,9 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
   ontop_cb = new QCheckBox;
   enabled_cb = new QCheckBox();
   place_button = new QComboBox();
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & button : timer_display_button)
     {
-      timer_display_button[i] = new QComboBox;
+      button = new QComboBox;
     }
   cycle_entry = new QSpinBox;
 
@@ -291,7 +291,7 @@ TimerBoxPreferencesPanel::on_place_changed()
 }
 
 void
-TimerBoxPreferencesPanel::enable_buttons(void)
+TimerBoxPreferencesPanel::enable_buttons()
 {
   int num_disabled = 0;
   for (auto &button : timer_display_button)

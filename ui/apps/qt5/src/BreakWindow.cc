@@ -21,10 +21,6 @@
 
 #include "BreakWindow.hh"
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <QtGui>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -35,7 +31,6 @@
 #endif
 
 #include "debug.hh"
-
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "session/System.hh"
@@ -65,22 +60,21 @@ BreakWindow::BreakWindow(int screen,
                          BreakId break_id,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode)
-  : QWidget(0, Qt::Window
-            | Qt::WindowStaysOnTopHint
-            | Qt::FramelessWindowHint),
+  : QWidget(nullptr, Qt::Window),
     break_id(break_id),
     screen(screen),
     block_mode(mode),
     break_flags(break_flags),
-    frame(NULL),
+    frame(nullptr),
     is_flashing(false),
-    gui(NULL),
-    block_window(NULL)
+    gui(nullptr),
+    block_window(nullptr)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 #ifdef PLATFORM_OS_OSX
   priv = std::make_shared<Private>();
 #endif
+
   TRACE_EXIT();
 }
 
@@ -90,14 +84,13 @@ BreakWindow::init()
 {
   gui = create_gui();
 
-  // if (mode != GUIConfig::BLOCK_MODE_NONE)
-  //   {
-  //     // Disable titlebar to appear like a popup
-  //     set_decorated(false);
-  //     set_skip_taskbar_hint(true);
-  //     set_skip_pager_hint(true);
-  //     window->set_functions(Gdk::FUNC_MOVE);
-  //   }
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+    {
+      setWindowFlags(windowFlags()
+                     | Qt::WindowStaysOnTopHint
+                     | Qt::FramelessWindowHint
+                     | Qt::SplashScreen);
+    }
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
@@ -124,7 +117,7 @@ BreakWindow::init()
 
 BreakWindow::~BreakWindow()
 {
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
@@ -273,7 +266,7 @@ BreakWindow::resume_non_ignorable_break()
 QHBoxLayout *
 BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 {
-  QHBoxLayout *box = NULL;
+  QHBoxLayout *box = nullptr;
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
@@ -327,7 +320,7 @@ BreakWindow::start()
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       block_window = new QWidget();
-      block_window->setParent(0);
+      block_window->setParent(nullptr);
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
@@ -408,7 +401,7 @@ BreakWindow::start()
         Clipping: NO (not defined)
         Background: #51a0aa
         Scaling: updown (not defined)
-        
+
         fit to screen
         Clipping: NO
         Background: #51a0aa
@@ -429,7 +422,7 @@ BreakWindow::start()
         Background: #51a0aa
         Scaling: updown (not defined)
       */
-    
+
 #endif
     }
   // Set window hints.
@@ -446,12 +439,12 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
 
-  if (block_window != NULL)
+  if (block_window != nullptr)
     {
       block_window->hide();
 
@@ -481,7 +474,7 @@ BreakWindow::refresh()
 
   ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       if (user_active && !is_flashing)
         {

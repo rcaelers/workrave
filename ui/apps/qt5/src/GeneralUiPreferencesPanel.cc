@@ -177,7 +177,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
 {
   QStandardItem *item = model->item(languages_combo->currentIndex(), 2);
-  if (item != NULL)
+  if (item != nullptr)
     {
       GUIConfig::locale().set(item->text().toStdString());
     }

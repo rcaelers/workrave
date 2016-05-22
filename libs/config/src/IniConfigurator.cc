@@ -39,8 +39,7 @@ IniConfigurator::IniConfigurator()
 
 
 IniConfigurator::~IniConfigurator()
-{
-}
+= default;
 
 
 bool

@@ -92,12 +92,12 @@ AssetPath::get_home_directory()
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_OSX)
       const char *home = getenv("WORKRAVE_HOME");
 
-      if (home == NULL)
+      if (home == nullptr)
         {
           home = getenv("HOME");
         }
 
-      if (home != NULL)
+      if (home != nullptr)
         {
           ret = home;
           ret += "/.workrave/";

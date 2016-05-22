@@ -49,7 +49,7 @@ Timer::Timer(const std::string &id) :
   limit_interval(600),
   auto_reset_enabled(true),
   auto_reset_interval(120),
-  daily_auto_reset(NULL),
+  daily_auto_reset(nullptr),
   elapsed_timespan(0),
   elapsed_timespan_at_last_limit(0),
   elapsed_idle_timespan(0),

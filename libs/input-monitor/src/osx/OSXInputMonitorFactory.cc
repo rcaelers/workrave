@@ -33,7 +33,7 @@ using namespace workrave::input_monitor;
 OSXInputMonitorFactory::OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
   (void) config;
-  monitor = NULL;
+  monitor = nullptr;
 }
 
 void
@@ -49,7 +49,7 @@ OSXInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability c
 {
   (void) capability;
 
-  if (monitor == NULL)
+  if (monitor == nullptr)
     {
       monitor = IInputMonitor::Ptr(new OSXInputMonitor());
 

@@ -32,8 +32,7 @@ CoreHooks::CoreHooks()
 }
 
 CoreHooks::~CoreHooks()
-{
-}
+= default;
 
 #ifdef HAVE_TESTS
 std::function<workrave::config::IConfigurator::Ptr()> &
