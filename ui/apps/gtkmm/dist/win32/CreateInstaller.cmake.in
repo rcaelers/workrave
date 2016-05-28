@@ -1,3 +1,10 @@
+if (POLICY CMP0011)
+  cmake_policy(SET CMP0011 NEW)
+endif()
+if (POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+
 # TODO: Duplicate information.
 list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/build/cmake/modules")
 string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})

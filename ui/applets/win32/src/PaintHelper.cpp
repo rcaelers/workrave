@@ -1,8 +1,8 @@
 #include "PaintHelper.h"
 #include "Debug.h"
 
-#include <Uxtheme.h>
-#include <GdiPlus.h>
+#include <uxtheme.h>
+#include <gdiplus.h>
 
 #include <string>
 
@@ -115,7 +115,7 @@ PaintHelper::FixIconAlpha(HICON icon)
     BITMAPINFO bmi = { 0, };
 
     bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-  
+
     if (GetDIBits(hdc, icon_info.hbmColor, 0, 0, 0, &bmi, DIB_RGB_COLORS))
     {
       int icon_width = abs(bmi.bmiHeader.biWidth);
@@ -131,7 +131,7 @@ PaintHelper::FixIconAlpha(HICON icon)
       unsigned char *mask_data = (unsigned char*)malloc(icon_width * icon_height * 4);
 
       if (GetDIBits(hdc, icon_info.hbmMask, 0, abs(bmi.bmiHeader.biHeight), mask_data, &bmi, DIB_RGB_COLORS))
-      { 
+      {
         unsigned char *mask_ptr = mask_data;
 
         for (int y = 0; y < icon_height; y++)
@@ -154,7 +154,7 @@ PaintHelper::FixIconAlpha(HICON icon)
         alpha_set = true;
       }
 
-      free (mask_data); 
+      free (mask_data);
     }
 
     ReleaseDC(0, hdc);

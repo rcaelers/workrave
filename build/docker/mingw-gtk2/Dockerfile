@@ -1,0 +1,40 @@
+FROM rcaelers/fedora:24
+
+MAINTAINER Rob Caelers <rob.caelers@gmail.com>
+
+RUN dnf -y update && dnf clean all
+RUN dnf -y install \
+                cmake \
+                git \
+                innoextract \
+                intltool \
+                make \
+                mingw32-boost \
+                mingw32-dbus \
+                mingw32-gcc \
+                mingw32-gcc-c++ \
+                mingw32-gettext \
+                mingw32-gtkmm24 \
+                mingw32-boost \
+                mingw64-gcc \
+                mingw64-gcc-c++ \
+                tar \
+                which \
+                wine \
+                xz
+
+
+RUN mkdir -p /workspace
+
+RUN cd /workspace && \
+    curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
+    innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
+
+RUN cd /workspace && \
+    curl -O http://snapshots.workrave.org/.prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
+    tar xvfJ ./workrave-prebuilt-windows-vs2015.tar.xz && \
+    rm ./workrave-prebuilt-windows-vs2015.tar.xz && \
+    ln -s workrave-prebuilt-windows-vs2015 prebuilt
+
+RUN pip3 install --upgrade pip
+RUN pip3 install Jinja2

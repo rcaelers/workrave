@@ -1,52 +1,67 @@
 #!/bin/bash -x
+echo Called: $*
 
-WORKSPACE=/build
-PLATFORM=$1
-UI=$2
-BUILD=$3
-
-CONFIG=${PLATFORM}-${UI}-${BUILD}
-
+WORKSPACE=/workspace
 SOURCEDIR=${WORKSPACE}/source
-BUILDDIR=${WORKSPACE}/build/${CONFIG}
-INSTALLDIR=${WORKSPACE}/install/${CONFIG}
 
 CMAKE_FLAGS=()
-MAKE_FLAGS=-j4
+MAKE_FLAGS="-j4 VERBOSE=1"
 
-rm -rf $BUILDDIR $INSTALLDIR
-mkdir -p $BUILDDIR $INSTALLDIR
+build()
+{
+  config=$1
+  cmake_args=("${!2}")
 
-case "$PLATFORM" in
-   "linux-gcc") 
-        CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++" "-DCMAKE_C_COMPILER=gcc")
+  BUILDDIR=${WORKSPACE}/${config}/build
+  INSTALLDIR=${WORKSPACE}/${config}/install
+
+  mkdir -p ${BUILDDIR} ${INSTALLDIR}
+  cd ${BUILDDIR}
+
+  cmake ${SOURCEDIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} ${cmake_args[@]}
+  make ${MAKE_FLAGS}
+  make ${MAKE_FLAGS} install
+}
+
+parse_arguments()
+{
+  while getopts "6C:D:" o; do
+      case "${o}" in
+          C)
+              CONFIG=${OPTARG}
+                  ;;
+          D)
+              CMAKE_FLAGS+=("-D${OPTARG}")
+              echo "Adding CMake options ${OPTARG}"
+              ;;
+          *)
+              usage
+              ;;
+      esac
+  done
+  shift $((OPTIND-1))
+}
+
+parse_arguments $*
+
+case "$CONFIG" in
+    mingw-vs-*)
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
-    "linux-clang")
-        CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
+    mingw-*)
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/noui64/install")
+
+        CMAKE_FLAGS64=()
+        CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw64.cmake")
+        CMAKE_FLAGS64+=("-DWITH_UI=None")
+        CMAKE_FLAGS64+=("-DCMAKE_BUILD_TYPE=Release")
+
+        build noui64 CMAKE_FLAGS64[@]
         ;;
-    "windows")
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake" "-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
-        ;;
-    "windows64")
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw64.cmake" "-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
+    "*")
+      ;;
 esac
 
-case "$UI" in
-   "Gtk+2") 
-        CMAKE_FLAGS+=("-DWITH_INDICATOR=OFF")
-        ;;
-esac
-
-case "$BUILD" in
-   "Debug") 
-        CMAKE_FLAGS+=("-DWITH_TRACING=ON")
-        ;;
-esac
-
-rm -rf ${BUILDDIR} ${INSTALLDIR}
-mkdir ${BUILDDIR} ${INSTALLDIR}
-
-cd ${BUILDDIR}
-cmake ${SOURCEDIR} -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="${INSTALLDIR}" -DCMAKE_BUILD_TYPE=$BUILD -DWITH_UI=$UI -DLOCALINSTALL=ON "${CMAKE_FLAGS[@]}"
-make $MAKE_FLAGS -k VERBOSE=1
-make install
+build ${CONFIG} CMAKE_FLAGS[@]

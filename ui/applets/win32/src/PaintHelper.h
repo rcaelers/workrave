@@ -22,7 +22,7 @@
 
 #define TMSCHEMA_H
 #include <windows.h>
-#include <Uxtheme.h>
+#include <uxtheme.h>
 #include <vssym32.h>
 
 typedef HRESULT (__stdcall *BUFFERED_PAINT_INIT)(VOID);
@@ -70,4 +70,3 @@ public:
 };
 
 #endif // PAINTHELPER_H
-

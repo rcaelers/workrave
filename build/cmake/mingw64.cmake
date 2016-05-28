@@ -1,17 +1,17 @@
 set(SYS_ROOT_PREFIX "")
 
-set(TOOLCHAIN_ROOT "/usr/i686-w64-mingw64")
-set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/i686-w64-mingw64/sys-root/mingw/")
+set(TOOLCHAIN_ROOT "/usr/ix86_64-w64-mingw32")
+set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/x86_64-w64-mingw32/sys-root/mingw/")
 
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_VERSION 1)
 
-set(CMAKE_C_COMPILER   i686-w64-mingw64-gcc)
-set(CMAKE_CXX_COMPILER i686-w64-mingw64-g++)
-set(CMAKE_RC_COMPILER  i686-w64-mingw64-windres)
+set(CMAKE_C_COMPILER   x86_64-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+set(CMAKE_RC_COMPILER  x86_64-w64-mingw32-windres)
 
 set (WINE wine)
-set (ISCC "/build/inno/app/ISCC.exe")
+set (ISCC "/workspace/inno/app/ISCC.exe")
 
 set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_ROOT} ${SYS_ROOT})
 
