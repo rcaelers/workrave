@@ -8,6 +8,7 @@ RUN \
   apt-get install -y \
     cmake \
     gettext \
+    git \
     gobject-introspection \
     gsettings-desktop-schemas-dev \
     intltool \
@@ -32,6 +33,7 @@ RUN \
     libmate-panel-applet-dev \
     libpanel-applet-dev \
     libpulse-dev \
+    libssl-dev \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
