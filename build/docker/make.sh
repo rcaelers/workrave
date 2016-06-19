@@ -73,11 +73,12 @@ if [ -n "${INCREMENTAL_PATH}" ]; then
   DOCKER_ARGS+=("-v ${INCREMENTAL_PATH}:/workspace/output")
 
   REL_PATH=`git rev-parse --show-prefix`
-  if [ $? -eq 0 ]; then
+  if [ $? -eq 0 -a -z "${REL_PATH}" ]; then
     BUILD_ARGS+=("-C${REL_PATH}")
   fi
 fi
 
 DOCKER_ARGS+=("--rm rcaelers/workrave-build-${IMAGE}")
+
 
 docker run ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/docker/build.sh ${BUILD_ARGS[*]}"
