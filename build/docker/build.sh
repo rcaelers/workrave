@@ -67,7 +67,7 @@ case "$CONFIG" in
         ;;
     mingw32*)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake")
-        CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/noui64/install")
+        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUTDIR}/noui64/install")
 
         CMAKE_FLAGS64=()
         CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw64.cmake")

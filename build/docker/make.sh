@@ -73,7 +73,7 @@ if [ -n "${INCREMENTAL_PATH}" ]; then
   DOCKER_ARGS+=("-v ${INCREMENTAL_PATH}:/workspace/output")
 
   REL_PATH=`git rev-parse --show-prefix`
-  if [ $? -eq 0 -a -z "${REL_PATH}" ]; then
+  if [ $? -eq 0 -a -n "${REL_PATH}" ]; then
     BUILD_ARGS+=("-C${REL_PATH}")
   fi
 fi
