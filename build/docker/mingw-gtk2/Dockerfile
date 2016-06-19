@@ -16,6 +16,7 @@ RUN dnf -y install \
                 mingw32-gettext \
                 mingw32-gtkmm24 \
                 mingw32-boost \
+                mingw32-openssl \
                 mingw64-gcc \
                 mingw64-gcc-c++ \
                 tar \
