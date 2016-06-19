@@ -4,7 +4,7 @@ SOURCEDIR=${WORKSPACE}/source
 OUTPUTDIR=${WORKSPACE}/output
 
 CMAKE_FLAGS=()
-MAKE_FLAGS="-j4 VERBOSE=1"
+MAKE_FLAGS=()
 REL_PATH=
 
 build()
@@ -28,13 +28,13 @@ build()
     cmake ${SOURCEDIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} ${cmake_args[@]}
   fi
 
-  make ${MAKE_FLAGS}
-  make ${MAKE_FLAGS} install
+  make ${MAKE_FLAGS[@]}
+  make ${MAKE_FLAGS[@]} install
 }
 
 parse_arguments()
 {
-  while getopts "c:o:C:D:" o; do
+  while getopts "c:o:C:D:M:" o; do
       case "${o}" in
           c)
             CONFIG=${OPTARG}
@@ -45,8 +45,8 @@ parse_arguments()
           D)
             CMAKE_FLAGS+=("-D${OPTARG}")
             ;;
-          *)
-            usage
+          M)
+            MAKE_FLAGS+=("${OPTARG}")
             ;;
       esac
   done

@@ -21,7 +21,7 @@ usage()
 
 parse_arguments()
 {
-  while getopts "i:c:d:D:" o; do
+  while getopts "i:c:d:D:v" o; do
     case "${o}" in
       i)
         INCREMENTAL_PATH="${OPTARG}"
@@ -36,6 +36,9 @@ parse_arguments()
         ;;
       D)
         BUILD_ARGS+=("-D${OPTARG}")
+        ;;
+      v)
+        BUILD_ARGS+=("-M\"VERBOSE=1\"")
         ;;
       *)
         usage
@@ -60,6 +63,7 @@ case "$CONFIG" in
 esac
 
 BUILD_ARGS+=("-DCMAKE_BUILD_TYPE=${BUILT_TYPE}")
+BUILD_ARGS+=("-M\"-j2\"")
 DOCKER_ARGS+=("-v ${ROOT}/:/workspace/source")
 
 if [ -n "${INCREMENTAL_PATH}" ]; then
