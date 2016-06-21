@@ -1,4 +1,4 @@
-FROM rcaelers/fedora:24
+FROM fedora:24
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
