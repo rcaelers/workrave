@@ -163,7 +163,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
 void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
-  ICore *core = CoreFactory::get_core();
+  ICore::Ptr core = Backend::get_core();
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
 }
 
