@@ -163,10 +163,8 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
 void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
-  IGUI *gui = GUI::get_instance();
-  assert(gui != nullptr);
-
-  gui->restbreak_now();
+  ICore *core = CoreFactory::get_core();
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
 }
 
 
