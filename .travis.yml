@@ -103,13 +103,13 @@ before_install: |
     echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99translations > /dev/null
     sudo sed -i 's/^deb-src/#deb-src/' /etc/apt/sources.list /etc/apt/sources.list.d/*
     wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
-    sudo add-apt-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.8 main"
+    sudo add-apt-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
     sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     sudo apt-get update -q
     sudo apt-get -y -q -V --no-install-recommends install \
       build-essential \
-      `[[ $CXX = "clang++" ]] && echo clang-3.8` \
-      gcc-5 g++-5 \
+      `[[ $CXX = "clang++" ]] && echo clang-3.9` \
+      gcc-6 g++-6 \
       intltool \
       libxtst-dev \
       libxss-dev \
@@ -137,8 +137,8 @@ before_install: |
     # use clang from distro, Travis supplied clang (3.5.0) seems to be broken
     # https://llvm.org/bugs/show_bug.cgi?id=18402
     if [[ $CXX = "clang++" ]]; then
-      export CC=/usr/bin/clang-3.8
-      export CXX="/usr/bin/clang++-3.8 -cxx-isystem=/usr/lib/gcc/x86_64-linux-gnu/5.3"
+      export CC=/usr/bin/clang-3.9
+      export CXX="/usr/bin/clang++-3.9 -cxx-isystem=/usr/lib/gcc/x86_64-linux-gnu/6"
     fi
   }
   install_osx()
