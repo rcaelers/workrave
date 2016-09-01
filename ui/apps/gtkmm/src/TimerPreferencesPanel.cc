@@ -152,10 +152,10 @@ TimerPreferencesPanel::create_options_panel()
   hig->add_widget(*skippable_cb);
 
   // Break specific options
-  exercises_spin = NULL;
-  monitor_cb = NULL;
-  auto_natural_cb = NULL;
-  allow_shutdown_cb = NULL;
+  exercises_spin = nullptr;
+  monitor_cb = nullptr;
+  auto_natural_cb = nullptr;
+  allow_shutdown_cb = nullptr;
 
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -232,7 +232,7 @@ TimerPreferencesPanel::create_timers_panel
     }
   else
     {
-      auto_reset_tim = NULL;
+      auto_reset_tim = nullptr;
     }
 
   // Snooze time
@@ -345,7 +345,7 @@ TimerPreferencesPanel::enable_buttons()
   ignorable_cb->set_sensitive(on);
   skippable_cb->set_sensitive(on);
 
-  if (monitor_cb != NULL)
+  if (monitor_cb != nullptr)
     {
       monitor_cb->set_sensitive(on);
     }
@@ -354,23 +354,23 @@ TimerPreferencesPanel::enable_buttons()
   has_max_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
 
-  if (auto_reset_tim != NULL)
+  if (auto_reset_tim != nullptr)
     {
       auto_reset_tim->set_sensitive(on);
     }
 
   snooze_tim->set_sensitive(on);
 
-  if (exercises_spin != NULL)
+  if (exercises_spin != nullptr)
     {
       exercises_spin->set_sensitive(on);
     }
 
-  if (auto_natural_cb != NULL)
+  if (auto_natural_cb != nullptr)
     {
       auto_natural_cb->set_sensitive(on);
     }
-  if (allow_shutdown_cb != NULL)
+  if (allow_shutdown_cb != nullptr)
     {
       allow_shutdown_cb->set_sensitive(on);
     }

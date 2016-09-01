@@ -28,15 +28,14 @@
 #include "commonui/TimerBoxControl.hh"
 
 AppletWindow::AppletWindow()
-  : timer_box_view(0),
-    timer_box_control(0)
+  : timer_box_view(nullptr),
+    timer_box_control(nullptr)
 {
 }
 
 
 AppletWindow::~AppletWindow()
-{
-}
+= default;
 
 
 void

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2016-03-30 21:16+0200\n"
+"POT-Creation-Date: 2016-04-29 21:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Suspend hybrid"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:480
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:477
 msgid "_Skip"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:497
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:494
 msgid "_Postpone"
 msgstr ""
 

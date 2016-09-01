@@ -56,7 +56,7 @@ int compare_countries (const void *a, const void *b)
 bool
 Locale::get_language(const string &code, string &language)
 {
-  language_t key = { code.c_str(), NULL };
+  language_t key = { code.c_str(), nullptr };
   language_t *val;
 
   val = reinterpret_cast<language_t *>( bsearch(&key,
@@ -65,7 +65,7 @@ Locale::get_language(const string &code, string &language)
                                sizeof(language_t),
                                compare_languages));
 
-  if (val != NULL)
+  if (val != nullptr)
     {
       language = val->lang;
       return true;
@@ -77,7 +77,7 @@ Locale::get_language(const string &code, string &language)
 bool
 Locale::get_country(const string &code, string &country)
 {
-  country_t key = { code.c_str(), NULL };
+  country_t key = { code.c_str(), nullptr };
   country_t *val;
 
   val = reinterpret_cast<country_t *>( bsearch(&key,
@@ -86,7 +86,7 @@ Locale::get_country(const string &code, string &country)
                               sizeof(country_t),
                               compare_countries));
 
-  if (val != NULL)
+  if (val != nullptr)
     {
       country = val->country;
       return true;
@@ -119,12 +119,12 @@ Locale::get_locale()
   string ret;
   const char *lang_env = getenv("LANGUAGE");
 
-  if (lang_env == NULL)
+  if (lang_env == nullptr)
     {
       lang_env = getenv("LANG");
     }
 
-  if (lang_env != NULL)
+  if (lang_env != nullptr)
     {
       ret = lang_env;
     }

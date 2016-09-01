@@ -44,7 +44,7 @@ UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
   : error_reported(false),
     config(config)
 {
-  monitor = NULL;
+  monitor = nullptr;
 }
 
 
@@ -61,7 +61,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
   TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
   (void) capability;
 
-  if (monitor == NULL)
+  if (monitor == nullptr)
     {
       bool initialized = false;
       string configure_monitor_method;

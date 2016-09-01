@@ -64,7 +64,7 @@ AppletControl::AppletControl()
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      applets[i] = NULL;
+      applets[i] = nullptr;
       applet_state[i] = AppletWindow::APPLET_STATE_DISABLED;
     }
 }
@@ -75,11 +75,11 @@ AppletControl::~AppletControl()
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL)
+      if (applets[i] != nullptr)
         {
           deactivate_applet((AppletType)i);
           delete applets[i];
-          applets[i] = NULL;
+          applets[i] = nullptr;
         }
     }
 }
@@ -111,7 +111,7 @@ AppletControl::init()
 
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL)
+      if (applets[i] != nullptr)
         {
           applets[i]->init_applet();
           applets[i]->signal_state_changed().connect(sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_state_changed), (AppletType)i));
@@ -200,7 +200,7 @@ AppletControl::show(AppletType type)
     }
 
 #ifdef PLATFORM_OS_UNIX
-  if (applets[APPLET_TRAY] != NULL)
+  if (applets[APPLET_TRAY] != nullptr)
     {
       if (type == APPLET_GNOME && specific)
         {
@@ -345,7 +345,7 @@ AppletControl::heartbeat()
 
   for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && is_active((AppletType)i))
+      if (applets[i] != nullptr && is_active((AppletType)i))
         {
           applets[i]->update_applet();
         }
@@ -360,7 +360,7 @@ AppletControl::set_tooltip(std::string& tip)
 {
   for (int i = APPLET_FIRST; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL && is_visible((AppletType)i))
+      if (applets[i] != nullptr && is_visible((AppletType)i))
         {
           applets[i]->set_applet_tooltip(tip);
         }
@@ -426,7 +426,7 @@ AppletControl::activate_applet(AppletType type)
 {
   AppletState state = AppletWindow::APPLET_STATE_DISABLED;
 
-  if (applets[type] != NULL)
+  if (applets[type] != nullptr)
     {
       state = applets[type]->activate_applet();
       applet_state[type] = state;
@@ -439,7 +439,7 @@ AppletControl::activate_applet(AppletType type)
 void
 AppletControl::deactivate_applet(AppletType type)
 {
- if (applets[type] != NULL)
+ if (applets[type] != nullptr)
     {
       applets[type]->deactivate_applet();
       applet_state[type] = AppletWindow::APPLET_STATE_DISABLED;

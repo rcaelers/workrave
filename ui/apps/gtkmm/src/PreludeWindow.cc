@@ -56,11 +56,11 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP),
     SCREEN_MARGIN(20),
     did_avoid(false),
-    time_bar(NULL),
-    frame(NULL),
-    window_frame(NULL),
-    label(NULL),
-    image_icon(NULL),
+    time_bar(nullptr),
+    frame(nullptr),
+    window_frame(nullptr),
+    label(nullptr),
+    image_icon(nullptr),
     progress_value(0),
     progress_max_value(0),
     flash_visible(false)
@@ -109,15 +109,15 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
-      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), nullptr));
       break;
 
     case BREAK_ID_REST_BREAK:
-      label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), nullptr));
       break;
 
     case BREAK_ID_DAILY_LIMIT:
-      label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), nullptr));
       break;
 
     default:
@@ -323,7 +323,7 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
-  const char *icon = NULL;
+  const char *icon = nullptr;
   switch(stage)
     {
     case IApp::STAGE_INITIAL:
@@ -355,7 +355,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
         }
       break;
     }
-  if (icon != NULL)
+  if (icon != nullptr)
     {
       string file = AssetPath::complete_directory(icon, AssetPath::SEARCH_PATH_IMAGES);
       image_icon->set(file);

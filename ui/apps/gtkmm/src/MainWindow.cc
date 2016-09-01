@@ -63,14 +63,14 @@ using namespace workrave::utils;
 MainWindow::MainWindow() :
   enabled(true),
   can_close(true),
-  timer_box_control(NULL),
-  timer_box_view(NULL),
+  timer_box_control(nullptr),
+  timer_box_view(nullptr),
   window_location(-1, -1),
   window_head_location(-1, -1),
   window_relocated_location(-1, -1)
 {
 #ifdef PLATFORM_OS_UNIX
-  leader = NULL;
+  leader = nullptr;
 #endif
 #ifdef PLATFORM_OS_WIN32
   show_retry_count = 0;
@@ -693,7 +693,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
 #ifndef PLATFORM_OS_WIN32
   // Returns bogus results on windows...sometime.
-  if (event != NULL)
+  if (event != nullptr)
     {
       x = event->x;
       y = event->y;

@@ -65,7 +65,7 @@ bool SystemStateChangeLogind::check_method(const char *method_name)
 
   bool ret;
   GVariant *result;
-  if (!proxy.call_method(method_name, NULL, &result))
+  if (!proxy.call_method(method_name, nullptr, &result))
     {
       TRACE_RETURN(false);
       return false;
@@ -74,8 +74,8 @@ bool SystemStateChangeLogind::check_method(const char *method_name)
   gchar *cresult;
   g_variant_get(result, "(s)", &cresult);
   g_variant_unref(result);
-  result = NULL;
-  if (cresult == NULL)
+  result = nullptr;
+  if (cresult == nullptr)
     {
       TRACE_RETURN(false);
       return false;
@@ -92,7 +92,7 @@ bool SystemStateChangeLogind::check_method(const char *method_name)
     }
 
   g_free(cresult);
-  cresult = NULL;
+  cresult = nullptr;
 
   TRACE_RETURN(ret);
   return ret;
@@ -103,7 +103,7 @@ bool SystemStateChangeLogind::execute(const char *method_name)
   TRACE_ENTER_MSG("SystemStateChangeLogind::execute", method_name);
 
   //We do not want PolicyKit to ask for credentials
-  bool ret = proxy.call_method(method_name, g_variant_new("(b)", false), NULL);
+  bool ret = proxy.call_method(method_name, g_variant_new("(b)", false), nullptr);
 
   TRACE_RETURN(ret);
   return ret;

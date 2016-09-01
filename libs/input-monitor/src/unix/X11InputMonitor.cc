@@ -118,7 +118,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
       fd_set readset;
       FD_ZERO(&readset);
       FD_SET(fd, &readset);
-      if (select(fd+1, &readset, NULL, NULL, &tv) <= 0)
+      if (select(fd+1, &readset, nullptr, nullptr, &tv) <= 0)
         {
           return False;
         }
@@ -138,7 +138,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
 }
 
 X11InputMonitor::X11InputMonitor(const string &display_name) :
-  x11_display(NULL),
+  x11_display(nullptr),
   abort(false)
 {
   x11_display_name = display_name;
@@ -149,7 +149,7 @@ X11InputMonitor::X11InputMonitor(const string &display_name) :
 X11InputMonitor::~X11InputMonitor()
 {
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
-  if (monitor_thread != NULL)
+  if (monitor_thread != nullptr)
     {
       monitor_thread->join();
     }
@@ -182,7 +182,7 @@ X11InputMonitor::run()
 {
   TRACE_ENTER("X11InputMonitor::run");
 
-  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == NULL)
+  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == nullptr)
     {
       return;
     }
@@ -329,7 +329,7 @@ X11InputMonitor::handle_button(XEvent *event)
   XAllowEvents(x11_display, ReplayPointer, CurrentTime);
   XSync(x11_display, 0);
 
-  if (event != NULL)
+  if (event != nullptr)
     {
       // FIXME: this is a hack. XGrabButton does not generate a button release
       // event...

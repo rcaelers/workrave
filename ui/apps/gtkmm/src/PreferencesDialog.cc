@@ -76,18 +76,18 @@ using namespace std;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : HigDialog(_("Preferences"), false, false),
-    sound_button(NULL),
-    block_button(NULL),
-    sound_theme_button(NULL),
+    sound_button(nullptr),
+    block_button(nullptr),
+    sound_theme_button(nullptr),
     sound_theme(sound_theme),
-    connector(NULL),
-    sound_volume_scale(NULL),
-    sound_play_button(NULL),
-    mute_cb(NULL),
-    fsbutton(NULL),
-    filefilter(NULL),
-    trayicon_cb(NULL),
-    autostart_cb(NULL)
+    connector(nullptr),
+    sound_volume_scale(nullptr),
+    sound_play_button(nullptr),
+    mute_cb(nullptr),
+    fsbutton(nullptr),
+    filefilter(nullptr),
+    trayicon_cb(nullptr),
+    autostart_cb(nullptr)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -608,19 +608,19 @@ PreferencesDialog::update_senstives()
 {
   int idx = sound_button->get_active_row_number();
   sound_treeview.set_sensitive(idx > 0);
-  if (sound_theme_button != NULL)
+  if (sound_theme_button != nullptr)
     {
       sound_theme_button->set_sensitive(idx > 0);
     }
-  if (sound_volume_scale != NULL)
+  if (sound_volume_scale != nullptr)
     {
       sound_volume_scale->set_sensitive(idx > 0);
     }
-  if (sound_play_button != NULL)
+  if (sound_play_button != nullptr)
     {
       sound_play_button->set_sensitive(idx > 0);
     }
-  if (fsbutton != NULL)
+  if (fsbutton != nullptr)
     {
       fsbutton->set_sensitive(idx > 0);
     }

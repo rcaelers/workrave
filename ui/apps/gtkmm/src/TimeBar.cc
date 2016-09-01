@@ -68,8 +68,7 @@ TimeBar::TimeBar() :
 
 //! Destructor
 TimeBar::~TimeBar()
-{
-}
+= default;
 
 
 //! Sets the time progress to be displayed.

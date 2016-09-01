@@ -43,7 +43,7 @@
 TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   : Gtk::HBox(false, 6),
     name(n),
-    ontop_cb(NULL)
+    ontop_cb(nullptr)
 {
   TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 
@@ -117,7 +117,7 @@ TimerBoxPreferencePage::create_page()
     }
 
   // Enabled/Disabled checkbox
-  Gtk::Label *enabled_lab = NULL;
+  Gtk::Label *enabled_lab = nullptr;
 
   if (name == "main_window")
     {
@@ -142,7 +142,7 @@ TimerBoxPreferencePage::create_page()
 
   hig->add_widget(*enabled_cb);
 
-  if (ontop_cb != NULL)
+  if (ontop_cb != nullptr)
     {
       hig->add_widget(*ontop_cb);
     }
@@ -310,12 +310,12 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
 
 //! Enable widgets
 void
-TimerBoxPreferencePage::enable_buttons(void)
+TimerBoxPreferencePage::enable_buttons()
 {
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_active() == 0)
+      if (timer_display_button[i]->get_active() == nullptr)
         {
           count++;
         }

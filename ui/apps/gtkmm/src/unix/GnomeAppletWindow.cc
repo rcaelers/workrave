@@ -59,13 +59,13 @@
  *  \param control Interface to the controller.
  */
 GnomeAppletWindow::GnomeAppletWindow() :
-  view(NULL),
-  plug(NULL),
-  container(NULL),
+  view(nullptr),
+  plug(nullptr),
+  container(nullptr),
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
   applet_active(false),
-  proxy(NULL)
+  proxy(nullptr)
 {
 }
 
@@ -108,7 +108,7 @@ GnomeAppletWindow::activate_applet()
   TRACE_ENTER("GnomeAppletWindow::activate_applet");
   bool ok = true;
 
-  if (proxy == NULL)
+  if (proxy == nullptr)
     {
       TRACE_MSG("No proxy");
       ok = false;
@@ -192,26 +192,26 @@ GnomeAppletWindow::deactivate_applet()
   if (applet_active)
     {
       // Cleanup Widgets.
-      if (plug != NULL)
+      if (plug != nullptr)
         {
           plug->remove();
           delete plug;
-          plug = NULL;
+          plug = nullptr;
         }
 
-      if (container != NULL)
+      if (container != nullptr)
         {
           container->remove();
           delete container;
-          container = NULL;
+          container = nullptr;
         }
 
       delete timer_box_control;
-      timer_box_control = NULL;
+      timer_box_control = nullptr;
 
       delete timer_box_view;
-      timer_box_view = NULL;
-      view = NULL;
+      timer_box_view = nullptr;
+      view = nullptr;
     }
 
   applet_active = false;
@@ -284,7 +284,7 @@ GnomeAppletWindow::set_applet_orientation(Orientation o)
     {
       applet_orientation = o;
 
-      if (view != NULL)
+      if (view != nullptr)
         {
           view->set_geometry(applet_orientation, applet_size);
         }
@@ -301,14 +301,14 @@ GnomeAppletWindow::set_applet_size(int size)
 
   if (applet_size != size)
     {
-      if (plug != NULL)
+      if (plug != nullptr)
         {
           plug->queue_resize();
         }
 
       applet_size = size;
 
-      if (view != NULL)
+      if (view != nullptr)
         {
           view->set_geometry(applet_orientation, applet_size);
         }
@@ -330,13 +330,13 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
                   << " " << color.blue
                   );
 
-  static GtkStyleProperties *properties = NULL;
-  if (properties == NULL)
+  static GtkStyleProperties *properties = nullptr;
+  if (properties == nullptr)
     {
       properties = gtk_style_properties_new();
     }
 
-  if (plug == NULL)
+  if (plug == nullptr)
     {
       return;
     }
@@ -372,7 +372,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
         cairo_surface_t *surface = cairo_xlib_surface_create(dpy, xid, DefaultVisual(dpy, 0), 0, 0);
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
 
-        if (pattern != NULL)
+        if (pattern != nullptr)
           {
             gtk_style_properties_set (properties, GTK_STATE_FLAG_NORMAL,
                                       "background-image", pattern,
@@ -499,10 +499,10 @@ GnomeAppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer us
 {
   (void) event;
   (void) widget;
-  if (user_data != NULL)
+  if (user_data != nullptr)
     {
       GnomeAppletWindow *applet = (GnomeAppletWindow *) user_data;
-      applet->delete_event(NULL);
+      applet->delete_event(nullptr);
     }
   return true;
 }
@@ -627,7 +627,7 @@ void
 GnomeAppletWindow::button_clicked(int button)
 {
   (void) button;
-  if (timer_box_control != NULL)
+  if (timer_box_control != nullptr)
     {
       timer_box_control->force_cycle();
     }
@@ -646,10 +646,10 @@ GnomeAppletWindow::on_embedded()
 void
 GnomeAppletWindow::cleanup_dbus()
 {
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
       g_object_unref(proxy);
-      proxy = NULL;
+      proxy = nullptr;
     }
 }
 
@@ -657,18 +657,18 @@ void
 GnomeAppletWindow::init_dbus()
 {
   TRACE_ENTER("GnomeAppletWindow::init_dbus");
-  GError *error = NULL;
+  GError *error = nullptr;
 
   proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                         G_DBUS_PROXY_FLAGS_NONE,
-                                        NULL,
+                                        nullptr,
                                         "org.workrave.Workrave.GnomeApplet",
                                         "/org/workrave/Workrave/GnomeApplet",
                                         "org.workrave.GnomeAppletInterface",
-                                        NULL,
+                                        nullptr,
                                         &error);
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
@@ -681,17 +681,17 @@ guint32
 GnomeAppletWindow::get_socketid()
 {
   guint32 ret = 0;
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "GetSocketId",
-                                                NULL,
+                                                nullptr,
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
           throw workrave::dbus::DBusException("Cannot get socket id");
@@ -707,17 +707,17 @@ guint32
 GnomeAppletWindow::get_size()
 {
   guint32 ret = 0;
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "GetSize",
-                                                NULL,
+                                                nullptr,
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
           throw workrave::dbus::DBusException("Cannot get size");
@@ -733,17 +733,17 @@ Orientation
 GnomeAppletWindow::get_orientation()
 {
   guint32 ret = 0;
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "GetOrientation",
-                                                NULL,
+                                                nullptr,
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
           throw workrave::dbus::DBusException("Cannot get socket id");
@@ -758,17 +758,17 @@ GnomeAppletWindow::get_orientation()
 void
 GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
 {
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "SetMenuStatus",
                                                 g_variant_new("(sb)", menu.c_str(), status),
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
           throw workrave::dbus::DBusException("Cannot set menu status");
@@ -781,17 +781,17 @@ GnomeAppletWindow::set_menu_status(const std::string &menu, bool status)
 void
 GnomeAppletWindow::set_menu_active(const std::string &menu, bool active)
 {
-  if (proxy != NULL)
+  if (proxy != nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "SetMenuActive",
                                                 g_variant_new("(sb)", menu.c_str(), active),
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
           throw workrave::dbus::DBusException("Cannot set menu active");

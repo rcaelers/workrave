@@ -26,10 +26,10 @@
 using namespace std;
 
 PulseMixer::PulseMixer()
-  : pa_mainloop(NULL),
-    pa_api(NULL),
-    context(NULL),
-    default_sink_info(NULL)
+  : pa_mainloop(nullptr),
+    pa_api(nullptr),
+    context(nullptr),
+    default_sink_info(nullptr)
 {
 }
 
@@ -46,7 +46,7 @@ PulseMixer::set_mute(bool on)
 
   bool was_muted = false;
 
-  if (default_sink_info != NULL)
+  if (default_sink_info != nullptr)
     {
       was_muted = default_sink_info->mute;
       TRACE_MSG("Was muted " << was_muted);
@@ -54,7 +54,7 @@ PulseMixer::set_mute(bool on)
       if (was_muted != on)
         {
           pa_operation* o;
-          if (!(o = pa_context_set_sink_mute_by_index(context, default_sink_info->index, on, NULL, NULL)))
+          if (!(o = pa_context_set_sink_mute_by_index(context, default_sink_info->index, on, nullptr, nullptr)))
             {
               TRACE_MSG("pa_context_set_sink_mute_by_index failed");
             }
@@ -95,14 +95,14 @@ PulseMixer::init()
                    PA_PROP_APPLICATION_VERSION,
                    PACKAGE_VERSION);
 
-  context = pa_context_new_with_proplist(pa_api, NULL, pa_proplist);
+  context = pa_context_new_with_proplist(pa_api, nullptr, pa_proplist);
   g_assert(context);
 
   pa_proplist_free (pa_proplist);
 
   pa_context_set_state_callback(context, context_state_cb, this);
 
-  pa_context_connect(context, NULL, (pa_context_flags_t) 0, NULL);
+  pa_context_connect(context, nullptr, (pa_context_flags_t) 0, nullptr);
 
   TRACE_EXIT()
 }
@@ -170,7 +170,7 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
                                         PA_SUBSCRIPTION_MASK_SINK_INPUT|
                                         PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT|
                                         PA_SUBSCRIPTION_MASK_CLIENT|
-                                        PA_SUBSCRIPTION_MASK_SERVER), NULL, NULL)))
+                                        PA_SUBSCRIPTION_MASK_SERVER), nullptr, nullptr)))
           {
             TRACE_MSG("pa_context_subscribe failed");
             return;
@@ -235,7 +235,7 @@ PulseMixer::set_default_sink_name(const char *name)
     {
       SinkInfo *sink_info = sink.second;
 
-      if (sink_info != NULL && sink_info->name == default_sink_name)
+      if (sink_info != nullptr && sink_info->name == default_sink_name)
         {
           TRACE_MSG("New default sink");
           default_sink_info = sink_info;
@@ -253,7 +253,7 @@ PulseMixer::remove_sink(uint32_t index)
       if (sinks[index] == default_sink_info)
         {
           TRACE_MSG("Lost default sink");
-          default_sink_info = NULL;
+          default_sink_info = nullptr;
         }
       delete sinks[index];
       sinks.erase(index);
@@ -265,7 +265,7 @@ void
 PulseMixer::update_sink(const pa_sink_info &info)
 {
   TRACE_ENTER("PulseMixer::update_sink");
-  SinkInfo *sink_info = NULL;
+  SinkInfo *sink_info = nullptr;
 
   if (sinks.count(info.index))
     {

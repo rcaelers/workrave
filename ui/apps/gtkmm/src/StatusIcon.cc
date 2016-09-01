@@ -64,8 +64,7 @@ StatusIcon::StatusIcon()
 }
 
 StatusIcon::~StatusIcon()
-{
-}
+= default;
 
 void
 StatusIcon::init()

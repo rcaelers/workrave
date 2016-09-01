@@ -41,9 +41,9 @@ ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
                   G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START)
              );
 
-  if (r && dbus_method_to_check_existence != NULL)
+  if (r && dbus_method_to_check_existence != nullptr)
     {
-      r = proxy.call_method(dbus_method_to_check_existence, NULL, NULL);
+      r = proxy.call_method(dbus_method_to_check_existence, nullptr, nullptr);
     }
   if (!r)
     {
@@ -55,6 +55,6 @@ ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
 bool ScreenLockDBus::lock()
 {
   TRACE_ENTER_MSG("ScreenLockDBus::lock", dbus_lock_method);
-  return proxy.call_method(dbus_lock_method, NULL, NULL);
+  return proxy.call_method(dbus_lock_method, nullptr, nullptr);
   TRACE_EXIT();
 }

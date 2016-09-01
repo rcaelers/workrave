@@ -70,8 +70,7 @@ GenericDBusApplet::GenericDBusApplet() :
 
 //! Destructor.
 GenericDBusApplet::~GenericDBusApplet()
-{
-}
+= default;
 
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
@@ -106,7 +105,7 @@ GenericDBusApplet::update_view()
   TRACE_ENTER("GenericDBusApplet::update_view");
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
@@ -155,7 +154,7 @@ GenericDBusApplet::deactivate_applet()
   data[2].slot = BREAK_ID_NONE;
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
                        data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
   TRACE_EXIT();
@@ -213,7 +212,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
   add_menu_item(_("Quit"),         MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
 
   TRACE_EXIT();
@@ -291,7 +290,7 @@ GenericDBusApplet::send_tray_icon_enabled()
   bool on = GUIConfig::trayicon_enabled()();
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->TrayIconUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, on);
 
   TRACE_EXIT();

@@ -50,8 +50,7 @@ GSettingsConfigurator::GSettingsConfigurator()
 
 
 GSettingsConfigurator::~GSettingsConfigurator()
-{
-}
+= default;
 
 
 bool
@@ -93,10 +92,10 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
 
   string key;
   GSettings *child = get_settings(full_path, key);
-  if (child != NULL)
+  if (child != nullptr)
     {
       GVariant *value = g_settings_get_value(child, key.c_str());
-      if (value != NULL)
+      if (value != nullptr)
         {
           if (type == VARIANT_TYPE_NONE)
             {
@@ -165,7 +164,7 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
   string key;
   GSettings *child = get_settings(full_path, key);
 
-  if (child != NULL)
+  if (child != nullptr)
     {
       switch(value.type)
         {
@@ -229,7 +228,7 @@ GSettingsConfigurator::add_children()
   gchar** schemas = nullptr;
   g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
 
-  for (int i = 0; schemas[i] != NULL; i++)
+  for (int i = 0; schemas[i] != nullptr; i++)
     {
       if (g_ascii_strncasecmp(schemas[i], schema_base.c_str(), len) == 0)
         {
@@ -307,7 +306,7 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   if (i == settings.end())
     {
       TRACE_RETURN("NULL");
-      return NULL;
+      return nullptr;
     }
 
   TRACE_EXIT();

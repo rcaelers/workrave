@@ -42,7 +42,7 @@ using namespace workrave::utils;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
-  : popup_menu(NULL),
+  : popup_menu(nullptr),
     show_open(show_open)
 {
 }
@@ -50,8 +50,7 @@ MainGtkMenu::MainGtkMenu(bool show_open)
 
 //! Destructor.
 MainGtkMenu::~MainGtkMenu()
-{
-}
+= default;
 
 
 void
@@ -106,7 +105,7 @@ MainGtkMenu::register_stock_items()
 void
 MainGtkMenu::init()
 {
-  if (popup_menu == NULL)
+  if (popup_menu == nullptr)
     {
       register_stock_items();
       create_actions();
@@ -244,7 +243,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;
 
-  if (popup_menu != NULL)
+  if (popup_menu != nullptr)
     {
       popup_menu->popup(button, activate_time);
     }
@@ -254,8 +253,8 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage)
 {
-  Gtk::CheckMenuItem *item = NULL;
-  const char *menu_name = NULL;
+  Gtk::CheckMenuItem *item = nullptr;
+  const char *menu_name = nullptr;
 
   switch (mode)
     {

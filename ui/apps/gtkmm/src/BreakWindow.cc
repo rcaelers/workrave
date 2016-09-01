@@ -95,14 +95,14 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #endif
   block_mode(mode),
   break_flags(break_flags),
-  frame(NULL),
-  gui(NULL),
+  frame(nullptr),
+  gui(nullptr),
   visible(false),
   accel_added(false),
-  accel_group(NULL),
-  postpone_button(NULL),
-  skip_button(NULL),
-  sysoper_combobox(NULL)
+  accel_group(nullptr),
+  postpone_button(nullptr),
+  skip_button(nullptr),
+  sysoper_combobox(nullptr)
 #ifdef PLATFORM_OS_WIN32
   ,
   desktop_window( NULL ),
@@ -214,7 +214,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 void
 BreakWindow::init_gui()
 {
-  if (gui == NULL)
+  if (gui == nullptr)
     {
       gui = Gtk::manage(create_gui());
 
@@ -288,7 +288,7 @@ BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
@@ -385,7 +385,7 @@ BreakWindow::create_sysoper_combobox()
 
   if (supported_system_operations.empty())
     {
-      return NULL;
+      return nullptr;
     }
 
   sysoper_model_columns = new SysoperModelColumns(has_button_images);
@@ -406,9 +406,9 @@ BreakWindow::create_sysoper_combobox()
   if (model->children().empty())
     {
       delete sysoper_model_columns;
-      sysoper_model_columns = NULL;
+      sysoper_model_columns = nullptr;
       TRACE_EXIT();
-      return NULL;
+      return nullptr;
     }
 
   Gtk::ComboBox *comboBox = new Gtk::ComboBox();
@@ -454,7 +454,7 @@ BreakWindow::on_sysoper_combobox_changed()
     }
 
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
 
   System::execute(row[sysoper_model_columns->id]);
@@ -563,7 +563,7 @@ void
 BreakWindow::on_lock_button_clicked()
 {
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
   System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
 }
@@ -610,7 +610,7 @@ Gtk::Box *
 BreakWindow::create_bottom_box(bool lockable,
                                   bool shutdownable)
 {
-  Gtk::HBox *box = NULL;
+  Gtk::HBox *box = nullptr;
 
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
@@ -642,7 +642,7 @@ BreakWindow::create_bottom_box(bool lockable,
           if (shutdownable)
             {
               sysoper_combobox = create_sysoper_combobox();
-              if (sysoper_combobox != NULL)
+              if (sysoper_combobox != nullptr)
                 {
                   box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
                 }
@@ -650,7 +650,7 @@ BreakWindow::create_bottom_box(bool lockable,
           else
             {
               lock_button = create_lock_button();
-              if (lock_button != NULL)
+              if (lock_button != nullptr)
                 {
                   box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
                 }
@@ -678,7 +678,7 @@ disable_button_focus(GtkWidget *w)
 {
 	if (GTK_IS_CONTAINER(w))
   {
-		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_button_focus, NULL);
+		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_button_focus, nullptr);
   }
 
   if (GTK_IS_BUTTON(w))
@@ -720,7 +720,7 @@ BreakWindow::start()
   // In case the show_all resized the window...
   center();
 
-  if (sysoper_combobox != NULL)
+  if (sysoper_combobox != nullptr)
     {
       // Setting "can focus" of the sysoper combobox to false is not enough to
       // prevent the combobox from taking the focus. A combobox has an internal
@@ -733,7 +733,7 @@ BreakWindow::start()
       GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
       if (gtk_widget_is_toplevel (toplevel))
         {
-          gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+          gtk_window_set_focus(GTK_WINDOW(toplevel), nullptr);
         }
     }
 
@@ -746,7 +746,7 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }

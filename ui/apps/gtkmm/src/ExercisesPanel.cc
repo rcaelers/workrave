@@ -48,18 +48,18 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
   PangoAttrIterator  *paiter;
   PangoAttrList      *attrlist;
   GtkTextMark        *mark;
-  GError             *error = NULL;
+  GError             *error = nullptr;
   gchar              *text;
 
   g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
-  g_return_if_fail (textiter != NULL);
-  g_return_if_fail (markup != NULL);
+  g_return_if_fail (textiter != nullptr);
+  g_return_if_fail (markup != nullptr);
   g_return_if_fail (gtk_text_iter_get_buffer (textiter) == buffer);
 
   if (len == 0)
     return;
 
-  if (!pango_parse_markup(markup, len, 0, &attrlist, &text, NULL, &error))
+  if (!pango_parse_markup(markup, len, 0, &attrlist, &text, nullptr, &error))
   {
     g_warning("Invalid markup string: %s", error->message);
     g_error_free(error);
@@ -68,7 +68,7 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
 
   len = strlen(text); /* TODO: is this needed? */
 
-  if (attrlist == NULL)
+  if (attrlist == nullptr)
   {
     gtk_text_buffer_insert(buffer, textiter, text, len);
     g_free(text);
@@ -76,7 +76,7 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
   }
 
   /* create mark with right gravity */
-  mark = gtk_text_buffer_create_mark(buffer, NULL, textiter, FALSE);
+  mark = gtk_text_buffer_create_mark(buffer, nullptr, textiter, FALSE);
 
   paiter = pango_attr_list_get_iterator(attrlist);
 
@@ -91,7 +91,7 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
     if (end == G_MAXINT)  /* last chunk */
       end = strlen(text);
 
-    tag = gtk_text_tag_new(NULL);
+    tag = gtk_text_tag_new(nullptr);
 
     if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_LANGUAGE)))
       g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage*)attr)->value), NULL);
@@ -188,7 +188,7 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
   GtkTextIter start, end;
 
   g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
-  g_return_if_fail (markup != NULL);
+  g_return_if_fail (markup != nullptr);
 
   if (len < 0)
     len = strlen (markup);
@@ -211,7 +211,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6),
          exercises(Exercise::get_exercises())
 {
-  standalone = dialog_action_area != NULL;
+  standalone = dialog_action_area != nullptr;
 
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
@@ -233,11 +233,11 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   pause_button =  Gtk::manage(new Gtk::Button());
   Gtk::Widget *description_widget;
 
-  if (dialog_action_area != NULL)
+  if (dialog_action_area != nullptr)
     {
       back_button =  Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
       forward_button =  Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
-      stop_button = NULL;
+      stop_button = nullptr;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
@@ -247,12 +247,12 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   else
     {
       back_button = Gtk::manage(GtkUtil::create_custom_stock_button
-                           (NULL, PREVIOUS_BUTTON_ID));
+                           (nullptr, PREVIOUS_BUTTON_ID));
       forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                               (NULL, NEXT_BUTTON_ID));
+                               (nullptr, NEXT_BUTTON_ID));
 
       stop_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                                         (NULL, CLOSE_BUTTON_ID));
+                                         (nullptr, CLOSE_BUTTON_ID));
       stop_button->signal_clicked()
         .connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
@@ -297,7 +297,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   forward_button->set_tooltip_text(_("Next exercise"));
   pause_button->set_tooltip_text(_("Pause exercises"));
 
-  if (stop_button != NULL)
+  if (stop_button != nullptr)
     {
       stop_button->set_tooltip_text(_("End exercises"));
     }
@@ -484,7 +484,7 @@ ExercisesPanel::refresh_pause()
   Gtk::StockID stock_id = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
   const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button,
-                                      standalone ? label : NULL,
+                                      standalone ? label : nullptr,
                                       stock_id);
   if (paused)
     pause_button->set_tooltip_text(_("Resume exercises"));

@@ -43,12 +43,12 @@ const GDBusInterfaceVTable DBusGio::interface_vtable =
   &DBusGio::on_method_call,
   &DBusGio::on_get_property,
   &DBusGio::on_set_property,
-  { NULL, }
+  { nullptr, }
 };
 
 //! Construct a new D-BUS bridge
 DBusGio::DBusGio()
-  : connection(NULL)
+  : connection(nullptr)
 {
 }
 
@@ -72,7 +72,7 @@ DBusGio::~DBusGio()
               g_dbus_connection_unregister_object(connection, interface_it->second.registration_id);
             }
 
-          if (interface_it->second.introspection_data != NULL)
+          if (interface_it->second.introspection_data != nullptr)
             {
               g_dbus_node_info_unref(interface_it->second.introspection_data);
             }
@@ -101,7 +101,7 @@ DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
                             cb != nullptr ? &DBusGio::on_name_acquired : nullptr,
                             cb != nullptr ? &DBusGio::on_name_lost : nullptr,
                             this,
-                            NULL);
+                            nullptr);
 
   services[service_name] = owner_id;
 
@@ -126,7 +126,7 @@ void
 DBusGio::update_object_registration(InterfaceData &data)
 {
   TRACE_ENTER_MSG("DBusGio::update_object_registration", data.object_path);
-  if (connection == NULL)
+  if (connection == nullptr)
     {
       TRACE_RETURN("No Connection");
       return;
@@ -140,10 +140,10 @@ DBusGio::update_object_registration(InterfaceData &data)
   string introspection_xml = get_introspect(data.object_path, data.interface_name);
   TRACE_MSG("Intro: %s" << introspection_xml);
 
-  GError *error = NULL;
+  GError *error = nullptr;
   data.introspection_data = g_dbus_node_info_new_for_xml(introspection_xml.c_str(), &error);
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
@@ -153,7 +153,7 @@ DBusGio::update_object_registration(InterfaceData &data)
                                                            data.object_path.c_str(),
                                                            data.introspection_data->interfaces[0],
                                                            &interface_vtable,
-                                                           this, NULL, NULL);
+                                                           this, nullptr, nullptr);
 
   TRACE_EXIT();
 }
@@ -164,7 +164,7 @@ void
 DBusGio::connect(const std::string &object_path, const std::string &interface_name, void *object)
 {
   DBusBindingGio *binding = dynamic_cast<DBusBindingGio *>(find_binding(interface_name));
-  if (binding == NULL)
+  if (binding == nullptr)
     {
       throw DBusException("No such interface");
     }
@@ -209,7 +209,7 @@ DBusGio::disconnect(const std::string &object_path, const std::string &interface
           g_dbus_connection_unregister_object(connection, interfaces[interface_name].registration_id);
         }
 
-      if (interfaces[interface_name].introspection_data != NULL)
+      if (interfaces[interface_name].introspection_data != nullptr)
         {
           g_dbus_node_info_unref(interfaces[interface_name].introspection_data);
         }
@@ -231,7 +231,7 @@ DBusGio::register_binding(const std::string &name, DBusBinding *interface)
 DBusBinding *
 DBusGio::find_binding(const std::string &interface_name) const
 {
-  DBusBinding *ret = NULL;
+  DBusBinding *ret = nullptr;
 
   BindingCIter it = bindings.find(interface_name);
   if (it != bindings.end())
@@ -246,7 +246,7 @@ DBusGio::find_binding(const std::string &interface_name) const
 void *
 DBusGio::find_object(const std::string &path, const std::string &interface_name) const
 {
-  void *object = NULL;
+  void *object = nullptr;
 
   ObjectCIter object_it = objects.find(path);
   if (object_it != objects.end())
@@ -267,35 +267,35 @@ bool
 DBusGio::is_running(const std::string &name) const
 {
   TRACE_ENTER("DBusGio::is_runninf");
-  GError *error = NULL;
+  GError *error = nullptr;
   gboolean running = FALSE;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,
-                                                    NULL,
+                                                    nullptr,
                                                     "org.freedesktop.DBus",
                                                     "/org/freedesktop/DBus",
                                                     "org.freedesktop.DBus",
-                                                    NULL,
+                                                    nullptr,
                                                     &error);
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
     }
 
-  if (error == NULL && proxy != NULL)
+  if (error == nullptr && proxy != nullptr)
     {
       GVariant *result = g_dbus_proxy_call_sync(proxy,
                                                 "NameHasOwner",
                                                 g_variant_new("(s)", name.c_str()),
                                                 G_DBUS_CALL_FLAGS_NONE,
                                                 -1,
-                                                NULL,
+                                                nullptr,
                                                 &error);
 
-      if (error != NULL)
+      if (error != nullptr)
         {
           TRACE_MSG("Error: " << error->message);
           g_error_free(error);
@@ -359,7 +359,7 @@ DBusGio::watch(const std::string &name, IDBusWatch *cb)
                                             on_bus_name_appeared,
                                             on_bus_name_vanished,
                                             this,
-                                            NULL);
+                                            nullptr);
   watched[name].callback = cb;
   watched[name].id = id;
   watched[name].seen = false;
@@ -390,7 +390,7 @@ DBusGio::get_introspect(const string &object_path, const string &interface_name)
       if (interface_it != object_it->second.interfaces.end())
         {
           DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(find_binding(interface_it->first));
-          if (binding == NULL)
+          if (binding == nullptr)
             {
               throw DBusRemoteException()
                 << message_info("Unknown interface")
@@ -427,7 +427,7 @@ DBusGio::on_method_call(GDBusConnection       *connection,
       DBusGio *self = (DBusGio *) user_data;
 
       void *object = self->find_object(object_path, interface_name);
-      if (object == NULL)
+      if (object == nullptr)
         {
           throw DBusRemoteException()
             << message_info("No such object")
@@ -437,7 +437,7 @@ DBusGio::on_method_call(GDBusConnection       *connection,
         }
 
       DBusBindingGio *binding = dynamic_cast<DBusBindingGio*>(self->find_binding(interface_name));
-      if (binding == NULL)
+      if (binding == nullptr)
         {
           throw DBusRemoteException()
             << message_info("No such interface")
@@ -477,7 +477,7 @@ DBusGio::on_get_property(GDBusConnection  *connection,
   (void) error;
   (void) user_data;
 
-  return NULL;
+  return nullptr;
 }
 
 

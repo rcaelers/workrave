@@ -51,8 +51,7 @@ Plug::Plug(int id) : Gtk::Plug(id)
 
 //! Destructor
 Plug::~Plug()
-{
-}
+= default;
 
 
 #ifdef HAVE_GTK3
@@ -79,7 +78,7 @@ Plug::on_realize()
   GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(gobj()));
   GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(gobj()));
 
-  if (gdk_screen_get_rgba_visual(screen) != NULL && gdk_display_supports_composite(display))
+  if (gdk_screen_get_rgba_visual(screen) != nullptr && gdk_display_supports_composite(display))
     {
       GdkVisual *visual = gdk_screen_get_rgba_visual(screen);
       gtk_widget_set_visual(GTK_WIDGET(gobj()), visual);

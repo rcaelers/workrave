@@ -50,13 +50,12 @@ GnomeAppletMenu::GnomeAppletMenu(GnomeAppletWindow *applet_window)
 
 //! Destructor.
 GnomeAppletMenu::~GnomeAppletMenu()
-{
-}
+= default;
 
 void
 GnomeAppletMenu::resync(OperationMode mode, UsageMode usage)
 {
-  if (applet_window != NULL)
+  if (applet_window != nullptr)
     {
       switch (mode)
         {

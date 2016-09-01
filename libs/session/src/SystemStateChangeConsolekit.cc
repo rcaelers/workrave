@@ -42,7 +42,7 @@ SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connec
   else
     {
       GVariant *result;
-      if (!proxy.call_method("CanStop", NULL, &result))
+      if (!proxy.call_method("CanStop", nullptr, &result))
         {
           TRACE_MSG(false);
           can_shutdown = false;
@@ -62,7 +62,7 @@ SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connec
 bool SystemStateChangeConsolekit::shutdown()
 {
   TRACE_ENTER("SystemStateChangeConsolekit::shutdown");
-  bool r = proxy.call_method("Stop", NULL, NULL);
+  bool r = proxy.call_method("Stop", nullptr, nullptr);
   TRACE_RETURN(r);
   return r;
 }

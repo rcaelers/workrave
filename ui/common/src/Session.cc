@@ -131,24 +131,24 @@ void
 Session::init_gnome()
 {
   TRACE_ENTER("Session::init_gnome");
-  GError *error = NULL;
+  GError *error = nullptr;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,
-                                                    NULL,
+                                                    nullptr,
                                                     "org.gnome.SessionManager",
                                                     "/org/gnome/SessionManager/Presence",
                                                     "org.gnome.SessionManager.Presence",
-                                                    NULL,
+                                                    nullptr,
                                                     &error);
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
     }
 
-  if (error == NULL && proxy != NULL)
+  if (error == nullptr && proxy != nullptr)
     {
       g_signal_connect(proxy, "g-signal", G_CALLBACK(on_signal), this);
     }

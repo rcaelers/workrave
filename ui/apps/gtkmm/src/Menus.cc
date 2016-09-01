@@ -85,10 +85,10 @@ using namespace workrave::utils;
  *  \param control Interface to the controller.
  */
 Menus::Menus(SoundTheme::Ptr sound_theme) :
-  statistics_dialog(NULL),
-  preferences_dialog(NULL),
-  exercises_dialog(NULL),
-  about(NULL),
+  statistics_dialog(nullptr),
+  preferences_dialog(nullptr),
+  exercises_dialog(nullptr),
+  about(nullptr),
   sound_theme(sound_theme)
 
 {
@@ -96,7 +96,7 @@ Menus::Menus(SoundTheme::Ptr sound_theme) :
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      menus[i] = NULL;
+      menus[i] = nullptr;
     }
 }
 
@@ -112,7 +112,7 @@ Menus::~Menus()
 void
 Menus::init(AppletControl *applet_control)
 {
-  IAppletWindow *applet_window = NULL;
+  IAppletWindow *applet_window = nullptr;
 
 // #if defined(PLATFORM_OS_OSX)
 //   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
@@ -150,7 +150,7 @@ Menus::init(AppletControl *applet_control)
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           menus[i]->init();
         }
@@ -259,7 +259,7 @@ Menus::on_menu_reading(bool reading)
 void
 Menus::on_menu_preferences()
 {
-  if (preferences_dialog == NULL)
+  if (preferences_dialog == nullptr)
     {
       preferences_dialog = new PreferencesDialog(sound_theme);
       preferences_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_preferences_response));
@@ -277,7 +277,7 @@ void
 Menus::on_menu_exercises()
 {
   TRACE_ENTER("Menus::on_menu_exercises");
-  if (exercises_dialog == NULL)
+  if (exercises_dialog == nullptr)
     {
       exercises_dialog = new ExercisesDialog();
       exercises_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_exercises_response));
@@ -296,11 +296,11 @@ Menus::on_exercises_response(int response)
 {
   (void) response;
 
-  assert(exercises_dialog != NULL);
+  assert(exercises_dialog != nullptr);
   exercises_dialog->hide();
 
   delete exercises_dialog;
-  exercises_dialog = NULL;
+  exercises_dialog = nullptr;
 }
 
 
@@ -308,7 +308,7 @@ Menus::on_exercises_response(int response)
 void
 Menus::on_menu_statistics()
 {
-  if (statistics_dialog == NULL)
+  if (statistics_dialog == nullptr)
     {
       ICore::Ptr core = Backend::get_core();
       IStatistics::Ptr stats = core->get_statistics();
@@ -330,7 +330,7 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_about()
 {
-  if (about == NULL)
+  if (about == nullptr)
     {
       string icon = AssetPath::complete_directory("workrave.png",
                                              AssetPath::SEARCH_PATH_IMAGES);
@@ -350,7 +350,7 @@ Menus::on_menu_about()
       about->set_name("Workrave");
 #ifdef HAVE_GTK3
       std::vector<Glib::ustring> authors;
-      for (int index = 0; workrave_authors[index] != NULL; index++)
+      for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
           authors.push_back(workrave_authors[index]);
         }
@@ -398,7 +398,7 @@ Menus::on_about_response(int response)
   (void) response;
 
   delete about;
-  about = NULL;
+  about = nullptr;
 }
 
 void
@@ -406,11 +406,11 @@ Menus::on_statistics_response(int response)
 {
   (void) response;
 
-  assert(statistics_dialog != NULL);
+  assert(statistics_dialog != nullptr);
   statistics_dialog->hide();
 
   delete statistics_dialog;
-  statistics_dialog = NULL;
+  statistics_dialog = nullptr;
 }
 
 void
@@ -418,13 +418,13 @@ Menus::on_preferences_response(int response)
 {
   (void) response;
 
-  assert(preferences_dialog != NULL);
+  assert(preferences_dialog != nullptr);
   preferences_dialog->hide();
 
   Backend::get_configurator()->save();
 
   delete preferences_dialog;
-  preferences_dialog = NULL;
+  preferences_dialog = nullptr;
 }
 
 
@@ -483,7 +483,7 @@ Menus::resync()
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           ICore::Ptr core = Backend::get_core();
 
@@ -513,7 +513,7 @@ Menus::locale_changed()
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           menus[i]->init();
         }

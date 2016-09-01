@@ -87,8 +87,7 @@ DailyLimitWindow::create_gui()
 
 //! Destructor.
 DailyLimitWindow::~DailyLimitWindow()
-{
-}
+= default;
 
 void
 DailyLimitWindow::set_progress(int value, int max_value)

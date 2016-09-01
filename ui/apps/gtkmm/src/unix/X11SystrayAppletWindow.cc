@@ -39,14 +39,14 @@
  *  \param control Interface to the controller.
  */
 X11SystrayAppletWindow::X11SystrayAppletWindow() :
-  view(NULL),
-  plug(NULL),
-  container(NULL),
+  view(nullptr),
+  plug(nullptr),
+  container(nullptr),
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
   applet_active(false),
   embedded(false),
-  tray_icon(NULL)
+  tray_icon(nullptr)
 {
 }
 
@@ -76,7 +76,7 @@ void
 X11SystrayAppletWindow::notify_callback()
 {
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
-  if (tray_icon != NULL && embedded)
+  if (tray_icon != nullptr && embedded)
     {
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
@@ -117,7 +117,7 @@ X11SystrayAppletWindow::activate_applet()
   tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
   AppletState ret =  APPLET_STATE_DISABLED;
 
-  if (tray_icon != NULL)
+  if (tray_icon != nullptr)
     {
       g_signal_connect(tray_icon, "notify",
                        G_CALLBACK (static_notify_callback),
@@ -180,25 +180,25 @@ X11SystrayAppletWindow::deactivate_applet()
 
   if (applet_active)
     {
-      if (plug != NULL)
+      if (plug != nullptr)
         {
           plug->remove();
           delete plug;
-          plug = NULL;
+          plug = nullptr;
         }
-      if (container != NULL)
+      if (container != nullptr)
         {
           container->remove();
           delete container;
-          container = NULL;
+          container = nullptr;
         }
 
       delete timer_box_control;
-      timer_box_control = NULL;
+      timer_box_control = nullptr;
 
       delete timer_box_view;
-      timer_box_view = NULL;
-      view = NULL;
+      timer_box_view = nullptr;
+      view = nullptr;
 
       state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
     }

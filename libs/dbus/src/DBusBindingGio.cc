@@ -39,8 +39,7 @@ DBusBindingGio::DBusBindingGio(IDBus::Ptr dbus)
 
 
 DBusBindingGio::~DBusBindingGio()
-{
-}
+= default;efault;
 
 void
 DBusMarshallGio::get_int(GVariant *v, int *value)
@@ -223,8 +222,8 @@ DBusMarshallGio::get_string(GVariant *v, std::string *value)
         << expected_type_info("string");
     }
 
-  const char *cstr = g_variant_get_string(v, NULL);
-  if (cstr != NULL)
+  const char *cstr = g_variant_get_string(v, nullptrptr);
+  if (cstr != nullptrptr)
     {
       *value = cstr;
     }

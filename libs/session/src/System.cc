@@ -75,8 +75,8 @@ std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
-GDBusConnection* System::session_connection = NULL;
-GDBusConnection* System::system_connection = NULL;
+GDBusConnection* System::session_connection = nullptr;
+GDBusConnection* System::system_connection = nullptr;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -86,22 +86,22 @@ System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
 
-  GError *error = NULL;
-  session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
-  if (error != NULL)
+  GError *error = nullptr;
+  session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
+  if (error != nullptr)
     {
       //it is rare and serious, so report it the user
       std::cerr << "Cannot establish connection to the session bus: " << error->message << std::endl;
       g_error_free(error);
-      error = NULL;
+      error = nullptr;
     }
 
-  system_connection = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &error);
-  if (error != NULL)
+  system_connection = g_bus_get_sync(G_BUS_TYPE_SYSTEM, nullptr, &error);
+  if (error != nullptr)
     {
       std::cerr << "Cannot establish connection to the system bus: " << error->message << std::endl;
       g_error_free(error);
-      error = NULL;
+      error = nullptr;
     }
 
   TRACE_EXIT();
@@ -115,14 +115,14 @@ System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const ch
   TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
 
   // I wish we could use std::move here
-  IScreenLockMethod *lock_method = NULL;
+  IScreenLockMethod *lock_method = nullptr;
   lock_method = new ScreenLockDBus(session_connection,
           dbus_name, dbus_path, dbus_interface,
           dbus_lock_method, dbus_method_to_check_existence);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
-      lock_method = NULL;
+      lock_method = nullptr;
       TRACE_RETURN(false);
       return false;
     }
@@ -213,7 +213,7 @@ System::init_DBus_lock_commands()
       // EFL:
       add_DBus_lock_cmd(
                   "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop",
-                  "Lock", NULL);
+                  "Lock", nullptr);
     }
   TRACE_EXIT();
 }
@@ -223,12 +223,12 @@ void
 System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
-  IScreenLockMethod *lock_method = NULL;
+  IScreenLockMethod *lock_method = nullptr;
   lock_method = new ScreenLockCommandline(command_name, parameters, async);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
-      lock_method = NULL;
+      lock_method = nullptr;
       TRACE_RETURN(false);
     }
   else
@@ -248,12 +248,12 @@ void System::init_cmdline_lock_commands(const char *display)
   add_cmdline_lock_cmd("enlightenment_remote", "-desktop-lock", false);
   add_cmdline_lock_cmd("xdg-screensaver", "lock", false);
 
-  if (display != NULL)
+  if (display != nullptr)
     {
       char *cmd = g_strdup_printf("-display \"%s\" -lock", display);
       add_cmdline_lock_cmd("xscreensaver-command", cmd, false);
       g_free(cmd);
-      cmd = NULL;
+      cmd = nullptr;
     }
   else
     {
@@ -265,16 +265,16 @@ void System::init_cmdline_lock_commands(const char *display)
   //add_cmdline_lock_cmd("xflock4", NULL, true);
   //add_cmdline_lock_cmd("lxlock", NULL, true);
 
-  if (display != NULL)
+  if (display != nullptr)
     {
       char *cmd = g_strdup_printf("-display \"%s\"", display);
       add_cmdline_lock_cmd("xlock", cmd, true);
       g_free(cmd);
-      cmd = NULL;
+      cmd = nullptr;
     }
   else
     {
-      add_cmdline_lock_cmd("xlock", NULL, true);
+      add_cmdline_lock_cmd("xlock", nullptr, true);
     }
 
   TRACE_EXIT();

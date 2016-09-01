@@ -50,11 +50,11 @@ using namespace workrave::utils;
 void *
 Platform::get_default_display()
 {
-  void *xdisplay = NULL;
+  void *xdisplay = nullptr;
  
 #if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
-  if (display != NULL)
+  if (display != nullptr)
     {
       xdisplay = gdk_x11_display_get_xdisplay(display);
     }
@@ -78,10 +78,10 @@ Platform::get_default_display_name()
   
 #if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
-  if (display != NULL)
+  if (display != nullptr)
     {
       const gchar *name = gdk_display_get_name(display);
-      if (name != NULL)
+      if (name != nullptr)
         {
           ret = name;
         }

@@ -41,7 +41,7 @@ IconListCellRenderer::IconListCellRenderer()
 }
 
 IconListCellRenderer::~IconListCellRenderer()
-{}
+= default;
 
 Glib::PropertyProxy<Glib::ustring> IconListCellRenderer::property_text()
 {

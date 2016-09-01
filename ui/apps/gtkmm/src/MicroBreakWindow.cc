@@ -164,7 +164,7 @@ void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
 
   gui->restbreak_now();
 }
@@ -185,7 +185,7 @@ MicroBreakWindow::update_time_bar()
 
   ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       if (user_active && !is_flashing)
         {

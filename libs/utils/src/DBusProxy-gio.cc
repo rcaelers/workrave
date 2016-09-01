@@ -32,14 +32,14 @@
     this->flags = flags_in;
     proxy = g_dbus_proxy_new_sync(connection,
                                        flags,
-                                       NULL,
+                                       nullptr,
                                        name,
                                        object_path,
                                        interface_name,
-                                       NULL,
+                                       nullptr,
                                        &error);
 
-    if (error != NULL)
+    if (error != nullptr)
       {
         TRACE_MSG("Error: " << error->message);
         return false;
@@ -53,17 +53,17 @@
   {
     TRACE_ENTER_MSG("DBus_proxy::init", name);
     this->flags = flags_in;
-    error = NULL;
+    error = nullptr;
     proxy = g_dbus_proxy_new_for_bus_sync(bus_type,
                                                flags,
-                                               NULL,
+                                               nullptr,
                                                name,
                                                object_path,
                                                interface_name,
-                                               NULL,
+                                               nullptr,
                                                &error);
 
-    if (error != NULL)
+    if (error != nullptr)
       {
         TRACE_MSG("Error: " << error->message);
         return false;
@@ -78,39 +78,39 @@
   bool DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result)
   {
     TRACE_ENTER_MSG("DBus_proxy::call_method", method_name);
-    if (proxy == NULL)
+    if (proxy == nullptr)
       return false;
 
-    if (error != NULL)
+    if (error != nullptr)
       {
         g_error_free(error);
-        error = NULL;
+        error = nullptr;
       }
 
     GVariant *result = g_dbus_proxy_call_sync(proxy, method_name,
                                               method_parameters,
                                               G_DBUS_CALL_FLAGS_NONE,
                                               -1,
-                                              NULL,
+                                              nullptr,
                                               &error);
 
-    if (method_result == NULL)
+    if (method_result == nullptr)
       {
-        if (result != NULL)
+        if (result != nullptr)
           {
             g_variant_unref(result);
-            result = NULL;
+            result = nullptr;
           }
       }
     else
       {
-        if (error != NULL)
+        if (error != nullptr)
           {
-            *method_result = NULL;
-            if (result != NULL)
+            *method_result = nullptr;
+            if (result != nullptr)
               {
                 g_variant_unref(result);
-                result = NULL;
+                result = nullptr;
               }
           }
         else
@@ -119,7 +119,7 @@
           }
       }
 
-    if (error != NULL)
+    if (error != nullptr)
       {
         TRACE_RETURN(error->message);
         return false;
@@ -133,22 +133,22 @@
   bool DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *method_parameters)
   {
     TRACE_ENTER_MSG("DBus_proxy::call_method_asynch_no_result", method_name);
-    if (proxy == NULL)
+    if (proxy == nullptr)
       return false;
 
-    if (error != NULL)
+    if (error != nullptr)
       {
         g_error_free(error);
-        error = NULL;
+        error = nullptr;
       }
 
     g_dbus_proxy_call(proxy, method_name,
                               method_parameters,
                               G_DBUS_CALL_FLAGS_NONE,
                               -1,
-                              NULL,
-                              NULL,
-                              NULL);
+                              nullptr,
+                              nullptr,
+                              nullptr);
 
     TRACE_EXIT();
     return true;

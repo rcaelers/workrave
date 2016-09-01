@@ -37,7 +37,7 @@ using namespace workrave::utils;
 
 XScreenSaverMonitor::XScreenSaverMonitor() :
   abort(false),
-  screen_saver_info(NULL)
+  screen_saver_info(nullptr)
 {
 }
 
@@ -64,7 +64,7 @@ XScreenSaverMonitor::init()
   root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
 
   Bool has_extension = False;
-  if (xdisplay != NULL)
+  if (xdisplay != nullptr)
     {
       TRACE_MSG("xdisplay ok");
       has_extension = XScreenSaverQueryExtension(xdisplay, &event_base, &error_base);

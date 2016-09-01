@@ -47,8 +47,8 @@
 #endif
 
 #ifdef HAVE_GTK3
-GdkDevice *WindowHints::keyboard = NULL;
-GdkDevice *WindowHints::pointer = NULL;
+GdkDevice *WindowHints::keyboard = nullptr;
+GdkDevice *WindowHints::pointer = nullptr;
 #endif
 
 void
@@ -87,7 +87,7 @@ WindowHints::Grab *
 WindowHints::grab(int num_windows, GdkWindow **windows)
 {
   TRACE_ENTER("WindowHints::grab");
-  WindowHints::Grab *handle = NULL;
+  WindowHints::Grab *handle = nullptr;
 
 #if defined(PLATFORM_OS_WIN32)
   if (num_windows > 0)
@@ -112,14 +112,14 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
   if (num_windows > 0)
     {
       GdkDevice *device = gtk_get_current_event_device();
-      if (device == NULL)
+      if (device == nullptr)
         {
           GdkDisplay *display = gdk_window_get_display(windows[0]);
           GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
           device = gdk_device_manager_get_client_pointer(device_manager);
         }
 
-      if (device != NULL)
+      if (device != nullptr)
         {
           if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
             {
@@ -137,7 +137,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
       keybGrabStatus = gdk_device_grab(keyboard, windows[0],
                                        GDK_OWNERSHIP_NONE, TRUE,
                                        (GdkEventMask) (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
-                                       NULL, GDK_CURRENT_TIME);
+                                       nullptr, GDK_CURRENT_TIME);
 
       if (keybGrabStatus == GDK_GRAB_SUCCESS)
         {
@@ -145,7 +145,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
           pointerGrabStatus = gdk_device_grab(pointer, windows[0],
                                               GDK_OWNERSHIP_NONE, TRUE,
                                               (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
-                                              NULL, GDK_CURRENT_TIME);
+                                              nullptr, GDK_CURRENT_TIME);
 
           if (pointerGrabStatus != GDK_GRAB_SUCCESS)
             {
@@ -210,15 +210,15 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
 #elif defined(HAVE_GTK3)
-  if (keyboard != NULL)
+  if (keyboard != nullptr)
     {
       gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
-      keyboard = NULL;
+      keyboard = nullptr;
     }
-  if (pointer != NULL)
+  if (pointer != nullptr)
     {
       gdk_device_ungrab(pointer, GDK_CURRENT_TIME);
-      pointer = NULL;
+      pointer = nullptr;
     }
 #else
   gdk_keyboard_ungrab(GDK_CURRENT_TIME);

@@ -83,7 +83,7 @@ DataConnector::connect(const string &setting,
                        DataConnection *connection,
                        dc::Flags flags)
 {
-  if (connection != NULL)
+  if (connection != nullptr)
     {
       MonitoredWidget mw;
 
@@ -104,7 +104,7 @@ DataConnector::connect(const string &setting,
                        sigc::slot<bool, const string &, bool> slot,
                        dc::Flags flags)
 {
-  if (connection != NULL)
+  if (connection != nullptr)
     {
       MonitoredWidget mw;
 

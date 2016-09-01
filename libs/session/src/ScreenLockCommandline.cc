@@ -36,11 +36,11 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
   TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
   char *program_path = g_find_program_in_path(program_name);
 
-  if (program_path == NULL)
+  if (program_path == nullptr)
     {
-      cmd = NULL;
+      cmd = nullptr;
     }
-  else if (parameters != NULL)
+  else if (parameters != nullptr)
     {
       cmd = g_strdup_printf("%s %s", program_path, parameters);
       g_free(program_path);
@@ -56,18 +56,18 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
 bool
 ScreenLockCommandline::invoke(const gchar* command, bool async)
 {
-  GError *error = NULL;
+  GError *error = nullptr;
 
   if(!async)
     {
       // synchronised call
       gint exit_code;
-      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
+      if (!g_spawn_command_line_sync(command, nullptr, nullptr, &exit_code, &error) )
         {
           g_error_free(error);
           return false;
         }
-      return g_spawn_check_exit_status(exit_code, NULL);
+      return g_spawn_check_exit_status(exit_code, nullptr);
     }
   else
     {
