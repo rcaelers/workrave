@@ -1,9 +1,17 @@
-Workrave NEWS -- history of user-visible changes.  11 May 2016
-Copyright (C) 2001-2014 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes.  15 Sep 2016
+Copyright (C) 2001-2016 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
+
+* Workrave 1.10.16
+
+** Mark applet as compatible with GNOME 3.22 (Francois Marier)
+
+** Fix text alignment time bar.
+
+** Fix resuming microbreak after postponing restbreak
 
 * Workrave 1.10.15
 
