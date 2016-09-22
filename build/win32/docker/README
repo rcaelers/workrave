@@ -1,0 +1,13 @@
+Usage
+
+* Create docker image
+
+docker build -t rcaelers/workrave-v1_10-build-win32 build/win32/docker
+
+* Build
+
+docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ -v rcaelers/workrave-v1_10-build-win32 all
+
+* Upload
+
+docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ -v ~/.ssh:/root/.ssh rcaelers/workrave-v1_10-build-win32 upload
