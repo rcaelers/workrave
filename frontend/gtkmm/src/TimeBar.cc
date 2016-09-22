@@ -786,7 +786,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   cr->set_operator(Cairo::OPERATOR_XOR);
   cr->set_source_rgb(1,1,1);
-  cr->move_to(text_x + 1, text_y + 1);
+  cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
   style_context->context_restore();
 
