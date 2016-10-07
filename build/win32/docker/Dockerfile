@@ -45,7 +45,7 @@ RUN mkdir -p /workspace/inno && \
 
 RUN mkdir -p /workspace/source && \
     cd /workspace/source && \
-    git clone --depth 1 https://github.com/rcaelers/workrave.git
+    git clone https://github.com/rcaelers/workrave.git
 
 RUN mkdir -p /workspace/runtime && \
     cd /workspace/runtime && \
