@@ -1,31 +1,37 @@
 #!/bin/bash
 WORKSPACE=/workspace
-SOURCEDIR=${WORKSPACE}/source
-OUTPUTDIR=${WORKSPACE}/output
+SOURCE_DIR=${WORKSPACE}/source
+OUTPUT_DIR=${WORKSPACE}/output
+BUILD_DIR=${WORKSPACE}/build
 
 CMAKE_FLAGS=()
 MAKE_FLAGS=()
-REL_PATH=
+REL_DIR=
 
 build()
 {
   config=$1
-  rel_path=$2
+  rel_dir=$2
   cmake_args=("${!3}")
 
-  BUILDDIR=${OUTPUTDIR}/${config}/build
-  INSTALLDIR=${OUTPUTDIR}/${config}/install
+  
 
-  if [ ! -d ${BUILDDIR}/${rel_path} ]; then
-    echo Performing build at toplevel first
-    rel_path=
+  if [ ! -d ${BUILD_DIR}/${config} ]; then
+      mkdir -p ${BUILD_DIR}/${config}
+  fi
+  if [ ! -d ${OUTPUT_DIR}/${config} ]; then
+      mkdir -p ${OUTPUT_DIR}/${config}
   fi
 
-  mkdir -p ${BUILDDIR} ${INSTALLDIR}
-  cd ${BUILDDIR}/${rel_path}
+  if [ -n "${rel_dir}" -a ! -d "${BUILD_DIR}/${rel_dir}" ]; then
+      echo Performing build at toplevel first
+      rel_dir=
+  fi
 
-  if [ -z "${rel_path}" ]; then
-    cmake ${SOURCEDIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} ${cmake_args[@]}
+  cd ${BUILD_DIR}/${config}/${rel_dir}
+
+  if [ -z "${rel_dir}" ]; then
+    cmake ${SOURCE_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
   fi
 
   make ${MAKE_FLAGS[@]}
@@ -40,7 +46,7 @@ parse_arguments()
             CONFIG=${OPTARG}
             ;;
           C)
-            REL_PATH=${OPTARG}
+            REL_DIR=${OPTARG}
             ;;
           D)
             CMAKE_FLAGS+=("-D${OPTARG}")
@@ -58,26 +64,26 @@ parse_arguments $*
 
 case "$CONFIG" in
     mingw64*)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw64.cmake")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
     mingw32-vs*)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
     mingw32*)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw32.cmake")
-        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUTDIR}/noui64/install")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
 
         CMAKE_FLAGS64=()
-        CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCEDIR}/build/cmake/mingw64.cmake")
+        CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS64+=("-DWITH_UI=None")
         CMAKE_FLAGS64+=("-DCMAKE_BUILD_TYPE=Release")
 
-        build noui64 "" CMAKE_FLAGS64[@]
+        build ".64" "" CMAKE_FLAGS64[@]
         ;;
     "*")
       ;;
 esac
 
-build "${CONFIG}" "${REL_PATH}" CMAKE_FLAGS[@]
+build "" "${REL_DIR}" CMAKE_FLAGS[@]
