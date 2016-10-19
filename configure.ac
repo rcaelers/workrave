@@ -432,15 +432,21 @@ if test "x$platform_os_unix" = "xyes"
 then
 
     if test "x$enable_monitors" == "x"; then
+        enable_monitors="mutter"
+
         if test "x$have_xrecord" == "xyes" ; then
-	  enable_monitors="record"
+            if test "x$enable_monitors" != "x"; then
+               enable_monitors="$enable_monitors,"
+            fi
+            enable_monitors="${enable_monitors}record"
         fi
         if test "x$have_xscreensaver" == "xyes" ; then
-	    if test "x$enable_monitors" != "x"; then
-	        enable_monitors="$enable_monitors,"
-	    fi
-   	    enable_monitors="${enable_monitors}screensaver"
+            if test "x$enable_monitors" != "x"; then
+               enable_monitors="$enable_monitors,"
+            fi
+            enable_monitors="${enable_monitors}screensaver"
         fi
+
         if test "x$enable_monitors" != "x"; then
             enable_monitors="$enable_monitors,"
         fi
@@ -448,7 +454,7 @@ then
     fi
 
     loop=${enable_monitors},
- 
+
     while echo $loop | grep \, &> /dev/null
     do
         monitor=${loop%%\,*}
@@ -456,24 +462,27 @@ then
 
         case "$monitor" in
            record)
-	       if test "x$have_xrecord" != "xyes" ; then
+               if test "x$have_xrecord" != "xyes" ; then
                    AC_MSG_ERROR([record activity monitor not supported.])
                fi
-    	       ;;
-
-	   x11events)
                ;;
-	   
-	   screensaver)
-	       if test "x$have_xscreensaver" != "xyes" ; then
+
+           x11events)
+               ;;
+
+           mutter)
+               ;;
+
+           screensaver)
+               if test "x$have_xscreensaver" != "xyes" ; then
                    AC_MSG_ERROR([screensaver activity monitor not supported.])
                fi
-	       ;;
+               ;;
 
-	   *)
+           *)
                AC_MSG_ERROR([unknown activity monitor: $monitor])
-	       ;;
-	   
+               ;;
+
         esac
     done
 

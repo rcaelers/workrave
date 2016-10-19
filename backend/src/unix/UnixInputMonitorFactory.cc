@@ -36,6 +36,7 @@
 #include "RecordInputMonitor.hh"
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
+#include "MutterInputMonitor.hh"
 
 UnixInputMonitorFactory::UnixInputMonitorFactory()
   : error_reported(false)
@@ -61,12 +62,12 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
     {
       bool initialized = false;
       string configure_monitor_method;
-      
+
       vector<string> available_monitors;
       StringUtil::split(HAVE_MONITORS, ',', available_monitors);
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
-      
+
       CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
                                                               configure_monitor_method,
                                                               "default");
@@ -90,7 +91,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
         {
           string actual_monitor_method = *loop;
           TRACE_MSG("Test " <<  actual_monitor_method);
-          
+
           if (actual_monitor_method == "record")
             {
               monitor = new RecordInputMonitor(display);
@@ -103,6 +104,10 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
             {
               monitor = new X11InputMonitor(display);
             }
+          else if (actual_monitor_method == "mutter")
+            {
+              monitor = new MutterInputMonitor();
+            }
 
           initialized = monitor->init();
 
@@ -111,7 +116,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
               TRACE_MSG("Success");
               break;
             }
-          
+
           delete monitor;
           monitor = NULL;
 
@@ -136,7 +141,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
               error_reported = true;
               g_idle_add(static_report_failure, NULL);
             }
-          
+
           CoreFactory::get_configurator()->set_value("advanced/monitor", "default");
           CoreFactory::get_configurator()->save();
 
