@@ -1,5 +1,4 @@
 EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
-		  org.gnome.panel.applet.WorkraveAppletFactory.service.in	\
 	  	  v4/WorkraveApplet.c				 		\
 	  	  v5/WorkraveApplet.c				 		\
 		  WorkraveApplet.h				 		\
@@ -8,7 +7,7 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
 		  v5/workrave-gnome-applet-menu.xml
 
 BUILT_SOURCES   =
-CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(service_DATA) $(schemas_DATA)
+CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(schemas_DATA)
 
 MAINTAINERCLEANFILES =  Makefile.in DBusGnomeApplet.xml DBusGUI.xml
 
@@ -21,19 +20,19 @@ applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 if HAVE_PANELAPPLET4
-LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapplet-4.0`
+LIBPANEL_APPLET_DIR		= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanelapplet-4.0`
 appletdir       		= $(datadir)/gnome-panel/4.0/applets
 xmlui_DATA  			= v4/workrave-gnome-applet-menu.xml
 applet_source 			= v4/WorkraveApplet.c
 else
-LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanel-applet`
-appletdir       		= $(datadir)/gnome-panel/5.0/applets
+LIBPANEL_APPLET_DIR		= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanel-applet`
+appletdir			= $(LIBPANEL_APPLET_DIR)
 xmlui_DATA  			= v5/workrave-gnome-applet-menu.xml
 applet_source 			= v5/WorkraveApplet.c
 endif
 
-APPLET_IN_PROCESS 		= false
-APPLET_LOCATION   		= ${libdir}/gnome-applets/workrave-applet
+APPLET_IN_PROCESS 		= true
+APPLET_LOCATION   		= ${pkglibdir}/libworkrave-applet.so
 
 $(applet_in_files): $(applet_in_files).in Makefile
 	$(AM_V_GEN)sed \
@@ -44,15 +43,6 @@ $(applet_in_files): $(applet_in_files).in Makefile
 
 %.panel-applet: %.panel-applet.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
 
-servicedir       		= $(datadir)/dbus-1/services
-service_in_files 		= org.gnome.panel.applet.WorkraveAppletFactory.service.in
-service_DATA     		= $(service_in_files:.service.in=.service)
-
-org.gnome.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
-	$(AM_V_GEN)sed \
-	    -e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
-	    $< > $@
-
 AM_CPPFLAGS 			= -I$(srcdir)
 
 FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
@@ -61,13 +51,13 @@ FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @W
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
-libappletdir = ${libdir}/gnome-applets
-libapplet_PROGRAMS 		= workrave-applet
+libapplet_libdir		= ${pkglibdir}
+libapplet_lib_LTLIBRARIES	= libworkrave-applet.la
 
-workrave_applet_SOURCES 	= ${applet_source} workrave-gnome-applet-generated.c
-workrave_applet_LDADD 		= @GNOME3_LIBS@  -L$(builddir)/../../common/src -lworkrave-private-1.0
-workrave_applet_CXXFLAGS 	= ${FLAGS}
-workrave_applet_CFLAGS 		= ${FLAGS}
+libworkrave_applet_la_SOURCES	= ${applet_source} workrave-gnome-applet-generated.c
+libworkrave_applet_la_LIBADD	= @GNOME3_LIBS@  -L$(builddir)/../../common/src -lworkrave-private-1.0
+libworkrave_applet_la_CXXFLAGS	= ${FLAGS}
+libworkrave_applet_la_CFLAGS	= ${FLAGS}
 
 # ------------------------------------------------------------------------
 
