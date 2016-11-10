@@ -58,6 +58,7 @@ libworkrave_applet_la_SOURCES	= ${applet_source} workrave-gnome-applet-generated
 libworkrave_applet_la_LIBADD	= @GNOME3_LIBS@  -L$(builddir)/../../common/src -lworkrave-private-1.0
 libworkrave_applet_la_CXXFLAGS	= ${FLAGS}
 libworkrave_applet_la_CFLAGS	= ${FLAGS}
+libworkrave_applet_la_LDFLAGS	= -module -avoid-version
 
 # ------------------------------------------------------------------------
 
