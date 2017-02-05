@@ -575,15 +575,12 @@ bool PreludeWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   return Gtk::Window::on_draw(cr);
 }
 
-/**
- * Checks to see if the display supports alpha channels
- */
 void PreludeWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen)
 {
   (void) previous_screen;
 
-  auto screen = get_screen();
-  auto visual = screen->get_rgba_visual();
+  const Glib::RefPtr<Gdk::Screen> screen = get_screen();
+  const Glib::RefPtr<Gdk::Visual> visual = screen->get_rgba_visual();
 
   if (visual)
     {

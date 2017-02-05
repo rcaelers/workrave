@@ -851,8 +851,8 @@ void BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_sc
 {
   (void) previous_screen;
 
-  auto screen = get_screen();
-  auto visual = screen->get_rgba_visual();
+  const Glib::RefPtr<Gdk::Screen> screen = get_screen();
+  const Glib::RefPtr<Gdk::Visual> visual = screen->get_rgba_visual();
 
   if (visual)
     {
