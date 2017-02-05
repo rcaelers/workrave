@@ -1,15 +1,27 @@
-Workrave 1.10
-=============
+# Workrave 1.10
 
 Please visit http://www.workrave.org for more information.
 
-BUILD
------
+## Install
 
-This document only discusses compilation on Unix (like OSes).
+- Windows: download from http://www.workrave.org/download
+- Ubuntu: install with the "Ubuntu Software" application.
+- Linux latest version:  
+  Add this PPA to your Software Sources  
+  `ppa:rob-caelers/workrave`  
+  either in the Ubuntu Software application, or from the terminal:
+  ```
+  sudo add-apt-repository ppa:rob-caelers/workrave  
+  sudo apt-get update
+  ```
+
+
+## Build
+
+This document only discusses compilation on Unix (like OSes).  
 Information on how to compile Workrave on Windows can be found in
-build/cmake/README (native compilation on windows) and
-build/win32/README (cross-compilation on Linux)
+- `build/cmake/README` (native compilation on windows) and
+- `build/win32/README` (cross-compilation on Linux)
 
 Read the 'INSTALL' file for more detailed directions on compilation on
 Unix and OSX.
