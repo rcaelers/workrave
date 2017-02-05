@@ -32,6 +32,10 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/gdkwayland.h>
+#endif
+
 #include "GUI.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
@@ -415,4 +419,15 @@ GtkWindow *GtkUtil::get_visible_tooltip_window()
 
     g_list_free( list );
     return func_retval;
+}
+
+bool
+GtkUtil::running_on_wayland()
+{
+#ifdef GDK_WINDOWING_WAYLAND
+  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+  return GDK_IS_WAYLAND_DISPLAY(display);
+#else
+  return false;
+#endif
 }

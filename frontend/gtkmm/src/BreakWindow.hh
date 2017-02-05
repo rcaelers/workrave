@@ -176,6 +176,9 @@ private:
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
       System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
+
+  virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
+  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
 };
 
 inline BreakWindow::BreakFlags

@@ -118,6 +118,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       set_decorated(false);
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
+
+      if (GtkUtil::running_on_wayland())
+        {
+          set_app_paintable(true);
+          signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
+          signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed));
+          on_screen_changed(get_screen());
+          set_size_request(head.get_width(), head.get_height());
+        }
     }
 
   // On W32, must be *before* realize, otherwise a border is drawn.
@@ -240,11 +249,12 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !GtkUtil::running_on_wayland())
             {
 #ifdef PLATFORM_OS_WIN32
               desktop_window = new DesktopWindow(head);
               add(*window_frame);
+
 #elif defined(PLATFORM_OS_UNIX)
               set_size_request(head.get_width(),
                                head.get_height());
@@ -263,7 +273,17 @@ BreakWindow::init_gui()
             }
           else
             {
-              add(*window_frame);
+              if (GtkUtil::running_on_wayland())
+                {
+                  Gtk::Alignment *align
+                    = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                  align->add(*window_frame);
+                  add(*align);
+                }
+              else
+                {
+                  add(*window_frame);
+                }
             }
         }
 
@@ -804,8 +824,38 @@ BreakWindow::get_gdk_window()
   return get_window();
 }
 
-
 void
 BreakWindow::update_break_window()
 {
+}
+
+bool BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+  cr->save();
+  if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+    {
+      cr->set_source_rgba(0, 0, 0, 0.95);
+    }
+  else
+    {
+      cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
+    }
+  cr->set_operator(Cairo::OPERATOR_SOURCE);
+  cr->paint();
+  cr->restore();
+ 
+  return Gtk::Window::on_draw(cr);
+}
+
+void BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen)
+{
+  (void) previous_screen;
+
+  auto screen = get_screen();
+  auto visual = screen->get_rgba_visual();
+
+  if (visual)
+    {
+      gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
+    }
 }

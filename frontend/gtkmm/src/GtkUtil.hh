@@ -93,6 +93,8 @@ public:
 
   static GtkWindow *get_visible_tooltip_window();
 
+  static bool running_on_wayland();
+
 private:
   static Glib::Quark *label_quark;
 };

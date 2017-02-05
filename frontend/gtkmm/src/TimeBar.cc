@@ -785,7 +785,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->clip();
 
   cr->set_operator(Cairo::OPERATOR_XOR);
-  cr->set_source_rgb(1,1,1);
+  cr->set_source_rgba(1,1,1,1);
   cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
   style_context->context_restore();
@@ -796,14 +796,14 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 void
 TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color)
 {
-  cr->set_source_rgb(color.get_red_p(), color.get_green_p(), color.get_blue_p());
+  cr->set_source_rgba(color.get_red_p(), color.get_green_p(), color.get_blue_p(), 1);
 }
 
 
 void
 TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color)
 {
-  cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
+  cr->set_source_rgba(color.get_red(), color.get_green(), color.get_blue(), 1);
 }
 
 void
