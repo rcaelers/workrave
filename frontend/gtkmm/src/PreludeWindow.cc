@@ -24,7 +24,7 @@
 #include "preinclude.h"
 
 #include <gtkmm.h>
-#ifdef HAVE_GTK3      
+#ifdef HAVE_GTK3
 #include <gdkmm/devicemanager.h>
 #endif
 
@@ -52,7 +52,7 @@
 
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
-  : Gtk::Window(Gtk::WINDOW_POPUP),
+  : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
     SCREEN_MARGIN(20),
     did_avoid(false),
     time_bar(NULL),
@@ -68,8 +68,19 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
+  set_decorated(false);
+  set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 
   Gtk::Window::set_border_width(0);
+
+  if (GtkUtil::running_on_wayland())
+    {
+      set_app_paintable(true);
+      signal_draw().connect(sigc::mem_fun(*this, &PreludeWindow::on_draw));
+      signal_screen_changed().connect(sigc::mem_fun(*this, &PreludeWindow::on_screen_changed));
+      on_screen_changed(get_screen());
+      set_size_request(head.get_width(), head.get_height());
+    }
 
   init_avoid_pointer();
   realize();
@@ -103,6 +114,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   flash_visible = true;
   color_warn = Gdk::Color("orange");
   color_alert = Gdk::Color("red");
+
   add(*frame);
 
   switch (break_id)
@@ -218,6 +230,11 @@ PreludeWindow::start()
 
   WindowHints::set_always_on_top(this, true);
 
+  if (GtkUtil::running_on_wayland())
+    {
+      get_window()->input_shape_combine_region(Cairo::Region::create(), 0, 0);
+    }
+  
   time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
 
   TRACE_EXIT();
@@ -232,7 +249,17 @@ PreludeWindow::add(Gtk::Widget& widget)
       window_frame = Gtk::manage(new Frame());
       window_frame->set_border_width(0);
       window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
-      Gtk::Window::add(*window_frame);
+
+      if (GtkUtil::running_on_wayland())
+        {
+          Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+          align->add(*window_frame);
+          Gtk::Window::add(*align);
+        }
+       else
+         {
+           Gtk::Window::add(*window_frame);
+         }
     }
   window_frame->add(widget);
 }
@@ -536,3 +563,30 @@ PreludeWindow::on_avoid_pointer_timer()
   return true;
 }
 #endif
+
+bool PreludeWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+  cr->save();
+  cr->set_source_rgba(0.0, 0.0, 0.0, 0.0);
+  cr->set_operator(Cairo::OPERATOR_SOURCE);
+  cr->paint();
+  cr->restore();
+
+  return Gtk::Window::on_draw(cr);
+}
+
+/**
+ * Checks to see if the display supports alpha channels
+ */
+void PreludeWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen)
+{
+  (void) previous_screen;
+
+  auto screen = get_screen();
+  auto visual = screen->get_rgba_visual();
+
+  if (visual)
+    {
+      gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
+    }
+}
