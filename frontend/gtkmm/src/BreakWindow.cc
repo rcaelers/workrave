@@ -119,6 +119,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
+#ifdef HAVE_GTK3
       if (GtkUtil::running_on_wayland())
         {
           set_app_paintable(true);
@@ -127,6 +128,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
         }
+#endif
     }
 
   // On W32, must be *before* realize, otherwise a border is drawn.
@@ -829,6 +831,7 @@ BreakWindow::update_break_window()
 {
 }
 
+#ifdef HAVE_GTK3
 bool BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
   cr->save();
@@ -859,3 +862,4 @@ void BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_sc
       gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
     }
 }
+#endif

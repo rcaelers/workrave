@@ -73,6 +73,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   Gtk::Window::set_border_width(0);
 
+#ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
     {
       set_app_paintable(true);
@@ -81,6 +82,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
       on_screen_changed(get_screen());
       set_size_request(head.get_width(), head.get_height());
     }
+#endif
 
   init_avoid_pointer();
   realize();
@@ -230,11 +232,13 @@ PreludeWindow::start()
 
   WindowHints::set_always_on_top(this, true);
 
+#ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
     {
       get_window()->input_shape_combine_region(Cairo::Region::create(), 0, 0);
     }
-  
+#endif
+
   time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
 
   TRACE_EXIT();
@@ -563,6 +567,7 @@ PreludeWindow::on_avoid_pointer_timer()
   return true;
 }
 #endif
+#ifdef HAVE_GTK3
 
 bool PreludeWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
@@ -587,3 +592,5 @@ void PreludeWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_
       gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
     }
 }
+
+#endif
