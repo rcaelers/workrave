@@ -1,4 +1,4 @@
-FROM ubuntu:yakkety
+FROM ubuntu:zesty
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -8,12 +8,12 @@ RUN \
   apt-get update -y && \
   apt-get install -y curl software-properties-common && \
   curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-  add-apt-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main" && \
+  add-apt-repository "deb http://apt.llvm.org/zesty/ llvm-toolchain-zesty-4.0 main" && \
   add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
     build-essential \
-    clang-3.9 \
+    clang-4.0 \
     cmake \
     g++-6 \
     gcc-6 \
@@ -57,10 +57,11 @@ RUN \
     qtbase5-dev \
     qtbase5-private-dev \
     qttools5-dev-tools \
-    xfce4-panel-dev
+    xfce4-panel-dev && \
+  apt-get clean
 
 
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2
+RUN pip3 install Jinja2==2.8
 
 CMD ["/bin/bash"]

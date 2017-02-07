@@ -14,7 +14,6 @@ build()
   rel_dir=$2
   cmake_args=("${!3}")
 
-  
 
   if [ ! -d ${BUILD_DIR}/${config} ]; then
       mkdir -p ${BUILD_DIR}/${config}
