@@ -44,7 +44,8 @@ RUN \
     qttools5-dev-tools \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
-    qtbase5-private-dev
+    qtbase5-private-dev && \
+  apt-get clean
 
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2==2.8
