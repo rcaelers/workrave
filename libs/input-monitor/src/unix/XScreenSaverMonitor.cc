@@ -102,7 +102,6 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
-
   {
     boost::mutex::scoped_lock lock(mutex);
     while (!abort)

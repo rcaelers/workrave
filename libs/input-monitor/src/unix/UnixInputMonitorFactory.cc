@@ -34,6 +34,7 @@
 #include "RecordInputMonitor.hh"
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
+#include "MutterInputMonitor.hh"
 
 using namespace std;
 using namespace workrave;
@@ -104,6 +105,10 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
           else if (actual_monitor_method == "x11events")
             {
               monitor = IInputMonitor::Ptr(new X11InputMonitor(display));
+            }
+          else if (actual_monitor_method == "mutter")
+            {
+              monitor = IInputMonitor::Ptr(new MutterInputMonitor());
             }
 
           initialized = monitor->init();

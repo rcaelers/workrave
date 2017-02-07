@@ -9,7 +9,8 @@ if (PLATFORM_OS_UNIX)
     unix/RecordInputMonitor.cc
     unix/X11InputMonitor.cc
     unix/XScreenSaverMonitor.cc
-    unix/UnixInputMonitorFactory.cc)
+    unix/UnixInputMonitorFactory.cc
+    unix/MutterInputMonitor.cc)
 
   include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
 

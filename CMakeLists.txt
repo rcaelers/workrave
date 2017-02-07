@@ -672,7 +672,7 @@ if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_NAME "Unix")
 
   # TODO: make option.
-  set (HAVE_MONITORS "screensaver,record,x11events")
+  set (HAVE_MONITORS "mutter,screensaver,record,x11events")
 
   find_package(X11)
 

@@ -59,6 +59,11 @@ private:
 #endif
   void avoid_pointer(int x, int y);
 
+#ifdef HAVE_GTK3
+  virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
+  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+#endif
+
 private:
 #ifdef PLATFORM_OS_WIN32
   //! Avoid time signal

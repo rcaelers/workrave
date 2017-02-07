@@ -30,6 +30,11 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
+// These two functions are implemented in applets/common/src/control.c,
+// but not defined in any header file.
+void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
+void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
+
 struct _WorkraveAppletPrivate
 {
   GSimpleActionGroup *action_group;
@@ -387,7 +392,6 @@ workrave_applet_fill(WorkraveApplet *applet)
   panel_applet_set_flags(PANEL_APPLET(applet), PANEL_APPLET_EXPAND_MINOR);
 
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
-  panel_applet_set_background_widget(PANEL_APPLET(applet), GTK_WIDGET(applet));
 
   gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet);
@@ -428,7 +432,7 @@ applet_factory(PanelApplet *applet, const gchar *iid, gpointer user_data)
   return FALSE;
 }
 
-PANEL_APPLET_OUT_PROCESS_FACTORY("WorkraveAppletFactory",
-                                 WORKRAVE_TYPE_APPLET,
-                                 applet_factory,
-                                 NULL)
+PANEL_APPLET_IN_PROCESS_FACTORY("WorkraveAppletFactory",
+                                WORKRAVE_TYPE_APPLET,
+                                applet_factory,
+                                NULL)

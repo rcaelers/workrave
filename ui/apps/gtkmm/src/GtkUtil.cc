@@ -30,6 +30,10 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/gdkwayland.h>
+#endif
+
 #include "GUI.hh"
 #include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
@@ -419,7 +423,6 @@ GtkUtil::get_visible_tooltip_window()
     return func_retval;
 }
 
-
 Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::create_image(const std::string &filename)
 {
@@ -432,4 +435,15 @@ GtkUtil::create_image(const std::string &filename)
     {
     }
   return Glib::RefPtr<Gdk::Pixbuf>();
+}
+
+bool
+GtkUtil::running_on_wayland()
+{
+#ifdef GDK_WINDOWING_WAYLAND
+  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+  return GDK_IS_WAYLAND_DISPLAY(display);
+#else
+  return false;
+#endif
 }

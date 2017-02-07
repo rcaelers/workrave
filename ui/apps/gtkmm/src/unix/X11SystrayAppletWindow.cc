@@ -108,6 +108,15 @@ X11SystrayAppletWindow::activate_applet()
 {
   TRACE_ENTER("X11SystrayAppletWindow::activate_applet");
 
+#if defined(GDK_WINDOWING_X11) && defined(HAVE_GTK3)
+  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+  if (!GDK_IS_X11_DISPLAY(display))
+    {
+      TRACE_EXIT();
+      return APPLET_STATE_DISABLED;
+    }
+#endif
+
   if (applet_active)
     {
       TRACE_EXIT();

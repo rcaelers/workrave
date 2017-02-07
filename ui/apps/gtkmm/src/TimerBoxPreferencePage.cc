@@ -315,7 +315,7 @@ TimerBoxPreferencePage::enable_buttons()
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_active() == nullptr)
+      if (timer_display_button[i]->get_active() == NULL)
         {
           count++;
         }
