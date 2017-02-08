@@ -10,14 +10,10 @@ endif()
 
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC} Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
-  
+
   if (NOT CMAKE_CL_64)
     set(SRC ${SRC} win32/crashlog.cc)
   endif()
-
-  include_directories(
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
-    )
 endif()
 
 if (PLATFORM_OS_UNIX)
@@ -35,17 +31,25 @@ endif()
 if (HAVE_DBUS_GIO)
   set(SRC ${SRC} DBusProxy-gio.cc)
 endif()
-if (HAVE_GTK)
-  include_directories(${GTK_INCLUDE_DIRS})
-endif()
-
-include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/utils/include/utils
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  )
 
 add_library(workrave-libs-utils STATIC ${SRC})
 add_cppcheck(workrave-libs-utils)
+
+if (HAVE_GTK)
+  target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
+endif()
+
+if (PLATFORM_OS_WIN32)
+  target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+endif()
+
+target_include_directories(
+  workrave-libs-utils
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/utils/include/utils
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/libs/utils/include
+  )
 
 
 # TODO: Generate locale.inc

@@ -13,7 +13,6 @@
 #cmakedefine HAVE_GCONF
 #cmakedefine HAVE_HARPOON
 #cmakedefine HAVE_GLIB
-#cmakedefine HAVE_GNOME3
 #cmakedefine HAVE_GSETTINGS
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_GTK

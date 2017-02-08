@@ -23,7 +23,7 @@
 #include "control.h"
 #include "commonui/MenuEnums.hh"
 #include "commonui/credits.h"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include <panel-applet.h>
 #include <glib-object.h>

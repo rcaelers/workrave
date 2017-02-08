@@ -73,8 +73,12 @@ endif()
 # Macros
 
 macro(pkgconfig_get_var OUT PKG VARNAME)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=/")
+  endif()
+
   execute_process(
-    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${PKG}
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
     OUTPUT_VARIABLE _result
     RESULT_VARIABLE _null
   )
@@ -279,15 +283,31 @@ if (WITH_GCONF)
   endif()
 endif()
 
-option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" OFF)
+include(GDbusCodegen)
+
+option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ON)
 
 if (WITH_GNOME_CLASSIC_PANEL)
   message(STATUS "Checking for: Gnome 3 classic panel applets")
 
-  pkg_check_modules(PANELAPPLET4 QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
-  if (PANELAPPLET4_FOUND)
-    set (HAVE_PANELAPPLET4 ON)
-    set (HAVE_GNOME3 ON)
+  set (PANELAPPLET_FOUND NO)
+
+  if (GDBUS_CODEGEN)
+    pkg_check_modules(PANELAPPLET QUIET libpanel-applet>=3.16.1 gio-2.0>=2.26.0)
+
+    if (PANELAPPLET_FOUND)
+      set (HAVE_PANELAPPLET ON)
+      set (HAVE_PANELAPPLET5 ON)
+    else()
+      pkg_check_modules(PANELAPPLET QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
+
+      if (PANELAPPLET_FOUND)
+        set (HAVE_PANELAPPLET ON)
+        set (HAVE_PANELAPPLET5 ON)
+      else()
+        set (WITH_GNOME_CLASSIC_PANEL OFF)
+      endif()
+    endif()
   else()
     set (WITH_GNOME_CLASSIC_PANEL OFF)
   endif()
@@ -445,6 +465,51 @@ if (UNIX AND NOT APPLE)
 
       #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
       #set (INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
+    endif()
+  endif()
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# MATE
+
+if (UNIX AND NOT APPLE)
+  option(WITH_MATE "Enable Mate applet support" ON)
+
+
+  if (WITH_MATE)
+    message(STATUS "Checking for: Mate")
+
+    pkg_check_modules(MATE libmatepanelapplet-4.0)
+
+    if (MATE_FOUND)
+      set (HAVE_MATE ON)
+    else()
+      set (WITH_MATE OFF)
+    endif()
+  endif()
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# XFCE
+
+if (UNIX AND NOT APPLE)
+  option(WITH_XFCE4 "Enable Xfce applet support" ON)
+
+
+  if (WITH_XFCE4)
+    message(STATUS "Checking for: Xfce 4")
+
+    pkg_check_modules(XFCE libxfcepanelapplet-4.0)
+
+    pkg_check_modules(GTK2, gtk+-2.0 >= 2.6.0 gdk-2.0 >= 2.8)
+    if (GTK2_FOUND)
+      pkg_check_modules(XFCE4, libxfce4panel-1.0 >= 4.4)
+    endif()
+
+    if (XFCE4_FOUND)
+      set (HAVE_XFCE4 ON)
+    else()
+      set (WITH_XFCE4 OFF)
     endif()
   endif()
 endif()
@@ -936,10 +1001,10 @@ feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
 feature_text("ActivityMonitors" HAVE_MONITORS)
 endif()
-feature_bool("Gnome 3 Applet"  HAVE_PANELAPPLET4)
+feature_bool("Gnome 3 Applet"  HAVE_PANELAPPLET)
 feature_bool("Indicator Applet" HAVE_INDICATOR)
-feature_bool("XFCE Applet" NO)
-feature_bool("MATE Applet" NO)
+feature_bool("XFCE Applet" HAVE_XFCE4)
+feature_bool("MATE Applet" HAVE_MATE)
 feature_bool("DBUS" HAVE_DBUS)
 feature_bool("GStreamer" HAVE_GSTREAMER)
 if(PLATFORM_OS_UNIX)
