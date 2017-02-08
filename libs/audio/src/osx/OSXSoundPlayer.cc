@@ -28,7 +28,6 @@
 #include "SoundPlayer.hh"
 
 #include <Cocoa/Cocoa.h>
-#include <QTKit/QTKit.h>
 #import "Foundation/Foundation.h"
 
 @interface SoundDelegate : NSObject<NSSoundDelegate>
