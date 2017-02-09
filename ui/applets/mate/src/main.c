@@ -21,13 +21,13 @@
 
 #include <mate-panel-applet.h>
 
-#include "nls.h"
 
 #include <gio/gio.h>
 
 #include "control.h"
 #include "commonui/credits.h"
 #include "commonui/MenuEnums.hh"
+#include "commonui/nls.h"
 
 typedef struct _WorkraveApplet
 {

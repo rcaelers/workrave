@@ -1,8 +1,8 @@
-add_subdirectory(cinnamon)
-
-if (HAVE_GTK)
+if (GTK3_FOUND)
   add_subdirectory(common)
 endif()
+
+add_subdirectory(cinnamon)
 
 add_subdirectory(gnome-shell)
 

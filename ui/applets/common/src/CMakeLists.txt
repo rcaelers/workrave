@@ -1,9 +1,10 @@
-if (HAVE_GTK3 AND UNIX AND NOT APPLE)
+set(SRC
+  control.c
+  timebar.c
+  timerbox.c
+  )
 
-  set(SRC
-    timebar.c
-    timerbox.c
-    )
+if (GTK3_FOUND AND UNIX AND NOT APPLE)
 
   add_library(workrave-private SHARED ${SRC})
   add_cppcheck(workrave-private)
@@ -14,13 +15,13 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     ${CMAKE_SOURCE_DIR}/libs/config/include
-    ${GTK_INCLUDE_DIRS}
+    ${GTK3_INCLUDE_DIRS}
     INTERFACE
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
   target_link_libraries(workrave-private
-    ${GTK_LIBRARIES}
+    ${GTK3_LIBRARIES}
     )
 
   install(TARGETS workrave-private RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
@@ -31,7 +32,7 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
     foreach(_item IN LISTS ${_listvar})
       list(APPEND ${_outvar} ${_prefix}${_item})
     endforeach()
-  endmacro(_list_prefix)
+  endmacro()
 
   # GObject Introspection
   if (HAVE_INTROSPECTION)
@@ -40,7 +41,7 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
     set(INTROSPECTION_SCANNER_ARGS --add-include-path=${CMAKE_CURRENT_SOURCE_DIR} --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/include --warn-all)
     set(INTROSPECTION_COMPILER_ARGS --includedir=${CMAKE_CURRENT_SOURCE_DIR} --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-    string(REGEX REPLACE "-std=[a-zA-Z0-9+]+" "" GTK_CFLAGS_FILTERED ${GTK_CFLAGS})
+    string(REGEX REPLACE "-std=[a-zA-Z0-9+]+" "" GTK_CFLAGS_FILTERED ${GTK3_CFLAGS})
 
     set(introspection_files ${SRC} ../include/timerbox.h ../include/timebar.h)
     set(Workrave_1_0_gir "workrave-private")
@@ -56,4 +57,34 @@ if (HAVE_GTK3 AND UNIX AND NOT APPLE)
 
     gir_add_introspections(INTROSPECTION_GIRS)
   endif ()
+endif()
+
+if (GTK2_FOUND AND UNIX AND NOT APPLE)
+
+  add_library(workrave-gtk2-private SHARED ${SRC})
+  add_cppcheck(workrave-gtk2-private)
+  link_directories(${GTK2_LIBPATH})
+
+  target_include_directories(workrave-gtk2-private
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/ui/applets/common/include
+    ${CMAKE_SOURCE_DIR}/libs/utils/include
+    ${CMAKE_SOURCE_DIR}/libs/config/include
+    ${GTK2_INCLUDE_DIRS}
+    INTERFACE
+    ${CMAKE_SOURCE_DIR}/ui/applets/common/include
+    )
+
+  target_link_libraries(workrave-gtk2-private
+    ${GTK2_LIBRARIES}
+    )
+
+  target_compile_options(workrave-gtk2-private
+    PRIVATE
+    -DUSE_GTK2
+    )
+
+  install(TARGETS workrave-gtk2-private RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
+  set_target_properties(workrave-gtk2-private PROPERTIES VERSION 1.0 SOVERSION 1.0)
+
 endif()

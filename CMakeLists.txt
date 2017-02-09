@@ -434,6 +434,10 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Indicator
 
+pkg_check_modules(
+  GTK3
+  gtk+-3.0>=3.10.0)
+
 if (UNIX AND NOT APPLE)
   option(WITH_INDICATOR "Enable Unity indicator support" ON)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
@@ -499,11 +503,9 @@ if (UNIX AND NOT APPLE)
   if (WITH_XFCE4)
     message(STATUS "Checking for: Xfce 4")
 
-    pkg_check_modules(XFCE libxfcepanelapplet-4.0)
-
-    pkg_check_modules(GTK2, gtk+-2.0 >= 2.6.0 gdk-2.0 >= 2.8)
+    pkg_check_modules(GTK2 gtk+-2.0>=2.6.0 gdk-2.0>=2.8)
     if (GTK2_FOUND)
-      pkg_check_modules(XFCE4, libxfce4panel-1.0 >= 4.4)
+      pkg_check_modules(XFCE4 libxfce4panel-1.0>=4.4)
     endif()
 
     if (XFCE4_FOUND)
@@ -585,9 +587,10 @@ else()
     message(STATUS "GetText not found - disabling i18n")
   else()
     set (ENABLE_NLS ON)
-    set (GETTEXT_PACKAGE "workrave")
   endif()
 endif()
+
+set (GETTEXT_PACKAGE "workrave")
 
 # TODO: generate languages.iss for InnoSetup
 
