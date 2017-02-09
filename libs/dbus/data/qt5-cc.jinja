@@ -86,7 +86,7 @@ void
     {
       get_string(variant, value);
     }
-  catch (DBusRemoteException &e)
+  catch (const DBusRemoteException &e)
     {
       e << field_info("{{ enum.name }}");
       throw;

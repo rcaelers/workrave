@@ -458,7 +458,7 @@ void
 
       g_dbus_method_invocation_return_value(invocation, out);
     }
-  catch (DBusRemoteException &e)
+  catch (const DBusRemoteException &e)
     {
       e << method_info("{{ method.name }}")
         << interface_info("{{ interface.name }}");
