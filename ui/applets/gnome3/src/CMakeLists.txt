@@ -1,10 +1,12 @@
 if (HAVE_PANELAPPLET)
 
-set(LOCATION   "${LIBDIR}/libworkrave-applet.so")
+set(APPLETDIR  "${LIBDIR}/workrave")
+set(UIDIR      "${DATADIR}/gnome-panel/ui")
+
+set(LOCATION   "${CMAKE_INSTALL_PREFIX}/${APPLETDIR}/libworkrave-applet.so")
 set(IN_PROCESS true)
 set(VERSION    ${PACKAGE_VERSION})
-set(APPLETDIR  "${DATADIR}/gnome-panel/4.0/applets")
-set(UIDIR      "${DATADIR}/gnome-panel/ui")
+
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.WorkraveApplet.panel-applet.in.in
@@ -29,9 +31,8 @@ set(SRC workrave-gnome-applet-generated.c)
 if (HAVE_PANELAPPLET5)
   set(SRC ${SRC} v5/WorkraveApplet.c)
   install(FILES v5/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
-  set(PANELDIR "${DATADIR}/gnome-panel/4.0/applets")
+  set(PANELDIR "${DATADIR}/gnome-panel/applets")
   pkgconfig_get_var(PANELDIR libpanel-applet libpanel_applet_dir)
-
 elseif (HAVE_PANELAPPLET4)
   set(SRC ${SRC} v4/WorkraveApplet.c)
   install(FILES v4/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
@@ -43,7 +44,7 @@ add_library(workrave-applet SHARED ${SRC})
 install(TARGETS workrave-applet RUNTIME DESTINATION ${APPLETDIR} LIBRARY DESTINATION ${APPLETDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.panel-applet DESTINATION ${CMAKE_INSTALL_PREFIX}/${PANELDIR})
 
-target_link_libraries(workrave-applet workrave-private workrave-libs-utils)
+target_link_libraries(workrave-applet workrave-private-1.0 workrave-libs-utils)
 
 target_include_directories(workrave-applet
   PRIVATE

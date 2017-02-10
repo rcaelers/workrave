@@ -6,11 +6,11 @@ set(SRC
 
 if (GTK3_FOUND AND UNIX AND NOT APPLE)
 
-  add_library(workrave-private SHARED ${SRC})
-  add_cppcheck(workrave-private)
+  add_library(workrave-private-1.0 SHARED ${SRC})
+  add_cppcheck(workrave-private-1.0)
   link_directories(${GTK_LIBPATH})
 
-  target_include_directories(workrave-private
+  target_include_directories(workrave-private-1.0
     PRIVATE
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
@@ -20,12 +20,12 @@ if (GTK3_FOUND AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
-  target_link_libraries(workrave-private
+  target_link_libraries(workrave-private-1.0
     ${GTK3_LIBRARIES}
     )
 
-  install(TARGETS workrave-private RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
-  set_target_properties(workrave-private PROPERTIES VERSION 1.0 SOVERSION 1.0)
+  install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
+  set_target_properties(workrave-private-1.0 PROPERTIES VERSION 1.0 SOVERSION 1.0)
 
   macro(_list_prefix _outvar _listvar _prefix)
     set(${_outvar})
@@ -47,7 +47,7 @@ if (GTK3_FOUND AND UNIX AND NOT APPLE)
     set(Workrave_1_0_gir "workrave-private")
     set(Workrave_1_0_gir_INCLUDES GObject-2.0 Gtk-3.0 cairo-1.0)
     set(Workrave_1_0_gir_CFLAGS ${GTK_CFLAGS_FILTERED} -I${CMAKE_CURRENT_SOURCE_DIR}/include)
-    set(Workrave_1_0_gir_LIBS workrave-private)
+    set(Workrave_1_0_gir_LIBS workrave-private-1.0)
     set(Workrave_1_0_gir_VERSION "1.0")
     _list_prefix(_abs_introspection_files introspection_files "${CMAKE_CURRENT_SOURCE_DIR}/")
     set(Workrave_1_0_gir_FILES ${_abs_introspection_files})
@@ -61,11 +61,11 @@ endif()
 
 if (GTK2_FOUND AND UNIX AND NOT APPLE)
 
-  add_library(workrave-gtk2-private SHARED ${SRC})
-  add_cppcheck(workrave-gtk2-private)
+  add_library(workrave-gtk2-private-1.0 SHARED ${SRC} compat.c)
+  add_cppcheck(workrave-gtk2-private-1.0)
   link_directories(${GTK2_LIBPATH})
 
-  target_include_directories(workrave-gtk2-private
+  target_include_directories(workrave-gtk2-private-1.0
     PRIVATE
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
@@ -75,16 +75,16 @@ if (GTK2_FOUND AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
-  target_link_libraries(workrave-gtk2-private
+  target_link_libraries(workrave-gtk2-private-1.0
     ${GTK2_LIBRARIES}
     )
 
-  target_compile_options(workrave-gtk2-private
+  target_compile_options(workrave-gtk2-private-1.0
     PRIVATE
     -DUSE_GTK2
     )
 
-  install(TARGETS workrave-gtk2-private RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
-  set_target_properties(workrave-gtk2-private PROPERTIES VERSION 1.0 SOVERSION 1.0)
+  install(TARGETS workrave-gtk2-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
+  set_target_properties(workrave-gtk2-private-1.0 PROPERTIES VERSION 1.0 SOVERSION 1.0)
 
 endif()

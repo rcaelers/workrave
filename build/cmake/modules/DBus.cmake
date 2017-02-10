@@ -60,7 +60,7 @@ macro(dbus_generate_xml XML DIRECTORY NAME)
   endif()
 endmacro()
 
-macro(dbus_add_activation_service SOURCE)
+macro(dbus_add_activation_service SOURCE BINDIR)
   if (HAVE_DBUS)
     get_filename_component(_service_name ${SOURCE} NAME)
     string(REGEX REPLACE "\\.service.*$" ".service" _output_file ${_service_name})
