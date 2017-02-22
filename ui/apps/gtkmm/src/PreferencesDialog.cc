@@ -103,10 +103,8 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   gui_page->append_page(*gui_general_page, _("General"));
 #endif
 
-#if 1
   Gtk::Widget *gui_sounds_page = Gtk::manage(create_sounds_page());
   gui_page->append_page(*gui_sounds_page, _("Sounds"));
-#endif
 
   Gtk::Widget *gui_mainwindow_page = Gtk::manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));

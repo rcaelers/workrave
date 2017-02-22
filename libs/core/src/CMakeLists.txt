@@ -45,3 +45,4 @@ add_library(workrave-libs-core STATIC ${SRC})
 add_cppcheck(workrave-libs-core)
 
 target_link_libraries(workrave-libs-core ${CMAKE_THREAD_LIBS_INIT})
+

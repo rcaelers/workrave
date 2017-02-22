@@ -794,7 +794,6 @@ TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &co
   cr->set_source_rgba(color.get_red_p(), color.get_green_p(), color.get_blue_p(), 1);
 }
 
-
 void
 TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color)
 {
