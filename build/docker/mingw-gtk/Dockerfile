@@ -15,10 +15,13 @@ RUN dnf -y install \
                 mingw32-gcc-c++ \
                 mingw32-gettext \
                 mingw32-gtkmm24 \
+                mingw32-gtkmm30 \
+                mingw32-librsvg2 \
                 mingw32-boost \
                 mingw32-openssl \
                 mingw64-gcc \
                 mingw64-gcc-c++ \
+                gtk-update-icon-cache \
                 tar \
                 which \
                 wine \

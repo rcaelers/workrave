@@ -62,15 +62,15 @@ parse_arguments $*
 
 
 case "$CONFIG" in
-    mingw64*)
+    mingw-qt5)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
-    mingw32-vs*)
+    mingw-gtk-vs*)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
-    mingw32*)
+    mingw-gtk)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
 

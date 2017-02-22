@@ -55,11 +55,8 @@ parse_arguments()
 parse_arguments $*
 
 case "$CONFIG" in
-    mingw32*)
-        IMAGE=mingw-gtk2
-        ;;
-    mingw64*)
-        IMAGE=mingw-qt5
+    mingw-gtk*)
+        IMAGE=mingw-gtk
         ;;
     *)
         IMAGE=$CONFIG
