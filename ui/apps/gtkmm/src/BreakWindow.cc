@@ -735,7 +735,6 @@ BreakWindow::start()
     {
       HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
       bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
-      bool this_is_a_dummy_var_to_fool_visual_studio_debugger = focused;
     }
 #endif
 
