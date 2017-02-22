@@ -177,7 +177,7 @@ void
       QVariant {{ p.name }} = arg.asVariant();
       get_{{ p.type }}({{ p.name }}, result.{{ p.name }});
     }
-  catch (DBusRemoteException &e)
+  catch (const DBusRemoteException &e)
     {
       e << field_info("{{ p.name }}");
       throw;
@@ -240,7 +240,7 @@ void
         {
           get_{{ seq.data_type }}(arg.asVariant(), tmp);
         }
-      catch (DBusRemoteException &e)
+      catch (const DBusRemoteException &e)
         {
           e << field_info(string("[") + boost::lexical_cast<string>(result.size()) + "]");
           throw;
@@ -307,7 +307,7 @@ void
           get_{{ dict.key_type }}(arg.asVariant(), key);
           get_{{ dict.value_type }}(arg.asVariant(), value);
         }
-      catch (DBusRemoteException &e)
+      catch (const DBusRemoteException &e)
         {
           e << field_info(key);
           throw;
@@ -512,7 +512,7 @@ void
         {
           get_{{ arg.type }}(message.arguments().at({{ index }}), p_{{ arg.name }});
         }
-      catch (DBusRemoteException &e)
+      catch (const DBusRemoteException &e)
         {
           e << parameter_info("{{ arg.name }}");
           throw;
@@ -553,7 +553,7 @@ void
 
       connection.send(reply);
     }
-  catch (DBusRemoteException &e)
+  catch (const DBusRemoteException &e)
     {
       e << method_info("{{ method.name }}")
         << interface_info("{{ interface.name }}");
