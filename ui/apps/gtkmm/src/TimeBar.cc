@@ -565,6 +565,24 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
+#ifdef PLATFORM_OS_WIN32
+#if GTK_CHECK_VERSION(3,0,0)
+  static const char timebar_style[] =
+		"* {\n"
+    "    box-shadow: none;\n"
+    "    margin: 0;\n"
+    "    padding: 0;\n"
+    "    border-style: inset;\n"
+    "    border-radius: 0;\n"
+    "    border: 1px inset #b6b6b3;\n"
+		"}";
+
+  Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
+  provider->load_from_data(timebar_style);
+  style_context->add_provider(provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#endif
+#endif
+
   // Physical width/height
   int win_w = allocation.get_width() - 2; // FIXME:
   int win_h = allocation.get_height();
@@ -778,8 +796,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->reset_clip();
   cr->rectangle(rect2.get_x(), rect2.get_y(), rect2.get_width(), rect2.get_height());
   cr->clip();
-  cr->set_operator(Cairo::OPERATOR_XOR);
-  cr->set_source_rgba(1,1,1,1);
+  cr->set_source_rgba(0,0,0,1);
   cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
 

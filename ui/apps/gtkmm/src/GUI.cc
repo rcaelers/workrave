@@ -712,6 +712,16 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
+
+  pixbuf_supports_svg();
+
+#ifdef PLATFORM_OS_WIN32
+  // No auto hide scrollbars
+  g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
+  // Not Windows-7 style client-side decorations on Windows 10...
+  g_setenv("GTK_CSD", "0", TRUE);
+#endif
+
   menus = new Menus(sound_theme);
 
   // The main status window.
