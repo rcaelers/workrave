@@ -303,7 +303,7 @@ if (WITH_GNOME_CLASSIC_PANEL)
 
       if (PANELAPPLET_FOUND)
         set (HAVE_PANELAPPLET ON)
-        set (HAVE_PANELAPPLET5 ON)
+        set (HAVE_PANELAPPLET4 ON)
       else()
         set (WITH_GNOME_CLASSIC_PANEL OFF)
       endif()
