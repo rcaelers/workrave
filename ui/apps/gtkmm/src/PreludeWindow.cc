@@ -147,46 +147,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   show_all_children();
   stick();
 
-  // trace window handles:
-  // FIXME: debug, remove later
-#ifdef PLATFORM_OS_WIN32
-  HWND _hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  HWND _scope = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET( this->gobj())));
-  HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
-  HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
-  HWND _hDesktop = GetDesktopWindow();
-
-  TRACE_MSG("PreludeWindow created" <<  hex << _hwnd  << dec);
-
-  if (_hwnd != _scope)
-    {
-      TRACE_MSG( "!!!!!!!!!!!!!!!" <<  "Scope issue: " << hex << _scope  << dec);
-    }
-
-  if (_hwnd != _hRoot)
-    {
-      TRACE_MSG( "GetDesktopWindow()" <<  hex << _hDesktop  << dec);
-      TRACE_MSG( "!!!!!!!!!!!!!!!" <<  "PreludeWindow GA_ROOT: " << hex << _hRoot  << dec);
-    }
-
-  if( _hParent != _hDesktop )
-    {
-      TRACE_MSG( "GetDesktopWindow()" <<  hex << _hDesktop  << dec);
-      TRACE_MSG( "!!!!!!!!!!!!!!!" << "PreludeWindow GA_PARENT: " << hex << _hParent  << dec);
-
-      HWND _hTemp;
-      while( IsWindow( _hParent ) && _hParent != _hDesktop )
-        {
-          _hTemp = _hParent;
-          _hParent = GetAncestor( _hTemp, GA_PARENT );
-          HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
-          if( _hParent == _hTemp )
-            break;
-          TRACE_MSG("!!!!!!!!!!!!!!!" << hex << _hTemp << " GA_PARENT: " << hex << _hParent  << dec);
-          TRACE_MSG("!!!!!!!!!!!!!!!" << hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2  << dec);
-        }
-    }
-#endif
   this->head = head;
   Gtk::Window::set_screen(head.screen);
   TRACE_EXIT();
