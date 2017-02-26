@@ -48,8 +48,6 @@ foreach (po_file ${POFILES})
 endforeach()
 
 if ("${WITH_UI}" STREQUAL "Gtk+2")
-  # Skip Gio for now. not needed.
-  # install (DIRECTORY ${SYS_ROOT}/lib/gio/modules DESTINATION lib/gio FILES_MATCHING PATTERN "*.dll")
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-2.0 DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/lib/gtk-2.0/2.10.0/engines DESTINATION lib/gtk-2.0/2.10.0/ FILES_MATCHING PATTERN "*.dll")
   install (DIRECTORY ${SYS_ROOT}/share/themes DESTINATION share)
@@ -57,6 +55,35 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
 
 elseif ("${WITH_UI}" STREQUAL "Gtk+3")
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
+
+  set (icons
+    "actions/go-"
+    "actions/media-playback-"
+    "actions/media-skip-"
+    "actions/window-"
+    "actions/edit-"
+    "actions/application-exit"
+    "actions/preferences"
+    "actions/help-about"
+    "actions/document-open"
+    "places/user-home-symbolic.symbolic"
+    "places/user-home-"
+    "list-remove-symbolic"
+    "list-remove-symbolic.symbolic"
+    "list-add-symbolic"
+    "list-add-symbolic.symbolic"
+    )
+  foreach(icon ${icons})
+    foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
+      install(
+        DIRECTORY ${SYS_ROOT}/share/icons/Adwaita/${size}/
+        DESTINATION ${DATADIR}/icons/Adwaita/${size}/
+        FILES_MATCHING
+        REGEX "${icon}[a-zA-Z0-0]*\.(png|svg)"
+        )
+    endforeach()
+  endforeach()
+
   install (FILES ${SYS_ROOT}/share/themes/Default/gtk-3.0/gtk-keys.css DESTINATION share/themes/Default/gtk-3.0)
 
   install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
