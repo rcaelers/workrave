@@ -30,23 +30,27 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel
 
 dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.mate.panel.applet.WorkraveAppletFactory.service.in ${APPLETBINDIR})
 
+if (HAVE_MATE_GTK3)
+  target_link_libraries(mate-workrave-applet workrave-private-1.0)
+else()
+  target_link_libraries(mate-workrave-applet workrave-gtk2-private-1.0)
+endif()
+
 target_link_libraries(mate-workrave-applet
-  workrave-gtk2-private-1.0
   workrave-libs-utils
   ${MATE_LIBRARIES}
-  ${GTK2_LIBRARIES})
+  )
 
 target_include_directories(mate-workrave-applet
   PRIVATE
   ${CMAKE_SOURCE_DIR}/ui/common/include
   ${MATE_INCLUDE_DIRS}
-  ${GTK2_INCLUDE_DIRS}
   )
 
 target_compile_definitions(mate-workrave-applet
   PRIVATE
   -DWORKRAVE_MENU_UI_DIR="${UIDIR}"
-  -DGNOMELOCALEDIR="${DATADIR}/locale" 
+  -DGNOMELOCALEDIR="${DATADIR}/locale"
 	-DMATELOCALEDIR="${DATADIR}/locale"
   )
 endif()

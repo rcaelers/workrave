@@ -1,6 +1,6 @@
 project(Workrave)
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 
 if (POLICY CMP0009)
   cmake_policy(SET CMP0009 NEW)
@@ -79,6 +79,26 @@ macro(pkgconfig_get_var OUT PKG VARNAME)
 
   execute_process(
     COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
+
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set (${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
+
+macro(pkgconfig_get_requires OUT PKG)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=/")
+  endif()
+
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
     OUTPUT_VARIABLE _result
     RESULT_VARIABLE _null
   )
@@ -487,6 +507,10 @@ if (UNIX AND NOT APPLE)
 
     if (MATE_FOUND)
       set (HAVE_MATE ON)
+      pkgconfig_get_requires(MATE_REQUIRES libmatepanelapplet-4.0)
+      if ("gtk+3" IN_LIST MATE_REQUIRES)
+        set (HAVE_MATE_GTK3 ON)
+      endif()
     else()
       set (WITH_MATE OFF)
     endif()
