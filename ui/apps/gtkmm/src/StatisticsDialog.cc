@@ -42,6 +42,7 @@
 #include <ctime>
 #include <cstring>
 
+#include <gdk/gdk.h>
 #include <gtkmm.h>
 
 #include "debug.hh"
@@ -780,7 +781,18 @@ StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
 {
   char buf[64];
 
+#if GTK_CHECK_VERSION(3, 22, 0)
+  GdkDisplay *display = gdk_display_get_default();
+  GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
+
+  GdkRectangle geometry;
+  gdk_monitor_get_geometry(monitor, &geometry);
+
+  double mm = (double) pixels * gdk_monitor_get_width_mm(monitor)  / geometry.width;
+#else
   double mm = (double) pixels * gdk_screen_width_mm() / gdk_screen_width();
+#endif
+
   sprintf(buf, "%.02f m", mm/1000);
   stream << buf;
 }

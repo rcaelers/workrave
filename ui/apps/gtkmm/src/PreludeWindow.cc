@@ -187,12 +187,8 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
         }
     }
 #endif
-
   this->head = head;
-  if (head.valid)
-    {
-      Gtk::Window::set_screen(head.screen);
-    }
+  Gtk::Window::set_screen(head.screen);
   TRACE_EXIT();
 }
 

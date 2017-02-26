@@ -21,6 +21,7 @@
 
 #include <cairo.h>
 #include <gtk/gtk.h>
+#include <pango/pango.h>
 
 #define WORKRAVE_TIMEBAR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebarPrivate))
 
@@ -271,7 +272,9 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
-  const PangoFontDescription *font_desc = gtk_style_context_get_font(priv->style_context, GTK_STATE_FLAG_ACTIVE);
+  const PangoFontDescription *font_desc;
+
+  gtk_style_context_get(priv->style_context, GTK_STATE_FLAG_ACTIVE, GTK_STYLE_PROPERTY_FONT, &font_desc, NULL);
 
   pango_context_set_language(priv->pango_context, gtk_get_default_language());
   pango_context_set_font_description(priv->pango_context, font_desc);

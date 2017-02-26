@@ -111,6 +111,20 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 #elif defined(HAVE_GTK3)
   if (num_windows > 0)
     {
+#if GTK_CHECK_VERSION(3, 20, 0)
+      GdkGrabStatus status;
+
+      GdkDisplay *display = gdk_display_get_default();
+      GdkSeat *seat = gdk_display_get_default_seat(display);
+      status = gdk_seat_grab(seat, windows[0], GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
+
+      if (status == GDK_GRAB_SUCCESS)
+        {
+          // A bit of a hack, but GTK does not need any data in the handle.
+          // So, let's not waste memory and simply return a bogus non-NULL ptr.
+          handle = (WindowHints::Grab *) 0xdeadf00d;
+        }
+#else
       GdkDevice *device = gtk_get_current_event_device();
       if (device == nullptr)
         {
@@ -158,6 +172,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
               handle = (WindowHints::Grab *) 0xdeadf00d;
             }
         }
+#endif
     }
 #else
   if (num_windows > 0)
@@ -210,6 +225,11 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
 #elif defined(HAVE_GTK3)
+#  if GTK_CHECK_VERSION(3, 20, 0)
+  GdkDisplay *display = gdk_display_get_default();
+  GdkSeat *seat = gdk_display_get_default_seat(display);
+  gdk_seat_ungrab(seat);
+#  else
   if (keyboard != nullptr)
     {
       gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
@@ -220,6 +240,7 @@ WindowHints::ungrab(WindowHints::Grab *handle)
       gdk_device_ungrab(pointer, GDK_CURRENT_TIME);
       pointer = nullptr;
     }
+#  endif
 #else
   gdk_keyboard_ungrab(GDK_CURRENT_TIME);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);

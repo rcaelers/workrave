@@ -30,11 +30,6 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
-// These two functions are implemented in applets/common/src/control.c,
-// but not defined in any header file.
-void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
-void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
-
 struct _WorkraveAppletPrivate
 {
   GSimpleActionGroup *action_group;

@@ -347,29 +347,22 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 {
   TRACE_ENTER("GtkUtil::center_window");
 
-  if (head.valid)
-    {
-      Gtk::Requisition size;
+  Gtk::Requisition size;
 #ifdef HAVE_GTK3
-      Gtk::Requisition minsize;
-      window.get_preferred_size(minsize, size);
+  Gtk::Requisition minsize;
+  window.get_preferred_size(minsize, size);
 #else
-      window.size_request(size);
+  window.size_request(size);
 #endif
 
-      int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
-      int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
-
-      TRACE_MSG(head.geometry.get_x() << " "  << head.geometry.get_width() << " " << size.width);
-      TRACE_MSG(head.geometry.get_y() << " "  << head.geometry.get_height() << " " << size.height);
-
-      window.set_position(Gtk::WIN_POS_NONE);
-      window.move(x, y);
-    }
-  else
-    {
-      window.set_position(Gtk::WIN_POS_CENTER_ALWAYS);
-    }
+  int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
+  int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
+  
+  TRACE_MSG(head.geometry.get_x() << " "  << head.geometry.get_width() << " " << size.width);
+  TRACE_MSG(head.geometry.get_y() << " "  << head.geometry.get_height() << " " << size.height);
+  
+  window.set_position(Gtk::WIN_POS_NONE);
+  window.move(x, y);
   TRACE_EXIT();
 }
 

@@ -1,5 +1,3 @@
-// GnomeAppletMenu.cc --- Menus using GnomeApplet+
-//
 // Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

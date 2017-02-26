@@ -195,10 +195,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #endif
 
   this->head = head;
-  if (head.valid)
-    {
-      Gtk::Window::set_screen(head.screen);
-    }
+  Gtk::Window::set_screen(head.screen);
 
   bool initial_ignore_activity = false;
 
@@ -731,10 +728,10 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WIN32
-  if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
+  if( force_focus_on_break_start &&  this->head.count == 0)
     {
       HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-      bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
+      W32ForceFocus::ForceWindowFocus(hwnd);
     }
 #endif
 

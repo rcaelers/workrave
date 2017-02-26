@@ -545,7 +545,7 @@ void W32Compat::RefreshBreakWindow( BreakWindow &window )
     /* If there are multiple break windows only force focus on the first, otherwise focus would be
     continuously switched to each break window on every refresh, making interaction very difficult.
     */
-    if( W32ForceFocus::GetForceFocusValue() && window.head.valid && ( window.head.count == 0 ) )
+    if( W32ForceFocus::GetForceFocusValue() && window.head.count == 0)
     {
         W32ForceFocus::ForceWindowFocus( hwnd, 0 );   // try without blocking
     }
