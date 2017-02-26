@@ -255,7 +255,7 @@ on_menu_command(GtkAction *action, WorkraveApplet *applet)
 static void
 on_menu_radio_changed(GtkRadioAction *action, GtkRadioAction *current, WorkraveApplet *applet)
 {
-  on_menu_command(current, applet);
+  on_menu_command(GTK_ACTION(current), applet);
 }
 
 static const GtkActionEntry menu_actions [] = {

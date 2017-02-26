@@ -3,10 +3,11 @@
 
 #include "zapper.h"
 
+#ifdef _MSC_VER
 #pragma comment(lib, "user32.lib")
-
 #pragma warning(push)
 #pragma warning(disable:4100) //unreferenced formal parameter
+#endif
 
 typedef DWORD (__stdcall *QUERYFULLPROCESSIMAGENAME)(HANDLE, DWORD, LPTSTR, PDWORD);
 typedef DWORD (__stdcall *GETMODULEFILENAMEEX)(HANDLE, HMODULE, LPTSTR, DWORD);
@@ -219,4 +220,6 @@ KillProcess(char *proces_name_to_kill)
   return ret;
 }
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif

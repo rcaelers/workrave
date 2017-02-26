@@ -104,7 +104,7 @@ const WCHAR *W32ActiveSetup::get_user_profile_dir()
     if( buffer.size() && *buffer.begin() )
         return &buffer[ 0 ];
 
-    WCHAR *env_var = L"USERPROFILE";
+    LPCWSTR env_var = L"USERPROFILE";
 
     DWORD ret = GetEnvironmentVariableW( env_var, NULL, 0 );
     if( !ret || ( ret > 32767 ) )

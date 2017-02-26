@@ -67,7 +67,7 @@ Platform::registry_set_value(const char *path, const char *name,
   LONG err;
 
   err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
-                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
+                       NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
                        NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {

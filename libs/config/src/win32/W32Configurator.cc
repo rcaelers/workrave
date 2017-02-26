@@ -231,7 +231,7 @@ W32Configurator::set_config_value(const string &key, string v)
   key_split(k, p, c);
   p32 = key_win32ify(p);
   err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0,
-                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
+                       NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
                        NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {

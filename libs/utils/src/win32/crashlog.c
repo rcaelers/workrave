@@ -43,10 +43,14 @@
 #define _O_TEXT         0x4000
 #endif
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#define snprintf _snprintf
+#define snwprintf _snwprintf
+#endif
 
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
 static void dump_registers(FILE *log, PCONTEXT context);
-static void dump_registry(FILE *log, HKEY key, char *name);
+static void dump_registry(FILE *log, HKEY key, const char *name);
 /* static void print_module_list(FILE *log); */
 
 static
@@ -57,6 +61,7 @@ DWORD GetModuleBase(DWORD dwAddress)
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
+#ifndef PLATFORM_OS_WIN32_NATIVE
 static EXCEPTION_DISPOSITION __cdecl
 double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
                          void *establisher_frame,
@@ -75,11 +80,13 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   exit(1);
 }
+#endif
 
 LONG WINAPI exception_filter(EXCEPTION_POINTERS *ep)
 {
   return exception_handler(ep->ExceptionRecord, NULL, ep->ContextRecord, NULL);
 }
+
 
 EXCEPTION_DISPOSITION __cdecl
 exception_handler(struct _EXCEPTION_RECORD *exception_record,
@@ -91,30 +98,32 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   char crash_text[1024];
   TCHAR szModule[MAX_PATH];
   HMODULE hModule;
-
-  FILE *log;
-
-  (void) establisher_frame;
-  (void) dispatcher_context;
-
-  __try1(double_exception_handler);
-
-#ifdef HAVE_HARPOON
-  harpoon_unblock_input();
-#endif
-
 /*
  Modified for Unicode >= WinNT. No UnicoWS check for Me/98/95.
  jay satiro, workrave project, july 2007
 */
-  WCHAR env_var[ 20 ] = { 0, };
+  WCHAR env_var[ 20 ] = { '\0', };
   WCHAR crashlog[] = L"\\workrave-crashlog.txt";
   WCHAR *wbuffer = NULL;
-  WCHAR *p_wbuffer = NULL;
-
+  WCHAR *p_wbuffer = NULL;  FILE *log;
   DWORD ( WINAPI *GetEnvironmentVariableW ) ( LPCWSTR, LPWSTR, DWORD );
   HANDLE ( WINAPI *CreateFileW ) ( LPCWSTR, DWORD, DWORD,
-    LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE );
+  LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE );
+  SYSTEMTIME SystemTime;
+
+  (void) establisher_frame;
+  (void) dispatcher_context;
+
+#ifdef PLATFORM_OS_WIN32_NATIVE
+  // FIXME: win32
+#else
+  __try1(double_exception_handler);
+#endif
+#ifdef HAVE_HARPOON
+  harpoon_unblock_input();
+#endif
+
+
 
   GetEnvironmentVariableW = ( DWORD ( WINAPI * ) ( LPCWSTR, LPWSTR, DWORD ) )
     GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetEnvironmentVariableW" );
@@ -127,6 +136,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     {
       HANDLE handle;
       DWORD bufsize, ret;
+      int fd = 0;
 
       wcsncpy( env_var, L"APPDATA", 19 );
       env_var[ 19 ] = '\0';
@@ -165,7 +175,12 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
             "http://issues.workrave.org/\n"
             "Thanks.");
           MessageBoxA( NULL, crash_text, "Exception", MB_OK );
+
+#ifdef PLATFORM_OS_WIN32_NATIVE
+  // FIXME: win32
+#else
           __except1;
+#endif
           exit( 1 );
         }
 
@@ -205,7 +220,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           NULL
         );
 
-      int fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
+      fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
       log = _fdopen( fd, "w" );
     }
   else  // if( GetVersion() & (DWORD) 0x80000000 )
@@ -235,11 +250,14 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           "http://issues.workrave.org/\n"
           "Thanks.");
         MessageBoxA( NULL, crash_text, "Exception", MB_OK );
+#ifdef PLATFORM_OS_WIN32_NATIVE
+  // FIXME: win32
+#else
         __except1;
+#endif
         exit( 1 );
       }
 
-  SYSTEMTIME SystemTime;
 
   GetLocalTime(&SystemTime);
   fprintf(log, "Crash log created on %02d/%02d/%04d at %02d:%02d:%02d.\n\n",
@@ -250,7 +268,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           SystemTime.wMinute,
           SystemTime.wSecond);
 
-  fprintf(log, "version = %s\n", VERSION);
+  fprintf(log, "version = %s\n", PACKAGE_VERSION);
   fprintf(log, "compile date = %s\n", __DATE__);
   fprintf(log, "compile time = %s\n", __TIME__);
   fprintf(log, "features = "
@@ -403,7 +421,8 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     }
 
   fprintf(log, " at location %08x", (int) exception_record->ExceptionAddress);
-  if ((hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress) && GetModuleFileName(hModule, szModule, sizeof(szModule))))
+  hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress);
+  if ((hModule != NULL && GetModuleFileName(hModule, szModule, sizeof(szModule))))
     fprintf(log, " in module %s", szModule);
 
   // If the exception was an access violation, print out some additional information, to the error log and the debugger.
@@ -474,7 +493,11 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       MessageBoxA(NULL, crash_text, "Exception", MB_OK);
     }
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+  // FIXME: win32
+#else
   __except1;
+#endif
 
   exit(1);
 }
@@ -593,7 +616,7 @@ print_module_list(FILE *log)
   lib = LoadLibrary("psapi.dll");
   if (lib != NULL)
     {
-      EnumProcessModules = GetProcAddress(lib, "EnumProcessModules");
+      EnumProcessModules = (BOOL (WINAPI *)(HANDLE, HMODULE*, DWORD, LPDWORD)) GetProcAddress(lib, "EnumProcessModules");
     }
 
   if (EnumProcessModules != NULL)
@@ -678,7 +701,7 @@ dump_registers(FILE *log, PCONTEXT context)
 }
 
 static void
-save_key(FILE *log, HKEY key, char *name)
+save_key(FILE *log, HKEY key, const char *name)
 {
   DWORD i;
   char keyname[512];
@@ -746,7 +769,7 @@ save_key(FILE *log, HKEY key, char *name)
 
 
 static void
-dump_registry(FILE *log, HKEY key, char *name)
+dump_registry(FILE *log, HKEY key, const char *name)
 {
   (void) key;
 
@@ -759,5 +782,3 @@ dump_registry(FILE *log, HKEY key, char *name)
       RegCloseKey(handle);
     }
 }
-
-

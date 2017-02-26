@@ -541,7 +541,7 @@ WaveFile::read(BYTE *buffer, size_t size)
 
       mmioInfo.pchNext = mmioInfo.pchEndRead;
 
-    } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
+    } while (pos < size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
 
   mmioSetInfo(mmio, &mmioInfo, 0);
 

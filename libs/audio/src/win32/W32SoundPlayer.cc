@@ -390,7 +390,7 @@ W32SoundPlayer::load_wav_file(const string &filename)
 
       mmio.pchNext = mmio.pchEndRead;
 
-    } while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
+    } while (pos < sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
 
 
   mmioClose(handle, 0);

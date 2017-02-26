@@ -332,12 +332,7 @@ bool W32Compat::IsOurWinStationConnected()
     bool func_retval = false;
     DWORD bytes_returned = 0;
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
-    enum WTS_INFO_CLASS *state = NULL;
-#else
-    // TODO: check compiler warnings and native/mingw difference.
-    WTS_INFO_CLASS *state = NULL;
-#endif
+    WTS_CONNECTSTATE_CLASS *state = NULL;
 
     if( WTSQuerySessionInformation(
             WTS_CURRENT_SERVER_HANDLE,
