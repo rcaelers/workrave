@@ -1,5 +1,3 @@
-// WindowHints.cc
-//
 // Copyright (C) 2001 - 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
