@@ -1,6 +1,4 @@
-// PreludeWindow.hh --- window for the microbreak
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2017 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -49,20 +47,23 @@ public:
   void set_progress_text(IApp::PreludeProgressText text);
 
 private:
-  void on_frame_flash(bool frame_visible);
-  void init_avoid_pointer();
+  void on_frame_flash_event(bool frame_visible);
   void add(Gtk::Widget& widget);
 
 #ifdef PLATFORM_OS_WIN32
-  bool on_avoid_pointer_timer();
+  void init_avoid_pointer_polling();
+  bool on_avoid_pointer_timer_event();
 #else
   bool on_enter_notify_event(GdkEventCrossing* event);
 #endif
-  void avoid_pointer(int x, int y);
+  void get_pointer_location(int &x, int &y);
+  void avoid_pointer();
 
 #ifdef HAVE_GTK3
-  virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
-  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+  bool on_draw_event(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
+  void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+  void update_input_region(Gtk::Allocation &allocation);
+  void on_size_allocate_event(Gtk::Allocation &allocation);
 #endif
 
 private:
@@ -113,6 +114,9 @@ private:
 
   //! Head
   HeadInfo head;
+
+  // Aligment in Waylang
+  Gtk::Alignment *align;
 };
 
 #endif // PRELUDEWINDOW_HH

@@ -78,19 +78,7 @@ using namespace workrave;
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode) :
-#ifdef PLATFORM_OS_WIN32
-  /*
-    Windows will have a gtk toplevel window regardless of mode.
-    Hopefully this takes care of the phantom parent problem.
-    Also, the break window title now appears on the taskbar, and
-    it will show up in Windows Task Manager's application list.
-  */
-  Gtk::Window( Gtk::WINDOW_TOPLEVEL ),
-#else
-  Gtk::Window(mode==GUIConfig::BLOCK_MODE_NONE
-              ? Gtk::WINDOW_TOPLEVEL
-              : Gtk::WINDOW_POPUP),
-#endif
+  Gtk::Window(Gtk::WINDOW_TOPLEVEL),
   block_mode(mode),
   break_flags(break_flags),
   frame(NULL),
@@ -151,47 +139,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
     }
-
-  // trace window handles:
-  // FIXME: debug, remove later
-#if defined( PLATFORM_OS_WIN32 ) && defined( TRACING )
-  HWND _hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  HWND _scope = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET( this->gobj())));
-  HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
-  HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
-  HWND _hDesktop = GetDesktopWindow();
-
-  TRACE_MSG("BreakWindow created" <<  hex << _hwnd << dec);
-  if (_hwnd != _scope)
-    {
-      TRACE_MSG("!!! Scope issue: " << hex << _scope << dec);
-    }
-
-  if (_hwnd != _hRoot)
-    {
-      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
-      TRACE_MSG("!!! BreakWindow GA_ROOT: " << hex << _hRoot << dec);
-    }
-
-  if (_hParent != _hDesktop)
-    {
-      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
-      TRACE_MSG("!!! PreludeWindow GA_PARENT: " << hex << _hParent << dec);
-
-      HWND _hTemp;
-      while( IsWindow( _hParent ) && _hParent != _hDesktop )
-        {
-          _hTemp = _hParent;
-          _hParent = GetAncestor( _hTemp, GA_PARENT );
-          HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
-          if( _hParent == _hTemp )
-            break;
-          TRACE_MSG("!!!" <<  hex << _hTemp << " GA_PARENT: " << hex << _hParent  << dec);
-          TRACE_MSG("!!!" <<  hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2  << dec);
-        }
-    }
-
-#endif
 
   this->head = head;
   if (head.valid)

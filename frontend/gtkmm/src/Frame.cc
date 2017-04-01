@@ -125,7 +125,6 @@ Frame::on_timer()
 void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
-
   Gtk::Widget *widget = get_child();
   guint b = get_border_width() + frame_width;
 
