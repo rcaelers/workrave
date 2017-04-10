@@ -202,11 +202,13 @@ PreludeWindow::add(Gtk::Widget& widget)
 
       if (GtkUtil::running_on_wayland())
         {
-	  align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+          align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
           align->add(*window_frame);
           Gtk::Window::add(*align);
 
-	  widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
+#ifdef HAVE_GTK3
+          widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
+#endif
         }
        else
          {
@@ -274,7 +276,7 @@ PreludeWindow::refresh()
   time_bar->update();
 
 #if defined(PLATFORM_OS_WIN32)
-// Vista GTK phantom toplevel parent kludge:
+  // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   if( hwnd )
     {
@@ -455,7 +457,7 @@ PreludeWindow::avoid_pointer()
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   did_avoid = true;
-  
+
 #ifdef HAVE_GTK3
   int winx, winy, width, height;
   if (GtkUtil::running_on_wayland())
@@ -544,25 +546,26 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
       Glib::RefPtr<Gdk::Window> window = get_window();
 
       if (window)
-	{
-	  Cairo::RectangleInt rect = {
-	    allocation.get_x(),
-	    allocation.get_y(),
-	    allocation.get_width(),
-	    allocation.get_height() };
-	  
-	  window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
-	}
+        {
+          Cairo::RectangleInt rect = {
+            allocation.get_x(),
+            allocation.get_y(),
+            allocation.get_width(),
+            allocation.get_height()
+          };
+
+          window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
+        }
     }
 }
-
-#endif
 
 void
 PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
 {
   update_input_region(allocation);
 }
+
+#endif
 
 
 void
