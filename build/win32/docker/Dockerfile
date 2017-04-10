@@ -33,7 +33,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 RUN mkdir /workspace && \
     cd /workspace && \
-    curl -O http://snapshots.workrave.org/.prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
+    curl -O https://snapshots.workrave.org/.prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
     tar xvfJ ./workrave-prebuilt-windows-vs2015.tar.xz && \
     rm ./workrave-prebuilt-windows-vs2015.tar.xz && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
