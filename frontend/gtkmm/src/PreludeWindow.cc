@@ -420,7 +420,7 @@ PreludeWindow::on_avoid_pointer_timer_event()
   width = a.get_width();
   height = a.get_height();
 
-  iny px = p.x - gdk_offset_x;
+  int px = p.x - gdk_offset_x;
   int py = p.y - gdk_offset_y;
 
   if (px >= winx && px < winx+width && py >= winy && py < winy+height)
@@ -537,15 +537,8 @@ PreludeWindow::on_screen_changed_event(const Glib::RefPtr<Gdk::Screen>& previous
 }
 
 void
-PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
-{
-  update_input_region(allocation);
-}
-
-void
 PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 {
-#ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
@@ -561,10 +554,16 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 	  window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
 	}
     }
-#endif
 }
 
 #endif
+
+void
+PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
+{
+  update_input_region(allocation);
+}
+
 
 void
 PreludeWindow::get_pointer_location(int &x, int &y)
