@@ -63,8 +63,8 @@ private:
   bool on_draw_event(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
   void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen>& previous_screen);
   void update_input_region(Gtk::Allocation &allocation);
-  void on_size_allocate_event(Gtk::Allocation &allocation);
 #endif
+  void on_size_allocate_event(Gtk::Allocation &allocation);
 
 private:
 #ifdef PLATFORM_OS_WIN32
