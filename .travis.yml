@@ -78,9 +78,6 @@ matrix:
 #        CONF_DISABLE="GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF"
 
 before_install: |
-  install_linux()
-  {
-  }
   install_osx()
   {
     # compilation with system wide gettext fails at the link stage with missing symbols...
@@ -90,7 +87,7 @@ before_install: |
   }
 
 install:
-  - install_$TRAVIS_OS_NAME
+  - [[ $TRAVIS_OS_NAME = 'osx' ]] && install_osx
   - pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
 
 script: |
