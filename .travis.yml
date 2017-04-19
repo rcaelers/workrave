@@ -86,11 +86,12 @@ before_install: |
     brew install gettext
     brew link gettext --force
     brew install qt5 python3
+
+    pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
   }
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then install_osx; fi
-  - pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
 
 script: |
   if [[ $DOCKER_IMAGE ]]; then
