@@ -87,7 +87,7 @@ before_install: |
   }
 
 install:
-  - [[ $TRAVIS_OS_NAME = 'osx' ]] && install_osx
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then install_osx; fi
   - pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
 
 script: |
