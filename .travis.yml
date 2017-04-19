@@ -1,7 +1,7 @@
-# need to use at least Ubuntu 14.04 LTS (trusty) with custom install step
-# `apt' travis plugin is not suitable as not all build dependencies are whitelisted
 sudo: required
-dist: trusty
+
+services:
+  - docker
 
 notifications:
   email:
@@ -9,160 +9,94 @@ notifications:
     on_failure: change
 
 language: cpp
-osx_image: xcode8.2
+osx_image: xcode8.3
 
 matrix:
   include:
     - os: linux
       compiler: gcc
       env: >
+        COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
         CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-    - os: linux
-      compiler: clang
-      env: >
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-zesty-plus"
     - os: linux
       compiler: gcc
       env: >
+        COMPILER="gcc"
         WITH_UI="Gtk+3"
-        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
-        CONF_DISABLE=""
-    - os: linux
-      compiler: clang
-      env: >
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
-        CONF_DISABLE=""
-    - os: linux
-      compiler: gcc
-      env: >
-        WITH_UI="Qt5"
-        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-    - os: linux
-      compiler: clang
-      env: >
-        WITH_UI="Qt5"
-        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        CONF_ENABLE=""
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="mingw-gtk"
+#    - os: linux
+#      compiler: clang
+#      env: >
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
+#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-zesty-plus"
+#    - os: linux
+#      compiler: gcc
+#      env: >
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-zesty-plus"
+#    - os: linux
+#      compiler: clang
+#      env: >
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-zesty-plus"
+#    - os: linux
+#      compiler: gcc
+#      env: >
+#        WITH_UI="Qt5"
+#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
+#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-zesty-plus"
+#    - os: linux
+#      compiler: clang
+#      env: >
+#        WITH_UI="Qt5"
+#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
+#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-zesty-plus"
     - os: osx
       compiler: clang
       env: >
         WITH_UI="Qt5"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-    - os: osx
-      compiler: clang
-      env: >
-        WITH_UI="Qt5"
-        CONF_ENABLE="INDICATOR,TESTS,COVERAGE,TRACING"
-        CONF_DISABLE="GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF"
+#    - os: osx
+#      compiler: clang
+#      env: >
+#        WITH_UI="Qt5"
+#        CONF_ENABLE="INDICATOR,TESTS,COVERAGE,TRACING"
+#        CONF_DISABLE="GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF"
 
 before_install: |
-  conf_opt()
-  {
-    if [[ $CONF_ENABLE =~ (^|[, ])$1([, ]|$) ]]; then
-      echo "-DWITH_$1=ON";
-    else
-      if [[ $CONF_DISABLE =~ (^|[, ])$1([, ]|$) ]]; then
-        echo "-DWITH_$1=OFF";
-      else
-        echo "Parameter $1 is not in \$CONF_ENABLE or \$CONF_DISABLE " 1>&2
-      fi
-    fi
-  }
-  conf_opt_packages()
-  {
-    if [[ $CONF_ENABLE =~ (^|[, ])$1([, ]|$) ]]; then
-      shift
-      echo "$@"
-    else
-      if [[ ! ( $CONF_DISABLE =~ (^|[, ])$1([, ]|$) ) ]]; then
-        echo "Parameter $1 is not in \$CONF_ENABLE or \$CONF_DISABLE " 1>&2
-      fi
-    fi
-  }
-  install_linux()
-  {
-    echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99translations > /dev/null
-    sudo sed -i 's/^deb-src/#deb-src/' /etc/apt/sources.list /etc/apt/sources.list.d/*
-    wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
-    sudo add-apt-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-    sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    sudo apt-get update -q
-    sudo apt-get -y -q -V --no-install-recommends install \
-      build-essential \
-      `[[ $CXX = "clang++" ]] && echo clang-3.9` \
-      gcc-6 g++-6 \
-      intltool \
-      libxtst-dev \
-      libxss-dev \
-      gobject-introspection \
-      libboost-dev \
-      libboost-system-dev \
-      libboost-thread-dev \
-      libboost-filesystem-dev \
-      libboost-chrono-dev \
-      libboost-context-dev \
-      libboost-coroutine-dev \
-      libboost-log-dev \
-      libboost-regex-dev \
-      `[[ $WITH_UI = "Gtk+2" ]] && echo libgtk2.0-dev libgtkmm-2.4-dev` \
-      `[[ $WITH_UI = "Gtk+3" ]] && echo libgtk-3-dev libgtkmm-3.0-dev` \
-      `[[ $WITH_UI = "Qt5" ]] && echo qtbase5-dev libqt5svg5-dev qtbase5-private-dev qttools5-dev qttools5-dev-tools` \
-      libgdome2-dev \
-      `conf_opt_packages GCONF libgconf2-dev` \
-      libdbus-glib-1-dev \
-      `conf_opt_packages GSTREAMER libgstreamer1.0-dev` \
-      `conf_opt_packages PULSE libpulse-dev` \
-      `conf_opt_packages INDICATOR gobject-introspection libindicator3-dev libdbusmenu-glib-dev libdbusmenu-gtk3-dev libgirepository1.0-dev` \
-      `conf_opt_packages GNOME_CLASSIC_PANEL libpanel-applet-4-dev`
-      `conf_opt_packages TESTS libboost-test-dev`
-    # use clang from distro, Travis supplied clang (3.5.0) seems to be broken
-    # https://llvm.org/bugs/show_bug.cgi?id=18402
-    if [[ $CXX = "clang++" ]]; then
-      export CC=/usr/bin/clang-3.9
-      export CXX="/usr/bin/clang++-3.9 -cxx-isystem=/usr/lib/gcc/x86_64-linux-gnu/6"
-    fi
-  }
   install_osx()
   {
     # compilation with system wide gettext fails at the link stage with missing symbols...
     brew install gettext
     brew link gettext --force
-
     brew install qt5 python3
   }
 
-
-# TODO: cmake scripts are missing granular support for: xfce, explicit gnome2/gnome3, gsettings, xml, dbus, exercises, manual, mate, network(distribution)
-# gnome2: `conf_opt_packages gnome2 libglib2.0-dev libsigc++-2.0-dev libglibmm-2.4-dev` \
-# gnome3: `conf_opt_packages gnome3 libglib2.0-dev libpanel-applet-4-dev` \
-# xfce:   `conf_opt_packages xfce xfce4-panel-dev` \
-# manual: `conf_opt_packages manual docbook-utils xmlto` \
-# xml:    `conf_opt_packages manual libgdome2-dev` \
 install:
   - install_$TRAVIS_OS_NAME
   - pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
 
-before_script:
-  - mkdir cmake-build
-  - cd cmake-build
-  - |
-    cmake .. \
-      `[[ $TRAVIS_OS_NAME = 'osx' ]] && echo '-DCMAKE_PREFIX_PATH=/usr/local/opt/qt5'` \
-      -DWITH_UI=$WITH_UI \
-      `conf_opt INDICATOR` \
-      `conf_opt GSTREAMER` \
-      `conf_opt PULSE` \
-      `conf_opt GNOME_CLASSIC_PANEL` \
-      `conf_opt GCONF` \
-      `conf_opt TESTS` \
-      `conf_opt COVERAGE` \
-      `conf_opt TRACING`
-
-script: make
+script: |
+  if [[ $DOCKER_IMAGE ]]; then
+    docker run --rm \
+        -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+        $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS.*)=' | sed 's/^/-e /g') \
+        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        sh -c "/workspace/source/build/travis/build.sh"
+  else
+     build/travis/build.sh
+  fi
