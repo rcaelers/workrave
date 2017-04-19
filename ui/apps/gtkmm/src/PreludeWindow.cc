@@ -403,7 +403,7 @@ PreludeWindow::on_avoid_pointer_timer_event()
   width = a.get_width();
   height = a.get_height();
 
-  iny px = p.x - gdk_offset_x;
+  int px = p.x - gdk_offset_x;
   int py = p.y - gdk_offset_y;
 
   if (px >= winx && px < winx+width && py >= winy && py < winy+height)
