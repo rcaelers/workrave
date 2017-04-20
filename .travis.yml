@@ -19,10 +19,58 @@ matrix:
       compiler: gcc
       env: >
         COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        WITH_UI="Qt5"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-zesty-plus"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-zesty-plus"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-zesty-plus"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-zesty-plus"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-zesty"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-yakkety"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-xenial"
     - os: linux
       compiler: gcc
       env: >
@@ -31,53 +79,28 @@ matrix:
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="mingw-gtk"
-#    - os: linux
-#      compiler: clang
-#      env: >
-#        WITH_UI="Gtk+3"
-#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-#        DOCKER_IMAGE="ubuntu-zesty-plus"
-#    - os: linux
-#      compiler: gcc
-#      env: >
-#        WITH_UI="Gtk+3"
-#        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
-#        CONF_DISABLE=""
-#        DOCKER_IMAGE="ubuntu-zesty-plus"
-#    - os: linux
-#      compiler: clang
-#      env: >
-#        WITH_UI="Gtk+3"
-#        CONF_ENABLE="GCONF,GNOME_CLASSIC_PANEL,INDICATOR,GSTREAMER,PULSE,COVERAGE,TRACING"
-#        CONF_DISABLE=""
-#        DOCKER_IMAGE="ubuntu-zesty-plus"
-#    - os: linux
-#      compiler: gcc
-#      env: >
-#        WITH_UI="Qt5"
-#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-#        DOCKER_IMAGE="ubuntu-zesty-plus"
-#    - os: linux
-#      compiler: clang
-#      env: >
-#        WITH_UI="Qt5"
-#        CONF_ENABLE="INDICATOR,GSTREAMER,PULSE"
-#        CONF_DISABLE="GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-#        DOCKER_IMAGE="ubuntu-zesty-plus"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+2"
+        CONF_ENABLE=""
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="mingw-gtk"
+    - os: linux
+      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE=""
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="mingw-gtk"
     - os: osx
       compiler: clang
       env: >
         WITH_UI="Qt5"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-#    - os: osx
-#      compiler: clang
-#      env: >
-#        WITH_UI="Qt5"
-#        CONF_ENABLE="INDICATOR,TESTS,COVERAGE,TRACING"
-#        CONF_DISABLE="GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF"
 
 before_install: |
   install_osx()
