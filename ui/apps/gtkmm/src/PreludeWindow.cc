@@ -200,11 +200,13 @@ PreludeWindow::add(Gtk::Widget& widget)
 
       if (GtkUtil::running_on_wayland())
         {
-	  align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+          align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
           align->add(*window_frame);
           Gtk::Window::add(*align);
 
-	  widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
+#ifdef HAVE_GTK3
+          widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
+#endif
         }
        else
          {
