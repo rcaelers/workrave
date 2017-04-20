@@ -95,9 +95,10 @@ install:
 
 script: |
   if [[ $DOCKER_IMAGE ]]; then
+    printenv
     docker run --rm \
         -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-        $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS.*)=' | sed 's/^/-e /g') \
+        $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_BUILD_DIR)=' | sed 's/^/-e /g') \
         rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/source/build/travis/build.sh"
   else
