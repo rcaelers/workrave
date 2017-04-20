@@ -15,16 +15,16 @@ osx_image: xcode8.3
 
 matrix:
   allow_failures:
-    - env: COMPILER="gcc" WITH_UI="Qt5"  CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE" CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING" DOCKER_IMAGE="ubuntu-zesty-plus"
+    - env: COMPILER="gcc" WITH_UI="Qt5" CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE" CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING" DOCKER_IMAGE="ubuntu-zesty-plus"
   include:
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Qt5"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-zesty-plus"
+    #- os: linux
+    #  compiler: gcc
+    #  env: >
+    #    COMPILER="gcc"
+    #    WITH_UI="Qt5"
+    #    CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+    #    CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+    #    DOCKER_IMAGE="ubuntu-zesty-plus"
     - os: linux
       compiler: gcc
       env: >
