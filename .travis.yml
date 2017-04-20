@@ -83,9 +83,10 @@ before_install: |
   install_osx()
   {
     # compilation with system wide gettext fails at the link stage with missing symbols...
-    brew install gettext
+    brew install gettext qt5 python3
     brew link gettext --force
-    brew install qt5 python3
+    brew linkapps qt5
+    brew outdated cmake || brew upgrade cmake
 
     pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
   }

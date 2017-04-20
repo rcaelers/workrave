@@ -64,7 +64,7 @@ elif [[ $COMPILER = 'clanf' ]] ; then
 fi
 
 if [[ $TRAVIS_OS_NAME = 'osx' ]]; then
-    CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=/usr/local/opt/qt")
+    CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)"
 fi
 
 case "$DOCKER_IMAGE" in
