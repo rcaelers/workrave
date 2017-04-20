@@ -14,6 +14,8 @@ language: cpp
 osx_image: xcode8.3
 
 matrix:
+  allow_failures:
+    - env: EXPERIMENTAL="YES"
   include:
     - os: linux
       compiler: gcc
@@ -23,6 +25,7 @@ matrix:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-zesty-plus"
+        EXPERIMENTAL="YES"
     - os: linux
       compiler: gcc
       env: >
