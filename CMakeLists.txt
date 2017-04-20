@@ -59,11 +59,7 @@ include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
 include(FindPythonModule)
-
-if ( (NOT ("${WITH_UI}" STREQUAL "Qt5")) OR
-     (NOT APPLE))
-  include(FindPkgConfig)
-endif()
+include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 
