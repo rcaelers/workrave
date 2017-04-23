@@ -26,7 +26,7 @@ foreach (po_file ${POFILES})
         COMMAND ${QT_LRELEASE_EXECUTABLE} ARGS ${ts_file} -qm ${qm_file}
         DEPENDS ${ts_file})
 
-    install(FILES ${qm_file} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/translations/)
+    install(FILES ${qm_file} DESTINATION share/translations/)
   endif()
 
   if (GETTEXT_FOUND)
