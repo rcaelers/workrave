@@ -54,15 +54,9 @@ private:
   Gtk::SpinButton *mins;
   Gtk::SpinButton *secs;
 
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> hours_adjustment;
   Glib::RefPtr<Gtk::Adjustment> mins_adjustment;
   Glib::RefPtr<Gtk::Adjustment> secs_adjustment;
-#else
-  Gtk::Adjustment hours_adjustment;
-  Gtk::Adjustment mins_adjustment;
-  Gtk::Adjustment secs_adjustment;
-#endif
 };
 
 

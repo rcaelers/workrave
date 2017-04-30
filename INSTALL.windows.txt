@@ -45,8 +45,15 @@ This can be done using MinGW or Visual Studio 2015.
 
 Using Visual Studio 2015:
 
-  - Open workrave\libs\hooks\harpoon.sln and build *all* configurations
-  - Open workrave\ui\applets\win32\src\Applet.sln and build *all* configurations
+  - Open workrave\libs\hooks\harpoon.sln
+  - In the 'Build' menu, select batch build
+  - Select *all* configurations
+  - Build
+
+  - Open workrave\ui\applets\win32\src\Applet.sln
+  - In the 'Build' menu, select batch build
+  - Select *all* configurations
+  - Build
 
 Using Mingw:
 
@@ -84,6 +91,7 @@ Compiling the 32 bit parts of Workrave
 
     Note: "-DPREBUILT_PATH=../workrave-mingw64-noui-install" must be omitted
           if the 64 bit parts have been build using Visual Studio.
+
 
 Visual Studio 2015 (VC 14)
 ==========================

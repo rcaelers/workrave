@@ -34,31 +34,11 @@ public:
   Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > property_pixbuf();
 
 protected:
-#ifdef HAVE_GTK3
   virtual void get_preferred_width_vfunc(Gtk::Widget &widget, int &minimum_width, int &natural_width) const;
   virtual void get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const;
   virtual void get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const;
   virtual void get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const;
   virtual void render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::Widget &widget, const Gdk::Rectangle &background_area, const Gdk::Rectangle &cell_area, Gtk::CellRendererState flags);
-
-#else
-  virtual void get_size_vfunc(Gtk::Widget &widget,
-                              const Gdk::Rectangle *cell_area,
-                              int* x_offset, int* y_offset,
-                              int* width,    int* height) const;
-
-  virtual void get_size_vfunc(Gtk::Widget &widget,
-                              const Gdk::Rectangle *cell_area,
-                              int* x_offset, int* y_offset,
-                              int* width,    int* height);
-
-  virtual void render_vfunc(const Glib::RefPtr<Gdk::Drawable> &window,
-                            Gtk::Widget &widget,
-                            const Gdk::Rectangle &background_area,
-                            const Gdk::Rectangle &cell_area,
-                            const Gdk::Rectangle &expose_area,
-                            Gtk::CellRendererState flags);
-#endif
 
 private:
   void update_properties();

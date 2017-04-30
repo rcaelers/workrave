@@ -148,9 +148,6 @@ PreferencesDialog::~PreferencesDialog()
   core->remove_operation_mode_override( "preferences" );
 
   delete connector;
-#ifndef HAVE_GTK3
-  delete filefilter;
-#endif
   TRACE_EXIT();
 }
 
@@ -435,11 +432,7 @@ PreferencesDialog::create_sounds_page()
 
   hbox->pack_start(*fsbutton, true, true, 0);
 
-#ifdef HAVE_GTK3
   filefilter = Gtk::FileFilter::create();
-#else
-  filefilter = new Gtk::FileFilter();
-#endif
 
   filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WIN32
@@ -447,11 +440,7 @@ PreferencesDialog::create_sounds_page()
 #else
   filefilter->add_mime_type("audio/x-wav");
 #endif
-#ifdef HAVE_GTK3
   fsbutton->add_filter(filefilter);
-#else
-  fsbutton->add_filter(*filefilter);
-#endif
 
   hig->add_widget(*hbox);
 
@@ -514,22 +503,14 @@ PreferencesDialog::create_timer_page()
                                 ((BreakId) i));
       TimerPreferencesPanel *tp = Gtk::manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
-#ifdef HAVE_GTK3
       tnotebook->append_page(*tp, *box);
-#else
-      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
-#endif
     }
 
 #if defined(PLATFORM_OS_WIN32)
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
-#ifdef HAVE_GTK3
   tnotebook->append_page(*monitoring_page , *box);
-#else
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
-#endif
 #endif
 
   return tnotebook;

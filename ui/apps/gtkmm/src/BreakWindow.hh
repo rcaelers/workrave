@@ -166,10 +166,8 @@ private:
       System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
 
-#ifdef HAVE_GTK3
   virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
   void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
-#endif
 };
 
 inline BreakWindow::BreakFlags

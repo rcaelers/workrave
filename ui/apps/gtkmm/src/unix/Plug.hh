@@ -33,14 +33,10 @@ public:
   Plug(int id);
   virtual ~Plug();
 
-private:
-
 protected:
-#ifdef HAVE_GTK3
   virtual void on_realize();
   virtual void on_unrealize();
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
-#endif
 private:
 };
 

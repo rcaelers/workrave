@@ -127,11 +127,7 @@ private:
   Gtk::CheckButton *mute_cb;
 
   Gtk::FileChooserButton *fsbutton;
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::FileFilter> filefilter;
-#else
-  Gtk::FileFilter *filefilter;
-#endif
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb;
 

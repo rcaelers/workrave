@@ -70,9 +70,7 @@ void           _wrgtk_tray_icon_cancel_message  (WRGtkTrayIcon *icon,
 
 GtkOrientation wrgtk_tray_icon_get_orientation (WRGtkTrayIcon *icon);
 
-#ifdef HAVE_GTK3
 gint           wrgtk_tray_icon_get_icon_size (WRGtkTrayIcon *icon);
-#endif
 
 G_END_DECLS
 

@@ -260,16 +260,11 @@ TimerBoxGtkView::init_table()
   Gtk::Requisition bar_size;
   Gtk::Requisition my_size;
 
-#ifdef HAVE_GTK3
   GtkRequisition natural_size;
   labels[0]->get_preferred_size(label_size, natural_size);
   get_preferred_size(my_size, natural_size);
   TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
   TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
-#else
-  labels[0]->size_request(label_size);
-  size_request(my_size);
-#endif
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -448,11 +443,9 @@ TimerBoxGtkView::init_table()
 
   show_all();
 
-#ifdef HAVE_GTK3
   get_preferred_size(my_size, natural_size);
   TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
   TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
-#endif
 
   TRACE_EXIT();
 }
@@ -585,7 +578,6 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 }
 
 
-#ifdef HAVE_GTK3
 bool
 TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -598,4 +590,3 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   return Gtk::Widget::on_draw(cr);
 }
-#endif

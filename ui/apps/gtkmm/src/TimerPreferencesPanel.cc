@@ -53,13 +53,8 @@ TimerPreferencesPanel::TimerPreferencesPanel
  Glib::RefPtr<Gtk::SizeGroup> hsize_group,
  Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6)
-#ifdef HAVE_GTK3
   ,max_prelude_adjustment(Gtk::Adjustment::create(0, 1, 100))
   ,exercises_adjustment(Gtk::Adjustment::create(0, 0, 10))
-#else
-  ,max_prelude_adjustment(0, 1, 100)
-  ,exercises_adjustment(0, 0, 10)
-#endif
 {
   connector = new DataConnector();
   break_id = t;
@@ -277,11 +272,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           if (has_max_prelude_cb->get_active())
             {
-#ifdef HAVE_GTK3
               mp = (int) max_prelude_adjustment->get_value();
-#else
-              mp = (int) max_prelude_adjustment.get_value();
-#endif
             }
           else
             {
@@ -312,11 +303,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           prelude_cb->set_active(true);
           has_max_prelude_cb->set_active(true);
-#ifdef HAVE_GTK3
           max_prelude_adjustment->set_value(value);
-#else
-          max_prelude_adjustment.set_value(value);
-#endif
         }
 
       set_prelude_sensitivity();

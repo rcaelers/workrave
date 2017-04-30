@@ -150,11 +150,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this,
                          &MicroBreakWindow::on_restbreaknow_button_clicked));
-#ifdef HAVE_GTK3
   ret->set_can_focus(false);
-#else
-  ret->unset_flags(Gtk::CAN_FOCUS);
-#endif
 
   return ret;
 }
@@ -288,13 +284,9 @@ MicroBreakWindow::update_break_window()
     {
       // Make sure the label doesn't resize anymore.
       // There has to be a better way to do this...
-#ifdef HAVE_GTK3
       GtkRequisition min_size;
       GtkRequisition natural_size;
       label->get_preferred_size(min_size, natural_size);
-#else
-      Gtk::Requisition min_size = label->size_request();
-#endif
 
       label->set_size_request(min_size.width, min_size.height);
       fixed_size = true;

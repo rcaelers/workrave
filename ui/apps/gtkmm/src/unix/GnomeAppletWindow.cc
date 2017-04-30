@@ -552,7 +552,6 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       xevent.xbutton.type = ButtonPress;
 
-#ifdef HAVE_GTK3
       GdkDeviceManager *device_manager = gdk_display_get_device_manager(gtk_widget_get_display(widget));
       GList *devices = gdk_device_manager_list_devices(device_manager, GDK_DEVICE_TYPE_MASTER);
 
@@ -567,9 +566,6 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
         }
 
       g_list_free(devices);
-#else
-      gdk_display_pointer_ungrab(gtk_widget_get_display(widget), GDK_CURRENT_TIME);
-#endif
       ok = true;
     }
   else if (event->type == GDK_BUTTON_RELEASE)

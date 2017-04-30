@@ -52,8 +52,6 @@ Plug::~Plug()
 = default;
 
 
-#ifdef HAVE_GTK3
-
 bool
 Plug::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -83,5 +81,3 @@ Plug::on_realize()
 
   Gtk::Widget::on_realize();
 }
-
-#endif

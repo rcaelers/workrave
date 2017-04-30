@@ -11,7 +11,6 @@
 #include <gdk/gdkx.h>
 #include <X11/Xatom.h>
 
-#ifdef HAVE_GTK3
 #include <cairo.h>
 #include <cairo-xlib.h>
 
@@ -101,7 +100,6 @@ set_desktop_background(GdkWindow *window)
 {
   Pixmap xpm = get_pixmap_prop(GDK_WINDOW_XWINDOW(window), "_XROOTPMAP_ID");
 
-#ifdef HAVE_GTK3
   if (xpm != None)
     {
       GdkScreen *screen = gdk_window_get_screen(window);
@@ -134,15 +132,4 @@ set_desktop_background(GdkWindow *window)
       GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
       gdk_window_set_background_rgba(window, &black);
     }
-
-#else
-  if (xpm != None)
-    {
-      GdkPixmap *gpm = gdk_pixmap_foreign_new(xpm);
-      gdk_window_set_back_pixmap (window, gpm, FALSE);
-      g_object_unref (gpm);
-    }
-#endif
 }
-
-#endif

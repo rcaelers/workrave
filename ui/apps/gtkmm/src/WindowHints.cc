@@ -44,10 +44,8 @@
 #include "W32Compat.hh"
 #endif
 
-#ifdef HAVE_GTK3
 GdkDevice *WindowHints::keyboard = nullptr;
 GdkDevice *WindowHints::pointer = nullptr;
-#endif
 
 void
 WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
@@ -106,7 +104,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 
       delete [] unblocked_windows;
     }
-#elif defined(HAVE_GTK3)
+#elif defined(HAVE_GTK)
   if (num_windows > 0)
     {
 #if GTK_CHECK_VERSION(3, 20, 0)
@@ -222,7 +220,7 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
-#elif defined(HAVE_GTK3)
+#elif defined(HAVE_GTK)
 #  if GTK_CHECK_VERSION(3, 20, 0)
   GdkDisplay *display = gdk_display_get_default();
   GdkSeat *seat = gdk_display_get_default_seat(display);

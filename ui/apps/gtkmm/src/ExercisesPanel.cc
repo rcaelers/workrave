@@ -216,11 +216,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
 
-#ifdef HAVE_GTK3
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
-#else
-  progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
-#endif
 
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -318,7 +314,6 @@ void
 ExercisesPanel::on_realize()
 {
   Gtk::HBox::on_realize();
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   style_context->context_save();
@@ -326,10 +321,6 @@ ExercisesPanel::on_realize()
   style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
   description_text.override_background_color(get_style_context()->get_background_color());
   style_context->context_restore();
-#else
-  description_text.modify_base
-    (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
-#endif
 }
 
 

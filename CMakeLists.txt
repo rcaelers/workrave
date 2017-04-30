@@ -172,7 +172,7 @@ endif()
 # Toolkit selection
 
 set (WITH_UI "Qt5" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt5" "Gtk+3" "Gtk+2" "None")
+set (WITH_UI_VALUES "Qt5" "Gtk+3" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -231,7 +231,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
-  set (HAVE_GTK3 ON)
   set (HAVE_APP_GTK ON)
   set (HAVE_HARPOON ON)
 
@@ -250,37 +249,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   include_directories(${GLIB_INCLUDE_DIRS})
 
   find_package(GSettings)
-endif()
 
-if ("${WITH_UI}" STREQUAL "Gtk+2")
-  message(STATUS "Checking for: Gtk 2")
-
-  pkg_check_modules(
-    GTK REQUIRED
-    gtkmm-2.4>=2.24.0
-    glibmm-2.4>=2.10
-    gtk+-2.0>=2.6.0)
-
-  set (HAVE_GSETTINGS ON)
-  set (HAVE_GLIB ON)
-  set (HAVE_GTK ON)
-  set (HAVE_APP_GTK ON)
-  set (HAVE_HARPOON ON)
-
-  if (WITH_DBUS)
-    set (HAVE_DBUS ON)
-    set (HAVE_DBUS_GIO ON)
-    set (DBUS_BACKEND "gio")
-  endif()
-
-  pkg_check_modules(
-    GLIB REQUIRED
-    glib-2.0>=2.28.0
-    gio-2.0>=2.26.0)
-
-  include_directories(${GLIB_INCLUDE_DIRS})
-
-  find_package(GSettings)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -301,7 +270,13 @@ endif()
 
 include(GDbusCodegen)
 
-option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ON)
+if (UNIX AND NOT APPLE)
+  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT ON)
+else()
+  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT OFF)
+endif()
+
+option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
 
 if (WITH_GNOME_CLASSIC_PANEL)
   message(STATUS "Checking for: Gnome 3 classic panel applets")
@@ -450,14 +425,14 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Indicator
 
-pkg_check_modules(
-  GTK3
-  gtk+-3.0>=3.10.0)
-
 if (UNIX AND NOT APPLE)
   option(WITH_INDICATOR "Enable Unity indicator support" ON)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
+  pkg_check_modules(
+    GTK3
+    gtk+-3.0>=3.10.0)
+  
   if (WITH_INDICATOR)
     message(STATUS "Checking for: Unity Indicators")
 
@@ -495,7 +470,6 @@ endif()
 if (UNIX AND NOT APPLE)
   option(WITH_MATE "Enable Mate applet support" ON)
 
-
   if (WITH_MATE)
     message(STATUS "Checking for: Mate")
 
@@ -518,7 +492,6 @@ endif()
 
 if (UNIX AND NOT APPLE)
   option(WITH_XFCE4 "Enable Xfce applet support" ON)
-
 
   if (WITH_XFCE4)
     message(STATUS "Checking for: Xfce 4")
@@ -972,8 +945,6 @@ elseif (WIN32)
     add_subdirectory(build/win64)
   elseif ("${WITH_UI}" STREQUAL "Qt5")
     add_subdirectory(ui/apps/qt5/dist/win32)
-  elseif ("${WITH_UI}" STREQUAL "Gtk+2")
-    add_subdirectory(ui/apps/gtkmm/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+3")
     add_subdirectory(ui/apps/gtkmm/dist/win32)
   endif()

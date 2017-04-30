@@ -180,12 +180,7 @@ DECLARE_DATA_TYPE(Gtk::CheckButton *, DataConnectionGtkCheckButton, bool);
 DECLARE_DATA_TYPE(Gtk::SpinButton *, DataConnectionGtkSpinButton, int);
 DECLARE_DATA_TYPE(Gtk::ComboBox *, DataConnectionGtkComboBox, int);
 
-#ifdef HAVE_GTK3
 DECLARE_DATA_TYPE(Glib::RefPtr<Gtk::Adjustment>, DataConnectionGtkAdjustment, int);
-#else
-DECLARE_DATA_TYPE(Gtk::Adjustment *, DataConnectionGtkAdjustment, int);
-#endif
-
 DECLARE_DATA_TYPE(TimeEntry *, DataConnectionTimeEntry, int);
 
 

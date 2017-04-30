@@ -33,9 +33,7 @@
 #include <cairo-xlib.h>
 
 #include "gtk/gtk.h"
-#ifdef HAVE_GTK3
 #include "gtk/gtkx.h"
-#endif
 #include "gdk/gdk.h"
 
 #include "gtktrayicon.h"

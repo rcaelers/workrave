@@ -85,14 +85,6 @@ matrix:
       compiler: gcc
       env: >
         COMPILER="gcc"
-        WITH_UI="Gtk+2"
-        CONF_ENABLE=""
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="mingw-gtk"
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"

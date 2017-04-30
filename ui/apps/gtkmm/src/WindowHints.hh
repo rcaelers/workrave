@@ -48,9 +48,7 @@ public:
   static void attach_thread_input(bool enabled);
 #endif
 
-#ifdef HAVE_GTK3
   static GdkDevice *keyboard, *pointer;
-#endif
 };
 
 #endif // WINDOWHINTS_HH

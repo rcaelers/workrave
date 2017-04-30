@@ -1,4 +1,4 @@
-if (WITH_INDICATOR AND HAVE_GTK3)
+if (WITH_INDICATOR)
 
   set(SRC
     src/indicator-workrave.c

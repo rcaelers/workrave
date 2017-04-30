@@ -60,9 +60,7 @@ public:
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
 
-#ifdef HAVE_GTK3
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
-#endif
 
 private:
   void init_widgets();

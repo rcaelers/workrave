@@ -16,7 +16,6 @@
 #cmakedefine HAVE_GSETTINGS
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_GTK
-#cmakedefine HAVE_GTK3
 #cmakedefine HAVE_INDICATOR
 #cmakedefine HAVE_INTROSPECTION
 #cmakedefine HAVE_ISHELLDISPATCH

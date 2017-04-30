@@ -109,15 +109,9 @@ StatisticsDialog::init_gui()
   calendar = Gtk::manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
   calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
-#ifdef HAVE_GTK3
   calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
                                 |Gtk::CALENDAR_SHOW_DAY_NAMES
                                 |Gtk::CALENDAR_SHOW_HEADING);
-#else
-  calendar->display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
-                            |Gtk::CALENDAR_SHOW_DAY_NAMES
-                            |Gtk::CALENDAR_SHOW_HEADING);
-#endif
 
   // Button box.
   Gtk::HBox *btnbox= Gtk::manage(new Gtk::HBox(false, 6));
@@ -324,11 +318,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   box->show_all();
 
 #if !defined(PLATFORM_OS_OSX)
-  #ifdef HAVE_GTK3
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
-  #else
-  ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
-  #endif
 #else
   ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
 #endif
@@ -384,11 +374,7 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
     }
 
   box->show_all();
-#ifdef HAVE_GTK3
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
-#else
-  ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
-#endif
 }
 
 
