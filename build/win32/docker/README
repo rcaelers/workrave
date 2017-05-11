@@ -8,6 +8,10 @@ docker build -t rcaelers/workrave-v1_10-build-win32 build/win32/docker
 
 docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ rcaelers/workrave-v1_10-build-win32 all
 
+Or using local git repo:
+
+docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ -v ~/src/workrave/workrave-v1_10/:/workspace/source/workrave rcaelers/workrave-v1_10-build-win32 all
+
 * Upload
 
-docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ -v ~/.ssh:/root/.ssh rcaelers/workrave-v1_10-build-win32 upload
+docker run --rm -v ~/Projects/Workrave/tinderbox/snapshots/:/workspace/snapshots/ -v ~/.ssh/id_rsa:/root/.ssh/id_rsa rcaelers/workrave-v1_10-build-win32 upload

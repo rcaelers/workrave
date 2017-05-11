@@ -55,4 +55,6 @@ RUN mkdir -p /workspace/runtime && \
 
 COPY Makefile env make-runtime.sh /workspace/
 
+RUN mkdir /root/.ssh && echo "StrictHostKeyChecking no " > /root/.ssh/config
+
 ENTRYPOINT ["make", "-C", "/workspace/"]
