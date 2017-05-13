@@ -30,7 +30,7 @@ unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 usage:
 	@echo Usage: "make all" to make all files from scratch
 
-all: setup git-setup workrave-win32-all
+all: setup workrave-win32-all
 
 debug: workrave-win32-debug-setup
 
