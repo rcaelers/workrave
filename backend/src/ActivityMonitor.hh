@@ -54,8 +54,8 @@ public:
 
   ActivityState get_current_state();
 
-  void set_parameters(int noise, int activity, int idle);
-  void get_parameters(int &noise, int &activity, int &idle);
+  void set_parameters(int noise, int activity, int idle, int sensitivity);
+  void get_parameters(int &noise, int &activity, int &idle, int &sensitivity);
 
   void set_listener(ActivityMonitorListener *l);
 
@@ -100,6 +100,9 @@ private:
 
   //! The idle threshold.
   GTimeVal idle_threshold;
+
+  //! Mouse sensitivity
+  int sensitivity;
 
   //! Activity listener.
   ActivityMonitorListener *listener;

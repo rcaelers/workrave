@@ -283,6 +283,8 @@ Core::init_monitor(const string &display_name)
 
   InputMonitorFactory::init(display_name);
 
+  configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, CONFIG_FLAG_DEFAULT);
+
   monitor = new ActivityMonitor();
   load_monitor_config();
 
@@ -343,6 +345,7 @@ Core::load_monitor_config()
   int noise;
   int activity;
   int idle;
+  int sensitivity;
 
   assert(configurator != NULL);
   assert(monitor != NULL);
@@ -353,6 +356,8 @@ Core::load_monitor_config()
     activity = 1000;
   if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
     idle = 5000;
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, sensitivity))
+    sensitivity = 3;
 
   // Pre 1.0 compatibility...
   if (noise < 50)
@@ -373,9 +378,10 @@ Core::load_monitor_config()
       configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
     }
 
+
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
 
-  monitor->set_parameters(noise, activity, idle);
+  monitor->set_parameters(noise, activity, idle, sensitivity);
   TRACE_EXIT();
 }
 

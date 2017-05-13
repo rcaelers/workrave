@@ -44,6 +44,7 @@ public:
   static const std::string CFG_KEY_MONITOR_NOISE;
   static const std::string CFG_KEY_MONITOR_ACTIVITY;
   static const std::string CFG_KEY_MONITOR_IDLE;
+  static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;

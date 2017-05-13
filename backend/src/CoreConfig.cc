@@ -50,6 +50,7 @@ const string CoreConfig::CFG_KEY_MONITOR                   = "monitor";
 const string CoreConfig::CFG_KEY_MONITOR_NOISE             = "monitor/noise";
 const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY          = "monitor/activity";
 const string CoreConfig::CFG_KEY_MONITOR_IDLE              = "monitor/idle";
+const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY       = "monitor/sensitivity";
 
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR           = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE            = "general/operation-mode";

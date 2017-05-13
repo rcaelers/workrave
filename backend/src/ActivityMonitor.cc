@@ -54,6 +54,7 @@ ActivityMonitor::ActivityMonitor() :
   prev_x(-10),
   prev_y(-10),
   button_is_pressed(false),
+  sensitivity(3),
   listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
@@ -184,7 +185,7 @@ ActivityMonitor::get_current_state()
 
 //! Sets the operation parameters.
 void
-ActivityMonitor::set_parameters(int noise, int activity, int idle)
+ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
   noise_threshold.tv_sec = noise / 1000;
   noise_threshold.tv_usec = (noise % 1000) * 1000;
@@ -195,6 +196,8 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle)
   idle_threshold.tv_sec = idle / 1000;
   idle_threshold.tv_usec = (idle % 1000) * 1000;
 
+  this->sensitivity = sensitivity;
+
   // The easy way out.
   activity_state = ACTIVITY_IDLE;
 }
@@ -203,11 +206,12 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle)
 
 //! Sets the operation parameters.
 void
-ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
+ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
 {
   noise = noise_threshold.tv_sec * 1000 + noise_threshold.tv_usec / 1000;
   activity = activity_threshold.tv_sec * 1000 + activity_threshold.tv_usec / 1000;
   idle = idle_threshold.tv_sec * 1000 + idle_threshold.tv_usec / 1000;
+  sensitivity = this->sensitivity;
 }
 
 
@@ -302,8 +306,6 @@ ActivityMonitor::action_notify()
 void
 ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
-  static const int sensitivity = 3;
-
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
