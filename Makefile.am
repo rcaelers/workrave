@@ -45,14 +45,3 @@ AUTHORS.txt: AUTHORS
 
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
-
-version.h: config.h
-	PACKAGE_VERSION=`grep PACKAGE_VERSION config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
-	echo "#ifndef WORKRAVE_VERSION_H" > version.h
-	echo "#define WORKRAVE_VERSION_H" >> version.h
-	if [ -e ".svn" ] ; then \
-            PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'`; \
-	    echo "#define WORKRAVE_VERSION \"$PACKAGE_VERSION" > version.h \
-        fi
-	echo "#define WORKRAVE_SVN_VERSION \"$PACKAGE_SVN_VERSION" > version.h
-	echo "#endif // WORKRAVE_VERSION" > version.h
