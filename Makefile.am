@@ -34,7 +34,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 unix2dos = perl -e 'while (<>) { s/$$/\r/; print; }'
 
-README.txt: README
+README.txt: README.md
 	$(unix2dos) <$^ >$@
 
 NEWS.txt: NEWS
