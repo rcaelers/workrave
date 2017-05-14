@@ -23,11 +23,11 @@
 
 #include <assert.h>
 
+#include "utils/Platform.hh"
+
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #endif
-
-#include "utils/Platform.hh"
 
 #include <stdlib.h>
 

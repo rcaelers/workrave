@@ -56,10 +56,11 @@ jay satiro, workrave project, september 2007
 #include "config.h"
 #endif
 
-#include <windows.h>
-
 #include "debug.hh"
 #include <sstream>
+
+#include <windows.h>
+
 #include "W32LowLevelMonitor.hh"
 #ifdef HAVE_HARPOON
 #include "input-monitor/Harpoon.hh"

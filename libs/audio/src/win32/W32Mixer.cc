@@ -21,17 +21,18 @@
 #include "config.h"
 #endif
 
-#include <initguid.h>
-#include <windows.h>
-#include <mmsystem.h>
 #include "debug.hh"
 
+#include <initguid.h>
+
 #include "W32Mixer.hh"
-#include <debug.hh>
+
+#include <windows.h>
+#include <mmsystem.h>
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
-#define IID_IMMDeviceEnumerator __uuidof(IMMDeviceEnumerator)
+#define IID_IMMDevicEenumerator __uuidof(IMMDeviceEnumerator)
 #define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)
 #endif
 

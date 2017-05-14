@@ -21,12 +21,10 @@
 #include "config.h"
 #endif
 
-#include <windows.h>
-#include <shellapi.h>
-
 #include "W32StatusIcon.hh"
 
 #include <string>
+#include <shellapi.h>
 
 #include "debug.hh"
 

@@ -25,6 +25,9 @@
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 
+#undef __out
+#undef __in
+
 #if defined(interface)
 #undef interface
 #endif

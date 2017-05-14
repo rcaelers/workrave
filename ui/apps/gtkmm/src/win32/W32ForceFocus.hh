@@ -22,7 +22,8 @@
 
 #include <windows.h>
 
-
+#undef __out
+#undef __in
 
 class W32ForceFocus
 {

@@ -22,6 +22,8 @@
 #ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #include <shellapi.h>
+#undef __out
+#undef __in
 #endif
 
 #include "commonui/nls.h"

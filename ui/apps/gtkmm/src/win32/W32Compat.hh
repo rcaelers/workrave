@@ -22,6 +22,9 @@
 
 #include <windows.h>
 
+#undef __out
+#undef __in
+
 #ifndef MONITOR_DEFAULTTONULL
 #define MONITOR_DEFAULTTONULL       0x00000000
 #endif

@@ -29,6 +29,8 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#undef __out
+#undef __in
 
 class W32StatusIcon
 {
@@ -65,7 +67,6 @@ private:
   sigc::signal<void>  activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
   sigc::signal<void, guint, guint32> popup_menu_signal;
-
 };
 
 #endif // W32STATUSICON_HH

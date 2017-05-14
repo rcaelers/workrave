@@ -21,6 +21,9 @@
 #define DESKTOP_WINDOW_HH
 
 #include <windows.h>
+#undef __out
+#undef __in
+
 #include "HeadInfo.hh"
 
 class DesktopWindow

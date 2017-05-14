@@ -21,28 +21,27 @@
 #include "config.h"
 #endif
 
+#include "W32TrayMenu.hh"
+
 #include <windows.h>
 #include <shellapi.h>
 #undef interface
+#undef __out
+#undef __in
 
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "W32TrayMenu.hh"
-
 #include <string>
-
-#include <gtkmm/menu.h>
-#include <gtkmm/menushell.h>
 
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
-
+#include <gtkmm/menu.h>
+#include <gtkmm/menushell.h>
 
 using namespace std;
-
 
 //! Constructor.
 W32TrayMenu::W32TrayMenu()
