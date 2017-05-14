@@ -623,15 +623,6 @@ GUI::init_gtk_multihead()
             }
         }
 
-      for (int i = 0; i < num_screens; i++)
-        {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
-              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-            }
-        }
-
       init_multihead_mem(new_num_heads);
 
       int count = 0;
