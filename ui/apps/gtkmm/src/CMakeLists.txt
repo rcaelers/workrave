@@ -192,13 +192,18 @@ endif()
 target_link_libraries(workrave ${INDICATOR_LIBRARIES})
 
 if (WIN32)
-  target_link_libraries(workrave harpoon)
+  if (HAVE_HARPOON)
+     target_link_libraries(workrave harpoon)
+  endif()
   target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
+
+  if (HAVE_HARPOON)
+    include_directories(${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  endif()
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
     )
 
    target_link_libraries(workrave dxerr8 dsound dxguid)

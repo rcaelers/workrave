@@ -27,6 +27,7 @@
 
 #include "Text.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
@@ -75,7 +76,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   Gtk::Window::set_border_width(0);
 
-  if (GtkUtil::running_on_wayland())
+  if (!Platform::can_position_windows())
     {
       set_app_paintable(true);
       signal_draw().connect(sigc::mem_fun(*this, &PreludeWindow::on_draw_event));
@@ -190,7 +191,7 @@ PreludeWindow::add(Gtk::Widget& widget)
       window_frame->set_border_width(0);
       window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
 
-      if (GtkUtil::running_on_wayland())
+      if (!Platform::can_position_windows())
         {
           align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
           align->add(*window_frame);
@@ -426,9 +427,8 @@ PreludeWindow::avoid_pointer()
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   did_avoid = true;
-  
   int winx, winy, width, height;
-  if (GtkUtil::running_on_wayland())
+  if (!!Platform::can_position_windows())
     {
       Gtk::Allocation a = frame->get_allocation();
       winx = a.get_x();
@@ -454,7 +454,7 @@ PreludeWindow::avoid_pointer()
       winy = bottom_y;
     }
 
-  if (GtkUtil::running_on_wayland())
+  if (!Platform::can_position_windows())
     {
       if (winy == bottom_y)
         {
@@ -470,6 +470,7 @@ PreludeWindow::avoid_pointer()
 
   set_position(Gtk::WIN_POS_NONE);
   move(winx, winy);
+  TRACE_EXIT();
 }
 
 bool
@@ -507,7 +508,7 @@ PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
 void
 PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 {
-  if (GtkUtil::running_on_wayland())
+  if (!Platform::can_position_windows())
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
 
@@ -518,7 +519,7 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
             allocation.get_y(),
             allocation.get_width(),
             allocation.get_height() };
-          
+
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
     }

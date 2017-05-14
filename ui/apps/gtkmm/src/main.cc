@@ -43,7 +43,7 @@ run(int argc, char **argv)
     W32ActiveSetup::update_all();
 #endif
 
-#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
+#if defined(PLATFORM_OS_WINDOWS_32) && !defined(PLATFORM_OS_WIN32_NATIVE)
   SetUnhandledExceptionFilter(exception_filter);
 
 #if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)

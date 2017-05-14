@@ -108,7 +108,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
-      if (GtkUtil::running_on_wayland())
+      if (!WindowHints::can_grab())
         {
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
@@ -193,7 +193,7 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !GtkUtil::running_on_wayland())
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL && WindowHints::can_grab())
             {
 #ifdef PLATFORM_OS_WIN32
               desktop_window = new DesktopWindow(head);
@@ -213,7 +213,7 @@ BreakWindow::init_gui()
             }
           else
             {
-              if (GtkUtil::running_on_wayland())
+              if (!WindowHints::can_grab())
                 {
                   Gtk::Alignment *align
                     = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
@@ -650,7 +650,7 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WIN32
-  if( force_focus_on_break_start &&  this->head.count == 0)
+  if( force_focus_on_break_start && this->head.count == 0)
     {
       HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
       W32ForceFocus::ForceWindowFocus(hwnd);

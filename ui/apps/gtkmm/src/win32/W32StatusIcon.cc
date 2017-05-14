@@ -245,7 +245,7 @@ W32StatusIcon::init()
 
   if (tray_hwnd != NULL)
     {
-      SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
+      SetWindowLongPtr(tray_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
 }
 
@@ -281,7 +281,7 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
   TRACE_ENTER_MSG("W32StatusIcon::window_proc", uMsg << " " << wParam);
-  W32StatusIcon *status_icon = (W32StatusIcon *) GetWindowLong(hwnd, GWL_USERDATA);
+  W32StatusIcon *status_icon = (W32StatusIcon *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
   if (status_icon != NULL)
     {
       if (uMsg == status_icon->wm_taskbarcreated)

@@ -574,13 +574,13 @@ MainWindow::win32_init()
   ShowWindow(win32_main_hwnd, SW_HIDE);
 
   // User data
-  SetWindowLong(win32_main_hwnd, GWL_USERDATA, (LONG) this);
+  SetWindowLongPtr(win32_main_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
   // Reassign ownership
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
+  SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(win32_main_hwnd));
 
   TRACE_EXIT();
 }

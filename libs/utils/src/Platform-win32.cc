@@ -134,3 +134,9 @@ Platform::unsetenv(const char* name)
   return SetEnvironmentVariableW(convert(name).c_str(), 0);
 }
 
+
+bool
+Platform::can_position_windows()
+{
+  return true;
+}

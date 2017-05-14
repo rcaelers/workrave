@@ -131,3 +131,20 @@ Platform::unsetenv(const char* name)
   return ::unsetenv(name);
 }
 
+bool
+Platform::running_on_wayland()
+{
+#ifdef GDK_WINDOWING_WAYLAND
+  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+  return GDK_IS_WAYLAND_DISPLAY(display);
+#else
+  return false;
+#endif
+}
+
+bool
+bool
+Platform::can_position_windows()
+{
+  return !running_on_wayland();
+}

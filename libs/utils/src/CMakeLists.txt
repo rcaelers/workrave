@@ -11,7 +11,7 @@ endif()
 if (PLATFORM_OS_WIN32)
   set(SRC ${SRC} Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
 
-  if (NOT CMAKE_CL_64)
+  if (PLATFORM_OS_WINDOWS_32)
     set(SRC ${SRC} win32/crashlog.c)
   endif()
 endif()

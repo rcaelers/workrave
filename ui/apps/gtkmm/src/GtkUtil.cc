@@ -417,13 +417,3 @@ GtkUtil::create_image(const std::string &filename)
   return Glib::RefPtr<Gdk::Pixbuf>();
 }
 
-bool
-GtkUtil::running_on_wayland()
-{
-#ifdef GDK_WINDOWING_WAYLAND
-  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
-  return GDK_IS_WAYLAND_DISPLAY(display);
-#else
-  return false;
-#endif
-}

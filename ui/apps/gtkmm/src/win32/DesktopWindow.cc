@@ -67,7 +67,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
                         (HMENU)NULL,
                         hinstance,
                         (LPSTR)NULL);
-  SetWindowLong(hwnd, GWL_USERDATA, (LONG) this);
+  SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
   TRACE_EXIT();
 }
@@ -81,7 +81,7 @@ LRESULT CALLBACK
 DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                            LPARAM lParam)
 {
-  DesktopWindow *self = (DesktopWindow *) GetWindowLong(hwnd, GWL_USERDATA);
+  DesktopWindow *self = (DesktopWindow *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
   switch (uMsg)
     {
     case WM_WINDOWPOSCHANGED:

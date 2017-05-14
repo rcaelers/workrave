@@ -1,5 +1,3 @@
-// Platform.hh --- Base exception
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -33,6 +31,7 @@ namespace workrave
       static void *get_default_display();
       static std::string get_default_display_name();
       static unsigned long get_default_root_window();
+      static bool running_on_wayland();
 #endif
 
 #ifdef PLATFORM_OS_WIN32
@@ -46,6 +45,8 @@ namespace workrave
     public:
       static int setenv(const char* name, const char* val, int);
       static int unsetenv(const char* name);
+
+       static bool can_position_windows();
     };
   }
 }
