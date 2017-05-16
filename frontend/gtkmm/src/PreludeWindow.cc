@@ -50,7 +50,7 @@
 
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
-  : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
+  : Gtk::Window(Gtk::WINDOW_POPUP),
 #ifdef PLATFORM_OS_WIN32
     gdk_offset_x(0),
     gdk_offset_y(0),
