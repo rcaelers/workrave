@@ -134,6 +134,7 @@ Platform::unsetenv(const char* name)
   return ::unsetenv(name);
 }
 
+#ifdef PLATFORM_OS_UNIX
 bool
 Platform::running_on_wayland()
 {
@@ -144,9 +145,16 @@ Platform::running_on_wayland()
   return false;
 #endif
 }
+#endif
 
 bool
 Platform::can_position_windows()
 {
+#if defined(PLATFORM_OS_UNIX)
   return !running_on_wayland();
+#elif defined(PLATFORM_OS_OSX)
+  return true;
+#else
+  #error Unknown platform
+#endif
 }
