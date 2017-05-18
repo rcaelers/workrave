@@ -47,6 +47,8 @@
 #include "W32Compat.hh"
 #endif
 
+using namespace workrave::utils;
+
 GdkDevice *WindowHints::keyboard = nullptr;
 GdkDevice *WindowHints::pointer = nullptr;
 
@@ -69,13 +71,13 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 bool
 WindowHints::can_grab()
 {
-#ifdef PLATFORM_OS_WIN32
-#ifdef HAVE_HARPOON
+#if defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_HARPOON)
   return true;
 #else
   return false;
 #endif
-#elif PLATFORM_OS_UNIX
+#elif defined(PLATFORM_OS_UNIX)
   return !Platform::running_on_wayland();
 #else
   return false;

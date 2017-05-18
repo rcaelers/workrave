@@ -30,10 +30,6 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
-
 #include "GUI.hh"
 #include "utils/AssetPath.hh"
 #include "GtkUtil.hh"
