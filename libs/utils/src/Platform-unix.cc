@@ -31,6 +31,9 @@
 #ifdef PLATFORM_OS_UNIX
 #include <gdk/gdkx.h>
 #endif
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/gdkwayland.h>
+#endif
 #endif
 
 #ifdef HAVE_QT5
@@ -142,7 +145,6 @@ Platform::running_on_wayland()
 #endif
 }
 
-bool
 bool
 Platform::can_position_windows()
 {
