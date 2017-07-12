@@ -132,7 +132,7 @@ Frame::paintEvent(QPaintEvent *pe)
 
   QRect fr = get_frame_rect();
 
-  QStyleOptionFrameV3 opt;
+  QStyleOptionFrame opt;
   opt.init(this);
 
   opt.rect          = fr;

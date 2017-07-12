@@ -19,36 +19,48 @@
 #include "config.h"
 #endif
 
-#include "WindowHints.hh"
+#include <stdio.h>
+
+#include "W32GrabHarpoon.hh"
 
 #include "debug.hh"
-#include "utils/Platform.hh"
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif
 
-#include <gtkmm/window.h>
-
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkwin32.h>
-
-#include "W32Compat.hh"
+#include "harpoon.h"
+#include "input-monitor/Harpoon.hh"
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
 #endif
+
+bool
+W32GrabHarpoon::can_grab()
+{
+  return true;
+}
+
+static void
+win32_block_input(BOOL block)
+{
+  if (block)
+    Harpoon::block_input();
+  else
+    Harpoon::unblock_input();
+
+  UINT uPreviousState;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
+}
 
 void
-WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
+W32GrabHarpoon::grab()
 {
-#if defined(PLATFORM_OS_WIN32)
+  win32_block_input(TRUE);
+}
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
-  W32Compat::SetWindowOnTop(hwnd, on_top);
-
-#else
-
-  window->set_keep_above(on_top);
-
-#endif
+void
+W32GrabHarpoon::ungrab()
+{
+  win32_block_input(FALSE);
 }

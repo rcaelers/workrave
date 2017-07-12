@@ -147,7 +147,7 @@ private:
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
 
-  bool grab();
+  void grab();
   void ungrab();
   void process_visibility();
 
@@ -160,9 +160,6 @@ private:
   void on_operation_mode_changed(const workrave::OperationMode m);
   void on_usage_mode_changed(const workrave::UsageMode m);
 
-#if defined(PLATFORM_OS_UNIX)
-  bool on_grab_retry_timer();
-#endif
   bool on_operational_mode_warning_timer();
 
 #if defined(PLATFORM_OS_WIN32)
@@ -229,17 +226,6 @@ private:
 
   //! Height of the screen.
   int screen_height;
-
-#ifdef PLATFORM_OS_UNIX
-  //! Do we want a keyboard/pointer grab
-  bool grab_wanted;
-
-  //! Connection to the grab retry timeout timer.
-  sigc::connection grab_retry_connection;
-#endif
-
-  //! Grab
-  WindowHints::Grab *grab_handle;
 
   //! Status icon
   StatusIcon *status_icon;

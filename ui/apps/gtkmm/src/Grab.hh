@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2008, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,40 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef GRAB_HH
+#define GRAB_HH
 
-#include "WindowHints.hh"
-
-#include "debug.hh"
-#include "utils/Platform.hh"
-
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#undef max
-#endif
-
-#include <gtkmm/window.h>
-
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkwin32.h>
 
-#include "W32Compat.hh"
-#endif
-
-void
-WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
+class Grab
 {
-#if defined(PLATFORM_OS_WIN32)
+public:
+  static Grab *instance();
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
-  W32Compat::SetWindowOnTop(hwnd, on_top);
+  virtual bool can_grab() = 0;
+  virtual void grab() = 0;
+  virtual void ungrab() = 0;
+};
 
-#else
-
-  window->set_keep_above(on_top);
-
-#endif
-}
+#endif // GRAB_HH
