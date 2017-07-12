@@ -1,5 +1,3 @@
-// WindowHints.hh
-//
 // Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -40,21 +38,8 @@ namespace Gtk
 
 class WindowHints
 {
-private:
 public:
-  typedef void *Grab;
-
   static void set_always_on_top(Gtk::Window *window, bool ontop);
-
-  static bool can_grab();
-  static Grab *grab(int num_windows, GdkWindow **window);
-  static void ungrab(Grab *grab);
-
-#if defined(PLATFORM_OS_WIN32)
-  static void attach_thread_input(bool enabled);
-#endif
-
-  static GdkDevice *keyboard, *pointer;
 };
 
 #endif // WINDOWHINTS_HH

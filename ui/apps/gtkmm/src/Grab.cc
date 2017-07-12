@@ -19,36 +19,33 @@
 #include "config.h"
 #endif
 
-#include "WindowHints.hh"
+#include "Grab.hh"
 
-#include "debug.hh"
-#include "utils/Platform.hh"
-
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#undef max
+#if defined(PLATFORM_OS_UNIX)
+#include "unix/UnixGrab.hh"
+#elif defined(PLATFORM_OS_WIN32)
+#include "win32/W32Grab.hh"
+#if defined(HAVE_HARPOON)
+#include "win32/W32GrabHarpoon.hh"
+#endif
 #endif
 
-#include <gtkmm/window.h>
-
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkwin32.h>
-
-#include "W32Compat.hh"
-#endif
-
-void
-WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
+Grab *
+Grab::instance()
 {
-#if defined(PLATFORM_OS_WIN32)
+  static Grab *instance = nullptr;
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
-  W32Compat::SetWindowOnTop(hwnd, on_top);
-
+  if (instance == nullptr)
+    {
+#if defined(PLATFORM_OS_UNIX)
+      instance = new UnixGrab();
+#elif defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_HARPOON)
+      instance = new W32GrabHarpoon();
 #else
-
-  window->set_keep_above(on_top);
-
+      instance = new W32Grab();
 #endif
+#endif
+    }
+  return instance;
 }

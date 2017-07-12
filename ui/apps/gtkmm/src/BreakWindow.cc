@@ -1,5 +1,3 @@
-// BreakWindow.cc --- base class for the break windows
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -37,12 +35,12 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "debug.hh"
-#include "commonui/nls.h"
-
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif
+
+#include "debug.hh"
+#include "commonui/nls.h"
 
 #include <gtkmm.h>
 #include <math.h>
@@ -54,7 +52,7 @@
 #include "GUI.hh"
 #include "core/IBreak.hh"
 #include "GtkUtil.hh"
-#include "WindowHints.hh"
+#include "Grab.hh"
 #include "Frame.hh"
 #include "session/System.hh"
 #include "core/ICore.hh"
@@ -84,6 +82,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   block_mode(mode),
   break_flags(break_flags),
   frame(nullptr),
+  fullscreen_grab(false),
   gui(nullptr),
   visible(false),
   accel_added(false),
@@ -93,13 +92,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   sysoper_combobox(nullptr)
 #ifdef PLATFORM_OS_WIN32
   ,
-  desktop_window( NULL ),
-  force_focus_on_break_start( false ),
-  parent( 0 )
+  desktop_window(NULL),
+  force_focus_on_break_start(false),
+  parent(0)
 #endif
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
+
+  fullscreen_grab = !Grab::instance()->can_grab();
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
     {
@@ -108,13 +109,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
-      if (!WindowHints::can_grab())
+      if (fullscreen_grab)
         {
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed));
           on_screen_changed(get_screen());
-          set_size_request(head.get_width(), head.get_height());
+          fullscreen();
         }
     }
 
@@ -145,14 +146,14 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
 
 #ifdef PLATFORM_OS_WIN32
-  if( W32ForceFocus::GetForceFocusValue() )
-      initial_ignore_activity = true;
+   if( W32ForceFocus::GetForceFocusValue() )
+       initial_ignore_activity = true;
 
-  Backend::get_configurator()->get_value_with_default(
-    "advanced/force_focus_on_break_start",
-    force_focus_on_break_start,
-    true
-    );
+   Backend::get_configurator()->get_value_with_default(
+     "advanced/force_focus_on_break_start",
+     force_focus_on_break_start,
+     true
+     );
 #endif
 
   ICore::Ptr core = Backend::get_core();
@@ -193,30 +194,30 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL && WindowHints::can_grab())
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !fullscreen_grab)
             {
+              if (!fullscreen_grab)
+                {
 #ifdef PLATFORM_OS_WIN32
-              desktop_window = new DesktopWindow(head);
-              add(*window_frame);
+                  desktop_window = new DesktopWindow(head);
+                  add(*window_frame);
 
 #elif defined(PLATFORM_OS_UNIX)
-              set_size_request(head.get_width(),
-                               head.get_height());
-              set_app_paintable(true);
-              Glib::RefPtr<Gdk::Window> window = get_window();
-              set_desktop_background(window->gobj());
-              Gtk::Alignment *align
-                = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-              align->add(*window_frame);
-              add(*align);
+                  set_size_request(head.get_width(), head.get_height());
+                  set_app_paintable(true);
+                  Glib::RefPtr<Gdk::Window> window = get_window();
+                  set_desktop_background(window->gobj());
+                  Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                  align->add(*window_frame);
+                  add(*align);
 #endif
+                }
             }
           else
             {
-              if (!WindowHints::can_grab())
+              if (fullscreen_grab)
                 {
-                  Gtk::Alignment *align
-                    = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                  Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
                   align->add(*window_frame);
                   add(*align);
                 }
@@ -260,7 +261,10 @@ BreakWindow::~BreakWindow()
 void
 BreakWindow::center()
 {
-  GtkUtil::center_window(*this, head);
+  if (!fullscreen_grab)
+    {
+      GtkUtil::center_window(*this, head);
+    }
 }
 
 void
@@ -604,8 +608,6 @@ BreakWindow::create_bottom_box(bool lockable,
   return box;
 }
 
-
-//! Starts the daily limit.
 void
 BreakWindow::init()
 {
@@ -619,7 +621,7 @@ disable_button_focus(GtkWidget *w)
 {
 	if (GTK_IS_CONTAINER(w))
   {
-		gtk_container_forall(GTK_CONTAINER(w),	(GtkCallback)disable_button_focus, nullptr);
+		gtk_container_forall(GTK_CONTAINER(w),(GtkCallback)disable_button_focus, nullptr);
   }
 
   if (GTK_IS_BUTTON(w))
@@ -628,11 +630,11 @@ disable_button_focus(GtkWidget *w)
   }
 }
 
-//! Starts the daily limit.
 void
 BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
+
 
   update_break_window();
   center();
@@ -650,11 +652,11 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WIN32
-  if( force_focus_on_break_start && this->head.count == 0)
-    {
-      HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-      W32ForceFocus::ForceWindowFocus(hwnd);
-    }
+  // if( force_focus_on_break_start && this->head.count == 0)
+  //   {
+  //     HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  //     W32ForceFocus::ForceWindowFocus(hwnd);
+  //   }
 #endif
 
   // In case the show_all resized the window...
@@ -680,7 +682,6 @@ BreakWindow::start()
   TRACE_EXIT();
 }
 
-//! Stops the daily limit.
 void
 BreakWindow::stop()
 {
@@ -701,8 +702,6 @@ BreakWindow::stop()
   TRACE_EXIT();
 }
 
-
-//! Refresh
 void
 BreakWindow::refresh()
 {
@@ -710,9 +709,9 @@ BreakWindow::refresh()
 
   update_break_window();
 
-#ifdef PLATFORM_OS_WIN32
-  W32Compat::RefreshBreakWindow( *this );
-#endif
+// #ifdef PLATFORM_OS_WIN32
+//   W32Compat::RefreshBreakWindow( *this );
+// #endif
   TRACE_EXIT();
 }
 
@@ -727,25 +726,27 @@ BreakWindow::update_break_window()
 {
 }
 
-bool BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+bool
+BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
   cr->save();
-  if (block_mode == GUIConfig::BLOCK_MODE_ALL)
-    {
-      cr->set_source_rgba(0, 0, 0, 0.95);
-    }
-  else
-    {
-      cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
-    }
+   if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+     {
+       cr->set_source_rgba(0, 0, 0, 0.95);
+     }
+   else
+     {
+      cr->set_source_rgba(0.1, 0.1, 0.1, 0.4);
+     }
   cr->set_operator(Cairo::OPERATOR_SOURCE);
   cr->paint();
   cr->restore();
- 
+
   return Gtk::Window::on_draw(cr);
 }
 
-void BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen)
+void
+BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen)
 {
   (void) previous_screen;
 

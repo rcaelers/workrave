@@ -105,6 +105,8 @@ protected:
   //! Flash frame
   Frame *frame;
 
+  //! Use fullscreen window to perform blocking
+  bool fullscreen_grab;
 
 protected:
   Gtk::Button *create_skip_button();

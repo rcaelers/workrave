@@ -8,6 +8,7 @@ set(SRC
   EventImage.cc
   EventLabel.cc
   Frame.cc
+  Grab.cc
   GUI.cc
   GtkUtil.cc
   HeadInfo.cc
@@ -42,6 +43,7 @@ if (PLATFORM_OS_UNIX)
     unix/X11SystrayAppletWindow.cc
     unix/desktop-window.c
     unix/gtktrayicon.c
+    unix/UnixGrab.cc
     )
 
     if (HAVE_INDICATOR)
@@ -62,7 +64,12 @@ if (PLATFORM_OS_WIN32)
     win32/W32ForceFocus.cc
     win32/W32StatusIcon.cc
     win32/W32TrayMenu.cc
+    win32/W32Grab.cc
     )
+
+  if (HAVE_HARPOON)
+    set(SRC ${SRC} win32/W32GrabHarpoon.cc)
+  endif()
 
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
