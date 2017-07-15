@@ -88,6 +88,6 @@ if [ -n "${OUTPUT_DIR}" ]; then
   DOCKER_ARGS+=("-v ${OUTPUT_DIR}:/workspace/output")
 fi
 
-DOCKER_ARGS+=("--rm rcaelers/workrave-build-${IMAGE}")
+DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
 
 docker run ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/docker/build.sh ${BUILD_ARGS[*]}"
