@@ -19,20 +19,21 @@
 #include "config.h"
 #endif
 
+#include "UnixGrab.hh"
+
 #include <stdio.h>
 
-#include "UnixGrab.hh"
+#include <glibmm.h>
 
 #include "debug.hh"
 #include "utils/Platform.hh"
 
-GdkDevice *UnixGrab::keyboard = nullptr;
-GdkDevice *UnixGrab::pointer = nullptr;
-
+using namespace workrave::utils;
 
 UnixGrab::UnixGrab() :
   keyboard(nullptr),
   pointer(nullptr),
+  grab_window(nullptr),
   grab_wanted(false),
   grabbed(false)
 {
@@ -46,19 +47,19 @@ UnixGrab::can_grab()
 }
 
 void
-UnixGrab::grab()
+UnixGrab::grab(GdkWindow *window)
 {
   grab_wanted = true;
   if (!grabbed)
     {
+      grab_window = window;
       grabbed = grab_internal();
       if (! grabbed && !grab_retry_connection.connected())
         {
-          grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UniwGrab::on_grab_retry_timer), 2000);
+          grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixGrab::on_grab_retry_timer), 2000);
         }
     }
 }
-#endif
 
 bool
 UnixGrab::grab_internal()
@@ -66,21 +67,19 @@ UnixGrab::grab_internal()
   TRACE_ENTER("UnixGrab::grab");
   bool ret = false;
 
-  if (num_windows > 0)
-    {
 #if GTK_CHECK_VERSION(3, 20, 0)
       GdkGrabStatus status;
 
       GdkDisplay *display = gdk_display_get_default();
       GdkSeat *seat = gdk_display_get_default_seat(display);
-      status = gdk_seat_grab(seat, windows[0], GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
+      status = gdk_seat_grab(seat, grab_window, GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
 
       ret = status == GDK_GRAB_SUCCESS;
 #else
       GdkDevice *device = gtk_get_current_event_device();
       if (device == nullptr)
         {
-          GdkDisplay *display = gdk_window_get_display(windows[0]);
+          GdkDisplay *display = gdk_window_get_display(grab_window);
           GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
           device = gdk_device_manager_get_client_pointer(device_manager);
         }
@@ -100,7 +99,7 @@ UnixGrab::grab_internal()
         }
 
       GdkGrabStatus keybGrabStatus;
-      keybGrabStatus = gdk_device_grab(keyboard, windows[0],
+      keybGrabStatus = gdk_device_grab(keyboard, grab_window,
                                        GDK_OWNERSHIP_NONE, TRUE,
                                        (GdkEventMask) (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
                                        nullptr, GDK_CURRENT_TIME);
@@ -108,7 +107,7 @@ UnixGrab::grab_internal()
       if (keybGrabStatus == GDK_GRAB_SUCCESS)
         {
           GdkGrabStatus pointerGrabStatus;
-          pointerGrabStatus = gdk_device_grab(pointer, windows[0],
+          pointerGrabStatus = gdk_device_grab(pointer, grab_window,
                                               GDK_OWNERSHIP_NONE, TRUE,
                                               (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
                                               nullptr, GDK_CURRENT_TIME);
@@ -123,8 +122,7 @@ UnixGrab::grab_internal()
             }
         }
 #endif
-    }
-#endif
+
   TRACE_EXIT();
   return ret;
 }
@@ -159,16 +157,10 @@ bool
 UnixGrab::on_grab_retry_timer()
 {
   TRACE_ENTER("Grab::on_grab_retry_timer");
-  bool ret = false;
   if (grab_wanted)
     {
-      ret = grab();
+      grab(grab_window);
     }
-  else
-    {
-      ret = false;
-    }
-  TRACE_MSG(ret);
   TRACE_EXIT();
-  return ret;
+  return grab_wanted && !grabbed;
 }

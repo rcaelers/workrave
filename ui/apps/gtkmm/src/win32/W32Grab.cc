@@ -29,32 +29,13 @@
 
 #include <windows.h>
 
-W32Grab::W32Grab()
-{
-}
-
-bool
-W32Grab::can_grab()
-{
-  return false;
-}
-
-void
-W32Grab::grab()
-{
-  Hook::instance().
-}
-
-void
-W32Grab::ungrab()
-{
-}
-
 class Hook
 {
 public:
   void enable();
   void disable();
+
+  static Hook *instance();
 
 private:
   Hook();
@@ -66,7 +47,10 @@ private:
   HHOOK hook;
 };
 
-Hook::Hook()  :
+Hook *Hook::the_instance =  nullptr;
+
+
+Hook::Hook() :
   hook(0)
 {
 }
@@ -89,7 +73,10 @@ Hook::instance()
 void
 Hook::enable()
 {
-  hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, hInstance,0);
+  if (hook != nullptr)
+    {
+      hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(NULL), 0);
+    }
 }
 
 void
@@ -105,24 +92,50 @@ Hook::disable()
 LRESULT CALLBACK
 Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
 {
-    bool handled = false;
+  Hook *self = Hook::instance();
 
-    if (nCode == HC_ACTION)
+  bool handled = false;
+  
+  if (nCode == HC_ACTION)
     {
       KBDLLHOOKSTRUCT *data = (KBDLLHOOKSTRUCT *)lParam;
 
-      bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
+      // bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
 
       BOOL ctrl_down = GetAsyncKeyState(VK_CONTROL)>>((sizeof(SHORT) * 8) - 1);
 
-      if ((data->vkCode == VK_ESCAPE && bCtrlKeyDown) ||				        // Ctrl+Esc
+      if ((data->vkCode == VK_ESCAPE && ctrl_down) ||				        // Ctrl+Esc
           (data->vkCode == VK_TAB && data->flags & LLKHF_ALTDOWN) ||	  // Alt+TAB
           (data->vkCode == VK_ESCAPE && data->flags & LLKHF_ALTDOWN) ||	// Alt+Esc
           (data->vkCode == VK_LWIN || data->vkCode == VK_RWIN))			    // Start Menu
-      {
-            handled = tru;
-      }
+        {
+          handled = true;
+        }
     }
 
-    return (handled ? TRUE : CallNextHookEx(hookid, nCode, wParam, lParam));
+  return (handled ? TRUE : CallNextHookEx(self->hook, nCode, wParam, lParam));
 }
+
+
+W32Grab::W32Grab()
+{
+}
+
+bool
+W32Grab::can_grab()
+{
+  return false;
+}
+
+void
+W32Grab::grab(GdkWindow *window)
+{
+  Hook::instance()->enable();
+}
+
+void
+W32Grab::ungrab()
+{
+  Hook::instance()->disable();
+}
+

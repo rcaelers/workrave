@@ -54,7 +54,7 @@ win32_block_input(BOOL block)
 }
 
 void
-W32GrabHarpoon::grab()
+W32GrabHarpoon::grab(GdkWindow *window)
 {
   win32_block_input(TRUE);
 }

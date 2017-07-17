@@ -1169,7 +1169,11 @@ GUI::collect_garbage()
 void
 GUI::grab()
 {
-  Grab::instance()->grab();
+  if (break_windows != nullptr && active_break_count > 0)
+    {
+      Glib::RefPtr<Gdk::Window> window = break_windows[0]->get_gdk_window();
+      Grab::instance()->grab(window->gobj());
+    }
 }
 
 void
@@ -1181,8 +1185,8 @@ GUI::ungrab()
 void
 GUI::interrupt_grab()
 {
-  Grab::instance()->ungrab();
-  Grab::instance()->grab();
+  ungrab();
+  grab();
 }
 
 bool

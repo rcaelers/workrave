@@ -19,6 +19,7 @@
 #define UNIXGRAB_HH
 
 #include <gtk/gtk.h>
+#include <sigc++/sigc++.h>
 
 #include "Grab.hh"
 
@@ -30,8 +31,10 @@ namespace Gtk
 class UnixGrab : public Grab
 {
 public:
+  UnixGrab();
+
   bool can_grab();
-  void grab();
+  void grab(GdkWindow *window);
   void ungrab();
 
 private:
@@ -40,6 +43,7 @@ private:
   bool on_grab_retry_timer();
 
   GdkDevice *keyboard, *pointer;
+  GdkWindow *grab_window;
   bool grab_wanted;
   bool grabbed;
   sigc::connection grab_retry_connection;

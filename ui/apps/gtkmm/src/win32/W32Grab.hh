@@ -18,9 +18,12 @@
 #ifndef W32GRAB_HH
 #define W32GRAB_HH
 
+#include <memory>
+
 #include <gtk/gtk.h>
 
 #include <windows.h>
+
 
 #undef __out
 #undef __in
@@ -34,13 +37,11 @@
 class W32Grab : public Grab
 {
 public:
-  bool can_grab();
-  void grab();
-  void ungrab();
+  W32Grab();
 
-private:
-  class impl;
-  std::unique_ptr<impl> p;
+  bool can_grab() override;
+  void grab(GdkWindow *window) override;
+  void ungrab() override;
 };
 
 #endif // W32GRAB_HH

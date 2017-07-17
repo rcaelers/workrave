@@ -35,7 +35,7 @@ class W32GrabHarpoon : public Grab
 {
 public:
   bool can_grab();
-  void grab();
+  void grab(GdkWindow *window);
   void ungrab();
 };
 
