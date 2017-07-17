@@ -70,7 +70,7 @@ case "$CONFIG" in
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
-    mingw-gtk)
+    mingw-gtk*)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
 

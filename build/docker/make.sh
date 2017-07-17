@@ -55,7 +55,7 @@ parse_arguments()
 parse_arguments $*
 
 case "$CONFIG" in
-    mingw-gtk*)
+    mingw-gtk-vs)
         IMAGE=mingw-gtk
         ;;
     *)
