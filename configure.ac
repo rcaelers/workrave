@@ -20,6 +20,8 @@ AC_INIT([workrave],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
         [workrave],
         [http://www.workrave.org])
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
 
 AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
