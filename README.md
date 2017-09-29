@@ -56,5 +56,5 @@ Optionally, the following packages are required for gnome support.
 
 For OS X, the following steps will install sufficient packages
 1. Install [Homebrew](https://brew.sh/)
-2. `brew install gettext intltool gobject-introspection autoconf-archive gtk+ gtk-mac-integration gtkmm`
-3. `brew link --force gettext`
+2. `brew install gettext intltool gobject-introspection autoconf-archive gtk+ gtk-mac-integration gtkmm3`
+3. `brew link --force gettext libffi`
