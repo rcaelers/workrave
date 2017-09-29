@@ -500,7 +500,7 @@ config_dbus=no
 config_dbus_gio=no
 have_python_cheetah=no
 
-if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes"
+if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes" -a "x$platform_os_osx" != "xyes"
 then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
