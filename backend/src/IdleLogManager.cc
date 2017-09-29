@@ -20,6 +20,10 @@
 #include "config.h"
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include "nls.h"
 
 #include "debug.hh"

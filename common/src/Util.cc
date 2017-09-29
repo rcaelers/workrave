@@ -23,6 +23,10 @@
 
 #include "debug.hh"
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include <cstdlib>
 #include <stdio.h>
 #include <sstream>
@@ -55,11 +59,6 @@ BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #define CSIDL_APPDATA   26
 }
 // (end of hack)
-#endif
-
-#ifdef PLATFORM_OS_OSX
-#include <mach-o/dyld.h>
-#include <sys/param.h>
 #endif
 
 #include "Util.hh"

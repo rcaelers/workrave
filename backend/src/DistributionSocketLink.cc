@@ -21,6 +21,10 @@
 #include "config.h"
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #ifdef HAVE_DISTRIBUTION
 
 #include "debug.hh"
