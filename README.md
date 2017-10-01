@@ -53,3 +53,8 @@ Optionally, the following packages are required for gnome support.
 - ORbit (2.14.10)
 - Bonobo (2.15.0)
 - panel-applet (2.19.3)
+
+For OS X, the following steps will install sufficient packages
+1. Install [Homebrew](https://brew.sh/)
+2. `brew install gettext intltool gobject-introspection autoconf-archive gtk+ gtk-mac-integration gtkmm3`
+3. `brew link --force gettext libffi`

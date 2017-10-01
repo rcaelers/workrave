@@ -25,6 +25,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include <iostream>
 
 #include "nls.h"
