@@ -5,7 +5,7 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
-m4_define([workrave_micro_version], [17])
+m4_define([workrave_micro_version], [18])
 m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version.workrave_version_suffix])
@@ -584,6 +584,7 @@ then
                       libpanel-applet >= 3.16.1 gio-2.0 >= 2.26.0,
                       [config_gnome3=yes
                        config_panelapplet5=yes
+
                        AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5])
                        AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])], 
                        [ ])

@@ -5,6 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.18
+
+** Support Gnome Shell 3.24/26
+
+** macOS compilation fixes (Tom Parker)
+
 * Workrave 1.10.17
 
 ** Update Czech translation (Pavel Bborecki)
