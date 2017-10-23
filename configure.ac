@@ -20,6 +20,8 @@ AC_INIT([workrave],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
         [workrave],
         [http://www.workrave.org])
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
 
 AC_CONFIG_SRCDIR([backend/include/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
@@ -413,16 +415,16 @@ then
     PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
     CPPFLAGS=$CPPFLAGS_save
-
-    with_cxx11=no
-    # Enable C++11 std if gtkmm >= 3.18.0
-    PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.18.0,
-      [ AX_CXX_COMPILE_STDCXX_11([noext])
-        with_cxx11=yes
-      ],
-      []
-    )
 fi
+
+with_cxx11=no
+# Enable C++11 std if gtkmm >= 3.18.0
+PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.18.0,
+    [ AX_CXX_COMPILE_STDCXX_11([noext])
+    with_cxx11=yes
+    ],
+    []
+)
 
 dnl
 dnl Monitors
@@ -498,7 +500,7 @@ config_dbus=no
 config_dbus_gio=no
 have_python_cheetah=no
 
-if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes"
+if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes" -a "x$platform_os_osx" != "xyes"
 then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
@@ -1229,9 +1231,7 @@ echo "           Pulseaudio support :   ${config_pulse}"
 fi
 echo "                    Exercises :   ${config_exercises}"
 echo ""
-if test "$platform_os_unix" = "yes"; then
 echo "                C++11 support :   ${with_cxx11}"
-fi
 echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"
 echo "                   Debug logs :   ${config_tracing}"

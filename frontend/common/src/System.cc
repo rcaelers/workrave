@@ -37,6 +37,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include <algorithm>
 #include <iostream>
 
