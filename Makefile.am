@@ -20,7 +20,7 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 SUBDIRS =      m4 po common backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
-EXTRA_DIST = 	config.xml
+EXTRA_DIST = 	config.xml README.md
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 

@@ -20,13 +20,15 @@ applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 if HAVE_PANELAPPLET4
-LIBPANEL_APPLET_DIR		= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanelapplet-4.0`
 appletdir       		= $(datadir)/gnome-panel/4.0/applets
 xmlui_DATA  			= v4/workrave-gnome-applet-menu.xml
 applet_source 			= v4/WorkraveApplet.c
 else
-LIBPANEL_APPLET_DIR		= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanel-applet`
-appletdir			= $(LIBPANEL_APPLET_DIR)
+if LOCALINSTALL
+appletdir			= $(datadir)/gnome-panel/applets
+else
+appletdir			= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanel-applet`
+endif
 xmlui_DATA  			= v5/workrave-gnome-applet-menu.xml
 applet_source 			= v5/WorkraveApplet.c
 endif

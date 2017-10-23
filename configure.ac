@@ -760,6 +760,8 @@ AS_IF([test "x$with_localinstall" = "xyes"],
     INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
     )
 
+AM_CONDITIONAL(LOCALINSTALL, test "x$with_localinstall" = "xyes")
+
 AC_SUBST(INDICATORDIR)
 AC_SUBST(INDICATORICONSDIR)
 
