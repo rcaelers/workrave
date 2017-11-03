@@ -183,6 +183,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="i" name="sensitivity">
+      <default>3</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
     
   <schema path="/org/workrave/general/" id="org.workrave.general" gettext-domain="workrave">
