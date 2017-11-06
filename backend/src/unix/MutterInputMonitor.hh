@@ -47,10 +47,10 @@ private:
   //! The monitor's execution thread.
   virtual void run();
 
-  void register_active_watch();
-  void unregister_active_watch();
-  void register_idle_watch();
-  void unregister_idle_watch();
+  bool register_active_watch();
+  bool unregister_active_watch();
+  bool register_idle_watch();
+  bool unregister_idle_watch();
 
 private:
   GDBusProxy *proxy = NULL;

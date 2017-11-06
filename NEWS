@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.20
+
+** Fix activity monitoring on non-Gnome desktop environments
+
 * Workrave 1.10.19
 
 ** Fix crash because of missing setting
