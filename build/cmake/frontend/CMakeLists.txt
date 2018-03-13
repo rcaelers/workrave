@@ -142,6 +142,8 @@ if (WIN32)
     ${FRONTEND_DIR}/common/src/win32/Sound.cc
     ${FRONTEND_DIR}/common/src/win32/W32LockScreen.cc
     ${FRONTEND_DIR}/common/src/win32/W32LockScreen.hh
+    ${FRONTEND_DIR}/common/src/win32/W32Shutdown.cc
+    ${FRONTEND_DIR}/common/src/win32/W32Shutdown.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32AppletMenu.cc

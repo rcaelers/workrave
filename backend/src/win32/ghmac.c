@@ -127,8 +127,8 @@ g_hmac_new (GChecksumType  digest_type,
   hmac->digesti = checksum;
   hmac->digesto = g_checksum_new (digest_type);
 
-  buffer = g_alloca (block_size);
-  pad = g_alloca (block_size);
+  buffer = (guchar *)g_alloca (block_size);
+  pad = (guchar *)g_alloca (block_size);
 
   memset (buffer, 0, block_size);
 
@@ -287,7 +287,7 @@ g_hmac_get_string (GHmac *hmac)
   g_return_val_if_fail (hmac != NULL, NULL);
 
   digest_len = g_checksum_type_get_length (hmac->digest_type);
-  buffer = g_alloca (digest_len);
+  buffer = (guint8 *)g_alloca (digest_len);
 
   /* This is only called for its side-effect of updating hmac->digesto... */
   g_hmac_get_digest (hmac, buffer, &digest_len);
