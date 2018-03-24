@@ -130,12 +130,12 @@ Compiling Workrave
 
  - cmake -G "Visual Studio 10" <PATH-TO-WORKRAVE-SOURCES>/build/cmake/
                  -DDEVELOPMENT_MODE=ON 
-                 -DCMAKE_PREFIX_PATH="PATH-TO-DEPEDENCIES" -DCMAKE_INSTALL_PREFIX="<INSTALL-DIRECTORY>
+                 -DCMAKE_PREFIX_PATH="PATH-TO-DEPEDENCIES/bin" -DCMAKE_INSTALL_PREFIX="<INSTALL-DIRECTORY>
 
     Note: PATH-TO-DEPEDENCIES should contains all dependencies: gettext, dbus, intltool etc.
 
     eg. cmake -G "Visual Studio 10" ../workrave/build/cmake/ -DDEVELOPMENT_MODE=ON
-              -DCMAKE_PREFIX_PATH=c:/mystuff/devel -DCMAKE_INSTALL_PREFIX=c:/mystuff/programs/workrave
+              -DCMAKE_PREFIX_PATH=c:/mystuff/devel/bin -DCMAKE_INSTALL_PREFIX=c:/mystuff/programs/workrave
 
   - Open Workrave solution in visual studio (location in workrave-build directory)
   - Build [1]

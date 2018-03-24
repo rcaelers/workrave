@@ -88,6 +88,8 @@ endif (UNIX)
 
 if (WIN32)
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
+    ${BACKEND_DIR}/src/win32/ghmac.c
+    ${BACKEND_DIR}/src/win32/ghmac.h
     ${BACKEND_DIR}/src/win32/Harpoon.cc
     ${BACKEND_DIR}/include/Harpoon.hh
     ${BACKEND_DIR}/src/win32/W32ActiveSetup.cc
