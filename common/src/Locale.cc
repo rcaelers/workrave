@@ -148,6 +148,8 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 {
   std::vector<std::string> all_linguas;
 
+  (void) languages;
+
 #ifdef HAVE_LANGUAGE_SELECTION
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
@@ -172,13 +174,15 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
       Locale::lookup("iso_639", language_entry.language_name);
       Locale::lookup("iso_3166", language_entry.country_name);
     }
-#endif  
+#endif
 }
 
 
 void
 Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
+  (void) list;
+
 #ifdef HAVE_LANGUAGE_SELECTION
   static bool init_done = false;
 
