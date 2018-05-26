@@ -23,7 +23,11 @@
 #include "ISoundDriver.hh"
 
 #include <windows.h>
+#if defined (HAVE_DXERR_H)
 #include <dxerr.h>
+#elif defined(HAVE_DXERR8_H)
+#include <dxerr8.h>
+#endif
 #include <dsound.h>
 #include <string>
 

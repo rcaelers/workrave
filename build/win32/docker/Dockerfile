@@ -1,4 +1,4 @@
-FROM ubuntu:wily
+FROM ubuntu:trusty
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -26,6 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         cmake \
         innoextract \
         gobject-introspection \
+        libglib2.0-bin \
         dos2unix \
         xvfb \
         wget \
