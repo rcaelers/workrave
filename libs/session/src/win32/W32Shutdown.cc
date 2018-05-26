@@ -109,6 +109,5 @@ W32Shutdown::shutdown_helper(bool for_real)
 bool
 W32Shutdown::shutdown()
 {
-  shutdown_helper(true);
-  return true;
+  return shutdown_helper(true);
 }

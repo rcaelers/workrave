@@ -155,6 +155,7 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
   std::vector<std::string> all_linguas;
 
   boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
+  (void) languages;
   all_linguas.push_back("en");
 
   for (auto code : all_linguas)
@@ -182,6 +183,8 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 void
 Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
+  (void) list;
+  
 #ifdef HAVE_LANGUAGE_SELECTION
   static bool init_done = false;
 

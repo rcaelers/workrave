@@ -19,6 +19,10 @@
 #include "config.h"
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include "debug.hh"
 
 #include <boost/filesystem.hpp>

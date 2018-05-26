@@ -25,6 +25,10 @@
 
 #include <boost/filesystem.hpp>
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXHelpers.hh"
+#endif
+
 #include <cstring>
 #include <sstream>
 #include <assert.h>

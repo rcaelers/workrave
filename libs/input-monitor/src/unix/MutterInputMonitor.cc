@@ -41,7 +41,8 @@ bool
 MutterInputMonitor::init()
 {
   TRACE_ENTER("MutterInputMonitor::init");
-	GError *error = NULL;
+  GError *error = NULL;
+  bool result = true;
 
   proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                         G_DBUS_PROXY_FLAGS_NONE,
@@ -55,27 +56,30 @@ MutterInputMonitor::init()
     {
       g_signal_connect(proxy, "g-signal", G_CALLBACK(on_signal), this);
 
-      register_active_watch();
-      register_idle_watch();
+      result = register_active_watch();
+      result = result && register_idle_watch();
 
-      monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&MutterInputMonitor::run, this)));
+      if (result)
+        {
+          monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&MutterInputMonitor::run, this)));
+        }
     }
   else
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
-      TRACE_EXIT()
-      return false;
+      TRACE_EXIT();
+      result = false;
     }
 
   TRACE_EXIT();
-  return true;
+  return result;
 }
 
-
-void
+bool
 MutterInputMonitor::register_active_watch()
 {
+  TRACE_ENTER("MutterInputMonitor::register_active_watch");
   GError *error = NULL;
   GVariant *reply = g_dbus_proxy_call_sync(proxy, "AddUserActiveWatch", NULL, G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
 
@@ -86,27 +90,43 @@ MutterInputMonitor::register_active_watch()
     }
   else
     {
+      TRACE_MSG("Error: " << error->message);
       g_error_free(error);
     }
+  TRACE_EXIT();
+  return error == NULL;
 }
 
-void
+bool
 MutterInputMonitor::unregister_active_watch()
 {
+  TRACE_ENTER("MutterInputMonitor::unregister_active_watch");
   GError *error = NULL;
   if (watch_active != 0)
     {
       GVariant *result = g_dbus_proxy_call_sync(proxy, "RemoveWatch", g_variant_new ("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
-      g_variant_unref (result);
-      watch_active = 0;
+      if (error == NULL)
+	{
+	  g_variant_unref(result);
+	  watch_active = 0;
+	}
+      else
+	{
+	  TRACE_MSG("Error: " << error->message);
+	  g_error_free(error);
+	}
     }
+  TRACE_EXIT();
+  return error == NULL;
 }
 
-void
+bool
 MutterInputMonitor::register_idle_watch()
 {
+  TRACE_ENTER("MutterInputMonitor::register_idle_watch");
   GError *error = NULL;
   GVariant *reply = g_dbus_proxy_call_sync(proxy, "AddIdleWatch", g_variant_new("(t)", 500), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
+
   if (error == NULL)
     {
       g_variant_get(reply, "(u)", &watch_idle);
@@ -114,20 +134,34 @@ MutterInputMonitor::register_idle_watch()
     }
  else
    {
+     TRACE_MSG("Error: " << error->message);
      g_error_free(error);
    }
+  TRACE_EXIT();
+  return error == NULL;
 }
 
-void
+bool
 MutterInputMonitor::unregister_idle_watch()
 {
+  TRACE_ENTER("MutterInputMonitor::unregister_idle_watch");
   GError *error = NULL;
   if (watch_idle != 0)
     {
       GVariant *result = g_dbus_proxy_call_sync(proxy, "RemoveWatch", g_variant_new("(u)", watch_idle), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
-      g_variant_unref(result);
-      watch_idle = 0;
+      if (error == NULL)
+	{
+	  g_variant_unref(result);
+	  watch_idle = 0;
+	}
+      else
+	{
+	  TRACE_MSG("Error: " << error->message);
+	  g_error_free(error);
+	}
     }
+  TRACE_EXIT();
+  return error == NULL;
 }
 
 void

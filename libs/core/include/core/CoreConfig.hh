@@ -45,6 +45,7 @@ public:
   static workrave::config::Setting<int> &monitor_noise();
   static workrave::config::Setting<int> &monitor_activity();
   static workrave::config::Setting<int> &monitor_idle();
+  static workrave::config::Setting<int> &monitor_sensitivity();
   static workrave::config::Setting<std::string> &general_datadir();
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
@@ -74,6 +75,7 @@ private:
   static const std::string CFG_KEY_MONITOR_NOISE;
   static const std::string CFG_KEY_MONITOR_ACTIVITY;
   static const std::string CFG_KEY_MONITOR_IDLE;
+  static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_USAGE_MODE;

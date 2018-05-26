@@ -44,7 +44,8 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const stri
   state(ACTIVITY_MONITOR_IDLE),
   prev_x(-10),
   prev_y(-10),
-  button_is_pressed(false)
+  button_is_pressed(false),
+  sensitivity(3)
 {
   TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");
 
@@ -174,11 +175,13 @@ LocalActivityMonitor::process_state()
 
 //! Sets the operation parameters.
 void
-LocalActivityMonitor::set_parameters(int noise, int activity, int idle)
+LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
   noise_threshold = noise * 1000;
   activity_threshold = activity * 1000;
   idle_threshold = idle * 1000;
+
+  this->sensitivity = sensitivity;
 
   // The easy way out.
   state = ACTIVITY_MONITOR_IDLE;
@@ -187,11 +190,12 @@ LocalActivityMonitor::set_parameters(int noise, int activity, int idle)
 
 //! Sets the operation parameters.
 void
-LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
+LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
 {
   noise = static_cast<int>(noise_threshold / 1000);
   activity = static_cast<int>(activity_threshold / 1000);
   idle = static_cast<int>(idle_threshold / 1000);
+  sensitivity = this->sensitivity;
 }
 
 
@@ -264,8 +268,6 @@ LocalActivityMonitor::action_notify()
 void
 LocalActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
-  static const int sensitivity = 3;
-
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
@@ -342,6 +344,7 @@ LocalActivityMonitor::load_config()
   int noise = CoreConfig::monitor_noise()();
   int activity = CoreConfig::monitor_activity()();
   int idle = CoreConfig::monitor_idle()();
+  int sensitivity = CoreConfig::monitor_sensitivity()();
 
   // Pre 1.0 compatibility...
   if (noise < 50)
@@ -362,9 +365,9 @@ LocalActivityMonitor::load_config()
       CoreConfig::monitor_idle().set(noise);
     }
 
-  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
+  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle << " " << sensitivity);
 
-  set_parameters(noise, activity, idle);
+  set_parameters(noise, activity, idle, sensitivity);
   TRACE_EXIT();
 }
 

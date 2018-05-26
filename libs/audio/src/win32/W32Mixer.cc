@@ -89,6 +89,13 @@ W32Mixer::init()
   IMMDeviceEnumerator *device_enum = NULL;
   IMMDevice *default_device = NULL;
 
+#ifdef _MSC_VER
+  // These symbols do not exist in the MSVC SDK. Use variable shadowing to compile without errors.
+  const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
+  const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
+  const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
+#endif //_MSC_VER
+
   hr = CoCreateInstance(CLSID_MMDeviceEnumerator, NULL, CLSCTX_INPROC_SERVER, IID_IMMDeviceEnumerator, (LPVOID *)&device_enum);
   if (hr == S_OK)
     {

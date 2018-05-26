@@ -56,8 +56,8 @@ private:
   void call_listener();
 
   void load_config();
-  void set_parameters(int noise, int activity, int idle);
-  void get_parameters(int &noise, int &activity, int &idle);
+  void set_parameters(int noise, int activity, int idle, int sensitivity);
+  void get_parameters(int &noise, int &activity, int &idle, int &sensitivity);
 
   void process_state();
 
@@ -111,6 +111,9 @@ private:
   //! The idle threshold.
   int64_t idle_threshold;
 
+  //! Mouse sensitivity
+  int sensitivity;
+  
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
 

@@ -88,6 +88,11 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
     filefilter(nullptr),
     trayicon_cb(nullptr),
     autostart_cb(nullptr)
+#ifdef PLATFORM_OS_WIN32
+    ,
+    sensitivity_adjustment(3, 0, 100),
+    sensitivity_box(nullptr)
+#endif
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -510,9 +515,11 @@ PreferencesDialog::create_timer_page()
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
+#ifdef HAVE_GTK3
   tnotebook->append_page(*monitoring_page , *box);
 #endif
-
+#endif
+  
   return tnotebook;
 }
 
@@ -532,14 +539,23 @@ PreferencesDialog::create_monitoring_page()
   Gtk::Label *monitor_type_help = Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
   panel->pack_start(*monitor_type_help, false, false, 0);
 
+  sensitivity_box = Gtk::manage(new Gtk::HBox());
+  Gtk::Widget *sensitivity_lab = Gtk::manage(GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"), _("Number of pixels the mouse should move before it is considered activity.")));
+  Gtk::SpinButton *sensitivity_spin = Gtk::manage(new Gtk::SpinButton(sensitivity_adjustment));
+  sensitivity_box->pack_start(*sensitivity_lab, false, false, 0);
+  sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
+  panel->pack_start(*sensitivity_box, false, false, 0);
+
+  connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
+
   string monitor_type;
   Backend::get_configurator()->get_value_with_default("advanced/monitor",
                                                           monitor_type,
                                                           "default");
 
-
-
   monitor_type_cb->set_active(monitor_type != "default");
+
+  sensitivity_box->set_sensitive(monitor_type != "default");
 
   return panel;
 }
@@ -745,6 +761,7 @@ PreferencesDialog::on_monitor_type_toggled()
 {
   bool on = monitor_type_cb->get_active();
   Backend::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
+  sensitivity_box->set_sensitive(on);
 }
 #endif
 
@@ -930,4 +947,3 @@ PreferencesDialog::update_theme_selection()
     }
   TRACE_EXIT();
 }
-
