@@ -43,7 +43,7 @@ setup:
 # GIT
 ######################################################################
 
-git-setup:
+git-pull:
 	( cd ${WORKRAVE_GIT_DIR}; \
     git clean -fdx; \
     git checkout ${WORKRAVE_GIT_BRANCH}; \

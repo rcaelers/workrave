@@ -42,6 +42,8 @@ for lang in $ALL_LINGUAS; do
     cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_3166.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/ 
 done
 
+cp -a $SYSROOT/lib/libwinpthread-1.dll $TARGETDIR/lib
+
 ## Dbus runtime
 
 TARGETDIR=$RUNTIMEDIR/runtime-dbus
@@ -93,7 +95,7 @@ copy_dir  bin    libpangocairo-1.0-0.dll                        lib
 copy_dir  bin    libcairo-2.dll                                 lib
 
 for lang in $ALL_LINGUAS; do
-    copy_dir share locale/$lang lib  
+    copy_dir share locale/$lang lib
 done
 
 TARGETDIR=$RUNTIMEDIR/runtime-wimp
