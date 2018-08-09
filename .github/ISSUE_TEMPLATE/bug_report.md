@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
  - Desktop Environment: [e.g. Gnome, KDE, XFCE, MATE, Cinnamon, ...]
  - Workrave Version [e.g. 1.10]
 
-** Linux (please complete the following information in case you encountered the bug on Windows):
+** Windows (please complete the following information in case you encountered the bug on Windows):
  - Windows Version: [ Windows 7, Windows 8, Windows 10]
  - Workrave Version [e.g. 1.10]
 
