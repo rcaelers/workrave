@@ -162,6 +162,12 @@ AC_REQUIRE_CPP
 AC_C_INLINE
 AC_C_CONST
 
+AC_DEFUN([ADD_COMPILER_FLAG],[
+AX_CHECK_COMPILE_FLAG([$1],[
+CPPFLAGS="$CPPFLAGS $1"
+])])
+
+ADD_COMPILER_FLAG([-Wno-cast-function-type])
 
 dnl
 dnl Headers/Types/Functions
