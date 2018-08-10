@@ -60,9 +60,8 @@ private:
 
   bool abort = false;
   Thread *monitor_thread = NULL;
-  // TOOO: replace deprecated functions
-  GMutex *mutex = NULL;
-  GCond *cond = NULL;
+  GMutex mutex;
+  GCond cond;
 };
 
 #endif // MUTTERINPUTMONITOR_HH

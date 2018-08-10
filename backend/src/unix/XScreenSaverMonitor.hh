@@ -64,8 +64,8 @@ private:
   //
   XScreenSaverInfo *screen_saver_info;
 
-  GMutex *mutex;
-  GCond *cond;
+  GMutex mutex;
+  GCond cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

@@ -29,8 +29,8 @@ using namespace std;
 MutterInputMonitor::MutterInputMonitor()
 {
   monitor_thread = new Thread(this);
-  mutex = g_mutex_new();
-  cond = g_cond_new();
+  g_mutex_init(&mutex);
+  g_cond_init(&cond);
 }
 
 MutterInputMonitor::~MutterInputMonitor()
@@ -41,8 +41,8 @@ MutterInputMonitor::~MutterInputMonitor()
       delete monitor_thread;
     }
 
-  g_mutex_free(mutex);
-  g_cond_free(cond);
+  g_mutex_clear(&mutex);
+  g_cond_clear(&cond);
 }
 
 bool
@@ -179,11 +179,11 @@ MutterInputMonitor::terminate()
   unregister_idle_watch();
   unregister_active_watch();
 
-  g_mutex_lock(mutex);
+  g_mutex_lock(&mutex);
   abort = true;
-  g_cond_broadcast(cond);
-  g_mutex_unlock(mutex);  
-  
+  g_cond_broadcast(&cond);
+  g_mutex_unlock(&mutex);
+
   monitor_thread->wait();
   monitor_thread = NULL;
 }
@@ -219,7 +219,7 @@ MutterInputMonitor::run()
 {
   TRACE_ENTER("MutterInputMonitor::run");
 
-  g_mutex_lock(mutex);
+  g_mutex_lock(&mutex);
   while (!abort)
     {
       if (active)
@@ -230,12 +230,12 @@ MutterInputMonitor::run()
 
 #if GLIB_CHECK_VERSION(2, 32, 0)
       gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
-      g_cond_wait_until(cond, mutex, end_time);
+      g_cond_wait_until(&cond, &mutex, end_time);
 #else
       g_usleep(500000);
 #endif
     }
-  g_mutex_unlock(mutex);
+  g_mutex_unlock(&mutex);
 
   TRACE_EXIT();
 }
