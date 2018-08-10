@@ -277,7 +277,7 @@ SpeakerPlayer::run()
   short (*b)[2];
   b = beeps;
 #ifdef PLATFORM_OS_UNIX
-  Display *display = XOpenDisplay(gdk_get_display());
+  Display *display = XOpenDisplay(gdk_display_get_name(gdk_display_get_default()));
   if (display) {
 #endif
   while (b[0][0])
