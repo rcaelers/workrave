@@ -62,7 +62,7 @@ AC_ARG_ENABLE(gconf,
 AC_ARG_ENABLE(gsettings,
               [AS_HELP_STRING([--disable-gsettings],
                               [compile without GSettings support])])
-			      
+
 AC_ARG_ENABLE(gnome2,
               [AS_HELP_STRING([--disable-gnome2],
                               [compile without Gnome 2 support])])
@@ -306,7 +306,7 @@ then
     enable_indicator=no
     enable_xfce=no
     enable_mate=no
-    
+
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
@@ -387,9 +387,9 @@ then
     CPPFLAGS_save="$CPPFLAGS"
     if test -n "$x_includes"
     then
-	CPPFLAGS="$CPPFLAGS -I$x_includes"
+       CPPFLAGS="$CPPFLAGS -I$x_includes"
     fi
-    
+
     have_xrecord=no
     AC_CHECK_LIB(Xtst, XRecordEnableContext,
                        have_xrecord=yes X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
@@ -399,25 +399,25 @@ then
     fi
 
     AC_CHECK_LIB(Xext, XScreenSaverRegister,
-			have_xscreensaver=yes X_LIBS="$X_LIBS -lX11 -lXext",
-			[],
-			[-lX11 -lXext -lm])
+                       have_xscreensaver=yes X_LIBS="$X_LIBS -lX11 -lXext",
+                       [],
+                       [-lX11 -lXext -lm])
     AC_CHECK_LIB(Xss, XScreenSaverRegister,
-			have_xscreensaver=yes X_LIBS="$X_LIBS -lX11 -lXss",
-			[],
-			[-lX11 -lXext -lm])
+                      have_xscreensaver=yes X_LIBS="$X_LIBS -lX11 -lXss",
+                      [],
+                      [-lX11 -lXext -lm])
 
     if test "x$have_xscreensaver" == "xyes"; then
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-		#include <X11/Xlib.h>
-		#include <X11/extensions/scrnsaver.h>
-		]], [[]])], [], [have_xscreensaver=no])
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+            #include <X11/Xlib.h>
+            #include <X11/extensions/scrnsaver.h>
+          ]], [[]])], [], [have_xscreensaver=no])
     fi
 
     if test "x$have_xscreensaver" = "xyes" ; then
        AC_DEFINE(HAVE_SCREENSAVER, 1, [Define if XScreenSaver is available.])
     fi
-    
+
     PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
     CPPFLAGS=$CPPFLAGS_save
@@ -511,8 +511,8 @@ then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
                   [config_dbus_gio=yes
-		   config_dbus=yes
-		   ], [ config_dbus_gio=no])
+                   config_dbus=yes
+                  ], [ config_dbus_gio=no])
 fi
 
 if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
@@ -554,7 +554,6 @@ then
     AC_SUBST(DBUS_SERVICES_DIR)
     AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
 
-    
     AC_CHECK_PROG(PYTHON, python, python)
     AC_MSG_CHECKING([for the Cheetah Python package])
 
@@ -575,7 +574,7 @@ AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
 dnl
 dnl Gnome
 dnl
-	
+
 if test "x$enable_gnome3" = "xyes" -a "x$enable_gnome2" = "xyes"; then
    AC_MSG_ERROR([Cannot compile for both Gnome 2 and 3 at the moment.])
 fi
@@ -592,7 +591,7 @@ then
                        config_panelapplet5=yes
 
                        AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5])
-                       AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])], 
+                       AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])],
                        [ ])
 
     if test "x$config_panelapplet5" != "xyes"
@@ -616,7 +615,7 @@ then
                        libbonobo-2.0 >= 2.0.0 \
                        gtk+-2.0 >= 2.6.0 \
                        gdk-2.0 >= 2.8 \
-		       dbus-glib-1],
+                       dbus-glib-1],
                       [config_gnome2=yes
                        config_panelapplet2=yes
                        AC_DEFINE(HAVE_PANELAPPLET2, 1, [Support for Gnome panel applet v2])],
@@ -659,10 +658,10 @@ PKG_CHECK_MODULES([GLIB],
                   [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
 
-config_gsettings=no		  
+config_gsettings=no
 if test "x$enable_gsettings" != "xno"
 then
-   if test "x$platform_os_unix" == "xyes"; then		  
+   if test "x$platform_os_unix" == "xyes"; then
       GLIB_GSETTINGS
       config_gsettings=yes
       AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
@@ -681,16 +680,16 @@ config_gtk_version=none
 if test "x$enable_gnome2" != "xyes"
 then
    PKG_CHECK_MODULES(GTK,
-      			glib-2.0 >= 2.28.0
-      			gio-2.0 >= 2.26.0
-      			gtk+-3.0 >= 3.0.0
-      			gdk-3.0 >= 3.0.0
+                        glib-2.0 >= 2.28.0
+                        gio-2.0 >= 2.26.0
+                        gtk+-3.0 >= 3.0.0
+                        gdk-3.0 >= 3.0.0
                         sigc++-2.0 >= 2.2.4.2
                         glibmm-2.4 >= 2.28.0
                         gtkmm-3.0 >= 3.0.0,
                         [config_gtk=yes
-  		 	 config_gtk_version=3
-   	                 AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
+                         config_gtk_version=3
+                         AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
                          AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
 
    if test x$config_gtk = xno
@@ -702,7 +701,7 @@ then
                         glibmm-2.4 >= 2.10 \
                         gtkmm-2.4 >= 2.10,
                         [config_gtk=yes
-			 config_gtk_version=2
+                         config_gtk_version=2
                          AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
    fi
 fi
@@ -734,7 +733,7 @@ if test "x$enable_indicator" != "xno" -a "x$config_gtk_version" = "x3"
 then
    if test "x$found_introspection" != "xyes"
    then
-	AC_MSG_ERROR([Introspection development headers not found.])
+       AC_MSG_ERROR([Introspection development headers not found.])
    else
        PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                     dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
@@ -744,14 +743,14 @@ then
                          [if test "x$enable_indicator" = "xyes"; then
                            AC_MSG_ERROR([Indicator development headers not found.])
                           fi])
-       
+
        if test "x$config_indicator" != "xno"
        then
           PKG_CHECK_EXISTS(dbusmenu-gtk3-0.4 >= 0.5.90,
                          [ AC_DEFINE(HAVE_DBUSMENU_NEW_INCLUDES, 1, [DBusmenu header in new location])],
-          	         [ true ]
+                     [ true ]
                          )
-       
+
        fi
    fi
 fi
@@ -782,33 +781,51 @@ dnl Xfce
 dnl
 
 config_xfce=no
+config_xfce_gtk_version=none
 
-if test "x$enable_xfce" != "xno" 
+if test "x$enable_xfce" != "xno"
 then
-      PKG_CHECK_MODULES([GTK2],
-                      [gtk+-2.0 >= 2.6.0
-                       gdk-2.0 >= 2.8 ],
-                      [config_gtk2=yes
-                       AC_DEFINE(HAVE_GTK2, 1, [Support for xfce applet])],
-                      [if test "x$enable_xfce" = "xyes"; then
-                          AC_MSG_ERROR([GTK2 development headers not found.])
-                       fi])
+   PKG_CHECK_MODULES([LIBXFCE4PANEL],
+                    [libxfce4panel-2.0 >= 4.12],
+                    [config_xfce=yes
+                    config_xfce_gtk_version=3
+                     AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
+                     AC_DEFINE(HAVE_XFCE_GTK3, 1, [Support for xfce applet])
+                     ],
+                     [])
 
-   if test x$config_gtk2 = xyes
+   if test x$config_xfce != xyes
    then
       PKG_CHECK_MODULES([LIBXFCE4PANEL],
-                      [libxfce4panel-1.0 >= 4.4],
-                      [config_xfce=yes
-                       AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])],
-                      [if test "x$enable_xfce" = "xyes"; then
+                         [libxfce4panel-1.0 >= 4.4],
+                         [config_xfce=yes
+                          config_xfce_gtk_version=2
+                          AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
+                          AC_DEFINE(HAVE_XFCE_GTK2, 1, [Support for xfce applet])
+                          ],
+                         [if test "x$enable_xfce" = "xyes"; then
                           AC_MSG_ERROR([XFCE Panel applet development headers not found.])
-                       fi])
+                          fi])
 
+      if test x$config_xfce = xyes
+      then
+         PKG_CHECK_MODULES([GTK2],
+                         [gtk+-2.0 >= 2.6.0
+                          gdk-2.0 >= 2.8 ],
+                         [config_gtk2=yes
+                          AC_DEFINE(HAVE_GTK2, 1, [Support for xfce applet])],
+                         [if test "x$enable_xfce" = "xyes"; then
+                             AC_MSG_ERROR([GTK2 development headers not found.])
+                         fi])
+      fi
    fi
 fi
 
 AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
 AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
+
+AM_CONDITIONAL(HAVE_XFCE_GTK2, test "x$config_xfce_gtk_version" = "x2")
+AM_CONDITIONAL(HAVE_XFCE_GTK3, test "x$config_xfce_gtk_version" = "x3")
 
 
 dnl
@@ -817,7 +834,7 @@ dnl
 
 config_mate=no
 
-if test "x$enable_mate" != "xno" 
+if test "x$enable_mate" != "xno"
 then
    PKG_CHECK_MODULES([LIBMATEPANEL],
                       [libmatepanelapplet-4.0],
@@ -827,9 +844,24 @@ then
                           AC_MSG_ERROR([MATE Panel applet development headers not found.])
                        fi])
 
+   config_mate_gtk_version=none
+   if test "x$config_mate" == "xyes"
+   then
+      MATE_GTK=`$PKG_CONFIG --print-requires libmatepanelapplet-4.0 2>/dev/null | grep -m 1 '^gtk+-'`
+      case "$MATE_GTK" in
+         gtk+-2*)
+           config_mate_gtk_version=2
+           ;;
+         gtk+-3*)
+           config_mate_gtk_version=3
+           ;;
+      esac
+   fi
 fi
 
 AM_CONDITIONAL(HAVE_MATE, test "x$config_mate" = "xyes")
+AM_CONDITIONAL(HAVE_MATE_GTK2, test "x$config_mate_gtk_version" = "x2")
+AM_CONDITIONAL(HAVE_MATE_GTK3, test "x$config_mate_gtk_version" = "x3")
 
 dnl
 dnl GConf
@@ -916,7 +948,7 @@ then
                       [gstreamer-0.10],
                       [config_gstreamer=yes
                        AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])], [ ])
-		     
+
     if test "x$config_gstreamer" != "xyes";
     then
         PKG_CHECK_MODULES([GSTREAMER],
@@ -1082,7 +1114,7 @@ then
 
     ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' )"
     AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
-    
+
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
     for a in $ALL_LINGUAS; do
@@ -1100,7 +1132,7 @@ AC_CONFIG_FILES([Makefile
              backend/Makefile
              backend/test/Makefile
              backend/src/Makefile
-	     backend/src/org.workrave.gschema.xml.in
+             backend/src/org.workrave.gschema.xml.in
              backend/src/unix/Makefile
              backend/src/osx/Makefile
              backend/src/win32/Makefile
@@ -1171,7 +1203,7 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/win32/setup/setup.iss
              frontend/gtkmm/win32/setup/src/Makefile
              frontend/gtkmm/src/Makefile
-	     frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
+             frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
              frontend/gtkmm/src/osx/Makefile
@@ -1193,11 +1225,11 @@ AC_CONFIG_FILES([Makefile
              po/Makefile.in
              contrib/Makefile
              contrib/plot/Makefile
-	     contrib/send_menu_command/Makefile
-	     contrib/send_menu_command/win32/Makefile
-	     contrib/send_dbus_command/Makefile
-	     contrib/send_dbus_command/kde/Makefile
-	     build/Makefile
+             contrib/send_menu_command/Makefile
+             contrib/send_menu_command/win32/Makefile
+             contrib/send_dbus_command/Makefile
+             contrib/send_dbus_command/kde/Makefile
+             build/Makefile
              m4/Makefile
 ])
 
@@ -1226,8 +1258,8 @@ echo "              Gnome 2 support :   ${config_gnome2}"
 echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
-echo "                 XFCE support :   ${config_xfce}"
-echo "                 MATE support :   ${config_mate}"
+echo "                 XFCE support :   ${config_xfce} (Gtk${config_xfce_gtk_version})"
+echo "                 MATE support :   ${config_mate} (Gtk${config_mate_gtk_version})"
 if test "${config_dbus_gio}" = "yes"; then
 echo "                 DBUS support :   ${config_dbus} (GIO)"
 else
