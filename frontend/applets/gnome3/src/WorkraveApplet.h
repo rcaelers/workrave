@@ -40,8 +40,10 @@ struct _WorkraveApplet
 {
   PanelApplet parent_object;
 
+#ifdef HAVE_PANELAPPLET4
   /*< private >*/
   WorkraveAppletPrivate *priv;
+#endif
 };
 
 struct _WorkraveAppletClass

@@ -39,7 +39,7 @@ struct _WorkraveAppletPrivate
   gboolean alive;
 };
 
-G_DEFINE_TYPE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
+G_DEFINE_TYPE_WITH_PRIVATE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
 
 static void workrave_applet_fill(WorkraveApplet *applet);
 static void dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data);

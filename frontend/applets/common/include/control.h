@@ -36,9 +36,6 @@ typedef struct _WorkraveTimerboxControlPrivate WorkraveTimerboxControlPrivate;
 struct _WorkraveTimerboxControl
 {
   GObject parent_instance;
-
-  /*< private >*/
-  WorkraveTimerboxControlPrivate *priv;
 };
 
 struct _WorkraveTimerboxControlClass

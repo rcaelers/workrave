@@ -52,9 +52,6 @@ typedef enum WorkraveColorId
 struct _WorkraveTimebar
 {
   GObject parent_instance;
-
-  /*< private >*/
-  WorkraveTimebarPrivate *priv;
 };
 
 struct _WorkraveTimebarClass

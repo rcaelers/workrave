@@ -39,7 +39,7 @@ struct _WorkraveAppletPrivate
   gboolean alive;
 };
 
-G_DEFINE_TYPE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
+G_DEFINE_TYPE_WITH_PRIVATE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
 
 static void workrave_applet_fill(WorkraveApplet *applet);
 static void dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data);
@@ -104,13 +104,15 @@ lookup_menu_index_by_action(const char *action)
 void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  applet->priv->alive = alive;
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
+
+  priv->alive = alive;
 
   if (!alive)
     {
       for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
         {
-          GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[i].action);
+          GAction *action = g_action_map_lookup_action(G_ACTION_MAP(priv->action_group), menu_data[i].action);
           g_simple_action_set_enabled(G_SIMPLE_ACTION(action), menu_data[i].visible_when_not_running);
         }
     }
@@ -119,6 +121,7 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
 
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
@@ -141,8 +144,8 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           continue;
         }
 
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[index].action);
-      
+      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(priv->action_group), menu_data[index].action);
+
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
         {
@@ -150,7 +153,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
 
       visible[index] = TRUE;
-      
+
       if (g_action_get_state_type(G_ACTION(action)) != NULL)
         {
           if (menu_data[index].state == NULL)
@@ -171,7 +174,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
   for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->priv->action_group), menu_data[i].action);
+      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(priv->action_group), menu_data[i].action);
       g_simple_action_set_enabled(G_SIMPLE_ACTION(action), visible[i]);
     }
 }
@@ -227,13 +230,15 @@ static void
 on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
+
   int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
     {
       return;
     }
 
-  GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->priv->timerbox_control);
+  GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(priv->timerbox_control);
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
@@ -266,6 +271,8 @@ static void
 on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
+
   gboolean new_state = g_variant_get_boolean(value);
   int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
@@ -275,7 +282,7 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
 
   g_simple_action_set_state(action, value);
   
-  GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->priv->timerbox_control);
+  GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(priv->timerbox_control);
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
@@ -293,11 +300,12 @@ static void
 on_menu_mode_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
   const gchar *mode = g_variant_get_string(value, 0);
 
   g_simple_action_set_state(action, value);
 
-  GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(applet->priv->timerbox_control);
+  GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(priv->timerbox_control);
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
@@ -330,11 +338,12 @@ static const GActionEntry menu_actions [] = {
 static gboolean
 button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 {
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
   gboolean ret = FALSE;
 
   if (event->button == 1)
     {
-      GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(applet->priv->timerbox_control);
+      GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(priv->timerbox_control);
       if (proxy != NULL)
         {          g_dbus_proxy_call(proxy,
                             "ButtonClicked",
@@ -355,32 +364,33 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 static void
 workrave_applet_class_init(WorkraveAppletClass *class)
 {
-  g_type_class_add_private(class, sizeof(WorkraveAppletPrivate));
 }
 
 static void
 workrave_applet_fill(WorkraveApplet *applet)
 {
-  applet->priv->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
-  applet->priv->image = workrave_timerbox_control_get_image(applet->priv->timerbox_control);
-  g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
-  g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
 
-  workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->priv->timerbox_control, TRUE);
-  workrave_timerbox_control_set_tray_icon_mode(applet->priv->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
+  priv->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
+  priv->image = workrave_timerbox_control_get_image(priv->timerbox_control);
+  g_signal_connect(G_OBJECT(priv->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
+  g_signal_connect(G_OBJECT(priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
+
+  workrave_timerbox_control_set_tray_icon_visible_when_not_running(priv->timerbox_control, TRUE);
+  workrave_timerbox_control_set_tray_icon_mode(priv->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
   
-  applet->priv->action_group = g_simple_action_group_new();
-  g_action_map_add_action_entries (G_ACTION_MAP (applet->priv->action_group),
+  priv->action_group = g_simple_action_group_new();
+  g_action_map_add_action_entries (G_ACTION_MAP (priv->action_group),
                                    menu_actions,
                                    G_N_ELEMENTS (menu_actions),
                                    applet);
 
   gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-gnome-applet-menu.xml", NULL);
-  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group, GETTEXT_PACKAGE);
+  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, priv->action_group, GETTEXT_PACKAGE);
   g_free(ui_path);
 
   gtk_widget_insert_action_group (GTK_WIDGET (applet), "workrave",
-                                  G_ACTION_GROUP (applet->priv->action_group));
+                                  G_ACTION_GROUP (priv->action_group));
 
   panel_applet_set_flags(PANEL_APPLET(applet), PANEL_APPLET_EXPAND_MINOR);
 
@@ -389,9 +399,9 @@ workrave_applet_fill(WorkraveApplet *applet)
   gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet);
 
-  gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->priv->image));
+  gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(priv->image));
 
-  gtk_widget_show(GTK_WIDGET(applet->priv->image));
+  gtk_widget_show(GTK_WIDGET(priv->image));
   gtk_widget_show(GTK_WIDGET(applet));
 
   on_alive_changed(NULL, FALSE, applet);
@@ -400,15 +410,13 @@ workrave_applet_fill(WorkraveApplet *applet)
 static void
 workrave_applet_init(WorkraveApplet *applet)
 {
-  applet->priv = G_TYPE_INSTANCE_GET_PRIVATE(applet, WORKRAVE_TYPE_APPLET, WorkraveAppletPrivate);
-
-  WorkraveAppletPrivate *priv = applet->priv;
+  WorkraveAppletPrivate *priv = workrave_applet_get_instance_private(applet);
 
   priv->action_group = NULL;
   priv->image = NULL;
   priv->timerbox_control = NULL;
   priv->alive = FALSE;
-  
+
   workrave_applet_fill(applet);
 }
 
