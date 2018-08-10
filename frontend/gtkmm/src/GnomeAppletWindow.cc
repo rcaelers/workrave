@@ -368,7 +368,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     {
       properties = gtk_style_properties_new();
     }
- 
+
   if (plug == NULL)
     {
       return;
@@ -383,7 +383,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
       gtk_style_context_remove_provider(gtk_widget_get_style_context(widget),
                                         GTK_STYLE_PROVIDER(properties));
       break;
-        
+
     case 1: //PANEL_COLOR_BACKGROUND
         gtk_style_properties_set(properties, GTK_STATE_FLAG_NORMAL,
                                  "background-color", &color,
@@ -393,18 +393,15 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
                                      GTK_STYLE_PROVIDER(properties),
                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       break;
-  
+
     case 2: // PANEL_PIXMAP_BACKGROUND
       {
-        
-        //int width, height;
-
-        gdk_error_trap_push();
+        gdk_x11_display_error_trap(gdk_display_get_default())
 
         Display *dpy = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
         cairo_surface_t *surface = cairo_xlib_surface_create(dpy, xid, DefaultVisual(dpy, 0), 0, 0);
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
-        
+
         if (pattern != NULL)
           {
             gtk_style_properties_set (properties, GTK_STATE_FLAG_NORMAL,
@@ -423,7 +420,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 
         cairo_surface_destroy(surface);
         gdk_flush();
-        (void) gdk_error_trap_pop();
+        gdk_x11_display_error_trap_pop(gdk_display_get_default());
       }
       break;
       
@@ -459,7 +456,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     {
       int width, height;
 
-      gdk_error_trap_push();
+      gdk_x11_display_error_trap(gdk_display_get_default())
 
       GdkPixmap *orig_pixmap = gdk_pixmap_foreign_new(xid);
       if (orig_pixmap != NULL)
@@ -637,7 +634,7 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
       xevent.xbutton.subwindow   = 0;
       xevent.xbutton.time        = event->time;
 
-      gdk_error_trap_push();
+      gdk_x11_display_error_trap(gdk_display_get_default())
 
       TRACE_MSG("send");
 
