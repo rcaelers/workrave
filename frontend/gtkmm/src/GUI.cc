@@ -554,18 +554,6 @@ GUI::init_multihead()
   TRACE_ENTER("GUI::init_multihead");
 
   init_gtk_multihead();
-  if (num_heads == -1)
-    {
-      init_multihead_mem(1);
-
-      heads[0].valid = false;
-      heads[0].count = 0;
-      heads[0].geometry.set_width(gdk_screen_width());
-      heads[0].geometry.set_height(gdk_screen_height());
-      heads[0].geometry.set_x(0);
-      heads[0].geometry.set_y(0);
-    }
-
   init_multihead_desktop();
   TRACE_EXIT();
 }
@@ -643,23 +631,12 @@ void
 GUI::init_multihead_desktop()
 {
   TRACE_ENTER("GUI::init_multihead_desktop");
-  TRACE_MSG("gdk width x height " << gdk_screen_width() << " " << gdk_screen_height());
 
   int width = 0;
   int height = 0;
 
-  // Use head info to determine screen size. I hope this results
-  // in the same size as the gdk_screen_xxx....
   for (int i = 0; i < num_heads; i++)
     {
-      if (!heads[i].valid)
-        {
-          // Not all heads have valid geometry. Use gdk.
-          width = gdk_screen_width();
-          height = gdk_screen_height();
-          break;
-        }
-
       int w = heads[i].geometry.get_x() + heads[i].geometry.get_width();
       int h = heads[i].geometry.get_y() + heads[i].geometry.get_height();
 
@@ -685,7 +662,6 @@ GUI::init_multihead_desktop()
     }
 }
 
-
 void
 GUI::init_gtk_multihead()
 {
@@ -705,15 +681,6 @@ GUI::init_gtk_multihead()
           if (screen)
             {
               new_num_heads += screen->get_n_monitors();
-              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-            }
-        }
-
-      for (int i = 0; i < num_screens; i++)
-        {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
               TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
             }
         }
@@ -748,9 +715,7 @@ GUI::init_gtk_multihead()
                     {
                       heads[count].screen = screen;
                       heads[count].monitor = j;
-                      heads[count].valid = true;
                       heads[count].count = count;
-
                       heads[count].geometry = rect;
                       count++;
                     }

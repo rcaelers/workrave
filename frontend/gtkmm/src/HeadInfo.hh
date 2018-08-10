@@ -35,7 +35,6 @@ class HeadInfo
 public:
   HeadInfo()
   {
-    valid = false;
     count = 0;
   }
 
@@ -47,7 +46,6 @@ public:
   Glib::RefPtr<Gdk::Screen> screen;
   int monitor;
   int count;
-  bool valid;
   Gdk::Rectangle geometry;
 };
 

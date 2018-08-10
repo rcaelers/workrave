@@ -22,51 +22,23 @@
 int
 HeadInfo::get_width() const
 {
-  if (valid)
-    {
-      return geometry.get_width();
-    }
-  else
-    {
-      return gdk_screen_width();
-    }
+  return geometry.get_width();
 }
 
 int
 HeadInfo::get_height() const
 {
-  if (valid)
-    {
-      return geometry.get_height();
-    }
-  else
-    {
-      return gdk_screen_height();
-    }
+  return geometry.get_height();
 }
 
 int
 HeadInfo::get_x() const
 {
-  if (valid)
-    {
-      return geometry.get_x();
-    }
-  else
-    {
-      return 0;
-    }
+  return geometry.get_x();
 }
 
 int
 HeadInfo::get_y() const
 {
-  if (valid)
-    {
-      return geometry.get_y();
-    }
-  else
-    {
-      return 0;
-    }
+  return geometry.get_y();
 }

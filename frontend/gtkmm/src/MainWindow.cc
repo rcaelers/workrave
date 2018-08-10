@@ -803,23 +803,19 @@ MainWindow::relocate_window(int width, int height)
       int num_heads = gui->get_number_of_heads();
       for (int i = 0; i < num_heads; i++)
         {
-          HeadInfo &head = gui->get_head(i);
-          if (head.valid)
-            {
 #ifdef HAVE_GTK3
-              GtkRequisition min_size;
-              GtkRequisition natural_size;
-              get_preferred_size(min_size, natural_size);
+          GtkRequisition min_size;
+          GtkRequisition natural_size;
+          get_preferred_size(min_size, natural_size);
 #else
-              GtkRequisition min_size;
-              on_size_request(&min_size);
+          GtkRequisition min_size;
+          on_size_request(&min_size);
 #endif
 
-              GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
+          GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
 
-              gui->map_from_head(x, y, i);
-              break;
-            }
+          gui->map_from_head(x, y, i);
+          break;
         }
 
       if (x < 0)
