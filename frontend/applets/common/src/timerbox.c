@@ -373,8 +373,8 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 }
 
 /**
- * workrave_timerbox_draw: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_draw:
+ * @self: a @WorkraveTimerbox
  * @cr: a @cairo_t where the timerbox will be drawn into
  *
  */
@@ -392,10 +392,10 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 }
 
 /**
- * workrave_timerbox_get_width: 
- * @self: a @WorkraveTimerbox 
+ * workrave_timerbox_get_width:
+ * @self: a @WorkraveTimerbox
  *
- * Return value: (transfer none): The width of the @WorkraveTimerbox
+ * Return value: The width of the @WorkraveTimerbox
  *
  */
 int
@@ -412,7 +412,7 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
  * workrave_timerbox_get_height: 
  * @self: a @WorkraveTimerbox 
  *
- * Return value: (transfer none): The width of the @WorkraveTimerbox
+ * Return value: The width of the @WorkraveTimerbox
  *
  */
 int
