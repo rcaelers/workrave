@@ -885,7 +885,7 @@ GUI::init_sound_player()
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
-  catch (Exception)
+  catch (Exception &)
     {
       TRACE_MSG("No sound");
     }

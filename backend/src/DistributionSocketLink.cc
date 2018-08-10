@@ -1040,7 +1040,7 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
             {
               c->socket->write(packet.get_buffer(), size, bytes_written);
             }
-          catch (SocketException)
+          catch (SocketException &)
             {
               TRACE_MSG("Failed to send");
             }
@@ -1101,7 +1101,7 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
         {
           client->socket->write(packet.get_buffer(), size, bytes_written);
         }
-      catch (SocketException)
+      catch (SocketException &)
         {
           TRACE_MSG("Failed to send");
         }
@@ -2175,7 +2175,7 @@ DistributionSocketLink::start_async_server()
           ret = true;
         }
     }
-  catch(SocketException e)
+  catch(SocketException &e)
     {
     }
 
@@ -2261,7 +2261,7 @@ DistributionSocketLink::socket_io(ISocket *con, void *data)
     {
       con->read(client->packet.get_write_ptr(), bytes_to_read, bytes_read);
     }
-  catch (SocketException)
+  catch (SocketException &)
     {
       ok = false;
     }

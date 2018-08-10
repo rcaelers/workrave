@@ -129,7 +129,7 @@ GIOSocket::static_connected_callback(GObject *source_object,
       socket->source = g_socket_create_source(socket->socket,
                                               (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP),
                                               NULL);
-      g_source_set_callback(socket->source, (GSourceFunc) static_data_callback, (void*)socket, NULL);
+      g_source_set_callback(socket->source, reinterpret_cast<GSourceFunc>(static_data_callback), (void*)socket, NULL);
       g_source_attach(socket->source, NULL);
       // g_source_unref(source);
 
@@ -201,7 +201,7 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
   g_socket_set_keepalive(socket, TRUE);
 
   source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
-  g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
+  g_source_set_callback(source, reinterpret_cast<GSourceFunc>(static_data_callback), (void*)this, NULL);
   g_source_attach(source, NULL);
   g_source_unref(source);
   TRACE_EXIT();

@@ -567,9 +567,9 @@ DistributionManager::log(const char *fmt, ...)
   time_t current_time = time (NULL);
   struct tm *lt = localtime(&current_time);
 
-  char log_str[MAX_LOG_LEN];
-  vsnprintf(log_str, MAX_LOG_LEN - 1, fmt, va);
-  log_str[MAX_LOG_LEN - 1] = '\0';
+  char log_str[MAX_LOG_LEN - 32];
+  vsnprintf(log_str, MAX_LOG_LEN - 32 - 1, fmt, va);
+  log_str[MAX_LOG_LEN - 32 - 1] = '\0';
 
   char str[MAX_LOG_LEN];
   snprintf(str, MAX_LOG_LEN - 1, "[%02d/%02d/%02d %02d:%02d:%02d] %s\n",

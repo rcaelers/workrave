@@ -459,7 +459,7 @@ ${interface.qname}_Stub::${method.name}(void *object, GDBusMethodInvocation *inv
 
       g_dbus_method_invocation_return_value(invocation, out);
     }
-  catch (DBusException)
+  catch (DBusException &)
     {
       throw;
     }
