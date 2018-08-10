@@ -19,6 +19,7 @@
 #include "config.h"
 #endif
 
+#include <gdk/gdk.h>
 #include <libxfce4panel/xfce-panel-plugin.h>
 
 #include <gio/gio.h>
@@ -32,7 +33,7 @@
 typedef struct _WorkraveApplet
 {
   XfcePanelPlugin* plugin;
-  
+
   WorkraveTimerboxControl *timerbox_control;
   GtkImage *image;
   gboolean alive;
@@ -152,7 +153,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           radio_group = NULL;
           menu = NULL;
         }
-      
+
       else if (item == NULL)
         {
           if (flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
@@ -177,12 +178,12 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
               item = GTK_MENU_ITEM(gtk_menu_item_new_with_label(text));
               g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_command), applet);
             }
-          
+
           if (item == NULL)
             {
               continue;
             }
-          
+
           applet->menu_items[id] = item;
           if (menu != NULL && !(flags & MENU_ITEM_FLAG_SUBMENU_BEGIN))
             {
@@ -193,7 +194,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
               xfce_panel_plugin_menu_insert_item(applet->plugin, item);
             }
         }
-      
+
       if (item != NULL)
         {
           applet->inhibit++;
@@ -205,11 +206,11 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           gtk_widget_show(GTK_WIDGET(item));
         }
     }
-  
+
   g_variant_iter_free (iter);
 }
 
-      
+
 static void
 dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 {
@@ -404,15 +405,19 @@ static void workrave_applet_construct(XfcePanelPlugin *plugin)
   applet->timerbox_control = NULL;
   applet->alive = FALSE;
   applet->inhibit = 0;
-  
+
   for (int i = 0; i < MENU_COMMAND_SIZEOF;i ++)
     {
       applet->menu_items[i] = NULL;
     }
-  
+
   workrave_applet_fill(applet);
   xfce_panel_plugin_set_expand(plugin, TRUE);
   gtk_widget_show_all(GTK_WIDGET(plugin));
 }
 
+#ifdef HAVE_XFCE_GTK3
+XFCE_PANEL_PLUGIN_REGISTER(workrave_applet_construct);
+#else
 XFCE_PANEL_PLUGIN_REGISTER_EXTERNAL(workrave_applet_construct);
+#endif
