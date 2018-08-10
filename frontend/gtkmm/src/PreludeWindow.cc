@@ -439,6 +439,8 @@ PreludeWindow::on_avoid_pointer_timer_event()
 bool
 PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
+  (void) event;
+
   avoid_pointer();
   return false;
 }
@@ -505,6 +507,7 @@ PreludeWindow::avoid_pointer()
 
   set_position(Gtk::WIN_POS_NONE);
   move(winx, winy);
+  TRACE_EXIT();
 }
 
 #ifdef HAVE_GTK3
