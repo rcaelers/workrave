@@ -224,7 +224,10 @@ GSettingsConfigurator::add_children()
   TRACE_ENTER("GSettingsConfigurator::add_children");
   int len = schema_base.length();
 
-  const char* const *schemas = g_settings_list_schemas();
+  GSettingsSchemaSource *global_schema_source = g_settings_schema_source_get_default();
+
+  gchar **schemas = NULL;
+  g_settings_schema_source_list_schemas(global_schema_source, TRUE, &schemas, NULL);
 
   for (int i = 0; schemas[i] != NULL; i++)
     {
