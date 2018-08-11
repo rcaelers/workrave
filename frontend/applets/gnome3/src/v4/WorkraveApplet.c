@@ -72,7 +72,6 @@ static struct Menuitems menu_data[] =
     { MENU_COMMAND_QUIT,                  FALSE, FALSE, "Quit",           "Quit"              }
   };
 
-
 int
 lookup_menu_index_by_id(enum MenuCommand id)
 {
@@ -122,7 +121,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
-  
+
   char *text;
   int id;
   int flags;
@@ -132,8 +131,8 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
     {
       visible[i] = menu_data[i].visible_when_not_running;
     }
-  
-  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))  
+
+  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
       if (index == -1)
@@ -142,7 +141,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
 
       GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, menu_data[index].action);
-      
+
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
         {
@@ -157,7 +156,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
         }
     }
-  
+
   g_variant_iter_free (iter);
 
   for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
@@ -167,7 +166,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
     }
 }
 
-      
+
 static void
 dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 {
@@ -222,7 +221,7 @@ on_menu_command(GtkAction *action, WorkraveApplet *applet)
     {
       return;
     }
-  
+
   GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->priv->timerbox_control);
   if (proxy != NULL)
     {
