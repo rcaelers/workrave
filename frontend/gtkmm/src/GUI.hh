@@ -24,7 +24,6 @@
 
 #include <sigc++/trackable.h>
 #include <glibmm.h>
-#include "eggsmclient.h"
 
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
@@ -154,10 +153,6 @@ private:
 
   void init_gtk_multihead();
 
-  static void session_quit_cb(EggSMClient *client, GUI *gui);
-  static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
-  void cleanup_session();
-
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
   void config_changed_notify(const std::string &key);
@@ -186,6 +181,9 @@ private:
 private:
   //! The one and only instance
   static GUI *instance;
+
+  // !
+  Glib::RefPtr<Gtk::Application> app;
 
   //! The Core controller
   ICore *core;

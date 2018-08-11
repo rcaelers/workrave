@@ -19,8 +19,6 @@ bin_PROGRAMS = 		workrave
 
 endif
 
-eggcflags = 
-
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/intl
 
@@ -94,15 +92,12 @@ indicatorflags = 	-I$(top_srcdir)/frontend/applets/indicator/include
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-xsmp.c
-eggcflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP
-
+extrasources +=		$(sourcesx)
 includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		$(sourceswin32) eggsmclient-win32.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/applets/win32/include \
@@ -143,9 +138,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c
 endif
-
 
 # DBus service file
 if HAVE_DBUS
@@ -167,12 +160,6 @@ dbussources += 	GenericDBusApplet.cc
 endif
 
 BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
-
-# broken: 
-# if PLATFORM_OS_UNIX
-# extrasources +=		eggsmclient-dbus.c
-# eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
-# endif
 
 if HAVE_PYTHON_CHEETAH
 
@@ -256,7 +243,6 @@ workrave_SOURCES = \
 			TimerBoxPreferencePage.cc \
 			TimerPreferencesPanel.cc \
 			WindowHints.cc \
-			eggsmclient.c \
 			main.cc \
 			$(extrasources) \
 			${dbussources}
@@ -273,7 +259,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
-			$(includesx) $(eggcflags) $(INDICATOR_CFLAGS) $(indicatorflags) \
+			$(includesx) $(INDICATOR_CFLAGS) $(indicatorflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -288,7 +274,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@\
-			-D_XOPEN_SOURCE=600  $(eggcflags) \
+			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \

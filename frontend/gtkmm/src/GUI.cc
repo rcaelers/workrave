@@ -195,29 +195,19 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-  Glib::OptionContext option_ctx;
 
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
 #endif
-  
+
   if (!Glib::thread_supported())
-    Glib::thread_init();
-
-  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
-  option_ctx.add_group(*option_group);
-
-  Gtk::Main *kit = NULL;
-  try
     {
-      kit = new Gtk::Main(argc, argv, option_ctx);
+      Glib::thread_init();
     }
-  catch (const Glib::OptionError &e)
-    {
-      std::cout << "Failed to initialize: " << e.what() << std::endl;
-      exit(1);
-    }
-  
+
+  app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
+  app->hold();
+
   init_core();
   init_nls();
   init_debug();
@@ -237,25 +227,21 @@ GUI::main()
 
   on_timer();
 
-  TRACE_MSG("Initialized. Entering event loop.");
+  app->run();
 
-  // Enter the event loop
-  Gtk::Main::run();
   System::clear();
-  cleanup_session();
+
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
     {
       i->disconnect();
     }
-    
+
   delete main_window;
   main_window = NULL;
 
   delete applet_control;
   applet_control = NULL;
 
-  delete kit;
-  
   TRACE_EXIT();
 }
 
@@ -275,7 +261,8 @@ GUI::terminate()
 
   collect_garbage();
 
-  Gtk::Main::quit();
+  app->release();
+
   TRACE_EXIT();
 }
 
@@ -376,73 +363,15 @@ GUI::init_platform()
 
 
 void
-GUI::session_quit_cb(EggSMClient *client, GUI *gui)
-{
-  (void) client;
-  (void) gui;
-
-  TRACE_ENTER("GUI::session_quit_cb");
-
-  CoreFactory::get_configurator()->save();
-  Gtk::Main::quit();
-
-  TRACE_EXIT();
-}
-
-
-void
-GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
-{
-  (void) client;
-  (void) key_file;
-  (void) gui;
-
-  CoreFactory::get_configurator()->save();
-}
-
-void
 GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
-  EggSMClient *client = NULL;
-  client = egg_sm_client_get();
-  if (client)
-    {
-      g_signal_connect(client,
-                       "quit",
-                       G_CALLBACK(session_quit_cb),
-                       this);
-      g_signal_connect(client,
-                       "save-state",
-                       G_CALLBACK(session_save_state_cb),
-                       this);
-    }
 
   session = new Session();
   session->init();
 
   TRACE_EXIT();
 }
-
-
-void
-GUI::cleanup_session()
-{
-  EggSMClient *client = NULL;
-
-  client = egg_sm_client_get();
-  if (client)
-    {
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_quit_cb),
-                                           this);
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_save_state_cb),
-                                           this);
-    }
-}
-
-
 
 //! Initializes messages hooks.
 void
@@ -766,7 +695,7 @@ GUI::init_gui()
   event_connections.push_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
   process_visibility();
-  
+
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
 
@@ -798,7 +727,7 @@ GUI::init_dbus()
     {
 #ifdef HAVE_DBUS_GIO
       if (dbus->is_running("org.workrave.Workrave"))
-#else      
+#else
       dbus->register_service("org.workrave.Workrave");
       if (!dbus->is_owner())
 #endif
@@ -817,7 +746,7 @@ GUI::init_dbus()
 #ifdef HAVE_DBUS_GIO
           dbus->register_service("org.workrave.Workrave", this);
 #endif
-          
+
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
         }
@@ -1023,7 +952,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
         }
     }
   else
-    { 
+    {
       if (ignorable)
         {
           break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;
