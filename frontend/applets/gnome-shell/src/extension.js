@@ -106,9 +106,9 @@ _workraveButton.prototype = {
 
     _onDestroy: function()
     {
-    	this._proxy.EmbedRemote(false, 'GnomeShellApplet');
-	this._stop();
-	this._destroy();
+        this._proxy.EmbedRemote(false, this._bus_name);
+        this._stop();
+        this._destroy();
     },
 
     _destroy: function() {
