@@ -49,7 +49,7 @@ public:
 
   AppletState activate_applet();
   void deactivate_applet();
-  
+
 private:
   //! Gtk timerbox viewer
   TimerBoxGtkView *view;

@@ -295,9 +295,6 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
   TRACE_EXIT();
 }
 
-
-
-
 void
 GenericDBusApplet::config_changed_notify(const std::string &key)
 {

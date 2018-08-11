@@ -97,7 +97,7 @@ AppletControl::init()
 #ifdef HAVE_DBUS_GIO
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
-  
+
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow();
 #endif
