@@ -281,6 +281,7 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
+                        "program-name", "Workrave",
 #ifdef GIT_VERSION
                         "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
 #else
