@@ -71,90 +71,90 @@ BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
 
 download_files()
 {
-	cd "$SRCDIR"
+  cd "$SRCDIR"
         base=$1
         shift
 
         for a in $*; do
-        	if test ! -f $a ; then
-        		echo "Downloading $a"
-        		wget "$base/$a"
-        		if test ! -f $a ; then
-        			echo "Could not download $a"
-        			exit 1
-        		fi
-        	else
-        		echo "Found $a."
-        	fi
+          if test ! -f $a ; then
+            echo "Downloading $a"
+            wget "$base/$a"
+            if test ! -f $a ; then
+              echo "Could not download $a"
+              exit 1
+            fi
+          else
+            echo "Found $a."
+          fi
         done
-  	cd "$TOPDIR"
+    cd "$TOPDIR"
 }
 
 unzip_files()
 {
-	cd "$SRCDIR"
+  cd "$SRCDIR"
 
-        for a in $*; do
-        	if test -f $a ; then
-        		echo "Unpacking $a"
-                        cd $PREFIX
-                        unzip -qo $SRCDIR/$a
-                        cd $SRCDIR
-        	else
-        		echo "Could not find $a."
-        	fi
-        done
-  	cd "$TOPDIR"
+   for a in $*; do
+     if test -f $a ; then
+       echo "Unpacking $a"
+                   cd $PREFIX
+                   unzip -qo $SRCDIR/$a
+                   cd $SRCDIR
+     else
+       echo "Could not find $a."
+     fi
+   done
+   cd "$TOPDIR"
 }
 
 download()
 {
-	mkdir -p "$SRCDIR"
+  mkdir -p "$SRCDIR"
 
-	# Make sure wget is installed
-	if test "x`which wget`" = "x" ; then
-		echo "You need to install wget."
-		exit 1
-	fi
+  # Make sure wget is installed
+  if test "x`which wget`" = "x" ; then
+    echo "You need to install wget."
+    exit 1
+  fi
 
-        download_files $GLIB_URL $GLIB_FILES
-	download_files $PIXBUF_URL $PIXBUF_FILES
-        download_files $GTK_URL $GTK_FILES
-        download_files $PANGO_URL $PANGO_FILES
-        download_files $ATK_URL $ATK_FILES
-        download_files $DEP_URL $DEP_FILES
-        
-        download_files $GLIBMMSRC_URL $GLIBMMSRC_FILES
-        download_files $GTKMMSRC_URL $GTKMMSRC_FILES
-        download_files $PANGOMMSRC_URL $PANGOMMSRC_FILES
-        download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
-        download_files $ATKMMSRC_URL $ATKMMSRC_FILES
-        download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
-        download_files $DBUS_URL $DBUS_FILES
-        download_files $PKGCONFIG_URL $PKGCONFIG_FILES
+  download_files $GLIB_URL $GLIB_FILES
+  download_files $PIXBUF_URL $PIXBUF_FILES
+  download_files $GTK_URL $GTK_FILES
+  download_files $PANGO_URL $PANGO_FILES
+  download_files $ATK_URL $ATK_FILES
+  download_files $DEP_URL $DEP_FILES
 
-        # download_files $DIRECTX_URL $DIRECTX_FILE
+  download_files $GLIBMMSRC_URL $GLIBMMSRC_FILES
+  download_files $GTKMMSRC_URL $GTKMMSRC_FILES
+  download_files $PANGOMMSRC_URL $PANGOMMSRC_FILES
+  download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
+  download_files $ATKMMSRC_URL $ATKMMSRC_FILES
+  download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
+  download_files $DBUS_URL $DBUS_FILES
+  download_files $PKGCONFIG_URL $PKGCONFIG_FILES
+
+  # download_files $DIRECTX_URL $DIRECTX_FILE
 }
 
 unpack()
 {
-        rm -rf $PREFIX
-        mkdir $PREFIX
-        	
-        unzip_files $GTK_FILES
-        unzip_files $GLIB_FILES
-	unzip_files $PIXBUF_FILES
-        unzip_files $PANGO_FILES
-        unzip_files $GTK_DEP_FILES
-        unzip_files $DEP_FILES
-	unzip_files $ATK_FILES
+  rm -rf $PREFIX
+  mkdir $PREFIX
+
+  unzip_files $GTK_FILES
+  unzip_files $GLIB_FILES
+  unzip_files $PIXBUF_FILES
+  unzip_files $PANGO_FILES
+  unzip_files $GTK_DEP_FILES
+  unzip_files $DEP_FILES
+  unzip_files $ATK_FILES
 }
 
 fix_theme()
 {
-    cat $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc | sed -e 's/gtk-button-images = 0/gtk-button-images = 1/' > gtkrc.tmp
-    cp -a gtkrc.tmp $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc
-    rm gtkrc.tmp
+  cat $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc | sed -e 's/gtk-button-images = 0/gtk-button-images = 1/' > gtkrc.tmp
+  cp -a gtkrc.tmp $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc
+  rm gtkrc.tmp
 }
 
 fix_pkgconfig()
@@ -172,10 +172,10 @@ fix_pkgconfig()
 
     sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|$||g" < libpng.pc > libpng.pc.new
     mv -f libpng.pc.new libpng.pc
-    
+
     sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|$||g" < libpng12.pc > libpng12.pc.new
     mv -f libpng12.pc.new libpng12.pc
-    
+
     sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|$||g" < libpng13.pc > libpng13.pc.new
     mv -f libpng13.pc.new libpng13.pc
 
@@ -217,9 +217,9 @@ extract_directx()
 
 extract_package()
 {
-	cd "$BUILDDIR"
-	rm -rf "$1"
-	echo "Extracting $1"
+  cd "$BUILDDIR"
+  rm -rf "$1"
+  echo "Extracting $1"
         case $2 in
             *.tar.gz)
                  tar xzf $SRCDIR/$2
@@ -243,49 +243,49 @@ extract_package()
                  bunzip2 $SRCDIR/$2
                  ;;
         esac
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 
-	if [ -f "$TOPDIR/$1.diff" ]; then
-		echo "Patching $1"
-		cd "$BUILDDIR/$1"
-		patch -p1 < "$TOPDIR/$1.diff"
-		cd "$TOPDIR"
-	fi
+  if [ -f "$TOPDIR/$1.diff" ]; then
+    echo "Patching $1"
+    cd "$BUILDDIR/$1"
+    patch -p1 < "$TOPDIR/$1.diff"
+    cd "$TOPDIR"
+  fi
 }
 
 build_pkgconfig()
 {
-	cd "$BUILDDIR"
-	rm -rf "pkgconfig-$TARGET"
-	mkdir "pkgconfig-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "pkgconfig-$TARGET"
+  mkdir "pkgconfig-$TARGET"
 
-	cd "$BUILDDIR/pkgconfig-$TARGET"
+  cd "$BUILDDIR/pkgconfig-$TARGET"
 
         echo "Configuring pkgconfig"
         (  . $TOPDIR/mingw32-x -gtk2.14
-	    "$BUILDDIR/$1/configure" -v \
-		--prefix="$TOOLS" --disable-shared --enable-static \
+      "$BUILDDIR/$1/configure" -v \
+    --prefix="$TOOLS" --disable-shared --enable-static \
                 --target=$TARGET --host=i586-linux --build=i586-linux \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
-	
-	if test $? -ne 0; then
-		echo "configure failed - log available: pkgconfig-$TARGET/configure.log"
-		exit 1
-	fi
+  
+  if test $? -ne 0; then
+    echo "configure failed - log available: pkgconfig-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building pkgconfig"
+  echo "Building pkgconfig"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: pkgconfig-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: pkgconfig-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/pkgconfig-$TARGET"
-	echo "Installing pkgconfig"
+  cd "$BUILDDIR/pkgconfig-$TARGET"
+  echo "Installing pkgconfig"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -293,15 +293,15 @@ build_pkgconfig()
             echo "install failed - log available: pkgconfig-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 
 build_sigcpp()
 {
-	cd "$BUILDDIR"
-	rm -rf "libsigc++-$TARGET"
-	mkdir "libsigc++-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libsigc++-$TARGET"
+  mkdir "libsigc++-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         #cd $BUILDDIR/$1
@@ -316,28 +316,28 @@ build_sigcpp()
         echo "Configuring Libsigc++"
         (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --disable-static \
+    --prefix="$PREFIX" --disable-shared --disable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-headers="$PREFIX/$TARGET/include" \
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
-	if test $? -ne 0; then
-		echo "configure failed - log available: libsigc++-$TARGET/configure.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "configure failed - log available: libsigc++-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libsigc++"
+  echo "Building Libsigc++"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libsigc++-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libsigc++-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libsigc++-$TARGET"
-	echo "Installing Libsigc++"
+  cd "$BUILDDIR/libsigc++-$TARGET"
+  echo "Installing Libsigc++"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make -k install &> make-install.log
         )
@@ -346,14 +346,14 @@ build_sigcpp()
             echo "install failed - log available: libsigc++-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_glibmm()
 {
-	cd "$BUILDDIR"
-	rm -rf "libglibmm-$TARGET"
-	mkdir "libglibmm-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libglibmm-$TARGET"
+  mkdir "libglibmm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         cd $BUILDDIR/$1
@@ -363,33 +363,33 @@ build_glibmm()
             mv $a.new $a
         done
 
-	cd "$BUILDDIR/libglibmm-$TARGET"
+  cd "$BUILDDIR/libglibmm-$TARGET"
 
         echo "Configuring Libglibmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
+    --prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-headers="$PREFIX/$TARGET/include" \
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
-	if test $? -ne 0; then
-		echo "configure failed - log available: libglibmm-$TARGET/configure.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "configure failed - log available: libglibmm-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libglibmm"
+  echo "Building Libglibmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libglibmm-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libglibmm-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libglibmm-$TARGET"
-	echo "Installing Libglibmm"
+  cd "$BUILDDIR/libglibmm-$TARGET"
+  echo "Installing Libglibmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -397,14 +397,14 @@ build_glibmm()
             echo "install failed - log available: libglibmm-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_cairomm()
 {
-	cd "$BUILDDIR"
-	rm -rf "libcairomm-$TARGET"
-	mkdir "libcairomm-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libcairomm-$TARGET"
+  mkdir "libcairomm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         #cd $BUILDDIR/$1
@@ -414,15 +414,15 @@ build_cairomm()
         #    mv $a.new $a
         #done
 
-	cd "$BUILDDIR/libcairomm-$TARGET"
+  cd "$BUILDDIR/libcairomm-$TARGET"
 
         echo "Configuring Libcairomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
+    --prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-headers="$PREFIX/$TARGET/include" \
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
 #                --enable-use-deprecations \
 #                --disable-api-properties \
@@ -430,24 +430,24 @@ build_cairomm()
 #                --disable-api-exceptions \
 #                --disable-deprecated-api \
 #                --disable-api-default-signal-handlers \
-	
-	if test $? -ne 0; then
-		echo "configure failed - log available: libcairomm-$TARGET/configure.log"
-		exit 1
-	fi
+  
+  if test $? -ne 0; then
+    echo "configure failed - log available: libcairomm-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libcairomm"
+  echo "Building Libcairomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libcairomm-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libcairomm-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libcairomm-$TARGET"
-	echo "Installing Libcairomm"
+  cd "$BUILDDIR/libcairomm-$TARGET"
+  echo "Installing Libcairomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -455,14 +455,14 @@ build_cairomm()
             echo "install failed - log available: libcairomm-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_pangomm()
 {
-	cd "$BUILDDIR"
-	rm -rf "libpangomm-$TARGET"
-	mkdir "libpangomm-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libpangomm-$TARGET"
+  mkdir "libpangomm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         #cd $BUILDDIR/$1
@@ -472,15 +472,15 @@ build_pangomm()
         #    mv $a.new $a
         #done
 
-	cd "$BUILDDIR/libpangomm-$TARGET"
+  cd "$BUILDDIR/libpangomm-$TARGET"
 
         echo "Configuring Libpangomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
+    --prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-headers="$PREFIX/$TARGET/include" \
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
 #                --enable-use-deprecations \
 #                --disable-api-properties \
@@ -488,24 +488,24 @@ build_pangomm()
 #                --disable-api-exceptions \
 #                --disable-deprecated-api \
 #                --disable-api-default-signal-handlers \
-	
-	if test $? -ne 0; then
-		echo "configure failed - log available: libpangomm-$TARGET/configure.log"
-		exit 1
-	fi
+  
+  if test $? -ne 0; then
+    echo "configure failed - log available: libpangomm-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libpangomm"
+  echo "Building Libpangomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libpangomm-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libpangomm-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libpangomm-$TARGET"
-	echo "Installing Libpangomm"
+  cd "$BUILDDIR/libpangomm-$TARGET"
+  echo "Installing Libpangomm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -513,14 +513,14 @@ build_pangomm()
             echo "install failed - log available: libpangomm-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_atkmm()
 {
-	cd "$BUILDDIR"
-	rm -rf "libatkmm-$TARGET"
-	mkdir "libatkmm-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libatkmm-$TARGET"
+  mkdir "libatkmm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         #cd $BUILDDIR/$1
@@ -530,15 +530,15 @@ build_atkmm()
         #    mv $a.new $a
         #done
 
-	cd "$BUILDDIR/libatkmm-$TARGET"
+  cd "$BUILDDIR/libatkmm-$TARGET"
 
         echo "Configuring Libatkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
+    --prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld &> configure.log
+    --with-headers="$PREFIX/$TARGET/include" \
+    --with-gnu-as --with-gnu-ld &> configure.log
         )
 #                --enable-use-deprecations \
 #                --disable-api-properties \
@@ -546,24 +546,24 @@ build_atkmm()
 #                --disable-api-exceptions \
 #                --disable-deprecated-api \
 #                --disable-api-default-signal-handlers \
-	
-	if test $? -ne 0; then
-		echo "configure failed - log available: libatkmm-$TARGET/configure.log"
-		exit 1
-	fi
+  
+  if test $? -ne 0; then
+    echo "configure failed - log available: libatkmm-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libatkmm"
+  echo "Building Libatkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libatkmm-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libatkmm-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libatkmm-$TARGET"
-	echo "Installing Libatkmm"
+  cd "$BUILDDIR/libatkmm-$TARGET"
+  echo "Installing Libatkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -571,14 +571,14 @@ build_atkmm()
             echo "install failed - log available: libatkmm-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_gtkmm()
 {
-	cd "$BUILDDIR"
-	rm -rf "libgtkmm-$TARGET"
-	mkdir "libgtkmm-$TARGET"
+  cd "$BUILDDIR"
+  rm -rf "libgtkmm-$TARGET"
+  mkdir "libgtkmm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
         cd $BUILDDIR/$1
@@ -593,41 +593,41 @@ build_gtkmm()
         #sed -e "s|^SUBDIRS.*$|SUBDIRS=|g" < Makefile.in > Makefile.in.new
         #mv -f Makefile.in.new Makefile.in
         
-	cd "$BUILDDIR/libgtkmm-$TARGET"
+  cd "$BUILDDIR/libgtkmm-$TARGET"
 
         echo "Configuring Libgtkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             $BUILDDIR/$1/autogen.sh
             "$BUILDDIR/$1/configure" -v \
-		--prefix="$PREFIX" --disable-shared --enable-static \
+    --prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-		--with-headers="$PREFIX/$TARGET/include" \
+    --with-headers="$PREFIX/$TARGET/include" \
                 --enable-deprecated-api \
                 --disable-examples \
-		--with-gnu-as --with-gnu-ld \
+    --with-gnu-as --with-gnu-ld \
                 --disable-demo &> configure.log
         )
 
 ##                --disable-use-deprecations \
 ##                --disable-deprecated-api \
-	
-	if test $? -ne 0; then
-		echo "configure failed - log available: libgtkmm-$TARGET/configure.log"
-		exit 1
-	fi
+  
+  if test $? -ne 0; then
+    echo "configure failed - log available: libgtkmm-$TARGET/configure.log"
+    exit 1
+  fi
         
-	echo "Building Libgtkmm"
+  echo "Building Libgtkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: libgtkmm-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: libgtkmm-$TARGET/make.log"
+    exit 1
+  fi
 
         
-	cd "$BUILDDIR/libgtkmm-$TARGET"
-	echo "Installing Libgtkmm"
+  cd "$BUILDDIR/libgtkmm-$TARGET"
+  echo "Installing Libgtkmm"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
@@ -635,22 +635,22 @@ build_gtkmm()
             echo "install failed - log available: libgtkmm-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 build_dbus()
 {
-	cd "$BUILDDIR"
+  cd "$BUILDDIR"
 
         if [ ! -e dbus-git ]; then
-	    git clone git://anongit.freedesktop.org/dbus/dbus dbus-git
-	fi
-	
-	cd "$BUILDDIR"
-	rm -rf "dbus-$TARGET"
-	mkdir "dbus-$TARGET"
+      git clone git://anongit.freedesktop.org/dbus/dbus dbus-git
+  fi
+  
+  cd "$BUILDDIR"
+  rm -rf "dbus-$TARGET"
+  mkdir "dbus-$TARGET"
 
-	cd "$BUILDDIR/dbus-$TARGET"
+  cd "$BUILDDIR/dbus-$TARGET"
 
         echo "Configuring Dbus"
         (   . $TOPDIR/mingw32-x -gtk2.14
@@ -674,9 +674,9 @@ build_dbus()
                 -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
                 -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
                 -DDBUS_USE_EXPAT=ON \
-		-DLIBEXPAT_INCLUDE_DIR:PATH=$PREFIX/include -DLIBEXPAT_LIBRARIES:PATH=$PREFIX/lib/libexpat.dll.a  \
+                -DLIBEXPAT_INCLUDE_DIR:PATH=$PREFIX/include -DLIBEXPAT_LIBRARIES:PATH=$PREFIX/lib/libexpat.dll.a  \
                 -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
-		-DDBUS_BUILD_TESTS=OFF \
+                -DDBUS_BUILD_TESTS=OFF \
                 -DDBUS_ENABLE_XML_DOCS=OFF \
                 -DDBUS_ENABLE_DOXYGEN_DOCS=OFF \
                 -DDBUS_REPLACE_LOCAL_DIR=ON \
@@ -684,41 +684,40 @@ build_dbus()
                 -DDBUS_DISABLE_ASSERTS=ON \
                 -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch: \
                 -DDBUS_USE_OUTPUT_DEBUG_STRING=OFF
-	)
-	if test $? -ne 0; then
-		echo "configure failed - log available: dbus-$TARGET/configure.log"
-		exit 1
-	fi
+  )
+  if test $? -ne 0; then
+    echo "configure failed - log available: dbus-$TARGET/configure.log"
+    exit 1
+  fi
 
-	echo "Building Dbus"
+  echo "Building Dbus"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
-	if test $? -ne 0; then
-		echo "make failed - log available: dbus-$TARGET/make.log"
-		exit 1
-	fi
+  if test $? -ne 0; then
+    echo "make failed - log available: dbus-$TARGET/make.log"
+    exit 1
+  fi
 
-        
-	cd "$BUILDDIR/dbus-$TARGET"
-	echo "Installing Dbus"
+  cd "$BUILDDIR/dbus-$TARGET"
+  echo "Installing Dbus"
         (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
-	cp -a bin/libdbus-1.dll.a $PREFIX/lib
+  cp -a bin/libdbus-1.dll.a $PREFIX/lib
 
         sed -e "s|@prefix@|$PREFIX|g" \
             -e "s|@exec_prefix@|$PREFIX/bin|g" \
             -e "s|@libdir@|$PREFIX/lib|g" \
             -e "s|@includedir@|$PREFIX/include|g" \
             -e "s|@VERSION@|1.5.4|g" \
-	< $BUILDDIR/dbus-git/dbus-1.pc.in > $PREFIX/lib/pkgconfig/dbus-1.pc
+             < $BUILDDIR/dbus-git/dbus-1.pc.in > $PREFIX/lib/pkgconfig/dbus-1.pc
 
         if test $? -ne 0; then
             echo "install failed - log available: dbus-$TARGET/make-install.log"
             exit 1
         fi
-	cd "$TOPDIR"
+  cd "$TOPDIR"
 }
 
 download

@@ -31,7 +31,11 @@
 #include <process.h>
 #include <mmsystem.h>
 #include <mmreg.h>
+#if defined (HAVE_DXERR_H)
 #include <dxerr.h>
+#elif defined(HAVE_DXERR8_H)
+#include <dxerr8.h>
+#endif
 #ifndef DXGetErrorString8
 #define DXGetErrorString8 DXGetErrorString
 #endif

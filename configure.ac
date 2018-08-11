@@ -306,6 +306,10 @@ then
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
 
+   AC_CHECK_HEADERS([dxerr.h dxerr8.h], [], [],
+[[#include <windows.h>
+]])
+
    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>

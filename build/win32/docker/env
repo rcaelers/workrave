@@ -9,3 +9,5 @@ export PKG_CONFIG_PATH="$CROSSROOT/lib/pkgconfig"
 export PKG_CONFIG_LIBDIR="$CROSSROOT/lib/pkgconfig"
 
 export TARGET=i686-w64-mingw32
+
+export SYSROOT=/usr/$TARGET/
