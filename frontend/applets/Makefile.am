@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		win32 common gnome2 gnome3 indicator gnome-shell cinnamon xfce mate
+SUBDIRS = 		win32 common gnome3 indicator gnome-shell cinnamon xfce mate

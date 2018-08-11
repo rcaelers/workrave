@@ -27,10 +27,6 @@
 
 #include "AppletControl.hh"
 
-#if defined(HAVE_PANELAPPLET2)
-#include "GnomeAppletWindow.hh"
-#endif
-
 #ifdef PLATFORM_OS_UNIX
 #include "X11SystrayAppletWindow.hh"
 #endif
@@ -90,10 +86,6 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#if defined(HAVE_PANELAPPLET2)
-  applets[APPLET_GNOME] = new GnomeAppletWindow();
-#endif
-
 #ifdef HAVE_DBUS_GIO
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
@@ -141,15 +133,6 @@ AppletControl::show()
   TRACE_MSG("Generic" << rc);
   if (rc == AppletWindow::APPLET_STATE_ACTIVE)
     {
-      specific = true;
-    }
-
-  rc = activate_applet(APPLET_GNOME);
-  TRACE_MSG("Gnome " << rc);
-  if (rc != AppletWindow::APPLET_STATE_DISABLED)
-    {
-      // Applet now active or pending.
-      // Don't try to activate generic applet (systray)
       specific = true;
     }
 
@@ -204,7 +187,7 @@ AppletControl::show(AppletType type)
 #ifdef PLATFORM_OS_UNIX
   if (applets[APPLET_TRAY] != NULL)
     {
-      if (type == APPLET_GNOME && specific)
+      if (specific)
         {
           deactivate_applet(APPLET_TRAY);
         }
@@ -240,7 +223,7 @@ AppletControl::on_applet_state_changed(AppletType type, AppletWindow::AppletStat
   applet_state[type] = state;
 
 #ifdef PLATFORM_OS_UNIX
-  if (is_active(type) && (type == APPLET_GNOME || type == APPLET_GENERIC_DBUS))
+  if (is_active(type) && (type == APPLET_GENERIC_DBUS))
     {
       TRACE_MSG("Deactivate tray");
       deactivate_applet(APPLET_TRAY);

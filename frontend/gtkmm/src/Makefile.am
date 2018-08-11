@@ -19,18 +19,11 @@ bin_PROGRAMS = 		workrave
 
 endif
 
-DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
+DEFS = @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/intl
 
 extrasources =
 extranodistsources = 
-
-# Additional Gnome applet sources
-sourcesgnome2 =		GnomeAppletWindow.cc GnomeAppletMenu.cc  Plug.cc 
-
-if !HAVE_DBUS_GIO
-sourcesgnome2 += DBusGnomeApplet.cc
-endif
 
 # Additional Indicator applet sources
 sourcesindicator = 	IndicatorAppletMenu.cc
@@ -66,25 +59,7 @@ sourcesexercises = 	../../plugin/exercises/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 sourcesstatistics =	../../plugin/statistics/gtkmm/src/StatisticsDialog.cc
 
-if HAVE_PYTHON_CHEETAH
-GNOME_APPLET_HOME =	$(top_srcdir)/frontend/applets/gnome2/src
-
-DBusGnomeApplet.cc:	$(GNOME_APPLET_HOME)/gnome-applet.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.cc \
-		    	$(top_srcdir)/common/bin/DBus-client-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(GNOME_APPLET_HOME)/gnome-applet.xml DBUSGnomeApplet
-
-endif
-
-DBusGnomeApplet.hh:	DBusGnomeApplet.cc
-GnomeAppletWindow.cc:   DBusGnomeApplet.hh
-
 if HAVE_APP_GTKMM
-
-if HAVE_PANELAPPLET2
-extrasources +=		$(sourcesgnome2)
-endif
 
 if HAVE_INDICATOR
 extrasources += 	$(sourcesindicator)

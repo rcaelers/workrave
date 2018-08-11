@@ -469,7 +469,7 @@ workrave_applet_init(WorkraveApplet *applet)
   priv->image = NULL;
   priv->timerbox_control = NULL;
   priv->alive = FALSE;
-  
+
   workrave_applet_fill(applet);
 }
 

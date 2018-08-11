@@ -11,9 +11,9 @@ CLEANFILES 	= $(applet_DATA) $(applet_DATA).in $(schemas_DATA)
 
 MAINTAINERCLEANFILES =  Makefile.in DBusGnomeApplet.xml DBusGUI.xml
 
-SUBDIRS = 
+SUBDIRS =
 
-if HAVE_PANELAPPLET45
+if HAVE_PANELAPPLET
 
 xmluidir    			= $(datadir)/gnome-panel/ui
 applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
@@ -23,7 +23,9 @@ if HAVE_PANELAPPLET4
 appletdir       		= $(datadir)/gnome-panel/4.0/applets
 xmlui_DATA  			= v4/workrave-gnome-applet-menu.xml
 applet_source 			= v4/WorkraveApplet.c
+
 else
+
 if LOCALINSTALL
 appletdir			= $(datadir)/gnome-panel/applets
 else
@@ -31,6 +33,7 @@ appletdir			= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanel-applet`
 endif
 xmlui_DATA  			= v5/workrave-gnome-applet-menu.xml
 applet_source 			= v5/WorkraveApplet.c
+
 endif
 
 APPLET_IN_PROCESS 		= true

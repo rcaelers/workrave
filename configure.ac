@@ -63,10 +63,6 @@ AC_ARG_ENABLE(gsettings,
               [AS_HELP_STRING([--disable-gsettings],
                               [compile without GSettings support])])
 
-AC_ARG_ENABLE(gnome2,
-              [AS_HELP_STRING([--disable-gnome2],
-                              [compile without Gnome 2 support])])
-
 AC_ARG_ENABLE(gnome3,
               [AS_HELP_STRING([--disable-gnome3],
                               [compile without Gnome 3 support])])
@@ -300,7 +296,6 @@ then
     #fi
 
     enable_gconf=no
-    enable_gnome2=no
     enable_gnome3=no
     enable_xml=no
     enable_indicator=no
@@ -353,7 +348,6 @@ then
                                         LIBS="$LIBS -framework IOKit -framework CoreFoundation"
                                      ])])
 
-    config_gnome2=no
     config_gnome3=no
     config_gconf=no
 
@@ -575,11 +569,6 @@ dnl
 dnl Gnome
 dnl
 
-if test "x$enable_gnome3" = "xyes" -a "x$enable_gnome2" = "xyes"; then
-   AC_MSG_ERROR([Cannot compile for both Gnome 2 and 3 at the moment.])
-fi
-
-config_gnome2=no
 config_gnome3=no
 config_panelapplet4=no
 
@@ -590,7 +579,7 @@ then
                       [config_gnome3=yes
                        config_panelapplet5=yes
 
-                       AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5])
+                       AC_DEFINE(HAVE_PANELAPPLET,  1, [Support for Gnome panel applet v4/v5])
                        AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])],
                        [ ])
 
@@ -600,7 +589,7 @@ then
                          [libpanelapplet-4.0 gio-2.0 >= 2.26.0],
                          [config_gnome3=yes
                           config_panelapplet4=yes
-                          AC_DEFINE(HAVE_PANELAPPLET45, 1, [Support for Gnome panel applet v4/v5]),
+                          AC_DEFINE(HAVE_PANELAPPLET,  1, [Support for Gnome panel applet v4/v5]),
                           AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
                           [if test "x$enable_gnome3" = "xyes"; then
                              AC_MSG_ERROR([Gnome 3 development headers not found.])
@@ -608,46 +597,9 @@ then
     fi
 fi
 
-if test "x$enable_gnome2" != "xno" -a "x$config_gnome3" = "xno"  -a "x$config_dbus" = "xyes"
-then
-    PKG_CHECK_MODULES([GNOME2],
-                      [libpanelapplet-2.0 >= 2.0.10 \
-                       libbonobo-2.0 >= 2.0.0 \
-                       gtk+-2.0 >= 2.6.0 \
-                       gdk-2.0 >= 2.8 \
-                       dbus-glib-1],
-                      [config_gnome2=yes
-                       config_panelapplet2=yes
-                       AC_DEFINE(HAVE_PANELAPPLET2, 1, [Support for Gnome panel applet v2])],
-                       PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
-                                       [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])]),
-                      [if test "x$enable_gnome2" = "xyes"; then
-                          AC_MSG_ERROR([Gnome 2 development headers not found.])
-                       fi])
-fi
-
-
-if test "x$config_gnome2" = "xyes"
-then
-    AC_DEFINE([HAVE_GNOME2], , [Define if Gnome 2 is available])
-fi
-if test "x$config_gnome3" = "xyes"
-then
-    AC_DEFINE([HAVE_GNOME3], , [Define if Gnome 3 is available])
-fi
-if test "x$config_gnome2" = "xyes" -o "x$config_gnome3" = "xyes"
-then
-    AC_DEFINE([HAVE_GNOME], , [Define if Gnome 2 or 3 is available])
-fi
-
-AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome2" = "xyes" -o "x$config_gnome3" = "xyes")
-AM_CONDITIONAL(HAVE_GNOME2, test "x$config_gnome2" = "xyes")
-AM_CONDITIONAL(HAVE_GNOME3, test "x$config_gnome3" = "xyes")
-AM_CONDITIONAL(HAVE_PANELAPPLET2, test "x$config_panelapplet2" = "xyes")
-AM_CONDITIONAL(HAVE_PANELAPPLET45, test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet5" = "xyes")
+AM_CONDITIONAL(HAVE_PANELAPPLET,   test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet5" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET5, test "x$config_panelapplet5" = "xyes")
-AM_CONDITIONAL(HAVE_PANELAPPLET, test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet5" = "xyes" -o "x$config_panelapplet2" = "xyes")
 
 dnl
 dnl GLIB
@@ -677,33 +629,30 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
-if test "x$enable_gnome2" != "xyes"
+PKG_CHECK_MODULES(GTK,
+                     glib-2.0 >= 2.28.0
+                     gio-2.0 >= 2.26.0
+                     gtk+-3.0 >= 3.0.0
+                     gdk-3.0 >= 3.0.0
+                     sigc++-2.0 >= 2.2.4.2
+                     glibmm-2.4 >= 2.28.0
+                     gtkmm-3.0 >= 3.0.0,
+                     [config_gtk=yes
+                      config_gtk_version=3
+                      AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
+                      AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
+
+if test x$config_gtk = xno
 then
    PKG_CHECK_MODULES(GTK,
-                        glib-2.0 >= 2.28.0
-                        gio-2.0 >= 2.26.0
-                        gtk+-3.0 >= 3.0.0
-                        gdk-3.0 >= 3.0.0
-                        sigc++-2.0 >= 2.2.4.2
-                        glibmm-2.4 >= 2.28.0
-                        gtkmm-3.0 >= 3.0.0,
-                        [config_gtk=yes
-                         config_gtk_version=3
-                         AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
-
-   if test x$config_gtk = xno
-   then
-      PKG_CHECK_MODULES(GTK,
-                        gtk+-2.0 >= 2.6.0 \
-                        gdk-2.0 >= 2.8 \
-                        sigc++-2.0 \
-                        glibmm-2.4 >= 2.10 \
-                        gtkmm-2.4 >= 2.10,
-                        [config_gtk=yes
-                         config_gtk_version=2
-                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
-   fi
+                     gtk+-2.0 >= 2.6.0 \
+                     gdk-2.0 >= 2.8 \
+                     sigc++-2.0 \
+                     glibmm-2.4 >= 2.10 \
+                     gtkmm-2.4 >= 2.10,
+                     [config_gtk=yes
+                      config_gtk_version=2
+                      AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
 fi
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
@@ -970,7 +919,7 @@ config_pulse=no
 
 if test "$platform_os_unix" = "yes" -a "x$enable_pulse" != "xno"
 then
-           PA_REQUIRED_VERSION=0.9.15
+    PA_REQUIRED_VERSION=0.9.15
     PKG_CHECK_MODULES([PULSE],
                       [glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION],
                       [config_pulse=yes
@@ -1069,7 +1018,6 @@ AC_SUBST(WR_LDFLAGS)
 AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
 AC_SUBST(WR_COMMON_INCLUDES)
 AC_SUBST(WR_BACKEND_INCLUDES)
-
 
 dnl
 dnl Defines
@@ -1179,8 +1127,6 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/common/Makefile
              frontend/applets/common/src/Makefile
              frontend/applets/common/include/Makefile
-             frontend/applets/gnome2/Makefile
-             frontend/applets/gnome2/src/Makefile
              frontend/applets/gnome3/Makefile
              frontend/applets/gnome3/src/Makefile
              frontend/applets/indicator/Makefile
@@ -1254,7 +1200,6 @@ echo "            Activity Monitors :   ${enable_monitors}"
 echo ""
 fi
 echo "                      Gtk GUI :   ${config_gtk} (Gtk${config_gtk_version})"
-echo "              Gnome 2 support :   ${config_gnome2}"
 echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
