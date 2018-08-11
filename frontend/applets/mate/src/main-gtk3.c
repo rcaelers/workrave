@@ -33,7 +33,7 @@
 typedef struct _WorkraveApplet
 {
   MatePanelApplet *applet;
-  GSimpleActionGroup *action_group;
+  GtkActionGroup *action_group;
   WorkraveTimerboxControl *timerbox_control;
   GtkImage *image;
   gboolean alive;
@@ -49,27 +49,26 @@ struct Menuitems
   gboolean autostart;
   gboolean visible_when_not_running;
   char *action;
-  char *state;
   char *dbuscmd;
 };
 
 static struct Menuitems menu_data[] =
   {
-    { MENU_COMMAND_OPEN,                  TRUE,  TRUE,  "open",         NULL,         "OpenMain"          },
-    { MENU_COMMAND_PREFERENCES,           FALSE, FALSE, "preferences",  NULL,         "Preferences"       },
-    { MENU_COMMAND_EXERCISES,             FALSE, FALSE, "exercises",    NULL,         "Exercises"         },
-    { MENU_COMMAND_REST_BREAK,            FALSE, FALSE, "restbreak",    NULL,         "RestBreak"         },
-    { MENU_COMMAND_MODE_NORMAL,           FALSE, FALSE, "mode",         "normal",     NULL                },
-    { MENU_COMMAND_MODE_QUIET,            FALSE, FALSE, "mode",         "quiet",      NULL                },
-    { MENU_COMMAND_MODE_SUSPENDED,        FALSE, FALSE, "mode",         "suspended",  NULL                },
-    { MENU_COMMAND_NETWORK_CONNECT,       FALSE, FALSE, "join",         NULL,         "NetworkConnect"    },
-    { MENU_COMMAND_NETWORK_DISCONNECT,    FALSE, FALSE, "disconnect",   NULL,         "NetworkDisconnect" },
-    { MENU_COMMAND_NETWORK_LOG,           FALSE, FALSE, "showlog",      NULL,         "NetworkLog"        },
-    { MENU_COMMAND_NETWORK_RECONNECT,     FALSE, FALSE, "reconnect",    NULL,         "NetworkReconnect"  },
-    { MENU_COMMAND_STATISTICS,            FALSE, FALSE, "statistics",   NULL,         "Statistics"        },
-    { MENU_COMMAND_ABOUT,                 FALSE, TRUE,  "about",        NULL,         NULL                },
-    { MENU_COMMAND_MODE_READING,          FALSE, FALSE, "readingmode",  NULL,         "ReadingMode"       },
-    { MENU_COMMAND_QUIT,                  FALSE, FALSE, "quit",         NULL,         "Quit"              }
+    { MENU_COMMAND_OPEN,                  TRUE,  TRUE,  "Open",           "OpenMain"          },
+    { MENU_COMMAND_PREFERENCES,           FALSE, FALSE, "Preferences",    "Preferences"       },
+    { MENU_COMMAND_EXERCISES,             FALSE, FALSE, "Exercises",      "Exercises"         },
+    { MENU_COMMAND_REST_BREAK,            FALSE, FALSE, "Restbreak",      "RestBreak"         },
+    { MENU_COMMAND_MODE_NORMAL,           FALSE, FALSE, "Normal",         NULL                },
+    { MENU_COMMAND_MODE_QUIET,            FALSE, FALSE, "Quiet",          NULL                },
+    { MENU_COMMAND_MODE_SUSPENDED,        FALSE, FALSE, "Suspended",      NULL                },
+    { MENU_COMMAND_NETWORK_CONNECT,       FALSE, FALSE, "Join",           "NetworkConnect"    },
+    { MENU_COMMAND_NETWORK_DISCONNECT,    FALSE, FALSE, "Disconnect",     "NetworkDisconnect" },
+    { MENU_COMMAND_NETWORK_LOG,           FALSE, FALSE, "ShowLog",        "NetworkLog"        },
+    { MENU_COMMAND_NETWORK_RECONNECT,     FALSE, FALSE, "Reconnect",      "NetworkReconnect"  },
+    { MENU_COMMAND_STATISTICS,            FALSE, FALSE, "Statistics",     "Statistics"        },
+    { MENU_COMMAND_ABOUT,                 FALSE, TRUE,  "About",          NULL                },
+    { MENU_COMMAND_MODE_READING,          FALSE, FALSE, "ReadingMode",    "ReadingMode"       },
+    { MENU_COMMAND_QUIT,                  FALSE, FALSE, "Quit",           "Quit"              }
   };
 
 int
@@ -109,8 +108,8 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
     {
       for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
         {
-          GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->action_group), menu_data[i].action);
-          g_simple_action_set_enabled(G_SIMPLE_ACTION(action), menu_data[i].visible_when_not_running);
+          GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[i].action);
+          gtk_action_set_visible(action, menu_data[i].visible_when_not_running);
         }
     }
 }
@@ -118,7 +117,6 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)user_data;
-  applet->inhibit++;
 
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
@@ -141,7 +139,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
           continue;
         }
 
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->action_group), menu_data[index].action);
+      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[index].action);
 
       if (flags & MENU_ITEM_FLAG_SUBMENU_END ||
           flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
@@ -151,19 +149,10 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
       visible[index] = TRUE;
 
-      if (g_action_get_state_type(G_ACTION(action)) != NULL)
+      if (GTK_IS_TOGGLE_ACTION(action))
         {
-          if (menu_data[index].state == NULL)
-            {
-              g_simple_action_set_state(G_SIMPLE_ACTION(action), g_variant_new_boolean(flags & MENU_ITEM_FLAG_ACTIVE));
-            }
-          else
-            {
-              if (flags & MENU_ITEM_FLAG_ACTIVE)
-                {
-                  g_simple_action_set_state(G_SIMPLE_ACTION(action), g_variant_new_string(menu_data[index].state));
-                }
-            }
+          GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+          gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
         }
     }
 
@@ -171,10 +160,9 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
 
   for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
     {
-      GAction *action = g_action_map_lookup_action(G_ACTION_MAP(applet->action_group), menu_data[i].action);
-      g_simple_action_set_enabled(G_SIMPLE_ACTION(action), visible[i]);
+      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[i].action);
+      gtk_action_set_visible(action, visible[i]);
     }
-  applet->inhibit--;
 }
 
 
@@ -220,20 +208,14 @@ on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
                         "translator-credits", workrave_translators,
                         "authors", workrave_authors,
                         "logo", pixbuf,
-                        NULL);
+                         NULL);
   g_object_unref(pixbuf);
 }
 
 static void
-on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+on_menu_command(GtkAction *action, WorkraveApplet *applet)
 {
-  WorkraveApplet *applet = (WorkraveApplet *)(user_data);
-  if (applet->inhibit > 0)
-    {
-      return;
-    }
-
-  int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
+  int index = lookup_menu_index_by_action(gtk_action_get_name(action));
   if (index == -1)
     {
       return;
@@ -253,33 +235,23 @@ on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
     }
 }
 
-static void
-on_menu_mode(GSimpleAction *action, GVariant *parameter, gpointer user_data)
-{
-  g_action_change_state (G_ACTION(action), parameter);
-}
 
 static void
-on_menu_toggle(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+on_menu_toggle(GtkAction *action, WorkraveApplet *applet)
 {
-  GVariant *state = g_action_get_state(G_ACTION(action));
-  gboolean new_state = !g_variant_get_boolean(state);
-  g_action_change_state (G_ACTION(action), g_variant_new_boolean(new_state));
-  g_variant_unref(state);
-}
+  gboolean new_state = FALSE;
 
-static void
-on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
-{
-  WorkraveApplet *applet = (WorkraveApplet *)(user_data);
-  gboolean new_state = g_variant_get_boolean(value);
-  int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
+  if (GTK_IS_TOGGLE_ACTION(action))
+    {
+      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+      new_state = gtk_toggle_action_get_active(toggle);
+    }
+
+  int index = lookup_menu_index_by_action(gtk_action_get_name(action));
   if (index == -1)
     {
       return;
     }
-
-  g_simple_action_set_state(action, value);
 
   GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->timerbox_control);
   if (proxy != NULL)
@@ -295,42 +267,112 @@ on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_dat
     }
 }
 
+
 static void
-on_menu_mode_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
+on_menu_mode_changed(GtkRadioAction *action, GtkRadioAction *current, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)(user_data);
-  const gchar *mode = g_variant_get_string(value, 0);
+  const char *modes[] = { "normal", "suspended", "quiet" };
+  int mode = 0;
 
-  g_simple_action_set_state(action, value);
-
-  GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(applet->timerbox_control);
-  if (proxy != NULL)
+  if (GTK_IS_RADIO_ACTION(action))
     {
-      g_dbus_proxy_call(proxy,
-                        "SetOperationMode",
-                        g_variant_new("(s)", mode),
-                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
-                        -1,
-                        NULL,
-                        (GAsyncReadyCallback) dbus_call_finish,
-                        &applet);
+      GtkRadioAction *toggle = GTK_RADIO_ACTION(action);
+      mode = gtk_radio_action_get_current_value(toggle);
+    }
+
+  if (mode >= 0 && mode < G_N_ELEMENTS(modes))
+    {
+      GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(applet->timerbox_control);
+      if (proxy != NULL)
+        {
+          g_dbus_proxy_call(proxy,
+                            "SetOperationMode",
+                            g_variant_new("(s)", modes[mode]),
+                            G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                            -1,
+                            NULL,
+                            (GAsyncReadyCallback) dbus_call_finish,
+                            &applet);
+        }
     }
 }
 
-static const GActionEntry menu_actions [] = {
-  { "open",        on_menu_command    },
-  { "statistics",  on_menu_command    },
-  { "preferences", on_menu_command    },
-  { "exercises",   on_menu_command    },
-  { "restbreak",   on_menu_command    },
-  { "mode",        on_menu_mode,   "s", "'normal'", on_menu_mode_changed },
-  { "join",        on_menu_command    },
-  { "disconnect",  on_menu_command    },
-  { "reconnect",   on_menu_command    },
-  { "showlog",     on_menu_toggle, NULL, "false", on_menu_toggle_changed },
-  { "readingmode", on_menu_toggle, NULL, "false", on_menu_toggle_changed },
-  { "about",       on_menu_about      },
-  { "quit",        on_menu_command    },
+
+static const GtkActionEntry menu_actions [] = {
+  { "Open", GTK_STOCK_OPEN, N_("_Open"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Statistics", NULL, N_("_Statistics"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Exercises", NULL, N_("_Exercises"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Restbreak", NULL, N_("_Restbreak"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Mode", NULL, N_("_Mode"),
+    NULL, NULL,
+    NULL },
+
+  { "Network", NULL, N_("_Network"),
+    NULL, NULL,
+    NULL },
+
+  { "Join", NULL, N_("_Join"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Disconnect", NULL, N_("_Disconnect"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "Reconnect", NULL, N_("_Reconnect"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+
+  { "About", GTK_STOCK_ABOUT, N_("_About"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_about) },
+
+  { "Quit", GTK_STOCK_QUIT, N_("_Quit"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_command) },
+};
+
+
+static const GtkToggleActionEntry toggle_actions[] = {
+    { "ShowLog", NULL, N_("Show log"),
+      NULL, NULL,
+      G_CALLBACK(on_menu_toggle), FALSE },
+
+    { "ReadingMode", NULL, N_("Reading mode"),
+      NULL, NULL,
+      G_CALLBACK(on_menu_toggle), FALSE },
+};
+
+
+static const GtkRadioActionEntry mode_actions[] = {
+    { "Normal", NULL, N_("Normal"),
+      NULL, NULL,
+      0 },
+
+    { "Suspended", NULL, N_("Suspended"),
+      NULL, NULL,
+      1 },
+
+    { "Quiet", NULL, N_("Quiet"),
+      NULL, NULL,
+      2 },
 };
 
 static void workrave_applet_fill(WorkraveApplet *applet)
@@ -347,14 +389,22 @@ static void workrave_applet_fill(WorkraveApplet *applet)
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
 
-  applet->action_group = g_simple_action_group_new();
-  g_action_map_add_action_entries (G_ACTION_MAP (applet->action_group),
-                                   menu_actions,
-                                   G_N_ELEMENTS (menu_actions),
-                                   applet->applet);
-
-  gtk_widget_insert_action_group (GTK_WIDGET(applet->applet), "workrave",
-                                  G_ACTION_GROUP(applet->action_group));
+  applet->action_group = gtk_action_group_new("WorkraveAppletActions");
+  gtk_action_group_set_translation_domain(applet->action_group, GETTEXT_PACKAGE);
+  gtk_action_group_add_actions(applet->action_group,
+                               menu_actions,
+                               G_N_ELEMENTS (menu_actions),
+                               applet);
+  gtk_action_group_add_toggle_actions(applet->action_group,
+                                      toggle_actions,
+                                      G_N_ELEMENTS (toggle_actions),
+                                      applet);
+  gtk_action_group_add_radio_actions (applet->action_group,
+                                      mode_actions,
+                                      G_N_ELEMENTS(mode_actions),
+                                      0,
+                                      G_CALLBACK(on_menu_mode_changed),
+                                      applet);
 
 	gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
 	mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);
