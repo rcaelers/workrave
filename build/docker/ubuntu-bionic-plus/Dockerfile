@@ -1,12 +1,22 @@
-FROM ubuntu:zesty
+FROM ubuntu:bionic
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
 RUN \
-  export DEBIAN_FRONTEND=noninteractive && \
+  export DEBIAN_FRONTEND=noninteractive && \ 
+  echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99translations > /dev/null && \
   apt-get update -y && \
-  apt-get install -y \
+  apt-get install -y curl software-properties-common && \
+  curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
+  add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" && \
+  add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
+  apt-get update -y && \
+  apt-get --no-install-recommends install -y \
+    build-essential \
+    clang-4.0 \
     cmake \
+    g++-6 \
+    gcc-6 \
     gettext \
     git \
     gobject-introspection \
@@ -28,25 +38,30 @@ RUN \
     libgirepository1.0-dev \
     libgstreamer1.0-dev \
     libgtk-3-dev \
+    libgtk2.0-dev \
+    libgtkmm-2.4-dev \
     libgtkmm-3.0-dev \
     libindicator3-dev \
     libmate-panel-applet-dev \
     libpanel-applet-dev \
     libpulse-dev \
+    libqt5svg5-dev \
+    libqt5x11extras5-dev \
     libssl-dev \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
     python3-pip \
-    xfce4-panel-dev \
+    python3-setuptools \
     qtbase5-dev \
+    qtbase5-private-dev \
     qttools5-dev-tools \
-    libqt5svg5-dev \
-    libqt5x11extras5-dev \
-    qtbase5-private-dev
+    xfce4-panel-dev && \
+  apt-get clean
+
 
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2==2.8
+RUN pip3 install Jinja2 # ==2.8
 
 CMD ["/bin/bash"]

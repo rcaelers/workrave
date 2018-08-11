@@ -1,22 +1,12 @@
-FROM ubuntu:zesty
+FROM ubuntu:cosmic
 
-MAINTAINER Rob Caelers <rob.caelers@gmail.com>
+LABEL maintainer "Rob Caelers <rob.caelers@gmail.com>"
 
 RUN \
-  export DEBIAN_FRONTEND=noninteractive && \ 
-  echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99translations > /dev/null && \
+  export DEBIAN_FRONTEND=noninteractive && \
   apt-get update -y && \
-  apt-get install -y curl software-properties-common && \
-  curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-  add-apt-repository "deb http://apt.llvm.org/zesty/ llvm-toolchain-zesty-4.0 main" && \
-  add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
-  apt-get update -y && \
-  apt-get --no-install-recommends install -y \
-    build-essential \
-    clang-4.0 \
+  apt-get install -y \
     cmake \
-    g++-6 \
-    gcc-6 \
     gettext \
     git \
     gobject-introspection \
@@ -38,28 +28,23 @@ RUN \
     libgirepository1.0-dev \
     libgstreamer1.0-dev \
     libgtk-3-dev \
-    libgtk2.0-dev \
-    libgtkmm-2.4-dev \
     libgtkmm-3.0-dev \
     libindicator3-dev \
     libmate-panel-applet-dev \
     libpanel-applet-dev \
     libpulse-dev \
-    libqt5svg5-dev \
-    libqt5x11extras5-dev \
     libssl-dev \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
     python3-pip \
-    python3-setuptools \
+    xfce4-panel-dev \
     qtbase5-dev \
-    qtbase5-private-dev \
     qttools5-dev-tools \
-    xfce4-panel-dev && \
-  apt-get clean
-
+    libqt5svg5-dev \
+    libqt5x11extras5-dev \
+    qtbase5-private-dev
 
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2==2.8

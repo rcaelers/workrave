@@ -1,4 +1,4 @@
-FROM fedora:25
+FROM fedora:28
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -26,4 +26,4 @@ RUN mkdir -p /workspace && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
 
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2==2.8
+RUN pip3 install Jinja2 # ==2.8

@@ -26,12 +26,11 @@ RUN dnf -y install \
                 wine \
                 xz
 
-
 RUN mkdir -p /workspace
 
 RUN cd /workspace && \
-    curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
-    innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
+    curl -O http://files.jrsoftware.org/is/5/innoisetup-5.5.9-unicode.exe && \
+    innoextract -d /workspace/inno ./innosetup-5.5.9-unicode.exe && rm ./innosetup-5.5.9-unicode.exe
 
 RUN cd /workspace && \
     curl -O https://snapshots.workrave.org/.prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
@@ -40,4 +39,4 @@ RUN cd /workspace && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
 
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2==2.8
+RUN pip3 install Jinja2 # ==2.8

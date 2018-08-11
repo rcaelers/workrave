@@ -1,6 +1,6 @@
-FROM ubuntu:yakkety
+FROM ubuntu:bionic
 
-MAINTAINER Rob Caelers <rob.caelers@gmail.com>
+LABEL maintainer "Rob Caelers <rob.caelers@gmail.com>"
 
 RUN \
   export DEBIAN_FRONTEND=noninteractive && \
@@ -44,8 +44,7 @@ RUN \
     qttools5-dev-tools \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
-    qtbase5-private-dev && \
-  apt-get clean
+    qtbase5-private-dev
 
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2==2.8
