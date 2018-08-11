@@ -24,23 +24,23 @@ env:
   - >
     CONF_GTK_VER=2
     CONF_ENABLE="gconf,gstreamer,exercises"
-    CONF_DISABLE="gnome2,gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,manual,experimental"
+    CONF_DISABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,manual,experimental"
   - >
     CONF_GTK_VER=2
     CONF_ENABLE="xml,dbus,distribution,pulse,xfce,exercises,manual"
-    CONF_DISABLE="gnome2,gnome3,gconf,gsettings,gstreamer,mate,indicator,experimental"
+    CONF_DISABLE="gnome3,gconf,gsettings,gstreamer,mate,indicator,experimental"
   - >
     CONF_GTK_VER=2
     CONF_ENABLE="gsettings,pulse,xfce,exercises,manual"
-    CONF_DISABLE="gnome2,gnome3,xml,gconf,gstreamer,dbus,mate,indicator,distribution,experimental"
+    CONF_DISABLE="gnome3,xml,gconf,gstreamer,dbus,mate,indicator,distribution,experimental"
   - >
     CONF_GTK_VER=3
     CONF_ENABLE="gnome3,gsettings,gstreamer,pulse,exercises"
-    CONF_DISABLE="gnome2,gconf,xml,dbus,indicator,mate,xfce,distribution,manual,experimental"
+    CONF_DISABLE="gconf,xml,dbus,indicator,mate,xfce,distribution,manual,experimental"
   - >
     CONF_GTK_VER=3
     CONF_ENABLE="gnome3,gsettings,indicator,xfce,dbus,distribution,gstreamer,pulse,exercises,manual,experimental"
-    CONF_DISABLE="gnome2,gconf,xml,mate"
+    CONF_DISABLE="gconf,xml,mate"
 os:
   - linux
 #TODO:  - osx
@@ -89,7 +89,6 @@ install:
       `conf_opt_packages gconf libgconf2-dev` \
       `[[ $CONF_GTK_VER = 2 ]] && echo libgtk2.0-dev libgtkmm-2.4-dev` \
       `[[ $CONF_GTK_VER = 3 ]] && echo libgtk-3-dev libgtkmm-3.0-dev` \
-      `conf_opt_packages gnome2 libglib2.0-dev libsigc++-2.0-dev libglibmm-2.4-dev` \
       `conf_opt_packages gnome3 libglib2.0-dev libpanel-applet-4-dev` \
       `conf_opt_packages dbus libdbus-glib-1-dev` \
       `conf_opt_packages gstreamer libgstreamer1.0-dev` \
@@ -108,7 +107,6 @@ before_script:
       `conf_opt gconf` \
       `conf_opt gsettings` \
       `conf_opt xml` \
-      `conf_opt gnome2` \
       `conf_opt gnome3` \
       `conf_opt indicator` \
       `conf_opt xfce` \
