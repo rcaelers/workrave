@@ -41,6 +41,11 @@ apt-get -y -q -V --no-install-recommends install \
         python-cheetah \
         `[[ $CONF_GTK_VER = 2 ]] && echo libgtk2.0-dev libgtkmm-2.4-dev`
 
+if [[ $COMPILER = 'clang' ]] ; then
+    export CC=/usr/bin/clang
+    export CXX=/usr/bin/clang++
+fi
+
 ./autogen.sh
 ./configure \
     --enable-option-checking=fatal \

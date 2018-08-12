@@ -18,38 +18,50 @@ matrix:
       env: >
         COMPILER="gcc"
         DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER=2
+        CONF_GTK_VER="2"
         CONF_ENABLE="gsettings,,exercises,xml,gconf,distribution,experimental"
         CONF_DISABLE="pulse,xfce,gnome3,gstreamer,dbus,mate,indicator"
     - os: linux
       env: >
         COMPILER="gcc"
         DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER=3
+        CONF_GTK_VER="3"
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
     - os: linux
       env: >
         COMPILER="gcc"
         DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER=3
+        CONF_GTK_VER="3"
         CONF_ENABLE="xml,dbus,distribution,pulse,exercises,gsettings,gstreamer"
         CONF_DISABLE="xfce,gnome3,gconf,mate,indicator,experimental"
     - os: linux
       env: >
         COMPILER="gcc"
+        CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-bionic"
     - os: linux
       env: >
         COMPILER="gcc"
-        DOCKER_IMAGE="ubuntu-cosmic
+        CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
+        DOCKER_IMAGE="ubuntu-cosmic"
     - os: linux
       env: >
         COMPILER="gcc"
-        DOCKER_IMAGE="ubuntu-artful
+        CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
+        DOCKER_IMAGE="ubuntu-artful"
     - os: linux
       env: >
         COMPILER="gcc"
+        CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-xenial"
 
 before_install: |
