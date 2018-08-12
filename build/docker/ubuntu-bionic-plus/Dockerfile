@@ -9,14 +9,13 @@ RUN \
   apt-get install -y curl software-properties-common && \
   curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
   add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" && \
-  add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
     build-essential \
-    clang-4.0 \
+    clang-6.0 \
     cmake \
-    g++-6 \
-    gcc-6 \
+    g++-8 \
+    gcc-8 \
     gettext \
     git \
     gobject-introspection \
@@ -60,8 +59,7 @@ RUN \
     xfce4-panel-dev && \
   apt-get clean
 
-
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2 # ==2.8
+RUN pip3 install Jinja2
 
 CMD ["/bin/bash"]

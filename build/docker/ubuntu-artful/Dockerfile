@@ -47,6 +47,6 @@ RUN \
     qtbase5-private-dev
 
 RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2==2.8
+RUN pip3 install Jinja2
 
 CMD ["/bin/bash"]
