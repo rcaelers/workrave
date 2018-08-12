@@ -52,9 +52,9 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const stri
   first_action_time = 0;
   last_action_time = 0;
 
-  noise_threshold = 1 * TimeSource::USEC_PER_SEC;
-  activity_threshold = 2 * TimeSource::USEC_PER_SEC;
-  idle_threshold = 5 * TimeSource::USEC_PER_SEC;
+  noise_threshold = 1 * TimeSource::TIME_USEC_PER_SEC;
+  activity_threshold = 2 * TimeSource::TIME_USEC_PER_SEC;
+  idle_threshold = 5 * TimeSource::TIME_USEC_PER_SEC;
 
   TRACE_EXIT();
 }

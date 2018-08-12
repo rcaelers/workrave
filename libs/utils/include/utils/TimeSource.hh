@@ -30,7 +30,7 @@ namespace workrave
     class TimeSource
     {
     public:
-      static const int64_t USEC_PER_SEC = 1000000;
+      static const int64_t TIME_USEC_PER_SEC = 1000000;
 
       //! Returns the system wall-clock time.
       static int64_t get_real_time_usec();

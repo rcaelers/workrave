@@ -61,25 +61,25 @@ TimeSource::get_monotonic_time_usec()
 int64_t
 TimeSource::get_real_time_sec()
 {
-  return get_real_time_usec() / USEC_PER_SEC;
+  return get_real_time_usec() / TIME_USEC_PER_SEC;
 }
 
 int64_t
 TimeSource::get_monotonic_time_sec()
 {
-  return get_monotonic_time_usec() / USEC_PER_SEC;
+  return get_monotonic_time_usec() / TIME_USEC_PER_SEC;
 }
 
 int64_t
 TimeSource::get_real_time_sec_sync()
 {
-  return synced_real_time / USEC_PER_SEC;
+  return synced_real_time / TIME_USEC_PER_SEC;
 }
 
 int64_t
 TimeSource::get_monotonic_time_sec_sync()
 {
-  return synced_monotonic_time / USEC_PER_SEC;
+  return synced_monotonic_time / TIME_USEC_PER_SEC;
 }
 
 void
