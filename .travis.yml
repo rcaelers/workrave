@@ -36,7 +36,7 @@ matrix:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-artful
+        DOCKER_IMAGE="ubuntu-artful"
     - os: linux
       env: >
         COMPILER="gcc"
