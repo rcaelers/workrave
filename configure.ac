@@ -745,7 +745,7 @@ then
                      AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
                      AC_DEFINE(HAVE_XFCE_GTK3, 1, [Support for xfce applet])
                      ],
-                     [])
+                     [ true ])
 
    if test x$config_xfce != xyes
    then

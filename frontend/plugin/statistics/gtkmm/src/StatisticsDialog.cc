@@ -797,7 +797,7 @@ StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
 #if GTK_CHECK_VERSION (3, 22, 0)
   double width_mm = gdk_monitor_get_width_mm (monitor);
 #elif GTK_CHECK_VERSION (2, 14, 0)
-  doubl width_mm = gdk_screen_get_monitor_width_mm (gscreen, i);
+  double width_mm = gdk_screen_get_monitor_width_mm (screen, 0);
 #endif
 
   double mm = (double) pixels * width_mm / rec.width;

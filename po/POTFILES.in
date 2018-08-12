@@ -55,9 +55,6 @@ common/src/win32/crashlog.c
 common/win32/harpoon/src/harpoon.c
 frontend/applets/common/src/timebar.c
 frontend/applets/common/src/timerbox.c
-frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in
-frontend/applets/gnome2/src/Workrave-Applet.server.in.in
-frontend/applets/gnome2/src/WorkraveApplet.c
 frontend/applets/gnome3/src/v4/WorkraveApplet.c
 frontend/applets/gnome3/src/v5/WorkraveApplet.c
 frontend/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
@@ -88,8 +85,6 @@ frontend/gtkmm/src/Frame.cc
 frontend/gtkmm/src/GUI.cc
 frontend/gtkmm/src/GUIConfig.cc
 frontend/gtkmm/src/GenericDBusApplet.cc
-frontend/gtkmm/src/GnomeAppletMenu.cc
-frontend/gtkmm/src/GnomeAppletWindow.cc
 frontend/gtkmm/src/GtkUtil.cc
 frontend/gtkmm/src/HeadInfo.cc
 frontend/gtkmm/src/Hig.cc
@@ -100,7 +95,6 @@ frontend/gtkmm/src/MainGtkMenu.cc
 frontend/gtkmm/src/MainWindow.cc
 frontend/gtkmm/src/Menus.cc
 frontend/gtkmm/src/MicroBreakWindow.cc
-frontend/gtkmm/src/Plug.cc
 frontend/gtkmm/src/PreferencesDialog.cc
 frontend/gtkmm/src/PreludeWindow.cc
 frontend/gtkmm/src/RestBreakWindow.cc
@@ -138,4 +132,6 @@ frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc
 frontend/applets/mate/src/main-gtk2.c
 frontend/applets/mate/src/main-gtk3.c
 frontend/applets/xfce/src/main.c
-frontend/applets/xfce/src/workrave-xfce-applet.desktop.in.in
+frontend/applets/xfce/src/workrave-xfce-applet-1.0.desktop.in.in
+frontend/applets/xfce/src/workrave-xfce-applet-2.0.desktop.in.in
+frontend/applets/xfce/src/workrave-xfce-applet.desktop.in

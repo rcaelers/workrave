@@ -402,7 +402,7 @@ GUI::init_nls()
       g_setenv("LANGUAGE", language.c_str(), 1);
     }
 
-#  if defined(HAVE_GTK2)
+#  if !defined(HAVE_GTK3)
   gtk_set_locale();
 #  endif
   const char *locale_dir;
