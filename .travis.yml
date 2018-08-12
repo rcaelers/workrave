@@ -1,124 +1,80 @@
-# autoconf-archive for Ubuntu 12.04 LTS is too old
-# need to use at least Ubuntu 14.04 LTS (trusty) with custom install step
-# `apt' travis plugin is not suitable as not all build dependencies are whitelisted
-#TODO: allow to build in 12.04 LTS (precise): fix missing C++11 checking macro if it is not required
-#TODO: investigate if Ubuntu 14.04 contained support for mate applet or it was added later (--disable-mate for now)
-
 sudo: required
 dist: trusty
 
+services:
+  - docker
 
 notifications:
-  email: false
+  email:
+    on_success: change
+    on_failure: change
 
 language: cpp
+osx_image: xcode9.4
 
-
-# TODO: current configure.ac does not allow to specify gtk2 or gtk3 explicitly
-# using CONF_GTK_VER here only to install required libs and thus influence gtk version choice
-
-#
-# build matrix
-#
-env:
-  - >
-    CONF_GTK_VER=2
-    CONF_ENABLE="gconf,gstreamer,exercises"
-    CONF_DISABLE="gnome2,gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,manual,experimental"
-  - >
-    CONF_GTK_VER=2
-    CONF_ENABLE="xml,dbus,distribution,pulse,xfce,exercises,manual"
-    CONF_DISABLE="gnome2,gnome3,gconf,gsettings,gstreamer,mate,indicator,experimental"
-  - >
-    CONF_GTK_VER=2
-    CONF_ENABLE="gsettings,pulse,xfce,exercises,manual"
-    CONF_DISABLE="gnome2,gnome3,xml,gconf,gstreamer,dbus,mate,indicator,distribution,experimental"
-  - >
-    CONF_GTK_VER=3
-    CONF_ENABLE="gnome3,gsettings,gstreamer,pulse,exercises"
-    CONF_DISABLE="gnome2,gconf,xml,dbus,indicator,mate,xfce,distribution,manual,experimental"
-  - >
-    CONF_GTK_VER=3
-    CONF_ENABLE="gnome3,gsettings,indicator,xfce,dbus,distribution,gstreamer,pulse,exercises,manual,experimental"
-    CONF_DISABLE="gnome2,gconf,xml,mate"
-os:
-  - linux
-#TODO:  - osx
+matrix:
+  include:
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-bionic"
+        CONF_GTK_VER=2
+        CONF_ENABLE="gsettings,,exercises,manual,xml,gconf,distribution,experimental"
+        CONF_DISABLE="pulse,xfce,gnome3,gstreamer,dbus,mate,indicator"
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-bionic"
+        CONF_GTK_VER=3
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,manual,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-bionic"
+        CONF_GTK_VER=3
+        CONF_ENABLE="xml,dbus,distribution,pulse,exercises,manual,gsettings,gstreamer"
+        CONF_DISABLE="xfce,gnome3,gconf,mate,indicator,experimental"
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-bionic"
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-cosmic
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-artful
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        DOCKER_IMAGE="ubuntu-xenial"
 
 before_install: |
-  conf_opt()
+  install_osx()
   {
-    if [[ $CONF_ENABLE =~ (^|[, ])$1([, ]|$) ]]; then
-      echo "--enable-$1";
-    else
-      if [[ $CONF_DISABLE =~ (^|[, ])$1([, ]|$) ]]; then
-        echo "--disable-$1";
-      else
-        echo "Parameter $1 is not in \$CONF_ENABLE or \$CONF_DISABLE " 1>&2
-      fi
-    fi
-  }
-  conf_opt_packages()
-  {
-    if [[ $CONF_ENABLE =~ (^|[, ])$1([, ]|$) ]]; then
-      shift
-      echo "$@"
-    else
-      if [[ !( $CONF_DISABLE =~ (^|[, ])$1([, ]|$) ) ]]; then
-        echo "Parameter $1 is not in \$CONF_ENABLE or \$CONF_DISABLE " 1>&2
-      fi
-    fi
+    # compilation with system wide gettext fails at the link stage with missing symbols...
+    brew install gettext qt5 python3
+    brew link gettext --force
+    brew linkapps qt5
+    brew outdated cmake || brew upgrade cmake
+
+    pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
   }
 
 install:
-  - pip install --user Cheetah # required for dbus support, system (distro) wide include paths are ignored
-  - sudo apt-get update -q
-  - |
-    sudo apt-get -y -q -V --no-install-recommends install \
-      build-essential \
-      automake \
-      autoconf \
-      autoconf-archive \
-      libtool \
-      autopoint \
-      intltool \
-      libxtst-dev \
-      libxss-dev \
-      gobject-introspection \
-      `conf_opt_packages xml libgdome2-dev` \
-      `conf_opt_packages gconf libgconf2-dev` \
-      `[[ $CONF_GTK_VER = 2 ]] && echo libgtk2.0-dev libgtkmm-2.4-dev` \
-      `[[ $CONF_GTK_VER = 3 ]] && echo libgtk-3-dev libgtkmm-3.0-dev` \
-      `conf_opt_packages gnome2 libglib2.0-dev libsigc++-2.0-dev libglibmm-2.4-dev` \
-      `conf_opt_packages gnome3 libglib2.0-dev libpanel-applet-4-dev` \
-      `conf_opt_packages dbus libdbus-glib-1-dev` \
-      `conf_opt_packages gstreamer libgstreamer1.0-dev` \
-      `conf_opt_packages pulse libpulse-dev` \
-      `conf_opt_packages indicator gobject-introspection libindicator3-dev libdbusmenu-glib-dev libdbusmenu-gtk3-dev libgirepository1.0-dev` \
-      `conf_opt_packages xfce xfce4-panel-dev` \
-      `conf_opt_packages manual docbook-utils xmlto`
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then install_osx; fi
 
-before_script:
-  - ./autogen.sh
-  - |
-    ./configure \
-      --enable-option-checking=fatal \
-      --disable-static \
-      --disable-dependency-tracking \
-      `conf_opt gconf` \
-      `conf_opt gsettings` \
-      `conf_opt xml` \
-      `conf_opt gnome2` \
-      `conf_opt gnome3` \
-      `conf_opt indicator` \
-      `conf_opt xfce` \
-      `conf_opt mate` \
-      `conf_opt dbus` \
-      `conf_opt distribution` \
-      `conf_opt gstreamer` \
-      `conf_opt pulse` \
-      `conf_opt exercises` \
-      `conf_opt experimental` \
-      `conf_opt manual`
-
-script: make && make check
+script: |
+  if [[ $DOCKER_IMAGE ]]; then
+    printenv
+    docker run --rm \
+        -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+        $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE|CONF_GTK|DOCKER_IMAGE|TRAVIS_BUILD_DIR)=' | sed 's/^/-e /g') \
+        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        sh -c "/workspace/source/build/travis/build.sh"
+  else
+     build/travis/build.sh
+  fi
