@@ -92,13 +92,16 @@ void
       throw;
     }
 
-{% set if_stm = 'if' %}
 {% for e in enum.values %}
-  {{ if_stm }} ("{{ e.name }}" == value)
+  {%- if loop.first -%}
+  if
+  {%- else -%}
+  else if
+  {%- endif -%}
+  ("{{ e.name }}" == value)
     {
       result = {{ e.symbol() }};
     }
-  {% set if_stm = 'else if' %}
 {% endfor %}
   else
     {
@@ -162,7 +165,6 @@ void
     }
 
   arg.beginStructure();
-{% set index = 0 %}
 {% for p in struct.fields %}
   if (arg.atEnd())
   {
@@ -182,7 +184,6 @@ void
       e << field_info("{{ p.name }}");
       throw;
     }
-  {% set index = index + 1 %}
 {% endfor %}
   arg.endStructure();
 }
@@ -505,20 +506,16 @@ void
             << interface_info("{{ interface.name }}");
         }
 
-{% set index = 0 %}
-{% for arg in method.params: %}
-  {% if arg.direction == 'in' %}
+{% for arg in method.params if arg.direction == 'in' %}
       try
         {
-          get_{{ arg.type }}(message.arguments().at({{ index }}), p_{{ arg.name }});
+          get_{{ arg.type }}(message.arguments().at({{ loop.index0 }}), p_{{ arg.name }});
         }
       catch (const DBusRemoteException &e)
         {
           e << parameter_info("{{ arg.name }}");
           throw;
         }
-      {% set index = index + 1 %}
-  {% endif %}
 {% endfor %}
 
 {% if method.symbol() != "" %}
@@ -527,15 +524,14 @@ void
   {% endif %}
   dbus_object->{{ method.symbol() }}( 
 
-  {% set comma = '' %}
+{% set comma = joiner(",") %}
   {% for p in method.params %}
     {% if 'return' not in p.hint %}
       {% if 'ptr' in p.hint %}
-      {{ comma }} &p_{{ p.name }}
+      {{ comma() }} &p_{{ p.name }}
       {% else %}
-      {{ comma }} p_{{ p.name }}
+      {{ comma() }} p_{{ p.name }}
       {% endif %}
-      {% set comma = ',' %}
     {% endif %}
   {% endfor %}
       );

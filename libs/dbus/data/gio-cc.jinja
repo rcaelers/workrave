@@ -76,13 +76,16 @@ void
   std::string value;
   get_string(variant, &value);
 
-{% set if_stm = 'if' %}
 {% for e in enum.values %}
-  {{ if_stm }} ("{{ e.name }}" == value)
+  {%- if loop.first -%}
+    if
+  {%- else -%}
+    else if
+  {%- endif -%}
+  ("{{ e.name }}" == value)
     {
       *result = {{ e.symbol() }};
     }
-  {% set if_stm = 'else if' %}
 {% endfor %}
   else
     {
@@ -138,12 +141,9 @@ void
         << actual_type_info("{{ struct.name }}");
     }
 
-{% set index = 0 %}
 {% for p in struct.fields %}
-  GVariant *v_{{ p.name }} = g_variant_get_child_value(variant, {{ index }});
-
+  GVariant *v_{{ p.name }} = g_variant_get_child_value(variant, {{ loop.index0 }});
   get_{{ p.type }}(v_{{ p.name }}, &result->{{ p.name }});
-  {% set index = index + 1 %}
 {% endfor %}
 
 {% for p in struct.fields %}
@@ -412,13 +412,9 @@ void
             << interface_info("{{ interface.name }}");
         }
 
-{% set index = 0 %}
-{% for arg in method.params: %}
-{% if arg.direction == 'in' %}
-      GVariant *v_{{ arg.name }} = g_variant_get_child_value(inargs, {{ index }} );
+{% for arg in method.params if arg.direction == 'in' %}
+      GVariant *v_{{ arg.name }} = g_variant_get_child_value(inargs, {{ loop.index0 }} );
       get_{{ arg.type }}(v_{{ arg.name }}, &p_{{ arg.name }});
-{% set index = index + 1 %}
-{% endif %}
 {% endfor %}
 
 {% if method.symbol() != "" %}
@@ -428,14 +424,13 @@ void
       dbus_object->{{ method.symbol() }}(
 {% endif %}
 
-{% set comma = '' %}
+{% set comma = joiner(",") %}
 {% for p in method.params %}
 {% if p.hint == [] or 'ref' in p.hint %}
-      {{ comma }} p_{{ p.name }}
+      {{ comma() }} p_{{ p.name }}
 {% elif 'ptr' in p.hint %}
-      {{ comma }} &p_{{ p.name }}
+      {{ comma() }} &p_{{ p.name }}
 {% endif %}
-{% set comma = ',' %}
 {% endfor %}
       );
 {% endif %}
