@@ -148,11 +148,7 @@ private:
   void on_monitor_type_toggled();
   Gtk::Widget *create_monitoring_page();
 
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
-#else
-  Gtk::Adjustment sensitivity_adjustment;
-#endif
   Gtk::HBox *sensitivity_box;
 #endif
 };

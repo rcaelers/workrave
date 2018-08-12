@@ -90,7 +90,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
     autostart_cb(nullptr)
 #ifdef PLATFORM_OS_WIN32
     ,
-    sensitivity_adjustment(3, 0, 100),
+    sensitivity_adjustment(Gtk::manage(new Gtk::Adjustment(3, 0, 100))),
     sensitivity_box(nullptr)
 #endif
 {
