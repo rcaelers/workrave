@@ -1,5 +1,5 @@
 /* gtktrayicon.h
- * Copyright (C) 2002, 2012 Anders Carlsson <andersca@gnu.org>
+ * Copyright (C) 2002 Anders Carlsson <andersca@gnu.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,9 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __GTK_TRAY_ICON_H__
@@ -24,14 +22,14 @@
 
 G_BEGIN_DECLS
 
-#define GTK_TYPE_TRAY_ICON    (wrgtk_tray_icon_get_type ())
-#define GTK_TRAY_ICON(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIcon))
-#define GTK_TRAY_ICON_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
-#define GTK_IS_TRAY_ICON(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_TRAY_ICON))
-#define GTK_IS_TRAY_ICON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_TRAY_ICON))
-#define GTK_TRAY_ICON_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
+#define WRGTK_TYPE_TRAY_ICON		(wrgtk_tray_icon_get_type ())
+#define WRGTK_TRAY_ICON(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), WRGTK_TYPE_TRAY_ICON, WRGtkTrayIcon))
+#define WRGTK_TRAY_ICON_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), WRGTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
+#define WRGTK_IS_TRAY_ICON(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), WRGTK_TYPE_TRAY_ICON))
+#define WRGTK_IS_TRAY_ICON_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), WRGTK_TYPE_TRAY_ICON))
+#define WRGTK_TRAY_ICON_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), WRGTK_TYPE_TRAY_ICON, WRGtkTrayIconClass))
 
-typedef struct _WRGtkTrayIcon    WRGtkTrayIcon;
+typedef struct _WRGtkTrayIcon	   WRGtkTrayIcon;
 typedef struct _WRGtkTrayIconPrivate WRGtkTrayIconPrivate;
 typedef struct _WRGtkTrayIconClass   WRGtkTrayIconClass;
 
@@ -46,12 +44,11 @@ struct _WRGtkTrayIconClass
 {
   GtkPlugClass parent_class;
 
-  void (*__gtk_reserved1);
-  void (*__gtk_reserved2);
-  void (*__gtk_reserved3);
-  void (*__gtk_reserved4);
-  void (*__gtk_reserved5);
-  void (*__gtk_reserved6);
+  /* Padding for future expansion */
+  void (*__gtk_reserved1) (void);
+  void (*__gtk_reserved2) (void);
+  void (*__gtk_reserved3) (void);
+  void (*__gtk_reserved4) (void);
 };
 
 GType          wrgtk_tray_icon_get_type         (void) G_GNUC_CONST;
@@ -69,8 +66,8 @@ void           _wrgtk_tray_icon_cancel_message  (WRGtkTrayIcon *icon,
                  guint        id);
 
 GtkOrientation wrgtk_tray_icon_get_orientation (WRGtkTrayIcon *icon);
-
-gint           wrgtk_tray_icon_get_icon_size (WRGtkTrayIcon *icon);
+gint           wrgtk_tray_icon_get_padding     (WRGtkTrayIcon *icon);
+gint           wrgtk_tray_icon_get_icon_size   (WRGtkTrayIcon *icon);
 
 G_END_DECLS
 

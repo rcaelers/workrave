@@ -1,5 +1,4 @@
 sudo: required
-
 dist: trusty
 
 services:
@@ -11,14 +10,13 @@ notifications:
     on_failure: change
 
 language: cpp
-osx_image: xcode8.3
+osx_image: xcode9.4
 
 matrix:
   allow_failures:
     - env: COMPILER="gcc" WITH_UI="Qt5" CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE" CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING" DOCKER_IMAGE="ubuntu-zesty-plus"
   include:
     #- os: linux
-    #  compiler: gcc
     #  env: >
     #    COMPILER="gcc"
     #    WITH_UI="Qt5"
@@ -26,47 +24,6 @@ matrix:
     #    CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
     #    DOCKER_IMAGE="ubuntu-zesty-plus"
     - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-zesty-plus"
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-zesty-plus"
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-zesty-plus"
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-zesty"
-    - os: linux
-      compiler: gcc
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-yakkety"
-    - os: linux
-      compiler: gcc
       env: >
         COMPILER="gcc"
         WITH_UI="Gtk+3"
@@ -74,15 +31,48 @@ matrix:
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-xenial"
     - os: linux
-      compiler: gcc
       env: >
         COMPILER="gcc"
         WITH_UI="Gtk+3"
-        CONF_ENABLE=""
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="mingw-gtk"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-artful
     - os: linux
-      compiler: gcc
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-bionic-plus"
+    - os: linux
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-bionic-plus"
+    - os: linux
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-bionic-plus"
+    - os: linux
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-bionic-plus"
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-cosmic"
+    - os: linux
       env: >
         COMPILER="gcc"
         WITH_UI="Gtk+3"

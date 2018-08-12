@@ -412,6 +412,8 @@ PreludeWindow::on_avoid_pointer_timer_event()
 bool
 PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
+  (void) event;
+
   avoid_pointer();
   return false;
 }

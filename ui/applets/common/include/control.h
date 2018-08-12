@@ -36,9 +36,6 @@ typedef struct _WorkraveTimerboxControlPrivate WorkraveTimerboxControlPrivate;
 struct _WorkraveTimerboxControl
 {
   GObject parent_instance;
-
-  /*< private >*/
-  WorkraveTimerboxControlPrivate *priv;
 };
 
 struct _WorkraveTimerboxControlClass
@@ -68,7 +65,7 @@ GDBusProxy *workrave_timerbox_control_get_applet_proxy(WorkraveTimerboxControl *
 GDBusProxy *workrave_timerbox_control_get_core_proxy(WorkraveTimerboxControl *self);
 GDBusProxy *workrave_timerbox_control_get_control_proxy(WorkraveTimerboxControl *self);
 
-void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
+void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 
 #endif /* __WORKRAVE_TIMERBOX_CONTROL_H__ */

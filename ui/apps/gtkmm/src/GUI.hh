@@ -142,8 +142,6 @@ private:
 
   void init_gtk_multihead();
 
-  void cleanup_session();
-
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
 
@@ -172,6 +170,9 @@ private:
 private:
   //! The one and only instance
   static GUI *instance;
+
+  // !
+  Glib::RefPtr<Gtk::Application> app;
 
   //! The Core controller
   ICore::Ptr core;

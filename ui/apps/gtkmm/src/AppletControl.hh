@@ -32,7 +32,6 @@ public:
       APPLET_NONE = -1,
       APPLET_FIRST = 0,
       APPLET_TRAY = APPLET_FIRST,
-      APPLET_GNOME,
       APPLET_GENERIC_DBUS,
       APPLET_W32,
       APPLET_OSX,

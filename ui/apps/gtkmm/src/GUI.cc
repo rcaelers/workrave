@@ -185,19 +185,13 @@ GUI::main()
 #endif
 
   if (!Glib::thread_supported())
-    Glib::thread_init();
+    {
+      Glib::thread_init();
+    }
 
-  Gtk::Main *kit = nullptr;
-  try
-    {
-      kit = new Gtk::Main(argc, argv);
-    }
-  catch (const Glib::OptionError &e)
-    {
-      std::cout << "Failed to initialize: " << e.what() << std::endl;
-      exit(1);
-    }
-  
+  app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
+  app->hold();
+
   init_core();
   init_nls();
   init_debug();
@@ -217,12 +211,10 @@ GUI::main()
 
   on_timer();
 
-  TRACE_MSG("Initialized. Entering event loop.");
+  app->run();
 
-  // Enter the event loop
-  Gtk::Main::run();
   System::clear();
-  cleanup_session();
+
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
     {
       i->disconnect();
@@ -234,8 +226,6 @@ GUI::main()
   delete applet_control;
   applet_control = nullptr;
 
-  delete kit;
-  
   TRACE_EXIT();
 }
 
@@ -255,7 +245,8 @@ GUI::terminate()
 
   collect_garbage();
 
-  Gtk::Main::quit();
+  app->release();
+
   TRACE_EXIT();
 }
 
@@ -355,14 +346,6 @@ GUI::init_session()
 
   TRACE_EXIT();
 }
-
-
-void
-GUI::cleanup_session()
-{
-}
-
-
 
 //! Initializes messages hooks.
 void
@@ -566,8 +549,6 @@ GUI::init_multihead_desktop()
   int width = 0;
   int height = 0;
 
-  // Use head info to determine screen size. I hope this results
-  // in the same size as the gdk_screen_xxx....
   for (int i = 0; i < num_heads; i++)
     {
       int w = heads[i].geometry.get_x() + heads[i].geometry.get_width();
@@ -594,7 +575,6 @@ GUI::init_multihead_desktop()
       screen_height = height;
     }
 }
-
 
 void
 GUI::init_gtk_multihead()
@@ -650,7 +630,6 @@ GUI::init_gtk_multihead()
                       heads[count].screen = screen;
                       heads[count].monitor = j;
                       heads[count].count = count;
-
                       heads[count].geometry = rect;
                       count++;
                     }
@@ -829,7 +808,7 @@ GUI::init_sound_player()
       sound_theme = std::make_shared<SoundTheme>();
       sound_theme->init();
     }
-  catch (workrave::utils::Exception)
+  catch (workrave::utils::Exception &)
     {
       TRACE_MSG("No sound");
     }

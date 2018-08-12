@@ -49,11 +49,6 @@
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
 
-#ifdef HAVE_PANELAPPLET4
-#include "GnomeAppletMenu.hh"
-#include "GnomeAppletWindow.hh"
-#endif
-
 #ifdef HAVE_INDICATOR
 #include "IndicatorAppletMenu.hh"
 #endif

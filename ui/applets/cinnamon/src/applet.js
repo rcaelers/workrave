@@ -11,7 +11,7 @@ const Gettext = imports.gettext;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const Workrave = imports.gi.Workrave;
- 
+
 const _ = Gettext.gettext;
 
 let start = GLib.get_monotonic_time();
@@ -61,7 +61,7 @@ MyApplet.prototype = {
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
         this.menuManager.addMenu(this.menu);
-        
+
         this._timerbox = new Workrave.Timerbox();
         this._force_icon = false;
         this._height = panel_height;
@@ -97,8 +97,8 @@ MyApplet.prototype = {
     on_applet_clicked: function(event) {
         this.menu.toggle();
     },
-    
-    _onDestroy: function() 
+
+    _onDestroy: function()
     {
         this._proxy.EmbedRemote(false, 'CinnamonApplet');
         this._stop();
@@ -147,7 +147,7 @@ MyApplet.prototype = {
      _draw: function(area) {
          let [width, height] = area.get_surface_size();
          let cr = area.get_context();
-         
+
          let bar_height = this._timerbox.get_height();
          this.actor.style = "padding-top: "+ ( (height - bar_height + 1) / 2) +"px;";
          this._timerbox.draw(cr);
@@ -199,7 +199,7 @@ MyApplet.prototype = {
             timebar.set_secondary_progress(microbreak[3], microbreak[4], microbreak[2]);
             timebar.set_text(microbreak[0]);
         }
-        
+
         timebar = this._timerbox.get_time_bar(1);
         if (timebar != null)
         {
@@ -208,7 +208,7 @@ MyApplet.prototype = {
             timebar.set_secondary_progress(restbreak[3], restbreak[4], restbreak[2]);
             timebar.set_text(restbreak[0]);
         }
-        
+
         timebar = this._timerbox.get_time_bar(2);
         if (timebar != null)
         {
@@ -217,7 +217,7 @@ MyApplet.prototype = {
             timebar.set_secondary_progress(daily[3], daily[4], daily[2]);
             timebar.set_text(daily[0]);
         }
-        
+
         let width = this._timerbox.get_width();
         this._area.set_width(this.width=width);
         this._area.queue_repaint();
@@ -241,17 +241,13 @@ MyApplet.prototype = {
 
     _onCommandReply : function(menuitems) {
     },
-    
+
     _onMenuCommand : function(item, event, dummy, command) {
         this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },
 
     _onMenuOpenCommand: function(item, event) {
         this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
-    },
-
-    _functionExists: function(func) {
-        return (typeof(func) == typeof(Function));
     },
 
     _updateTrayIcon : function(enabled) {
@@ -279,7 +275,7 @@ MyApplet.prototype = {
                 let text = indent + menuitems[item][0];
                 let command = menuitems[item][1];
                 let flags = menuitems[item][2];
-                
+
                 if ((flags & 1) != 0)
                 {
                     let popup = new PopupMenu.PopupSubMenuMenuItem(text);
@@ -296,7 +292,7 @@ MyApplet.prototype = {
                 {
                     let active = ((flags & 16) != 0);
                     let popup;
-                    
+
                     if (text == "")
                     {
                         popup = new PopupSub.PopupSeparatorMenuItem();
@@ -309,21 +305,24 @@ MyApplet.prototype = {
                     else if ((flags & 8) != 0)
                     {
                         popup = new PopupMenu.PopupMenuItem(text);
-                        
-                        if (this._functionExists(popup.setShowDot))
+
+                        // Gnome 3.6 & 3.8
+                        if (typeof popup.setShowDot === "function")
                         {
                             popup.setShowDot(active);
                         }
-                        else if (this._functionExists(popup.setOrnament))
+
+                        // Gnome 3.10 & newer
+                        else if (typeof popup.setOrnament === "function")
                         {
                             popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
                         }
                     }
-                    else 
+                    else
                     {
                         popup = new PopupMenu.PopupMenuItem(text);
                     }
-                    
+
                     popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
                     current_menu.addMenuItem(popup);
                 }

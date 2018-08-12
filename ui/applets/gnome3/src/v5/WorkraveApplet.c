@@ -38,7 +38,7 @@ struct _WorkraveAppletPrivate
   gboolean alive;
 };
 
-G_DEFINE_TYPE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
+G_DEFINE_TYPE_WITH_PRIVATE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
 
 static void workrave_applet_fill(WorkraveApplet *applet);
 static void dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data);
@@ -72,8 +72,6 @@ static struct Menuitems menu_data[] =
     { MENU_COMMAND_QUIT,                  FALSE, FALSE, "quit",         NULL,         "Quit"              }
   };
 
-//    { 0,                                  FALSE, FALSE, "network",      NULL,         NULL                },
-
 int
 lookup_menu_index_by_id(enum MenuCommand id)
 {
@@ -105,6 +103,7 @@ lookup_menu_index_by_action(const char *action)
 void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+
   applet->priv->alive = alive;
 
   if (!alive)
@@ -120,7 +119,6 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-
   GVariantIter *iter;
   g_variant_get (parameters, "(a(sii))", &iter);
 
@@ -220,15 +218,15 @@ on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
                         "translator-credits", workrave_translators,
                         "authors", workrave_authors,
                         "logo", pixbuf,
-                         NULL);
+                        NULL);
   g_object_unref(pixbuf);
 }
-
 
 static void
 on_menu_command(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+
   int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
     {
@@ -268,6 +266,7 @@ static void
 on_menu_toggle_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+
   gboolean new_state = g_variant_get_boolean(value);
   int index = lookup_menu_index_by_action(g_action_get_name(G_ACTION(action)));
   if (index == -1)
@@ -357,7 +356,6 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveApplet *applet)
 static void
 workrave_applet_class_init(WorkraveAppletClass *class)
 {
-  g_type_class_add_private(class, sizeof(WorkraveAppletPrivate));
 }
 
 static void
@@ -402,14 +400,12 @@ workrave_applet_fill(WorkraveApplet *applet)
 static void
 workrave_applet_init(WorkraveApplet *applet)
 {
-  applet->priv = G_TYPE_INSTANCE_GET_PRIVATE(applet, WORKRAVE_TYPE_APPLET, WorkraveAppletPrivate);
+  applet->priv = workrave_applet_get_instance_private(applet);
 
-  WorkraveAppletPrivate *priv = applet->priv;
-
-  priv->action_group = NULL;
-  priv->image = NULL;
-  priv->timerbox_control = NULL;
-  priv->alive = FALSE;
+  applet->priv->action_group = NULL;
+  applet->priv->image = NULL;
+  applet->priv->timerbox_control = NULL;
+  applet->priv->alive = FALSE;
 
   workrave_applet_fill(applet);
 }

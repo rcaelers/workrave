@@ -82,7 +82,7 @@
     <method name="GetTrayIconEnabled" csymbol="get_tray_icon_enabled">
       <arg type="bool" name="enabled" direction="out"/>
     </method>
-    
+
     <signal name="TimersUpdated">
       <arg type="TimerData" name="micro" hint="ref"/>
       <arg type="TimerData" name="rest" hint="ref"/>
@@ -96,17 +96,5 @@
     <signal name="TrayIconUpdated">
       <arg type="bool" name="enabled"/>
     </signal>
-  </interface>
-    
-  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow" condition="defined(HAVE_PANELAPPLET2)">
-    <method name="SetOrientation" csymbol="set_applet_orientation">
-      <arg type="Orientation" name="orientation" direction="in"/>
-    </method>
-      
-    <method name="ButtonClicked" csymbol="button_clicked">
-      <arg type="uint32" name="button" direction="in"/>
-    </method>
-
-    <method name="EmbedRequest" csymbol="fire_gnome_applet"/>
   </interface>
 </unit>

@@ -26,7 +26,6 @@
 
 #include <gtkmm.h>
 
-
 #include "GenericDBusApplet.hh"
 
 #include "commonui/TimerBoxControl.hh"
@@ -125,7 +124,7 @@ GenericDBusApplet::init_applet()
                         this);
         }
     }
-  catch (workrave::dbus::DBusException)
+  catch (workrave::dbus::DBusException &)
     {
     }
 }

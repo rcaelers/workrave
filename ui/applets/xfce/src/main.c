@@ -19,6 +19,7 @@
 #include "config.h"
 #endif
 
+#include <gdk/gdk.h>
 #include <libxfce4panel/xfce-panel-plugin.h>
 
 #include <gio/gio.h>
@@ -280,6 +281,7 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
+                        "program-name", "Workrave",
 #ifdef GIT_VERSION
                         "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
 #else
@@ -415,4 +417,8 @@ static void workrave_applet_construct(XfcePanelPlugin *plugin)
   gtk_widget_show_all(GTK_WIDGET(plugin));
 }
 
+#ifdef HAVE_XFCE_GTK3
+XFCE_PANEL_PLUGIN_REGISTER(workrave_applet_construct);
+#else
 XFCE_PANEL_PLUGIN_REGISTER_EXTERNAL(workrave_applet_construct);
+#endif

@@ -37,9 +37,6 @@ set(SRC
 
 if (PLATFORM_OS_UNIX)
   set(SRC ${SRC}
-    unix/GnomeAppletMenu.cc
-    unix/GnomeAppletWindow.cc
-    unix/Plug.cc
     unix/X11SystrayAppletWindow.cc
     unix/desktop-window.c
     unix/gtktrayicon.c

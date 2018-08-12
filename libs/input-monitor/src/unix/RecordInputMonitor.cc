@@ -165,7 +165,7 @@ void
 RecordInputMonitor::error_trap_enter()
 {
 #ifdef HAVE_APP_GTK
-  gdk_error_trap_push();
+  gdk_x11_display_error_trap_push(gdk_display_get_default());
 #else
   old_handler = XSetErrorHandler(&errorHandler);
 #endif
@@ -175,9 +175,8 @@ void
 RecordInputMonitor::error_trap_exit()
 {
 #ifdef HAVE_APP_GTK
-  gdk_flush ();
-  gint err = gdk_error_trap_pop();
-  (void) err;
+  gdk_display_flush(gdk_display_get_default());
+  gdk_x11_display_error_trap_pop_ignored(gdk_display_get_default());
 #else
   XSetErrorHandler(old_handler);
 #endif

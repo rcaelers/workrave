@@ -347,7 +347,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   
   TRACE_MSG(head.geometry.get_x() << " "  << head.geometry.get_width() << " " << size.width);
   TRACE_MSG(head.geometry.get_y() << " "  << head.geometry.get_height() << " " << size.height);
-  
+
   window.set_position(Gtk::WIN_POS_NONE);
   window.move(x, y);
   TRACE_EXIT();

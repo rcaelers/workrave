@@ -15,7 +15,7 @@ const Clutter = imports.gi.Clutter;
 const Util = imports.misc.util;
 const Gio = imports.gi.Gio;
 const Workrave = imports.gi.Workrave;
- 
+
 const _ = Gettext.gettext;
 
 let start = GLib.get_monotonic_time();
@@ -77,7 +77,7 @@ _workraveButton.prototype = {
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-	this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI', Lang.bind(this, this._connect));
+        this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI', Lang.bind(this, this._connect));
         this._timers_updated_id = this._proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
         this._menu_updated_id = this._proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
         this._trayicon_updated_id = this._proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
@@ -89,23 +89,23 @@ _workraveButton.prototype = {
  
     _connect: function()
     {
-    	try
+        try
         {
             Gio.DBus.session.watch_name('org.workrave.Workrave',
                                         Gio.BusNameWatcherFlags.NONE, // no auto launch
                                         Lang.bind(this, this._onWorkraveAppeared),
                                         Lang.bind(this, this._onWorkraveVanished));
-	    return false
-    	}
-    	catch(err)
+            return false
+        }
+        catch(err)
         {
-    	    return true
-    	}
+            return true
+        }
     },
 
     _onDestroy: function() 
     {
-        this._proxy.EmbedRemote(false, 'GnomeShellApplet');
+        this._proxy.EmbedRemote(false, this._bus_name);
         this._stop();
         this._destroy();
     },
@@ -203,7 +203,7 @@ _workraveButton.prototype = {
             timebar.set_secondary_progress(microbreak[3], microbreak[4], microbreak[2]);
             timebar.set_text(microbreak[0]);
         }
-        
+
         timebar = this._timerbox.get_time_bar(1);
         if (timebar != null)
         {
@@ -213,7 +213,7 @@ _workraveButton.prototype = {
             timebar.set_secondary_progress(restbreak[3], restbreak[4], restbreak[2]);
             timebar.set_text(restbreak[0]);
         }
-        
+
         timebar = this._timerbox.get_time_bar(2);
         if (timebar != null)
         {
@@ -223,7 +223,7 @@ _workraveButton.prototype = {
             timebar.set_secondary_progress(daily[3], daily[4], daily[2]);
             timebar.set_text(daily[0]);
         }
-        
+
         let width = this._timerbox.get_width();
         this._area.set_width(this.width=width);
 
@@ -257,10 +257,6 @@ _workraveButton.prototype = {
         this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
     },
 
-    _functionExists: function(func) {
-        return (typeof(func) == typeof(Function));
-    },
-
     _updateTrayIcon : function(enabled) {
         this._force_icon = enabled;
         this._timerbox.set_force_icon(this._force_icon);
@@ -274,7 +270,7 @@ _workraveButton.prototype = {
 
         if (menuitems == null || menuitems.length == 0)
         {
-	    let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
+            let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
             popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
             current_menu.addMenuItem(popup);
         }
@@ -285,7 +281,7 @@ _workraveButton.prototype = {
                 let text = indent + menuitems[item][0];
                 let command = menuitems[item][1];
                 let flags = menuitems[item][2];
-                
+
                 if ((flags & 1) != 0)
                 {
                     let popup = new PopupMenu.PopupSubMenuMenuItem(text);
@@ -302,7 +298,7 @@ _workraveButton.prototype = {
                 {
                     let active = ((flags & 16) != 0);
                     let popup;
-                    
+
                     if (text == "")
                     {
                         popup = new PopupSub.PopupSeparatorMenuItem();
@@ -315,21 +311,24 @@ _workraveButton.prototype = {
                     else if ((flags & 8) != 0)
                     {
                         popup = new PopupMenu.PopupMenuItem(text);
-                        
-                        if (this._functionExists(popup.setShowDot))
+
+                        // Gnome 3.6 & 3.8
+                        if (typeof popup.setShowDot === "function")
                         {
                             popup.setShowDot(active);
                         }
-                        else if (this._functionExists(popup.setOrnament))
+
+                        // Gnome 3.10 & newer
+                        else if (typeof popup.setOrnament === "function")
                         {
                             popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
                         }
                     }
-                    else 
+                    else
                     {
                         popup = new PopupMenu.PopupMenuItem(text);
                     }
-                    
+
                     popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
                     current_menu.addMenuItem(popup);
                 }

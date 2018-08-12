@@ -768,7 +768,7 @@ check_include_files(sys/stat.h HAVE_SYS_STAT_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 check_include_files(sys/time.h HAVE_SYS_TIME_H)
 check_include_files(sys/select.h HAVE_SYS_SELECT_H)
-check_include_files(stdlib.h stddef.h STDC_HEADERS)
+check_include_files("stdlib.h;stddef.h" STDC_HEADERS)
 check_include_files(stdlib.h HAVE_STDLIB_H)
 check_include_files(strings.h HAVE_STRINGS_H)
 

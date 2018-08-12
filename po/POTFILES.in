@@ -144,10 +144,7 @@ ui/apps/gtkmm/src/osx/OSXAppletWindow.cc
 ui/apps/gtkmm/src/osx/OSXGtkMenu.cc
 ui/apps/gtkmm/src/osx/OSXUtil.cc
 ui/apps/gtkmm/src/resource.rc.in
-ui/apps/gtkmm/src/unix/GnomeAppletMenu.cc
-ui/apps/gtkmm/src/unix/GnomeAppletWindow.cc
 ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc
-ui/apps/gtkmm/src/unix/Plug.cc
 ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c
 ui/apps/gtkmm/src/win32/DesktopWindow.cc
