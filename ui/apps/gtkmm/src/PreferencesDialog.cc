@@ -58,6 +58,7 @@
 
 #include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
+#include "core/CoreConfig.hh"
 
 using namespace workrave::utils;
 
@@ -90,7 +91,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
     autostart_cb(nullptr)
 #ifdef PLATFORM_OS_WIN32
     ,
-    sensitivity_adjustment(Gtk::manage(new Gtk::Adjustment(3, 0, 100))),
+    sensitivity_adjustment(Gtk::Adjustment::create(3, 0, 100)),
     sensitivity_box(nullptr)
 #endif
 {
@@ -515,11 +516,9 @@ PreferencesDialog::create_timer_page()
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
-#ifdef HAVE_GTK3
   tnotebook->append_page(*monitoring_page , *box);
 #endif
-#endif
-  
+
   return tnotebook;
 }
 
@@ -546,7 +545,7 @@ PreferencesDialog::create_monitoring_page()
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
   panel->pack_start(*sensitivity_box, false, false, 0);
 
-  connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
+  connector->connect(CoreConfig::monitor_sensitivity(), dc::wrap(sensitivity_adjustment));
 
   string monitor_type;
   Backend::get_configurator()->get_value_with_default("advanced/monitor",

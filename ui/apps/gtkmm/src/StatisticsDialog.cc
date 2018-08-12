@@ -766,7 +766,6 @@ void
 StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
 {
   char buf[64];
-  GdkRectangle rec;
 
 #if GTK_CHECK_VERSION(3, 22, 0)
   GdkDisplay *display = gdk_display_get_default();

@@ -2,8 +2,9 @@ FROM fedora:rawhide
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
-RUN dnf -y update && dnf clean all
-RUN dnf -y install \
+RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
+    dnf -y update && dnf clean all && \
+    dnf -y install \
                 cmake \
                 git \
                 innoextract \
