@@ -134,4 +134,3 @@ frontend/applets/mate/src/main-gtk3.c
 frontend/applets/xfce/src/main.c
 frontend/applets/xfce/src/workrave-xfce-applet-1.0.desktop.in.in
 frontend/applets/xfce/src/workrave-xfce-applet-2.0.desktop.in.in
-frontend/applets/xfce/src/workrave-xfce-applet.desktop.in
