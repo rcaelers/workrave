@@ -103,6 +103,11 @@ protected:
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
+  Gtk::Button *create_skip_button();
+  Gtk::Button *create_postpone_button();
+  Gtk::Button *create_lock_button();
+  Gtk::ComboBox *create_sysoper_combobox();
+
   //! Information about the (multi)head.
   HeadInfo head;
 
@@ -115,14 +120,26 @@ protected:
   //! Flash frame
   Frame *frame;
 
-
-protected:
-  Gtk::Button *create_skip_button();
-  Gtk::Button *create_postpone_button();
-  Gtk::Button *create_lock_button();
-  Gtk::ComboBox *create_sysoper_combobox();
-
 private:
+  class SysoperModelColumns : public Gtk::TreeModelColumnRecord
+  {
+  public:
+    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > icon;
+    Gtk::TreeModelColumn<Glib::ustring> name;
+    Gtk::TreeModelColumn<System::SystemOperation::SystemOperationType> id;
+    bool has_button_images;
+
+    SysoperModelColumns(bool has_button_images): has_button_images(has_button_images)
+    {
+      if (has_button_images)
+        {
+          add(icon);
+        }
+      add(name);
+      add(id);
+    }
+  };
+
   //! Send response to this interface.
   IBreakResponse *break_response;
 
@@ -135,42 +152,23 @@ private:
   //! Break windows visible?
   bool visible;
 
-#ifdef PLATFORM_OS_WIN32
-  DesktopWindow *desktop_window;
-  bool force_focus_on_break_start;
-  long parent;
-#endif
+  //Supported system operations (like suspend, hibernate, shutdown)
+  std::vector<System::SystemOperation> supported_system_operations;
+  SysoperModelColumns *sysoper_model_columns;
 
   bool accel_added;
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
   Gtk::Button *lock_button;
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
-
-  class SysoperModelColumns : public Gtk::TreeModelColumnRecord
-    {
-    public:
-      Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > icon;
-      Gtk::TreeModelColumn<Glib::ustring> name;
-      Gtk::TreeModelColumn<System::SystemOperation::SystemOperationType> id;
-      bool has_button_images;
-
-      SysoperModelColumns(bool has_button_images): has_button_images(has_button_images)
-        {
-          if (has_button_images)
-            {
-              add(icon);
-            }
-          add(name);
-          add(id);
-        }
-    };
-
-  //Supported system operations (like suspend, hibernate, shutdown)
-  std::vector<System::SystemOperation> supported_system_operations;
-  SysoperModelColumns *sysoper_model_columns;
-
   Gtk::ComboBox *sysoper_combobox;
+
+#ifdef PLATFORM_OS_WIN32
+  DesktopWindow *desktop_window;
+  bool force_focus_on_break_start;
+  long parent;
+#endif
+
   void get_operation_name_and_icon(
       System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
@@ -181,6 +179,7 @@ private:
   virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
   void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
 #endif
+
 };
 
 inline BreakWindow::BreakFlags

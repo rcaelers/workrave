@@ -83,10 +83,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   break_flags(break_flags),
   frame(NULL),
   break_response(NULL),
+  break_id(break_id),
   gui(NULL),
   visible(false),
+  sysoper_model_columns(NULL),
   accel_added(false),
   accel_group(NULL),
+  lock_button(NULL),
   postpone_button(NULL),
   skip_button(NULL),
   sysoper_combobox(NULL)
@@ -98,7 +101,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #endif
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
-  this->break_id = break_id;
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
     {
@@ -680,7 +682,7 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WIN32
-  if( force_focus_on_break_start && this->head.valid && ( this->head.count == 0 ) )
+  if( force_focus_on_break_start && ( this->head.count == 0 ) )
     {
       HWND hwnd = (HWND)GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
       bool focused = W32ForceFocus::ForceWindowFocus( hwnd );
