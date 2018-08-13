@@ -205,8 +205,21 @@ GUI::main()
       Glib::thread_init();
     }
 
+#ifdef HAVE_GTK3
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
+#else
+  Gtk::Main *kit = NULL;
+  try
+    {
+      kit = new Gtk::Main(argc, argv);
+    }
+  catch (const Glib::OptionError &e)
+    {
+      std::cout << "Failed to initialize: " << e.what() << std::endl;
+      exit(1);
+    }
+#endif
 
   init_core();
   init_nls();
@@ -227,7 +240,11 @@ GUI::main()
 
   on_timer();
 
+#ifdef HAVE_GTK3
   app->run();
+#lese
+  Gtk::Main::run();
+#endif
 
   System::clear();
 
@@ -241,6 +258,10 @@ GUI::main()
 
   delete applet_control;
   applet_control = NULL;
+
+#if !defined(HAVE_GTK3)
+  delete kit;
+#endif
 
   TRACE_EXIT();
 }
@@ -261,7 +282,11 @@ GUI::terminate()
 
   collect_garbage();
 
+#ifdef HAVE_GTK3
   app->release();
+#else
+  Gtk::Main::quit();
+#endif
 
   TRACE_EXIT();
 }

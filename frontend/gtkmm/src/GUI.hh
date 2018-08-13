@@ -182,8 +182,10 @@ private:
   //! The one and only instance
   static GUI *instance;
 
+#ifdef HAVE_GTK3
   // !
   Glib::RefPtr<Gtk::Application> app;
+#endif
 
   //! The Core controller
   ICore *core;
