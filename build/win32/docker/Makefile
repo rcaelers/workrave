@@ -18,7 +18,7 @@ WORKRAVE_GIT_BRANCH=branch_v1_10
 
 WORKRAVE_LONG_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
 WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
-1WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
+WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 #WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
