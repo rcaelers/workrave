@@ -44,15 +44,17 @@ RUN mkdir -p /workspace/inno && \
     curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
     innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
 
-RUN mkdir -p /workspace/runtime && \
-    cd /workspace/runtime && \
-    cp -a /workspace/source/workrave/build/win32/crossbuilder/* . &&  \
+RUN mkdir -p /workspace/runtime
+
+COPY crossbuilder/* /workspace/runtime/
+
+RUN cd /workspace/runtime && \
     bash -x build-packages.sh && \
     rm -rf source build
 
 RUN mkdir -p /workspace/source /workspace/scripts
 
-COPY env make-runtime.sh /workspace/scripts
+COPY env make-runtime.sh /workspace/scripts/
 
 RUN mkdir /root/.ssh && echo "StrictHostKeyChecking no " > /root/.ssh/config
 
