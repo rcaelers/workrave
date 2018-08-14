@@ -242,7 +242,7 @@ GUI::main()
 
 #ifdef HAVE_GTK3
   app->run();
-#lese
+#else
   Gtk::Main::run();
 #endif
 
