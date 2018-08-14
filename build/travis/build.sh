@@ -9,6 +9,6 @@ case "$DOCKER_IMAGE" in
         ;;
 
     *)
-        ${SOURCES_DIR}/build/travis/build.linux.sh
+        ${SOURCES_DIR}/build/travis/build-linux.sh
         ;;
 esac
