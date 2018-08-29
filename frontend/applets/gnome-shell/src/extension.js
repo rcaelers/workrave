@@ -353,7 +353,6 @@ function disable() {
 
 function enable() {
     Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
-    Gettext.textdomain("workrave");
 
     workravePanelButton = new _workraveButton();
     Main.panel.addToStatusArea('workrave-applet', workravePanelButton);
