@@ -53,6 +53,13 @@ matrix:
       env: >
         COMPILER="gcc"
         CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,pulse,dbus,experimental,gstreamer,exercises,xml"
+        CONF_DISABLE="gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing"
+        DOCKER_IMAGE="ubuntu-cosmic"
+    - os: linux
+      env: >
+        COMPILER="gcc"
+        CONF_GTK_VER="3"
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-artful"
