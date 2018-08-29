@@ -98,7 +98,6 @@ install:
 
 script: |
   if [[ $DOCKER_IMAGE ]]; then
-    printenv
     docker run --rm \
         -v "$TRAVIS_BUILD_DIR:/workspace/source" \
         $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR)=' | sed 's/^/-e /g') \
@@ -107,3 +106,14 @@ script: |
   else
      build/travis/build.sh
   fi
+
+deploy:
+  provider: releases
+  api_key: GITHUB_KEY 
+  file_glob: true
+  file: _deploy/*
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: branch_v1_10
+  condition: "$TRAVIS_TAG =~ ^v1.*$"

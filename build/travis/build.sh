@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 ROOT_DIR=/workspace
 SOURCES_DIR=${ROOT_DIR}/source
