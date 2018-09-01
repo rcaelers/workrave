@@ -1,0 +1,157 @@
+Source: workrave
+Section: gnome
+Priority: extra
+Maintainer: Rob Caelers <robc@krandor.org>
+Build-Depends: debhelper (>= 8),
+               autoconf-archive,
+	       autotools-dev,
+	       autopoint,
+	       gobject-introspection  (>= 0.6.7),
+	       gsettings-desktop-schemas-dev,
+	       intltool,
+	       libdbusmenu-glib-dev,
+	       libdbusmenu-gtk3-dev,
+	       libgirepository1.0-dev  (>= 0.6.7),
+	       libglib2.0-0 (>= 2.30),
+	       libglibmm-2.4-dev (>= 2.28.0),
+	       libgstreamer0.10-dev,
+	       libgtk-3-dev (>= 3.0.0),
+	       libgtkmm-3.0-dev (>= 3.0.0),
+	       libindicator3-dev,
+	       libpanel-applet-4-dev,
+	       libpulse-dev (>= 0.9.5),
+	       libsigc++-2.0-dev (>= 2.2.4.2),
+	       libxi-dev,
+	       libxmu-dev,
+	       libxtst-dev,
+	       libxss-dev,
+	       python-cheetah,
+               xfce4-panel-dev,
+               libgtk2.0-dev,
+               libmate-panel-applet-dev
+Standards-Version: 3.9.2
+Homepage: http://www.workrave.org/
+
+Package: workrave
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, workrave-data (= ${source:Version})
+Description: Repetitive Strain Injury prevention tool
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+
+Package: workrave-data
+Architecture: all
+Depends: ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (data files)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the required data files common to all architectures.
+
+Package: workrave-unity
+Architecture: any
+Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (Unity support)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the Unity applet.
+
+Package: workrave-gnome
+Architecture: any
+Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (Gnome support)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the Gnome Shell & Flashback applet.
+
+Package: workrave-cinnamon
+Architecture: any
+Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (Cinnamon support)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the Cinnamon applet.
+
+Package: workrave-xfce
+Architecture: any
+Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (XFCE support)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the XFCE applet.
+
+Package: workrave-mate
+Architecture: any
+Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Repetitive Strain Injury prevention tool (MATE support)
+ Workrave is a program that assists in the recovery and prevention of
+ Repetitive Strain Injury (RSI). The program frequently alerts you to
+ take micro-pauses, rest breaks and restricts you to your daily limit.
+ .
+ It includes a system tray applet that works with GNOME and KDE
+ and has network capabilities to monitor your activity even if
+ switching back and forth between different computers is part of your
+ job.
+ .
+ Workrave offers many more configuration options than other similar
+ tools.
+ .
+ This package contains the Mate applet.

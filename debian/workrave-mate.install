@@ -1,0 +1,3 @@
+debian/tmp/usr/share/dbus-1/services/org.mate.panel.applet.WorkraveAppletFactory.service
+debian/tmp/usr/share/mate-panel
+debian/tmp/usr/lib/mate-applets

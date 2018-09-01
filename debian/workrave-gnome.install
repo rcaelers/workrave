@@ -1,0 +1,4 @@
+debian/tmp/usr/share/gnome-panel
+debian/tmp/usr/share/gnome-shell
+debian/tmp/usr/lib/workrave/libworkrave-applet.so
+#debian/tmp/usr/lib/gnome-applets

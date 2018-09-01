@@ -1,0 +1,5 @@
+?package(workrave):needs="X11" section="Screen/Locking"\
+  title="Workrave"\
+  longtitle="Workrave: RSI prevention tool"\
+  command="/usr/bin/workrave"\
+  icon="/usr/share/pixmaps/workrave/workrave.xpm"

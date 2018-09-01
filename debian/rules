@@ -1,0 +1,109 @@
+#!/usr/bin/make -f
+# debian/rules that uses debhelper.
+# GNU copyright 1997, 2012, 2013 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+  CONFFLAGS += --build $(DEB_HOST_GNU_TYPE)
+else
+  CONFFLAGS += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
+
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+  CFLAGS += -g
+endif
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+  CFLAGS += -O0
+else
+  CFLAGS += -O2
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+  INSTALL_PROGRAM += -s
+endif
+
+config.status: configure
+	dh_testdir
+
+	# Add here commands to configure the package.
+	mv config.sub config.sub.upstream && ln -s /usr/share/misc/config.sub
+	mv config.guess config.guess.upstream && ln -s /usr/share/misc/config.guess
+	./configure $(CONFFLAGS) --prefix=/usr \
+		--mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info \
+		--libexecdir=\$${prefix}/lib/gnome-applets --sysconfdir=/etc \
+		--disable-dependency-tracking --enable-dbus \
+		--enable-exercises --enable-gsettings --disable-schemas-compile \
+		--enable-monitors=record,screensaver,x11events
+	rm config.sub && mv config.sub.upstream config.sub
+	rm config.guess && mv config.guess.upstream config.guess
+
+
+build-arch:
+build-indep:
+build: build-stamp
+
+build-stamp:  config.status
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+
+	# Add here commands to clean up after the build process.
+	[ ! -f Makefile ] || $(MAKE) distclean
+	rm -f po/.intltool-merge-cache po/*.gmo
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	# Add here commands to install the package into debian/workrave.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	[ ! -d $(CURDIR)/debian/tmp/usr/include ] || rmdir $(CURDIR)/debian/tmp/usr/include
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installmenu
+	dh_installcron
+	dh_installman debian/workrave.1
+	dh_installinfo
+	dh_installchangelogs NEWS
+	dh_installchangelogs
+	dh_installexamples
+	dh_install --list-missing
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_makeshlibs
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

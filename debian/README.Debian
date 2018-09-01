@@ -1,0 +1,55 @@
+workrave for Debian
+====================
+
+What are good values for the micropause, restbreak and daily limit timers?
+---------------------------------------------------------------------------
+
+(from http://www.workrave.org/faq/)
+
+The main problem here is that the settings that are required are
+different from person to person.
+
+For example, I use workrave with a 25 second micropause every two
+and a half minute, and a 10 minute restbreak every 20 minutes. I
+need these frequent breaks, because I'm recovering from RSI. And as
+I recover, I change the settings to fewer breaks.
+
+If you have never had any problem at all (using the computer, that
+is), then you may want much fewer breaks, say 10 seconds micropause
+every 10 minutes, and a 5 minute restbreak every hour.
+
+It is very hard to give proper guidelines here. My best advice is to
+play around and see what works for you. Which settings "feel
+right". Basically, that's how Workrave's defaults evolve.
+
+
+Reporting bugs
+---------------
+
+Workrave has its own bug tracking system. So if you like, you can
+report bugs directly to:
+
+  http://issues.workrave.org/cgi-bin/bugzilla/index.cgi
+
+Packaging and security related bugs should be reported to the Debian BTS anyway.
+
+
+Enabling the main window manually
+----------------------------------
+
+Workrave can work either as a standalone application or be integrated into
+a panel (such as the Gnome panel or other compliant ones). It may, however,
+happen that Workrave starts as a panel applet although you do not run any
+panel. In this case, you will not be able to see the program. This can be
+fixed by setting the main window option, as follows:
+
+  $ gconftool --type bool --set /apps/workrave/gui/main_window/enabled true
+
+
+Running commands when breaks start/end
+---------------------------------------
+
+Workrave exposes a few of its events through DBUS.  Have a look in examples/dbus_script.py
+for an example of how to catch these events an run arbitrary commands.
+
+ -- Francois Marier <francois@debian.org>, Tue, 14 Aug 2007 14:16:17 +1200
