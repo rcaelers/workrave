@@ -5,6 +5,5 @@ for file in _deploy/*.exe; do
                    --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
                    --tag "$TRAVIS_TAG" \
                    --name "Workrave $TRAVIS_TAG" \
-                   --file $file \
-                   --draft
+                   --file $file 
 done
