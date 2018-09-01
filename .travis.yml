@@ -107,6 +107,32 @@ script: |
      build/travis/build.sh
   fi
 
+deploy:
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    skip_cleanup: true
+    file_glob: true
+    file: _deploy/*.exe
+    on:
+      repo: rcaelers/workrave
+      branch: branch_v1_10
+      tags: true
+
+  - provider: s3
+    skip_cleanup: yes
+    local_dir: _deploy
+    upload_dir: "snapshots/v1.10/$GIT_TAG"
+    acl: public_read
+    bucket: org-workrave
+    access_key_id: "$AWS_ACCESS_KEY_ID"
+    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    region: eu-central-1
+    on:
+      repo: rcaelers/workrave
+      branch: branch_v1_10
+      
+#  condition: "$TRAVIS_TAG =~ ^v1.*$"
+
 before_deploy:
   - |
     pushd /tmp
@@ -117,32 +143,6 @@ before_deploy:
     chmod +x ~/bin/github-release
     popd
   - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
-
-- provider: s3
-  skip_cleanup: yes
-  local_dir: _deploy
-  upload_dir: "snapshots/v1.10/$GIT_TAG"
-  acl: public_read
-  bucket: org-workrave
-  access_key_id: "$AWS_ACCESS_KEY_ID"
-  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-  region: eu-central-1
-  on:
-    repo: rcaelers/workrave
-    branch: branch_v1_10
-
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  skip_cleanup: true
-  file_glob: true
-  file: _deploy/*.exe
-  on:
-    repo: rcaelers/workrave
-    branch: branch_v1_10
-    tags: true
-
-#  condition: "$TRAVIS_TAG =~ ^v1.*$"
 
 after_deploy:
   - |
