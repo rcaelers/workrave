@@ -107,13 +107,49 @@ script: |
      build/travis/build.sh
   fi
 
+before_deploy:
+  - |
+    pushd /tmp
+    curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
+    tar xvfj linux-amd64-github-release.tar.bz2
+    mkdir -p ~/bin/
+    mv bin/linux/amd64/github-release ~/bin/
+    chmod +x ~/bin/github-release
+    popd
+
+- provider: s3
+  skip_cleanup: yes
+  local_dir: _deploy
+  upload-dir: snapshots/v1.10
+  acl: public_read
+  bucket: org-workrave
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  region: eu-central-1
+  on:
+    repo: rcaelers/workrave
+    branch: branch_v1_10
+
 deploy:
   provider: releases
-  api_key: GITHUB_KEY 
-  file_glob: true
-  file: _deploy/*
+  api_key: $GITHUB_TOKEN
   skip_cleanup: true
+  file_glob: true
+  file: _deploy/*.exe
   on:
-    tags: true
+    repo: rcaelers/workrave
     branch: branch_v1_10
+    tags: true
   condition: "$TRAVIS_TAG =~ ^v1.*$"
+
+after_deploy:
+  - |
+    github-release edit \
+    --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
+    --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
+    --tag "$TRAVIS_TAG" \
+    --name "Workrave $TRAVIS_TAG" \
+    --description "New release"
+
+
+#      --description "$(cat /tmp/release-note)"
