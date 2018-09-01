@@ -66,18 +66,7 @@ stage_win32: &stage_win32
         repo: rcaelers/workrave
         branch: branch_v1_10
         tags: true
-      script:
-        |
-        ls -laR _deploy
-        for file in _deploy/*.exe; do
-          github-release release \
-            --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
-            --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
-            --tag "$TRAVIS_TAG" \
-            --name "Workrave $TRAVIS_TAG" \
-            --file $file \
-            --draft
-        done
+      script: for file in _deploy/*.exe; do github-release release --user "${TRAVIS_REPO_SLUG%%/[^/]*}" --repo "${TRAVIS_REPO_SLUG#[^/]*/}" --tag "$TRAVIS_TAG" --name "Workrave $TRAVIS_TAG"  --file $file  --draft; done
 
     - provider: s3
       skip_cleanup: yes
@@ -241,10 +230,10 @@ after_failure:
 
 stages:
     - name: prepare
-#      if: tag IS present AND type = push
+      if: tag IS present AND type = push
     - name: build
     - name: release
-#      if: tag IS present AND type = push
+      if: tag IS present AND type = push
 
 # condition: "$TRAVIS_TAG =~ ^v1.*$"
 #  --description "$(cat /tmp/release-note)"
