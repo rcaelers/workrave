@@ -43,23 +43,41 @@ stage_linux: &stage_linux
 stage_win32: &stage_win32
   <<: *stage_linux
   before_deploy:
-    - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
+    - GIT_TAG=`git describe --tags --abbrev=10`
+    - BUILD_DATE=`date +"%Y%m%d"`
   deploy:
-    - provider: releases
-      api_key: $GITHUB_TOKEN
+#    - provider: releases
+#      api_key: $GITHUB_TOKEN
+#      skip_cleanup: true
+#      file_glob: true
+#      file: _deploy/*.exe
+#      draft: true
+#      on:
+#        repo: rcaelers/workrave
+#        branch: branch_v1_10
+#        tags: true
+
+    - provider: script
       skip_cleanup: true
-      file_glob: true
-      file: _deploy/*.exe
-      draft: true
       on:
         repo: rcaelers/workrave
         branch: branch_v1_10
         tags: true
-  
+      script: |
+        for $file in _deploy/*.exe ; do
+          github-release release \
+            --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
+            --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
+            --tag "$TRAVIS_TAG" \
+            --name "Workrave $TRAVIS_TAG" \
+            --file $file \
+            --draft
+        done
+
     - provider: s3
       skip_cleanup: yes
       local_dir: _deploy
-      upload_dir: "snapshots/v1.10/$GIT_TAG"
+      upload_dir: "snapshots/v1.10/$BUILD_DATE-$GIT_TAG"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -72,7 +90,7 @@ stage_win32: &stage_win32
     - provider: s3
       skip_cleanup: yes
       local_dir: _deploy
-      upload_dir: "snapshots/v1.10/$GIT_TAG"
+      upload_dir: "snapshots/v1.10/$BUILD_DATE-$GIT_TAG"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -101,78 +119,88 @@ stage_osx: &stage_osx
 
 jobs:
   include:
+    - stage: prepare
+      script: |
+        github-release release \
+          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
+          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
+          --tag "$TRAVIS_TAG" \
+          --name "Workrave $TRAVIS_TAG" \
+          --description "New release" \
+          --draft
+
     ###########################################################################
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER="2"
-        CONF_ENABLE="gsettings,,exercises,xml,gconf,distribution,experimental"
-        CONF_DISABLE="pulse,xfce,gnome3,gstreamer,dbus,mate,indicator"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        DOCKER_IMAGE="ubuntu-bionic"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="xml,dbus,distribution,pulse,exercises,gsettings,gstreamer"
-        CONF_DISABLE="xfce,gnome3,gconf,mate,indicator,experimental"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
-        DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
-        DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,pulse,dbus,experimental,gstreamer,exercises,xml"
-        CONF_DISABLE="gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing"
-        DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
-        DOCKER_IMAGE="ubuntu-artful"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
-        DOCKER_IMAGE="ubuntu-xenial"
-      <<: *stage_linux
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        DOCKER_IMAGE="ubuntu-bionic"
+#        CONF_GTK_VER="2"
+#        CONF_ENABLE="gsettings,,exercises,xml,gconf,distribution,experimental"
+#        CONF_DISABLE="pulse,xfce,gnome3,gstreamer,dbus,mate,indicator"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        DOCKER_IMAGE="ubuntu-bionic"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+#        CONF_DISABLE=""
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        DOCKER_IMAGE="ubuntu-bionic"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="xml,dbus,distribution,pulse,exercises,gsettings,gstreamer"
+#        CONF_DISABLE="xfce,gnome3,gconf,mate,indicator,experimental"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-bionic"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-cosmic"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,pulse,dbus,experimental,gstreamer,exercises,xml"
+#        CONF_DISABLE="gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing"
+#        DOCKER_IMAGE="ubuntu-cosmic"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-artful"
+#      <<: *stage_linux
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONF_GTK_VER="3"
+#        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+#        CONF_DISABLE=""
+#        DOCKER_IMAGE="ubuntu-xenial"
+#      <<: *stage_linux
 
     - stage: build
       env: >
@@ -206,6 +234,8 @@ after_failure:
     --tag "$TRAVIS_TAG"
 
 stages:
+    - name: prepare
+      if: branch = branch_v1_10 AND type = push
     - name: build
     - name: release
       if: branch = branch_v1_10 AND type = push
