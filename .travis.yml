@@ -46,6 +46,21 @@ stage_linux: &stage_linux
   dist: trusty
   language: cpp
 
+stage_ppa: &stage_ppa
+  <<: *stage_generic
+  os: linux
+  dist: trusty
+  language: cpp
+  script: |
+    if [[ $DOCKER_IMAGE ]]; then
+      docker run --rm \
+          -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+          rcaelers/workrave-build:${DOCKER_IMAGE} \
+          sh -c "/workspace/source/build/travis/ppa.sh"
+    else
+       build/travis/ppa.sh
+    fi
+    
 stage_win32: &stage_win32
   <<: *stage_linux
   deploy:
@@ -222,6 +237,11 @@ jobs:
           --description "New release"
       <<: *stage_generic
 
+#    - stage: ppa
+#      env: >
+#        DOCKER_IMAGE="ubuntu-bionic"
+#      <<: *stage_ppa
+
 after_failure:
   - |
     github-release delete \
@@ -235,6 +255,8 @@ stages:
     - name: build
     - name: release
       if: tag IS present AND type = push
+#    - name: ppa
+#      if: tag IS present AND type = push
 
 # condition: "$TRAVIS_TAG =~ ^v1.*$"
 #  --description "$(cat /tmp/release-note)"

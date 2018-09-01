@@ -66,3 +66,9 @@ fi
     `conf_opt experimental`
 
 make && make check
+
+if [[ -z "$TRAVIS_TAG" ]]; then
+    make && make check
+else
+    make && make dist && make distcheck
+fi
