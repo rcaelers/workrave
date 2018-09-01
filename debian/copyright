@@ -1,29 +1,33 @@
-This package was debianized by Rob Caelers <robc@krandor.org> on
-Wed, 21 Aug 2002 11:51:12 +0200.
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Workrave
+Upstream-Contact: Rob Caelers <robc@krandor.org>
+Source: http://www.workrave.org/
 
-It was downloaded from http://workrave.sourceforge.net
+Files: *
+Copyright: Copyright 2001-2018 Rob Caelers and Raymond Penners
+License: GPL-3+
 
-Upstream Authors:
-   Rob Caelers <robc@krandor.org>
-   Raymond Penners <raymond@dotsphinx.com>
+Files: debian/*
+Copyright: 2012, Jordi Mallach <jordi@debian.org>
+           2007-2013, Francois Marier <francois@debian.org>
+           2003-2007, Michael Piefel <piefel@debian.org>
+           2003, Johannes Rohr <j.rohr@comlink.apc.org>
+           2002, Rob Caelers <robc@krandor.org>
+License: GPL-3+
 
-Copyright: (C) 2001-2018 Rob Caelers and Raymond Penners
-
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this package; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-   MA 02110-1301, USA.
-
-You are free to distribute this software under the terms of the GNU General
-Public License. On Debian systems, the complete text of the GNU General
-Public License can be found in /usr/share/common-licenses/GPL-2 file.
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".

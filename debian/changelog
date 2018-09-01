@@ -78,7 +78,7 @@ workrave (1.10.6.0-ppa2) UNRELEASED; urgency=medium
 
   * Remove MATE on release before utopic.
 
- -- Rob Caelers <robc@utopic>  Wed, 24 Dec 2014 20:18:50 +0100
+ -- Rob Caelers <robc@krandor.org>  Wed, 24 Dec 2014 20:18:50 +0100
 
 workrave (1.10.6.0-ppa1) utopic; urgency=medium
 

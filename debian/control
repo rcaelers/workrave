@@ -2,39 +2,43 @@ Source: workrave
 Section: gnome
 Priority: extra
 Maintainer: Rob Caelers <robc@krandor.org>
-Build-Depends: debhelper (>= 8),
-               autoconf-archive,
-	       autotools-dev,
-	       autopoint,
-	       gobject-introspection  (>= 0.6.7),
-	       gsettings-desktop-schemas-dev,
-	       intltool,
-	       libdbusmenu-glib-dev,
-	       libdbusmenu-gtk3-dev,
-	       libgirepository1.0-dev  (>= 0.6.7),
-	       libglib2.0-0 (>= 2.30),
-	       libglibmm-2.4-dev (>= 2.28.0),
-	       libgstreamer1.0-dev,
-	       libgtk-3-dev (>= 3.0.0),
-	       libgtkmm-3.0-dev (>= 3.0.0),
-	       libindicator3-dev,
-	       libpanel-applet-dev,
-	       libpulse-dev (>= 0.9.5),
-	       libsigc++-2.0-dev (>= 2.2.4.2),
-	       libxi-dev,
-	       libxmu-dev,
-	       libxtst-dev,
-	       libxss-dev,
-	       python-cheetah,
-               xfce4-panel-dev,
+Build-Depends: autoconf-archive,
+               autopoint,
+               autotools-dev,
+               debhelper (>= 9),
+               dh-autoreconf,
+               gobject-introspection  (>= 0.6.7),
+               gsettings-desktop-schemas-dev,
+               intltool,
+               libdbusmenu-glib-dev,
+               libdbusmenu-gtk3-dev,
+               libgirepository1.0-dev  (>= 0.6.7),
+               libglib2.0-0 (>= 2.30),
+               libglibmm-2.4-dev (>= 2.28.0),
+               libgstreamer1.0-dev,
+               libgtk-3-dev (>= 3.0.0),
                libgtk2.0-dev,
+               libgtkmm-3.0-dev (>= 3.0.0),
+               libindicator3-dev,
                libmate-panel-applet-dev
-Standards-Version: 3.9.2
+               libpanel-applet-dev,
+               libpulse-dev (>= 0.9.5),
+               libsigc++-2.0-dev (>= 2.2.4.2),
+               libxi-dev,
+               libxmu-dev,
+               libxss-dev,
+               libxtst-dev,
+               python-cheetah,
+               xfce4-panel-dev,
+Standards-Version: 4.0.0
 Homepage: http://www.workrave.org/
 
 Package: workrave
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, workrave-data (= ${source:Version})
+Pre-Depends: ${misc:Pre-Depends}
+Depends: workrave-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Description: Repetitive Strain Injury prevention tool
  Workrave is a program that assists in the recovery and prevention of
  Repetitive Strain Injury (RSI). The program frequently alerts you to
@@ -87,6 +91,7 @@ Description: Repetitive Strain Injury prevention tool (Unity support)
 Package: workrave-gnome
 Architecture: any
 Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: gnome-panel, gnome-shell
 Description: Repetitive Strain Injury prevention tool (Gnome support)
  Workrave is a program that assists in the recovery and prevention of
  Repetitive Strain Injury (RSI). The program frequently alerts you to
@@ -123,6 +128,7 @@ Description: Repetitive Strain Injury prevention tool (Cinnamon support)
 Package: workrave-xfce
 Architecture: any
 Depends: workrave (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: xfce4-panel
 Description: Repetitive Strain Injury prevention tool (XFCE support)
  Workrave is a program that assists in the recovery and prevention of
  Repetitive Strain Injury (RSI). The program frequently alerts you to
