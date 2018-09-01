@@ -67,7 +67,7 @@ stage_win32: &stage_win32
         branch: branch_v1_10
         tags: true
       script: |
-        for $file in _deploy/*.exe ; do
+        for file in _deploy/*.exe; do
           github-release release \
             --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
             --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
