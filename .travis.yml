@@ -92,9 +92,20 @@ before_install: |
 
     pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
   }
+  install_linux()
+  {
+    pushd /tmp
+    curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
+    tar xvfj linux-amd64-github-release.tar.bz2
+    mkdir -p ~/bin/
+    mv bin/linux/amd64/github-release ~/bin/
+    chmod +x ~/bin/github-release
+    popd
+  }
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then install_osx; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then install_linux; fi
 
 script: |
   if [[ $DOCKER_IMAGE ]]; then
@@ -113,6 +124,7 @@ deploy:
     skip_cleanup: true
     file_glob: true
     file: _deploy/*.exe
+    draft: true
     on:
       repo: rcaelers/workrave
       branch: branch_v1_10
@@ -130,28 +142,46 @@ deploy:
     on:
       repo: rcaelers/workrave
       branch: branch_v1_10
-      
+
+  - provider: s3
+    skip_cleanup: yes
+    local_dir: _deploy
+    upload_dir: "snapshots/v1.10/$GIT_TAG"
+    acl: public_read
+    bucket: org-workrave
+    access_key_id: "$AWS_ACCESS_KEY_ID"
+    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    region: eu-central-1
+    on:
+      repo: rcaelers/workrave
+      tags: true
+
 #  condition: "$TRAVIS_TAG =~ ^v1.*$"
 
-before_deploy:
-  - |
-    pushd /tmp
-    curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-    tar xvfj linux-amd64-github-release.tar.bz2
-    mkdir -p ~/bin/
-    mv bin/linux/amd64/github-release ~/bin/
-    chmod +x ~/bin/github-release
-    popd
-  - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
+jobs:
+  include:
+    - stage: test
+    - stage: deploy
+      script:
+        - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
+        - |
+          github-release edit \
+          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
+          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
+          --tag "$TRAVIS_TAG" \
+          --name "Workrave $TRAVIS_TAG" \
+          --description "New release"
 
-after_deploy:
+after_failure:
   - |
-    github-release edit \
+    github-release delete \
     --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
     --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
-    --tag "$TRAVIS_TAG" \
-    --name "Workrave $TRAVIS_TAG" \
-    --description "New release"
+    --tag "$TRAVIS_TAG"
 
+stages:
+    - name: test
+    - name: deploy
+      if: branch = branch_v1_10 AND type = push
 
 #      --description "$(cat /tmp/release-note)"
