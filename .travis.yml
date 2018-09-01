@@ -42,6 +42,8 @@ stage_linux: &stage_linux
 
 stage_win32: &stage_win32
   <<: *stage_linux
+  before_deploy:
+    - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
   deploy:
     - provider: releases
       api_key: $GITHUB_TOKEN
@@ -188,7 +190,6 @@ jobs:
 
     - stage: release
       script:
-        - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
         - |
           github-release edit \
           --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
