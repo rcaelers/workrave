@@ -4,5 +4,6 @@ for file in _deploy/*.exe; do
                    --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
                    --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
                    --tag "$TRAVIS_TAG" \
-                   --file $file 
+                   --name $file \
+                   --file $file
 done
