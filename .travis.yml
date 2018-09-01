@@ -66,7 +66,9 @@ stage_win32: &stage_win32
         repo: rcaelers/workrave
         branch: branch_v1_10
         tags: true
-      script: |
+      script:
+        |
+        ls -laR _deploy
         for file in _deploy/*.exe; do
           github-release release \
             --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
@@ -213,12 +215,12 @@ jobs:
         DOCKER_IMAGE="mingw-gtk2"
       <<: *stage_win32
 
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONFIGURATION="Debug"
-        DOCKER_IMAGE="mingw-gtk2"
-      <<: *stage_win32
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        CONFIGURATION="Debug"
+#        DOCKER_IMAGE="mingw-gtk2"
+#      <<: *stage_win32
 
     - stage: release
       script:
@@ -239,10 +241,10 @@ after_failure:
 
 stages:
     - name: prepare
-      if: tag IS present AND type = push
+#      if: tag IS present AND type = push
     - name: build
     - name: release
-      if: tag IS present AND type = push
+#      if: tag IS present AND type = push
 
 # condition: "$TRAVIS_TAG =~ ^v1.*$"
 #  --description "$(cat /tmp/release-note)"
