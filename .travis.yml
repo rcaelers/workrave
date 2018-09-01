@@ -116,11 +116,12 @@ before_deploy:
     mv bin/linux/amd64/github-release ~/bin/
     chmod +x ~/bin/github-release
     popd
+  - GIT_TAG=`git describe --tags --abbrev=10 --dirty`
 
 - provider: s3
   skip_cleanup: yes
   local_dir: _deploy
-  upload-dir: snapshots/v1.10
+  upload_dir: "snapshots/v1.10/$GIT_TAG"
   acl: public_read
   bucket: org-workrave
   access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -140,7 +141,8 @@ deploy:
     repo: rcaelers/workrave
     branch: branch_v1_10
     tags: true
-  condition: "$TRAVIS_TAG =~ ^v1.*$"
+
+#  condition: "$TRAVIS_TAG =~ ^v1.*$"
 
 after_deploy:
   - |
