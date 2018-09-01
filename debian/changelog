@@ -1,3 +1,13 @@
+workrave (1.10.21-ppa1) cosmic; urgency=medium
+
+  * Support MATE applet with Gtk+3
+  * Support Xfce applet with Gtk+3
+  * Fix activity monitoring on non-Gnome desktop environments
+  * Fix crash because of missing setting
+  * Fix Gnome Shell applet
+
+ -- Rob Caelers <robc@krandor.org>  Sat, 01 Sep 2018 23:20:41 +0200
+
 workrave (1.10.18.0-ppa1) UNRELEASED; urgency=medium
 
   * Support Gnome Shell 3.24/26
