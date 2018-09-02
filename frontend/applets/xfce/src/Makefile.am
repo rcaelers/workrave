@@ -51,18 +51,19 @@ workrave-xfce-applet.desktop.in: workrave-xfce-applet-2.0.desktop.in.in
 endif
 
 desktopdir = $(datadir)/xfce4/panel-plugins
-desktop_in_in_files = workrave-xfce-applet-1.0.desktop.in.in workrave-xfce-applet-2.0.desktop.in.in
-desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
-
 desktop_DATA = workrave-xfce-applet.desktop
 
 @INTLTOOL_DESKTOP_RULE@
+
+endif
+
+desktop_in_in_files = workrave-xfce-applet-1.0.desktop.in.in workrave-xfce-applet-2.0.desktop.in.in
+desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
 
 EXTRA_DIST =								\
 	$(desktop_in_in_files)
 
 CLEANFILES =								\
+  workrave-xfce-applet.desktop.in \
 	$(desktop_in_files)				\
 	$(desktop_DATA)
-
-endif

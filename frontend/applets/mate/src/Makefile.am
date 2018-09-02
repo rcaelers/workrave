@@ -1,3 +1,6 @@
+applets_in_files = org.workrave.WorkraveApplet.mate-panel-applet.in
+service_in_files = org.mate.panel.applet.WorkraveAppletFactory.service.in
+
 if HAVE_MATE
 
 WORKRAVE_MENU_UI_DIR = $(datadir)/mate-panel/ui
@@ -43,7 +46,6 @@ workrave_applet_LDADD = 	$(LIBMATEPANEL_LIBS) $(LIBMATEGUI4_LIBS) $(LIBMATEPANEL
 endif
 
 appletsdir       = $(datadir)/mate-panel/applets
-applets_in_files = org.workrave.WorkraveApplet.mate-panel-applet.in
 applets_DATA     = $(applets_in_files:.mate-panel-applet.in=.mate-panel-applet)
 
 $(applets_in_files): $(applets_in_files).in Makefile
@@ -53,7 +55,6 @@ $(applets_in_files): $(applets_in_files).in Makefile
 %.mate-panel-applet: %.mate-panel-applet.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
 
 servicedir       = $(datadir)/dbus-1/services
-service_in_files = org.mate.panel.applet.WorkraveAppletFactory.service.in
 service_DATA     = $(service_in_files:.service.in=.service)
 
 org.mate.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
@@ -61,9 +62,10 @@ org.mate.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 		-e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
 		$< > $@
 
-
 xmluidir   = $(WORKRAVE_MENU_UI_DIR)
 xmlui_DATA = workrave-menu.xml
+
+endif
 
 CLEANFILES = $(applet_DATA) $(applet_DATA).in $(service_DATA) \
 	org.workrave.WorkraveApplet.mate-panel-applet \
@@ -74,5 +76,4 @@ EXTRA_DIST = \
 	org.workrave.WorkraveApplet.mate-panel-applet.in.in \
 	$(applets_in_files) \
 	$(service_in_files) \
-        $(xmlui_DATA)
-endif
+	workrave-menu.xml
