@@ -60,5 +60,13 @@ do
 
     yes $GPG_PASSPHRASE | debuild -p"gpg  --batch --pinentry-mode loopback --passphrase-fd 0" -d -S -sa -kD5A196C1776BD06C -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
+    if [[ -z "$TRAVIS_TAG" ]]; then
+        echo "No tag build."
+        dpkg-buildpackage -rfakeroot
+    else
+        echo "Tag build : $TRAVIS_TAG"
+        # dput ppa:rob-caelers/workrave ../workrave_*_source.changes
+    fi
+
     popd
 done

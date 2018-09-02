@@ -259,7 +259,7 @@ stages:
     - name: release
       if: tag IS present AND type = push
     - name: ppa
-      if: tag IS present AND type = push
+      if: type = push
 
 # condition: "$TRAVIS_TAG =~ ^v1.*$"
 #  --description "$(cat /tmp/release-note)"
