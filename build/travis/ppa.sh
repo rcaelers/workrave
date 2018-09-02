@@ -77,7 +77,9 @@ do
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
-        dpkg-buildpackage -rfakeroot
+        if [[ $series == "bionic" ]]; then
+            dpkg-buildpackage -rfakeroot
+        fi
     else
         echo "Tag build : $TRAVIS_TAG"
         # dput ppa:rob-caelers/workrave ../workrave_*_source.changes
