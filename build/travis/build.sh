@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 if [[ $DOCKER_IMAGE ]]; then 
     WORKSPACE=/workspace
@@ -106,10 +106,12 @@ EXTRA=
 #    EXTRA="-Debug"
 #fi
 
-if [[ -z "$TRAVIS_TAG" ]]; then
-    echo "No tag build."
-    cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}.exe
-else
-    echo "Tag build : $TRAVIS_TAG"
-    cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
+if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
+  if [[ -z "$TRAVIS_TAG" ]]; then
+      echo "No tag build."
+      cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}.exe
+  else
+      echo "Tag build : $TRAVIS_TAG"
+      cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
+  fi
 fi
