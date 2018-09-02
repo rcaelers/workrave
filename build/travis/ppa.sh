@@ -78,7 +78,7 @@ do
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
         if [[ $series == "bionic" ]]; then
-            dpkg-buildpackage -rfakeroot
+            dpkg-buildpackage -rfakeroot -us -uc
         fi
     else
         echo "Tag build : $TRAVIS_TAG"
