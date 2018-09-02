@@ -126,6 +126,7 @@ stage_ppa: &stage_ppa
     if [[ $DOCKER_IMAGE ]]; then
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+          -v "/tmp/secrets:/tmp/secrets" \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/ppa.sh"
     else
