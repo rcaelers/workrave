@@ -237,10 +237,13 @@ jobs:
           --description "New release"
       <<: *stage_generic
 
-#    - stage: ppa
-#      env: >
-#        DOCKER_IMAGE="ubuntu-bionic"
-#      <<: *stage_ppa
+    - stage: ppa
+      env: >
+        DOCKER_IMAGE="ubuntu-bionic"
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_ad072dc8e07b_key -iv $encrypted_ad072dc8e07b_iv -in build/travis/secring.gpg.enc -out build/travis/secring.gpg -d
+        - chmod 0600 build/travis/secring.gpg
+      <<: *stage_ppa
 
 after_failure:
   - |
@@ -255,8 +258,8 @@ stages:
     - name: build
     - name: release
       if: tag IS present AND type = push
-#    - name: ppa
-#      if: tag IS present AND type = push
+    - name: ppa
+      if: tag IS present AND type = push
 
 # condition: "$TRAVIS_TAG =~ ^v1.*$"
 #  --description "$(cat /tmp/release-note)"
