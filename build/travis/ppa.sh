@@ -11,6 +11,11 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 
 cd /workspace/source
 
+echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
+
+gpg --import build/travis/pubring.gpg
+gpg --passphrase $GPG_PASSPHRASE --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import build/travis/secring.gpg
+
 git remote set-branches --add origin debian-packaging
 git fetch
 
@@ -32,11 +37,6 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --output pubring.gpg --export D5A196C1776BD06C
 # gpg --output secring.gpg --export-secret-key D5A196C1776BD06C
 # travis encrypt-file secring.gpg
-
-echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
-
-gpg --import build/travis/pubring.gpg
-gpg --passphrase $GPG_PASSPHRASE --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import build/travis/secring.gpg
 
 for series in cosmic bionic artful xenial trusty
 do
