@@ -761,18 +761,6 @@ then
                          [if test "x$enable_xfce" = "xyes"; then
                           AC_MSG_ERROR([XFCE Panel applet development headers not found.])
                           fi])
-
-      if test x$config_xfce = xyes
-      then
-         PKG_CHECK_MODULES([GTK2],
-                         [gtk+-2.0 >= 2.6.0
-                          gdk-2.0 >= 2.8 ],
-                         [config_gtk2=yes
-                          AC_DEFINE(HAVE_GTK2, 1, [Support for xfce applet])],
-                         [if test "x$enable_xfce" = "xyes"; then
-                             AC_MSG_ERROR([GTK2 development headers not found.])
-                         fi])
-      fi
    fi
 fi
 
@@ -784,7 +772,7 @@ AM_CONDITIONAL(HAVE_XFCE_GTK3, test "x$config_xfce_gtk_version" = "x3")
 
 
 dnl
-dnl Xfce
+dnl Mate
 dnl
 
 config_mate=no
@@ -817,6 +805,16 @@ fi
 AM_CONDITIONAL(HAVE_MATE, test "x$config_mate" = "xyes")
 AM_CONDITIONAL(HAVE_MATE_GTK2, test "x$config_mate_gtk_version" = "x2")
 AM_CONDITIONAL(HAVE_MATE_GTK3, test "x$config_mate_gtk_version" = "x3")
+
+
+if test "x$config_mate_gtk_version" = "x2" -o "x$config_xfce_gtk_version" = "x2"
+then
+  PKG_CHECK_MODULES([GTK2],
+                    [gtk+-2.0 >= 2.6.0 gdk-2.0 >= 2.8 ],
+                    [config_gtk2=yes
+                     AC_DEFINE(HAVE_GTK2, 1, [Support for GTK2])],
+                    [AC_MSG_ERROR([GTK2 development headers not found.])])
+fi
 
 dnl
 dnl GConf
