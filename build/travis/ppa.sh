@@ -11,16 +11,13 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 
 cd /workspace/source
 
-git branch
-git branch -r
-
 git remote set-branches --add origin debian-packaging
 git fetch
 
-git branch
-git branch -r
-
 git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
+
+apt-get update -q
+apt-get -y -q -V --no-install-recommends install python-cheetah
 
 ./autogen.sh
 ./configure
