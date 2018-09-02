@@ -16,9 +16,6 @@ git fetch
 
 git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
-apt-get update -q
-apt-get -y -q -V --no-install-recommends install python-cheetah
-
 ./autogen.sh
 ./configure
 
