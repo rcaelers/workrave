@@ -37,7 +37,7 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # travis encrypt-file secring.gpg
 
 gpg --import build/travis/pubring.gpg
-gpg --passphrase $GPG_PASSPHRASE --batch --allow-secret-key-import --import ${BUILD_DIR}/secret.gpg
+gpg --passphrase $GPG_PASSPHRASE --batch --allow-secret-key-import --import build/travis/secring.gpg
 
 echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
 
