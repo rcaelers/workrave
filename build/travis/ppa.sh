@@ -2,22 +2,14 @@
 
 export DEBEMAIL="robc@krandor.org"
 
-BUILD_DIR=`pwd`/_dist/build
-DEBIAN_PACKAGING_DIR=`pwd`/_dist/debian-packaging
+BUILD_DIR=/workspace/source/_dist/build
+DEBIAN_PACKAGING_DIR=/workspace/source/_dist/debian-packaging
 
 rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${DEBIAN_PACKAGING_DIR}
 
-pwd
-ls -la
-
-echo git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
-
-# git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
-
-# TODO: allow commit to this repo
-git clone https://github.com/rcaelers/workrave.git -b debian-packaging ${DEBIAN_PACKAGING_DIR}
+git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
 ./autogen.sh
 ./configure
