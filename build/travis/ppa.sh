@@ -14,7 +14,12 @@ cd /workspace/source
 git branch
 git branch -r
 
-git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} debian-packaging
+git remote set-branches --add origin debian-packaging
+
+git branch
+git branch -r
+
+git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
 ./autogen.sh
 ./configure
