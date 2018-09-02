@@ -9,6 +9,8 @@ rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${DEBIAN_PACKAGING_DIR}
 
+cd /workspace/source
+
 git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
 ./autogen.sh
@@ -36,6 +38,7 @@ echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
 for series in cosmic bionic artful xenial trusty
 do
     echo Create $series source package
+    cd /workspace/source
 
     rm -rf "$BUILD_DIR/$series"
     mkdir -p "$BUILD_DIR/$series"
@@ -47,7 +50,6 @@ do
         cp -a "${DEBIAN_PACKAGING_DIR}/debian-${series}"/* "$BUILD_DIR/$series/workrave-$VERSION/debian/"
     fi
 
-    pushd .
     cd "$BUILD_DIR/$series/workrave-$VERSION"
 
     LAST_VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1/p'`
@@ -68,5 +70,4 @@ do
         # dput ppa:rob-caelers/workrave ../workrave_*_source.changes
     fi
 
-    popd
 done
