@@ -65,8 +65,6 @@ fi
     `conf_opt exercises` \
     `conf_opt experimental`
 
-make && make check
-
 if [[ -z "$TRAVIS_TAG" ]]; then
     make && make check
 else
