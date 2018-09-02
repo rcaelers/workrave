@@ -22,7 +22,7 @@ stage_generic_build: &stage_generic_build
     if [[ $DOCKER_IMAGE ]]; then
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR)=' | sed 's/^/-e /g') \
+          $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR|TRAVIS_TAG)=' | sed 's/^/-e /g') \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/build.sh"
     else
@@ -127,6 +127,7 @@ stage_ppa: &stage_ppa
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
           -v "/tmp/secrets:/tmp/secrets" \
+          -e TRAVIS_TAG=${TRAVIS_TAG} \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/ppa.sh"
     else
