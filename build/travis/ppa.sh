@@ -12,10 +12,15 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 cd /workspace/source
 
 mkdir -p ~/.gnupg
+chmod 600 ~/.gnupg
+
+# Workaround for 'error building skey array: No such file or directory'
+mkdir -p /home/robc/.gnupg/private-keys-v1.d
+
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
 gpg --import build/travis/pubring.gpg
-gpg --passphrase $GPG_PASSPHRASE --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import build/travis/secring.gpg
+gpg --passphrase "$GPG_PASSPHRASE" --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import build/travis/secring.gpg
 
 git remote set-branches --add origin debian-packaging
 git fetch
