@@ -218,7 +218,7 @@ jobs:
         WITH_UI="Qt5"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-      <<: *stage_linux
+      <<: *stage_osx
 
 #    - stage: release
 #      script:
