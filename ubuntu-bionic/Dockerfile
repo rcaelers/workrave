@@ -12,6 +12,8 @@ RUN \
     autopoint \
     build-essential \
     cmake \
+    debhelper \
+    dh-autoreconf \
     gettext \
     git \
     gobject-introspection \
@@ -47,6 +49,7 @@ RUN \
     libxss-dev \
     libxtst-dev \
     python3-pip \
+    python-cheetah \
     qtbase5-dev \
     qtbase5-private-dev \
     qttools5-dev-tools \
