@@ -11,6 +11,21 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 
 git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
+apt-get update -q
+apt-get -y -q -V --no-install-recommends install \
+        build-essential \
+        automake \
+        autoconf \
+        autoconf-archive \
+        libtool \
+        autopoint \
+        intltool
+
+./autogen.sh
+./configure
+
+make dist
+
 SOURCE=`ls workrave-*.tar.gz`
 VERSION=`echo $SOURCE | sed -e 's/.*-\(.*\).tar.gz/\1/'`
 
