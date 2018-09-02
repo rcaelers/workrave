@@ -12,17 +12,6 @@ notifications:
 ################################################################################
 
 stage_generic: &stage_generic
-  before_install:
-    |
-    if [ ${TRAVIS_OS_NAME} = "linux" ]; then
-      pushd /tmp
-      curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-      tar xvfj linux-amd64-github-release.tar.bz2
-      mkdir -p ~/bin/
-      mv bin/linux/amd64/github-release ~/bin/
-      chmod +x ~/bin/github-release
-      popd
-    fi
   before_deploy:
     - GIT_TAG=`git describe --tags --abbrev=10`
     - BUILD_DATE=`date +"%Y%m%d"`
@@ -38,6 +27,23 @@ stage_generic_build: &stage_generic_build
           sh -c "/workspace/source/build/travis/build.sh"
     else
        build/travis/build.sh
+    fi
+
+stage_github: &stage_github
+  <<: *stage_generic
+  os: linux
+  dist: trusty
+  language: cpp
+  before_install:
+    |
+    if [ ${TRAVIS_OS_NAME} = "linux" ]; then
+      pushd /tmp
+      curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
+      tar xvfj linux-amd64-github-release.tar.bz2
+      mkdir -p ~/bin/
+      mv bin/linux/amd64/github-release ~/bin/
+      chmod +x ~/bin/github-release
+      popd
     fi
 
 stage_linux: &stage_linux
@@ -138,6 +144,7 @@ jobs:
 ##          --description "New release" \
 ##          --draft
 ##      <<: *stage_generic
+##      <<: *stage_github
 ##
 ##    ###########################################################################
 ##    - stage: build
@@ -236,6 +243,7 @@ jobs:
 ##          --name "Workrave $TRAVIS_TAG" \
 ##          --description "New release"
 ##      <<: *stage_generic
+##      <<: *stage_github
 
     - stage: ppa
       env: >
