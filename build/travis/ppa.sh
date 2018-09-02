@@ -15,6 +15,7 @@ git branch
 git branch -r
 
 git remote set-branches --add origin debian-packaging
+git fetch
 
 git branch
 git branch -r
