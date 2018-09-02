@@ -28,7 +28,8 @@ override_dh_compress:
 	dh_compress --exclude=gnuplot-workrave --exclude=workrave-dump
 
 override_dh_install:
-	dh_install --list-missing
+	dh_install
+	dh_missing --list-missing
 
 override_dh_installexamples-arch:
 	dh_installexamples

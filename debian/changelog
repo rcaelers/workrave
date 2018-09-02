@@ -1,4 +1,4 @@
-workrave (1.10.21-ppa1) cosmic; urgency=medium
+workrave (1.10.21-ppa1) UNRELEASED; urgency=medium
 
   * Support MATE applet with Gtk+3
   * Support Xfce applet with Gtk+3
