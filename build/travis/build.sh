@@ -5,17 +5,19 @@ if [[ $DOCKER_IMAGE ]]; then
     SOURCE_DIR=${WORKSPACE}/source
     OUTPUT_DIR=${WORKSPACE}/output
     BUILD_DIR=${WORKSPACE}/build
+    DEPLOY_DIR=${WORKSPACE}/source/_deploy
+
 else
     WORKSPACE=$TRAVIS_BUILD_DIR
     SOURCE_DIR=${WORKSPACE}
     OUTPUT_DIR=${WORKSPACE}/output
     BUILD_DIR=${WORKSPACE}/build
+    DEPLOY_DIR=${WORKSPACE}/deploy
 fi
 
 CMAKE_FLAGS=()
 CMAKE_FLAGS64=()
 MAKE_FLAGS=()
-
 
 build()
 {
@@ -96,3 +98,18 @@ case "$DOCKER_IMAGE" in
 esac
 
 build "" CMAKE_FLAGS[@]
+
+mkdir ${DEPLOY_DIR}
+
+EXTRA=
+#if [ $CONFIGURATION == "Debug" ]; then
+#    EXTRA="-Debug"
+#fi
+
+if [[ -z "$TRAVIS_TAG" ]]; then
+    echo "No tag build."
+    cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}.exe
+else
+    echo "Tag build : $TRAVIS_TAG"
+    cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
+fi
