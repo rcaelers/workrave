@@ -13,6 +13,7 @@ RUN \
     build-essential \
     cmake \
     debhelper \
+    devscripts \
     dh-autoreconf \
     gettext \
     git \
@@ -48,12 +49,13 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
-    python3-pip \
     python-cheetah \
+    python3-pip \
+    python3-setuptools \
     qtbase5-dev \
     qtbase5-private-dev \
     qttools5-dev-tools \
-    xfce4-panel-dev  && \
+    xfce4-panel-dev && \
   apt-get clean
 
 RUN pip3 install --upgrade pip

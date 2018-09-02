@@ -18,6 +18,9 @@ RUN \
     build-essential \
     clang-6.0 \
     cmake \
+    debhelper \
+    devscripts \
+    dh-autoreconf \
     g++-8 \
     gcc-8 \
     gettext \
@@ -56,6 +59,7 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    python-cheetah \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \

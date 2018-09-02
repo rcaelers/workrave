@@ -12,6 +12,9 @@ RUN \
     autopoint \
     build-essential \
     cmake \
+    debhelper \
+    devscripts \
+    dh-autoreconf \
     gettext \
     git \
     gobject-introspection \
@@ -35,7 +38,6 @@ RUN \
     libgtk-3-dev \
     libgtkmm-3.0-dev \
     libindicator3-dev \
-    libindicator3-dev \
     libmate-panel-applet-dev \
     libpanel-applet-dev \
     libpulse-dev \
@@ -47,7 +49,9 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    python-cheetah \
     python3-pip \
+    python3-setuptools \
     qtbase5-dev \
     qtbase5-private-dev \
     qttools5-dev-tools \
