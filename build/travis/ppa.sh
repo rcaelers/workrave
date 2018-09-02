@@ -72,7 +72,7 @@ do
 
     dch -b -D "$series" --force-distribution -v "${VERSION}-ppa1~${series}1" "New release"
 
-    echo "$GPG_PASSPHRASE" | debuild -p"gpg --batch --pinentry-mode loopback --passphrase-fd 0" -d -S -sa -kD5A196C1776BD06C -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    debuild -p"gpg --passphrase $GPG_PASSPHRASE --batch --pinentry-mode loopback" -d -S -sa -kD5A196C1776BD06C -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
