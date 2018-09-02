@@ -6,6 +6,11 @@ RUN \
   export DEBIAN_FRONTEND=noninteractive && \
   apt-get update -y && \
   apt-get install -y \
+    autoconf \
+    autoconf-archive \
+    automake \
+    autopoint \
+    build-essential \
     cmake \
     gettext \
     git \
@@ -33,18 +38,20 @@ RUN \
     libmate-panel-applet-dev \
     libpanel-applet-dev \
     libpulse-dev \
+    libqt5svg5-dev \
+    libqt5x11extras5-dev \
     libssl-dev \
+    libtool \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
     python3-pip \
-    xfce4-panel-dev \
     qtbase5-dev \
+    qtbase5-private-dev \
     qttools5-dev-tools \
-    libqt5svg5-dev \
-    libqt5x11extras5-dev \
-    qtbase5-private-dev
+    xfce4-panel-dev  && \
+  apt-get clean
 
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2

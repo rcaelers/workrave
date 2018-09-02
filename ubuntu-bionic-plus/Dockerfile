@@ -11,6 +11,10 @@ RUN \
   add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
+    autoconf \
+    autoconf-archive \
+    automake \
+    autopoint \
     build-essential \
     clang-6.0 \
     cmake \
@@ -47,6 +51,7 @@ RUN \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
     libssl-dev \
+    libtool \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
