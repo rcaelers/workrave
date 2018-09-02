@@ -32,6 +32,9 @@ git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packa
 
 make dist
 
+apt-get update -q
+apt-get -y -q -V --no-install-recommends install devscripts
+
 SOURCE=`ls workrave-*.tar.gz`
 VERSION=`echo $SOURCE | sed -e 's/.*-\(.*\).tar.gz/\1/'`
 
