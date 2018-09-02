@@ -250,7 +250,7 @@ jobs:
         DOCKER_IMAGE="ubuntu-bionic"
       before_install:
         - mkdir -p /tmp/secrets
-        - chmod 0600 /tmp/secrets
+        - chmod 0700 /tmp/secrets
         - openssl aes-256-cbc -K $encrypted_ad072dc8e07b_key -iv $encrypted_ad072dc8e07b_iv -in build/travis/secring.gpg.enc -out /tmp/secrets/secring.gpg -d
         - echo $GPG_PASSPHRASE > /tmp/secrets/priv-key
       <<: *stage_ppa
