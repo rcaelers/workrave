@@ -11,6 +11,7 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 
 cd /workspace/source
 
+mkdir -p ~/.gnupg
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
 gpg --import build/travis/pubring.gpg
