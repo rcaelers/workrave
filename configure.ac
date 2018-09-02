@@ -765,7 +765,6 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
-AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 AM_CONDITIONAL(HAVE_XFCE_GTK2, test "x$config_xfce_gtk_version" = "x2")
 AM_CONDITIONAL(HAVE_XFCE_GTK3, test "x$config_xfce_gtk_version" = "x3")
@@ -815,6 +814,8 @@ then
                      AC_DEFINE(HAVE_GTK2, 1, [Support for GTK2])],
                     [AC_MSG_ERROR([GTK2 development headers not found.])])
 fi
+
+AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 dnl
 dnl GConf
