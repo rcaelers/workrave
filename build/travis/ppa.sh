@@ -11,7 +11,10 @@ mkdir -p ${DEBIAN_PACKAGING_DIR}
 
 cd /workspace/source
 
-git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
+git branch
+git branch -r
+
+git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} debian-packaging
 
 ./autogen.sh
 ./configure
