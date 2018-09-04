@@ -44,8 +44,8 @@ cp -a "${DEBIAN_PACKAGING_DIR}/debian" "$BUILD_DIR/workrave-$VERSION/debian"
 cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 
 # gpg --list-secret-keys --keyid-format LONG
-# gpg --output pubring.gpg --export D5A196C1776BD06C
-# gpg --output secring.gpg --export-secret-key D5A196C1776BD06C
+# gpg --output pubring.gpg --export 9D5F98D3149A28DB
+# gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
 
 for series in cosmic bionic artful xenial trusty
@@ -73,7 +73,7 @@ do
 
     dch -b -D "$series" --force-distribution -v "${VERSION}-ppa1~${series}1" "New release"
 
-    debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -kD5A196C1776BD06C -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
