@@ -54,6 +54,7 @@ stage_linux: &stage_linux
 
 stage_win32: &stage_win32
   <<: *stage_linux
+  <<: *stage_github
   deploy:
 #    - provider: releases
 #      api_key: $GITHUB_TOKEN
