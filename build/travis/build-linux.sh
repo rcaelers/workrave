@@ -65,7 +65,7 @@ fi
     `conf_opt exercises` \
     `conf_opt experimental`
 
-if [[ -z "$TRAVIS_TAG" ]]; then
+if [[ -z "$TRAVIS_TAG" -o -z "$DISTCHECK" ]]; then
     make && make check
 else
     make && make dist && make distcheck

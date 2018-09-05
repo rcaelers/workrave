@@ -22,7 +22,7 @@ stage_generic_build: &stage_generic_build
     if [[ $DOCKER_IMAGE ]]; then
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR|TRAVIS_TAG)=' | sed 's/^/-e /g') \
+          $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR|TRAVIS_TAG|DISTCHECK)=' | sed 's/^/-e /g') \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/build.sh"
     else
@@ -165,6 +165,7 @@ jobs:
         CONF_GTK_VER="3"
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
+        DISTCHECK="yes"
       <<: *stage_linux
 
     - stage: build
@@ -192,6 +193,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-cosmic"
+        DISTCHECK="yes"
       <<: *stage_linux
 
     - stage: build
