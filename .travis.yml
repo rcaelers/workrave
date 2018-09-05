@@ -183,15 +183,6 @@ jobs:
         CONF_GTK_VER="3"
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
-        DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        CONF_GTK_VER="3"
-        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
-        CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-cosmic"
         DISTCHECK="yes"
       <<: *stage_linux
