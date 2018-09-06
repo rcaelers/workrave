@@ -82,6 +82,6 @@ do
         fi
     else
         echo "Tag build : $TRAVIS_TAG"
-        # dput ppa:rob-caelers/workrave ../workrave_*_source.changes
+        dput ppa:rob-caelers/workrave ../workrave_*_source.changes
     fi
 done
