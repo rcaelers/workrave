@@ -1,5 +1,0 @@
-debian/tmp/usr/bin
-debian/tmp/usr/lib/x86_64-linux-gnu/girepository-1.0
-debian/tmp/usr/lib/x86_64-linux-gnu/libworkrave-private*.so*
-debian/tmp/usr/share/applications/workrave.desktop
-debian/tmp/usr/share/appdata/
