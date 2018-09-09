@@ -34,7 +34,7 @@ git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packa
 make dist
 
 apt-get update -q
-apt-get -y -q -V --no-install-recommends install devscripts
+apt-get -y -q -V --no-install-recommends install devscripts libxfce4panel-2.0-dev
 
 SOURCE=`ls workrave-*.tar.gz`
 VERSION=`echo $SOURCE | sed -e 's/.*-\(.*\).tar.gz/\1/'`
@@ -65,13 +65,20 @@ do
 
     cd "$BUILD_DIR/$series/workrave-$VERSION"
 
-    LAST_VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1/p'`
+    LAST_DEB_VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1/p'`
+    LAST_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^\(.*\)-.*$/\1/'`
+    LAST_PPA_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^[^-]\+-ppa\([0-9]\+\).*$/\1/'`
 
     # TODO: process news
     NEWS=`awk '/${VERSION}/{f=1} /${LAST_VERSION}/{f=0} f' < NEWS`
     echo $NEWS
 
-    dch -b -D "$series" --force-distribution -v "${VERSION}-ppa1~${series}1" "New release"
+    PPA=$LAST_PPA_VERSION
+    if [ "x$VERSION" != "x$LAST_VERSION" ]; then
+        PPA=1
+    fi
+
+    dch -b -D "$series" --force-distribution -v "${VERSION}-ppa${PPA}~${series}1" "New release"
 
     debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
@@ -82,6 +89,7 @@ do
         fi
     else
         echo "Tag build : $TRAVIS_TAG"
-        dput ppa:rob-caelers/workrave ../workrave_*_source.changes
+        cd "$BUILD_DIR"
+        dput ppa:rob-caelers/workrave workrave_*_source.changes
     fi
 done
