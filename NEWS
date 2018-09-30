@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.22
+
+** Fix size of Xfce applet
+
 * Workrave 1.10.21
 
 ** Support MATE applet with Gtk+3

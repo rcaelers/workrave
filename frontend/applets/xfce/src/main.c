@@ -413,7 +413,7 @@ static void workrave_applet_construct(XfcePanelPlugin *plugin)
     }
 
   workrave_applet_fill(applet);
-  xfce_panel_plugin_set_expand(plugin, TRUE);
+  xfce_panel_plugin_set_expand(plugin, FALSE);
   gtk_widget_show_all(GTK_WIDGET(plugin));
 }
 
