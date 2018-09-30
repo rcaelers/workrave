@@ -1,8 +1,14 @@
-workrave (1.10.22-ppa1) UNRELEASED; urgency=medium
+workrave (1.10.23) UNRELEASED; urgency=medium
+
+  * Fix PPA upload
+
+ -- Rob Caelers <robc@krandor.org>  Sun, 30 Sep 2018 20:29:33 +0200
+
+workrave (1.10.22-ppa1) bionic; urgency=medium
 
   * Fixed size of Xfce appplet
 
- -- Rob Caelers <robc@krandor.org>  Sun, 30 Sep 2018 18:08:47 +0200
+ -- Rob Caelers <robc@krandor.org>  Sun, 30 Sep 2018 20:29:18 +0200
 
 workrave (1.10.21-ppa8) UNRELEASED; urgency=medium
 
