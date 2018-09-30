@@ -83,6 +83,8 @@ do
 
     debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
+    ls -laR $BUILD_DIR/$series
+
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
         if [[ $series == "bionic" ]]; then
@@ -90,7 +92,7 @@ do
         fi
     else
         echo "Tag build : $TRAVIS_TAG"
-        cd "$BUILD_DIR"
+        cd "$BUILD_DIR/$series"
         dput ppa:rob-caelers/workrave workrave_*_source.changes
     fi
 done
