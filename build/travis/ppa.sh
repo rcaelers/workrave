@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+export DEBFULLNAME="Rob Caelers"
 export DEBEMAIL="robc@krandor.org"
 
 SOURCE_DIR=/workspace/source
