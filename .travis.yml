@@ -263,12 +263,9 @@ after_failure:
 
 stages:
     - name: prepare
-      if: tag IS present AND type = push
+      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: build
     - name: release
-      if: tag IS present AND type = push
+      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: ppa
-      if: type = push
-
-# condition: "$TRAVIS_TAG =~ ^v1.*$"
-#  --description "$(cat /tmp/release-note)"
+      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
