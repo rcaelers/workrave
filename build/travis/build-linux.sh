@@ -72,4 +72,6 @@ if [ -z "$TRAVIS_TAG" -o -z "$DISTCHECK" ]; then
     make && make check
 else
     make && make dist && make distcheck
+
+    cp -a workrave*tar.gz ${DEPLOY_DIR}
 fi
