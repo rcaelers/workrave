@@ -3,6 +3,8 @@
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
+DEBIAN_PACKAGING_DIR=/workspace/source/_dist/debian-packaging
+
 rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${DEBIAN_PACKAGING_DIR}
