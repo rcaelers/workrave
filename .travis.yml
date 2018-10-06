@@ -139,11 +139,12 @@ jobs:
   include:
     - stage: prepare
       script: |
+        VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
         github-release release \
           --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
           --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
           --tag "$TRAVIS_TAG" \
-          --name "Workrave $TRAVIS_TAG" \
+          --name "Workrave $VERSION \
           --description "New release" \
           --draft
       <<: *stage_generic
@@ -232,11 +233,12 @@ jobs:
     - stage: release
       script:
         - |
+          VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
           github-release edit \
           --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
           --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
           --tag "$TRAVIS_TAG" \
-          --name "Workrave $TRAVIS_TAG" \
+          --name "Workrave $VERSION \
           --description "New release"
       <<: *stage_generic
       <<: *stage_github

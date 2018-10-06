@@ -69,8 +69,11 @@ make_installer()
         bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}.sym.bz2
     else
         echo "Tag build : $TRAVIS_TAG"
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.sym.bz2
+
+        VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'`
+
+        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/workrave-win32-${VERSION}${EXTRA}.exe
+        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/workrave-win32-${VERSION}${EXTRA}.sym.bz2
     fi
 }
 
