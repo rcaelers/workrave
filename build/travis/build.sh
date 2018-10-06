@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ROOT_DIR=/workspace
-SOURCES_DIR=${ROOT_DIR}/source
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
 
 case "$DOCKER_IMAGE" in
     mingw-gtk2)

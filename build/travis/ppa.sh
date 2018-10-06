@@ -1,11 +1,7 @@
 #!/bin/bash -e
 
-export DEBFULLNAME="Rob Caelers"
-export DEBEMAIL="robc@krandor.org"
-
-SOURCE_DIR=/workspace/source
-BUILD_DIR=/workspace/source/_dist/build
-DEBIAN_PACKAGING_DIR=/workspace/source/_dist/debian-packaging
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
 
 rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}

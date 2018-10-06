@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
+
 conf_opt()
 {
     if [[ $CONF_ENABLE =~ (^|[, ])$1([, ]|$) ]]; then

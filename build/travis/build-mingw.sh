@@ -2,13 +2,8 @@
 
 BUILD_DATE=`date +"%Y%m%d"`
 
-ROOT_DIR=/workspace
-SOURCES_DIR=${ROOT_DIR}/source
-DEPLOY_DIR=${SOURCES_DIR}/_deploy
-
-MINGW_MAKE_RUNTIME=${SOURCES_DIR}/build/travis/mingw-make-runtime.sh
-MINGW_ENV=${SOURCES_DIR}/build/travis/mingw-env
-ISCC=${ROOT_DIR}/inno/app/ISCC.exe
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
 
 WORKRAVE_LONG_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
 WORKRAVE_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
