@@ -58,3 +58,9 @@ For OS X, the following steps will install sufficient packages
 1. Install [Homebrew](https://brew.sh/)
 2. `brew install gettext intltool gobject-introspection autoconf-archive gtk+ gtk-mac-integration gtkmm3`
 3. `brew link --force gettext libffi`
+
+## Troubleshooting
+
+### Show timers applet in Cinnamon
+
+To make timers visible you need to explicitly add Workrave applet to a panel. In the other case only workrave icon is shown.
