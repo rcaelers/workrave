@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
- <id type="desktop">workrave.desktop</id>
+<component type="desktop-application">
+ <id>org.workrave.workrave</id>
  <metadata_license>CC-BY-3.0</metadata_license>
- <project_license>GPLv3+</project_license>
+ <project_license>GPL-3.0+</project_license>
  <name>Workrave</name>
  <summary>Program that assists in the recovery and prevention of RSI</summary>
  <description>
@@ -13,7 +13,10 @@
   </p>
   </description>
  <screenshots>
-  <screenshot type="default" width="352" height="170">http://www.workrave.org/media/base/img/screenshots/rest-break.png</screenshot>
+  <screenshot type="default">
+   <image width="352" height="170">http://www.workrave.org/media/base/img/screenshots/rest-break.png</image>
+  </screenshot>
  </screenshots>
+ <launchable type="desktop-id">workrave.desktop</launchable>
  <url type="homepage">http://www.workrave.org/</url>
-</application>
+</component>
