@@ -5,6 +5,16 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.24
+
+** Fix AppStream metadata (Balló György)
+
+** Update Slovak translation (Jose Riha)
+
+* Workrave 1.10.23
+
+** Packaging fixes
+
 * Workrave 1.10.22
 
 ** Fix size of Xfce applet
