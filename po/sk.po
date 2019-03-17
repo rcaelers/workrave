@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2018-08-10 14:37+0200\n"
-"PO-Revision-Date: 2011-02-16 19:51+0100\n"
-"Last-Translator: Peter Tuharsky <peter.tuharsky@banskabystrica.sk>\n"
-"Language-Team: Slovak \n"
-"Language: \n"
+"PO-Revision-Date: 2019-02-23 22:45+0100\n"
+"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
@@ -61,27 +62,24 @@ msgstr "_Režim"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
 #: ../frontend/applets/mate/src/main-gtk2.c:324
-#, fuzzy
 msgid "Normal"
-msgstr "_Normálny"
+msgstr "Normálny"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
 #: ../frontend/gtkmm/src/GUI.cc:1481
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:328
-#, fuzzy
 msgid "Suspended"
-msgstr "_Zastavený"
+msgstr "Zastavený"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
 #: ../frontend/gtkmm/src/GUI.cc:1485
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
 #: ../frontend/applets/mate/src/main-gtk2.c:332
-#, fuzzy
 msgid "Quiet"
-msgstr "T_ichý"
+msgstr "Tichý"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
@@ -97,7 +95,7 @@ msgstr "_Sieť"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:333
 #: ../frontend/applets/mate/src/main-gtk2.c:290
 msgid "_Join"
-msgstr ""
+msgstr "_Pridať"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
@@ -117,15 +115,14 @@ msgstr "_Odpojiť"
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 #: ../frontend/applets/mate/src/main-gtk2.c:298
 msgid "_Reconnect"
-msgstr "_Obnovit spojenie"
+msgstr "_Obnoviť spojenie"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:356
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
 #: ../frontend/applets/mate/src/main-gtk2.c:313
-#, fuzzy
 msgid "Show log"
-msgstr "Zobraziť _záznam"
+msgstr "Zobraziť záznam"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
@@ -135,7 +132,7 @@ msgstr "Zobraziť _záznam"
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 #: ../frontend/applets/mate/src/main-gtk2.c:317
 msgid "Reading mode"
-msgstr ""
+msgstr "Režim čítania"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
@@ -149,9 +146,8 @@ msgstr "_Nastavenia"
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:302
-#, fuzzy
 msgid "_About"
-msgstr "_O..."
+msgstr "_O programe"
 
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
@@ -162,7 +158,7 @@ msgid "_Quit"
 msgstr "_Koniec"
 
 #: ../backend/src/DistributionSocketLink.cc:140
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
 msgstr "Obnovujem spojenie ku %s."
 
@@ -177,25 +173,25 @@ msgstr "Vypínam sieťové operácie."
 
 #: ../backend/src/DistributionSocketLink.cc:566
 #: ../backend/src/DistributionSocketLink.cc:603
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
 msgstr "Pripájam sa k %s."
 
 #: ../backend/src/DistributionSocketLink.cc:721
 #: ../backend/src/DistributionSocketLink.cc:754
-#, fuzzy, c-format
+#, c-format
 msgid "Removing client %s."
 msgstr "Odstraňujem klienta %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:803
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Odpájam %s."
+msgstr "Odpájam %s"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:973
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is now master."
 msgstr "Klient %s je teraz vedúci."
 
@@ -206,7 +202,7 @@ msgstr "Teraz som vedúci."
 
 #: ../backend/src/DistributionSocketLink.cc:1352
 #: ../backend/src/DistributionSocketLink.cc:1413
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s saying hello."
 msgstr "Klient %s zdraví."
 
@@ -214,7 +210,7 @@ msgstr "Klient %s zdraví."
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1361
 #: ../backend/src/DistributionSocketLink.cc:1445
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
 msgstr "Klient %s odmietol prístup."
 
@@ -222,48 +218,48 @@ msgstr "Klient %s odmietol prístup."
 #: ../backend/src/DistributionSocketLink.cc:1435
 #: ../backend/src/DistributionSocketLink.cc:1568
 #: ../backend/src/DistributionSocketLink.cc:1820
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
 msgstr "Klient %s je duplikovaný."
 
 #: ../backend/src/DistributionSocketLink.cc:1517
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
 msgstr "Klient %s sa odhlásil."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1607
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
 msgstr "Klient %s nás víta."
 
 #: ../backend/src/DistributionSocketLink.cc:1856
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
 msgstr "Požiadavka vedúceho stavu od %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1870
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
 msgstr "Vypršal čas klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1898
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Zamieta sa požiadavka vedúceho stavu od klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1904
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Uznáva sa požiadavka vedúceho stavu od klienta %s."
+msgstr "Potvrdzujem požiadavku vedúceho stavu od klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1961
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "Klient %s nie je vedúci a odmietol požiadavku na vedúci stav."
 
 #: ../backend/src/DistributionSocketLink.cc:1966
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Klient %s odmietol požiadavku na vedúci stav, čakám."
 
@@ -271,7 +267,7 @@ msgstr "Klient %s odmietol požiadavku na vedúci stav, čakám."
 #: ../backend/src/DistributionSocketLink.cc:2042
 #, c-format
 msgid "Client %s is now the new master."
-msgstr "Klient %s je teraz vedúci."
+msgstr "Klient %s je teraz novým vedúcim."
 
 #: ../backend/src/DistributionSocketLink.cc:2174
 msgid "Network operation started."
@@ -282,23 +278,23 @@ msgid "Accepted new client."
 msgstr "Akceptovaný nový klient."
 
 #: ../backend/src/DistributionSocketLink.cc:2271
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
-msgstr "Chyba pri čitania s klientom %s, ukončujem."
+msgstr "Chyba čítania počas komunikácie s klientom %s, ukončujem."
 
 #: ../backend/src/DistributionSocketLink.cc:2277
 #: ../backend/src/DistributionSocketLink.cc:2348
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s ukončil spojenie."
 
 #: ../backend/src/DistributionSocketLink.cc:2318
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s connected."
 msgstr "Klient %s sa pripojil."
 
 #: ../backend/src/DistributionSocketLink.cc:2354
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
 msgstr "Nepodarilo sa pripojiť ku klientovi %s."
 
@@ -395,13 +391,12 @@ msgid "Exercises ended"
 msgstr "Koniec cvičenia"
 
 #: ../frontend/common/src/SoundPlayer.cc:135
-#, fuzzy
 msgid "Exercise change"
-msgstr "Koniec cviku"
+msgstr "Zmena cviku"
 
 #: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
-msgstr ""
+msgstr "Vlastné"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -419,41 +414,34 @@ msgid "%s%d seconds"
 msgstr "%s%d sekúnd"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:284
-#, fuzzy
 msgid "Lock..."
-msgstr "_Zámka"
+msgstr "Zámok..."
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:288
-#, fuzzy
 msgid "Lock"
-msgstr "_Zámka"
+msgstr "Zámok"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:292
-#, fuzzy
 msgid "Shutdown"
-msgstr "_Vypnúť"
+msgstr "Vypnúť"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
-#, fuzzy
 msgid "Suspend"
-msgstr "_Zastavený"
+msgstr "Zastavený"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:300
 msgid "Hibernate"
-msgstr ""
+msgstr "Uspať"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:304
-#, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Zastavený"
+msgstr "Zastavený hybridne"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:439
-#, fuzzy
 msgid "_Skip"
 msgstr "_Preskočiť"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:456
-#, fuzzy
 msgid "_Postpone"
 msgstr "_Odložiť"
 
@@ -472,33 +460,37 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave zostáva bežať. Po kliknutí na ikonu bielej ovečky sa dostanete do "
+"nastavení Workrave. Kliknite na túto bublinu pre vypnutie tejto správy."
 
 #: ../frontend/gtkmm/src/GUI.cc:806 ../frontend/gtkmm/src/GUI.cc:931
-#, fuzzy
 msgid "Workrave failed to start"
-msgstr "Workrave aplet"
+msgstr "Workrave sa nepodarilo spustiť"
 
 #: ../frontend/gtkmm/src/GUI.cc:808
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "Je možné, že Workrave už beží?"
 
 #: ../frontend/gtkmm/src/GUI.cc:926
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave nedokáže sledovať aktivitu vašej klávesnice a myši.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:929
 msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
+msgstr "Skontrolujte, či máte povolené rozšírenie RECORD vo vašom X serveri."
 
 #: ../frontend/gtkmm/src/GUI.cc:1340
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
+"Workrave je dočasne vypnutý. Aktivita myši a klávesnice nebude sledovaná."
 
 #: ../frontend/gtkmm/src/GUI.cc:1346
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
+"Workrave je v tichom režime. Nebudú sa objavovať žiadne okná s výzvou na "
+"prestávku."
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1474 ../frontend/gtkmm/src/GtkUtil.cc:172
@@ -518,15 +510,13 @@ msgid "Rest break"
 msgstr "Prestávka"
 
 #: ../frontend/gtkmm/src/GUI.cc:1481 ../frontend/gtkmm/src/GUI.cc:1485
-#, fuzzy
 msgid "Mode: "
-msgstr "_Režim"
+msgstr "Režim: "
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
-#, fuzzy
 msgid "Open"
-msgstr "_Otvoriť"
+msgstr "Otvoriť"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
@@ -545,9 +535,8 @@ msgstr "Cvičenia"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
-#, fuzzy
 msgid "Mode"
-msgstr "_Režim"
+msgstr "Režim"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:214
@@ -556,19 +545,16 @@ msgid "Network"
 msgstr "Sieť"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#, fuzzy
 msgid "Connect"
-msgstr "_Pripojiť"
+msgstr "Pripojiť"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
-#, fuzzy
 msgid "Disconnect"
 msgstr "_Odpojiť"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
-#, fuzzy
 msgid "Reconnect"
-msgstr "_Obnovit spojenie"
+msgstr "Obnoviť spojenie"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:221
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
@@ -587,9 +573,8 @@ msgstr "O..."
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:223
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#, fuzzy
 msgid "Quit"
-msgstr "_Koniec"
+msgstr "Koniec"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:101
@@ -618,7 +603,7 @@ msgstr "Zobraziť _záznam"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
-msgstr ""
+msgstr "R_ežim čítania"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
 msgid "Please relax for a few seconds"
@@ -650,9 +635,8 @@ msgid "General"
 msgstr "Všeobecné"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:110
-#, fuzzy
 msgid "Sounds"
-msgstr "Zvuk:"
+msgstr "Zvuky"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 msgid "Status Window"
@@ -700,29 +684,28 @@ msgstr "Blokovací režim:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:224
 msgid "System default"
-msgstr ""
+msgstr "Východzie nastavenia"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:268
 msgid "(font not available)"
-msgstr ""
+msgstr "(font nie je dostupný)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:293
 msgid "Language:"
-msgstr ""
+msgstr "Jazyk:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:307
 msgid "Start Workrave on logon"
-msgstr ""
+msgstr "Spustiť Workrave pri prihlásení"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Zobraziť ikonu v oznamovacej oblasti"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:340
-#, fuzzy
 msgid "Sound Options"
-msgstr "Možnosti"
+msgstr "Možnosti zvuku"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:346
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:350
@@ -741,65 +724,62 @@ msgstr "Prehrávať zvuky pomocou zabudovaného reproduktoru"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:377
 msgid "Volume:"
-msgstr ""
+msgstr "Hlasitosť: "
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:380
 msgid "Sound:"
 msgstr "Zvuk:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:386
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Umiestniť prestávku a denný limit dohromady"
+msgstr "Vypnúť zvuky počas prestávky a denného limitu"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:396
 msgid "Sound Events"
-msgstr ""
+msgstr "Zvukové udalosti"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:404
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "Zvuk:"
+msgstr "Téma zvuku:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:427
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:445
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:475
 msgid "Play"
-msgstr ""
+msgstr "Prehrať"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:432
 msgid "Event"
-msgstr ""
+msgstr "Udalosť"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:448
-#, fuzzy
 msgid "Choose a sound"
-msgstr "Bez zvukov"
+msgstr "Vyberte zvuk"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:460
 msgid "Wavefiles"
-msgstr ""
+msgstr "Súbory wav"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:561
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Používať iný typ sledovania"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:567
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
-msgstr ""
+msgstr "Použite túto voľbu, ak Workrave nedokáže detegovať vašu aktivitu"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:571
-#, fuzzy
 msgid "Mouse sensitivity:"
-msgstr "Pohyb myši:"
+msgstr "Citlivosť myši:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:571
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
+"Počet pixelov, ktoré má kurzor myši prejsť, aby sa to považovalo za aktivitu."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:124
 msgid "Time for a micro-break?"
@@ -814,19 +794,19 @@ msgid "You should stop for today..."
 msgstr "Na dnes už stačilo..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:307
-#, fuzzy, c-format
+#, c-format
 msgid "Break in %s"
-msgstr "Pauza o"
+msgstr "Pauza o %s"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:311
-#, fuzzy, c-format
+#, c-format
 msgid "Disappears in %s"
-msgstr "Zmizne o"
+msgstr "Zmizne o %s"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:315
-#, fuzzy, c-format
+#, c-format
 msgid "Silent in %s"
-msgstr "Tichý v"
+msgstr "Tichý o %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:178
 #, c-format
@@ -834,17 +814,14 @@ msgid "Rest break for %s"
 msgstr "Prestávka po %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:220
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Prirodzene vykonaných páuz"
+msgstr "Prirodzene vykonaná pauza"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:221
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Potrebujete prestávku..."
+msgstr "Toto je vaša prirodzene vykonaná prestávka."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:227
-#, fuzzy
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -852,12 +829,11 @@ msgid ""
 msgstr ""
 "Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
 "sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
-"od počítača. Venujte niekoľko minút oddychu."
+"od počítača. Doprajte si niekoľko minút oddychu."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
-#, fuzzy
 msgid "Take rest break now"
-msgstr "Ďalšia prestávka bude o %s"
+msgstr "Doprajte si teraz prestávku"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
 msgid "Wait"
@@ -954,14 +930,12 @@ msgid "Maximum number of prompts:"
 msgstr "Maximálny počet pripomenutí:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
 msgid "Show 'Postpone' button"
-msgstr "Zobraziť tlačítka 'Odložiť' a 'Preskočiť'"
+msgstr "Zobraziť tlačidlo 'Odložiť'"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
-#, fuzzy
 msgid "Show 'Skip' button"
-msgstr "Zobraziť tlačítka 'Odložiť' a 'Preskočiť'"
+msgstr "Zobraziť tlačidlo 'Preskočiť'"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Suspend timer when inactive"
@@ -977,11 +951,11 @@ msgstr "Počet cvičení:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Začať prestávku, ak je obrazovka zamknutá"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "Povoliť vypnutie počítača z obrazovky prestávky"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
 msgid "Time before end:"
@@ -1000,16 +974,14 @@ msgid "Postpone time:"
 msgstr "Čas odloženia:"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"Tento program pomáha pri prevencii a regenerácii opakovaných bolestivých "
-"napätí (RSI)."
+"Pomáha pri prevencii a regenerácii opakovaných bolestivých napätí (RSI)"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:2
 msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
+msgstr "písanie;prestávka;časovač;zápästie;zdravie;rsi;"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
@@ -1051,7 +1023,7 @@ msgstr "Heslo:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Povoliť prichádzajúce spojenia"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -1161,7 +1133,7 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Dívejte sa na ľavý horný roh monitora, vonkajší okraj. Sledujte okraj pomaly "
+"Dívajte sa na ľavý horný roh monitora, vonkajší okraj. Sledujte okraj pomaly "
 "doprava až do pravého horného rohu. Pokračujte do ďalšieho rohu, až kým celý "
 "monitor neobídete 2x. Potom cvik zopakujte v opačnom smere."
 
@@ -1179,9 +1151,9 @@ msgid ""
 msgstr ""
 "Pozrite sa na najvzdialenejší bod za Vaším monitorom. Na tento bod zaostrite "
 "svoj zrak. Potom zaostrite na rám monitoru. Opakujte to. Ak za monitorom "
-"nemáte dosť vzdialený bod, najdite si iný smer, kde môžete zaostrovať do "
-"diaľky. Potom zaostrujte medzi vzdialeným objektom, a perom ktoré podržíte v "
-"rovnakej vzdialenosti od očí ako je váš monitor."
+"nemáte dostatočne vzdialený bod, nájdite si iný smer, kam môžete zaostrovať "
+"do diaľky. Potom zaostrujte medzi vzdialeným objektom, a perom ktoré "
+"podržíte v rovnakej vzdialenosti od očí ako je váš monitor."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Look into the darkness"
@@ -1242,23 +1214,20 @@ msgstr "Cvičiteľ"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
-msgstr ""
+msgstr "Predchádzajúce cvičenie"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
-#, fuzzy
 msgid "Next exercise"
-msgstr "Počet cvičení:"
+msgstr "Ďalšie cvičenie"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Počet cvičení:"
+msgstr "Pozastaviť cvičenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-#, fuzzy
 msgid "End exercises"
-msgstr "Cvičenia"
+msgstr "Ukončiť cvičenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
@@ -1269,9 +1238,8 @@ msgid "Pause"
 msgstr "Pauza"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Počet cvičení:"
+msgstr "Pokračovať v cvičeniach"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
 msgid "Browse history"
@@ -1280,7 +1248,7 @@ msgstr "Prehliadať históriu"
 #. Delete button
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Vymazať celú históriu štatistík"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:165
 msgid "Date:"
@@ -1316,7 +1284,7 @@ msgstr "Upozornených a vykonaných páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
 msgid "The number of times you took a break when being prompted"
-msgstr "Počet páuz, na ktoré ste boli upozornení, a ktoré jste mali"
+msgstr "Počet páuz, na ktoré ste boli upozornení a ktoré ste absolvovali"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:222
 msgid "Natural breaks taken"
@@ -1324,7 +1292,7 @@ msgstr "Prirodzene vykonaných páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
 msgid "The number of times you took a break without being prompted"
-msgstr "Počet páuz, ktoré jste vykonali bez upozornenia"
+msgstr "Počet páuz, ktoré ste vykonali bez upozornenia"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:227
 msgid "Breaks skipped"
@@ -1352,33 +1320,31 @@ msgstr "Celkový čas, o ktorý pauza meškala"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
 msgid "Usage"
-msgstr ""
+msgstr "Použitie"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
-#, fuzzy
 msgid "Daily"
-msgstr "Denný limit"
+msgstr "Denne"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:248
-#, fuzzy
 msgid "The total computer usage for the selected day"
-msgstr "Celkový čas používania počítača"
+msgstr "Celkový čas používania počítača pre tento deň"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
 msgid "Weekly"
-msgstr ""
+msgstr "Týždenne"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
 msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
+msgstr "Celkový čas používania počítača pre tento týždeň"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:257
 msgid "Monthly"
-msgstr ""
+msgstr "Mesačne"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
 msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
+msgstr "Celkový čas používania počítača pre tento mesiac"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
 msgid "Activity"
@@ -1436,36 +1402,38 @@ msgstr "%s, od %s do %s"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
 msgid "Warning"
-msgstr ""
+msgstr "Upozornenie"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "Zvolili ste vymazanie celej histórie štatistík. Pokračovať?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:742
 msgid "Files deleted!"
-msgstr ""
+msgstr "Súbory vymazané!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "Súbory obsahujúce históriu vašich štatistík boli vymazané."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:752
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Chyba počas mazania súborov!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:753
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
+"Súbory obsahujúce vašu históriu štatistík sa nepodarilo vymazať. Skúsiť "
+"znovu?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #~ msgid "Daily usage"
 #~ msgstr "Denné použitie"

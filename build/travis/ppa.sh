@@ -1,28 +1,39 @@
 #!/bin/bash -e
 
-export DEBEMAIL="robc@krandor.org"
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
 
-BUILD_DIR=`pwd`/_dist/build
-DEBIAN_PACKAGING_DIR=`pwd`/_dist/debian-packaging
+DEBIAN_PACKAGING_DIR=/workspace/source/_dist/debian-packaging
 
 rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${DEBIAN_PACKAGING_DIR}
 
-pwd
-ls -la
+cd ${SOURCE_DIR}
 
-echo git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
+mkdir -p ~/.gnupg
+chmod 600 ~/.gnupg
 
-# git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
+# Workaround for 'error building skey array: No such file or directory'
+mkdir -p /home/robc/.gnupg/private-keys-v1.d
 
-# TODO: allow commit to this repo
-git clone https://github.com/rcaelers/workrave.git -b debian-packaging ${DEBIAN_PACKAGING_DIR}
+echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
+
+gpg --import ${SOURCE_DIR}/build/travis/pubring.gpg
+gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import /tmp/secrets/secring.gpg
+
+git remote set-branches --add origin debian-packaging
+git fetch
+
+git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
 
 ./autogen.sh
 ./configure
 
 make dist
+
+apt-get update -q
+apt-get -y -q -V --no-install-recommends install devscripts libxfce4panel-2.0-dev
 
 SOURCE=`ls workrave-*.tar.gz`
 VERSION=`echo $SOURCE | sed -e 's/.*-\(.*\).tar.gz/\1/'`
@@ -32,18 +43,14 @@ cp -a "${DEBIAN_PACKAGING_DIR}/debian" "$BUILD_DIR/workrave-$VERSION/debian"
 cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 
 # gpg --list-secret-keys --keyid-format LONG
-# gpg --output pubring.gpg --export D5A196C1776BD06C
-# gpg --output secring.gpg --export-secret-key D5A196C1776BD06C
+# gpg --output pubring.gpg --export 9D5F98D3149A28DB
+# gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
-
-gpg --import build/travis/pubring.gpg
-gpg --passphrase $GPG_PASSPHRASE --batch --allow-secret-key-import --import ${BUILD_DIR}/secret.gpg
-
-echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
 
 for series in cosmic bionic artful xenial trusty
 do
     echo Create $series source package
+    cd /workspace/source
 
     rm -rf "$BUILD_DIR/$series"
     mkdir -p "$BUILD_DIR/$series"
@@ -55,26 +62,33 @@ do
         cp -a "${DEBIAN_PACKAGING_DIR}/debian-${series}"/* "$BUILD_DIR/$series/workrave-$VERSION/debian/"
     fi
 
-    pushd .
     cd "$BUILD_DIR/$series/workrave-$VERSION"
 
-    LAST_VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1/p'`
+    LAST_DEB_VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1/p'`
+    LAST_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^\(.*\)-.*$/\1/'`
+    LAST_PPA_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^[^-]\+-ppa\([0-9]\+\).*$/\1/'`
 
     # TODO: process news
     NEWS=`awk '/${VERSION}/{f=1} /${LAST_VERSION}/{f=0} f' < NEWS`
     echo $NEWS
 
-    dch -b -D "$series" --force-distribution -v "${VERSION}-ppa1~${series}1" "New release"
+    PPA=$LAST_PPA_VERSION
+    if [ "x$VERSION" != "x$LAST_VERSION" ]; then
+        PPA=1
+    fi
 
-    yes $GPG_PASSPHRASE | debuild -p"gpg  --batch --pinentry-mode loopback --passphrase-fd 0" -d -S -sa -kD5A196C1776BD06C -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    dch -b -D "$series" --force-distribution -v "${VERSION}-ppa${PPA}~${series}1" "New release"
+
+    debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
-        dpkg-buildpackage -rfakeroot
+        if [[ $series == "bionic" ]]; then
+            dpkg-buildpackage -rfakeroot -us -uc
+        fi
     else
         echo "Tag build : $TRAVIS_TAG"
-        # dput ppa:rob-caelers/workrave ../workrave_*_source.changes
+        cd "$BUILD_DIR/$series"
+        dput ppa:rob-caelers/workrave workrave_*_source.changes
     fi
-
-    popd
 done
