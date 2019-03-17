@@ -15,7 +15,7 @@ mkdir -p ~/.gnupg
 chmod 600 ~/.gnupg
 
 # Workaround for 'error building skey array: No such file or directory'
-mkdir -p /home/robc/.gnupg/private-keys-v1.d
+mkdir -p ~/.gnupg/private-keys-v1.d
 
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
