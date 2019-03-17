@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:cosmic
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -8,7 +8,7 @@ RUN \
   apt-get update -y && \
   apt-get install -y curl software-properties-common && \
   curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-  add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" && \
+  add-apt-repository "deb http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
     autoconf \
@@ -16,7 +16,7 @@ RUN \
     automake \
     autopoint \
     build-essential \
-    clang-6.0 \
+    clang-8 \
     cmake \
     debhelper \
     devscripts \
@@ -55,6 +55,7 @@ RUN \
     libqt5x11extras5-dev \
     libssl-dev \
     libtool \
+    libxfce4panel-2.0-dev \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
