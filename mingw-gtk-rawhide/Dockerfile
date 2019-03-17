@@ -30,7 +30,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
 RUN mkdir -p /workspace
 
 RUN cd /workspace && \
-    curl -O http://files.jrsoftware.org/is/5/innoisetup-5.5.9-unicode.exe && \
+    curl -O http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe && \
     innoextract -d /workspace/inno ./innosetup-5.5.9-unicode.exe && rm ./innosetup-5.5.9-unicode.exe
 
 RUN cd /workspace && \
