@@ -45,6 +45,7 @@ RUN \
     libqt5x11extras5-dev \
     libssl-dev \
     libtool \
+    libxfce4panel-2.0-dev \
     libxi-dev \
     libxmu-dev \
     libxss-dev \
