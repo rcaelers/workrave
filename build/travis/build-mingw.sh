@@ -46,7 +46,7 @@ build()
         cp -a ${SOURCES_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/frontend/gtkmm/src && \
         $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe >${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym && \
         if [ $CONFIGURATION == "Release" ]; then \
-            $$TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe; \
+            $TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe; \
         fi
 }
 
@@ -75,6 +75,8 @@ make_installer()
         mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/workrave-win32-${VERSION}${EXTRA}.exe
         bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/workrave-win32-${VERSION}${EXTRA}.sym.bz2
     fi
+
+    ls -la ${DEPLOY_DIR}
 }
 
 git status
