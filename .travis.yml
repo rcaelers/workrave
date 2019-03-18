@@ -144,7 +144,7 @@ jobs:
           --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
           --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
           --tag "$TRAVIS_TAG" \
-          --name "Workrave $VERSION \
+          --name "Workrave $VERSION" \
           --description "New release" \
           --draft
       <<: *stage_generic
