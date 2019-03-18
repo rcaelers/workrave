@@ -47,7 +47,7 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
 
-for series in cosmic bionic artful xenial trusty
+for series in disco cosmic bionic artful xenial trusty
 do
     echo Create $series source package
     cd /workspace/source
