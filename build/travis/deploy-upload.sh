@@ -1,5 +1,7 @@
 #!/bin/bash
 
+shopt -s nullglob
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
