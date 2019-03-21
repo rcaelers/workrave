@@ -65,6 +65,7 @@ MyApplet.prototype = {
         this._timerbox = new Workrave.Timerbox();
         this._force_icon = false;
         this._height = panel_height;
+        this._padding = 0;
         this._bus_name = 'org.workrave.CinnamonApplet';
         this._bus_id = 0;
 
@@ -149,7 +150,10 @@ MyApplet.prototype = {
          let cr = area.get_context();
 
          let bar_height = this._timerbox.get_height();
-         this.actor.style = "padding-top: "+ ( (height - bar_height + 1) / 2) +"px;";
+
+         this.actor.style = "padding-top: "+ ( (height + this._padding - bar_height + 1) / 2) +"px;";
+         this._padding = (height - bar_height + 1) / 2;
+
          this._timerbox.draw(cr);
     },
 
