@@ -5,6 +5,11 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.27
+
+** Fix menu in Cinnamon applet
+** Fix bouncing Cinnamon applet
+
 * Workrave 1.10.26
 
 ** Fix Gnome Shell applet for Gnome Shell v3.30
