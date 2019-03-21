@@ -2,4 +2,4 @@ debian/tmp/usr/bin
 debian/tmp/usr/lib/*/girepository-1.0
 debian/tmp/usr/lib/*/libworkrave-private*.so*
 debian/tmp/usr/share/applications/workrave.desktop
-debian/tmp/usr/share/appdata/
+debian/tmp/usr/share/metainfo/

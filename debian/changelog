@@ -1,8 +1,14 @@
+workrave (1.10.29) disco; urgency=medium
+
+  * New PPA upload
+
+ -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 22:45:27 +0100
+
 workrave (1.10.28) disco; urgency=medium
 
   * New PPA upload
 
- -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 21:33:15 +0100
+ -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 22:45:04 +0100
 
 workrave (1.10.27) disco; urgency=medium
 
