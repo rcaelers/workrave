@@ -4,7 +4,7 @@ workrave (1.10.28) disco; urgency=medium
 
  -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 21:33:15 +0100
 
-workrave (1.10.26) disco; urgency=medium
+workrave (1.10.27) disco; urgency=medium
 
   * Fix menu in Cinnamon applet
   * Fix bouncing Cinnamon applet
