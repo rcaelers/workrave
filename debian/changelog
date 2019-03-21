@@ -1,3 +1,23 @@
+workrave (1.10.28) disco; urgency=medium
+
+  * New PPA upload
+
+ -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 21:33:15 +0100
+
+workrave (1.10.26) disco; urgency=medium
+
+  * Fix menu in Cinnamon applet
+  * Fix bouncing Cinnamon applet
+
+ -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 21:33:04 +0100
+
+workrave (1.10.26) disco; urgency=medium
+
+  * Fix Gnome Shell applet for Gnome Shell v3.30
+  * Reduce padding in timer window
+
+ -- Rob Caelers <robc@krandor.org>  Thu, 21 Mar 2019 21:32:30 +0100
+
 workrave (1.10.24) disco; urgency=medium
 
   * Fix AppStream metadata (Balló György)
@@ -9,7 +29,7 @@ workrave (1.10.23) disco; urgency=medium
 
   * Fix PPA upload
 
- -- Rob Caelers <robc@krandor.org>  Sun, 30 Sep 2018 20:29:33 +0200
+ -- Rob Caelers <robc@krandor.org>  Mon, 18 Mar 2019 20:18:41 +0100
 
 workrave (1.10.22-ppa1) bionic; urgency=medium
 
