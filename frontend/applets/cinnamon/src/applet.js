@@ -274,7 +274,7 @@ MyApplet.prototype = {
         }
         else
         {
-            for (item in menuitems)
+            for (var item in menuitems)
             {
                 let text = indent + menuitems[item][0];
                 let command = menuitems[item][1];
