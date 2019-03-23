@@ -95,6 +95,8 @@ public:
 
   static bool running_on_wayland();
 
+  static void set_theme_fg_color(Gtk::Widget *widget);
+
 private:
   static Glib::Quark *label_quark;
 };

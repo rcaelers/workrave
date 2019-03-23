@@ -32,6 +32,7 @@
 
 #include "TimeBar.hh"
 #include "Text.hh"
+#include "GtkUtil.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;
@@ -785,8 +786,9 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(rect2.get_x(), rect2.get_y(), rect2.get_width(), rect2.get_height());
   cr->clip();
 
-  Gdk::RGBA front_color = style_context->get_color();
-  set_color(cr, front_color);
+  GtkUtil::set_theme_fg_color(this);
+
+  set_color(cr, style_context->get_color(Gtk::STATE_FLAG_ACTIVE));
   cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
   style_context->context_restore();
