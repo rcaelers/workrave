@@ -68,11 +68,12 @@ fi
     `conf_opt exercises` \
     `conf_opt experimental`
 
-if [ -z "$TRAVIS_TAG" -o -z "$DISTCHECK" ]; then
+mkdir -p ${DEPLOY_DIR}
+
+if [ -z "$DISTCHECK" ]; then
     make && make check
 else
     make && make dist && make distcheck
 
-    mkdir -p ${DEPLOY_DIR}
     cp -a workrave*tar.gz ${DEPLOY_DIR}
 fi
