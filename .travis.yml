@@ -175,34 +175,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-bionic-plus"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-bionic-plus"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-bionic-plus"
-      <<: *stage_linux
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-bionic-plus"
+        DOCKER_IMAGE="ubuntu-bionic"
       <<: *stage_linux
 
     - stage: build
@@ -212,6 +185,51 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic"
+      <<: *stage_linux
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-disco"
+      <<: *stage_linux
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-cosmic-plus"
+      <<: *stage_linux
+
+    - stage: build
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-cosmic-plus"
+      <<: *stage_linux
+
+    - stage: build
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-cosmic-plus"
+      <<: *stage_linux
+
+    - stage: build
+      env: >
+        COMPILER="clang"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-cosmic-plus"
       <<: *stage_linux
 
     - stage: build
