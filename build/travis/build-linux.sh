@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
@@ -28,7 +28,7 @@ conf_opt_packages()
     fi
 }
 
-cd /workspace/source
+cd ${SOURCES_DIR}
 
 apt-get update -q
 apt-get -y -q -V --no-install-recommends install \
@@ -77,3 +77,5 @@ else
 
     cp -a workrave*tar.gz ${DEPLOY_DIR}
 fi
+
+ls -la ${DEPLOY_DIR}
