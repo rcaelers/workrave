@@ -89,6 +89,6 @@ do
     else
         echo "Tag build : $TRAVIS_TAG"
         cd "$BUILD_DIR/$series"
-        dput ppa:rob-caelers/workrave workrave_*_source.changes
+        dput -d ppa:rob-caelers/workrave workrave_*_source.changes
     fi
 done
