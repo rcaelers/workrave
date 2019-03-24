@@ -52,26 +52,25 @@ const IndicatorIface = '<node>\
 
 let IndicatorProxy = Gio.DBusProxy.makeProxyWrapper(IndicatorIface);
 
-function _workraveButton() {
-    this._init();
-}
- 
-_workraveButton.prototype = {
-    __proto__: PanelMenu.Button.prototype,
- 
+const WorkraveButton = new Lang.Class({
+    Name: 'WorkraveButton',
+    Extends: PanelMenu.Button,
+
     _init: function() {
         PanelMenu.Button.prototype._init.call(this, 0.0);
-  
+
         this._timerbox = new Workrave.Timerbox();
+
         this._force_icon = false;
         this._height = 24;
         this._bus_name = 'org.workrave.GnomeShellApplet';
         this._bus_id = 0;
 
-        this._area = new St.DrawingArea({ style_class: "workrave", reactive: false});
-        this._area.set_width(this.width=24);
-        this._area.set_height(this.height=24);
+        this._area = new St.DrawingArea({ style_class: 'workrave-area', reactive: true } );
+        this._area.set_width(this._width=24);
+        this._area.set_height(this._height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
+
         this.actor.add_actor(this._area);
         this.actor.show();
 
@@ -95,11 +94,11 @@ _workraveButton.prototype = {
                                         Gio.BusNameWatcherFlags.NONE, // no auto launch
                                         Lang.bind(this, this._onWorkraveAppeared),
                                         Lang.bind(this, this._onWorkraveVanished));
-            return false
+            return false;
         }
         catch(err)
         {
-            return true
+            return true;
         }
     },
 
@@ -145,7 +144,7 @@ _workraveButton.prototype = {
              this._area.queue_repaint();
              this._alive = false;
              this._updateMenu(null);
-             this._area.set_width(this.width=24);
+             this._area.set_width(this._width=24);
 
          }
      },
@@ -225,7 +224,7 @@ _workraveButton.prototype = {
         }
 
         let width = this._timerbox.get_width();
-        this._area.set_width(this.width=width);
+        this._area.set_width(this._width=width);
 
         this._area.queue_repaint();
     },
@@ -335,7 +334,7 @@ _workraveButton.prototype = {
             }
         }
     }
-};
+});
 
 let workravePanelButton;
 let workraveUserExtensionLocalePath;
@@ -352,6 +351,6 @@ function disable() {
 
 function enable() {
     Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
-    workravePanelButton = new _workraveButton();
+    workravePanelButton = new WorkraveButton();
     Main.panel.addToStatusArea('workrave-applet', workravePanelButton);
 }

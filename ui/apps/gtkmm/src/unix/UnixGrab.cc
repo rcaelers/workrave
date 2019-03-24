@@ -49,14 +49,17 @@ UnixGrab::can_grab()
 void
 UnixGrab::grab(GdkWindow *window)
 {
-  grab_wanted = true;
-  if (!grabbed)
+  if (! GtkUtil::running_on_wayland())
     {
-      grab_window = window;
-      grabbed = grab_internal();
-      if (! grabbed && !grab_retry_connection.connected())
+      grab_wanted = true;
+      if (!grabbed)
         {
-          grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixGrab::on_grab_retry_timer), 2000);
+          grab_window = window;
+          grabbed = grab_internal();
+          if (! grabbed && !grab_retry_connection.connected())
+            {
+              grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixGrab::on_grab_retry_timer), 2000);
+            }
         }
     }
 }
@@ -131,26 +134,29 @@ UnixGrab::grab_internal()
 void
 UnixGrab::ungrab()
 {
-  grabbed = false;
-  grab_wanted = false;
-  grab_retry_connection.disconnect();
+  if (! GtkUtil::running_on_wayland())
+    {
+      grabbed = false;
+      grab_wanted = false;
+      grab_retry_connection.disconnect();
 
 #if GTK_CHECK_VERSION(3, 20, 0)
-  GdkDisplay *display = gdk_display_get_default();
-  GdkSeat *seat = gdk_display_get_default_seat(display);
-  gdk_seat_ungrab(seat);
+      GdkDisplay *display = gdk_display_get_default();
+      GdkSeat *seat = gdk_display_get_default_seat(display);
+      gdk_seat_ungrab(seat);
 #else
-  if (keyboard != nullptr)
-    {
-      gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
-      keyboard = nullptr;
-    }
-  if (pointer != nullptr)
-    {
-      gdk_device_ungrab(pointer, GDK_CURRENT_TIME);
-      pointer = nullptr;
-    }
+      if (keyboard != nullptr)
+        {
+          gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
+          keyboard = nullptr;
+        }
+      if (pointer != nullptr)
+        {
+          gdk_device_ungrab(pointer, GDK_CURRENT_TIME);
+          pointer = nullptr;
+        }
 #endif
+    }
 }
 
 bool

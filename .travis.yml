@@ -76,7 +76,7 @@ stage_win32: &stage_win32
 #      script: build/travis/deploy-upload.sh
 
     - provider: s3
-      skip_cleanup: yes
+      skip_cleanup: true
       local_dir: _deploy
       upload_dir: "snapshots/master/$BUILD_DATE-$GIT_TAG"
       acl: public_read
@@ -89,7 +89,7 @@ stage_win32: &stage_win32
         branch: master
   
     - provider: s3
-      skip_cleanup: yes
+      skip_cleanup: true
       local_dir: _deploy
       upload_dir: "snapshots/master/$BUILD_DATE-$GIT_TAG"
       acl: public_read
@@ -144,7 +144,7 @@ jobs:
 #          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
 #          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
 #          --tag "$TRAVIS_TAG" \
-#          --name "Workrave $VERSION \
+#          --name "Workrave $VERSION" \
 #          --description "New release" \
 #          --draft
 #      <<: *stage_generic
@@ -234,13 +234,15 @@ jobs:
 #    - stage: release
 #      script:
 #        - |
+#          VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
 #          github-release edit \
 #          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
 #          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
 #          --tag "$TRAVIS_TAG" \
-#          --name "Workrave $TRAVIS_TAG" \
+#          --name "Workrave $VERSION" \
 #          --description "New release"
 #      <<: *stage_generic
+#      <<: *stage_github
 #
 #    - stage: ppa
 #      env: >

@@ -70,7 +70,6 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
 }
 
 
-
 //! Destructor.
 TimerBoxGtkView::~TimerBoxGtkView()
 {
@@ -172,6 +171,7 @@ TimerBoxGtkView::init_widgets()
   Glib::RefPtr<Gtk::SizeGroup> size_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
 
+
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
@@ -180,12 +180,24 @@ TimerBoxGtkView::init_widgets()
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
         {
-          img->set_padding(0,0);
+          img->set_padding(0, 0);
 
           EventButton *b = new EventButton();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
+
+          static const char button_style[] =
+            "* {\n"
+            "padding-top: 1px;\n"
+            "padding-bottom: 1px;\n"
+            "}";
+
+          Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+          Glib::RefPtr<Gtk::StyleContext> style_context = b->get_style_context();
+
+          css_provider->load_from_data(button_style);
+          style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
           b->set_tooltip_text(_("Take rest break now"));
 

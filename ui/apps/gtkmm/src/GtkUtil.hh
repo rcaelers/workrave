@@ -95,6 +95,8 @@ public:
 
   static Glib::RefPtr<Gdk::Pixbuf> create_image(const std::string &filename);
 
+  static void set_theme_fg_color(Gtk::Widget *widget);
+
 private:
   static Glib::Quark *label_quark;
 };

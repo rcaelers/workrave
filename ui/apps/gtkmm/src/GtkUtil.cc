@@ -413,3 +413,17 @@ GtkUtil::create_image(const std::string &filename)
   return Glib::RefPtr<Gdk::Pixbuf>();
 }
 
+void
+GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
+{
+  const char style[] =
+  "* {\n"
+  "color: @theme_fg_color;\n"
+  "}";
+
+  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::StyleContext> style_context = widget->get_style_context();
+
+  css_provider->load_from_data(style);
+  style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}

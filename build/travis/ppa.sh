@@ -9,17 +9,17 @@ rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${DEBIAN_PACKAGING_DIR}
 
-cd ${SOURCE_DIR}
+cd ${SOURCES_DIR}
 
 mkdir -p ~/.gnupg
 chmod 600 ~/.gnupg
 
 # Workaround for 'error building skey array: No such file or directory'
-mkdir -p /home/robc/.gnupg/private-keys-v1.d
+mkdir -p ~/.gnupg/private-keys-v1.d
 
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
-gpg --import ${SOURCE_DIR}/build/travis/pubring.gpg
+gpg --import ${SOURCES_DIR}/build/travis/pubring.gpg
 gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import /tmp/secrets/secring.gpg
 
 git remote set-branches --add origin debian-packaging
@@ -47,7 +47,7 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
 
-for series in cosmic bionic artful xenial trusty
+for series in disco cosmic bionic artful xenial trusty
 do
     echo Create $series source package
     cd /workspace/source
