@@ -47,6 +47,17 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
 
+ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
+
+cat > ~/.dput.cf <<EOF
+[workraveppa]
+fqdn        = ppa.launchpad.net
+method      = sftp
+incoming    = ~rob-caelers/ubuntu/workrave/
+login       = rob-caelers
+allow_unsigned_uploads = 0
+EOF
+
 for series in disco cosmic bionic artful xenial trusty
 do
     echo Create $series source package
@@ -89,6 +100,6 @@ do
     else
         echo "Tag build : $TRAVIS_TAG"
         cd "$BUILD_DIR/$series"
-        dput ppa:rob-caelers/workrave workrave_*_source.changes
+        dput workraveppa workrave_*_source.changes
     fi
 done
