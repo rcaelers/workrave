@@ -100,6 +100,6 @@ do
     else
         echo "Tag build : $TRAVIS_TAG"
         cd "$BUILD_DIR/$series"
-        dput workraveppa workrave_*_source.changes
+        dput -d workraveppa workrave_*_source.changes
     fi
 done

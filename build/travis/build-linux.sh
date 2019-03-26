@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
@@ -28,7 +28,7 @@ conf_opt_packages()
     fi
 }
 
-cd /workspace/source
+cd ${SOURCES_DIR}
 
 apt-get update -q
 apt-get -y -q -V --no-install-recommends install \
@@ -68,11 +68,14 @@ fi
     `conf_opt exercises` \
     `conf_opt experimental`
 
-if [ -z "$TRAVIS_TAG" -o -z "$DISTCHECK" ]; then
+mkdir -p ${DEPLOY_DIR}
+
+if [ -z "$DISTCHECK" ]; then
     make && make check
 else
     make && make dist && make distcheck
 
-    mkdir -p ${DEPLOY_DIR}
     cp -a workrave*tar.gz ${DEPLOY_DIR}
 fi
+
+ls -la ${DEPLOY_DIR}
