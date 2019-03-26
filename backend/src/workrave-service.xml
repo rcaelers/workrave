@@ -19,7 +19,7 @@
       <value name="normal"    csymbol="USAGE_MODE_NORMAL" value="0"/>
       <value name="reading"   csymbol="USAGE_MODE_READING"/>
     </enum>
-    
+
     <enum name="break_id" csymbol="BreakId">
       <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
       <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
@@ -61,12 +61,17 @@
       <arg type="break_id" name="timer_id" direction="in"/>
       <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
-    
+
+    <method name="GetTimerRemaining" csymbol="get_timer_remaining">
+        <arg type="break_id" name="timer_id" direction="in"/>
+        <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+    </method>
+
     <method name="GetTimerOverdue" csymbol="get_timer_overdue">
       <arg type="break_id" name="timer_id" direction="in"/>
       <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
-    
+
     <method name="GetTime" csymbol="get_time">
       <arg type="int32" name="value" direction="out" hint="return"/>
     </method>

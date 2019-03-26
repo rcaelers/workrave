@@ -1302,6 +1302,21 @@ Core::get_timer_elapsed(BreakId id, int *value)
 
 
 void
+Core::get_timer_remaining(BreakId id, int *value)
+{
+  Timer *timer = get_timer(id);
+
+  *value = -1;
+
+  if (timer->is_limit_enabled())
+    {
+      int remaining = timer->get_limit() - timer->get_elapsed_time();
+      *value = remaining >= 0 ? remaining : 0;
+    }
+}
+
+
+void
 Core::get_timer_overdue(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);

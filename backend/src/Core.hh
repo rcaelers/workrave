@@ -142,6 +142,7 @@ public:
   void report_external_activity(std::string who, bool act);
   void is_timer_running(BreakId id, bool &value);
   void get_timer_elapsed(BreakId id,int *value);
+  void get_timer_remaining(BreakId id,int *value);
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id,int *value);
 
