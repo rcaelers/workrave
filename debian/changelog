@@ -1,3 +1,17 @@
+workrave (1.10.31) disco; urgency=medium
+
+  * Add GetTimerRemaining dbus function.
+
+ -- Rob Caelers <robc@krandor.org>  Tue, 26 Mar 2019 21:13:00 +0100
+
+workrave (1.10.30) disco; urgency=medium
+
+  * Prevent "Workrave wants to inhibit shortcuts" on Wayland
+  * Fix timer bar text color under Wayland
+  * Do not dim text in time bar when window is not focused.
+
+ -- Rob Caelers <robc@krandor.org>  Tue, 26 Mar 2019 19:27:19 +0100
+
 workrave (1.10.29) disco; urgency=medium
 
   * New PPA upload
