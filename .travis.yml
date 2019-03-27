@@ -253,4 +253,4 @@ stages:
     - name: release
       if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: ppa
-      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
+      if: tag IS present AND (tag =~ ^v1_.*$ OR tag = ppa) AND type = push
