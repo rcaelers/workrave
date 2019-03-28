@@ -65,6 +65,7 @@ stage_deploy: &stage_deploy
         repo: rcaelers/workrave
         branch: branch_v1_10
         tags: true
+        condition: $TRAVIS_TAG =~ ^v1_.*$
       script: build/travis/deploy-upload.sh
 
     - provider: s3
