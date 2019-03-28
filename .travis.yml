@@ -251,6 +251,7 @@ stages:
     - name: prepare
       if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: build
+      if: (tag IS NOT present) OR (tag != ppa)
     - name: release
       if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: ppa
