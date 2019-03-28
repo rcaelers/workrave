@@ -47,7 +47,8 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
 # travis encrypt-file secring.gpg
 
-ssh-keyscan ppa.launchpad.net > ~/.ssh/known_hosts
+mkdir -p ~/.ssh/
+ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
 
 cat > ~/.dput.cf <<EOF
 [workraveppa]
