@@ -120,7 +120,6 @@ stage_ppa: &stage_ppa
     if [[ $DOCKER_IMAGE ]]; then
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          -v "/tmp/secrets:/tmp/secrets" \
           -e TRAVIS_TAG=${TRAVIS_TAG} \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/ppa.sh"
@@ -233,10 +232,12 @@ jobs:
       env: >
         DOCKER_IMAGE="ubuntu-bionic"
       before_install:
-        - mkdir -p /tmp/secrets
-        - chmod 0700 /tmp/secrets
-        - openssl aes-256-cbc -K $encrypted_ad072dc8e07b_key -iv $encrypted_ad072dc8e07b_iv -in build/travis/secring.gpg.enc -out /tmp/secrets/secring.gpg -d
-        - echo $GPG_PASSPHRASE > /tmp/secrets/priv-key
+        - mkdir -p _dist/secrets
+        - chmod 0700 _dist/secrets
+        - openssl aes-256-cbc -K $encrypted_cc78bd3121e0_key -iv $encrypted_cc78bd3121e0_iv -in build/travis/secrets.tar.enc -out _dist/secrets/secrets.tar -d
+        - tar xf _dist/secrets/secrets.tar -C _dist/
+        - rm -f _dist/secrets/secrets.tar
+        - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
       <<: *stage_ppa
 
 # TODO; fails before github-release is not installed

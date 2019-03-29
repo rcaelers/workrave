@@ -20,7 +20,7 @@ mkdir -p ~/.gnupg/private-keys-v1.d
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
 gpg --import ${SOURCES_DIR}/build/travis/pubring.gpg
-gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import /tmp/secrets/secring.gpg
+gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import ${SECRETS_DIR}/secring.gpg
 
 git remote set-branches --add origin debian-packaging
 git fetch
@@ -45,10 +45,8 @@ cp -a "$SOURCE" "$BUILD_DIR/workrave_$VERSION.orig.tar.gz"
 # gpg --list-secret-keys --keyid-format LONG
 # gpg --output pubring.gpg --export 9D5F98D3149A28DB
 # gpg --output secring.gpg --export-secret-key 9D5F98D3149A28DB
-# travis encrypt-file secring.gpg
-
-mkdir -p ~/.ssh/
-ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
+# ssh-keygen -t rsa -f ./deploy_rsa
+# travis encrypt-file secrets.tar
 
 cat > ~/.dput.cf <<EOF
 [workraveppa]
@@ -58,6 +56,20 @@ incoming    = ~rob-caelers/ubuntu/workrave/
 login       = rob-caelers
 allow_unsigned_uploads = 0
 EOF
+echo DPUT config:
+cat ~/.dput.cf
+
+mkdir -p ~/.ssh/
+ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
+
+cat >> ~/.ssh/config <<EOF
+Host ppa.launchpad.net
+    StrictHostKeyChecking no
+    IdentityFile ${SECRETS_DIR}/deploy_rsa.pub
+EOF
+chmod 400 ~/.ssh/config
+echo SSH config:
+cat ~/.ssh/config
 
 for series in disco cosmic bionic artful xenial trusty
 do
@@ -91,7 +103,7 @@ do
 
     dch -b -D "$series" --force-distribution -v "${VERSION}-ppa${PPA}~${series}1" "New release"
 
-    debuild -p"gpg --passphrase-file /tmp/secrets/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    debuild -p"gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -k9D5F98D3149A28DB -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
