@@ -33,7 +33,7 @@ git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packa
 make dist
 
 apt-get update -q
-apt-get -y -q -V --no-install-recommends install devscripts libxfce4panel-2.0-dev python-paramiko
+apt-get -y -q -V --no-install-recommends install devscripts libxfce4panel-2.0-dev python3-paramiko
 
 SOURCE=`ls workrave-*.tar.gz`
 VERSION=`echo $SOURCE | sed -e 's/.*-\(.*\).tar.gz/\1/'`
