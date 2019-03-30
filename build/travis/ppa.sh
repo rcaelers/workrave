@@ -65,7 +65,7 @@ ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
 cat >> ~/.ssh/config <<EOF
 Host ppa.launchpad.net
     StrictHostKeyChecking no
-    IdentityFile ${SECRETS_DIR}/deploy_rsa.pub
+    IdentityFile ${SECRETS_DIR}/deploy_rsa
 EOF
 chmod 400 ~/.ssh/config
 echo SSH config:
