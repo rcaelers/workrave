@@ -14,6 +14,10 @@ Please visit http://www.workrave.org for more information.
   sudo add-apt-repository ppa:rob-caelers/workrave  
   sudo apt-get update
   ```
+- FreeBSD:
+  ```
+  pkg install workrave
+  ```
 
 
 ## Build
