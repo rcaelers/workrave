@@ -199,7 +199,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ extern long timezon
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
          AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
 
-
 dnl Update version and date.
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
@@ -423,14 +422,7 @@ then
     CPPFLAGS=$CPPFLAGS_save
 fi
 
-with_cxx11=no
-# Enable C++11 std if gtkmm >= 3.18.0
-PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.18.0,
-    [ AX_CXX_COMPILE_STDCXX_11([noext])
-    with_cxx11=yes
-    ],
-    []
-)
+AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
 
 dnl
 dnl Monitors
@@ -504,7 +496,7 @@ dnl
 
 config_dbus=no
 config_dbus_gio=no
-have_python_cheetah=no
+have_python_jinja2=no
 
 if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes" -a "x$platform_os_osx" != "xyes"
 then
@@ -517,6 +509,10 @@ fi
 
 if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
 then
+
+    # For now, only needed for DBus.
+    AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
+
     if test "x$platform_os_win32" = "xyes"
     then
         PKG_CHECK_MODULES([DBUS],
@@ -554,21 +550,13 @@ then
     AC_SUBST(DBUS_SERVICES_DIR)
     AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
 
-    AC_CHECK_PROG(PYTHON, python, python)
-    AC_MSG_CHECKING([for the Cheetah Python package])
-
-    ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
-    if test -z "$ac_cheetah_result"; then
-        AC_MSG_RESULT([yes])
-        have_python_cheetah=yes
-    else
-        AC_MSG_ERROR([No, Please install python-cheetah])
-    fi
+    AM_PATH_PYTHON([3.0])
+    AX_PYTHON_MODULE([jinja2])
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
 AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
-AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
+AM_CONDITIONAL(HAVE_PYTHON_JINJA2, test x$HAVE_PYMOD_jinja2 = xyes)
 
 
 dnl
@@ -1004,7 +992,7 @@ then
 fi
 
 WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
-WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
+WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include -I\$(top_srcdir)/libs/dbus/include"
 WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
 
 for v in $variant; do
@@ -1014,8 +1002,8 @@ for v in $variant; do
     fi
 done
 
-WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
-WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src"
+WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common -lworkrave-dbus"
+WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src -L\$(top_builddir)/libs/dbus/src/"
 
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
@@ -1103,6 +1091,9 @@ AC_CONFIG_FILES([Makefile
              common/win32/harpoonHelper/Makefile
              common/win32/harpoonHelper/include/Makefile
              common/win32/harpoonHelper/src/Makefile
+             libs/Makefile
+             libs/dbus/Makefile
+             libs/dbus/src/Makefile
              frontend/Makefile
              frontend/common/Makefile
              frontend/common/include/Makefile
@@ -1222,7 +1213,6 @@ echo "           Pulseaudio support :   ${config_pulse}"
 fi
 echo "                    Exercises :   ${config_exercises}"
 echo ""
-echo "                C++11 support :   ${with_cxx11}"
 echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"
 echo "                   Debug logs :   ${config_tracing}"

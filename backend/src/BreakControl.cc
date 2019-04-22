@@ -42,7 +42,7 @@
 #endif
 
 #ifdef HAVE_DBUS
-#include "DBus.hh"
+#include "dbus/IDBus.hh"
 #include "DBusWorkrave.hh"
 #endif
 
@@ -732,7 +732,7 @@ void
 BreakControl::send_postponed()
 {
 #ifdef HAVE_DBUS
-  DBus *dbus = core->get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != NULL)
@@ -746,7 +746,7 @@ void
 BreakControl::send_skipped()
 {
 #ifdef HAVE_DBUS
-  DBus *dbus = core->get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != NULL)
@@ -802,7 +802,7 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != "")
     {
-      DBus *dbus = core->get_dbus();
+      workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
       if (iface != NULL)

@@ -31,7 +31,7 @@
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
-#include "IDBusWatch.hh"
+#include "dbus/IDBusWatch.hh"
 
 namespace workrave {
   class IBreakResponse;
@@ -85,7 +85,7 @@ class GUI :
   public IApp,
   public ICoreEventListener,
   public IConfiguratorListener,
-  public IDBusWatch,
+  public workrave::dbus::IDBusWatch,
   public sigc::trackable
 {
 public:

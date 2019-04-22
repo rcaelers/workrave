@@ -136,25 +136,15 @@ endif
 
 BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
 
-if HAVE_PYTHON_CHEETAH
+DBusGUI.cc: workrave-gui.xml \
+			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+		  $(top_srcdir)/libs/dbus/data/gio-cc.jinja
+			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py $(srcdir)/workrave-gui.xml $(top_srcdir)/libs/dbus/data/gio-cc.jinja DBusGUI.cc
 
-if HAVE_DBUS_GIO
-DBusGUI.cc: 		workrave-gui.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-gio.cc \
-			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --gio --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
-else
-DBusGUI.cc: 		workrave-gui.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py --server --language=C++ $(srcdir)/workrave-gui.xml DBusGUI
-endif
-
-DBusGUI.hh: 		DBusGUI.cc ; test -f $@
-
-endif # HAVE_PYTHON_CHEETAH
+DBusGUI.hh:  workrave-gui.xml \
+		  $(top_srcdir)/libs/dbus/bin/dbusgen.py \
+	    $(top_srcdir)/libs/dbus/data/gio-hh.jinja
+	    $(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py $(srcdir)/workrave-gui.xml $(top_srcdir)/libs/dbus/data/gio-hh.jinja DBusGUI.hh
 
 else # HAVE_DBUS
 

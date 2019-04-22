@@ -66,11 +66,12 @@
 #endif
 
 #ifdef HAVE_DBUS
+#include "dbus/DBusFactory.hh"
 #if defined(PLATFORM_OS_WIN32_NATIVE)
 #undef interface
 #endif
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/IDBus.hh"
+#include "dbus/DBusException.hh"
 #include "DBusWorkrave.hh"
 #ifdef HAVE_TESTS
 #include "Test.hh"
@@ -248,22 +249,22 @@ Core::init_bus()
 #ifdef HAVE_DBUS
   try
     {
-      dbus = new DBus();
+      dbus = workrave::dbus::DBusFactory::create();
       dbus->init();
 
-      extern void init_DBusWorkrave(DBus *dbus);
+      extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator);
       dbus->register_object_path(DBUS_PATH_WORKRAVE);
-      
+
 #ifdef HAVE_TESTS
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
 #endif
     }
-  catch (DBusException &)
+  catch (workrave::dbus::DBusException &)
     {
     }
 #endif

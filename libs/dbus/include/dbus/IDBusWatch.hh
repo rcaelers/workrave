@@ -1,6 +1,6 @@
-// Test.cc --- The main controller
+// IDBusWatch.hh --- DBUS bus watch interface
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef WORKRAVE_DBUS_IDBUSWATCH_HH
+#define WORKRAVE_DBUS_IDBUSWATCH_HH
 
-#ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
-#endif
+#include <string>
 
-#ifdef HAVE_TESTS
-
-#include "nls.h"
-
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+namespace workrave
 {
-  Core *core = Core::get_instance();
-
-  core->application->terminate();
+  namespace dbus
+  {
+    class IDBusWatch
+    {
+    public:
+      virtual ~IDBusWatch() {}
+      virtual void bus_name_presence(const std::string &name, bool present) = 0;
+    };
+  }
 }
 
-#endif
+#endif // WORKRAVE_DBUS_IDBUSWATCH_HH

@@ -58,7 +58,7 @@ of `autoconf'.
          libglib2.0-0 libglibmm-2.4-dev libgstreamer0.10-dev \
          libgtkmm-3.0-dev libindicator3-dev libpanel-applet-4-dev \
          libpulse-dev libsigc++-2.0-dev libxi-dev libxmu-dev \
-         libxtst-dev libxss-dev python-cheetah libtool
+         libxtst-dev libxss-dev python3-jinja2 libtool
 
   2. `cd' to the directory containing the package's source code and type `./autogen.sh` to generate configure
   

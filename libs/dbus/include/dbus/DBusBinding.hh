@@ -1,6 +1,6 @@
-// Test.cc --- The main controller
+// DBusBinding-qt5.hh --- DBUS interface
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef WORKRAVE_DBUS_DBUSBINDING_HH
+#define WORKRAVE_DBUS_DBUSBINDING_HH
 
-#ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
-#endif
+#include <string>
 
-#ifdef HAVE_TESTS
+#include "DBusBinding.hh"
 
-#include "nls.h"
-
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+namespace workrave
 {
-  Core *core = Core::get_instance();
-
-  core->application->terminate();
+  namespace dbus
+  {
+    class DBusBinding
+    {
+    public:
+      virtual ~DBusBinding() {}
+    };
+  }
 }
 
-#endif
+#endif // WORKRAVE_DBUS_DBUSBINDING_HH

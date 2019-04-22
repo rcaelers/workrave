@@ -1,6 +1,6 @@
-// Test.cc --- The main controller
+// DBusException.cc --- DBUS interface
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "dbus/DBusException.hh"
 
-#ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
-#endif
-
-#ifdef HAVE_TESTS
-
-#include "nls.h"
-
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+namespace workrave
 {
-  Core *core = Core::get_instance();
-
-  core->application->terminate();
+  namespace dbus
+  {
+    const char *DBUS_ERROR_FAILED =                            "org.freedesktop.DBus.Error.Failed";
+    const char *DBUS_ERROR_NOT_SUPPORTED =                     "org.freedesktop.DBus.Error.NotSupported";
+    const char *DBUS_ERROR_INVALID_ARGS =                      "org.freedesktop.DBus.Error.InvalidArgs";
+    const char *DBUS_ERROR_UNKNOWN_METHOD =                    "org.freedesktop.DBus.Error.UnknownMethod";
+  }
 }
-
-#endif

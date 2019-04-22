@@ -1,6 +1,6 @@
-// Test.cc --- The main controller
+// Test.hh
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef DBUSTESTSERVERQT5_HH
+#define DBUSTESTSERVERQT5_HH
 
-#ifdef HAVE_DBUS
+#include <string>
+#include <set>
+
+#include <QDBusArgument>
+#include <QMetaType>
+
+#include "DBusTestData.hh"
+#include "DBusTestServer.hh"
+
 #include "dbus/IDBus.hh"
-#endif
 
-#ifdef HAVE_TESTS
 
-#include "nls.h"
-
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+class DBusTestServerQt5 : DBusTestServer
 {
-  Core *core = Core::get_instance();
+public:
+  DBusTestServerQt5();
+  virtual ~DBusTestServerQt5();
 
-  core->application->terminate();
-}
+  void run(int argc, char **argv);
 
-#endif
+  void test_fire_signal();
+  void test_fire_signal_without_args();
+  void test_fire_signal_with_ref();
+
+private:
+  QCoreApplication *app;
+  workrave::dbus::IDBus::Ptr dbus;
+};
+
+#endif // DBUSTESTSERVERQT5_HH

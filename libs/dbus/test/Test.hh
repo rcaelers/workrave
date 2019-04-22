@@ -1,6 +1,6 @@
-// Test.cc --- The main controller
+// Test.hh
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef TEST_HH
+#define TEST_HH
 
-#ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
-#endif
+#include <QtCore>
 
-#ifdef HAVE_TESTS
+#include <iostream>
 
-#include "nls.h"
-
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+class SignalReceiver : public QObject
 {
-  Core *core = Core::get_instance();
+  Q_OBJECT
+public:
+  SignalReceiver() : got(false) {}
 
-  core->application->terminate();
-}
+public Q_SLOTS:
+  
+  void on_signal_without_args()
+  {
+    std::cout << "got event" << std::endl;
+    got = true;
+  }
+  
+  void on_signal()
+  {
+    std::cout << "got event" << std::endl;
+    got = true;
+  }
 
-#endif
+public:
+  bool got;
+};
+
+
+#endif // TEST_HH

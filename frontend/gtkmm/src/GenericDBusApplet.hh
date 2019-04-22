@@ -30,16 +30,12 @@
 #include "AppletWindow.hh"
 #include "TimerBoxViewBase.hh"
 #include "MenuBase.hh"
-#include "IDBusWatch.hh"
+#include "dbus/IDBus.hh"
+#include "dbus/IDBusWatch.hh"
 
 class AppletControl;
 
-namespace workrave
-{
-  class DBus;
-}
-
-class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public IDBusWatch, public IConfiguratorListener
+class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch, public IConfiguratorListener
 {
 public:
   struct TimerData
@@ -108,7 +104,7 @@ private:
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;
-  DBus *dbus;
+  workrave::dbus::IDBus::Ptr dbus;
 };
 
 #endif // GENERICDBUSAPPLET_HH

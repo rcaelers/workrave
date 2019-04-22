@@ -53,6 +53,8 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 
+#include "dbus/IDBus.hh"
+
 using namespace workrave;
 
 // Forward declarion of external interface.
@@ -60,7 +62,6 @@ namespace workrave {
   class ISoundPlayer;
   class IApp;
   class INetwork;
-  class DBus;
 }
 
 class ActivityMonitor;
@@ -151,7 +152,7 @@ public:
   void skip_break(BreakId break_id);
 
 #ifdef HAVE_DBUS
-  DBus *get_dbus()
+  workrave::dbus::IDBus::Ptr get_dbus()
   {
     return dbus;
   }
@@ -302,7 +303,7 @@ private:
 
 #ifdef HAVE_DBUS
   //! DBUS bridge
-  DBus *dbus;
+  workrave::dbus::IDBus::Ptr dbus;
 #endif
 
 #ifdef HAVE_DISTRIBUTION

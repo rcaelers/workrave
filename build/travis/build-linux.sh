@@ -41,7 +41,7 @@ apt-get -y -q -V --no-install-recommends install \
         intltool \
         libgdome2-dev \
         libgconf2-dev \
-        python-cheetah \
+        python3-jinja2 \
         `[[ $CONF_GTK_VER = 2 ]] && echo libgtk2.0-dev libgtkmm-2.4-dev`
 
 if [[ $COMPILER = 'clang' ]] ; then

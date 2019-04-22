@@ -37,8 +37,8 @@
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
-#include "DBus.hh"
-#include "DBusException.hh"
+#include "dbus/IDBus.hh"
+#include "dbus/DBusException.hh"
 #include "DBusGUI.hh"
 
 #define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"
@@ -125,7 +125,7 @@ GenericDBusApplet::init_applet()
                         this);
         }
     }
-  catch (DBusException &)
+  catch (workrave::dbus::DBusException &)
     {
     }
 }
@@ -162,7 +162,7 @@ GenericDBusApplet::deactivate_applet()
 
 //! 
 void
-GenericDBusApplet::applet_embed(bool enable, const string &sender)
+GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
 

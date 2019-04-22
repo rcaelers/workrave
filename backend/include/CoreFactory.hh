@@ -20,6 +20,8 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
+#include "dbus/IDBus.hh"
+
 namespace workrave
 {
   // Forward declarion of external interfaces.
@@ -39,7 +41,7 @@ namespace workrave
     static IConfigurator *get_configurator();
 
     //! Returns the interface to the DBUS facility.
-    static DBus *get_dbus();
+    static workrave::dbus::IDBus::Ptr get_dbus();
   };
 }
 

@@ -68,29 +68,21 @@ dbussources =		DBusWorkrave.cc \
 
 BUILT_SOURCES = $(dbussources)
 
-if HAVE_PYTHON_CHEETAH
-
-if HAVE_DBUS_GIO
 DBusWorkrave.cc:	workrave-service.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-gio.cc \
-			$(top_srcdir)/common/bin/DBus-template-gio.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py -s --gio -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
-else
-DBusWorkrave.cc:	workrave-service.xml \
-			$(top_srcdir)/common/bin/dbusgen.py \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.cc \
-			$(top_srcdir)/common/bin/DBus-template-freedesktop.hh
-			$(PYTHON) $(top_srcdir)/common/bin/dbusgen.py -s -l C++ $(srcdir)/workrave-service.xml DBusWorkrave
-endif
+									$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+							    $(top_srcdir)/libs/dbus/data/gio-cc.jinja
+								  $(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py $(srcdir)/workrave-service.xml $(top_srcdir)/libs/dbus/data/gio-cc.jinja DBusWorkrave.cc
 
-DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
+DBusWorkrave.hh:	workrave-service.xml \
+									$(top_srcdir)/libs/dbus/bin/dbusgen.py \
+									$(top_srcdir)/libs/dbus/data/gio-hh.jinja
+									$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py $(srcdir)/workrave-service.xml $(top_srcdir)/libs/dbus/data/gio-hh.jinja DBusWorkrave.hh
+
+#DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
 #BreakControl.cc: 	DBusWorkrave.hh ; test -f $@
 
 #workrave-client-bindings.h: DBusWorkrave.cc ; test -f $@
 #workrave-server-bindings.h: DBusWorkrave.cc ; test -f $@
-
-endif # HAVE_PYTHON_CHEETAH
 
 else # HAVE_DBUS
 
