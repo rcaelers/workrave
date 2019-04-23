@@ -54,24 +54,16 @@ stage_linux: &stage_linux
 
 stage_win32: &stage_win32
   <<: *stage_linux
+
+stage_deploy: &stage_deploy
+  <<: *stage_linux
   <<: *stage_github
   deploy:
-#    - provider: releases
-#      api_key: $GITHUB_TOKEN
-#      skip_cleanup: true
-#      file_glob: true
-#      file: _deploy/*.exe
-#      draft: true
-#      on:
-#        repo: rcaelers/workrave
-#        branch: master
-#        tags: true
-#
 #    - provider: script
 #      skip_cleanup: true
 #      on:
 #        repo: rcaelers/workrave
-#        branch: master
+#        branch: next
 #        tags: true
 #      script: build/travis/deploy-upload.sh
 
@@ -186,6 +178,7 @@ jobs:
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic"
       <<: *stage_linux
+      <<: *stage_deploy
 
     - stage: build
       env: >
@@ -240,6 +233,7 @@ jobs:
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="mingw-gtk"
       <<: *stage_win32
+      <<: *stage_deploy
 
     - stage: build
       compiler: clang
