@@ -1,5 +1,10 @@
 #!/bin/bash
 
+BUILD_DATE=`date +"%Y%m%d"`
+WORKRAVE_LONG_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
+WORKRAVE_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
+WORKRAVE_VERSION=`cat ${SOURCES_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
+
 if [[ $DOCKER_IMAGE ]]; then 
     WORKSPACE=/workspace
     SOURCE_DIR=${WORKSPACE}/source
