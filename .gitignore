@@ -2,3 +2,5 @@ Output
 .DS_Store
 _dist
 _deploy
+_build
+.vscode
