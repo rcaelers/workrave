@@ -71,7 +71,7 @@ stage_deploy: &stage_deploy
     - provider: s3
       skip_cleanup: true
       local_dir: _deploy
-      upload_dir: "snapshots/master/$BUILD_DATE-$GIT_TAG"
+      upload_dir: "snapshots/next/$BUILD_DATE-$GIT_TAG"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -79,12 +79,12 @@ stage_deploy: &stage_deploy
       region: eu-central-1
       on:
         repo: rcaelers/workrave
-        branch: master
+        branch: next
   
     - provider: s3
       skip_cleanup: true
       local_dir: _deploy
-      upload_dir: "snapshots/master/$BUILD_DATE-$GIT_TAG"
+      upload_dir: "snapshots/next/$BUILD_DATE-$GIT_TAG"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
