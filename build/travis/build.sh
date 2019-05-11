@@ -2,14 +2,14 @@
 
 if [[ $DOCKER_IMAGE ]]; then 
     WORKSPACE=/workspace
-    SOURCE_DIR=${WORKSPACE}/source
+    SOURCES_DIR=${WORKSPACE}/source
     OUTPUT_DIR=${WORKSPACE}/output
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/source/_deploy
 
 else
     WORKSPACE=$TRAVIS_BUILD_DIR
-    SOURCE_DIR=${WORKSPACE}
+    SOURCES_DIR=${WORKSPACE}
     OUTPUT_DIR=${WORKSPACE}/output
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
@@ -34,7 +34,7 @@ build()
 
   cd ${BUILD_DIR}/${config}
 
-  cmake ${SOURCE_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+  cmake ${SOURCES_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
 
   make ${MAKE_FLAGS[@]} VERBOSE=1
   make ${MAKE_FLAGS[@]} install VERBOSE=1
@@ -76,7 +76,7 @@ fi
 
 case "$DOCKER_IMAGE" in
     mingw-qt5)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
 
@@ -84,15 +84,15 @@ case "$DOCKER_IMAGE" in
 
         case "$CONFIG" in
             vs)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
                 ;;
 
             *)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
 
-                CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
+                CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
                 CMAKE_FLAGS64+=("-DWITH_UI=None")
                 CMAKE_FLAGS64+=("-DCMAKE_BUILD_TYPE=Release")
 
