@@ -13,7 +13,8 @@ notifications:
 
 stage_generic: &stage_generic
   before_deploy:
-    - GIT_TAG=`git describe --tags --abbrev=10`
+    - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    - GIT_TAG=`git describe --tags`
     - BUILD_DATE=`date +"%Y%m%d"`
 
 stage_generic_build: &stage_generic_build

@@ -1,7 +1,13 @@
 #!/bin/bash -x
 
+BUILD_DATE=`date +"%Y%m%d"`
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
+
+WORKRAVE_LONG_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
+WORKRAVE_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
+WORKRAVE_VERSION=`cat ${SOURCES_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 
 conf_opt()
 {
@@ -75,7 +81,13 @@ if [ -z "$DISTCHECK" ]; then
 else
     make && make dist && make distcheck
 
-    cp -a workrave*tar.gz ${DEPLOY_DIR}
+    if [[ -z "$TRAVIS_TAG" ]]; then
+        echo "No tag build."
+        cp -a workrave*tar.gz ${DEPLOY_DIR}/workrave-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}.tar.gz
+    else
+        echo "Tag build : $TRAVIS_TAG"
+        cp -a workrave*tar.gz ${DEPLOY_DIR}
+    fi
 fi
 
 ls -la ${DEPLOY_DIR}
