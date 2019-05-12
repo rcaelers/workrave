@@ -12,7 +12,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y \
         make \
         autoconf \
-        autoconf-archive \
         automake \
         autopoint \
         autotools-dev \
@@ -43,6 +42,13 @@ RUN mkdir -p /workspace/inno && \
     cd /workspace && \
     curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
     innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
+
+RUN mkdir -p /workspace/autoconf-archive && \
+    cd /workspace && \
+    curl -O http://ftp.snt.utwente.nl/pub/software/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz && \
+    tar xvfJ ./autoconf-archive-2019.01.06.tar.xz && \
+    cd /workspace/autoconf-archive-2019.01.06 && \
+    ./configure && make install
 
 RUN mkdir -p /workspace/runtime
 
