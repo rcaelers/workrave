@@ -1,9 +1,3 @@
-# Process this file with automake to produce Makefile.in
-#
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
-#
-
-
 MAINTAINERCLEANFILES = 	\
 		aclocal.m4 config.h.in configure stamp-h.in \
 		Makefile.in \
@@ -17,7 +11,7 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-SUBDIRS =      m4 po common backend frontend 
+SUBDIRS =      m4 po common libs backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.xml README.md autogen.sh
