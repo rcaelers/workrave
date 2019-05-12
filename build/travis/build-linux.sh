@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+BUILD_DATE=`date +"%Y%m%d"`
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
