@@ -1,3 +1,10 @@
+workrave (1.10.32) disco; urgency=medium
+
+  * The DBus binding generator was rewritten to remove the Python2 
+    dependency from the build 
+
+ -- Rob Caelers <robc@krandor.org>  Sun, 12 May 2019 21:54:36 +0200
+
 workrave (1.10.31) disco; urgency=medium
 
   * Add GetTimerRemaining dbus function.

@@ -29,7 +29,7 @@ Build-Depends: autoconf-archive,
                libxmu-dev,
                libxss-dev,
                libxtst-dev,
-               python-cheetah,
+               python3-jinja2,
                xfce4-panel-dev
 Standards-Version: 4.0.0
 Homepage: http://www.workrave.org/
