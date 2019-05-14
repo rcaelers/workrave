@@ -422,8 +422,6 @@ then
     CPPFLAGS=$CPPFLAGS_save
 fi
 
-AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
-
 dnl
 dnl Monitors
 dnl
@@ -535,6 +533,8 @@ fi
 
 if test "x$config_dbus" = "xyes"
 then
+    AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
+
     AC_DEFINE(HAVE_DBUS, , [DBus support])
     if test "x$platform_os_win32" != "xyes"
     then
