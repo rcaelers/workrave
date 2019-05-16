@@ -27,15 +27,12 @@
 #include "Configurator.hh"
 #include "Core.hh"
 
-//! Returns the interface to the core.
 ICore *
 CoreFactory::get_core()
 {
   return Core::get_instance();
 }
 
-
-//! Returns the interface to the configurator
 IConfigurator *
 CoreFactory::get_configurator()
 {
@@ -45,17 +42,13 @@ CoreFactory::get_configurator()
   return core->get_configurator();
 }
 
-
-//! Returns the interface to the D-BUS facility
+#ifdef HAVE_DBUS
 workrave::dbus::IDBus::Ptr
 CoreFactory::get_dbus()
 {
-#ifdef HAVE_DBUS
   Core *core = Core::get_instance();
   assert(core != NULL);
 
   return core->get_dbus();
-#else
-  return NULL;
-#endif
 }
+#endif

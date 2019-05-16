@@ -53,7 +53,9 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 
+#ifdef HAVE_DBUS
 #include "dbus/IDBus.hh"
+#endif
 
 using namespace workrave;
 

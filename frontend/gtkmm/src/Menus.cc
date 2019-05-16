@@ -137,7 +137,7 @@ Menus::init(AppletControl *applet_control)
   menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window);
 #endif
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GENERIC_DBUS);
   GenericDBusApplet *indicator_applet = dynamic_cast<GenericDBusApplet*>(applet_window);
   menus[MENU_APPLET_GENERICDBUS] = indicator_applet;

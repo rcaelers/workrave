@@ -25,14 +25,8 @@
 
 #include "dbus/DBusFactory.hh"
 
-#if defined(HAVE_DBUS_DUMMY)
-#include "DBusDummy.hh"
-#elif defined(HAVE_DBUS_QT5)
-#include "DBusQt5.hh"
-#elif defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 #include "DBusGio.hh"
-#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-#include "DBusFreedesktop.hh"
 #else
 #include "DBusDummy.hh"
 #endif
@@ -40,14 +34,8 @@
 workrave::dbus::IDBus::Ptr
 workrave::dbus::DBusFactory::create()
 {
-#if defined(HAVE_DBUS_DUMMY)
-  return std::make_shared<workrave::dbus::DBusDummy>();
-#elif defined(HAVE_DBUS_QT5)
-  return std::make_shared<workrave::dbus::DBusQt5>();
-#elif defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   return std::make_shared<workrave::dbus::DBusGio>();
-#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-  return std::make_shared<workrave::dbus::DBusFreeDesktop>();
 #else
   return std::make_shared<workrave::dbus::DBusDummy>();
 #endif

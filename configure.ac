@@ -493,57 +493,22 @@ dnl DBus
 dnl
 
 config_dbus=no
-config_dbus_gio=no
 have_python_jinja2=no
 
 if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes" -a "x$platform_os_osx" != "xyes"
 then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
-                  [config_dbus_gio=yes
-                   config_dbus=yes
-                  ], [ config_dbus_gio=no])
-fi
-
-if test "x$config_dbus_gio" == "xno" -a "x$enable_dbus" != "xno"
-then
-
-    # For now, only needed for DBus.
-    AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
-
-    if test "x$platform_os_win32" = "xyes"
-    then
-        PKG_CHECK_MODULES([DBUS],
-                          [dbus-1 >= 1.2],
-                          [config_dbus=yes],
-                          [true])
-    else
-        PKG_CHECK_MODULES([DBUS],
-                          [dbus-1 >= 1.2],
-                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [config_dbus=yes], [true])
-                           PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
-                                         [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
-                          [true])
-
-        if test "x$config_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
-            AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
-        fi
-    fi
+                  [ config_dbus=yes ], [ config_dbus=no])
 fi
 
 if test "x$config_dbus" = "xyes"
 then
+    # For now, only needed for DBus.
+    AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
     AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
 
     AC_DEFINE(HAVE_DBUS, , [DBus support])
-    if test "x$platform_os_win32" != "xyes"
-    then
-        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
-    fi
-    if test "x$config_dbus_gio" == "xyes";
-    then
-        AC_DEFINE(HAVE_DBUS_GIO, 1, [Have GIO DBUS support])
-    fi
 
     AS_AC_EXPAND(DATADIR, "$datadir")
     DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
@@ -555,7 +520,6 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
-AM_CONDITIONAL(HAVE_DBUS_GIO, test $config_dbus_gio = yes)
 AM_CONDITIONAL(HAVE_PYTHON_JINJA2, test x$HAVE_PYMOD_jinja2 = xyes)
 
 
@@ -1002,7 +966,11 @@ for v in $variant; do
     fi
 done
 
-WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common -lworkrave-dbus"
+WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
+if test "x$config_dbus" = "xyes"; then
+  WR_LDADD="$WR_LDADD -lworkrave-dbus"
+fi
+
 WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src -L\$(top_builddir)/libs/dbus/src/"
 
 AC_SUBST(WR_LDADD)
@@ -1201,11 +1169,7 @@ echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
 echo "                 XFCE support :   ${config_xfce} (Gtk${config_xfce_gtk_version})"
 echo "                 MATE support :   ${config_mate} (Gtk${config_mate_gtk_version})"
-if test "${config_dbus_gio}" = "yes"; then
-echo "                 DBUS support :   ${config_dbus} (GIO)"
-else
 echo "                 DBUS support :   ${config_dbus}"
-fi
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then

@@ -54,7 +54,7 @@
 #if defined(PLATFORM_OS_UNIX)
 #include "ScreenLockCommandline.hh"
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 #include "ScreenLockDBus.hh"
 #include "SystemStateChangeConsolekit.hh"
 #include "SystemStateChangeLogind.hh"
@@ -75,13 +75,13 @@ std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
-#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS)
 GDBusConnection* System::session_connection = NULL;
 GDBusConnection* System::system_connection = NULL;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 void
 System::init_DBus()
 {
@@ -218,7 +218,7 @@ System::init_DBus_lock_commands()
     }
   TRACE_EXIT();
 }
-#endif //HAVE_DBUS_GIO
+#endif //HAVE_DBUS
 
 void 
 System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
@@ -301,7 +301,7 @@ System::lock_screen()
   return false;
 }
 
-#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS)
 
 void System::add_DBus_system_state_command(
       ISystemStateChangeMethod *method)
@@ -419,7 +419,7 @@ System::init(
   TRACE_ENTER("System::init");
 
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   init_DBus();
   init_DBus_lock_commands();
   init_DBus_system_state_commands();
@@ -503,7 +503,7 @@ System::clear()
     }
   system_state_commands.clear();
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   //we shouldn't call g_dbus_connection_close_sync here:
   //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
   g_object_unref(session_connection);

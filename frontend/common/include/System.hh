@@ -30,7 +30,7 @@
 
 #include <vector>
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 #include <glib.h>
 #include <gio/gio.h>
 #endif
@@ -94,7 +94,7 @@ private:
   static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
 
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
   static void init_DBus();
   static void init_DBus_lock_commands();
   static inline bool add_DBus_lock_cmd(

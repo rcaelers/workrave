@@ -29,7 +29,7 @@ libworkrave_common_la_LIBADD = ${ldadd_platform}
 AM_CPPFLAGS = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			@WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @DBUS_CFLAGS@ 
+			@GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) locale.inc
 

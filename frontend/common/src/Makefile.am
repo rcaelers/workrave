@@ -30,7 +30,7 @@ ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
 libworkrave_frontend_common_la_SOURCES += \
 			ScreenLockCommandline.cc
 
-if HAVE_DBUS_GIO
+if HAVE_DBUS
 libworkrave_frontend_common_la_SOURCES += \
 			ScreenLockDBus.cc	\
 			SystemStateChangeConsolekit.cc \

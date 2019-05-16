@@ -46,7 +46,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUSGLIB_GET_PRIVATE) || defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
   init_gnome();
 #endif
 }
@@ -70,7 +70,7 @@ Session::set_idle(bool new_idle)
     {
       TRACE_MSG("Now idle");
       IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-      
+
       taking = rest_break->is_taking();
       TRACE_MSG("taking " << taking);
       if (!taking)
@@ -82,19 +82,19 @@ Session::set_idle(bool new_idle)
     {
       TRACE_MSG("No longer idle");
       core->remove_operation_mode_override( "screensaver" );
-      
+
       if (auto_natural)
         {
           TRACE_MSG("Automatic natural break enabled");
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-          
+
           if (core->get_operation_mode() == OPERATION_MODE_NORMAL &&
               rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
               && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
-              
+
               if (overdue)
                 {
                   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
@@ -111,14 +111,14 @@ Session::set_idle(bool new_idle)
   TRACE_EXIT();
 }
 
-#if defined(HAVE_DBUS_GIO)
+#if defined(HAVE_DBUS)
 
 void
 Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
   (void) proxy;
   (void) sender_name;
-  
+
   Session *self = (Session *)user_data;
   int session_status;
 
@@ -129,7 +129,6 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
     }
 }
 
-      
 void
 Session::init_gnome()
 {
@@ -154,46 +153,6 @@ Session::init_gnome()
   if (error == NULL && proxy != NULL)
     {
       g_signal_connect(proxy, "g-signal", G_CALLBACK(on_signal), this);
-    }
-}
-
-#elif defined(HAVE_DBUSGLIB_GET_PRIVATE)
-
-static void
-status_changed_cb(DBusGProxy *proxy, int session_status, void *data)
-{
-  TRACE_ENTER_MSG("status_changed_cb", session_status);
-  (void) proxy;
-  Session *self = (Session *)data;
-
-  self->set_idle(session_status == 3);
-
-  TRACE_EXIT();
-}
-
-void
-Session::init_gnome()
-{
-  DBusGProxy *proxy;
-  GError *err = NULL;
-
-  connection = dbus_g_bus_get_private(DBUS_BUS_SESSION, NULL, &err);
-  if (connection == NULL)
-    {
-      g_warning("DBUS session bus not available: %s", err ? err->message : "");
-      g_error_free(err);
-      return;
-    }
-
-  proxy = dbus_g_proxy_new_for_name(connection,
-                                    "org.gnome.SessionManager",
-                                    "/org/gnome/SessionManager/Presence",
-                                    "org.gnome.SessionManager.Presence");
-
-  if (proxy != NULL)
-    {
-      dbus_g_proxy_add_signal(proxy, "StatusChanged", G_TYPE_UINT, G_TYPE_INVALID);
-      dbus_g_proxy_connect_signal(proxy, "StatusChanged", G_CALLBACK(status_changed_cb), this, NULL);
     }
 }
 

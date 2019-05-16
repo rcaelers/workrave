@@ -226,7 +226,9 @@ GUI::main()
   init_debug();
   init_sound_player();
   init_multihead();
+#ifdef HAVE_DBUS
   init_dbus();
+#endif
   init_platform();
   init_session();
   init_gui();
@@ -721,6 +723,7 @@ GUI::init_gui()
 
   process_visibility();
 
+#ifdef HAVE_DBUS
   workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
 
   if (dbus->is_available())
@@ -730,6 +733,7 @@ GUI::init_gui()
                     menus);
 
     }
+#endif
 
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
@@ -740,6 +744,7 @@ GUI::init_gui()
 }
 
 
+#ifdef HAVE_DBUS
 void
 GUI::init_dbus()
 {
@@ -759,13 +764,11 @@ GUI::init_dbus()
 
       try
         {
-#ifdef HAVE_DBUS
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->register_service("org.workrave.Workrave", this);
 
           extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
           init_DBusGUI(dbus);
-#endif
         }
       catch (workrave::dbus::DBusException &)
         {
@@ -782,6 +785,7 @@ GUI::bus_name_presence(const std::string &name, bool present)
       exit(1);
     }
 }
+#endif
 
 void
 GUI::init_startup_warnings()

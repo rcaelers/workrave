@@ -17,7 +17,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
-			@GTK_CFLAGS@ @DBUS_CFLAGS@ \
+			@GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
@@ -28,7 +28,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@  @GSTREAMER_CFLAGS@\
+			@X_CFLAGS@ @GTK_CFLAGS@ @GSTREAMER_CFLAGS@\
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -44,6 +44,6 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
-			@DBUS_LIBS@ @GSTREAMER_LIBS@ \
+			@GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE}
 endif

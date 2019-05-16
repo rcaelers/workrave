@@ -31,7 +31,10 @@
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
+
+#ifdef HAVE_DBUS
 #include "dbus/IDBusWatch.hh"
+#endif
 
 namespace workrave {
   class IBreakResponse;
@@ -69,7 +72,7 @@ public:
 
   virtual void open_main_window() = 0;
   virtual void restbreak_now() = 0;
-  
+
   virtual void interrupt_grab() = 0;
 
   virtual int get_number_of_heads() const = 0;
@@ -85,7 +88,9 @@ class GUI :
   public IApp,
   public ICoreEventListener,
   public IConfiguratorListener,
+#ifdef HAVE_DBUS
   public workrave::dbus::IDBusWatch,
+#endif
   public sigc::trackable
 {
 public:
@@ -118,8 +123,10 @@ public:
   void core_event_operation_mode_changed(const OperationMode m);
   void core_event_usage_mode_changed(const UsageMode m);
 
+#ifdef HAVE_DBUS
   virtual void bus_name_presence(const std::string &name, bool present);
-  
+#endif
+
   // Internal public methods
   void restbreak_now();
   void open_main_window();
@@ -147,7 +154,9 @@ private:
   void init_multihead_mem(int new_num_heads);
   void init_multihead_desktop();
   void init_gui();
+#ifdef HAVE_DBUS
   void init_dbus();
+#endif
   void init_session();
   void init_startup_warnings();
 

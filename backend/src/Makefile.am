@@ -111,7 +111,7 @@ libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} @WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
+			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ \
 			@GCONF_CFLAGS@
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}

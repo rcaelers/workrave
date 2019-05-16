@@ -20,7 +20,9 @@
 #ifndef COREFACTORY_HH
 #define COREFACTORY_HH
 
+#ifdef HAVE_DBUS
 #include "dbus/IDBus.hh"
+#endif
 
 namespace workrave
 {
@@ -40,8 +42,10 @@ namespace workrave
     //! Returns the interface to the core's configurator.
     static IConfigurator *get_configurator();
 
+#ifdef HAVE_DBUS
     //! Returns the interface to the DBUS facility.
     static workrave::dbus::IDBus::Ptr get_dbus();
+#endif
   };
 }
 
