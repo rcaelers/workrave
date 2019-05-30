@@ -15,12 +15,12 @@
     <struct name="TimerData" csymbol="GenericDBusApplet::TimerData">
         <field type="string" name="bar_text"/>
         <field type="int" name="slot"/>
-        <field type="int" name="bar_secondary_color"/>
-        <field type="int" name="bar_secondary_val"/>
-        <field type="int" name="bar_secondary_max"/>
-        <field type="int" name="bar_primary_color"/>
-        <field type="int" name="bar_primary_val"/>
-        <field type="int" name="bar_primary_max"/>
+        <field type="uint32" name="bar_secondary_color"/>
+        <field type="uint32" name="bar_secondary_val"/>
+        <field type="uint32" name="bar_secondary_max"/>
+        <field type="uint32" name="bar_primary_color"/>
+        <field type="uint32" name="bar_primary_val"/>
+        <field type="uint32" name="bar_primary_max"/>
     </struct>
 
     <struct name="MenuItem" csymbol="GenericDBusApplet::MenuItem">

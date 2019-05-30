@@ -42,12 +42,12 @@ public:
   {
     std::string bar_text;
     int slot;
-    int bar_secondary_color;
-    int bar_secondary_val;
-    int bar_secondary_max;
-    int bar_primary_color;
-    int bar_primary_val;
-    int bar_primary_max;
+    uint32_t bar_secondary_color;
+    uint32_t bar_secondary_val;
+    uint32_t bar_secondary_max;
+    uint32_t bar_primary_color;
+    uint32_t bar_primary_val;
+    uint32_t bar_primary_max;
   };
 
   struct MenuItem
