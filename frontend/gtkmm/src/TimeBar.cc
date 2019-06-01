@@ -68,8 +68,9 @@ TimeBar::TimeBar() :
   set_bar_color(COLOR_ID_INACTIVE);
   set_secondary_bar_color(COLOR_ID_INACTIVE);
   set_text_color(Gdk::Color("black"));
-}
 
+  GtkUtil::set_theme_fg_color(this);
+}
 
 //! Destructor
 TimeBar::~TimeBar()
@@ -786,7 +787,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(rect2.get_x(), rect2.get_y(), rect2.get_width(), rect2.get_height());
   cr->clip();
 
-  GtkUtil::set_theme_fg_color(this);
 
   set_color(cr, style_context->get_color(Gtk::STATE_FLAG_ACTIVE));
   cr->move_to(text_x, text_y);
