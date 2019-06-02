@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.33
+
+** Packaging fixes
+
 * Workrave 1.10.32
 
 ** Fixed a bug that caused high CPU load when the main window was
