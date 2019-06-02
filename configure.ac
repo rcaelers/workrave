@@ -1061,6 +1061,10 @@ AC_CONFIG_FILES([Makefile
              common/win32/harpoonHelper/src/Makefile
              libs/Makefile
              libs/dbus/Makefile
+             libs/dbus/bin/Makefile
+             libs/dbus/data/Makefile
+             libs/dbus/include/Makefile
+             libs/dbus/include/dbus/Makefile
              libs/dbus/src/Makefile
              frontend/Makefile
              frontend/common/Makefile
