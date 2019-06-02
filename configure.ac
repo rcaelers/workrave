@@ -516,7 +516,7 @@ then
     AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
 
     AM_PATH_PYTHON([3.0])
-    AX_PYTHON_MODULE([jinja2])
+    AX_PYTHON_MODULE([jinja2], [needed], python3)
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
