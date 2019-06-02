@@ -3,7 +3,7 @@
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/buildflags.mk
-CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++14
 
 %:
 	dh $@ --with autoreconf
