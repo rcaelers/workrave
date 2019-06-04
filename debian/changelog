@@ -1,10 +1,16 @@
-workrave (1.10.32-ppa2) disco; urgency=medium
+workrave (1.10.34) disco; urgency=medium
+
+  * Switch back to C+11 for Trusty and Xenial
+
+ -- Rob Caelers <robc@krandor.org>  Tue, 04 Jun 2019 19:24:37 +0200
+
+workrave (1.10.33) disco; urgency=medium
 
   * Build with C++14
 
  -- Rob Caelers <robc@krandor.org>  Sun, 02 Jun 2019 16:00:16 +0200
 
-workrave (1.10.32-ppa1) disco; urgency=medium
+workrave (1.10.32) disco; urgency=medium
 
   * Fixed a bug that caused high CPU load when the main window was
     open for a long time.
