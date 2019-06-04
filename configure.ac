@@ -506,7 +506,7 @@ if test "x$config_dbus" = "xyes"
 then
     # For now, only needed for DBus.
     AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
-    AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
+    AX_CXX_COMPILE_STDCXX_11(ext, mandatory)
 
     AC_DEFINE(HAVE_DBUS, , [DBus support])
 
