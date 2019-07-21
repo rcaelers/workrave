@@ -60,6 +60,7 @@ public:
   bool is_auto_reset_enabled() const override;
   int64_t get_limit() const override;
   bool is_limit_enabled() const override;
+  int64_t get_timer_remaining();
   int64_t get_total_overdue_time() const override;
   void postpone_break() override;
   void skip_break() override;

@@ -21,13 +21,13 @@
 
 #include <mate-panel-applet.h>
 
-
 #include <gio/gio.h>
 
 #include "control.h"
-#include "commonui/credits.h"
-#include "commonui/MenuEnums.hh"
-#include "commonui/nls.h"
+#include "credits.h"
+#include "nls.h"
+
+#include "MenuEnums.hh"
 
 typedef struct _WorkraveApplet
 {
@@ -255,7 +255,7 @@ on_menu_command(GtkAction *action, WorkraveApplet *applet)
 static void
 on_menu_radio_changed(GtkRadioAction *action, GtkRadioAction *current, WorkraveApplet *applet)
 {
-  on_menu_command(GTK_ACTION(current), applet);
+  on_menu_command(current, applet);
 }
 
 static const GtkActionEntry menu_actions [] = {
@@ -365,9 +365,9 @@ static void workrave_applet_fill(WorkraveApplet *applet)
                                       G_CALLBACK(on_menu_radio_changed),
                                       applet);
 
-  gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
-  mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);
-  g_free(ui_path);
+	gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
+	mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);
+	g_free(ui_path);
 
   gtk_container_add(GTK_CONTAINER(applet->applet), GTK_WIDGET(applet->image));
   gtk_widget_show_all(GTK_WIDGET(applet->applet));

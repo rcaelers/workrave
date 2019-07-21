@@ -1,15 +1,37 @@
-Workrave NEWS -- history of user-visible changes.  20 Mar 2019
+Workrave NEWS -- history of user-visible changes.  4 June 2019
 Copyright (C) 2001-2019 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.34
+
+** Ubuntu Trusty and Xenial build fixes.
+
+* Workrave 1.10.33
+
+** Packaging fixes.
+
+* Workrave 1.10.32
+
+** Fixed a bug that caused high CPU load when the main window was
+   open for a long time.
+
+** [internal change] Python 2 is no longer required for building
+   Workrave. The Python2-only Cheetah dependency has been replaced
+   by Jinja 2 (python3-jinja2). Additionally, Boost >= 1.52 is now
+   required (libboost-dev).
+
+* Workrave 1.10.31
+
+** Add GetTimerRemaining dbus function.
+
 * Workrave 1.10.30
 
 ** Prevent "Workrave wants to inhibit shortcuts" on Wayland
 ** Fix timer bar text color under Wayland
-** Do not dim text in time bar when window is not focussed.
+** Do not dim text in time bar when window is not focused.
 
 * Workrave 1.10.28 / 1.10.29
 
