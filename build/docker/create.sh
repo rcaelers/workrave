@@ -3,5 +3,7 @@ docker build -t rcaelers/workrave-build:mingw-qt5           build/docker/mingw-q
 docker build -t rcaelers/workrave-build:ubuntu-xenial       build/docker/ubuntu-xenial
 docker build -t rcaelers/workrave-build:ubuntu-artful       build/docker/ubuntu-artful
 docker build -t rcaelers/workrave-build:ubuntu-bionic       build/docker/ubuntu-bionic
-docker build -t rcaelers/workrave-build:ubuntu-bionic-plus  build/docker/ubuntu-bionic-plus
 docker build -t rcaelers/workrave-build:ubuntu-cosmic       build/docker/ubuntu-cosmic
+docker build -t rcaelers/workrave-build:ubuntu-disco        build/docker/ubuntu-disco
+docker build -t rcaelers/workrave-build:ubuntu-disco-plus   build/docker/ubuntu-disco-plus
+docker build -t rcaelers/workrave-build:ubuntu-eoan         build/docker/ubuntu-eoan
