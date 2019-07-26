@@ -15,6 +15,10 @@ Please visit http://www.workrave.org for more information.
   sudo apt-get update
   ```
 - Arch Linux: use `sudo pacman -S workrave` to install from the community repository
+- FreeBSD:
+  ```
+  pkg install workrave
+  ```
 
 
 ## Build
