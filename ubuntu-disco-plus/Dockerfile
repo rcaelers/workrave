@@ -1,4 +1,4 @@
-FROM ubuntu:cosmic
+FROM ubuntu:disco
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -8,7 +8,7 @@ RUN \
   apt-get update -y && \
   apt-get install -y curl software-properties-common && \
   curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-  add-apt-repository "deb http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" && \
+  add-apt-repository "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-8 main" && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
     autoconf \
@@ -21,8 +21,8 @@ RUN \
     debhelper \
     devscripts \
     dh-autoreconf \
-    g++-8 \
-    gcc-8 \
+    g++-9 \
+    gcc-9 \
     gettext \
     git \
     gobject-introspection \
