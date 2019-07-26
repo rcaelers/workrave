@@ -11,14 +11,14 @@ notifications:
 
 ################################################################################
 
-stage_generic: &stage_generic
+stage_base: &stage_base
   before_deploy:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - GIT_TAG=`git describe --tags --abbrev=10`
     - BUILD_DATE=`date +"%Y%m%d"`
 
-stage_generic_build: &stage_generic_build
-  <<: *stage_generic
+stage_build_base: &stage_build_base
+  <<: *stage_base
   script: |
     if [[ $DOCKER_IMAGE ]]; then
       docker run --rm \
@@ -30,8 +30,31 @@ stage_generic_build: &stage_generic_build
        build/travis/build.sh
     fi
 
+stage_build_docker: &stage_build_docker
+  <<: *stage_build_base
+  os: linux
+  dist: trusty
+  language: cpp
+
+stage_build_osx: &stage_build_osx
+  <<: *stage_build_base
+  os: osx
+  osx_image: xcode9.4
+  language: cpp
+  before_install:
+    |
+    if [ ${TRAVIS_OS_NAME} = "osx" ]; then
+      # compilation with system wide gettext fails at the link stage with missing symbols...
+      brew install gettext qt5 python3
+      brew link gettext --force
+      brew linkapps qt5
+      brew outdated cmake || brew upgrade cmake
+      
+      pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+    fi
+
 stage_github: &stage_github
-  <<: *stage_generic
+  <<: *stage_base
   os: linux
   dist: trusty
   language: cpp
@@ -47,17 +70,8 @@ stage_github: &stage_github
       popd
     fi
 
-stage_linux: &stage_linux
-  <<: *stage_generic_build
-  os: linux
-  dist: trusty
-  language: cpp
-
-stage_win32: &stage_win32
-  <<: *stage_linux
-
 stage_deploy: &stage_deploy
-  <<: *stage_linux
+  <<: *stage_build_docker
   <<: *stage_github
   deploy:
 #    - provider: script
@@ -94,25 +108,9 @@ stage_deploy: &stage_deploy
         repo: rcaelers/workrave
         tags: true
 
-stage_osx: &stage_osx
-  <<: *stage_generic_build
-  os: osx
-  osx_image: xcode9.4
-  language: cpp
-  before_install:
-    |
-    if [ ${TRAVIS_OS_NAME} = "osx" ]; then
-      # compilation with system wide gettext fails at the link stage with missing symbols...
-      brew install gettext qt5 python3
-      brew link gettext --force
-      brew linkapps qt5
-      brew outdated cmake || brew upgrade cmake
-      
-      pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
-    fi
 
-stage_ppa: &stage_ppa
-  <<: *stage_generic
+stage_deploy_ppa: &stage_deploy_ppa
+  <<: *stage_base
   os: linux
   dist: trusty
   language: cpp
@@ -139,7 +137,7 @@ jobs:
 #          --name "Workrave $VERSION" \
 #          --description "New release" \
 #          --draft
-#      <<: *stage_generic
+#      <<: *stage_base
 #      <<: *stage_github
 
     ###########################################################################
@@ -150,7 +148,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-xenial"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -159,7 +157,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-artful"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -168,7 +166,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -177,8 +175,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_linux
-      <<: *stage_deploy
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -187,7 +184,8 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-disco"
-      <<: *stage_linux
+      <<: *stage_build_docker
+      <<: *stage_deploy
 
     - stage: build
       env: >
@@ -196,7 +194,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic-plus"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -205,7 +203,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic-plus"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -214,7 +212,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
         CONF_DISABLE="GCONF,TESTS,COVERAGE"
         DOCKER_IMAGE="ubuntu-cosmic-plus"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -223,7 +221,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
         CONF_DISABLE="GCONF,TESTS,COVERAGE"
         DOCKER_IMAGE="ubuntu-cosmic-plus"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -232,7 +230,7 @@ jobs:
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="mingw-gtk"
-      <<: *stage_win32
+      <<: *stage_build_docker
       <<: *stage_deploy
 
     - stage: build
@@ -241,7 +239,7 @@ jobs:
         WITH_UI="Qt5"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-      <<: *stage_osx
+      <<: *stage_build_osx
 
 #    - stage: release
 #      script:
@@ -253,7 +251,7 @@ jobs:
 #          --tag "$TRAVIS_TAG" \
 #          --name "Workrave $VERSION" \
 #          --description "New release"
-#      <<: *stage_generic
+#      <<: *stage_base
 #      <<: *stage_github
 #
 #    - stage: ppa
@@ -266,7 +264,7 @@ jobs:
 #        - tar xf _dist/secrets/secrets.tar -C _dist/
 #        - rm -f _dist/secrets/secrets.tar
 #        - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
-#      <<: *stage_ppa
+#      <<: *stage_deploy_ppa
 
 #after_failure:
 #  - |
