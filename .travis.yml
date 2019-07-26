@@ -108,6 +108,18 @@ stage_deploy: &stage_deploy
         repo: rcaelers/workrave
         tags: true
 
+    - provider: s3
+      skip_cleanup: true
+      local_dir: _deploy
+      upload_dir: "snapshots/next/$BUILD_DATE-$GIT_TAG"
+      acl: public_read
+      endpoint: https://snapshots.workrave.org/
+      bucket: snapshots
+      access_key_id: "travis"
+      secret_access_key: "$SNAPSHOTS_SECRET_ACCESS_KEY"
+      on:
+        repo: rcaelers/workrave
+        branch: next
 
 stage_deploy_ppa: &stage_deploy_ppa
   <<: *stage_base
