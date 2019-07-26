@@ -34,7 +34,7 @@ RUN cd /workspace && \
     innoextract -d /workspace/inno ./innosetup-5.5.9-unicode.exe && rm ./innosetup-5.5.9-unicode.exe
 
 RUN cd /workspace && \
-    curl -O https://snapshots.workrave.org/.prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
+    curl -O https://snapshots.workrave.org/prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
     tar xvfJ ./workrave-prebuilt-windows-vs2015.tar.xz && \
     rm ./workrave-prebuilt-windows-vs2015.tar.xz && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
