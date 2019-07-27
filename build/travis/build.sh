@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/bin/bash -e
 
-if [[ $DOCKER_IMAGE ]]; then 
     WORKSPACE=/workspace
     SOURCES_DIR=${WORKSPACE}/source
     OUTPUT_DIR=${WORKSPACE}/output
