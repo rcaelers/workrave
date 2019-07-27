@@ -1,9 +1,10 @@
 if (HAVE_XFCE4)
 
+  # TOD: check for Gtk2/Gtk3, check if applet must be shared library or executable.
   set(XFCE_EXEC ${CMAKE_INSTALL_PREFIX}/${LIBDIR}/xfce4/panel-plugins/xfce4-workrave-plugin)
 
   configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet.desktop.in.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet-1.0.desktop.in.in
     ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop.in
     @ONLY)
 
