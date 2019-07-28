@@ -14,13 +14,13 @@ notifications:
 stage_base: &stage_base
   before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-    - WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
-    - WORKRAVE_TAG=`git describe --abbrev=0`
-    - WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
-    - WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
-    - WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
-    - WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
-    - WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
+    - export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
+    - export WORKRAVE_TAG=`git describe --abbrev=0`
+    - export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
+    - export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
+    - export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
+    - export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
+    - export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
     - |
         # Configure MinIO endpoint
         pip install --user awscli
