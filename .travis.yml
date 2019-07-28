@@ -62,6 +62,11 @@ stage_build_docker: &stage_build_docker
   language: cpp
   script: |
     if [[ $DOCKER_IMAGE ]]; then
+      echo docker run --rm \
+          -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+          $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_.*|WORKRAVE_.*)=' | sed 's/^\(.*\)=\(.*\)/-e\1=\"\2\"' ) \
+          rcaelers/workrave-build:${DOCKER_IMAGE} \
+          sh -c "/workspace/source/build/travis/build.sh"
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
           $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_.*|WORKRAVE_.*)=' | sed 's/^\(.*\)=\(.*\)/-e\1=\"\2\"' ) \
