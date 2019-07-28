@@ -196,7 +196,17 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-cosmic-plus"
+        DOCKER_IMAGE="ubuntu-eoan
+      <<: *stage_build_docker
+      <<: *stage_deploy
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="ubuntu-disco-plus"
       <<: *stage_build_docker
 
     - stage: build
@@ -205,7 +215,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-cosmic-plus"
+        DOCKER_IMAGE="ubuntu-disco-plus"
       <<: *stage_build_docker
 
     - stage: build
@@ -214,16 +224,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
         CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-cosmic-plus"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-cosmic-plus"
+        DOCKER_IMAGE="ubuntu-disco-plus"
       <<: *stage_build_docker
 
     - stage: build
