@@ -58,7 +58,7 @@ if [ ! -f $CATALOG_NAME ]; then
     ' > $CATALOG_NAME
 fi
 
-export SIZE=1 #` stat --printf="%s" $FILENAME`
+export SIZE=` stat --printf="%s" $FILENAME`
 export LASTMOD=`date -r $FILENAME +"%Y-%m-%d %H:%M:%S"`
 export URL="workave/$WORKRAVE_UPLOAD_DIR/$FILENAME"
 
