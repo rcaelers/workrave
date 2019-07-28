@@ -9,6 +9,12 @@ notifications:
     on_success: change
     on_failure: change
 
+
+addons:
+  apt:
+    packages:
+      - jq
+
 ################################################################################
 
 stage_base: &stage_base
