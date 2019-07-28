@@ -74,7 +74,7 @@ stage_build_docker: &stage_build_docker
 stage_build_osx: &stage_build_osx
   <<: *stage_base
   os: osx
-  osx_image: xcode9.4
+  osx_image: xcode11
   language: cpp
   script:
     - build/travis/build.sh
