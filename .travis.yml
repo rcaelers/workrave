@@ -196,7 +196,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-eoan
+        DOCKER_IMAGE="ubuntu-eoan"
       <<: *stage_build_docker
       <<: *stage_deploy
 
