@@ -62,6 +62,7 @@ stage_build_docker: &stage_build_docker
   language: cpp
   script: |
     if [[ $DOCKER_IMAGE ]]; then
+      printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_.*|WORKRAVE_.*)=' | sed 's/^\(.*\)=\(.*\)/-e\1=\"\2\"' 
       echo docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
           $(printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_.*|WORKRAVE_.*)=' | sed 's/^\(.*\)=\(.*\)/-e\1=\"\2\"' ) \
@@ -280,7 +281,8 @@ jobs:
 #        - rm -f _dist/secrets/secrets.tar
 #        - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
 #      <<: *stage_deploy_ppa
-
+#
+## TODO; fails before github-release is not installed
 #after_failure:
 #  - |
 #    github-release delete \
