@@ -28,6 +28,7 @@ RUN \
     gobject-introspection \
     gsettings-desktop-schemas-dev \
     intltool \
+    jq \
     libboost-chrono-dev \
     libboost-context-dev \
     libboost-coroutine-dev \

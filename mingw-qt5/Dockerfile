@@ -8,6 +8,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 cmake \
                 git \
                 intltool \
+                jq \
                 make \
                 mingw64-boost \
                 mingw64-dbus \
