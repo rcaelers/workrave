@@ -9,43 +9,45 @@ notifications:
     on_success: change
     on_failure: change
 
-
 ################################################################################
 
 stage_base: &stage_base
-  before_deploy:
+  before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-    - GIT_TAG=`git describe --tags --abbrev=10`
-    - BUILD_DATE=`date +"%Y%m%d"`
-    - BUILD_TAG="$BUILD_DATE-$GIT_TAG"
-    - UPLOAD_DIR="snapshots/next/$BUILD_TAG"
-    # Configure MinIO endpoint
-  before_install: |
-    pip install --user awscli
-    aws configure set aws_access_key_id travis
-    aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
-    aws configure set default.region us-east-1
-    aws configure set default.s3.signature_version s3v4
-    aws configure set s3.endpoint_url https://snapshots.workrave.org/
+    - WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
+    - WORKRAVE_TAG=`git describe --abbrev=0`
+    - WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
+    - WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
+    - WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
+    - WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
+    - WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
+    - |
+        # Configure MinIO endpoint
+        pip install --user awscli
+        aws configure set aws_access_key_id travis
+        aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
+        aws configure set default.region us-east-1
+        aws configure set default.s3.signature_version s3v4
+        aws configure set s3.endpoint_url https://snapshots.workrave.org/
 
-    if [ ${TRAVIS_OS_NAME} = "osx" ]; then
-      # compilation with system wide gettext fails at the link stage with missing symbols...
-      brew install gettext qt5 python3
-      brew link gettext --force
-      brew linkapps qt5
-      brew outdated cmake || brew upgrade cmake
-      
-      pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+        if [ ${TRAVIS_OS_NAME} = "osx" ]; then
+          # compilation with system wide gettext fails at the link stage with missing symbols...
+          brew install gettext qt5 python3
+          brew link gettext --force
+          brew linkapps qt5
+          brew outdated cmake || brew upgrade cmake
 
-    elif [ ${TRAVIS_OS_NAME} = "linux" ]; then
-      pushd /tmp
-      curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-      tar xvfj linux-amd64-github-release.tar.bz2
-      mkdir -p ~/bin/
-      mv bin/linux/amd64/github-release ~/bin/
-      chmod +x ~/bin/github-release
-      popd
-    fi
+          pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+
+        elif [ ${TRAVIS_OS_NAME} = "linux" ]; then
+          pushd /tmp
+          curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
+          tar xvfj linux-amd64-github-release.tar.bz2
+          mkdir -p ~/bin/
+          mv bin/linux/amd64/github-release ~/bin/
+          chmod +x ~/bin/github-release
+          popd
+        fi
 
 stage_build_docker: &stage_build_docker
   <<: *stage_base
@@ -85,7 +87,7 @@ stage_deploy: &stage_deploy
     - provider: s3
       skip_cleanup: true
       local_dir: _deploy
-      upload_dir: "$UPLOAD_DIR"
+      upload_dir: "$WORKRAVE_UPLOAD_DIR"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -98,7 +100,7 @@ stage_deploy: &stage_deploy
     - provider: s3
       skip_cleanup: true
       local_dir: _deploy
-      upload_dir: "$UPLOAD_DIR"
+      upload_dir: "$WORKRAVE_UPLOAD_DIR"
       acl: public_read
       bucket: org-workrave
       access_key_id: "$AWS_ACCESS_KEY_ID"
@@ -109,7 +111,7 @@ stage_deploy: &stage_deploy
         tags: true
 
   after_success:
-    - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy/* s3://"$UPLOAD_DIR"
+    - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy/* s3://"$WORKRAVE_UPLOAD_DIR"
 
 stage_deploy_ppa: &stage_deploy_ppa
   <<: *stage_base
@@ -241,6 +243,16 @@ jobs:
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
       <<: *stage_build_osx
+
+    - stage: release
+      language: node_js
+      node_js:
+        - 12.7.0
+      script:
+        - cd TRAVIS_BUILD_DIR/build/travis/catalog
+        - npm i
+        - node --experimental-modules main.js 
+      <<: *stage_base
 
 #    - stage: release
 #      script:

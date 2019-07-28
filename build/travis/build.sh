@@ -6,7 +6,6 @@ if [[ $DOCKER_IMAGE ]]; then
     OUTPUT_DIR=${WORKSPACE}/output
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/source/_deploy
-
 else
     WORKSPACE=$TRAVIS_BUILD_DIR
     SOURCES_DIR=${WORKSPACE}
@@ -14,11 +13,6 @@ else
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
 fi
-
-BUILD_DATE=`date +"%Y%m%d"`
-WORKRAVE_LONG_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
-WORKRAVE_GIT_VERSION=`( cd ${SOURCES_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null | sed -e 's/-g.*//' )`
-WORKRAVE_VERSION=`cat ${SOURCES_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 
 CMAKE_FLAGS=()
 CMAKE_FLAGS64=()
@@ -112,11 +106,15 @@ EXTRA=
 #fi
 
 if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
-  if [[ -z "$TRAVIS_TAG" ]]; then
-      echo "No tag build."
-      cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}.exe
-  else
-      echo "Tag build : $TRAVIS_TAG"
-      cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
-  fi
+    if [[ -z "$TRAVIS_TAG" ]]; then
+        echo "No tag build."
+        filename=${DEPLOY_DIR}/workrave-win32-${WORKRAVE_FULL_TAG}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
+    else
+        echo "Tag build : $TRAVIS_TAG"
+        filename=${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
+    fi
+
+    cp ${OUTPUT_DIR}/mysetup.exe ${filename}
+
+    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k installer -c release -p win32
 fi
