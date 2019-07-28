@@ -24,10 +24,9 @@
 #include <gio/gio.h>
 
 #include "control.h"
-#include "credits.h"
-#include "nls.h"
-
-#include "MenuEnums.hh"
+#include "commonui/nls.h"
+#include "commonui/credits.h"
+#include "commonui/MenuEnums.hh"
 
 typedef struct _WorkraveApplet
 {

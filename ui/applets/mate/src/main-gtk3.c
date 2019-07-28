@@ -20,10 +20,10 @@
 #endif
 
 #include "control.h"
-#include "MenuEnums.hh"
 
-#include "credits.h"
-#include "nls.h"
+#include "commonui/credits.h"
+#include "commonui/nls.h"
+#include "commonui/MenuEnums.hh"
 
 #include <mate-panel-applet.h>
 #include <glib-object.h>

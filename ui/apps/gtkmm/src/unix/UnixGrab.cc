@@ -49,7 +49,7 @@ UnixGrab::can_grab()
 void
 UnixGrab::grab(GdkWindow *window)
 {
-  if (! GtkUtil::running_on_wayland())
+  if (! Platform::running_on_wayland())
     {
       grab_wanted = true;
       if (!grabbed)
@@ -134,7 +134,7 @@ UnixGrab::grab_internal()
 void
 UnixGrab::ungrab()
 {
-  if (! GtkUtil::running_on_wayland())
+  if (! Platform::running_on_wayland())
     {
       grabbed = false;
       grab_wanted = false;
