@@ -1,18 +1,7 @@
 #!/bin/bash -e
 
-if [[ $DOCKER_IMAGE ]]; then
-    WORKSPACE=/workspace
-    SOURCES_DIR=${WORKSPACE}/source
-    OUTPUT_DIR=${WORKSPACE}/output
-    BUILD_DIR=${WORKSPACE}/build
-    DEPLOY_DIR=${WORKSPACE}/source/_deploy
-else
-    WORKSPACE=$TRAVIS_BUILD_DIR
-    SOURCES_DIR=${WORKSPACE}
-    OUTPUT_DIR=${WORKSPACE}/output
-    BUILD_DIR=${WORKSPACE}/build
-    DEPLOY_DIR=${WORKSPACE}/deploy
-fi
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
 
 CMAKE_FLAGS=()
 CMAKE_FLAGS64=()

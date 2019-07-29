@@ -1,5 +1,8 @@
 #!/bin/bash -x
 
+BASEDIR=$(dirname "$0")
+source ${BASEDIR}/config.sh
+
 parse_arguments()
 {
   while getopts "c:f:p:k:D" o; do
@@ -36,7 +39,7 @@ parse_arguments $*
 
 # --arg body "`sed -n "/## \[$TRAVIS_TAG\]/,/## \[/{/## \[/b;p}" CHANGELOG.md`"
 
-CATALOG_NAME=_deploy/catalog-${TRAVIS_BUILD_ID}.json
+CATALOG_NAME=${DEPLOY_DIR}/catalog-${TRAVIS_BUILD_ID}.json
 
 if [ ! -f $CATALOG_NAME ]; then
     jq -n '
