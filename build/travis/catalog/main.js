@@ -16,7 +16,7 @@ const main = async () => {
 
   try {
     const bucket = 'snapshots';
-    const prefix = 'master';
+    const prefix = 'next';
     const accessKeyId = 'travis';
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
 
