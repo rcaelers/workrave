@@ -12,6 +12,7 @@ notifications:
 ################################################################################
 
 stage_base: &stage_base
+  language: cpp
   before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
@@ -21,7 +22,7 @@ stage_base: &stage_base
     - export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
     - export WORKRAVE_BUILD_DATETIME=`date --iso-8601=seconds`
     - export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
-    - export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
+    - export WORKRAVE_UPLOAD_DIR="snapshots/v1.10/$WORKRAVE_BUILD_ID"
     - |
         if [ ${TRAVIS_OS_NAME} = "osx" ]; then
           # compilation with system wide gettext fails at the link stage with missing symbols...
@@ -97,7 +98,7 @@ stage_deploy: &stage_deploy
       skip_cleanup: true
       on:
         repo: rcaelers/workrave
-        branch: next
+        branch: branch_v1_10
       script: 
         - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
