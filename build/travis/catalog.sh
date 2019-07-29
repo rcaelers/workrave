@@ -77,4 +77,9 @@ cat $CATALOG_NAME| jq '.builds[env.WORKRAVE_BUILD_ID].artifacts +=
     ]
 ' > $tmp
 
+echo $HOME
 mv -f $tmp $CATALOG_NAME
+ls -la ${DEPLOY_DIR}
+chmod 644 ${DEPLOY_DIR}/*
+ls -la ~/.aws
+grep -r aws_access_key_id ~/.aws
