@@ -95,8 +95,13 @@ stage_deploy: &stage_deploy
         tags: true
       script: build/travis/deploy-upload.sh
 
-  after_success:
-    - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
+    - provider: script
+      skip_cleanup: true
+      on:
+        repo: rcaelers/workrave
+        branch: next
+      script: 
+        - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
 stage_deploy_ppa: &stage_deploy_ppa
   <<: *stage_base
