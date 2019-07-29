@@ -19,15 +19,15 @@ prepare_prebuilt()
 {
     cd ${SOURCES_DIR}/common/win32/harpoonHelper/src
     mkdir Release
-    cp -a ${ROOT_DIR}/prebuilt/${CONFIGURATION}64/harpoonHelper.exe Release
+    cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}64/harpoonHelper.exe Release
     cd ${SOURCES_DIR}/common/win32/harpoon/src
     mkdir Release
-    cp -a ${ROOT_DIR}/prebuilt/${CONFIGURATION}/harpoon.dll Release
-    cp -a ${ROOT_DIR}/prebuilt/${CONFIGURATION}64/harpoon64.dll Release
+    cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}/harpoon.dll Release
+    cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}64/harpoon64.dll Release
     cd ${SOURCES_DIR}/frontend/applets/win32/src
     mkdir Release
-    cp -a ${ROOT_DIR}/prebuilt/${CONFIGURATION}/workrave-applet.dll Release
-    cp -a ${ROOT_DIR}/prebuilt/${CONFIGURATION}64/workrave-applet64.dll Release
+    cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}/workrave-applet.dll Release
+    cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}64/workrave-applet64.dll Release
 }
 
 build()

@@ -1,5 +1,5 @@
 sudo: required
-dist: trusty
+dist: bionic
 
 services:
   - docker
@@ -11,54 +11,78 @@ notifications:
 
 ################################################################################
 
-stage_generic: &stage_generic
-  before_deploy:
+stage_base: &stage_base
+  before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-    - GIT_TAG=`git describe --tags`
-    - BUILD_DATE=`date +"%Y%m%d"`
+    - export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
+    - export WORKRAVE_TAG=`git describe --abbrev=0`
+    - export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
+    - export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
+    - export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
+    - export WORKRAVE_BUILD_DATETIME=`date --iso-8601=seconds`
+    - export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
+    - export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
+    - |
+        if [ ${TRAVIS_OS_NAME} = "osx" ]; then
+          # compilation with system wide gettext fails at the link stage with missing symbols...
+          brew install gettext qt5 python3
+          brew link gettext --force
+          brew linkapps qt5
+          brew outdated cmake || brew upgrade cmake
 
-stage_generic_build: &stage_generic_build
-  <<: *stage_generic
+          pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+
+        elif [ ${TRAVIS_OS_NAME} = "linux" ]; then
+          pushd /tmp
+          curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
+          tar xvfj linux-amd64-github-release.tar.bz2
+          mkdir -p ~/bin/
+          mv bin/linux/amd64/github-release ~/bin/
+          chmod +x ~/bin/github-release
+          popd
+          sudo apt-get -y install python3 python3-pip python3-setuptools
+          python3 -V
+          pip3 -V
+        fi
+        
+        pip3 install wheel
+        pip3 install awscli
+        which awscli
+        # Configure MinIO endpoint
+        aws configure set aws_access_key_id travis
+        aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
+        aws configure set default.region us-east-1
+        aws configure set default.s3.signature_version s3v4
+        aws configure set s3.endpoint_url https://snapshots.workrave.org/
+
+
+stage_build_docker: &stage_build_docker
+  <<: *stage_base
+  os: linux
+  dist: bionic
+  language: cpp
   script: |
     if [[ $DOCKER_IMAGE ]]; then
+      IFS=$'\n'
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          $(printenv | grep -E '^(COMPILER|CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|TRAVIS_BUILD_DIR|TRAVIS_TAG|DISTCHECK)=' | sed 's/^/-e /g') \
+          `printenv | grep -E '^(CONF_ENABLE|CONF_DISABLE||CONF_FLAGS|CONF_GTK_VER|CONFIGURATION|DOCKER_IMAGE|DISTCHECK|TRAVIS_TAG|TRAVIS_BUILD_DIR|TRAVIS_BUILD_NUMBER|TRAVIS_REPO_SLUG|TRAVIS_OS_NAME|TRAVIS_BRANCH|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/build.sh"
     else
        build/travis/build.sh
     fi
 
-stage_github: &stage_github
-  <<: *stage_generic
-  os: linux
-  dist: trusty
+stage_build_osx: &stage_build_osx
+  <<: *stage_base
+  os: osx
+  osx_image: xcode11
   language: cpp
-  before_install:
-    |
-    if [ ${TRAVIS_OS_NAME} = "linux" ]; then
-      pushd /tmp
-      curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-      tar xvfj linux-amd64-github-release.tar.bz2
-      mkdir -p ~/bin/
-      mv bin/linux/amd64/github-release ~/bin/
-      chmod +x ~/bin/github-release
-      popd
-    fi
-
-stage_linux: &stage_linux
-  <<: *stage_generic_build
-  os: linux
-  dist: trusty
-  language: cpp
-
-stage_win32: &stage_win32
-  <<: *stage_linux
+  script:
+    - build/travis/build.sh
 
 stage_deploy: &stage_deploy
-  <<: *stage_linux
-  <<: *stage_github
+  <<: *stage_base
   deploy:
     - provider: script
       skip_cleanup: true
@@ -69,53 +93,18 @@ stage_deploy: &stage_deploy
         condition: $TRAVIS_TAG =~ ^v1_.*$
       script: build/travis/deploy-upload.sh
 
-    - provider: s3
+    - provider: script
       skip_cleanup: true
-      local_dir: _deploy
-      upload_dir: "snapshots/v1.10/$BUILD_DATE-$GIT_TAG"
-      acl: public_read
-      bucket: org-workrave
-      access_key_id: "$AWS_ACCESS_KEY_ID"
-      secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-      region: eu-central-1
       on:
         repo: rcaelers/workrave
-        branch: branch_v1_10
-  
-    - provider: s3
-      skip_cleanup: true
-      local_dir: _deploy
-      upload_dir: "snapshots/v1.10/$BUILD_DATE-$GIT_TAG"
-      acl: public_read
-      bucket: org-workrave
-      access_key_id: "$AWS_ACCESS_KEY_ID"
-      secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-      region: eu-central-1
-      on:
-        repo: rcaelers/workrave
-        tags: true
+        branch: next
+      script: 
+        - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
-stage_osx: &stage_osx
-  <<: *stage_generic_build
-  os: osx
-  osx_image: xcode9.4
-  language: cpp
-  before_install:
-    |
-    if [ ${TRAVIS_OS_NAME} = "osx" ]; then
-      # compilation with system wide gettext fails at the link stage with missing symbols...
-      brew install gettext qt5 python3
-      brew link gettext --force
-      brew linkapps qt5
-      brew outdated cmake || brew upgrade cmake
-      
-      pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
-    fi
-
-stage_ppa: &stage_ppa
-  <<: *stage_generic
+stage_deploy_ppa: &stage_deploy_ppa
+  <<: *stage_base
   os: linux
-  dist: trusty
+  dist: bionic
   language: cpp
   script: |
     if [[ $DOCKER_IMAGE ]]; then
@@ -140,8 +129,7 @@ jobs:
           --name "Workrave $VERSION" \
           --description "New release" \
           --draft
-      <<: *stage_generic
-      <<: *stage_github
+      <<: *stage_base
 
     ###########################################################################
     - stage: build
@@ -151,7 +139,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-xenial"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -160,7 +148,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -169,7 +157,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -178,7 +166,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-disco"
-      <<: *stage_linux
+      <<: *stage_build_docker
       <<: *stage_deploy
 
     - stage: build
@@ -188,7 +176,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-eoan"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -197,7 +185,7 @@ jobs:
         CONF_GTK_VER="2"
         CONF_ENABLE="gsettings,,exercises,xml,gconf,distribution,experimental"
         CONF_DISABLE="pulse,xfce,gnome3,gstreamer,dbus,mate,indicator"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -206,7 +194,7 @@ jobs:
         CONF_ENABLE="gnome3,pulse,dbus,experimental,gstreamer,exercises,xml"
         CONF_DISABLE="gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing"
         DOCKER_IMAGE="ubuntu-disco"
-      <<: *stage_linux
+      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -224,6 +212,16 @@ jobs:
       <<: *stage_win32
       <<: *stage_deploy
 
+    - stage: catalog
+      language: node_js
+      node_js:
+        - 12.7.0
+      script:
+        - cd $TRAVIS_BUILD_DIR/build/travis/catalog
+        - npm i
+        - node --experimental-modules main.js 
+      <<: *stage_base
+
     - stage: release
       script:
         - |
@@ -234,8 +232,7 @@ jobs:
           --tag "$TRAVIS_TAG" \
           --name "Workrave $VERSION" \
           --description "New release"
-      <<: *stage_generic
-      <<: *stage_github
+      <<: *stage_base
 
     - stage: ppa
       env: >
@@ -247,7 +244,7 @@ jobs:
         - tar xf _dist/secrets/secrets.tar -C _dist/
         - rm -f _dist/secrets/secrets.tar
         - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
-      <<: *stage_ppa
+      <<: *stage_deploy_ppa
 
 # TODO; fails before github-release is not installed
 after_failure:
@@ -261,6 +258,8 @@ stages:
     - name: prepare
       if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: build
+      if: (tag IS NOT present) OR (tag != ppa)
+    - name: catalog
       if: (tag IS NOT present) OR (tag != ppa)
     - name: release
       if: tag IS present AND tag =~ ^v1_.*$ AND type = push
