@@ -23,12 +23,14 @@ stage_base: &stage_base
     - export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
     - |
         # Configure MinIO endpoint
-        pip install --user awscli
+        pip3 install awscli
+        which awscli
         aws configure set aws_access_key_id travis
         aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
         aws configure set default.region us-east-1
         aws configure set default.s3.signature_version s3v4
         aws configure set s3.endpoint_url https://snapshots.workrave.org/
+        ls -la ~
 
         if [ ${TRAVIS_OS_NAME} = "osx" ]; then
           # compilation with system wide gettext fails at the link stage with missing symbols...
