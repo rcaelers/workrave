@@ -12,6 +12,7 @@ notifications:
 ################################################################################
 
 stage_base: &stage_base
+  language: cpp
   before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
