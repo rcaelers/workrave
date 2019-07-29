@@ -85,34 +85,8 @@ stage_deploy: &stage_deploy
         tags: true
       script: build/travis/deploy-upload.sh
 
-    - provider: s3
-      skip_cleanup: true
-      local_dir: _deploy
-      upload_dir: "$WORKRAVE_UPLOAD_DIR"
-      acl: public_read
-      bucket: org-workrave
-      access_key_id: "$AWS_ACCESS_KEY_ID"
-      secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-      region: eu-central-1
-      on:
-        repo: rcaelers/workrave
-        branch: next
-  
-    - provider: s3
-      skip_cleanup: true
-      local_dir: _deploy
-      upload_dir: "$WORKRAVE_UPLOAD_DIR"
-      acl: public_read
-      bucket: org-workrave
-      access_key_id: "$AWS_ACCESS_KEY_ID"
-      secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-      region: eu-central-1
-      on:
-        repo: rcaelers/workrave
-        tags: true
-
   after_success:
-    - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy/* s3://$WORKRAVE_UPLOAD_DIR
+    - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
 stage_deploy_ppa: &stage_deploy_ppa
   <<: *stage_base
