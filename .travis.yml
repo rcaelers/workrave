@@ -19,6 +19,7 @@ stage_base: &stage_base
     - export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
     - export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
     - export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
+    - export WORKRAVE_BUILD_DATETIME=`date --iso-8601=seconds`
     - export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
     - export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
     - sudo apt-get -y install python3 python3-pip python3-setuptools

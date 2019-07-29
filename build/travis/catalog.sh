@@ -49,7 +49,7 @@ if [ ! -f $CATALOG_NAME ]; then
                 "tag": env.WORKRAVE_TAG,
                 "increment": env.WORKRAVE_COMMIT_COUNT,
                 "hash": env.WORKRAVE_COMMIT_HASH,
-                "date": env.WORKRAVE_BUILD_DATE,
+                "date": env.WORKRAVE_BUILD_DATETIME,
                 "artifacts": []
             }
         }
