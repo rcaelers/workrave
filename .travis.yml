@@ -119,79 +119,79 @@ jobs:
 #      <<: *stage_base
 
     ###########################################################################
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-xenial"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco"
-      <<: *stage_build_docker
-      <<: *stage_deploy
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-eoan"
-      <<: *stage_build_docker
-      <<: *stage_deploy
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-xenial"
+#      <<: *stage_build_docker
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-bionic"
+#      <<: *stage_build_docker
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-cosmic"
+#      <<: *stage_build_docker
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-disco"
+#      <<: *stage_build_docker
+#      <<: *stage_deploy
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-eoan"
+#      <<: *stage_build_docker
+#      <<: *stage_deploy
+#
+#    - stage: build
+#      env: >
+#        COMPILER="gcc"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-disco-plus"
+#      <<: *stage_build_docker
+#
+#    - stage: build
+#      env: >
+#        COMPILER="clang"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+#        DOCKER_IMAGE="ubuntu-disco-plus"
+#      <<: *stage_build_docker
+#
+#    - stage: build
+#      env: >
+#        COMPILER="clang"
+#        WITH_UI="Gtk+3"
+#        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+#        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+#        DOCKER_IMAGE="ubuntu-disco-plus"
+#      <<: *stage_build_docker
 
     - stage: build
       env: >
@@ -203,23 +203,23 @@ jobs:
       <<: *stage_build_docker
       <<: *stage_deploy
 
-    - stage: build
-      compiler: clang
-      env: >
-        WITH_UI="Qt5"
-        CONF_ENABLE=""
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-      <<: *stage_build_osx
+#    - stage: build
+#      compiler: clang
+#      env: >
+#        WITH_UI="Qt5"
+#        CONF_ENABLE=""
+#        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+#      <<: *stage_build_osx
 
-    - stage: release
-      language: node_js
-      node_js:
-        - 12.7.0
-      script:
-        - cd TRAVIS_BUILD_DIR/build/travis/catalog
-        - npm i
-        - node --experimental-modules main.js 
-      <<: *stage_base
+#    - stage: release
+#      language: node_js
+#      node_js:
+#        - 12.7.0
+#      script:
+#        - cd TRAVIS_BUILD_DIR/build/travis/catalog
+#        - npm i
+#        - node --experimental-modules main.js 
+#      <<: *stage_base
 
 #    - stage: release
 #      script:
