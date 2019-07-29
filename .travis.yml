@@ -26,6 +26,7 @@ stage_base: &stage_base
     - pip3 -V
     - |
         # Configure MinIO endpoint
+        pip3 install wheel
         pip3 install awscli
         which awscli
         aws configure set aws_access_key_id travis
