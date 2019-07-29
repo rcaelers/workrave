@@ -59,7 +59,7 @@ stage_build_docker: &stage_build_docker
       IFS=$'\n'
       docker run --rm \
           -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          `printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_TAG|TRAVIS_BUILD_DIR|TRAVIS_BUILD_ID|TRAVIS_REPO_SLUG|TRAVIS_OS_NAME|TRAVIS_BRANCH|WORKRAVE_.*)=' | sed -e 's/^/-e/g' ` \
+          `printenv | grep -E '^(COMPILER|WITH_UI|CONF_ENABLE|CONF_DISABLE|DOCKER_IMAGE|TRAVIS_TAG|TRAVIS_BUILD_DIR|TRAVIS_BUILD_NUMBER|TRAVIS_REPO_SLUG|TRAVIS_OS_NAME|TRAVIS_BRANCH|WORKRAVE_.*)=' | sed -e 's/^/-e/g' ` \
           rcaelers/workrave-build:${DOCKER_IMAGE} \
           sh -c "/workspace/source/build/travis/build.sh"
     else

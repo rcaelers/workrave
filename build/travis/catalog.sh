@@ -21,7 +21,7 @@ parse_arguments()
             ;;
           D)
             export TRAVIS_BRANCH=next
-            export TRAVIS_BUILD_ID=27
+            export TRAVIS_BUILD_NUMBER=27
             export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
             export WORKRAVE_TAG=`git describe --abbrev=0`
             export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
@@ -39,7 +39,7 @@ parse_arguments $*
 
 # --arg body "`sed -n "/## \[$TRAVIS_TAG\]/,/## \[/{/## \[/b;p}" CHANGELOG.md`"
 
-CATALOG_NAME=${DEPLOY_DIR}/catalog-${TRAVIS_BUILD_ID}.json
+CATALOG_NAME=${DEPLOY_DIR}/catalog-${TRAVIS_BUILD_NUMBER}.json
 
 if [ ! -f $CATALOG_NAME ]; then
     jq -n '
