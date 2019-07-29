@@ -9,6 +9,10 @@ notifications:
     on_success: change
     on_failure: change
 
+language: python
+python:
+  - "3.7"
+
 ################################################################################
 
 stage_base: &stage_base
