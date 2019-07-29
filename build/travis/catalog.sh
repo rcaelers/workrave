@@ -39,7 +39,7 @@ parse_arguments $*
 
 # --arg body "`sed -n "/## \[$TRAVIS_TAG\]/,/## \[/{/## \[/b;p}" CHANGELOG.md`"
 
-CATALOG_NAME=${DEPLOY_DIR}/catalog-${TRAVIS_BUILD_NUMBER}.json
+CATALOG_NAME=${DEPLOY_DIR}/job-catalog-${TRAVIS_BUILD_NUMBER}.json
 
 if [ ! -f $CATALOG_NAME ]; then
     jq -n '
