@@ -228,7 +228,7 @@ jobs:
       node_js:
         - 12.7.0
       script:
-        - cd TRAVIS_BUILD_DIR/build/travis/catalog
+        - cd $TRAVIS_BUILD_DIR/build/travis/catalog
         - npm i
         - node --experimental-modules main.js 
       <<: *stage_base
