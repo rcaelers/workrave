@@ -33,7 +33,10 @@ stage_base: &stage_base
         aws configure set default.region us-east-1
         aws configure set default.s3.signature_version s3v4
         aws configure set s3.endpoint_url https://snapshots.workrave.org/
+        echo $HOME
         ls -la ~
+        ls -la ~/.aws
+        grep -r aws_access_key_id ~/.aws
 
         if [ ${TRAVIS_OS_NAME} = "osx" ]; then
           # compilation with system wide gettext fails at the link stage with missing symbols...
