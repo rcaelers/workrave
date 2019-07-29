@@ -202,7 +202,7 @@ jobs:
         COMPILER="gcc"
         CONFIGURATION="Release"
         DOCKER_IMAGE="mingw-gtk2"
-      <<: *stage_win32
+      <<: *stage_build_docker
       <<: *stage_deploy
 
     - stage: build
@@ -210,7 +210,7 @@ jobs:
         COMPILER="gcc"
         CONFIGURATION="Debug"
         DOCKER_IMAGE="mingw-gtk2"
-      <<: *stage_win32
+      <<: *stage_build_docker
       <<: *stage_deploy
 
     - stage: catalog
