@@ -44,29 +44,25 @@ CATALOG_NAME=${DEPLOY_DIR}/catalog-${TRAVIS_BUILD_ID}.json
 if [ ! -f $CATALOG_NAME ]; then
     jq -n '
     {
-        "branches": {
-            (env.TRAVIS_BRANCH): {
-                "builds": {
-                    (env.WORKRAVE_BUILD_ID): {
-                        "tag": env.WORKRAVE_TAG,
-                        "increment": env.WORKRAVE_COMMIT_COUNT,
-                        "hash": env.WORKRAVE_COMMIT_HASH,
-                        "date": env.WORKRAVE_BUILD_DATE,
-                        "artifacts": []
-                    }
-                }
+        "builds": {
+            (env.WORKRAVE_BUILD_ID): {
+                "tag": env.WORKRAVE_TAG,
+                "increment": env.WORKRAVE_COMMIT_COUNT,
+                "hash": env.WORKRAVE_COMMIT_HASH,
+                "date": env.WORKRAVE_BUILD_DATE,
+                "artifacts": []
             }
         }
     }
     ' > $CATALOG_NAME
 fi
 
-export SIZE=` stat --printf="%s" $FILENAME`
+export SIZE=`stat --printf="%s" $FILENAME`
 export LASTMOD=`date -r $FILENAME +"%Y-%m-%d %H:%M:%S"`
-export URL="workave/$WORKRAVE_UPLOAD_DIR/$FILENAME"
+export URL="$WORKRAVE_UPLOAD_DIR/$FILENAME"
 
 tmp=`mktemp`
-cat $CATALOG_NAME| jq '.branches[env.TRAVIS_BRANCH].builds[env.WORKRAVE_BUILD_ID].artifacts +=
+cat $CATALOG_NAME| jq '.builds[env.WORKRAVE_BUILD_ID].artifacts +=
     [
         {
             "url": env.URL,
