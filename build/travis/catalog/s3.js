@@ -1,22 +1,13 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
+import promisify from 'util';
 
 const S3_API_VERSION = '2006-03-01';
 
 class S3Store {
-  constructor(region, bucket, prefix, accessKeyId, secretAccessKey) {
+  constructor(bucket, accessKeyId, secretAccessKey) {
     this.bucket = bucket;
-    this.prefix = prefix;
-
-    //AWS.config.update({ region: 'eu-central-1' });
-    //this.s3 = new AWS.S3({
-    //  apiVersion: S3_API_VERSION,
-    //  region: region,
-    //  accessKeyId: accessKeyId,
-    //  secretAccessKey: secretAccessKey,
-    //  params: { Bucket: bucket }
-    //});
 
     this.s3 = new AWS.S3({
       accessKeyId: accessKeyId,
@@ -28,13 +19,13 @@ class S3Store {
     });
   }
 
-  async list(prefix) {
+  async list(directory) {
     let isTruncated = true;
     let marker;
     const items = [];
     while (isTruncated) {
       let params = {};
-      if (prefix) params.Prefix = prefix;
+      if (directory) params.Prefix = directory;
       if (marker) params.Marker = marker;
 
       try {
@@ -53,9 +44,9 @@ class S3Store {
     return items;
   }
 
-  async fileExists(file) {
+  async fileExists(filename) {
     try {
-      await this.s3.headObject({ Key: path.join(this.prefix, file) }).promise();
+      await this.s3.headObject({ Key: filename }).promise();
       return true;
     } catch (error) {
       if (error.statusCode === 404) {
@@ -66,17 +57,24 @@ class S3Store {
     }
   }
 
-  async writeJson(file, data) {
-    return await this.s3.putObject({ Key: path.join(this.prefix, file), Body: JSON.stringify(data) }).promise();
+  async writeJson(filename, data) {
+    let jsonData = JSON.stringify(data); //, null, '\t');
+    return this.s3
+      .putObject({
+        Key: filename,
+        Body: jsonData,
+        ContentType: 'application/json'
+      })
+      .promise();
   }
 
-  async readJson(file) {
-    let result = await this.s3.getObject({ Key: path.join(this.prefix, file) }).promise();
+  async readJson(filename) {
+    let result = await this.s3.getObject({ Key: filename }).promise();
     return JSON.parse(result.Body.toString('utf8'));
   }
 
-  async deleteObject(file) {
-    return await this.s3.deleteObject({ Key: path.join(this.prefix, file) }).promise();
+  async deleteObject(filename) {
+    return this.s3.deleteObject({ Key: filename }).promise();
   }
 }
 

@@ -15,15 +15,16 @@ const main = async () => {
   let storage = null;
 
   try {
-    const region = 'eu-central-1';
     const bucket = 'snapshots';
-    const prefix = '';
+    const prefix = 'master';
     const accessKeyId = 'travis';
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
 
-    storage = new S3Store(region, bucket, prefix, accessKeyId, secretAccessKey);
-    let catalog = new Catalog(storage);
-    catalog.load();
+    storage = new S3Store(bucket, accessKeyId, secretAccessKey);
+    let catalog = new Catalog(storage, prefix);
+    await catalog.load();
+    await catalog.mergeCatalogs();
+    await catalog.save();
   } catch (e) {
     console.error(e);
   }
