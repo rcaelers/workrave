@@ -5,7 +5,7 @@ source ${BASEDIR}/config.sh
 
 parse_arguments()
 {
-  while getopts "c:f:p:k:D" o; do
+  while getopts "c:f:p:k:" o; do
       case "${o}" in
           c)
             export CONFIG=${OPTARG}
@@ -18,17 +18,6 @@ parse_arguments()
             ;;
           k)
             export KIND=${OPTARG}
-            ;;
-          D)
-            export TRAVIS_BRANCH=next
-            export TRAVIS_BUILD_NUMBER=27
-            export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
-            export WORKRAVE_TAG=`git describe --abbrev=0`
-            export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_TAG}..HEAD --count`
-            export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
-            export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
-            export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_FULL_TAG"
-            export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
             ;;
       esac
   done
