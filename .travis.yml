@@ -223,7 +223,7 @@ jobs:
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
       <<: *stage_build_osx
 
-    - stage: build
+    - stage: catalog
       language: node_js
       node_js:
         - 12.7.0
@@ -269,6 +269,7 @@ stages:
 #    - name: prepare
 #      if: tag IS present AND type = push
     - name: build
+    - name: catalog
 #    - name: release
 #      if: tag IS present AND tag =~ ^v2_.*$ AND type = push
 #    - name: ppa
