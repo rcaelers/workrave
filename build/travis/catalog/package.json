@@ -12,7 +12,8 @@
     "dependencies": {
         "aws-sdk": "^2.501.0",
         "date-fns": "^2.0.0-beta.3",
-        "deepmerge": "^4.0.0"
+        "deepmerge": "^4.0.0",
+        "isomorphic-git": "^0.58.0"
     },
     "devDependencies": {
         "eslint": "^5.16.0",
