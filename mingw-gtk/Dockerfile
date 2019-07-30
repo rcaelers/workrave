@@ -7,6 +7,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     dnf -y install \
                 cmake \
                 git \
+                gtk-update-icon-cache \
                 innoextract \
                 intltool \
                 jq \
@@ -18,11 +19,15 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw32-gettext \
                 mingw32-gtkmm30 \
                 mingw32-librsvg2 \
-                mingw32-boost \
                 mingw32-openssl \
+                mingw64-boost \
+                mingw64-dbus \
                 mingw64-gcc \
                 mingw64-gcc-c++ \
-                gtk-update-icon-cache \
+                mingw64-gettext \
+                mingw64-gtkmm30 \
+                mingw64-librsvg2 \
+                mingw64-openssl \
                 tar \
                 which \
                 wine \
