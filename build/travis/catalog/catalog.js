@@ -31,6 +31,15 @@ class Catalog {
     }
   }
 
+  async process() {
+    try {
+      await this.mergeCatalogs();
+      await this.fixups();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async mergeCatalogs() {
     try {
       let backupFilename = path.join(this.prefix, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
@@ -51,6 +60,22 @@ class Catalog {
       }
 
       this.catalog.builds = this.catalog.builds.sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? -1 : 1));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async fixups() {
+    try {
+      this.catalog.builds.forEach(build => {
+        build.artifacts.forEach(artifact => {
+          artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
+          artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
+          artifact.platform = artifact.platform.replace('win32', 'windows');
+        });
+      });
+
+      console.log(JSON.stringify(this.catalog, null, '\t'));
     } catch (e) {
       console.error(e);
     }
