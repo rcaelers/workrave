@@ -88,8 +88,8 @@ make_installer()
         bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
     fi
 
-    ${SOURCES_DIR}/build/travis/catalog.sh -f ${installerFilename} -k installer -c ${CONFIG} -p win32
-    ${SOURCES_DIR}/build/travis/catalog.sh -f ${symbolsFilename} -k symbols -c ${CONFIG} -p win32
+    ${SOURCES_DIR}/build/travis/catalog.sh -f ${installerFilename} -k installer -c ${CONFIG} -p windows
+    ${SOURCES_DIR}/build/travis/catalog.sh -f ${symbolsFilename} -k symbols -c ${CONFIG} -p windows
 
     ls -la ${DEPLOY_DIR}
 }

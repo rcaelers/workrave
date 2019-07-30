@@ -91,7 +91,7 @@ else
         cp -a workrave*tar.gz ${DEPLOY_DIR}
     fi
 
-    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k source -c any -p any
+    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k source -c none -p all
 fi
 
 ls -la ${DEPLOY_DIR}
