@@ -68,24 +68,24 @@ make_installer()
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
 
-        baseFilename=${DEPLOY_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}
+        baseFilename=workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}${EXTRA}
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${symbolsFilename}
+        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
 
     else
         echo "Tag build : $TRAVIS_TAG"
 
         VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'`
 
-        baseFilename=${DEPLOY_DIR}/workrave-win32-${VERSION}${EXTRA}
+        baseFilename=workrave-win32-${VERSION}${EXTRA}
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${symbolsFilename}
+        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
     fi
 
     ${SOURCES_DIR}/build/travis/catalog.sh -f ${installerFilename} -k installer -c ${CONFIG} -p win32

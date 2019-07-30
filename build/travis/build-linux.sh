@@ -83,8 +83,8 @@ else
 
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
-        filename=${DEPLOY_DIR}/workrave-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}.tar.gz
-        cp -a workrave*tar.gz ${filename}
+        filename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}.tar.gz
+        cp -a workrave*tar.gz ${DEPLOY_DIR}/${filename}
     else
         echo "Tag build : $TRAVIS_TAG"
         filename=`echo workrave*tar.gz`
