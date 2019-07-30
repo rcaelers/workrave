@@ -23,7 +23,7 @@ const main = async () => {
     storage = new S3Store(bucket, accessKeyId, secretAccessKey);
     let catalog = new Catalog(storage, prefix);
     await catalog.load();
-    await catalog.mergeCatalogs();
+    await catalog.process();
     await catalog.save();
   } catch (e) {
     console.error(e);
