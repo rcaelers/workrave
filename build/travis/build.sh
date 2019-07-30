@@ -97,13 +97,13 @@ EXTRA=
 if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     if [[ -z "$TRAVIS_TAG" ]]; then
         echo "No tag build."
-        filename=${DEPLOY_DIR}/workrave-win32-${WORKRAVE_FULL_TAG}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
+        filename=workrave-win32-${WORKRAVE_FULL_TAG}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
     else
         echo "Tag build : $TRAVIS_TAG"
-        filename=${DEPLOY_DIR}/workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
+        filename=workrave-win32-${TRAVIS_TAG}${EXTRA}.exe
     fi
 
-    cp ${OUTPUT_DIR}/mysetup.exe ${filename}
+    cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
 
     ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k installer -c release -p win32
 fi
