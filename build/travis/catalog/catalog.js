@@ -50,13 +50,7 @@ class Catalog {
         }
       }
 
-      let buildKeys = Object.keys(this.catalog.builds).sort((a, b) =>
-        Date.parse(this.catalog.builds[a].date) > Date.parse(this.catalog.builds[b].date) ? -1 : 1
-      );
-
-      buildKeys.forEach(element => {
-        console.log(element + ' -> ' + this.catalog.builds[element].date);
-      });
+      this.catalog.builds = this.catalog.builds.sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? -1 : 1));
     } catch (e) {
       console.error(e);
     }
