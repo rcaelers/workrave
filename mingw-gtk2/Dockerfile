@@ -50,6 +50,12 @@ RUN mkdir -p /workspace/autoconf-archive && \
     cd /workspace/autoconf-archive-2019.01.06 && \
     ./configure && make install
 
+RUN mkdir -p /workspace/jq && \
+    cd /workspace/jq && \
+    curl -OL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
+    chmod +x jq-linux64 && \
+    mv jq-linux64 /usr/local/bin/jq
+
 RUN mkdir -p /workspace/runtime
 
 COPY crossbuilder/* /workspace/runtime/
