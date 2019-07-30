@@ -31,19 +31,20 @@ parse_arguments $*
 CATALOG_NAME=${DEPLOY_DIR}/job-catalog-${TRAVIS_BUILD_NUMBER}.json
 
 if [ ! -f $CATALOG_NAME ]; then
-    jq -n '
-    {
-        "builds": {
-            (env.WORKRAVE_BUILD_ID): {
-                "tag": env.WORKRAVE_TAG,
-                "increment": env.WORKRAVE_COMMIT_COUNT,
-                "hash": env.WORKRAVE_COMMIT_HASH,
-                "date": env.WORKRAVE_BUILD_DATETIME,
-                "artifacts": []
+    jq -n ' {
+              "version": "2",
+              "builds": [
+                {
+                  "id": env.WORKRAVE_BUILD_ID,
+                  "tag": env.WORKRAVE_TAG,
+                  "increment": env.WORKRAVE_COMMIT_COUNT,
+                  "hash": env.WORKRAVE_COMMIT_HASH,
+                  "date": env.WORKRAVE_BUILD_DATETIME,
+                  "artifacts": []
+                }
+              ]
             }
-        }
-    }
-    ' > $CATALOG_NAME
+' > $CATALOG_NAME
 fi
 
 export SIZE=`stat --printf="%s" $FILENAME`
@@ -51,7 +52,7 @@ export LASTMOD=`date -r $FILENAME +"%Y-%m-%d %H:%M:%S"`
 export URL="$WORKRAVE_UPLOAD_DIR/$FILENAME"
 
 tmp=`mktemp`
-cat $CATALOG_NAME| jq '.builds[env.WORKRAVE_BUILD_ID].artifacts +=
+cat $CATALOG_NAME| jq '.builds[-1].artifacts +=
     [
         {
             "url": env.URL,
