@@ -1,16 +1,16 @@
-import merge from 'deepmerge';
 import path from 'path';
 import fs from 'fs';
 import format from 'date-fns';
 import git from 'isomorphic-git';
+import as from 'async';
 
 class Catalog {
-  constructor(storage, gitRoot, prefix) {
+  constructor(storage, gitRoot, branch) {
     this.storage = storage;
     this.gitRoot = gitRoot;
-    this.prefix = prefix;
+    this.branch = branch;
     this.catalog = null;
-    this.catalogFilename = path.join(this.prefix, 'catalog.json');
+    this.catalogFilename = path.join(this.branch, 'catalog.json');
   }
 
   async load() {
@@ -37,26 +37,36 @@ class Catalog {
   async process() {
     try {
       await this.mergeCatalogs();
-      await this.updateGitLogs();
       await this.fixups();
+      await this.removeOrphans();
+      await this.updateGitLogs();
     } catch (e) {
       console.error(e);
     }
   }
 
+  mergeBuild(part) {
+    let b = this.catalog.builds.find(b => b.id == part.id);
+    if (b) {
+      b.artifacts = [...b.artifacts, ...part.artifacts];
+    } else {
+      this.catalog.builds.push(part);
+    }
+  }
+
   async mergeCatalogs() {
     try {
-      let backupFilename = path.join(this.prefix, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
+      let backupFilename = path.join(this.branch, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
       await this.storage.writeJson(backupFilename, this.catalog);
 
-      var files = await this.storage.list(this.prefix);
+      var files = await this.storage.list(this.branch);
       for (var i = 0; i < files.length; i++) {
         let fileInfo = files[i];
         let filename = path.basename(fileInfo.Key);
         let directory = path.dirname(fileInfo.Key);
         if (filename.endsWith('.json') && filename.startsWith('job-catalog-')) {
           let part = await this.storage.readJson(fileInfo.Key);
-          this.catalog = merge(this.catalog, part);
+          mergeBuild(part);
           let backupFilename = path.join(directory, '.' + filename);
           await this.storage.writeJson(backupFilename, part);
           await this.storage.deleteObject(fileInfo.Key);
@@ -85,7 +95,7 @@ class Catalog {
 
         this.catalog.builds[build_index].commits = [];
 
-        while (build_index < this.catalog.builds.length - 1) {
+        while (build_index < this.catalog.builds.length - 1 && history_index < commitList.length) {
           const h = commitList[history_index];
           if (h.oid.startsWith(this.catalog.builds[build_index + 1].hash)) {
             build_index = build_index + 1;
@@ -95,7 +105,35 @@ class Catalog {
           history_index = history_index + 1;
         }
       }
-      console.log(JSON.stringify(this.catalog, null, '\t'));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async removeOrphans() {
+    try {
+      let newBuilds = await as.filterLimit(this.catalog.builds, 4, async build => {
+        let newArtifacts = await as.filterLimit(build.artifacts, 4, async artifact => {
+          let filename = artifact.url.replace('snapshots/', '');
+          let exists = false;
+          try {
+            exists = await this.storage.fileExists(filename);
+          } catch (e) {
+            console.log('Exception while checking for artifact ' + filename + ': ' + e);
+          }
+          if (!exists) {
+            console.log('Artifact ' + filename + ' disappeared');
+            return false;
+          }
+          return true;
+        });
+        if (newArtifacts.length == 0) {
+          console.log('Build ' + build.id + ' does not have any artifacts');
+          return false;
+        }
+        return true;
+      });
+      this.catalog.builds = newBuilds;
     } catch (e) {
       console.error(e);
     }
@@ -108,10 +146,10 @@ class Catalog {
           artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
           artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
           artifact.platform = artifact.platform.replace('win32', 'windows');
+          artifact.url = artifact.url.replace('//', '/');
+          artifact.filename = artifact.filename.replace('//', '/');
         });
       });
-
-      console.log(JSON.stringify(this.catalog, null, '\t'));
     } catch (e) {
       console.error(e);
     }
