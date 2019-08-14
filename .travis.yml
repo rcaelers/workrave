@@ -221,6 +221,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/build/travis/catalog
         - npm i
         - node --experimental-modules main.js 
+        - curl -X POST -d {} https://api.netlify.com/build_hooks/$NETLIFY_TRIGGER
       <<: *stage_base
 
     - stage: release
