@@ -97,6 +97,7 @@ WINDRES ?= 		"windres"
 .rc.o:
 	${WINDRES} -o $@ $<
 
+extrasources +=		$(sourceswin32)
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
 WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
