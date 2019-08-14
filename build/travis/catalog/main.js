@@ -42,8 +42,6 @@ const main = async () => {
         default: false
       }).argv;
 
-    console.log(args);
-
     storage = new S3Store(bucket, args.dry, accessKeyId, secretAccessKey);
     let catalog = new Catalog(storage, gitRoot, args.branch);
     await catalog.load();

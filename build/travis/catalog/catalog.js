@@ -47,9 +47,9 @@ class Catalog {
   }
 
   mergeBuild(part) {
-    let b = this.catalog.builds.find(b => b.id == part.id);
-    if (b) {
-      b.artifacts = [...b.artifacts, ...part.artifacts];
+    let build = this.catalog.builds.find(b => b.id == part.id);
+    if (build) {
+      build.artifacts = [...build.artifacts, ...part.artifacts];
     } else {
       this.catalog.builds.push(part);
     }
@@ -67,7 +67,7 @@ class Catalog {
         let directory = path.dirname(fileInfo.Key);
         if (filename.endsWith('.json') && filename.startsWith('job-catalog-')) {
           let part = await this.storage.readJson(fileInfo.Key);
-          this.mergeBuild(part);
+          this.mergeBuild(part.builds[0]);
           let backupFilename = path.join(directory, '.' + filename);
           await this.storage.writeJson(backupFilename, part);
           await this.storage.deleteObject(fileInfo.Key);
@@ -117,6 +117,7 @@ class Catalog {
           let filename = artifact.url.replace('snapshots/', '');
           let exists = false;
           try {
+            console.log('Checking for artifact ' + filename);
             exists = await this.storage.fileExists(filename);
           } catch (e) {
             console.log('Exception while checking for artifact ' + filename + ': ' + e);
