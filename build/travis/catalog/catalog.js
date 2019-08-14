@@ -38,6 +38,7 @@ class Catalog {
     try {
       await this.mergeCatalogs();
       await this.fixups();
+      await this.sortCatalog();
       await this.removeOrphans();
       await this.updateGitLogs();
     } catch (e) {
@@ -66,14 +67,12 @@ class Catalog {
         let directory = path.dirname(fileInfo.Key);
         if (filename.endsWith('.json') && filename.startsWith('job-catalog-')) {
           let part = await this.storage.readJson(fileInfo.Key);
-          mergeBuild(part);
+          this.mergeBuild(part);
           let backupFilename = path.join(directory, '.' + filename);
           await this.storage.writeJson(backupFilename, part);
           await this.storage.deleteObject(fileInfo.Key);
         }
       }
-
-      this.catalog.builds = this.catalog.builds.sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? -1 : 1));
     } catch (e) {
       console.error(e);
     }
@@ -100,9 +99,10 @@ class Catalog {
           if (h.oid.startsWith(this.catalog.builds[build_index + 1].hash)) {
             build_index = build_index + 1;
             this.catalog.builds[build_index].commits = [];
+          } else {
+            history_index = history_index + 1;
+            this.catalog.builds[build_index].commits.push(h);
           }
-          this.catalog.builds[build_index].commits.push(h);
-          history_index = history_index + 1;
         }
       }
     } catch (e) {
@@ -153,6 +153,10 @@ class Catalog {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async sortCatalog() {
+    this.catalog.builds = this.catalog.builds.sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? -1 : 1));
   }
 }
 export { Catalog };

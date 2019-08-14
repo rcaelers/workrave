@@ -31,7 +31,8 @@ const main = async () => {
         alias: 'b',
         default: 'v1.10'
       })
-      .boolean('dry', {
+      .options('dry', {
+        type: 'boolean',
         alias: 'd',
         default: false,
         describe: 'Dry run. Result is not uploaded to storage.'
