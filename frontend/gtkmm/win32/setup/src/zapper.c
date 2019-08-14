@@ -39,9 +39,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, long lParam)
 
     buf[ n ] = '\0';
 
-    if( (strcmp( buf, "EggSmClientWindow" ) != 0 ) &&
-        (strcmp( buf, "WorkraveTrayObserver" ) != 0 ) &&
-        (strcmp( buf, "HarpoonNotificationWindow" ) != 0 ))
+    if( strcmp( buf, "EggSmClientWindow" ) )
         goto cleanup;
 
     if( !GetWindowThreadProcessId( hwnd, &processid )
