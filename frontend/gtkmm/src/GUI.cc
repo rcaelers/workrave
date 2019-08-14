@@ -209,10 +209,20 @@ GUI::main()
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
 #else
+#if defined(PLATFORM_OS_WIN32)
+  Glib::OptionContext option_ctx;
+  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
+  option_ctx.add_group(*option_group);
+#endif
+
   Gtk::Main *kit = NULL;
   try
     {
+#if defined(PLATFORM_OS_WIN32)
+      kit = new Gtk::Main(argc, argv, option_ctx);
+#else
       kit = new Gtk::Main(argc, argv);
+#endif
     }
   catch (const Glib::OptionError &e)
     {
@@ -249,6 +259,9 @@ GUI::main()
 #endif
 
   System::clear();
+#if defined(PLATFORM_OS_WIN32)
+  cleanup_session();
+#endif
 
   for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
     {
@@ -389,10 +402,70 @@ GUI::init_platform()
 }
 
 
+#if defined(PLATFORM_OS_WIN32)
+void
+GUI::session_quit_cb(EggSMClient *client, GUI *gui)
+{
+  (void) client;
+  (void) gui;
+
+  TRACE_ENTER("GUI::session_quit_cb");
+
+  CoreFactory::get_configurator()->save();
+  Gtk::Main::quit();
+
+  TRACE_EXIT();
+}
+
+
+void
+GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
+{
+  (void) client;
+  (void) key_file;
+  (void) gui;
+
+  CoreFactory::get_configurator()->save();
+}
+
+void
+GUI::cleanup_session()
+{
+  EggSMClient *client = NULL;
+
+  client = egg_sm_client_get();
+  if (client)
+    {
+      g_signal_handlers_disconnect_by_func(client,
+                                           (gpointer)G_CALLBACK(session_quit_cb),
+                                           this);
+      g_signal_handlers_disconnect_by_func(client,
+                                           (gpointer)G_CALLBACK(session_save_state_cb),
+                                           this);
+    }
+}
+#endif
+
 void
 GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
+
+#if defined(PLATFORM_OS_WIN32)
+  EggSMClient *client = NULL;
+  client = egg_sm_client_get();
+  if (client)
+    {
+      g_signal_connect(client,
+                       "quit",
+                       G_CALLBACK(session_quit_cb),
+                       this);
+      g_signal_connect(client,
+                       "save-state",
+                       G_CALLBACK(session_save_state_cb),
+                       this);
+    }
+#endif
 
   session = new Session();
   session->init();

@@ -25,6 +25,10 @@
 #include <sigc++/trackable.h>
 #include <glibmm.h>
 
+#if defined(PLATFORM_OS_WIN32)
+#include "eggsmclient.h"
+#endif
+
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
 #include "IConfiguratorListener.hh"
@@ -162,6 +166,11 @@ private:
 
   void init_gtk_multihead();
 
+#if defined(PLATFORM_OS_WIN32)
+  static void session_quit_cb(EggSMClient *client, GUI *gui);
+  static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
+  void cleanup_session();
+#endif
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
   void config_changed_notify(const std::string &key);
