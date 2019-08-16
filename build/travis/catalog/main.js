@@ -29,7 +29,6 @@ const main = async () => {
       .alias('h', 'help')
       .option('branch', {
         alias: 'b',
-        demandOption: true,
         default: 'next'
       })
       .options('dry', {
@@ -42,8 +41,6 @@ const main = async () => {
         alias: 'v',
         default: false
       }).argv;
-
-    console.log(args);
 
     storage = new S3Store(bucket, args.dry, accessKeyId, secretAccessKey);
     let catalog = new Catalog(storage, gitRoot, args.branch);

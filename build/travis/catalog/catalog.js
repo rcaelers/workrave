@@ -47,9 +47,9 @@ class Catalog {
   }
 
   mergeBuild(part) {
-    let b = this.catalog.builds.find(b => b.id == part.id);
-    if (b) {
-      b.artifacts = [...b.artifacts, ...part.artifacts];
+    let build = this.catalog.builds.find(b => b.id == part.id);
+    if (build) {
+      build.artifacts = [...build.artifacts, ...part.artifacts];
     } else {
       this.catalog.builds.push(part);
     }
@@ -67,7 +67,7 @@ class Catalog {
         let directory = path.dirname(fileInfo.Key);
         if (filename.endsWith('.json') && filename.startsWith('job-catalog-')) {
           let part = await this.storage.readJson(fileInfo.Key);
-          this.mergeBuild(part);
+          this.mergeBuild(part.builds[0]);
           let backupFilename = path.join(directory, '.' + filename);
           await this.storage.writeJson(backupFilename, part);
           await this.storage.deleteObject(fileInfo.Key);
@@ -117,6 +117,7 @@ class Catalog {
           let filename = artifact.url.replace('snapshots/', '');
           let exists = false;
           try {
+            console.log('Checking for artifact ' + filename);
             exists = await this.storage.fileExists(filename);
           } catch (e) {
             console.log('Exception while checking for artifact ' + filename + ': ' + e);
@@ -142,22 +143,12 @@ class Catalog {
   async fixups() {
     try {
       this.catalog.builds.forEach(build => {
-
-        let fixDate = false;
-        if (build.hash == '2d39dbdf9ee6b12c6be1c1b1578dcc59c86f7b64') {
-          build.date = '2019-06-02T14:43:31.000Z';
-          fixDate = true;
-        }
-
         build.artifacts.forEach(artifact => {
           artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
           artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
           artifact.platform = artifact.platform.replace('win32', 'windows');
           artifact.url = artifact.url.replace('//', '/');
           artifact.filename = artifact.filename.replace('//', '/');
-          if(fixDate) {
-            artifact.date = '2019-06-02T14:43:31.000Z';
-          }
         });
       });
     } catch (e) {
