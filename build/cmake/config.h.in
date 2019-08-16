@@ -44,5 +44,4 @@
 #cmakedefine PLATFORM_OS_UNIX
 #cmakedefine PLATFORM_OS_WIN32
 #cmakedefine PLATFORM_OS_WIN32_NATIVE
-#cmakedefine STDC_HEADERS
 #cmakedefine TRACING

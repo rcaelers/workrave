@@ -42,7 +42,9 @@ private:
 
   bool on_grab_retry_timer();
 
+#if !GTK_CHECK_VERSION(3, 20, 0)
   GdkDevice *keyboard, *pointer;
+#endif
   GdkWindow *grab_window;
   bool grab_wanted;
   bool grabbed;

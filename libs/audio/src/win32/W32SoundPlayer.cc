@@ -109,7 +109,7 @@ void W32SoundPlayer::Play()
       write(sample, sample_size);
       close();
     }
-  catch(Exception e)
+  catch(Exception &e)
     {
       TRACE_MSG(e.details());
     }

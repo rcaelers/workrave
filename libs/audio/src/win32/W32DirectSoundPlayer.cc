@@ -26,7 +26,10 @@
 #include <stdlib.h>
 #include <math.h>
 
+#ifndef STRICT
 #define STRICT
+#endif
+
 #include <windows.h>
 #include <process.h>
 #include <mmsystem.h>
@@ -122,7 +125,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
           clip->play();
         }
     }
-  catch(Exception e)
+  catch(Exception &e)
     {
       TRACE_MSG("Exception: " << e.details());
     }

@@ -53,7 +53,7 @@ XmlConfigurator::load(string filename)
       ret = !pt.empty();
       last_filename = filename;
     }
-  catch (boost::property_tree::xml_parser_error)
+  catch (boost::property_tree::xml_parser_error&)
     {
     }
 
@@ -74,7 +74,7 @@ XmlConfigurator::save(string filename)
       boost::property_tree::xml_parser::write_xml(config_file, pt);
       ret = true;
     }
-  catch (boost::property_tree::xml_parser_error)
+  catch (boost::property_tree::xml_parser_error&)
     {
     }
 
@@ -180,7 +180,7 @@ XmlConfigurator::set_value(const std::string &key, Variant &value)
           break;
         }
     }
-  catch (boost::property_tree::ptree_error)
+  catch (boost::property_tree::ptree_error&)
     {
       ret = false;
     }

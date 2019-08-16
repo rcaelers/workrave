@@ -45,7 +45,7 @@ protected:
 
 public:
   CDeskBand();
-  ~CDeskBand();
+  virtual ~CDeskBand();
 
   //IUnknown methods
   STDMETHODIMP QueryInterface(REFIID, LPVOID*);

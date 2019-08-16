@@ -1,6 +1,4 @@
-// RecordInputMonitor.cc --- ActivityMonitor for X11
-//
-// Copyright (C) 2001-2007, 2009, 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001-2019 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,37 +22,6 @@
 #include "RecordInputMonitor.hh"
 
 #include "debug.hh"
-
-#include <math.h>
-
-#include <stdio.h>
-#include <sys/types.h>
-
-#ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
-#endif
-#ifdef STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# ifdef HAVE_STDLIB_H
-#  include <stdlib.h>
-# endif
-#endif
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
 
 // Solaris needs this...
 #define NEED_EVENTS

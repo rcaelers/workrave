@@ -37,7 +37,7 @@ protected:
 
 public:
   CClassFactory(CLSID);
-  ~CClassFactory();
+  virtual ~CClassFactory();
 
   //IUnknown methods
   STDMETHODIMP QueryInterface(REFIID, LPVOID*);

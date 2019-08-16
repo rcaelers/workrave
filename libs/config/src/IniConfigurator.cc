@@ -58,7 +58,7 @@ IniConfigurator::load(string filename)
       ret = !pt.empty();
       last_filename = filename;
     }
-  catch (boost::property_tree::ini_parser_error)
+  catch (boost::property_tree::ini_parser_error&)
     {
     }
 
@@ -79,7 +79,7 @@ IniConfigurator::save(string filename)
       boost::property_tree::ini_parser::write_ini(config_file, pt);
       ret = true;
     }
-  catch (boost::property_tree::ini_parser_error)
+  catch (boost::property_tree::ini_parser_error&)
     {
     }
 
@@ -147,7 +147,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type,
           break;
         }
     }
-  catch (boost::property_tree::ptree_error)
+  catch (boost::property_tree::ptree_error&)
     {
       ret = false;
     }
@@ -185,7 +185,7 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
           break;
         }
     }
-  catch (boost::property_tree::ptree_error)
+  catch (boost::property_tree::ptree_error&)
     {
       ret = false;
     }

@@ -107,7 +107,9 @@ Menus::~Menus()
 void
 Menus::init(AppletControl *applet_control)
 {
+#if defined(PLATFORM_OS_WIN32) || defined(HAVE_DBUS)
   IAppletWindow *applet_window = nullptr;
+#endif
 
 // #if defined(PLATFORM_OS_OSX)
 //   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);

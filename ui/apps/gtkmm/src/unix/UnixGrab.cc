@@ -31,9 +31,11 @@
 using namespace workrave::utils;
 
 UnixGrab::UnixGrab() :
+#if !GTK_CHECK_VERSION(3, 20, 0)
   keyboard(nullptr),
   pointer(nullptr),
-  grab_window(nullptr),
+#endif
+ grab_window(nullptr),
   grab_wanted(false),
   grabbed(false)
 {

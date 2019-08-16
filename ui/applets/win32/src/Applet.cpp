@@ -41,7 +41,7 @@
 #endif
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
-BOOL RegisterServer(CLSID, LPTSTR, BOOL reg);
+BOOL RegisterServer(CLSID, LPCTSTR, BOOL reg);
 BOOL RegisterComCat(CLSID, CATID, BOOL reg);
 
 HINSTANCE   g_hInst;
@@ -170,14 +170,14 @@ STDAPI DllRegisterServer()
 
 typedef struct{
    HKEY  hRootKey;
-   LPTSTR szSubKey;//TCHAR szSubKey[MAX_PATH];
-   LPTSTR lpszValueName;
-   LPTSTR szData;//TCHAR szData[MAX_PATH];
+   LPCTSTR szSubKey;//TCHAR szSubKey[MAX_PATH];
+   LPCTSTR lpszValueName;
+   LPCTSTR szData;//TCHAR szData[MAX_PATH];
 }DOREGSTRUCT, *LPDOREGSTRUCT;
 
 
 BOOL
-RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
+RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 {
   HKEY     hKey;
   LRESULT  lResult;
@@ -246,7 +246,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
                                          ClsidEntries[i].lpszValueName,
                                          0,
                                          REG_SZ,
-                                         (LPBYTE)szData,
+                                         (const BYTE *)szData,
                                          lstrlen(szData) + 1);
 
               RegCloseKey(hKey);
