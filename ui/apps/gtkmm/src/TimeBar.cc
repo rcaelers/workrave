@@ -46,7 +46,7 @@ std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors {
   { TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000") },
   { TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2") },
   { TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
-  { TimerColorId::InactiveOverOverdue, Gdk::Color("#777777")},
+  { TimerColorId::Bg, Gdk::Color("#777777")},
   };
 
 //! Constructor

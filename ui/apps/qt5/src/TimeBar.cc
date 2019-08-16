@@ -39,7 +39,7 @@ std::map<TimerColorId, QColor> TimeBar::bar_colors {
   { TimerColorId::ActiveDuringBreak2, QColor("#e00000") },
   { TimerColorId::InactiveOverActive, QColor("#00d4b2") },
   { TimerColorId::InactiveOverOverdue, QColor("lightgreen")},
-  { TimerColorId::InactiveOverOverdue, QColor("#777777")},
+  { TimerColorId::Bg, QColor("#777777")},
   };
 
 TimeBar::TimeBar(QWidget *parent) :
