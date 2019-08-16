@@ -29,9 +29,11 @@ const main = async () => {
       .alias('h', 'help')
       .option('branch', {
         alias: 'b',
+        demandOption: true,
         default: 'next'
       })
-      .boolean('dry', {
+      .options('dry', {
+        type: 'boolean',
         alias: 'd',
         default: false,
         describe: 'Dry run. Result is not uploaded to storage.'
