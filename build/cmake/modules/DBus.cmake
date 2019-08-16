@@ -20,13 +20,13 @@ macro(dbus_generate_source XML DIRECTORY NAME)
 
     add_custom_command(
       OUTPUT ${hh_output}
-      COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${hh_template} ${hh_output}
+      COMMAND ${Python3_EXECUTABLE} ${DBUSGEN} ${XML} ${hh_template} ${hh_output}
       DEPENDS ${XML} ${hh_template}
       )
 
     add_custom_command(
       OUTPUT ${cc_output}
-      COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${cc_template} ${cc_output}
+      COMMAND ${Python3_EXECUTABLE} ${DBUSGEN} ${XML} ${cc_template} ${cc_output}
       DEPENDS ${XML} ${cc_template} ${hh_output}
       )
 
@@ -47,7 +47,7 @@ macro(dbus_generate_xml XML DIRECTORY NAME)
 
     add_custom_command(
       OUTPUT ${output}
-      COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${template} ${output}
+      COMMAND ${Python3_EXECUTABLE} ${DBUSGEN} ${XML} ${template} ${output}
       DEPENDS ${XML} ${template}
       )
 

@@ -196,8 +196,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Python
 
-set (Python_ADDITIONAL_VERSIONS 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
-find_package(PythonInterp)
+find_package (Python3 COMPONENTS Interpreter)
 
 #----------------------------------------------------------------------------------------------------
 # DBus
@@ -209,7 +208,7 @@ include(DBus)
 if (WITH_DBUS)
   message(STATUS "Checking for: Jinja2")
 
-  if (PYTHONINTERP_FOUND)
+  if (Python3_FOUND)
     find_python_module(jinja2)
   endif()
   if (NOT PY_JINJA2)
