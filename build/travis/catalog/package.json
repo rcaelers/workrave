@@ -11,9 +11,9 @@
     "license": "MIT",
     "dependencies": {
         "async": "^3.1.0",
-        "aws-sdk": "^2.501.0",
-        "date-fns": "^2.0.0-beta.3",
-        "isomorphic-git": "^0.58.0",
+        "aws-sdk": "^2.518.0",
+        "date-fns": "^2.0.1",
+        "isomorphic-git": "^0.58.2",
         "yargs": "^13.3.0"
     },
     "devDependencies": {
@@ -24,7 +24,7 @@
         "eslint-plugin-node": "^9.1.0",
         "eslint-plugin-prettier": "^3.1.0",
         "eslint-plugin-promise": "^4.2.1",
-        "eslint-plugin-standard": "^4.0.0",
+        "eslint-plugin-standard": "^4.0.1",
         "prettier": "^1.18.2"
     }
 }
