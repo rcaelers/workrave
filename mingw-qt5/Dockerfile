@@ -1,4 +1,4 @@
-FROM fedora:29
+FROM fedora:31
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
