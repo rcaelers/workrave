@@ -8,7 +8,7 @@ RUN \
   apt-get update -y && \
   apt-get install -y curl software-properties-common && \
   curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-  add-apt-repository "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-8 main" && \
+  add-apt-repository "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
     autoconf \
@@ -16,7 +16,7 @@ RUN \
     automake \
     autopoint \
     build-essential \
-    clang-8 \
+    clang-9 \
     cmake \
     debhelper \
     devscripts \
