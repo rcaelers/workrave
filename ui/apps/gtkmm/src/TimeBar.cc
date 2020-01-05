@@ -49,7 +49,6 @@ std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors {
   { TimerColorId::Bg, Gdk::Color("#777777")},
   };
 
-//! Constructor
 TimeBar::TimeBar() :
   bar_value(0),
   bar_max_value(0),
@@ -68,12 +67,9 @@ TimeBar::TimeBar() :
   GtkUtil::set_theme_fg_color(this);
 }
 
-//! Destructor
 TimeBar::~TimeBar()
 = default;
 
-
-//! Sets the time progress to be displayed.
 void
 TimeBar::set_progress(int value, int max_value)
 {
@@ -86,8 +82,6 @@ TimeBar::set_progress(int value, int max_value)
   bar_max_value = max_value;
 }
 
-
-//! Sets the secondary time progress to be displayed.
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
@@ -100,46 +94,35 @@ TimeBar::set_secondary_progress(int value, int max_value)
   secondary_bar_max_value = max_value;
 }
 
-
-//! Sets the text to be displayed.
 void
 TimeBar::set_text(string text)
 {
   bar_text = text;
 }
 
-
-//! Sets text alignment
 void
 TimeBar::set_text_alignment(int align)
 {
   bar_text_align = align;
 }
 
-
-//! Sets the color of the bar.
 void
 TimeBar::set_bar_color(TimerColorId color)
 {
   bar_color = color;
 }
 
-
-//! Sets the color of the secondary bar.
 void
 TimeBar::set_secondary_bar_color(TimerColorId color)
 {
   secondary_bar_color = color;
 }
 
-
-//! Sets the text color.
 void
 TimeBar::set_text_color(Gdk::Color color)
 {
   bar_text_color = color;
 }
-
 
 void
 TimeBar::set_rotation(int r)
@@ -148,13 +131,10 @@ TimeBar::set_rotation(int r)
   queue_resize();
 }
 
-
-//! Updates the screen.
 void TimeBar::update()
 {
   queue_draw();
 }
-
 
 void
 TimeBar::on_size_allocate(Gtk::Allocation &allocation)
@@ -171,7 +151,6 @@ TimeBar::on_size_allocate(Gtk::Allocation &allocation)
     }
 }
 
-//! Returns the preferred size.
 void
 TimeBar::get_preferred_size(int &width, int &height) const
 {
@@ -202,7 +181,6 @@ TimeBar::get_preferred_size(int &width, int &height) const
   width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
-
 
 Gtk::SizeRequestMode
 TimeBar::get_request_mode_vfunc() const
@@ -311,11 +289,8 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(0, 0, win_w, win_h);
   cr->clip();
 
-  style_context->context_save();
-  style_context->set_state((Gtk::StateFlags)Gtk::STATE_FLAG_ACTIVE);
   style_context->render_background(cr, 0, 0, win_w - 1, win_h -1);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h -1);
-  style_context->context_restore();
 
   // set_color(cr, back_color);
   // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
@@ -408,8 +383,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
                bar_width, bar_height, win_lw, win_lh);
     }
 
-  style_context->context_restore();
-  style_context->context_save();
 
   // Text
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
