@@ -35,7 +35,7 @@
 #ifdef HAVE_GCONF
 #include "GConfConfigurator.hh"
 #endif
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32Configurator.hh"
 #endif
 #ifdef PLATFORM_OS_OSX
@@ -56,7 +56,7 @@ ConfiguratorFactory::create(Format fmt)
 
   if (fmt == FormatNative)
     {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
       b = new W32Configurator();
 #elif defined(PLATFORM_OS_OSX)
       b = new OSXConfigurator();

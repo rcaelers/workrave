@@ -160,7 +160,7 @@ private:
 
   bool on_operational_mode_warning_timer();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   void win32_init_filter();
   static GdkFilterReturn win32_filter_func (void     *xevent,
                                             GdkEvent *event,

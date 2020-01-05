@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <gdk/gdkwin32.h>
 #include <shellapi.h>
 #undef __out
@@ -47,7 +47,7 @@
 #include "utils/AssetPath.hh"
 #include "Menus.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
@@ -72,7 +72,7 @@ MainWindow::MainWindow() :
 #ifdef PLATFORM_OS_UNIX
   leader = nullptr;
 #endif
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   show_retry_count = 0;
 #endif
 }
@@ -88,7 +88,7 @@ MainWindow::~MainWindow()
       visible_connection.disconnect();
     }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (timeout_connection.connected())
     {
       timeout_connection.disconnect();
@@ -96,7 +96,7 @@ MainWindow::~MainWindow()
 #endif
 
   delete timer_box_control;
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   win32_exit();
 #endif
 #ifdef PLATFORM_OS_UNIX
@@ -109,7 +109,7 @@ MainWindow::~MainWindow()
 bool
 MainWindow::is_visible() const
 {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   const GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
@@ -145,7 +145,7 @@ MainWindow::open_window()
   TRACE_ENTER("MainWindow::open_window");
   if (timer_box_view->get_visible_count() > 0)
     {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
       win32_show(true);
       show_all();
 #else
@@ -182,7 +182,7 @@ void
 MainWindow::close_window()
 {
   TRACE_ENTER("MainWindow::close_window");
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   win32_show(false);
 #elif defined(PLATFORM_OS_OSX)
   hide();
@@ -313,7 +313,7 @@ MainWindow::init()
   stick();
   setup();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 
   win32_init();
   set_gravity(Gdk::GRAVITY_STATIC);
@@ -425,7 +425,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   win32_show(false);
   closed_signal.emit();
   GUIConfig::timerbox_enabled("main_window").set(false);
@@ -474,7 +474,7 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   return ret;
 }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 void
 MainWindow::win32_show(bool b)
 {
@@ -679,7 +679,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       return;
     }
 
-#ifndef PLATFORM_OS_WIN32
+#ifndef PLATFORM_OS_WINDOWS
   // Returns bogus results on windows...sometime.
   if (event != nullptr)
     {
@@ -796,7 +796,7 @@ MainWindow::relocate_window(int width, int height)
   TRACE_EXIT();
 }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,

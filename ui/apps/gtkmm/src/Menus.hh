@@ -94,7 +94,7 @@ public:
   void on_menu_network_log(bool show);
   void on_set_operation_mode(workrave::OperationMode m);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
 #endif
 

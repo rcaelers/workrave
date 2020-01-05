@@ -49,7 +49,7 @@ private:
   void on_frame_flash_event(bool frame_visible);
   void add(Gtk::Widget& widget);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   void init_avoid_pointer_polling();
   bool on_avoid_pointer_timer_event();
 #else
@@ -64,7 +64,7 @@ private:
   void on_size_allocate_event(Gtk::Allocation &allocation);
 
 private:
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   //! Avoid time signal
   sigc::connection avoid_signal;
 

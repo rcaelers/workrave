@@ -44,7 +44,7 @@
 #include <sys/types.h>
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <windows.h>
 // HACK: #include <shlobj.h>, need -fvtable-thunks.
 // Perhaps we should enable this, but let's hack it for now...
@@ -53,7 +53,7 @@ extern "C" {
 #define SHGetPathFromIDList SHGetPathFromIDListA
 HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,void**);
 BOOL WINAPI SHGetPathFromIDList(void *,LPSTR);
-#ifndef PLATFORM_OS_WIN32
+#ifndef PLATFORM_OS_WINDOWS
 VOID WINAPI CoTaskMemFree(PVOID);
 #endif
 #define PathCanonicalize PathCanonicalizeA
@@ -103,7 +103,7 @@ AssetPath::get_home_directory()
 
           mkdir(ret.c_str(), 0700);
         }
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
       void *pidl;
       HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
                                               CSIDL_APPDATA, &pidl);
@@ -140,7 +140,7 @@ AssetPath::get_home_directory()
 void
 AssetPath::set_home_directory(const string &home)
 {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (home.substr(0, 2) == ".\\" ||
       home.substr(0, 3) == "..\\")
     {
@@ -160,14 +160,14 @@ AssetPath::set_home_directory(const string &home)
       home_directory = home + "/";
     }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   CreateDirectory(home_directory.c_str(), NULL);
 #else
   mkdir(home_directory.c_str(), 0777);
 #endif
 }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 
 #endif
 
@@ -182,7 +182,7 @@ AssetPath::get_search_path(SearchPathId type)
   set<string> &searchPath = search_paths[type];
 
   string home_dir = get_home_directory();
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   string app_dir = Platform::get_application_directory();
 #elif defined(PLATFORM_OS_OSX)
   char execpath[MAXPATHLEN+1];
@@ -206,7 +206,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/icons/hicolor");
       searchPath.insert("/usr/local/share/workrave/images");
       searchPath.insert("/usr/share/workrave/images");
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\images");
 
 #elif defined(PLATFORM_OS_OSX)
@@ -224,7 +224,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds/workrave");
       searchPath.insert("/usr/local/share/sounds/workrave");
       searchPath.insert("/usr/share/sounds/workrave");
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
@@ -242,7 +242,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.insert("/usr/local/share/workrave/etc");
       searchPath.insert("/usr/share/workrave/etc");
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(home_dir + "\\");
       searchPath.insert(app_dir + "\\etc");
 #elif defined(PLATFORM_OS_OSX)
@@ -255,7 +255,7 @@ AssetPath::get_search_path(SearchPathId type)
     {
 #if defined(PLATFORM_OS_UNIX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");

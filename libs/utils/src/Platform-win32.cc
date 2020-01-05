@@ -25,7 +25,7 @@
 
 #include "utils/Platform.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <windows.h>
 #endif
 

@@ -2,7 +2,7 @@ set(SRC
   Updater.cc
   )
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
 endif()
 
 if (PLATFORM_OS_OSX)

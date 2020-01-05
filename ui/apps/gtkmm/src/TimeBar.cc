@@ -265,7 +265,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #if GTK_CHECK_VERSION(3,0,0)
   static const char timebar_style[] =
 		"* {\n"

@@ -35,7 +35,7 @@ public:
 private:
   void on_block_changed();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   void on_autostart_toggled();
 #endif
 
@@ -46,7 +46,7 @@ private:
   QComboBox *languages_combo;
   QStandardItemModel *model;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb;
 #endif
 };

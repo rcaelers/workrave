@@ -27,7 +27,7 @@
 #include <strings.h>
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32Compat.hh"
 #include "W32ForceFocus.hh"
 #include <gdk/gdkwin32.h>
@@ -35,7 +35,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #undef max
 #endif
 
@@ -59,7 +59,7 @@
 #include "commonui/Backend.hh"
 #include "utils/AssetPath.hh"
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #include "DesktopWindow.hh"
 #elif defined(PLATFORM_OS_UNIX)
 #include "desktop-window.h"
@@ -91,7 +91,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   postpone_button(nullptr),
   skip_button(nullptr),
   sysoper_combobox(nullptr)
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   ,
   desktop_window(NULL),
   force_focus_on_break_start(false),
@@ -127,7 +127,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // Otherwise, there is not gobj()...
   realize();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
   // THEN position it. So:
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
@@ -146,7 +146,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
   bool initial_ignore_activity = false;
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
    if( W32ForceFocus::GetForceFocusValue() )
        initial_ignore_activity = true;
 
@@ -199,7 +199,7 @@ BreakWindow::init_gui()
             {
               if (!fullscreen_grab)
                 {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
                   desktop_window = new DesktopWindow(head);
                   add(*window_frame);
 
@@ -251,7 +251,7 @@ BreakWindow::~BreakWindow()
       frame->set_frame_flashing(0);
     }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   delete desktop_window;
 #endif
   TRACE_EXIT();
@@ -640,7 +640,7 @@ BreakWindow::start()
   update_break_window();
   center();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (desktop_window)
     desktop_window->set_visible(true);
 #endif
@@ -652,7 +652,7 @@ BreakWindow::start()
   WindowHints::set_always_on_top(this, true);
   raise();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // if( force_focus_on_break_start && this->head.count == 0)
   //   {
   //     HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
@@ -695,7 +695,7 @@ BreakWindow::stop()
 
   hide();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (desktop_window)
     desktop_window->set_visible(false);
 #endif
@@ -710,7 +710,7 @@ BreakWindow::refresh()
 
   update_break_window();
 
-// #ifdef PLATFORM_OS_WIN32
+// #ifdef PLATFORM_OS_WINDOWS
 //   W32Compat::RefreshBreakWindow( *this );
 // #endif
   TRACE_EXIT();

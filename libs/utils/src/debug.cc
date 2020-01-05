@@ -29,7 +29,7 @@
 #include <boost/thread/tss.hpp>
 #include <boost/filesystem.hpp>
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> /* for GetFileAttributes */
 #endif
@@ -116,7 +116,7 @@ Debug::stream()
     {
       std::string debug_filename;
 
-#if defined(WIN32) || defined(PLATFORM_OS_WIN32)
+#if defined(WIN32) || defined(PLATFORM_OS_WINDOWS)
       char path_buffer[MAX_PATH];
 
       DWORD ret = GetTempPath(MAX_PATH, path_buffer);

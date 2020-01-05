@@ -42,6 +42,8 @@
 #cmakedefine PACKAGE_VERSION "${PACKAGE_VERSION}"
 #cmakedefine PLATFORM_OS_OSX
 #cmakedefine PLATFORM_OS_UNIX
-#cmakedefine PLATFORM_OS_WIN32
-#cmakedefine PLATFORM_OS_WIN32_NATIVE
+#cmakedefine PLATFORM_OS_WINDOWS
+#cmakedefine PLATFORM_OS_WINDOWS_NATIVE
+#cmakedefine PLATFORM_OS_WINDOWS_32
+#cmakedefine PLATFORM_OS_WINDOWS_64
 #cmakedefine TRACING

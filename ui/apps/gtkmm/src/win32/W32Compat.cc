@@ -27,10 +27,10 @@
 #include <tchar.h>
 #include <wtsapi32.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #undef max
 #endif
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #undef interface
 #endif
 

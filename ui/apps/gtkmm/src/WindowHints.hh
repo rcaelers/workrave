@@ -20,7 +20,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <windows.h>
 
 #undef __out

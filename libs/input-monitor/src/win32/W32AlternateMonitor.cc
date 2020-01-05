@@ -29,13 +29,13 @@
 #include "config.h"
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 
 #include "debug.hh"
 
 #include <sstream>
 
-#if !defined(PLATFORM_OS_WIN32_NATIVE)
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
 #include <unistd.h>
 #endif
 
@@ -186,4 +186,4 @@ void W32AlternateMonitor::Monitor()
   TRACE_EXIT();
 }
 
-#endif // defined(PLATFORM_OS_WIN32)
+#endif // defined(PLATFORM_OS_WINDOWS)

@@ -33,7 +33,7 @@
 #include "X11SystrayAppletWindow.hh"
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32AppletWindow.hh"
 #endif
 
@@ -97,7 +97,7 @@ AppletControl::init()
   applets[APPLET_TRAY] = new X11SystrayAppletWindow();
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 

@@ -25,7 +25,7 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #undef HAVE_UNISTD_H
 #endif
 

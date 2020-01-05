@@ -38,7 +38,7 @@
 
 #include "commonui/nls.h"
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #define snprintf _snprintf
 #define snwprintf _snwprintf
 #endif

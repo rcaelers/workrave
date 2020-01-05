@@ -57,7 +57,7 @@
 #include "GenericDBusApplet.hh"
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <shellapi.h>
 
 #include "W32AppletWindow.hh"
@@ -107,7 +107,7 @@ Menus::~Menus()
 void
 Menus::init(AppletControl *applet_control)
 {
-#if defined(PLATFORM_OS_WIN32) || defined(HAVE_DBUS)
+#if defined(PLATFORM_OS_WINDOWS) || defined(HAVE_DBUS)
   IAppletWindow *applet_window = nullptr;
 #endif
 
@@ -117,13 +117,13 @@ Menus::init(AppletControl *applet_control)
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
 //#endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   menus[MENU_MAINAPPLET] = new W32TrayMenu();
 #else
   menus[MENU_MAINAPPLET] = new MainGtkMenu(true);
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
   W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
   menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window);
@@ -367,7 +367,7 @@ Menus::on_menu_about()
 }
 
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 void
 Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
 {

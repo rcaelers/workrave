@@ -89,7 +89,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
     filefilter(nullptr),
     trayicon_cb(nullptr),
     autostart_cb(nullptr)
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
     ,
     sensitivity_adjustment(Gtk::Adjustment::create(3, 0, 100)),
     sensitivity_box(nullptr)
@@ -287,7 +287,7 @@ PreferencesDialog::create_gui_page()
 
   bool show_autostart = false;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   show_autostart = true;
 #elif defined(PLATFORM_OS_UNIX)
   const char *desktop = g_getenv("XDG_CURRENT_DESKTOP");
@@ -304,7 +304,7 @@ PreferencesDialog::create_gui_page()
 
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
       char value[MAX_PATH];
       bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
       autostart_cb->set_active(rc);
@@ -441,7 +441,7 @@ PreferencesDialog::create_sounds_page()
   filefilter = Gtk::FileFilter::create();
 
   filefilter->set_name(_("Wavefiles"));
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   filefilter->add_pattern("*.wav");
 #else
   filefilter->add_mime_type("audio/x-wav");
@@ -512,7 +512,7 @@ PreferencesDialog::create_timer_page()
       tnotebook->append_page(*tp, *box);
     }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
@@ -522,7 +522,7 @@ PreferencesDialog::create_timer_page()
   return tnotebook;
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 Gtk::Widget *
 PreferencesDialog::create_monitoring_page()
 {
@@ -738,7 +738,7 @@ PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
 void
 PreferencesDialog::on_autostart_toggled()
 {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   bool on = autostart_cb->get_active();
 
   gchar *value = NULL;
@@ -754,7 +754,7 @@ PreferencesDialog::on_autostart_toggled()
 #endif
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 PreferencesDialog::on_monitor_type_toggled()
 {

@@ -30,7 +30,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
 #define IID_IMMDevicEenumerator __uuidof(IMMDeviceEnumerator)
 #define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)

@@ -25,7 +25,7 @@
 #include <unistd.h>
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32Compat.hh"
 #include "W32ForceFocus.hh"
 #endif
@@ -302,7 +302,7 @@ RestBreakWindow::set_ignore_activity(bool i)
 {
   ICore::Ptr core = Backend::get_core();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if( W32ForceFocus::GetForceFocusValue() )
     {
       i = true;

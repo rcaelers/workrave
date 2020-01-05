@@ -123,7 +123,7 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 #define XBUTTON2 0x0002
 #endif
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 
 #ifndef WM_XBUTTONDOWN
 #define WM_XBUTTONDOWN 523

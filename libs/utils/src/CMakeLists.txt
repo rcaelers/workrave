@@ -8,7 +8,7 @@ if (TRANSLATIONS_1)
   set(SRC ${SRC} debug.cc)
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC} Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
 
   if (PLATFORM_OS_WINDOWS_32)
@@ -39,7 +39,7 @@ if (HAVE_GTK)
   target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 

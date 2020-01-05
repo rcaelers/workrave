@@ -108,7 +108,7 @@ Locale::set_locale(const std::string &code)
       Platform::unsetenv("LANG");
     }
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
     ++_nl_msg_cat_cntr;
 #endif
 }
@@ -228,7 +228,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #endif
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #include <windows.h>
 #endif
 
@@ -246,7 +246,7 @@ Locale::get_week_start()
 {
   int week_start = 0;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   WCHAR wsDay[4];
   if (
 #  if defined(_WIN32_WINNT_VISTA) && WINVER >= _WIN32_WINNT_VISTA && defined(LOCALE_NAME_USER_DEFAULT)

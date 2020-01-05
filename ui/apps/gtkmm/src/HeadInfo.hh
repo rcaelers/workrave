@@ -20,7 +20,7 @@
 #ifndef HEADINFO_HH
 #define HEADINFO_HH
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #undef max
 #endif
 

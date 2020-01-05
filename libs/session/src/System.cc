@@ -65,7 +65,7 @@
 #endif
 #endif //PLATFORM_OS_UNIX
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #include "W32Shutdown.hh"
 #include "W32LockScreen.hh"
 #endif
@@ -426,7 +426,7 @@ System::init()
 #endif
   init_cmdline_lock_commands(display.c_str());
 
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
   IScreenLockMethod *winLock = new W32LockScreen();
   if (winLock->is_lock_supported())
     {
@@ -448,7 +448,7 @@ System::init()
       delete winShut;
       winShut = NULL;
     }
-#endif //defined (PLATFORM_OS_WIN32)
+#endif //defined (PLATFORM_OS_WINDOWS)
 
   if (is_lockable())
     {

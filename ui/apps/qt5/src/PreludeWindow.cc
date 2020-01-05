@@ -178,7 +178,7 @@ PreludeWindow::refresh()
   timebar->set_text(s);
   timebar->update();
 
-  // #if defined(PLATFORM_OS_WIN32)
+  // #if defined(PLATFORM_OS_WINDOWS)
   // // Vista GTK phantom toplevel parent kludge:
   //   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   //   if( hwnd )

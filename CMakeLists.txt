@@ -603,10 +603,11 @@ endif()
 # platform - win32
 
 if (WIN32)
-  set (PLATFORM_OS_WIN32 ON)
+  set (PLATFORM_OS_WINDOWS ON)
+
   set (PLATFORM_OS_NAME "Windows")
   if (MSVC)
-    set (PLATFORM_OS_WIN32_NATIVE 1)
+    set (PLATFORM_OS_WINDOWS_NATIVE 1)
   endif()
 
   if (CMAKE_SIZEOF_VOID_P EQUAL 8)

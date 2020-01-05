@@ -28,7 +28,7 @@
 #include "core/CoreTypes.hh"
 #include "core/ICore.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <io.h>
 #include <fcntl.h>
 
@@ -41,11 +41,11 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   W32ActiveSetup::update_all();
 #endif
 
-#if defined(PLATFORM_OS_WINDOWS_32) && !defined(PLATFORM_OS_WIN32_NATIVE)
+#if defined(PLATFORM_OS_WINDOWS_32) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
   SetUnhandledExceptionFilter(exception_filter);
 
 #if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
@@ -66,7 +66,7 @@ run(int argc, char **argv)
   }
 
 #if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
+#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
   // Disable Windows structural exception handling.
   __except1;
 #endif
@@ -76,7 +76,7 @@ run(int argc, char **argv)
 }
 
 
-#if !defined(PLATFORM_OS_WIN32) // || (!defined(PLATFORM_OS_WIN32_NATIVE) && !defined(NDEBUG))
+#if !defined(PLATFORM_OS_WINDOWS) // || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
 int
 main(int argc, char **argv)
 {

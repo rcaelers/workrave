@@ -22,7 +22,7 @@
 
 #include <time.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;
 #else
 #include <stdint.h>

@@ -20,7 +20,7 @@
 
 #include "input-monitor/InputMonitorFactory.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32InputMonitorFactory.hh"
 #endif
 #ifdef PLATFORM_OS_OSX
@@ -40,7 +40,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
 {
   if (factory == nullptr)
     {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
       factory = new W32InputMonitorFactory(config);
 #elif defined(PLATFORM_OS_OSX)
       factory = new OSXInputMonitorFactory(config);

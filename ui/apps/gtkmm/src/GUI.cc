@@ -29,7 +29,7 @@
 #include <glibmm.h>
 #include <gtk/gtk.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #undef HAVE_UNISTD_H
 #endif
 
@@ -72,7 +72,7 @@
 #include "commonui/Session.hh"
 #include "commonui/TimerBoxControl.hh"
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
@@ -403,7 +403,7 @@ GUI::init_nls()
 
   const char *locale_dir;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   string dir = Platform::get_application_directory();
   // Use the pre-install locale location if workrave is running from its MSVC build directory.
   // TODO:
@@ -432,7 +432,7 @@ GUI::init_nls()
   setlocale(LC_ALL, "");
 #  endif
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   bindtextdomain("gtk20", locale_dir);
   bindtextdomain("iso_3166", locale_dir);
   bindtextdomain("iso_639", locale_dir);
@@ -678,7 +678,7 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // No auto hide scrollbars
   g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
   // No Windows-7 style client-side decorations on Windows 10...
@@ -734,7 +734,7 @@ GUI::init_gui()
       dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
     }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   win32_init_filter();
 #endif
 
@@ -1350,7 +1350,7 @@ GUI::get_timers_tooltip()
 
     case OperationMode::Normal:
     default:
-#if !defined(PLATFORM_OS_WIN32)
+#if !defined(PLATFORM_OS_WINDOWS)
       // Win32 tip is limited in length
       tip = "Workrave";
 #endif
@@ -1420,7 +1420,7 @@ GUI::process_visibility()
 {
   TRACE_ENTER("GUI::process_visibility");
   TRACE_MSG(main_window->is_visible() << " " << applet_control->is_visible() << " " << status_icon->is_visible());
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (!main_window->is_visible() && !applet_control->is_visible())
     {
       GUIConfig::trayicon_enabled().set(true);
@@ -1432,7 +1432,7 @@ GUI::process_visibility()
   TRACE_EXIT();
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GUI::win32_init_filter()
 {

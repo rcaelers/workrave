@@ -34,7 +34,7 @@ namespace workrave
       static bool running_on_wayland();
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
       static std::string get_application_directory();
       static std::string get_application_name();
       static bool registry_set_value(const char *path, const char *name, const char *value);

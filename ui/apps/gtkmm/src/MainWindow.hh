@@ -23,7 +23,7 @@
 #include <string>
 #include <gtkmm.h>
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <windows.h>
 #include "commonui/TimerBoxControl.hh"
 #endif
@@ -109,7 +109,7 @@ private:
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 private:
   void win32_show(bool b);
   bool win32_show_retry();

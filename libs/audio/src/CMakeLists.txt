@@ -16,7 +16,7 @@ if (HAVE_PULSE)
   include_directories(${PULSE_INCLUDE_DIRS})
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC}
     win32/W32DirectSoundPlayer.cc
     win32/W32Mixer.cc
@@ -59,6 +59,6 @@ if (PLATFORM_OS_OSX)
   target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
    target_link_libraries(workrave-libs-audio dsound dxguid)
 endif()

@@ -19,7 +19,7 @@ if (PLATFORM_OS_UNIX)
   endif()
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC}
     win32/W32AlternateMonitor.cc
     win32/W32InputMonitorFactory.cc

@@ -34,7 +34,7 @@
 #endif
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include "W32StatusIcon.hh"
 #endif
 
@@ -57,7 +57,7 @@ StatusIcon::StatusIcon()
   mode_icons[OperationMode::Suspended] = GtkUtil::create_image("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_image("workrave-quiet-icon-medium.png");
 
-#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
   TRACE_EXIT();
@@ -222,7 +222,7 @@ StatusIcon::embedded_changed_callback(GObject* gobject,
 }
 #endif
 
-#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+#if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
 void
 StatusIcon::on_balloon_activate(string id)
 {
@@ -236,7 +236,7 @@ StatusIcon::on_activate()
   activate_signal.emit();
 }
 
-#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
 GdkFilterReturn
 StatusIcon::win32_filter_func (void     *xevent,
                                GdkEvent *event)

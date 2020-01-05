@@ -35,7 +35,7 @@
 #include "commonui/GUIConfig.hh"
 #include "session/System.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 class DesktopWindow;
 #endif
 
@@ -153,7 +153,7 @@ private:
   Gtk::Button *skip_button;
   Gtk::ComboBox *sysoper_combobox;
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   DesktopWindow *desktop_window;
   bool force_focus_on_break_start;
   long parent;

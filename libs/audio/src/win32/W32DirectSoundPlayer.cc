@@ -51,7 +51,7 @@ using namespace workrave::audio;
 
 static std::string sound_filename;
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 extern "C"
 {
   void _chkstk()

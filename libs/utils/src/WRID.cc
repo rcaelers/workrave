@@ -31,7 +31,7 @@
 
 #include "WRID.hh"
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #include <windows.h>
 #include <wincrypt.h>
 #elif defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_OSX)
@@ -243,7 +243,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
     }
 }
 
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
 
 void
 WRID::get_random_bytes(unsigned char *buf, size_t length)

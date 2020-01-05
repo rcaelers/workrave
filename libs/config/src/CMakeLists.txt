@@ -6,7 +6,7 @@ set(SRC
   SettingCache.cc
   )
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC} win32/W32Configurator.cc)
   include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/win32)
 elseif (PLATFORM_OS_OSX)

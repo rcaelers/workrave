@@ -47,7 +47,7 @@
 #define _O_TEXT         0x4000
 #endif
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
 #define snprintf _snprintf
 #define snwprintf _snwprintf
 #endif
@@ -65,7 +65,7 @@ DWORD GetModuleBase(DWORD dwAddress)
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 static EXCEPTION_DISPOSITION __cdecl
 double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
                          void *establisher_frame,
@@ -119,7 +119,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   (void) establisher_frame;
   (void) dispatcher_context;
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   // FIXME: win32
 #else
   __try1(double_exception_handler);
@@ -181,7 +181,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
             "Thanks.");
           MessageBoxA( NULL, crash_text, "Exception", MB_OK );
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   // FIXME: win32
 #else
           __except1;
@@ -256,7 +256,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           "http://issues.workrave.org/\n"
           "Thanks.");
         MessageBoxA( NULL, crash_text, "Exception", MB_OK );
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   // FIXME: win32
 #else
         __except1;
@@ -499,7 +499,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       MessageBoxA(NULL, crash_text, "Exception", MB_OK);
     }
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   // FIXME: win32
 #else
   __except1;

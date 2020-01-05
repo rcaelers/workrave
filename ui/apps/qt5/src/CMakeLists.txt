@@ -111,7 +111,7 @@ include_directories(
 
 include_directories()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
     link_directories("${HOOK_BINARY_DIR}")
   if (CMAKE_CROSSCOMPILING OR MSYS)
     link_directories("${SYS_ROOT}")
@@ -134,7 +134,7 @@ if (APPLE)
   ## TODO: set_target_properties(Workrave PROPERTIES LINK_FLAGS "-Wl,-rpath,/${CMAKE_BINARY_DIR}/libs/updater/ext/sparkle/Release/")
 endif()
 
-if (PLATFORM_OS_WIN32_NATIVE)
+if (PLATFORM_OS_WINDOWS_NATIVE)
    set_target_properties(Workrave PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 endif()
 
@@ -177,7 +177,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop DESTINATION ${DATADIR
 
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   target_link_libraries(Workrave ${LIBINTL_LIBRARIES})
   if (HAVE_HARPOON)
      target_link_libraries(Workrave harpoon)

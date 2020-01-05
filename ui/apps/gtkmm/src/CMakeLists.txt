@@ -52,7 +52,7 @@ if (PLATFORM_OS_UNIX)
     include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/unix)
 endif()
 
-if (PLATFORM_OS_WIN32)
+if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC}
     win32/DesktopWindow.cc
     win32/W32AppletMenu.cc
@@ -143,12 +143,13 @@ include_directories(
 link_directories(${GTK_LIBRARY_DIRS})
 link_directories(${INDICATOR_LIBPATH})
 
-If (PLATFORM_OS_WIN32)
+If (PLATFORM_OS_WINDOWS)
   link_directories("${HOOK_BINARY_DIR}")
   if (CMAKE_CROSSCOMPILING OR MSYS)
     link_directories("${SYS_ROOT}")
   endif()
 endif()
+
 
 add_executable(workrave ${SRC})
 add_cppcheck(workrave)

@@ -32,7 +32,7 @@
 
 #if defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
-#elif defined PLATFORM_OS_WIN32
+#elif defined PLATFORM_OS_WINDOWS
 #include <windows.h>
 #include "W32SoundPlayer.hh"
 #include "W32DirectSoundPlayer.hh"
@@ -60,7 +60,7 @@ SoundPlayer::SoundPlayer()
   driver =
 #if defined HAVE_GSTREAMER
      new GstSoundPlayer()
-#elif defined PLATFORM_OS_WIN32
+#elif defined PLATFORM_OS_WINDOWS
      new W32DirectSoundPlayer()
 #elif defined PLATFORM_OS_OSX
      new OSXSoundPlayer()
@@ -73,7 +73,7 @@ SoundPlayer::SoundPlayer()
   mixer =
 #if defined HAVE_PULSE
     new PulseMixer()
-#elif defined PLATFORM_OS_WIN32
+#elif defined PLATFORM_OS_WINDOWS
     new W32Mixer()
 #else
     nullptr

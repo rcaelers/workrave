@@ -23,7 +23,7 @@
 
 #if defined(PLATFORM_OS_UNIX)
 #include "unix/UnixGrab.hh"
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
 #include "win32/W32Grab.hh"
 #if defined(HAVE_HARPOON)
 #include "win32/W32GrabHarpoon.hh"
@@ -39,7 +39,7 @@ Grab::instance()
     {
 #if defined(PLATFORM_OS_UNIX)
       instance = new UnixGrab();
-#elif defined(PLATFORM_OS_WIN32)
+#elif defined(PLATFORM_OS_WINDOWS)
 #if defined(HAVE_HARPOON)
       instance = new W32GrabHarpoon();
 #else

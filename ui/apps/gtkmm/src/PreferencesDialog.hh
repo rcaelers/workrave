@@ -143,7 +143,7 @@ private:
   Gtk::CheckButton *autostart_cb;
   void on_autostart_toggled();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   Gtk::CheckButton *monitor_type_cb;
   void on_monitor_type_toggled();
   Gtk::Widget *create_monitoring_page();

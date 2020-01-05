@@ -39,7 +39,7 @@
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #include <gdk/gdkwin32.h>
 #endif
 
@@ -51,7 +51,7 @@ using namespace workrave::utils;
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
     gdk_offset_x(0),
     gdk_offset_y(0),
 #endif
@@ -85,7 +85,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
       set_size_request(head.get_width(), head.get_height());
     }
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   init_avoid_pointer_polling();
 #endif
   
@@ -146,7 +146,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
 PreludeWindow::~PreludeWindow()
 {
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (avoid_signal.connected())
     {
       avoid_signal.disconnect();
@@ -204,7 +204,7 @@ PreludeWindow::add(Gtk::Widget& widget)
            Gtk::Window::add(*window_frame);
          }
 
-#ifndef PLATFORM_OS_WIN32
+#ifndef PLATFORM_OS_WINDOWS
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
 #endif
@@ -245,7 +245,7 @@ PreludeWindow::refresh()
   time_bar->set_text(s);
   time_bar->update();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   if( hwnd )
@@ -344,7 +344,7 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
 }
 
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 // Sets whether the window should run away for the mouse pointer.
 void
 PreludeWindow::init_avoid_pointer_polling()
@@ -404,9 +404,9 @@ PreludeWindow::on_avoid_pointer_timer_event()
   return true;
 }
 
-#endif // PLATFORM_OS_WIN32
+#endif // PLATFORM_OS_WINDOWS
 
-#ifndef PLATFORM_OS_WIN32
+#ifndef PLATFORM_OS_WINDOWS
 
 //! GDK EventNotifyEvent notification.
 bool

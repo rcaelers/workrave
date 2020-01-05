@@ -42,7 +42,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 #define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #endif
 
@@ -153,7 +153,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   UiUtil::add_widget(layout, tr("Language:"), languages_combo);
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb = new QCheckBox;
   autostart_cb->setText(tr("Start Workrave on Windows startup"));
   connect(autostart_cb, &QCheckBox::stateChanged, this, &GeneralUiPreferencesPanel::on_autostart_toggled);
@@ -183,7 +183,7 @@ GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
     }
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GeneralUiPreferencesPanel::on_autostart_toggled()
 {
