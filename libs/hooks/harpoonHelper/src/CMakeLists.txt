@@ -22,4 +22,7 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO) AND (PLATFORM_ARCH EQUAL 64))
   add_executable(WorkraveHelper ${SOURCES})
   target_link_libraries(WorkraveHelper harpoon64)
   install(TARGETS WorkraveHelper RUNTIME DESTINATION lib64)
+
+  set_target_properties(WorkraveHelper PROPERTIES COMPILE_FLAGS "-mwindows")
+  set_target_properties(WorkraveHelper PROPERTIES LINK_FLAGS "-mwindows")
 endif()

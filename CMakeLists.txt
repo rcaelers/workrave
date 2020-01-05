@@ -676,6 +676,8 @@ if (WIN32)
   set (HAVE_GSETTINGS OFF)
   set (HAVE_LANGUAGE_SELECTION TRUE)
 
+  add_compile_options("-mwindows")
+
   if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
 

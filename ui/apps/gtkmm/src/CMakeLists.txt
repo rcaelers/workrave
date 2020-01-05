@@ -211,7 +211,10 @@ if (WIN32)
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
     )
 
-   target_link_libraries(workrave dxerr8 dsound dxguid)
+  target_link_libraries(workrave dxerr8 dsound dxguid)
+
+  set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
+  set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
