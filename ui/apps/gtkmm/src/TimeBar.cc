@@ -248,6 +248,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   static const char timebar_style[] =
 		"* {\n"
     "    box-shadow: none;\n"
+    "    color: #000000;\n"
     "    margin: 0;\n"
     "    padding: 0;\n"
     "    border-style: inset;\n"
@@ -262,7 +263,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 #endif
 
   // Physical width/height
-  int win_w = allocation.get_width() - 2; // FIXME:
+  int win_w = allocation.get_width() - 2;
   int win_h = allocation.get_height();
 
   // Logical width/height
