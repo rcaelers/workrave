@@ -1,0 +1,251 @@
+@import url("gtk-win32-base.css");
+
+/* Menus */
+
+menubar {
+    background-color: transparent;
+    border-width: 0;
+    background-image: -gtk-win32-theme-part(menu, 7, 1);
+}
+
+menubar > menuitem {
+    background-color: transparent;
+    border-width: 0;
+    background-image: -gtk-win32-theme-part(menu, 8, 1);
+}
+
+menubar > menuitem:hover {
+    background-image: -gtk-win32-theme-part(menu, 8, 3);
+}
+
+menuitem:hover {
+    background-image: -gtk-win32-theme-part(menu, 14, 2);
+}
+
+menuitem:hover:disabled {
+    background-image: -gtk-win32-theme-part(menu, 14, 4);
+}
+
+menuitem radio,
+menuitem radio:hover,
+menuitem radio:disabled {
+    background-color: transparent;
+    background-image: none;
+    border-width: 0;
+}
+
+menuitem radio:active, 
+menuitem radio:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 3);
+    border-width: 0;
+}
+
+menuitem radio:indeterminate,
+menuitem radio:indeterminate:disabled,
+menuitem radio:indeterminate:hover,
+menuitem radio:indeterminate:active,
+menuitem radio:indeterminate:active:hover {
+    background-image: none; /* Fall back to default, this state is not in win32 */
+    border-width: 0;
+}
+
+menuitem radio:disabled:active,
+menuitem radio:disabled:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 4);
+    border-width: 0;
+}
+
+menuitem check,
+menuitem check:hover,
+menuitem check:disabled {
+    background-image: none;
+    border-width: 0;
+}
+
+menuitem check:active, 
+menuitem check:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 1);
+    border-width: 0;
+}
+
+menuitem check:indeterminate,
+menuitem check:indeterminate:disabled,
+menuitem check:indeterminate:hover,
+menuitem check:indeterminate:active,
+menuitem check:indeterminate:active:hover {
+    background-image: none; /* Fall back to default, this state is not in win32 */
+    border-width: 0;
+}
+
+menuitem check:disabled:active,
+menuitem check:disabled:active:hover{
+    background-image: -gtk-win32-theme-part(menu, 11, 2);
+    border-width: 0;
+}
+
+/* Listbox */
+
+/* We're cheating here, using part 6 (listview header group),
+   because part 1 (listview item) is empty for some reason */
+row:hover {
+  background-image: -gtk-win32-theme-part(listview, 6, 10);
+}
+
+row:selected {
+  background-color: transparent;
+  /* Override *:selected {} blanket style, keeping the background - bright
+     and the text - dark */
+  color: @text_color;
+  background-image: -gtk-win32-theme-part(listview, 6, 13);
+}
+
+row:selected:focus {
+  background-image: -gtk-win32-theme-part(listview, 6, 11);
+}
+
+row:selected:hover {
+  background-image: -gtk-win32-theme-part(listview, 6, 12);
+}
+
+/* Titlebar */
+
+decoration {
+  padding: calc(-gtk-win32-size(window, cyframe) + -gtk-win32-size(window, cxpaddedborder))
+           calc(-gtk-win32-size(window, cxframe) + -gtk-win32-size(window, cxpaddedborder));
+  background-image: -gtk-win32-theme-part(window, 1, 1),
+                    -gtk-win32-theme-part(window, 9, 1),
+                    -gtk-win32-theme-part(window, 7, 1),
+                    -gtk-win32-theme-part(window, 8, 1);
+  background-size: 100% -gtk-win32-size(window, cycaption),
+                   100% calc(-gtk-win32-size(window, cyframe) + -gtk-win32-size(window, cxpaddedborder)),
+                   calc(-gtk-win32-size(window, cxframe) + -gtk-win32-size(window, cxpaddedborder)) calc(100% - 2 * (-gtk-win32-size(window, cyframe) + -gtk-win32-size(window, cxpaddedborder))),
+                   calc(-gtk-win32-size(window, cxframe) + -gtk-win32-size(window, cxpaddedborder)) calc(100% - 2 * (-gtk-win32-size(window, cyframe) + -gtk-win32-size(window, cxpaddedborder)));
+  background-position: top, bottom, left, right;
+  background-repeat: no-repeat;
+}
+
+/* Unset above settings when the window is a popup menu or tooltip */
+* window decoration, tooltip decoration {
+    all: unset;
+}
+
+.titlebar { 
+  margin: calc(0px - -gtk-win32-size(window, cyframe) - -gtk-win32-size(window, cxpaddedborder))
+          calc(0px - -gtk-win32-size(window, cxframe) - -gtk-win32-size(window, cxpaddedborder));
+  margin-bottom: 0px;
+  padding: calc(-gtk-win32-size(window, cyframe) + -gtk-win32-size(window, cxpaddedborder))
+           calc(-gtk-win32-size(window, cxframe) + -gtk-win32-size(window, cxpaddedborder));
+  padding-bottom: 0px;
+  background: -gtk-win32-theme-part(window, 1, 1);
+  min-height: calc(-gtk-win32-size(window, cycaption) - -gtk-win32-size(window, cyframe) - -gtk-win32-size(window, cxpaddedborder));
+}
+
+decoration:backdrop {
+  background-image: -gtk-win32-theme-part(window, 1, 2),
+                    -gtk-win32-theme-part(window, 9, 2),
+                    -gtk-win32-theme-part(window, 7, 2),
+                    -gtk-win32-theme-part(window, 8, 2);
+}
+.titlebar:backdrop {
+    background: -gtk-win32-theme-part(window, 1, 2);
+}
+
+decoration:disabled {
+  background-image: -gtk-win32-theme-part(window, 1, 3),
+                    -gtk-win32-theme-part(window, 9, 3),
+                    -gtk-win32-theme-part(window, 7, 3),
+                    -gtk-win32-theme-part(window, 8, 3);
+}
+.titlebar:disabled {
+    background: -gtk-win32-theme-part(window, 1, 3);
+}
+
+.titlebar button.titlebutton {
+    margin-top: -gtk-win32-size(button, cyedge);
+    margin-bottom: -gtk-win32-size(button, cyedge);
+    margin-right: -gtk-win32-size(button, cxedge);
+    min-width: calc(-gtk-win32-size(button, cxsize) - 2 * -gtk-win32-size(button, cxedge));
+    min-height: calc(-gtk-win32-size(button, cysize) - 2 * -gtk-win32-size(button, cyedge));
+    background-repeat: no-repeat;
+    background-size: 100% calc(-gtk-win32-size(button, cysize) - 2 * -gtk-win32-size(button, cyedge));
+    background-position: 50% calc(100% - -gtk-win32-size(window, cycaption) + -gtk-win32-size(window, cysize) - -gtk-win32-size(window, cyedge));
+}
+
+/* XXX: headerbar insists on 6px spacing between buttons. Windows doesn't
+ * think so. */
+.titlebar .titlebutton + .titlebutton {
+  margin-left: -6px;
+}
+
+/* XXX: We don't draw icons here, but the GtkImage still sizes itself to 16x16,
+ * so shrink it enough: */
+.titlebar button.titlebutton image {
+  margin: -3px;
+}
+
+.titlebar button.close {
+    background-image: -gtk-win32-theme-part(window, 18, 1);
+    color: transparent;
+}
+
+.titlebar button.close:hover {
+    background-image: -gtk-win32-theme-part(window, 18, 2);
+}
+
+.titlebar button.close:active {
+    background-image: -gtk-win32-theme-part(window, 18, 3);
+}
+
+.titlebar button.close:disabled {
+    background-image: -gtk-win32-theme-part(window, 18, 4);
+}
+
+.titlebar button.minimize {
+    background-image: -gtk-win32-theme-part(window, 15, 1);
+    color: transparent;
+}
+
+.titlebar button.minimize:hover {
+    background-image: -gtk-win32-theme-part(window, 15, 2);
+}
+
+.titlebar button.minimize:active {
+    background-image: -gtk-win32-theme-part(window, 15, 3);
+}
+
+.titlebar button.minimize:disabled {
+    background-image: -gtk-win32-theme-part(window, 15, 4);
+}
+
+.titlebar button.maximize {
+    background-image: -gtk-win32-theme-part(window, 17, 1);
+    color: transparent;
+}
+
+.titlebar button.maximize:hover {
+    background-image: -gtk-win32-theme-part(window, 17, 2);
+}
+
+.titlebar button.maximize:active {
+    background-image: -gtk-win32-theme-part(window, 17, 3);
+}
+
+.titlebar button.maximize:disabled {
+    background-image: -gtk-win32-theme-part(window, 17, 4);
+}
+
+.maximized .titlebar button.maximize {
+    background-image: -gtk-win32-theme-part(window, 21, 1);
+}
+
+.maximized .titlebar button.maximize:hover {
+    background-image: -gtk-win32-theme-part(window, 21, 2);
+}
+
+.maximized .titlebar button.maximize:active {
+    background-image: -gtk-win32-theme-part(window, 21, 3);
+}
+
+.maximized .titlebar button.maximize:disabled {
+    background-image: -gtk-win32-theme-part(window, 21, 4);
+}

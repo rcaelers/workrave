@@ -55,6 +55,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+2")
 
 elseif ("${WITH_UI}" STREQUAL "Gtk+3")
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
+  install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
 
   set (icons
     "actions/go-"
@@ -89,7 +90,7 @@ elseif ("${WITH_UI}" STREQUAL "Gtk+3")
   install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
 
   install (FILES ${SYS_ROOT}/bin/librsvg-2-2.dll DESTINATION lib)
-  install (CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/etc/gtk-3.0/settings.ini\" \"[Settings]\ngtk-theme-name=win32\n\")")
+  install (CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/etc/gtk-3.0/settings.ini\" \"[Settings]\ngtk-theme-name=windows\n\")")
 endif()
 
 if (NOT MSYS)
