@@ -47,10 +47,10 @@ if [[ $COMPILER = 'gcc' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
     CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=gcc")
 elif [[ $COMPILER = 'clang' ]] ; then
-    CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++-8")
-    CMAKE_FLAGS64+=("-DCMAKE_CXX_COMPILER=clang++-8")
-    CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang-8")
-    CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=clang-8")
+    CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++-9")
+    CMAKE_FLAGS64+=("-DCMAKE_CXX_COMPILER=clang++-9")
+    CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang-9")
+    CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=clang-9")
 fi
 
 if [[ $TRAVIS_OS_NAME = 'osx' ]]; then
