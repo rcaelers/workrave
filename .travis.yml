@@ -210,8 +210,20 @@ jobs:
       env: >
         COMPILER="gcc"
         WITH_UI="Gtk+3"
+        CONFIGURATION="Release"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        DOCKER_IMAGE="mingw-gtk"
+      <<: *stage_build_docker
+      <<: *stage_deploy
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Gtk+3"
+        CONFIGURATION="Debug"
+        CONF_ENABLE="TRACING"
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE"
         DOCKER_IMAGE="mingw-gtk"
       <<: *stage_build_docker
       <<: *stage_deploy
