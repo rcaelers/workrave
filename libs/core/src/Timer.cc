@@ -42,7 +42,6 @@
 using namespace std;
 using namespace workrave::utils;
 
-//! Constructs a new break timer.
 Timer::Timer(const std::string &id) :
   timer_enabled(false),
   timer_frozen(false),
@@ -69,20 +68,15 @@ Timer::Timer(const std::string &id) :
 {
 }
 
-
-//! Destructor
 Timer::~Timer()
 {
   delete daily_auto_reset;
 }
 
-
-//! Enables the timer.
 void
 Timer::enable()
 {
   TRACE_ENTER_MSG("Timer::enable", timer_id << " " << timer_enabled);
-
   if (!timer_enabled)
     {
       timer_enabled = true;
@@ -109,8 +103,6 @@ Timer::enable()
   TRACE_EXIT();
 }
 
-
-//! Disables the timer.
 void
 Timer::disable()
 {
@@ -133,12 +125,11 @@ Timer::disable()
   TRACE_EXIT();
 }
 
-
-//! Snoozes the timer.
 void
 Timer::snooze_timer()
 {
   TRACE_ENTER_MSG("Timer::snooze_timer", timer_id);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_enabled)
     {
@@ -150,23 +141,22 @@ Timer::snooze_timer()
   TRACE_EXIT();
 }
 
-
 //! Prevents 'limit reached' snoozing until timer reset.
 void
 Timer::inhibit_snooze()
 {
   TRACE_ENTER_MSG("Timer::inhibit_snooze", timer_id);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   snooze_inhibited = true;
   compute_next_limit_time();
   TRACE_EXIT();
 }
 
-
-//! Starts the timer.
 void
 Timer::start_timer()
 {
   TRACE_ENTER_MSG("Timer::start_timer", timer_id << " " << timer_state);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_state != STATE_RUNNING)
     {
@@ -202,12 +192,11 @@ Timer::start_timer()
   TRACE_EXIT();
 }
 
-
-//! Stops the timer.
 void
 Timer::stop_timer()
 {
   TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state << " " << timer_state);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_state != STATE_STOPPED)
     {
@@ -233,12 +222,11 @@ Timer::stop_timer()
   TRACE_EXIT();
 }
 
-
-//! Resets and stops the timer.
 void
 Timer::reset_timer()
 {
   TRACE_ENTER_MSG("Timer::reset", timer_id << " " << timer_state);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   // Update total overdue.
   int64_t elapsed = get_elapsed_time();
@@ -282,19 +270,19 @@ Timer::reset_timer()
   TRACE_EXIT();
 }
 
-
-//! Freezes the elapsed time of the timer.
 void
 Timer::freeze_timer(bool freeze)
 {
   TRACE_ENTER_MSG("Timer::freeze_timer",
                   timer_id << freeze << " " <<
                   timer_enabled << " ");
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_enabled)
     {
       if (freeze && !timer_frozen)
         {
+          TRACE_MSG("freezing");
           // freeze timer.
           if (last_start_time != 0 && timer_state == STATE_RUNNING)
             {
@@ -304,6 +292,7 @@ Timer::freeze_timer(bool freeze)
         }
       else if (!freeze && timer_frozen)
         {
+          TRACE_MSG("unfreezing");
           // defrost timer.
           if (timer_state == STATE_RUNNING)
             {
@@ -319,12 +308,11 @@ Timer::freeze_timer(bool freeze)
   TRACE_EXIT();
 }
 
-
-//! Perform timer processing.
 TimerEvent
 Timer::process(bool user_is_active)
 {
   TRACE_ENTER_MSG("Timer::process", user_is_active);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
@@ -345,6 +333,7 @@ Timer::process(bool user_is_active)
       next_daily_reset_time != 0 &&
       TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
     {
+      TRACE_MSG("daily reset");
       // A next reset time was set and the current time >= reset time.
       // So reset the timer and send a reset event.
       reset_timer();
@@ -357,6 +346,7 @@ Timer::process(bool user_is_active)
     }
   else if (next_limit_time != 0 && current_time >= next_limit_time)
     {
+      TRACE_MSG("limit");
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
@@ -366,20 +356,20 @@ Timer::process(bool user_is_active)
     }
   else if (next_reset_time != 0 && current_time >=  next_reset_time)
     {
+      TRACE_MSG("reset");
       // A next reset time was set and the current time >= reset time.
       next_reset_time = 0;
       reset_timer();
 
       bool natural = is_limit_enabled() && limit_interval >= get_elapsed_time();
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
+      if (natural) { TRACE_MSG("natural");}
     }
 
   TRACE_RETURN(event);
   return event;
 }
 
-
-//! Returns the elapsed time.
 int64_t
 Timer::get_elapsed_time() const
 {
@@ -393,8 +383,6 @@ Timer::get_elapsed_time() const
   return ret;
 }
 
-
-//! Returns the elapsed idle time.
 int64_t
 Timer::get_elapsed_idle_time() const
 {
@@ -408,24 +396,18 @@ Timer::get_elapsed_idle_time() const
   return ret;
 }
 
-
-//!
 bool
 Timer::is_running() const
 {
   return timer_state == STATE_RUNNING;
 }
 
-
-//! Returns the enabled state.
 bool
 Timer::is_enabled() const
 {
   return timer_enabled;
 }
 
-
-//! Sets auto-reset time period.
 void
 Timer::set_auto_reset(int reset_time)
 {
@@ -439,8 +421,6 @@ Timer::set_auto_reset(int reset_time)
   compute_next_reset_time();
 }
 
-
-//! Sets the auto-reset predicate.
 void
 Timer::set_daily_reset(DayTimePred *predicate)
 {
@@ -449,9 +429,6 @@ Timer::set_daily_reset(DayTimePred *predicate)
   compute_next_daily_reset_time();
 }
 
-
-
-//! Enables or disables auto-reset.
 void
 Timer::set_auto_reset_enabled(bool b)
 {
@@ -459,33 +436,24 @@ Timer::set_auto_reset_enabled(bool b)
   compute_next_reset_time();
 }
 
-
-
-//! Does this timer have an auto reset?
 bool
 Timer::is_auto_reset_enabled() const
 {
   return auto_reset_enabled && auto_reset_interval > 0;
 }
 
-
-//! Returns the auto reset interval.
 int64_t
 Timer::get_auto_reset() const
 {
   return auto_reset_interval;
 }
 
-
-//! Returns the time the timer will reset.
 int64_t
 Timer::get_next_reset_time() const
 {
   return next_reset_time;
 }
 
-
-//! Sets the limit time in seconds.
 void
 Timer::set_limit(int limit_time)
 {
@@ -500,7 +468,6 @@ Timer::set_limit(int limit_time)
   compute_next_limit_time();
 }
 
-//! Enables or disables limiting
 void
 Timer::set_limit_enabled(bool b)
 {
@@ -511,47 +478,36 @@ Timer::set_limit_enabled(bool b)
     }
 }
 
-
-//! Does this timer have a limit set?
 bool
 Timer::is_limit_enabled() const
 {
   return limit_enabled && limit_interval > 0;
 }
 
-
-//! Returns the limit.
 int64_t
 Timer::get_limit() const
 {
   return limit_interval;
 }
 
-
-//! Returns the time the limit will be reached.
 int64_t
 Timer::get_next_limit_time() const
 {
   return next_limit_time;
 }
 
-
-//! Sets the snooze interval of the timer.
 void
 Timer::set_snooze(int64_t t)
 {
   snooze_interval = t;
 }
 
-
-//! Returns the snooze interval.
 int64_t
 Timer::get_snooze() const
 {
   return snooze_interval;
 }
 
-//! Gets ID of this timer.
 std::string
 Timer::get_id() const
 {
@@ -684,8 +640,6 @@ Timer::deserialize_state(const std::string &state, int version)
 //   TRACE_EXIT();
 // }
 
-
-//! Returns the total overdue time of the timer.
 int64_t
 Timer::get_total_overdue_time() const
 {
@@ -700,20 +654,17 @@ Timer::get_total_overdue_time() const
   return ret;
 }
 
-
-//! Daily Reset.
 void
 Timer::daily_reset()
 {
   total_overdue_timespan = 0;
 }
 
-
-//! Computes the time the limit will be reached.
 void
 Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   // default action. No next limit.
   next_limit_time = 0;
 
@@ -734,23 +685,25 @@ Timer::compute_next_limit_time()
                   next_limit_time = (last_start_time - elapsed_timespan +
                                      elapsed_timespan_at_last_limit + snooze_interval);
                 }
+              TRACE_MSG("Next limit time (1) = " << next_limit_time << " " << (next_limit_time - TimeSource::get_real_time_sec_sync()));
             }
           else
             {
               // The timer did not yet reaches its limit.
               // new limit = last start time + limit - elapsed.
               next_limit_time = last_start_time + limit_interval - elapsed_timespan;
+              TRACE_MSG("Next limit time (2) = " << next_limit_time << " " << (next_limit_time - TimeSource::get_real_time_sec_sync()));
             }
         }
     }
   TRACE_EXIT();
 }
 
-
-//! Computes the time the auto-reset must take place.
 void
 Timer::compute_next_reset_time()
 {
+  TRACE_ENTER_MSG("Timer::compute_next_reset_time", timer_id);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   // default action. No next reset.
   next_reset_time = 0;
 
@@ -762,16 +715,17 @@ Timer::compute_next_reset_time()
 
       // next reset time = last stop time + auto reset
       next_reset_time = last_stop_time + auto_reset_interval - elapsed_idle_timespan;
-
+      TRACE_MSG("Next reset time = " << next_reset_time << " " << (next_reset_time - TimeSource::get_real_time_sec_sync()));
       if (next_reset_time <= last_reset_time ||
           next_reset_time <= last_stop_time)
         {
           // Just is sanity check, can't reset before the previous one..
           next_reset_time = 0;
+          TRACE_MSG("Next reset time in past, setting to 0 ");
         }
     }
+    TRACE_EXIT();
 }
-
 
 void
 Timer::compute_next_daily_reset_time()
