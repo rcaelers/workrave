@@ -129,7 +129,7 @@ void
 Timer::snooze_timer()
 {
   TRACE_ENTER_MSG("Timer::snooze_timer", timer_id);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_enabled)
     {
@@ -146,7 +146,7 @@ void
 Timer::inhibit_snooze()
 {
   TRACE_ENTER_MSG("Timer::inhibit_snooze", timer_id);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   snooze_inhibited = true;
   compute_next_limit_time();
   TRACE_EXIT();
@@ -156,7 +156,7 @@ void
 Timer::start_timer()
 {
   TRACE_ENTER_MSG("Timer::start_timer", timer_id << " " << timer_state);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_state != STATE_RUNNING)
     {
@@ -196,7 +196,7 @@ void
 Timer::stop_timer()
 {
   TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state << " " << timer_state);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_state != STATE_STOPPED)
     {
@@ -226,7 +226,7 @@ void
 Timer::reset_timer()
 {
   TRACE_ENTER_MSG("Timer::reset", timer_id << " " << timer_state);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   // Update total overdue.
   int64_t elapsed = get_elapsed_time();
@@ -276,7 +276,7 @@ Timer::freeze_timer(bool freeze)
   TRACE_ENTER_MSG("Timer::freeze_timer",
                   timer_id << freeze << " " <<
                   timer_enabled << " ");
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   if (timer_enabled)
     {
@@ -312,7 +312,7 @@ TimerEvent
 Timer::process(bool user_is_active)
 {
   TRACE_ENTER_MSG("Timer::process", user_is_active);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
@@ -664,7 +664,7 @@ void
 Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   // default action. No next limit.
   next_limit_time = 0;
 
@@ -703,7 +703,7 @@ void
 Timer::compute_next_reset_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_reset_time", timer_id);
-  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+  TRACE_MSG(TimeSource::get_real_time_sec_sync() << "f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
   // default action. No next reset.
   next_reset_time = 0;
 
