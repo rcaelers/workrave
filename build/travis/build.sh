@@ -53,6 +53,8 @@ elif [[ $COMPILER = 'clang' ]] ; then
     CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=clang-9")
 fi
 
+CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONFIGURATION")
+
 if [[ $TRAVIS_OS_NAME = 'osx' ]]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
@@ -90,9 +92,11 @@ build "" CMAKE_FLAGS[@]
 mkdir ${DEPLOY_DIR}
 
 EXTRA=
-#if [ $CONFIGURATION == "Debug" ]; then
-#    EXTRA="-Debug"
-#fi
+CONFIG=release
+if [ $CONFIGURATION == "Debug" ]; then
+    EXTRA="-Debug"
+    CONFIG="debug"
+fi
 
 if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     if [[ -z "$TRAVIS_TAG" ]]; then
@@ -105,5 +109,5 @@ if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
 
     cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
 
-    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k installer -c release -p windows
+    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
 fi
