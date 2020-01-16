@@ -136,6 +136,9 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   set_can_focus(false);
 
+  set_accept_focus(false);  
+  set_focus_on_map(false);
+
   show_all_children();
   stick();
 
@@ -430,7 +433,7 @@ PreludeWindow::avoid_pointer()
 
   did_avoid = true;
   int winx, winy, width, height;
-  if (!!Platform::can_position_windows())
+  if (!Platform::can_position_windows())
     {
       Gtk::Allocation a = frame->get_allocation();
       winx = a.get_x();
@@ -442,6 +445,8 @@ PreludeWindow::avoid_pointer()
     {
       window->get_geometry(winx, winy, width, height);
     }
+
+  TRACE_MSG("x:" << winx << " y:" << winy << " w:" << width << " h:" << height);
 
   int screen_height = head.get_height();
   int top_y = head.get_y() + SCREEN_MARGIN;
@@ -456,6 +461,8 @@ PreludeWindow::avoid_pointer()
       winy = bottom_y;
     }
 
+  TRACE_MSG("new y:" << winy << " ty:" << top_y << " by:" << bottom_y << " h:" << screen_height);
+
   if (!Platform::can_position_windows())
     {
       if (winy == bottom_y)
@@ -466,12 +473,13 @@ PreludeWindow::avoid_pointer()
         {
           align->set(0.5, 0.1, 0.0, 0.0);
         }
-
-      return;
+    }
+  else
+    {
+      set_position(Gtk::WIN_POS_NONE);
+      move(winx, winy);
     }
 
-  set_position(Gtk::WIN_POS_NONE);
-  move(winx, winy);
   TRACE_EXIT();
 }
 

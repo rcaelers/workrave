@@ -131,7 +131,8 @@ TimeBar::set_rotation(int r)
   queue_resize();
 }
 
-void TimeBar::update()
+void 
+TimeBar::update()
 {
   queue_draw();
 }
@@ -244,7 +245,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
 #ifdef PLATFORM_OS_WINDOWS
-#if GTK_CHECK_VERSION(3,0,0)
   static const char timebar_style[] =
 		"* {\n"
     "    box-shadow: none;\n"
@@ -259,7 +259,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
   provider->load_from_data(timebar_style);
   style_context->add_provider(provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif
 #endif
 
   // Physical width/height

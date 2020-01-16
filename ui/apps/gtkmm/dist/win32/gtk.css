@@ -249,3 +249,9 @@ decoration:disabled {
 .maximized .titlebar button.maximize:disabled {
     background-image: -gtk-win32-theme-part(window, 21, 4);
 }
+
+.frame {
+    border-style: solid;
+    border-width: 2px;
+    border-image: -gtk-win32-theme-part(listview, 5, 1) 2 2 2 2 stretch;
+}

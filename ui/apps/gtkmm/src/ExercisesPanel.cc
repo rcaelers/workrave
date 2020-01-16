@@ -272,6 +272,18 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
       description_widget = description_box;
     }
 
+  const char style[] =
+  "* {\n"
+  "background-color: @theme_bg_color;\n"
+  "background-image: none;\n"
+  "}";
+
+  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::StyleContext> style_context = description_text.get_style_context();
+
+  css_provider->load_from_data(style);
+  style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
   // This is ugly, but I could not find a decent way to do this otherwise.
   //  size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
   //  size_group->add_widget(image_frame);
@@ -314,13 +326,6 @@ void
 ExercisesPanel::on_realize()
 {
   Gtk::HBox::on_realize();
-  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-
-  style_context->context_save();
-  style_context->set_state((Gtk::StateFlags)0);
-  style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
-  description_text.override_background_color(get_style_context()->get_background_color());
-  style_context->context_restore();
 }
 
 
