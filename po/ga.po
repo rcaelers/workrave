@@ -5,1006 +5,1327 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2018-08-10 14:37+0200\n"
-"PO-Revision-Date: 2011-02-16 19:23+0100\n"
-"Last-Translator: Seanán Ó Coistín <seananoc@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2015-12-13 19:05+0100\n"
+"PO-Revision-Date: 2020-01-10 15:27+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:1
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:305
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../frontend/applets/mate/src/main-gtk2.c:262
-msgid "_Open"
-msgstr "_Oscail"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:321
-#: ../frontend/applets/mate/src/main-gtk2.c:278
-msgid "_Restbreak"
-msgstr "_Sos"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:4
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:317
-#: ../frontend/applets/mate/src/main-gtk2.c:274
-msgid "_Exercises"
-msgstr "_Cleachtaí"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:15
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:309
-#: ../frontend/applets/mate/src/main-gtk2.c:266
-msgid "_Statistics"
-msgstr "_Staidreamh"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:325
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/applets/mate/src/main-gtk2.c:282
-msgid "_Mode"
-msgstr "_Mód"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:367
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/applets/mate/src/main-gtk2.c:324
-#, fuzzy
-msgid "Normal"
-msgstr "_Gnáth"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:371
-#: ../frontend/gtkmm/src/GUI.cc:1481
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:328
-msgid "Suspended"
-msgstr "Curtha ar fionraí"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:375
-#: ../frontend/gtkmm/src/GUI.cc:1485
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/applets/mate/src/main-gtk2.c:332
-msgid "Quiet"
-msgstr "Ciúin"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:9
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:329
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
-#: ../frontend/applets/mate/src/main-gtk2.c:286
-msgid "_Network"
-msgstr "_Líonra"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:333
-#: ../frontend/applets/mate/src/main-gtk2.c:290
-msgid "_Join"
-msgstr ""
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:11
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:337
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/applets/mate/src/main-gtk2.c:294
-msgid "_Disconnect"
-msgstr "_Dícheangail"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:341
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
-#: ../frontend/applets/mate/src/main-gtk2.c:298
-msgid "_Reconnect"
-msgstr "_Athcheangail"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:356
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
-#: ../frontend/applets/mate/src/main-gtk2.c:313
-#, fuzzy
-msgid "Show log"
-msgstr "Taispeáin an t-oireas"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:14
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:360
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
-#: ../frontend/applets/mate/src/main-gtk2.c:317
-msgid "Reading mode"
-msgstr "Mód léitheoireachta"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:2
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:313
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/applets/mate/src/main-gtk2.c:270
-msgid "_Preferences"
-msgstr "_Sainroghanna"
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:345
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:302
-#, fuzzy
-msgid "_About"
-msgstr "_Maidir le..."
-
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:17
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:349
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-#: ../frontend/applets/mate/src/main-gtk2.c:306
-msgid "_Quit"
-msgstr "_Scoir"
-
-#: ../backend/src/DistributionSocketLink.cc:140
-#, c-format
-msgid "Reconnecting to %s."
-msgstr "Ag nascadh arís le %s. "
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:441
-msgid "Could not enable network operation."
-msgstr "Níorbh fhéidir oibríocht líonra a chumasú."
-
-#: ../backend/src/DistributionSocketLink.cc:450
-msgid "Disabling network operation."
-msgstr "Ag díchumasú oibríocht líonra."
-
-#: ../backend/src/DistributionSocketLink.cc:566
-#: ../backend/src/DistributionSocketLink.cc:603
-#, c-format
-msgid "Connecting to %s."
-msgstr "Ag nascadh le %s."
-
-#: ../backend/src/DistributionSocketLink.cc:721
-#: ../backend/src/DistributionSocketLink.cc:754
-#, c-format
-msgid "Removing client %s."
-msgstr "Ag baint an cliant %s."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:803
-#, c-format
-msgid "Disconnecting %s"
-msgstr "Ag dínascadh %s"
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:973
-#, c-format
-msgid "Client %s is now master."
-msgstr "Tá an cliant %s i gceannas anois."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:980
-msgid "I'm now master."
-msgstr "Táim i gceannas anois."
-
-#: ../backend/src/DistributionSocketLink.cc:1352
-#: ../backend/src/DistributionSocketLink.cc:1413
-#, c-format
-msgid "Client %s saying hello."
-msgstr "Tá an cliant %s ag rá 'Hóra!'"
-
-#. Incorrect user.
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1361
-#: ../backend/src/DistributionSocketLink.cc:1445
-#, c-format
-msgid "Client %s access denied."
-msgstr "Diúltaíodh rochtain don cliant %s."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1435
-#: ../backend/src/DistributionSocketLink.cc:1568
-#: ../backend/src/DistributionSocketLink.cc:1820
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "Is dúblach é an cliant %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1517
-#, c-format
-msgid "Client %s signed off."
-msgstr "Dínasc an cliant %s."
-
-#. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1607
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "Tá an cliant %s ag fearadh fáilte dúinn."
-
-#: ../backend/src/DistributionSocketLink.cc:1856
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "Ag lorg cead bheith i gceannas ó %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1870
-#, c-format
-msgid "Client timeout from %s."
-msgstr "Tá an t-am istigh don cliant ar %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1898
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr ""
-"Diúltaigh an cliant neamhcheannasach %s don iarratas bheith i gceannas."
-
-#: ../backend/src/DistributionSocketLink.cc:1904
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "Ag admháil an t-iarratas bheith i gceanna ón gcliant %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1961
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr ""
-"Diúltaigh an cliant neamhcheannasach %s don iarratas bheith i gceannas."
-
-#: ../backend/src/DistributionSocketLink.cc:1966
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "Diúltaigh an cliant %s don iarratas bheith i gceannas. Fan."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:2042
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "Tá an cliant %s i gceannas anois."
-
-#: ../backend/src/DistributionSocketLink.cc:2174
-msgid "Network operation started."
-msgstr "Tosaíodh oibríocht líonra."
-
-#: ../backend/src/DistributionSocketLink.cc:2195
-msgid "Accepted new client."
-msgstr "Glacadh leis an gcliant nua."
-
-#: ../backend/src/DistributionSocketLink.cc:2271
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "Bhí botún sa léamh ag an gcliant %s. Tá sé á dúnadh."
-
-#: ../backend/src/DistributionSocketLink.cc:2277
-#: ../backend/src/DistributionSocketLink.cc:2348
-#, c-format
-msgid "Client %s closed connection."
-msgstr "Dún an cliant %s an ceangail."
-
-#: ../backend/src/DistributionSocketLink.cc:2318
-#, c-format
-msgid "Client %s connected."
-msgstr "Tá an cliant %s ceangailte."
-
-#: ../backend/src/DistributionSocketLink.cc:2354
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "Níorbh fhéidir nascadh leis an gcliant %s."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:119
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "_Normal"
-msgstr "_Gnáth"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Quiet"
-msgstr "_Ciúin"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:8
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
-msgid "_Suspended"
-msgstr "_Curtha ar fionraí"
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:10
-msgid "_Connect..."
-msgstr "_Ceangail..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:13
-msgid "_Show Log..."
-msgstr "_Taispeáin an tOireas..."
-
-#: ../frontend/applets/gnome2/src/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_About..."
-msgstr "_Maidir le..."
-
-#: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:1
-#: ../frontend/applets/xfce/src/workrave-xfce-applet.desktop.in.in.h:1
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ../frontend/applets/gnome2/src/Workrave-Applet.server.in.in.h:2
-msgid "Workrave Applet"
-msgstr "Feidhmchláirín Workrave"
-
-#: ../frontend/applets/gnome2/src/WorkraveApplet.c:360
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:208
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
-#: ../frontend/gtkmm/src/Menus.cc:376
-#: ../frontend/applets/mate/src/main-gtk2.c:206
-#: ../frontend/applets/mate/src/main-gtk3.c:218
-#: ../frontend/applets/xfce/src/main.c:292
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Cabhraíonn an ríomhchlár seo le Gortú Athstraidhneála a sheachaint agus "
-"biseach a fháil uaidh."
-
-#: ../frontend/common/src/SoundPlayer.cc:80
-msgid "Break prompt"
-msgstr "Leid an tsosa"
-
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break ignored"
-msgstr "Rinneadh neamhaird den sos"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Rest break started"
-msgstr "Tosaíodh an sos"
-
-#: ../frontend/common/src/SoundPlayer.cc:99
-msgid "Rest break ended"
-msgstr "Críochnaíodh an sos"
-
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Micro-break started"
-msgstr "Tosaíodh an mionshos"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break ended"
-msgstr "Críochnaíodh an mionshos"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1474 ../frontend/gtkmm/src/GtkUtil.cc:172
-msgid "Daily limit"
-msgstr "Teorainn laethúil"
-
-#: ../frontend/common/src/SoundPlayer.cc:123
-msgid "Exercise ended"
-msgstr "Críochnaíodh an cleachtadh"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercises ended"
-msgstr "Críochnaíodh na cleachtaí"
-
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercise change"
-msgstr "Athrú cleachtadh"
-
-#: ../frontend/common/src/SoundPlayer.cc:606
-msgid "Custom"
-msgstr "Saincheaptha"
-
-#: ../frontend/common/src/Text.cc:78
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d uaire"
-
-#: ../frontend/common/src/Text.cc:82
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d nóiméid"
-
-#: ../frontend/common/src/Text.cc:86
+"Language-Team: \n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n>=3 && n<=6 ? 2 : "
+"n>=7 && n<=10 ? 3 : 4);\n"
+"Language: ga_IE\n"
+
+#: ../ui/common/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d soicind"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:284
-#, fuzzy
-msgid "Lock..."
-msgstr "_Glasaigh"
+#: ../ui/common/src/Text.cc:88
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d nóiméid"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:288
-#, fuzzy
-msgid "Lock"
-msgstr "_Glasaigh"
+#: ../ui/common/src/Text.cc:84
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d uair an chloig"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:292
-#, fuzzy
-msgid "Shutdown"
-msgstr "_Múch"
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:422
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, ó %s go %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:296
-#, fuzzy
-msgid "Suspend"
-msgstr "Curtha ar fionraí"
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:260
+msgid "(font not available)"
+msgstr "(níl an chlófhoireann ar fáil)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:300
-msgid "Hibernate"
-msgstr ""
+#: ../ui/apps/qt5/src/AboutDialog.cc:55
+#, c-format
+msgid "<h3>Workrave %s</h3><br/>%s<br/>"
+msgstr "<h3>Workrave %s</h3><br/>%s<br/>"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:304
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "Curtha ar fionraí"
+#: ../ui/apps/qt5/src/AboutDialog.cc:48
+msgid "About Workrave"
+msgstr "Maidir le Workrave"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:439
-#, fuzzy
-msgid "_Skip"
-msgstr "_Ná bac leis"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:456
-#, fuzzy
-msgid "_Postpone"
-msgstr "_Iarchuir"
-
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"Sroich tú do theorainn laethúil. Stad ag obair taobh\n"
-"thiar do do ríomhaire le do thoil. Mura bhfuil do lá oibre\n"
-"críochnaithe go fóill, déan rud éigin eile, ar nós cáipéis a léamh."
-
-#: ../frontend/gtkmm/src/GUI.cc:310
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:806 ../frontend/gtkmm/src/GUI.cc:931
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "Tosaigh Workrave nuair a thosaíonn Windows"
-
-#: ../frontend/gtkmm/src/GUI.cc:808
-msgid "Is Workrave already running?"
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:926
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:929
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:1340
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr ""
-
-#: ../frontend/gtkmm/src/GUI.cc:1346
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1474 ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
-msgid "Micro-break"
-msgstr "Mionshos"
-
-#: ../frontend/gtkmm/src/GUI.cc:1474
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:226
-msgid "Rest break"
-msgstr "Sos"
-
-#: ../frontend/gtkmm/src/GUI.cc:1481 ../frontend/gtkmm/src/GUI.cc:1485
-msgid "Mode: "
-msgstr "Mód: "
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
-msgid "Open"
-msgstr "Oscail"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "Preferences"
-msgstr "Sainroghanna"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
-msgid "Exercises"
-msgstr "Cleachtaí"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
-#, fuzzy
-msgid "Mode"
-msgstr "_Mód"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:214
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:129
-msgid "Network"
-msgstr "Líonra"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-#, fuzzy
-msgid "Connect"
-msgstr "_Ceangail"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
-#, fuzzy
-msgid "Disconnect"
-msgstr "_Dícheangail"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
-#, fuzzy
-msgid "Reconnect"
-msgstr "_Athcheangail"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:221
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:164
-msgid "Statistics"
-msgstr "Staidreamh"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:222
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:213
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../ui/apps/qt5/src/Menus.cc:131
 msgid "About..."
-msgstr "Maidir le..."
+msgstr "Maidir leis..."
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:223
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-#, fuzzy
-msgid "Quit"
-msgstr "_Scoir"
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
+msgid "Activity"
+msgstr "Gníomhaíocht"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-msgid "_Rest break"
-msgstr "_Sos"
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:117
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:135
+msgid "Applet"
+msgstr "Feidhmchláirín"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
-msgid "Q_uiet"
-msgstr "Ci_úin"
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:137
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:93
+msgid "Applet enabled"
+msgstr "Tá an feidhmchláirín cumasaithe"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Connect"
-msgstr "_Ceangail"
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:1
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Cabhraíonn sé seo le Gortú Athstraidhneála a sheachaint agus biseach a fháil "
+"uaidh"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:113
-msgid "Show _log"
-msgstr "Taispeáin an t-oireas"
+#: ../ui/data/exercises/exercises.xml.in.h:7
+msgid "Backward shoulder stretch"
+msgstr "Síneadh ar gcúl do na guaillí"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
-msgid "_Reading mode"
-msgstr "_Mód léitheoireachta"
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:173
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:61
+msgid "Block input"
+msgstr "Coisc ionchur"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
-msgid "Please relax for a few seconds"
-msgstr "Lig do scíth ar feadh tamaillín"
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:174
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:62
+msgid "Block input and screen"
+msgstr "Coisc ionchur agus an scáileán"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:196
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:85
+msgid "Block mode:"
+msgstr "Mód coiscthe:"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:227
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:210
+msgid "Break duration:"
+msgstr "Fad an tsosa:"
+
+#: ../ui/common/src/SoundTheme.cc:64
+msgid "Break ignored"
+msgstr "Rinneadh neamhaird den sos"
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:311
+#: ../ui/apps/qt5/src/PreludeWindow.cc:230
 #, c-format
-msgid "Next rest break in %s"
-msgstr "Beidh an chéad shos eile i gceann %s"
+msgid "Break in %s"
+msgstr "Sos i gceann %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:249
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "Tá sos %s i ndiaidh ama"
+#: ../ui/common/src/SoundTheme.cc:58
+msgid "Break prompt"
+msgstr "Nod don sos"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Teorainn laethúil i gceann %s"
+#. Prelude frame
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:113
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:102
+msgid "Break prompting"
+msgstr "Meabhrú do na sosanna"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:267
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+msgid "Break prompts"
+msgstr "Nodanna do na sosanna"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:196
+msgid "Breaks"
+msgstr "Sosanna"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:232
+msgid "Breaks postponed"
+msgstr "Cuireadh na sosanna ar atráth"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:227
+msgid "Breaks skipped"
+msgstr "Sosanna nár bacadh leo"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:153
+msgid "Browse history"
+msgstr "Siortaigh an t-oireas"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
+msgid "Choose a sound"
+msgstr "Roghnaigh fuaim"
+
+#: ../ui/data/exercises/exercises.xml.in.h:14
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Clúdaigh do shúile le do bhosa i gcaoi is gur féidir leat do mhogaill súile "
+"fós a oscailt. Oscail anois do shúile agus féach ar an ndorchadas i do "
+"bhosa. Tugann an cleachtadh seo faoiseamh níos fearr do do shúile ná iad a "
+"dhúnadh amháin."
+
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:257
+#: ../ui/common/src/SoundTheme.cc:366
+msgid "Custom"
+msgstr "Saincheaptha"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:193
+msgid "Cycle time:"
+msgstr "Aga an timthrialla:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:247
+msgid "Daily"
+msgstr "Laethúil"
+
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:49
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:57 ../ui/apps/gtkmm/src/GUI.cc:1420
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:34
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:45 ../ui/common/src/SoundTheme.cc:94
+#: ../ui/common/src/Ui.cc:39
+msgid "Daily limit"
+msgstr "An teorainn laethúil"
+
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:150
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Tá an teorainn laethúil %s i ndiaidh ama"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
-msgid "General"
-msgstr "Coiteann"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
-msgid "Sounds"
-msgstr "Fuaimeanna"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
-msgid "Status Window"
-msgstr "Treofhuinneog"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:118
-msgid "Applet"
-msgstr "Feidhmchláirín"
-
-#. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:126
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
-msgid "Timers"
-msgstr "Uaineadóirí"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:127
-msgid "User interface"
-msgstr "Comhéadan"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:180
-msgid "No blocking"
-msgstr "Gan bac"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:181
-msgid "Block input"
-msgstr "Coisc ionchur"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
-msgid "Block input and screen"
-msgstr "Coisc ionchur agus scáileán"
-
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:202
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Options"
-msgstr "Roghanna"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
-msgid "Block mode:"
-msgstr "Mód "
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:224
-msgid "System default"
-msgstr "Réamhshocrú an chórais"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:268
-msgid "(font not available)"
-msgstr "(níl an chlófhoireann sin ar fáil)"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:293
-msgid "Language:"
-msgstr "Teanga:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "Tosaigh Workrave nuair a thosaíonn Windows"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
-msgid "Show system tray icon"
-msgstr "Taispeáin deilbhín tráidire an chórais"
-
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:340
-msgid "Sound Options"
-msgstr "Roghanna Fuaime"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
-msgid "No sounds"
-msgstr "Gan fuaimeanna"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
-msgid "Play sounds using sound card"
-msgstr "Seinn fuaimeanna ag baint feidhm as an gcárta fuaime"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
-msgid "Play sounds using built-in speaker"
-msgstr "Seinn fuaimeanna trí na callairí ionsuite"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:377
-msgid "Volume:"
-msgstr "Airde:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:380
-msgid "Sound:"
-msgstr "Fuaim:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:386
-msgid "Mute sounds during rest break and daily limit"
-msgstr ""
-"Balbhaigh fuaimeanna i rith na sosanna agus nuair a shroichtear an teorainn "
-"laethúil"
-
-#. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-msgid "Sound Events"
-msgstr "Teagmhais Fuaime"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
-msgid "Sound Theme:"
-msgstr "Téama Fuaime:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:427
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:445
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:475
-msgid "Play"
-msgstr "Seinn:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:432
-msgid "Event"
-msgstr "Teagmhas"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:448
-msgid "Choose a sound"
-msgstr "Roghnaigh fuaim"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:460
-msgid "Wavefiles"
-msgstr "Comhaid .wav"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:561
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:567
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Gluaiseacht na luchóige:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:124
-msgid "Time for a micro-break?"
-msgstr "Tóg mionshos?"
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:128
-msgid "You need a rest break..."
-msgstr "Tá mionshos de dhíth uait..."
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:132
-msgid "You should stop for today..."
-msgstr "Ba chóir duit éirí as d'obair i gcóir inniu..."
-
-#: ../frontend/gtkmm/src/PreludeWindow.cc:307
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:266
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:146
 #, c-format
-msgid "Break in %s"
-msgstr "Beidh sos i gceann %s"
+msgid "Daily limit in %s"
+msgstr "Teorainn laethúil i gceann %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:311
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:160
+msgid "Daily limit:"
+msgstr "Teorainn laethúil:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:165
+msgid "Date:"
+msgstr "Dáta:"
+
+#. Delete button
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:158
+msgid "Delete all statistics history"
+msgstr "Scrios oireas an staidrimh go léir"
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:315
+#: ../ui/apps/qt5/src/PreludeWindow.cc:234
 #, c-format
 msgid "Disappears in %s"
 msgstr "Imíonn sé as radharc i gceann %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:315
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:180
+msgid "Display"
+msgstr "Taispeáint"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:362
+msgid "Effective mouse movement:"
+msgstr "Gluaiseacht éifeachtach na luchóige:"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:186
+msgid "Enable shutting down the computer from the rest screen"
+msgstr "Cumasaigh gur féidir an ríomhaire a mhúchadh ón scáileán scíthe"
+
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:74
+msgid "Enable sounds"
+msgstr "Cumasaigh fuaimeanna"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:554
+msgid ""
+"Enable this option if Workrave fails to detect when you are using your "
+"computer"
+msgstr ""
+"Cumasaigh an rogha seo má theipeann ar Workrave brath go bhfuil feidhm á "
+"baint as do ríomhaire agat"
+
+#. Enabled/Disabled checkbox
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:72
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:64
+msgid "Enable timer"
+msgstr "Cumasaigh uaineadóir"
+
+#. sounds_view->setColumnWidth(0, 100);
+#. sounds_view->setColumnWidth(1, 200);
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:117
+msgid "Enabled"
+msgstr "Cumasaithe"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:304
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:119
+msgid "End exercises"
+msgstr "Cuir críoch leis na cleachtaí"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:756
+msgid "Error"
+msgstr "Earráid"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:419
+msgid "Event"
+msgstr "Teagmhas"
+
+#: ../ui/common/src/SoundTheme.cc:112
+msgid "Exercise change"
+msgstr "Athrú ar chleachtaí"
+
+#: ../ui/common/src/SoundTheme.cc:100
+msgid "Exercise ended"
+msgstr "Tá an cleachtadh críochnaithe"
+
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:195
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:175
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:78
+#: ../ui/apps/qt5/src/Menus.cc:89
+msgid "Exercises"
+msgstr "Cleachtaí"
+
+#: ../ui/common/src/SoundTheme.cc:106
+msgid "Exercises ended"
+msgstr "Tá na cleachtaí críochnaithe"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:264
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:94
+msgid "Exercises player"
+msgstr "Seinnteoir na gcleachtaí"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:752
+msgid "File deletion failed!"
+msgstr "Theip ar scriosadh na gcomhad!"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:742
+msgid "Files deleted!"
+msgstr "Scriosadh na comhaid!"
+
+#: ../ui/data/exercises/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Síneadh na méar"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:104
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:132
+msgid "General"
+msgstr "Coiteann"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:332
+msgid "Hibernate"
+msgstr "Suanaigh"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:157
+msgid "Hide"
+msgstr "Folaigh é"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:746
+msgid "Info"
+msgstr "Faisnéis"
+
+#: ../ui/data/exercises/exercises.xml.in.h:8
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Snaidhm do mhéara ina chéile taobh thiar de do dhroim. Ina dhiaidh sin, cas "
+"d'uillinneacha go réidh isteach agus dírigh do lámha. Fan mar sin ar feadh 5 "
+"go 15 shoicind, agus déan faoi dhó an cleachtadh seo."
+
+#: ../ui/apps/gtkmm/src/GUI.cc:778
+msgid "Is Workrave already running?"
+msgstr "An bhfuil Workrave ag rith cheana?"
+
+#: ../ui/data/exercises/exercises.xml.in.h:2
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Coinnigh lámh amháin sínte go cothrománach os comhair do chliabhrach. Brúigh "
+"an lámh seo chugat le do lámh eile go dtí go mbraitheann tú teannas bog i do "
+"ghualainn. Coinnigh mar sin ar feadh tamaillín, agus déan an cleachtadh arís "
+"do do lámh eile."
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:371
+msgid "Keystrokes:"
+msgstr "Eochairbhuillí:"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:285
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:173
+msgid "Language:"
+msgstr "Teanga:"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:320
+#: ../ui/apps/qt5/src/BreakWindow.cc:146
+msgid "Lock"
+msgstr "Cuir glas air"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:316
+msgid "Lock..."
+msgstr "Cuir glas air..."
+
+#: ../ui/data/exercises/exercises.xml.in.h:10
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+"Féach ar an gcúinne ar barr an taoibh chlé d'imeall an scáileán agat. Lean "
+"an t-imeall go mall le do shúile go dtí an cúinne ar barr an taoibh dheise. "
+"Lean ar aghaidh go dtí an chéad chúinne eile go dtí go bhfuil sé leanta agat "
+"faoi dhó. Ansin, déan arís é ach téigh sa treo eile."
+
+#: ../ui/data/exercises/exercises.xml.in.h:12
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"Aimsigh le do shúile an áit is faide uait lastall scáileán do ríomhaire. "
+"Dírigh do shúile ar an áit atá i bhfad uait. Ina dhiaidh sin, dírigh do "
+"shúile ar imeall an scáileáin. Déan arís é. Murar féidir leat breathnú ar "
+"rudaí i bhfad ó do scáileán, tabhair aghaidh ar threo eile ina bhfuil "
+"radharc níos faide ar fáil. Agus sin déanta agat, malartaigh do radharc idir "
+"réad atá i bhfad uait agus peann atá an fad céanna ó do shúile agus atá do "
+"scáileán."
+
+#: ../ui/data/exercises/exercises.xml.in.h:13
+msgid "Look into the darkness"
+msgstr "Féach sa dorchadas"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:119
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:110
+msgid "Maximum number of prompts:"
+msgstr "Líon uasta noda:"
+
+#. FIXME: duplicate
+#: ../ui/apps/gtkmm/src/GUI.cc:1420 ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:56
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:181
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:279 ../ui/common/src/Ui.cc:33
+msgid "Micro-break"
+msgstr "Sos beag"
+
+#: ../ui/common/src/SoundTheme.cc:88
+msgid "Micro-break ended"
+msgstr "Tá an sos beag críochnaithe"
+
+#: ../ui/common/src/SoundTheme.cc:82
+msgid "Micro-break started"
+msgstr "Tosaíodh an sos beag"
+
+#. Layout
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+msgid "Micro-break:"
+msgstr "Sos beag:"
+
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:196
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:206 ../ui/apps/qt5/src/Menus.cc:93
+msgid "Mode"
+msgstr "Mód"
+
+#: ../ui/apps/gtkmm/src/GUI.cc:1427 ../ui/apps/gtkmm/src/GUI.cc:1431
+msgid "Mode: "
+msgstr "Mód: "
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:257
+msgid "Monthly"
+msgstr "Míosúil"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:367
+msgid "Mouse button clicks:"
+msgstr "Fuaimeanna nuair a bhrúitear cnaipí na luchóige:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:358
+msgid "Mouse movement:"
+msgstr "Gluaiseacht na luchóige:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:354
+msgid "Mouse usage:"
+msgstr "Úsáid na luchóige:"
+
+#: ../ui/data/exercises/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Bog do shúile"
+
+#: ../ui/data/exercises/exercises.xml.in.h:15
+msgid "Move the shoulders"
+msgstr "Bog do ghuaillí"
+
+#: ../ui/data/exercises/exercises.xml.in.h:17
+msgid "Move the shoulders up and down"
+msgstr "Bog suas síos do ghuaillí"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:375
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:82
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Balbhaigh fuaimeanna le linn an tsosa agus le linn na teorann laethúla"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:222
+msgid "Natural breaks taken"
+msgstr "Sosanna aiceanta a glacadh"
+
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:203
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:143
+msgid "Natural rest break"
+msgstr "Sos aiceanta"
+
+#: ../ui/data/exercises/exercises.xml.in.h:5
+msgid "Neck tilt stretch"
+msgstr "Síneadh muineál le claonadh"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:299
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:117
+msgid "Next exercise"
+msgstr "An chéad chleachtadh eile"
+
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:248
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:133
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Beidh an chéad shos scíth eile i gceann %s"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:172
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:60
+msgid "No blocking"
+msgstr "Gan bhac"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:344
+msgid "No sounds"
+msgstr "Gan fuaimeanna"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:366
+#: ../ui/applets/mate/src/main.c:324
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:198 ../ui/apps/qt5/src/Menus.cc:97
+msgid "Normal"
+msgstr "Gnáth"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:175
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:162
+msgid "Number of exercises:"
+msgstr "Líon na gcleachtaí:"
+
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/qt5/src/Menus.cc:74
+msgid "Open"
+msgstr "Oscail"
+
+#. Options
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:137
+msgid "Options"
+msgstr "Roghanna"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:237
+msgid "Overdue time"
+msgstr "Am thar am"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+msgid "Pause"
+msgstr "Cuir ar sos é"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:300
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:494
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:118
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:292
+msgid "Pause exercises"
+msgstr "Cuir na cleachtaí ar sos"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:113
+msgid "Place all timers in one spot"
+msgstr "Cuir gach uaineadóir in aon bhall amháin"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:111
+msgid "Place micro-break and rest break in one spot"
+msgstr "Cuir an sos beag agus an sos scíthe in aon bhall amháin"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:86
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:112
+msgid "Place rest break and daily limit in one spot"
+msgstr "Cuir an sos scíthe agus an teorainn laethúil in aon bhall amháin"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:110
+msgid "Place timers next to each other"
+msgstr "Cuir na huaineadóirí le hais a chéile"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:192
+msgid "Placement:"
+msgstr "Ionadú:"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:414
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:462
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:146
+msgid "Play"
+msgstr "Seinn é"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:345
+msgid "Play sounds using sound card"
+msgstr "Seinn fuaimeanna ag baint feidhm as an gcárta fuaimeanna"
+
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:241
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:127
+msgid "Please relax for a few seconds"
+msgstr "Lig do scíth ar feadh roinnt soicind"
+
+#: ../ui/apps/qt5/src/BreakWindow.cc:179
+msgid "Postpone"
+msgstr "Cuir siar é"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:225
+msgid "Postpone time:"
+msgstr "Aga ar fionraí:"
+
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:79
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ../ui/apps/qt5/src/Menus.cc:79
+msgid "Preferences"
+msgstr "Sainroghanna"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:298
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:116
+msgid "Previous exercise"
+msgstr "An cleachtadh roimhe"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:115
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:106
+msgid "Prompt before breaking"
+msgstr "Nod roimh shos"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:217
+msgid "Prompted breaks taken"
+msgstr "Na sosanna le noda a glacadh"
+
+#: ../ui/data/exercises/exercises.xml.in.h:18
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Leag do lámha ar thacaí uillinne do chathaoir agus tú i do shuí agus brúigh "
+"do cholainn suas go dtí go bhfuil do lámha díreach. Déan iarracht do cheann "
+"a bhogadh níos faide chun cinn trí do ghuaillí a ísliú. Tuirling go mall i "
+"do chathaoir arís."
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+msgid "Q_uiet"
+msgstr "C_iúin"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:374
+#: ../ui/applets/mate/src/main.c:332 ../ui/apps/gtkmm/src/GUI.cc:1431
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:202
+#: ../ui/apps/qt5/src/Menus.cc:112
+msgid "Quiet"
+msgstr "Ciúin"
+
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:214
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:126
+#: ../ui/apps/qt5/src/Menus.cc:136
+msgid "Quit"
+msgstr "Scoir"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:359
+#: ../ui/applets/mate/src/main.c:317
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:208
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ../ui/apps/qt5/src/Menus.cc:119
+msgid "Reading mode"
+msgstr "Mód léitheoireachta"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:165
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:153
+msgid "Regard micro-breaks as activity"
+msgstr "Caith le sosanna beaga mar ghníomhaíocht"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:212
+msgid "Repeated prompts"
+msgstr "Noda arís agus arís eile"
+
+#: ../ui/apps/gtkmm/src/GUI.cc:1420
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:171
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:149
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:209 ../ui/apps/qt5/src/Menus.cc:84
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:72
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:46
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:149 ../ui/common/src/Ui.cc:36
+msgid "Rest break"
+msgstr "Sos scíthe"
+
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ../ui/apps/qt5/src/MicroBreakWindow.cc:137
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Tá sos scíthe %s thar am"
+
+#: ../ui/common/src/SoundTheme.cc:76
+msgid "Rest break ended"
+msgstr "Tá an sos scíthe críochnaithe"
+
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:161
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:97
+#, c-format
+msgid "Rest break for %s"
+msgstr "Sos scíthe ar feadh %s"
+
+#: ../ui/common/src/SoundTheme.cc:70
+msgid "Rest break started"
+msgstr "Tá an sos scíthe tosaithe"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+msgid "Rest break:"
+msgstr "Sos scíthe:"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:487
+msgid "Resume"
+msgstr "Atosaigh é"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:492
+#: ../ui/apps/qt5/src/ExercisesPanel.cc:288
+msgid "Resume exercises"
+msgstr "Atosaigh cleachtaí"
+
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:186
+msgid "Select"
+msgstr "Roghnaigh"
+
+#: ../ui/data/exercises/exercises.xml.in.h:4
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Scar do mhéara óna chéile agus sín iad go dtí go mbraitear teannas bog, agus "
+"coinnigh mar sin iad ar feadh 10 soicind. Lig do scíth, agus ina dhiaidh sin "
+"crom do mhéara ag na hailt, agus coinnigh mar sin iad ar feadh 10 soicind. "
+"Déan an cleachtadh seo uair amháin eile."
+
+#: ../ui/data/exercises/exercises.xml.in.h:1
+msgid "Shoulder-arm stretch"
+msgstr "Síneadh guaillí agus lámha"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:112
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:158
+msgid "Show"
+msgstr "Taispeáin"
+
+#. Ignorable
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:142
+msgid "Show 'Postpone' button"
+msgstr "Taispeáin an cnaipe 'Cuir siar é'"
+
+#. Skippable
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:146
+msgid "Show 'Skip' button"
+msgstr "Taispeáin an cnaipe 'Léim thar seo'"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:355
+#: ../ui/applets/mate/src/main.c:313
+msgid "Show log"
+msgstr "Taispeáin an t-oireas"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:159
+msgid "Show only when this timer is first due"
+msgstr ""
+"Ná taispeáin seo ach amháin nuair atá an t-uaineadóir seo dlite den chéad "
+"uair"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:89
+msgid "Show status window"
+msgstr "Taispeáin an threofhuinneog"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:314
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:189
+msgid "Show system tray icon"
+msgstr "Taispeáin deilbhín thrádaire an chórais"
+
+#: ../ui/apps/qt5/src/BreakWindow.cc:157
+msgid "Shut down"
+msgstr "Múch é"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:324
+msgid "Shutdown"
+msgstr "Múchadh"
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:319
+#: ../ui/apps/qt5/src/PreludeWindow.cc:238
 #, c-format
 msgid "Silent in %s"
 msgstr "Ciúin i gceann %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:178
-#, c-format
-msgid "Rest break for %s"
-msgstr "Sos ar feadh %s"
+#: ../ui/apps/qt5/src/BreakWindow.cc:168
+msgid "Skip"
+msgstr "Léim thar seo"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:220
-msgid "Natural rest break"
-msgstr "Sos óraice"
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:118
+msgid "Sound"
+msgstr "Fuaim"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:221
+#. Sound themes
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:383
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:87
+msgid "Sound Events"
+msgstr "Teagmhais Fuaime"
+
+#. Options
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:332
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:55
+msgid "Sound Options"
+msgstr "Roghanna Fuaime"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:391
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:93
+msgid "Sound Theme:"
+msgstr "An Téama Fuaime:"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:369
+msgid "Sound:"
+msgstr "Fuaim:"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:133
+msgid "Sounds"
+msgstr "Fuaimeanna"
+
+#: ../ui/data/exercises/exercises.xml.in.h:16
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"Cas go mall le hais do cholainn do dheasóg amhail is gur lián eitleáin é. "
+"Déan seo 4 huaire ar aghaidh, 4 huaire ar gcúl agus ansin lig do scíth ar "
+"feadh tamaillín. Déan an rud céanna le do chiotóg."
+
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:178
+msgid "Start Workrave on Windows startup"
+msgstr "Tosaigh Workrave tráth a thosaítear Windows"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:299
+msgid "Start Workrave on logon"
+msgstr "Tosaigh Workrave tráth a thosaítear an ríomhaire"
+
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:171
+msgid "Start restbreak when screen is locked"
+msgstr "Tosaigh an sos scíthe nuair atá glas ar an scáileán"
+
+#: ../ui/data/exercises/exercises.xml.in.h:6
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Bíodh do cheann díreach agus go sócúlach agat. Ansin, claon do cheann go "
+"réidh mall chuig do ghualainn ar dheis chun na matáin ar an taobh clé de do "
+"mhuineál a shíneadh go réidh. Fan mar sin ar feadh 5 shoicind. Ansin, claon "
+"do cheann ar chlé chun an taobh eile a shíneadh. Déan seo faoi dhó don dá "
+"thaobh."
+
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:212
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:179
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:63
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:164
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ../ui/apps/qt5/src/Menus.cc:126
+msgid "Statistics"
+msgstr "Staidreamh"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:113
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:134
+msgid "Status Window"
+msgstr "Fuinneog Stádais"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:328
+msgid "Suspend"
+msgstr "Cuir ar fionraí é"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:336
+msgid "Suspend hybrid"
+msgstr "Cuir an hibrid ar fionraí"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:370
+#: ../ui/applets/mate/src/main.c:328 ../ui/apps/gtkmm/src/GUI.cc:1427
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:200
+#: ../ui/apps/qt5/src/Menus.cc:104
+msgid "Suspended"
+msgstr "Curtha ar fionraí"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:216
+#: ../ui/apps/qt5/src/GeneralUiPreferencesPanel.cc:120
+msgid "System default"
+msgstr "Réamhshocrú an chórais"
+
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:192
+msgid "Take rest break now"
+msgstr "Glac sos scíthe anois"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:753
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+"Níorbh fhéidir na comhaid ina bhfuil oireas do staidreamh a scriosadh. Féach "
+"arís é?"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:743
+msgid "The files containing your statistics history have been deleted."
+msgstr "Scriosadh na comhaid ina raibh oireas do staidreamh."
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:233
+msgid "The number of breaks you postponed"
+msgstr "Líon na sosanna do chuir tú ar atráth iad"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:228
+msgid "The number of breaks you skipped"
+msgstr "Líon na sosanna nár bhac tú leo"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:218
+msgid "The number of times you took a break when being prompted"
+msgstr "Líon na n-uaireanta ar ghlac tú sos nuair a tugadh noda duit"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:223
+msgid "The number of times you took a break without being prompted"
+msgstr "Líon na n-uaireanta ar ghlac tú sos gan noda a bheith tugtha duit"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:207
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr ""
+"Líon na n-uaireanta a tugadh noda duit chun sos a ghlacadh, gan noda a "
+"ndearnadh arís is arís don sos céanna san áireamh"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:213
+msgid "The number of times you were repeatedly prompted to break"
+msgstr ""
+"Líon na n-uaireanta a tugadh noda duit arís is arís chun sos a ghlacadh"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:103
+msgid "The status window stays always on top of other windows"
+msgstr "Fanann an treofhuinneog i gcónaí os cionn fuinneoga eile"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:248
+msgid "The total computer usage for the selected day"
+msgstr "Úsáid iomlán an ríomhaire don lá roghnaithe"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:258
+msgid "The total computer usage for the whole month of the selected day"
+msgstr "Úsáid iomlán an ríomhaire don mhí ar fad ar an lá roghnaithe"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:253
+msgid "The total computer usage for the whole week of the selected day"
+msgstr "Úsáid iomlán an ríomhaire don tseachtain ar fad an lae roghnaithe"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:363
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Gluaiseacht iomlán na luchóige a bheadh agat dá bhogfá do luchóg i dtreonna "
+"díreacha idir bhrúnna"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:372
+msgid "The total number of keys pressed"
+msgstr "Líon iomlán na gcnaipí a brúdh"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:368
+msgid "The total number of mouse button clicks"
+msgstr "Líon iomlán na n-uaireanta a brúdh cnaipí na luchóige"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:359
+msgid "The total on-screen mouse movement"
+msgstr "Gluaiseacht iomlán na luchóige ar an scáileán"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:238
+msgid "The total time this break was overdue"
+msgstr "An t-am iomlán a bhí an sos seo thar am"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
+msgid "The total time you were using the mouse"
+msgstr "An t-am iomlán a bhí tú ag baint feidhm as an luchóg"
+
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:204
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:144
 msgid "This is your natural rest break."
-msgstr "Seo é do shos óraice."
+msgstr "Seo é do shos aiceanta."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:227
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:210
+#: ../ui/apps/qt5/src/RestBreakWindow.cc:150
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Seo é do shos. Déan cinnte go seasann tú agus\n"
-"siúl ó do ríomhaire go rialta. Siúl ar feadh tamaillín, sín,\n"
-"agus lig do scíth."
+"Seo é do shos scíthe. Déan cinnte go seasann tú agus\n"
+"go siúlann tú ó do ríomhaire go rialta. Siúl \n"
+"ar feadh tamaillín, sín, agus lig do scíth."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:190
-msgid "Take rest break now"
-msgstr "Tóg sos anois"
-
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:212
-msgid "Wait"
-msgstr "Fan"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place timers next to each other"
-msgstr "Cuir na huaineadóirí le hais a chéile"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
-msgid "Place micro-break and rest break in one spot"
-msgstr "Cuir an mionshos agus an sos in aon áit amháin"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Place rest break and daily limit in one spot"
-msgstr "Cuir an sos agus an teorainn laethúil in aon áit amháin"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
-msgid "Place all timers in one spot"
-msgstr "Cuir na huaineadóirí in aon áit amháin"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
-msgid "Hide"
-msgstr "Folaigh"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:119
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
-msgid "Show"
-msgstr "Taispeáin"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Show only when this timer is first due"
-msgstr "Taispeáin amháin nuair atá an t-uaineadóir seo dlite ar dtús"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Show status window"
-msgstr "Taispeáin an threofhuinneog"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
-msgid "The status window stays always on top of other windows"
-msgstr "Fanann an threofhuinneog ar mhullach fuinneoga eile i gcónaí"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
-msgid "Applet enabled"
-msgstr "Cumasaíodh an feidhmchláirín"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
-msgid "Display"
-msgstr "Taispeáint"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:159
-msgid "Placement:"
-msgstr "Ionadú:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
-msgid "Cycle time:"
-msgstr "Aga an timthrialla:"
-
-#. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-msgid "Micro-break:"
-msgstr "Mionshos:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
-msgid "Rest break:"
-msgstr "Sos:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
-msgid "Daily limit:"
-msgstr "Teorainn laethúil:"
-
-#. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
-msgid "Enable timer"
-msgstr "Cumasaigh uaineadóir"
-
-#. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
-msgid "Break prompting"
-msgstr "Leideanna do shosanna"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
-msgid "Prompt before breaking"
-msgstr "Tabhair leid roimh shos"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
-msgid "Maximum number of prompts:"
-msgstr "Uaslíon na leideanna:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "Taispeáin na cnaipí 'Iarchuir' agus 'Ná bac leis'"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "Taispeáin na cnaipí 'Iarchuir' agus 'Ná bac leis'"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
-msgid "Suspend timer when inactive"
-msgstr "Cuir an t-uaineadóir ar fionraí nuair atá sé neamhghníomhach"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:179
-msgid "Regard micro-breaks as activity"
-msgstr "Caith le mionshos mar gur ghníomhaíocht é"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Number of exercises:"
-msgstr "Líon na gcleachtaí:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Start restbreak when screen is locked"
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:207
+#: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:218
+#: ../ui/applets/mate/src/main.c:206 ../ui/applets/xfce/src/main.c:291
+#: ../ui/apps/gtkmm/src/Menus.cc:365 ../ui/apps/qt5/src/AboutDialog.cc:63
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
 msgstr ""
+"Cuidíonn an ríomhchlár seo le gortú athstraidhneála a sheachaint agus chun "
+"biseach a fháil uaidh."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:219
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:196
 msgid "Time before end:"
 msgstr "Am roimh an deireadh:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:197
 msgid "Time between breaks:"
 msgstr "Am idir shosanna:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:249
-msgid "Break duration:"
-msgstr "Aga an tsosa:"
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ../ui/apps/qt5/src/PreludeWindow.cc:69
+msgid "Time for a micro-break?"
+msgstr "An tráth é i gcomhair sos beag?"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:264
-msgid "Postpone time:"
-msgstr "Aga ar fionraí:"
+#. Notebook
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:121
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:65
+#: ../ui/apps/qt5/src/TimerBoxPreferencesPanel.cc:195
+#: ../ui/apps/qt5/src/TimerPreferencesPanel.cc:187
+msgid "Timers"
+msgstr "Uaineadóirí"
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
+#: ../ui/data/exercises/exercises.xml.in.h:11
+msgid "Train focusing the eyes"
+msgstr "Oil do shúile díriú ar áit amháin"
+
+#: ../ui/data/exercises/exercises.xml.in.h:19
+msgid "Turn your head"
+msgstr "Iompaigh do cheann"
+
+#: ../ui/data/exercises/exercises.xml.in.h:20
 msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
 msgstr ""
-"Cabhraíonn sé le Gortú Athstraidhneála a sheachaint agus biseach a fháil "
-"uaidh"
+"Cas do cheann ar chlé agus coinnigh ansin é ar feadh 2 shoicind. Tar éis "
+"sin, cas do cheann ar dheis agus coinnigh ansin é ar feadh 2 shoicind."
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:2
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:242
+msgid "Usage"
+msgstr "Úsáid"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:548
+msgid "Use alternate monitor"
+msgstr "Bain feidhm as scáileán eile"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:122
+#: ../ui/apps/qt5/src/PreferencesDialog.cc:68
+msgid "User interface"
+msgstr "An comhéadan úsáideora"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
+#: ../ui/apps/qt5/src/SoundsPreferencesPanel.cc:70
+msgid "Volume:"
+msgstr "Airde:"
+
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:214
+#: ../ui/apps/qt5/src/TimerBoxView.cc:102
+msgid "Wait"
+msgstr "Fan"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:726
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:730
+msgid "Warning"
+msgstr "Rabhadh"
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:447
+msgid "Wavefiles"
+msgstr "Comhaid .wav"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:252
+msgid "Weekly"
+msgstr "Seachtainiúil"
+
+#: ../ui/apps/qt5/src/Application.cc:603 ../ui/apps/qt5/src/Application.cc:609
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../ui/apps/gtkmm/src/GUI.cc:776
+msgid "Workrave failed to start"
+msgstr "Theip ar Workrave tosú"
+
+#: ../ui/apps/gtkmm/src/GUI.cc:1292 ../ui/apps/qt5/src/Application.cc:610
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr ""
+"Tá Workrave sa mhód ciúin. Ní thaispeánfar aon fhuinneog i dtaobh sosa."
+
+#: ../ui/apps/gtkmm/src/GUI.cc:1286 ../ui/apps/qt5/src/Application.cc:604
+msgid ""
+"Workrave is in suspended mode. Mouse and keyboard activity will not be "
+"monitored."
+msgstr ""
+"Tá Workrave ar fionraí. Ní dhéanfar faireachán ar ghníomhaíochtaí luchóige "
+"agus méarchláir."
+
+#: ../ui/apps/gtkmm/src/GUI.cc:295
+msgid ""
+"Workrave is still running. You can access Workrave by clicking on the white "
+"sheep icon. Click on this balloon to disable this message"
+msgstr ""
+"Tá Workrave fós ag rith. Is féidir leat Workrave a rochtain tríd an deilbhín "
+"den chaora bhán a bhrúigh. Brúigh ar an éadromán seo chun an teachtaireacht "
+"seo a dhíchumasú"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:727
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "Roghnaigh tú oireas do staidreamh a scriosadh. Lean ar aghaidh?"
+
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:58
+#: ../ui/apps/qt5/src/DailyLimitWindow.cc:46
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Tá do theorainn laethúil sroichte agat. Stad de bheith ag\n"
+"obair os comhair do ríomhaire le do thoil. Mura bhfuil do lá oibre\n"
+"críochnaithe go fóill, déan rud éigin eile, amhail cáipéis a léamh."
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ../ui/apps/qt5/src/PreludeWindow.cc:73
+msgid "You need a rest break..."
+msgstr "Tá sos de dhíth ort..."
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:122
+#: ../ui/apps/qt5/src/PreludeWindow.cc:77
+msgid "You should stop for today..."
+msgstr "Ba cheart duit éirí as an ríomhaire don lá seo..."
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
+#: ../ui/applets/mate/src/main.c:302 ../ui/apps/gtkmm/src/MainGtkMenu.cc:184
+msgid "_About"
+msgstr "_Maidir leis"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:336
+#: ../ui/applets/mate/src/main.c:294
+msgid "_Disconnect"
+msgstr "_Dícheangail"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:316
+#: ../ui/applets/mate/src/main.c:274
+msgid "_Exercises"
+msgstr "_Cleachtaí"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:332
+#: ../ui/applets/mate/src/main.c:290
+msgid "_Join"
+msgstr "_Cláraigh leis"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
+#: ../ui/applets/mate/src/main.c:282 ../ui/apps/gtkmm/src/MainGtkMenu.cc:143
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+msgid "_Mode"
+msgstr "_Mód"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:328
+#: ../ui/applets/mate/src/main.c:286
+msgid "_Network"
+msgstr "_Líonra"
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:145
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "_Normal"
+msgstr "_Gnáth"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:304
+#: ../ui/applets/mate/src/main.c:262
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+msgid "_Open"
+msgstr "_Oscail"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:498
+msgid "_Postpone"
+msgstr "_Cuir ar fionraí"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
+#: ../ui/applets/mate/src/main.c:270 ../ui/apps/gtkmm/src/MainGtkMenu.cc:171
+msgid "_Preferences"
+msgstr "_Sainroghanna"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:348
+#: ../ui/applets/mate/src/main.c:306 ../ui/apps/gtkmm/src/MainGtkMenu.cc:189
+msgid "_Quit"
+msgstr "_Scoir"
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:154
+msgid "_Reading mode"
+msgstr "_Mód léitheoireachta"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:340
+#: ../ui/applets/mate/src/main.c:298
+msgid "_Reconnect"
+msgstr "_Athcheangail"
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:102
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:165
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:114
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+msgid "_Rest break"
+msgstr "_Sos scíthe"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:320
+#: ../ui/applets/mate/src/main.c:278
+msgid "_Restbreak"
+msgstr "_Sosscíthe"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:481
+msgid "_Skip"
+msgstr "_Ná bac leis"
+
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:308
+#: ../ui/applets/mate/src/main.c:266
+msgid "_Statistics"
+msgstr "_Staidreamh"
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:151
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+msgid "_Suspended"
+msgstr "_Curtha ar fionraí"
+
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:2
 msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
+msgstr "typing;break;timer;wrists;health;rsi;"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
-msgid "Network connect"
-msgstr "Ceangail leis an líonra"
+msgid "Accepted new client."
+msgstr "Glacadh leis an gcliant nua."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+msgid "Acknowledging master request from client %s."
+msgstr "Ag admháil an t-iarratas bheith i gceanna ón gcliant %s."
+
+msgid "Advanced"
+msgstr "Ardroghanna"
+
+msgid "Allow incoming connections"
+msgstr "Ceadaigh naisc isteach"
+
+msgid "Client %s access denied."
+msgstr "Diúltaíodh rochtain don cliant %s."
+
+msgid "Client %s closed connection."
+msgstr "Dún an cliant %s an ceangail."
+
+msgid "Client %s connected."
+msgstr "Tá an cliant %s ceangailte."
+
+msgid "Client %s is duplicate."
+msgstr "Is dúblach é an cliant %s."
+
+msgid "Client %s is now master."
+msgstr "Tá an cliant %s i gceannas anois."
+
+msgid "Client %s is now the new master."
+msgstr "Tá an cliant %s i gceannas anois."
+
+msgid "Client %s is welcoming us."
+msgstr "Tá an cliant %s ag fearadh fáilte dúinn."
+
+msgid "Client %s read error, closing."
+msgstr "Bhí botún sa léamh ag an gcliant %s. Tá sé á dúnadh."
+
+msgid "Client %s rejected master request, delaying."
+msgstr "Diúltaigh an cliant %s don iarratas bheith i gceannas. Fan."
+
+msgid "Client %s saying hello."
+msgstr "Tá an cliant %s ag rá hóra."
+
+msgid "Client %s signed off."
+msgstr "Dínasc an cliant %s."
+
+msgid "Client timeout from %s."
+msgstr "Tá an t-am istigh don cliant ar %s."
+
+msgid "Connect"
+msgstr "Ceangail"
+
+msgid "Connecting to %s."
+msgstr "Ag nascadh le %s."
+
+msgid "Could not connect to client %s."
+msgstr "Níorbh fhéidir nascadh leis an gcliant %s."
+
+msgid "Could not enable network operation."
+msgstr "Níorbh fhéidir oibríocht líonra a chumasú."
+
+msgid "Daily usage"
+msgstr "Gnáthaíocht laethúil"
+
+msgid "Disabling network operation."
+msgstr "Ag díchumasú oibríocht líonra."
+
+msgid "Disconnect"
+msgstr "Dícheangail"
+
+msgid "Disconnecting %s"
+msgstr "Ag dínascadh %s"
+
+msgid "Enable networking"
+msgstr "Cumasaigh líonrú"
+
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -1012,56 +1333,85 @@ msgstr ""
 "Cuir isteach ainm an óstaigh agus uimhir phoirt ríomhaire\n"
 "sa líonra ar mian leat ceangailt le."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
+msgid "Host name"
+msgstr "Ainm an óstaigh"
+
 msgid "Host name:"
 msgstr "Ainm an óstaigh:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
-msgid "Port:"
-msgstr "Port:"
+msgid "Hosts"
+msgstr "Óstaigh"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
+msgid "I'm now master."
+msgstr "Táim i gceannas anois."
+
+msgid "Network"
+msgstr "Líonra"
+
+msgid "Network connect"
+msgstr "Ceangail leis an líonra"
+
 msgid "Network log"
 msgstr "Oireas an líonra"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
-msgid "Enable networking"
-msgstr "Cumasaigh líonrú"
+msgid "Network operation started."
+msgstr "Tosaíodh oibríocht líonra."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
-msgid "Username:"
-msgstr "Ainm úsáideora:"
+msgid "Non-master client %s rejected master request."
+msgstr ""
+"Diúltaigh an cliant neamhcheannasach %s don iarratas bheith i gceannas."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
+msgid "Orientation"
+msgstr "Treoshuíomh"
+
 msgid "Password:"
 msgstr "Focal faire:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
-msgid "Allow incoming connections"
-msgstr "Ceadaigh naisc isteach"
+msgid "Play sounds using built-in speaker"
+msgstr "Seinn fuaimeanna trí na callairí ionsuite"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
-msgid "Server settings"
-msgstr "Socruithe an fhreastalaí"
+msgid "Port"
+msgstr "Port"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
-msgid "Server port:"
-msgstr "Port an fhreastalaí"
+msgid "Port:"
+msgstr "Port:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
+msgid "Reading Mode"
+msgstr "Mód Léitheoireachta"
+
+msgid "Reconnect"
+msgstr "Athcheangail"
+
 msgid "Reconnect attempts:"
-msgstr "Iarrachtaí athnascadh:"
+msgstr "Iarrachtaí athcheangailte:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect interval:"
 msgstr "Aga idir athnascadh:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
-msgid "Advanced"
-msgstr "Ardroghanna"
+msgid "Reconnecting to %s."
+msgstr "Ag nascadh arís le %s."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
+msgid "Rejecting master request from client %s."
+msgstr "Ag diúltú don iarratas chun a bheith i gceannas ón gcliant %s."
+
+msgid "Removing client %s."
+msgstr "Ag baint an chliaint %s."
+
+msgid "Requesting master status from %s."
+msgstr "Ag lorg cead bheith i gceannas ó %s."
+
+msgid "Server port:"
+msgstr "Port an fhreastalaí:"
+
+msgid "Server settings"
+msgstr "Socruithe an fhreastalaí"
+
+msgid "Show _log"
+msgstr "Taispeáin an t-oireas"
+
+msgid "Suspend timer when inactive"
+msgstr "Cuir an t-uaineadóir ar fionraí nuair atá sé neamhghníomhach"
+
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -1070,406 +1420,26 @@ msgstr ""
 "a thosaíonn sé. Brú ainm an óstaigh nó uimhir an phoirt chun eagarthóireacht "
 "a dhéanamh orthu."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Host name"
-msgstr "Ainm an óstaigh"
+msgid "The orientation of the tray"
+msgstr "Treoshuíomh an tráidire"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
-msgid "Port"
-msgstr "Port"
+msgid "Username:"
+msgstr "Ainm úsáideora:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
-msgid "Hosts"
-msgstr "Óstaigh"
+msgid "Workrave Applet"
+msgstr "Feidhmchláirín Workrave"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Shoulder-arm stretch"
-msgstr "Síneadh guaillí agus lámha"
+msgid "_About..."
+msgstr "_Maidir le..."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Coinnigh lámh amháin sínte go cothrománach os comhair do chliabhrach. Brú an "
-"lámh seo chugat le do lámh eile go dtí go mbraitheann tú teannas bog i do "
-"ghualainn. Coinnigh mar sin ar feadh tamaillín, agus déan an cleachtadh arís "
-"do do lámh eile."
+msgid "_Connect"
+msgstr "_Ceangail"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "Méarshíneadh"
+msgid "_Connect..."
+msgstr "_Ceangail..."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Scar do mhéara óna chéile agus sín iad go dtí go mbraitear teannas bog, agus "
-"coinnigh mar sin iad ar feadh 10 soicind. Lig do scíth, ansin lúb do mhéara "
-"ag na hailt, agus coinnigh mar sin iad ar feadh 10 soicind. Déan an "
-"cleachtadh seo in athuair."
+msgid "_Quiet"
+msgstr "_Ciúin"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Neck tilt stretch"
-msgstr "Síneadh muineál claonadh"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Bíodh do cheann díreach suas agus sócúlach agat. Ansin, claon do cheann go "
-"réidh mall chuig do ghualainn ar dheis chun na matáin ar an taobh clé do do "
-"mhuinéail a shíneadh go réidh. Fan mar sin ar feadh 5 shoicind. Ansin, claon "
-"do cheann ar chlé chun an taobh eile a shíneadh. Déan seo faoi dhó don dá "
-"thaobh."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Backward shoulder stretch"
-msgstr "Siarshíneadh na nguaillí"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Comáil do mhéara taobh thiar do do dhroim. Ansin cas d'uillinneacha go réidh "
-"isteach agus dírigh do lámha. Fan mar sin ar feadh 5 go dtí 15 shoicind, "
-"agus déan an cleachtadh seo dhá uair."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "Bog na súile"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Féach ar an gcúinne ar barr an taobh clé d'imeall an scáileán agat. Lean an "
-"t-imeall go mall le do shúile go dtí an cúinne ar barr an taobh deas. Lean "
-"ar aghaidh go dtí an chéad chúinne eile go dtí go bhfuil sé leanta agat dhá "
-"uaire. Ansin, déan arís é ach ag dul an treo eile."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Train focusing the eyes"
-msgstr "Oil do shúile díriú ar áit amháin"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Aimsigh an áit is faide uait lastall scáileán do ríomhaire. Dírigh do shúile "
-"ar an áit i gcéin. Ansin dírigh do shúile ar imeall an scáileáin. Déan arís "
-"é. Mura féidir leat breathnú ar rudaí i bhfad ó do ríomhaire, tabhair "
-"aghaidh ar threo eile ina bhfuil radharc níos faide ar fáil. Ansin "
-"malartaigh do radharc idir réad i gcéin agus peann atá an fad céanna ó do "
-"shúile is atá do scáileán."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Look into the darkness"
-msgstr "Féach ar an ndorchadas"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Clúdaigh do shúile le do bhosa i gcaoi gur féidir leat do mhogaill súile fós "
-"a oscailt. Anois oscail do shúile agus féach ar an ndorchadas i do bhosa. "
-"Tugann an cleachtadh seo faoiseamh níos fearr do do shúile ná iad a dhúnadh "
-"amháin."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Move the shoulders"
-msgstr "Bog na guaillí"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Cas do dheasóg go mall amhail gurb lián eitleáin é le hais do cholainn. Déan "
-"seo 4 uaire ar aghaidh, 4 uaire ar gcúl agus ansin lig do scíth ar feadh "
-"tamaillín. Déan an rud céanna le do chiotóg."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Move the shoulders up and down"
-msgstr "Bog na guaillí suas agus síos"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Leag do lámha ar thacaí uillinne do chathaoir agus tú i do shuí agus brú do "
-"chorp suas go dtí go bhfuil do lámha díreach. Déan iarracht do cheann a "
-"bhogadh níos faide chun cinn trí do ghuaillí a ísliú. Tuirling go mall i do "
-"chathaoir arís."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid "Turn your head"
-msgstr "Cas do cheann"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Cas do cheann ar chlé agus coinnigh ansin é ar feadh 2 shoicind. Ansin cas "
-"do cheann ar dheis agus coinnigh ansin é ar feadh 2 shoicind."
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
-msgid "Exercises player"
-msgstr "Seinnteoir na gcleachtaí"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-msgid "Previous exercise"
-msgstr "An cleachtadh roimhe"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
-msgid "Next exercise"
-msgstr "An cleachtadh ar aghaidh"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
-msgid "Pause exercises"
-msgstr "Cuir na cleachtaí ar sos"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-msgid "End exercises"
-msgstr "Críochnaigh na cleachtaí"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Resume"
-msgstr "Atosaigh"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Pause"
-msgstr "Cuir ar sos"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
-msgid "Resume exercises"
-msgstr "Lean ar aghaidh leis na gcleachtaí"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
-msgid "Browse history"
-msgstr "Breathnaigh ar an oireas"
-
-#. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:165
-msgid "Date:"
-msgstr "Dáta:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "Breaks"
-msgstr "Sosanna"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "Break prompts"
-msgstr "Leideanna do shosanna"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:207
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"An líon uaireanta a tugadh leid duit sos a ghlacadh, seachas leideanna arís "
-"agus arís eile don sos céanna"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:212
-msgid "Repeated prompts"
-msgstr "Leideanna athtugtha"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Líon na n-uaireanta a thugadh leid duit sos a ghlacadh"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:217
-msgid "Prompted breaks taken"
-msgstr "Sosanna a ghlacadh nuair a thugadh leideanna duit"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
-msgid "The number of times you took a break when being prompted"
-msgstr "Líon na n-uaireanta a ghlac tú sos nuair a thugadh leid duit"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:222
-msgid "Natural breaks taken"
-msgstr "Sosanna a ghlacadh"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
-msgid "The number of times you took a break without being prompted"
-msgstr "Líon na n-uaireanta a ghlac tú sos gan leid a fháil"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:227
-msgid "Breaks skipped"
-msgstr "Sosanna nár bhacadh leo"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
-msgid "The number of breaks you skipped"
-msgstr "Líon na sosanna nár bhac tú leo"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:232
-msgid "Breaks postponed"
-msgstr "Sosanna a cuireadh ar fionraí"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
-msgid "The number of breaks you postponed"
-msgstr "Líon na sosanna a chuir tú ar fionraí"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:237
-msgid "Overdue time"
-msgstr "An méid ama a bhí sé i ndiaidh ama"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:238
-msgid "The total time this break was overdue"
-msgstr "An t-am iomlán a bhí an sos seo i ndiaidh ama"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
-msgid "Usage"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
-#, fuzzy
-msgid "Daily"
-msgstr "Teorainn laethúil"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:248
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Gnáthaíocht iomlán an ríomhaire"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
-msgid "Weekly"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:257
-msgid "Monthly"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
-msgid "Activity"
-msgstr "Gníomhaíocht"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:354
-msgid "Mouse usage:"
-msgstr "Gnáthaíocht na luchóige:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:355
-msgid "The total time you were using the mouse"
-msgstr "An t-am iomlán a bhí tú ag baint feidhm as an luchóg"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:358
-msgid "Mouse movement:"
-msgstr "Gluaiseacht na luchóige:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:359
-msgid "The total on-screen mouse movement"
-msgstr "Gluaiseacht iomlán na luchóige ar an scáileán"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-msgid "Effective mouse movement:"
-msgstr "Gluaiseacht na luchóige feidhmiúil:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:363
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Gluaiseacht iomlán na luchóige a bheadh agat dá bhogfá do luchóg i dtreonna "
-"díreacha idir bhrú"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:367
-msgid "Mouse button clicks:"
-msgstr "Brú cnaipí na luchóige:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:368
-msgid "The total number of mouse button clicks"
-msgstr "Líon na n-uaireanta a bhrúdh cnaipí na luchóige"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:371
-msgid "Keystrokes:"
-msgstr "Cnaipe-bhuillí:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:372
-msgid "The total number of keys pressed"
-msgstr "Líon na gcnaipe a bhrúdh"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:422
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, ó %s go %s"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
-msgid "Warning"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:742
-msgid "Files deleted!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
-msgid "Info"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:752
-msgid "File deletion failed!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:753
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
-msgid "Error"
-msgstr ""
-
-#~ msgid "Daily usage"
-#~ msgstr "Gnáthaíocht laethúil"
-
-#~ msgid "Orientation"
-#~ msgstr "Treoshuíomh"
-
-#~ msgid "The orientation of the tray"
-#~ msgstr "Treoshuíomh an tráidire"
-
-#, fuzzy
-#~ msgid "Reading Mode"
-#~ msgstr "Mód léitheoireachta"
+msgid "_Show Log..."
+msgstr "_Taispeáin an tOireas..."
