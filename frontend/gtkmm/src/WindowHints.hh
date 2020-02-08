@@ -44,8 +44,12 @@ public:
   static void attach_thread_input(bool enabled);
 #endif
 
-#ifdef HAVE_GTK3
+#if defined(HAVE_GTK3)
+#if GTK_CHECK_VERSION(3,20,0)
+  static GdkSeat *seat;
+#else
   static GdkDevice *keyboard, *pointer;
+#endif
 #endif
 };
 

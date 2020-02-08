@@ -47,8 +47,12 @@
 #ifdef HAVE_GTK3
 #include "GtkUtil.hh"
 
+#if GTK_CHECK_VERSION(3,20,0)
+GdkSeat *WindowHints::seat = NULL;
+#else
 GdkDevice *WindowHints::keyboard = NULL;
 GdkDevice *WindowHints::pointer = NULL;
+#endif
 #endif
 
 void
@@ -107,6 +111,30 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
       handle = (WindowHints::Grab *) 0xdeadf00d;
 
       delete [] unblocked_windows;
+    }
+#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,20,0)
+  if (! GtkUtil::running_on_wayland())
+    {
+      if (num_windows > 0)
+        {
+          GdkDisplay *display = gdk_window_get_display(windows[0]);
+          seat = gdk_display_get_default_seat(display);
+
+          GdkGrabStatus grabStatus = gdk_seat_grab (seat,
+                                                    windows[0],
+                                                    GDK_SEAT_CAPABILITY_ALL,
+                                                    TRUE,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL);
+         if (grabStatus == GDK_GRAB_SUCCESS)
+            {
+                  // A bit of a hack, but GTK does not need any data in the handle.
+                  // So, let's not waste memory and simply return a bogus non-NULL ptr.
+                  handle = (WindowHints::Grab *) 0xdeadf00d;
+            }
+        }
     }
 #elif defined(HAVE_GTK3)
   if (! GtkUtil::running_on_wayland())
@@ -212,6 +240,11 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
+#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,20,0)
+  if (! GtkUtil::running_on_wayland())
+    {
+      gdk_seat_ungrab(seat);
+    }
 #elif defined(HAVE_GTK3)
   if (! GtkUtil::running_on_wayland())
     {
