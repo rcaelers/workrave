@@ -133,11 +133,14 @@ TimerBoxPreferencePage::create_page()
       enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
 
       // Always-on-top
-      ontop_cb = Gtk::manage
-        (new Gtk::CheckButton
-         (_("The status window stays always on top of other windows")));
-      ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
-      ontop_cb->set_active(GUIConfig::get_always_on_top());
+      if (! GtkUtil::running_on_wayland())
+        {
+          ontop_cb = Gtk::manage
+            (new Gtk::CheckButton
+            (_("The status window stays always on top of other windows")));
+          ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+          ontop_cb->set_active(GUIConfig::get_always_on_top());
+        }
     }
   else if (name == "applet")
     {
@@ -369,7 +372,10 @@ TimerBoxPreferencePage::enable_buttons(void)
       enabled_cb->set_sensitive(count != 3);
       place_button->set_sensitive(count != 3);
       cycle_entry->set_sensitive(count != 3);
-      ontop_cb->set_sensitive(count != 3);
+      if (ontop_cb != NULL)
+        {
+          ontop_cb->set_sensitive(count != 3);
+        }
     }
 }
 
