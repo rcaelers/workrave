@@ -120,6 +120,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
         }
 #endif
     }
+#ifdef HAVE_GTK3
+  else
+    {
+      if (GtkUtil::running_on_wayland())
+        {
+          set_modal(true);
+        }
+    }
+#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
