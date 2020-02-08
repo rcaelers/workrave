@@ -893,7 +893,7 @@ dnl
 dnl Internationalization
 dnl
 
-AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT_VERSION([0.19])
 AM_GNU_GETTEXT([external])
 
 dnl Hack because windows gettext package is SEVERELY broken...
