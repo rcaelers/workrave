@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <gtkmm.h>
+
 #include <glibmm.h>
 #include <gtk/gtk.h>
 
@@ -729,9 +730,10 @@ GUI::init_gtk_multihead()
                   Gdk::Rectangle rect;
                   screen->get_monitor_geometry(j, rect);
 
+#ifdef HAVE_GTK3
                   gint scale = screen->get_monitor_scale_factor(j);
                   rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
-
+#endif
                   bool overlap = false;
                   for (int k = 0; !overlap && k < count; k++)
                     {
