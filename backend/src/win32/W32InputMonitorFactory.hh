@@ -30,7 +30,7 @@ class W32InputMonitorFactory : public IInputMonitorFactory
 {
 public:
   W32InputMonitorFactory();
-  virtual void init(const std::string &display);
+  virtual void init(const char *display);
   virtual IInputMonitor *get_monitor(MonitorCapability capability);
 
 private:

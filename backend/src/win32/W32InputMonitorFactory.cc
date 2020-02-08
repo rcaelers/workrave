@@ -43,7 +43,7 @@ W32InputMonitorFactory::W32InputMonitorFactory()
 }
 
 void
-W32InputMonitorFactory::init(const std::string &display)
+W32InputMonitorFactory::init(const char *display)
 {
   (void) display;
 }

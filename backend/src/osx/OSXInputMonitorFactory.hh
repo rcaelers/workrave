@@ -31,7 +31,7 @@ class OSXInputMonitorFactory : public IInputMonitorFactory
 {
 public:
   OSXInputMonitorFactory();
-  void init(const std::string &display);
+  void init(const char *display);
   IInputMonitor *get_monitor(MonitorCapability capability);
 
 private:

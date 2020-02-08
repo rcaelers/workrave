@@ -33,7 +33,7 @@ class UnixInputMonitorFactory  : public IInputMonitorFactory
 public:
   UnixInputMonitorFactory();
 
-  virtual void init(const std::string &display);
+  virtual void init(const char *display);
   virtual IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
 
 private:
@@ -42,7 +42,7 @@ private:
   bool error_reported;
   std::string actual_monitor_method;
   IInputMonitor *monitor;
-  std::string display;
+  const char *display;
 };
 
 #endif // UNIXINPUTMONITORFACTORY_HH

@@ -169,10 +169,10 @@ private:
     };
 #endif
 
-  void init(int argc, char **argv, IApp *application, const std::string &display_name);
+  void init(int argc, char **argv, IApp *application, const char *display_name);
   void init_breaks();
   void init_configurator();
-  void init_monitor(const std::string &display_name);
+  void init_monitor(const char *display_name);
   void init_distribution_manager();
   void init_bus();
   void init_statistics();

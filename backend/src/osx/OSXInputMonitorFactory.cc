@@ -37,7 +37,7 @@ OSXInputMonitorFactory::OSXInputMonitorFactory()
 }
 
 void
-OSXInputMonitorFactory::init(const std::string &display)
+OSXInputMonitorFactory::init(const char *display)
 {
   (void)display;
 }

@@ -37,7 +37,7 @@ class X11InputMonitor :
 {
 public:
   //! Constructor.
-  X11InputMonitor(const std::string &display_name);
+  X11InputMonitor(const char *display_name);
 
   //! Destructor.
   virtual ~X11InputMonitor();
@@ -73,7 +73,7 @@ private:
 
 private:
   //! The X11 display name.
-  std::string x11_display_name;
+  const char *x11_display_name;
 
   //! The X11 display handle.
   Display *x11_display;

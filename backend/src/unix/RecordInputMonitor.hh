@@ -39,7 +39,7 @@ class RecordInputMonitor :
 {
 public:
   //! Constructor.
-  RecordInputMonitor(const std::string &display_name);
+  RecordInputMonitor(const char *display_name);
 
   //! Destructor.
   virtual ~RecordInputMonitor();
@@ -75,7 +75,7 @@ private:
 
 private:
   //! The X11 display name.
-  std::string x11_display_name;
+  const char *x11_display_name;
 
   //! The X11 display handle.
   Display *x11_display;

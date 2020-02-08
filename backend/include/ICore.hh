@@ -83,7 +83,7 @@ namespace workrave {
       };
 
     //! Initialize the Core. Must be called first.
-    virtual void init(int argc, char **argv, IApp *app, const std::string &display) = 0;
+    virtual void init(int argc, char **argv, IApp *app, const char *display) = 0;
 
     //! Periodic heartbeat. The GUI *MUST* call this method every second.
     virtual void heartbeat() = 0;

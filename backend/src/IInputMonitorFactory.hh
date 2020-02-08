@@ -37,7 +37,7 @@ public:
 
   virtual ~IInputMonitorFactory() {}
 
-  virtual void init(const std::string &display) = 0;
+  virtual void init(const char *display) = 0;
   virtual IInputMonitor *get_monitor(MonitorCapability capability) = 0;
 };
 

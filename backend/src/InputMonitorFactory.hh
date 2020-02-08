@@ -29,7 +29,7 @@
 class InputMonitorFactory
 {
 public:
-  static void init(const std::string &display);
+  static void init(const char *display);
   static IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
 
 private:

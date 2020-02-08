@@ -35,7 +35,7 @@
 IInputMonitorFactory *InputMonitorFactory::factory = NULL;
 
 void
-InputMonitorFactory::init(const std::string &display)
+InputMonitorFactory::init(const char *display)
 {
   if (factory == NULL)
     {

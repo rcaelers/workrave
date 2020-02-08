@@ -560,14 +560,10 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
-  string display_name;
+  const char *display_name = NULL;
 
 #if defined(PLATFORM_OS_UNIX)
-  const char *display = gdk_display_get_name(gdk_display_get_default());
-  if (display != NULL)
-    {
-      display_name = display;
-    }
+  display_name = gdk_display_get_name(gdk_display_get_default());
 #endif
 
   core = CoreFactory::get_core();

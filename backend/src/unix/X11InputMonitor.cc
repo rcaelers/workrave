@@ -144,11 +144,11 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
     }
 }
 
-X11InputMonitor::X11InputMonitor(const string &display_name) :
+X11InputMonitor::X11InputMonitor(const char *display_name) :
+  x11_display_name(display_name),
   x11_display(NULL),
   abort(false)
 {
-  x11_display_name = display_name;
   monitor_thread = new Thread(this);
 }
 
@@ -191,7 +191,7 @@ X11InputMonitor::run()
 {
   TRACE_ENTER("X11InputMonitor::run");
 
-  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == NULL)
+  if ((x11_display = XOpenDisplay(x11_display_name)) == NULL)
     {
       return;
     }
