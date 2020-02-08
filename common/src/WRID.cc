@@ -128,11 +128,10 @@ WRID::raw() const
 void
 WRID::create()
 {
-  GTimeVal now;
-  g_get_current_time(&now);
+  gint64 now = g_get_real_time();
 
   guint32 *id32 = ((guint32 *)&id);
-  id32[3] = GUINT32_TO_BE(now.tv_sec);
+  id32[3] = GUINT32_TO_BE(now / G_USEC_PER_SEC);
 
   get_random_bytes(id, sizeof(id) - 4);
 }

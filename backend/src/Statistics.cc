@@ -61,8 +61,7 @@ Statistics::Statistics() :
   click_x(-1),
   click_y(-1)
 {
-  last_mouse_time.tv_sec = 0;
-  last_mouse_time.tv_usec = 0;
+   last_mouse_time = 0;
 }
 
 
@@ -1027,17 +1026,15 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
               current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = movement;
             }
 
-          GTimeVal now, tv;
 
-          g_get_current_time(&now);
-          tvSUBTIME(tv, now, last_mouse_time);
+          gint64 now = g_get_real_time();
+          gint64 tv = now - last_mouse_time;
 
-          if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
+          int tv_sec = tv / G_USEC_PER_SEC;
+          if (last_mouse_time != 0  && tv_sec >= 0 && tv_sec < 1)
             {
-              tvADDTIME(current_day->total_mouse_time, current_day->total_mouse_time, tv);
-
-              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
-                current_day->total_mouse_time.tv_sec;
+              current_day->total_mouse_time += tv;
+              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = current_day->total_mouse_time / G_USEC_PER_SEC;
             }
 
           last_mouse_time = now;

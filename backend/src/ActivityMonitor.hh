@@ -87,19 +87,19 @@ private:
   bool button_is_pressed;
 
   //! Last time activity was detected
-  GTimeVal last_action_time;
+  gint64 last_action_time;
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  GTimeVal first_action_time;
+  gint64 first_action_time;
 
   //! The noise threshold
-  GTimeVal noise_threshold;
+  gint64 noise_threshold;
 
   //! The activity threshold.
-  GTimeVal activity_threshold;
+  gint64 activity_threshold;
 
   //! The idle threshold.
-  GTimeVal idle_threshold;
+  gint64 idle_threshold;
 
   //! Mouse sensitivity
   int sensitivity;

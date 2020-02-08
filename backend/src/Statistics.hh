@@ -72,7 +72,7 @@ private:
   struct DailyStatsImpl : public DailyStats
   {
     //! Total time that the mouse was moving.
-    GTimeVal total_mouse_time;
+    gint64 total_mouse_time;
 
     DailyStatsImpl()
     {
@@ -94,9 +94,7 @@ private:
 
       // Empty marker.
       start.tm_year = 0;
-
-      total_mouse_time.tv_sec = 0;
-      total_mouse_time.tv_usec = 0;
+      total_mouse_time = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
@@ -174,7 +172,7 @@ private:
   IInputMonitor *input_monitor;
 
   //! Last time a mouse event was received.
-  GTimeVal last_mouse_time;
+  gint64 last_mouse_time;
 
   //! Statistics of current day.
   DailyStatsImpl *current_day;

@@ -59,20 +59,11 @@ ActivityMonitor::ActivityMonitor() :
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-  first_action_time.tv_sec = 0;
-  first_action_time.tv_usec = 0;
-
-  last_action_time.tv_sec = 0;
-  last_action_time.tv_usec = 0;
-
-  noise_threshold.tv_sec = 1;
-  noise_threshold.tv_usec = 0;
-
-  activity_threshold.tv_sec = 2;
-  activity_threshold.tv_usec = 0;
-
-  idle_threshold.tv_sec = 5;
-  idle_threshold.tv_usec = 0;
+  first_action_time = 0;
+  last_action_time = 0;
+  noise_threshold = 1 * G_USEC_PER_SEC;
+  activity_threshold = 2 * G_USEC_PER_SEC;
+  idle_threshold = 5 * G_USEC_PER_SEC;
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
@@ -143,8 +134,7 @@ ActivityMonitor::force_idle()
   if (activity_state != ACTIVITY_SUSPENDED)
     {
       activity_state = ACTIVITY_IDLE;
-      last_action_time.tv_sec = 0;
-      last_action_time.tv_usec = 0;
+      last_action_time = 0;
     }
   lock.unlock();
   TRACE_RETURN(activity_state);
@@ -161,15 +151,13 @@ ActivityMonitor::get_current_state()
   // First update the state...
   if (activity_state == ACTIVITY_ACTIVE)
     {
-      GTimeVal now, tv;
-
-      g_get_current_time(&now);
-      tvSUBTIME(tv, now, last_action_time);
+      gint64 now = g_get_real_time();
+      gint64 tv = now - last_action_time;
 
       TRACE_MSG("Active: "
-                << tv.tv_sec << "." << tv.tv_usec << " "
-                << idle_threshold.tv_sec << " " << idle_threshold.tv_usec);
-      if (tvTIMEGT(tv, idle_threshold))
+                << (tv / G_USEC_PER_SEC)  << "." << tv<< " "
+                << (idle_threshold / G_USEC_PER_SEC) << " " << idle_threshold);
+      if (tv > idle_threshold)
         {
           // No longer active.
           activity_state = ACTIVITY_IDLE;
@@ -187,14 +175,9 @@ ActivityMonitor::get_current_state()
 void
 ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold.tv_sec = noise / 1000;
-  noise_threshold.tv_usec = (noise % 1000) * 1000;
-
-  activity_threshold.tv_sec = activity / 1000;
-  activity_threshold.tv_usec = (activity % 1000) * 1000;
-
-  idle_threshold.tv_sec = idle / 1000;
-  idle_threshold.tv_usec = (idle % 1000) * 1000;
+  noise_threshold = noise * 1000;
+  activity_threshold = activity * 1000;;
+  idle_threshold = idle * 1000;
 
   this->sensitivity = sensitivity;
 
@@ -208,9 +191,9 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivi
 void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
 {
-  noise = noise_threshold.tv_sec * 1000 + noise_threshold.tv_usec / 1000;
-  activity = activity_threshold.tv_sec * 1000 + activity_threshold.tv_usec / 1000;
-  idle = idle_threshold.tv_sec * 1000 + idle_threshold.tv_usec / 1000;
+  noise = noise_threshold / 1000;
+  activity = activity_threshold /  1000;
+  idle = idle_threshold / 1000;
   sensitivity = this->sensitivity;
 }
 
@@ -219,17 +202,15 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensi
 void
 ActivityMonitor::shift_time(int delta)
 {
-  GTimeVal d;
+  gint64 d = delta * G_USEC_PER_SEC;
 
   lock.lock();
 
-  tvSETTIME(d, delta, 0)
+  if (last_action_time != 0)
+    last_action_time += d;
 
-  if (!tvTIMEEQ0(last_action_time))
-    tvADDTIME(last_action_time, last_action_time, d);
-
-  if (!tvTIMEEQ0(first_action_time))
-    tvADDTIME(first_action_time, first_action_time, d);
+  if (first_action_time != 0)
+    first_action_time += d;
 
   lock.unlock();
 }
@@ -251,8 +232,7 @@ ActivityMonitor::action_notify()
 {
   lock.lock();
 
-  GTimeVal now;
-  g_get_current_time(&now);
+  gint64 now = g_get_real_time();
 
   switch (activity_state)
     {
@@ -261,7 +241,7 @@ ActivityMonitor::action_notify()
         first_action_time = now;
         last_action_time = now;
 
-        if (tvTIMEEQ0(activity_threshold))
+        if (activity_threshold == 0)
           {
             activity_state = ACTIVITY_ACTIVE;
           }
@@ -274,17 +254,15 @@ ActivityMonitor::action_notify()
 
     case ACTIVITY_NOISE:
       {
-        GTimeVal tv;
-
-        tvSUBTIME(tv, now, last_action_time);
-        if (tvTIMEGT(tv, noise_threshold))
+        gint64 tv = now - last_action_time;
+        if (tv > noise_threshold)
           {
             first_action_time = now;
           }
         else
           {
-            tvSUBTIME(tv, now, first_action_time);
-            if (tvTIMEGEQ(tv, activity_threshold))
+            tv =  now - first_action_time;
+            if (tv >= activity_threshold)
               {
                 activity_state = ACTIVITY_ACTIVE;
               }
