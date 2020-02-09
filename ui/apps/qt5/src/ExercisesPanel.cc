@@ -20,6 +20,8 @@
 #include "config.h"
 #endif
 
+#include <random>
+
 #include "ExercisesPanel.hh"
 
 #include "debug.hh"
@@ -43,7 +45,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
     exercise_count(0)
 {
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
-  random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
+
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), g);
 
   QGridLayout *box = new QGridLayout;
 
