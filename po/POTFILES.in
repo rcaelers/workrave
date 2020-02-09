@@ -92,14 +92,14 @@ ui/applets/common/src/control.c
 ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
 ui/applets/gnome-shell/src/metadata.json.in
-ui/applets/gnome3/src/org.gnome.panel.applet.WorkraveAppletFactory.service.in
 ui/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
 ui/applets/gnome3/src/v4/WorkraveApplet.c
 ui/applets/gnome3/src/v5/WorkraveApplet.c
 ui/applets/gnome3/src/workrave-gnome-applet.xml
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
-ui/applets/mate/src/main.c
+ui/applets/mate/src/main-gtk2.c
+ui/applets/mate/src/main-gtk3.c
 ui/applets/xfce/src/main.c
 ui/apps/gtkmm//src/Locale.cc
 ui/apps/gtkmm/dist/win32/src/ChangeAutorun.c
