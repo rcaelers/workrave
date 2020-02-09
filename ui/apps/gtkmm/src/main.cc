@@ -73,7 +73,7 @@ run(int argc, char **argv)
 }
 
 
-#if !defined(PLATFORM_OS_WINDOWS)
+#if !defined(PLATFORM_OS_WINDOWS) || !defined(NDEBUG)
 int
 main(int argc, char **argv)
 {
