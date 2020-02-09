@@ -522,6 +522,7 @@ if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
       add_definitions(-DBOOST_ALL_DYN_LINK)
     endif()
   endif()
+  set(Boost_NO_BOOST_CMAKE TRUE)
 
   set (BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
   #set (Boost_DEBUG ON)
