@@ -206,22 +206,19 @@ BreakWindow::init_gui()
 
           if (block_mode == GUIConfig::BLOCK_MODE_ALL && !fullscreen_grab)
             {
-              if (!fullscreen_grab)
-                {
 #ifdef PLATFORM_OS_WINDOWS
-                  desktop_window = new DesktopWindow(head);
-                  add(*window_frame);
+                desktop_window = new DesktopWindow(head);
+                add(*window_frame);
 
 #elif defined(PLATFORM_OS_UNIX)
-                  set_size_request(head.get_width(), head.get_height());
-                  set_app_paintable(true);
-                  Glib::RefPtr<Gdk::Window> window = get_window();
-                  set_desktop_background(window->gobj());
-                  Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-                  align->add(*window_frame);
-                  add(*align);
+                set_size_request(head.get_width(), head.get_height());
+                set_app_paintable(true);
+                Glib::RefPtr<Gdk::Window> window = get_window();
+                set_desktop_background(window->gobj());
+                Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                align->add(*window_frame);
+                add(*align);
 #endif
-                }
             }
           else
             {
