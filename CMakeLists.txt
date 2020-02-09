@@ -1,6 +1,6 @@
 project(Workrave)
 
-# Ubunti 16.04 LTS has CMake 3.5
+# Ubuntu 16.04 LTS has CMake 3.5
 cmake_minimum_required(VERSION 3.5)
 
 if (POLICY CMP0009)
