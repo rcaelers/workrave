@@ -206,22 +206,19 @@ BreakWindow::init_gui()
 
           if (block_mode == GUIConfig::BLOCK_MODE_ALL && !fullscreen_grab)
             {
-              if (!fullscreen_grab)
-                {
 #ifdef PLATFORM_OS_WINDOWS
-                  desktop_window = new DesktopWindow(head);
-                  add(*window_frame);
+                desktop_window = new DesktopWindow(head);
+                add(*window_frame);
 
 #elif defined(PLATFORM_OS_UNIX)
-                  set_size_request(head.get_width(), head.get_height());
-                  set_app_paintable(true);
-                  Glib::RefPtr<Gdk::Window> window = get_window();
-                  set_desktop_background(window->gobj());
-                  Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-                  align->add(*window_frame);
-                  add(*align);
+                set_size_request(head.get_width(), head.get_height());
+                set_app_paintable(true);
+                Glib::RefPtr<Gdk::Window> window = get_window();
+                set_desktop_background(window->gobj());
+                Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                align->add(*window_frame);
+                add(*align);
 #endif
-                }
             }
           else
             {
@@ -662,11 +659,11 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WINDOWS
-  // if( force_focus_on_break_start && this->head.count == 0)
-  //   {
-  //     HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  //     W32ForceFocus::ForceWindowFocus(hwnd);
-  //   }
+  if( force_focus_on_break_start && this->head.count == 0)
+    {
+      HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+      W32ForceFocus::ForceWindowFocus(hwnd);
+    }
 #endif
 
   // In case the show_all resized the window...
@@ -719,9 +716,9 @@ BreakWindow::refresh()
 
   update_break_window();
 
-// #ifdef PLATFORM_OS_WINDOWS
-//   W32Compat::RefreshBreakWindow( *this );
-// #endif
+#ifdef PLATFORM_OS_WINDOWS
+  W32Compat::RefreshBreakWindow(*this);
+#endif
   TRACE_EXIT();
 }
 
