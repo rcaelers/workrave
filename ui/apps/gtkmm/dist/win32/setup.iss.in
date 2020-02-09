@@ -141,20 +141,20 @@ begin
                 mbConfirmation, MB_OKCANCEL) = IDOK then
       begin
         retVal := ZapWorkrave();
-	if retVal then
-	begin
+        if retVal then
+        begin
           retVal := FindWorkraveWithRetries();
-	  if retVal then
-	  begin
-	    KillProcess('workrave.exe');
-	    retVal := FindWorkrave();
-	  end;
-	  if retVal then
-	  begin
- 	    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
-	    Result := False;
+          if retVal then
+          begin
+            KillProcess('workrave.exe');
+            retVal := FindWorkrave();
+          end;
+          if retVal then
+          begin
+            MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+            Result := False;
           end
-	end
+        end
       end
       else
       begin

@@ -47,7 +47,7 @@ public:
   // ICore
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
-  void init(workrave::IApp *application, const std::string &display_name) override;
+  void init(workrave::IApp *application, const char *display_name) override;
   void heartbeat() override;
   void force_break(workrave::BreakId id, workrave::BreakHint break_hint) override;
   workrave::IBreak::Ptr get_break(workrave::BreakId id) override;

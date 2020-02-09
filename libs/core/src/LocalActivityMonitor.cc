@@ -38,7 +38,7 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 using namespace workrave::utils;
 
-LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const string &display_name) :
+LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const char *display_name) :
   config(config),
   display_name(display_name),
   state(ACTIVITY_MONITOR_IDLE),

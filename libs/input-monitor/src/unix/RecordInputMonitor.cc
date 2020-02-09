@@ -61,14 +61,13 @@ errorHandler(Display *dpy, XErrorEvent *error)
 }
 #endif
 
-RecordInputMonitor::RecordInputMonitor(const string &display_name) :
+RecordInputMonitor::RecordInputMonitor(const char *display_name) :
+  x11_display_name(display_name),
   x11_display(nullptr),
-  abort(false)
+  abort(false),
+  xrecord_context(0),
+  xrecord_datalink(NULL)
 {
-  xrecord_context = 0;
-  xrecord_datalink = nullptr;
-
-  x11_display_name = display_name;
 }
 
 
@@ -314,12 +313,9 @@ RecordInputMonitor::init_xrecord()
   bool use_xrecord = false;
   int major, minor;
 
-  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == nullptr)
-    {
-      return false;
-    }
+  x11_display = XOpenDisplay(x11_display_name);
 
-  if (XRecordQueryVersion(x11_display, &major, &minor))
+  if (x11_display != NULL && XRecordQueryVersion(x11_display, &major, &minor))
     {
       xrecord_context = 0;
       xrecord_datalink = nullptr;
@@ -335,9 +331,9 @@ RecordInputMonitor::init_xrecord()
         {
           memset(recordRange, 0, sizeof(XRecordRange));
 
-          int dummy = 0;
+          int opcode, error_base;
           Bool have_xi =  XQueryExtension(x11_display, "XInputExtension",
-                                          &dummy, &xi_event_base, &dummy);
+                                          &opcode, &xi_event_base, &error_base);
 
           if (have_xi && xi_event_base != 0)
             {
@@ -362,7 +358,7 @@ RecordInputMonitor::init_xrecord()
         {
           XSync(x11_display, True);
 
-          xrecord_datalink = XOpenDisplay(x11_display_name.c_str());
+          xrecord_datalink = XOpenDisplay(x11_display_name);
         }
 
       if (xrecord_datalink == nullptr)

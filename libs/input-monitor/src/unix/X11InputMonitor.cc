@@ -106,11 +106,11 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
     }
 }
 
-X11InputMonitor::X11InputMonitor(const string &display_name) :
+X11InputMonitor::X11InputMonitor(const char* display_name) :
+  x11_display_name(display_name),
   x11_display(nullptr),
   abort(false)
 {
-  x11_display_name = display_name;
 }
 
 
@@ -151,7 +151,7 @@ X11InputMonitor::run()
 {
   TRACE_ENTER("X11InputMonitor::run");
 
-  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == nullptr)
+  if ((x11_display = XOpenDisplay(x11_display_name)) == nullptr)
     {
       return;
     }

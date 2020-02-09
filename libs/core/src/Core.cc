@@ -82,7 +82,7 @@ Core::~Core()
 }
 
 void
-Core::init(IApp *app, const string &display_name)
+Core::init(IApp *app, const char *display_name)
 {
   application = app;
 

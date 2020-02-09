@@ -37,7 +37,7 @@
 #include "Hig.hh"
 #include "commonui/GUIConfig.hh"
 #include "commonui/TimerBoxControl.hh"
-
+#include "utils/Platform.hh"
 
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
@@ -124,11 +124,16 @@ TimerBoxPreferencePage::create_page()
       enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
 
       // Always-on-top
-      ontop_cb = Gtk::manage
-        (new Gtk::CheckButton
-         (_("The status window stays always on top of other windows")));
-      ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
-      ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
+#ifdef PLATFORM_OS_UNIX
+      if (! workrave::utils::Platform::running_on_wayland())
+#endif
+        {
+          ontop_cb = Gtk::manage
+            (new Gtk::CheckButton
+            (_("The status window stays always on top of other windows")));
+          ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+          ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
+        }
     }
   else if (name == "applet")
     {
@@ -356,7 +361,10 @@ TimerBoxPreferencePage::enable_buttons()
       enabled_cb->set_sensitive(count != 3);
       place_button->set_sensitive(count != 3);
       cycle_entry->set_sensitive(count != 3);
-      ontop_cb->set_sensitive(count != 3);
+      if (ontop_cb != NULL)
+        {
+          ontop_cb->set_sensitive(count != 3);
+        }
     }
 }
 

@@ -62,6 +62,8 @@ if (PLATFORM_OS_WINDOWS)
     win32/W32StatusIcon.cc
     win32/W32TrayMenu.cc
     win32/W32Grab.cc
+    win32/eggsmclient-win32.c
+    win32/eggsmclient.c
     )
 
   if (HAVE_HARPOON)
