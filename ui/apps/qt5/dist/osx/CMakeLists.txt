@@ -11,23 +11,16 @@ if (APPLE)
   set(plugin_dest_dir "Workrave.app/Contents/MacOS/plugins")
   set(qtconf_dest_dir "Workrave.app/Contents/Resources")
 
-  set(IMAGE_PLUGINS QJpegPlugin QGifPlugin)
-  set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QCocoaIntegrationPlugin)
+  set(PLUGINS QJpegPlugin QGifPlugin QMinimalIntegrationPlugin QCocoaIntegrationPlugin QOffscreenIntegrationPlugin QXdgDesktopPortalThemePlugin QMacStylePlugin)
   
-  foreach(plugin ${PLATFORM_PLUGINS})
+  foreach(plugin ${PLUGINS})
     get_target_property(_loc Qt5::${plugin} LOCATION)
+    get_target_property(_type Qt5::${plugin} QT_PLUGIN_TYPE)
     if (_loc)
-      install(FILES ${_loc} DESTINATION ${plugin_dest_dir}/platforms)
+      install(FILES ${_loc} DESTINATION ${plugin_dest_dir}/${_type})
     endif()
   endforeach()  
-  
-  foreach(plugin ${IMAGE_PLUGINS})
-    get_target_property(_loc Qt5::${plugin} LOCATION)
-    if (_loc)
-      install(FILES ${_loc} DESTINATION ${plugin_dest_dir}/imageformats)
-    endif()
-  endforeach()  
-  
+
   #install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   #install(DIRECTORY "${QT_PLUGINS_DIR}/platforms" DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
   
