@@ -81,7 +81,7 @@ public:
   bool seen;
 };
 
-ostream& operator<<(ostream &out, Observation &o)
+ostream& operator<<(ostream &out, const Observation &o)
 {
   out << "[time=" << o.time << " event=" << o.event << " arg=" << o.params << "]";
   return out;
