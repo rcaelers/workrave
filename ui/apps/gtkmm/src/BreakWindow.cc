@@ -659,11 +659,11 @@ BreakWindow::start()
   raise();
 
 #ifdef PLATFORM_OS_WINDOWS
-  // if( force_focus_on_break_start && this->head.count == 0)
-  //   {
-  //     HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  //     W32ForceFocus::ForceWindowFocus(hwnd);
-  //   }
+  if( force_focus_on_break_start && this->head.count == 0)
+    {
+      HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+      W32ForceFocus::ForceWindowFocus(hwnd);
+    }
 #endif
 
   // In case the show_all resized the window...
@@ -716,9 +716,9 @@ BreakWindow::refresh()
 
   update_break_window();
 
-// #ifdef PLATFORM_OS_WINDOWS
-//   W32Compat::RefreshBreakWindow( *this );
-// #endif
+#ifdef PLATFORM_OS_WINDOWS
+  W32Compat::RefreshBreakWindow(*this);
+#endif
   TRACE_EXIT();
 }
 
