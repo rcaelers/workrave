@@ -116,7 +116,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed));
           on_screen_changed(get_screen());
-          fullscreen();
+          set_size_request(head.get_width(), head.get_height());
         }
     }
 #ifdef HAVE_GTK3
@@ -746,7 +746,7 @@ BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
      }
    else
      {
-      cr->set_source_rgba(0.1, 0.1, 0.1, 0.4);
+      cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
      }
   cr->set_operator(Cairo::OPERATOR_SOURCE);
   cr->paint();
