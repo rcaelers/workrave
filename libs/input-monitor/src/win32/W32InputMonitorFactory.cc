@@ -40,7 +40,7 @@ W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config) : conf
 }
 
 void
-W32InputMonitorFactory::init(const std::string &display)
+W32InputMonitorFactory::init(const char *display)
 {
   (void) display;
 }

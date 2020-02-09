@@ -142,6 +142,11 @@ private:
 
   void init_gtk_multihead();
 
+#if defined(PLATFORM_OS_WIN32)
+  static void session_quit_cb(EggSMClient *client, GUI *gui);
+  static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
+  void cleanup_session();
+#endif
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
 

@@ -53,7 +53,7 @@ public:
   void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
   void terminate() override;
   void run() override;
-  std::string get_display_name() override;
+  const char *get_display_name() override;
   IBreakWindow::Ptr create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) override;
   IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) override;
   void show_window(WindowType type) override;

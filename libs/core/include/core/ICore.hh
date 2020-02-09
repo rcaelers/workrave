@@ -51,7 +51,7 @@ namespace workrave
     virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
 
     //! Initialize the Core. Must be called first.
-    virtual void init(workrave::IApp *app, const std::string &display) = 0;
+    virtual void init(workrave::IApp *app, const char *display) = 0;
 
     //! Periodic heartbeat. The GUI *MUST* call this method every second.
     virtual void heartbeat() = 0;

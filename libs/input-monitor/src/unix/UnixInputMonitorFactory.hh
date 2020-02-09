@@ -31,13 +31,13 @@ class UnixInputMonitorFactory  : public workrave::input_monitor::IInputMonitorFa
 public:
   UnixInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
-  virtual void init(const std::string &display);
+  virtual void init(const char *display);
   virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
 
   bool error_reported;
   std::string actual_monitor_method;
   workrave::input_monitor::IInputMonitor::Ptr monitor;
-  std::string display;
+  const char*display;
   workrave::config::IConfigurator::Ptr config;
 };
 

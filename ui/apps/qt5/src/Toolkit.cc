@@ -85,10 +85,10 @@ Toolkit::run()
   exec();
 }
 
-std::string
+const char *
 Toolkit::get_display_name()
 {
-  return "";
+  return NULL;
 }
 
 IBreakWindow::Ptr

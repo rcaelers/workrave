@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-02-09 14:46+0100\n"
+"POT-Creation-Date: 2020-02-09 17:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:369
 #: ../ui/applets/mate/src/main-gtk2.c:327
-#: ../ui/applets/mate/src/main-gtk3.c:369 ../ui/apps/gtkmm/src/GUI.cc:1344
+#: ../ui/applets/mate/src/main-gtk3.c:369 ../ui/apps/gtkmm/src/GUI.cc:1416
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ../ui/apps/qt5/src/Menus.cc:96
 msgid "Suspended"
 msgstr ""
@@ -75,7 +75,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:373
 #: ../ui/applets/mate/src/main-gtk2.c:331
-#: ../ui/applets/mate/src/main-gtk3.c:373 ../ui/apps/gtkmm/src/GUI.cc:1348
+#: ../ui/applets/mate/src/main-gtk3.c:373 ../ui/apps/gtkmm/src/GUI.cc:1420
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:199
 #: ../ui/apps/qt5/src/Menus.cc:104
 msgid "Quiet"
@@ -161,40 +161,40 @@ msgid ""
 "Injury (RSI)."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:278
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:287
 msgid "Lock..."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:282
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:291
 msgid "Lock"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:286
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:295
 msgid "Shutdown"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:290
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:299
 msgid "Suspend"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:294
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:303
 msgid "Hibernate"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:298
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:307
 msgid "Suspend hybrid"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:433
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:442
 msgid "_Skip"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/BreakWindow.cc:446
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:455
 msgid "_Postpone"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1337
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ../ui/apps/gtkmm/src/GUI.cc:1409
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:169 ../ui/apps/gtkmm/src/Ui.cc:44
 #: ../ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
@@ -249,39 +249,39 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:305
+#: ../ui/apps/gtkmm/src/GUI.cc:317
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:755
+#: ../ui/apps/gtkmm/src/GUI.cc:827
 msgid "Workrave failed to start"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:757
+#: ../ui/apps/gtkmm/src/GUI.cc:829
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1203 ../ui/apps/qt5/src/Application.cc:481
+#: ../ui/apps/gtkmm/src/GUI.cc:1275 ../ui/apps/qt5/src/Application.cc:481
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1209 ../ui/apps/qt5/src/Application.cc:488
+#: ../ui/apps/gtkmm/src/GUI.cc:1281 ../ui/apps/qt5/src/Application.cc:488
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
-#: ../ui/apps/gtkmm/src/GUI.cc:1337 ../ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ../ui/apps/gtkmm/src/GUI.cc:1409 ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:54
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:173
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:271 ../ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1337
+#: ../ui/apps/gtkmm/src/GUI.cc:1409
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:147
@@ -291,7 +291,7 @@ msgstr ""
 msgid "Rest break"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1344 ../ui/apps/gtkmm/src/GUI.cc:1348
+#: ../ui/apps/gtkmm/src/GUI.cc:1416 ../ui/apps/gtkmm/src/GUI.cc:1420
 msgid "Mode: "
 msgstr ""
 
@@ -408,7 +408,7 @@ msgstr ""
 
 #. Notebook
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:124
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Timers"
 msgstr ""
@@ -817,36 +817,36 @@ msgstr ""
 msgid "Show status window"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
 msgid "The status window stays always on top of other windows"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:135
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "Applet enabled"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Display"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
 msgid "Placement:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Cycle time:"
 msgstr ""
 
 #. Layout
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Micro-break:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Rest break:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:163
 msgid "Daily limit:"
 msgstr ""
 

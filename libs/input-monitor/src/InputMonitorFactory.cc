@@ -36,7 +36,7 @@ using namespace workrave::input_monitor;
 workrave::input_monitor::IInputMonitorFactory *workrave::input_monitor::InputMonitorFactory::factory = nullptr;
 
 void
-InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
+InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 {
   if (factory == nullptr)
     {

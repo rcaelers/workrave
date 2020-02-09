@@ -50,7 +50,7 @@ UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
 
 
 void
-UnixInputMonitorFactory::init(const std::string &display)
+UnixInputMonitorFactory::init(const char *display)
 {
   this->display = display;
 }

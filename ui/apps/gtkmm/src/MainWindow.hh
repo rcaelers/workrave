@@ -53,12 +53,9 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
   bool is_visible() const;
-
-protected:
-  bool on_button_press_event(GdkEventButton *event);
-
 private:
   void on_visibility_changed();
+  bool on_timer_view_button_press_event(GdkEventButton *event);
 
 private:
   //! Is the main window enabled?

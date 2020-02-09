@@ -52,7 +52,7 @@ public:
 };
 
 void
-InputMonitorFactory::init(IConfigurator::Ptr config, const std::string &display)
+InputMonitorFactory::init(IConfigurator::Ptr config, const char* display)
 {
   (void) config;
   (void) display;
