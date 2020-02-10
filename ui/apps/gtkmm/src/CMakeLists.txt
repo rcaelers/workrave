@@ -215,8 +215,14 @@ if (WIN32)
 
   target_link_libraries(workrave dxerr8 dsound dxguid)
 
-  set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
-  set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+
+  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mconsole")
+    set_target_properties(workrave PROPERTIES LINK_FLAGS "-mconsole")
+  else()
+    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
+    set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+  endif()
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
