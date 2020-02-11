@@ -120,6 +120,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           set_size_request(head.get_width(), head.get_height());
         }
     }
+#ifdef PLATFORM_OS_UNIX
   else
     {
       if (Platform::running_on_wayland())
@@ -127,6 +128,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           set_modal(true);
         }
     }
+#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
