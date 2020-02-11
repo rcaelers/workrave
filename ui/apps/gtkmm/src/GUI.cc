@@ -188,30 +188,12 @@ GUI::main()
       Glib::thread_init();
     }
 
-#ifdef HAVE_GTK3
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
-#else
-#if defined(PLATFORM_OS_WIN32)
-  Glib::OptionContext option_ctx;
-  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
-  option_ctx.add_group(*option_group);
-#endif
 
-  Gtk::Main *kit = NULL;
-  try
-    {
 #if defined(PLATFORM_OS_WIN32)
-      kit = new Gtk::Main(argc, argv, option_ctx);
-#else
-      kit = new Gtk::Main(argc, argv);
-#endif
-    }
-  catch (const Glib::OptionError &e)
-    {
-      std::cout << "Failed to initialize: " << e.what() << std::endl;
-      exit(1);
-    }
+  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
+  app->set_option_group(*option_group)
 #endif
 
   init_core();
@@ -233,13 +215,10 @@ GUI::main()
 
   on_timer();
 
-#ifdef HAVE_GTK3
   app->run();
-#else
-  Gtk::Main::run();
-#endif
 
   System::clear();
+
 #if defined(PLATFORM_OS_WIN32)
   cleanup_session();
 #endif
@@ -254,10 +233,6 @@ GUI::main()
 
   delete applet_control;
   applet_control = nullptr;
-
-#if !defined(HAVE_GTK3)
-  delete kit;
-#endif
 
   TRACE_EXIT();
 }
@@ -278,11 +253,7 @@ GUI::terminate()
 
   collect_garbage();
 
-#ifdef HAVE_GTK3
   app->release();
-#else
-  Gtk::Main::quit();
-#endif
 
   TRACE_EXIT();
 }

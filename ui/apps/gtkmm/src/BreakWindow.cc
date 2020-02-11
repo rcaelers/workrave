@@ -58,6 +58,7 @@
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #include "DesktopWindow.hh"
@@ -119,15 +120,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           set_size_request(head.get_width(), head.get_height());
         }
     }
-#ifdef HAVE_GTK3
   else
     {
-      if (GtkUtil::running_on_wayland())
+      if (Platform::running_on_wayland())
         {
           set_modal(true);
         }
     }
-#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
