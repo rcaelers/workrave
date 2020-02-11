@@ -143,7 +143,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   stick();
 
   this->head = head;
-  Gtk::Window::set_screen(head.screen);
   TRACE_EXIT();
 }
 

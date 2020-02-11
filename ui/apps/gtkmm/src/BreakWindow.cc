@@ -151,7 +151,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     }
 
   this->head = head;
-  Gtk::Window::set_screen(head.screen);
 
   bool initial_ignore_activity = false;
 

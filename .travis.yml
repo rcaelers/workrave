@@ -138,15 +138,6 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-xenial"
-      <<: *stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-bionic"
       <<: *stage_build_docker
 

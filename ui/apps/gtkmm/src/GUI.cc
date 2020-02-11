@@ -559,6 +559,18 @@ void
 GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
+  screen->signal_monitors_changed().connect(sigc::mem_fun(*this, &GUI::update_multihead));
+
+  update_multihead();
+  TRACE_EXIT();
+}
+
+void
+GUI::update_multihead()
+{
+  TRACE_ENTER("GUI::update_multihead");
 
   init_gtk_multihead();
   init_multihead_desktop();
@@ -674,75 +686,48 @@ GUI::init_gtk_multihead()
 {
   TRACE_ENTER("GUI::init_gtk_multihead");
 
-  int new_num_heads = 0;
-
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  int num_screens = display->get_n_screens();
 
-  TRACE_MSG("screens = " << num_screens);
-  if (num_screens >= 1)
+  int num_monitors = display->get_n_monitors();
+  init_multihead_mem(num_monitors);
+
+  int count = 0;
+  TRACE_MSG("monitors = " << num_monitors);
+  for (int j = 0; j < num_monitors; j++)
     {
-      for (int i = 0; i < num_screens; i++)
+      Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(j);
+
+      Gdk::Rectangle rect;
+      monitor->get_geometry(rect);
+
+      gint scale = monitor->get_scale_factor();
+
+      rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
+      bool overlap = false;
+      for (int k = 0; !overlap && k < count; k++)
         {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
-              new_num_heads += screen->get_n_monitors();
-              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-            }
+          Gdk::Rectangle irect = rect;
+          irect.intersect(heads[k].geometry, overlap);
         }
 
-      init_multihead_mem(new_num_heads);
-
-      int count = 0;
-      for (int i = 0; i < num_screens; i++)
+      if (!overlap)
         {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
-              int num_monitors = screen->get_n_monitors();
-              TRACE_MSG("monitors = " << num_monitors);
-              for (int j = 0; j < num_monitors && count < new_num_heads; j++)
-                {
-                  Gdk::Rectangle rect;
-                  screen->get_monitor_geometry(j, rect);
-
-#ifdef HAVE_GTK3
-                  gint scale = screen->get_monitor_scale_factor(j);
-                  rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
-#endif
-                  bool overlap = false;
-                  for (int k = 0; !overlap && k < count; k++)
-                    {
-                      Gdk::Rectangle irect = rect;
-
-                      if (heads[k].screen->get_number() == i)
-                        {
-                          irect.intersect(heads[k].geometry, overlap);
-                        }
-                    }
-
-                  if (!overlap)
-                    {
-                      heads[count].screen = screen;
-                      heads[count].monitor = j;
-                      heads[count].count = count;
-                      heads[count].geometry = rect;
-                      count++;
-                    }
-
-                  TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
-                            << rect.get_x() << " "
-                            << rect.get_y() << " "
-                            << rect.get_width() << " "
-                            << rect.get_height() << " "
-                            << " intersects " << overlap);
-                }
-            }
+          heads[count].monitor = j;
+          heads[count].count = count;
+          heads[count].geometry = rect;
+          count++;
         }
-      num_heads = count;
-      TRACE_MSG("# Heads = " << num_heads);
+
+      TRACE_MSG("Monitor #" << j << "  "
+                << rect.get_x() << " "
+                << rect.get_y() << " "
+                << rect.get_width() << " "
+                << rect.get_height() << " "
+                << " intersects " << overlap);
     }
+
+  num_heads = count;
+  TRACE_MSG("# Heads = " << num_heads);
   TRACE_EXIT();
 }
 
@@ -1581,7 +1566,6 @@ GUI::win32_filter_func (void     *xevent,
     case WM_DISPLAYCHANGE:
       {
         TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
-        gui->init_multihead();
       }
       break;
 

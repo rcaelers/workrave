@@ -225,8 +225,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
 
   pkg_check_modules(
     GTK REQUIRED
-    gtkmm-3.0>=3.10.0
-    gtk+-3.0>=3.10.0)
+    gtkmm-3.0>=3.22.0
+    gtk+-3.0>=3.22.0)
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -242,8 +242,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   # TODO: duplicate check, refactor
   pkg_check_modules(
     GLIB REQUIRED
-    glib-2.0>=2.36.0
-    gio-2.0>=2.26.0)
+    glib-2.0>=2.56.0
+    gio-2.0>=2.56.0)
 
   include_directories(${GLIB_INCLUDE_DIRS})
 
