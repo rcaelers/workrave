@@ -65,7 +65,7 @@ case "$DOCKER_IMAGE" in
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
 
-    mingw-gtk)
+    mingw-gtk*)
 
         case "$CONFIG" in
             vs)
