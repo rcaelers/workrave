@@ -204,7 +204,7 @@ jobs:
         CONFIGURATION="Release"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="mingw-gtk"
+        DOCKER_IMAGE="mingw-gtk-rawhide"
       <<: *stage_build_docker
       <<: *stage_deploy
 
@@ -215,7 +215,7 @@ jobs:
         CONFIGURATION="Debug"
         CONF_ENABLE="TRACING"
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="mingw-gtk"
+        DOCKER_IMAGE="mingw-gtk-rawhide"
       <<: *stage_build_docker
       <<: *stage_deploy
 
