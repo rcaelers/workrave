@@ -89,7 +89,7 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-#ifdef HAVE_DBUS_GIO
+#ifdef HAVE_DBUS
   applets[APPLET_GENERIC_DBUS] = new GenericDBusApplet();
 #endif
 

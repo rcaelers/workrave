@@ -266,7 +266,7 @@ DBusGio::find_object(const std::string &path, const std::string &interface_name)
 bool
 DBusGio::is_running(const std::string &name) const
 {
-  TRACE_ENTER("DBusGio::is_runninf");
+  TRACE_ENTER("DBusGio::is_running");
   GError *error = nullptr;
   gboolean running = FALSE;
 
@@ -281,7 +281,7 @@ DBusGio::is_running(const std::string &name) const
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error: " << error->message);
+      TRACE_MSG("Error1: " << error->message);
       g_error_free(error);
     }
 
@@ -297,7 +297,7 @@ DBusGio::is_running(const std::string &name) const
 
       if (error != nullptr)
         {
-          TRACE_MSG("Error: " << error->message);
+          TRACE_MSG("Error2: " << error->message);
           g_error_free(error);
         }
       else
@@ -317,7 +317,25 @@ DBusGio::is_running(const std::string &name) const
 bool
 DBusGio::is_available() const
 {
-  return true;
+  TRACE_ENTER("DBusGio::is_available");
+  GError *error = nullptr;
+  
+  GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
+                                                    G_DBUS_PROXY_FLAGS_NONE,
+                                                    nullptr,
+                                                    "org.freedesktop.DBus",
+                                                    "/org/freedesktop/DBus",
+                                                    "org.freedesktop.DBus",
+                                                    nullptr,
+                                                    &error);
+
+  if (error != nullptr)
+    {
+      TRACE_MSG("Error: " << error->message);
+      g_error_free(error);
+      return false;
+    }
+    return true;
 }
 
 void

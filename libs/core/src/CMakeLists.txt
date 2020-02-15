@@ -24,7 +24,7 @@ if (HAVE_DBUS)
   set(SRC ${SRC}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
   )
-endif (HAVE_DBUS)
+endif()
 
 if (HAVE_GSETTINGS)
   # TODO: compile glib enum?

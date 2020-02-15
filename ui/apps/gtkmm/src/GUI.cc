@@ -787,21 +787,26 @@ GUI::init_dbus()
           dialog.run();
           exit(1);
         }
-
       try
         {
-#ifdef HAVE_DBUS
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->register_service("org.workrave.Workrave", this);
-
-          extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
-          init_DBusGUI(dbus);
-#endif
         }
       catch (workrave::dbus::DBusException &)
         {
         }
-    }
+    }  
+
+#ifdef HAVE_DBUS
+    try
+      {
+        extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+        init_DBusGUI(dbus);
+      }
+    catch (workrave::dbus::DBusException &)
+      {
+      }
+#endif
 }
 
 void
