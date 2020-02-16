@@ -8,6 +8,7 @@ http://www.workrave.org
 * Workrave 1.10.35
 
 ** Update Irish translation (Seanán Ó Coistín)
+** new Portuguese translation (pmraps)
 ** Non-blocking break windows are now centered on Wayland/mutter (#163)
 ** Support display scaling
 
