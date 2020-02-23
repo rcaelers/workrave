@@ -20,6 +20,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw32-gtkmm30 \
                 mingw32-librsvg2 \
                 mingw32-openssl \
+                mingw32-adwaita-icon-theme \
                 mingw64-boost \
                 mingw64-dbus \
                 mingw64-gcc \
@@ -28,6 +29,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw64-gtkmm30 \
                 mingw64-librsvg2 \
                 mingw64-openssl \
+                mingw64-adwaita-icon-theme \
                 tar \
                 which \
                 wine \
