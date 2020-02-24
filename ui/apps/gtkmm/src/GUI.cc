@@ -76,6 +76,8 @@
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
 #include <wtsapi32.h>
+#include <dbt.h>
+#include <windows.h>
 #endif
 
 #if defined(PLATFORM_OS_OSX)
@@ -957,7 +959,6 @@ void
 GUI::create_prelude_window(BreakId break_id)
 {
   hide_break_window();
-  init_multihead();
   collect_garbage();
 
   active_break_id = break_id;
@@ -975,7 +976,6 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
-  init_multihead();
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
@@ -1466,6 +1466,9 @@ GUI::process_visibility()
 }
 
 #if defined(PLATFORM_OS_WINDOWS)
+#ifndef GUID_DEVINTERFACE_MONITOR
+static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, { 0xb0, 0x76, 0x33, 0xf5, 0x7b, 0xf4, 0xea, 0xa7} };
+#endif
 void
 GUI::win32_init_filter()
 {
@@ -1476,6 +1479,17 @@ GUI::win32_init_filter()
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
+
+  DEV_BROADCAST_DEVICEINTERFACE notification;
+  ZeroMemory(&notification, sizeof(notification));
+  notification.dbcc_size = sizeof(notification);
+  notification.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+  notification.dbcc_classguid = GUID_DEVINTERFACE_MONITOR;
+  RegisterDeviceNotification(hwnd,
+                             &notification,
+                             DEVICE_NOTIFY_WINDOW_HANDLE);
+
+
 }
 
 GdkFilterReturn
@@ -1516,7 +1530,7 @@ GUI::win32_filter_func (void     *xevent,
 
           case PBT_APMQUERYSUSPENDFAILED:
             TRACE_MSG("Query Suspend Failed");
-            break;
+           break;
 
           case PBT_APMRESUMESUSPEND:
           case PBT_APMRESUMEAUTOMATIC:
@@ -1544,6 +1558,25 @@ GUI::win32_filter_func (void     *xevent,
         TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
       }
       break;
+
+    case WM_DEVICECHANGE: 
+      {
+        TRACE_MSG("WM_DEVICECHANGE " << msg->wParam << " " << msg->lParam);
+        switch (msg->wParam) {
+          case DBT_DEVICEARRIVAL:
+          case DBT_DEVICEREMOVECOMPLETE:
+          {
+            HWND hwnd = FindWindowEx(NULL, NULL, "GdkDisplayChange", NULL);
+            if (hwnd)
+            {
+              SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);
+            }
+          }
+          default:
+            break;
+        }
+        break;
+      }
 
     default:
       W32AppletWindow *applet_window =
