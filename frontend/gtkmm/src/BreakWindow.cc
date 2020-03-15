@@ -494,6 +494,30 @@ BreakWindow::create_lock_button()
   return ret;
 }
 
+void
+BreakWindow::update_skip_postpone_sensitivity()
+{
+  bool is_disabled = ( (postpone_button != NULL && !postpone_button->get_sensitive()) ||
+                        (skip_button != NULL && !skip_button->get_sensitive()) );
+
+  if (is_disabled)
+    {
+      if (!is_non_ignorable_break_overdue())
+        {
+          if (postpone_button != NULL)
+            {
+              postpone_button->set_has_tooltip(false);
+              postpone_button->set_sensitive(true);
+            }
+          if (skip_button != NULL)
+            {
+              skip_button->set_has_tooltip(false);
+              skip_button->set_sensitive(true); 
+            }
+        }
+    }
+}
+
 //! User has closed the main window.
 bool
 BreakWindow::on_delete_event(GdkEventAny *)
@@ -559,7 +583,7 @@ BreakWindow::resume_non_ignorable_break()
   OperationMode mode = core->get_operation_mode();
 
   TRACE_MSG("break flags " << break_flags);
-  
+
   if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
       mode == OPERATION_MODE_NORMAL)
     {
@@ -587,10 +611,45 @@ BreakWindow::resume_non_ignorable_break()
     }
 }
 
+bool
+BreakWindow::is_non_ignorable_break_overdue()
+{
+  TRACE_ENTER("BreakWindow::is_non_ignorable_break_overdue");
+  ICore *core = CoreFactory::get_core();
+  OperationMode mode = core->get_operation_mode();
+
+  TRACE_MSG("break flags " << break_flags);
+
+  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
+      mode == OPERATION_MODE_NORMAL)
+    {
+      for (int id = break_id - 1; id >= 0; id--)
+        {
+          TRACE_MSG("Break " << id << ": check ignorable");
+
+          bool ignorable = GUIConfig::get_ignorable(BreakId(id));
+          if (!ignorable)
+            {
+              TRACE_MSG("Break " << id << " not ignorable");
+
+              IBreak *b = core->get_break(BreakId(id));
+              assert(b != NULL);
+
+              if (b->get_elapsed_time() > b->get_limit())
+                {
+                  TRACE_MSG("Break " << id << " not ignorable and overdue");
+                  return true;
+                }
+            }
+        }
+    }
+  return false;
+}
+
 //! Control buttons.
 Gtk::Box *
 BreakWindow::create_bottom_box(bool lockable,
-                                  bool shutdownable)
+                               bool shutdownable)
 {
   Gtk::HBox *box = NULL;
 
@@ -604,15 +663,30 @@ BreakWindow::create_bottom_box(bool lockable,
       if (break_flags != BREAK_FLAGS_NONE)
         {
           Gtk::HButtonBox *button_box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
+
+          bool enabled = !is_non_ignorable_break_overdue();
+
           if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
             {
               skip_button = create_skip_button();
+              skip_button->set_sensitive(enabled);
+              if (!enabled)
+                {
+                  const char *msg = _("You cannot skip this break while another non-skippable break is overdue.");
+                  skip_button->set_tooltip_text(msg);
+                }
               button_box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
             }
 
           if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
             {
               postpone_button = create_postpone_button();
+              postpone_button->set_sensitive(enabled);
+              if (!enabled)
+                {
+                  const char *msg = _("You cannot postpone this break while another non-postponable break is overdue.");
+                  postpone_button->set_tooltip_text(msg);
+                }
               button_box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
             }
           box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
@@ -766,6 +840,8 @@ void
 BreakWindow::refresh()
 {
   TRACE_ENTER("BreakWindow::refresh");
+
+  update_skip_postpone_sensitivity();
 
   update_break_window();
 
