@@ -151,7 +151,7 @@ endif()
 add_executable(workrave ${SRC})
 add_cppcheck(workrave)
 
-if (mingw)
+if (MINGW)
   ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
       # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
       COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
