@@ -73,6 +73,8 @@ Makefile.in
 /ar-lib
 /frontend/applets/xfce/src/workrave-xfce-applet.desktop
 /frontend/applets/xfce/src/xfce4-workrave-plugin
-_dist
-_deploy
+/_dist
+/_deploy
+/_build
+/.vscode
 

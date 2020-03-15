@@ -406,7 +406,7 @@ then
                       [],
                       [-lX11 -lXext -lm])
 
-    if test "x$have_xscreensaver" == "xyes"; then
+    if test "x$have_xscreensaver" = "xyes"; then
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
             #include <X11/Xlib.h>
             #include <X11/extensions/scrnsaver.h>
@@ -429,16 +429,16 @@ dnl
 if test "x$platform_os_unix" = "xyes"
 then
 
-    if test "x$enable_monitors" == "x"; then
+    if test "x$enable_monitors" = "x"; then
         enable_monitors="mutter"
 
-        if test "x$have_xrecord" == "xyes" ; then
+        if test "x$have_xrecord" = "xyes" ; then
             if test "x$enable_monitors" != "x"; then
                enable_monitors="$enable_monitors,"
             fi
             enable_monitors="${enable_monitors}record"
         fi
-        if test "x$have_xscreensaver" == "xyes" ; then
+        if test "x$have_xscreensaver" = "xyes" ; then
             if test "x$enable_monitors" != "x"; then
                enable_monitors="$enable_monitors,"
             fi
@@ -571,7 +571,7 @@ PKG_CHECK_MODULES([GLIB],
 config_gsettings=no
 if test "x$enable_gsettings" != "xno"
 then
-   if test "x$platform_os_unix" == "xyes"; then
+   if test "x$platform_os_unix" = "xyes"; then
       GLIB_GSETTINGS
       config_gsettings=yes
       AC_DEFINE(HAVE_GSETTINGS, 1, [Have GSettings])
@@ -739,7 +739,7 @@ then
                        fi])
 
    config_mate_gtk_version=none
-   if test "x$config_mate" == "xyes"
+   if test "x$config_mate" = "xyes"
    then
       MATE_GTK=`$PKG_CONFIG --print-requires libmatepanelapplet-4.0 2>/dev/null | grep -m 1 '^gtk+-'`
       case "$MATE_GTK" in
@@ -893,7 +893,7 @@ dnl
 dnl Internationalization
 dnl
 
-AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT_VERSION([0.19])
 AM_GNU_GETTEXT([external])
 
 dnl Hack because windows gettext package is SEVERELY broken...
