@@ -10,26 +10,29 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     add-apt-repository ppa:arx/release && \
     apt-get update -y && \
     apt-get install -y \
-        make \
         autoconf \
         automake \
         autopoint \
         autotools-dev \
-        libtool \
-        intltool \
-        pkg-config \
-        git \
-        gcc-mingw-w64 \
-        g++-mingw-w64 \
-        wine \
+        build-essential \
         cmake \
-        innoextract \
+        curl \
+        dos2unix \ 
+        g++-mingw-w64 \
+        gcc-mingw-w64 \
+        git \
         gobject-introspection \
+        innoextract \
+        intltool \
         libglib2.0-bin \
-        dos2unix \
-        xvfb \
+        libtool \
+        make \
+        pkg-config \
+        python3-jinja2 \
         wget \
-        curl
+        wine \
+        xvfb
+
 
 RUN mkdir /workspace && \
     cd /workspace && \
