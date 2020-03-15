@@ -30,16 +30,14 @@ foreach (po_file ${POFILES})
   endif()
 
   if (GETTEXT_FOUND)
-      add_custom_command(
+    add_custom_command(
         TARGET update-po
         POST_BUILD
         COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE}
           --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
         VERBATIM
-      )
-  endif()
-
-  if (GETTEXT_FOUND AND INTLTOOL_MERGE_FOUND)
+    )
+  
     set(gmo_file ${CMAKE_CURRENT_BINARY_DIR}/${language}.gmo)
 
     # Languages to allow fuzzy translations for.
@@ -64,16 +62,52 @@ foreach (po_file ${POFILES})
     install(FILES ${gmo_file} DESTINATION ${LOCALEDIR}/${language}/LC_MESSAGES RENAME workrave.mo)
     set(gmo_files ${gmo_files} ${gmo_file})
   endif()
+endforeach()
 
-endforeach ()
-
-if (GETTEXT_FOUND AND INTLTOOL_MERGE_FOUND)
+if (GETTEXT_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
 
-  set(XGETTEXT_ARGS "-C --qt --keyword=_ --keyword=N_ --keyword=q_ --keyword=qc_:1,2c -keyword=translate:2 --keyword=translate:2,3c --from-code=utf-8")
-
+  set(XGETTEXT_ARGS "-C --qt --keyword=_ --keyword=N_ --keyword=q_ --keyword=qc_:1,2c --keyword=C_:1c,2 --keyword=NC_:1c,2 -keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=utf-8 --add-comments")
+                 
   add_custom_command(
     OUTPUT ${POTFILE}
-    COMMAND INTLTOOL_EXTRACT=${INTLTOOL_EXTRACT_EXECUTABLE} XGETTEXT=${GETTEXT_XGETTEXT_EXECUTABLE} XGETTEXT_ARGS=${XGETTEXT_ARGS} srcdir=. ${INTLTOOL_UPDATE_EXECUTABLE} --gettext-package workrave --pot -o ${POTFILE}
+    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS} --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+  macro(INTLTOOL_MERGE_XML IN OUT)
+    add_custom_command(
+      OUTPUT ${OUT}
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
+        --xml
+        -d "${CMAKE_SOURCE_DIR}/po"
+        --template ${IN}
+        -o ${OUT}
+       DEPENDS ${IN}
+    )
+  endmacro()
+
+  macro(INTLTOOL_MERGE_DESKTOP IN OUT)
+    add_custom_command(
+      OUTPUT ${OUT}
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
+        --desktop
+        -d "${CMAKE_SOURCE_DIR}/po"
+        --template ${IN}
+        -o ${OUT}
+      DEPENDS ${IN}
+      )
+  endmacro()
+
+  macro(INTLTOOL_NOMERGE_XML IN OUT)
+    add_custom_command(
+      OUTPUT ${OUT}
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
+        --xml
+        -d "${CMAKE_SOURCE_DIR}/po"
+        --template ${IN}
+        -o ${OUT}
+      DEPENDS ${IN}
+      )
+  endmacro()
+
 endif()

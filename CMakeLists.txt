@@ -612,8 +612,6 @@ set (GETTEXT_PACKAGE "workrave")
 
 # TODO: generate languages.iss for InnoSetup
 
-include(Intltool)
-
 #----------------------------------------------------------------------------------------------------
 # Tracing
 
