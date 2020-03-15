@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "zapper.h"
 
@@ -90,7 +91,7 @@ cleanup:
 
 
 static void
-FindOrZapWorkrave()
+FindOrZapWorkrave(void)
 {
   HINSTANCE psapi = NULL;
   HINSTANCE kernel32 = LoadLibrary("kernel32.dll");
@@ -108,7 +109,7 @@ FindOrZapWorkrave()
 
   if (pfnQueryFullProcessImageName != NULL || pfnGetModuleFileNameEx != NULL)
     {
-      EnumWindows(EnumWindowsProc, 0);
+      EnumWindows(EnumWindowsProc, 0L);
     }
 
   if (kernel32 != NULL)
@@ -124,7 +125,7 @@ FindOrZapWorkrave()
 
 
 BOOL
-FindWorkrave()
+FindWorkrave(void)
 {
   success = FALSE;
   simulate = TRUE;
@@ -135,7 +136,7 @@ FindWorkrave()
 }
 
 BOOL
-ZapWorkrave()
+ZapWorkrave(void)
 {
   success = FALSE;
   simulate = FALSE;
@@ -161,7 +162,6 @@ KillProcess(char *proces_name_to_kill)
       DWORD count = 0;
       DWORD needed = 0;
       DWORD *pids = NULL;
-      BOOL ret = FALSE;
 
       do
         {

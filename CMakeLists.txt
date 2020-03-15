@@ -1,3 +1,7 @@
+if (DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
 project(Workrave)
 
 # Ubuntu 16.04 LTS has CMake 3.5
@@ -60,7 +64,10 @@ include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(CppCheck)
 include(FindPythonModule)
-include(FindPkgConfig)
+
+if (NOT VCPKG_TOOLCHAIN)
+  include(FindPkgConfig)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 
@@ -68,6 +75,8 @@ include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 # Macros
+
+if (NOT VCPKG_TOOLCHAIN)
 
 macro(pkgconfig_get_var OUT PKG VARNAME)
   if (LOCALINSTALL)
@@ -108,6 +117,8 @@ macro(pkgconfig_get_requires OUT PKG)
     set (${OUT} ${_result} CACHE INTERNAL "")
   endif()
 endmacro()
+
+endif()
 
 macro(files_exists OUT DIRECTORY FILES)
 set (${OUT} TRUE)
@@ -190,14 +201,14 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Pkg-config
 
-if (NOT ("${WITH_UI}" STREQUAL "Qt5"))
+if ((NOT ("${WITH_UI}" STREQUAL "Qt5")) AND (NOT VCPKG_TOOLCHAIN))
   find_package(PkgConfig REQUIRED)
 endif()
 
 #----------------------------------------------------------------------------------------------------
 # Python
 
-find_package (Python3 COMPONENTS Interpreter)
+find_package(Python3 COMPONENTS Interpreter)
 
 #----------------------------------------------------------------------------------------------------
 # DBus
@@ -208,7 +219,6 @@ include(DBus)
 
 if (WITH_DBUS)
   message(STATUS "Checking for: Jinja2")
-
   if (Python3_FOUND)
     find_python_module(jinja2)
   endif()
@@ -223,10 +233,29 @@ endif()
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   message(STATUS "Checking for: Gtk 3")
 
-  pkg_check_modules(
-    GTK REQUIRED
-    gtkmm-3.0>=3.22.0
-    gtk+-3.0>=3.22.0)
+  if (NOT VCPKG_TOOLCHAIN)
+    pkg_check_modules(
+      GTK REQUIRED
+      gtkmm-3.0>=3.22.0
+      gtk+-3.0>=3.22.0)
+
+    # TODO: duplicate check, refactor
+    pkg_check_modules(
+      GLIB REQUIRED
+      glib-2.0>=2.56.0
+      gio-2.0>=2.56.0)
+  else()
+    set(LIBS atk-1.0 atkmm cairo cairomm-1.0 gdk_pixbuf-2.0 gdk-3.0 gdkmm gio-2.0 giomm glib-2.0 glibmm gobject-2.0 gtk-3.0 gtkmm libintl pango-1.0 pangomm sigc-2.0)
+    foreach(lib ${LIBS})
+     find_library(${lib}_PATH ${lib} RERQUIRED)
+      if(${lib}_PATH)
+        set(GTK_LIBRARIES ${GTK_LIBRARIES} ${${lib}_PATH})
+      else()
+        message(STATUS "Could not find ${lib}")
+      endif()
+    endforeach()
+    find_path(GTK_INCLUDE_DIRS gtkmm.h)
+  endif()
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -238,17 +267,9 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     set (HAVE_DBUS_GIO ON)
     set (DBUS_BACKEND "gio")
   endif()
-
-  # TODO: duplicate check, refactor
-  pkg_check_modules(
-    GLIB REQUIRED
-    glib-2.0>=2.56.0
-    gio-2.0>=2.56.0)
-
+ 
   include_directories(${GLIB_INCLUDE_DIRS})
-
   find_package(GSettings)
-
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -258,7 +279,6 @@ option(WITH_GCONF "Enable GConf support" OFF)
 
 if (WITH_GCONF)
   message(STATUS "Checking for: Gnome GConf")
-
   pkg_check_modules(GCONF QUIET gconf-2.0)
   if (GCONF_FOUND)
     set (HAVE_GCONF ON)
@@ -533,16 +553,16 @@ if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
     else()
       message(FATAL_ERROR "32 bit compilation not supported on Windows")
     endif()
-    if (MSVC_VERSION EQUAL 1900)
-      set (_vsver 14)
-    else()
-        message(FATAL_ERROR "Visual Studio 2015 is required to compile Workrave on Windows")
-    endif()
-    set (_libdir "${_arch}-msvc-${_vsver}.0")
+    # if (MSVC_VERSION EQUAL 1900)
+    #   set (_vsver 14)
+    # else()
+    #     message(FATAL_ERROR "Visual Studio 2015 is required to compile Workrave on Windows")
+    # endif()
+    # set (_libdir "${_arch}-msvc-${_vsver}.0")
 
-    if (EXISTS "${BOOST_ROOT}/${_libdir}")
-      set (BOOST_LIBRARYDIR "${BOOST_ROOT}/${_libdir}" CACHE PATH "")
-    endif()
+    # if (EXISTS "${BOOST_ROOT}/${_libdir}")
+    #   set (BOOST_LIBRARYDIR "${BOOST_ROOT}/${_libdir}" CACHE PATH "")
+    # endif()
   endif()
 
   if (HAVE_TESTS)
@@ -568,18 +588,23 @@ foreach(line ${pofile})
 endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
-find_package(Gettext)
-find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
-
-if (HAVE_QT5)
-  set (ENABLE_NLS ON)
-else()
-  find_package(Libintl)
-
-  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
-    message(STATUS "GetText not found - disabling i18n")
-  else()
+if(CMAKE_TOOLCHAIN_FILE MATCHES vcpkg)
+    find_package(unofficial-gettext REQUIRED)
     set (ENABLE_NLS ON)
+else()
+   find_package(Gettext)
+   find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+
+  if (HAVE_QT5)
+    set (ENABLE_NLS ON)
+  else()
+    find_package(Libintl)
+
+    if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
+      message(STATUS "GetText not found - disabling i18n")
+    else()
+      set (ENABLE_NLS ON)
+    endif()
   endif()
 endif()
 
@@ -677,7 +702,9 @@ if (WIN32)
   set (HAVE_GSETTINGS OFF)
   set (HAVE_LANGUAGE_SELECTION TRUE)
 
-  add_compile_options("-mwindows")
+  if (NOT MSVC)
+    add_compile_options("-mwindows")
+  endif()
 
   if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
@@ -691,7 +718,9 @@ if (WIN32)
     add_definitions(
       -DWIN32
       -D_WINDOWS
-      -D_WIN32_WINNT=0x0600
+      -D_WIN32_WINNT=0x0601
+      -DWINVER=0x0601
+      -DNOMINMAX
       )
   endif()
 
@@ -719,6 +748,15 @@ if (WIN32)
   check_struct_has_member("MOUSEHOOKSTRUCT" hwnd "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCT)
   check_struct_has_member("MOUSEHOOKSTRUCTEX" mouseData "windows.h" HAVE_STRUCT_MOUSEHOOKSTRUCTEX)
 
+  set(LIBS winmm wtsapi32 shlwapi dsound dxguid)
+  foreach(lib ${LIBS})
+   find_library(${lib}_PATH ${lib} RERQUIRED)
+    if(${lib}_PATH)
+      set(WIN32_LIBRARIES ${WIN32_LIBRARIES} ${${lib}_PATH})
+    else()
+      message(STATUS "Could not find ${lib}")
+    endif()
+  endforeach()
 endif()
 
 #----------------------------------------------------------------------------------------------------

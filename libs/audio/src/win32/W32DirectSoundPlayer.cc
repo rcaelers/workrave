@@ -190,13 +190,30 @@ SoundClip::~SoundClip()
 std::string
 SoundClip::get_error_string(DWORD error_code)
 {
-  wchar_t* buffer;
-  FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error_code, 0, (LPTSTR)&buffer, 0, NULL);
-  std::wstring str(buffer);
-  LocalFree(buffer);
-  return std::string(str.begin(), str.end());
-}
+  if (error_code)
+    {
+      LPVOID buffer;
+      DWORD buffer_len = FormatMessage(
+          FORMAT_MESSAGE_ALLOCATE_BUFFER |
+          FORMAT_MESSAGE_FROM_SYSTEM |
+          FORMAT_MESSAGE_IGNORE_INSERTS,
+          NULL,
+          error_code,
+          MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+          (LPTSTR)&buffer,
+          0, NULL);
 
+      if (buffer_len > 0)
+        {
+          LPCSTR msg = (LPCSTR)buffer;
+          std::string result(msg, msg + buffer_len);
+          LocalFree(buffer);
+          return result;
+        }
+    }
+    return std::string();
+}
+ 
 void
 SoundClip::init()
 {

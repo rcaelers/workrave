@@ -7,6 +7,8 @@ set(SRC
   EventButton.cc
   EventImage.cc
   EventLabel.cc
+  ExercisesDialog.cc
+  ExercisesPanel.cc
   Frame.cc
   Grab.cc
   GUI.cc
@@ -23,6 +25,7 @@ set(SRC
   PreferencesDialog.cc
   PreludeWindow.cc
   RestBreakWindow.cc
+  StatisticsDialog.cc
   StatusIcon.cc
   Text.cc
   TimeBar.cc
@@ -74,13 +77,15 @@ if (PLATFORM_OS_WINDOWS)
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 
-  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                     COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                                                  -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                    )
 
-  set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
+  if (MINGW)
+      add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                         COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                                                      -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+                         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+                        )
+      set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
+  endif()
 
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
 endif()
@@ -109,15 +114,6 @@ if (HAVE_DBUS)
 
   dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.service.in ${BINDIR})
 endif()
-
-set(SRC ${SRC}
-  ExercisesDialog.cc
-  ExercisesPanel.cc
-  )
-
-set(SRC ${SRC}
-  StatisticsDialog.cc
-    )
 
 if (HAVE_GSETTINGS)
   gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src)
@@ -155,15 +151,17 @@ endif()
 add_executable(workrave ${SRC})
 add_cppcheck(workrave)
 
-ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
-    # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
-    COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
-        $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
-    COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
-        $<TARGET_FILE:workrave>
-    COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
-        $<TARGET_FILE:workrave>
- )
+if (mingw)
+  ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
+      # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
+      COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
+          $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
+      COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
+          $<TARGET_FILE:workrave>
+      COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
+          $<TARGET_FILE:workrave>
+  )
+endif()
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
@@ -199,11 +197,7 @@ target_link_libraries(workrave ${INDICATOR_LIBRARIES})
 
 if (WIN32)
   if (HAVE_HARPOON)
-     target_link_libraries(workrave harpoon)
-  endif()
-  target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
-
-  if (HAVE_HARPOON)
+    target_link_libraries(workrave harpoon)
     include_directories(${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
   endif()
 
@@ -211,16 +205,21 @@ if (WIN32)
     ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
     )
+ 
+  if(MSVC)
+    target_link_libraries(workrave ${WIN32_LIBRARIES}) 
+  endif()
 
-  target_link_libraries(workrave dxerr8 dsound dxguid)
-
-
-  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mconsole")
-    set_target_properties(workrave PROPERTIES LINK_FLAGS "-mconsole")
-  else()
-    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
-    set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+  if (MINGW)
+    target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
+    target_link_libraries(workrave dxerr8 dsound dxguid)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+      set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mconsole")
+      set_target_properties(workrave PROPERTIES LINK_FLAGS "-mconsole")
+    else()
+      set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
+      set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+    endif()
   endif()
 endif(WIN32)
 

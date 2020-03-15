@@ -36,6 +36,7 @@
 using namespace std;
 using namespace workrave::utils;
 
+#if TODO_REMOVE
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
 
@@ -177,6 +178,7 @@ text_buffer_insert_markup (GtkTextBuffer *buffer,
 {
   text_buffer_insert_markup_real (buffer, iter, markup, len);
 }
+#endif
 
 
 
@@ -191,7 +193,7 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
   g_return_if_fail (markup != nullptr);
 
   if (len < 0)
-    len = strlen (markup);
+    len = (gint)strlen (markup);
 
   gtk_text_buffer_get_bounds (buffer, &start, &end);
 
@@ -200,7 +202,7 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
   if (len > 0)
   {
     gtk_text_buffer_get_iter_at_offset (buffer, &start, 0);
-    text_buffer_insert_markup (buffer, &start, markup, len);
+    gtk_text_buffer_insert_markup (buffer, &start, markup, len);
   }
 }
 // (end code to be removed)
@@ -366,7 +368,7 @@ ExercisesPanel::start_exercise()
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
       std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
                                                    exercise.description.c_str());
-      text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
+      text_buffer_set_markup(buf->gobj(), txt.c_str(), static_cast<gint>(txt.length()));
       exercise_time = 0;
       seq_time = 0;
       image_iterator = exercise.sequence.end();

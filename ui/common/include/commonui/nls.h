@@ -38,7 +38,7 @@
 #        define N_(String) (String)
 #    endif
 #  else
-/  * Stubs that do something close enough.  */
+/* Stubs that do something close enough.  */
 #    define textdomain(String) (String)
 #    define gettext(String) (String)
 #    define dgettext(Domain,Message) (Message)

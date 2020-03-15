@@ -329,7 +329,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
           Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(icon_path);
           row[sysoper_model_columns->icon] = img;
       } catch (Glib::Error &e) {
-        TRACE_MSG("Cannot read image: " << icon_name);
+        TRACE_MSG("Cannot read image: " << icon_name << " " << e.what());
       }
 
     }

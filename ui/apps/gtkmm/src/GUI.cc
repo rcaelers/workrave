@@ -74,7 +74,9 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 #include <pbt.h>
+#endif
 #include <wtsapi32.h>
 #include <dbt.h>
 #include <windows.h>

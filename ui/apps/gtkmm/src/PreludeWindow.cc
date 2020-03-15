@@ -466,11 +466,11 @@ PreludeWindow::avoid_pointer()
     {
       if (winy == bottom_y)
         {
-          align->set(0.5, 0.9, 0.0, 0.0);
+          align->set(0.5F, 0.9F, 0.0F, 0.0F);
         }
       else
         {
-          align->set(0.5, 0.1, 0.0, 0.0);
+          align->set(0.5F, 0.1F, 0.0F, 0.0F);
         }
     }
   else

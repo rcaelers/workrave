@@ -29,12 +29,7 @@
 
 #include <windows.h>
 #include <mmsystem.h>
-
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
-#define CLSID_MMDeviceEnumerator __uuidof(MMDeviceEnumerator)
-#define IID_IMMDevicEenumerator __uuidof(IMMDeviceEnumerator)
-#define IID_IAudioEndpointVolume __uuidof(IAudioEndpointVolume)
-#endif
+#include <shobjidl.h> 
 
 using namespace std;
 
@@ -89,12 +84,11 @@ W32Mixer::init()
   IMMDeviceEnumerator *device_enum = NULL;
   IMMDevice *default_device = NULL;
 
-#ifdef _MSC_VER
-  // These symbols do not exist in the MSVC SDK. Use variable shadowing to compile without errors.
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
   const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
   const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
-#endif //_MSC_VER
+#endif
 
   hr = CoCreateInstance(CLSID_MMDeviceEnumerator, NULL, CLSCTX_INPROC_SERVER, IID_IMMDeviceEnumerator, (LPVOID *)&device_enum);
   if (hr == S_OK)
