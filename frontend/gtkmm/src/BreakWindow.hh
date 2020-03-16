@@ -96,9 +96,9 @@ protected:
   void center();
 
   Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
-  void resume_non_ignorable_break();
   void update_skip_postpone_sensitivity();
   bool is_non_ignorable_break_overdue();
+  bool is_non_skipable_break_overdue();
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
