@@ -19,7 +19,7 @@ mkdir -p ~/.gnupg/private-keys-v1.d
 
 echo allow-loopback-pinentry > ~/.gnupg/gpg-agent.conf
 
-gpg --import ${SOURCES_DIR}/build/travis/pubring.gpg
+gpg --import ${SECRETS_DIR}/pubring.gpg
 gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import ${SECRETS_DIR}/secring.gpg
 
 git remote set-branches --add origin debian-packaging
