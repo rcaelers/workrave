@@ -55,7 +55,6 @@ _stage_base: &_stage_base
         aws configure set default.s3.signature_version s3v4
         aws configure set s3.endpoint_url https://snapshots.workrave.org/
 
-
 _stage_build_docker: &_stage_build_docker
   <<: *_stage_base
   os: linux
