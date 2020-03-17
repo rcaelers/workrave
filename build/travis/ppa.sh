@@ -71,7 +71,7 @@ chmod 400 ~/.ssh/config
 echo SSH config:
 cat ~/.ssh/config
 
-for series in disco cosmic bionic xenial trusty
+for series in focal eoan disco bionic xenial trusty
 do
     echo Create $series source package
     cd /workspace/source
