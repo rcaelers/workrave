@@ -731,6 +731,16 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
 
+  // Need to realize window before it is shown
+  // Otherwise, there is not gobj()...
+  realize_if_needed();
+
+  // Set some window hints.
+  set_skip_pager_hint(true);
+  set_skip_taskbar_hint(true);
+
+  WindowHints::set_always_on_top(this, true);
+
   update_break_window();
   center();
 
@@ -740,11 +750,7 @@ BreakWindow::start()
 #endif
   show_all();
 
-  // Set window hints.
-  set_skip_pager_hint(true);
-  set_skip_taskbar_hint(true);
   WindowHints::set_always_on_top(this, true);
-  raise();
 
 #ifdef PLATFORM_OS_WIN32
   if( force_focus_on_break_start && ( this->head.count == 0 ) )
