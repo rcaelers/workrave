@@ -5,6 +5,11 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.38
+
+** Show operation mode in cinnamon applet.
+** Fixed focus issue on rest break window that caused muted (grey) text.
+
 * Workrave 1.10.37
 
 ** Add Ubuntu 19.10 / 20.04 to Workrave PPA
