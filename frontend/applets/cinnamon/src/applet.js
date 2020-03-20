@@ -48,6 +48,115 @@ const IndicatorIface = '<node>\
 
 let IndicatorProxy = Gio.DBusProxy.makeProxyWrapper(IndicatorIface);
 
+const CoreIface = '<node>\
+  <interface name="org.workrave.CoreInterface"> \
+    <method name="SetOperationMode"> \
+      <arg type="s" name="mode" direction="in"> \
+      </arg> \
+    </method> \
+    <method name="GetOperationMode"> \
+      <arg type="s" name="mode" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="SetUsageMode"> \
+      <arg type="s" name="mode" direction="in"> \
+      </arg> \
+    </method> \
+    <method name="GetUsageMode"> \
+      <arg type="s" name="mode" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="ReportActivity"> \
+      <arg type="s" name="who" direction="in"> \
+      </arg> \
+      <arg type="b" name="act" direction="in"> \
+      </arg> \
+    </method> \
+    <method name="IsTimerRunning"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="b" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetTimerIdle"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="i" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetTimerElapsed"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="i" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetTimerRemaining"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="i" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetTimerOverdue"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="i" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetTime"> \
+      <arg type="i" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="GetBreakState"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+      <arg type="s" name="stage" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="IsActive"> \
+      <arg type="b" name="value" direction="out"> \
+      </arg> \
+    </method> \
+    <method name="PostponeBreak"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+    </method> \
+    <method name="SkipBreak"> \
+      <arg type="s" name="timer_id" direction="in"> \
+      </arg> \
+    </method> \
+    <signal name="MicrobreakChanged"> \
+      <arg type="s" name="progress"> \
+      </arg> \
+    </signal> \
+    <signal name="RestbreakChanged"> \
+      <arg type="s" name="progress"> \
+      </arg> \
+    </signal> \
+    <signal name="DailylimitChanged"> \
+      <arg type="s" name="progress"> \
+      </arg> \
+    </signal> \
+    <signal name="OperationModeChanged"> \
+      <arg type="s" name="mode"> \
+      </arg> \
+    </signal> \
+    <signal name="UsageModeChanged"> \
+      <arg type="s" name="mode"> \
+      </arg> \
+    </signal> \
+    <signal name="BreakPostponed"> \
+      <arg type="s" name="timer_id"> \
+      </arg> \
+    </signal> \
+    <signal name="BreakSkipped"> \
+      <arg type="s" name="timer_id"> \
+      </arg> \
+    </signal> \
+  </interface> \
+</node>';
+
+let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
+
 function MyApplet(metadata, orientation, panel_height, instanceId) {
     this._init(metadata, orientation, panel_height, instanceId);
 }
@@ -78,10 +187,13 @@ MyApplet.prototype = {
         this.actor.show();
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this._proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
-        this._timers_updated_id = this._proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
-        this._menu_updated_id = this._proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
-        this._trayicon_updated_id = this._proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
+        this._ui_proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
+        this._timers_updated_id = this._ui_proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
+        this._menu_updated_id = this._ui_proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
+        this._trayicon_updated_id = this._ui_proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
+
+        this._core_proxy = new CoreProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/Core');
+        this._operation_mode_changed_id = this._core_proxy.connectSignal("OperationModeChanged", Lang.bind(this, this._onOperationModeChanged));
 
         this._updateMenu(null);
 
@@ -101,16 +213,18 @@ MyApplet.prototype = {
 
     _onDestroy: function()
     {
-        this._proxy.EmbedRemote(false, 'CinnamonApplet');
+        this._ui_proxy.EmbedRemote(false, 'CinnamonApplet');
         this._stop();
         this._destroy();
     },
 
     _destroy: function() {
-        this._proxy.disconnectSignal(this._timers_updated_id);
-        this._proxy.disconnectSignal(this._menu_updated_id);
-        this._proxy.disconnectSignal(this._trayicon_updated_id);
-        this._proxy = null;
+        this._ui_proxy.disconnectSignal(this._timers_updated_id);
+        this._ui_proxy.disconnectSignal(this._menu_updated_id);
+        this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
+        this._ui_proxy = null;
+        this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
+        this._core_proxy = null;
         this.actor.destroy();
     },
 
@@ -119,9 +233,10 @@ MyApplet.prototype = {
         if (! this._alive)
         {
             this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
-            this._proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
-            this._proxy.GetTrayIconEnabledRemote(Lang.bind(this, this._onGetTrayIconEnabledReply));
-            this._proxy.EmbedRemote(true, this._bus_name);
+            this._ui_proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
+            this._ui_proxy.GetTrayIconEnabledRemote(Lang.bind(this, this._onGetTrayIconEnabledReply));
+            this._ui_proxy.EmbedRemote(true, this._bus_name);
+            this._core_proxy.GetOperationModeRemote(Lang.bind(this, this._onGetOperationModeReply));
             this._timeoutId = Mainloop.timeout_add(5000, Lang.bind(this, this._onTimer));
             this._alive = true;
             this._update_count = 0;
@@ -235,6 +350,10 @@ MyApplet.prototype = {
         this._updateTrayIcon(enabled);
     },
 
+    _onGetOperationModeReply : function([mode], excp) {
+        this._timerbox.set_operation_mode(mode);
+    },
+
     _onMenuUpdated : function(emitter, senderName, [menuitems]) {
         this._updateMenu(menuitems);
     },
@@ -243,15 +362,19 @@ MyApplet.prototype = {
         this._updateTrayIcon(enabled);
     },
 
+    _onOperationModeChanged : function(emitter, senderName, [mode]) {
+        this._timerbox.set_operation_mode(mode);
+    },
+
     _onCommandReply : function(menuitems) {
     },
 
     _onMenuCommand : function(item, event, dummy, command) {
-        this._proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
+        this._ui_proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },
 
     _onMenuOpenCommand: function(item, event) {
-        this._proxy.GetMenuRemote(); // A dummy method call to re-activate the service
+        this._ui_proxy.GetMenuRemote(); // A dummy method call to re-activate the service
     },
 
     _updateTrayIcon : function(enabled) {
@@ -268,7 +391,7 @@ MyApplet.prototype = {
 
         if (menuitems == null || menuitems.length == 0)
         {
-            let popup = new PopupMenu.PopupMenuItem(_("Open"));
+            let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
             popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
             current_menu.addMenuItem(popup);
         }
