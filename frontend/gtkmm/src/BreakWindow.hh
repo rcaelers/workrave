@@ -96,9 +96,8 @@ protected:
   void center();
 
   Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
-  void update_skip_postpone_sensitivity();
-  bool is_non_ignorable_break_overdue();
-  bool is_non_skipable_break_overdue();
+  void update_skip_postpone_lock();
+  void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
@@ -164,6 +163,9 @@ private:
   Gtk::Button *postpone_button;
   Gtk::Button *skip_button;
   Gtk::ComboBox *sysoper_combobox;
+  Gtk::ProgressBar *progress_bar;
+  Glib::RefPtr<Gtk::SizeGroup> box_size_group;
+  Glib::RefPtr<Gtk::SizeGroup> button_size_group;
 
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;

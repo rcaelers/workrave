@@ -5,6 +5,16 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.10.39
+
+** When it is time to take a micro break, Workrave may start a rest break
+   instead. This happens when the rest break would start within 30 seconds of
+   the micro break. If the postpone or skip buttons are disabled on the micro
+   break, they will be temporarily disabled on the rest break window. A small
+   progress bar indicates how long the buttons are disabled. Previously,
+   Workrave would restart the micro break when pressing the skip or postpone
+   button.
+
 * Workrave 1.10.38
 
 ** Show operation mode in cinnamon applet.
