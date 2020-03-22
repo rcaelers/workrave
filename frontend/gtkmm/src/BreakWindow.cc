@@ -707,7 +707,7 @@ BreakWindow::create_bottom_box(bool lockable,
                   align = Gtk::manage(new Gtk::Alignment(1, 0, 0, 0.0));
                 }
               align->add(*progress_bar);
-              progress_bar_box->pack_end(*align, Gtk::PACK_EXPAND_WIDGET, 0);
+              progress_bar_box->pack_end(*align, Gtk::PACK_EXPAND_WIDGET, 6);
 
               box_size_group->add_widget(*progress_bar_box);
               box_size_group->add_widget(*button_box);
