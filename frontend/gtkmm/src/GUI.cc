@@ -815,6 +815,21 @@ GUI::init_gui()
 
   // Periodic timer.
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_timer), 1000);
+
+#ifndef HAVE_GTK3
+  static const gchar *rc_string =
+    {
+     "style \"progressBarWidth\"\n"
+     "{\n"
+     "   GtkProgressBar::min-horizontal-bar-width = 10\n"
+     "}\n"
+     "\n"
+     "widget \"*.locked-progress\" style \"progressBarWidth\"\n"
+     // "class \"GtkProgressBar\" style \"progressBarWidth\"\n"
+    };
+
+	gtk_rc_parse_string(rc_string);
+#endif
 }
 
 

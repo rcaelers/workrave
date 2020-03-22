@@ -688,6 +688,7 @@ BreakWindow::create_bottom_box(bool lockable,
               progress_bar = Gtk::manage(new Gtk::ProgressBar);
               progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
               progress_bar->set_fraction(0);
+              progress_bar->set_name("locked-progress");
 
               vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
               top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);
