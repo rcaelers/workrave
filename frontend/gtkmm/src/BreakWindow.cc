@@ -686,7 +686,11 @@ BreakWindow::create_bottom_box(bool lockable,
               Gtk::HBox *progress_bar_box = Gtk::manage(new Gtk::HBox(false, 0));
 
               progress_bar = Gtk::manage(new Gtk::ProgressBar);
+#ifdef HAVE_GTK3
               progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+#else
+              progress_bar->set_orientation(Gtk::PROGRESS_LEFT_TO_RIGHT);
+#endif
               progress_bar->set_fraction(0);
               progress_bar->set_name("locked-progress");
 

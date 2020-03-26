@@ -822,6 +822,7 @@ GUI::init_gui()
      "style \"progressBarWidth\"\n"
      "{\n"
      "   GtkProgressBar::min-horizontal-bar-width = 10\n"
+     "   GtkProgressBar::min-horizontal-bar-height = 2\n"
      "}\n"
      "\n"
      "widget \"*.locked-progress\" style \"progressBarWidth\"\n"
