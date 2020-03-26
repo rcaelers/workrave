@@ -1,3 +1,4 @@
+[type: gettext/glade]frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml
 [type: gettext/glade]frontend/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
 [type: gettext/glade]frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
 backend/src/ActivityMonitor.cc
@@ -54,6 +55,8 @@ common/src/win32/crashlog.c
 common/win32/harpoon/src/harpoon.c
 frontend/applets/common/src/timebar.c
 frontend/applets/common/src/timerbox.c
+frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c
+frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c
 frontend/applets/gnome3/src/v4/WorkraveApplet.c
 frontend/applets/gnome3/src/v5/WorkraveApplet.c
 frontend/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in

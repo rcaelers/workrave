@@ -20,7 +20,7 @@
 #ifndef __WORKRAVEAPPLET_H__
 #define __WORKRAVEAPPLET_H__
 
-#include <panel-applet.h>
+#include <libgnome-panel/gp-applet.h>
 
 G_BEGIN_DECLS
 
@@ -37,7 +37,7 @@ typedef struct _WorkraveAppletPrivate WorkraveAppletPrivate;
 
 struct _WorkraveApplet
 {
-  PanelApplet parent_object;
+  GpApplet parent_object;
 
   /*< private >*/
   WorkraveAppletPrivate *priv;
@@ -45,7 +45,7 @@ struct _WorkraveApplet
 
 struct _WorkraveAppletClass
 {
-  PanelAppletClass parent_class;
+  GpAppletClass parent_class;
 };
 
 GType workrave_applet_get_type(void) G_GNUC_CONST;

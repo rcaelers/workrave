@@ -2,5 +2,3 @@
 /org.workrave.WorkraveApplet.panel-applet
 /org.gnome.panel.applet.WorkraveAppletFactory.service
 /workrave-applet
-/workrave-gnome-applet-generated.c
-/workrave-gnome-applet-generated.h

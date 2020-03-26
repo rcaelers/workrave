@@ -529,35 +529,49 @@ dnl
 
 config_gnome3=no
 config_panelapplet4=no
+config_panelapplet5=no
+config_libgnome_panel=no
 
 if test "x$enable_gnome3" != "xno" -a "x$config_dbus" = "xyes"
 then
-    PKG_CHECK_MODULES(GNOME3,
-                      libpanel-applet >= 3.16.1 gio-2.0 >= 2.26.0,
+    PKG_CHECK_MODULES([GNOME3],
+                      [libgnome-panel >= 3.36.0 gio-2.0 >= 2.26.0],
                       [config_gnome3=yes
-                       config_panelapplet5=yes
+                       config_libgnome_panel=yes
+                       LIBGNOME_PANEL_MODULES_DIR=`$PKG_CONFIG --variable=modulesdir libgnome-panel`
+                       AC_SUBST([LIBGNOME_PANEL_MODULES_DIR], [$LIBGNOME_PANEL_MODULES_DIR])
+                       AC_DEFINE([HAVE_LIBGNOME_PANEL], 1, [Support for GNOME Panel applet])],
+                      [])
 
-                       AC_DEFINE(HAVE_PANELAPPLET,  1, [Support for Gnome panel applet v4/v5])
-                       AC_DEFINE(HAVE_PANELAPPLET5, 1, [Support for Gnome panel applet v5])],
-                       [ ])
-
-    if test "x$config_panelapplet5" != "xyes"
+    if test "x$config_libgnome_panel" != "xyes"
     then
-       PKG_CHECK_MODULES([GNOME3],
-                         [libpanelapplet-4.0 gio-2.0 >= 2.26.0],
-                         [config_gnome3=yes
-                          config_panelapplet4=yes
-                          AC_DEFINE(HAVE_PANELAPPLET,  1, [Support for Gnome panel applet v4/v5]),
-                          AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
-                          [if test "x$enable_gnome3" = "xyes"; then
-                             AC_MSG_ERROR([Gnome 3 development headers not found.])
-                          fi])
+        PKG_CHECK_MODULES(GNOME3,
+                          [libpanel-applet >= 3.16.1 gio-2.0 >= 2.26.0],
+                          [config_gnome3=yes
+                           config_panelapplet5=yes
+                           AC_DEFINE([HAVE_PANELAPPLET], [1], [Support for Gnome panel applet v4/v5])
+                           AC_DEFINE([HAVE_PANELAPPLET5], [1], [Support for Gnome panel applet v5])],
+                           [])
+
+        if test "x$config_panelapplet5" != "xyes"
+        then
+            PKG_CHECK_MODULES([GNOME3],
+                              [libpanelapplet-4.0 gio-2.0 >= 2.26.0],
+                              [config_gnome3=yes
+                               config_panelapplet4=yes
+                               AC_DEFINE(HAVE_PANELAPPLET,  1, [Support for Gnome panel applet v4/v5]),
+                               AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
+                               [if test "x$enable_gnome3" = "xyes"; then
+                                  AC_MSG_ERROR([Gnome 3 development headers not found.])
+                               fi])
+        fi
     fi
 fi
 
 AM_CONDITIONAL(HAVE_PANELAPPLET,   test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet5" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET5, test "x$config_panelapplet5" = "xyes")
+AM_CONDITIONAL(HAVE_LIBGNOME_PANEL, test "x$config_libgnome_panel" = "xyes")
 
 dnl
 dnl GLIB
