@@ -259,8 +259,8 @@ stages:
     - name: build
       if: (tag IS NOT present) OR (tag != ppa)
     - name: catalog
-      if: (tag IS NOT present) OR (tag != ppa)
+      if: ((tag IS NOT present) OR (tag != ppa)) AND type = push
     - name: release
-      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
+      if: tag IS presentness eAND tag =~ ^v1_.*$ AND type = push
     - name: ppa
       if: tag IS present AND (tag =~ ^v1_.*$ OR tag = ppa) AND type = push
