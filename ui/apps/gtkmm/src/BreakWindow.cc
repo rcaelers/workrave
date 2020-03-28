@@ -604,8 +604,6 @@ Gtk::Box *
 BreakWindow::create_bottom_box(bool lockable,
                                bool shutdownable)
 {
-  Gtk::HBox *box = nullptr;
-
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
