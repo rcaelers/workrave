@@ -91,7 +91,7 @@ _stage_deploy: &_stage_deploy
         tags: true
       script: build/travis/deploy-upload.sh
 
-    - provider: scriptß
+    - provider: script
       skip_cleanup: true
       on:
         repo: rcaelers/workrave
@@ -134,7 +134,7 @@ jobs:
 #          --name "Workrave $VERSION" \
 #          --description "New release" \
 #          --draft
-#      <<: *stage_base
+#      <<: *_stage_base
 
     ###########################################################################
     - stage: build
@@ -172,8 +172,8 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-eoan"
-      <<: *stage_build_docker
-      <<: *stage_deploy
+      <<: *_stage_build_docker
+      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -182,7 +182,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
+      <<: *_stage_build_docker
 
     - stage: build
       env: >
@@ -191,7 +191,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
+      <<: *_stage_build_docker
 
     - stage: build
       env: >
@@ -200,7 +200,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
         CONF_DISABLE="GCONF,TESTS,COVERAGE"
         DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *stage_build_docker
+      <<: *_stage_build_docker
 
     - stage: build
       env: >
@@ -210,8 +210,8 @@ jobs:
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="mingw-gtk-rawhide"
-      <<: *stage_build_docker
-      <<: *stage_deploy
+      <<: *_stage_build_docker
+      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -221,8 +221,8 @@ jobs:
         CONF_ENABLE="TRACING"
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE"
         DOCKER_IMAGE="mingw-gtk-rawhide"
-      <<: *stage_build_docker
-      <<: *stage_deploy
+      <<: *_stage_build_docker
+      <<: *_stage_deploy
 
     - stage: build
       compiler: clang
@@ -230,7 +230,7 @@ jobs:
         WITH_UI="Qt5"
         CONF_ENABLE=""
         CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
-      <<: *stage_build_osx
+      <<: *_stage_build_osx
 
     - stage: catalog
       language: node_js
@@ -252,7 +252,7 @@ jobs:
 #          --tag "$TRAVIS_TAG" \
 #          --name "Workrave $VERSION" \
 #          --description "New release"
-#      <<: *stage_base
+#      <<: *_stage_base
 #
 #    - stage: ppa
 #      env: >
