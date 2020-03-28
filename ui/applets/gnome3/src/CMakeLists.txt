@@ -17,28 +17,18 @@ intltool_merge_desktop(
   ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.panel-applet)
 add_custom_target(generate_gnome3_panel_applet ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.panel-applet)
 
-gdbus_codegen(
-  "workrave-gnome-applet-generated.h workrave-gnome-applet-generated.c"
-  workrave-gnome-applet-generated
-  org.workrave.
-  Workrave
-  ${CMAKE_CURRENT_SOURCE_DIR}/workrave-gnome-applet.xml
-  )
-
-set(SRC workrave-gnome-applet-generated.c)
-
 if (HAVE_LIBGNOME_PANEL)
-  set(SRC ${SRC} libgnome-panel/WorkraveApplet.c libgnome-panel/WorkraveModule.c)
+  set(SRC libgnome-panel/WorkraveApplet.c libgnome-panel/WorkraveModule.c)
   install(FILES libgnome-panel/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
   set(PANELDIR "${DATADIR}/gnome-panel/applets")
   pkgconfig_get_var(PANELDIR libgnome-panel modulesdir)
 elseif (HAVE_PANELAPPLET5)
-  set(SRC ${SRC} v5/WorkraveApplet.c)
+  set(SRC v5/WorkraveApplet.c)
   install(FILES v5/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
   set(PANELDIR "${DATADIR}/gnome-panel/applets")
   pkgconfig_get_var(PANELDIR libpanel-applet libpanel_applet_dir)
 elseif (HAVE_PANELAPPLET4)
-  set(SRC ${SRC} v4/WorkraveApplet.c)
+  set(SRC v4/WorkraveApplet.c)
   install(FILES v4/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
   set(PANELDIR "${DATADIR}/gnome-panel/4.0/applets")
 endif()
