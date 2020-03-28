@@ -91,7 +91,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   accel_group(nullptr),
   postpone_button(nullptr),
   skip_button(nullptr),
-  sysoper_combobox(nullptr)
+  sysoper_combobox(nullptr),
+  progress_bar(nullptr)
 #ifdef PLATFORM_OS_WINDOWS
   ,
   desktop_window(NULL),
@@ -471,6 +472,45 @@ BreakWindow::create_lock_button()
   return ret;
 }
 
+void
+BreakWindow::update_skip_postpone_lock()
+{
+  if ( (postpone_button != NULL && !postpone_button->get_sensitive()) ||
+       (skip_button != NULL && !skip_button->get_sensitive()))
+    {
+      bool skip_locked = false;
+      bool postpone_locked = false;
+      BreakId overdue_break_id = BREAK_ID_NONE;
+      check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+
+      if (progress_bar)
+        {
+          if (overdue_break_id != BREAK_ID_NONE)
+            {
+              ICore::Ptr core = Backend::get_core();
+              IBreak::Ptr b = core->get_break(overdue_break_id);
+
+              progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / b->get_auto_reset());
+            }
+          else
+            {
+              progress_bar->hide();
+            }
+        }
+
+      if (!postpone_locked && postpone_button != NULL)
+        {
+          postpone_button->set_has_tooltip(false);
+          postpone_button->set_sensitive(true);
+        }
+      if (!skip_locked && skip_button != NULL)
+        {
+          skip_button->set_has_tooltip(false);
+          skip_button->set_sensitive(true);
+        }
+    }
+}
+
 //! User has closed the main window.
 bool
 BreakWindow::on_delete_event(GdkEventAny *)
@@ -492,8 +532,6 @@ BreakWindow::on_postpone_button_clicked()
   IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
-  resume_non_ignorable_break();
-
   TRACE_EXIT();
 }
 
@@ -508,7 +546,6 @@ BreakWindow::on_skip_button_clicked()
   IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
-  resume_non_ignorable_break();
 
   TRACE_EXIT();
 }
@@ -523,11 +560,14 @@ BreakWindow::on_lock_button_clicked()
   System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
 }
 
-
 void
-BreakWindow::resume_non_ignorable_break()
+BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
+  skip_locked = false;
+  postpone_locked = false;
+  overdue_break_id = BREAK_ID_NONE;
+
   ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
@@ -538,23 +578,22 @@ BreakWindow::resume_non_ignorable_break()
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          TRACE_MSG("Break " << id << ": check ignorable");
+          IBreak::Ptr b = core->get_break(id);
 
-          bool ignorable = GUIConfig::break_ignorable(BreakId(id))();
-          if (!ignorable)
+          bool overdue = b->get_elapsed_time() > b->get_limit();
+
+          if (!GUIConfig::break_ignorable(BreakId(id))())
             {
-              TRACE_MSG("Break " << id << " not ignorable");
-
-              ICore::Ptr core = Backend::get_core();
-              IBreak::Ptr b = core->get_break(BreakId(id));
-
-              if (b->get_elapsed_time() > b->get_limit())
-                {
-                  TRACE_MSG("Break " << id << " not ignorable and overdue");
-
-                  core->force_break(BreakId(id), BREAK_HINT_NONE);
-                  break;
-                }
+              skip_locked = overdue;
+            }
+          if (!GUIConfig::break_skippable(BreakId(id))())
+            {
+              postpone_locked = overdue;
+            }
+          if (skip_locked || postpone_locked)
+            {
+              overdue_break_id = BreakId(id);
+              return;
             }
         }
     }
@@ -563,32 +602,103 @@ BreakWindow::resume_non_ignorable_break()
 //! Control buttons.
 Gtk::Box *
 BreakWindow::create_bottom_box(bool lockable,
-                                  bool shutdownable)
+                               bool shutdownable)
 {
   Gtk::HBox *box = nullptr;
 
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
+  Gtk::VBox *vbox = new Gtk::VBox(false, 0);
+
+  button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      box = new Gtk::HBox(false, 6);
+      Gtk::HBox *top_box = Gtk::manage(new Gtk::HBox(false, 0));
+      Gtk::HBox *bottom_box = Gtk::manage(new Gtk::HBox(false, 6));
+
+      vbox->pack_end(*bottom_box, Gtk::PACK_SHRINK, 2);
 
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          Gtk::HButtonBox *button_box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
+          Gtk::HButtonBox *button_box = Gtk::manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
+          bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
+
+          bool skip_locked = false;
+          bool postpone_locked = true;
+          BreakId overdue_break_id =  BREAK_ID_NONE;
+          check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+
           if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
             {
               skip_button = create_skip_button();
-              button_box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
+              skip_button->set_sensitive(!skip_locked);
+              if (skip_locked)
+                {
+                  const char *msg = _("You cannot skip this break while another non-skippable break is overdue.");
+                  skip_button->set_tooltip_text(msg);
+                }
+
+              button_box->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              button_size_group->add_widget(*skip_button);
             }
 
           if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
             {
               postpone_button = create_postpone_button();
-              button_box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
+              postpone_button->set_sensitive(!postpone_locked);
+              if (postpone_locked)
+                {
+                  const char *msg = _("You cannot postpone this break while another non-postponable break is overdue.");
+                  postpone_button->set_tooltip_text(msg);
+                }
+              button_box->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              button_size_group->add_widget(*postpone_button);
             }
-          box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
+
+          if (skip_locked || postpone_locked)
+            {
+              Gtk::HBox *progress_bar_box = Gtk::manage(new Gtk::HBox(false, 0));
+
+              progress_bar = Gtk::manage(new Gtk::ProgressBar);
+              progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+              progress_bar->set_fraction(0);
+              progress_bar->set_name("locked-progress");
+
+              vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
+              top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);
+
+              Gtk::Alignment *align;
+              if (skip_locked && postpone_locked)
+                {
+                  align = Gtk::manage(new Gtk::Alignment(0, 0, 1.0, 0.0));
+                }
+              else if (skip_locked)
+                {
+                  align = Gtk::manage(new Gtk::Alignment(0, 1, 0.0, 0.0));
+                }
+              else
+                {
+                  align = Gtk::manage(new Gtk::Alignment(1, 0, 0, 0.0));
+                }
+              align->add(*progress_bar);
+              progress_bar_box->pack_end(*align, Gtk::PACK_EXPAND_WIDGET, 6);
+
+              box_size_group->add_widget(*progress_bar_box);
+              box_size_group->add_widget(*button_box);
+              button_size_group->add_widget(*progress_bar);
+
+              const char style[] =
+                "progress, trough {\n"
+                "min-width: 1px;\n"
+                "}";
+              Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+              Glib::RefPtr<Gtk::StyleContext> style_context = progress_bar->get_style_context();
+              css_provider->load_from_data(style);
+              style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+            }
         }
 
       if (lockable || shutdownable)
@@ -598,7 +708,7 @@ BreakWindow::create_bottom_box(bool lockable,
               sysoper_combobox = create_sysoper_combobox();
               if (sysoper_combobox != nullptr)
                 {
-                  box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
                 }
             }
           else
@@ -606,13 +716,13 @@ BreakWindow::create_bottom_box(bool lockable,
               lock_button = create_lock_button();
               if (lock_button != nullptr)
                 {
-                  box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
                 }
             }
         }
     }
 
-  return box;
+  return vbox;
 }
 
 void
@@ -642,6 +752,15 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
 
+  // Need to realize window before it is shown
+  // Otherwise, there is not gobj()...
+  realize_if_needed();
+
+  // Set some window hints.
+  set_skip_pager_hint(true);
+  set_skip_taskbar_hint(true);
+
+  WindowHints::set_always_on_top(this, true);
 
   update_break_window();
   center();
@@ -652,11 +771,7 @@ BreakWindow::start()
 #endif
   show_all();
 
-  // Set window hints.
-  set_skip_pager_hint(true);
-  set_skip_taskbar_hint(true);
   WindowHints::set_always_on_top(this, true);
-  raise();
 
 #ifdef PLATFORM_OS_WINDOWS
   if( force_focus_on_break_start && this->head.count == 0)
@@ -713,6 +828,8 @@ void
 BreakWindow::refresh()
 {
   TRACE_ENTER("BreakWindow::refresh");
+
+  update_skip_postpone_lock();
 
   update_break_window();
 

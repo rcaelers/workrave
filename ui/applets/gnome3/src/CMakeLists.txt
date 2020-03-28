@@ -7,7 +7,6 @@ set(LOCATION   "${CMAKE_INSTALL_PREFIX}/${APPLETDIR}/libworkrave-applet.so")
 set(IN_PROCESS true)
 set(VERSION    ${PACKAGE_VERSION})
 
-
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.WorkraveApplet.panel-applet.in.in
   ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.panel-applet.in
@@ -28,7 +27,12 @@ gdbus_codegen(
 
 set(SRC workrave-gnome-applet-generated.c)
 
-if (HAVE_PANELAPPLET5)
+if (HAVE_LIBGNOME_PANEL)
+  set(SRC ${SRC} libgnome-panel/WorkraveApplet.c libgnome-panel/WorkraveModule.c)
+  install(FILES libgnome-panel/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
+  set(PANELDIR "${DATADIR}/gnome-panel/applets")
+  pkgconfig_get_var(PANELDIR libgnome-panel modulesdir)
+elseif (HAVE_PANELAPPLET5)
   set(SRC ${SRC} v5/WorkraveApplet.c)
   install(FILES v5/workrave-gnome-applet-menu.xml DESTINATION ${UIDIR})
   set(PANELDIR "${DATADIR}/gnome-panel/applets")

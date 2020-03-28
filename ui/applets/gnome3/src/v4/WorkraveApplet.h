@@ -17,7 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #ifndef __WORKRAVEAPPLET_H__
 #define __WORKRAVEAPPLET_H__
 
@@ -49,19 +48,7 @@ struct _WorkraveAppletClass
   PanelAppletClass parent_class;
 };
 
-
-#define DBUS_SERVICE_APPLET "org.workrave.Workrave.GnomeApplet"
-#define WORKRAVE_DBUS_ERROR g_quark_from_static_string ("workrave")
-
 GType workrave_applet_get_type(void) G_GNUC_CONST;
-
-gboolean workrave_applet_get_socket_id(WorkraveApplet *, guint *, GError **);
-gboolean workrave_applet_get_size(WorkraveApplet *, guint *, GError **);
-gboolean workrave_applet_get_orientation(WorkraveApplet *, guint *, GError **);
-gboolean workrave_applet_set_menu_status(WorkraveApplet *, const char *, gboolean, GError **);
-gboolean workrave_applet_get_menu_status(WorkraveApplet *, const char *, gboolean *, GError **);
-gboolean workrave_applet_set_menu_active(WorkraveApplet *, const char *, gboolean, GError **);
-gboolean workrave_applet_get_menu_active(WorkraveApplet *, const char *, gboolean *, GError **);
 
 G_END_DECLS
 

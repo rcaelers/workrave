@@ -11,7 +11,7 @@ notifications:
 
 ################################################################################
 
-stage_base: &stage_base
+_stage_base: &_stage_base
   before_install:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - export WORKRAVE_FULL_TAG=`git describe --tags --abbrev=10`
@@ -55,9 +55,8 @@ stage_base: &stage_base
         aws configure set default.s3.signature_version s3v4
         aws configure set s3.endpoint_url https://snapshots.workrave.org/
 
-
-stage_build_docker: &stage_build_docker
-  <<: *stage_base
+_stage_build_docker: &_stage_build_docker
+  <<: *_stage_base
   os: linux
   dist: bionic
   language: cpp
@@ -73,16 +72,16 @@ stage_build_docker: &stage_build_docker
        build/travis/build.sh
     fi
 
-stage_build_osx: &stage_build_osx
-  <<: *stage_base
+_stage_build_osx: &_stage_build_osx
+  <<: *_stage_base
   os: osx
   osx_image: xcode11
   language: cpp
   script:
     - build/travis/build.sh
 
-stage_deploy: &stage_deploy
-  <<: *stage_base
+_stage_deploy: &_stage_deploy
+  <<: *_stage_base
   deploy:
     - provider: script
       skip_cleanup: true
@@ -92,29 +91,35 @@ stage_deploy: &stage_deploy
         tags: true
       script: build/travis/deploy-upload.sh
 
-    - provider: script
+    - provider: scriptß
       skip_cleanup: true
       on:
         repo: rcaelers/workrave
         branch: next
-      script: 
-        - aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
+      script: aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
-stage_deploy_ppa: &stage_deploy_ppa
-  <<: *stage_base
+_stage_deploy_ppa: &_stage_deploy_ppa
+  <<: *_stage_base
   os: linux
   dist: bionic
   language: cpp
-  script: |
-    if [[ $DOCKER_IMAGE ]]; then
-      docker run --rm \
-          -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-          -e TRAVIS_TAG=${TRAVIS_TAG} \
-          rcaelers/workrave-build:${DOCKER_IMAGE} \
-          sh -c "/workspace/source/build/travis/ppa.sh"
-    else
-       build/travis/ppa.sh
-    fi
+  script:
+    - mkdir -p _dist/secrets
+    - chmod 0700 _dist/secrets
+    - openssl aes-256-cbc -K $encrypted_cc78bd3121e0_key -iv $encrypted_cc78bd3121e0_iv -in build/travis/secrets.tar.enc -out _dist/secrets/secrets.tar -d
+    - tar vxf _dist/secrets/secrets.tar -C _dist/
+    - rm -f _dist/secrets/secrets.tar
+    - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
+    - |
+        if [[ $DOCKER_IMAGE ]]; then
+          docker run --rm \
+              -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+              -e TRAVIS_TAG=${TRAVIS_TAG} \
+              rcaelers/workrave-build:${DOCKER_IMAGE} \
+              sh -c "/workspace/source/build/travis/ppa.sh"
+        else
+          build/travis/ppa.sh
+        fi
 
 jobs:
   include:
@@ -139,7 +144,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-bionic"
-      <<: *stage_build_docker
+      <<: *_stage_build_docker
 
     - stage: build
       env: >
@@ -148,7 +153,7 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *stage_build_docker
+      <<: *_stage_build_docker
 
     - stage: build
       env: >
@@ -157,8 +162,8 @@ jobs:
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-disco"
-      <<: *stage_build_docker
-      <<: *stage_deploy
+      <<: *_stage_build_docker
+      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -229,14 +234,13 @@ jobs:
 
     - stage: catalog
       language: node_js
-      node_js:
-        - 12.7.0
+      node_js: 12.7.0
       script:
         - cd $TRAVIS_BUILD_DIR/build/travis/catalog
         - npm i
         - node --experimental-modules main.js 
         - curl -X POST -d {} https://api.netlify.com/build_hooks/$NETLIFY_TRIGGER
-      <<: *stage_base
+      <<: *_stage_base
 
 #    - stage: release
 #      script:
@@ -253,14 +257,7 @@ jobs:
 #    - stage: ppa
 #      env: >
 #        DOCKER_IMAGE="ubuntu-bionic"
-#      before_install:
-#        - mkdir -p _dist/secrets
-#        - chmod 0700 _dist/secrets
-#        - openssl aes-256-cbc -K $encrypted_cc78bd3121e0_key -iv $encrypted_cc78bd3121e0_iv -in build/travis/secrets.tar.enc -out _dist/secrets/secrets.tar -d
-#        - tar xf _dist/secrets/secrets.tar -C _dist/
-#        - rm -f _dist/secrets/secrets.tar
-#        - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
-#      <<: *stage_deploy_ppa
+#      <<: *_stage_deploy_ppa
 #
 ## TODO; fails before github-release is not installed
 #after_failure:
@@ -275,6 +272,7 @@ stages:
 #      if: tag IS present AND type = push
     - name: build
     - name: catalog
+      if: ((tag IS NOT present) OR (tag != ppa)) AND type = push
 #    - name: release
 #      if: tag IS present AND tag =~ ^v2_.*$ AND type = push
 #    - name: ppa

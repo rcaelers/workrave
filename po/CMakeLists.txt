@@ -33,8 +33,7 @@ foreach (po_file ${POFILES})
     add_custom_command(
         TARGET update-po
         POST_BUILD
-        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE}
-          --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
+        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
         VERBATIM
     )
   
@@ -67,12 +66,12 @@ endforeach()
 if (GETTEXT_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
 
-  set(XGETTEXT_ARGS "-C --qt --keyword=_ --keyword=N_ --keyword=q_ --keyword=qc_:1,2c --keyword=C_:1c,2 --keyword=NC_:1c,2 -keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=utf-8 --add-comments")
-                 
+  set(XGETTEXT_ARGS -C --qt --keyword=_ --keyword=N_ --keyword=q_ --keyword=qc_:1,2c --keyword=C_:1c,2 --keyword=NC_:1c,2 -keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=utf-8 --add-comments)
+
   add_custom_command(
     OUTPUT ${POTFILE}
-    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS} --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE}  ${XGETTEXT_ARGS} --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
   macro(INTLTOOL_MERGE_XML IN OUT)
     add_custom_command(

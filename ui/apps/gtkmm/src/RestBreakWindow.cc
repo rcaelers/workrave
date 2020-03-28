@@ -210,6 +210,8 @@ RestBreakWindow::create_info_panel()
            "walk around for a few minutes, stretch, and relax."));
     }
 
+  GtkUtil::set_theme_fg_color(info_lab);
+
   info_lab->set_markup(txt);
   info_box->pack_start(*info_img, false, false, 0);
   info_box->pack_start(*info_lab, false, true, 0);

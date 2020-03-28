@@ -1,5 +1,3 @@
-[type: gettext/glade]ui/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
-[type: gettext/glade]ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
 contrib/send_menu_command/win32/send_workrave_command.c
 libs/audio/src/GstSoundPlayer.cc
 libs/audio/src/PulseMixer.cc
@@ -95,6 +93,8 @@ ui/applets/gnome-shell/src/metadata.json.in
 ui/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
 ui/applets/gnome3/src/v4/WorkraveApplet.c
 ui/applets/gnome3/src/v5/WorkraveApplet.c
+ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c
+ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c
 ui/applets/gnome3/src/workrave-gnome-applet.xml
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
@@ -195,3 +195,6 @@ ui/common/src/Session.cc
 ui/common/src/SoundTheme.cc
 ui/common/src/TimerBoxControl.cc
 ui/data/exercises/exercises.xml.in
+ui/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
+ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
+ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml
