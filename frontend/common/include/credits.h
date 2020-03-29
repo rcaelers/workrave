@@ -81,6 +81,6 @@ const char *workrave_translators =
  /* zh_CN */        "Tao WEI <weitao1979@gmail.com>\n"
  /* zh_CN */        "Alick Zhao <alick9188@gmail.com>\n"
  /* zh_TW */        "Rex Tsai <chihchun@linux.org.tw>\n"
- /* zh_TW */        "Daniel YC Lin (林原志) <dlin.tw@gmail.com>>\n";
+ /* zh_TW */        "Daniel YC Lin (林原志) <dlin.tw@gmail.com>\n";
 
 #endif /* CREDITS_H */
