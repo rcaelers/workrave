@@ -171,6 +171,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-eoan"
+        DISTCHECK="yes"
       <<: *_stage_build_docker
       <<: *_stage_deploy
 
@@ -243,7 +244,7 @@ jobs:
 
     - stage: ppa
       env: >
-        DOCKER_IMAGE="ubuntu-bionic"
+        DOCKER_IMAGE="ubuntu-eoan"
       <<: *_stage_deploy_ppa
 
 # TODO; fails before github-release is not installed
