@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 26 March 2020
+Workrave NEWS -- history of user-visible changes. 04 April 2020
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -14,7 +14,9 @@ https://github.com/rcaelers/workrave/issues
    progress bar indicates how long the buttons are disabled. Previously,
    Workrave would restart the micro break when pressing the skip or postpone
    button.
-** Support applets on Gnome 3.35.1+ using libgnome-panel (Alberts Muktupāvels)
+** Support applets on Gnome 3.35.1+ using libgnome-panel (Alberts Muktupāvels).
+** Added Indonesian translation (Andika Triwidada).
+** Fixed issue where Workrave was not properly terminated on reinstall.
 
 * Workrave 1.10.38
 
