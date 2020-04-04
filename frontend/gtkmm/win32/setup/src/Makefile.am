@@ -9,9 +9,14 @@ EXTRA_DIST = $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)
 
 if PLATFORM_OS_WIN32
 
-lib_LTLIBRARIES		= libzapper.la
+lib_LTLIBRARIES	   	    = libzapper.la
 libzapper_la_SOURCES    = zapper.c
 libzapper_la_LDFLAGS    = -no-undefined -version-info 0:0:0
 include_HEADERS         = zapper.h
+
+bin_PROGRAMS = zap
+zap_SOURCES = zap.c
+zap_LDADD = -lzapper
+zap_LDFLAGS = -mconsole 
 
 endif
