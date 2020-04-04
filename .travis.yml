@@ -171,6 +171,7 @@ jobs:
         CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
         CONF_DISABLE=""
         DOCKER_IMAGE="ubuntu-eoan"
+        DISTCHECK="yes"
       <<: *_stage_build_docker
       <<: *_stage_deploy
 
@@ -226,7 +227,7 @@ jobs:
         - node --experimental-modules main.js 
         - curl -X POST -d {} https://api.netlify.com/build_hooks/$NETLIFY_TRIGGER
         - |
-          curl -X POST -i -H "Authorization: token ${GITHUB_TOKEN}" -d '{"event_type":"rebuild"}' https://api.github.com/repos/rcaelers/workrave-website/dispatches
+          curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -d '{"event_type":"rebuild"}' https://api.github.com/repos/rcaelers/workrave-website/dispatches
       <<: *_stage_base
 
     - stage: release
@@ -243,7 +244,7 @@ jobs:
 
     - stage: ppa
       env: >
-        DOCKER_IMAGE="ubuntu-bionic"
+        DOCKER_IMAGE="ubuntu-eoan"
       <<: *_stage_deploy_ppa
 
 # TODO; fails before github-release is not installed
