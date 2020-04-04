@@ -6,7 +6,6 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
 	  	  v4/WorkraveApplet.c				 		\
 	  	  v5/WorkraveApplet.c				 		\
 		  WorkraveApplet.h				 		\
-		  workrave-gnome-applet.xml					\
 		  v4/workrave-gnome-applet-menu.xml				\
 		  v5/workrave-gnome-applet-menu.xml
 
@@ -19,7 +18,12 @@ SUBDIRS =
 
 if HAVE_LIBGNOME_PANEL
 
+if LOCALINSTALL
+appletdir = $(datadir)/gnome-panel/modules
+else
 appletdir = $(LIBGNOME_PANEL_MODULES_DIR)
+endif
+
 applet_LTLIBRARIES = libworkrave-applet.la
 
 xmluidir = $(pkgdatadir)/ui
@@ -50,30 +54,40 @@ libworkrave_applet_la_CXXFLAGS = ${FLAGS}
 libworkrave_applet_la_CFLAGS = ${FLAGS}
 libworkrave_applet_la_LDFLAGS = -module -avoid-version
 
-endif
+endif # HAVE_LIBGNOME_PANEL
 
 if HAVE_PANELAPPLET
 
-xmluidir    			= $(datadir)/gnome-panel/ui
+# Common
+
+xmluidir    			  = $(datadir)/gnome-panel/ui
 applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
 if HAVE_PANELAPPLET4
+
+# V4
+
 appletdir       		= $(datadir)/gnome-panel/4.0/applets
-xmlui_DATA  			= v4/workrave-gnome-applet-menu.xml
+xmlui_DATA  	  		= v4/workrave-gnome-applet-menu.xml
 applet_source 			= v4/WorkraveApplet.c
 
-else
+else 
+
+# V5
 
 if LOCALINSTALL
 appletdir			= $(datadir)/gnome-panel/applets
 else
 appletdir			= `$(PKG_CONFIG) --variable=libpanel_applet_dir libpanel-applet`
 endif
+
 xmlui_DATA  			= v5/workrave-gnome-applet-menu.xml
 applet_source 			= v5/WorkraveApplet.c
 
 endif
+
+# Comnmon
 
 APPLET_IN_PROCESS 		= true
 APPLET_LOCATION   		= ${pkglibdir}/libworkrave-applet.so
