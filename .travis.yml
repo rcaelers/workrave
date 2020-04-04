@@ -1,4 +1,3 @@
-sudo: required
 dist: bionic
 
 services:
@@ -84,7 +83,6 @@ _stage_deploy: &_stage_deploy
   <<: *_stage_base
   deploy:
     - provider: script
-      skip_cleanup: true
       on:
         repo: rcaelers/workrave
         branch: branch_v1_10
@@ -93,7 +91,6 @@ _stage_deploy: &_stage_deploy
       script: build/travis/deploy-upload.sh
 
     - provider: scriptß
-      skip_cleanup: true
       on:
         repo: rcaelers/workrave
         branch: branch_v1_10
@@ -226,10 +223,8 @@ jobs:
         - npm i
         - node --experimental-modules main.js 
         - curl -X POST -d {} https://api.netlify.com/build_hooks/$NETLIFY_TRIGGER
-        - curl -X POST -i \
-                 -H "Authorization: token ${GITHUB_TOKEN}" \
-                 -d '{"event_type":"rebuild"}' \
-                 https://api.github.com/repos/rcaelers/workrave-website/dispatches
+        - |
+          curl -X POST -i -H "Authorization: token ${GITHUB_TOKEN}" -d '{"event_type":"rebuild"}' https://api.github.com/repos/rcaelers/workrave-website/dispatches
       <<: *_stage_base
 
     - stage: release
@@ -265,6 +260,6 @@ stages:
     - name: catalog
       if: ((tag IS NOT present) OR (tag != ppa)) AND type = push
     - name: release
-      if: tag IS presentness eAND tag =~ ^v1_.*$ AND type = push
+      if: tag IS present AND tag =~ ^v1_.*$ AND type = push
     - name: ppa
       if: tag IS present AND (tag =~ ^v1_.*$ OR tag = ppa) AND type = push
