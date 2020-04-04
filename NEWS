@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
+* Workrave 1.10.40
+
+** Fix creation for source tarball.
+
 * Workrave 1.10.39
 
 ** When it is time to take a micro break, Workrave may start a rest break
