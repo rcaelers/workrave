@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-08 19:02+0100\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2020-04-04 14:05+0200\n"
 "PO-Revision-Date: 2016-05-04 14:45+0800\n"
 "Last-Translator: Daniel YC Lin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7\n"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
@@ -26,6 +27,7 @@ msgstr ""
 msgid "_Open"
 msgstr "開啟(_O)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
 #: ../frontend/applets/mate/src/main-gtk2.c:278
@@ -33,6 +35,7 @@ msgstr "開啟(_O)"
 msgid "_Restbreak"
 msgstr "休息(_R)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
 #: ../frontend/applets/mate/src/main-gtk2.c:274
@@ -40,6 +43,7 @@ msgstr "休息(_R)"
 msgid "_Exercises"
 msgstr "體操(_E)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ../frontend/applets/mate/src/main-gtk2.c:266
@@ -47,6 +51,7 @@ msgstr "體操(_E)"
 msgid "_Statistics"
 msgstr "統計(_S)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
@@ -57,6 +62,7 @@ msgstr "統計(_S)"
 msgid "_Mode"
 msgstr "模式(_M)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
@@ -66,24 +72,27 @@ msgstr "模式(_M)"
 msgid "Normal"
 msgstr "一般(_N)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1507
+#: ../frontend/gtkmm/src/GUI.cc:1520
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:328
 #: ../frontend/applets/mate/src/main-gtk3.c:369
 msgid "Suspended"
 msgstr "停止(_S)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1524
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
 #: ../frontend/applets/mate/src/main-gtk2.c:332
 #: ../frontend/applets/mate/src/main-gtk3.c:373
 msgid "Quiet"
 msgstr "勿擾(_u)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
@@ -94,6 +103,7 @@ msgstr "勿擾(_u)"
 msgid "_Network"
 msgstr "網路(_N)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
 #: ../frontend/applets/mate/src/main-gtk2.c:290
@@ -101,6 +111,7 @@ msgstr "網路(_N)"
 msgid "_Join"
 msgstr "加入(_J)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
@@ -111,6 +122,7 @@ msgstr "加入(_J)"
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
@@ -121,6 +133,7 @@ msgstr "中斷連線(_D)"
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
@@ -130,6 +143,7 @@ msgstr "重新連線(_R)"
 msgid "Show log"
 msgstr "顯示紀錄(_L)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
@@ -140,6 +154,7 @@ msgstr "顯示紀錄(_L)"
 msgid "Reading mode"
 msgstr "讀取模式"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
@@ -148,6 +163,7 @@ msgstr "讀取模式"
 msgid "_Preferences"
 msgstr "偏好(_P)"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
@@ -157,6 +173,7 @@ msgstr "偏好(_P)"
 msgid "_About"
 msgstr "關於(_A)..."
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
@@ -306,6 +323,7 @@ msgstr "連線到用戶端 %s。"
 msgid "Could not connect to client %s."
 msgstr "無法連線到用戶端 %s。"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
 #: ../frontend/gtkmm/src/Menus.cc:365
@@ -316,6 +334,14 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+msgid "Workrave Applet"
+msgstr "Workrave Applet"
 
 #: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
@@ -344,7 +370,7 @@ msgstr "稍息結束"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 msgid "Daily limit"
 msgstr "每日限制"
 
@@ -379,44 +405,55 @@ msgstr "%s%d:%02d 分"
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "Lock..."
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:299
+#: ../frontend/gtkmm/src/BreakWindow.cc:300
 #, fuzzy
 msgid "Lock"
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:303
+#: ../frontend/gtkmm/src/BreakWindow.cc:304
 #, fuzzy
 msgid "Shutdown"
 msgstr "關閉"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:307
+#: ../frontend/gtkmm/src/BreakWindow.cc:308
 #, fuzzy
 msgid "Suspend"
 msgstr "停止(_S)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Hibernate"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:316
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "停止(_S)"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:450
+#: ../frontend/gtkmm/src/BreakWindow.cc:451
 #, fuzzy
 msgid "_Skip"
 msgstr "略過"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:467
+#: ../frontend/gtkmm/src/BreakWindow.cc:468
 #, fuzzy
 msgid "_Postpone"
 msgstr "延後"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:663
+msgid ""
+"You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:677
+msgid ""
+"You cannot postpone this break while another non-postponable break is "
+"overdue."
+msgstr ""
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -435,42 +472,42 @@ msgstr ""
 "Workrave 仍在運行中。您可以點擊白綿羊的圖示來開啟 workrave視窗。點擊以關閉此"
 "對話框。"
 
-#: ../frontend/gtkmm/src/GUI.cc:834 ../frontend/gtkmm/src/GUI.cc:957
+#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "當系統啟動時自動啟動 workrave"
 
-#: ../frontend/gtkmm/src/GUI.cc:836
+#: ../frontend/gtkmm/src/GUI.cc:849
 msgid "Is Workrave already running?"
 msgstr "Workrave 是否正在運行中？"
 
-#: ../frontend/gtkmm/src/GUI.cc:952
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave 無法監控您的鍵盤與滑鼠活動\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:955
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "請確認 X server 中 RECORD 附加元件已被啟用"
 
-#: ../frontend/gtkmm/src/GUI.cc:1366
+#: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr "Workrave 處於停止模式中，將不會監控滑鼠與鍵盤活動"
 
-#: ../frontend/gtkmm/src/GUI.cc:1372
+#: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave 處於勿擾模式中，將不會提醒您休息"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
 msgid "Micro-break"
 msgstr "稍息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1500
+#: ../frontend/gtkmm/src/GUI.cc:1513
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
@@ -479,7 +516,7 @@ msgstr "稍息"
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
 msgid "Mode: "
 msgstr "模式(_M)"
 
@@ -769,29 +806,29 @@ msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:124
+#: ../frontend/gtkmm/src/PreludeWindow.cc:140
 msgid "Time for a micro-break?"
 msgstr "稍息一下?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:128
+#: ../frontend/gtkmm/src/PreludeWindow.cc:144
 msgid "You need a rest break..."
 msgstr "您需要休息一下..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:132
+#: ../frontend/gtkmm/src/PreludeWindow.cc:148
 msgid "You should stop for today..."
 msgstr "今天應該到此為止了..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:307
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Break in %s"
 msgstr "休息 %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:311
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Disappears in %s"
 msgstr "自動消失 %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:315
+#: ../frontend/gtkmm/src/PreludeWindow.cc:331
 #, c-format
 msgid "Silent in %s"
 msgstr "沉默 %s"
@@ -1419,12 +1456,6 @@ msgstr "錯誤"
 
 #~ msgid "_About..."
 #~ msgstr "關於(_A)..."
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
-
-#~ msgid "Workrave Applet"
-#~ msgstr "Workrave Applet"
 
 #~ msgid "Daily usage"
 #~ msgstr "日使用量"

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-08 19:02+0100\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2020-04-04 14:05+0200\n"
 "PO-Revision-Date: 2015-10-27 02:59+0300\n"
 "Last-Translator: Denis Nikolaenko <denis@nikolaenko.ru>\n"
 "Language-Team: Andrey Bondrov <abondrov@rosalab.ru>\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.4\n"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
@@ -26,6 +27,7 @@ msgstr ""
 msgid "_Open"
 msgstr "_Открыть"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
 #: ../frontend/applets/mate/src/main-gtk2.c:278
@@ -33,6 +35,7 @@ msgstr "_Открыть"
 msgid "_Restbreak"
 msgstr "_Перерыв на отдых"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
 #: ../frontend/applets/mate/src/main-gtk2.c:274
@@ -40,6 +43,7 @@ msgstr "_Перерыв на отдых"
 msgid "_Exercises"
 msgstr "_Упражнения"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ../frontend/applets/mate/src/main-gtk2.c:266
@@ -47,6 +51,7 @@ msgstr "_Упражнения"
 msgid "_Statistics"
 msgstr "_Статистика"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
@@ -57,6 +62,7 @@ msgstr "_Статистика"
 msgid "_Mode"
 msgstr "_Режим"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
@@ -65,24 +71,27 @@ msgstr "_Режим"
 msgid "Normal"
 msgstr "Обычный"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1507
+#: ../frontend/gtkmm/src/GUI.cc:1520
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:328
 #: ../frontend/applets/mate/src/main-gtk3.c:369
 msgid "Suspended"
 msgstr "Приостановлен"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1524
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
 #: ../frontend/applets/mate/src/main-gtk2.c:332
 #: ../frontend/applets/mate/src/main-gtk3.c:373
 msgid "Quiet"
 msgstr "Тихо"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
@@ -93,6 +102,7 @@ msgstr "Тихо"
 msgid "_Network"
 msgstr "_Сеть"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
 #: ../frontend/applets/mate/src/main-gtk2.c:290
@@ -100,6 +110,7 @@ msgstr "_Сеть"
 msgid "_Join"
 msgstr "_Присоединиться"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
@@ -110,6 +121,7 @@ msgstr "_Присоединиться"
 msgid "_Disconnect"
 msgstr "_Разорвать"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
@@ -120,6 +132,7 @@ msgstr "_Разорвать"
 msgid "_Reconnect"
 msgstr "_Пересоединиться"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
@@ -128,6 +141,7 @@ msgstr "_Пересоединиться"
 msgid "Show log"
 msgstr "Показать _журнал"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
@@ -138,6 +152,7 @@ msgstr "Показать _журнал"
 msgid "Reading mode"
 msgstr "Режим чтения"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
@@ -146,6 +161,7 @@ msgstr "Режим чтения"
 msgid "_Preferences"
 msgstr "_Настройки"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
@@ -154,6 +170,7 @@ msgstr "_Настройки"
 msgid "_About"
 msgstr "_О программе..."
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
@@ -303,6 +320,7 @@ msgstr "Клиент %s соединился."
 msgid "Could not connect to client %s."
 msgstr "Не могу соединиться с клиентом %s."
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
 #: ../frontend/gtkmm/src/Menus.cc:365
@@ -315,6 +333,14 @@ msgid ""
 msgstr ""
 "Эта программа помогает в предупреждении и лечении туннельного синдрома "
 "запястья и снятии общего мышечного напряжения."
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+msgid "Workrave Applet"
+msgstr "Апплет Workrave"
 
 #: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
@@ -343,7 +369,7 @@ msgstr "Микроперерыв закончен"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 msgid "Daily limit"
 msgstr "Дневной предел"
 
@@ -378,37 +404,48 @@ msgstr "%s%d:%02d минут"
 msgid "%s%d seconds"
 msgstr "%s%d секунд"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 msgid "Lock..."
 msgstr "Блокировать..."
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:299
+#: ../frontend/gtkmm/src/BreakWindow.cc:300
 msgid "Lock"
 msgstr "Заблокировать"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:303
+#: ../frontend/gtkmm/src/BreakWindow.cc:304
 msgid "Shutdown"
 msgstr "Выключение"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:307
+#: ../frontend/gtkmm/src/BreakWindow.cc:308
 msgid "Suspend"
 msgstr "Ждущий режим"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Hibernate"
 msgstr "Спящий режим"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:316
 msgid "Suspend hybrid"
 msgstr "Гибридный режим"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:450
+#: ../frontend/gtkmm/src/BreakWindow.cc:451
 msgid "_Skip"
 msgstr "_Пропустить"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:467
+#: ../frontend/gtkmm/src/BreakWindow.cc:468
 msgid "_Postpone"
 msgstr "_Отложить"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:663
+msgid ""
+"You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:677
+msgid ""
+"You cannot postpone this break while another non-postponable break is "
+"overdue."
+msgstr ""
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -428,23 +465,23 @@ msgstr ""
 "Workrave всё ещё запущен. Вы можете получить доступ к Workrave, нажав на "
 "иконку с белой овцой. Нажмите на это сообщение, чтобы его выключить"
 
-#: ../frontend/gtkmm/src/GUI.cc:834 ../frontend/gtkmm/src/GUI.cc:957
+#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
 msgid "Workrave failed to start"
 msgstr "Workrave не смог запуститься"
 
-#: ../frontend/gtkmm/src/GUI.cc:836
+#: ../frontend/gtkmm/src/GUI.cc:849
 msgid "Is Workrave already running?"
 msgstr "Workrave все ещё запущен?"
 
-#: ../frontend/gtkmm/src/GUI.cc:952
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave не может отследить ваши действия с клавиатурой и мышкой..\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:955
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "Убедитесь, что расширение RECORD включено в X-сервере."
 
-#: ../frontend/gtkmm/src/GUI.cc:1366
+#: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -452,19 +489,19 @@ msgstr ""
 "Workrave приостановлен. Действия с клавиатурой и мышкой не будут "
 "отслеживаться."
 
-#: ../frontend/gtkmm/src/GUI.cc:1372
+#: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave в режиме тишины. Уведомления о перерыве не будут появляться."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
 msgid "Micro-break"
 msgstr "Микроперерыв"
 
-#: ../frontend/gtkmm/src/GUI.cc:1500
+#: ../frontend/gtkmm/src/GUI.cc:1513
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
@@ -473,7 +510,7 @@ msgstr "Микроперерыв"
 msgid "Rest break"
 msgstr "Перерыв на отдых"
 
-#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
 msgid "Mode: "
 msgstr "Режим: "
 
@@ -759,29 +796,29 @@ msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:124
+#: ../frontend/gtkmm/src/PreludeWindow.cc:140
 msgid "Time for a micro-break?"
 msgstr "Время для микроперерыва?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:128
+#: ../frontend/gtkmm/src/PreludeWindow.cc:144
 msgid "You need a rest break..."
 msgstr "Вам нужен перерыв на отдых..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:132
+#: ../frontend/gtkmm/src/PreludeWindow.cc:148
 msgid "You should stop for today..."
 msgstr "Сегодня вы должны уже остановиться..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:307
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Break in %s"
 msgstr "Перерыв через %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:311
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Disappears in %s"
 msgstr "Исчезнет через %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:315
+#: ../frontend/gtkmm/src/PreludeWindow.cc:331
 #, c-format
 msgid "Silent in %s"
 msgstr "Тишина через %s"
@@ -1428,12 +1465,6 @@ msgstr "Ошибка"
 
 #~ msgid "_About..."
 #~ msgstr "_О программе..."
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
-
-#~ msgid "Workrave Applet"
-#~ msgstr "Апплет Workrave"
 
 #~ msgid "_Lock"
 #~ msgstr "_Блокировать"

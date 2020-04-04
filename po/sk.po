@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-08 19:02+0100\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2020-04-04 14:05+0200\n"
 "PO-Revision-Date: 2019-02-23 22:45+0100\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak\n"
@@ -19,6 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.2.1\n"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
@@ -27,6 +28,7 @@ msgstr ""
 msgid "_Open"
 msgstr "_Otvoriť"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
 #: ../frontend/applets/mate/src/main-gtk2.c:278
@@ -34,6 +36,7 @@ msgstr "_Otvoriť"
 msgid "_Restbreak"
 msgstr "_Prestávka"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
 #: ../frontend/applets/mate/src/main-gtk2.c:274
@@ -41,6 +44,7 @@ msgstr "_Prestávka"
 msgid "_Exercises"
 msgstr "_Cvičenia"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ../frontend/applets/mate/src/main-gtk2.c:266
@@ -48,6 +52,7 @@ msgstr "_Cvičenia"
 msgid "_Statistics"
 msgstr "_Štatistika"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
@@ -58,6 +63,7 @@ msgstr "_Štatistika"
 msgid "_Mode"
 msgstr "_Režim"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
@@ -66,24 +72,27 @@ msgstr "_Režim"
 msgid "Normal"
 msgstr "Normálny"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1507
+#: ../frontend/gtkmm/src/GUI.cc:1520
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:328
 #: ../frontend/applets/mate/src/main-gtk3.c:369
 msgid "Suspended"
 msgstr "Zastavený"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1524
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
 #: ../frontend/applets/mate/src/main-gtk2.c:332
 #: ../frontend/applets/mate/src/main-gtk3.c:373
 msgid "Quiet"
 msgstr "Tichý"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
@@ -94,6 +103,7 @@ msgstr "Tichý"
 msgid "_Network"
 msgstr "_Sieť"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
 #: ../frontend/applets/mate/src/main-gtk2.c:290
@@ -101,6 +111,7 @@ msgstr "_Sieť"
 msgid "_Join"
 msgstr "_Pridať"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
@@ -111,6 +122,7 @@ msgstr "_Pridať"
 msgid "_Disconnect"
 msgstr "_Odpojiť"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
@@ -121,6 +133,7 @@ msgstr "_Odpojiť"
 msgid "_Reconnect"
 msgstr "_Obnoviť spojenie"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
@@ -129,6 +142,7 @@ msgstr "_Obnoviť spojenie"
 msgid "Show log"
 msgstr "Zobraziť záznam"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
@@ -139,6 +153,7 @@ msgstr "Zobraziť záznam"
 msgid "Reading mode"
 msgstr "Režim čítania"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
@@ -147,6 +162,7 @@ msgstr "Režim čítania"
 msgid "_Preferences"
 msgstr "_Nastavenia"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
@@ -155,6 +171,7 @@ msgstr "_Nastavenia"
 msgid "_About"
 msgstr "_O programe"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
@@ -304,6 +321,7 @@ msgstr "Klient %s sa pripojil."
 msgid "Could not connect to client %s."
 msgstr "Nepodarilo sa pripojiť ku klientovi %s."
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
 #: ../frontend/gtkmm/src/Menus.cc:365
@@ -316,6 +334,14 @@ msgid ""
 msgstr ""
 "Tento program pomáha pri prevencii a regenerácii opakovaných bolestivých "
 "napätí (RSI)."
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+msgid "Workrave Applet"
+msgstr "Workrave aplet"
 
 #: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
@@ -344,7 +370,7 @@ msgstr "Koniec Mikro-pauzy"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 msgid "Daily limit"
 msgstr "Denný limit"
 
@@ -379,37 +405,48 @@ msgstr "%s%d:%02d minút"
 msgid "%s%d seconds"
 msgstr "%s%d sekúnd"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 msgid "Lock..."
 msgstr "Zámok..."
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:299
+#: ../frontend/gtkmm/src/BreakWindow.cc:300
 msgid "Lock"
 msgstr "Zámok"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:303
+#: ../frontend/gtkmm/src/BreakWindow.cc:304
 msgid "Shutdown"
 msgstr "Vypnúť"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:307
+#: ../frontend/gtkmm/src/BreakWindow.cc:308
 msgid "Suspend"
 msgstr "Zastavený"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Hibernate"
 msgstr "Uspať"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:316
 msgid "Suspend hybrid"
 msgstr "Zastavený hybridne"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:450
+#: ../frontend/gtkmm/src/BreakWindow.cc:451
 msgid "_Skip"
 msgstr "_Preskočiť"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:467
+#: ../frontend/gtkmm/src/BreakWindow.cc:468
 msgid "_Postpone"
 msgstr "_Odložiť"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:663
+msgid ""
+"You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:677
+msgid ""
+"You cannot postpone this break while another non-postponable break is "
+"overdue."
+msgstr ""
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -429,44 +466,44 @@ msgstr ""
 "Workrave zostáva bežať. Po kliknutí na ikonu bielej ovečky sa dostanete do "
 "nastavení Workrave. Kliknite na túto bublinu pre vypnutie tejto správy."
 
-#: ../frontend/gtkmm/src/GUI.cc:834 ../frontend/gtkmm/src/GUI.cc:957
+#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
 msgid "Workrave failed to start"
 msgstr "Workrave sa nepodarilo spustiť"
 
-#: ../frontend/gtkmm/src/GUI.cc:836
+#: ../frontend/gtkmm/src/GUI.cc:849
 msgid "Is Workrave already running?"
 msgstr "Je možné, že Workrave už beží?"
 
-#: ../frontend/gtkmm/src/GUI.cc:952
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave nedokáže sledovať aktivitu vašej klávesnice a myši.\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:955
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "Skontrolujte, či máte povolené rozšírenie RECORD vo vašom X serveri."
 
-#: ../frontend/gtkmm/src/GUI.cc:1366
+#: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 "Workrave je dočasne vypnutý. Aktivita myši a klávesnice nebude sledovaná."
 
-#: ../frontend/gtkmm/src/GUI.cc:1372
+#: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 "Workrave je v tichom režime. Nebudú sa objavovať žiadne okná s výzvou na "
 "prestávku."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
-#: ../frontend/gtkmm/src/GUI.cc:1500
+#: ../frontend/gtkmm/src/GUI.cc:1513
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
@@ -475,7 +512,7 @@ msgstr "Mikro-pauza"
 msgid "Rest break"
 msgstr "Prestávka"
 
-#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
 msgid "Mode: "
 msgstr "Režim: "
 
@@ -759,29 +796,29 @@ msgid ""
 msgstr ""
 "Počet pixelov, ktoré má kurzor myši prejsť, aby sa to považovalo za aktivitu."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:124
+#: ../frontend/gtkmm/src/PreludeWindow.cc:140
 msgid "Time for a micro-break?"
 msgstr "Čas na mikro-pauzu?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:128
+#: ../frontend/gtkmm/src/PreludeWindow.cc:144
 msgid "You need a rest break..."
 msgstr "Potrebujete prestávku..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:132
+#: ../frontend/gtkmm/src/PreludeWindow.cc:148
 msgid "You should stop for today..."
 msgstr "Na dnes už stačilo..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:307
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Break in %s"
 msgstr "Pauza o %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:311
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Disappears in %s"
 msgstr "Zmizne o %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:315
+#: ../frontend/gtkmm/src/PreludeWindow.cc:331
 #, c-format
 msgid "Silent in %s"
 msgstr "Tichý o %s"
@@ -1424,12 +1461,6 @@ msgstr "Chyba"
 
 #~ msgid "_About..."
 #~ msgstr "_O..."
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
-
-#~ msgid "Workrave Applet"
-#~ msgstr "Workrave aplet"
 
 #~ msgid "Daily usage"
 #~ msgstr "Denné použitie"

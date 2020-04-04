@@ -6,19 +6,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-08 19:02+0100\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2020-04-04 14:05+0200\n"
 "PO-Revision-Date: 2020-03-29 08:51+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: \n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"Language: id\n"
 "X-Poedit-Bookmarks: -1,-1,187,-1,-1,-1,-1,-1,-1,-1\n"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
@@ -27,6 +28,7 @@ msgstr ""
 msgid "_Open"
 msgstr "_Buka"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
 #: ../frontend/applets/mate/src/main-gtk2.c:278
@@ -34,6 +36,7 @@ msgstr "_Buka"
 msgid "_Restbreak"
 msgstr "Isti_rahat"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
 #: ../frontend/applets/mate/src/main-gtk2.c:274
@@ -41,6 +44,7 @@ msgstr "Isti_rahat"
 msgid "_Exercises"
 msgstr "_Latihan"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ../frontend/applets/mate/src/main-gtk2.c:266
@@ -48,6 +52,7 @@ msgstr "_Latihan"
 msgid "_Statistics"
 msgstr "_Statistik"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
@@ -58,6 +63,7 @@ msgstr "_Statistik"
 msgid "_Mode"
 msgstr "_Mode"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
@@ -66,24 +72,27 @@ msgstr "_Mode"
 msgid "Normal"
 msgstr "Normal"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1507
+#: ../frontend/gtkmm/src/GUI.cc:1520
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
 #: ../frontend/applets/mate/src/main-gtk2.c:328
 #: ../frontend/applets/mate/src/main-gtk3.c:369
 msgid "Suspended"
 msgstr "Ditangguhkan"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1524
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
 #: ../frontend/applets/mate/src/main-gtk2.c:332
 #: ../frontend/applets/mate/src/main-gtk3.c:373
 msgid "Quiet"
 msgstr "Hening"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
@@ -94,6 +103,7 @@ msgstr "Hening"
 msgid "_Network"
 msgstr "Jari_ngan"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
 #: ../frontend/applets/mate/src/main-gtk2.c:290
@@ -101,6 +111,7 @@ msgstr "Jari_ngan"
 msgid "_Join"
 msgstr "_Gabung"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
@@ -111,6 +122,7 @@ msgstr "_Gabung"
 msgid "_Disconnect"
 msgstr "_Putus"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
@@ -121,6 +133,7 @@ msgstr "_Putus"
 msgid "_Reconnect"
 msgstr "_Sambung Kembali"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
@@ -129,6 +142,7 @@ msgstr "_Sambung Kembali"
 msgid "Show log"
 msgstr "Tampilkan log"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
@@ -139,6 +153,7 @@ msgstr "Tampilkan log"
 msgid "Reading mode"
 msgstr "Mode membaca"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
@@ -147,6 +162,7 @@ msgstr "Mode membaca"
 msgid "_Preferences"
 msgstr "_Preferensi"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:198
@@ -155,6 +171,7 @@ msgstr "_Preferensi"
 msgid "_About"
 msgstr "Tent_ang"
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:203
@@ -304,6 +321,7 @@ msgstr "Klien %s terhubung."
 msgid "Could not connect to client %s."
 msgstr "Tidak dapat menyambung ke klien %s."
 
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
 #: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
 #: ../frontend/gtkmm/src/Menus.cc:365
@@ -316,6 +334,15 @@ msgid ""
 msgstr ""
 "Program ini membantu dalam pencegahan dan pemulihan Repetitif Strain Injury "
 "(RSI)."
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+msgid "Workrave"
+msgstr ""
+
+#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+#, fuzzy
+msgid "Workrave Applet"
+msgstr "Workrave gagal memulai"
 
 #: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break prompt"
@@ -344,7 +371,7 @@ msgstr "Istirahat mikro berakhir"
 #: ../frontend/common/src/SoundPlayer.cc:117
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 msgid "Daily limit"
 msgstr "Batas harian"
 
@@ -379,37 +406,48 @@ msgstr "%s%d:%02d menit"
 msgid "%s%d seconds"
 msgstr "%s%d detik"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 msgid "Lock..."
 msgstr "Kunci..."
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:299
+#: ../frontend/gtkmm/src/BreakWindow.cc:300
 msgid "Lock"
 msgstr "Kunci"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:303
+#: ../frontend/gtkmm/src/BreakWindow.cc:304
 msgid "Shutdown"
 msgstr "Matikan"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:307
+#: ../frontend/gtkmm/src/BreakWindow.cc:308
 msgid "Suspend"
 msgstr "Suspensi"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Hibernate"
 msgstr "Hibernasi"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:316
 msgid "Suspend hybrid"
 msgstr "Tangguhkan hibrida"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:450
+#: ../frontend/gtkmm/src/BreakWindow.cc:451
 msgid "_Skip"
 msgstr "_Lewati"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:467
+#: ../frontend/gtkmm/src/BreakWindow.cc:468
 msgid "_Postpone"
 msgstr "_Tunda"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:663
+msgid ""
+"You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:677
+msgid ""
+"You cannot postpone this break while another non-postponable break is "
+"overdue."
+msgstr ""
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -429,23 +467,23 @@ msgstr ""
 "Workrave masih berjalan. Anda dapat mengakses Workrave dengan mengklik ikon "
 "domba putih. Klik balon ini untuk menonaktifkan pesan ini"
 
-#: ../frontend/gtkmm/src/GUI.cc:834 ../frontend/gtkmm/src/GUI.cc:957
+#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
 msgid "Workrave failed to start"
 msgstr "Workrave gagal memulai"
 
-#: ../frontend/gtkmm/src/GUI.cc:836
+#: ../frontend/gtkmm/src/GUI.cc:849
 msgid "Is Workrave already running?"
 msgstr "Apakah Workrave sudah berjalan?"
 
-#: ../frontend/gtkmm/src/GUI.cc:952
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave tidak dapat memantau aktivitas papan tik dan tetikus Anda.\n"
 
-#: ../frontend/gtkmm/src/GUI.cc:955
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr "Pastikan bahwa ekstensi RECORD diaktifkan di server X."
 
-#: ../frontend/gtkmm/src/GUI.cc:1366
+#: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -453,19 +491,19 @@ msgstr ""
 "Workrave dalam mode ditangguhkan. Aktivitas tetikus dan papan tik tidak akan "
 "dipantau."
 
-#: ../frontend/gtkmm/src/GUI.cc:1372
+#: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave dalam mode senyap. Tidak ada jendela istirahat akan muncul."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1500 ../frontend/gtkmm/src/GtkUtil.cc:172
+#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
 msgid "Micro-break"
 msgstr "Istirahat mikro"
 
-#: ../frontend/gtkmm/src/GUI.cc:1500
+#: ../frontend/gtkmm/src/GUI.cc:1513
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
 #: ../frontend/gtkmm/src/GtkUtil.cc:172
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
@@ -474,7 +512,7 @@ msgstr "Istirahat mikro"
 msgid "Rest break"
 msgstr "Istirahat"
 
-#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
+#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
 msgid "Mode: "
 msgstr "Mode: "
 
@@ -759,29 +797,29 @@ msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr "Cacah piksel berpindahnya tetikus sebelum dianggap aktivitas."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:124
+#: ../frontend/gtkmm/src/PreludeWindow.cc:140
 msgid "Time for a micro-break?"
 msgstr "Waktunya istirahat mikro?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:128
+#: ../frontend/gtkmm/src/PreludeWindow.cc:144
 msgid "You need a rest break..."
 msgstr "Anda butuh istirahat..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:132
+#: ../frontend/gtkmm/src/PreludeWindow.cc:148
 msgid "You should stop for today..."
 msgstr "Anda harus berhenti untuk hari ini..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:307
+#: ../frontend/gtkmm/src/PreludeWindow.cc:323
 #, c-format
 msgid "Break in %s"
 msgstr "Istirahat dalam %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:311
+#: ../frontend/gtkmm/src/PreludeWindow.cc:327
 #, c-format
 msgid "Disappears in %s"
 msgstr "Hilang dalam %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:315
+#: ../frontend/gtkmm/src/PreludeWindow.cc:331
 #, c-format
 msgid "Silent in %s"
 msgstr "Diam dalam %s"
