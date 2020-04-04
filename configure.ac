@@ -541,7 +541,7 @@ then
                        LIBGNOME_PANEL_MODULES_DIR=`$PKG_CONFIG --variable=modulesdir libgnome-panel`
                        AC_SUBST([LIBGNOME_PANEL_MODULES_DIR], [$LIBGNOME_PANEL_MODULES_DIR])
                        AC_DEFINE([HAVE_LIBGNOME_PANEL], 1, [Support for GNOME Panel applet])],
-                      [])
+                      [ ])
 
     if test "x$config_libgnome_panel" != "xyes"
     then
@@ -551,7 +551,7 @@ then
                            config_panelapplet5=yes
                            AC_DEFINE([HAVE_PANELAPPLET], [1], [Support for Gnome panel applet v4/v5])
                            AC_DEFINE([HAVE_PANELAPPLET5], [1], [Support for Gnome panel applet v5])],
-                           [])
+                           [ ])
 
         if test "x$config_panelapplet5" != "xyes"
         then
@@ -612,7 +612,7 @@ PKG_CHECK_MODULES(GTK,
                      [config_gtk=yes
                       config_gtk_version=3
                       AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
-                      AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [] )
+                      AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [ ] )
 
 if test x$config_gtk = xno
 then
