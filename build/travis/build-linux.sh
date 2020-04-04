@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -xe
 
 BUILD_DATE=`date +"%Y%m%d"`
 
@@ -93,5 +93,3 @@ else
 
     ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k source -c none -p all
 fi
-
-ls -la ${DEPLOY_DIR}
