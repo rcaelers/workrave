@@ -19,7 +19,7 @@ m4_define([workrave_resource_version],
 AC_PREREQ([2.67])
 AC_INIT([workrave],
         [workrave_version],
-        [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi],
+        [https://github.com/rcaelers/workrave/issues],
         [workrave],
         [http://www.workrave.org])
 AC_CANONICAL_HOST
