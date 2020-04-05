@@ -20,7 +20,7 @@ override_dh_auto_configure:
 		--enable-gsettings \
 		--enable-indicator \
 		--enable-exercises \
-		--enable-mate \
+		--disable-mate \
 		--enable-xfce \
 		--disable-gconf
 
