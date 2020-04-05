@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
+* Workrave 1.10.41
+
+** Fix incomplete Gnome Shell applet menu with latest version of Gnome Shell
+
 * Workrave 1.10.40
 
 ** Fix creation for source tarball.
