@@ -420,8 +420,7 @@ const WorkraveButton = new Lang.Class({
                     }
                     else if ((flags & 4) != 0)
                     {
-                        popup = new PopupMenu.PopupSwitchMenuItem(text);
-                        popup.setToggleState(active);
+                        popup = new PopupMenu.PopupSwitchMenuItem(text, active);
                     }
                     else if ((flags & 8) != 0)
                     {
