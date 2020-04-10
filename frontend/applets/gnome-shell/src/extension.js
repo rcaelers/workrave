@@ -173,8 +173,8 @@ const WorkraveButton = new Lang.Class({
         this._area.set_height(this._height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
-        this.add_actor(this._area);
-        this.show();
+        this.actor.add_actor(this._area);
+        this.actor.show();
 
         this.connect('destroy', Lang.bind(this, this._onDestroy));
 
