@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
+* Workrave 1.10.43
+
+** Fix issue where a break window could disappear after a few seconds.
+
 * Workrave 1.10.42
 
 ** Fix Gnome Shell applet compatibility issue with Ubuntu 18.04.

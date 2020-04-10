@@ -112,7 +112,10 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 
       delete [] unblocked_windows;
     }
-#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,20,0)
+#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,24,0)
+  // gdk_device_grab is deprecated since 3.20.
+  // However, an issue that was solved in gtk 3.24 causes windows to be hidden
+  // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
   if (! GtkUtil::running_on_wayland())
     {
       if (num_windows > 0)
