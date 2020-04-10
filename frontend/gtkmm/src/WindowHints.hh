@@ -45,7 +45,7 @@ public:
 #endif
 
 #if defined(HAVE_GTK3)
-#if GTK_CHECK_VERSION(3,20,0)
+#if GTK_CHECK_VERSION(3,24,0)
   static GdkSeat *seat;
 #else
   static GdkDevice *keyboard, *pointer;
