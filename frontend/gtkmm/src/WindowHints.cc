@@ -47,7 +47,7 @@
 #ifdef HAVE_GTK3
 #include "GtkUtil.hh"
 
-#if GTK_CHECK_VERSION(3,20,0)
+#if GTK_CHECK_VERSION(3,24,0)
 GdkSeat *WindowHints::seat = NULL;
 #else
 GdkDevice *WindowHints::keyboard = NULL;
@@ -243,7 +243,7 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
-#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,20,0)
+#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3,24,0)
   if (! GtkUtil::running_on_wayland())
     {
       gdk_seat_ungrab(seat);
