@@ -213,20 +213,29 @@ const WorkraveButton = new Lang.Class({
 
     _onDestroy: function()
     {
-        this._ui_proxy.EmbedRemote(false, this._bus_name);
+        if (this._ui_proxy != null)
+        {
+            this._ui_proxy.EmbedRemote(false, this._bus_name);
+        }
         this._stop();
         this._destroy();
     },
 
     _destroy: function() {
-        this._ui_proxy.disconnectSignal(this._timers_updated_id);
-        this._ui_proxy.disconnectSignal(this._menu_updated_id);
-        this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
-        this._ui_proxy = null;
-        this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
-        this._core_proxy = null;
+        if (this._ui_proxy != null)
+        {
+            this._ui_proxy.disconnectSignal(this._timers_updated_id);
+            this._ui_proxy.disconnectSignal(this._menu_updated_id);
+            this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
+            this._ui_proxy = null;
+        }
+        if (this._core_proxy != null)
+        {
+            this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
+            this._core_proxy = null;
+        }
 
-        this.destroy();
+        this._stop_dbus();
     },
 
     _start: function()
@@ -244,22 +253,29 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
+    _stop_dbus: function()
+    {
+        if (this._alive)
+        {
+            Mainloop.source_remove(this._timeoutId);
+            Gio.DBus.session.unown_name(this._bus_id);
+            this._bus_id = 0;
+        }
+    },
+
     _stop: function()
     {
-         if (this._alive)
-         {
-             Mainloop.source_remove(this._timeoutId);
-             Gio.DBus.session.unown_name(this._bus_id);
-             this._bus_id = 0;
-             this._timerbox.set_enabled(false);
-             this._timerbox.set_force_icon(false);
-             this._area.queue_repaint();
-             this._alive = false;
-             this._updateMenu(null);
-             this._area.set_width(this._width=24);
-
-         }
-     },
+        if (this._alive)
+        {
+            this._stop_dbus();
+            this._timerbox.set_enabled(false);
+            this._timerbox.set_force_icon(false);
+            this._alive = false;
+            this._updateMenu(null);
+            this._area.queue_repaint();
+            this._area.set_width(this._width=24);
+        }
+    },
 
      _draw: function(area) {
          let [width, height] = area.get_surface_size();

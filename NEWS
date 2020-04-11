@@ -8,6 +8,7 @@ https://github.com/rcaelers/workrave/issues
 * Workrave 1.10.43
 
 ** Fix issue where a break window could disappear after a few seconds.
+** Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
 
 * Workrave 1.10.42
 
