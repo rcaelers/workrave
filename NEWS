@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 10 April 2020
+Workrave NEWS -- history of user-visible changes. 13 April 2020
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -9,6 +9,7 @@ https://github.com/rcaelers/workrave/issues
 
 ** Fix issue where a break window could disappear after a few seconds.
 ** Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+** Update Traditional Chinese translation (Yuenfu Chiu)
 
 * Workrave 1.10.42
 
