@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-04-04 14:05+0200\n"
+"POT-Creation-Date: 2020-04-13 09:01+0800\n"
 "PO-Revision-Date: 2015-03-18 19:43+0100\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: OpenShine <fserrador@gmail.com>\n"
@@ -1363,6 +1363,10 @@ msgstr "El tiempo total para este descaso fue retrasado"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
 msgid "Usage"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
+msgid "Active computer usage"
 msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247

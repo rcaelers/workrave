@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-04-04 14:05+0200\n"
+"POT-Creation-Date: 2020-04-13 09:01+0800\n"
 "PO-Revision-Date: 2015-10-27 02:59+0300\n"
 "Last-Translator: Denis Nikolaenko <denis@nikolaenko.ru>\n"
 "Language-Team: Andrey Bondrov <abondrov@rosalab.ru>\n"
@@ -1340,6 +1340,11 @@ msgstr "Общее время запоздания этого перерыва"
 msgid "Usage"
 msgstr "Использование"
 
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
+#, fuzzy
+msgid "Active computer usage"
+msgstr "Общее использование компьютера"
+
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
 msgid "Daily"
 msgstr "Дневное"
@@ -1477,9 +1482,6 @@ msgstr "Ошибка"
 
 #~ msgid "Daily usage"
 #~ msgstr "Ежедневное использование"
-
-#~ msgid "The total computer usage"
-#~ msgstr "Общее использование компьютера"
 
 #~ msgid "Orientation"
 #~ msgstr "Расположение"
