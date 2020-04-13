@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-04-04 14:05+0200\n"
+"POT-Creation-Date: 2020-04-13 09:01+0800\n"
 "PO-Revision-Date: 2017-04-19 13:00+0200\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -1344,6 +1344,11 @@ msgstr "Celkový čas o který byla přestávka opožděna"
 msgid "Usage"
 msgstr "Využití"
 
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
+#, fuzzy
+msgid "Active computer usage"
+msgstr "Celkový čas, po který byl počítač používán"
+
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
 msgid "Daily"
 msgstr "Denně"
@@ -1484,9 +1489,6 @@ msgstr "Chyba"
 #, fuzzy
 #~ msgid "Shut _down"
 #~ msgstr "_Vypnout"
-
-#~ msgid "The total computer usage"
-#~ msgstr "Celkový čas, po který byl počítač používán"
 
 #~ msgid "About %s"
 #~ msgstr "O %s"
