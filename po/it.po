@@ -1,7 +1,7 @@
 # Italian translation for Workrave 1.8.
 # This file is distributed under the same license as the Workrave package.
 # Eraldo Girardi <eraldster@katamail.com>
-#
+#Albano Battistella <albano_battistella@hotmail.com> 2020.
 #
 msgid ""
 msgstr ""
@@ -1021,7 +1021,7 @@ msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
 msgid "Host name:"
-msgstr"Nome host:"
+msgstr "Nome host:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
 msgid "Port:"
