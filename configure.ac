@@ -656,7 +656,7 @@ then
    then
        AC_MSG_ERROR([Introspection development headers not found.])
    else
-       PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+       PKG_CHECK_MODULES(INDICATOR, ayatana-indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                     dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                     dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                          [ config_indicator=yes
