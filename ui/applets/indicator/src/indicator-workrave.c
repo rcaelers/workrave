@@ -33,9 +33,9 @@
 #include <gio/gio.h>
 
 /* Indicator Stuff */
-#include <libindicator/indicator.h>
-#include <libindicator/indicator-object.h>
-#include <libindicator/indicator-service-manager.h>
+#include <libayatana-indicator/indicator.h>
+#include <libayatana-indicator/indicator-object.h>
+#include <libayatana-indicator/indicator-service-manager.h>
 
 /* DBusMenu */
 #include <libdbusmenu-gtk/menu.h>
