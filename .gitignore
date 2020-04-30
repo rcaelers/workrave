@@ -71,6 +71,8 @@ Makefile.in
 /README.txt
 /m4/*.m4
 /ar-lib
+/frontend/applets/gnome3/src/workrave-gnome-applet-generated.c
+/frontend/applets/gnome3/src/workrave-gnome-applet-generated.h
 /frontend/applets/xfce/src/workrave-xfce-applet.desktop
 /frontend/applets/xfce/src/xfce4-workrave-plugin
 /_dist
