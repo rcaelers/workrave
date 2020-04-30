@@ -168,7 +168,7 @@ msgstr "_Preferenze"
 #: ../frontend/applets/mate/src/main-gtk2.c:302
 #: ../frontend/applets/mate/src/main-gtk3.c:343
 msgid "_About"
-msgstr Informazioni su"
+msgstr "Informazioni su"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
@@ -493,7 +493,7 @@ msgid ""
 "monitored."
 msgstr ""
 "Workrave è in modalità sospesa. L'attività del mouse e della tastiera non saranno"
-"monitorati".
+"monitorati."
 
 #: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -953,7 +953,7 @@ msgstr "Massimo numero di avvisi:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' button"
-msgstr "Mostra il pulsante 'Posponi'''
+msgstr "Mostra il pulsante 'Posponi''"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
 msgid "Show 'Skip' button"
