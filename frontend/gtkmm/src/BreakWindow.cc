@@ -693,6 +693,7 @@ BreakWindow::create_bottom_box(bool lockable,
 #endif
               progress_bar->set_fraction(0);
               progress_bar->set_name("locked-progress");
+              update_skip_postpone_lock();
 
               vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
               top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);
