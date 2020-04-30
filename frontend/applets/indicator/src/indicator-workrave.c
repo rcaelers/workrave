@@ -33,9 +33,15 @@
 #include <gio/gio.h>
 
 /* Indicator Stuff */
+#ifdef HAVE_INDICATOR_AYATANA
 #include <libayatana-indicator/indicator.h>
 #include <libayatana-indicator/indicator-object.h>
 #include <libayatana-indicator/indicator-service-manager.h>
+#else
+#include <libindicator/indicator.h>
+#include <libindicator/indicator-object.h>
+#include <libindicator/indicator-service-manager.h>
+#endif
 
 /* DBusMenu */
 #ifdef HAVE_DBUSMENU_NEW_INCLUDES

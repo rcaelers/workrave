@@ -71,7 +71,7 @@ AC_ARG_ENABLE(gnome3,
 
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
-                              [compile with Unity indicator applet support])])
+                              [compile with Unity/Ayatana indicator applet support])])
 
 AC_ARG_ENABLE(xfce,
               [AS_HELP_STRING([--enable-xfce],
@@ -659,11 +659,20 @@ then
        PKG_CHECK_MODULES(INDICATOR, ayatana-indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                     dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                     dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
-                         [ config_indicator=yes
-                           AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
-                         [if test "x$enable_indicator" = "xyes"; then
-                           AC_MSG_ERROR([Indicator development headers not found.])
-                          fi])
+                                  [ config_indicator=yes
+                                    AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])
+                                    AC_DEFINE(HAVE_INDICATOR_AYATANA, 1, [Support for ayatana indicator applet])
+                                  ],
+
+                                  [  PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                                                  dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
+                                                                  dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
+                                                      [ config_indicator=yes
+                                                         AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
+                                                      [if test "x$enable_indicator" = "xyes"; then
+                                                         AC_MSG_ERROR([Indicator development headers not found.])
+                                                      fi])
+                                  ])
 
        if test "x$config_indicator" != "xno"
        then

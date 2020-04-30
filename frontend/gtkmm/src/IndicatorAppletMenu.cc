@@ -30,7 +30,11 @@
 
 #include <string>
 
+#ifdef HAVE_INDICATOR_AYATANA
 #include <libayatana-indicator/indicator-service.h>
+#else
+#include <libindicator/indicator-service.h>
+#endif
 
 #include "IndicatorAppletMenu.hh"
 #include "GenericDBusApplet.hh"
