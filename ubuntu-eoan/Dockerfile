@@ -51,7 +51,6 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
-    python-cheetah \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
