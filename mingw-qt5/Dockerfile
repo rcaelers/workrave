@@ -17,6 +17,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw64-qt5-qttools \
                 mingw64-qt5-qtbase-devel \
                 mingw64-qt5-qtsvg \
+                python3-pip \
                 tar \
                 xz
 
