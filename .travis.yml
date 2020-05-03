@@ -137,6 +137,7 @@ jobs:
 #      <<: *_stage_base
 
     ###########################################################################
+
     - stage: build
       env: >
         COMPILER="gcc"
@@ -145,25 +146,6 @@ jobs:
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-bionic"
       <<: *_stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-cosmic"
-      <<: *_stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="gcc"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco"
-      <<: *_stage_build_docker
-      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -181,25 +163,26 @@ jobs:
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco-plus"
+        DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
+      <<: *_stage_deploy
 
     - stage: build
       env: >
-        COMPILER="clang"
-        WITH_UI="Gtk+3"
-        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
-        DOCKER_IMAGE="ubuntu-disco-plus"
-      <<: *_stage_build_docker
-
-    - stage: build
-      env: >
-        COMPILER="clang"
+        COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
         CONF_DISABLE="GCONF,TESTS,COVERAGE"
-        DOCKER_IMAGE="ubuntu-disco-plus"
+        DOCKER_IMAGE="ubuntu-focal"
+      <<: *_stage_build_docker
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
+        WITH_UI="Qt5"
+        CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
+        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
 
     - stage: build
