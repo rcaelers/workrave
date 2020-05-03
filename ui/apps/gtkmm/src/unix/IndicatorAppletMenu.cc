@@ -28,7 +28,7 @@
 
 #include <string>
 
-#include <libindicator/indicator-service.h>
+#include <libayatana-indicator/indicator-service.h>
 
 #include "IndicatorAppletMenu.hh"
 #include "GenericDBusApplet.hh"
