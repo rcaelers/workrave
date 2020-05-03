@@ -183,7 +183,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection
 
-set (WITH_UI "Qt5" CACHE STRING "UI Toolkit to use")
+set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
 set (WITH_UI_VALUES "Qt5" "Gtk+3" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
