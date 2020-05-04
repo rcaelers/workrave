@@ -650,7 +650,7 @@ BreakWindow::create_bottom_box(bool lockable,
           bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
 
           bool skip_locked = false;
-          bool postpone_locked = true;
+          bool postpone_locked = false;
           BreakId overdue_break_id =  BREAK_ID_NONE;
           check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
