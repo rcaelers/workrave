@@ -278,7 +278,9 @@ Timer::set_activity_sensitive(bool a)
 void
 Timer::set_insensitive_mode(InsensitiveMode mode)
 {
+  TRACE_ENTER_MSG("Timer::set_insensitive_mode", mode);
   insensitive_mode = mode;
+  TRACE_EXIT();
 }
 
 
@@ -300,10 +302,13 @@ Timer::force_idle()
 void
 Timer::force_active()
 {
+  TRACE_ENTER("Timer::force_active");
   if (!activity_sensitive)
     {
+      TRACE_MSG("Forcing active");
       activity_state = ACTIVITY_ACTIVE;
     }
+  TRACE_EXIT();
 }
 
 
@@ -549,6 +554,7 @@ Timer::stop_timer()
 void
 Timer::snooze_timer()
 {
+  TRACE_ENTER("Timer::snooze_timer");
   if (timer_enabled)
     {
       // recompute.
@@ -565,6 +571,7 @@ Timer::snooze_timer()
           activity_state = ACTIVITY_ACTIVE;
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -573,8 +580,8 @@ void
 Timer::freeze_timer(bool freeze)
 {
   TRACE_ENTER_MSG("Timer::freeze_timer",
-                  timer_id << freeze << " " <<
-                  timer_enabled << " " << activity_sensitive);
+                  timer_id << freeze << " " << timer_frozen << " " <<
+                  timer_enabled << " " << timer_state << " " << activity_sensitive);
 
   // Only enabled activity sensitive timers care about freezing.
   if (timer_enabled && activity_sensitive)
@@ -584,6 +591,7 @@ Timer::freeze_timer(bool freeze)
           // freeze timer.
           if (last_start_time != 0 && timer_state == STATE_RUNNING)
             {
+              TRACE_MSG("was started");
               elapsed_time += (core->get_time() - last_start_time);
               last_start_time = 0;
             }
@@ -604,6 +612,7 @@ Timer::freeze_timer(bool freeze)
   //test fix for Bug 746 -  Micro-break not counting down
   if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
+      TRACE_MSG("fix746");
       last_start_time = core->get_time();
       elapsed_idle_time = 0;
       compute_next_limit_time();
@@ -618,6 +627,7 @@ Timer::freeze_timer(bool freeze)
 time_t
 Timer::get_elapsed_idle_time() const
 {
+  TRACE_ENTER("Timer::get_elapsed_idle_time");
   time_t ret = elapsed_idle_time;
 
   if (timer_enabled && last_stop_time != 0)
@@ -625,6 +635,7 @@ Timer::get_elapsed_idle_time() const
       ret += (core->get_time() - last_stop_time);
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -643,6 +654,7 @@ Timer::get_elapsed_time() const
       ret += (core->get_time() - last_start_time);
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -671,6 +683,7 @@ Timer::get_total_overdue_time() const
 void
 Timer::shift_time(int delta)
 {
+  TRACE_ENTER_MSG("Timer::shift_time", delta);
   if (last_limit_time > 0)
     {
       last_limit_time += delta;
@@ -699,6 +712,7 @@ Timer::shift_time(int delta)
   compute_next_limit_time();
   compute_next_reset_time();
   compute_next_predicate_reset_time();
+  TRACE_EXIT();
 }
 
 
@@ -711,10 +725,6 @@ void
 Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
   TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
-
-  // msvc can't handle std::string conditional tracepoints. use TRACE as the conditional
-  bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
-  (void) TRACE;
 
   time_t current_time= core->get_time();
 
@@ -791,12 +801,13 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
     }
 
   activity_state = new_activity_state;
-          TRACE_MSG("time, next limit "
-                    << current_time << " "
-                    << next_limit_time << " "
-                    << limit_interval << " "
-                    << (next_limit_time - current_time)
-                    );
+  TRACE_MSG("time, next limit, limit: "
+            << current_time << " "
+            << next_limit_time << " "
+            << limit_interval << " "
+            << (next_limit_time - current_time)
+            );
+
   TRACE_MSG("activity_state = " << activity_state);
 
   if (autoreset_interval_predicate &&
