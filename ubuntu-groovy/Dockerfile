@@ -54,7 +54,9 @@ RUN \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
+    qtbase5-dev-tools \
     qtbase5-private-dev \
+    qttools5-dev \
     qttools5-dev-tools \
     xfce4-panel-dev && \
   apt-get clean
