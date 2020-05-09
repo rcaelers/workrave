@@ -68,7 +68,7 @@ private:
   GDBusProxy *idle_proxy = NULL;
   GDBusProxy *session_proxy = NULL;
   std::atomic<bool> active { false };
-  bool inhibited = false;
+  std::atomic<bool> inhibited { false };
   guint watch_active = 0;
   guint watch_idle = 0;
 
