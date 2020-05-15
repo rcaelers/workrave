@@ -1,4 +1,4 @@
-FROM debian:unstable
+FROM debian:testing
 
 LABEL maintainer "Rob Caelers <rob.caelers@gmail.com>"
 
