@@ -5,10 +5,14 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
+* Workrave 1.10.45
+
+** Fix build issue.
+
 * Workrave 1.10.44
 
 ** Update Italian translation (Albano Battistella)
-** Support libayatana-indicator3 (Kentaro Hayashi)
+** Support libayatana-indicator3 (Kentaro Hayashi/Rob Caelers)
 ** Fixed issue on Gnome where Workrave would not detect that the user is idle (#181)
 
 * Workrave 1.10.43

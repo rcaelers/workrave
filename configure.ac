@@ -645,6 +645,7 @@ dnl Indicator applet
 dnl
 
 config_indicator=no
+config_indicator_package=none
 
 INDICATOR_REQUIRED_VERSION=0.3.19
 DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
@@ -660,6 +661,7 @@ then
                                     dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                     dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                                   [ config_indicator=yes
+                                    config_indicator_package=ayatana-indicator3-0.4
                                     AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])
                                     AC_DEFINE(HAVE_INDICATOR_AYATANA, 1, [Support for ayatana indicator applet])
                                   ],
@@ -668,6 +670,7 @@ then
                                                                   dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                                                   dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                                                       [ config_indicator=yes
+                                                        config_indicator_package=indicator3-0.4
                                                          AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
                                                       [if test "x$enable_indicator" = "xyes"; then
                                                          AC_MSG_ERROR([Indicator development headers not found.])
@@ -692,8 +695,8 @@ AS_IF([test "x$with_localinstall" = "xyes"],
     INDICATORDIR="${libdir}/indicators3/7"
     INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
-    INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4 | sed -e 's%/$%%'`
-    INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3-0.4`
+    INDICATORDIR=`$PKG_CONFIG --variable=indicatordir $config_indicator_package | sed -e 's%/$%%'`
+    INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir $config_indicator_package`
     )
 
 AM_CONDITIONAL(LOCALINSTALL, test "x$with_localinstall" = "xyes")
