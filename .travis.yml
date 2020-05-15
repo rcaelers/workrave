@@ -205,6 +205,15 @@ jobs:
     - stage: build
       env: >
         COMPILER="gcc"
+        CONF_GTK_VER="3"
+        CONF_ENABLE="gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises"
+        CONF_DISABLE=""
+        DOCKER_IMAGE="debian-testing"
+      <<: *_stage_build_docker
+
+    - stage: build
+      env: >
+        COMPILER="gcc"
         CONFIGURATION="Release"
         DOCKER_IMAGE="mingw-gtk2"
       <<: *_stage_build_docker
