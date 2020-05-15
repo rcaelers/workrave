@@ -37,6 +37,7 @@ conf_opt_packages()
 cd ${SOURCES_DIR}
 
 apt-get update -q
+apt-get dist-upgrade -y -q
 apt-get -y -q -V --no-install-recommends install \
         build-essential \
         automake \
