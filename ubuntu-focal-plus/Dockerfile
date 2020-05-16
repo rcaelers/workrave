@@ -7,7 +7,7 @@ RUN \
   echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99translations > /dev/null && \
   apt-get update -y && \
   apt-get install -y curl software-properties-common && \
-  curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
+  curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
   add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main" && \
   apt-get update -y && \
   apt-get --no-install-recommends install -y \
