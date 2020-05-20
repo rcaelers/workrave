@@ -82,14 +82,14 @@ _stage_build_osx: &_stage_build_osx
 _stage_deploy: &_stage_deploy
   <<: *_stage_base
   deploy:
-    - provider: script
-      skip_cleanup: true
-      on:
-        repo: rcaelers/workrave
-        branch: branch_v1_10
-        tags: true
-        condition: $TRAVIS_TAG =~ ^v1_.*$
-      script: build/travis/deploy-upload.sh
+    #- provider: script
+    #  skip_cleanup: true
+    #  on:
+    #    repo: rcaelers/workrave
+    #    branch: branch_v1_10
+    #    tags: true
+    #    condition: $TRAVIS_TAG =~ ^v1_.*$
+    #  script: build/travis/deploy-upload.sh
 
     - provider: script
       skip_cleanup: true
@@ -98,28 +98,22 @@ _stage_deploy: &_stage_deploy
         branch: branch_v1_10
       script: aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
-_stage_deploy_ppa: &_stage_deploy_ppa
-  <<: *_stage_base
-  os: linux
-  dist: bionic
-  language: cpp
-  script:
-    - mkdir -p _dist/secrets
-    - chmod 0700 _dist/secrets
-    - openssl aes-256-cbc -K $encrypted_cc78bd3121e0_key -iv $encrypted_cc78bd3121e0_iv -in build/travis/secrets.tar.enc -out _dist/secrets/secrets.tar -d
-    - tar vxf _dist/secrets/secrets.tar -C _dist/
-    - rm -f _dist/secrets/secrets.tar
-    - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
-    - |
-        if [[ $DOCKER_IMAGE ]]; then
-          docker run --rm \
-              -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-              -e TRAVIS_TAG=${TRAVIS_TAG} \
-              rcaelers/workrave-build:${DOCKER_IMAGE} \
-              sh -c "/workspace/source/build/travis/ppa.sh"
-        else
-          build/travis/ppa.sh
-        fi
+#_stage_deploy_ppa: &_stage_deploy_ppa
+#  <<: *_stage_base
+#  os: linux
+#  dist: bionic
+#  language: cpp
+#  script:
+#    - |
+#        if [[ $DOCKER_IMAGE ]]; then
+#          docker run --rm \
+#              -v "$TRAVIS_BUILD_DIR:/workspace/source" \
+#              -e TRAVIS_TAG=${TRAVIS_TAG} \
+#              rcaelers/workrave-build:${DOCKER_IMAGE} \
+#              sh -c "/workspace/source/build/travis/ppa.sh"
+#        else
+#          build/travis/ppa.sh
+#        fi
 
 jobs:
   include:
@@ -239,22 +233,22 @@ jobs:
           curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -d '{"event_type":"rebuild"}' https://api.github.com/repos/rcaelers/workrave-website/dispatches
       <<: *_stage_base
 
-    - stage: release
-      script:
-        - |
-          VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
-          github-release edit \
-          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
-          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
-          --tag "$TRAVIS_TAG" \
-          --name "Workrave $VERSION" \
-          --description "New release"
-      <<: *_stage_base
-
-    - stage: ppa
-      env: >
-        DOCKER_IMAGE="ubuntu-eoan"
-      <<: *_stage_deploy_ppa
+#    - stage: release
+#      script:
+#        - |
+#          VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
+#          github-release edit \
+#          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
+#          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
+#          --tag "$TRAVIS_TAG" \
+#          --name "Workrave $VERSION" \
+#          --description "New release"
+#      <<: *_stage_base
+#
+#    - stage: ppa
+#      env: >
+#        DOCKER_IMAGE="ubuntu-eoan"
+#      <<: *_stage_deploy_ppa
 
 # TODO; fails before github-release is not installed
 after_failure:
