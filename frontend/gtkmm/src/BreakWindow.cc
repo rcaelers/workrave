@@ -599,28 +599,32 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
-  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) && mode == OPERATION_MODE_NORMAL)
+  if (mode == OPERATION_MODE_NORMAL)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
           IBreak *b = core->get_break(BreakId(id));
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
-          if (!GUIConfig::get_ignorable(BreakId(id)))
+          if ( (!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
             {
-              skip_locked = overdue;
-            }
-          if (!GUIConfig::get_skippable(BreakId(id)))
-            {
-              postpone_locked = overdue;
-            }
-          if (skip_locked || postpone_locked)
-            {
-              overdue_break_id = BreakId(id);
-              return;
+              if (!GUIConfig::get_ignorable(BreakId(id)))
+                {
+                  skip_locked = overdue;
+                }
+              if (!GUIConfig::get_skippable(BreakId(id)))
+                {
+                  postpone_locked = overdue;
+                }
+              if (skip_locked || postpone_locked)
+                {
+                  overdue_break_id = BreakId(id);
+                  return;
+                }
             }
         }
     }
+  TRACE_EXIT();
 }
 
 //! Control buttons.

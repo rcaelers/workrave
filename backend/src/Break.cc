@@ -388,6 +388,12 @@ Break::is_taking() const
   return break_control->is_taking();
 }
 
+bool
+Break::is_max_preludes_reached() const
+{
+  return break_control->is_max_preludes_reached();
+}
+
 time_t
 Break::get_elapsed_time() const
 {

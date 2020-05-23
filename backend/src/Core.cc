@@ -1595,7 +1595,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
     {
       if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
-          breaks[bi].get_break_control()->stop_break(false);
+          breaks[bi].get_break_control()->stop_break();
         }
     }
 
@@ -1643,7 +1643,7 @@ Core::stop_all_breaks()
     {
       BreakControl *bc = breaks[i].get_break_control();
       assert(bc != NULL);
-      bc->stop_break(false);
+      bc->stop_break();
     }
 }
 
