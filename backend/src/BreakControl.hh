@@ -49,7 +49,6 @@ public:
   {
     bool forced_break;
     int prelude_count;
-    int postponable_count;
 
     int break_stage;
     bool reached_max_prelude;
@@ -62,13 +61,14 @@ public:
   // BreakInterface
   void start_break();
   void force_start_break(BreakHint break_hint);
-  void stop_break(bool forced_stop = false);
+  void stop_break(bool reset_count = true);
   bool need_heartbeat();
   void heartbeat();
   BreakState get_break_state();
   void set_state_data(bool activate, const BreakStateData &data);
   void get_state_data(BreakStateData &data);
   bool is_taking();
+  bool is_max_preludes_reached() const;
 
   // ActivityMonitorListener
   bool action_notify();
@@ -132,12 +132,6 @@ private:
 
   //! How many times have we preluded (since the limit was reached)
   int prelude_count;
-
-  //! Total number of time the user could have postponed the break.
-  /*! This includes the implicit (ignoring the prelude windows) as well as the
-   *  explicit (clicking postpone) number of times the break was postponed.
-   */
-  int postponable_count;
 
   //! After how many preludes do we force a break or give up?
   int max_number_of_preludes;

@@ -64,7 +64,6 @@ BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
   reached_max_prelude(false),
   prelude_time(0),
   prelude_count(0),
-  postponable_count(0),
   max_number_of_preludes(2),
   fake_break(false),
   fake_break_count(0),
@@ -283,7 +282,6 @@ BreakControl::goto_stage(BreakStage stage)
       {
         core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
-        postponable_count++;
         prelude_time = 0;
         application->hide_break_window();
 
@@ -363,7 +361,7 @@ BreakControl::update_break_window()
       idle = duration - fake_break_count;
       if (fake_break_count <= 0)
         {
-          stop_break(false);
+          stop_break();
         }
 
       fake_break_count--;
@@ -472,17 +470,15 @@ BreakControl::force_start_break(BreakHint hint)
  *  wrt, "max-preludes", the break will start over when it comes back.
  */
 void
-BreakControl::stop_break(bool forced_stop)
+BreakControl::stop_break(bool reset_count)
 {
-  TRACE_ENTER_MSG("BreakControl::stop_break", forced_stop);
-
-  TRACE_MSG(" forced stop = " << break_id);
+  TRACE_ENTER_MSG("BreakControl::stop_break", break_id << " " << reset_count);
 
   suspend_break();
-  prelude_count = 0;
-  if (!forced_stop)
+
+  if (reset_count)
     {
-      postponable_count = 0;
+      prelude_count = 0;
     }
 
   TRACE_EXIT();
@@ -542,6 +538,14 @@ BreakControl::is_taking()
   return break_stage == STAGE_TAKING;
 }
 
+bool
+BreakControl::is_max_preludes_reached() const
+{
+  TRACE_ENTER_MSG("BreakControl::is_max_preludes_reached", reached_max_prelude <<" " << prelude_count << " "  << max_number_of_preludes);
+  TRACE_EXIT();
+  return reached_max_prelude;
+}
+
 
 //! Postpones the active break.
 /*!
@@ -570,7 +574,7 @@ BreakControl::postpone_break()
       user_abort = true;
 
       // and stop the break.
-      stop_break(true);
+      stop_break();
 
       send_postponed();
     }
@@ -605,7 +609,7 @@ BreakControl::skip_break()
       stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
 
       // and stop the break.
-      stop_break(false);
+      stop_break();
 
       send_skipped();
     }
@@ -690,13 +694,11 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             " prelude = " << data.prelude_count <<
             " stage = " <<  data.break_stage <<
             " final = " << reached_max_prelude <<
-            " total preludes = " << postponable_count <<
             " time = " << data.prelude_time);
 
   forced_break = data.forced_break;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
-  postponable_count = data.postponable_count;
 
   TRACE_EXIT();
 }
@@ -711,7 +713,6 @@ BreakControl::get_state_data(BreakStateData &data)
   data.break_stage = break_stage;
   data.reached_max_prelude = reached_max_prelude;
   data.prelude_time = prelude_time;
-  data.postponable_count = postponable_count;
 }
 
 

@@ -94,6 +94,7 @@ public:
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
   virtual bool is_taking() const;
+  virtual bool is_max_preludes_reached() const;
 
   void set_usage_mode(UsageMode mode);
 

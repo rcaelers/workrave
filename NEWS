@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 09 May 2020
+Workrave NEWS -- history of user-visible changes. 24 May 2020
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -7,7 +7,11 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.10.45
 
-** Fix build issue.
+** Micro breaks without a postpone button could be postponed by starting a rest
+   break while the break prompt window was visible and then clicking postpone
+   in the rest break window. The postpone button is now disabled when the micro
+   break is overdue, and the maximum number of break prompts was reached.
+** Fix build issue with libayatana-indicator3.
 
 * Workrave 1.10.44
 

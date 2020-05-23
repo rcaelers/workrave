@@ -258,6 +258,7 @@ GUI::main()
 #else
   Gtk::Main::run();
 #endif
+  TRACE_MSG("loop ended");
 
   System::clear();
 #if defined(PLATFORM_OS_WIN32)
@@ -1025,6 +1026,7 @@ GUI::set_break_response(IBreakResponse *rep)
 void
 GUI::create_prelude_window(BreakId break_id)
 {
+  TRACE_ENTER_MSG("GUI::create_prelude_window", break_id);
   hide_break_window();
   init_multihead();
   collect_garbage();
@@ -1036,13 +1038,14 @@ GUI::create_prelude_window(BreakId break_id)
     }
 
   active_prelude_count = num_heads;
+  TRACE_EXIT();
 }
 
 
 void
 GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
-  TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
+  TRACE_ENTER_MSG("GUI::create_break_window", break_id << " " << break_hint);
   hide_break_window();
   init_multihead();
   collect_garbage();

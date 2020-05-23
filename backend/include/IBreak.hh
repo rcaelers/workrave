@@ -64,6 +64,9 @@ namespace workrave {
 
     //! Is the break window visible.
     virtual bool is_taking() const = 0;
+
+    //! Has the maximum number of prelude been reached
+    virtual bool is_max_preludes_reached() const = 0;
   };
 }
 
