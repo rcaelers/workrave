@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
 BUILD_DATE=`date +"%Y%m%d"`
 
@@ -36,6 +36,7 @@ conf_opt_packages()
 
 cd ${SOURCES_DIR}
 
+export DEBIAN_FRONTEND=noninteractive
 apt-get update -q
 apt-get dist-upgrade -y -q
 apt-get -y -q -V --no-install-recommends install \
