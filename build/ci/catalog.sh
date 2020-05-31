@@ -38,7 +38,7 @@ if [ ! -f $CATALOG_NAME ]; then
               "builds": [
                 {
                   "id": env.WORKRAVE_BUILD_ID,
-                  "tag": env.WORKRAVE_TAG,
+                  "tag": env.WORKRAVE_GIT_TAG,
                   "increment": env.WORKRAVE_COMMIT_COUNT,
                   "hash": env.WORKRAVE_COMMIT_HASH,
                   "date": env.WORKRAVE_BUILD_DATETIME,

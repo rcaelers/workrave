@@ -97,8 +97,6 @@ jobs:
                  mountpoint="$GITHUB_WORKSPACE"
                fi
                echo Mountpoint: $mountpoint;
-               echo $GITHUB_RUN_NUMBER
-               echo $GITHUB_RUN_ID
                IFS=$'\n'
                docker run --rm \
                    -v $mountpoint:/workspace/source \
