@@ -36,16 +36,6 @@ _stage_base: &_stage_base
           python3 -V
           pip3 -V
         fi
-        
-        pip3 install wheel
-        pip3 install awscli
-        which awscli
-        # Configure MinIO endpoint
-        aws configure set aws_access_key_id travis
-        aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
-        aws configure set default.region us-east-1
-        aws configure set default.s3.signature_version s3v4
-        aws configure set s3.endpoint_url https://snapshots.workrave.org/
 
 _stage_build_docker: &_stage_build_docker
   <<: *_stage_base
@@ -71,16 +61,6 @@ _stage_build_osx: &_stage_build_osx
   language: cpp
   script:
     - build/travis/build.sh
-
-_stage_deploy: &_stage_deploy
-  <<: *_stage_base
-  deploy:
-    - provider: script
-      skip_cleanup: true
-      on:
-        repo: rcaelers/workrave
-        branch: branch_v1_10
-      script: aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
 
 jobs:
   include:
@@ -117,7 +97,6 @@ jobs:
         DOCKER_IMAGE="ubuntu-eoan"
         DISTCHECK="yes"
       <<: *_stage_build_docker
-      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -170,7 +149,6 @@ jobs:
         CONFIGURATION="Release"
         DOCKER_IMAGE="mingw-gtk2"
       <<: *_stage_build_docker
-      <<: *_stage_deploy
 
     - stage: build
       env: >
@@ -178,18 +156,6 @@ jobs:
         CONFIGURATION="Debug"
         DOCKER_IMAGE="mingw-gtk2"
       <<: *_stage_build_docker
-      <<: *_stage_deploy
-
-    - stage: catalog
-      language: node_js
-      node_js: 12.7.0
-      script:
-        - cd $TRAVIS_BUILD_DIR/build/catalog
-        - npm i
-        - node --experimental-modules main.js 
-        - |
-          curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -d '{"event_type":"rebuild"}' https://api.github.com/repos/rcaelers/workrave-website/dispatches
-      <<: *_stage_base
 
 stages:
     - name: prepare

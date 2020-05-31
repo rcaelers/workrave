@@ -1,0 +1,173 @@
+name: CI
+on:
+  push:
+    branches:
+      - branch_v1_10
+  pull_request:
+    branches:
+      - branch_v1_10
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        config:
+          - image: ubuntu-xenial
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-bionic
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-eoan
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-focal
+            compiler: gcc
+            gtk_version: 3
+            distcheck: yes
+            upload: true
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-focal
+            compiler: gcc
+            gtk_version: 2
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-focal
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
+            disable: gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing
+
+          - image: ubuntu-groovy
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: debian-testing
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: mingw-gtk2
+            configuration: Release
+            compiler: gcc
+            upload: true
+
+          - image: mingw-gtk2
+            configuration: Debug
+            compiler: gcc
+            upload: true
+
+    steps:
+      - name: Prepare
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+          elif [[ $GITHUB_REF == refs/heads/branch_v1_10 ]]; then
+            echo ::set-output name=version::latest
+          elif [[ $GITHUB_REF == refs/heads/* ]]; then
+            echo ::set-output name=version::${GITHUB_REF#refs/heads/}
+          else
+            echo ::set-output name=version::dev
+          fi
+        
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+            if [[ $DOCKER_IMAGE ]]; then
+              if [[ $GITHUB_ACTOR == "nektos/act" ]]; then
+                dockerid=`head -1 /proc/self/cgroup|cut -d/ -f3`
+                 echo Running in nektos/act, container id $dockerid
+                 mountpoint=`docker inspect $dockerid --format "{{ .Name }}" | sed -e 's|/||'`
+               else
+                 echo Running on Github
+                 mountpoint="$GITHUB_WORKSPACE"
+               fi
+               echo Mountpoint: $mountpoint;
+               echo $GITHUB_RUN_NUMBER
+               echo $GITHUB_RUN_ID
+               IFS=$'\n'
+               docker run --rm \
+                   -v $mountpoint:/workspace/source \
+                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                   rcaelers/workrave-build:${DOCKER_IMAGE} \
+                   sh -c "/workspace/source/build/ci/build.sh"
+             fi
+        env:
+           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+           WORKRAVE_ENV: github
+           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
+           CONF_COMPILER: ${{ matrix.config.compiler }}
+           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
+           CONF_ENABLE: ${{ matrix.config.enable }}
+           CONF_DISABLE: ${{ matrix.config.disable }}
+           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+           DOCKER_IMAGE: ${{ matrix.config.image }}
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.config.upload }}
+        with:
+          name: binaries
+          path: _deploy
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: binaries
+          path: _deploy
+
+      - name: Upload artifacts to MinIO
+        run: | 
+          aws configure set aws_access_key_id travis
+          aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
+          aws configure set default.region us-east-1
+          aws configure set default.s3.signature_version s3v4
+          aws configure set s3.endpoint_url https://snapshots.workrave.org/
+          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.10
+        env:
+           WORKSPACE: ${{ github.workspace }}
+           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+
+      - name: Create artifact catalog
+        run: |
+          cd $GITHUB_WORKSPACE/build/catalog
+          npm i
+          node --experimental-modules main.js
+        env:
+           WORKSPACE: ${{ github.workspace }}
+           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+
+  website:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: [ deploy ]
+    steps:
+      - name: Trigger workrave.org rebuild
+        run: |
+          curl \
+            -X POST \
+            -H "Authorization: token ${{ secrets.TOKEN }}" \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -d '{"event_type":"rebuild"}' \
+            https://api.github.com/repos/rcaelers/workrave-website/dispatches

@@ -16,7 +16,7 @@ include_HEADERS         = zapper.h
 
 bin_PROGRAMS = zap
 zap_SOURCES = zap.c
-zap_LDADD = -lzapper
+zap_LDADD = libzapper.la
 zap_LDFLAGS = -mconsole 
 
 endif
