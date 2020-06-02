@@ -31,11 +31,11 @@
 using namespace workrave::utils;
 
 UnixGrab::UnixGrab() :
-#if !GTK_CHECK_VERSION(3, 20, 0)
+#if !GTK_CHECK_VERSION(3, 24, 0)
   keyboard(nullptr),
   pointer(nullptr),
 #endif
- grab_window(nullptr),
+  grab_window(nullptr),
   grab_wanted(false),
   grabbed(false)
 {
@@ -72,7 +72,10 @@ UnixGrab::grab_internal()
   TRACE_ENTER("UnixGrab::grab");
   bool ret = false;
 
-#if GTK_CHECK_VERSION(3, 20, 0)
+#if GTK_CHECK_VERSION(3, 24, 0)
+      // gdk_device_grab is deprecated since 3.20.
+      // However, an issue that was solved in gtk 3.24 causes windows to be hidden
+      // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
       GdkGrabStatus status;
 
       GdkDisplay *display = gdk_display_get_default();
@@ -142,7 +145,7 @@ UnixGrab::ungrab()
       grab_wanted = false;
       grab_retry_connection.disconnect();
 
-#if GTK_CHECK_VERSION(3, 20, 0)
+#if GTK_CHECK_VERSION(3, 24, 0)
       GdkDisplay *display = gdk_display_get_default();
       GdkSeat *seat = gdk_display_get_default_seat(display);
       gdk_seat_ungrab(seat);

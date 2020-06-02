@@ -20,7 +20,7 @@ const main = async () => {
     const bucket = 'snapshots';
     const accessKeyId = 'travis';
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
-    const gitRoot = getEnv('TRAVIS_BUILD_DIR');
+    const gitRoot = getEnv('WORKSPACE');
 
     var args = yargs
       .scriptName('catalog')

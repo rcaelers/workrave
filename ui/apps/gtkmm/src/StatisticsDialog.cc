@@ -232,7 +232,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   Gtk::Widget *usage_label
     = GtkUtil::create_label_with_tooltip
     (_("Usage"),
-      ("Active computer usage"));
+     _("Active computer usage"));
 
   Gtk::Widget *daily_usage_label
     = GtkUtil::create_label_with_tooltip

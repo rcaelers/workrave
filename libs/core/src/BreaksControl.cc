@@ -469,8 +469,6 @@ BreaksControl::load_state()
   ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
-
-
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
     {

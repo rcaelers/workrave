@@ -109,6 +109,9 @@ namespace workrave {
     //! Is the user taking the break.
     virtual bool is_taking() const = 0;
 
+    //! Has the maximum number of prelude been reached
+    virtual bool is_max_preludes_reached() const = 0;
+
     //! Is the break currently active.
     virtual bool is_active() const = 0;
 

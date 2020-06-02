@@ -571,10 +571,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
-  TRACE_MSG("break flags " << break_flags);
-
-  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED) &&
-      mode == OperationMode::Normal)
+  if (mode == OPERATION_MODE_NORMAL)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
@@ -582,21 +579,25 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
 
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
-          if (!GUIConfig::break_ignorable(BreakId(id))())
+          if ( (!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
             {
-              skip_locked = overdue;
-            }
-          if (!GUIConfig::break_skippable(BreakId(id))())
-            {
-              postpone_locked = overdue;
-            }
-          if (skip_locked || postpone_locked)
-            {
-              overdue_break_id = BreakId(id);
-              return;
+                if (!GUIConfig::break_ignorable(BreakId(id))())
+                {
+                  skip_locked = overdue;
+                }
+                if (!GUIConfig::break_skippable(BreakId(id))())
+                {
+                  postpone_locked = overdue;
+                }
+              if (skip_locked || postpone_locked)
+                {
+                  overdue_break_id = BreakId(id);
+                  return;
+                }
             }
         }
     }
+  TRACE_EXIT();
 }
 
 //! Control buttons.
@@ -625,7 +626,7 @@ BreakWindow::create_bottom_box(bool lockable,
           bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
 
           bool skip_locked = false;
-          bool postpone_locked = true;
+          bool postpone_locked = false;
           BreakId overdue_break_id =  BREAK_ID_NONE;
           check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -664,6 +665,7 @@ BreakWindow::create_bottom_box(bool lockable,
               progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
               progress_bar->set_fraction(0);
               progress_bar->set_name("locked-progress");
+              update_skip_postpone_lock();
 
               vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
               top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);

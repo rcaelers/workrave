@@ -72,6 +72,7 @@ public:
 
   bool is_taking() const;
   bool is_active() const;
+  bool has_reached_max_preludes();
   BreakStage get_break_stage() const;
 
   void set_max_number_of_preludes(int max_preludes);
@@ -88,7 +89,6 @@ private:
   void prelude_window_update();
   void prelude_window_stop();
 
-  bool has_reached_max_preludes();
 
   // IActivityMonitorListener
   bool action_notify() override;

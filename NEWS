@@ -1,9 +1,41 @@
-Workrave NEWS -- history of user-visible changes. 26 March 2020
+Workrave NEWS -- history of user-visible changes. 24 May 2020
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.10.45
+
+** Micro breaks without a postpone button could be postponed by starting a rest
+   break while the break prompt window was visible and then clicking postpone
+   in the rest break window. The postpone button is now disabled when the micro
+   break is overdue, and the maximum number of break prompts was reached.
+** Fix build issue with libayatana-indicator3.
+
+* Workrave 1.10.44
+
+** Update Italian translation (Albano Battistella)
+** Support libayatana-indicator3 (Kentaro Hayashi/Rob Caelers)
+** Fixed issue on Gnome where Workrave would not detect that the user is idle (#181)
+
+* Workrave 1.10.43
+
+** Fix issue where a break window could disappear after a few seconds.
+** Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+** Update Traditional Chinese translation (Yuenfu Chiu)
+
+* Workrave 1.10.42
+
+** Fix Gnome Shell applet compatibility issue with Ubuntu 18.04.
+
+* Workrave 1.10.41
+
+** Fix incomplete Gnome Shell applet menu with latest version of Gnome Shell
+
+* Workrave 1.10.40
+
+** Fix creation for source tarball.
 
 * Workrave 1.10.39
 
@@ -14,11 +46,13 @@ https://github.com/rcaelers/workrave/issues
    progress bar indicates how long the buttons are disabled. Previously,
    Workrave would restart the micro break when pressing the skip or postpone
    button.
-** Support applets on Gnome 3.35.1+ using libgnome-panel (Alberts Muktupāvels)
+** Support applets on Gnome 3.35.1+ using libgnome-panel (Alberts Muktupāvels).
+** Added Indonesian translation (Andika Triwidada).
+** Fixed issue where Workrave was not properly terminated on reinstall.
 
 * Workrave 1.10.38
 
-** Show operation mode in cinnamon applet.
+** Show operation mode in Gnome applet.
 ** Fixed focus issue on rest break window that caused muted (grey) text.
 
 * Workrave 1.10.37

@@ -53,6 +53,7 @@ public:
   bool is_enabled() const override;
   bool is_running() const override;
   bool is_taking() const override;
+  bool is_max_preludes_reached() const override;
   bool is_active() const override;
   int64_t get_elapsed_time() const override;
   int64_t get_elapsed_idle_time() const override;

@@ -1,4 +1,3 @@
-sudo: required
 dist: bionic
 
 services:
@@ -33,27 +32,10 @@ _stage_base: &_stage_base
           pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
 
         elif [ ${TRAVIS_OS_NAME} = "linux" ]; then
-          pushd /tmp
-          curl -OL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-          tar xvfj linux-amd64-github-release.tar.bz2
-          mkdir -p ~/bin/
-          mv bin/linux/amd64/github-release ~/bin/
-          chmod +x ~/bin/github-release
-          popd
           sudo apt-get -y install python3 python3-pip python3-setuptools
           python3 -V
           pip3 -V
         fi
-        
-        pip3 install wheel
-        pip3 install awscli
-        which awscli
-        # Configure MinIO endpoint
-        aws configure set aws_access_key_id travis
-        aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
-        aws configure set default.region us-east-1
-        aws configure set default.s3.signature_version s3v4
-        aws configure set s3.endpoint_url https://snapshots.workrave.org/
 
 _stage_build_docker: &_stage_build_docker
   <<: *_stage_base
@@ -80,61 +62,12 @@ _stage_build_osx: &_stage_build_osx
   script:
     - build/travis/build.sh
 
-_stage_deploy: &_stage_deploy
-  <<: *_stage_base
-  deploy:
-    - provider: script
-      skip_cleanup: true
-      on:
-        repo: rcaelers/workrave
-        branch: next_DISABLED
-        tags: true
-      script: build/travis/deploy-upload.sh
-
-    - provider: script
-      skip_cleanup: true
-      on:
-        repo: rcaelers/workrave
-        branch: next
-      script: aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://$WORKRAVE_UPLOAD_DIR
-
-_stage_deploy_ppa: &_stage_deploy_ppa
-  <<: *_stage_base
-  os: linux
-  dist: bionic
-  language: cpp
-  script:
-    - mkdir -p _dist/secrets
-    - chmod 0700 _dist/secrets
-    - openssl aes-256-cbc -K $encrypted_cc78bd3121e0_key -iv $encrypted_cc78bd3121e0_iv -in build/travis/secrets.tar.enc -out _dist/secrets/secrets.tar -d
-    - tar vxf _dist/secrets/secrets.tar -C _dist/
-    - rm -f _dist/secrets/secrets.tar
-    - echo $GPG_PASSPHRASE > _dist/secrets/priv-key
-    - |
-        if [[ $DOCKER_IMAGE ]]; then
-          docker run --rm \
-              -v "$TRAVIS_BUILD_DIR:/workspace/source" \
-              -e TRAVIS_TAG=${TRAVIS_TAG} \
-              rcaelers/workrave-build:${DOCKER_IMAGE} \
-              sh -c "/workspace/source/build/travis/ppa.sh"
-        else
-          build/travis/ppa.sh
-        fi
-
 jobs:
   include:
-#    - stage: prepare
-#      language: cpp
-#      script: |
-#        VERSION=`echo $TRAVIS_TAG | sed -e 's/_/./g'` \
-#        github-release release \
-#          --user "${TRAVIS_REPO_SLUG%%/[^/]*}" \
-#          --repo "${TRAVIS_REPO_SLUG#[^/]*/}" \
-#          --tag "$TRAVIS_TAG" \
-#          --name "Workrave $VERSION" \
-#          --description "New release" \
-#          --draft
-#      <<: *_stage_base
+    - stage: prepare
+      language: cpp
+      script: |
+      <<: *_stage_base
 
     ###########################################################################
 
@@ -165,7 +98,6 @@ jobs:
         CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
-      <<: *_stage_deploy
 
     - stage: build
       env: >

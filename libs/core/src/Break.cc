@@ -74,6 +74,12 @@ Break::is_taking() const
 }
 
 bool
+Break::is_max_preludes_reached() const
+{
+  return break_state_model->has_reached_max_preludes();
+}
+
+bool
 Break::is_active() const
 {
   return break_state_model->is_active();
