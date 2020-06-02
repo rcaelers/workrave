@@ -448,7 +448,7 @@ endif()
 # Indicator
 
 if (UNIX AND NOT APPLE)
-  option(WITH_INDICATOR "Enable Unity indicator support" ON)
+  option(WITH_INDICATOR "Enable Ayatana indicator support" ON)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
   pkg_check_modules(
@@ -462,7 +462,7 @@ if (UNIX AND NOT APPLE)
     set (HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
 
     if (HAVE_INTROSPECTION)
-      pkg_check_modules(INDICATOR QUIET indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+      pkg_check_modules(INDICATOR QUIET ayatana-indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
     endif()
 
     if (INDICATOR_FOUND)
@@ -477,8 +477,8 @@ if (UNIX AND NOT APPLE)
       set (INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
       set (INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
     else()
-      pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
-      pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
+      pkgconfig_get_var(INDICATORDIR ayatana-indicator3-0.4 indicatordir)
+      pkgconfig_get_var(INDICATORICONSDIR ayatana-indicator3-0.4 iconsdir)
 
       #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
       #set (INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
