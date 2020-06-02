@@ -5,8 +5,6 @@
 set(POTFILE ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot)
 file(GLOB POFILES ${CMAKE_CURRENT_SOURCE_DIR}/*.po)
 
-add_custom_target(translations ALL)
-
 if (GETTEXT_FOUND)
   add_custom_target(update-po)
 endif()
@@ -18,15 +16,18 @@ foreach (po_file ${POFILES})
     set(ts_file ${CMAKE_CURRENT_BINARY_DIR}/workrave_${language}.ts)
     set(qm_file ${CMAKE_CURRENT_BINARY_DIR}/workrave_${language}.qm)
 
-    add_custom_command(TARGET translations
+    add_custom_command(
+        OUTPUT ${ts_file}
         COMMAND ${QT_LCONVERT_EXECUTABLE} ARGS ${po_file} -o ${ts_file} -of ts
         DEPENDS ${po_file}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    add_custom_command(TARGET translations
+    add_custom_command(
+        OUTPUT ${qm_file}
         COMMAND ${QT_LRELEASE_EXECUTABLE} ARGS ${ts_file} -qm ${qm_file}
         DEPENDS ${ts_file})
 
     install(FILES ${qm_file} DESTINATION ${DATADIR}/translations/)
+    set(qm_files ${qm_files} ${qm_file})
   endif()
 
   if (GETTEXT_FOUND)
@@ -62,6 +63,7 @@ foreach (po_file ${POFILES})
     set(gmo_files ${gmo_files} ${gmo_file})
   endif()
 endforeach()
+add_custom_target(translations ALL DEPENDS ${qm_files})
 
 if (GETTEXT_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
