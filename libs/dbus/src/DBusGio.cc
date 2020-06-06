@@ -309,6 +309,11 @@ DBusGio::is_running(const std::string &name) const
         }
     }
 
+  if (proxy != nullptr)
+    {
+      g_object_unref(proxy);
+    }
+
   TRACE_RETURN(running);
   return running;
 }
@@ -319,7 +324,7 @@ DBusGio::is_available() const
 {
   TRACE_ENTER("DBusGio::is_available");
   GError *error = nullptr;
-  
+
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                     nullptr,
@@ -328,6 +333,11 @@ DBusGio::is_available() const
                                                     "org.freedesktop.DBus",
                                                     nullptr,
                                                     &error);
+
+  if (proxy != nullptr)
+    {
+      g_object_unref(proxy);
+    }
 
   if (error != nullptr)
     {
