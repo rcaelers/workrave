@@ -98,7 +98,6 @@ ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c
 ui/applets/gnome3/src/workrave-gnome-applet.xml
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
-ui/applets/mate/src/main-gtk2.c
 ui/applets/mate/src/main-gtk3.c
 ui/applets/xfce/src/main.c
 ui/apps/gtkmm//src/Locale.cc

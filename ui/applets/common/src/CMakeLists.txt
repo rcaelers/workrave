@@ -58,33 +58,3 @@ if (GTK3_FOUND AND UNIX AND NOT APPLE)
     gir_add_introspections(INTROSPECTION_GIRS)
   endif ()
 endif()
-
-if (GTK2_FOUND AND UNIX AND NOT APPLE)
-
-  add_library(workrave-gtk2-private-1.0 SHARED ${SRC} compat.c)
-  add_cppcheck(workrave-gtk2-private-1.0)
-  link_directories(${GTK2_LIBPATH})
-
-  target_include_directories(workrave-gtk2-private-1.0
-    PRIVATE
-    ${CMAKE_SOURCE_DIR}/ui/applets/common/include
-    ${CMAKE_SOURCE_DIR}/libs/utils/include
-    ${CMAKE_SOURCE_DIR}/libs/config/include
-    ${GTK2_INCLUDE_DIRS}
-    INTERFACE
-    ${CMAKE_SOURCE_DIR}/ui/applets/common/include
-    )
-
-  target_link_libraries(workrave-gtk2-private-1.0
-    ${GTK2_LIBRARIES}
-    )
-
-  target_compile_options(workrave-gtk2-private-1.0
-    PRIVATE
-    -DUSE_GTK2
-    )
-
-  install(TARGETS workrave-gtk2-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
-  set_target_properties(workrave-gtk2-private-1.0 PROPERTIES VERSION 1.0 SOVERSION 1.0)
-
-endif()

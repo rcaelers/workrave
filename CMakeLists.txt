@@ -454,7 +454,7 @@ if (UNIX AND NOT APPLE)
   pkg_check_modules(
     GTK3
     gtk+-3.0>=3.10.0)
-  
+
   if (WITH_INDICATOR)
     message(STATUS "Checking for: Unity Indicators")
 
@@ -494,15 +494,10 @@ if (UNIX AND NOT APPLE)
 
   if (WITH_MATE)
     message(STATUS "Checking for: Mate")
-
-    pkg_check_modules(MATE libmatepanelapplet-4.0)
+    pkg_check_modules(MATE libmatepanelapplet-4.0>=1.20.0)
 
     if (MATE_FOUND)
       set (HAVE_MATE ON)
-      pkgconfig_get_requires(MATE_REQUIRES libmatepanelapplet-4.0)
-      if ("gtk+3" IN_LIST MATE_REQUIRES)
-        set (HAVE_MATE_GTK3 ON)
-      endif()
     else()
       set (WITH_MATE OFF)
     endif()
@@ -517,11 +512,7 @@ if (UNIX AND NOT APPLE)
 
   if (WITH_XFCE4)
     message(STATUS "Checking for: Xfce 4")
-
-    pkg_check_modules(GTK2 gtk+-2.0>=2.6.0 gdk-2.0>=2.8)
-    if (GTK2_FOUND)
-      pkg_check_modules(XFCE4 libxfce4panel-1.0>=4.4)
-    endif()
+    pkg_check_modules(XFCE4 libxfce4panel-2.0>=4.12)
 
     if (XFCE4_FOUND)
       set (HAVE_XFCE4 ON)

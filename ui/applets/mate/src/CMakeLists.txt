@@ -18,11 +18,7 @@ intltool_merge_desktop(
   ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 add_custom_target(generate_mate_panel_applet ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 
-if (HAVE_MATE_GTK3)
-  set(SRC main-gtk3.c)
-else()
-  set(SRC main-gtk2.c)
-endif()
+set(SRC main-gtk3.c)
 
 install(FILES workrave-menu.xml DESTINATION ${UIDIR})
 
@@ -34,11 +30,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel
 
 dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.mate.panel.applet.WorkraveAppletFactory.service.in ${APPLETBINDIR})
 
-if (HAVE_MATE_GTK3)
-  target_link_libraries(mate-workrave-applet workrave-private-1.0)
-else()
-  target_link_libraries(mate-workrave-applet workrave-gtk2-private-1.0)
-endif()
+target_link_libraries(mate-workrave-applet workrave-private-1.0)
 
 target_link_libraries(mate-workrave-applet
   workrave-libs-utils
