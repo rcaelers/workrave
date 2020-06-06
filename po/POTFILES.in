@@ -85,7 +85,6 @@ libs/utils/src/win32/W32ActiveSetup.cc
 libs/utils/src/win32/W32CriticalSection.cc
 libs/utils/src/win32/crashlog.c
 libs/utils/src/win32/crashlog.cc
-ui/applets/common/src/compat.c
 ui/applets/common/src/control.c
 ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
