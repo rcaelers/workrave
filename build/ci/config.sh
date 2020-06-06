@@ -24,8 +24,8 @@ case "$WORKRAVE_ENV" in
         CI_DIR=${SOURCES_DIR}/build/ci
         ;;
 
-    github)
-        echo "Running on Github"
+    github-docker)
+        echo "Running on Github in docker"
         WORKSPACE=/workspace
         SOURCES_DIR=${WORKSPACE}/source
         OUTPUT_DIR=${WORKSPACE}/output
@@ -35,6 +35,16 @@ case "$WORKRAVE_ENV" in
         CI_DIR=${SOURCES_DIR}/build/ci
         ;;
 
+    github)
+        echo "Running on Github"
+        WORKSPACE=$GITHUB_WORKSPACE
+        SOURCES_DIR=${WORKSPACE}
+        OUTPUT_DIR=${WORKSPACE}/output
+        DEPLOY_DIR=${SOURCES_DIR}/_deploy
+        BUILD_DIR=${SOURCES_DIR}/_dist/build
+        PREBUILT_DIR=${WORKSPACE}/prebuilt
+        CI_DIR=${SOURCES_DIR}/build/ci
+        ;;
     *)
         echo "Unknown environment"
        ;;

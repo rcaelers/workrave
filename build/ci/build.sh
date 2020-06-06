@@ -89,7 +89,7 @@ esac
 
 build "" CMAKE_FLAGS[@]
 
-mkdir ${DEPLOY_DIR}
+mkdir -p ${DEPLOY_DIR}
 
 EXTRA=
 CONFIG=release

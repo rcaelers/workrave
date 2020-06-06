@@ -103,17 +103,18 @@ jobs:
                fi
                echo Mountpoint: $mountpoint;
                IFS=$'\n'
+               export WORKRAVE_ENV=github-docker
                docker run --rm \
                    -v $mountpoint:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    rcaelers/workrave-build:${DOCKER_IMAGE} \
                    sh -c "/workspace/source/build/ci/build.sh"
             else
+              export WORKRAVE_ENV=github
               $GITHUB_WORKSPACE/build/ci/build.sh
             fi
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github
            WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
            CONF_UI: ${{ matrix.config.ui }}
