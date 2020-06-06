@@ -571,7 +571,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
-  if (mode == OPERATION_MODE_NORMAL)
+  if (mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {

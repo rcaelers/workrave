@@ -331,28 +331,28 @@ MutterInputMonitor::run()
 
     while (!abort)
       {
-      bool local_active = active;
+        bool local_active = active;
 
-      if (inhibited)
-        {
-          GError *error = NULL;
-          guint64 idletime;
-          GVariant *reply = g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", NULL, G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
-          if (error == NULL)
-            {
+        if (inhibited)
+          {
+            GError *error = NULL;
+            guint64 idletime;
+            GVariant *reply = g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", NULL, G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
+            if (error == NULL)
+              {
 
-              g_variant_get(reply, "(t)", &idletime);
-              g_variant_unref(reply);
-              local_active = idletime < 1000;
-            }
-          else
-            {
-              TRACE_MSG("Error: " << error->message);
-              g_error_free(error);
-            }
-        }
+                g_variant_get(reply, "(t)", &idletime);
+                g_variant_unref(reply);
+                local_active = idletime < 1000;
+              }
+            else
+              {
+                TRACE_MSG("Error: " << error->message);
+                g_error_free(error);
+              }
+          }
 
-      if (local_active)
+        if (local_active)
           {
             /* Notify the activity monitor */
             fire_action();
@@ -360,7 +360,7 @@ MutterInputMonitor::run()
 
         boost::system_time timeout = boost::get_system_time()+ boost::posix_time::milliseconds(1000);
         cond.timed_wait(lock, timeout);
-
+      }
   }
 
   TRACE_EXIT();
