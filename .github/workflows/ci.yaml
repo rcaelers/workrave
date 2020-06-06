@@ -2,78 +2,83 @@ name: CI
 on:
   push:
     branches:
-      - branch_v1_10
+      - master
   pull_request:
     branches:
-      - branch_v1_10
+      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-xenial
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
           - image: ubuntu-bionic
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: GCONF,TESTS,COVERAGE,TRACING
 
           - image: ubuntu-eoan
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: GCONF,TESTS,COVERAGE,TRACING
+  
           - image: ubuntu-focal
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 3
-            distcheck: yes
-            upload: true
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: GCONF,TESTS,COVERAGE,TRACING
+  
           - image: ubuntu-focal
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 2
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
+            disable: GCONF,TESTS,COVERAGE
+  
           - image: ubuntu-focal
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 3
-            enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
-            disable: gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing
-
-          - image: ubuntu-groovy
+            ui: Qt5
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
+            disable: GCONF,TESTS,COVERAGE
+  
+          - image: mingw-gtk-rawhide
+            os: ubuntu-latest
             compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
-          - image: debian-testing
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
-          - image: mingw-gtk2
+            ui: Gtk+3
             configuration: Release
+            enable: 
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING
+  
+          - image: mingw-gtk-rawhide
+            os: ubuntu-latest
             compiler: gcc
-            upload: true
-
-          - image: mingw-gtk2
+            ui: Gtk+3
             configuration: Debug
-            compiler: gcc
-            upload: true
-
+            enable: TRACING
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE
+  
+          - runs-on: ubuntu-latest
+            os: macos-latest
+            compiler: clang
+            ui: Qt5
+            enable: 
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING
+  
     steps:
       - name: Prepare
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-          elif [[ $GITHUB_REF == refs/heads/branch_v1_10 ]]; then
+          elif [[ $GITHUB_REF == refs/heads/next ]]; then
             echo ::set-output name=version::latest
           elif [[ $GITHUB_REF == refs/heads/* ]]; then
             echo ::set-output name=version::${GITHUB_REF#refs/heads/}
@@ -103,16 +108,17 @@ jobs:
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    rcaelers/workrave-build:${DOCKER_IMAGE} \
                    sh -c "/workspace/source/build/ci/build.sh"
-             fi
+            else
+              $GITHUB_WORKSPACE/build/ci/build.sh
+            fi
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
            WORKRAVE_ENV: github
            WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
+           CONF_UI: ${{ matrix.config.ui }}
            CONF_ENABLE: ${{ matrix.config.enable }}
            CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
            CONF_CONFIGURATION: ${{ matrix.config.configuration }}
            DOCKER_IMAGE: ${{ matrix.config.image }}
 
@@ -142,7 +148,7 @@ jobs:
           aws configure set default.region us-east-1
           aws configure set default.s3.signature_version s3v4
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
-          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.10
+          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/next
         env:
            WORKSPACE: ${{ github.workspace }}
            SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
