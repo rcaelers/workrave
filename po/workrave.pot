@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 15:01+0100\n"
+"POT-Creation-Date: 2020-06-06 20:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,88 +19,84 @@ msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:206
 #: ui/applets/gnome3/src/v5/WorkraveApplet.c:216
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
-#: ui/applets/mate/src/main-gtk2.c:205 ui/applets/mate/src/main-gtk3.c:206
-#: ui/applets/xfce/src/main.c:293 ui/apps/gtkmm/src/Menus.cc:350
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:214
+#: ui/applets/mate/src/main-gtk3.c:206 ui/applets/xfce/src/main.c:293
+#: ui/apps/gtkmm/src/Menus.cc:350
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:303
-#: ui/applets/mate/src/main-gtk2.c:261 ui/applets/mate/src/main-gtk3.c:303
+#: ui/applets/mate/src/main-gtk3.c:303
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:69
 msgid "_Open"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:307
-#: ui/applets/mate/src/main-gtk2.c:265 ui/applets/mate/src/main-gtk3.c:307
+#: ui/applets/mate/src/main-gtk3.c:307
 msgid "_Statistics"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:311
-#: ui/applets/mate/src/main-gtk2.c:269 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:160
+#: ui/applets/mate/src/main-gtk3.c:311 ui/apps/gtkmm/src/MainGtkMenu.cc:160
 msgid "_Preferences"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:315
-#: ui/applets/mate/src/main-gtk2.c:273 ui/applets/mate/src/main-gtk3.c:315
+#: ui/applets/mate/src/main-gtk3.c:315
 msgid "_Exercises"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:319
-#: ui/applets/mate/src/main-gtk2.c:277 ui/applets/mate/src/main-gtk3.c:319
+#: ui/applets/mate/src/main-gtk3.c:319
 msgid "_Restbreak"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:323
-#: ui/applets/mate/src/main-gtk2.c:281 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:132
+#: ui/applets/mate/src/main-gtk3.c:323 ui/apps/gtkmm/src/MainGtkMenu.cc:132
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "_Mode"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:327
-#: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:327
+#: ui/applets/mate/src/main-gtk3.c:327
 msgid "_Network"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:331
-#: ui/applets/mate/src/main-gtk2.c:289 ui/applets/mate/src/main-gtk3.c:331
+#: ui/applets/mate/src/main-gtk3.c:331
 msgid "_Join"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:335
-#: ui/applets/mate/src/main-gtk2.c:293 ui/applets/mate/src/main-gtk3.c:335
+#: ui/applets/mate/src/main-gtk3.c:335
 msgid "_Disconnect"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:339
-#: ui/applets/mate/src/main-gtk2.c:297 ui/applets/mate/src/main-gtk3.c:339
+#: ui/applets/mate/src/main-gtk3.c:339
 msgid "_Reconnect"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:343
-#: ui/applets/mate/src/main-gtk2.c:301 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:173
+#: ui/applets/mate/src/main-gtk3.c:343 ui/apps/gtkmm/src/MainGtkMenu.cc:173
 msgid "_About"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:347
-#: ui/applets/mate/src/main-gtk2.c:305 ui/applets/mate/src/main-gtk3.c:347
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:178
+#: ui/applets/mate/src/main-gtk3.c:347 ui/apps/gtkmm/src/MainGtkMenu.cc:178
 msgid "_Quit"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:354
-#: ui/applets/mate/src/main-gtk2.c:312 ui/applets/mate/src/main-gtk3.c:354
+#: ui/applets/mate/src/main-gtk3.c:354
 msgid "Show log"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:358
-#: ui/applets/mate/src/main-gtk2.c:316 ui/applets/mate/src/main-gtk3.c:358
+#: ui/applets/mate/src/main-gtk3.c:358
 #: ui/apps/gtkmm/src/GenericDBusApplet.cc:205
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:95 ui/apps/qt5/src/Menus.cc:111
@@ -108,22 +104,20 @@ msgid "Reading mode"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:365
-#: ui/applets/mate/src/main-gtk2.c:323 ui/applets/mate/src/main-gtk3.c:365
+#: ui/applets/mate/src/main-gtk3.c:365
 #: ui/apps/gtkmm/src/GenericDBusApplet.cc:195 ui/apps/qt5/src/Menus.cc:89
 msgid "Normal"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:369
-#: ui/applets/mate/src/main-gtk2.c:327 ui/applets/mate/src/main-gtk3.c:369
-#: ui/apps/gtkmm/src/GUI.cc:1395 ui/apps/gtkmm/src/GenericDBusApplet.cc:197
-#: ui/apps/qt5/src/Menus.cc:96
+#: ui/applets/mate/src/main-gtk3.c:369 ui/apps/gtkmm/src/GUI.cc:1382
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ui/apps/qt5/src/Menus.cc:96
 msgid "Suspended"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:373
-#: ui/applets/mate/src/main-gtk2.c:331 ui/applets/mate/src/main-gtk3.c:373
-#: ui/apps/gtkmm/src/GUI.cc:1399 ui/apps/gtkmm/src/GenericDBusApplet.cc:199
-#: ui/apps/qt5/src/Menus.cc:104
+#: ui/applets/mate/src/main-gtk3.c:373 ui/apps/gtkmm/src/GUI.cc:1386
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:199 ui/apps/qt5/src/Menus.cc:104
 msgid "Quiet"
 msgstr ""
 
@@ -167,19 +161,19 @@ msgstr ""
 msgid "_Postpone"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:638
+#: ui/apps/gtkmm/src/BreakWindow.cc:639
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:652
+#: ui/apps/gtkmm/src/BreakWindow.cc:653
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
 
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:48
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ui/apps/gtkmm/src/GUI.cc:1388
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ui/apps/gtkmm/src/GUI.cc:1375
 #: ui/apps/gtkmm/src/GtkUtil.cc:169 ui/apps/gtkmm/src/Ui.cc:44
 #: ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
@@ -233,39 +227,39 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:292
+#: ui/apps/gtkmm/src/GUI.cc:293
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:803
+#: ui/apps/gtkmm/src/GUI.cc:788
 msgid "Workrave failed to start"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:805
+#: ui/apps/gtkmm/src/GUI.cc:790
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1254 ui/apps/qt5/src/Application.cc:481
+#: ui/apps/gtkmm/src/GUI.cc:1241 ui/apps/qt5/src/Application.cc:481
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1260 ui/apps/qt5/src/Application.cc:488
+#: ui/apps/gtkmm/src/GUI.cc:1247 ui/apps/qt5/src/Application.cc:488
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1388 ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ui/apps/gtkmm/src/GUI.cc:1375 ui/apps/gtkmm/src/GtkUtil.cc:169
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:54
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:173
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:271 ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1388 ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/GUI.cc:1375 ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ui/apps/gtkmm/src/GtkUtil.cc:169 ui/apps/gtkmm/src/MicroBreakWindow.cc:147
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:74
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:207 ui/apps/gtkmm/src/Ui.cc:41
@@ -273,7 +267,7 @@ msgstr ""
 msgid "Rest break"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1395 ui/apps/gtkmm/src/GUI.cc:1399
+#: ui/apps/gtkmm/src/GUI.cc:1382 ui/apps/gtkmm/src/GUI.cc:1386
 msgid "Mode: "
 msgstr ""
 
@@ -637,6 +631,10 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:234
 msgid "Usage"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:235
+msgid "Active computer usage"
 msgstr ""
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:239
