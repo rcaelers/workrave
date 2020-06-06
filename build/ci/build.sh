@@ -39,7 +39,7 @@ if [[ ${CONF_DISABLE} ]]; then
     done
 fi
 
-CMAKE_FLAGS+=("-DWITH_UI=${WITH_UI}")
+CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 
 if [[ $COMPILER = 'gcc' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
