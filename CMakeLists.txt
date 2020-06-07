@@ -528,6 +528,10 @@ if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
   set (BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
   #set (Boost_DEBUG ON)
 
+  if (WIN32)
+    set (Boost_ARCHITECTURE "-x32")
+  endif()
+
   if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
     if (CMAKE_CL_64)
       set (_arch lib64)
