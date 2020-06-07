@@ -31,18 +31,20 @@ if (HAVE_GSETTINGS)
   gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/libs/core/src)
 endif()
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/backend/src
-  ${CMAKE_SOURCE_DIR}/libs/core/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-  ${CMAKE_SOURCE_DIR}/libs/dbus/include
-  )
-
 add_library(workrave-libs-core STATIC ${SRC})
 
 add_cppcheck(workrave-libs-core)
 
-target_link_libraries(workrave-libs-core ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(workrave-libs-core
+  ${CMAKE_THREAD_LIBS_INIT}
+  workrave-libs-utils
+  workrave-libs-config
+  workrave-libs-input-monitor
+  workrave-libs-dbus)
+
+target_include_directories(
+  workrave-libs-core
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/libs/core/include
+  )
 

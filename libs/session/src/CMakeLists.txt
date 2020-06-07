@@ -25,12 +25,13 @@ if (WIN32)
   include_directories(${CMAKE_SOURCE_DIR}/libs/session/src/win32/ ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/session/include/session
-  ${CMAKE_SOURCE_DIR}/libs/session/include
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  )
-
 add_library(workrave-libs-session STATIC ${SRC})
 add_cppcheck(workrave-libs-session)
+
+if (HAVE_GLIB)
+  target_include_directories(workrave-libs-session PRIVATE ${GLIB_INCLUDE_DIRS})
+endif()
+
+target_link_libraries(workrave-libs-session workrave-libs-utils)
+
+target_include_directories(workrave-libs-session PUBLIC ${CMAKE_SOURCE_DIR}/libs/session/include)

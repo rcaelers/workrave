@@ -4,8 +4,7 @@ endif()
 
 project(Workrave)
 
-# Ubuntu 16.04 LTS has CMake 3.5
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 if (POLICY CMP0009)
   cmake_policy(SET CMP0009 NEW)
@@ -356,18 +355,12 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       set (HAVE_DBUS ON)
       set (HAVE_DBUS_QT5 ON)
       set (DBUS_BACKEND "qt5")
-      include_directories(${Qt5DBus_INCLUDE_DIRS})
     endif()
   endif()
 
   if (APPLE)
     find_package(Qt5MacExtras REQUIRED)
-    include_directories(${Qt5MacExtras_INCLUDE_DIRS})
   endif()
-
-  include_directories(${Qt5Core_INCLUDE_DIRS})
-  include_directories(${Qt5Gui_INCLUDE_DIRS})
-  include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
   get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
   get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
@@ -375,9 +368,6 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   if (APPLE)
     get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/.." REALPATH)
   endif()
-
-  # TODO:
-  include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
   set (CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT5 ON)
@@ -394,9 +384,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       glib-2.0>=2.28.0
       gio-2.0>=2.26.0)
     set (HAVE_GLIB ON)
-    include_directories(${GLIB_INCLUDE_DIRS})
   endif()
-
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
     message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
   endif()

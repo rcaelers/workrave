@@ -22,12 +22,6 @@
 #ifndef WORKRAVE_NLS_H
 #define WORKRAVE_NLS_H
 
-#if defined(HAVE_QT5)
-
-#define N_(String) (String)
-
-#else // Gettext
-
 #  ifdef ENABLE_NLS
 #    include <locale.h>
 #    include <libintl.h>
@@ -48,7 +42,5 @@
 #    define N_(String) (String)
 #  endif
 
-#endif
-                     
 #endif // WORKRAVE_NLS_H
 

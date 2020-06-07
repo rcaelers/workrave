@@ -27,7 +27,7 @@
 
 #include "utils/DBusProxy.hh"
 
-#include "ISystemStateChangeMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 //  - ConsoleKit:
 //    - http://www.freedesktop.org/software/ConsoleKit/doc/ConsoleKit.html#dbus-reference

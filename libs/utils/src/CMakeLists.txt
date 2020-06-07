@@ -4,10 +4,6 @@ set(SRC
   debug.cc
   )
 
-if (TRANSLATIONS_1)
-  set(SRC ${SRC} debug.cc)
-endif()
-
 if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC} Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
 
@@ -39,6 +35,10 @@ if (HAVE_GTK)
   target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 
+if (HAVE_QT5)
+  target_include_directories(workrave-libs-utils PRIVATE ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+endif()
+
 if (PLATFORM_OS_WINDOWS)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
@@ -50,6 +50,5 @@ target_include_directories(
   PUBLIC
   ${CMAKE_SOURCE_DIR}/libs/utils/include
   )
-
 
 # TODO: Generate locale.inc

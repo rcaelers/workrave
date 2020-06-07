@@ -31,15 +31,14 @@ endif()
 
 endif()
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/config/src
-  ${CMAKE_SOURCE_DIR}/libs/config/include/config
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  )
-
 add_library(workrave-libs-config STATIC ${SRC})
 add_cppcheck(workrave-libs-config)
+
+target_link_libraries(workrave-libs-config workrave-libs-utils)
+
+if (HAVE_QT5)
+  target_include_directories(workrave-libs-config PRIVATE ${Qt5Core_INCLUDE_DIRS})
+endif()
 
 if (HAVE_GCONF)
   link_directories(${GCONF_LIBPATH})
@@ -49,3 +48,12 @@ endif()
 if (PLATFORM_OS_OSX)
   target_link_libraries(workrave-libs-config ${COCOA_LIBRARY})
 endif()
+
+target_include_directories(workrave-libs-config
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/config/src
+  ${CMAKE_SOURCE_DIR}/libs/config/include/config
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  )
+

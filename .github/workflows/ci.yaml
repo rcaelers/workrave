@@ -66,8 +66,7 @@ jobs:
             enable: TRACING
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE
   
-          - runs-on: ubuntu-latest
-            os: macos-latest
+          - os: macos-latest
             compiler: clang
             ui: Qt5
             enable: 

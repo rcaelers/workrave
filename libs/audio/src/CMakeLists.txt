@@ -36,16 +36,12 @@ if (HAVE_GTK)
   include_directories(${GTK_INCLUDE_DIRS})
 endif()
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/audio/src
-  ${CMAKE_SOURCE_DIR}/libs/audio/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  )
-
 add_library(workrave-libs-audio STATIC ${SRC})
 add_cppcheck(workrave-libs-audio)
 
-if (HAVE_GSTREAMER)
+target_link_libraries(workrave-libs-audio workrave-libs-utils)
+
+IF (HAVE_GSTREAMER)
   link_directories(${GSTREAMER_LIBPATH})
   target_link_libraries(workrave-libs-audio ${GSTREAMER_LIBRARIES})
 endif()
@@ -58,3 +54,12 @@ endif()
 if (PLATFORM_OS_OSX)
   target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
 endif()
+
+target_include_directories(
+  workrave-libs-audio
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/libs/audio/include
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/audio/src
+  )
+

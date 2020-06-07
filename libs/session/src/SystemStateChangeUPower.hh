@@ -27,7 +27,7 @@
 
 #include "utils/DBusProxy.hh"
 
-#include "ISystemStateChangeMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 //  - upower:
 //    - http://upower.freedesktop.org/docs/UPower.html

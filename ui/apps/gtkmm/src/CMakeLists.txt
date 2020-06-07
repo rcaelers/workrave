@@ -77,7 +77,6 @@ if (PLATFORM_OS_WINDOWS)
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 
-
   if (MINGW)
       add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
                          COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
@@ -121,18 +120,7 @@ endif()
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src
-  ${CMAKE_SOURCE_DIR}/ui/common/include
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
-
-  ${CMAKE_SOURCE_DIR}/libs/config/include/config
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/libs/audio/include
-  ${CMAKE_SOURCE_DIR}/libs/session/include
-
-  ${CMAKE_SOURCE_DIR}/libs/core/include
-
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
   )
@@ -147,9 +135,19 @@ If (PLATFORM_OS_WINDOWS)
   endif()
 endif()
 
-
 add_executable(workrave ${SRC})
 add_cppcheck(workrave)
+
+target_link_libraries(workrave
+  workrave-ui-common
+  workrave-libs-audio
+  workrave-libs-config
+  workrave-libs-core
+  workrave-libs-dbus
+  workrave-libs-input-monitor
+  workrave-libs-session
+  workrave-libs-updater
+  workrave-libs-utils)
 
 if (MINGW)
   ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
@@ -166,15 +164,6 @@ endif()
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
 endif()
-
-target_link_libraries(workrave workrave-ui-common)
-target_link_libraries(workrave workrave-libs-core)
-target_link_libraries(workrave workrave-libs-config)
-target_link_libraries(workrave workrave-libs-input-monitor)
-target_link_libraries(workrave workrave-libs-dbus)
-target_link_libraries(workrave workrave-libs-session)
-target_link_libraries(workrave workrave-libs-utils)
-target_link_libraries(workrave workrave-libs-audio)
 
 target_link_libraries(workrave ${GTK_LIBRARIES})
 target_link_libraries(workrave ${Boost_LIBRARIES})
@@ -205,8 +194,8 @@ if (WIN32)
     ${CMAKE_SOURCE_DIR}/ui/applets/win32/include
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
     )
- 
-  if(MSVC)
+
+  if (MSVC)
     target_link_libraries(workrave ${WIN32_LIBRARIES}) 
   endif()
 

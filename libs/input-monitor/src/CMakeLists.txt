@@ -1,4 +1,3 @@
-
 set(SRC
   InputMonitor.cc
   InputMonitorFactory.cc
@@ -46,18 +45,33 @@ if (PLATFORM_OS_OSX)
   include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/osx)
 endif()
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
-  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  )
-
 add_library(workrave-libs-input-monitor STATIC ${SRC})
 add_cppcheck(workrave-libs-input-monitor)
-add_library(workrave-libs-input-monitor-stub STATIC InputMonitorFactoryStub.cc)
-add_cppcheck(workrave-libs-input-monitor-stub)
 
 if (PLATFORM_OS_OSX)
   target_link_libraries(workrave-libs-input-monitor ${IOKIT_LIBRARY})
 endif()
+
+target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config)
+
+if (HAVE_GLIB)
+  target_include_directories(workrave-libs-input-monitor PRIVATE ${GLIB_INCLUDE_DIRS})
+endif()
+
+target_include_directories(workrave-libs-input-monitor
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+  )
+
+add_library(workrave-libs-input-monitor-stub STATIC InputMonitorFactoryStub.cc)
+add_cppcheck(workrave-libs-input-monitor-stub)
+
+target_include_directories(workrave-libs-input-monitor-stub
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
+  )
+
+target_link_libraries(workrave-libs-input-monitor-stub workrave-libs-utils workrave-libs-config)

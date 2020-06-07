@@ -7,15 +7,22 @@ set(SRC
   TimerBoxControl.cc
  )
 
-include_directories(
-  ${CMAKE_SOURCE_DIR}/ui/common/include/commonui
-  ${CMAKE_SOURCE_DIR}/ui/common/include
-  ${CMAKE_SOURCE_DIR}/libs/core/include
-  ${CMAKE_SOURCE_DIR}/libs/utils/include
-  ${CMAKE_SOURCE_DIR}/libs/config/include
-  ${CMAKE_SOURCE_DIR}/libs/dbus/include
-  ${CMAKE_SOURCE_DIR}/libs/audio/include
-  )
-
 add_library(workrave-ui-common STATIC ${SRC})
 add_cppcheck(workrave-ui-common)
+
+target_link_libraries(workrave-ui-common
+  workrave-libs-utils
+  workrave-libs-audio
+  workrave-libs-core)
+
+target_include_directories(
+  workrave-ui-common
+  PUBLIC
+  ${CMAKE_SOURCE_DIR}/ui/common/include
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/ui/common/include/commonui
+  )
+
+if (HAVE_GLIB)
+  target_include_directories(workrave-ui-common PRIVATE ${GLIB_INCLUDE_DIRS})
+endif()
