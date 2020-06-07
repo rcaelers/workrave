@@ -202,6 +202,7 @@ BOOL
 KillProcess(char *proces_name_to_kill)
 {
   HINSTANCE psapi = psapi = LoadLibrary("psapi.dll");
+  BOOL ret = FALSE;
 
   pfnEnumProcesses = (ENUMPROCESSES)GetProcAddress(psapi, "EnumProcesses");
   pfnGetModuleBaseName = (GETMODULEBASENAME)GetProcAddress(psapi, "GetModuleBaseNameA");
@@ -213,7 +214,6 @@ KillProcess(char *proces_name_to_kill)
       DWORD count = 0;
       DWORD needed = 0;
       DWORD *pids = NULL;
-      BOOL ret = FALSE;
 
       do
         {
