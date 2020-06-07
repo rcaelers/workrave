@@ -67,7 +67,7 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
     return;
   }
 
-  len = strlen(text); /* TODO: is this needed? */
+  len = strlen(text);
 
   if (attrlist == NULL)
   {

@@ -56,7 +56,6 @@ struct Menuitems
   char *dbuscmd;
 };
 
-// TODO: move this meta data to GenericDbusApplet
 static struct Menuitems menu_data[] =
   {
     { MENU_COMMAND_OPEN,                  TRUE,  "OpenMain"          },
