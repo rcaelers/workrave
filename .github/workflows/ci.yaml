@@ -94,7 +94,6 @@ jobs:
         run: |
           brew install gettext qt5 python3
           brew link gettext --force
-          brew linkapps qt5
           brew outdated cmake || brew upgrade cmake
 
       - name: Build
