@@ -1,7 +1,3 @@
-// TODO: text color in timebar
-// TODO: vertically center timebar
-// TODO: after cinnamon restart, workrave internal applet is not removed.
-
 const Applet = imports.ui.applet;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;

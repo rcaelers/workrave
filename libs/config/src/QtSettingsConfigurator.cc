@@ -99,7 +99,6 @@ bool
 QtSettingsConfigurator::remove_key(const std::string &key)
 {
   (void)key;
-  // TODO:
   return true;
 }
 

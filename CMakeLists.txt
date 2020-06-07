@@ -238,7 +238,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
       gtkmm-3.0>=3.22.0
       gtk+-3.0>=3.22.0)
 
-    # TODO: duplicate check, refactor
     pkg_check_modules(
       GLIB REQUIRED
       glib-2.0>=2.56.0
@@ -760,7 +759,6 @@ if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
   set (PLATFORM_OS_NAME "Unix")
 
-  # TODO: make option.
   set (HAVE_MONITORS "mutter,screensaver,record,x11events")
 
   find_package(X11)
@@ -888,7 +886,6 @@ elseif (WIN32)
 endif()
 
 if (WIN32)
-  # TODO: refactor
    if (PREBUILT_PATH)
       set (APPLET_BINARY_DIR ${PREBUILT_PATH})
       set (HOOK_BINARY_DIR ${PREBUILT_PATH})

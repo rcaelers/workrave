@@ -453,7 +453,6 @@ workrave_applet_fill(WorkraveApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet));
 
   on_alive_changed(NULL, FALSE, applet);
-  // TODO: orientation?
 }
 
 static void

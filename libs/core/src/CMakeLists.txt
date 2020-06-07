@@ -27,7 +27,6 @@ if (HAVE_DBUS)
 endif()
 
 if (HAVE_GSETTINGS)
-  # TODO: compile glib enum?
   gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/libs/core/src)
 endif()
 
