@@ -1,6 +1,4 @@
-// OSXInputMonitor.cc --- ActivityMonitor for OSX
-//
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2020 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,16 +21,12 @@
 
 #include "OSXInputMonitor.hh"
 
+#include <ApplicationServices/ApplicationServices.h>
+
 #include <unistd.h>
 
 #include "debug.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-
-OSXInputMonitor::OSXInputMonitor()
-  : terminate_loop(false)
-{
-}
-
 
 OSXInputMonitor::~OSXInputMonitor()
 {
@@ -42,21 +36,13 @@ OSXInputMonitor::~OSXInputMonitor()
     }
 }
 
-
 bool
 OSXInputMonitor::init()
 {
-  mach_port_t master;
-  IOMasterPort(MACH_PORT_NULL, &master);
-  io_service = IOServiceGetMatchingService(master,
-                                           IOServiceMatching("IOHIDSystem"));
-
   monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&OSXInputMonitor::run, this)));
   return true;
 }
 
-
-//! Stops the activity monitoring.
 void
 OSXInputMonitor::terminate()
 {
@@ -64,34 +50,36 @@ OSXInputMonitor::terminate()
   monitor_thread->join();
 }
 
+uint64_t
+OSXInputMonitor::get_event_count()
+{
+  static const CGEventType events[] = { kCGEventFlagsChanged,      kCGEventKeyDown,      kCGEventKeyUp,          kCGEventLeftMouseDown,
+                                        kCGEventLeftMouseDragged,  kCGEventLeftMouseUp,  kCGEventMouseMoved,     kCGEventOtherMouseDown,
+                                        kCGEventOtherMouseDragged, kCGEventOtherMouseUp, kCGEventRightMouseDown, kCGEventRightMouseDragged,
+                                        kCGEventRightMouseUp,      kCGEventScrollWheel,  kCGEventTabletPointer,  kCGEventTabletProximity };
+  uint64_t count = 0;
+  for (auto event : events)
+    {
+      count += CGEventSourceCounterForEventType(kCGEventSourceStateCombinedSessionState, event);
+    }
+  return count;
+}
 
 void
 OSXInputMonitor::run()
 {
   TRACE_ENTER("OSXInputMonitor::run");
-
   while (!terminate_loop)
     {
-      CFTypeRef property;
-      uint64_t idle_time = 0;
+      uint64_t event_count = get_event_count();
 
-      property = IORegistryEntryCreateCFProperty(io_service,
-                                                 CFSTR("HIDIdleTime"),
-                                                 kCFAllocatorDefault,
-                                                 0);
-      CFNumberGetValue(reinterpret_cast<CFNumberRef>(property),
-                       kCFNumberSInt64Type, &idle_time);
-      CFRelease(property);
-
-      TRACE_MSG(idle_time);
-
-      if (idle_time < 1000000000)
+      if (last_event_count != event_count)
         {
           fire_action();
-          TRACE_MSG("fire");
         }
 
-      usleep(500000);
+      last_event_count = event_count;
+      usleep(1000000);
     }
   TRACE_EXIT()
 }

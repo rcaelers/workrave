@@ -1,5 +1,3 @@
-// OSXInputMonitorFactory.hh --- Factory to create input monitors.
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -27,7 +25,6 @@
 #include "input-monitor/IInputMonitorFactory.hh"
 #include "config/IConfigurator.hh"
 
-//! Factory to create input monitors.
 class OSXInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:

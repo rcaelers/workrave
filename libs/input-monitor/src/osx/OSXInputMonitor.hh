@@ -1,5 +1,3 @@
-// OSXInputMonitor.hh --- ActivityMonitor for OSX
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -22,35 +20,29 @@
 
 #include <boost/thread.hpp>
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <IOKit/IOKitLib.h>
+// #include <CoreFoundation/CoreFoundation.h>
+// #include <IOKit/IOKitLib.h>
 
 #include "InputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-//! Activity monitor for OSX.
 class OSXInputMonitor : public InputMonitor
 {
 public:
-  //! Constructor.
-  OSXInputMonitor();
-
-  //! Destructor.
-  ~OSXInputMonitor() override;
+  OSXInputMonitor() = default;
+  virtual ~OSXInputMonitor();
 
   bool init() override;
-  void terminate() override ;
+  void terminate() override;
   void run();
 
 private:
-  //! Terminate driver?
-  bool terminate_loop;
+  uint64_t get_event_count();
 
-  //! The activity monitor thread.
+private:
+  bool terminate_loop = false;
   std::shared_ptr<boost::thread> monitor_thread;
-
-  // OS X IO Service
-  io_service_t io_service;
+  int last_event_count = 0;
 };
 
 #endif // OSXINPUTMONITOR_HH
