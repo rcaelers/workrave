@@ -93,7 +93,7 @@ mkdir -p ${DEPLOY_DIR}
 
 EXTRA=
 CONFIG=release
-if [ $CONF_CONFIGURATION == "Debug" ]; then
+if [ "$CONF_CONFIGURATION" == "Debug" ]; then
     EXTRA="-Debug"
     CONFIG="debug"
 fi
