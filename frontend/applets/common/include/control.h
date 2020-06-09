@@ -56,8 +56,6 @@ enum WorkraveTimerboxControlTrayIconMode
  * Method definitions.
  */
 
-/* TODO: add gobject introspection */
-
 GtkImage *workrave_timerbox_control_get_image(WorkraveTimerboxControl *self);
 WorkraveTimerbox *workrave_timerbox_control_get_timerbox(WorkraveTimerboxControl *self);
 

@@ -290,7 +290,6 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
           state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
           visible = false;
         }
-      // TODO: unwatch or not? dbus->unwatch(name);
     }
   TRACE_EXIT();
 }

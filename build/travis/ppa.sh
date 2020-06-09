@@ -92,7 +92,6 @@ do
     LAST_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^\(.*\)-.*$/\1/'`
     LAST_PPA_VERSION=`echo $LAST_DEB_VERSION | sed -e 's/^[^-]\+-ppa\([0-9]\+\).*$/\1/'`
 
-    # TODO: process news
     NEWS=`awk '/${VERSION}/{f=1} /${LAST_VERSION}/{f=0} f' < NEWS`
     echo $NEWS
 

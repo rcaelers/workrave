@@ -784,8 +784,6 @@ StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
   char buf[64];
   GdkRectangle rec;
 
-  // TODO: for now take monitor 0...
-
 #if GTK_CHECK_VERSION (3, 22, 0)
   GdkMonitor *monitor = gdk_display_get_monitor(gdk_display_get_default(), 0);
   gdk_monitor_get_geometry(monitor, &rec);

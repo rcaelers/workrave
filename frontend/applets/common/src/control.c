@@ -26,7 +26,6 @@
 #include "control.h"
 #include "timerbox.h"
 
-// TODO: Allow client to specify this name.
 #define  WORKRAVE_DBUS_NAME             "org.workrave.Applet"
 
 #define  WORKRAVE_DBUS_APPLET_NAME      "org.workrave.Workrave"
