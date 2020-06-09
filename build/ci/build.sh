@@ -53,7 +53,7 @@ elif [[ $COMPILER = 'clang' ]] ; then
     CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=clang-9")
 fi
 
-CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONFIGURATION")
+CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONF_CONFIGURATION")
 
 if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
@@ -93,7 +93,7 @@ mkdir -p ${DEPLOY_DIR}
 
 EXTRA=
 CONFIG=release
-if [ $CONFIGURATION == "Debug" ]; then
+if [ $CONF_CONFIGURATION == "Debug" ]; then
     EXTRA="-Debug"
     CONFIG="debug"
 fi

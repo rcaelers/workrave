@@ -86,10 +86,14 @@ case "$WORKRAVE_ENV" in
         export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
         ;;
 
-    github)
+    github-docker)
         export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
         export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
         ;;
+
+    github)
+        export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
+        export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
 
     *)
         echo "Unknown environment"
