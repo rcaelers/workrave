@@ -54,7 +54,6 @@ foreach (po_file ${POFILES})
 
     add_custom_command(
       OUTPUT ${gmo_file}
-      # COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} ${OPT_USE_FUZZY} -c -o ${gmo_file} ${po_file}
       DEPENDS ${POTFILE} ${po_file}
       )
@@ -78,7 +77,7 @@ if (GETTEXT_FOUND)
   macro(INTLTOOL_MERGE_XML IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
-      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
+      COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIR=${CMAKE_CURRENT_SOURCE_DIR} ${GETTEXT_MSGFMT_EXECUTABLE}
         --xml
         -d "${CMAKE_SOURCE_DIR}/po"
         --template ${IN}
