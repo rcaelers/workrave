@@ -39,6 +39,7 @@ if (@CMAKE_CROSSCOMPILING@)
   execute_process(
     COMMAND "@WINE@" "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
     OUTPUT_VARIABLE out
+    RESULT_VARIABLE ret
     OUTPUT_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
     )
@@ -46,9 +47,14 @@ else()
   execute_process(
     COMMAND "@ISCC@" "/o@CMAKE_INSTALL_PREFIX@" setup.iss
     OUTPUT_VARIABLE out
+    RESULT_VARIABLE ret
     OUTPUT_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@"
     )
+endif()
+
+if (NOT "${ret}" STREQUAL "0")
+   message(FATAL_ERROR "ISCC failed")
 endif()
 
 message("Setup: ${out}")
