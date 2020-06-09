@@ -21,10 +21,6 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#include <assert.h>
 
 #include <gtkmm/stock.h>
 
@@ -41,18 +37,14 @@ ExercisesDialog::ExercisesDialog()
     exercises_panel(get_action_area())
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
-
   get_vbox()->pack_start(exercises_panel, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
   TRACE_EXIT();
 }
 
-
-//! Destructor.
 ExercisesDialog::~ExercisesDialog()
 {
   TRACE_ENTER("ExercisesDialog::~ExercisesDialog");
-
   TRACE_EXIT();
 }
 
