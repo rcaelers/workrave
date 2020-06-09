@@ -25,6 +25,10 @@
 #  ifdef ENABLE_NLS
 #    include <locale.h>
 #    include <libintl.h>
+     // libintl #defines 'snprintf' to 'libintl_snprintf'
+     // As a result, 'std::snprintf' becomes 'std::libintl_snprintf'.
+     // This results in compilation errors.
+#    undef snprintf
 #    define _(String) ((const char *)gettext(String))
 #    ifdef gettext_noop
 #        define N_(String) gettext_noop (String)
