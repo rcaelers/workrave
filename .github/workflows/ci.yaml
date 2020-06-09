@@ -57,6 +57,7 @@ jobs:
             configuration: Release
             enable: 
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING
+            upload: true
   
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
@@ -65,6 +66,7 @@ jobs:
             configuration: Debug
             enable: TRACING
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE
+            upload: true
   
           - os: macos-latest
             compiler: clang
