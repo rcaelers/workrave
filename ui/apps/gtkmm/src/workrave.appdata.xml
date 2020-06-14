@@ -14,7 +14,7 @@
   </description>
  <screenshots>
   <screenshot type="default">
-   <image width="352" height="170">http://www.workrave.org/media/base/img/screenshots/rest-break.png</image>
+   <image width="352" height="170">https://workrave.org/images/screenshots/restbreak-exercise.png</image>
   </screenshot>
  </screenshots>
  <launchable type="desktop-id">workrave.desktop</launchable>
