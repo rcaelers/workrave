@@ -33,7 +33,7 @@ libs/core/src/ReadingActivityMonitor.cc
 libs/core/src/Statistics.cc
 libs/core/src/Timer.cc
 libs/core/src/TimerActivityMonitor.cc
-libs/core/src/org.workrave.gschema.xml.in.in
+libs/core/src/org.workrave.gschema.xml.in
 libs/core/test/ActivityMonitorStub.cc
 libs/core/test/IntegrationTests.cc
 libs/core/test/SimulatedTime.cc
@@ -88,13 +88,11 @@ libs/utils/src/win32/crashlog.cc
 ui/applets/common/src/control.c
 ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
-ui/applets/gnome-shell/src/metadata.json.in
 ui/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
 ui/applets/gnome3/src/v4/WorkraveApplet.c
 ui/applets/gnome3/src/v5/WorkraveApplet.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c
-ui/applets/gnome3/src/workrave-gnome-applet.xml
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
 ui/applets/mate/src/main-gtk3.c
@@ -136,12 +134,10 @@ ui/apps/gtkmm/src/TimerBoxPreferencePage.cc
 ui/apps/gtkmm/src/TimerPreferencesPanel.cc
 ui/apps/gtkmm/src/WindowHints.cc
 ui/apps/gtkmm/src/main.cc
-ui/apps/gtkmm/src/org.workrave.Workrave.service.in
-ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in.in
+ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
 ui/apps/gtkmm/src/osx/OSXAppletWindow.cc
 ui/apps/gtkmm/src/osx/OSXGtkMenu.cc
 ui/apps/gtkmm/src/osx/OSXUtil.cc
-ui/apps/gtkmm/src/resource.rc.in
 ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc
 ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c
