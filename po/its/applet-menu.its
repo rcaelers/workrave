@@ -1,0 +1,12 @@
+<its:rules xmlns:its="http://www.w3.org/2005/11/its"
+           xmlns:gt="https://www.gnu.org/s/gettext/ns/its/extensions/1.0"
+           version="2.0">
+  <its:translateRule selector="/interface" translate="no"/>
+  <its:translateRule selector="/interface//*[@translatable = 'yes']" translate="yes"/>
+
+  <its:translateRule selector="/section" translate="no"/>
+  <its:translateRule selector="/section//*[@translatable = 'yes']" translate="yes"/>
+
+  <its:preserveSpaceRule selector="/interface" space="preserve"/>
+  <gt:escapeRule selector="/interface" escape="no"/>
+</its:rules>
