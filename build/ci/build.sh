@@ -109,5 +109,5 @@ if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
 
     cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
 
-    ${SOURCES_DIR}/build/travis/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
+    ${SOURCES_DIR}/build/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
 fi
