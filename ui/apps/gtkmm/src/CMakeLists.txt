@@ -115,7 +115,7 @@ if (HAVE_DBUS)
 endif()
 
 if (HAVE_GSETTINGS)
-  gsettings_add_schemas(workrave-libs-core ${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src)
+  gsettings_add_schemas(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
 include_directories(

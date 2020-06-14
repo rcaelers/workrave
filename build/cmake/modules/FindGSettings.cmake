@@ -20,33 +20,30 @@ execute_process(
   )
 
 set(glib_schema_compiler ${_glib_compile_schemas} CACHE INTERNAL "")
-
+  
 if (LOCALINSTALL)
   set(GSETTINGS_DIR "share/glib-2.0/schemas/")
   set(GSETTINGS_ABS_DIR "${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas/")
 else()
   set(GSETTINGS_DIR "${_glib_prefix}/share/glib-2.0/schemas/" CACHE INTERNAL "")
-  set(GSETTINGS_ABS_DIR "${GSETTINGS}")
+  set(GSETTINGS_ABS_DIR "${GSETTINGS_DIR}")
 endif()
 
 message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")
 if (GSETTINGS_COMPILE)
     message(STATUS "GSettings schemas will be compiled.")
 endif ()
-
-macro(gsettings_add_schemas GSETTINGS_TARGET SCHEMA_DIRECTORY)
+  
+macro(gsettings_add_schemas SCHEMA_DIRECTORY)
 
   # Locate all schema files.
-  file(GLOB all_schema_in_in_files
-    "${SCHEMA_DIRECTORY}/*.gschema.xml.in.in"
+  file(GLOB all_schema_in_files
+    "${SCHEMA_DIRECTORY}/*.gschema.xml.in"
     )
 
-  foreach(schema_in_in_file ${all_schema_in_in_files})
-    file(RELATIVE_PATH schema_in_file ${CMAKE_CURRENT_SOURCE_DIR} ${schema_in_in_file}) 
+  foreach(schema_in_file ${all_schema_in_files})
+    file(RELATIVE_PATH schema_in_file ${CMAKE_CURRENT_SOURCE_DIR} ${schema_in_file}) 
     set(schema_in_file "${CMAKE_CURRENT_BINARY_DIR}/${schema_in_file}")
-
-    string(REGEX REPLACE ".in$" "" schema_in_file ${schema_in_file} )
-    configure_file(${schema_in_in_file} ${schema_in_file})
 
     string(REGEX REPLACE ".in$" "" schema_file ${schema_in_file} )
 
@@ -61,12 +58,12 @@ macro(gsettings_add_schemas GSETTINGS_TARGET SCHEMA_DIRECTORY)
       OPTIONAL
     )
   endforeach()
-
+  
   if (GSETTINGS_COMPILE)
     install(
       CODE "message (STATUS \"Compiling GSettings schemas\")"
       )
-
+    
     install(
       CODE "execute_process (COMMAND ${glib_schema_compiler} ${GSETTINGS_ABS_DIR})"
       )
