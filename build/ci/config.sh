@@ -69,7 +69,7 @@ export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
 export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
 export WORKRAVE_BUILD_DATETIME=`date --iso-8601=seconds`
 export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_LONG_GIT_VERSION"
-export WORKRAVE_UPLOAD_DIR="snapshots/v1.10/$WORKRAVE_BUILD_ID"
+export WORKRAVE_UPLOAD_DIR="snapshots/next/$WORKRAVE_BUILD_ID"
 
 if [ $WORKRAVE_GIT_VERSION != $WORKRAVE_GIT_TAG ]; then
     echo "Snapshot build ($WORKRAVE_GIT_VERSION) of release ($WORKRAVE_GIT_TAG)"
