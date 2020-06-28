@@ -14,7 +14,6 @@ libs/config/src/QtSettingsConfigurator.cc
 libs/config/src/SettingCache.cc
 libs/config/src/XmlConfigurator.cc
 libs/config/src/osx/OSXConfigurator.cc
-libs/config/src/unix/GConfConfigurator.cc
 libs/config/src/win32/W32Configurator.cc
 libs/core/src/Break.cc
 libs/core/src/BreakConfig.cc
