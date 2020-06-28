@@ -273,18 +273,6 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Gnome
 
-option(WITH_GCONF "Enable GConf support" OFF)
-
-if (WITH_GCONF)
-  message(STATUS "Checking for: Gnome GConf")
-  pkg_check_modules(GCONF QUIET gconf-2.0)
-  if (GCONF_FOUND)
-    set (HAVE_GCONF ON)
-  else()
-    set (WITH_GCONF OFF)
-  endif()
-endif()
-
 include(GDbusCodegen)
 
 if (UNIX AND NOT APPLE)
@@ -1018,7 +1006,6 @@ feature_text("Install prefix" CMAKE_INSTALL_PREFIX)
 feature_text("OS" PLATFORM_OS_NAME)
 feature_text("UI" WITH_UI)
 message(STATUS "")
-feature_bool("GConf configuration" HAVE_GCONF)
 feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
 feature_text("ActivityMonitors" HAVE_MONITORS)

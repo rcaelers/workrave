@@ -32,9 +32,6 @@
 #ifdef HAVE_GSETTINGS
 #include "GSettingsConfigurator.hh"
 #endif
-#ifdef HAVE_GCONF
-#include "GConfConfigurator.hh"
-#endif
 #ifdef PLATFORM_OS_WINDOWS
 #include "W32Configurator.hh"
 #endif
@@ -64,8 +61,6 @@ ConfiguratorFactory::create(Format fmt)
       b = new QtSettingsConfigurator();
 #elif defined(HAVE_GSETTINGS)
       b = new GSettingsConfigurator();
-#elif defined(HAVE_GCONF)
-      b = new GConfConfigurator();
 #endif
     }
 

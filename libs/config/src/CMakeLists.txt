@@ -23,12 +23,6 @@ if (HAVE_GSETTINGS)
   set(SRC ${SRC}   GSettingsConfigurator.cc)
 endif()
 
-if (WITH_GCONF)
-  set(SRC ${SRC} unix/GConfConfigurator.cc)
-  include_directories(${GCONF_INCLUDE_DIRS})
-  include_directories(${CMAKE_SOURCE_DIR}/libs/config/src/unix)
-endif()
-
 endif()
 
 add_library(workrave-libs-config STATIC ${SRC})
@@ -38,11 +32,6 @@ target_link_libraries(workrave-libs-config workrave-libs-utils)
 
 if (HAVE_QT5)
   target_include_directories(workrave-libs-config PRIVATE ${Qt5Core_INCLUDE_DIRS})
-endif()
-
-if (HAVE_GCONF)
-  link_directories(${GCONF_LIBPATH})
-  target_link_libraries(workrave-libs-config ${GCONF_LIBRARIES})
 endif()
 
 if (PLATFORM_OS_OSX)
