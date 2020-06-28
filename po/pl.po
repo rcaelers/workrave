@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-04-13 09:01+0800\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2020-06-28 15:40+0200\n"
 "PO-Revision-Date: 2013-05-25 19:34+0200\n"
 "Last-Translator: s120801-translate <s120801-translate@yahoo.com>\n"
 "Language-Team: s120801-translate\n"
@@ -17,835 +17,805 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.7.1\n"
 
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../frontend/applets/mate/src/main-gtk2.c:262
-#: ../frontend/applets/mate/src/main-gtk3.c:303
-msgid "_Open"
-msgstr "_Otwórz"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ../frontend/applets/mate/src/main-gtk2.c:278
-#: ../frontend/applets/mate/src/main-gtk3.c:319
-msgid "_Restbreak"
-msgstr "_Odpoczynek"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ../frontend/applets/mate/src/main-gtk2.c:274
-#: ../frontend/applets/mate/src/main-gtk3.c:315
-msgid "_Exercises"
-msgstr "Ćwicz_enia"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ../frontend/applets/mate/src/main-gtk2.c:266
-#: ../frontend/applets/mate/src/main-gtk3.c:307
-msgid "_Statistics"
-msgstr "_Statystyki"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/applets/mate/src/main-gtk2.c:282
-#: ../frontend/applets/mate/src/main-gtk3.c:323
-msgid "_Mode"
-msgstr "_Tryb"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/applets/mate/src/main-gtk2.c:324
-#: ../frontend/applets/mate/src/main-gtk3.c:365
-msgid "Normal"
-msgstr "Normalny"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1520
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:328
-#: ../frontend/applets/mate/src/main-gtk3.c:369
-msgid "Suspended"
-msgstr "Zawieszony"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1524
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/applets/mate/src/main-gtk2.c:332
-#: ../frontend/applets/mate/src/main-gtk3.c:373
-msgid "Quiet"
-msgstr "Cichy"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
-#: ../frontend/applets/mate/src/main-gtk2.c:286
-#: ../frontend/applets/mate/src/main-gtk3.c:327
-msgid "_Network"
-msgstr "_Sieć"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
-#: ../frontend/applets/mate/src/main-gtk2.c:290
-#: ../frontend/applets/mate/src/main-gtk3.c:331
-msgid "_Join"
-msgstr "_Dołącz"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/applets/mate/src/main-gtk2.c:294
-#: ../frontend/applets/mate/src/main-gtk3.c:335
-msgid "_Disconnect"
-msgstr "_Rozłącz"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
-#: ../frontend/applets/mate/src/main-gtk2.c:298
-#: ../frontend/applets/mate/src/main-gtk3.c:339
-msgid "_Reconnect"
-msgstr "P_ołącz znowu"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
-#: ../frontend/applets/mate/src/main-gtk2.c:313
-#: ../frontend/applets/mate/src/main-gtk3.c:354
-msgid "Show log"
-msgstr "Pokaż log"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
-#: ../frontend/applets/mate/src/main-gtk2.c:317
-#: ../frontend/applets/mate/src/main-gtk3.c:358
-msgid "Reading mode"
-msgstr "Tryb czytania"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/applets/mate/src/main-gtk2.c:270
-#: ../frontend/applets/mate/src/main-gtk3.c:311
-msgid "_Preferences"
-msgstr "_Preferencje"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:302
-#: ../frontend/applets/mate/src/main-gtk3.c:343
-msgid "_About"
-msgstr "_O programie"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-#: ../frontend/applets/mate/src/main-gtk2.c:306
-#: ../frontend/applets/mate/src/main-gtk3.c:347
-msgid "_Quit"
-msgstr "_Zakończ"
-
-#: ../backend/src/DistributionSocketLink.cc:140
-#, c-format
-msgid "Reconnecting to %s."
-msgstr "Ponowne łączenie z %s."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:441
-msgid "Could not enable network operation."
-msgstr "Operacje w sieci są niemożliwe."
-
-#: ../backend/src/DistributionSocketLink.cc:450
-msgid "Disabling network operation."
-msgstr "Wyłączanie operacji sieciowych."
-
-#: ../backend/src/DistributionSocketLink.cc:566
-#: ../backend/src/DistributionSocketLink.cc:603
-#, c-format
-msgid "Connecting to %s."
-msgstr "Łączenie z %s."
-
-#: ../backend/src/DistributionSocketLink.cc:721
-#: ../backend/src/DistributionSocketLink.cc:754
-#, c-format
-msgid "Removing client %s."
-msgstr "Usuwanie klienta %s."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:803
-#, c-format
-msgid "Disconnecting %s"
-msgstr "Rozłączanie z %s"
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:973
-#, c-format
-msgid "Client %s is now master."
-msgstr "Klient %s jest teraz nadrzędny."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:980
-msgid "I'm now master."
-msgstr "Jestem nadrzędny."
-
-#: ../backend/src/DistributionSocketLink.cc:1352
-#: ../backend/src/DistributionSocketLink.cc:1413
-#, c-format
-msgid "Client %s saying hello."
-msgstr "Klient %s pozdrawia."
-
-#. Incorrect user.
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1361
-#: ../backend/src/DistributionSocketLink.cc:1445
-#, c-format
-msgid "Client %s access denied."
-msgstr "Dostęp do klienta %s niemożliwy."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1435
-#: ../backend/src/DistributionSocketLink.cc:1568
-#: ../backend/src/DistributionSocketLink.cc:1820
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "Klient %s jest duplikatem."
-
-#: ../backend/src/DistributionSocketLink.cc:1517
-#, c-format
-msgid "Client %s signed off."
-msgstr "Klient %s odłączony."
-
-#. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1607
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "Klient %s wita."
-
-#: ../backend/src/DistributionSocketLink.cc:1856
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "Żądanie przejęcia roli nadrzędnego od %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1870
-#, c-format
-msgid "Client timeout from %s."
-msgstr "Przekroczenie czasu przez %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1898
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr "Odrzucenie żądania nadrzędnego przez klienta %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1904
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "Akceptacja żądanie nadrzędnego przez klienta %s."
-
-#: ../backend/src/DistributionSocketLink.cc:1961
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "Zwykły klient %s odrzucił żądanie nadrzędnego."
-
-#: ../backend/src/DistributionSocketLink.cc:1966
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s odrzucił żądanie nadrzędnego, opóźnienie."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:2042
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "Klient %s jest teraz nadrzędny."
-
-#: ../backend/src/DistributionSocketLink.cc:2174
-msgid "Network operation started."
-msgstr "Rozpoczęcie operacji w sieci."
-
-#: ../backend/src/DistributionSocketLink.cc:2195
-msgid "Accepted new client."
-msgstr "Nowy klient zaakceptowany."
-
-#: ../backend/src/DistributionSocketLink.cc:2271
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "%s - błąd odczytu, zamykam."
-
-#: ../backend/src/DistributionSocketLink.cc:2277
-#: ../backend/src/DistributionSocketLink.cc:2348
-#, c-format
-msgid "Client %s closed connection."
-msgstr "Klient %s zamknął połączenie."
-
-#: ../backend/src/DistributionSocketLink.cc:2318
-#, c-format
-msgid "Client %s connected."
-msgstr "Klient %s jest połączony."
-
-#: ../backend/src/DistributionSocketLink.cc:2354
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "Nie można połączyć się z klientem %s."
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
-#: ../frontend/gtkmm/src/Menus.cc:365
-#: ../frontend/applets/mate/src/main-gtk2.c:206
-#: ../frontend/applets/mate/src/main-gtk3.c:206
-#: ../frontend/applets/xfce/src/main.c:293
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
-"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję."
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
-msgid "Workrave Applet"
-msgstr "Aplet Workrave"
-
-#: ../frontend/common/src/SoundPlayer.cc:80
-msgid "Break prompt"
-msgstr "Zachęta do przerwy"
-
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break ignored"
-msgstr "Przerwa zignorowana"
-
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Rest break started"
-msgstr "Odpoczynek rozpoczęty"
-
-#: ../frontend/common/src/SoundPlayer.cc:99
-msgid "Rest break ended"
-msgstr "Odpoczynek zakończony"
-
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Micro-break started"
-msgstr "Mikroprzerwa rozpoczęta"
-
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break ended"
-msgstr "Mikroprzerwa zakończona"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
-msgid "Daily limit"
-msgstr "Dzienny limit"
-
-#: ../frontend/common/src/SoundPlayer.cc:123
-msgid "Exercise ended"
-msgstr "Ćwiczenie zakończone"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercises ended"
-msgstr "Ćwiczenia zakończone"
-
-#: ../frontend/common/src/SoundPlayer.cc:135
-msgid "Exercise change"
-msgstr "Zmiana ćwiczenia"
-
-#: ../frontend/common/src/SoundPlayer.cc:606
-msgid "Custom"
-msgstr "Własne"
-
-#: ../frontend/common/src/Text.cc:78
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d godzin"
-
-#: ../frontend/common/src/Text.cc:82
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minut"
-
-#: ../frontend/common/src/Text.cc:86
+#: ui/apps/gtkmm/src/Text.cc:92
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekund"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:296
-#, fuzzy
-msgid "Lock..."
-msgstr "_Zablokuj"
+#: ui/apps/gtkmm/src/Text.cc:88
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minut"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:300
-#, fuzzy
-msgid "Lock"
-msgstr "_Zablokuj"
+#: ui/apps/gtkmm/src/Text.cc:84
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d godzin"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:304
-#, fuzzy
-msgid "Shutdown"
-msgstr "_Wyłącz"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:308
-#, fuzzy
-msgid "Suspend"
-msgstr "Zawieszony"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:312
-msgid "Hibernate"
-msgstr ""
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:316
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "Zawieszony"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:451
-msgid "_Skip"
-msgstr "_Pomiń"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:468
-msgid "_Postpone"
-msgstr "_Opóźnij"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:663
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:677
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
-msgstr ""
-
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"Osiągnąłeś swój dzienny limit. Lepiej nie siedź już\n"
-"przed komputerem. Jeśli Twój dzień pracy jeszcze się nie skończył\n"
-"znajdź coś innego do roboty, np. przeglądanie dokumentów."
-
-#: ../frontend/gtkmm/src/GUI.cc:338
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-"Workrave dalej pracuje. Możesz uzyskać dostęp do Workrave klikając na ikonę "
-"białej owieczki. Kliknij ten dymek, aby wyłączyć tę wiadomość"
-
-#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
-msgid "Workrave failed to start"
-msgstr "Nie udało się uruchomić Workrave"
-
-#: ../frontend/gtkmm/src/GUI.cc:849
-msgid "Is Workrave already running?"
-msgstr "Czy Workrave jest już uruchomiony?"
-
-#: ../frontend/gtkmm/src/GUI.cc:965
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "Workrave nie może monitorować aktywność klawiatury i myszy.\n"
-
-#: ../frontend/gtkmm/src/GUI.cc:968
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr "Upewnij się, że rozszerzenie RECORD jest włączone w X serwerze."
-
-#: ../frontend/gtkmm/src/GUI.cc:1379
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr ""
-"Workrave jest w trybie zawieszenia. Aktywność myszy i klawiatury nie będą "
-"monitorowane."
-
-#: ../frontend/gtkmm/src/GUI.cc:1385
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
-
-#. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
-msgid "Micro-break"
-msgstr "Mikroprzerwa"
-
-#: ../frontend/gtkmm/src/GUI.cc:1513
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:226
-msgid "Rest break"
-msgstr "Odpoczynek"
-
-#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
-msgid "Mode: "
-msgstr "Tryb: "
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
-msgid "Open"
-msgstr "Otwórz"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "Preferences"
-msgstr "Preferencje"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
-msgid "Exercises"
-msgstr "Ćwiczenia"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
-msgid "Mode"
-msgstr "Tryb"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:214
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:129
-msgid "Network"
-msgstr "Sieć"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
-msgid "Connect"
-msgstr "Połącz"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
-msgid "Disconnect"
-msgstr "Rozłącz"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
-msgid "Reconnect"
-msgstr "Połącz ponownie"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:221
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:164
-msgid "Statistics"
-msgstr "Statystyki"
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:222
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
-msgid "About..."
-msgstr "O programie..."
-
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:223
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
-msgid "Quit"
-msgstr "Zamknij"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
-msgid "_Rest break"
-msgstr "_Odpoczynek"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:119
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "_Normal"
-msgstr "_Normalny"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
-msgid "Q_uiet"
-msgstr "_Cichy"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
-msgid "_Suspended"
-msgstr "_Zawieszony"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Connect"
-msgstr "_Połącz"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:113
-msgid "Show _log"
-msgstr "Pokaż log"
-
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
-msgid "_Reading mode"
-msgstr "_Tryb czytania"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
-msgid "Please relax for a few seconds"
-msgstr "Zrelaksuj się parę sekund"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:406
 #, c-format
-msgid "Next rest break in %s"
-msgstr "Następny odpoczynek za %s"
+msgid "%s, from %s to %s"
+msgstr "%s, od %s do %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:249
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "Zalegasz z odpoczynkiem %s"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Dzienny limit upłynie za %s"
-
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:267
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "Dzienny limit został przekroczony o %s"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
-msgid "General"
-msgstr "Ogólne"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
-msgid "Sounds"
-msgstr "Dźwięki"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
-msgid "Status Window"
-msgstr "Okno statusu"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:118
-msgid "Applet"
-msgstr "Aplet"
-
-#. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:126
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
-msgid "Timers"
-msgstr "Zegary"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:127
-msgid "User interface"
-msgstr "Interfejs użytkownika"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:180
-msgid "No blocking"
-msgstr "Nic nie blokuj"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:181
-msgid "Block input"
-msgstr "Zablokuj możliwość wprowadzania"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
-msgid "Block input and screen"
-msgstr "Blokuj wszystko"
-
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:202
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Options"
-msgstr "Opcje"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
-msgid "Block mode:"
-msgstr "Tryb blokowania:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:224
-msgid "System default"
-msgstr "Domyślny systemu"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:268
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:260
 msgid "(font not available)"
 msgstr "(czcionka niedostępna)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:293
-msgid "Language:"
-msgstr "Język:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "Uruchom Workrave podczas uruchamiana systemu"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
-msgid "Show system tray icon"
-msgstr "Pokaż ikonę na pasku zadań"
-
-#. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:340
-msgid "Sound Options"
-msgstr "Opcje dźwięku"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
-msgid "No sounds"
-msgstr "Bez dźwięku"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
-msgid "Play sounds using sound card"
-msgstr "Przy pomocy karty dźwiękowej"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
-msgid "Play sounds using built-in speaker"
-msgstr "Za pomocą głośniczka w komputerze"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:377
-msgid "Volume:"
-msgstr "Głośność:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:380
-msgid "Sound:"
-msgstr "Dźwięk:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:386
-msgid "Mute sounds during rest break and daily limit"
-msgstr "Wycisz dźwięki podczas przerwy na odpoczynek i dziennego limitu"
-
-#. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-msgid "Sound Events"
-msgstr "Dźwięki zdarzeń"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
-msgid "Sound Theme:"
-msgstr "Motyw dźwiękowy:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:427
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:445
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:475
-msgid "Play"
-msgstr "Odtwórz"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:432
-msgid "Event"
-msgstr "Zdarzenie"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:448
-msgid "Choose a sound"
-msgstr "Wybór dźwięku"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:460
-msgid "Wavefiles"
-msgstr "Pliki wave"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:561
-msgid "Use alternate monitor"
-msgstr "Użyj alternatywnego monitora"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:567
-#, fuzzy
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-"Włącz tą opcję jeśli Workrave błędnie wykrywa kiedy pracujesz na komputerze"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Ruch myszy:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
+#: ui/apps/gtkmm/src/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:140
-msgid "Time for a micro-break?"
-msgstr "Czas na mikroprzerwę?"
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:210
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:102 ui/apps/qt5/src/Menus.cc:123
+msgid "About..."
+msgstr "O programie..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:144
-msgid "You need a rest break..."
-msgstr "Potrzebujesz odpoczynku..."
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:235
+msgid "Active computer usage"
+msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:148
-msgid "You should stop for today..."
-msgstr "Powninieneś skończyć na dzisiaj..."
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:332
+msgid "Activity"
+msgstr "Aktywność"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:323
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:120
+msgid "Applet"
+msgstr "Aplet"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:140
+msgid "Applet enabled"
+msgstr "Uaktywnij aplet"
+
+#: ui/apps/gtkmm/src/workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "Pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję"
+
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "Rozciąganie barków za plecami"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:169
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:173
+msgid "Block input"
+msgstr "Zablokuj możliwość wprowadzania"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:170
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:174
+msgid "Block input and screen"
+msgstr "Blokuj wszystko"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:196
+msgid "Block mode:"
+msgstr "Tryb blokowania:"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:220
+msgid "Break duration:"
+msgstr "Czas trwania przerwy:"
+
+#: ui/apps/gtkmm/src/Ui.cc:86
+msgid "Break ignored"
+msgstr "Przerwa zignorowana"
+
+#: ui/apps/gtkmm/src/PreludeWindow.cc:282
 #, c-format
 msgid "Break in %s"
 msgstr "Przerwa za %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:327
+#: ui/apps/gtkmm/src/Ui.cc:83
+msgid "Break prompt"
+msgstr "Zachęta do przerwy"
+
+#. Prelude frame
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:106
+msgid "Break prompting"
+msgstr "Zachęta do przerwy"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:198
+msgid "Break prompts"
+msgstr "Zachęt do przerwy"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:188
+msgid "Breaks"
+msgstr "Przerwy"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:224
+msgid "Breaks postponed"
+msgstr "Przerw opóźnionych"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:219
+msgid "Breaks skipped"
+msgstr "Pominiętych przerw"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:145
+msgid "Browse history"
+msgstr "Przejrzyj historię"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:435
+msgid "Choose a sound"
+msgstr "Wybór dźwięku"
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie nie docierało do nich światło. Teraz otwórz oczy i spójrz w ciemność. To ćwiczenie przynosi większą ulgę niż zwykłe zamknięcie oczu."
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
+msgid "Cycle time:"
+msgstr "Czas cyklu:"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:239
+#, fuzzy
+msgid "Daily"
+msgstr "Dzienny limit"
+
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:48
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:56 ui/apps/gtkmm/src/GUI.cc:1375
+#: ui/apps/gtkmm/src/GtkUtil.cc:169 ui/apps/gtkmm/src/Ui.cc:44
+#: ui/apps/gtkmm/src/Ui.cc:101
+msgid "Daily limit"
+msgstr "Dzienny limit"
+
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:263
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Dzienny limit został przekroczony o %s"
+
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:258
+#, c-format
+msgid "Daily limit in %s"
+msgstr "Dzienny limit upłynie za %s"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:163
+msgid "Daily limit:"
+msgstr "Dzienny limit:"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:157
+msgid "Date:"
+msgstr "Data:"
+
+#. Delete button
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:150
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ui/apps/gtkmm/src/PreludeWindow.cc:286
 #, c-format
 msgid "Disappears in %s"
 msgstr "Znika za %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:331
-#, c-format
-msgid "Silent in %s"
-msgstr "Cisza za %s"
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:146
+msgid "Display"
+msgstr "Wyświetlanie"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:178
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:350
+msgid "Effective mouse movement:"
+msgstr "Efektywny ruch myszy:"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:179
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:538
+#, fuzzy
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr "Włącz tą opcję jeśli Workrave błędnie wykrywa kiedy pracujesz na komputerze"
+
+#. Enabled/Disabled checkbox
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:65
+msgid "Enable timer"
+msgstr "Pokaż zegary"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:166
+msgid "End exercises"
+msgstr "Zakończ ćwiczenia"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:740
+msgid "Error"
+msgstr ""
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:419
+msgid "Event"
+msgstr "Zdarzenie"
+
+#: ui/apps/gtkmm/src/Ui.cc:110
+msgid "Exercise change"
+msgstr "Zmiana ćwiczenia"
+
+#: ui/apps/gtkmm/src/Ui.cc:104
+msgid "Exercise ended"
+msgstr "Ćwiczenie zakończone"
+
+#: ui/apps/gtkmm/src/ExercisesDialog.cc:36
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:164
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72 ui/apps/qt5/src/Menus.cc:81
+msgid "Exercises"
+msgstr "Ćwiczenia"
+
+#: ui/apps/gtkmm/src/Ui.cc:107
+msgid "Exercises ended"
+msgstr "Ćwiczenia zakończone"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:114
+msgid "Exercises player"
+msgstr "Ćwiczenia"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:736
+msgid "File deletion failed!"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:726
+msgid "Files deleted!"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr "Rozciąganie palców"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
+msgid "General"
+msgstr "Ogólne"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:301
+msgid "Hibernate"
+msgstr ""
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:109
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:113
+msgid "Hide"
+msgstr "Ukryj"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:730
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza jednocześnie wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 sekund i powtórz ćwiczenie dwa razy."
+
+#: ui/apps/gtkmm/src/GUI.cc:790
+msgid "Is Workrave already running?"
+msgstr "Czy Workrave jest już uruchomiony?"
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię drugim dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment i powtórz ćwiczenie z drugim ramieniem."
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:359
+msgid "Keystrokes:"
+msgstr "Naciśnięć klawiszy:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:285
+msgid "Language:"
+msgstr "Język:"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:289
+#, fuzzy
+msgid "Lock"
+msgstr "_Zablokuj"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:285
+#, fuzzy
+msgid "Lock..."
+msgstr "_Zablokuj"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Spójrz na górny lewy róg monitora. Powoli przesuwaj wzrok do górnego prawego rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób monitora dwukrotnie. Następnie odwróć kierunek ćwiczenia."
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem i skup na nim zwrok. Po paru sekundach zogniskuj wzrok na krawędzi monitora. Powtórz to. Jeśli nie możesz patrzeć daleko za monitorem obróć się w stronę z najdłuższą perspektywą. Następnie przeność wzrok między odległym punktem i np. ołówkiem trzymanym w takiej samej odległości od oczu co twój monitor."
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "Spojrzenie w ciemność"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:112
+msgid "Maximum number of prompts:"
+msgstr "Maksymalna liczba zachęt:"
+
+#. FIXME: duplicate
+#: ui/apps/gtkmm/src/GUI.cc:1375 ui/apps/gtkmm/src/GtkUtil.cc:169
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:54
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:173
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:271 ui/apps/gtkmm/src/Ui.cc:38
+msgid "Micro-break"
+msgstr "Mikroprzerwa"
+
+#: ui/apps/gtkmm/src/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Mikroprzerwa zakończona"
+
+#: ui/apps/gtkmm/src/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Mikroprzerwa rozpoczęta"
+
+#. Layout
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:161
+msgid "Micro-break:"
+msgstr "Mikroprzerwa:"
+
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:203 ui/apps/qt5/src/Menus.cc:85
+msgid "Mode"
+msgstr "Tryb"
+
+#: ui/apps/gtkmm/src/GUI.cc:1382 ui/apps/gtkmm/src/GUI.cc:1386
+msgid "Mode: "
+msgstr "Tryb: "
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:249
+msgid "Monthly"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:355
+msgid "Mouse button clicks:"
+msgstr "Liczba kliknięć myszą:"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:346
+msgid "Mouse movement:"
+msgstr "Ruch myszy:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:542
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "Ruch myszy:"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
+msgid "Mouse usage:"
+msgstr "Użycie myszy:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "Poruszanie oczami"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "Rozluźnianie barków"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "Poruszanie barkami w górę i w dół"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:375
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Wycisz dźwięki podczas przerwy na odpoczynek i dziennego limitu"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:214
+msgid "Natural breaks taken"
+msgstr "Naturalnych przerw"
+
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:201
+msgid "Natural rest break"
+msgstr "Naturalnych odpoczynków"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "Rozciąganie szyi"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:161
+msgid "Next exercise"
+msgstr "Następne ćwiczenie"
+
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Następny odpoczynek za %s"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:168
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:172
+msgid "No blocking"
+msgstr "Nic nie blokuj"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:341
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:344
+msgid "No sounds"
+msgstr "Bez dźwięku"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:365
+#: ui/applets/mate/src/main-gtk3.c:365
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:195 ui/apps/qt5/src/Menus.cc:89
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:27
+msgid "Normal"
+msgstr "Normalny"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:168
+msgid "Number of exercises:"
+msgstr "Liczba ćwiczeń:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:542
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:189
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
+#: ui/apps/qt5/src/Menus.cc:66
+msgid "Open"
+msgstr "Otwórz"
+
+#. Options
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:194
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:137
+msgid "Options"
+msgstr "Opcje"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:229
+msgid "Overdue time"
+msgstr "Opóźnienia w sumie"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:337
+msgid "Pause"
+msgstr "Wstrzymaj"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:162
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:344
+msgid "Pause exercises"
+msgstr "Wstrzymaj ćwiczenia"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:85
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+msgid "Place all timers in one spot"
+msgstr "Umieść wszystkie zegary w jednym miejscu"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:83
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
+msgid "Place micro-break and rest break in one spot"
+msgstr "Umieść mikroprzerwę i odpoczynek w jednym miejscu"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:84
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+msgid "Place rest break and daily limit in one spot"
+msgstr "Umieść odpoczynek i limit dzienny w jednym miejscu"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:82
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:87
+msgid "Place timers next to each other"
+msgstr "Umieść zegary jeden obok drugiego"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+msgid "Placement:"
+msgstr "Rozmieszczenie:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:414
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:432
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:454
+msgid "Play"
+msgstr "Odtwórz"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:342
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:345
+msgid "Play sounds using sound card"
+msgstr "Przy pomocy karty dźwiękowej"
+
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:233
+msgid "Please relax for a few seconds"
+msgstr "Zrelaksuj się parę sekund"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:235
+msgid "Postpone time:"
+msgstr "Opóźnienie trwa:"
+
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:190
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:79
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:70 ui/apps/qt5/src/Menus.cc:71
+msgid "Preferences"
+msgstr "Preferencje"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:160
+msgid "Previous exercise"
+msgstr "Poprzednie ćwiczenie"
+
+#: ui/apps/gtkmm/src/workrave.appdata.xml:7
+#, fuzzy
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr ""
+"Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
+"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję."
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:108
+msgid "Prompt before breaking"
+msgstr "Zachęta przed przerwą"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:209
+msgid "Prompted breaks taken"
+msgstr "Zaakceptowanych przerw"
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Siedząc, umieść ręce na podłokietnikach Twojego fotela. Wyprostuj je tak aż się uniesiesz. Spróbuj unieść głowę jeszcze wyżej obniżając barki. Powoli wróć do pozycji siedzącej."
+
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "Q_uiet"
+msgstr "_Cichy"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:373
+#: ui/applets/mate/src/main-gtk3.c:373 ui/apps/gtkmm/src/GUI.cc:1386
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:199 ui/apps/qt5/src/Menus.cc:104
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:37
+msgid "Quiet"
+msgstr "Cichy"
+
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:211
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ui/apps/qt5/src/Menus.cc:128
+msgid "Quit"
+msgstr "Zamknij"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:358
+#: ui/applets/mate/src/main-gtk3.c:358
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:205
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:95 ui/apps/qt5/src/Menus.cc:111
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:66
+msgid "Reading mode"
+msgstr "Tryb czytania"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
+msgid "Regard micro-breaks as activity"
+msgstr "Uważaj mikroprzerwy za aktywność"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:204
+msgid "Repeated prompts"
+msgstr "Powtórzonych zachęt"
+
+#: libs/core/src/org.workrave.gschema.xml.in:44
+#, fuzzy
+msgid "Replaced by use-microbreak-activity"
+msgstr "Uważaj mikroprzerwy za aktywność"
+
+#: ui/apps/gtkmm/src/GUI.cc:1375 ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/GtkUtil.cc:169 ui/apps/gtkmm/src/MicroBreakWindow.cc:147
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:74
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:207 ui/apps/gtkmm/src/Ui.cc:41
+#: ui/apps/qt5/src/Menus.cc:76
+msgid "Rest break"
+msgstr "Odpoczynek"
+
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:245
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Zalegasz z odpoczynkiem %s"
+
+#: ui/apps/gtkmm/src/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Odpoczynek zakończony"
+
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:159
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:220
-msgid "Natural rest break"
-msgstr "Naturalnych odpoczynków"
+#: ui/apps/gtkmm/src/Ui.cc:89
+msgid "Rest break started"
+msgstr "Odpoczynek rozpoczęty"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:221
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:162
+msgid "Rest break:"
+msgstr "Odpoczynek:"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:337
+msgid "Resume"
+msgstr "Wznów"
+
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:342
+msgid "Resume exercises"
+msgstr "Wznów ćwiczenia"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Rozdziel i wyprostuj palce tak aż poczujesz napięcie, wytrzymaj 10 sekund. Rozluźnij dłonie a następnie zegnij palce w kostkach na 10 sekund. Powtórz ćwiczenie jeszcze raz."
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "Rozciąganie ramienia"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
+msgid "Show"
+msgstr "Pokaż"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:141
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:146
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:354
+#: ui/applets/mate/src/main-gtk3.c:354
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:59
+msgid "Show log"
+msgstr "Pokaż log"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:111
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+msgid "Show only when this timer is first due"
+msgstr "Pokaż tylko jeśli ten typ przerwy jest następny"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+msgid "Show status window"
+msgstr "Pokaż okno statusu"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:314
+msgid "Show system tray icon"
+msgstr "Pokaż ikonę na pasku zadań"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:293
+#, fuzzy
+msgid "Shutdown"
+msgstr "_Wyłącz"
+
+#: ui/apps/gtkmm/src/PreludeWindow.cc:290
+#, c-format
+msgid "Silent in %s"
+msgstr "Cisza za %s"
+
+#. Sound themes
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:383
+msgid "Sound Events"
+msgstr "Dźwięki zdarzeń"
+
+#. Options
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:332
+msgid "Sound Options"
+msgstr "Opcje dźwięku"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:391
+msgid "Sound Theme:"
+msgstr "Motyw dźwiękowy:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:369
+msgid "Sound:"
+msgstr "Dźwięk:"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:113
+msgid "Sounds"
+msgstr "Dźwięki"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to 4 razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku i rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem."
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:299
+#, fuzzy
+msgid "Start Workrave on logon"
+msgstr "Uruchom Workrave podczas uruchamiana systemu"
+
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
+msgid "Start restbreak when screen is locked"
+msgstr "Rozpocznij przerwę kiedy ekran jest zablokowany"
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na prawy bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 sekund. Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej strony. Powtórz to dwa razy dla każdej strony."
+
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:209
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:168
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:62
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:156
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101 ui/apps/qt5/src/Menus.cc:118
+msgid "Statistics"
+msgstr "Statystyki"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:116
+msgid "Status Window"
+msgstr "Okno statusu"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:297
+#, fuzzy
+msgid "Suspend"
+msgstr "Zawieszony"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:305
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "Zawieszony"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:369
+#: ui/applets/mate/src/main-gtk3.c:369 ui/apps/gtkmm/src/GUI.cc:1382
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:197 ui/apps/qt5/src/Menus.cc:96
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:32
+msgid "Suspended"
+msgstr "Zawieszony"
+
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:216
+msgid "System default"
+msgstr "Domyślny systemu"
+
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:202
+msgid "Take rest break now"
+msgstr "Rozpocznij przerwę teraz"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:737
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:727
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:225
+msgid "The number of breaks you postponed"
+msgstr "Ile przerw zostało opóźnionych"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:220
+msgid "The number of breaks you skipped"
+msgstr "Ile przerw zostało pominiętych"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:210
+msgid "The number of times you took a break when being prompted"
+msgstr "Ile razy odpocząłeś po zachęcie"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:215
+msgid "The number of times you took a break without being prompted"
+msgstr "Ile razy odpocząłeś bez zachęty"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:199
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Ile razy byłeś zachęcany do przerwy, wyłączając powtarzające się zachęty"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:205
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Ile razy pod rząd byłeś zachęcany do przerwy"
+
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
+msgid "The status window stays always on top of other windows"
+msgstr "Okno statusu zawsze nad innymi oknami"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:240
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Całkowity czas używania komputera"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:250
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:245
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:351
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Całkowity ruch myszy gdyby poruszała się prosto między kliknięciami"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:360
+msgid "The total number of keys pressed"
+msgstr "Całkowita liczba naciśnięć klawiszy"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:356
+msgid "The total number of mouse button clicks"
+msgstr "Całkowita liczba kliknięć myszą"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:347
+msgid "The total on-screen mouse movement"
+msgstr "Całkowity ruch myszy"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:230
+msgid "The total time this break was overdue"
+msgstr "Całkowity czas kiedy przerwa była opóźniona"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:343
+msgid "The total time you were using the mouse"
+msgstr "Całkowity czas używania myszy"
+
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
 msgid "This is your natural rest break."
 msgstr "To jest twój naturalny odpoczynek."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:227
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:208
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -855,633 +825,477 @@ msgstr ""
 "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
 "kilka prostych ćwiczeń, rozciągnij się, zrelaksuj."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:205
-msgid "Take rest break now"
-msgstr "Rozpocznij przerwę teraz"
-
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:227
-msgid "Wait"
-msgstr "Czekaj"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place timers next to each other"
-msgstr "Umieść zegary jeden obok drugiego"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
-msgid "Place micro-break and rest break in one spot"
-msgstr "Umieść mikroprzerwę i odpoczynek w jednym miejscu"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Place rest break and daily limit in one spot"
-msgstr "Umieść odpoczynek i limit dzienny w jednym miejscu"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
-msgid "Place all timers in one spot"
-msgstr "Umieść wszystkie zegary w jednym miejscu"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
-msgid "Hide"
-msgstr "Ukryj"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:119
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
-msgid "Show"
-msgstr "Pokaż"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Show only when this timer is first due"
-msgstr "Pokaż tylko jeśli ten typ przerwy jest następny"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Show status window"
-msgstr "Pokaż okno statusu"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
-msgid "The status window stays always on top of other windows"
-msgstr "Okno statusu zawsze nad innymi oknami"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Applet enabled"
-msgstr "Uaktywnij aplet"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
-msgid "Display"
-msgstr "Wyświetlanie"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
-msgid "Placement:"
-msgstr "Rozmieszczenie:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
-msgid "Cycle time:"
-msgstr "Czas cyklu:"
-
-#. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
-msgid "Micro-break:"
-msgstr "Mikroprzerwa:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
-msgid "Rest break:"
-msgstr "Odpoczynek:"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
-msgid "Daily limit:"
-msgstr "Dzienny limit:"
-
-#. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
-msgid "Enable timer"
-msgstr "Pokaż zegary"
-
-#. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
-msgid "Break prompting"
-msgstr "Zachęta do przerwy"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
-msgid "Prompt before breaking"
-msgstr "Zachęta przed przerwą"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
-msgid "Maximum number of prompts:"
-msgstr "Maksymalna liczba zachęt:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
-msgid "Suspend timer when inactive"
-msgstr "Wstrzymaj zegar kiedy nieaktywny"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:179
-msgid "Regard micro-breaks as activity"
-msgstr "Uważaj mikroprzerwy za aktywność"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Number of exercises:"
-msgstr "Liczba ćwiczeń:"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Start restbreak when screen is locked"
-msgstr "Rozpocznij przerwę kiedy ekran jest zablokowany"
-
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Enable shutting down the computer from the rest screen"
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:206
+#: ui/applets/gnome3/src/v5/WorkraveApplet.c:216
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:214
+#: ui/applets/mate/src/main-gtk3.c:206 ui/applets/xfce/src/main.c:293
+#: ui/apps/gtkmm/src/Menus.cc:350
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr ""
+"Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
+"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję."
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
 msgid "Time before end:"
 msgstr "Czas do końca:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:213
 msgid "Time between breaks:"
 msgstr "Czas między przerwami:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:249
-msgid "Break duration:"
-msgstr "Czas trwania przerwy:"
+#: ui/apps/gtkmm/src/PreludeWindow.cc:122
+msgid "Time for a micro-break?"
+msgstr "Czas na mikroprzerwę?"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:264
-msgid "Postpone time:"
-msgstr "Opóźnienie trwa:"
+#. Notebook
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:124
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:158
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:207
+msgid "Timers"
+msgstr "Zegary"
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"Pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia- RSI "
-"(Repetitive Strain Injury) oraz wspomaga rekonwalescencję"
-
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:2
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
-msgid "Network connect"
-msgstr "Połączenie z siecią"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Podaj nazwę hosta i numer portu komputera\n"
-"w sieci, z którym chcesz się połączyć."
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
-msgid "Host name:"
-msgstr "Nazwa hosta:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
-msgid "Port:"
-msgstr "Port:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "Log połączenia sieciowego"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
-msgid "Enable networking"
-msgstr "Pozwól na pracę w sieci"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
-msgid "Username:"
-msgstr "Użytkownik:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
-msgid "Password:"
-msgstr "Hasło:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
-msgid "Allow incoming connections"
-msgstr "Zezwól na przychodzące połączenia"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
-msgid "Server settings"
-msgstr "Ustawienia serwera"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
-msgid "Server port:"
-msgstr "Port serwera:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
-msgid "Reconnect attempts:"
-msgstr "Próbuję się połączyć:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
-msgid "Reconnect interval:"
-msgstr "Czas między próbami połączenia:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
-msgid "Advanced"
-msgstr "Zaawansowane"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Ta lista przedstawia komputery, do których Workrave łączy się w czasie\n"
-"startu. Kliknij na nazwę hosta lub numer portu do edycji."
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Host name"
-msgstr "Nazwa komputera"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
-msgid "Port"
-msgstr "Port"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
-msgid "Hosts"
-msgstr "Komputery w sieci"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Shoulder-arm stretch"
-msgstr "Rozciąganie ramienia"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię drugim "
-"dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment i powtórz "
-"ćwiczenie z drugim ramieniem."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr "Rozciąganie palców"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Rozdziel i wyprostuj palce tak aż poczujesz napięcie, wytrzymaj 10 sekund. "
-"Rozluźnij dłonie a następnie zegnij palce w kostkach na 10 sekund. Powtórz "
-"ćwiczenie jeszcze raz."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Neck tilt stretch"
-msgstr "Rozciąganie szyi"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na prawy "
-"bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 sekund. "
-"Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej strony. "
-"Powtórz to dwa razy dla każdej strony."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Backward shoulder stretch"
-msgstr "Rozciąganie barków za plecami"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza jednocześnie "
-"wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 sekund i powtórz "
-"ćwiczenie dwa razy."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Move the eyes"
-msgstr "Poruszanie oczami"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Spójrz na górny lewy róg monitora. Powoli przesuwaj wzrok do górnego prawego "
-"rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób monitora "
-"dwukrotnie. Następnie odwróć kierunek ćwiczenia."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ui/data/exercises/exercises.xml.in:64
 msgid "Train focusing the eyes"
 msgstr "Trening akomodacji"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem i skup na nim "
-"zwrok. Po paru sekundach zogniskuj wzrok na krawędzi monitora. Powtórz to. "
-"Jeśli nie możesz patrzeć daleko za monitorem obróć się w stronę z najdłuższą "
-"perspektywą. Następnie przeność wzrok między odległym punktem i np. ołówkiem "
-"trzymanym w takiej samej odległości od oczu co twój monitor."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Look into the darkness"
-msgstr "Spojrzenie w ciemność"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie nie "
-"docierało do nich światło. Teraz otwórz oczy i spójrz w ciemność. To "
-"ćwiczenie przynosi większą ulgę niż zwykłe zamknięcie oczu."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Move the shoulders"
-msgstr "Rozluźnianie barków"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to 4 "
-"razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku i "
-"rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Move the shoulders up and down"
-msgstr "Poruszanie barkami w górę i w dół"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Siedząc, umieść ręce na podłokietnikach Twojego fotela. Wyprostuj je tak aż "
-"się uniesiesz. Spróbuj unieść głowę jeszcze wyżej obniżając barki. Powoli "
-"wróć do pozycji siedzącej."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
 msgstr "Obroty głowy"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Obróć głowę w lewo i trzymaj tak 2 sekundy. Następnie obróć głowę w prawo i "
-"też wytrzymaj 2 sekundy."
+#: ui/data/exercises/exercises.xml.in:126
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Obróć głowę w lewo i trzymaj tak 2 sekundy. Następnie obróć głowę w prawo i też wytrzymaj 2 sekundy."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
-msgid "Exercises player"
-msgstr "Ćwiczenia"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-msgid "Previous exercise"
-msgstr "Poprzednie ćwiczenie"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
-msgid "Next exercise"
-msgstr "Następne ćwiczenie"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
-msgid "Pause exercises"
-msgstr "Wstrzymaj ćwiczenia"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-msgid "End exercises"
-msgstr "Zakończ ćwiczenia"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Resume"
-msgstr "Wznów"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Pause"
-msgstr "Wstrzymaj"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
-msgid "Resume exercises"
-msgstr "Wznów ćwiczenia"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
-msgid "Browse history"
-msgstr "Przejrzyj historię"
-
-#. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:165
-msgid "Date:"
-msgstr "Data:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "Breaks"
-msgstr "Przerwy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "Break prompts"
-msgstr "Zachęt do przerwy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:207
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Ile razy byłeś zachęcany do przerwy, wyłączając powtarzające się zachęty"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:212
-msgid "Repeated prompts"
-msgstr "Powtórzonych zachęt"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Ile razy pod rząd byłeś zachęcany do przerwy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:217
-msgid "Prompted breaks taken"
-msgstr "Zaakceptowanych przerw"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
-msgid "The number of times you took a break when being prompted"
-msgstr "Ile razy odpocząłeś po zachęcie"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:222
-msgid "Natural breaks taken"
-msgstr "Naturalnych przerw"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
-msgid "The number of times you took a break without being prompted"
-msgstr "Ile razy odpocząłeś bez zachęty"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:227
-msgid "Breaks skipped"
-msgstr "Pominiętych przerw"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
-msgid "The number of breaks you skipped"
-msgstr "Ile przerw zostało pominiętych"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:232
-msgid "Breaks postponed"
-msgstr "Przerw opóźnionych"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
-msgid "The number of breaks you postponed"
-msgstr "Ile przerw zostało opóźnionych"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:237
-msgid "Overdue time"
-msgstr "Opóźnienia w sumie"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:238
-msgid "The total time this break was overdue"
-msgstr "Całkowity czas kiedy przerwa była opóźniona"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:234
 msgid "Usage"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
-msgid "Active computer usage"
-msgstr ""
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:532
+msgid "Use alternate monitor"
+msgstr "Użyj alternatywnego monitora"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
-#, fuzzy
-msgid "Daily"
-msgstr "Dzienny limit"
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:125
+msgid "User interface"
+msgstr "Interfejs użytkownika"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:248
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Całkowity czas używania komputera"
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:366
+msgid "Volume:"
+msgstr "Głośność:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
-msgid "Weekly"
-msgstr ""
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:224
+msgid "Wait"
+msgstr "Czekaj"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:257
-msgid "Monthly"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
-msgid "Activity"
-msgstr "Aktywność"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:354
-msgid "Mouse usage:"
-msgstr "Użycie myszy:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:355
-msgid "The total time you were using the mouse"
-msgstr "Całkowity czas używania myszy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:358
-msgid "Mouse movement:"
-msgstr "Ruch myszy:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:359
-msgid "The total on-screen mouse movement"
-msgstr "Całkowity ruch myszy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-msgid "Effective mouse movement:"
-msgstr "Efektywny ruch myszy:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:363
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr "Całkowity ruch myszy gdyby poruszała się prosto między kliknięciami"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:367
-msgid "Mouse button clicks:"
-msgstr "Liczba kliknięć myszą:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:368
-msgid "The total number of mouse button clicks"
-msgstr "Całkowita liczba kliknięć myszą"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:371
-msgid "Keystrokes:"
-msgstr "Naciśnięć klawiszy:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:372
-msgid "The total number of keys pressed"
-msgstr "Całkowita liczba naciśnięć klawiszy"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:422
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, od %s do %s"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:710
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:714
 msgid "Warning"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:443
+msgid "Wavefiles"
+msgstr "Pliki wave"
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:244
+msgid "Weekly"
+msgstr ""
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+#: ui/apps/gtkmm/src/workrave.desktop.in:4
+#: ui/apps/gtkmm/src/workrave.appdata.xml:6
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+msgid "Workrave Applet"
+msgstr "Aplet Workrave"
+
+#: ui/apps/gtkmm/src/GUI.cc:788
+msgid "Workrave failed to start"
+msgstr "Nie udało się uruchomić Workrave"
+
+#: ui/apps/gtkmm/src/workrave.appdata.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr ""
+
+#: ui/apps/gtkmm/src/GUI.cc:1247 ui/apps/qt5/src/Application.cc:488
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
+
+#: ui/apps/gtkmm/src/GUI.cc:1241 ui/apps/qt5/src/Application.cc:481
+msgid "Workrave is in suspended mode. Mouse and keyboard activity will not be monitored."
+msgstr "Workrave jest w trybie zawieszenia. Aktywność myszy i klawiatury nie będą monitorowane."
+
+#: ui/apps/gtkmm/src/GUI.cc:293
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "Workrave dalej pracuje. Możesz uzyskać dostęp do Workrave klikając na ikonę białej owieczki. Kliknij ten dymek, aby wyłączyć tę wiadomość"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:653
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr ""
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:639
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:711
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:742
-msgid "Files deleted!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
-msgid "Info"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:752
-msgid "File deletion failed!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:753
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Osiągnąłeś swój dzienny limit. Lepiej nie siedź już\n"
+"przed komputerem. Jeśli Twój dzień pracy jeszcze się nie skończył\n"
+"znajdź coś innego do roboty, np. przeglądanie dokumentów."
+
+#: ui/apps/gtkmm/src/PreludeWindow.cc:126
+msgid "You need a rest break..."
+msgstr "Potrzebujesz odpoczynku..."
+
+#: ui/apps/gtkmm/src/PreludeWindow.cc:130
+msgid "You should stop for today..."
+msgstr "Powninieneś skończyć na dzisiaj..."
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:343
+#: ui/applets/mate/src/main-gtk3.c:343 ui/apps/gtkmm/src/MainGtkMenu.cc:173
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:76
+msgid "_About"
+msgstr "_O programie"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:335
+#: ui/applets/mate/src/main-gtk3.c:335
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:51
+msgid "_Disconnect"
+msgstr "_Rozłącz"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:315
+#: ui/applets/mate/src/main-gtk3.c:315
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:15
+msgid "_Exercises"
+msgstr "Ćwicz_enia"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:331
+#: ui/applets/mate/src/main-gtk3.c:331
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:47
+msgid "_Join"
+msgstr "_Dołącz"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:323
+#: ui/applets/mate/src/main-gtk3.c:323 ui/apps/gtkmm/src/MainGtkMenu.cc:132
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:24
+msgid "_Mode"
+msgstr "_Tryb"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:327
+#: ui/applets/mate/src/main-gtk3.c:327
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:44
+msgid "_Network"
+msgstr "_Sieć"
+
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+msgid "_Normal"
+msgstr "_Normalny"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:303
+#: ui/applets/mate/src/main-gtk3.c:303
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:69
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:5
+msgid "_Open"
+msgstr "_Otwórz"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:453
+msgid "_Postpone"
+msgstr "_Opóźnij"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:311
+#: ui/applets/mate/src/main-gtk3.c:311 ui/apps/gtkmm/src/MainGtkMenu.cc:160
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:72
+msgid "_Preferences"
+msgstr "_Preferencje"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:347
+#: ui/applets/mate/src/main-gtk3.c:347 ui/apps/gtkmm/src/MainGtkMenu.cc:178
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:80
+msgid "_Quit"
+msgstr "_Zakończ"
+
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:143
+msgid "_Reading mode"
+msgstr "_Tryb czytania"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:339
+#: ui/applets/mate/src/main-gtk3.c:339
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:55
+msgid "_Reconnect"
+msgstr "P_ołącz znowu"
+
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:91 ui/apps/gtkmm/src/MainGtkMenu.cc:154
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:71
+msgid "_Rest break"
+msgstr "_Odpoczynek"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:319
+#: ui/applets/mate/src/main-gtk3.c:319
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:11
+msgid "_Restbreak"
+msgstr "_Odpoczynek"
+
+#: ui/apps/gtkmm/src/BreakWindow.cc:440
+msgid "_Skip"
+msgstr "_Pomiń"
+
+#: ui/applets/gnome3/src/v4/WorkraveApplet.c:307
+#: ui/applets/mate/src/main-gtk3.c:307
+#: ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml:19
+msgid "_Statistics"
+msgstr "_Statystyki"
+
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:140
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:86
+msgid "_Suspended"
+msgstr "_Zawieszony"
+
+#: ui/apps/gtkmm/src/workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
-msgid "Error"
-msgstr ""
+#: ui/apps/gtkmm/src/workrave.desktop.in:10
+#, fuzzy
+msgid "workrave"
+msgstr "Workrave"
 
-#~ msgid "_Quiet"
-#~ msgstr "Cich_o"
+#~ msgid "About %s"
+#~ msgstr "O %s"
 
-#~ msgid "_Connect..."
-#~ msgstr "_Połączenie..."
+#~ msgid "Accepted new client."
+#~ msgstr "Nowy klient zaakceptowany."
 
-#~ msgid "_Show Log..."
-#~ msgstr "_Pokaż log..."
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "Akceptacja żądanie nadrzędnego przez klienta %s."
 
-#~ msgid "_About..."
-#~ msgstr "_O programie..."
+#~ msgid "Advanced"
+#~ msgstr "Zaawansowane"
+
+#~ msgid "Allow incoming connections"
+#~ msgstr "Zezwól na przychodzące połączenia"
+
+#~ msgid "Break in"
+#~ msgstr "Przerwa za %s"
+
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "Nie mogę rozwiązać własnej nazwy. Dezaktywacja dystrybucji."
+
+#~ msgid "Client %s access denied."
+#~ msgstr "Dostęp do klienta %s niemożliwy."
+
+#~ msgid "Client %s closed connection."
+#~ msgstr "Klient %s zamknął połączenie."
+
+#~ msgid "Client %s connected."
+#~ msgstr "Klient %s jest połączony."
+
+#~ msgid "Client %s is duplicate."
+#~ msgstr "Klient %s jest duplikatem."
+
+#~ msgid "Client %s is now master."
+#~ msgstr "Klient %s jest teraz nadrzędny."
+
+#~ msgid "Client %s is now the new master."
+#~ msgstr "Klient %s jest teraz nadrzędny."
+
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "Klient %s wita."
+
+#~ msgid "Client %s read error, closing."
+#~ msgstr "%s - błąd odczytu, zamykam."
+
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "Klient %s odrzucił żądanie nadrzędnego, opóźnienie."
+
+#~ msgid "Client %s saying hello."
+#~ msgstr "Klient %s pozdrawia."
+
+#~ msgid "Client %s signed off."
+#~ msgstr "Klient %s odłączony."
+
+#~ msgid "Client timeout from %s."
+#~ msgstr "Przekroczenie czasu przez %s."
+
+#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
+#~ msgstr "Zamknij oczy, zrób wydech tak długi jak potrafisz i spróbuj się zrelaksować. Robiąc wdech rób to tak długo jak to możliwe. Spróbuj liczyć do 8 z każdym wdechem i wydechem. Żeby dodatkowo odpoczęły oczy próbuj je zamykać przy każdej mikroprzerwie."
+
+#~ msgid "Connect"
+#~ msgstr "Połącz"
+
+#~ msgid "Connecting to %s."
+#~ msgstr "Łączenie z %s."
+
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Nie można połączyć się z klientem %s."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "Operacje w sieci są niemożliwe."
+
+#~ msgid "Credits"
+#~ msgstr "Autorzy"
+
+#~ msgid "Custom"
+#~ msgstr "Własne"
 
 #~ msgid "Daily usage"
 #~ msgstr "Dzienne użycie"
 
+#~ msgid "Disabling network operation."
+#~ msgstr "Wyłączanie operacji sieciowych."
+
+#~ msgid "Disappears in"
+#~ msgstr "Znika za %s"
+
+#~ msgid "Disconnect"
+#~ msgstr "Rozłącz"
+
+#~ msgid "Disconnecting %s"
+#~ msgstr "Rozłączanie z %s"
+
+#~ msgid "Enable networking"
+#~ msgstr "Pozwól na pracę w sieci"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "Podaj nazwę hosta i numer portu komputera\n"
+#~ "w sieci, z którym chcesz się połączyć."
+
+#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
+#~ msgstr "Stań naprzeciw ściany (lub czegoś podobnego) i oprzyj się umieszczając dłonie na wysokości barków, zegnij lekko łokcie. Napieraj ciałem na ścianę nie zmieniając kąta ugięcia łokci. Następnie odepchnij się od ściany nie zmieniając kąta ugięcia łokci."
+
+#~ msgid "Host name"
+#~ msgstr "Nazwa komputera"
+
+#~ msgid "Host name:"
+#~ msgstr "Nazwa hosta:"
+
+#~ msgid "Hosts"
+#~ msgstr "Komputery w sieci"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Nie mogę zainicjować Bonobo"
+
+#~ msgid "I'm now master."
+#~ msgstr "Jestem nadrzędny."
+
+#~ msgid "Inactive"
+#~ msgstr "Nieaktywny"
+
+#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr "Trzymaj głowę wyprostowaną, tak że dolna szczęka jest równolegle do podłogi. Rusz głową do tyłu cały czas trzymając szczękę poziomo (robiąc podwójny podbródek). Wytrzymaj 2 sekundy i rozluźnij się. Porusz głową do przodu w ten sam sposób, wytrzymaj 2 sekundy i rozluźnij się."
+
+#~ msgid "Make sure that the RECORD extension is enabled in the X server."
+#~ msgstr "Upewnij się, że rozszerzenie RECORD jest włączone w X serwerze."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Rozluźnianie łopatek"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Napinanie szyi"
+
+#~ msgid "Network"
+#~ msgstr "Sieć"
+
+#~ msgid "Network connect"
+#~ msgstr "Połączenie z siecią"
+
+#~ msgid "Network log"
+#~ msgstr "Log połączenia sieciowego"
+
+#~ msgid "Network operation started."
+#~ msgstr "Rozpoczęcie operacji w sieci."
+
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "Zwykły klient %s odrzucił żądanie nadrzędnego."
+
 #~ msgid "Orientation"
 #~ msgstr "Położenie"
+
+#~ msgid "Password:"
+#~ msgstr "Hasło:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Za pomocą głośniczka w komputerze"
+
+#~ msgid "Port"
+#~ msgstr "Port"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Reconnect"
+#~ msgstr "Połącz ponownie"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Próbuję się połączyć:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Czas między próbami połączenia:"
+
+#~ msgid "Reconnecting to %s."
+#~ msgstr "Ponowne łączenie z %s."
+
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "Odrzucenie żądania nadrzędnego przez klienta %s."
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Odpoczynek dla oczu"
+
+#~ msgid "Removing client %s."
+#~ msgstr "Usuwanie klienta %s."
+
+#~ msgid "Requesting master status from %s."
+#~ msgstr "Żądanie przejęcia roli nadrzędnego od %s."
+
+#~ msgid "Server port:"
+#~ msgstr "Port serwera:"
+
+#~ msgid "Server settings"
+#~ msgstr "Ustawienia serwera"
+
+#~ msgid "Show _log"
+#~ msgstr "Pokaż log"
+
+#~ msgid "Silent in"
+#~ msgstr "Cisza za %s"
+
+#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr "Stań obok biurka i umieść obie dłonie na biurku palcami w swoją stronę. Delikatnie rozciągnij nadgarstki i przedramiona."
+
+#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
+#~ msgstr "Wstań i spróbuj sięgnąć sufitu nie odrywając pięt od podłogi. Wytrzymaj parę sekund. Opuść dłonie powoli nie zginając rąk. Kontynuuj ruch do podłogi zginając plecy dopóki prawie dotkniesz podłogi przed stopami. Powoli wyprostuj plecy od bioder w górę dopóki się nie wyprostujesz całkowicie."
+
+#~ msgid "Starting %s"
+#~ msgstr "Cisza za %s"
+
+#~ msgid "Stretch your back"
+#~ msgstr "Napinanie mięśni pleców"
+
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "Wstrzymaj zegar kiedy nieaktywny"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "Ta lista przedstawia komputery, do których Workrave łączy się w czasie\n"
+#~ "startu. Kliknij na nazwę hosta lub numer portu do edycji."
 
 #, fuzzy
 #~ msgid "The orientation of the tray"
@@ -1496,109 +1310,38 @@ msgstr ""
 #~ "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
 #~ "kilka prostych ćwiczeń, rozciągnij się, zrelaksuj."
 
-#~ msgid "Starting %s"
-#~ msgstr "Cisza za %s"
+#~ msgid "Username:"
+#~ msgstr "Użytkownik:"
 
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Nie mogę rozwiązać własnej nazwy. Dezaktywacja dystrybucji."
+#~ msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+#~ msgstr "Workrave nie może monitorować aktywność klawiatury i myszy.\n"
 
-#~ msgid "Break in"
-#~ msgstr "Przerwa za %s"
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Rozciąganie nadgarstków i przedramienia o biurko"
 
-#~ msgid "Disappears in"
-#~ msgstr "Znika za %s"
+#~ msgid "_About..."
+#~ msgstr "_O programie..."
 
-#~ msgid "Silent in"
-#~ msgstr "Cisza za %s"
+#~ msgid "_Connect"
+#~ msgstr "_Połącz"
 
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Nie mogę zainicjować Bonobo"
-
-#~ msgid "Inactive"
-#~ msgstr "Nieaktywny"
-
-#~ msgid "Credits"
-#~ msgstr "Autorzy"
-
-#~ msgid "_Written by"
-#~ msgstr "_Autorzy:"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokukumentacja:"
-
-#~ msgid "_Translated by"
-#~ msgstr "_Tłumaczenie:"
+#~ msgid "_Connect..."
+#~ msgstr "_Połączenie..."
 
 #~ msgid "_Credits"
 #~ msgstr "A_utorzy"
 
-#~ msgid "About %s"
-#~ msgstr "O %s"
+#~ msgid "_Documented by"
+#~ msgstr "_Dokukumentacja:"
 
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "Zamknij oczy, zrób wydech tak długi jak potrafisz i spróbuj się "
-#~ "zrelaksować. Robiąc wdech rób to tak długo jak to możliwe. Spróbuj liczyć "
-#~ "do 8 z każdym wdechem i wydechem. Żeby dodatkowo odpoczęły oczy próbuj je "
-#~ "zamykać przy każdej mikroprzerwie."
+#~ msgid "_Quiet"
+#~ msgstr "Cich_o"
 
-#~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
-#~ msgstr ""
-#~ "Stań naprzeciw ściany (lub czegoś podobnego) i oprzyj się umieszczając "
-#~ "dłonie na wysokości barków, zegnij lekko łokcie. Napieraj ciałem na "
-#~ "ścianę nie zmieniając kąta ugięcia łokci. Następnie odepchnij się od "
-#~ "ściany nie zmieniając kąta ugięcia łokci."
+#~ msgid "_Show Log..."
+#~ msgstr "_Pokaż log..."
 
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "Trzymaj głowę wyprostowaną, tak że dolna szczęka jest równolegle do "
-#~ "podłogi. Rusz głową do tyłu cały czas trzymając szczękę poziomo (robiąc "
-#~ "podwójny podbródek). Wytrzymaj 2 sekundy i rozluźnij się. Porusz głową do "
-#~ "przodu w ten sam sposób, wytrzymaj 2 sekundy i rozluźnij się."
+#~ msgid "_Translated by"
+#~ msgstr "_Tłumaczenie:"
 
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Rozluźnianie łopatek"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Napinanie szyi"
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Odpoczynek dla oczu"
-
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "Stań obok biurka i umieść obie dłonie na biurku palcami w swoją stronę. "
-#~ "Delikatnie rozciągnij nadgarstki i przedramiona."
-
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "Wstań i spróbuj sięgnąć sufitu nie odrywając pięt od podłogi. Wytrzymaj "
-#~ "parę sekund. Opuść dłonie powoli nie zginając rąk. Kontynuuj ruch do "
-#~ "podłogi zginając plecy dopóki prawie dotkniesz podłogi przed stopami. "
-#~ "Powoli wyprostuj plecy od bioder w górę dopóki się nie wyprostujesz "
-#~ "całkowicie."
-
-#~ msgid "Stretch your back"
-#~ msgstr "Napinanie mięśni pleców"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Rozciąganie nadgarstków i przedramienia o biurko"
+#~ msgid "_Written by"
+#~ msgstr "_Autorzy:"
