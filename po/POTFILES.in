@@ -149,6 +149,7 @@ ui/apps/gtkmm/src/win32/W32ForceFocus.cc
 ui/apps/gtkmm/src/win32/W32StatusIcon.cc
 ui/apps/gtkmm/src/win32/W32TrayMenu.cc
 ui/apps/gtkmm/src/workrave.desktop.in
+ui/apps/gtkmm/src/workrave.appdata.xml
 ui/apps/gtkmm/src/Text.cc
 ui/apps/gtkmm/src/Ui.cc
 ui/apps/qt5/src/AboutDialog.cc
@@ -189,6 +190,4 @@ ui/common/src/Session.cc
 ui/common/src/SoundTheme.cc
 ui/common/src/TimerBoxControl.cc
 ui/data/exercises/exercises.xml.in
-ui/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
-ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
 ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml
