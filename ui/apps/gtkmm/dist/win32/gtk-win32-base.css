@@ -23,7 +23,7 @@
 viewport {
     /* XXX: This should be the default, but isn't?! */
     font-family: "Segoe UI", Sans;
-    font-size: 10pt;
+    font-size: 11pt;
     background-color: -gtk-win32-color(window, btnface);
     color: -gtk-win32-color(window, btntext);
 }

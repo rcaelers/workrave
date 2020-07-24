@@ -19,10 +19,10 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   if (PLATFORM_ARCH EQUAL 32)
     set(HARPOON_TARGET "harpoon")
-    set(HARPOON_INSTALL_DIR "lib")
+    set(HARPOON_INSTALL_DIR "lib32")
   else()
     set(HARPOON_TARGET "harpoon64")
-    set(HARPOON_INSTALL_DIR "lib64")
+    set(HARPOON_INSTALL_DIR "lib")
   endif()
 
   add_library(${HARPOON_TARGET} SHARED ${SOURCES})

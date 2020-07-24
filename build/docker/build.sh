@@ -66,20 +66,22 @@ case "$CONFIG" in
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
+
     mingw-gtk-vs*)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
+
     mingw-gtk*)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
-        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
+        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
 
-        CMAKE_FLAGS64=()
-        CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw64.cmake")
-        CMAKE_FLAGS64+=("-DWITH_UI=None")
-        CMAKE_FLAGS64+=("-DCMAKE_BUILD_TYPE=Release")
+        CMAKE_FLAGS32=()
+        CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/build/cmake/mingw32.cmake")
+        CMAKE_FLAGS32+=("-DWITH_UI=None")
+        CMAKE_FLAGS32+=("-DCMAKE_BUILD_TYPE=Release")
 
-        build ".64" "" CMAKE_FLAGS64[@]
+        build ".32" "" CMAKE_FLAGS32[@]
         ;;
     "*")
       ;;

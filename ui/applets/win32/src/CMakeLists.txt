@@ -28,10 +28,10 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   if (PLATFORM_ARCH EQUAL 32)
     set(APPLET_TARGET "workrave-applet")
-    set(APPLET_INSTALL_DIR "lib")
+    set(APPLET_INSTALL_DIR "lib32")
   else()
     set(APPLET_TARGET "workrave-applet64")
-    set(APPLET_INSTALL_DIR "lib64")
+    set(APPLET_INSTALL_DIR "lib")
   endif()
 
   add_library(${APPLET_TARGET} SHARED ${SOURCES})

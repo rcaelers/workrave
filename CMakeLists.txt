@@ -191,10 +191,10 @@ if (${WITH_UI_INDEX} EQUAL -1)
 endif()
 
 if ("${WITH_UI}" STREQUAL "None"
-    AND (${PLATFORM_ARCH} EQUAL 64)
+    AND (${PLATFORM_ARCH} EQUAL 32)
     AND WIN32)
-  set (BUILD_ONLY_64_BIT_FOR_WIN32 TRUE)
-  message(STATUS "Building ONLY 64 bit support ")
+  set (BUILD_ONLY_32_BIT_FOR_WIN64 TRUE)
+  message(STATUS "Building ONLY 32 bit support ")
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -512,7 +512,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Boost
 
-if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   if (MSVC)
     if (NOT DEFINED BOOST_ALL_DYN_LINK)
       set (BOOST_ALL_DYN_LINK TRUE)
@@ -529,7 +529,7 @@ if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
   #set (Boost_DEBUG ON)
 
   if (WIN32)
-    set (Boost_ARCHITECTURE "-x32")
+    set (Boost_ARCHITECTURE "-x64")
   endif()
 
   if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
@@ -626,7 +626,7 @@ if (WIN32)
     set (HAVE_HARPOON ON)
   endif()
 
-  if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+  if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     set(PREBUILT_VISUAL_STUDIO_TARGETS
       "Release64/workrave-applet64.dll"
       "Release64/harpoonHelper.exe"
@@ -635,9 +635,9 @@ if (WIN32)
       "Release/harpoon.dll")
 
     set(PREBUILT_CMAKE_TARGETS
-      "lib64/workrave-applet64.dll"
-      "lib64/WorkraveHelper.exe"
-      "lib64/harpoon64.dll")
+      "lib32/workrave-applet.dll"
+      "lib32/WorkraveHelper.exe"
+      "lib32/harpoon.dll")
 
     set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt targets")
 
@@ -658,7 +658,7 @@ if (WIN32)
 
     if (HAVE_PREBUILT_CMAKE)
       set (HOOK_BINARY_DIR "${CMAKE_BINARY_DIR}/libs/hooks/harpoon/src")
-      message(STATUS "Using prebuilt 64 bit targets from ${PREBUILT_PATH}")
+      message(STATUS "Using prebuilt 32 bit targets from ${PREBUILT_PATH}")
     elseif(HAVE_PREBUILT_VISUAL_STUDIO)
       set (HOOK_BINARY_DIR "${PREBUILT_PATH}/Release")
       message(STATUS "Using prebuilt 32/64 bit targets from ${PREBUILT_PATH}")
@@ -862,7 +862,7 @@ add_custom_target(dist
 #----------------------------------------------------------------------------------------------------
 #
 
-if (NOT BUILD_ONLY_64_BIT_FOR_WIN32)
+if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(po)
   add_subdirectory(libs)
   add_subdirectory(ui)
@@ -969,8 +969,8 @@ if (APPLE)
     add_subdirectory(ui/apps/qt5/dist/osx)
   endif()
 elseif (WIN32)
-  if (BUILD_ONLY_64_BIT_FOR_WIN32)
-    add_subdirectory(build/win64)
+  if (BUILD_ONLY_32_BIT_FOR_WIN64)
+    add_subdirectory(build/win32)
   elseif ("${WITH_UI}" STREQUAL "Qt5")
     add_subdirectory(ui/apps/qt5/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+3")
@@ -1007,7 +1007,6 @@ function(feature_bool name setting)
     message(STATUS "${str} : No")
   endif()
 endfunction()
-
 
 message(STATUS "")
 message(STATUS "Workrave ${VERSION}")

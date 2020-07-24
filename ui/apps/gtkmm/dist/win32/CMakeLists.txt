@@ -49,46 +49,51 @@ foreach (po_file ${POFILES})
   file(APPEND ${LANG_ISS} "Source: \"${INSTALLDIR}\\lib\\locale\\${language}\\LC_MESSAGES\\*.*\"; DestDir: \"{app}\\lib\\locale\\${language}\\LC_MESSAGES\"; Flags: ignoreversion;\n")
 endforeach()
 
-
 install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
 if(MINGW) # TODO:
    install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
 
    set (icons
-    "actions/go-"
-    "actions/media-playback-"
-    "actions/media-skip-"
-    "actions/window-"
-    "actions/edit-"
-    "actions/application-exit"
-    "actions/preferences"
-    "actions/help-about"
-    "actions/document-open"
-    "actions/list-remove-symbolic"
-    "actions/list-remove-symbolic.symbolic"
-    "actions/list-add-symbolic"
-    "actions/list-add-symbolic.symbolic"
+    "legacy/go-first"
+    "legacy/go-last"
+    "legacy/go-next"
+    "legacy/go-previous"
+    "legacy/media-playback-pause"
+    "legacy/media-playback-start"
+    "legacy/media-skip-backward"
+    "legacy/media-skip-forward"
+    "legacy/window-close"
+    "legacy/edit-delete"
+    "legacy/edit-redo-rtl"
+    "legacy/edit-redo"
+    "legacy/application-exit"
+    "legacy/preferences-other"
+    "legacy/help-about"
+    "legacy/document-open"
     "places/user-home-symbolic.symbolic"
-    "places/user-home-"
+    "ui/pan-down-symbolic.symbolic"
+    "ui/pan-start-symbolic.symbolic"
+    "ui/pan-up-symbolic.symbolic"
+    "ui/pan-end-symbolic-rtl.symbolic"
+    "ui/pan-start-symbolic-rtl.symbolic"
+    "ui/pan-end-symbolic.symbolic"
     )
 foreach(icon ${icons})
-  foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
-    install(
-      DIRECTORY ${SYS_ROOT}/share/icons/Adwaita/${size}/
-      DESTINATION ${DATADIR}/icons/Adwaita/${size}/
-      FILES_MATCHING
-      REGEX "${icon}[a-zA-Z0-0]*\.(png|svg)"
-      )
+  foreach(size 16x16 24x24 32x32 48x48 )
+     get_filename_component(category "${icon}" DIRECTORY)
+     install(
+       FILES ${SYS_ROOT}/share/icons/Adwaita/${size}/${icon}.png
+       DESTINATION ${DATADIR}/icons/Adwaita/${size}/${category}
+       )
   endforeach()
 endforeach()
 
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/index.theme DESTINATION ${DATADIR}/icons/Adwaita)
 install (FILES ${SYS_ROOT}/share/themes/Default/gtk-3.0/gtk-keys.css DESTINATION share/themes/Default/gtk-3.0)
 install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
-
-install (FILES ${SYS_ROOT}/bin/librsvg-2-2.dll DESTINATION lib)
 endif()
 
-install (CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/etc/gtk-3.0/settings.ini\" \"[Settings]\ngtk-theme-name=windows\n\")")
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
 if(MINGW) # TODO:
 if (NOT MSYS)
@@ -102,23 +107,15 @@ install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_P
 endif()
 
 if (HAVE_PREBUILT_CMAKE)
-  file(GLOB FILES64BIT ${PREBUILT_PATH}/lib64/*.*)
-  install(FILES ${FILES64BIT} DESTINATION lib64)
+  file(GLOB FILES32BIT ${PREBUILT_PATH}/lib32/*.*)
+  install(FILES ${FILES32BIT} DESTINATION lib32)
 elseif(HAVE_PREBUILT_VISUAL_STUDIO)
-  install (FILES ${PREBUILT_PATH}/Release/harpoon.dll DESTINATION lib)
-  install (FILES ${PREBUILT_PATH}/Release64/harpoon64.dll DESTINATION lib64)
-  install (FILES ${PREBUILT_PATH}/Release64/harpoonHelper.exe DESTINATION lib64 RENAME WorkraveHelper.exe)
-  install (FILES ${PREBUILT_PATH}/Release/workrave-applet.dll DESTINATION lib)
-  install (FILES ${PREBUILT_PATH}/Release64/workrave-applet64.dll DESTINATION lib64)
+  install (FILES ${PREBUILT_PATH}/Release/harpoon.dll DESTINATION lib32)
+  install (FILES ${PREBUILT_PATH}/Release64/harpoon64.dll DESTINATION lib)
+  install (FILES ${PREBUILT_PATH}/Release64/harpoonHelper.exe DESTINATION lib32 RENAME WorkraveHelper.exe)
+  install (FILES ${PREBUILT_PATH}/Release/workrave-applet.dll DESTINATION lib32)
+  install (FILES ${PREBUILT_PATH}/Release64/workrave-applet64.dll DESTINATION lib)
 endif()
-
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/CreateInstaller.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/CreateInstaller.cmake"
-  @ONLY
-  ESCAPE_QUOTES
-)
-
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
@@ -126,4 +123,12 @@ configure_file(
   @ONLY
 )
 
-install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CreateInstaller.cmake")
+install(CODE "set(WINE ${WINE})")
+install(CODE "set(ISCC ${ISCC})")
+install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(ISCC ${ISCC})")
+install(CODE "set(CMAKE_OBJDUMP ${CMAKE_OBJDUMP})")
+install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
+install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
+
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Installer.cmake")

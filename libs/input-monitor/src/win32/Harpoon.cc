@@ -361,7 +361,7 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       std::string install_dir = Platform::get_application_directory();
-      string helper = install_dir + "\\lib64\\WorkraveHelper.exe";
+      string helper = install_dir + "\\lib32\\WorkraveHelper.exe";
       string args = helper + " " + Platform::get_application_name();
 
       TRACE_MSG(install_dir.c_str());
