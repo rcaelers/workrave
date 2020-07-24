@@ -20,35 +20,35 @@ jobs:
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: GCONF,TESTS,COVERAGE,TRACING
+            disable: TESTS,COVERAGE,TRACING
 
           - image: ubuntu-eoan
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: GCONF,TESTS,COVERAGE,TRACING
+            disable: TESTS,COVERAGE,TRACING
   
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: GCONF,TESTS,COVERAGE,TRACING
+            disable: TESTS,COVERAGE,TRACING
   
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-            disable: GCONF,TESTS,COVERAGE
+            disable: TESTS,COVERAGE
   
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
             ui: Qt5
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-            disable: GCONF,TESTS,COVERAGE
+            disable: TESTS,COVERAGE
   
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
             ui: Gtk+3
             configuration: Release
             enable: 
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
             upload: true
   
           - image: mingw-gtk-rawhide
@@ -65,14 +65,14 @@ jobs:
             ui: Gtk+3
             configuration: Debug
             enable: TRACING
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
             upload: true
   
           - os: macos-latest
             compiler: clang
             ui: Qt5
             enable: 
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
   
     steps:
       - name: Prepare

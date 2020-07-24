@@ -20,7 +20,7 @@ execute_process(
   )
 
 set(glib_schema_compiler ${_glib_compile_schemas} CACHE INTERNAL "")
-  
+
 if (LOCALINSTALL)
   set(GSETTINGS_DIR "share/glib-2.0/schemas/")
   set(GSETTINGS_ABS_DIR "${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas/")
@@ -33,7 +33,7 @@ message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")
 if (GSETTINGS_COMPILE)
     message(STATUS "GSettings schemas will be compiled.")
 endif ()
-  
+
 macro(gsettings_add_schemas SCHEMA_DIRECTORY)
 
   # Locate all schema files.
@@ -42,10 +42,10 @@ macro(gsettings_add_schemas SCHEMA_DIRECTORY)
     )
 
   foreach(schema_in_file ${all_schema_in_files})
-    file(RELATIVE_PATH schema_in_file ${CMAKE_CURRENT_SOURCE_DIR} ${schema_in_file}) 
-    set(schema_in_file "${CMAKE_CURRENT_BINARY_DIR}/${schema_in_file}")
-
     string(REGEX REPLACE ".in$" "" schema_file ${schema_in_file} )
+
+    file(RELATIVE_PATH schema_file ${CMAKE_CURRENT_SOURCE_DIR} ${schema_file}) 
+    set(schema_file "${CMAKE_CURRENT_BINARY_DIR}/${schema_file}")
 
     intltool_nomerge_xml(${schema_in_file} ${schema_file})
 
@@ -58,7 +58,7 @@ macro(gsettings_add_schemas SCHEMA_DIRECTORY)
       OPTIONAL
     )
   endforeach()
-  
+
   if (GSETTINGS_COMPILE)
     install(
       CODE "message (STATUS \"Compiling GSettings schemas\")"

@@ -76,7 +76,7 @@ jobs:
         COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        CONF_DISABLE="TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-bionic"
       <<: *_stage_build_docker
 
@@ -85,7 +85,7 @@ jobs:
         COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        CONF_DISABLE="TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-eoan"
       <<: *_stage_build_docker
       <<: *_stage_deploy
@@ -95,7 +95,7 @@ jobs:
         COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE,TRACING"
+        CONF_DISABLE="TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
 
@@ -104,7 +104,7 @@ jobs:
         COMPILER="gcc"
         WITH_UI="Gtk+3"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        CONF_DISABLE="TESTS,COVERAGE"
         DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
 
@@ -113,7 +113,7 @@ jobs:
         COMPILER="gcc"
         WITH_UI="Qt5"
         CONF_ENABLE="INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING"
-        CONF_DISABLE="GCONF,TESTS,COVERAGE"
+        CONF_DISABLE="TESTS,COVERAGE"
         DOCKER_IMAGE="ubuntu-focal"
       <<: *_stage_build_docker
 
@@ -123,7 +123,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONFIGURATION="Release"
         CONF_ENABLE=""
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING"
         DOCKER_IMAGE="mingw-gtk-rawhide"
       <<: *_stage_build_docker
       <<: *_stage_deploy
@@ -134,7 +134,7 @@ jobs:
         WITH_UI="Gtk+3"
         CONFIGURATION="Debug"
         CONF_ENABLE="TRACING"
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE"
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE"
         DOCKER_IMAGE="mingw-gtk-rawhide"
       <<: *_stage_build_docker
       <<: *_stage_deploy
@@ -144,7 +144,7 @@ jobs:
       env: >
         WITH_UI="Qt5"
         CONF_ENABLE=""
-        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,GCONF,TESTS,COVERAGE,TRACING"
+        CONF_DISABLE="INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING"
       <<: *_stage_build_osx
 
 stages:

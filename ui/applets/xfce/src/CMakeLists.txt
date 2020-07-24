@@ -1,12 +1,7 @@
 if (HAVE_XFCE4)
 
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet-2.0.desktop.in.in
-    ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop.in
-    @ONLY)
-
   intltool_merge_desktop(
-    ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet.desktop.in
     ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop)
   add_custom_target(generate_xfce_panel_applet ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop)
 
