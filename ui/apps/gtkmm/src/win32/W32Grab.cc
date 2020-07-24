@@ -38,22 +38,13 @@ public:
   static Hook *instance();
 
 private:
-  Hook();
+  Hook() = default;
   ~Hook();
-  static Hook *the_instance;
 
   static LRESULT CALLBACK hook_callback(INT nCode, WPARAM wParam, LPARAM lParam);
 
   HHOOK hook;
 };
-
-Hook *Hook::the_instance =  nullptr;
-
-
-Hook::Hook() :
-  hook(0)
-{
-}
 
 Hook::~Hook()
 {
@@ -63,7 +54,9 @@ Hook::~Hook()
 Hook *
 Hook::instance()
 {
-  if (the_instance != nullptr)
+  static Hook *the_instance = nullptr;
+
+  if (the_instance == nullptr)
   {
     the_instance = new Hook();
   }
