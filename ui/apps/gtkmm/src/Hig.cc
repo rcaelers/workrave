@@ -1,3 +1,20 @@
+// Copyright (C) 2003 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -12,8 +29,7 @@ HigDialog::HigDialog()
   set_hig_defaults();
 }
 
-HigDialog::HigDialog(const Glib::ustring& title, bool modal,
-                     bool use_separator)
+HigDialog::HigDialog(const Glib::ustring& title, bool modal, bool use_separator)
   : Gtk::Dialog(title, modal)
 {
   (void) use_separator;
@@ -132,8 +148,7 @@ HigCategoriesPanel::add(Gtk::Widget &panel)
 
 
 Glib::ustring
-HigUtil::create_alert_text(const char *caption,
-                           const char *body)
+HigUtil::create_alert_text(const char *caption, const char *body)
 {
   Glib::ustring txt = "<span weight=\"bold\" size=\"larger\">";
   txt += caption;

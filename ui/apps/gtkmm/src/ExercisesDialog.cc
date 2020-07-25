@@ -1,5 +1,3 @@
-// ExercisesDialog.cc --- Exercises dialog
-//
 // Copyright (C) 2002, 2003, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
@@ -21,31 +19,19 @@
 #include "config.h"
 #endif
 
-
-#include <gtkmm/stock.h>
+#include "ExercisesDialog.hh"
 
 #include "commonui/nls.h"
-#include "debug.hh"
 
-#include "ExercisesDialog.hh"
 #include "commonui/Exercise.hh"
-
-
 
 ExercisesDialog::ExercisesDialog()
   : HigDialog(_("Exercises"), false, false),
     exercises_panel(get_action_area())
 {
-  TRACE_ENTER("ExercisesDialog::ExercisesDialog");
   get_vbox()->pack_start(exercises_panel, true, true, 0);
-  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
-  TRACE_EXIT();
-}
-
-ExercisesDialog::~ExercisesDialog()
-{
-  TRACE_ENTER("ExercisesDialog::~ExercisesDialog");
-  TRACE_EXIT();
+  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
 }
 
 int

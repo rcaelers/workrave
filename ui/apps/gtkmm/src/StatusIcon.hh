@@ -28,21 +28,6 @@
 
 #include "core/ICore.hh"
 
-#ifndef WR_CHECK_VERSION
-#define WR_CHECK_VERSION(comp,major,minor,micro)   \
-    (comp##_MAJOR_VERSION > (major) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && \
-      comp##_MICRO_VERSION >= (micro)))
-#endif
-
-#if WR_CHECK_VERSION(GTKMM,2,11,1)
-#define HAVE_STATUSICON_SIGNAL 1
-#endif
-#if WR_CHECK_VERSION(GTKMM,2,22,0)
-#define HAVE_EMBEDDED_SIGNAL 1
-#endif
-
 using namespace workrave;
 using namespace workrave::config;
 
@@ -52,7 +37,6 @@ class StatusIcon
 {
 public:
   StatusIcon();
-  ~StatusIcon();
 
   void init();
   void set_operation_mode(workrave::OperationMode m);
@@ -78,16 +62,6 @@ private:
 
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   void on_balloon_activate(std::string id);
-#endif
-
-#ifndef HAVE_STATUSICON_SIGNAL
-  static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
-  static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
-                                  gpointer callback_data);
-  static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
-#endif
-#ifndef HAVE_EMBEDDED_SIGNAL
-  static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
 #endif
 
   std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;

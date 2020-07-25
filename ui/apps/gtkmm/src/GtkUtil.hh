@@ -43,15 +43,13 @@ class GtkUtil
 {
 public:
   static Gtk::Button *
-  create_custom_stock_button(const char *label_text,
-                             const Gtk::StockID& stock_id);
+  create_custom_stock_button(const char *label_text, const char *icon);
 
   static Gtk::Button *
   create_image_button(const char *label_text, const char *image_file, bool label = true);
 
   static void
-  update_custom_stock_button(Gtk::Button *btn, const char *label_text,
-                             const Gtk::StockID& stock_id);
+  update_custom_stock_button(Gtk::Button *btn, const char *label_text,const char *icon);
 
   static Gtk::Widget *
   create_label_with_icon(std::string text, const char *icon);

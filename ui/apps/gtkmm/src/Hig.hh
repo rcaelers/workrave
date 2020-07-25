@@ -1,6 +1,4 @@
-// Hig.hh --- Gnome HIG stuff
-//
-// Copyright (C) 2003, 2004, 2007, 2008, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,8 +26,7 @@ class HigDialog : public Gtk::Dialog
 {
 public:
   HigDialog();
-  HigDialog(const Glib::ustring& title, bool modal=false,
-            bool use_separator=false);
+  HigDialog(const Glib::ustring& title, bool modal=false, bool use_separator=false);
   Gtk::VBox *get_vbox();
 
 private:
@@ -68,8 +65,7 @@ public:
 class HigUtil
 {
 public:
-  static Glib::ustring create_alert_text(const char *caption,
-                                         const char *body);
+  static Glib::ustring create_alert_text(const char *caption, const char *body);
 };
 
 #endif // HIG_HH

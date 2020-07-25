@@ -31,7 +31,6 @@ class ExercisesDialog : public HigDialog
 {
 public:
   ExercisesDialog();
-  ~ExercisesDialog();
 
   int run();
 

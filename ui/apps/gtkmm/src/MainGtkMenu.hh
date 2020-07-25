@@ -1,5 +1,3 @@
-// MainGtkMenu.hh --- Menu using Gtk+
-//
 // Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -22,13 +20,7 @@
 
 #include <string>
 
-#include <glibmm/refptr.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/actiongroup.h>
-#include <gtkmm/iconfactory.h>
-#include <gtkmm/radioaction.h>
-#include <gtkmm/uimanager.h>
-#include <gtkmm/menu.h>
+#include <gtkmm.h>
 
 #include "MenuBase.hh"
 
@@ -36,17 +28,10 @@ class MainGtkMenu : public MenuBase
 {
 public:
   MainGtkMenu(bool show_open);
-  virtual ~MainGtkMenu();
-
-  void add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
-                      const std::string &path,
-                      const Glib::ustring &id,
-                      const Glib::ustring &label);
-
-  void register_stock_items();
+  virtual ~MainGtkMenu() = default;
 
   virtual void create_actions();
-  virtual void create_ui();
+  virtual void create_menu();
   virtual void post_init() {}
 
   virtual void init();
@@ -54,9 +39,7 @@ public:
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
 private:
-  void on_menu_normal();
-  void on_menu_suspend();
-  void on_menu_quiet();
+  void on_menu_mode(int mode);
   void on_menu_reading();
 
 #ifdef PLATFORM_OS_OSX
@@ -69,11 +52,10 @@ private:
 
 
 protected:
-  Glib::RefPtr<Gtk::UIManager> ui_manager;
-  Glib::RefPtr<Gtk::ActionGroup> action_group;
+  Glib::RefPtr<Gio::SimpleActionGroup> action_group;
 
   //!
-  Gtk::Menu *popup_menu;
+  std::unique_ptr<Gtk::Menu> popup_menu;
 
   //!
   bool show_open;

@@ -159,11 +159,11 @@ if (MINGW)
       COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
           $<TARGET_FILE:workrave>
   )
+  if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
+  endif()
 endif()
 
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
-endif()
 
 target_link_libraries(workrave ${GTK_LIBRARIES})
 target_link_libraries(workrave ${Boost_LIBRARIES})

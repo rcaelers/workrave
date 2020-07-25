@@ -61,24 +61,24 @@ GtkUtil::has_button_images()
 
 Gtk::Button *
 GtkUtil::create_custom_stock_button(const char *label_text,
-                                    const Gtk::StockID& stock_id)
+                                    const char *icon)
 {
   Gtk::Button *ret = new Gtk::Button();
-  update_custom_stock_button(ret, label_text, stock_id);
+  update_custom_stock_button(ret, label_text, icon);
   return ret;
 }
 
 void
 GtkUtil::update_custom_stock_button(Gtk::Button *btn,
                                     const char *label_text,
-                                    const Gtk::StockID& stock_id)
+                                    const char *icon)
 {
   Gtk::Image *img = nullptr;
 
   if (has_button_images() || !label_text)
     {
-      img = Gtk::manage(new Gtk::Image(stock_id,
-                                  Gtk::ICON_SIZE_BUTTON));
+      img = Gtk::manage(new Gtk::Image());
+      img->set_from_icon_name(icon, Gtk::ICON_SIZE_BUTTON);
     }
   btn->remove();
   if (label_text != nullptr)

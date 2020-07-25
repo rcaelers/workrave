@@ -1,5 +1,3 @@
-// MainGtkMenu.cc --- Menus using Gtk+
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -29,7 +27,7 @@
 
 #include <string>
 
-#include <gdkmm.h>
+#include <giomm.h>
 #include <gtkmm.h>
 
 #include "MainWindow.hh"
@@ -47,74 +45,17 @@ MainGtkMenu::MainGtkMenu(bool show_open)
 {
 }
 
-
-//! Destructor.
-MainGtkMenu::~MainGtkMenu()
-= default;
-
-
-void
-MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
-                            const std::string &path,
-                            const Glib::ustring& icon_id,
-                            const Glib::ustring& label)
-{
-  Gtk::IconSource source;
-  Glib::RefPtr<Gtk::IconSet> icon_set = Gtk::IconSet::create();
-
-  string filename = AssetPath::complete_directory(path, AssetPath::SEARCH_PATH_IMAGES);
-
-  try
-    {
-      source.set_pixbuf(Gdk::Pixbuf::create_from_file(filename));
-    }
-  catch(const Glib::Exception&)
-    {
-    }
-
-  source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-  source.set_size_wildcarded();
-
-  icon_set->add_source(source);
-
-  const Gtk::StockID stock_id(icon_id);
-  factory->add(stock_id, icon_set);
-  Gtk::Stock::add(Gtk::StockItem(stock_id, label));
-}
-
-
-void
-MainGtkMenu::register_stock_items()
-{
-  Glib::RefPtr<Gtk::IconFactory> factory = Gtk::IconFactory::create();
-
-  add_stock_item(factory, "timer-rest-break.png", "restbreak", _("_Rest break"));
-
-  factory->add_default();
-}
-
-
 void
 MainGtkMenu::init()
 {
   if (popup_menu == nullptr)
     {
-      register_stock_items();
       create_actions();
-      create_ui();
+      create_menu();
       post_init();
-    }
-  else
-    {
-      // Re-init.
-      ui_manager->remove_action_group(action_group);
-      create_actions();
-      ui_manager->insert_action_group(action_group);
-    }
 
-  IGUI *gui = GUI::get_instance();
-  MainWindow *main_window = gui->get_main_window();
-  main_window->add_accel_group(ui_manager->get_accel_group());
+      //main_window->add_accel_group(popup_menu->get_accel_group());
+    }
 }
 
 void
@@ -122,111 +63,81 @@ MainGtkMenu::create_actions()
 {
   IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
+  MainWindow *main_window = gui->get_main_window();
 
-  action_group = Gtk::ActionGroup::create();
+  if (!main_window->get_action_group("app"))
+  {
+    action_group = Gio::SimpleActionGroup::create();
+    action_group->add_action_radio_integer("mode", sigc::mem_fun(*this, &MainGtkMenu::on_menu_mode), 0);
+    action_group->add_action_bool("reading", sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
+    action_group->add_action("open", sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
+    action_group->add_action("restbreak", sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
+    action_group->add_action("preferences", sigc::mem_fun(*menus, &Menus::on_menu_preferences));
+    action_group->add_action("exercises", sigc::mem_fun(*menus, &Menus::on_menu_exercises));
+    action_group->add_action("statistics", sigc::mem_fun(*menus, &Menus::on_menu_statistics));
+    action_group->add_action("about", sigc::mem_fun(*menus, &Menus::on_menu_about));
+    action_group->add_action("quit", sigc::mem_fun(*menus, &Menus::on_menu_quit));
 
-  action_group->add(Gtk::Action::create("Main", "_Tools"));
-
-  // Mode menu
-  Gtk::RadioAction::Group group_mode;
-  action_group->add(Gtk::Action::create("Mode", _("_Mode")));
-
-  action_group->add(Gtk::RadioAction::create(group_mode, "Normal", _("_Normal")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_normal));
-
-  action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
-
-  action_group->add(Gtk::RadioAction::create(group_mode, "Suspended", _("_Suspended")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_suspend));
-
-  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
-
-  // Open
-  action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),
-                    sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
-
-  // Restbreak now
-  // Gtk::AccelKey("<control>r"),
-  action_group->add(Gtk::Action::create("Restbreak",
-                                        Gtk::StockID("restbreak"),
-                                        _("_Rest break")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
-
-  // Preferences
-  action_group->add(Gtk::Action::create("Preferences",
-                                        Gtk::Stock::PREFERENCES,
-                                        _("_Preferences")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_preferences));
-
-  action_group->add(Gtk::Action::create("Exercises",
-                                        _("Exercises")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_exercises));
-
-  action_group->add(Gtk::Action::create("Statistics",
-                                        _("Statistics")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_statistics));
-
-  action_group->add(Gtk::Action::create("About",
-                                        Gtk::Stock::ABOUT,
-                                        _("_About")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_about));
-
-  action_group->add(Gtk::Action::create("Quit",
-                                        Gtk::Stock::QUIT,
-                                        _("_Quit")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_quit));
+    main_window->insert_action_group("app", action_group);
+  }
 }
 
+
 void
-MainGtkMenu::create_ui()
+MainGtkMenu::create_menu()
 {
-  Glib::ustring open_ui_info;
+  Glib::RefPtr<Gio::Menu> app_menu = Gio::Menu::create();
 
   if (show_open)
     {
-      open_ui_info = "    <menuitem action='Open'/>";
+      auto section = Gio::Menu::create();
+      section->append(_("Open"), "open");
+      app_menu->append_section(section);
     }
 
-  //Layout the actions in a menubar and toolbar:
-  Glib::ustring ui_info =
-    "<ui>"
-    "  <popup name='Menu'>"
-    + open_ui_info +
-    "    <separator/>" +
-    "    <menuitem action='Restbreak'/>"
-    "    <menuitem action='Exercises'/>"
-    "    <menuitem action='Statistics'/>"
-    "    <menu action='Mode'>"
-    "      <menuitem action='Normal'/>"
-    "      <menuitem action='Quiet'/>"
-    "      <menuitem action='Suspended'/>"
-    "    </menu>"
-    "    <menuitem action='Reading'/>"
-    "    <separator/>"
-    "    <menuitem action='Preferences'/>"
-    "    <menuitem action='About'/>"
-    "    <menuitem action='Quit'/>"
-    "  </popup>"
-    "</ui>";
+  auto section1 = Gio::Menu::create();
+  app_menu->append_section(section1);
 
-  ui_manager = Gtk::UIManager::create();
-  ui_manager->insert_action_group(action_group);
+	auto item = Gio::MenuItem::create(_("Restbreak"), "app.restbreak");
+  item->set_attribute_value("accel", Glib::Variant<Glib::ustring>::create("<Primary>r"));
+  section1->append_item(item);
 
-  try
-    {
-      ui_manager->add_ui_from_string(ui_info);
-    }
-  catch(const Glib::Error&)
-    {
-    }
+  section1->append(_("Exercises"), "app.exercises");
+  section1->append(_("Statistics"), "app.statistics");
+  
+  auto section2 = Gio::Menu::create();
+  app_menu->append_section(section2);
 
-  popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu"));
+  auto mode_menu = Gio::Menu::create();
+	item = Gio::MenuItem::create(_("Normal"), "app.mode");
+  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal)));
+  mode_menu->append_item(item);
+	item = Gio::MenuItem::create(_("Quiet"), "app.mode");
+  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet)));
+  mode_menu->append_item(item);
+	item = Gio::MenuItem::create(_("Suspended"), "app.mode");
+  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended)));
+  mode_menu->append_item(item);
+  section2->append_submenu(_("Mode"), mode_menu);
+
+  section2->append(_("Reading"), "app.reading");
+
+  auto section3 = Gio::Menu::create();
+  app_menu->append_section(section3);
+
+  section3->append(_("Preferences"), "app.preferences");
+  section3->append(_("About"), "app.about");
+  section3->append(_("Quit"), "app.quit");
 
 #ifdef PLATFORM_OS_OSX
   osx_popup_hack_connect(popup_menu);
 #endif
+
+  popup_menu = std::make_unique<Gtk::Menu>(app_menu);
+
+  IGUI *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+  popup_menu->attach_to_widget(*main_window);
 }
 
 
@@ -245,117 +156,58 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage)
 {
-  Gtk::CheckMenuItem *item = nullptr;
-  const char *menu_name = nullptr;
+  if (action_group)
+  {
+    Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))->change_state(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-  switch (mode)
+    Glib::RefPtr<Gio::SimpleAction> action = Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("reading"));
+
+    bool reading = ( usage == UsageMode::Reading );
+    action->change_state(reading);
+  }
+}
+
+void
+MainGtkMenu::on_menu_mode(int mode)
+{
+  Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))->change_state(mode);
+
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
+
+  switch (static_cast<OperationMode>(mode))
     {
     case OperationMode::Normal:
-      menu_name = "/Menu/Mode/Normal";
-      break;
-
-    case OperationMode::Suspended:
-      menu_name = "/Menu/Mode/Suspended";
+      menus->on_menu_normal();
       break;
 
     case OperationMode::Quiet:
-      menu_name = "/Menu/Mode/Quiet";
+      menus->on_menu_quiet();
+      break;
+
+    case OperationMode::Suspended:
+      menus->on_menu_suspend();
       break;
 
     default:
       break;
-    }
-
-  if( menu_name )
-  {
-      item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( menu_name ) );
-      if( item && !item->get_active() )
-      {
-          item->set_active();
-      }
-  }
-
-  item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( "/Menu/Reading" ) );
-  if( item )
-  {
-      bool reading = ( usage == UsageMode::Reading );
-
-      if( reading != item->get_active() )
-          item->set_active( reading );
-  }
-}
-
-
-void
-MainGtkMenu::on_menu_normal()
-{
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Normal");
-  Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
-
-  if (ract)
-    {
-      bool active = ract->get_active();
-      if (active)
-        {
-          IGUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();
-          menus->on_menu_normal();
-        }
-    }
-}
-
-void
-MainGtkMenu::on_menu_suspend()
-{
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Suspended");
-  Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
-
-  if (ract)
-    {
-      bool active = ract->get_active();
-      if (active)
-        {
-          IGUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();
-
-          menus->on_menu_suspend();
-        }
-    }
-}
-
-void
-MainGtkMenu::on_menu_quiet()
-{
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Quiet");
-  Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
-
-  if (ract)
-    {
-      bool active = ract->get_active();
-      if (active)
-        {
-          IGUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();
-
-          menus->on_menu_quiet();
-        }
     }
 }
 
 void
 MainGtkMenu::on_menu_reading()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Reading");
-  Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
+  Glib::RefPtr<Gio::SimpleAction> action = Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("reading"));
 
-  if (ract)
-    {
-      bool active = ract->get_active();
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
+  bool active = false;
+  action->get_state(active);
 
-      menus->on_menu_reading(active);
-    }
+  active = !active;
+  action->change_state(active);
+
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
+  menus->on_menu_reading(active);
 }
 
 

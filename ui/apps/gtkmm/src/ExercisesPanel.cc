@@ -1,6 +1,4 @@
-// ExercisesPanel.cc --- Exercises panel
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -87,8 +85,8 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
 
   if (dialog_action_area != nullptr)
     {
-      back_button =  Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
-      forward_button =  Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
+      back_button =  Gtk::manage(GtkUtil::create_custom_stock_button(_("Previous"), PREVIOUS_BUTTON_ID));
+      forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button(_("Next"), NEXT_BUTTON_ID));
       stop_button = nullptr;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
@@ -98,15 +96,10 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
     }
   else
     {
-      back_button = Gtk::manage(GtkUtil::create_custom_stock_button
-                           (nullptr, PREVIOUS_BUTTON_ID));
-      forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                               (nullptr, NEXT_BUTTON_ID));
-
-      stop_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                                         (nullptr, CLOSE_BUTTON_ID));
-      stop_button->signal_clicked()
-        .connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, PREVIOUS_BUTTON_ID));
+      forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, NEXT_BUTTON_ID));
+      stop_button =  Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, CLOSE_BUTTON_ID));
+      stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
       Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
@@ -333,11 +326,11 @@ ExercisesPanel::on_go_forward()
 void
 ExercisesPanel::refresh_pause()
 {
-  Gtk::StockID stock_id = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
+  const char *icon = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
   const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : nullptr,
-                                      stock_id);
+                                      icon);
   if (paused)
     pause_button->set_tooltip_text(_("Resume exercises"));
   else
