@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
 CMAKE_FLAGS=()
-CMAKE_FLAGS64=()
+CMAKE_FLAGS32=()
 MAKE_FLAGS=()
 
 build()
@@ -27,7 +27,7 @@ if [[ ${CONF_ENABLE} ]]; then
     for i in ${CONF_ENABLE//,/ }
     do
         CMAKE_FLAGS+=("-DWITH_$i=ON")
-        CMAKE_FLAGS64+=("-DWITH_$i=ON")
+        CMAKE_FLAGS32+=("-DWITH_$i=ON")
     done
 fi
 
@@ -35,7 +35,7 @@ if [[ ${CONF_DISABLE} ]]; then
     for i in ${CONF_DISABLE//,/ }
     do
         CMAKE_FLAGS+=("-DWITH_$i=OFF")
-        CMAKE_FLAGS64+=("-DWITH_$i=OFF")
+        CMAKE_FLAGS32+=("-DWITH_$i=OFF")
     done
 fi
 
@@ -43,14 +43,14 @@ CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 
 if [[ $COMPILER = 'gcc' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
-    CMAKE_FLAGS64+=("-DCMAKE_CXX_COMPILER=g++")
+    CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
     CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
-    CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=gcc")
+    CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=gcc")
 elif [[ $COMPILER = 'clang' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++-9")
-    CMAKE_FLAGS64+=("-DCMAKE_CXX_COMPILER=clang++-9")
+    CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=clang++-9")
     CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang-9")
-    CMAKE_FLAGS64+=("-DCMAKE_C_COMPILER=clang-9")
+    CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=clang-9")
 fi
 
 CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONF_CONFIGURATION")
@@ -69,19 +69,19 @@ case "$DOCKER_IMAGE" in
 
         case "$CONFIG" in
             vs)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32.cmake")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
                 ;;
 
             *)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32.cmake")
-                CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.64")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
+                CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
 
-                CMAKE_FLAGS64+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
-                CMAKE_FLAGS64+=("-DWITH_UI=None")
-                CMAKE_FLAGS64+=("-DCMAKE_BUILD_TYPE=Release")
+                CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32.cmake")
+                CMAKE_FLAGS32+=("-DWITH_UI=None")
+                CMAKE_FLAGS32+=("-DCMAKE_BUILD_TYPE=Release")
 
-                build ".64" CMAKE_FLAGS64[@]
+                build ".32" CMAKE_FLAGS32[@]
                 ;;
         esac
         ;;
@@ -101,10 +101,10 @@ fi
 if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     if [[ -z "$WORKRAVE_TAG" ]]; then
         echo "No tag build."
-        filename=workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
+        filename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
     else
         echo "Tag build : $WORKRAVE_TAG"
-        filename=workrave-win32-${WORKRAVE_VERSION}${EXTRA}.exe
+        filename=workrave-${WORKRAVE_VERSION}${EXTRA}.exe
     fi
 
     cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
