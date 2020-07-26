@@ -58,7 +58,7 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
-  win32_popup_hack_connect(popup_menu);
+  win32_popup_hack_connect();
 }
 
 
@@ -67,7 +67,7 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;
 
-  if (popup_menu != NULL)
+  if (popup_menu != nullptr)
     {
       popup_menu->popup(1, activate_time);
     }
@@ -81,11 +81,11 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
 //    pointer leaves the menu. */
 
 void
-W32TrayMenu::win32_popup_hack_connect(Gtk::Widget *menu)
+W32TrayMenu::win32_popup_hack_connect()
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
 
-  GtkWidget *widget = (GtkWidget*) menu->gobj();
+  GtkWidget *widget = (GtkWidget*) popup_menu->gobj();
   g_signal_connect(widget, "leave-notify-event",
                    G_CALLBACK(win32_popup_hack_leave_enter), NULL);
   g_signal_connect(widget, "enter-notify-event",
