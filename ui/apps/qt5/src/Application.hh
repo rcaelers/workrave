@@ -25,7 +25,6 @@
 #include <QCoreApplication>
 
 #include "commonui/Session.hh"
-#include "commonui/Session.hh"
 #include "commonui/SoundTheme.hh"
 #include "config/Config.hh"
 #include "core/IApp.hh"
@@ -38,9 +37,9 @@
 #include "IToolkit.hh"
 #include "Menus.hh"
 
-class Application :
-  public IApplication,
-  public workrave::IApp
+class Application
+  : public IApplication
+  , public workrave::IApp
 {
 public:
   typedef std::shared_ptr<Application> Ptr;

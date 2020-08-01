@@ -45,17 +45,14 @@ AboutDialog::AboutDialog()
   layout->setSizeConstraint(QLayout::SetFixedSize);
 
   QString description = qstr(qformat(tr("<h3>Workrave %s</h3>"
-                                        "<br/>%s<br/>"))
-                             %
+                                        "<br/>%s<br/>")) %
 #ifdef GIT_VERSION
-                             (PACKAGE_VERSION  "(" GIT_VERSION ")") %
+                             (PACKAGE_VERSION "(" GIT_VERSION ")") %
 #else
                              (PACKAGE_VERSION "") %
 #endif
                              tr("This program assists in the prevention and recovery"
-                                " of Repetitive Strain Injury (RSI).")
-                             );
-
+                                " of Repetitive Strain Injury (RSI)."));
 
   QLabel *description_label = new QLabel(description);
   description_label->setWordWrap(true);
@@ -66,24 +63,24 @@ AboutDialog::AboutDialog()
   copyright_label->setWordWrap(false);
   copyright_label->setOpenExternalLinks(false);
   copyright_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
-  
+
   QVBoxLayout *vbox = new QVBoxLayout;
   vbox->addWidget(description_label);
   vbox->addWidget(copyright_label);
 
   QDialogButtonBox *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
   QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
-  
+
   button_box->addButton(closeButton, QDialogButtonBox::ButtonRole(QDialogButtonBox::RejectRole | QDialogButtonBox::AcceptRole));
-  connect(button_box , SIGNAL(rejected()), this, SLOT(reject()));
+  connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
 
   QPixmap pixmap = UiUtil::create_pixmap("workrave-sheep.svg", 150);
   QLabel *logoLabel = new QLabel;
   logoLabel->setPixmap(pixmap);
 
-  layout->addWidget(logoLabel , 0, 0, 5, 1, Qt::AlignCenter);
+  layout->addWidget(logoLabel, 0, 0, 5, 1, Qt::AlignCenter);
   layout->addLayout(vbox, 0, 1, 4, 4);
   layout->addWidget(button_box, 4, 0, 1, 5);
-  
+
   // TODO: add authors/translators.
 }

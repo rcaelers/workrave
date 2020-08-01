@@ -47,7 +47,8 @@ public:
   NSRunningApplication *active_app;
 
 public:
-  Private() : active_app(nil)
+  Private()
+    : active_app(nil)
   {
   }
 };
@@ -71,7 +72,6 @@ BreakWindow::BreakWindow(QScreen *screen, BreakId break_id, BreakFlags break_fla
   TRACE_EXIT();
 }
 
-
 void
 BreakWindow::init()
 {
@@ -79,13 +79,10 @@ BreakWindow::init()
 
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
-      setWindowFlags(windowFlags()
-                     | Qt::WindowStaysOnTopHint
-                     | Qt::FramelessWindowHint
-                     | Qt::SplashScreen);
+      setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);
     }
 
-  QVBoxLayout* layout = new QVBoxLayout();
+  QVBoxLayout *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
@@ -187,7 +184,6 @@ BreakWindow::on_shutdown_button_clicked()
   // FIXME: System::shutdown();
 }
 
-
 //! User has closed the main window.
 // bool
 // BreakWindow::on_delete_event(GdkEventAny *)
@@ -198,7 +194,6 @@ BreakWindow::on_shutdown_button_clicked()
 //     }
 //   return TRUE;
 // }
-
 
 void
 BreakWindow::on_postpone_button_clicked()
@@ -230,7 +225,7 @@ BreakWindow::resume_non_ignorable_break()
 
   TRACE_MSG("break flags " << break_flags);
 
-  if (! (break_flags & BREAK_FLAGS_USER_INITIATED) && mode == OperationMode::Normal)
+  if (!(break_flags & BREAK_FLAGS_USER_INITIATED) && mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
@@ -284,8 +279,10 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 
 #ifdef PLATFORM_OS_OSX
 
-NSString * colorToHexString (NSColor * color) {
-  NSMutableString * hexString = [[NSMutableString alloc] init];
+NSString *
+colorToHexString(NSColor *color)
+{
+  NSMutableString *hexString = [[NSMutableString alloc] init];
   [hexString appendString:@"#"];
   [hexString appendFormat:@"%02x", (int)([color redComponent] * 255.0f)];
   [hexString appendFormat:@"%02x", (int)([color greenComponent] * 255.0f)];
@@ -317,7 +314,7 @@ BreakWindow::start()
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
-      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2: 1);
+      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2 : 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
 #ifdef PLATFORM_OS_OSX
@@ -341,56 +338,61 @@ BreakWindow::start()
       block_window->showFullScreen();
       block_window->raise();
 
-      NSApplicationPresentationOptions options =
-        (NSApplicationPresentationHideDock |
-         NSApplicationPresentationHideMenuBar |
-         NSApplicationPresentationDisableAppleMenu |
-         NSApplicationPresentationDisableProcessSwitching |
-         // NSApplicationPresentationDisableForceQuit |
-         // NSApplicationPresentationDisableSessionTermination |
-         NSApplicationPresentationDisableHideApplication);
+      NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar |
+                                                  NSApplicationPresentationDisableAppleMenu | NSApplicationPresentationDisableProcessSwitching |
+                                                  // NSApplicationPresentationDisableForceQuit |
+                                                  // NSApplicationPresentationDisableSessionTermination |
+                                                  NSApplicationPresentationDisableHideApplication);
       [NSApp setPresentationOptions:options];
 
-      NSDictionary * dictionary = [mainWorkspace desktopImageOptionsForScreen: desktopScreen];
+      NSDictionary *dictionary = [mainWorkspace desktopImageOptionsForScreen:desktopScreen];
       //if ([dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey])
       //{
-          NSNumber * clipping = [dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey];
-          if ([clipping boolValue]) {
-            printf("Clipping: YES\n");
-          } else {
-            printf("Clipping: NO\n");
-          }
-          //} else {
-          //printf("Clipping: NO (not defined)\n");
-          //}
-      if ([dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey]) {
-        NSColor * color = [dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey];
-        printf("Background: %s\n", [colorToHexString(color) UTF8String]);
-      }
-      if ([dictionary objectForKey:NSWorkspaceDesktopImageScalingKey]) {
-        NSImageScaling scaling = (NSImageScaling) [[dictionary objectForKey:NSWorkspaceDesktopImageScalingKey] integerValue];
-        switch (scaling) {
-        case NSImageScaleNone:
-          printf("Scaling: none\n");
-          break;
-        case NSImageScaleAxesIndependently:
-          printf("Scaling: stretch\n");
-          break;
-        case NSImageScaleProportionallyDown:
-          printf("Scaling: down\n");
-          break;
-        case NSImageScaleProportionallyUpOrDown:
-          printf("Scaling: updown\n");
-          break;
-        default:
-          printf("Scaling: unknown\n");
-          break;
+      NSNumber *clipping = [dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey];
+      if ([clipping boolValue])
+        {
+          printf("Clipping: YES\n");
         }
-      } else {
-        printf("Scaling: updown (not defined)\n");
-      }
+      else
+        {
+          printf("Clipping: NO\n");
+        }
+      //} else {
+      //printf("Clipping: NO (not defined)\n");
+      //}
+      if ([dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey])
+        {
+          NSColor *color = [dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey];
+          printf("Background: %s\n", [colorToHexString(color) UTF8String]);
+        }
+      if ([dictionary objectForKey:NSWorkspaceDesktopImageScalingKey])
+        {
+          NSImageScaling scaling = (NSImageScaling)[[dictionary objectForKey:NSWorkspaceDesktopImageScalingKey] integerValue];
+          switch (scaling)
+            {
+              case NSImageScaleNone:
+                printf("Scaling: none\n");
+                break;
+              case NSImageScaleAxesIndependently:
+                printf("Scaling: stretch\n");
+                break;
+              case NSImageScaleProportionallyDown:
+                printf("Scaling: down\n");
+                break;
+              case NSImageScaleProportionallyUpOrDown:
+                printf("Scaling: updown\n");
+                break;
+              default:
+                printf("Scaling: unknown\n");
+                break;
+            }
+        }
+      else
+        {
+          printf("Scaling: updown (not defined)\n");
+        }
 
-      /* fit screen
+        /* fit screen
         Clipping: NO (not defined)
         Background: #51a0aa
         Scaling: updown (not defined)
@@ -442,7 +444,7 @@ BreakWindow::stop()
       block_window->hide();
 
 #ifdef PLATFORM_OS_OSX
-      [NSApp setPresentationOptions: NSApplicationPresentationDefault];
+      [NSApp setPresentationOptions:NSApplicationPresentationDefault];
 #endif
     }
 

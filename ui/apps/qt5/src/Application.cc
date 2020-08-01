@@ -53,7 +53,6 @@ Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolki
   TRACE_EXIT();
 }
 
-
 Application::~Application()
 {
   TRACE_ENTER("GUI:~GUI");
@@ -62,7 +61,6 @@ Application::~Application()
 
   TRACE_EXIT();
 }
-
 
 void
 Application::restbreak_now()
@@ -126,21 +124,21 @@ Application::on_timer()
         }
     }
 
- return true;
+  return true;
 }
 
 void
 Application::init_platform()
 {
- System::init();
- srand((unsigned int)time(nullptr));
+  System::init();
+  srand((unsigned int)time(nullptr));
 }
 
 void
 Application::init_session()
 {
- session = std::make_shared<Session>();
- session->init();
+  session = std::make_shared<Session>();
+  session->init();
 }
 
 void
@@ -161,50 +159,48 @@ Application::init_core()
 void
 Application::init_bus()
 {
- workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
- if (dbus->is_available())
-   {
-     if (dbus->is_running("org.workrave.Workrave"))
-       {
-         // TODO:
-         
-         // Gtk::MessageDialog dialog(tr("Workrave failed to start"),
-         //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-         // dialog.set_secondary_text(tr("Is Workrave already running?"));
-         // dialog.show();
-         // dialog.run();
-         exit(1);
-       }
+  if (dbus->is_available())
+    {
+      if (dbus->is_running("org.workrave.Workrave"))
+        {
+          // TODO:
+
+          // Gtk::MessageDialog dialog(tr("Workrave failed to start"),
+          //                           false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+          // dialog.set_secondary_text(tr("Is Workrave already running?"));
+          // dialog.show();
+          // dialog.run();
+          exit(1);
+        }
 
 #ifdef HAVE_DBUS
-     try
-       {
-         dbus->register_object_path("/org/workrave/Workrave/UI");
-         dbus->register_service("org.workrave.Workrave");
+      try
+        {
+          dbus->register_object_path("/org/workrave/Workrave/UI");
+          dbus->register_service("org.workrave.Workrave");
 
-         extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
-         init_DBusGUI(dbus);
+          extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+          init_DBusGUI(dbus);
 
-         dbus->connect("/org/workrave/Workrave/UI",
-                      "org.workrave.ControlInterface",
-                       menus.get());
-       }
-     catch (workrave::dbus::DBusException &)
-       {
-       }
+          dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus.get());
+        }
+      catch (workrave::dbus::DBusException &)
+        {
+        }
 #endif
-   }
+    }
 }
 
 void
 Application::init_startup_warnings()
 {
- OperationMode mode = core->get_operation_mode();
- if (mode != OperationMode::Normal)
-   {
-     toolkit->create_oneshot_timer(5000, std::bind(&Application::on_operation_mode_warning_timer, this));
-   }
+  OperationMode mode = core->get_operation_mode();
+  if (mode != OperationMode::Normal)
+    {
+      toolkit->create_oneshot_timer(5000, std::bind(&Application::on_operation_mode_warning_timer, this));
+    }
 }
 
 void
@@ -234,32 +230,29 @@ Application::init_sound_player()
     }
 }
 
-
 void
 Application::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("Application::on_break_event", break_id << " "
-                  << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTER_MSG("Application::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
 
   struct EventMap
   {
     BreakId id;
     BreakEvent break_event;
     SoundEvent sound_event;
-  } event_mappings[] =
-      {
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak,      SoundEvent::MicroBreakStarted },
-        { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken,     SoundEvent::MicroBreakEnded },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored },
-        { BREAK_ID_REST_BREAK,  BreakEvent::ShowBreak,      SoundEvent::RestBreakStarted },
-        { BREAK_ID_REST_BREAK,  BreakEvent::BreakTaken,     SoundEvent::RestBreakEnded },
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude,    SoundEvent::BreakPrelude},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored,   SoundEvent::BreakIgnored},
-        { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      SoundEvent::MicroBreakEnded },
-      };
+  } event_mappings[] = {
+    { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
+    { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
+    { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak, SoundEvent::MicroBreakStarted },
+    { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken, SoundEvent::MicroBreakEnded },
+    { BREAK_ID_REST_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
+    { BREAK_ID_REST_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
+    { BREAK_ID_REST_BREAK, BreakEvent::ShowBreak, SoundEvent::RestBreakStarted },
+    { BREAK_ID_REST_BREAK, BreakEvent::BreakTaken, SoundEvent::RestBreakEnded },
+    { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
+    { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
+    { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak, SoundEvent::MicroBreakEnded },
+  };
 
   for (auto &event_mapping : event_mappings)
     {
@@ -296,7 +289,6 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 //     }
 //   TRACE_EXIT();
 // }
-
 
 // TODO: locale update
 
@@ -341,13 +333,12 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
-  {
-      break_flags = ( BREAK_FLAGS_POSTPONABLE |
-                      BREAK_FLAGS_USER_INITIATED);
+    {
+      break_flags = (BREAK_FLAGS_POSTPONABLE | BREAK_FLAGS_USER_INITIATED);
 
       if (skippable)
         {
-          break_flags |=  BREAK_FLAGS_SKIPPABLE;
+          break_flags |= BREAK_FLAGS_SKIPPABLE;
         }
     }
   else
@@ -357,7 +348,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
           break_flags |= BREAK_FLAGS_POSTPONABLE;
         }
 
-      if(skippable)
+      if (skippable)
         {
           break_flags |= BREAK_FLAGS_SKIPPABLE;
         }
@@ -365,8 +356,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
 
   if (break_hint & BREAK_HINT_NATURAL_BREAK)
     {
-      break_flags |=  (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL |
-                       BREAK_FLAGS_POSTPONABLE);
+      break_flags |= (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;
