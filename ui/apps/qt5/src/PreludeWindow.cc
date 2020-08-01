@@ -47,10 +47,6 @@ PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
   : QWidget(nullptr),
     break_id(break_id),
     screen(screen),
-    progress_value(0),
-    progress_max_value(1),
-    flash_visible(false),
-    did_avoid(false)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));

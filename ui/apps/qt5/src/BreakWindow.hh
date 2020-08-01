@@ -75,12 +75,12 @@ private:
 private:
   workrave::BreakId break_id;
   int screen;
-  GUIConfig::BlockMode block_mode;
   BreakFlags break_flags;
-  Frame *frame;
-  bool is_flashing;
-  QWidget *gui;
-  QWidget *block_window;
+  GUIConfig::BlockMode block_mode;
+  bool is_flashing = false;
+  Frame *frame { nullptr };
+  QWidget *gui { nullptr };
+  QWidget *block_window { nullptr };
 
 #ifdef PLATFORM_OS_OSX
   class Private;

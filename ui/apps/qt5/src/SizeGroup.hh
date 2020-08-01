@@ -36,7 +36,7 @@ private:
   
 private:
   Qt::Orientations orientation;
-  QTimer *timer;
+  QTimer *timer { nullptr };
   QList<QWidget*> widgets;
 };
 

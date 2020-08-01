@@ -92,14 +92,14 @@ private:
   std::shared_ptr<workrave::ICore> core;
   std::shared_ptr<Menus> menus;
   std::shared_ptr<workrave::updater::Updater> updater;
-  int argc;
-  char **argv;
+  int argc { 0 };
+  char **argv { nullptr };
   SoundTheme::Ptr sound_theme;
   BreakWindows break_windows;
   PreludeWindows prelude_windows;
-  workrave::BreakId active_break_id;
+  workrave::BreakId active_break_id { BREAK_ID_NONE};
   Session::Ptr session;
-  bool muted;
+  bool muted { false };
 
   scoped_connections connections;
 };

@@ -61,16 +61,16 @@ private:
   void set_sheep_only(bool sheep_only);
 
 private:  
-  QGridLayout *layout;
+  QGridLayout *layout { nullptr };
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
-  QLabel *sheep;
-  bool reconfigure;
-  int size;
+  QLabel *sheep { nullptr };
+  bool reconfigure = true;
+  int size = 0;
   int current_content[workrave::BREAK_ID_SIZEOF];
   int new_content[workrave::BREAK_ID_SIZEOF];
-  int visible_count;
-  bool sheep_only;
+  int visible_count = -1;
+  bool sheep_only = false;
 };
 
 #endif // TIMERBOXVIEW_HH

@@ -35,7 +35,7 @@ private:
   void on_stop();
 
 private:
-  ExercisesPanel *panel;
+  ExercisesPanel *panel { nullptr };
 };
 
 #endif // EXERCISESDIALOG_HH

@@ -29,8 +29,7 @@
 #include "ExercisesPanel.hh"
 
 ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
-  : QDialog(),
-    panel(nullptr)
+  : QDialog()
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 

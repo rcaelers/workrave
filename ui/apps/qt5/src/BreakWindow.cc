@@ -56,19 +56,12 @@ public:
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(int screen,
-                         BreakId break_id,
-                         BreakFlags break_flags,
-                         GUIConfig::BlockMode mode)
-  : QWidget(nullptr, Qt::Window),
-    break_id(break_id),
-    screen(screen),
-    block_mode(mode),
-    break_flags(break_flags),
-    frame(nullptr),
-    is_flashing(false),
-    gui(nullptr),
-    block_window(nullptr)
+BreakWindow::BreakWindow(QScreen *screen, BreakId break_id, BreakFlags break_flags, GUIConfig::BlockMode mode)
+  : QWidget(nullptr, Qt::Window)
+  , break_id(break_id)
+  , break_flags(break_flags)
+  , block_mode(mode)
+  , screen(screen)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 #ifdef PLATFORM_OS_OSX

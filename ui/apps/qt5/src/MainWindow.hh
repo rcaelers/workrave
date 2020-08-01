@@ -44,7 +44,7 @@ private:
 private:
   std::shared_ptr<ToolkitMenu> menu;
   std::shared_ptr<TimerBoxControl> timer_box_control;
-  TimerBoxView *timer_box_view;
+  TimerBoxView *timer_box_view  { nullptr };
 };
 
 

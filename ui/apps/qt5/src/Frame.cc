@@ -28,12 +28,6 @@
 
 Frame::Frame(QWidget* parent)
   : QWidget(parent),
-    frame_width(0),
-    border_width(0),
-    frame_color(QColor("black")),
-    frame_style(Style::Solid),
-    frame_visible(true),
-    flash_delay(-1),
     heartbeat_timer(new QTimer(this))
 {
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));

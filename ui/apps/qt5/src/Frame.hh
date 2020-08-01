@@ -53,12 +53,12 @@ protected:
 private:
   QRect get_frame_rect() const;
 
-  int frame_width;
-  int border_width;
-  QColor frame_color;
-  Style frame_style;
-  bool frame_visible;
-  int flash_delay;
+  int frame_width { 0 };
+  int border_width { 0 };
+  QColor frame_color { QColor("black") };
+  Style frame_style { Style::Solid };
+  bool frame_visible { true };
+  int flash_delay { -1 };
 
   std::shared_ptr<QTimer> heartbeat_timer;
   boost::signals2::signal<void(bool)> flash_signal;

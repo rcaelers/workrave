@@ -34,12 +34,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-TimerBoxView::TimerBoxView() :
-  sheep(nullptr),
-  reconfigure(true),
-  size(0),
-  visible_count(-1),
-  sheep_only(false)
+TimerBoxView::TimerBoxView()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {

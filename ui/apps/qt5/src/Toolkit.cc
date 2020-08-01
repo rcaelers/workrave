@@ -42,9 +42,6 @@ Toolkit::Toolkit(int argc, char **argv)
 {
 }
 
-Toolkit::~Toolkit()
-= default;
-
 void
 Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 {

@@ -39,9 +39,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
-  : sound_theme(sound_theme),
-    connector(nullptr),
-    enabled_cb(nullptr)
+  : sound_theme(sound_theme)
 {
   connector = std::make_shared<DataConnector>();
 

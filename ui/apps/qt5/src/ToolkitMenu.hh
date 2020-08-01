@@ -72,7 +72,7 @@ namespace detail
 
   private:
     MenuEntries children;
-    QMenu *menu;
+    QMenu *menu =  nullptr;
     scoped_connections connections;
   };
 
@@ -94,7 +94,7 @@ namespace detail
     void on_menu_changed();
 
   private:
-    QAction *action;
+    QAction *action { nullptr };
     scoped_connections connections;
   };
 }

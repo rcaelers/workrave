@@ -43,14 +43,7 @@ std::map<TimerColorId, QColor> TimeBar::bar_colors {
   };
 
 TimeBar::TimeBar(QWidget *parent) :
-  QWidget(parent),
-  bar_color(TimerColorId::Active),
-  secondary_bar_color(TimerColorId::Active),
-  bar_value(0),
-  bar_max_value(0),
-  secondary_bar_value(0),
-  secondary_bar_max_value(0),
-  bar_text_align(0)
+  QWidget(parent)
 {
   setBackgroundRole(QPalette::Base);
   setAutoFillBackground(true);

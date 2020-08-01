@@ -69,24 +69,24 @@ private:
   }
 
   SoundTheme::Ptr sound_theme;
-  QTimer *timer;
-  QLabel *image;
-  QProgressBar *progress_bar;
-  QTextEdit *description_text;
-  QScrollArea *description_scroll;
-  QPushButton *pause_button;
+  QTimer *timer { nullptr };
+  QLabel *image { nullptr };
+  QProgressBar *progress_bar { nullptr };
+  QTextEdit *description_text { nullptr };
+  QScrollArea *description_scroll { nullptr };
+  QPushButton *pause_button { nullptr };
 
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
 
-  int exercise_time;
-  int seq_time;
-  bool paused;
-  bool stopped;
-  int exercise_num;
-  int exercise_count;
+  int exercise_time { 0 };
+  int seq_time { 0 };
+  bool paused { false };
+  bool stopped { false };
+  int exercise_num { 0 };
+  int exercise_count { 0 };
   static int exercises_pointer;
 
   boost::signals2::signal<void()> stop_signal;

@@ -42,9 +42,9 @@ private:
 private:
   DataConnector::Ptr connector;
 
-  QComboBox *block_button;
-  QComboBox *languages_combo;
-  QStandardItemModel *model;
+  QComboBox *block_button { nullptr };
+  QComboBox *languages_combo { nullptr };
+  QStandardItemModel *model { nullptr };
 
 #if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb;

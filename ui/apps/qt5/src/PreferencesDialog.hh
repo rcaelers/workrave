@@ -35,15 +35,14 @@ class PreferencesDialog : public QDialog
 public:
   explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
 
-protected:
-
 private:
   void add_page(const QString &label, const char *image, QWidget *widget);
 
   QWidget *create_timer_page();
   QWidget *create_ui_page(SoundTheme::Ptr sound_theme);
 
-  QTabWidget *notebook;
+private:
+  QTabWidget *notebook { nullptr };
 
   std::shared_ptr<SizeGroup> hsize_group;
   std::shared_ptr<SizeGroup> vsize_group;

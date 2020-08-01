@@ -42,11 +42,8 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit) :
-  toolkit(toolkit),
-  active_break_id(BREAK_ID_NONE),
-  muted(false)
-  //closewarn_shown(false)
+Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
+  : toolkit(toolkit)
 {
   TRACE_ENTER("GUI:GUI");
 

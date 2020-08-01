@@ -47,7 +47,7 @@ class Toolkit : public QApplication, public IToolkit
 
 public:
   Toolkit(int argc, char **argv);
-  ~Toolkit() override;
+  ~Toolkit() override = default;
 
   boost::signals2::signal<void()> &signal_timer() override;
   void init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme) override;
@@ -67,9 +67,9 @@ public Q_SLOTS:
 private:
     
 private:
-  QTimer *heartbeat_timer;
+  QTimer *heartbeat_timer { nullptr };
   
-  MainWindow *main_window;
+  MainWindow *main_window { nullptr };
   std::shared_ptr<StatusIcon> status_icon;
 
   QPointer<PreferencesDialog> preferences_dialog;

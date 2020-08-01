@@ -38,19 +38,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
   : QWidget(nullptr, Qt::Window),
     break_id(break_id),
     hsize_group(hsize_group),
-    vsize_group(vsize_group),
-    enabled_cb(nullptr),
-    auto_natural_cb(nullptr),
-    has_max_prelude_cb(nullptr),
-    ignorable_cb(nullptr),
-    monitor_cb(nullptr),
-    prelude_cb(nullptr),
-    skippable_cb(nullptr),
-    exercises_spin(nullptr),
-    max_prelude_spin(nullptr),
-    auto_reset_tim(nullptr),
-    limit_tim(nullptr),
-    snooze_tim(nullptr)
+    vsize_group(vsize_group)
 {
   connector = std::make_shared<DataConnector>();
 

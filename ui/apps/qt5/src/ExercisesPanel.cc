@@ -36,13 +36,7 @@ int ExercisesPanel::exercises_pointer = 0;
 
 ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   : sound_theme(sound_theme),
-    exercises(Exercise::get_exercises()),
-    exercise_time(0),
-    seq_time(0),
-    paused(false),
-    stopped(false),
-    exercise_num(0),
-    exercise_count(0)
+    exercises(Exercise::get_exercises())
 {
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
 

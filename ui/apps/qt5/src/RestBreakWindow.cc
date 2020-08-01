@@ -37,9 +37,7 @@ using namespace workrave::utils;
 
 RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
-    sound_theme(sound_theme),
-    timebar(nullptr),
-    pluggable_panel(nullptr)
+    sound_theme(sound_theme)
 {
   setWindowTitle(tr("Rest break"));
 }
