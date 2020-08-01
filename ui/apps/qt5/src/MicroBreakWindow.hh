@@ -28,7 +28,7 @@ class MicroBreakWindow : public BreakWindow
   Q_OBJECT
 
 public:
-  MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  MicroBreakWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode);
 
   void set_progress(int value, int max_value) override;
 

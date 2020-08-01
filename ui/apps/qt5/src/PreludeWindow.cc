@@ -21,7 +21,6 @@
 
 #include "PreludeWindow.hh"
 
-
 #include <QtGui>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -43,10 +42,10 @@ using namespace workrave::utils;
 #import <Cocoa/Cocoa.h>
 #endif
 
-PreludeWindow::PreludeWindow(int screen, workrave::BreakId break_id)
+PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
   : QWidget(nullptr),
     break_id(break_id),
-    screen(screen),
+    screen(screen)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -134,8 +133,7 @@ PreludeWindow::start()
   refresh();
   show();
 
-  QDesktopWidget *dw = QApplication::desktop();
-  const QRect rect = dw->screenGeometry(screen);
+  QRect rect = screen->geometry();
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
 
 #ifdef PLATFORM_OS_OSX
@@ -245,9 +243,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::STAGE_MOVE_OUT:
       if (! did_avoid)
         {
-          QDesktopWidget *dw = QApplication::desktop();
-          const QRect rect = dw->screenGeometry(screen);
-
+          const QRect rect = screen->geometry();
           move(x(), rect.y() + SCREEN_MARGIN);
         }
       break;
@@ -284,8 +280,7 @@ PreludeWindow::avoid_pointer(int px, int py)
 {
   const QRect &geo = geometry();
 
-  QDesktopWidget *dw = QApplication::desktop();
-  const QRect rect = dw->screenGeometry(screen);
+  const QRect rect = screen->geometry();
 
   py = rect.height() - py;
 

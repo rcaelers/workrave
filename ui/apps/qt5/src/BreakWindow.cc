@@ -119,8 +119,8 @@ BreakWindow::~BreakWindow()
 void
 BreakWindow::center()
 {
-  QDesktopWidget *dw = QApplication::desktop();
-  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), dw->screenGeometry(screen)));
+  QRect geometry = screen->geometry();
+  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), geometry));
 }
 
 void

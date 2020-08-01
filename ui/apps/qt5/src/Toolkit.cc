@@ -21,7 +21,6 @@
 
 #include "Toolkit.hh"
 
-#include <QDesktopWidget>
 #include <QApplication>
 
 #include "commonui/GUIConfig.hh"
@@ -89,9 +88,12 @@ Toolkit::get_display_name()
 }
 
 IBreakWindow::Ptr
-Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flags)
+Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags break_flags)
 {
   IBreakWindow::Ptr ret;
+
+  QList<QScreen *> screens = QGuiApplication::screens();
+  QScreen *screen = screens.at(screen_index);
 
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
@@ -111,8 +113,11 @@ Toolkit::create_break_window(int screen, BreakId break_id, BreakFlags break_flag
 }
 
 IPreludeWindow::Ptr
-Toolkit::create_prelude_window(int screen, workrave::BreakId break_id)
+Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
+  QList<QScreen *> screens = QGuiApplication::screens();
+  QScreen *screen = screens.at(screen_index);
+
   return std::make_shared<PreludeWindow>(screen, break_id);
 }
 
@@ -167,8 +172,8 @@ Toolkit::show_window(WindowType type)
 int
 Toolkit::get_screen_count() const
 {
-  QDesktopWidget *dw = QApplication::desktop();
-  return dw->screenCount();
+  QList<QScreen *> screens = QGuiApplication::screens();
+  return screens.size();
 }
 
 void

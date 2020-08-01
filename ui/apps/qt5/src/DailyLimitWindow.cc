@@ -26,7 +26,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-DailyLimitWindow::DailyLimitWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
+DailyLimitWindow::DailyLimitWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_DAILY_LIMIT, break_flags, mode)
 {
   setWindowTitle(tr("Daily limit"));

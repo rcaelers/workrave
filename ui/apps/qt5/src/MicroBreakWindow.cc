@@ -34,7 +34,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-MicroBreakWindow::MicroBreakWindow(int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
+MicroBreakWindow::MicroBreakWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode)
 {
   setWindowTitle(Ui::get_break_name(BREAK_ID_MICRO_BREAK));

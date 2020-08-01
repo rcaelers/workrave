@@ -24,6 +24,7 @@
 #include <QMoveEvent>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QScreen>
 
 #include "debug.hh"
 #include "commonui/GUIConfig.hh"
@@ -83,17 +84,19 @@ MainWindow::move_to_start_position()
   int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
 
-  const QDesktopWidget * const desktop = QApplication::desktop();
-  if (head >= desktop->numScreens())
+  QList<QScreen *> screens = QGuiApplication::screens();
+  QScreen *screen = nullptr;
+
+  if (head < 0 || head >= screens.size())
     {
-      head = desktop->primaryScreen();
+      screen = QGuiApplication::primaryScreen();
     }
-  else if (head < 0)
+  else
     {
-      head = 0;
+      screen = screens.at(head);
     }
 
-  const QRect availableGeometry = desktop->availableGeometry(head);
+  const QRect availableGeometry = screen->availableGeometry();
 
   QRect geometry = frameGeometry();
   geometry.moveTo(x, y);

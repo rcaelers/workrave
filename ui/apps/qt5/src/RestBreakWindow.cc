@@ -35,7 +35,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, int screen, BreakFlags break_flags, GUIConfig::BlockMode mode)
+RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
     sound_theme(sound_theme)
 {
@@ -50,7 +50,7 @@ RestBreakWindow::create_gui()
   pluggable_panel = new QHBoxLayout;
   box->addLayout(pluggable_panel);
 
-  if (get_screen() != 0 ||
+  if (// FIXME: get_screen_index() != 0 ||
       get_break_flags() & BREAK_FLAGS_NO_EXERCISES ||
       get_exercise_count() == 0)
     {

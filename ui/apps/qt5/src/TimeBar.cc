@@ -106,11 +106,11 @@ TimeBar::update()
 QSize
 TimeBar::minimumSizeHint() const
 {
-  int width = fontMetrics().width(bar_text);
+  int width = fontMetrics().horizontalAdvance(bar_text);
   int height = fontMetrics().height();
 
   QString full_text = Text::time_to_string(-(59+59*60+9*60*60));
-  int full_width = fontMetrics().width(full_text);
+  int full_width = fontMetrics().horizontalAdvance(full_text);
 
   if (full_width > width)
     {
@@ -230,7 +230,7 @@ void TimeBar::paintEvent(QPaintEvent * /* event */)
     }
 
 
-  int text_width = painter.fontMetrics().width(bar_text);
+  int text_width = painter.fontMetrics().horizontalAdvance(bar_text);
   int text_height = painter.fontMetrics().height();
 
   int text_x;

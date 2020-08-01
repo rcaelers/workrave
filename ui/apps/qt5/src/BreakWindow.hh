@@ -37,7 +37,7 @@ class BreakWindow :
   Q_OBJECT
 
 public:
-  BreakWindow(int screen,
+  BreakWindow(QScreen *screen,
               workrave::BreakId break_id,
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
@@ -50,7 +50,7 @@ public:
 
 protected:
   BreakFlags get_break_flags() const { return break_flags; }
-  int get_screen() { return screen; }
+  QScreen *get_screen() { return screen; }
   void center();
 
   void add_skip_button(QLayout *box);
@@ -74,10 +74,10 @@ private:
 
 private:
   workrave::BreakId break_id;
-  int screen;
   BreakFlags break_flags;
   GUIConfig::BlockMode block_mode;
   bool is_flashing = false;
+  QScreen *screen { nullptr };
   Frame *frame { nullptr };
   QWidget *gui { nullptr };
   QWidget *block_window { nullptr };

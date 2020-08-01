@@ -79,7 +79,7 @@ using namespace workrave::utils;
 - (void)drawRect:(NSRect)aRect;
 { 
   NSRect boundary = [self bounds];
-  [backgroundImage drawInRect:boundary fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+  [backgroundImage drawInRect:boundary fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
 }
 
 - (void)setBackground:(NSImage *)image

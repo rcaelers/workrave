@@ -38,7 +38,7 @@ class PreludeWindow : public QWidget, public IPreludeWindow
   Q_OBJECT
 
 public:
-  PreludeWindow(int screen, workrave::BreakId break_id);
+  PreludeWindow(QScreen *screen , workrave::BreakId break_id);
 
   void start() override;
   void stop() override;
@@ -56,7 +56,7 @@ private:
   const static int SCREEN_MARGIN = 20;
 
   workrave::BreakId break_id;
-  int screen;
+  QScreen *screen { nullptr };
 
   int progress_value = 0;
   int progress_max_value = 1;
