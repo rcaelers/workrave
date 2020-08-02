@@ -96,7 +96,7 @@ private:
   SoundTheme::Ptr sound_theme;
   BreakWindows break_windows;
   PreludeWindows prelude_windows;
-  workrave::BreakId active_break_id { BREAK_ID_NONE};
+  workrave::BreakId active_break_id { workrave::BREAK_ID_NONE};
   Session::Ptr session;
   bool muted { false };
 
