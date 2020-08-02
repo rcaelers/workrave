@@ -28,76 +28,88 @@
 
 #include "utils/ScopedConnections.hh"
 
-typedef std::function<bool (MenuModel::Ptr)> MenuModelFilter;
+typedef std::function<bool(MenuNode::Ptr)> MenuNodeFilter;
 
-namespace detail
+class ContainerMenuEntry;
+class SubMenuEntry;
+
+class MenuEntry : public QObject
 {
-  class MenuEntry: public QObject
-  {
-    Q_OBJECT
+  Q_OBJECT
 
-  public:
-    typedef std::shared_ptr<MenuEntry> Ptr;
-    typedef std::list<Ptr> MenuEntries;
+public:
+  typedef std::shared_ptr<MenuEntry> Ptr;
 
-    Ptr create(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    
-    MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
-    virtual QAction* get_action() const = 0;
-    virtual MenuModel::Ptr get_menu_model() const;
+  MenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter);
 
-  protected:
-    MenuModel::Ptr menu_model;
-    MenuModelFilter filter;
-  };
+  virtual QAction *get_action() const = 0;
 
-  class SubMenuEntry: public MenuEntry
-  {
-    Q_OBJECT
+  MenuNode::Ptr get_menu_node() const;
+  MenuNodeFilter get_filter() const;
 
-  public:
-    typedef std::shared_ptr<SubMenuEntry> Ptr;
+private:
+  MenuNode::Ptr menu_node;
+  MenuNodeFilter filter;
+};
 
-    SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
+class MenuEntryFactory
+{
+public:
+  static MenuEntry::Ptr create(MenuNode::Ptr menu_node, MenuNodeFilter filter);
+};
 
-    QMenu *get_menu() const;
-    QAction* get_action() const override;
+class SubMenuEntry : public MenuEntry
+{
+  Q_OBJECT
 
-  private:
-    void on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before);
-    void on_menu_removed(MenuModel::Ptr removed);
-    void on_menu_changed();
+public:
+  typedef std::shared_ptr<SubMenuEntry> Ptr;
+  typedef std::list<MenuEntry::Ptr> MenuEntries;
 
-    void add_menu(MenuModel::Ptr menu_to_add, MenuModel::Ptr before);
+  SubMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter);
 
-  private:
-    MenuEntries children;
-    QMenu *menu =  nullptr;
-    scoped_connections connections;
-  };
+  QMenu *get_menu() const;
+  QAction *get_action() const override;
+  void init();
 
-  class ActionMenuEntry : public MenuEntry
-  {
-    Q_OBJECT
+private:
+  QMenu *menu{ nullptr };
+  MenuEntries children;
+  scoped_connections connections;
+};
 
-  public:
-    typedef std::shared_ptr<ActionMenuEntry> Ptr;
+class ActionMenuEntry : public MenuEntry
+{
+  Q_OBJECT
 
-    ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter);
+public:
+  ActionMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter);
 
-    QAction* get_action() const override;
+  QAction *get_action() const override;
 
-  public Q_SLOTS:
-    void on_action(bool checked);
+public Q_SLOTS:
+  void on_action(bool checked);
 
-  private:
-    void on_menu_changed();
+private:
+  void on_menu_changed();
 
-  private:
-    QAction *action { nullptr };
-    scoped_connections connections;
-  };
-}
+private:
+  QAction *action{ nullptr };
+  scoped_connections connections;
+};
+
+class SeperatorMenuEntry : public MenuEntry
+{
+  Q_OBJECT
+
+public:
+  SeperatorMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter);
+
+  QAction *get_action() const override;
+
+private:
+  QAction *action{ nullptr };
+};
 
 class ToolkitMenu : public QObject
 {
@@ -106,12 +118,16 @@ class ToolkitMenu : public QObject
 public:
   typedef std::shared_ptr<ToolkitMenu> Ptr;
 
-  ToolkitMenu(MenuModel::Ptr top, MenuModelFilter filter = 0);
+  ToolkitMenu(MenuModel::Ptr menu_node, MenuNodeFilter filter = 0);
 
   QMenu *get_menu() const;
 
 private:
-  detail::SubMenuEntry::Ptr menu;
+  void on_update();
+
+private:
+  SubMenuEntry::Ptr menu;
+  scoped_connections connections;
 };
 
 #endif // TOOLKITMENU_HH

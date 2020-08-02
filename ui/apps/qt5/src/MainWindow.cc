@@ -47,7 +47,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   
   layout->addWidget(timer_box_view);
   
-  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
@@ -78,7 +78,7 @@ MainWindow::heartbeat()
 void
 MainWindow::move_to_start_position()
 {
-  TRACE_ENTER("MainWindow:move_to_start_positionp");
+  TRACE_ENTER("MainWindow:move_to_start_position");
 
   int x = GUIConfig::main_window_x()();
   int y = GUIConfig::main_window_y()();

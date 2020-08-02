@@ -22,29 +22,61 @@
 #include "MenuModel.hh"
 
 MenuModel::MenuModel()
-  : id("workrave:root"), type(MenuModelType::MENU), checked(false)
+{
+  root = std::make_shared<MenuNode>();
+}
+
+MenuNode::Ptr 
+MenuModel::get_root() const
+{
+  return root;
+}
+
+void 
+MenuModel::update()
+{
+  update_signal();
+}
+
+boost::signals2::signal<void()> &
+MenuModel::signal_update()
+{
+  return update_signal;
+}
+
+MenuNode::MenuNode()
+  : id("workrave:root")
+  , type(MenuNodeType::MENU)
 {
 }
 
-MenuModel::MenuModel(const std::string &id, const std::string &text, Activated activated, MenuModelType type)
-  : id(id), text(text), activated(activated), type(type)
+MenuNode::MenuNode(const std::string &id, const std::string &text, Activated activated, MenuNodeType type)
+  : id(id)
+  , text(text)
+  , activated(activated)
+  , type(type)
 {
 }
 
-const MenuModel::MenuModelList
-MenuModel::get_submenus() const
+MenuNode::MenuNode(MenuNodeType type)
+  : type(type)
 {
-  return submenus;
+}
+
+const MenuNode::MenuNodeList
+MenuNode::get_menu_items() const
+{
+  return menu_items;
 }
 
 const std::string &
-MenuModel::get_text() const
+MenuNode::get_text() const
 {
   return text;
 }
 
 void
-MenuModel::set_text(const std::string &text)
+MenuNode::set_text(const std::string &text)
 {
   if (this->text != text)
     {
@@ -54,25 +86,25 @@ MenuModel::set_text(const std::string &text)
 }
 
 std::string
-MenuModel::get_id() const
+MenuNode::get_id() const
 {
   return id;
 }
 
-MenuModelType
-MenuModel::get_type() const
+MenuNodeType
+MenuNode::get_type() const
 {
   return type;
 }
 
 bool
-MenuModel::is_checked() const
+MenuNode::is_checked() const
 {
   return checked;
 }
 
 void
-MenuModel::set_checked(bool checked)
+MenuNode::set_checked(bool checked)
 {
   if (this->checked != checked)
     {
@@ -82,45 +114,31 @@ MenuModel::set_checked(bool checked)
 }
 
 void
-MenuModel::add_menu(MenuModel::Ptr submenu, MenuModel::Ptr before)
+MenuNode::add_menu_item(MenuNode::Ptr item, MenuNode::Ptr before)
 {
-  MenuModelList::iterator pos = submenus.end();
+  MenuNodeList::iterator pos = menu_items.end();
   if (before)
     {
-      pos = std::find(submenus.begin(), submenus.end(), before);
+      pos = std::find(menu_items.begin(), menu_items.end(), before);
     }
 
-  submenus.insert(pos, submenu);
-  added_signal(submenu, before);
+  menu_items.insert(pos, item);
 }
 
 void
-MenuModel::remove_menu(MenuModel::Ptr submenu)
+MenuNode::remove_menu_item(MenuNode::Ptr item)
 {
-  submenus.remove(submenu);
-  removed_signal(submenu);
+  menu_items.remove(item);
 }
 
 void
-MenuModel::activate()
+MenuNode::activate()
 {
   activated();
 }
 
 boost::signals2::signal<void()> &
-MenuModel::signal_changed()
+MenuNode::signal_changed()
 {
   return changed_signal;
-}
-
-boost::signals2::signal<void(MenuModel::Ptr, MenuModel::Ptr)> &
-MenuModel::signal_added()
-{
-  return added_signal;
-}
-
-boost::signals2::signal<void(MenuModel::Ptr)> &
-MenuModel::signal_removed()
-{
-  return removed_signal;
 }

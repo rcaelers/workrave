@@ -37,7 +37,7 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 
   tray_icon = std::make_shared<QSystemTrayIcon>();
 
-  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return true; });
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return true; });
   tray_icon->setContextMenu(menu->get_menu());
 
   ICore::Ptr core = Backend::get_core();

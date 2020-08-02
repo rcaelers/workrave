@@ -74,10 +74,10 @@ private:
 
 private:
   MenuModel::Ptr menu_model;
-  MenuModel::Ptr quiet_item;
-  MenuModel::Ptr suspended_item;
-  MenuModel::Ptr normal_item;
-  MenuModel::Ptr reading_item;
+  MenuNode::Ptr quiet_item;
+  MenuNode::Ptr suspended_item;
+  MenuNode::Ptr normal_item;
+  MenuNode::Ptr reading_item;
 
   std::shared_ptr<IApplication> app;
   std::shared_ptr<IToolkit> toolkit;

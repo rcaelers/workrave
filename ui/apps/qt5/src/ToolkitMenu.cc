@@ -16,15 +16,18 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ToolkitMenu.hh"
 #include "MenuModel.hh"
 
-ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuModelFilter filter)
+ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 {
-  menu = std::make_shared<detail::SubMenuEntry>(menu_model, filter);
+  MenuNode::Ptr root = menu_model->get_root();
+
+  menu = std::make_shared<SubMenuEntry>(root, filter);
+  connections.connect(menu_model->signal_update(), std::bind(&ToolkitMenu::on_update, this));
 }
 
 QMenu *
@@ -33,95 +36,74 @@ ToolkitMenu::get_menu() const
   return menu->get_menu();
 }
 
-namespace detail
+void
+ToolkitMenu::on_update()
 {
+  menu->init();
+}
 
 MenuEntry::Ptr
-MenuEntry::create(MenuModel::Ptr menu_model, MenuModelFilter filter)
+MenuEntryFactory::create(MenuNode::Ptr menu_node, MenuNodeFilter filter)
 {
-  MenuModelType type = menu_model->get_type();
+  switch (menu_node->get_type())
+    {
+    case MenuNodeType::MENU:
+      return std::make_shared<SubMenuEntry>(menu_node, filter);
 
-  if (type == MenuModelType::MENU)
-    {
-      return Ptr(new SubMenuEntry(menu_model, filter));
-    }
-  else
-    {
-      return Ptr(new ActionMenuEntry(menu_model, filter));
+    case MenuNodeType::SEPARATOR:
+      return std::make_shared<SeperatorMenuEntry>(menu_node, filter);
+
+    case MenuNodeType::ACTION:
+    case MenuNodeType::CHECK:
+    case MenuNodeType::RADIO:
+      return std::make_shared<ActionMenuEntry>(menu_node, filter);
     }
 }
 
-MenuEntry::MenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
-  : menu_model(menu_model), filter(filter)
+MenuEntry::MenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
+    : menu_node(menu_node)
+    , filter(filter)
 {
 }
 
-MenuModel::Ptr
-MenuEntry::get_menu_model() const
+MenuNode::Ptr
+MenuEntry::get_menu_node() const
 {
-  return menu_model;
+  return menu_node;
 }
 
-SubMenuEntry::SubMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
-  : MenuEntry(menu_model, filter)
+MenuNodeFilter
+MenuEntry::get_filter() const
 {
-  menu = new QMenu(tr(menu_model->get_text().c_str()));
+  return filter;
+}
 
-  for (const MenuModel::Ptr &item : menu_model->get_submenus())
-    {
-      add_menu(item, nullptr);
-    }
-
-  connections.connect(menu_model->signal_added(), std::bind(&SubMenuEntry::on_menu_added, this, std::placeholders::_1, std::placeholders::_2));
-  connections.connect(menu_model->signal_removed(), std::bind(&SubMenuEntry::on_menu_removed, this, std::placeholders::_1));
-  connections.connect(menu_model->signal_changed(), std::bind(&SubMenuEntry::on_menu_changed, this));
+SubMenuEntry::SubMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
+    : MenuEntry(menu_node, filter)
+{
+  menu = new QMenu(tr(menu_node->get_text().c_str()));
+  init();
 }
 
 void
-SubMenuEntry::add_menu(MenuModel::Ptr menu_to_add, MenuModel::Ptr before)
+SubMenuEntry::init()
 {
-  if (!filter || filter(menu_to_add))
+  MenuNode::Ptr menu_node = get_menu_node();
+  MenuNodeFilter filter = get_filter();
+
+  menu->clear();
+  for (const MenuNode::Ptr &menu_to_add : get_menu_node()->get_menu_items())
     {
-      QAction *before_action = nullptr;
-      MenuEntries::iterator pos = children.end();
-      if (before)
+      const MenuNodeFilter &filter = get_filter();
+
+      if (!filter || filter(menu_to_add))
         {
-          pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menu_model() == before; });
-          if (pos != children.end())
-            {
-              before_action = (*pos)->get_action();
-            }
+          MenuEntry::Ptr child = MenuEntryFactory::create(menu_to_add, filter);
+          children.push_back(child);
+          menu->insertAction(nullptr, child->get_action());
         }
-
-      MenuEntry::Ptr child = MenuEntry::create(menu_to_add, filter);
-      children.insert(pos, child);
-
-      menu->insertAction(before_action, child->get_action());
     }
-}
-
-void
-SubMenuEntry::on_menu_added(MenuModel::Ptr added, MenuModel::Ptr before)
-{
-  add_menu(added, before);
-}
-
-
-void
-SubMenuEntry::on_menu_removed(MenuModel::Ptr removed)
-{
-  MenuEntries::iterator pos = std::find_if(children.begin(), children.end(), [&] (MenuEntry::Ptr i) { return i->get_menu_model() == removed; });
-  if (pos != children.end())
-    {
-      children.erase(pos);
-    }
-}
-
-void
-SubMenuEntry::on_menu_changed()
-{
-  const char *text = menu_model->get_text().c_str();
-  menu->setTitle(text);
+  connections.connect(get_menu_node()->signal_changed(), [this]() { menu->setTitle(get_menu_node()->get_text().c_str()); });
 }
 
 QAction *
@@ -136,15 +118,14 @@ SubMenuEntry::get_menu() const
   return menu;
 }
 
-
-ActionMenuEntry::ActionMenuEntry(MenuModel::Ptr menu_model, MenuModelFilter filter)
-  : MenuEntry(menu_model, filter)
+ActionMenuEntry::ActionMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
+    : MenuEntry(menu_node, filter)
 {
-  connections.connect(menu_model->signal_changed(), std::bind(&ActionMenuEntry::on_menu_changed, this));
+  connections.connect(menu_node->signal_changed(), std::bind(&ActionMenuEntry::on_menu_changed, this));
 
-  action = new QAction(menu_model->get_text().c_str(), this);
-  action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);
-  action->setChecked(menu_model->is_checked());
+  action = new QAction(menu_node->get_text().c_str(), this);
+  action->setCheckable(menu_node->get_type() == MenuNodeType::RADIO || menu_node->get_type() == MenuNodeType::CHECK);
+  action->setChecked(menu_node->is_checked());
 
   connect(action, &QAction::triggered, this, &ActionMenuEntry::on_action);
 }
@@ -160,17 +141,28 @@ ActionMenuEntry::on_menu_changed()
 {
   if (action != nullptr)
     {
-      action->setText(menu_model->get_text().c_str());
-      action->setCheckable(menu_model->get_type() == MenuModelType::RADIO || menu_model->get_type() == MenuModelType::CHECK);
-      action->setChecked(menu_model->is_checked());
+      action->setText(get_menu_node()->get_text().c_str());
+      action->setCheckable(get_menu_node()->get_type() == MenuNodeType::RADIO || get_menu_node()->get_type() == MenuNodeType::CHECK);
+      action->setChecked(get_menu_node()->is_checked());
     }
 }
 
 void
 ActionMenuEntry::on_action(bool checked)
 {
-  menu_model->set_checked(checked);
-  menu_model->activate();
+  get_menu_node()->set_checked(checked);
+  get_menu_node()->activate();
 }
 
+SeperatorMenuEntry::SeperatorMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
+    : MenuEntry(menu_node, filter)
+{
+  action = new QAction(menu_node->get_text().c_str(), this);
+  action->setSeparator(true);
+}
+
+QAction *
+SeperatorMenuEntry::get_action() const
+{
+  return action;
 }

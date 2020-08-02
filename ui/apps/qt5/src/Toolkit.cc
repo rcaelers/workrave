@@ -51,7 +51,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   setAttribute(Qt::AA_UseHighDpiPixmaps, true);
   
 #ifdef PLATFORM_OS_OSX
-  dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuModel::Ptr menu) { return menu->get_id() != Menus::QUIT; });
+  dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
 #endif
 
@@ -162,7 +162,7 @@ Toolkit::show_window(WindowType type)
       if (!exercises_dialog)
         {
           exercises_dialog = new ExercisesDialog(sound_theme);
-          statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
+          exercises_dialog->setAttribute(Qt::WA_DeleteOnClose);
         }
       exercises_dialog->show();
       break;
