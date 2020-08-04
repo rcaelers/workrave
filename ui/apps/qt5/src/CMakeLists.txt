@@ -8,6 +8,7 @@ set(SRC
   ExercisesPanel.cc
   Frame.cc
   GeneralUiPreferencesPanel.cc
+  IconListNotebook.cc
   MainWindow.cc
   MenuModel.cc
   Menus.cc
@@ -52,6 +53,7 @@ qt5_wrap_cpp(MOC_SRC
   ExercisesPanel.hh
   Frame.hh
   GeneralUiPreferencesPanel.hh
+  IconListNotebook.hh
   MainWindow.hh
   MicroBreakWindow.hh
   PreferencesDialog.hh

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "PreferencesDialog.hh"
@@ -29,6 +29,7 @@
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
 
+#include "IconListNotebook.hh"
 #include "GeneralUiPreferencesPanel.hh"
 #include "SoundsPreferencesPanel.hh"
 #include "TimerBoxPreferencesPanel.hh"
@@ -43,29 +44,28 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
 {
   connector = std::make_shared<DataConnector>();
 
-  QVBoxLayout* layout = new QVBoxLayout();
-  layout->setContentsMargins(1, 1, 1, 1);
+  QVBoxLayout *layout = new QVBoxLayout();
   setLayout(layout);
 
-  notebook = new QTabWidget();
+  QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+  QPushButton *close_button = buttonBox->button(QDialogButtonBox::Close);
+  close_button->setAutoDefault(true);
+  close_button->setDefault(true);
+
+  notebook = new IconListNotebook();
   layout->addWidget(notebook);
 
-  notebook->setTabPosition(QTabWidget::West);
-  notebook->setIconSize(QSize(100,100));
+  connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
+  layout->addWidget(buttonBox);
 
   hsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
   vsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
-  
+
   QWidget *timer_page = create_timer_page();
   add_page(tr("Timers"), "time.png", timer_page);
 
   QWidget *gui_page = create_ui_page(sound_theme);
   add_page(tr("User interface"), "display.png", gui_page);
-
-  QDialogButtonBox *buttonBox =  new QDialogButtonBox(QDialogButtonBox::Close);
-  layout->addWidget(buttonBox);
-
-  connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
 }
 
 QWidget *
@@ -77,7 +77,6 @@ PreferencesDialog::create_timer_page()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
-
       QPixmap pixmap(Ui::get_break_icon_filename(i));
       QIcon icon(pixmap);
 
@@ -86,7 +85,6 @@ PreferencesDialog::create_timer_page()
 
   return timer_tab;
 }
-
 
 QWidget *
 PreferencesDialog::create_ui_page(SoundTheme::Ptr sound_theme)
@@ -109,5 +107,5 @@ PreferencesDialog::add_page(const QString &label, const char *image, QWidget *pa
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
 
-  notebook->addTab(page, icon, label);
+  notebook->add_page(page, icon, label);
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2020 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,40 +15,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GENERALUIPREFERENCESPANEL_HH
-#define GENERALUIPREFERENCESPANEL_HH
+#ifndef ICONLISTNOTEBOOK_HH
+#define ICONLISTNOTEBOOK_HH
 
-#include <QtGui>
-#include <QtWidgets>
+#include <QWidget>
+#include <QIcon>
 
-#include "SizeGroup.hh"
-#include "DataConnector.hh"
+QT_BEGIN_NAMESPACE
+class QStackedWidget;
+class QVBoxLayout;
+class QHBoxLayout;
+class QButtonGroup;
+QT_END_NAMESPACE
 
-class GeneralUiPreferencesPanel : public QWidget
+class IconListNotebook : public QWidget
 {
   Q_OBJECT
 
 public:
-  GeneralUiPreferencesPanel();
-  ~GeneralUiPreferencesPanel();
+  IconListNotebook(QWidget *parent = 0);
+
+  QSize sizeHint() const;
+
+  void add_page(QWidget *page, const QIcon &icon, const QString &title);
+
+public Q_SLOTS:
+  void set_index(int index);
 
 private:
-  void on_block_changed();
-
-#ifdef PLATFORM_OS_WINDOWS
-  void on_autostart_toggled();
-#endif
-
-private:
-  DataConnector::Ptr connector;
-
-  QComboBox *block_button{ nullptr };
-  QComboBox *languages_combo{ nullptr };
-  QStandardItemModel *model{ nullptr };
-
-#if defined(PLATFORM_OS_WINDOWS)
-  QCheckBox *autostart_cb;
-#endif
+  QButtonGroup *button_group{ nullptr };
+  QHBoxLayout *layout{ nullptr };
+  QVBoxLayout *button_layout{ nullptr };
+  QStackedWidget *content{ nullptr };
 };
 
-#endif // GENERALUIPREFERENCESPANEL_HH
+#endif

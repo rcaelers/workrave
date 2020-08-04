@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #define HAVE_LANGUAGE_SELECTION
@@ -43,7 +43,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 #if defined(PLATFORM_OS_WINDOWS)
-#define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+#  define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #endif
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
@@ -70,7 +70,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
     }
   block_button->setCurrentIndex(block_idx);
 
-  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(block_button, signal, this, &GeneralUiPreferencesPanel::on_block_changed);
 
   // Options
@@ -110,7 +110,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   model->setItem(0, 1, new QStandardItem(""));
 
   QLocale current_locale;
-  
+
   int row = 1;
   int selected = 0;
   for (auto code : all_linguas)
@@ -122,7 +122,6 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
       QLocale l(QString::fromStdString(code));
 
-      
       QString language = l.nativeLanguageName();
       QString country = l.nativeCountryName();
 
@@ -130,18 +129,18 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
         {
           language = QString::fromStdString(code);
         }
-      
+
       if (country != "")
         {
           language += " (" + country + ")";
         }
-      
+
       model->setItem(row, 0, new QStandardItem(language));
 
       QStandardItem *item = new QStandardItem("");
       item->setTextAlignment(Qt::AlignRight);
       model->setItem(row, 1, item);
-          
+
       item = new QStandardItem(code.c_str());
       model->setItem(row, 2, item);
 
@@ -192,12 +191,12 @@ GeneralUiPreferencesPanel::on_autostart_toggled()
 
   // if (on)
   //   {
-      //string appdir = Util::get_application_directory();
+  // string appdir = Util::get_application_directory();
 
-      //value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
+  // value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
   //}
 
-  //Util::registry_set_value(RUNKEY, "Workrave", value);
+  // Util::registry_set_value(RUNKEY, "Workrave", value);
 }
 #endif
 
@@ -219,4 +218,3 @@ GeneralUiPreferencesPanel::on_block_changed()
     }
   GUIConfig::block_mode().set(m);
 }
-

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "TimerBoxPreferencesPanel.hh"
@@ -40,14 +40,14 @@ using namespace workrave;
 using namespace workrave::config;
 
 TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
-  : name(name)
+    : name(name)
 {
   connector = std::make_shared<DataConnector>();
 
   ontop_cb = new QCheckBox;
   enabled_cb = new QCheckBox();
   place_button = new QComboBox();
-  for (auto & button : timer_display_button)
+  for (auto &button : timer_display_button)
     {
       button = new QComboBox;
     }
@@ -79,7 +79,8 @@ TimerBoxPreferencesPanel::init_enabled()
       enabled_cb->setText(tr("Applet enabled"));
     }
 
-  connector->connect(GUIConfig::timerbox_enabled(name), dc::wrap(enabled_cb),
+  connector->connect(GUIConfig::timerbox_enabled(name),
+                     dc::wrap(enabled_cb),
                      std::bind(&TimerBoxPreferencesPanel::on_enabled_toggled, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -120,7 +121,7 @@ TimerBoxPreferencesPanel::init_placement()
     }
   place_button->setCurrentIndex(place);
 
-  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(place_button, signal, this, &TimerBoxPreferencesPanel::on_place_changed);
 }
 
@@ -144,7 +145,8 @@ TimerBoxPreferencesPanel::init_timer_display()
       button->addItem(tr("Show"));
       button->addItem(tr("Show only when this timer is first due"));
 
-      connector->connect(GUIConfig::timerbox_flags(name, i), dc::wrap(timer_display_button[i]),
+      connector->connect(GUIConfig::timerbox_flags(name, i),
+                         dc::wrap(timer_display_button[i]),
                          std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
     }
 }
@@ -190,7 +192,6 @@ TimerBoxPreferencesPanel::init()
   layout->addStretch();
 
   init_config();
-
 }
 
 bool
@@ -204,7 +205,6 @@ TimerBoxPreferencesPanel::on_enabled_toggled(const std::string &key, bool write)
     }
   return false;
 }
-
 
 bool
 TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::string &key, bool write)
@@ -316,7 +316,6 @@ TimerBoxPreferencesPanel::enable_buttons()
           timer_display_button[i]->setEnabled(on && timer_on);
         }
       cycle_entry->setEnabled(on && num_disabled != 3);
-
     }
   else if (name == "main_window")
     {
@@ -329,7 +328,7 @@ TimerBoxPreferencesPanel::enable_buttons()
       if (num_disabled == 3)
         {
           GUIConfig::timerbox_enabled(name).set(false);
-          //enabled_cb->setCheckState(Qt::Checked);
+          // enabled_cb->setCheckState(Qt::Checked);
         }
       enabled_cb->setEnabled(num_disabled != 3);
       place_button->setEnabled(num_disabled != 3);

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "SoundsPreferencesPanel.hh"
@@ -39,7 +39,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
-  : sound_theme(sound_theme)
+    : sound_theme(sound_theme)
 {
   connector = std::make_shared<DataConnector>();
 
@@ -90,7 +90,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 
   update_theme_selection();
 
-  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(sound_theme_button, signal, this, &SoundsPreferencesPanel::on_sound_theme_changed);
 
   sounds_model = new QStandardItemModel();
@@ -150,7 +150,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
 }
 
 void
-SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex & index)
+SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex &index)
 {
   // TODO:
 }

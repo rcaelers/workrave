@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "TimerPreferencesPanel.hh"
@@ -35,14 +35,13 @@ using namespace workrave;
 using namespace workrave::config;
 
 TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<SizeGroup> hsize_group, std::shared_ptr<SizeGroup> vsize_group)
-  : QWidget(nullptr, Qt::Window),
-    break_id(break_id),
-    hsize_group(hsize_group),
-    vsize_group(vsize_group)
+    : break_id(break_id)
+    , hsize_group(hsize_group)
+    , vsize_group(vsize_group)
 {
   connector = std::make_shared<DataConnector>();
 
-  QVBoxLayout* layout = new QVBoxLayout();
+  QVBoxLayout *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
@@ -62,8 +61,8 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
   grid->addWidget(prelude, 0, 1);
   grid->addWidget(option, 1, 0);
 
-  grid->setColumnStretch(0,1);
-  grid->setColumnStretch(1,1);
+  grid->setColumnStretch(0, 1);
+  grid->setColumnStretch(1, 1);
 
   connector->connect(CoreConfig::break_enabled(break_id), dc::wrap(enabled_cb));
 }
@@ -71,7 +70,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id, std::shared_ptr<S
 QWidget *
 TimerPreferencesPanel::create_prelude_panel()
 {
-  QGroupBox *box =new QGroupBox(tr("Break prompting"));
+  QGroupBox *box = new QGroupBox(tr("Break prompting"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
@@ -159,9 +158,7 @@ TimerPreferencesPanel::create_timers_panel()
   int row = 0;
 
   limit_tim = new TimeEntry();
-  QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT
-                                 ? tr("Time before end:")
-                                 : tr("Time between breaks:"));
+  QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT ? tr("Time before end:") : tr("Time between breaks:"));
 
   layout->addWidget(limit_lab, row, 0);
   layout->addWidget(limit_tim, row, 1);
@@ -299,9 +296,9 @@ TimerPreferencesPanel::enable_buttons()
   limit_tim->setEnabled(on);
   if (break_id == BREAK_ID_REST_BREAK)
     {
-        auto_reset_tim->setEnabled(on);
-        auto_natural_cb->setEnabled(on);
-        exercises_spin->setEnabled(on);
+      auto_reset_tim->setEnabled(on);
+      auto_natural_cb->setEnabled(on);
+      exercises_spin->setEnabled(on);
     }
   else
     {

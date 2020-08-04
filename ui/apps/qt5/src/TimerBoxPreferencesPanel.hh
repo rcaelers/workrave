@@ -54,12 +54,12 @@ private:
   DataConnector::Ptr connector;
   std::string name;
 
-  QVBoxLayout *layout { nullptr };
-  QCheckBox *ontop_cb { nullptr };
-  QCheckBox *enabled_cb { nullptr };
-  QComboBox *place_button { nullptr };
+  QVBoxLayout *layout{ nullptr };
+  QCheckBox *ontop_cb{ nullptr };
+  QCheckBox *enabled_cb{ nullptr };
+  QComboBox *place_button{ nullptr };
   QComboBox *timer_display_button[workrave::BREAK_ID_SIZEOF];
-  QSpinBox *cycle_entry { nullptr };
+  QSpinBox *cycle_entry{ nullptr };
 
   scoped_connections connections;
 };

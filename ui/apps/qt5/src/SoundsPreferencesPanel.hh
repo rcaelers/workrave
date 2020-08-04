@@ -34,7 +34,7 @@ public:
 
 private:
   void on_sound_theme_changed(int index);
-  void on_sound_item_activated(const QModelIndex & index);
+  void on_sound_item_activated(const QModelIndex &index);
   void on_select_sound();
   void on_play_sound();
   void on_sound_selected(const QString &filename);
@@ -48,11 +48,11 @@ private:
   SoundTheme::Ptr sound_theme;
   DataConnector::Ptr connector;
 
-  QCheckBox *enabled_cb { nullptr };
-  QComboBox *sound_theme_button { nullptr };
-  QStandardItemModel *sound_theme_model { nullptr };
-  QTreeView *sounds_view { nullptr };
-  QStandardItemModel *sounds_model { nullptr };
+  QCheckBox *enabled_cb{ nullptr };
+  QComboBox *sound_theme_button{ nullptr };
+  QStandardItemModel *sound_theme_model{ nullptr };
+  QTreeView *sounds_view{ nullptr };
+  QStandardItemModel *sounds_model{ nullptr };
 };
 
 #endif // SOUNDSPREFERENCESPANEL_HH

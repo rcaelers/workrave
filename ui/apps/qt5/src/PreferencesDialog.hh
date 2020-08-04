@@ -28,6 +28,8 @@
 #include "DataConnector.hh"
 #include "SizeGroup.hh"
 
+class IconListNotebook;
+
 class PreferencesDialog : public QDialog
 {
   Q_OBJECT
@@ -42,7 +44,7 @@ private:
   QWidget *create_ui_page(SoundTheme::Ptr sound_theme);
 
 private:
-  QTabWidget *notebook { nullptr };
+  IconListNotebook *notebook{ nullptr };
 
   std::shared_ptr<SizeGroup> hsize_group;
   std::shared_ptr<SizeGroup> vsize_group;
