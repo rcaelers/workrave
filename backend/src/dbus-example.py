@@ -8,10 +8,10 @@ import dbus.glib
 import time
 import gobject
 
+# Prints out all signals workrave sends regarding changes in break states
 class WorkraveDBus:
 
     def __init__(self):
-
         bus = dbus.SessionBus()
         obj = bus.get_object("org.workrave.Workrave", "/org/workrave/Workrave/Core")
 
@@ -35,7 +35,6 @@ class WorkraveDBus:
         self.on_break_changed("dailylimit", progress)
 
     def on_break_changed(self, breakid, progress, sender=None):
-
         if progress == "prelude":
             print "Break warning %s" % breakid
         elif progress == "break":
@@ -65,7 +64,6 @@ class WorkraveDBus:
             print "Break %s postponed"
 
 if __name__ == '__main__':
-
     d = WorkraveDBus()
 
     loop = gobject.MainLoop()
