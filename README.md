@@ -67,5 +67,15 @@ For OS X, the following steps will install sufficient packages
 ## Troubleshooting
 
 ### Show timers applet in Cinnamon
-
 To make timers visible you need to explicitly add Workrave applet to a panel. In the other case only workrave icon is shown.
+
+## Technical Information
+Have a look at the [contrib](./contrib) directory to get a little insight into the different scripting possibilities!
+
+### Unix/Linux
+- Workrave uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration. 
+  `dconf-editor` can be used to explore and manipulate the values - be careful!
+- Workrave can receive [dbus](https://www.freedesktop.org/wiki/Software/dbus/) signals.
+  Explore by having a look at the [example python script](./backend/src/dbus-example.py) or viewing in `qdbusviewer` (part of the `qttools5-dev-tools` package in Ubuntu).
+
+In both of these, workrave is found under the `org.workrave` key.
