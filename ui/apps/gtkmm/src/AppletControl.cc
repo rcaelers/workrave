@@ -102,7 +102,7 @@ AppletControl::init()
 #endif
 
 #ifdef PLATFORM_OS_MACOS
-  applets[APPLET_MacOS] = new MacOSAppletWindow();
+  applets[APPLET_MACOS] = new MacOSAppletWindow();
 #endif
 
   for (int i = 0; i < APPLET_SIZE; i++)
@@ -145,7 +145,7 @@ AppletControl::show()
       specific = true;
     }
 
-  rc = activate_applet(APPLET_MacOS);
+  rc = activate_applet(APPLET_MACOS);
   TRACE_MSG("MacOS " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
