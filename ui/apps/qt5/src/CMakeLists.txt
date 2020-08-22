@@ -28,7 +28,6 @@ set(SRC
   TimerPreferencesPanel.cc
   Toolkit.cc
   ToolkitMenu.cc
-  ToolkitPlatformMac.cc
   Ui.cc
   UiUtil.cc
   main.cc
@@ -39,7 +38,20 @@ if (PLATFORM_OS_MACOS)
   set(SRC ${SRC}
     Dock.mm
     MouseMonitor.cc
+    ToolkitPlatformMac.cc
     )
+endif()
+
+if (PLATFORM_OS_UNIX)
+  set(SRC ${SRC}
+    ToolkitPlatformLinux.cc
+  )
+endif()
+
+if (PLATFORM_OS_WINDOWS)
+  set(SRC ${SRC}
+    ToolkitPlatformWindows.cc
+  )
 endif()
 
 set(DESIGNER_UI
