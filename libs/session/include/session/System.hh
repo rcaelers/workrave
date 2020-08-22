@@ -121,8 +121,8 @@ private:
 #endif // defined(PLATFORM_OS_UNIX)
 
 #if defined(PLATFORM_OS_WINDOWS)
-  void init_windows_lock_commands();
-  void init_windows_system_state_commands();
+  static void init_windows_lock_commands();
+  static void init_windows_system_state_commands();
 #endif // PLATFORM_OS_WINDOWS
 };
 
