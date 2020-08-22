@@ -23,8 +23,8 @@
 #ifdef PLATFORM_OS_WINDOWS
 #include "W32InputMonitorFactory.hh"
 #endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXInputMonitorFactory.hh"
+#ifdef PLATFORM_OS_MACOS
+#include "MacOSInputMonitorFactory.hh"
 #endif
 #ifdef PLATFORM_OS_UNIX
 #include "UnixInputMonitorFactory.hh"
@@ -42,8 +42,8 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
     {
 #if defined(PLATFORM_OS_WINDOWS)
       factory = new W32InputMonitorFactory(config);
-#elif defined(PLATFORM_OS_OSX)
-      factory = new OSXInputMonitorFactory(config);
+#elif defined(PLATFORM_OS_MACOS)
+      factory = new MacOSInputMonitorFactory(config);
 #elif defined(PLATFORM_OS_UNIX)
       factory = new UnixInputMonitorFactory(config);
 #endif

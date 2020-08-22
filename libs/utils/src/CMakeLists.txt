@@ -16,7 +16,7 @@ if (PLATFORM_OS_UNIX)
   set(SRC ${SRC} Platform-unix.cc)
 endif()
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   set(SRC ${SRC} Platform-unix.cc)
 endif()
 

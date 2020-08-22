@@ -106,7 +106,7 @@ CoreModes::set_operation_mode_override(OperationMode mode, const std::string &id
     {
       return;
     }
-    
+
   set_operation_mode_internal(mode, false, id);
 }
 
@@ -121,9 +121,9 @@ CoreModes::remove_operation_mode_override(const std::string &id)
     {
       return;
     }
-  
+
   operation_mode_overrides.erase(id);
-  
+
   /* If there are other overrides still in the queue then pass in the first
      override in the map. set_operation_mode_internal() will then search the
      map for the most important override and set it as the active operation mode.

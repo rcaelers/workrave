@@ -81,34 +81,34 @@ Ui::get_sound_event_name(SoundEvent event)
     {
     case SoundEvent::BreakPrelude:
       return _("Break prompt");
-      
+
     case SoundEvent::BreakIgnored:
       return _("Break ignored");
-      
+
     case SoundEvent::RestBreakStarted:
       return _("Rest break started");
-      
+
     case SoundEvent::RestBreakEnded:
       return _("Rest break ended");
-      
+
     case SoundEvent::MicroBreakStarted:
       return _("Micro-break started");
-      
+
     case SoundEvent::MicroBreakEnded:
       return _("Micro-break ended");
-      
+
     case SoundEvent::DailyLimit:
       return _("Daily limit");
-      
+
     case SoundEvent::ExerciseEnded:
       return _("Exercise ended");
-      
+
     case SoundEvent::ExercisesEnded:
       return _("Exercises ended");
-      
+
     case SoundEvent::ExerciseStep:
       return _("Exercise change");
-      
+
     default:
       return _("?");
     }

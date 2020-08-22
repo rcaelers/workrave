@@ -1,6 +1,6 @@
-// OSXConfigurator.hh
+// MacOSHelpers.hh --- Helpers for OS X
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2017 Tom Parker
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXCONFIGURATOR_HH
-#define OSXCONFIGURATOR_HH
+#ifndef WORKRAVE_UTILS_MACOS_HELPERS_HH
+#define WORKRAVE_UTILS_MACOS_HELPERS_HH
 
-#include <string>
-#include <list>
-#include <map>
+#include <pthread.h>
 
-#include "IConfigBackend.hh"
+#ifndef _MACH_PORT_T
+#define _MACH_PORT_T
+#include <sys/_types.h> /* __darwin_mach_port_t */
+typedef __darwin_mach_port_t mach_port_t;
+mach_port_t pthread_mach_thread_np(pthread_t);
+#endif /* _MACH_PORT_T */
 
-class OSXConfigurator :
-  public virtual IConfigBackend
-{
-public:
-  OSXConfigurator();
-  ~OSXConfigurator() override;
+#include <mach-o/dyld.h>
+#include <sys/param.h>
 
-  bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
-
-  bool remove_key(const std::string &key) override;
-  bool get_value(const std::string &key, VariantType type, Variant &value) const override;
-  bool set_value(const std::string &key, Variant &value) override;
-};
-
-#endif // OSXCONFIGURATOR_HH
+#endif

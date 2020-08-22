@@ -1,6 +1,4 @@
-// OSXSoundPlayer.hh
-//
-// Copyright (C) 2007, 2008, 2009, 2010, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2020 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXSOUNDPLAYER_HH
-#define OSXSOUNDPLAYER_HH
+#ifndef ITOOLKITPLATFORM_HH
+#define ITOOLKITPLATFORM_HH
 
-#include "ISoundDriver.hh"
+#include <QtGui>
 
-class OSXSoundPlayer : public ISoundDriver
+class IToolkitPlatform
 {
 public:
-  OSXSoundPlayer();
+  typedef std::shared_ptr<IToolkitPlatform> Ptr;
 
-  void init(ISoundPlayerEvents *) override;
-  bool capability(workrave::audio::SoundCapability cap) override;
-  void play_sound(std::string wavfile, int volume) override;
+  virtual ~IToolkitPlatform() {}
 
-  void fire_eos();
+  virtual QPixmap get_desktop_image() = 0;
 
-private:
-  ISoundPlayerEvents *events;
+  virtual void foreground() = 0;
+  virtual void restore_foreground() = 0;
 
-private:
-  class Private;
-  std::shared_ptr<Private> priv;
+  virtual void lock() = 0;
+  virtual void unlock() = 0;
+
 };
 
-
-#endif // OSXSOUNDPLAYER_HH
+#endif // ITOOLKITPLATFORM_HH

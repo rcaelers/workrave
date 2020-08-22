@@ -47,7 +47,7 @@ IconListNotebook::IconListNotebook(QWidget *parent)
   QFrame *button_box = new QFrame;
   button_box->setFrameShape(QFrame::StyledPanel);
   button_box->setLayout(button_stretch_layout);
-  
+
   layout = new QHBoxLayout;
   layout->setSpacing(4);
   layout->setContentsMargins(0, 0, 0, 0);

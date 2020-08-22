@@ -36,8 +36,9 @@
 #include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
 #include "ToolkitMenu.hh"
+#include "IToolkitPlatform.hh"
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 #include "Dock.hh"
 #endif
 
@@ -65,10 +66,10 @@ public Q_SLOTS:
   void on_timer();
 
 private:
-    
+
 private:
   QTimer *heartbeat_timer { nullptr };
-  
+
   MainWindow *main_window { nullptr };
   std::shared_ptr<StatusIcon> status_icon;
 
@@ -77,13 +78,14 @@ private:
   QPointer<AboutDialog> about_dialog;
   QPointer<StatisticsDialog> statistics_dialog;
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   std::shared_ptr<Dock> dock;
   std::shared_ptr<ToolkitMenu> dock_menu;
 #endif
 
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
+  std::shared_ptr<IToolkitPlatform> platform;
 
   boost::signals2::signal<void()> timer_signal;
 

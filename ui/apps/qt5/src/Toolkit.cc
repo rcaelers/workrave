@@ -32,6 +32,14 @@
 #include "RestBreakWindow.hh"
 #include "UiUtil.hh"
 
+#if defined(PLATFORM_OS_MACOS)
+#include "ToolkitPlatformMac.hh"
+#elif defined(PLATFORM_OS_WINDOWS)
+#include "ToolkitPlatformWindows.hh"
+#elif defined(PLATFORM_OS_LINUX)
+#include "ToolkitPlatformLinux.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::config;
 
@@ -49,8 +57,8 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   setQuitOnLastWindowClosed(false);
   setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-  
-#ifdef PLATFORM_OS_OSX
+
+#ifdef PLATFORM_OS_MACOS
   dock_menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return menu->get_id() != Menus::QUIT; });
   dock_menu->get_menu()->setAsDockMenu();
 #endif
@@ -64,8 +72,13 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   main_window->show();
   main_window->raise();
 
-#ifdef PLATFORM_OS_OSX
+#if defined(PLATFORM_OS_MACOS)
   dock = std::make_shared<Dock>();
+  platform = std::make_shared<ToolkitPlatformMac>();
+#elif defined(PLATFORM_OS_WINDOWS)
+  platform = std::make_shared<ToolkitPlatformWindows>();
+#elif defined(PLATFORM_OS_LINUX)
+  platform = std::make_shared<ToolkitPlatformLinux>();
 #endif
 }
 
@@ -95,18 +108,17 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
   QList<QScreen *> screens = QGuiApplication::screens();
   QScreen *screen = screens.at(screen_index);
 
-  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
    {
-     ret = std::make_shared<MicroBreakWindow>(screen, break_flags, block_mode);
+     ret = std::make_shared<MicroBreakWindow>(platform, screen, break_flags);
    }
   else if (break_id == BREAK_ID_REST_BREAK)
    {
-     ret = std::make_shared<RestBreakWindow>(sound_theme, screen, break_flags, block_mode);
+     ret = std::make_shared<RestBreakWindow>(platform, sound_theme, screen, break_flags);
    }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
    {
-     ret = std::make_shared<DailyLimitWindow>(screen, break_flags, block_mode);
+     ret = std::make_shared<DailyLimitWindow>(platform, screen, break_flags);
    }
 
   return ret;

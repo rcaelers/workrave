@@ -75,7 +75,7 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
         pThis = (TimeBar *)( lpcs->lpCreateParams );
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, 
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
                      SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
       }
       break;
@@ -305,15 +305,15 @@ TimeBar::init(HINSTANCE hinst)
       ZeroMemory( &ncm, sizeof( ncm ) );
       ncm.cbSize = sizeof( ncm );
       ncm.lfStatusFont = lfDefault;
-    
+
       if (!SystemParametersInfo( SPI_GETNONCLIENTMETRICS, sizeof( ncm ), &ncm, 0 ))
         // If SystemParametersInfo fails, use my default.
-        // Now that we're filling a pre-vista NCM struct, there 
+        // Now that we're filling a pre-vista NCM struct, there
         // shouldn't be any problem though, regardless of target.
         {
           ncm.lfStatusFont = lfDefault;
         }
-      
+
       bar_font = CreateFontIndirect(&ncm.lfStatusFont);
     }
   TRACE_EXIT();

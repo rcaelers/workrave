@@ -28,7 +28,7 @@
 #include "IPreludeWindow.hh"
 #include "TimeBar.hh"
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 #include "MouseMonitor.hh"
 #endif
 
@@ -72,7 +72,7 @@ private:
   Frame* frame { nullptr };
   scoped_connections connections;
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   MouseMonitor::Ptr mouse_monitor;
 #endif
 };

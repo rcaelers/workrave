@@ -16,16 +16,18 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "SizeGroup.hh"
 
 #include <QWidget>
 
-SizeGroup::SizeGroup(Qt::Orientations orientation, QObject* parent) : QObject(parent), orientation(orientation)
+SizeGroup::SizeGroup(Qt::Orientations orientation, QObject *parent)
+    : QObject(parent)
+    , orientation(orientation)
 {
-  timer = new QTimer;
+  timer = new QTimer(this);
   timer->setSingleShot(true);
   timer->setInterval(0);
 
@@ -33,7 +35,7 @@ SizeGroup::SizeGroup(Qt::Orientations orientation, QObject* parent) : QObject(pa
 }
 
 void
-SizeGroup::addWidget(QWidget* widget)
+SizeGroup::add_widget(QWidget *widget)
 {
   widgets.append(widget);
   widget->installEventFilter(this);
@@ -57,13 +59,13 @@ SizeGroup::update()
   int width = 0;
   int height = 0;
 
-  Q_FOREACH(QWidget* widget, widgets)
+  Q_FOREACH (QWidget *widget, widgets)
     {
       width = qMax(widget->sizeHint().width(), width);
       height = qMax(widget->sizeHint().height(), height);
     }
 
-  Q_FOREACH(QWidget* widget, widgets)
+  Q_FOREACH (QWidget *widget, widgets)
     {
       if (orientation | Qt::Horizontal)
         {
@@ -73,5 +75,6 @@ SizeGroup::update()
         {
           widget->setMinimumHeight(height);
         }
+      widget->updateGeometry();
     }
 }

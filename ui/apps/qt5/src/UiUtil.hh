@@ -34,7 +34,7 @@ public:
   static QLabel *create_label_with_tooltip(const QString &text, const QString &tooltip);
   static QPushButton *create_image_button(const QString &filename);
   static QPushButton *create_image_text_button(const QString &filename, const QString &text);
-  
+
   static void clear_layout(QLayout* layout);
 
   static void add_widget(QBoxLayout *layout, const QString &text, QWidget* widget);

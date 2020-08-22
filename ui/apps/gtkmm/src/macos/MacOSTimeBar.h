@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ColorId.h"
 
-@interface OSXTimeBar : NSObject
+@interface MacOSTimeBar : NSObject
 {
   //! Color of the time-bar.
   enum ColorId color;

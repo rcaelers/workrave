@@ -104,7 +104,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   Gtk::Widget *timer_page = Gtk::manage(create_timer_page());
   Gtk::Notebook *gui_page = Gtk::manage(new Gtk::Notebook());
 
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   Gtk::Widget *gui_general_page = Gtk::manage(create_gui_page());
   gui_page->append_page(*gui_general_page, _("General"));
 #endif
@@ -115,7 +115,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   Gtk::Widget *gui_mainwindow_page = Gtk::manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   Gtk::Widget *gui_applet_page = Gtk::manage(create_applet_page());
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif

@@ -19,8 +19,8 @@
 #include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#include "MacOSHelpers.hh"
 #endif
 
 #include "debug.hh"

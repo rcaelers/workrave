@@ -25,8 +25,8 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#include "MacOSHelpers.hh"
 #endif
 
 #include <cstdlib>
@@ -88,7 +88,7 @@ AssetPath::get_home_directory()
       // Default to current directory
       ret = "./";
 
-#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_OSX)
+#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
       const char *home = getenv("WORKRAVE_HOME");
 
       if (home == nullptr)
@@ -184,7 +184,7 @@ AssetPath::get_search_path(SearchPathId type)
   string home_dir = get_home_directory();
 #if defined(PLATFORM_OS_WINDOWS)
   string app_dir = Platform::get_application_directory();
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   char execpath[MAXPATHLEN+1];
   uint32_t pathsz = sizeof (execpath);
 
@@ -209,7 +209,7 @@ AssetPath::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\images");
 
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
       searchPath.insert(app_dir +  "/../Resources/images");
 #endif
@@ -226,7 +226,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\sounds");
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
       searchPath.insert(app_dir +  "/../Resources/sounds");
 #endif
@@ -245,7 +245,7 @@ AssetPath::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(home_dir + "\\");
       searchPath.insert(app_dir + "\\etc");
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.insert(home_dir + "/");
       searchPath.insert(app_dir +  "/../Resources/config");
@@ -257,7 +257,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\exercises");
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
       searchPath.insert(app_dir +  "/../Resources/exercises");
 #else

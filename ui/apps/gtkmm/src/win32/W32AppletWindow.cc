@@ -308,7 +308,7 @@ W32AppletWindow::run_event_pipe()
 
     if( ( wait_result == WAIT_FAILED ) || ( wait_result == ( WAIT_OBJECT_0 + 0 ) ) )
       break;
-    
+
     if( heartbeat_data.enabled && ( wait_result == ( WAIT_OBJECT_0 + 1 ) ) )
     {
       EnterCriticalSection( &heartbeat_data_lock );

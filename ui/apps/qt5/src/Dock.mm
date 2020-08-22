@@ -51,7 +51,7 @@ using namespace workrave::utils;
 - (id)initWithFrame:(NSRect)frame parent:(DockPrivate*)parent;
 @end
 
-@interface DockTileView : NSView 
+@interface DockTileView : NSView
 {
   DockPrivate *p;
   DockTileBackground *dockTileBackground;
@@ -67,7 +67,7 @@ using namespace workrave::utils;
 - (id)initWithFrame:(NSRect)frame parent:(DockPrivate*)parent
 {
   self = [super initWithFrame:frame];
-  
+
   if (self != nil)
     {
       p = parent;
@@ -77,7 +77,7 @@ using namespace workrave::utils;
 }
 
 - (void)drawRect:(NSRect)aRect;
-{ 
+{
   NSRect boundary = [self bounds];
   [backgroundImage drawInRect:boundary fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
 }
@@ -93,12 +93,12 @@ using namespace workrave::utils;
 - (id)initWithFrame:(NSRect)frame parent:(DockPrivate*)parent
 {
   self = [super initWithFrame:frame];
-  
+
   if (self != nil)
     {
       p = parent;
     }
-  
+
   return self;
 }
 
@@ -111,23 +111,23 @@ using namespace workrave::utils;
 - (id)initWithParent:(DockPrivate*)parent
 {
   self = [super init];
-  
+
   if (self != nil)
     {
       p = parent;
-      
+
       NSDockTile *dock = [[NSApplication sharedApplication] dockTile];
       [dock setContentView: self];
 
       CGRect dockRect = CGRectMake(0, 0, dock.size.width, dock.size.height);
-      
+
       dockTileBackground = [[DockTileBackground alloc] initWithFrame:NSRectFromCGRect(dockRect) parent:p];
       [self addSubview: dockTileBackground];
-      
+
       dockTileTimers = [[DockTileTimers alloc] initWithFrame:NSRectFromCGRect(dockRect) parent:p];
       [self addSubview: dockTileTimers];
     }
-  
+
   return self;
 }
 
@@ -135,7 +135,7 @@ using namespace workrave::utils;
 {
   NSDockTile *dock = [[NSApplication sharedApplication] dockTile];
   [dock setContentView: nil];
-  
+
   [self cleanup];
 }
 
@@ -174,7 +174,7 @@ public:
     [dockTile destroy];
     [dockTile release];
   }
-  
+
   DockTileView *dockTile;
 };
 

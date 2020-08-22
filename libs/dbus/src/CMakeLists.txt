@@ -15,7 +15,7 @@ endif()
 
 if (HAVE_DBUS_QT5)
   set(SRC ${SRC}
-    DBusQt5.cc 
+    DBusQt5.cc
     DBusGeneric.cc
     DBusBindingQt5.cc)
 endif()

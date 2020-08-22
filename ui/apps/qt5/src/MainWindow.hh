@@ -20,7 +20,6 @@
 
 #include "commonui/TimerBoxControl.hh"
 
-#include "IToolkit.hh"
 #include "TimerBoxView.hh"
 #include "ToolkitMenu.hh"
 

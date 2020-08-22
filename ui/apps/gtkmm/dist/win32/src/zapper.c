@@ -111,7 +111,7 @@ EnumWindowsProc(HWND hwnd, long lParam)
     }
   title[n] = '\0';
   // printf("title = %s\n", title);
-  
+
   if (strcmp(className, "EggSmClientWindow") == 0)
     {
       kind = KIND_EGG;

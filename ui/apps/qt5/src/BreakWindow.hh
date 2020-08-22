@@ -26,21 +26,21 @@
 #include "commonui/GUIConfig.hh"
 #include "commonui/UiTypes.hh"
 #include "core/ICore.hh"
+#include "session/System.hh"
 
-#include "Frame.hh"
 #include "IBreakWindow.hh"
+#include "Frame.hh"
+#include "SizeGroup.hh"
+#include "IToolkitPlatform.hh"
 
-class BreakWindow :
-  public QWidget,
-  public IBreakWindow
+class BreakWindow
+    : public QWidget
+    , public IBreakWindow
 {
   Q_OBJECT
 
 public:
-  BreakWindow(QScreen *screen,
-              workrave::BreakId break_id,
-              BreakFlags break_flags,
-              GUIConfig::BlockMode block_mode);
+  BreakWindow(IToolkitPlatform::Ptr platform, QScreen *screen, workrave::BreakId break_id, BreakFlags break_flags);
   ~BreakWindow() override;
 
   void init() override;
@@ -49,43 +49,58 @@ public:
   void refresh() override;
 
 protected:
-  BreakFlags get_break_flags() const { return break_flags; }
-  QScreen *get_screen() { return screen; }
+  BreakFlags
+  get_break_flags() const
+  {
+    return break_flags;
+  }
+  QScreen *
+  get_screen()
+  {
+    return screen;
+  }
   void center();
 
-  void add_skip_button(QLayout *box);
-  void add_postpone_button(QLayout *box);
-  void add_lock_button(QLayout *box);
-  void add_shutdown_button(QLayout *box);
-  
+  void add_skip_button(QGridLayout *box, bool locked);
+  void add_postpone_button(QGridLayout *box, bool locked);
+  void add_lock_button(QGridLayout *box);
+  void add_sysoper_combobox(QGridLayout *box);
+
 private:
   virtual QWidget *create_gui() = 0;
   virtual void update_break_window();
 
-  QHBoxLayout *create_break_buttons(bool lockable, bool shutdownable);
+  void update_skip_postpone_lock();
+  void update_flashing_border();
 
-private:
-  void resume_non_ignorable_break();
+  QLayout *create_break_buttons(bool lockable, bool shutdownable);
+
+  void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &overdue_break_id);
+
   void on_lock_button_clicked();
-  void on_shutdown_button_clicked();
   void on_skip_button_clicked();
-  //  bool on_delete_event(GdkEventAny *);
   void on_postpone_button_clicked();
+  void on_sysoper_combobox_changed(int index);
+
+  std::vector<System::SystemOperation> supported_system_operations;
+  void append_row_to_sysoper_model(System::SystemOperation::SystemOperationType type);
+  void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, QString &name, QString &icon_name);
 
 private:
+  IToolkitPlatform::Ptr platform;
   workrave::BreakId break_id;
   BreakFlags break_flags;
   GUIConfig::BlockMode block_mode;
   bool is_flashing = false;
-  QScreen *screen { nullptr };
-  Frame *frame { nullptr };
-  QWidget *gui { nullptr };
-  QWidget *block_window { nullptr };
-
-#ifdef PLATFORM_OS_OSX
-  class Private;
-  std::shared_ptr<Private> priv;
-#endif
+  QScreen *screen{ nullptr };
+  Frame *frame{ nullptr };
+  QWidget *gui{ nullptr };
+  QWidget *block_window{ nullptr };
+  QProgressBar *progress_bar{ nullptr };
+  QPushButton *postpone_button{ nullptr };
+  QPushButton *skip_button{ nullptr };
+  QComboBox *sysoper_combo{ nullptr };
+  std::shared_ptr<SizeGroup> size_group;
 };
 
 #endif // BREAKWINDOW_HH

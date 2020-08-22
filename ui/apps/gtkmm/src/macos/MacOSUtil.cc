@@ -1,4 +1,4 @@
-// OSXUtil.cc --- OSX utility functions
+// MacOSUtil.cc --- MacOS utility functions
 //
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -17,10 +17,10 @@
 #include <sys/param.h>
 #include <fstream>
 
-#include "OSXUtil.hh"
+#include "MacOSUtil.hh"
 
 void
-OSXUtil::init()
+MacOSUtil::init()
 {
   char execpath[MAXPATHLEN+1];
   char path[MAXPATHLEN * 4];

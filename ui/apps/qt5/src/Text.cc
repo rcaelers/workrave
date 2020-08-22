@@ -43,7 +43,7 @@ QString
 Text::time_to_string(time_t time, bool display_units)
 {
   QString ret;
-  
+
   if (time < 0)
     {
       ret += '-';

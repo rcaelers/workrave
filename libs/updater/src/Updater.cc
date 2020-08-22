@@ -22,7 +22,7 @@
 
 #include "Updater.hh"
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 #include "SparkleUpdater.hh"
 #endif
 
@@ -31,7 +31,7 @@ using namespace workrave::updater;
 Updater::Ptr
 UpdaterFactory::create(std::string appcast_url)
 {
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   return std::make_shared<SparkleUpdater>(appcast_url);
 #endif
   return Updater::Ptr();

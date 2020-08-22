@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#include "OSXInputMonitor.hh"
+#include "MacOSInputMonitor.hh"
 
 #include <ApplicationServices/ApplicationServices.h>
 
@@ -28,7 +28,7 @@
 #include "debug.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-OSXInputMonitor::~OSXInputMonitor()
+MacOSInputMonitor::~MacOSInputMonitor()
 {
   if (monitor_thread)
     {
@@ -37,21 +37,21 @@ OSXInputMonitor::~OSXInputMonitor()
 }
 
 bool
-OSXInputMonitor::init()
+MacOSInputMonitor::init()
 {
-  monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&OSXInputMonitor::run, this)));
+  monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&MacOSInputMonitor::run, this)));
   return true;
 }
 
 void
-OSXInputMonitor::terminate()
+MacOSInputMonitor::terminate()
 {
   terminate_loop = true;
   monitor_thread->join();
 }
 
 uint64_t
-OSXInputMonitor::get_event_count()
+MacOSInputMonitor::get_event_count()
 {
   static const CGEventType events[] = { kCGEventFlagsChanged,      kCGEventKeyDown,      kCGEventKeyUp,          kCGEventLeftMouseDown,
                                         kCGEventLeftMouseDragged,  kCGEventLeftMouseUp,  kCGEventMouseMoved,     kCGEventOtherMouseDown,
@@ -66,9 +66,9 @@ OSXInputMonitor::get_event_count()
 }
 
 void
-OSXInputMonitor::run()
+MacOSInputMonitor::run()
 {
-  TRACE_ENTER("OSXInputMonitor::run");
+  TRACE_ENTER("MacOSInputMonitor::run");
   while (!terminate_loop)
     {
       uint64_t event_count = get_event_count();

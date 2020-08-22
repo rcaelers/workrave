@@ -312,7 +312,7 @@ ExercisesPanel::heartbeat()
       return;
     }
 
-  
+
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
   if (exercise_time >= exercise.duration)

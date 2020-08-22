@@ -65,8 +65,8 @@
 #include "W32AppletMenu.hh"
 #endif
 
-#if defined(PLATFORM_OS_OSX)
-#include "OSXGtkMenu.hh"
+#if defined(PLATFORM_OS_MACOS)
+#include "MacOSGtkMenu.hh"
 #endif
 
 #include "commonui/MenuEnums.hh"
@@ -111,8 +111,8 @@ Menus::init(AppletControl *applet_control)
   IAppletWindow *applet_window = nullptr;
 #endif
 
-// #if defined(PLATFORM_OS_OSX)
-//   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
+// #if defined(PLATFORM_OS_MACOS)
+//   menus[MENU_MAINWINDOW] = new MacOSGtkMenu(true);
 // #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
 //#endif

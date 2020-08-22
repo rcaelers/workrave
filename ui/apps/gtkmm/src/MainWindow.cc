@@ -184,7 +184,7 @@ MainWindow::close_window()
   TRACE_ENTER("MainWindow::close_window");
 #ifdef PLATFORM_OS_WINDOWS
   win32_show(false);
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   hide();
 #else
   if (can_close)
@@ -287,7 +287,7 @@ MainWindow::init()
   Gtk::EventBox *eventbox = new Gtk::EventBox;
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
-#ifndef PLATFORM_OS_OSX
+#ifndef PLATFORM_OS_MACOS
   // No popup menu on OS X
   eventbox->signal_button_press_event().connect(sigc::mem_fun(*this,
                                                               &MainWindow::on_timer_view_button_press_event));
@@ -368,7 +368,7 @@ MainWindow::init()
 
   if (!enabled) //  || get_start_in_tray())
     {
-#ifndef PLATFORM_OS_OSX
+#ifndef PLATFORM_OS_MACOS
       iconify();
 #endif
       close_window();
@@ -438,7 +438,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   win32_show(false);
   closed_signal.emit();
   GUIConfig::timerbox_enabled("main_window").set(false);
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   close_window();
   GUIConfig::timerbox_enabled("main_window").set(false);
 #else

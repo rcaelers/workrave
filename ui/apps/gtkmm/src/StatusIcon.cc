@@ -25,7 +25,7 @@
 #include <string>
 #include <assert.h>
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 #if HAVE_IGE_MAC_INTEGRATION
 #include "ige-mac-dock.h"
 #endif

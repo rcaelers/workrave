@@ -38,7 +38,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 #import <Cocoa/Cocoa.h>
 #endif
 
@@ -106,7 +106,7 @@ PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
   // [nswindow setCollectionBehavior: (NSWindowCollectionBehaviorCanJoinAllSpaces)];
 
   setWindowFlags(
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
                  Qt::SubWindow |
 #else
                  Qt::Tool |
@@ -121,7 +121,7 @@ PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   mouse_monitor = std::make_shared<MouseMonitor>(std::bind(&PreludeWindow::avoid_pointer, this, std::placeholders::_1, std::placeholders::_2));
 #endif
 }
@@ -136,7 +136,7 @@ PreludeWindow::start()
   QRect rect = screen->geometry();
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   mouse_monitor->start();
 #endif
 }
@@ -147,7 +147,7 @@ PreludeWindow::stop()
   frame->set_frame_flashing(0);
   hide();
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   mouse_monitor->stop();
 #endif
 }
@@ -166,7 +166,7 @@ PreludeWindow::refresh()
         {
           tminus = 0;
         }
-      
+
       s = qstr(qformat(progress_text) % Text::time_to_string(tminus));
     }
   timebar->set_text(s);
@@ -290,7 +290,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   int winy = geo.y();
   int winx = geo.x();
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   if (!geo.contains(px, py))
     {
       return;

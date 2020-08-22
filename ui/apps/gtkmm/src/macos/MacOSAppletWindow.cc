@@ -1,4 +1,4 @@
-// OSXAppletWindow.cc --- Applet info Window
+// MacOSAppletWindow.cc --- Applet info Window
 //
 // Copyright (C) 2009, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -24,20 +24,20 @@
 #include "Text.hh"
 #include "debug.hh"
 
-#include "OSXAppletWindow.hh"
+#include "MacOSAppletWindow.hh"
 #include "TimerBoxControl.hh"
 
-#import "OSXStatusBarView.h"
+#import "MacOSStatusBarView.h"
 
-OSXAppletWindow::OSXAppletWindow()
+MacOSAppletWindow::MacOSAppletWindow()
 {
-  TRACE_ENTER("OSXAppletWindow::OSXAppletWindow");
+  TRACE_ENTER("MacOSAppletWindow::MacOSAppletWindow");
 
   timer_box_view = this;
   timer_box_control = new TimerBoxControl("applet", *this);
 
   NSMenu *menu = [[NSMenu alloc] init];
-  view = [[OSXStatusBarView alloc] initWithMenu:menu];
+  view = [[MacOSStatusBarView alloc] initWithMenu:menu];
 
   while ([menu numberOfItems] > 0) {
     [menu removeItemAtIndex:0];
@@ -55,31 +55,31 @@ OSXAppletWindow::OSXAppletWindow()
   TRACE_EXIT();
 }
 
-OSXAppletWindow::~OSXAppletWindow()
+MacOSAppletWindow::~MacOSAppletWindow()
 {
-  TRACE_ENTER("OSXAppletWindow::~OSXAppletWindow");
+  TRACE_ENTER("MacOSAppletWindow::~MacOSAppletWindow");
   delete timer_box_control;
   TRACE_EXIT();
 }
 
 
 void
-OSXAppletWindow::set_slot(workrave::BreakId id, int slot)
+MacOSAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
-  TRACE_ENTER_MSG("OSXAppletWindow::set_slot", int(id) << ", " << slot);
+  TRACE_ENTER_MSG("MacOSAppletWindow::set_slot", int(id) << ", " << slot);
   TRACE_EXIT();
 }
 
 
 void
-OSXAppletWindow::set_time_bar(workrave::BreakId id,
+MacOSAppletWindow::set_time_bar(workrave::BreakId id,
                               int value,
                               TimerColorId primary_color,
                               int primary_val, int primary_max,
                               TimerColorId secondary_color,
                               int secondary_val, int secondary_max)
 {
-  TRACE_ENTER_MSG("OSXAppletWindow::set_time_bar", int(id) << "=" << value);
+  TRACE_ENTER_MSG("MacOSAppletWindow::set_time_bar", int(id) << "=" << value);
 
   NSString *bar_text = [NSString stringWithCString: Text::time_to_string(value) encoding: NSASCIIStringEncoding];
 
@@ -96,7 +96,7 @@ OSXAppletWindow::set_time_bar(workrave::BreakId id,
 }
 
 ColorId
-OSXAppletWindow::convertColorId(TimerColorId colorId)
+MacOSAppletWindow::convertColorId(TimerColorId colorId)
 {
   switch (colorId)
     {
@@ -114,13 +114,13 @@ OSXAppletWindow::convertColorId(TimerColorId colorId)
 }
 
 AppletWindow::AppletState
-OSXAppletWindow::activate_applet()
+MacOSAppletWindow::activate_applet()
 {
   return APPLET_STATE_VISIBLE;
 }
 
 
 void
-OSXAppletWindow::deactivate_applet()
+MacOSAppletWindow::deactivate_applet()
 {
 }

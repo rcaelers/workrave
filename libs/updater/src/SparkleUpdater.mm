@@ -59,7 +59,7 @@ SparkleUpdater::~SparkleUpdater()
   delete d;
 }
 
-void 
+void
 SparkleUpdater::check_for_updates()
 {
   [d->updater checkForUpdatesInBackground];

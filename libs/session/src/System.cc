@@ -26,11 +26,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(HAVE_GLIB)
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #include <boost/format.hpp>
@@ -39,39 +39,39 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSHelpers.hh"
 #endif
 
 #include <algorithm>
 #include <iostream>
 
 #if defined(HAVE_STRINGS_H)
-#include <strings.h>
+#  include <strings.h>
 #endif
 
 #include "session/System.hh"
 #include "debug.hh"
 
 #if defined(PLATFORM_OS_UNIX)
-#include "utils/Platform.hh"
-#include "ScreenLockCommandline.hh"
+#  include "utils/Platform.hh"
+#  include "ScreenLockCommandline.hh"
 
-#if defined(HAVE_DBUS_GIO)
-#include "ScreenLockDBus.hh"
-#include "SystemStateChangeConsolekit.hh"
-#include "SystemStateChangeLogind.hh"
-#include "SystemStateChangeUPower.hh"
-#endif
-#endif //PLATFORM_OS_UNIX
+#  if defined(HAVE_DBUS_GIO)
+#    include "ScreenLockDBus.hh"
+#    include "SystemStateChangeConsolekit.hh"
+#    include "SystemStateChangeLogind.hh"
+#    include "SystemStateChangeUPower.hh"
+#  endif
+#endif // PLATFORM_OS_UNIX
 
 #if defined(PLATFORM_OS_WINDOWS)
-#include "W32Shutdown.hh"
-#include "W32LockScreen.hh"
+#  include "W32Shutdown.hh"
+#  include "W32LockScreen.hh"
 #endif
 
 #if defined(HAVE_UNIX)
-#include <sys/wait.h>
+#  include <sys/wait.h>
 #endif
 
 std::vector<IScreenLockMethod *> System::lock_commands;
@@ -79,12 +79,12 @@ std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
-GDBusConnection* System::session_connection = nullptr;
-GDBusConnection* System::system_connection = nullptr;
+GDBusConnection *System::session_connection = nullptr;
+GDBusConnection *System::system_connection = nullptr;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS_GIO)
+#  if defined(HAVE_DBUS_GIO)
 void
 System::init_DBus()
 {
@@ -94,7 +94,7 @@ System::init_DBus()
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
   if (error != nullptr)
     {
-      //it is rare and serious, so report it the user
+      // it is rare and serious, so report it the user
       std::cerr << "Cannot establish connection to the session bus: " << error->message << std::endl;
       g_error_free(error);
       error = nullptr;
@@ -111,18 +111,14 @@ System::init_DBus()
   TRACE_EXIT();
 }
 
-
 bool
-System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const char *dbus_interface,
-                          const char *dbus_lock_method, const char *dbus_method_to_check_existence)
+System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const char *dbus_interface, const char *dbus_lock_method, const char *dbus_method_to_check_existence)
 {
   TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
 
   // I wish we could use std::move here
   IScreenLockMethod *lock_method = nullptr;
-  lock_method = new ScreenLockDBus(session_connection,
-          dbus_name, dbus_path, dbus_interface,
-          dbus_lock_method, dbus_method_to_check_existence);
+  lock_method = new ScreenLockDBus(session_connection, dbus_name, dbus_path, dbus_interface, dbus_lock_method, dbus_method_to_check_existence);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
@@ -155,25 +151,18 @@ System::init_DBus_lock_commands()
       //      https://bugzilla.gnome.org/show_bug.cgi?id=689225
       //      (look for "unimplemented" in the patch), the lock method is still unipmlemented
       //    - therefore it is required to check the gnome API first.
-      //WORKS: Ubuntu 12.04: GNOME 3 fallback, Unity
-      add_DBus_lock_cmd(
-            "org.gnome.ScreenSaver", "/org/gnome/ScreenSaver", "org.gnome.ScreenSaver",
-            "Lock", "GetActive");
+      // WORKS: Ubuntu 12.04: GNOME 3 fallback, Unity
+      add_DBus_lock_cmd("org.gnome.ScreenSaver", "/org/gnome/ScreenSaver", "org.gnome.ScreenSaver", "Lock", "GetActive");
 
       //  Cinnamon:   https://github.com/linuxmint/cinnamon-screensaver/blob/master/doc/dbus-interface.html
       //    Same api as GNOME, but with different name,
-      add_DBus_lock_cmd(
-            "org.cinnamon.ScreenSaver", "/org/cinnamon/ScreenSaver", "org.cinnamon.ScreenSaver",
-            "Lock", "GetActive");
+      add_DBus_lock_cmd("org.cinnamon.ScreenSaver", "/org/cinnamon/ScreenSaver", "org.cinnamon.ScreenSaver", "Lock", "GetActive");
 
       //  Mate: https://github.com/mate-desktop/mate-screensaver/blob/master/doc/dbus-interface.xml
       //  Like GNOME
-      add_DBus_lock_cmd(
-                  "org.mate.ScreenSaver", "/org/mate/ScreenSaver", "org.mate.ScreenSaver",
-                  "Lock", "GetActive");
+      add_DBus_lock_cmd("org.mate.ScreenSaver", "/org/mate/ScreenSaver", "org.mate.ScreenSaver", "Lock", "GetActive");
 
-
-      //The FreeDesktop API - the most important and most widely supported
+      // The FreeDesktop API - the most important and most widely supported
       //    LXDE:  https://github.com/lxde/lxqt-powermanagement/blob/master/idleness/idlenesswatcherd.cpp
       //    KDE:
       //      https://projects.kde.org/projects/kde/kde-workspace/repository/revisions/master/entry/ksmserver/screenlocker/dbus/org.freedesktop.ScreenSaver.xml
@@ -192,36 +181,83 @@ System::init_DBus_lock_commands()
       //    the Lock method there is being removed (and not replaced with anything else).
       //    Probably the DEs will support these APIs in the future in order not to break other software.
 
-      //Is only partially implemented by GNOME, so GNOME has to go before
-      //Works correctly on KDE4 (Ubuntu 12.04)
-      add_DBus_lock_cmd(
-            "org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
-            "Lock", "GetActive");
+      // Is only partially implemented by GNOME, so GNOME has to go before
+      // Works correctly on KDE4 (Ubuntu 12.04)
+      add_DBus_lock_cmd("org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       //  KDE - old screensaver API - partially verified both
-      add_DBus_lock_cmd(
-                  "org.kde.screensaver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
-                  "Lock", "GetActive");
-      add_DBus_lock_cmd(
-                  "org.kde.krunner", "/ScreenSaver", "org.freedesktop.ScreenSaver",
-                  "Lock", "GetActive");
+      add_DBus_lock_cmd("org.kde.screensaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
+      add_DBus_lock_cmd("org.kde.krunner", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       //              - there some accounts that when org.freedesktop.ScreenSaver does not work, this works:
       //                      qdbus org.kde.ksmserver /ScreenSaver Lock
       //                      but it is probably a side effect of the fact that implementation of org.kde.ksmserver
       //                      is in the same process as of org.freedesktop.ScreenSaver
-      add_DBus_lock_cmd(
-                        "org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver",
-                        "Lock", "GetActive");
+      add_DBus_lock_cmd("org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       // EFL:
-      add_DBus_lock_cmd(
-                  "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop",
-                  "Lock", nullptr);
+      add_DBus_lock_cmd("org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop", "Lock", nullptr);
     }
   TRACE_EXIT();
 }
-#endif //HAVE_DBUS_GIO
+
+void
+System::add_DBus_system_state_command(ISystemStateChangeMethod *method)
+{
+  TRACE_ENTER("System::add_DBus_system_state_command");
+
+  if (method->canDoAnything())
+    {
+      system_state_commands.push_back(method);
+      TRACE_MSG("DBus service is useful");
+    }
+  else
+    {
+      delete method;
+      TRACE_MSG("DBus service is useless");
+    }
+
+  TRACE_EXIT();
+}
+
+void
+System::init_DBus_system_state_commands()
+{
+  TRACE_ENTER("System::init_DBus_system_state_commands");
+  if (system_connection)
+    {
+      // These three DBus interfaces are too diverse
+      // to implement support for them in one class
+      // Logind is the future so it goes first
+      add_DBus_system_state_command(new SystemStateChangeLogind(system_connection));
+
+      add_DBus_system_state_command(new SystemStateChangeUPower(system_connection));
+
+      // ConsoleKit is deprecated so goes last
+      add_DBus_system_state_command(new SystemStateChangeConsolekit(system_connection));
+
+      // Other interfaces:
+      //  GNOME:
+      //    - there is GNOME Session API:
+      //      https://git.gnome.org/browse/gnome-session/tree/gnome-session/org.gnome.SessionManager.xml
+      //      But shutdown/reboot require confirmation, so this is unusable to us,
+      //
+      //  KDE:
+      //    - there is some support, but probably not worth implementing it
+      //    http://askubuntu.com/questions/1871/how-can-i-safely-shutdown-reboot-logout-kde-from-the-command-line
+
+      //  Windows:
+      //  http://www.programmingsimplified.com/c-program-shutdown-computer
+      //    winxp
+      //        system("C:\\WINDOWS\\System32\\shutdown -s");
+      //    win7
+      //        system("C:\\WINDOWS\\System32\\shutdown /s");
+#    undef ADD_DBUS_SERVICE
+    }
+  TRACE_EXIT();
+}
+
+#  endif // HAVE_DBUS_GIO
 
 void
 System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
@@ -242,11 +278,12 @@ System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, b
     }
 }
 
-void System::init_cmdline_lock_commands(const char *display)
+void
+System::init_cmdline_lock_commands(const char *display)
 {
   TRACE_ENTER_MSG("System::init_cmdline_lock_commands", display);
 
-  //Works: XFCE, i3, LXDE
+  // Works: XFCE, i3, LXDE
   add_cmdline_lock_cmd("gnome-screensaver-command", "--lock", false);
   add_cmdline_lock_cmd("mate-screensaver-command", "--lock", false);
   add_cmdline_lock_cmd("enlightenment_remote", "-desktop-lock", false);
@@ -264,10 +301,9 @@ void System::init_cmdline_lock_commands(const char *display)
       add_cmdline_lock_cmd("xscreensaver-command", "-lock", false);
     }
 
-
-  //these two may call slock, which may be not user-friendly
-  //add_cmdline_lock_cmd("xflock4", NULL, true);
-  //add_cmdline_lock_cmd("lxlock", NULL, true);
+  // these two may call slock, which may be not user-friendly
+  // add_cmdline_lock_cmd("xflock4", NULL, true);
+  // add_cmdline_lock_cmd("lxlock", NULL, true);
 
   if (display != nullptr)
     {
@@ -283,14 +319,43 @@ void System::init_cmdline_lock_commands(const char *display)
 
   TRACE_EXIT();
 }
+
 #endif // PLATFORM_OS_UNIX
+
+#if defined(PLATFORM_OS_WINDOWS)
+
+void
+System::init_windows_lock_commands()
+{
+  TRACE_ENTER("System::init_DBus_lock_commands");
+  IScreenLockMethod *winLock = new W32LockScreen();
+  if (winLock->is_lock_supported())
+    {
+      lock_commands.push_back(winLock);
+    }
+  else
+    {
+      delete winLock;
+      winLock = NULL;
+    }
+  TRACE_EXIT();
+}
+
+void
+System::init_windows_system_state_commands()
+{
+  TRACE_ENTER("System::init_DBus_system_state_commands");
+  TRACE_EXIT();
+}
+
+#endif // PLATFORM_OS_WINDOWS
 
 bool
 System::lock_screen()
 {
   TRACE_ENTER("System::lock");
 
-  for (auto & lock_command : lock_commands)
+  for (auto &lock_command : lock_commands)
     {
       if (lock_command->lock())
         {
@@ -303,69 +368,8 @@ System::lock_screen()
   return false;
 }
 
-#if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
-
-void System::add_DBus_system_state_command(
-      ISystemStateChangeMethod *method)
-{
-  TRACE_ENTER("System::add_DBus_system_state_command");
-
-  if (method->canDoAnything())
-    {
-      system_state_commands.push_back(method);
-      TRACE_MSG("DBus service is useful");
-    }
-  else
-    {
-      delete method;
-      TRACE_MSG("DBus service is useless");
-    }
-
-  TRACE_EXIT();
-}
-
-void System::init_DBus_system_state_commands()
-{
-  TRACE_ENTER("System::init_DBus_system_state_commands");
-  if (system_connection)
-    {
-      //These three DBus interfaces are too diverse
-      //to implement support for them in one class
-      //Logind is the future so it goes first
-      add_DBus_system_state_command(
-                          new SystemStateChangeLogind(system_connection));
-
-      add_DBus_system_state_command(
-                          new SystemStateChangeUPower(system_connection));
-
-      //ConsoleKit is deprecated so goes last
-      add_DBus_system_state_command(
-                          new SystemStateChangeConsolekit(system_connection));
-
-      //Other interfaces:
-      //  GNOME:
-      //    - there is GNOME Session API:
-      //      https://git.gnome.org/browse/gnome-session/tree/gnome-session/org.gnome.SessionManager.xml
-      //      But shutdown/reboot require confirmation, so this is unusable to us,
-      //
-      //  KDE:
-      //    - there is some support, but probably not worth implementing it
-      //    http://askubuntu.com/questions/1871/how-can-i-safely-shutdown-reboot-logout-kde-from-the-command-line
-
-      //  Windows:
-      //  http://www.programmingsimplified.com/c-program-shutdown-computer
-      //    winxp
-      //        system("C:\\WINDOWS\\System32\\shutdown -s");
-      //    win7
-      //        system("C:\\WINDOWS\\System32\\shutdown /s");
-#undef ADD_DBUS_SERVICE
-    }
-  TRACE_EXIT();
-}
-
-#endif //PLATFORM_OS_UNIX
-
-bool System::execute(SystemOperation::SystemOperationType type)
+bool
+System::execute(SystemOperation::SystemOperationType type)
 {
   TRACE_ENTER("System::execute");
   if (type == SystemOperation::SYSTEM_OPERATION_NONE)
@@ -378,25 +382,25 @@ bool System::execute(SystemOperation::SystemOperationType type)
     }
   else
     {
-      for (auto & system_state_command : system_state_commands)
+      for (auto &system_state_command : system_state_commands)
         {
           bool ret = false;
           switch (type)
             {
-              case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-                ret = (system_state_command->shutdown());
-                break;
-              case SystemOperation::SYSTEM_OPERATION_SUSPEND:
-                ret = (system_state_command->suspend());
-                break;
-              case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-                ret = (system_state_command->hibernate());
-                break;
-              case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-                ret = (system_state_command->suspendHybrid());
-                break;
-              default:
-                throw "System::execute: Unknown system operation";
+            case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+              ret = (system_state_command->shutdown());
+              break;
+            case SystemOperation::SYSTEM_OPERATION_SUSPEND:
+              ret = (system_state_command->suspend());
+              break;
+            case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+              ret = (system_state_command->hibernate());
+              break;
+            case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+              ret = (system_state_command->suspendHybrid());
+              break;
+            default:
+              throw "System::execute: Unknown system operation";
             };
           if (ret)
             {
@@ -417,66 +421,41 @@ System::init()
 #if defined(PLATFORM_OS_UNIX)
   std::string display = workrave::utils::Platform::get_default_display_name();
 #endif
-  
+
 #if defined(PLATFORM_OS_UNIX)
-#if defined(HAVE_DBUS_GIO)
+#  if defined(HAVE_DBUS_GIO)
   init_DBus();
   init_DBus_lock_commands();
   init_DBus_system_state_commands();
-#endif
+#  endif
   init_cmdline_lock_commands(display.c_str());
-
 #elif defined(PLATFORM_OS_WINDOWS)
-  IScreenLockMethod *winLock = new W32LockScreen();
-  if (winLock->is_lock_supported())
-    {
-      lock_commands.push_back(winLock);
-    }
-  else
-    {
-      delete winLock;
-      winLock = NULL;
-    }
-
-  ISystemStateChangeMethod *winShut = new W32Shutdown();
-  if (winShut->canShutdown())
-    {
-      system_state_commands.push_back(winShut);
-    }
-  else
-    {
-      delete winShut;
-      winShut = NULL;
-    }
-#endif //defined (PLATFORM_OS_WINDOWS)
+  init_windows_lock_commands();
+  init_windows_system_state_commands();
+#endif
 
   if (is_lockable())
     {
-      supported_system_operations.push_back(
-          SystemOperation("Lock", SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN));
+      supported_system_operations.push_back(SystemOperation("Lock", SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN));
     }
 
-  for (auto & system_state_command : system_state_commands)
+  for (auto &system_state_command : system_state_commands)
     {
       if (system_state_command->canShutdown())
         {
-          supported_system_operations.push_back(
-              SystemOperation("Shutdown", SystemOperation::SYSTEM_OPERATION_SHUTDOWN));
+          supported_system_operations.push_back(SystemOperation("Shutdown", SystemOperation::SYSTEM_OPERATION_SHUTDOWN));
         }
       if (system_state_command->canSuspend())
         {
-          supported_system_operations.push_back(
-              SystemOperation("Suspend", SystemOperation::SYSTEM_OPERATION_SUSPEND));
+          supported_system_operations.push_back(SystemOperation("Suspend", SystemOperation::SYSTEM_OPERATION_SUSPEND));
         }
       if (system_state_command->canHibernate())
         {
-          supported_system_operations.push_back(
-              SystemOperation("Hibernate", SystemOperation::SYSTEM_OPERATION_HIBERNATE));
+          supported_system_operations.push_back(SystemOperation("Hibernate", SystemOperation::SYSTEM_OPERATION_HIBERNATE));
         }
       if (system_state_command->canSuspendHybrid())
         {
-          supported_system_operations.push_back(
-              SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
+          supported_system_operations.push_back(SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
         }
     }
 
@@ -488,23 +467,23 @@ System::init()
 void
 System::clear()
 {
-  for (auto & lock_command : lock_commands)
+  for (auto &lock_command : lock_commands)
     {
       delete lock_command;
     }
   lock_commands.clear();
 
-  for (auto & system_state_command : system_state_commands)
+  for (auto &system_state_command : system_state_commands)
     {
       delete system_state_command;
     }
   system_state_commands.clear();
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
-  //we shouldn't call g_dbus_connection_close_sync here:
-  //http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
+  // we shouldn't call g_dbus_connection_close_sync here:
+  // http://comments.gmane.org/gmane.comp.freedesktop.dbus/15286
   g_object_unref(session_connection);
   g_object_unref(session_connection);
 #endif
 }
-//TODO: lock before suspend/hibernate
+// TODO: lock before suspend/hibernate

@@ -41,8 +41,8 @@
 #include "GenericDBusApplet.hh"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXAppletWindow.hh"
+#ifdef PLATFORM_OS_MACOS
+#include "MacOSAppletWindow.hh"
 #endif
 
 #include "GUI.hh"
@@ -101,8 +101,8 @@ AppletControl::init()
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 
-#ifdef PLATFORM_OS_OSX
-  applets[APPLET_OSX] = new OSXAppletWindow();
+#ifdef PLATFORM_OS_MACOS
+  applets[APPLET_MacOS] = new MacOSAppletWindow();
 #endif
 
   for (int i = 0; i < APPLET_SIZE; i++)
@@ -145,8 +145,8 @@ AppletControl::show()
       specific = true;
     }
 
-  rc = activate_applet(APPLET_OSX);
-  TRACE_MSG("OSX " << rc);
+  rc = activate_applet(APPLET_MacOS);
+  TRACE_MSG("MacOS " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
@@ -394,7 +394,7 @@ AppletControl::check_visible()
         }
     }
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
   count++;
 #endif
 

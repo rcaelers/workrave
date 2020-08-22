@@ -1,6 +1,6 @@
-// OSXHelpers.hh --- Helpers for OS X
+// MacOSGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2017 Tom Parker
+// Copyright (C) 2001 - 2008, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UTILS_OSX_HELPERS_HH
-#define WORKRAVE_UTILS_OSX_HELPERS_HH
+#ifndef MACOSGTKMENU_HH
+#define MACOSGTKMENU_HH
 
-#include <pthread.h>
+#include "config.h"
 
-#ifndef _MACH_PORT_T
-#define _MACH_PORT_T
-#include <sys/_types.h> /* __darwin_mach_port_t */
-typedef __darwin_mach_port_t mach_port_t;
-mach_port_t pthread_mach_thread_np(pthread_t);
-#endif /* _MACH_PORT_T */
+#include <string>
 
-#include <mach-o/dyld.h>
-#include <sys/param.h>
+#include "MainGtkMenu.hh"
 
-#endif
+class MacOSGtkMenu
+  : public MainGtkMenu
+{
+public:
+  MacOSGtkMenu(bool show_open);
+  virtual ~MacOSGtkMenu();
+
+  virtual void create_ui();
+  virtual void popup(const guint button, const guint activate_time);
+
+private:
+};
+
+#endif // MACOSGTKMENU_HH

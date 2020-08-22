@@ -43,7 +43,7 @@ Debug::init()
 {
   char logfile[128];
   time_t ltime;
-  
+
   time(&ltime);
   struct tm tmlt;
   localtime_s(&tmlt, &ltime);

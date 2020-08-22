@@ -89,18 +89,18 @@ if (PLATFORM_OS_WINDOWS)
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
 endif()
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOSOS)
   set(SRC ${SRC}
-    osx/OSXAppletWindow.cc
-    osx/OSXGtkMenu.cc
-    osx/OSXUtil.cc
-    osx/OSXStatusBarView.mm
-    osx/OSXTimeBar.mm
+    macos/MacOSAppletWindow.cc
+    macos/MacOSGtkMenu.cc
+    macos/MacOSUtil.cc
+    macos/MacOSStatusBarView.mm
+    macos/MacOSTimeBar.mm
     )
 
-  set_source_files_properties(osx/OSXAppletWindow.cc osx/OSXGtkMenu.cc osx/OSXUtil.cc Locale.cc AppletControl.cc osx/OSXTimeBar.mm osx/OSXStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  set_source_files_properties(macos/MacOSAppletWindow.cc macos/MacOSGtkMenu.cc macos/MacOSUtil.cc Locale.cc AppletControl.cc macos/MacOSTimeBar.mm macos/MacOSStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
-  include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/macos)
 endif()
 
 if (HAVE_DBUS)
@@ -196,7 +196,7 @@ if (WIN32)
     )
 
   if (MSVC)
-    target_link_libraries(workrave ${WIN32_LIBRARIES}) 
+    target_link_libraries(workrave ${WIN32_LIBRARIES})
   endif()
 
   if (MINGW)

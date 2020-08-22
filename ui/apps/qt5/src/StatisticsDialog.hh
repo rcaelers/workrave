@@ -56,7 +56,7 @@ private:
   QPushButton *delete_button { nullptr };
 
   bool update_usage_real_time { false };
-  
+
   void on_history_delete_all();
 
   void init_gui();
@@ -64,7 +64,7 @@ private:
 
   void create_navigation_box(QLayout *parent);
   void create_statistics_box(QLayout *parent);
-  
+
   void create_break_page(QBoxLayout *parent);
   //  void create_activity_page(QWidget *tnotebook);
 

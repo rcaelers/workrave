@@ -344,7 +344,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 
   int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
   int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
-  
+
   TRACE_MSG(head.geometry.get_x() << " "  << head.geometry.get_width() << " " << size.width);
   TRACE_MSG(head.geometry.get_y() << " "  << head.geometry.get_height() << " " << size.height);
 

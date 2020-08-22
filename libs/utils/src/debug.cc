@@ -132,7 +132,7 @@ Debug::stream()
       boost::filesystem::path dir(debug_filename);
       boost::filesystem::create_directory(dir);
 
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
       debug_filename = "/tmp/";
 #elif defined(PLATFORM_OS_UNIX)
       debug_filename = "/tmp/";

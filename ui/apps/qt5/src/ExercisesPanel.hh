@@ -39,7 +39,7 @@ class ExercisesPanel : public QWidget
 public:
   explicit ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone);
   ~ExercisesPanel();
-  
+
   void set_exercise_count(int num);
   boost::signals2::signal<void()> &signal_stop();
 

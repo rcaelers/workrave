@@ -1,4 +1,4 @@
-// OSXSoundPlayer.cc --- Sound player
+// MacOSSoundPlayer.cc --- Sound player
 //
 // Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
@@ -24,7 +24,7 @@
 #include "debug.hh"
 #include <strings.h>
 
-#include "OSXSoundPlayer.hh"
+#include "MacOSSoundPlayer.hh"
 #include "SoundPlayer.hh"
 
 #include <Cocoa/Cocoa.h>
@@ -42,7 +42,7 @@
 @implementation SoundDelegate : NSObject
 
 - (void) setCallback:(ISoundPlayerEvents*)aCallback;
-{ 
+{
   self->callback = aCallback;
 }
 
@@ -53,7 +53,7 @@
 @end
 
 
-class OSXSoundPlayer::Private
+class MacOSSoundPlayer::Private
 {
 public:
   NSMutableDictionary *soundDictionary;
@@ -71,14 +71,14 @@ public:
   }
 };
 
-OSXSoundPlayer::OSXSoundPlayer()
+MacOSSoundPlayer::MacOSSoundPlayer()
 {
   priv = std::make_shared<Private>();
 }
 
 
 void
-OSXSoundPlayer::init(ISoundPlayerEvents *events)
+MacOSSoundPlayer::init(ISoundPlayerEvents *events)
 {
   this->events = events;
   [priv->delegate setCallback: events];
@@ -86,7 +86,7 @@ OSXSoundPlayer::init(ISoundPlayerEvents *events)
 
 
 bool
-OSXSoundPlayer::capability(workrave::audio::SoundCapability cap)
+MacOSSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
   if (cap == workrave::audio::SoundCapability::VOLUME)
     {
@@ -101,7 +101,7 @@ OSXSoundPlayer::capability(workrave::audio::SoundCapability cap)
 
 
 void
-OSXSoundPlayer::play_sound(std::string file, int volume)
+MacOSSoundPlayer::play_sound(std::string file, int volume)
 {
   NSString* filename = [NSString stringWithUTF8String: file.c_str()];
   NSSound *sound = [priv->soundDictionary objectForKey:filename];
@@ -117,7 +117,7 @@ OSXSoundPlayer::play_sound(std::string file, int volume)
 }
 
 void
-OSXSoundPlayer::fire_eos()
+MacOSSoundPlayer::fire_eos()
 {
   events->eos_event();
 }

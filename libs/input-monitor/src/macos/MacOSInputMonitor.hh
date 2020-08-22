@@ -1,6 +1,4 @@
-// Test.hh
-//
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,36 +15,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TEST_HH
-#define TEST_HH
+#ifndef MACOSINPUTMONITOR_HH
+#define MACOSINPUTMONITOR_HH
 
-#include <QtCore>
+#include <boost/thread.hpp>
 
-#include <iostream>
+// #include <CoreFoundation/CoreFoundation.h>
+// #include <IOKit/IOKitLib.h>
 
-class SignalReceiver : public QObject
+#include "InputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+
+class MacOSInputMonitor : public InputMonitor
 {
-  Q_OBJECT
 public:
-  SignalReceiver() : got(false) {}
+  MacOSInputMonitor() = default;
+  virtual ~MacOSInputMonitor();
 
-public Q_SLOTS:
+  bool init() override;
+  void terminate() override;
+  void run();
 
-  void on_signal_without_args()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
+private:
+  uint64_t get_event_count();
 
-  void on_signal()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
-
-public:
-  bool got;
+private:
+  bool terminate_loop = false;
+  std::shared_ptr<boost::thread> monitor_thread;
+  int last_event_count = 0;
 };
 
-
-#endif // TEST_HH
+#endif // MACOSINPUTMONITOR_HH

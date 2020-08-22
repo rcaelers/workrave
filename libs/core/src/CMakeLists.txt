@@ -5,7 +5,7 @@ set(SRC
   BreakStatistics.cc
   BreakConfig.cc
   BreaksControl.cc
-  Core.cc 
+  Core.cc
   CoreDBus.cc
   CoreModes.cc
   CoreConfig.cc

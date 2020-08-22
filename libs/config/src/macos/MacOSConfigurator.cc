@@ -1,4 +1,4 @@
-// OSXConfigurator.cc --- Configuration Access
+// MacOSConfigurator.cc --- Configuration Access
 //
 // Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -29,21 +29,21 @@
 #include <string>
 #include <string.h>
 
-#include "OSXConfigurator.hh"
+#include "MacOSConfigurator.hh"
 
 using namespace std;
 
-OSXConfigurator::OSXConfigurator()
+MacOSConfigurator::MacOSConfigurator()
 {
 }
 
 
-OSXConfigurator::~OSXConfigurator()
+MacOSConfigurator::~MacOSConfigurator()
 = default;
 
 
 bool
-OSXConfigurator::load(string filename)
+MacOSConfigurator::load(string filename)
 {
   (void) filename;
   return true;
@@ -51,7 +51,7 @@ OSXConfigurator::load(string filename)
 
 
 bool
-OSXConfigurator::save(string filename)
+MacOSConfigurator::save(string filename)
 {
   (void) filename;
   return true;
@@ -59,16 +59,16 @@ OSXConfigurator::save(string filename)
 
 
 bool
-OSXConfigurator::save()
+MacOSConfigurator::save()
 {
   return true;
 }
 
 
 bool
-OSXConfigurator::remove_key(const std::string &key)
+MacOSConfigurator::remove_key(const std::string &key)
 {
-  TRACE_ENTER_MSG("OSXConfigurator::remove_key", key);
+  TRACE_ENTER_MSG("MacOSConfigurator::remove_key", key);
 
   NSString* keystring = [NSString stringWithCString:key.c_str() encoding: NSUTF8StringEncoding];
 
@@ -80,12 +80,12 @@ OSXConfigurator::remove_key(const std::string &key)
 
 
 bool
-OSXConfigurator::get_value(const std::string &key, VariantType type,
+MacOSConfigurator::get_value(const std::string &key, VariantType type,
                            Variant &out) const
 {
   bool ret = false;
 
-  TRACE_ENTER_MSG("OSXConfigurator::get_value", key);
+  TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
 
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
   out.type = type;
@@ -134,11 +134,11 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
 }
 
 bool
-OSXConfigurator::set_value(const std::string &key, Variant &value)
+MacOSConfigurator::set_value(const std::string &key, Variant &value)
 {
   bool ret = true;
 
-  TRACE_ENTER_MSG("OSXConfigurator::get_value", key);
+  TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
 
   switch(value.type)

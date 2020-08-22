@@ -163,7 +163,7 @@ TimerPreferencesPanel::create_timers_panel()
   layout->addWidget(limit_lab, row, 0);
   layout->addWidget(limit_tim, row, 1);
 
-  hsize_group->addWidget(limit_lab);
+  hsize_group->add_widget(limit_lab);
   row++;
 
   if (break_id != BREAK_ID_DAILY_LIMIT)
@@ -174,7 +174,7 @@ TimerPreferencesPanel::create_timers_panel()
       layout->addWidget(auto_reset_lab, row, 0);
       layout->addWidget(auto_reset_tim, row, 1);
 
-      hsize_group->addWidget(auto_reset_lab);
+      hsize_group->add_widget(auto_reset_lab);
       row++;
 
       connector->connect(CoreConfig::timer_auto_reset(break_id), dc::wrap(auto_reset_tim));
@@ -183,7 +183,7 @@ TimerPreferencesPanel::create_timers_panel()
   snooze_tim = new TimeEntry;
 
   QLabel *snooze_lab = new QLabel(tr("Postpone time:"));
-  hsize_group->addWidget(snooze_lab);
+  hsize_group->add_widget(snooze_lab);
 
   layout->addWidget(snooze_lab, row, 0);
   layout->addWidget(snooze_tim, row, 1);
@@ -192,7 +192,7 @@ TimerPreferencesPanel::create_timers_panel()
   layout->addWidget(new QWidget, row, 0);
   layout->setRowStretch(row, 1000);
 
-  vsize_group->addWidget(box);
+  vsize_group->add_widget(box);
 
   connector->connect(CoreConfig::timer_limit(break_id), dc::wrap(limit_tim));
   connector->connect(CoreConfig::timer_snooze(break_id), dc::wrap(snooze_tim));

@@ -1,7 +1,7 @@
-#import "OSXStatusBarView.h"
+#import "MacOSStatusBarView.h"
 
 
-@implementation OSXStatusBarView
+@implementation MacOSStatusBarView
 
 - (id)initWithMenu:(NSMenu *)myMenu
 {
@@ -10,16 +10,16 @@
 
   for (int i = 0; i < 3; i++)
     {
-      timebars[i] = [OSXTimeBar alloc];
+      timebars[i] = [MacOSTimeBar alloc];
     }
-    
+
   if (self) {
     menu = myMenu;
     [statusItem setView:self];
     [statusItem setTitle: @"World"];
     menuVisibility = NO;
   }
-    
+
   return self;
 }
 
@@ -33,7 +33,7 @@
    secondaryValue:(int)secondaryValue
 secondaryMaxValue:(int)secondaryMaxValue;
 {
-  OSXTimeBar *timebar = timebars[id];
+  MacOSTimeBar *timebar = timebars[id];
 
   [timebar setText: text];
   [timebar setValue: primaryValue];
@@ -48,7 +48,7 @@ secondaryMaxValue:(int)secondaryMaxValue;
 {
   // invert icon if necessary
   NSColor *color;
-  if (!menuVisibility) 
+  if (!menuVisibility)
     {
       color = [NSColor blackColor];
     }
@@ -56,10 +56,10 @@ secondaryMaxValue:(int)secondaryMaxValue;
     {
       color = [NSColor whiteColor];
     }
-        
+
   // draw item with status as background
   [statusItem drawStatusBarBackgroundInRect:[self frame] withHighlight:menuVisibility];
-  
+
   [timebars[0] drawRect: rect];
 }
 
@@ -71,7 +71,7 @@ secondaryMaxValue:(int)secondaryMaxValue;
   [statusItem popUpStatusItemMenu:menu];
   menuVisibility = NO;
   [self setNeedsDisplay:YES];
-}       
+}
 
 
 - (bool)isMenuVisible

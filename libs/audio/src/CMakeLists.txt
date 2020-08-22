@@ -25,11 +25,11 @@ if (PLATFORM_OS_WINDOWS)
   include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/win32)
 endif()
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   set(SRC ${SRC}
-    osx/OSXSoundPlayer.cc)
-  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/osx)
-  set_source_files_properties(osx/OSXSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")  
+    macos/MACOSSoundPlayer.cc)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/macos)
+  set_source_files_properties(macos/MacOSSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 
 if (HAVE_GTK)
@@ -51,7 +51,7 @@ if (HAVE_PULSE)
   target_link_libraries(workrave-libs-audio ${PULSE_LIBRARIES})
 endif()
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
 endif()
 

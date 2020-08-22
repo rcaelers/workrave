@@ -82,8 +82,8 @@
 #include <windows.h>
 #endif
 
-#if defined(PLATFORM_OS_OSX)
-#include "OSXUtil.hh"
+#if defined(PLATFORM_OS_MACOS)
+#include "MacOSUtil.hh"
 #include <strings.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
@@ -458,7 +458,7 @@ GUI::init_nls()
   // dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\ui" : "\\lib\\locale";
   dir += "\\lib\\locale";
   locale_dir = dir.c_str();
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   char locale_path[MAXPATHLEN * 4];
   char execpath[MAXPATHLEN+1];
   uint32_t pathsz = sizeof (execpath);
@@ -800,7 +800,7 @@ GUI::init_dbus()
       catch (workrave::dbus::DBusException &)
         {
         }
-    }  
+    }
 
 #ifdef HAVE_DBUS
     try
@@ -1564,7 +1564,7 @@ GUI::win32_filter_func (void     *xevent,
       }
       break;
 
-    case WM_DEVICECHANGE: 
+    case WM_DEVICECHANGE:
       {
         TRACE_MSG("WM_DEVICECHANGE " << msg->wParam << " " << msg->lParam);
         switch (msg->wParam) {

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "MicroBreakWindow.hh"
@@ -34,8 +34,8 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-MicroBreakWindow::MicroBreakWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
-  : BreakWindow(screen, BREAK_ID_MICRO_BREAK, break_flags, mode)
+MicroBreakWindow::MicroBreakWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakFlags break_flags)
+    : BreakWindow(platform, screen, BREAK_ID_MICRO_BREAK, break_flags)
 {
   setWindowTitle(Ui::get_break_name(BREAK_ID_MICRO_BREAK));
 }
@@ -58,21 +58,18 @@ MicroBreakWindow::create_gui()
   box->addWidget(time_bar);
 
   ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr restbreak =  core->get_break(BREAK_ID_REST_BREAK);
+  IBreak::Ptr restbreak = core->get_break(BREAK_ID_REST_BREAK);
 
-  QHBoxLayout *button_box = new QHBoxLayout;
-  if (restbreak->is_enabled())
-    {
-      QPushButton *button = UiUtil::create_image_text_button("timer-rest-break.png", tr("Rest break"));
-      connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
-      button_box->addWidget(button);
-      button_box->addStretch();
-    }
+  // QHBoxLayout *button_box = new QHBoxLayout;
+  // if (restbreak->is_enabled())
+  //   {
+  //     QPushButton *button = UiUtil::create_image_text_button("timer-rest-break.png", tr("Rest break"));
+  //     connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
+  //     button_box->addWidget(button);
+  //     button_box->addStretch();
+  //   }
 
-  add_skip_button(button_box);
-  add_postpone_button(button_box);
-
-  box->addLayout(button_box);
+  // box->addLayout(button_box);
 
   QWidget *widget = new QWidget;
   widget->setLayout(box);
@@ -92,8 +89,8 @@ MicroBreakWindow::update_label()
 {
   ICore::Ptr core = Backend::get_core();
 
-  IBreak::Ptr restbreak_timer =  core->get_break(BREAK_ID_REST_BREAK);
-  IBreak::Ptr daily_timer =  core->get_break(BREAK_ID_DAILY_LIMIT);
+  IBreak::Ptr restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
+  IBreak::Ptr daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
@@ -126,7 +123,6 @@ MicroBreakWindow::update_label()
         {
           txt += qstr(qformat(tr("Rest break %s overdue")) % Text::time_to_string(-rb, true));
         }
-
     }
   else if (show_next == BREAK_ID_DAILY_LIMIT)
     {

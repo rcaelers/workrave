@@ -37,8 +37,8 @@
 #include "W32SoundPlayer.hh"
 #include "W32DirectSoundPlayer.hh"
 #include "W32Mixer.hh"
-#elif defined PLATFORM_OS_OSX
-#include "OSXSoundPlayer.hh"
+#elif defined PLATFORM_OS_MACOS
+#include "MacOSSoundPlayer.hh"
 #endif
 
 #if defined HAVE_PULSE
@@ -62,8 +62,8 @@ SoundPlayer::SoundPlayer()
      new GstSoundPlayer()
 #elif defined PLATFORM_OS_WINDOWS
      new W32DirectSoundPlayer()
-#elif defined PLATFORM_OS_OSX
-     new OSXSoundPlayer()
+#elif defined PLATFORM_OS_MACOS
+     new MacOSSoundPlayer()
 #else
 #  warning Sound card support disabled.
      NULL

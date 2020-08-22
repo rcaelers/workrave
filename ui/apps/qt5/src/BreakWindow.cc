@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "BreakWindow.hh"
@@ -26,71 +26,43 @@
 #include <QDesktopWidget>
 #include <QApplication>
 
-#ifdef PLATFORM_OS_OSX
-#include <QtMacExtras>
-#endif
-
 #include "debug.hh"
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
-#include "session/System.hh"
 #include "utils/AssetPath.hh"
 
 #include "UiUtil.hh"
 
-#ifdef PLATFORM_OS_OSX
-#import <Cocoa/Cocoa.h>
-
-class BreakWindow::Private
-{
-public:
-  NSRunningApplication *active_app;
-
-public:
-  Private()
-    : active_app(nil)
-  {
-  }
-};
-#endif
-
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(QScreen *screen, BreakId break_id, BreakFlags break_flags, GUIConfig::BlockMode mode)
-  : QWidget(nullptr, Qt::Window)
-  , break_id(break_id)
-  , break_flags(break_flags)
-  , block_mode(mode)
-  , screen(screen)
+BreakWindow::BreakWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakId break_id, BreakFlags break_flags)
+    : QWidget(nullptr, Qt::Window)
+    , platform(platform)
+    , break_id(break_id)
+    , break_flags(break_flags)
+    , screen(screen)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
-#ifdef PLATFORM_OS_OSX
-  priv = std::make_shared<Private>();
-#endif
-
+  block_mode = GUIConfig::block_mode()();
   TRACE_EXIT();
 }
 
 void
 BreakWindow::init()
 {
-  gui = create_gui();
-
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);
     }
 
-  QVBoxLayout *layout = new QVBoxLayout();
-  layout->setContentsMargins(1, 1, 1, 1);
-  setLayout(layout);
+  QVBoxLayout *outer_layout = new QVBoxLayout();
+  outer_layout->setContentsMargins(1, 1, 1, 1);
+  setLayout(outer_layout);
 
-  if (block_mode == GUIConfig::BLOCK_MODE_NONE)
-    {
-      layout->addWidget(gui);
-    }
-  else
+  QVBoxLayout *inner_layout = outer_layout;
+
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       frame = new Frame;
       frame->set_frame_style(Frame::Style::Solid);
@@ -99,10 +71,16 @@ BreakWindow::init()
 
       QVBoxLayout *frame_layout = new QVBoxLayout;
       frame->setLayout(frame_layout);
-      frame_layout->addWidget(gui);
 
-      layout->addWidget(frame);
+      outer_layout->addWidget(frame);
+      inner_layout = frame_layout;
     }
+
+  size_group = std::make_shared<SizeGroup>(Qt::Horizontal);
+  gui = create_gui();
+
+  inner_layout->addWidget(gui);
+  inner_layout->addLayout(create_break_buttons(true, true));
 }
 
 BreakWindow::~BreakWindow()
@@ -121,47 +99,162 @@ BreakWindow::center()
 }
 
 void
-BreakWindow::add_lock_button(QLayout *box)
+BreakWindow::add_lock_button(QGridLayout *box)
 {
   if (System::is_lockable())
     {
       QPushButton *button = UiUtil::create_image_text_button("lock.png", tr("Lock"));
-      box->addWidget(button);
+      box->addWidget(button, 1, box->columnCount());
       connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
     }
 }
 
-void
-BreakWindow::add_shutdown_button(QLayout *box)
-{
-  if (false) // FIXME: System::is_shutdown_supported())
-    {
-      QPushButton *button = UiUtil::create_image_text_button("shutdown.png", tr("Shut down"));
-      box->addWidget(button);
-      connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
-    }
-}
+// void
+// BreakWindow::add_shutdown_button(QGridLayout *box)
+// {
+//   if (System::is_shutdown_supported())
+//     {
+//       QPushButton *button = UiUtil::create_image_text_button("shutdown.png", tr("Shut down"));
+//       box->addWidget(button, 1, box->columnCount());
+//       connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
+//     }
+// }
 
 void
-BreakWindow::add_skip_button(QLayout *box)
+BreakWindow::add_skip_button(QGridLayout *box, bool locked)
 {
   if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
     {
-      QPushButton *button = new QPushButton(tr("Skip"));
-      box->addWidget(button);
-      connect(button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
+      skip_button = new QPushButton(tr("Skip"));
+      qDebug() << "skip " << locked;
+      skip_button->setEnabled(!locked);
+      if (locked)
+        {
+          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
+          skip_button->setToolTip(msg);
+        }
+      skip_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      size_group->add_widget(skip_button);
+      box->addWidget(skip_button, 1, box->columnCount());
+      connect(skip_button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
     }
 }
 
 void
-BreakWindow::add_postpone_button(QLayout *box)
+BreakWindow::add_postpone_button(QGridLayout *box, bool locked)
 {
   if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
     {
-      QPushButton *button = new QPushButton(tr("Postpone"));
-      box->addWidget(button);
-      connect(button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
+      postpone_button = new QPushButton(tr("Postpone"));
+      postpone_button->setEnabled(!locked);
+      if (locked)
+        {
+          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
+          postpone_button->setToolTip(msg);
+        }
+      postpone_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      size_group->add_widget(postpone_button);
+      box->addWidget(postpone_button, 1, box->columnCount());
+      connect(postpone_button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
     }
+}
+
+void
+BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, QString &name, QString &icon_name)
+{
+  switch (type)
+    {
+    case System::SystemOperation::SYSTEM_OPERATION_NONE:
+      name = tr("Lock...");
+      icon_name = "lock.png";
+      break;
+    case System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN:
+      name = tr("Lock");
+      icon_name = "lock.png";
+      break;
+    case System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+      name = tr("Shutdown");
+      icon_name = "shutdown.png";
+      break;
+    case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
+      name = tr("Suspend");
+      icon_name = "shutdown.png";
+      break;
+    case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+      name = tr("Hibernate");
+      icon_name = "shutdown.png";
+      break;
+    case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+      name = tr("Suspend hybrid");
+      icon_name = "shutdown.png";
+      break;
+    default:
+      throw "System::execute: Unknown system operation";
+    };
+}
+
+void
+BreakWindow::append_row_to_sysoper_model(System::SystemOperation::SystemOperationType type)
+{
+  TRACE_ENTER("BreakWindow::append_row_to_sysoper_model");
+
+  QString name;
+  QString icon_name;
+  get_operation_name_and_icon(type, name, icon_name);
+
+  std::string file = AssetPath::complete_directory(icon_name.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
+  QPixmap pixmap(file.c_str());
+  QIcon icon(pixmap);
+  sysoper_combo->addItem(icon, name);
+
+  TRACE_EXIT()
+}
+
+void
+BreakWindow::add_sysoper_combobox(QGridLayout *box)
+{
+  TRACE_ENTER("BreakWindow::create_sysoper_combobox");
+  supported_system_operations = System::get_supported_system_operations();
+
+  if (supported_system_operations.empty())
+    {
+      return;
+    }
+
+  sysoper_combo = new QComboBox;
+  append_row_to_sysoper_model(System::SystemOperation::SYSTEM_OPERATION_NONE);
+
+  for (auto &item : supported_system_operations)
+    {
+      append_row_to_sysoper_model(item.type);
+    }
+
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(sysoper_combo, signal, this, &BreakWindow::on_sysoper_combobox_changed);
+
+  size_group->add_widget(sysoper_combo);
+  box->addWidget(sysoper_combo, 1, box->columnCount());
+
+  TRACE_EXIT();
+}
+
+void
+BreakWindow::on_sysoper_combobox_changed(int index)
+{
+  TRACE_ENTER_MSG("BreakWindow::on_sysoper_combobox_changed", index);
+  if (supported_system_operations[index].type == System::SystemOperation::SYSTEM_OPERATION_NONE)
+    {
+      TRACE_RETURN("SYSTEM_OPERATION_NONE");
+      return;
+    }
+
+  // IGUI *gui = GUI::get_instance();
+  // gui->interrupt_grab();
+
+  System::execute(supported_system_operations[index].type);
+
+  // this will fire this method again with SYSTEM_OPERATION_NONE active
+  sysoper_combo->setCurrentIndex(0);
 }
 
 void
@@ -171,20 +264,10 @@ BreakWindow::on_lock_button_clicked()
     {
       // IGUI *gui = GUI::get_instance();
       // gui->interrupt_grab();
-      // FIXME: System::lock();
+      System::lock_screen();
     }
 }
 
-void
-BreakWindow::on_shutdown_button_clicked()
-{
-  // IGUI *gui = GUI::get_instance();
-  // gui->interrupt_grab();
-
-  // FIXME: System::shutdown();
-}
-
-//! User has closed the main window.
 // bool
 // BreakWindow::on_delete_event(GdkEventAny *)
 // {
@@ -202,7 +285,6 @@ BreakWindow::on_postpone_button_clicked()
   IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
-  resume_non_ignorable_break();
 }
 
 void
@@ -212,96 +294,159 @@ BreakWindow::on_skip_button_clicked()
   IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
-  resume_non_ignorable_break();
 }
 
-// TODO: move to backend.
 void
-BreakWindow::resume_non_ignorable_break()
+BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
+  skip_locked = false;
+  postpone_locked = false;
+  overdue_break_id = BREAK_ID_NONE;
+
   ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
-  TRACE_MSG("break flags " << break_flags);
-
-  if (!(break_flags & BREAK_FLAGS_USER_INITIATED) && mode == OperationMode::Normal)
+  if (mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          TRACE_MSG("Break " << id << ": check ignorable");
+          IBreak::Ptr b = core->get_break(id);
 
-          bool ignorable = GUIConfig::break_ignorable(BreakId(id))();
-          if (!ignorable)
+          bool overdue = b->get_elapsed_time() > b->get_limit();
+
+          if ((!(break_flags & BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
             {
-              TRACE_MSG("Break " << id << " not ignorable");
-
-              ICore::Ptr core = Backend::get_core();
-              IBreak::Ptr b = core->get_break(BreakId(id));
-
-              if (b->get_elapsed_time() > b->get_limit())
+              if (!GUIConfig::break_ignorable(BreakId(id))())
                 {
-                  TRACE_MSG("Break " << id << " not ignorable and overdue");
-
-                  core->force_break(BreakId(id), BREAK_HINT_NONE);
-                  break;
+                  skip_locked = overdue;
+                }
+              if (!GUIConfig::break_skippable(BreakId(id))())
+                {
+                  postpone_locked = overdue;
+                }
+              if (skip_locked || postpone_locked)
+                {
+                  overdue_break_id = BreakId(id);
+                  return;
                 }
             }
         }
     }
+  TRACE_EXIT();
 }
 
-QHBoxLayout *
+void
+BreakWindow::update_skip_postpone_lock()
+{
+  if ((postpone_button != NULL && !postpone_button->isEnabled()) || (skip_button != NULL && !skip_button->isEnabled()))
+    {
+      bool skip_locked = false;
+      bool postpone_locked = false;
+      BreakId overdue_break_id = BREAK_ID_NONE;
+      check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+
+      if (progress_bar)
+        {
+          if (overdue_break_id != BREAK_ID_NONE)
+            {
+              ICore::Ptr core = Backend::get_core();
+              IBreak::Ptr b = core->get_break(overdue_break_id);
+
+              progress_bar->setRange(0, b->get_auto_reset());
+              progress_bar->setValue(b->get_elapsed_idle_time());
+            }
+          else
+            {
+              progress_bar->hide();
+            }
+        }
+
+      if (!postpone_locked && postpone_button != NULL)
+        {
+          postpone_button->setToolTip("");
+          postpone_button->setEnabled(true);
+        }
+      if (!skip_locked && skip_button != NULL)
+        {
+          skip_button->setToolTip("");
+          skip_button->setEnabled(true);
+        }
+    }
+}
+
+QLayout *
 BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 {
-  QHBoxLayout *box = nullptr;
+  QGridLayout *box = nullptr;
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      box = new QHBoxLayout;
+      box = new QGridLayout;
+      box->setVerticalSpacing(0);
 
-      if (shutdownable)
+      if (lockable || shutdownable)
         {
-          add_shutdown_button(box);
+          if (shutdownable)
+            {
+              add_sysoper_combobox(box);
+            }
+          else
+            {
+              add_lock_button(box);
+            }
         }
 
-      if (lockable)
-        {
-          add_lock_button(box);
-        }
+      box->addWidget(new QWidget, 1, box->columnCount());
+      box->setColumnStretch(box->columnCount(), 100);
 
-      add_skip_button(box);
-      add_postpone_button(box);
+      if (break_flags != BREAK_FLAGS_NONE)
+        {
+          bool skip_locked = false;
+          bool postpone_locked = false;
+          BreakId overdue_break_id = BREAK_ID_NONE;
+          check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+
+          add_skip_button(box, skip_locked);
+          add_postpone_button(box, postpone_locked);
+
+          if (skip_locked || postpone_locked)
+            {
+              progress_bar = new QProgressBar;
+
+              progress_bar->setOrientation(Qt::Horizontal);
+              progress_bar->setTextVisible(false);
+              progress_bar->setRange(0, 30);
+              progress_bar->setValue(10);
+              progress_bar->update();
+
+              update_skip_postpone_lock();
+
+              if (skip_locked && postpone_locked)
+                {
+                  box->addWidget(progress_bar, 0, box->columnCount() - 2, 1, 2);
+                }
+              else if (skip_locked)
+                {
+                  box->addWidget(progress_bar, 0, box->columnCount() - 2, 1, 1);
+                }
+              else
+                {
+                  box->addWidget(progress_bar, 0, box->columnCount() - 1, 1, 1);
+                }
+            }
+        }
     }
 
   return box;
 }
-
-#ifdef PLATFORM_OS_OSX
-
-NSString *
-colorToHexString(NSColor *color)
-{
-  NSMutableString *hexString = [[NSMutableString alloc] init];
-  [hexString appendString:@"#"];
-  [hexString appendFormat:@"%02x", (int)([color redComponent] * 255.0f)];
-  [hexString appendFormat:@"%02x", (int)([color greenComponent] * 255.0f)];
-  [hexString appendFormat:@"%02x", (int)([color blueComponent] * 255.0f)];
-  return hexString;
-}
-
-#endif
 
 void
 BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
 
-#ifdef PLATFORM_OS_OSX
-  NSLog(@"%@", [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier);
-  priv->active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
-  [NSApp activateIgnoringOtherApps:YES];
-#endif
+  platform->foreground();
 
   refresh();
   show();
@@ -317,109 +462,21 @@ BreakWindow::start()
       block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2 : 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
-#ifdef PLATFORM_OS_OSX
-      NSWorkspace *mainWorkspace = [NSWorkspace sharedWorkspace];
-      NSView *nsview = (__bridge NSView *)reinterpret_cast<void *>(block_window->winId());
-      NSWindow *nswindow = [nsview window];
-      //[NSScreen screens] objectAtIndex:0]]
-      NSScreen *desktopScreen = [nswindow screen];
+      if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+        {
+          QPalette palette;
+          QPixmap pixmap = platform->get_desktop_image();
+          palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
+          block_window->setPalette(palette);
+        }
 
-      // NSURL *desktopImageURL = [mainWorkspace desktopImageURLForScreen:desktopScreen];
-      // NSImage *desktopImage = [[NSImage alloc] initWithContentsOfURL:desktopImageURL];
-      // //desktopImage = [desktopImage imageCroppedToFitSize:[nsview bounds].size]
-
-      // CGImageRef cgImage = [desktopImage CGImageForProposedRect:NULL context:NULL hints:NULL];
-      // QPixmap pixmap = QtMac::fromCGImageRef(cgImage);
-
-      // QPalette palette;
-      // palette.setBrush(block_window->backgroundRole(), QBrush(pixmap));
-      // block_window->setPalette(palette);
-
-      block_window->showFullScreen();
+      // block_window->showFullScreen();
+      block_window->showMaximized();
       block_window->raise();
 
-      NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar |
-                                                  NSApplicationPresentationDisableAppleMenu | NSApplicationPresentationDisableProcessSwitching |
-                                                  // NSApplicationPresentationDisableForceQuit |
-                                                  // NSApplicationPresentationDisableSessionTermination |
-                                                  NSApplicationPresentationDisableHideApplication);
-      [NSApp setPresentationOptions:options];
-
-      NSDictionary *dictionary = [mainWorkspace desktopImageOptionsForScreen:desktopScreen];
-      //if ([dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey])
-      //{
-      NSNumber *clipping = [dictionary objectForKey:NSWorkspaceDesktopImageAllowClippingKey];
-      if ([clipping boolValue])
-        {
-          printf("Clipping: YES\n");
-        }
-      else
-        {
-          printf("Clipping: NO\n");
-        }
-      //} else {
-      //printf("Clipping: NO (not defined)\n");
-      //}
-      if ([dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey])
-        {
-          NSColor *color = [dictionary objectForKey:NSWorkspaceDesktopImageFillColorKey];
-          printf("Background: %s\n", [colorToHexString(color) UTF8String]);
-        }
-      if ([dictionary objectForKey:NSWorkspaceDesktopImageScalingKey])
-        {
-          NSImageScaling scaling = (NSImageScaling)[[dictionary objectForKey:NSWorkspaceDesktopImageScalingKey] integerValue];
-          switch (scaling)
-            {
-              case NSImageScaleNone:
-                printf("Scaling: none\n");
-                break;
-              case NSImageScaleAxesIndependently:
-                printf("Scaling: stretch\n");
-                break;
-              case NSImageScaleProportionallyDown:
-                printf("Scaling: down\n");
-                break;
-              case NSImageScaleProportionallyUpOrDown:
-                printf("Scaling: updown\n");
-                break;
-              default:
-                printf("Scaling: unknown\n");
-                break;
-            }
-        }
-      else
-        {
-          printf("Scaling: updown (not defined)\n");
-        }
-
-        /* fit screen
-        Clipping: NO (not defined)
-        Background: #51a0aa
-        Scaling: updown (not defined)
-
-        fit to screen
-        Clipping: NO
-        Background: #51a0aa
-        Scaling: updown
-
-        stretch to fiull screen
-        Clipping: NO (not defined)
-        Background: #51a0aa
-        Scaling: stretch
-
-        center
-        Clipping: NO (not defined)
-        Background: #51a0aa
-        Scaling: none
-
-        tile
-        Clipping: NO (not defined)
-        Background: #51a0aa
-        Scaling: updown (not defined)
-      */
-
-#endif
+      platform->lock();
     }
+
   // Set window hints.
   // set_skip_pager_hint(true);
   // set_skip_taskbar_hint(true);
@@ -441,22 +498,14 @@ BreakWindow::stop()
 
   if (block_window != nullptr)
     {
+      block_window->showNormal();
       block_window->hide();
-
-#ifdef PLATFORM_OS_OSX
-      [NSApp setPresentationOptions:NSApplicationPresentationDefault];
-#endif
+      delete block_window;
     }
 
   hide();
-
-#ifdef PLATFORM_OS_OSX
-  if (priv->active_app != nil)
-    {
-      [priv->active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
-      priv->active_app = nil;
-    }
-#endif
+  platform->restore_foreground();
+  platform->unlock();
 
   TRACE_EXIT();
 }
@@ -465,8 +514,17 @@ void
 BreakWindow::refresh()
 {
   TRACE_ENTER("BreakWindow::refresh");
-  update_break_window();
 
+  update_skip_postpone_lock();
+  update_break_window();
+  update_flashing_border();
+
+  TRACE_EXIT();
+}
+
+void
+BreakWindow::update_flashing_border()
+{
   ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
@@ -485,8 +543,6 @@ BreakWindow::refresh()
           is_flashing = false;
         }
     }
-
-  TRACE_EXIT();
 }
 
 void

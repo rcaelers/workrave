@@ -1,4 +1,4 @@
-// OSXAppletWindow.hh --- Applet window
+// MacOSAppletWindow.hh --- Applet window
 //
 // Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXAPPLETWINDOW_HH
-#define OSXAPPLETWINDOW_HH
+#ifndef MACOSAPPLETWINDOW_HH
+#define MACOSAPPLETWINDOW_HH
 
 #include <string>
 
@@ -28,13 +28,13 @@
 
 #import "ColorId.h"
 
-@class OSXStatusBarView;
+@class MacOSStatusBarView;
 
-class OSXAppletWindow : public AppletWindow, public TimerBoxViewBase
+class MacOSAppletWindow : public AppletWindow, public TimerBoxViewBase
 {
 public:
-  OSXAppletWindow();
-  virtual ~OSXAppletWindow();
+  MacOSAppletWindow();
+  virtual ~MacOSAppletWindow();
 
   virtual AppletState activate_applet();
   virtual void deactivate_applet();
@@ -49,7 +49,7 @@ public:
 
 private:
   ColorId convertColorId(TimerColorId colorId);
-  OSXStatusBarView *view;
+  MacOSStatusBarView *view;
 };
 
-#endif // OSXAPPLETWINDOW_HH
+#endif // MACOSAPPLETWINDOW_HH

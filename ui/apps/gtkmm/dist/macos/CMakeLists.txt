@@ -1,10 +1,10 @@
 if (APPLE)
 
-  
+
   set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
 
   include(InstallRequiredSystemLibraries)
-  
+
   install(CODE "
        cmake_policy(SET CMP0009 NEW)
        cmake_policy(SET CMP0011 NEW)
@@ -14,7 +14,7 @@ if (APPLE)
        set(BU_COPY_FULL_FRAMEWORK_CONTENTS ON)
        fixup_bundle(\"${APPS}\"   \"\${PLUGINS}\"   \"${DIRS}\")
        " COMPONENT Runtime)
-  
-  install(FILES "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns" DESTINATION ${DATADIR} RENAME "Workrave.icns")
-  
+
+  install(FILES "${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns" DESTINATION ${DATADIR} RENAME "Workrave.icns")
+
 endif()

@@ -1,6 +1,6 @@
-// Test.hh
+// MacOSConfigurator.hh
 //
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,36 +17,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TEST_HH
-#define TEST_HH
+#ifndef MACOSCONFIGURATOR_HH
+#define MACOSCONFIGURATOR_HH
 
-#include <QtCore>
+#include <string>
+#include <list>
+#include <map>
 
-#include <iostream>
+#include "IConfigBackend.hh"
 
-class SignalReceiver : public QObject
+class MacOSConfigurator :
+  public virtual IConfigBackend
 {
-  Q_OBJECT
 public:
-  SignalReceiver() : got(false) {}
+  MacOSConfigurator();
+  ~MacOSConfigurator() override;
 
-public Q_SLOTS:
+  bool load(std::string filename) override;
+  bool save(std::string filename) override;
+  bool save() override;
 
-  void on_signal_without_args()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
-
-  void on_signal()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
-
-public:
-  bool got;
+  bool remove_key(const std::string &key) override;
+  bool get_value(const std::string &key, VariantType type, Variant &value) const override;
+  bool set_value(const std::string &key, Variant &value) override;
 };
 
-
-#endif // TEST_HH
+#endif // MACOSCONFIGURATOR_HH

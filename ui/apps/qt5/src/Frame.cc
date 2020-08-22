@@ -32,7 +32,7 @@ Frame::Frame(QWidget* parent)
 {
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
 }
-    
+
 void
 Frame::set_frame_visible(bool visible)
 {
@@ -67,7 +67,7 @@ void
 Frame::set_frame_width(int frame, int border)
 {
   QRect fr = get_frame_rect();
-  
+
   frame_width = frame;
   border_width = border;
 

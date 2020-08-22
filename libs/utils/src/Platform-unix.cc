@@ -54,7 +54,7 @@ void *
 Platform::get_default_display()
 {
   void *xdisplay = nullptr;
- 
+
 #if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
   if (display != nullptr)
@@ -70,7 +70,7 @@ Platform::get_default_display()
 #else
 #error Platform unsupported
 #endif
-  
+
   return xdisplay;
 }
 
@@ -78,7 +78,7 @@ std::string
 Platform::get_default_display_name()
 {
   std::string ret;
-  
+
 #if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
   if (display != nullptr)
@@ -152,7 +152,7 @@ Platform::can_position_windows()
 {
 #if defined(PLATFORM_OS_UNIX)
   return !running_on_wayland();
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   return true;
 #else
   #error Unknown platform

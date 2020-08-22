@@ -2,7 +2,7 @@ contrib/send_menu_command/win32/send_workrave_command.c
 libs/audio/src/GstSoundPlayer.cc
 libs/audio/src/PulseMixer.cc
 libs/audio/src/SoundPlayer.cc
-libs/audio/src/osx/OSXSoundPlayer.cc
+libs/audio/src/macos/MacOSSoundPlayer.cc
 libs/audio/src/win32/W32DirectSoundPlayer.cc
 libs/audio/src/win32/W32Mixer.cc
 libs/audio/src/win32/W32SoundPlayer.cc
@@ -13,7 +13,7 @@ libs/config/src/IniConfigurator.cc
 libs/config/src/QtSettingsConfigurator.cc
 libs/config/src/SettingCache.cc
 libs/config/src/XmlConfigurator.cc
-libs/config/src/osx/OSXConfigurator.cc
+libs/config/src/macos/MacOSConfigurator.cc
 libs/config/src/win32/W32Configurator.cc
 libs/core/src/Break.cc
 libs/core/src/BreakConfig.cc
@@ -50,8 +50,8 @@ libs/dbus/src/DBusQt5.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/input-monitor/src/InputMonitor.cc
 libs/input-monitor/src/InputMonitorFactory.cc
-libs/input-monitor/src/osx/OSXInputMonitor.cc
-libs/input-monitor/src/osx/OSXInputMonitorFactory.cc
+libs/input-monitor/src/macos/MacOSInputMonitor.cc
+libs/input-monitor/src/macos/MacOSInputMonitorFactory.cc
 libs/input-monitor/src/unix/RecordInputMonitor.cc
 libs/input-monitor/src/unix/UnixInputMonitorFactory.cc
 libs/input-monitor/src/unix/X11InputMonitor.cc
@@ -134,9 +134,9 @@ ui/apps/gtkmm/src/TimerPreferencesPanel.cc
 ui/apps/gtkmm/src/WindowHints.cc
 ui/apps/gtkmm/src/main.cc
 ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
-ui/apps/gtkmm/src/osx/OSXAppletWindow.cc
-ui/apps/gtkmm/src/osx/OSXGtkMenu.cc
-ui/apps/gtkmm/src/osx/OSXUtil.cc
+ui/apps/gtkmm/src/macos/MacOSAppletWindow.cc
+ui/apps/gtkmm/src/macos/MacOSGtkMenu.cc
+ui/apps/gtkmm/src/macos/MacOSUtil.cc
 ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc
 ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c

@@ -98,7 +98,7 @@ StatisticsDialog::run()
 void
 StatisticsDialog::init_gui()
 {
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 #else
@@ -155,14 +155,14 @@ StatisticsDialog::init_gui()
   hbox->pack_start(*navbox, true, true, 0);
 
   create_break_page(tnotebook);
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   // No details activity statistics on OS X..
   create_activity_page(tnotebook);
 #endif
 
   tnotebook->show_all();
 
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   tnotebook->set_current_page(0);
 #endif
 
@@ -311,7 +311,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 
   box->show_all();
 
-#if !defined(PLATFORM_OS_OSX)
+#if !defined(PLATFORM_OS_MACOS)
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 #else
   ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);

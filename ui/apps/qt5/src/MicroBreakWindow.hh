@@ -18,8 +18,6 @@
 #ifndef MICROBREAKWINDOW_HH
 #define MICROBREAKWINDOW_HH
 
-#include "commonui/GUIConfig.hh"
-
 #include "BreakWindow.hh"
 #include "TimeBar.hh"
 
@@ -28,7 +26,7 @@ class MicroBreakWindow : public BreakWindow
   Q_OBJECT
 
 public:
-  MicroBreakWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode);
+  MicroBreakWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 
@@ -44,8 +42,8 @@ private:
   void on_restbreaknow_button_clicked();
 
 private:
-  TimeBar *time_bar { nullptr };
-  QLabel *label { nullptr };
+  TimeBar *time_bar{ nullptr };
+  QLabel *label{ nullptr };
 };
 
 #endif // MICROBREAKWINDOW_HH

@@ -1,4 +1,4 @@
-// OSXGtkMenu.cc --- Menus using Gtk+
+// MacOSGtkMenu.cc --- Menus using Gtk+
 //
 // Copyright (C) 2001 - 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -28,7 +28,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "OSXGtkMenu.hh"
+#include "MacOSGtkMenu.hh"
 
 #include <string>
 
@@ -39,27 +39,27 @@
 using namespace std;
 
 //! Constructor.
-OSXGtkMenu::OSXGtkMenu(bool show_open)
+MacOSGtkMenu::MacOSGtkMenu(bool show_open)
   : MainGtkMenu(show_open)
 {
 }
 
 
 //! Destructor.
-OSXGtkMenu::~OSXGtkMenu()
+MacOSGtkMenu::~MacOSGtkMenu()
 {
 }
 
 
 void
-OSXGtkMenu::popup(const guint button, const guint activate_time)
+MacOSGtkMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;
   (void) activate_time;
 }
 
 void
-OSXGtkMenu::create_ui()
+MacOSGtkMenu::create_ui()
 {
   Glib::ustring ui_info =
     "<ui>\n"

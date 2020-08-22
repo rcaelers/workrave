@@ -43,7 +43,7 @@ TimerBoxView::TimerBoxView()
       labels[i] = nullptr;
       bars[i] = nullptr;
     }
-  
+
   init();
 }
 
@@ -84,7 +84,7 @@ TimerBoxView::init()
           labels[i] = label;
         }
 
-      size_group->addWidget(labels[i]);
+      size_group->add_widget(labels[i]);
 
       bars[i] = new TimeBar();
       bars[i]->set_text_alignment(1);

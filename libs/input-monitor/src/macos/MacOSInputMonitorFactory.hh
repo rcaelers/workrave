@@ -15,34 +15,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXINPUTMONITOR_HH
-#define OSXINPUTMONITOR_HH
+#ifndef MACOSINPUTMONITORFACTORY_HH
+#define MACOSINPUTMONITORFACTORY_HH
 
-#include <boost/thread.hpp>
+#include <stdlib.h>
+#include <string>
 
-// #include <CoreFoundation/CoreFoundation.h>
-// #include <IOKit/IOKitLib.h>
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorFactory.hh"
+#include "config/IConfigurator.hh"
 
-#include "InputMonitor.hh"
-#include "input-monitor/IInputMonitorListener.hh"
-
-class OSXInputMonitor : public InputMonitor
+class MacOSInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
-  OSXInputMonitor() = default;
-  virtual ~OSXInputMonitor();
-
-  bool init() override;
-  void terminate() override;
-  void run();
+  explicit MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
+  void init(const char *display) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
 
 private:
-  uint64_t get_event_count();
-
-private:
-  bool terminate_loop = false;
-  std::shared_ptr<boost::thread> monitor_thread;
-  int last_event_count = 0;
+  workrave::input_monitor::IInputMonitor::Ptr monitor;
 };
 
-#endif // OSXINPUTMONITOR_HH
+#endif // INPUTMONITORFACTORY_HH

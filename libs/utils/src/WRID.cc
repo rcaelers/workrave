@@ -34,7 +34,7 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #include <windows.h>
 #include <wincrypt.h>
-#elif defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -188,7 +188,7 @@ WRID::set(const std::string &str)
   return ret;
 }
 
-#if defined (PLATFORM_OS_UNIX) || defined (PLATFORM_OS_OSX)
+#if defined (PLATFORM_OS_UNIX) || defined (PLATFORM_OS_MACOS)
 
 void
 WRID::get_random_bytes(unsigned char *buf, size_t length)

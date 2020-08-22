@@ -44,9 +44,9 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   QVBoxLayout *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
-  
+
   layout->addWidget(timer_box_view);
-  
+
   menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);

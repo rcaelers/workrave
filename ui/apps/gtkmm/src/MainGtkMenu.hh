@@ -42,10 +42,10 @@ private:
   void on_menu_mode(int mode);
   void on_menu_reading();
 
-#ifdef PLATFORM_OS_OSX
-  void osx_popup_hack_connect(Gtk::Menu *menu);
-  static gboolean osx_popup_hack_hide(gpointer data);
-  static gboolean osx_popup_hack_leave_enter(GtkWidget *menu,
+#ifdef PLATFORM_OS_MACOSOS
+  void macos_popup_hack_connect(Gtk::Menu *menu);
+  static gboolean macos_popup_hack_hide(gpointer data);
+  static gboolean macos_popup_hack_leave_enter(GtkWidget *menu,
                                                GdkEventCrossing *event,
                                                void *data);
 #endif

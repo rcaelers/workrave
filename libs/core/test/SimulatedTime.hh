@@ -71,7 +71,7 @@ public:
 
 private:
   SimulatedTime() {}
-  
+
   void init()
   {
     reset();

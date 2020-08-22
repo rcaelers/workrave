@@ -16,7 +16,7 @@ target_include_directories(
 
 target_link_libraries(workrave-libs-updater workrave-libs-utils)
 
-#if (PLATFORM_OS_OSX)
+#if (PLATFORM_OS_MACOS)
 #  set_target_properties(workrave-libs-updater PROPERTIES LINK_FLAGS "-Wl,-rpath/${CMAKE_CURRENT_BINARY_DIR}/../ext/sparkle/Release/")
 #  target_link_libraries(workrave-libs-updater "-F/${CMAKE_CURRENT_BINARY_DIR}/../ext/sparkle/Release/ -framework Sparkle")
 #  add_dependencies(workrave-libs-updater Sparkle)

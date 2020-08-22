@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2020 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,12 @@
 
 #include "BreakWindow.hh"
 
-#include "commonui/GUIConfig.hh"
-
 class DailyLimitWindow : public BreakWindow
 {
   Q_OBJECT
 
 public:
-  DailyLimitWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode);
+  DailyLimitWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 

@@ -184,7 +184,7 @@ void
 Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
   (void) list;
-  
+
 #ifdef HAVE_LANGUAGE_SELECTION
   static bool init_done = false;
 
@@ -237,7 +237,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #include <glib.h>
 #endif
 
-#if defined(PLATFORM_OS_OSX)
+#if defined(PLATFORM_OS_MACOS)
 #import <Foundation/NSCalendar.h>
 #endif
 
@@ -265,7 +265,7 @@ Locale::get_week_start()
       }
     }
 
-#elif defined(PLATFORM_OS_OSX)
+#elif defined(PLATFORM_OS_MACOS)
   week_start = [[NSCalendar currentCalendar] firstWeekday];
 
 #elif defined(PLATFORM_OS_UNIX)

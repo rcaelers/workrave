@@ -28,13 +28,14 @@ set(SRC
   TimerPreferencesPanel.cc
   Toolkit.cc
   ToolkitMenu.cc
+  ToolkitPlatformMac.cc
   Ui.cc
   UiUtil.cc
   main.cc
   qformat.cc
   )
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   set(SRC ${SRC}
     Dock.mm
     MouseMonitor.cc
@@ -72,7 +73,7 @@ qt5_wrap_cpp(MOC_SRC
   ToolkitMenu.hh
 )
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   qt5_wrap_cpp(MOC_SRC
     Dock.hh
     )
@@ -130,7 +131,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
     MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
 
-  set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 
 if (PLATFORM_OS_UNIX)

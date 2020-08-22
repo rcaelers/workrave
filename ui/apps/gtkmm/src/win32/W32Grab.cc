@@ -88,7 +88,7 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
   Hook *self = Hook::instance();
 
   bool handled = false;
-  
+
   if (nCode == HC_ACTION)
     {
       KBDLLHOOKSTRUCT *data = (KBDLLHOOKSTRUCT *)lParam;

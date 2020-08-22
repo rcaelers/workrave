@@ -1,7 +1,7 @@
-#import "OSXTimeBar.h"
+#import "MacOSTimeBar.h"
 
 
-@implementation OSXTimeBar
+@implementation MacOSTimeBar
 
 - (void) setText: (NSString*) aText
 {
@@ -49,11 +49,11 @@
   int win_h = 22;
 
   // Draw background
-  [[NSColor blackColor] set]; 
+  [[NSColor blackColor] set];
   NSFrameRect(NSMakeRect(1, 1, win_w - 2, win_h - 2));
-  [[NSColor whiteColor] set]; 
+  [[NSColor whiteColor] set];
   NSRectFill(NSMakeRect(2, 2, win_w - 4, win_h - 4));
-  
+
   // Bar
   int bar_width = 0;
   if (max_value > 0)
@@ -100,7 +100,7 @@
         {
           if (bar_width)
             {
-              [[NSColor redColor] set]; 
+              [[NSColor redColor] set];
               NSRectFill(NSMakeRect(border_size, border_size, bar_width, bar_height));
 //               window_gc->set_foreground(bar_colors[overlap_color]);
 //               draw_bar(window, window_gc, true,
@@ -110,7 +110,7 @@
             }
           if (sbar_width > bar_width)
             {
-              [[NSColor yellowColor] set]; 
+              [[NSColor yellowColor] set];
               NSRectFill(NSMakeRect(border_size + bar_width, border_size, sbar_width - bar_width, bar_height));
 //               window_gc->set_foreground(bar_colors[secondary_bar_color]);
 //               draw_bar(window, window_gc, true,
@@ -123,7 +123,7 @@
         {
           if (sbar_width)
             {
-              [[NSColor blueColor] set]; 
+              [[NSColor blueColor] set];
               NSRectFill(NSMakeRect(border_size, border_size, sbar_width, bar_height));
 //               window_gc->set_foreground(bar_colors[overlap_color]);
 //               draw_bar(window, window_gc, true,
@@ -131,9 +131,9 @@
 //                        sbar_width, bar_height,
 //                        win_w, win_h);
             }
-          [[NSColor greenColor] set]; 
+          [[NSColor greenColor] set];
           NSRectFill(NSMakeRect(border_size + sbar_width, border_size, bar_width - sbar_width, bar_height));
-          
+
 //           window_gc->set_foreground(bar_colors[bar_color]);
 //           draw_bar(window, window_gc, true,
 //                    border_size + sbar_width, border_size,
@@ -143,7 +143,7 @@
     }
   else
     {
-      [[NSColor grayColor] set]; 
+      [[NSColor grayColor] set];
       NSRectFill(NSMakeRect(border_size, border_size, bar_width, bar_height));
       // No overlap
 //       window_gc->set_foreground(bar_colors[bar_color]);
@@ -159,7 +159,7 @@
 //   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
 //   Pango::Matrix matrix = PANGO_MATRIX_INIT;
-  
+
 //   pango_matrix_rotate(&matrix, 360 - rotation);
 //   pc1->set_matrix(matrix);
 
@@ -234,7 +234,7 @@
 //   TRACE_MSG(textcolor.get_red() << " " <<
 //             textcolor.get_green() << " " <<
 //             textcolor.get_blue());
-  
+
 //   Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
 
 //   window_gc1->set_clip_origin(0,0);

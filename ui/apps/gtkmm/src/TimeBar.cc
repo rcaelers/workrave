@@ -131,7 +131,7 @@ TimeBar::set_rotation(int r)
   queue_resize();
 }
 
-void 
+void
 TimeBar::update()
 {
   queue_draw();

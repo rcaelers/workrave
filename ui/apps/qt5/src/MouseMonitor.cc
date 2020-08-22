@@ -32,7 +32,7 @@ class MouseMonitor::Private
 public:
   id monitor;
   std::function<void(int,int)> func;
-  
+
 public:
   Private() : monitor(nil)
   {

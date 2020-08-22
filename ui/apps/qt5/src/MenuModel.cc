@@ -26,13 +26,13 @@ MenuModel::MenuModel()
   root = std::make_shared<MenuNode>();
 }
 
-MenuNode::Ptr 
+MenuNode::Ptr
 MenuModel::get_root() const
 {
   return root;
 }
 
-void 
+void
 MenuModel::update()
 {
   update_signal();

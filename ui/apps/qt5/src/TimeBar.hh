@@ -34,10 +34,10 @@ public:
 
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);
- 
+
   void set_bar_color(TimerColorId color);
   void set_secondary_bar_color(TimerColorId color);
- 
+
   void set_text(const QString &text);
   void set_text_alignment(int align);
 
@@ -51,7 +51,7 @@ private:
 
   TimerColorId bar_color { TimerColorId::Active };
   TimerColorId secondary_bar_color { TimerColorId::Active };
-  int bar_value { 0 }; 
+  int bar_value { 0 };
   int bar_max_value { 0 };
   int secondary_bar_value { 0 };
   int secondary_bar_max_value { 0 };

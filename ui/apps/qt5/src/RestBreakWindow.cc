@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "RestBreakWindow.hh"
@@ -35,9 +35,9 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
-  : BreakWindow(screen, BREAK_ID_REST_BREAK, break_flags, mode),
-    sound_theme(sound_theme)
+RestBreakWindow::RestBreakWindow(IToolkitPlatform::Ptr platform, SoundTheme::Ptr sound_theme, QScreen *screen, BreakFlags break_flags)
+    : BreakWindow(platform, screen, BREAK_ID_REST_BREAK, break_flags)
+    , sound_theme(sound_theme)
 {
   setWindowTitle(tr("Rest break"));
 }
@@ -50,9 +50,8 @@ RestBreakWindow::create_gui()
   pluggable_panel = new QHBoxLayout;
   box->addLayout(pluggable_panel);
 
-  if (// FIXME: get_screen_index() != 0 ||
-      get_break_flags() & BREAK_FLAGS_NO_EXERCISES ||
-      get_exercise_count() == 0)
+  if ( // FIXME: get_screen_index() != 0 ||
+      get_break_flags() & BREAK_FLAGS_NO_EXERCISES || get_exercise_count() == 0)
     {
       install_info_panel();
     }
@@ -60,17 +59,10 @@ RestBreakWindow::create_gui()
     {
       install_exercises_panel();
     }
-  
+
   timebar = new TimeBar;
   box->addWidget(timebar);
 
-  QHBoxLayout *button_box = new QHBoxLayout;
-  add_lock_button(button_box);
-  add_skip_button(button_box);
-  add_postpone_button(button_box);
-
-  box->addLayout(button_box);
-  
   QWidget *widget = new QWidget;
   widget->setLayout(box);
 
@@ -109,14 +101,14 @@ void
 RestBreakWindow::install_exercises_panel()
 {
   UiUtil::clear_layout(pluggable_panel);
-  
+
   ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Ignore);
-  
+
   ExercisesPanel *exercises_panel = new ExercisesPanel(sound_theme, false);
-  
+
   pluggable_panel->addWidget(exercises_panel);
-  
+
   exercises_panel->set_exercise_count(get_exercise_count());
   connections.connect(exercises_panel->signal_stop(), std::bind(&RestBreakWindow::install_info_panel, this));
 }
@@ -124,35 +116,31 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
-  qDebug() << "RestBreakWindow::install_info_panel; clear";
-  UiUtil::clear_layout(pluggable_panel);  
+  UiUtil::clear_layout(pluggable_panel);
 
   ICore::Ptr core = Backend::get_core();
   core->set_insist_policy(InsistPolicy::Halt);
-  
+
   QString text;
   if (get_break_flags() & BREAK_FLAGS_NATURAL)
     {
-      text = UiUtil::create_alert_text
-        (tr("Natural rest break"),
-         tr("This is your natural rest break."));
+      text = UiUtil::create_alert_text(tr("Natural rest break"), tr("This is your natural rest break."));
     }
   else
     {
-      text = UiUtil::create_alert_text
-        (tr("Rest break"),
-         tr("This is your rest break. Make sure you stand up and\n"
-           "walk away from your computer on a regular basis. Just\n"
-           "walk around for a few minutes, stretch, and relax."));
+      text = UiUtil::create_alert_text(tr("Rest break"),
+                                       tr("This is your rest break. Make sure you stand up and\n"
+                                          "walk away from your computer on a regular basis. Just\n"
+                                          "walk around for a few minutes, stretch, and relax."));
     }
 
   QLabel *label = new QLabel(text);
   QLabel *image = UiUtil::create_image_label("rest-break.png");
-  
+
   QHBoxLayout *restbreak_panel = new QHBoxLayout;
   restbreak_panel->addWidget(image);
   restbreak_panel->addWidget(label);
-  
+
   pluggable_panel->addLayout(restbreak_panel);
 
   qDebug() << "RestBreakWindow::install_info_panel; invalidate";
@@ -178,5 +166,3 @@ RestBreakWindow::install_info_panel()
   //   center();
   // }
 }
-
-

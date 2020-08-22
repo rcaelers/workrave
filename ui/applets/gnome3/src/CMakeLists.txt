@@ -50,6 +50,6 @@ target_include_directories(workrave-applet
 target_compile_definitions(workrave-applet
   PRIVATE
   -DWORKRAVE_UIDATADIR="${UIDIR}"
-  -DGNOMELOCALEDIR="${DATADIR}/locale" 
+  -DGNOMELOCALEDIR="${DATADIR}/locale"
   )
 endif()

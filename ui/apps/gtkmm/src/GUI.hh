@@ -106,7 +106,7 @@ public:
   //
 
   virtual void bus_name_presence(const std::string &name, bool present);
-  
+
   // Internal public methods
   void restbreak_now();
   void open_main_window();

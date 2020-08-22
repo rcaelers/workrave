@@ -113,7 +113,7 @@ private:
 
   //! Mouse sensitivity
   int sensitivity;
-  
+
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
 

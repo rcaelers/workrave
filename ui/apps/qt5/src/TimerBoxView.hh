@@ -60,7 +60,7 @@ private:
   bool is_sheep_only() const;
   void set_sheep_only(bool sheep_only);
 
-private:  
+private:
   QGridLayout *layout { nullptr };
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];

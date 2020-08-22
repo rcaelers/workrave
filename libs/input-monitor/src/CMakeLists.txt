@@ -37,18 +37,18 @@ if (PLATFORM_OS_WINDOWS)
     ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
 endif()
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   set(SRC ${SRC}
-    osx/OSXInputMonitor.cc
-    osx/OSXInputMonitorFactory.cc)
+    macos/MacOSInputMonitor.cc
+    macos/MacOSInputMonitorFactory.cc)
 
-  include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/osx)
+  include_directories(${CMAKE_SOURCE_DIR}/libs/input-monitor/src/macos)
 endif()
 
 add_library(workrave-libs-input-monitor STATIC ${SRC})
 add_cppcheck(workrave-libs-input-monitor)
 
-if (PLATFORM_OS_OSX)
+if (PLATFORM_OS_MACOS)
   target_link_libraries(workrave-libs-input-monitor ${IOKIT_LIBRARY})
 endif()
 

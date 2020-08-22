@@ -35,8 +35,8 @@
 #ifdef PLATFORM_OS_WINDOWS
 #include "W32Configurator.hh"
 #endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXConfigurator.hh"
+#ifdef PLATFORM_OS_MACOS
+#include "MacOSConfigurator.hh"
 #endif
 #ifdef HAVE_QT5
 #include "QtSettingsConfigurator.hh"
@@ -55,8 +55,8 @@ ConfiguratorFactory::create(Format fmt)
     {
 #if defined(PLATFORM_OS_WINDOWS)
       b = new W32Configurator();
-#elif defined(PLATFORM_OS_OSX)
-      b = new OSXConfigurator();
+#elif defined(PLATFORM_OS_MACOS)
+      b = new MacOSConfigurator();
 #elif defined(HAVE_QT5)
       b = new QtSettingsConfigurator();
 #elif defined(HAVE_GSETTINGS)

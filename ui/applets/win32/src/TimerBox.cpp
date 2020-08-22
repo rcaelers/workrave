@@ -154,7 +154,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       int max_rows = __max(1, (height + PADDING_Y) / (__max(icon_height, bar_h) + PADDING_Y));
       int rows = __max(1, __min(max_rows, (filled_slots + max_columns - 1) / max_columns));
       int columns = (filled_slots + rows -1) / rows;
-      
+
       int box_h = rows * __max(icon_height, bar_h) + (rows - 1) * PADDING_Y;
       y = __max(0, (height - box_h)/2);
 
@@ -169,7 +169,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
         {
           bar_dy = (icon_height - bar_h + 1) / 2;
         }
-         
+
       int current_column = 0;
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -197,7 +197,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
           break_to_icon[bid]->update();
         }
     }
-  
+
   for (int h = 0; h < BREAK_ID_SIZEOF; h++)
     {
       if ((! enabled) || (! break_visible[h]))

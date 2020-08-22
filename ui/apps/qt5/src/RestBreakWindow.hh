@@ -18,7 +18,6 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
-#include "commonui/GUIConfig.hh"
 #include "commonui/SoundTheme.hh"
 #include "utils/ScopedConnections.hh"
 
@@ -30,7 +29,7 @@ class RestBreakWindow : public BreakWindow
   Q_OBJECT
 
 public:
-  RestBreakWindow(SoundTheme::Ptr sound_theme, QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode);
+  RestBreakWindow(IToolkitPlatform::Ptr platform, SoundTheme::Ptr sound_theme, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 
@@ -40,13 +39,12 @@ private:
 
   void install_exercises_panel();
   void install_info_panel();
-
   int get_exercise_count();
 
 private:
   SoundTheme::Ptr sound_theme;
-  TimeBar *timebar { nullptr };
-  QHBoxLayout *pluggable_panel { nullptr };
+  TimeBar *timebar{ nullptr };
+  QHBoxLayout *pluggable_panel{ nullptr };
 
   scoped_connections connections;
 };

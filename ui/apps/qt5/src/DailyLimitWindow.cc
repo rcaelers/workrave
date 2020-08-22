@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DailyLimitWindow.hh"
@@ -26,8 +26,8 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-DailyLimitWindow::DailyLimitWindow(QScreen *screen , BreakFlags break_flags, GUIConfig::BlockMode mode)
-  : BreakWindow(screen, BREAK_ID_DAILY_LIMIT, break_flags, mode)
+DailyLimitWindow::DailyLimitWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakFlags break_flags)
+    : BreakWindow(platform, screen, BREAK_ID_DAILY_LIMIT, break_flags)
 {
   setWindowTitle(tr("Daily limit"));
 }
@@ -39,12 +39,11 @@ DailyLimitWindow::create_gui()
   QWidget *widget = new QWidget;
   widget->setLayout(box);
 
-  QString text = UiUtil::create_alert_text
-    (tr("Daily limit"),
-     tr("You have reached your daily limit. Please stop working\n"
-       "behind the computer. If your working day is not over yet,\n"
-       "find something else to do, such as reviewing a document."));
-  
+  QString text = UiUtil::create_alert_text(tr("Daily limit"),
+                                           tr("You have reached your daily limit. Please stop working\n"
+                                              "behind the computer. If your working day is not over yet,\n"
+                                              "find something else to do, such as reviewing a document."));
+
   QHBoxLayout *dailylimit_box = new QHBoxLayout;
   QLabel *label = new QLabel(text);
   QLabel *image = UiUtil::create_image_label("daily-limit.png");
@@ -53,20 +52,12 @@ DailyLimitWindow::create_gui()
 
   box->addLayout(dailylimit_box);
 
-  QHBoxLayout *button_box = new QHBoxLayout;
-  add_shutdown_button(button_box);
-  add_lock_button(button_box);
-  add_skip_button(button_box);
-  add_postpone_button(button_box);
-
-  box->addLayout(button_box);
-
   return widget;
 }
 
 void
 DailyLimitWindow::set_progress(int value, int max_value)
 {
-  (void) value;
-  (void) max_value;
+  (void)value;
+  (void)max_value;
 }

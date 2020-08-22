@@ -79,8 +79,8 @@ StatisticsDialog::run()
   QTimer *timer = new QTimer(this);
   timer->setInterval(1000);
   connect(timer, SIGNAL(timeout()), this, SLOT(on_timer()));
-  timer->start();  
-  
+  timer->start();
+
   return 0;
 }
 
@@ -116,29 +116,29 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
   parent->addWidget(box);
-    
+
   QHBoxLayout *button_box = new QHBoxLayout();
-  
-  first_button = new QPushButton; 
+
+  first_button = new QPushButton;
   first_button->setIcon(QIcon::fromTheme("go-first", UiUtil::create_icon("go-first-symbolic.svg")));
   connect(first_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_goto_first);
   button_box->addWidget(first_button, QDialogButtonBox::ActionRole);
-  
+
   back_button = new QPushButton;
   back_button->setIcon(QIcon::fromTheme("go-previous", UiUtil::create_icon("go-previous-symbolic.svg")));
   connect(back_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_go_back);
   button_box->addWidget(back_button, QDialogButtonBox::ActionRole);
-  
+
   forward_button = new QPushButton;
   forward_button->setIcon(QIcon::fromTheme("go-next", UiUtil::create_icon("go-next-symbolic.svg")));
   connect(forward_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_go_forward);
   button_box->addWidget(forward_button, QDialogButtonBox::ActionRole);
-  
+
   last_button  = new QPushButton;
   last_button->setIcon(QIcon::fromTheme("go-last", UiUtil::create_icon("go-last-symbolic.svg")));
   connect(last_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_goto_last);
   button_box->addWidget(last_button, QDialogButtonBox::ActionRole);
-  
+
   layout->addLayout(button_box);
 
   calendar = new QCalendarWidget();
@@ -162,7 +162,7 @@ StatisticsDialog::create_statistics_box(QLayout *parent)
   parent->addWidget(box);
 
   date_label = UiUtil::add_label(layout, tr("Date:"));
-  
+
   create_break_page(layout);
 }
 
@@ -171,7 +171,7 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 {
   QGridLayout *table = new QGridLayout();
   parent->addLayout(table);
-  
+
   QWidget *unique_label
     = UiUtil::create_label_with_tooltip
     (tr("Break prompts"),
@@ -232,9 +232,9 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   QFrame *vrule = new QFrame();
 
   hrule->setFrameShape(QFrame::HLine);
-  hrule->setFrameShadow(QFrame::Sunken);  
+  hrule->setFrameShadow(QFrame::Sunken);
   vrule->setFrameShape(QFrame::VLine);
-  vrule->setFrameShadow(QFrame::Sunken);  
+  vrule->setFrameShadow(QFrame::Sunken);
 
   int y = 0;
 
@@ -247,7 +247,7 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   table->addWidget(rb_label, y, 3);
   table->addWidget(dl_label, y, 4);
   table->addWidget(vrule, y, 1, 9, 1);
-  
+
   y = 1;
   table->addWidget(hrule, y, 0, 1, 5);
 
@@ -262,7 +262,7 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 
   hrule = new QFrame();
   hrule->setFrameShape(QFrame::HLine);
-  hrule->setFrameShadow(QFrame::Raised);  
+  hrule->setFrameShadow(QFrame::Raised);
 
   table->addWidget(hrule, y, 0, 1, 5);
   y+=2;
@@ -273,9 +273,9 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 
   vrule = new QFrame();
   vrule->setFrameShape(QFrame::VLine);
-  vrule->setFrameShadow(QFrame::Sunken);  
+  vrule->setFrameShadow(QFrame::Sunken);
   table->addWidget(vrule, y, 1, 3, 1);
-  
+
   table->addWidget(daily_usage_label, y, 2);
   table->addWidget(weekly_usage_label, y, 3);
   table->addWidget(monthly_usage_label, y, 4);
@@ -283,7 +283,7 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 
   hrule = new QFrame();
   hrule->setFrameShape(QFrame::HLine);
-  hrule->setFrameShadow(QFrame::Sunken);  
+  hrule->setFrameShadow(QFrame::Sunken);
   table->addWidget(hrule, y, 0, 1, 5);
   y++;
 
@@ -321,22 +321,22 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       date_label->setText("-");
     }
   else
-    {    
+    {
       std::stringstream ss;
       ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%x")));
       boost::posix_time::ptime pt = boost::posix_time::ptime_from_tm(stats->start);
-      ss << pt; 
+      ss << pt;
       std::string date = ss.str();
-      
+
       ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%X")));
-      ss << pt; 
+      ss << pt;
       std::string start = ss.str();
       pt = boost::posix_time::ptime_from_tm(stats->stop);
-      ss << pt; 
+      ss << pt;
       std::string stop = ss.str();
-      
+
       QString text = qstr(qformat(tr("%s, from %s to %s")) % date % start % stop);
-      
+
       date_label->setText(text);
     }
 
@@ -390,7 +390,7 @@ StatisticsDialog::display_week_statistics()
 
   QLocale locale;
   int week_start = locale.firstDayOfWeek() % 7;
-  
+
   int offset = (time_loc->tm_wday - week_start + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)

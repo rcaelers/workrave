@@ -85,7 +85,7 @@ private:
 
   scoped_connections connections;
 
-  // TODO: DBUS stubs, refactor 
+  // TODO: DBUS stubs, refactor
   friend class org_workrave_ControlInterface_Stub;
 };
 

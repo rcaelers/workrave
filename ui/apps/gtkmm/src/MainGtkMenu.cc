@@ -104,7 +104,7 @@ MainGtkMenu::create_menu()
 
   section1->append(_("Exercises"), "app.exercises");
   section1->append(_("Statistics"), "app.statistics");
-  
+
   auto section2 = Gio::Menu::create();
   app_menu->append_section(section2);
 
@@ -129,8 +129,8 @@ MainGtkMenu::create_menu()
   section3->append(_("About"), "app.about");
   section3->append(_("Quit"), "app.quit");
 
-#ifdef PLATFORM_OS_OSX
-  osx_popup_hack_connect(popup_menu);
+#ifdef PLATFORM_OS_MACOSOS
+  macos_popup_hack_connect(popup_menu);
 #endif
 
   popup_menu = std::make_unique<Gtk::Menu>(app_menu);
@@ -211,30 +211,30 @@ MainGtkMenu::on_menu_reading()
 }
 
 
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOSOS
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the
 //    menu does not get rid of it, so instead we get rid of it as soon as the
 //    pointer leaves the menu. */
 
 void
-MainGtkMenu::osx_popup_hack_connect(Gtk::Menu *menu)
+MainGtkMenu::macos_popup_hack_connect(Gtk::Menu *menu)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_connect");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_connect");
 
   GtkWidget *widget = (GtkWidget*) menu->gobj();
   g_signal_connect(widget, "leave-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+                   G_CALLBACK(macos_popup_hack_leave_enter), NULL);
   g_signal_connect(widget, "enter-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+                   G_CALLBACK(macos_popup_hack_leave_enter), NULL);
 
   TRACE_EXIT();
 }
 
 gboolean
-MainGtkMenu::osx_popup_hack_hide(gpointer data)
+MainGtkMenu::macos_popup_hack_hide(gpointer data)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_hide");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_hide");
   if (data != NULL)
     {
       gtk_menu_popdown(GTK_MENU(data));
@@ -245,10 +245,10 @@ MainGtkMenu::osx_popup_hack_hide(gpointer data)
 
 
 gboolean
-MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
+MainGtkMenu::macos_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
                                           void *data)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_leave_enter");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_leave_enter");
 
   TRACE_MSG(event->type << " " <<  event->detail);
 
@@ -261,7 +261,7 @@ MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event
        when mousing around */
     TRACE_MSG("leave " << hide_docklet_timer);
     if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, osx_popup_hack_hide, menu);
+      hide_docklet_timer = g_timeout_add(500, macos_popup_hack_hide, menu);
     }
   } else if (event->type == GDK_ENTER_NOTIFY
              && event->detail == GDK_NOTIFY_ANCESTOR) {

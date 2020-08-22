@@ -265,7 +265,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     set (HAVE_DBUS_GIO ON)
     set (DBUS_BACKEND "gio")
   endif()
- 
+
   include_directories(${GLIB_INCLUDE_DIRS})
   find_package(GSettings)
 endif()
@@ -734,7 +734,7 @@ endif()
 # platform - OS X
 
 if (APPLE)
-  set (PLATFORM_OS_OSX ON)
+  set (PLATFORM_OS_MACOS ON)
   set (PLATFORM_OS_NAME "MacOS")
 
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
@@ -916,7 +916,7 @@ set (CPACK_PACKAGE_VERSION_PATCH         ${VERSION_RELEASE})
 set (CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
 set (CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME_LOWER}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-git${CPACK_DATE}.${BUILD_REV}-${CMAKE_SYSTEM_PROCESSOR}")
 set (CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
-set (CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/osx/workrave.icns")
+set (CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns")
 
 if (WIN32)
   set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
@@ -927,11 +927,11 @@ endif()
 if (APPLE)
   set (CPACK_GENERATOR "DragNDrop")
 
-  configure_file(${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+  configure_file(${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
 
   set (CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/DS_Store")
-  set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/osx/dmg_background.png")
+  set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/DS_Store")
+  set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/dmg_background.png")
   set (CPACK_DMG_FORMAT "UDBZ")
 
   set (CPACK_OSX_PACKAGE_VERSION "10.6")
@@ -954,7 +954,7 @@ include(CPack)
 
 if (APPLE)
   if ("${WITH_UI}" STREQUAL "Qt5")
-    add_subdirectory(ui/apps/qt5/dist/osx)
+    add_subdirectory(ui/apps/qt5/dist/macos)
   endif()
 elseif (WIN32)
   if (BUILD_ONLY_32_BIT_FOR_WIN64)

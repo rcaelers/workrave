@@ -29,7 +29,7 @@
 
 #include <windows.h>
 #include <mmsystem.h>
-#include <shobjidl.h> 
+#include <shobjidl.h>
 
 using namespace std;
 

@@ -213,7 +213,7 @@ SoundClip::get_error_string(DWORD error_code)
     }
     return std::string();
 }
- 
+
 void
 SoundClip::init()
 {

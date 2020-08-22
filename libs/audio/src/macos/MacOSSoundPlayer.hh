@@ -1,6 +1,6 @@
-// Test.hh
+// MacOSSoundPlayer.hh
 //
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2009, 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,36 +17,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TEST_HH
-#define TEST_HH
+#ifndef MACOSSOUNDPLAYER_HH
+#define MACOSSOUNDPLAYER_HH
 
-#include <QtCore>
+#include "ISoundDriver.hh"
 
-#include <iostream>
-
-class SignalReceiver : public QObject
+class MacOSSoundPlayer : public ISoundDriver
 {
-  Q_OBJECT
 public:
-  SignalReceiver() : got(false) {}
+  MacOSSoundPlayer();
 
-public Q_SLOTS:
+  void init(ISoundPlayerEvents *) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
 
-  void on_signal_without_args()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
+  void fire_eos();
 
-  void on_signal()
-  {
-    std::cout << "got event" << std::endl;
-    got = true;
-  }
+private:
+  ISoundPlayerEvents *events;
 
-public:
-  bool got;
+private:
+  class Private;
+  std::shared_ptr<Private> priv;
 };
 
 
-#endif // TEST_HH
+#endif // MACOSSOUNDPLAYER_HH

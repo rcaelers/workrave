@@ -1,16 +1,16 @@
 #import <Cocoa/Cocoa.h>
-#import "OSXTimeBar.h"
+#import "MacOSTimeBar.h"
 
 #include "commonui/ITimeBar.hh"
 
-@interface OSXStatusBarView : NSView {
+@interface MacOSStatusBarView : NSView {
 
   NSStatusItem *statusItem;
   NSMenu *menu;
   bool menuVisibility;
   NSTrackingRectTag mouseEventTag;
 
-  OSXTimeBar *timebars[3];
+  MacOSTimeBar *timebars[3];
 }
 
 - (void)setBreak: (int) id

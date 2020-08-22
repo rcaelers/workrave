@@ -39,7 +39,7 @@
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_XRECORD
 #cmakedefine PACKAGE_VERSION "${PACKAGE_VERSION}"
-#cmakedefine PLATFORM_OS_OSX
+#cmakedefine PLATFORM_OS_MACOS
 #cmakedefine PLATFORM_OS_UNIX
 #cmakedefine PLATFORM_OS_WINDOWS
 #cmakedefine PLATFORM_OS_WINDOWS_NATIVE

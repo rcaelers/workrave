@@ -15,25 +15,46 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXINPUTMONITORFACTORY_HH
-#define OSXINPUTMONITORFACTORY_HH
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <stdlib.h>
 #include <string>
 
-#include "input-monitor/IInputMonitor.hh"
-#include "input-monitor/IInputMonitorFactory.hh"
-#include "config/IConfigurator.hh"
+#include "debug.hh"
 
-class OSXInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
+#include "MacOSInputMonitorFactory.hh"
+#include "MacOSInputMonitor.hh"
+
+using namespace workrave::input_monitor;
+
+MacOSInputMonitorFactory::MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
-public:
-  explicit OSXInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
-  void init(const char *display) override;
-  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
+  (void) config;
+  monitor = nullptr;
+}
 
-private:
-  workrave::input_monitor::IInputMonitor::Ptr monitor;
-};
+void
+MacOSInputMonitorFactory::init(const char *display)
+{
+  (void) display;
+}
 
-#endif // INPUTMONITORFACTORY_HH
+IInputMonitor::Ptr
+MacOSInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+{
+  (void) capability;
+
+  if (monitor == nullptr)
+    {
+      monitor = IInputMonitor::Ptr(new MacOSInputMonitor());
+
+      bool init_ok = monitor->init();
+      if (!init_ok)
+        {
+          monitor.reset();
+        }
+    }
+
+  return monitor;
+}

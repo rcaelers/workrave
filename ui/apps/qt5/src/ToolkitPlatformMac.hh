@@ -1,6 +1,4 @@
-// OSXGtkMenu.hh --- Menu using Gtk+
-//
-// Copyright (C) 2001 - 2008, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2020 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,26 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXGTKMENU_HH
-#define OSXGTKMENU_HH
+#ifndef TOOLKITPLATFORMMAC_HH
+#define TOOLKITPLATFORMMAC_HH
 
-#include "config.h"
+#include <memory>
 
-#include <string>
+#include "IToolkitPlatform.hh"
 
-#include "MainGtkMenu.hh"
-
-class OSXGtkMenu
-  : public MainGtkMenu
+class ToolkitPlatformMac : public IToolkitPlatform
 {
 public:
-  OSXGtkMenu(bool show_open);
-  virtual ~OSXGtkMenu();
+  ToolkitPlatformMac();
+  ~ToolkitPlatformMac() override;
 
-  virtual void create_ui();
-  virtual void popup(const guint button, const guint activate_time);
+  QPixmap get_desktop_image() override;
+
+  void foreground() override;
+  void restore_foreground() override;
+
+  void lock() override;
+  void unlock() override;
 
 private:
+  class Pimpl;
+  std::unique_ptr<Pimpl> pimpl;
 };
 
-#endif // OSXGTKMENU_HH
+#endif // TOOLKITPLATFORMMAC_HH

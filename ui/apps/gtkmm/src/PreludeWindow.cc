@@ -88,7 +88,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 #ifdef PLATFORM_OS_WINDOWS
   init_avoid_pointer_polling();
 #endif
-  
+
   realize();
 
   time_bar = Gtk::manage(new TimeBar);
@@ -136,7 +136,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   set_can_focus(false);
 
-  set_accept_focus(false);  
+  set_accept_focus(false);
   set_focus_on_map(false);
 
   show_all_children();
@@ -211,7 +211,7 @@ PreludeWindow::add(Gtk::Widget& widget)
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
 #endif
     }
-  
+
   window_frame->add(widget);
 }
 
@@ -455,7 +455,7 @@ PreludeWindow::avoid_pointer()
     {
       winy = top_y;
     }
-  else 
+  else
     {
       winy = bottom_y;
     }

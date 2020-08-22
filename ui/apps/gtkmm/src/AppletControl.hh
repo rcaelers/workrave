@@ -34,7 +34,7 @@ public:
       APPLET_TRAY = APPLET_FIRST,
       APPLET_GENERIC_DBUS,
       APPLET_W32,
-      APPLET_OSX,
+      APPLET_MACOS,
       APPLET_SIZE
     };
 
