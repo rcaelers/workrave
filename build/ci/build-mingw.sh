@@ -97,7 +97,7 @@ make_installer()
     portableFilename=${baseFilename}-portable.zip
 
     mkdir -p ${PORTABLE_DIR}
-    innoextract -d ${PORTABLE_DIR} ${installerFilename}
+    innoextract -d ${PORTABLE_DIR} ${DEPLOY_DIR}/${installerFilename}
 
     mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
 
