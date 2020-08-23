@@ -93,7 +93,21 @@ make_installer()
     ${CI_DIR}/catalog.sh -f ${installerFilename} -k installer -c ${CATALOG_CONFIG} -p windows
     ${CI_DIR}/catalog.sh -f ${symbolsFilename} -k symbols -c ${CATALOG_CONFIG} -p windows
 
-    ls -la ${DEPLOY_DIR}
+    PORTABLE_DIR=${DEPLOY_DIR}/portable
+    portableFilename=${baseFilename}-portable.zip
+
+    mkdir -p ${PORTABLE_DIR}
+    innoextract -d ${PORTABLE_DIR} ${installerFilename}
+
+    mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
+
+    rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll
+    cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
+    cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+
+    zip -9 ${portableFilename} ${PORTABLE_DIR}
+
+    ${CI_DIR}/catalog.sh -f ${symbolsFilename} -k portable -c ${CATALOG_CONFIG} -p windows
 }
 
 prepare_runtime
