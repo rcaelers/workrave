@@ -143,7 +143,6 @@ RestBreakWindow::install_info_panel()
 
   pluggable_panel->addLayout(restbreak_panel);
 
-  qDebug() << "RestBreakWindow::install_info_panel; invalidate";
   UiUtil::invalidate(pluggable_panel);
   center();
 

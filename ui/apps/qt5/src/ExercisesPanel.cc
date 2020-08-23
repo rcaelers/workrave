@@ -132,7 +132,6 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
 
 ExercisesPanel::~ExercisesPanel()
 {
-  qDebug() << "ExercisesPanel ~";
 }
 
 void

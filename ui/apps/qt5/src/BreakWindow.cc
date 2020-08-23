@@ -126,7 +126,6 @@ BreakWindow::add_skip_button(QGridLayout *box, bool locked)
   if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
     {
       skip_button = new QPushButton(tr("Skip"));
-      qDebug() << "skip " << locked;
       skip_button->setEnabled(!locked);
       if (locked)
         {

@@ -186,9 +186,7 @@ UiUtil::invalidate(QLayout *layout)
   QWidget *w = layout->parentWidget();
   while (w)
     {
-      qDebug() << "b: " << w->size();
       w->adjustSize();
-      qDebug() << "a: " << w->size();
       w = w->parentWidget();
     }
 }
