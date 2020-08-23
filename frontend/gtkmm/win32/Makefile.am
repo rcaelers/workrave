@@ -7,3 +7,4 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		setup
 
+EXTRA_DIST = workrave.ini Workrave.lnk
