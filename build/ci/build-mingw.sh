@@ -93,7 +93,7 @@ make_installer()
     ${CI_DIR}/catalog.sh -f ${installerFilename} -k installer -c ${CATALOG_CONFIG} -p windows
     ${CI_DIR}/catalog.sh -f ${symbolsFilename} -k symbols -c ${CATALOG_CONFIG} -p windows
 
-    PORTABLE_DIR=${DEPLOY_DIR}/portable
+    PORTABLE_DIR=${BUILD_DIR}/portable
     portableFilename=${baseFilename}-portable.zip
 
     mkdir -p ${PORTABLE_DIR}
@@ -105,9 +105,9 @@ make_installer()
     cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
     cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 
-    zip -9 ${portableFilename} ${PORTABLE_DIR}
+    zip -9 ${DEPLOY_DIR}/${portableFilename} ${PORTABLE_DIR}
 
-    ${CI_DIR}/catalog.sh -f ${symbolsFilename} -k portable -c ${CATALOG_CONFIG} -p windows
+    ${CI_DIR}/catalog.sh -f ${portableFilename} -k portable -c ${CATALOG_CONFIG} -p windows
 }
 
 prepare_runtime
