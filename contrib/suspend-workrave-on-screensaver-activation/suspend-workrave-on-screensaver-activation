@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Copyright (C) 2020 Igor Kushnir <igorkuo AT Google mail>
+# License: GPL v3+ (http://www.gnu.org/copyleft/gpl.html)
+
+setWorkraveOperationMode () {
+    dbus-send --session --dest=org.workrave.Workrave --type=method_call \
+    /org/workrave/Workrave/Core org.workrave.CoreInterface.SetOperationMode \
+    string:"$1"
+}
+
+justChanged=0
+
+dbus-monitor --session "interface='org.xfce.ScreenSaver',member='ActiveChanged'" |
+while read -r line; do  
+  if [[ $justChanged == 1 ]]; then
+    if [[ "$line" =~ 'true' ]]; then
+      setWorkraveOperationMode "suspended"
+    elif [[ "$line" =~ 'false' ]]; then
+      setWorkraveOperationMode "normal"
+    else
+      echo "Error! Unexpected activated value: '$line' $(date)"
+    fi
+    justChanged=0
+  elif [[ "$line" =~ 'ActiveChanged' ]]; then
+    justChanged=1
+  fi
+done
