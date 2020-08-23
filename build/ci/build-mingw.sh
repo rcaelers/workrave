@@ -105,7 +105,8 @@ make_installer()
     cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
     cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 
-    zip -9 -r ${DEPLOY_DIR}/${portableFilename} ${PORTABLE_DIR}
+    cd ${PORTABLE_DIR}
+    zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
 
     ${CI_DIR}/catalog.sh -f ${portableFilename} -k portable -c ${CATALOG_CONFIG} -p windows
 }
