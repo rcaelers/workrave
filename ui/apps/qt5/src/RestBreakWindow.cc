@@ -50,8 +50,7 @@ RestBreakWindow::create_gui()
   pluggable_panel = new QHBoxLayout;
   box->addLayout(pluggable_panel);
 
-  if ( // FIXME: get_screen_index() != 0 ||
-      get_break_flags() & BREAK_FLAGS_NO_EXERCISES || get_exercise_count() == 0)
+  if ((get_break_flags() & BREAK_FLAGS_NO_EXERCISES) || get_exercise_count() == 0)
     {
       install_info_panel();
     }
