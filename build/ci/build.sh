@@ -101,13 +101,32 @@ fi
 if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     if [[ -z "$WORKRAVE_TAG" ]]; then
         echo "No tag build."
-        filename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}.exe
+        baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
     else
         echo "Tag build : $WORKRAVE_TAG"
-        filename=workrave-${WORKRAVE_VERSION}${EXTRA}.exe
+        baseFilename=workrave-${WORKRAVE_VERSION}${EXTRA}
     fi
+
+    filename=${baseFilename}.exe
 
     cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
 
     ${SOURCES_DIR}/build/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
+
+    PORTABLE_DIR=${BUILD_DIR}/portable
+    portableFilename=${baseFilename}-portable.zip
+
+    mkdir -p ${PORTABLE_DIR}
+    innoextract -d ${PORTABLE_DIR} ${DEPLOY_DIR}/${filename}
+
+    mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
+
+    rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll
+    cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
+    cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+
+    cd ${PORTABLE_DIR}
+    zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
+
+    ${SOURCES_DIR}/build/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
 fi

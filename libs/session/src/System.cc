@@ -486,4 +486,3 @@ System::clear()
   g_object_unref(session_connection);
 #endif
 }
-// TODO: lock before suspend/hibernate
