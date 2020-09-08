@@ -47,11 +47,12 @@ RUN mkdir -p /workspace/inno && \
     innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
 
 RUN mkdir -p /workspace/autoconf-archive && \
-    cd /workspace && \
+    cd /workspace/autoconf-archive && \
     curl -O http://ftp.snt.utwente.nl/pub/software/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz && \
     tar xvfJ ./autoconf-archive-2019.01.06.tar.xz && \
     cd /workspace/autoconf-archive-2019.01.06 && \
-    ./configure && make install
+    ./configure && make install \
+    rm -rf /workspace/autoconf-archive
 
 RUN mkdir -p /workspace/jq && \
     cd /workspace/jq && \
