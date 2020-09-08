@@ -1,0 +1,903 @@
+---
+releases:
+  - version: 1.10.45
+    date: 2020-12-31T12:52:50+02:00
+    short: |-
+      Workrave 1.10.45 has been released with a several small improvements.
+    changes:
+      - |-
+        Micro breaks without a postpone button could be postponed by starting a
+        rest break while the break prompt window was visible and then clicking
+        postpone in the rest break window. The postpone button is now disabled
+        when the micro break is overdue, and the maximum number of break prompts
+        was reached.
+      - Fix build issue with libayatana-indicator3.
+
+  - version: 1.10.44
+    date: 2020-05-09T12:52:50+02:00
+    changes:
+      - |-
+        Update Italian translation (Albano Battistella)
+      - |-
+        Support libayatana-indicator3 (Kentaro Hayashi/Rob Caelers)
+      - |-
+        Fixed issue on Gnome where Workrave would not detect that the user is
+        idle (#181)
+
+  - version: 1.10.43
+    date: 2020-04-13T14:43:20+02:00
+    changes:
+      - |-
+        Fix issue where a break window could disappear after a few seconds.
+      - |-
+        Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+      - |-
+        Update Traditional Chinese translation (Yuenfu Chiu)
+
+  - version: 1.10.42
+    date: 2020-04-10T15:14:17+02:00
+    changes:
+      - Fix Gnome Shell applet compatibility issue with Ubuntu 18.04.
+
+  - version: 1.10.41
+    date: 2020-04-05T18:09:55+02:00
+    changes:
+      - |-
+        Fix incomplete Gnome Shell applet menu with latest version of Gnome
+        Shell
+
+  - version: 1.10.40
+    previous_version: 1.10.37
+    date: 2020-04-04T17:45:06+02:00
+    changes:
+      - Fix creation for source tarball.
+
+  - version: 1.10.39
+    date: 2020-04-04T16:28:37+02:00
+    changes:
+      - |-
+        When it is time to take a micro break, Workrave may start a rest break
+        instead. This happens when the rest break would start within 30 seconds
+        of the micro break. If the postpone or skip buttons are disabled on the
+        micro break, they will be temporarily disabled on the rest break window.
+        A small progress bar indicates how long the buttons are disabled.
+        Previously, Workrave would restart the micro break when pressing the
+        skip or postpone button.
+      - |-
+        Support applets on Gnome 3.35.1+ using libgnome-panel (Alberts
+        Muktupāvels).
+      - Added Indonesian translation (Andika Triwidada).
+      - Fixed issue where Workrave was not properly terminated on reinstall.
+
+  - version: 1.10.38
+    date: 2020-03-20T16:34:00+02:00
+    changes:
+      - Show operation mode in Gnome applet.
+      - Fixed focus issue on rest break window that caused muted (grey) text.
+
+  - version: 1.10.37
+    previous_version: 1.10.34
+    date: 2020-03-17T18:30:15+01:00
+    changes:
+      - Add Ubuntu 19.10 / 20.04 to Workrave PPA
+
+  - version: 1.10.36
+    date: 2020-03-16T20:44:08+01:00
+    changes:
+      - Update Irish translation (Seanán Ó Coistín)
+      - new Portuguese translation (pmraps)
+      - Non-blocking break windows are now centered on Wayland/mutter (#163)
+      - Support display scaling
+
+  - version: 1.10.34
+    date: 2019-06-04T20:29:00+02:00
+    changes:
+      - Ubuntu Trusty and Xenial build fixes.
+
+  - version: 1.10.33
+    date: 2019-06-02T16:27:57+02:00
+    changes:
+      - Packaging fixes.
+
+  - version: 1.10.32
+    date: 2019-06-02T14:53:40+02:00
+    changes:
+      - |-
+        Fixed a bug that caused high CPU load when the main window was open for
+        a long time.
+      - |-
+        [internal change] Python 2 is no longer required for building Workrave.
+        The Python2-only Cheetah dependency has been replaced by Jinja 2
+        (python3-jinja2). Additionally, Boost >= 1.52 is now required
+        (libboost-dev).
+
+  - version: 1.10.31
+    date: 2019-03-26T21:13:04+01:00
+    previous_version: 1.10.23
+    changes:
+      - Add GetTimerRemaining dbus function.
+
+  - version: 1.10.30
+    date: 2019-03-24T19:48:28+01:00
+    changes:
+      - Prevent "Workrave wants to inhibit shortcuts" on Wayland
+      - Fix timer bar text color under Wayland
+      - Do not dim text in time bar when window is not focused.
+
+  - version: 1.10.29
+    date: 2019-03-21T22:47:10+01:00
+    changes:
+      - Fix PPA upload
+
+  - version: 1.10.28
+    date: 2019-03-21T21:36:38+01:00
+    changes:
+      - Fix PPA upload
+
+  - version: 1.10.27
+    date: 2019-03-21T19:52:21+01:00
+    changes:
+      - Fix menu in Cinnamon applet
+      - Fix bouncing Cinnamon applet
+
+  - version: 1.10.26
+    date: 2019-03-20T21:42:31+01:00
+    changes:
+      - Fix Gnome Shell applet for Gnome Shell v3.30
+      - Reduce padding in timer window
+
+  - version: 1.10.25
+    date: 2019-03-19T17:27:56+01:00
+    changes:
+      - Packaging fixes
+
+  - version: 1.10.24
+    date: 2019-03-18T20:44:13+01:00
+    changes:
+      - Fix AppStream metadata (Balló György)
+      - Update Slovak translation (Jose Riha)
+
+  - version: 1.10.23
+    date: 2018-09-30T22:33:43+02:00
+    changes:
+      - Packaging fixes
+
+  - version: 1.10.22
+    date: 2018-09-30T18:04:46+02:00
+    changes:
+      - Fix size of Xfce applet
+
+  - version: 1.10.21
+    date: 2018-09-09T12:59:19+02:00
+    changes:
+      - Support MATE applet with Gtk+3
+      - Support Xfce applet with Gtk+3
+
+  - version: 1.10.20
+    date: 2017-11-06T16:22:18+01:00
+    changes:
+      - Fix activity monitoring on non-Gnome desktop environments
+
+  - version: 1.10.19
+    date: 2017-10-27T16:00:37+02:00
+    changes:
+      - Fix crash because of missing setting
+      - Fix Gnome Shell applet
+
+  - version: 1.10.18
+    date: 2017-10-23T20:10:42+02:00
+    changes:
+      - Support Gnome Shell 3.24/26
+      - macOS compilation fixes (Tom Parker)
+
+  - version: 1.10.17
+    date: 2017-09-03T04:52:32+02:00
+    changes:
+      - Update Czech translation (Pavel Bborecki)
+
+  - version: 1.10.16
+    date: 2016-09-15T16:51:21+02:00
+    changes:
+      - Mark applet as compatible with GNOME 3.22 (Francois Marier)
+      - Fix text alignment time bar.
+      - Fix resuming microbreak after postponing restbreak
+
+  - version: 1.10.15
+    date: 2016-05-11T18:14:20+02:00
+    changes:
+      - Fix crash when no shutdown/hibernate options are available.
+      - Updated traditional Chinese translation (Kevin Kuan)
+
+  - version: 1.10.14
+    date: 2016-05-01T12:54:25+02:00
+    changes:
+      - |-
+        Fixed issue where pressing the down key during a restbreak would lock
+        the screen (bug #1242)
+
+  - version: 1.10.13
+    date: 2016-04-27T13:01:08+02:00
+    changes:
+      - |-
+        Use button instead of combobox if only 'Lock' is available in restbreak
+        window (pedantic-git)
+      - Update german translation (rsnitsch)
+      - Support Gnome Shell 3.20 (Francois Marier)
+
+  - version: 1.10.12
+    date: 2016-03-27T13:38:09+02:00
+    changes:
+      - Updated Catalan translation (Jordi Mallach)
+      - Fixed Gnome Shell applet (Amir Mohammadi)
+
+  - version: 1.10.11
+    date: 2016-01-07T19:35:00+01:00
+    changes:
+      - |-
+        Improved security of network protocol.  
+        NOTE: this is a backward incompatible change. This version of Workrave
+        will no longer connect to older Workrave versions.
+      - Minor improvements
+
+  - version: 1.10.9
+    date: 2015-12-12T14:10:11+01:00
+    changes:
+      - UI tweak
+
+  - version: 1.10.8
+    date: 2015-10-24T11:53:10+02:00
+    changes:
+      - |-
+        Extra statistics:
+        - Weekly usage statistics (Rob Caelers)
+        - Monthly usage statistics (Denis Nikolaenko)
+      - Fix gtkmm 3.18 compilation (Javier Tia, Denis Nikolaenko)
+      - Support Gnome 3.16
+
+  - version: 1.10.7
+    date: 2015-03-26T18:58:00+01:00
+    changes:
+      - |-
+        Update translations:
+        - Spanish (Fco. Javier Serrador)
+
+  - version: 1.10.6
+    date: 2014-12-24T18:29:26+01:00
+    changes:
+      - Improved screen lock and shutdown in break window (Mateusz Jończyk)
+      - Add suspend/hibernate option to break window on Linux (Mateusz Jończyk)
+      - Gnome applet updated to work with latest Gnome 3 flashback (Dmitry Shachnev)
+      - Applets added for Cinnamon, XFCE and MATE.
+      - |-
+        Bug fixes:
+        - Break window was transparent when blocking mode was set to 'input and screen'
+        - Text background in exercises window was black, making the text unreadable.
+        - In some cases the timers were shown twice in the panel
+
+  - version: 1.10.5
+    date: 2014-08-15T19:31:40+02:00
+    changes:
+      - |-
+        Updated tranlations:
+        - Danish (Frederik Svarre)
+      - Updates Desktop files (Francois Marier, Mike Manger)
+
+  - version: 1.10.4
+    date: 2014-04-27T14:36:12+02:00
+    changes:
+      - Fix gnome-shell applet for Gnome 3.12.
+
+  - version: 1.10.3
+    date: 2014-02-11T20:39:55+01:00
+    changes:
+      - |-
+        Bug fixes:
+        - bug 1113: Unity Indicator icon doesn't change when in suspended mode
+        - bug 1114: Closing timer window closes program.
+        - bug 1120: make the GNOME shell extension compatible with GNOME 3.8
+        - bug 1136: Status window always appears on startup
+        - bug 1137: Make Workrave start up optional
+        - bug 1146: dconf changes not honored for /org/workrave/general/operation-mode
+        - bug 1147: Suspend timer during screensaver
+        - bug 1148: Double deallocation causes crashes during Workrave shutdown
+        - Fix Workrave icon on Unity
+        - Fix size of prelude window
+        - Fix size of unity indicator timebar
+        - Fixed compatibility with gnome-shell 3.10
+        - Allow Gnome Shell status icon to be enabled/disabled
+
+  - version: 1.10.1
+    date: 2013-06-12T18:41:04+02:00
+    changes:
+      - Fix uninstall on Windows.
+
+  - version: "1.10"
+    date: 2013-01-13T11:25:29+01:00
+    changes:
+      - |-
+        Split "show 'postpone' and 'skip'" checkbox into two checkboxes. (Egbert
+        Teeselink)
+      - |-
+        Add the capability to delete all stored statistics (Ray Satiro)
+      - |-
+        Workrave now supports DBus on window.
+        DBus can be used to control Workrave by an external program.
+      - |-
+        Workrave now offers a Gnome 3 applet. Applets for both Gnome 3 classic
+        and the Gnome shell are available.
+      - |-
+        Workrave now offers an application indicator (applet) in Unity.
+      - |-
+        On Windows, Workrave does not stay in the 'suspended' mode after
+        resuming from hibernate/sleep.
+      - |-
+        On Unix, Workrave adds a new activity monitoring method that can be
+        used instead of the XRECORD based monitoring. XRECORD monitoring
+        appear be causing X crashes for some people
+        (See http://issues.workrave.org/show_bug.cgi?id=1066)
+      - |-
+        Infrastructure update. Workrave now supports:
+        - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
+        - Configuration in GSettings (instead of GConf)
+        - GIO based DBus (instead of freedesktop.org DBus)
+      - |-
+        Obsolete KDE3 support has been droppped.
+      - |-
+        Translation updates:
+        - Mykola Rykov translated Workrave into Ukrainian.
+        - Ivan Barkovic translated Workave into Croatian.
+        - Moein Gh translated Workave into Persian.
+        - Jyri-Petteri Paloposki translated Workrave into Finnish
+        - Goran Maričić translated Workrave into Serbian.
+        - Igor Zinovik updated the Russian translation.
+        - Gabor Kelemen updated the Hungarian translation.
+        - Alick Zhao updated the Chinese translation.
+        - Andrey Bondrov updated the Russian translation.
+        - Paweł Szerszon updated the Polish translation.
+      - Plus many small fixes and improvements (Ray Satiro, Rob Caelers)
+
+  - version: 1.9.4
+    date: 2011-03-24T17:42:45+01:00
+    changes:
+      - |-
+        The automatic start of a restbreak when the screen is locked is now
+        configurable.
+      - |-
+        Fixed crash when the 'mute all audio during breaks' option is enabled.
+      - |-
+        The skip and postpone button now have keyboard shortcuts (Alt-S and
+        Alt-P in the English version).
+      - |-
+        Fixed issue where Workrave remains suspended after hibernate/standby on
+        Window 7.
+      - |-
+        Fixed issue where the reading mode was reset after changing settings.
+      - |-
+        On Windows, Workrave shows a reminder balloon when Workrave starts up in
+        suspended or quiet mode.
+      - |-
+        The (un)installer now automatically shuts down Workrave before
+        (un)installation.
+      - |-
+        It is no longer possible to disable both the notification icon and the
+        main window.
+
+  - version: 1.9.3
+    date: 2010-12-11T18:10:11+01:00
+    changes:
+      - |-
+        Seanán Ó Coistín translated Workrave into Irish.
+      - |-
+        김재용 translated Workrave into Korean.
+      - |-
+        Workrave now stops all timers when the screen is locked. When the screen
+        in unlocked, a natural restbreak is started.
+      - |-
+        Audio muting improvements:
+        - Audio is now muted after the start break sound is played.
+        - Audio is now unmuted when the user becomes active after the break has
+          ended instead of immediately after the break ended.
+      - |-
+        By default, the RECORD extention is now mandatory on X windows systems.
+      - |-
+        Bug fixes:
+        - Fixed crash on Windows systems without audio installed.
+        - Fixed translucency of Deskband applet on Windows 7/Vista.
+        - Fixed Reading mode menu entry in Windows and Gnome applet.
+        - Networking now supports IPV6 addresses.
+        - Activity monitor should now filter out mouse jitter.
+        - Fixed monitoring of (Wacom) tablets.
+
+  - version: 1.9.2
+    date: 2010-08-29T10:08:38+02:00
+    changes:
+      - |-
+        Reading mode
+        The activity insensitive breaks have been replaced by a 'reading mode'.
+        This mode can easily be activated from the menu.
+      - |-
+        Workrave can now mute all audio during breaks.
+      - |-
+        Workrave now properly remembers the Window hide/show notification icon
+        settings.
+      - |-
+        The Workrave applet is functional again on Windows 7
+      - |-
+        Updated tranlations:
+        - Brazilian Portuguese
+        - Catalan
+        - Hungarian
+        - Hebrew
+        - Polish
+      - Many bug fixes.
+
+  - version: 1.9.1
+    date: 2009-10-24T10:16:12+02:00
+    changes:
+      - |-
+        Updated translations:
+        - new Romanian translation (Alexandru Szasz)
+        - new Estonian translation (Marko Väljaots)
+        - Removed extra "2" character in the Hungarian translation (Márton Németh)
+        - Update of Hungarian translation
+        - Update of Swedish translation
+      - |-
+        Many bug fixes. Including:
+        - Fix saving the username in the networking preferences (Francois Marier)
+        - Fix KDE compilation errors (Stanislav Brabec)
+        - Fixed issue where autostart settings on Windows was not stored
+        - Fixed crashes when trying to add a host in networking preferences
+        - User activity is now recognized on Xorg 1.6.0
+        - Fixed color in dark UI themes on Gnome.
+        - Workrave no longer shows two icons on GNOME notification panel
+        - Fixed tray icon tranparency
+        - Fixed issue on Vista where the break window is not on top of other windows (Ray Satiro)
+        - Improved volume control on Windows
+
+  - version: 1.9.0
+    date: 2008-07-21T11:01:33+00:00
+    changes:
+      - |-
+        Many small bugfixes
+      - |-
+        Fixed transparency of tray icon on Linux.
+      - |-
+        New alternate activity moniting for Windows (Ray Satiro)
+      - |-
+        Additional tooltips (Ray Satiro)
+      - |-
+        Improved 64 bit support (Ray Satiro)
+      - |-
+        Improved Vista support (Ray Satiro)
+      - |-
+        Exercises are now randomized
+      - |-
+        On Windows, the language can now be selected in the preferences
+      - |-
+        The option 'Start Workrave when windows starts' has been added to the
+        preferences
+      - |-
+        Extended DBUS support on Unix
+      - |-
+        Initial OSX port
+      - |-
+        Networking supports can now be enabled without accepting incoming
+        connections from other Workraves (Francois Marier)
+      - |-
+        Sounds:
+        - A sound has been added that indicates a next step in the exercise.
+        - The volume can now be configured
+        - All sounds can now be configured
+        - A new sound theme has been added (Ruairi Fullam)
+
+  - version: 1.8.5
+    date: 2007-09-16T09:59:37+00:00
+    changes:
+      - |-
+        Lots of changes by Ray Satiro.
+      - |-
+        Task manager is never blocked by Workrave (Ray Satiro)
+      - |-
+        Workaround for focus loss on Vista (Ray Satiro)
+      - |-
+        Vanja Cvelbar translated Workrave into Slovenian.
+      - |-
+        Many bug fixes, the most visible ones:
+        - Fixed breaks that have 'suspend timer when inactive' disabled (Ray Satiro)
+        - Improved Windows responsiveness under high load. (by reverting a 1.8.4 change)
+        - Mode menu fixed.
+        - Gnome applet no longer 'hangs'.
+        - Gnome applet no longer crashes Workrave.
+        - Fixed crashes during startup on Windows.
+        - Fixed 'end-of-microbreak' sound.
+        - Fixed bug in multi-head support where Workrave showed multiple windows on a single screen.
+        - Fixed locking on Gnome with xscreensaver installed (Philipp Kern)
+
+  - version: 1.8.4
+    date: 2007-03-04T19:18:53+00:00
+    changes:
+      - |-
+        Eraldo Girardi translated Workrave into Italian.
+      - |-
+        Better support for vertical applets on Unix.
+      - |-
+        Tao WEI translated Workrave into simplified Chinese.
+      - |-
+        Peter Tuharsky translated Workrave into Slovak.
+      - |-
+        Prokopis Prokopidis translated Workrave into Greek.
+      - |-
+        The status window used to appear empty, only to be resized and filled
+        with the timers shortly thereafter. Now it appears right away in the
+        proper size.
+      - |-
+        The operation mode (normal/quiet/suspended) now persists across Workrave
+        sessions.
+      - |-
+        Enver Altin translated Workrave into Turkish.
+      - |-
+        Masanobu Yokota translated Workrave into Japanese.
+      - |-
+        Ivan Dimov translated Workrave into Bulgarian.
+      - |-
+        ORY Mate translated Workrave into Hungarian.
+      - |-
+        Fixed KDE sound events (Phuah Yee Keat)
+      - |-
+        Fixed Gnome sound events
+      - |-
+        Fixed negative mouse usage when date is changed.
+      - |-
+        Fixed text color on Gnome themes with dark backgrounds (i.e. high
+        contrast inverse)
+      - |-
+        Gnome applets now support transparency.
+      - |-
+        The 'datadir' configuration option in workrave.ini can now be a relative
+        path:
+
+          ```
+          [general]
+          datadir=.\\Data
+          ```
+
+        This will store all Workrave data in the 'Data' directory below the
+        Workrave root directory. (Note the double backslash)
+      - |-
+        Daily limit now properly resets when hibernated.
+
+  - version: 1.8.3
+    date: 2006-05-12T22:04:47+00:00
+    changes:
+      - |-
+        Daniel Nylander translated Workrave into Swedish.
+      - |-
+        Jordi Mallach translated Workrave into Catalan.
+      - |-
+        Support for storing configuration in a .ini file This feature can be
+        enabled by creating an empty 'workrave.ini' file in '~/.workrave' (on
+        Unix) or in 'c:\Program files\Workrave\etc' (on Window, assuming
+        Workrave is installed in this directory)
+      - |-
+        Support for configuring the data storage directory. Add the following
+        two lines to your workrave.ini
+        ```
+        [general]
+        datadir=C:\\Workrave\\Data
+        ```
+        This feature can be used to run Workrave from an USB memory stick. Note:
+        On Windows, you have to use double backslashes like in the example
+        above!
+      - |-
+        Support for Gnome screen saver added (Matt Zimmerman).
+      - |-
+        Workrave no longer consumes 100% CPU is if a break is started while the
+        screen is locked.
+      - |-
+        The applet popup menu is now accessible when all timers hidden.
+      - |-
+        Fix czech translation (Jiri Palecek).
+      - |-
+        Fixed a bug that could cause breaks to stop running when 'suspend timer
+        while inactive' was disabled.
+
+  - version: 1.8.2
+    date: 2006-01-28T14:42:00+00:00
+    changes:
+      - |-
+        Fixed a crash when a third party gtk runtime is used.
+      - |-
+        Fixed bug that caused status windows to be disabled when the microbreak
+        timer was hidden.
+      - |-
+        Fixed translations.
+      - |-
+        Better hibernate/standby support on Unix.
+      - |-
+        System tray menu on Windows now disappears when focus is lost.
+
+  - version: 1.8.1
+    date: 2006-01-28T14:42:00+00:00
+    changes:
+      - Fixed a crash when blocking mode is set to 'none'
+
+  - version: 1.8.0
+    date: 2005-06-29T13:59:00+00:00
+    changes:
+      - |-
+        Jon Otegi translated Workrave into Basque.
+      - |-
+        Artūras Šlajus translated Workrave into Lithuanian.
+      - |-
+        Morten Lunde translated Workrave into Norwegian.
+      - |-
+        Juraj Kubelka translated Workrave into Czech.
+      - |-
+        Haggai Eran translated Workrave into Hebrew.
+      - |-
+        Workrave now gives additional feedback when becoming active during a
+        break by flashing the break window border.
+      - |-
+        Workrave now uses the system tray icon to visualize the current mode
+        (normal, suspended or quiet).
+      - |-
+        Added "Restbreak now" button to microbreak window.
+      - |-
+        KDE improvements. Workrave now has a native KDE applet and supports KDE
+        sound events.
+      - |-
+        Decent tooltips for Workrave system tray icon.
+      - |-
+        Miscellaneous distribution improvements.
+
+  - version: 1.6.2
+    date: 2004-07-13T20:52:28+00:00
+    changes:
+      - |-
+        Added a Brazilian Portuguese translation, thanks to Claudio Ferreira
+        Filho!
+      - |-
+        Workrave now respects the "gtk-button-images" property.
+      - |-
+        Upgraded GTK runtime to version 2.4, fixing some minor UI quirks.
+      - |-
+        Fixed some high-profile bugs, especially activity monitoring problems
+        when running X.
+
+  - version: 1.6.1
+    date: 2004-05-13T18:43:07+00:00
+    changes:
+      - |-
+        A bug was introduced in version 1.6.0 which could cause the status
+        window to disappear. Version 1.6.1 is only a minor bug fix release that
+        addresses this problem.
+
+  - version: 1.6.0
+    date: 2004-04-30T21:21:35+00:00
+    changes:
+      - |-
+        Workrave has been translated into Chinese thanks to Rex Tsai, into
+        Russian thanks to Sergey Kirkinsky, and into French thanks to Thomas
+        Basset and Benjamin Siband.
+      - |-
+        The explanation of an exercise is now scrollable, if it does not fit
+        onscreen.
+      - |-
+        The Windows version now includes a taskbar applet version of the status
+        window. After installation of Workrave, right click your taskbar and
+        select "Workrave" from the list of toolbars.
+      - |-
+        Timers can be configured to ignore activity.
+      - |-
+        Bloat removal: removed the "Resets at" option from the daily limit panel.
+      - |-
+        Exercises are no longer read at program startup, and are released from
+        memory when not needed anymore.
+      - |-
+        Terminology: we now use the term "micro-break" instead of "micro-pause".
+      - |-
+        When block mode "Block all" is used, we display the break window on top
+        of your current desktop background (wallpaper), instead of on a
+        semi-transparent screen snapshot.
+      - |-
+        Fixed screen locking on X11: previously only xlock was detected and used
+        without passing a display parameter. Now, the proper screen lock command
+        is invoked on the right display. For example, if KDE is detected its
+        kdesktop_lock is executed.
+      - |-
+        High-profile bug fixes (Windows): activity monitoring when working in
+        Exceed has been restored, and ZoneLab interaction problems (hangups)
+        have been corrected.
+
+  - version: 1.4.1
+    date: 2003-11-03T20:32:00+00:00
+    changes:
+      - |-
+        Replaced the "Block input" setting (which was available per break) by a
+        global "Block mode" setting, located in the GUI preferences. The
+        available block modes are "None" (NEW: no input is blocked and break
+        windows have a title bar and can be dragged), "Block input" (blocks
+        input, break windows are fixed), "Block all" (NEW: blocks input and
+        display).
+      - |-
+        The Windows installer now offers the option to install Workrave using
+        the standalone Dropline GTK+ runtime. For more information, see
+        http://www.dropline.net/gtk/.
+      - |-
+        Removed the "Force break after maximum preludes" option. It is now on by
+        default.
+      - |-
+        Some strings in the German translation were too long, fixed.
+      - |-
+        Added multihead support for Windows.
+      - |-
+        Improved suspend (to ram) support. Workrave now assumes that you are
+        idle while suspended instead of assuming that no time passes.
+      - |-
+        Improved multihead support. The status window is now automatically
+        relocated when the monitor on which it is displayed is removed. It moved
+        back to its original location when the monitor returns.
+      - |-
+        Exercises navigation can now be used without causing Workrave to remove
+        the break window and show the warning windows again.
+      - |-
+        If supported by your system, the daily limit window includes a "Shut
+        down" button.
+      - |-
+        There now is a "Lock" button on the rest break, so that you can safely
+        lock your display while you are taking breaks. If the daily limit window
+        does not include the "Shut down" button, it includes the "Lock" button
+        instead.
+
+  - version: 1.4.0
+    date: 2003-08-24T19:37:06+00:00
+    changes:
+      - |-
+        Added exercises.
+      - |-
+        Workrave has been translated to Polish, Danish and Spanish. Many thanks
+        to Mikolaj Machowski, Christian Vejlbo, and Pablo Rodriguez!
+      - |
+        Multihead support for X11. Workrave now shows break windows on all
+        monitors.
+      - |-
+        Workrave can now cope with changes in system time and OS features like
+        suspend-to-ram.
+      - |-
+        Previously, the end time that showed up in the stats dialog equaled the
+        time at which the clock reset (typically equal to the start of the next
+        working day). This lead to weird from/to times, as in: "From 8:46 to
+        9:10". Fixed.
+      - |-
+        Added an icon to the skip/postpone buttons on break windows.
+      - |-
+        Many laptop pointer devices "drift" over time. This used to cause
+        Workrave to detect activity when there was in fact none. Fixed, thanks
+        to Chung-chieh Shan.
+      - |-
+        On Windows, Workrave now notices when Explorer crashes and will try to
+        reinsert the tray icon in the new Explorer taskbar that is created when
+        Explorer restarts.
+      - |-
+        Rewrote the user input blocking mechanism on Windows. You should no
+        longer experience visual quirks (like flashing windows or unexpectedly
+        focusing random windows) during breaks.
+      - |-
+        On Linux, Workrave now notices when the gnome-panel crashes and will
+        reinsert the applet in the new panel.
+      - |-
+        The content of the status window can now be configured.
+      - |-
+        Breaks can now be disabled.
+
+  - version: 1.2.2
+    date: 2003-03-25T19:24:54+00:00
+    changes:
+      - |-
+        If you stopped working during a prelude just before it was about to
+        disappear, the prelude would still go away because Workrave assumed you
+        wanted to continue working. This behaviour has been changed now: if
+        there is no activity when the count-down has reached zero, Workrave
+        waits a couple of seconds to see if you are really idle. If that is the
+        case, a break window appears. If not, you can continue working.
+      - |-
+        Redesigned the preferences panel. It used to have nested tabs, these
+        have been replaced with an icon shortcut bar.
+      - |-
+        The break windows have been given a title.
+      - |-
+        The Window version now included GTK-Wimp. This makes the visual
+        appearance of Workrave blend much better into the Windows desktop
+        environment (http://gtk-wimp.sourceforge.net).
+      - |-
+        Beter support for Gnome session management. Workrave is now properly
+        restarted by the gnome session manager.
+      - |-
+        The applet can now be configured to show only the Workrave sheep.
+        Clicking on the sheep will toggle the visibility of the main window.
+
+  - version: 1.2.1
+    date: 2003-03-25T19:24:54+00:00
+    changes:
+      - |-
+        Some errors in the build process have been fixed. Only a new source
+        tarball is released, as this does not effect binary releases.
+
+  - version: 1.2.0
+    date: 2003-03-09T13:39:03+00:00
+    changes:
+      - |-
+        Johannes Rohr provided a german translation, thanks!
+      - |-
+        Added applet support. Workrave now supports both a native Gnome applet,
+        as well as a system tray applet that *should* also work on KDE.
+      - |-
+        Added statistics. Workrave shows break statistics and daily usage. More
+        statistics will be added later.
+      - |-
+        A leaflet promoting Workrave is now available. Please spread it as far
+        as possible. For example, distribute several copies at the office.
+        (http://workrave.sourceforge.net/leaflet/)
+      - |-
+        Last but absolutely not least: increased sheep size in the about window. :)
+
+  - version: 1.0.0
+    date: 2002-10-30T19:37:59+00:00
+    changes:
+      - |-
+        Removed the monitoring preferences. Good defaults is all you want here,
+        and it was far too difficult to try and explain these settings to
+        ordinary users.
+      - |-
+        Added the daily limit break window.
+      - |-
+        Added internationalisation support. Currently, only a Dutch translation
+        is provided. We are still looking for volunteers to translate Workrave
+        into other languages.
+      - |-
+        The "Collective" has been renamed to "Network", which is far more
+        meaningful to non-geek users.
+      - |-
+        A network log window has been added. This window shows informational
+        messages about the communication between different Workrave instances.
+
+  - version: 0.3.0
+    date: 2002-10-11T20:51:08+00:00
+    changes:
+      - |-
+        Added experimental(!) distribution support, dubbed "The Collective".
+        What this means is that you can now create a network of Workrave
+        instances running on several computers. All instances that are part of
+        "the collective" share the same timer information, meaning that if one
+        computer informs you to take a break, it is futile to flee to another
+        computer as it will also tell you to take a break.
+
+      - |-
+        Added sound support. You can configure the samples that are played
+        through the standard sound control panel provided by Gnome and Windows.
+        For office PCs that do not have a sound card, you can choose to play
+        sounds through the internal PC speaker.
+
+      - |-
+        The window prompting you to brake now moves earlier to the top of the
+        screen so that it does not interfere too much. Furthermore, the window
+        has a new and improved "evasive manouvers" algorithm.
+
+  - version: 0.2.0
+    date: 2002-09-26T17:44:37+00:00
+    changes:
+      - |-
+        Activity during a persisted break is no longer ignored. Instead, the
+        timer is stopped whenefer the user is active.
+      - |-
+        Microsoft Windows specific changes
+        - Added taskbar tray support. When the main window is closed, the
+          program remains active in the tray. In the user interface preferences,
+          you can select to hide the program when started.
+        - The main window is now opened at the position where it was during the
+          last program exit.
+
+  - version: 0.1.0
+    date: 2002-09-22T20:49:02+00:00
+    changes:
+      - First public release.
