@@ -6,7 +6,7 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 DISTCLEANFILES =
 
-SUBDIRS	= subtle default
+SUBDIRS	= bells subtle default
 
 soundsdir = 		$(datadir)/sounds/workrave/
 defaultsoundsdir = 	$(soundsdir)/default

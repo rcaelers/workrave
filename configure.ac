@@ -1097,6 +1097,7 @@ AC_CONFIG_FILES([Makefile
              frontend/common/include/Makefile
              frontend/common/share/Makefile
              frontend/common/share/sounds/Makefile
+             frontend/common/share/sounds/bells/Makefile
              frontend/common/share/sounds/subtle/Makefile
              frontend/common/share/sounds/default/Makefile
              frontend/common/share/images/Makefile
