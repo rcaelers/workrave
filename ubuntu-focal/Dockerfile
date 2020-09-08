@@ -55,6 +55,8 @@ RUN \
     npm \
     python3-pip \
     python3-setuptools \
+    python3-paramiko \
+    python3-jinja2 \
     qtbase5-dev \
     qtbase5-dev-tools \
     qtbase5-private-dev \
@@ -62,8 +64,5 @@ RUN \
     qttools5-dev-tools \
     xfce4-panel-dev && \
   apt-get clean
-
-RUN pip3 install --upgrade pip
-RUN pip3 install Jinja2
 
 CMD ["/bin/bash"]
