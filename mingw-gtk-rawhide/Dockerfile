@@ -6,6 +6,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     dnf -y upgrade && dnf clean all && \
     dnf -y install \
                 cmake \
+                gcc \
                 git \
                 gtk-update-icon-cache \
                 innoextract \
