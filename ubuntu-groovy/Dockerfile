@@ -51,6 +51,8 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    nodejs \
+    npm \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
