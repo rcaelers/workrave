@@ -50,7 +50,7 @@ RUN mkdir -p /workspace/autoconf-archive && \
     cd /workspace/autoconf-archive && \
     curl -O http://ftp.snt.utwente.nl/pub/software/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz && \
     tar xvfJ ./autoconf-archive-2019.01.06.tar.xz && \
-    cd /workspace/autoconf-archive-2019.01.06 && \
+    cd /workspace/autoconf-archive/autoconf-archive-2019.01.06 && \
     ./configure && make install \
     rm -rf /workspace/autoconf-archive
 
