@@ -40,7 +40,6 @@ RUN \
     libgtkmm-3.0-dev \
     libindicator3-dev \
     libmate-panel-applet-dev \
-    libpanel-applet-dev \
     libpulse-dev \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
