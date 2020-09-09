@@ -51,14 +51,14 @@ RUN mkdir -p /workspace/autoconf-archive && \
     curl -O http://ftp.snt.utwente.nl/pub/software/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz && \
     tar xvfJ ./autoconf-archive-2019.01.06.tar.xz && \
     cd /workspace/autoconf-archive/autoconf-archive-2019.01.06 && \
-    ./configure && make install \
+    ./configure && make install && \
     rm -rf /workspace/autoconf-archive
 
 RUN mkdir -p /workspace/jq && \
     cd /workspace/jq && \
     curl -OL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
     chmod +x jq-linux64 && \
-    mv jq-linux64 /usr/local/bin/jq \
+    mv jq-linux64 /usr/local/bin/jq && \
     rm -rf /workspace/jq
 
 RUN mkdir -p /workspace/runtime
