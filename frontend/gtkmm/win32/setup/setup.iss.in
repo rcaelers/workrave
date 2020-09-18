@@ -81,6 +81,8 @@ Source: "..\..\..\common\share\sounds\default\*.wav"; DestDir: "{app}\share\soun
 Source: "..\..\..\common\share\sounds\default\soundtheme"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\common\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\common\share\sounds\subtle\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\bells\*.wav"; DestDir: "{app}\share\sounds\bells\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\bells\soundtheme"; DestDir: "{app}\share\sounds\bells\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\plugin\exercises\common\share\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\plugin\exercises\common\share\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "..\..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
