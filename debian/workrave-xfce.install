@@ -1,2 +1,2 @@
-debian/tmp/usr/lib/*/xfce4
-debian/tmp/usr/share/xfce4
+usr/lib/*/xfce4
+usr/share/xfce4

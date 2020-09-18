@@ -28,7 +28,12 @@ override_dh_compress:
 	dh_compress --exclude=gnuplot-workrave --exclude=workrave-dump
 
 override_dh_install:
+	find debian -name '*.la' -print -delete
+	find debian -name 'libworkrave-*private*.so' -print -delete
 	dh_install
+
+override_dh_missing:
+	dh_missing --fail-missing
 
 override_dh_installexamples-arch:
 	dh_installexamples

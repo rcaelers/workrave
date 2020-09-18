@@ -1,18 +1,16 @@
 Source: workrave
 Section: gnome
-Priority: extra
+Priority: optional
 Maintainer: Rob Caelers <robc@krandor.org>
 Build-Depends: autoconf-archive,
                autopoint,
-               autotools-dev,
-               debhelper (>= 9),
-               dh-autoreconf,
+               debhelper-compat (= 13),
                gobject-introspection  (>= 0.6.7),
                gsettings-desktop-schemas-dev,
                intltool,
                libboost-dev,
-               libdbusmenu-glib-dev,
-               libdbusmenu-gtk3-dev,
+               libdbusmenu-glib-dev (>= 0.1.1),
+               libdbusmenu-gtk3-dev (>= 0.3.95),
                libgirepository1.0-dev  (>= 0.6.7),
                libglib2.0-0 (>= 2.30),
                libglibmm-2.4-dev (>= 2.28.0),
@@ -32,7 +30,10 @@ Build-Depends: autoconf-archive,
                libxtst-dev,
                python3-jinja2,
                xfce4-panel-dev
-Standards-Version: 4.0.0
+Build-Conflicts:
+ libgstreamer0.10-dev,
+Standards-Version: 4.5.0
+Rules-Requires-Root: no
 Homepage: http://www.workrave.org/
 
 Package: workrave
