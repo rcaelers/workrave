@@ -607,7 +607,7 @@ msgstr "一般(_N)"
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:147
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
 msgid "Q_uiet"
-msgstr "离开(_u)"
+msgstr "勿扰(_u)"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:150
