@@ -82,7 +82,7 @@ make_installer()
     else
         echo "Tag build : $WORKRAVE_TAG"
 
-        baseFilename=workrave-win32-${WORKRAVE_VERSION}${EXTRA}
+        baseFilename=workrave-win32-v${WORKRAVE_VERSION}${EXTRA}
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
