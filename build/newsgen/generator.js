@@ -1,16 +1,20 @@
-import fs from 'fs';
 import nunjucks from 'nunjucks';
-import yaml from 'js-yaml';
 import moment from 'moment';
 import wrap from 'word-wrap';
-
+import path from 'path';
 import unified from 'unified';
 import markdown from 'remark-parse';
 
 import text from './markdown.js';
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 class Generator {
-  constructor(s) {
+  constructor(releases) {
+    this.releases = releases;
     nunjucks
       .configure({
         autoescape: false,
@@ -36,7 +40,6 @@ class Generator {
           .toString()
           .replace(/\n+$/g, '');
       });
-    this.releases = yaml.safeLoad(fs.readFileSync('../../changes.yaml', 'utf8'));
   }
 
   async generate(version, template, extra) {
@@ -47,7 +50,8 @@ class Generator {
         });
       }
       let context = { ...extra, ...{ releases: this.releases } };
-      return nunjucks.render('templates/' + template + '.tmpl', context);
+      let template_filename = path.join(__dirname, 'templates', template + '.tmpl');
+      return nunjucks.render(template_filename, context);
     } catch (e) {
       console.error(e);
     }

@@ -1,6 +1,7 @@
 import { Generator } from './generator.js';
 import { promises as fs } from 'fs';
 import yargs from 'yargs';
+import yaml from 'js-yaml';
 
 const main = async () => {
   let storage = null;
@@ -11,6 +12,9 @@ const main = async () => {
       .usage('$0 [args]')
       .help('h')
       .alias('h', 'help')
+      .option('input', {
+        alias: 'i'
+      })
       .option('output', {
         alias: 'o'
       })
@@ -18,7 +22,7 @@ const main = async () => {
         describe: 'The PPA increment to use.',
         default: 1
       })
-      .options('ubuntu-release', {
+      .options('ubuntu', {
         describe: 'The Ubuntu release name.',
         default: 'focal'
       })
@@ -33,10 +37,11 @@ const main = async () => {
         alias: 'v',
         default: false
       })
-      .demandOption(['output', 'template'], 'Please specify --output and --template').argv;
+      .demandOption(['input', 'output', 'template'], 'Please specify --output and --template').argv;
 
-    let extra = { series: args.series, increment: args.increment };
-    let generator = new Generator();
+    let extra = { series: args.ubuntu, increment: args.increment };
+    let releases = yaml.safeLoad(await fs.readFile(args.input, 'utf8'));
+    let generator = new Generator(releases);
     let content = await generator.generate(args.release, args.template, extra);
 
     await fs.writeFile(args.output, content);
