@@ -93,7 +93,7 @@ msgstr "暂停(_S)"
 #: ../frontend/applets/mate/src/main-gtk3.c:373
 #, fuzzy
 msgid "Quiet"
-msgstr "离开(_u)"
+msgstr "勿扰(_u)"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
@@ -497,7 +497,7 @@ msgstr "Workrave 处于暂停模式。鼠标和键盘活动不会被监视。"
 
 #: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "Workrave 处于离开模式。不会弹出休息窗口。"
+msgstr "Workrave 处于勿扰模式。不会弹出休息窗口。"
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
@@ -607,7 +607,7 @@ msgstr "一般(_N)"
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:147
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
 msgid "Q_uiet"
-msgstr "离开(_u)"
+msgstr "勿扰(_u)"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:150
@@ -1453,7 +1453,7 @@ msgid "Error"
 msgstr ""
 
 #~ msgid "_Quiet"
-#~ msgstr "安静(_Q)"
+#~ msgstr "勿扰(_Q)"
 
 #~ msgid "_Connect..."
 #~ msgstr "连接(_C)..."
