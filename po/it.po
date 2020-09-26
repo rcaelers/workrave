@@ -1308,7 +1308,7 @@ msgstr "Numero di avvisi mostrati ripetutamente per la stessa pausa"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:217
 msgid "Prompted breaks taken"
-msgstr "Pause efettuate"
+msgstr "Pause effettuate"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
 msgid "The number of times you took a break when being prompted"
