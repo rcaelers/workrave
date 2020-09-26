@@ -102,7 +102,7 @@ class Renderer {
 
   paragraph(node) {
     var txt = this.all(node);
-    txt = wrap(txt, { indent: '', width: this.width - this.level }) + '\n';
+    txt = wrap(txt, { indent: '', trim: true, width: this.width - this.level }) + '\n';
     return txt;
   }
 
