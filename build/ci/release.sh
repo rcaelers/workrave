@@ -102,6 +102,22 @@ generate_news() {
         --template github \
         --release `echo $VERSION | sed -e 's/^v//g'` \
         --output "$WORKSPACE_DIR/deploy/NEWS"
+
+    cd ${SOURCE_DIR}
+    DIR_DATE=`date +"%Y_%m_%d"`
+    DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
+    DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
+
+    if [ ! -d $DIR ]; then
+        mkdir -p ${DIR}
+        cd /
+        node ${SCRIPTS_DIR}/newsgen/main.js \
+            --input "${SOURCE_DIR}/changes.yaml" \
+            --template blog \
+            --release `echo $VERSION | sed -e 's/^v//g'` \
+            --single \
+            --output "${DIR}/_index.md"
+    fi
 }
 
 setup() {
@@ -117,7 +133,7 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "t:C:D:R:S:W:p:d" o; do
+    while getopts "t:C:D:R:S:W:B:p:d" o; do
         case "${o}" in
         p)
             PPA="${OPTARG}"
@@ -143,6 +159,9 @@ parse_arguments() {
         W)
             WORKSPACE_DIR="${OPTARG}"
             ;;
+        B)
+            WEBSITE_DIR="${OPTARG}"
+            ;;
         *)
             usage
             ;;
@@ -152,6 +171,7 @@ parse_arguments() {
 }
 
 DEBIAN_DIR=
+WEBSITE_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
 SCRIPTS_DIR=${WORKSPACE_DIR}/source/build/
 REPO=https://github.com/rcaelers/workrave.git
@@ -160,7 +180,11 @@ DRYRUN=
 parse_arguments $*
 
 if [ -z $SECRETS_DIR ]; then
-    echo No secrets directory specified
+    echo No secrets directory specified.
+    exit 1
+fi
+if [ -z $WEBSITE_DIR ]; then
+    echo No website directory specified.
     exit 1
 fi
 
@@ -187,6 +211,7 @@ setup
 run_docker_ppa
 
 generate_news
+
 if [ -z $DRYRUN ]; then
   echo uploading
   upload
