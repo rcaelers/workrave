@@ -76,6 +76,11 @@ init() {
         git clone $REPO source
         cd source
         git checkout $COMMIT
+    else
+        cd source
+        git fetch
+        git checkout $COMMIT
+
     fi
 
     cd $SOURCE_DIR
