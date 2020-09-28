@@ -3,7 +3,7 @@ releases:
   - version: 1.10.45
     date: 2020-12-31T12:52:50+02:00
     short: |-
-      Workrave 1.10.45 has been released with a several small improvements.
+      Workrave 1.10.45 has been released. This release adds a new sound theme and several small improvements.
     changes:
       - |-
         Micro breaks without a postpone button could be postponed by starting a
@@ -12,6 +12,7 @@ releases:
         when the micro break is overdue, and the maximum number of break prompts
         was reached.
       - Fix build issue with libayatana-indicator3.
+      - A new sound theme calls 'Bells' has been added (Pieter De Decker)
 
   - version: 1.10.44
     date: 2020-05-09T12:52:50+02:00
