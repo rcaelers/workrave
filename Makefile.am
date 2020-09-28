@@ -14,7 +14,7 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 SUBDIRS =      m4 po common libs backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
-EXTRA_DIST = 	config.xml README.md autogen.sh
+EXTRA_DIST = 	config.xml README.md autogen.sh changes.yaml
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 
