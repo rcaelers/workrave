@@ -96,9 +96,9 @@ init() {
 generate_news() {
     series=$1
 
-    cd ${SOURCES_DIR}
+    cd /
     node ${SCRIPTS_DIR}/newsgen/main.js \
-        --input "${SOURCES_DIR}/changes.yaml" \
+        --input "${SOURCE_DIR}/changes.yaml" \
         --template github \
         --release `echo $VERSION | sed -e 's/^v//g'` \
         --output "$WORKSPACE_DIR/deploy/NEWS"
