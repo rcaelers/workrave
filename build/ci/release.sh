@@ -100,7 +100,7 @@ generate_news() {
     node ${SCRIPTS_DIR}/newsgen/main.js \
         --input "${SOURCES_DIR}/changes.yaml" \
         --template github \
-        --release $VERSION \
+        --release `echo $VERSION | sed -e 's/^v//g'` \
         --output "$WORKSPACE_DIR/deploy/NEWS"
 }
 

@@ -13,8 +13,9 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 class Generator {
-  constructor(releases) {
-    this.releases = releases;
+  constructor(news) {
+    this.news = news;
+
     nunjucks
       .configure({
         autoescape: false,
@@ -42,14 +43,22 @@ class Generator {
       });
   }
 
-  async generate(version, template, extra) {
+  async generate(version, single, template, extra) {
     try {
       if (version) {
-        this.releases.releases = this.releases.releases.filter(function(release) {
-          return release.version == version;
+        let versionIndex = this.news.releases.findIndex(function(release) {
+          return version == release.version;
+        });
+
+        if (single && versionIndex + 1 < this.news.releases.length) {
+          extra['previous_version'] = this.news.releases[versionIndex + 1].version;
+        }
+
+        this.news.releases = this.news.releases.filter(function(release, index) {
+          return single ? versionIndex == index : versionIndex <= index;
         });
       }
-      let context = { ...extra, ...{ releases: this.releases } };
+      let context = { ...extra, ...{ releases: this.news } };
       let template_filename = path.join(__dirname, 'templates', template + '.tmpl');
       return nunjucks.render(template_filename, context);
     } catch (e) {

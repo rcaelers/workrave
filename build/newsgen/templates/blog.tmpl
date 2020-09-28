@@ -10,14 +10,16 @@ categories:
 {%- if entry.short %}
 {{ entry.short }}
 {% else %}
-Workrave {{ entry.version }} has been released
-{% endif%}
+Workrave {{ entry.version }} has been released.
+{% endif %}
 <!--more-->
-{% if entry.more -%}
+{% if entry.more %}
 {{ entry.more }}
-{%- elif entry.previous_version -%}
-Changes since Workrave {{ entry.previous_version }}
-{%- elif releases.releases[loop.index].version -%}
+{% elif previous_version %}
+Changes since Workrave {{ previous_version }}:
+{% elif entry.previous_version %}
+Changes since Workrave {{ entry.previous_version }}:
+{% elif releases.releases[loop.index].version %}
 Changes since Workrave {{ releases.releases[loop.index].version }}:
 {% endif %}
 {% for change in entry['changes'] -%}

@@ -27,7 +27,10 @@ const main = async () => {
         default: 'focal'
       })
       .options('release', {
-        describe: 'Only generate this release.'
+        describe: 'Only generate this release starting at this version.'
+      })
+      .options('single', {
+        describe: 'Generate only for a single release'
       })
       .options('template', {
         describe: 'Template to use.',
@@ -40,9 +43,9 @@ const main = async () => {
       .demandOption(['input', 'output', 'template'], 'Please specify --output and --template').argv;
 
     let extra = { series: args.ubuntu, increment: args.increment };
-    let releases = yaml.safeLoad(await fs.readFile(args.input, 'utf8'));
-    let generator = new Generator(releases);
-    let content = await generator.generate(args.release, args.template, extra);
+    let news = yaml.safeLoad(await fs.readFile(args.input, 'utf8'));
+    let generator = new Generator(news);
+    let content = await generator.generate(args.release, args.single, args.template, extra);
 
     await fs.writeFile(args.output, content);
   } catch (e) {
