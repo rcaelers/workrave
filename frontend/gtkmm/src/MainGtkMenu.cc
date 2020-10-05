@@ -36,7 +36,7 @@
 
 #include "MainWindow.hh"
 #include "Menus.hh"
-#include "Util.hh"
+#include "GtkUtil.hh"
 
 using namespace std;
 
@@ -68,16 +68,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   Gtk::IconSet icon_set;
 #endif
 
-  string filename = Util::complete_directory(path, Util::SEARCH_PATH_IMAGES);
-
-  try
-    {
-      source.set_pixbuf(Gdk::Pixbuf::create_from_file(filename));
-    }
-  catch(const Glib::Exception&)
-    {
-    }
-
+  source.set_pixbuf(GtkUtil::create_pixbuf(path));
   source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
   source.set_size_wildcarded();
 

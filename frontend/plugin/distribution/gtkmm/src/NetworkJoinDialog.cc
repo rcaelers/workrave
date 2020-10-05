@@ -61,9 +61,7 @@ NetworkJoinDialog::NetworkJoinDialog()
     = core->get_distribution_manager();
 
   // Icon
-  std::string title_icon = Util::complete_directory
-    ("network.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *title_img = Gtk::manage(new Gtk::Image(title_icon));
+  Gtk::Image *title_img = GtkUtil::create_image("network.png");
   Gtk::Alignment *img_aln
     = Gtk::manage(new Gtk::Alignment
 #ifdef HAVE_GTK3

@@ -25,6 +25,7 @@
 #include <string>
 #include <gtkmm.h>
 
+#include "IConfiguratorListener.hh"
 #include "ITimerBoxView.hh"
 #include "TimeBar.hh"
 #include "Menus.hh"
@@ -39,11 +40,11 @@ namespace Gtk
   class EventBox;
 }
 
-class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
+class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView, public IConfiguratorListener
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
-  ~TimerBoxGtkView();
+  virtual ~TimerBoxGtkView();
 
   void set_geometry(Orientation orientation, int size);
   int get_visible_count() const;
@@ -69,10 +70,13 @@ private:
   void init_widgets();
   void init_table();
   void init();
+  void update_widgets();
 
   bool on_restbreak_button_press_event(int button);
   int get_number_of_timers() const;
   
+  virtual void config_changed_notify(const std::string &key);
+
   //! What menu to active on click
   Menus::MenuKind menu;
 
@@ -83,10 +87,13 @@ private:
   bool reconfigure;
 
   //! Array of time labels
-  Gtk::Widget **labels;
+  Gtk::Widget *labels[BREAK_ID_SIZEOF];
 
   //! Array of time bar widgets.
-  TimeBar **bars;
+  TimeBar *bars[BREAK_ID_SIZEOF];
+
+  //! Break images
+  Gtk::Image *images[BREAK_ID_SIZEOF];
 
   //! Sheep
   Gtk::Image *sheep;

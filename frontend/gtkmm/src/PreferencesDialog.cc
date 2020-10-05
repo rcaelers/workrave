@@ -80,6 +80,7 @@ PreferencesDialog::PreferencesDialog()
     sound_button(NULL),
     block_button(NULL),
     sound_theme_button(NULL),
+    icon_theme_button(NULL),
     connector(NULL),
     sound_volume_scale(NULL),
     sound_play_button(NULL),
@@ -325,7 +326,13 @@ PreferencesDialog::create_gui_page()
   connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
 
   panel->add_widget(*trayicon_cb, false, false);
-  
+
+  update_icon_theme_combo();
+  if (icon_theme_button != NULL) 
+    {
+      panel->add_label(_("Icon Theme:"), *icon_theme_button);
+    }
+
   panel->set_border_width(12);
   return panel;
 }
@@ -398,7 +405,7 @@ PreferencesDialog::create_sounds_page()
 
       sound_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
 
-      update_theme_selection();
+      update_sound_theme_selection();
 
       sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_theme_changed));
       hig->add_label(_("Sound Theme:"), *sound_theme_button);
@@ -618,8 +625,7 @@ void
 PreferencesDialog::add_page(const char *label, const char *image,
                             Gtk::Widget &widget)
 {
-  string icon = Util::complete_directory(image, Util::SEARCH_PATH_IMAGES);
-  Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(icon);
+  Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(image);
   notebook.add_page(label, pixbuf, widget);
 }
 
@@ -891,7 +897,7 @@ PreferencesDialog::on_sound_filechooser_select()
         SoundPlayer *snd = gui->get_sound_player();
         snd->set_sound_wav_file( (SoundEvent)(int)row[sound_model.event], filename);
         TRACE_MSG(filename);
-        update_theme_selection();
+        update_sound_theme_selection();
       }
 
       fsbutton_filename = filename;
@@ -971,11 +977,10 @@ PreferencesDialog::on_sound_theme_changed()
   TRACE_EXIT();
 }
 
-
 void
-PreferencesDialog::update_theme_selection()
+PreferencesDialog::update_sound_theme_selection()
 {
-  TRACE_ENTER("PreferencesDialog::update_theme_selection");
+  TRACE_ENTER("PreferencesDialog::update_sound_theme_selection");
   sound_themes.erase(sound_themes.begin(), sound_themes.end());
 
   IGUI *gui = GUI::get_instance();
@@ -1003,5 +1008,86 @@ PreferencesDialog::update_theme_selection()
         }
       idx++;
     }
+  TRACE_EXIT();
+}
+
+void
+PreferencesDialog::on_icon_theme_changed()
+{
+  TRACE_ENTER("PreferencesDialog::on_icon_theme_changed");
+  int idx = icon_theme_button->get_active_row_number();
+
+  if (idx == 0)
+  {
+    GUIConfig::set_icon_theme("");
+  }
+  else
+  {
+    GUIConfig::set_icon_theme(icon_theme_button->get_active_text());
+  }
+  TRACE_EXIT();
+}
+
+
+void
+PreferencesDialog::update_icon_theme_combo()
+{
+  TRACE_ENTER("PreferencesDialog::update_icon_theme_combo");
+  std::list<std::string> themes;
+
+  for (const auto &dirname : Util::get_search_path(Util::SEARCH_PATH_IMAGES))
+    {
+      if (!g_str_has_suffix(dirname.c_str(), "images")) 
+        {  
+          continue;
+        }
+
+      GDir *dir = g_dir_open(dirname.c_str(), 0, NULL);
+      if (dir != NULL)
+        {
+          const char *file;
+		      while ((file = g_dir_read_name(dir)) != NULL)
+            {
+
+              gchar *test_path = g_build_filename(dirname.c_str(), file, NULL);
+              if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+                {
+                  themes.push_back(file);
+                }
+              g_free(test_path);
+            }
+          g_dir_close(dir);
+        }
+    }
+
+  if (themes.size() > 0) 
+    {    
+      icon_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
+
+#if GTKMM_CHECK_VERSION(2, 24, 0)
+      icon_theme_button->append(_("Default"));
+#else
+      icon_theme_button->append_text(_("Default"));
+#endif
+      icon_theme_button->set_active(0);
+
+      std::string current_icontheme = GUIConfig::get_icon_theme();
+      int idx = 1;
+      for (auto &theme : themes) 
+        {
+#if GTKMM_CHECK_VERSION(2, 24, 0)
+          icon_theme_button->append(theme);
+#else
+          icon_theme_button->append_text(theme);
+#endif
+          if (current_icontheme == theme)
+            {
+              icon_theme_button->set_active(idx);
+            }
+           idx++;
+        }
+      icon_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_icon_theme_changed));
+    }
+
   TRACE_EXIT();
 }

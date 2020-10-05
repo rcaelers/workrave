@@ -47,8 +47,10 @@
 #include "IConfigurator.hh"
 #include "GUIConfig.hh"
 #include "Menus.hh"
-#include "Util.hh"
+#include "GtkUtil.hh"
 #include "TimerBoxControl.hh"
+
+using namespace std;
 
 StatusIcon::StatusIcon()
 {
@@ -77,16 +79,7 @@ StatusIcon::init()
   assert(sizeof(mode_files)/sizeof(mode_files[0]) == OPERATION_MODE_SIZEOF);
   for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
     {
-      std::string file = Util::complete_directory(mode_files[i],
-                                                  Util::SEARCH_PATH_IMAGES);
-      try
-        {
-          mode_icons[(OperationMode)i] = Gdk::Pixbuf::create_from_file(file);
-        }
-      catch(...)
-        {
-          return;
-        }
+       mode_icons[(OperationMode)i] = GtkUtil::create_pixbuf(mode_files[i]);
     }
 
   insert_icon();

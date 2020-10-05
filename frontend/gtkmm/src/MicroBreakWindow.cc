@@ -43,6 +43,8 @@
 #include "Hig.hh"
 #include "Frame.hh"
 
+using namespace std;
+
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode) :
   BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode),
@@ -65,8 +67,7 @@ MicroBreakWindow::create_gui()
   label = Gtk::manage(new Gtk::Label());
 
   // Icon
-  string icon = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
+  Gtk::Image *img = GtkUtil::create_image("micro-break.png");
   img->set_alignment(0.0, 0.0);
 
   // HBox

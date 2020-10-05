@@ -43,6 +43,7 @@ const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
 const string GUIConfig::CFG_KEY_AUTOSTART          = "gui/autostart";
+const string GUIConfig::CFG_KEY_ICONTHEME          = "gui/icontheme";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -273,3 +274,19 @@ GUIConfig::set_start_in_tray(bool b)
 }
 
 
+std::string
+GUIConfig::get_icon_theme()
+{
+  string ret = "";
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_ICONTHEME, ret, "");
+
+  return ret;
+}
+
+void
+GUIConfig::set_icon_theme(std::string theme)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_ICONTHEME, theme);
+}

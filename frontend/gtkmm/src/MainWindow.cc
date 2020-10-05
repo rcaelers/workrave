@@ -46,7 +46,7 @@
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
-#include "Util.hh"
+#include "GtkUtil.hh"
 #include "Menus.hh"
 
 #ifdef PLATFORM_OS_WIN32
@@ -267,18 +267,8 @@ MainWindow::init()
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
-      string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
-
-      try
-        {
-          Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
-
-          TRACE_MSG(file << " size = " << pixbuf->get_width() << " " << pixbuf->get_height());
-          icons.push_back(pixbuf);
-        }
-      catch (...)
-        {
-        }
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_files[i]);
+      icons.push_back(pixbuf);
     }
 
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);

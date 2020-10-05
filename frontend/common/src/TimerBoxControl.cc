@@ -45,6 +45,7 @@
 #include "IConfigurator.hh"
 
 using namespace workrave;
+using namespace std;
 
 const std::string TimerBoxControl::CFG_KEY_TIMERBOX = "gui/";
 const std::string TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";

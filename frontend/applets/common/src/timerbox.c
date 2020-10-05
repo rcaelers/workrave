@@ -37,13 +37,15 @@ static void workrave_timerbox_get_property (GObject *gobject, guint property_id,
 static void workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr);
 static void workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr);
 static void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *height);
+static GdkPixbuf *workrave_load_image(WorkraveTimerbox *self, const char *name);
+static void workrave_timerbox_init_images(WorkraveTimerbox *self);
+static void workrave_on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data);
 
 enum
 {
   PROP_0,
   PROP_NAME
 };
-
 
 const int PADDING_X = 2;
 const int PADDING_Y = 2;
@@ -65,6 +67,7 @@ struct _WorkraveTimerboxPrivate
   int height;
   gboolean force_icon;
   gchar *mode;
+  GSettings *settings;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(WorkraveTimerbox, workrave_timerbox, G_TYPE_OBJECT);
@@ -98,20 +101,10 @@ workrave_timerbox_init(WorkraveTimerbox *self)
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  priv->normal_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
-  priv->quiet_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-quiet-icon-medium.png", NULL);
-  priv->suspended_sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-suspended-icon-medium.png", NULL);
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
+
       priv->slot_to_time_bar[i] = g_object_new(WORKRAVE_TYPE_TIMEBAR, NULL);
-
-      GString *filename = g_string_new("");
-      g_string_printf(filename, "%s/images/%s", WORKRAVE_PKGDATADIR, icons[i]);
-      priv->break_to_icon[i] = gdk_pixbuf_new_from_file(filename->str, NULL);
-      g_string_free(filename, TRUE);
-
       priv->break_visible[i] = FALSE;
       priv->slot_to_break[i] = BREAK_ID_NONE;
       priv->break_to_slot[i] = -1;
@@ -120,8 +113,11 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   priv->enabled = FALSE;
   priv->force_icon = FALSE;
   priv->mode = g_strdup("normal");
-}
+  priv->settings = g_settings_new("org.workrave.gui");
+  g_signal_connect(priv->settings, "changed", G_CALLBACK(workrave_on_settings_changed), self);
 
+  workrave_timerbox_init_images(self);
+}
 
 static void
 workrave_timerbox_dispose(GObject *gobject)
@@ -479,4 +475,54 @@ workrave_timerbox_set_operation_mode(WorkraveTimerbox *self, gchar *mode)
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   g_free(priv->mode);
   priv->mode = g_strdup(mode);
+}
+
+static GdkPixbuf *
+workrave_load_image(WorkraveTimerbox *self, const char *name)
+{
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
+  GdkPixbuf *ret = NULL;
+
+  char *theme = g_settings_get_string(priv->settings, "icontheme");
+
+  char *file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
+  if (!g_file_test(file, G_FILE_TEST_EXISTS))
+    {
+      g_free(file);
+      file = g_build_filename(WORKRAVE_PKGDATADIR, "images", name, NULL);
+    }
+
+  ret = gdk_pixbuf_new_from_file(file, NULL);
+  g_free(file);
+
+  return ret;
+}
+
+static void
+workrave_timerbox_init_images(WorkraveTimerbox *self)
+{
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
+
+  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+
+  g_object_unref(priv->normal_sheep_icon);
+  g_object_unref(priv->quiet_sheep_icon);
+  g_object_unref(priv->suspended_sheep_icon);
+
+  priv->normal_sheep_icon = workrave_load_image(self, "workrave-icon-medium.png");
+  priv->quiet_sheep_icon = workrave_load_image(self, "workrave-quiet-icon-medium.png");
+  priv->suspended_sheep_icon = workrave_load_image(self, "workrave-suspended-icon-medium.png");
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      g_object_unref(priv->break_to_icon[i]);
+      priv->break_to_icon[i] = workrave_load_image(self, icons[i]);
+    }
+}
+
+static void
+workrave_on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
+{
+  WorkraveTimerbox *self = WORKRAVE_TIMERBOX(user_data);
+  workrave_timerbox_init_images(self);
 }

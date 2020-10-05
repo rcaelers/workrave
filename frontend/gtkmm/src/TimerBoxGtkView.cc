@@ -45,16 +45,16 @@
 #include "GtkUtil.hh"
 
 #include "CoreFactory.hh"
+#include "IConfigurator.hh"
 #include "IBreak.hh"
 
+using namespace std;
 
 //! Constructor.
 TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
   menu(menu),
   transparent(transparent),
   reconfigure(true),
-  labels(NULL),
-  bars(NULL),
   sheep(NULL),
   sheep_eventbox(NULL),
   orientation(ORIENTATION_UP),
@@ -75,6 +75,9 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
 TimerBoxGtkView::~TimerBoxGtkView()
 {
   TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
+  IConfigurator *config = CoreFactory::get_configurator();
+  config->remove_listener(this);
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != NULL)
@@ -85,9 +88,6 @@ TimerBoxGtkView::~TimerBoxGtkView()
         bars[i]->unreference();
       delete bars[i];
     }
-
-  delete [] bars;
-  delete [] labels;
 
   if (sheep != NULL)
     sheep->unreference();
@@ -157,6 +157,9 @@ TimerBoxGtkView::init()
       bars[i]->reference();
     }
 
+  IConfigurator *config = CoreFactory::get_configurator();
+  config->add_listener(GUIConfig::CFG_KEY_ICONTHEME, this);
+  
   reconfigure = true;
   TRACE_EXIT();
 }
@@ -166,9 +169,6 @@ TimerBoxGtkView::init()
 void
 TimerBoxGtkView::init_widgets()
 {
-  labels = new Gtk::Widget*[BREAK_ID_SIZEOF];
-  bars = new TimeBar*[BREAK_ID_SIZEOF];
-
   Glib::RefPtr<Gtk::SizeGroup> size_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
 
@@ -176,8 +176,7 @@ TimerBoxGtkView::init_widgets()
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
-      Gtk::Image *img = new Gtk::Image(icon);
+      Gtk::Image *img = GtkUtil::create_image(icons[count]);
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
         {
@@ -220,6 +219,7 @@ TimerBoxGtkView::init_widgets()
 
       size_group->add_widget(*w);
       labels[count] = w;
+      images[count] = img;
 
       bars[count] = new TimeBar;
       bars[count]->set_text_alignment(1);
@@ -228,6 +228,17 @@ TimerBoxGtkView::init_widgets()
     }
 }
 
+//! Update the widgets.
+void
+TimerBoxGtkView::update_widgets()
+{
+  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+  for (int count = 0; count < BREAK_ID_SIZEOF; count++)
+    {
+      std::string filename = GtkUtil::get_image_filename(icons[count]);
+      images[count]->set(filename);
+    }
+}
 
 int
 TimerBoxGtkView::get_number_of_timers() const
@@ -245,7 +256,6 @@ TimerBoxGtkView::get_number_of_timers() const
     }
   return number_of_timers;
 }
-
 
 //! Initializes the applet.
 void
@@ -396,13 +406,13 @@ TimerBoxGtkView::init_table()
       visible_count = -1;
     }
 
-  TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
+  TRACE_MSG(rows << " " << table_rows << " " << columns << " " << table_columns);
   //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
   {
     TRACE_MSG("resize");
     resize(rows, columns);
     set_spacings(0);
-    //show_all();
+    // show_all();
 
     table_columns = columns;
     table_rows = rows;
@@ -520,18 +530,15 @@ TimerBoxGtkView::set_icon(IconType icon)
   switch (icon)
     {
     case ICON_NORMAL:
-      file = Util::complete_directory("workrave-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-icon-medium.png");
       break;
 
     case ICON_QUIET:
-      file = Util::complete_directory("workrave-quiet-icon-medium.png",
-                                             Util::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-quiet-icon-medium.png");
       break;
 
     case ICON_SUSPENDED:
-      file = Util::complete_directory("workrave-suspended-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-suspended-icon-medium.png");
       break;
     }
 
@@ -558,10 +565,9 @@ TimerBoxGtkView::update_view()
 void
 TimerBoxGtkView::set_enabled(bool enabled)
 {
-  (void) enabled;
+  (void)enabled;
   // Status window disappears, no need to do anything here.
 }
-
 
 void
 TimerBoxGtkView::set_sheep_only(bool sheep_only)
@@ -599,7 +605,6 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
   return ret;
 }
 
-
 #ifdef HAVE_GTK3
 bool
 TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
@@ -614,3 +619,14 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   return Gtk::Widget::on_draw(cr);
 }
 #endif
+
+void
+TimerBoxGtkView::config_changed_notify(const string &key)
+{
+  TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
+  if (key == GUIConfig::CFG_KEY_ICONTHEME)
+    {
+      update_widgets();
+    }
+  TRACE_EXIT();
+}

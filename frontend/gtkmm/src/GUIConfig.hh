@@ -37,6 +37,7 @@ public:
   static const std::string CFG_KEY_TRAYICON_ENABLED;
   static const std::string CFG_KEY_AUTOSTART;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
+  static const std::string CFG_KEY_ICONTHEME;
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
@@ -69,7 +70,10 @@ public:
 
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
- 
+
+  static std::string get_icon_theme();
+  static void set_icon_theme(std::string theme);
+
 private:
   static std::string expand(const std::string &str, BreakId id);
 };

@@ -37,6 +37,8 @@
 #include "SoundPlayer.hh"
 #include "debug.hh"
 
+using namespace std;
+
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
 

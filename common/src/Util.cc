@@ -391,6 +391,23 @@ Util::complete_directory(string path, Util::SearchPathId type)
   return fullPath;
 }
 
+//! Completes the directory for the specified file and file type.
+bool
+Util::complete_directory(string path, Util::SearchPathId type, std::string &completed_path)
+{
+  bool found = false;
+
+  const set<string> &searchPath = get_search_path(type);
+
+  for (set<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
+    {
+      completed_path = (*i) + G_DIR_SEPARATOR_S + path;
+      found = file_exists(completed_path);
+    }
+
+  return found;
+}
+
 bool
 Util::running_gnome()
 {

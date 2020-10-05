@@ -34,7 +34,7 @@
 
 #include "Menus.hh"
 #include "GUI.hh"
-#include "Util.hh"
+#include "GtkUtil.hh"
 
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
@@ -334,19 +334,7 @@ Menus::on_menu_about()
 {
   if (about == NULL)
     {
-      string icon = Util::complete_directory("workrave.png",
-                                             Util::SEARCH_PATH_IMAGES);
-      Glib::RefPtr<Gdk::Pixbuf> pixbuf;
-
-      try
-        {
-          pixbuf = Gdk::Pixbuf::create_from_file(icon);
-        }
-      catch (...)
-        {
-        }
-
-
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");

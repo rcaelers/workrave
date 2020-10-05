@@ -39,23 +39,24 @@ public:
     SEARCH_PATH_SIZEOF
   };
 
-  static const string& get_home_directory();
-  static void set_home_directory(const string &home);
+  static const std::string& get_home_directory();
+  static void set_home_directory(const std::string &home);
 
 #ifdef PLATFORM_OS_WIN32
   static string get_application_directory();
   static bool registry_set_value(const char *path, const char *name, const char *value);
   static bool registry_get_value(const char *path, const char *name, char *out);
 #endif
-  static const set<string> &get_search_path(SearchPathId type);
-  static bool file_exists(string path);
-  static string complete_directory(string path, SearchPathId type);
+  static const std::set<std::string> &get_search_path(SearchPathId type);
+  static bool file_exists(std::string path);
+  static std::string complete_directory(std::string path, SearchPathId type);
+  static bool complete_directory(std::string path, SearchPathId type, std::string &completed_path);
 
   static bool running_gnome();
 
 private:
-  static set<string> search_paths[SEARCH_PATH_SIZEOF];
-  static string home_directory;
+  static std::set<std::string> search_paths[SEARCH_PATH_SIZEOF];
+  static std::string home_directory;
 };
 
 #endif // UTIL_HH

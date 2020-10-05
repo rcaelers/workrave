@@ -42,6 +42,9 @@
 #include "EventLabel.hh"
 #include "EventImage.hh"
 #include "HeadInfo.hh"
+#include "GUIConfig.hh"
+
+using namespace std;
 
 Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");
 
@@ -177,7 +180,6 @@ GtkUtil::create_label_for_break(BreakId id)
     GtkUtil::create_label_with_icon(labels[id], icon.c_str());
   return label;
 }
-
 
 void
 GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
@@ -443,3 +445,55 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 #endif
 }
 
+
+std::string
+GtkUtil::get_image_filename(const std::string &image)
+{
+  std::string theme = GUIConfig::get_icon_theme();
+
+  if (theme != "") 
+    {
+      theme += G_DIR_SEPARATOR_S;
+    }
+
+  std::string path;
+  bool found = Util::complete_directory(theme + image, Util::SEARCH_PATH_IMAGES, path);
+  if (!found)
+    {
+      found = Util::complete_directory(image, Util::SEARCH_PATH_IMAGES, path);
+    }
+
+  return path;
+}
+
+Glib::RefPtr<Gdk::Pixbuf>
+GtkUtil::create_pixbuf(const std::string &name)
+{
+  std::string filename = get_image_filename(name);
+  Glib::RefPtr<Gdk::Pixbuf> ret;
+
+  try
+    {
+      ret = Gdk::Pixbuf::create_from_file(filename);
+    }
+  catch(const Glib::Exception&)
+    {
+    }
+  return ret;
+}
+
+Gtk::Image *
+GtkUtil::create_image(const std::string &name)
+{
+  std::string filename = get_image_filename(name);
+  Gtk::Image *ret = NULL;
+
+  try
+    {
+      ret = Gtk::manage(new Gtk::Image(filename));
+    }
+  catch(const Glib::Exception&)
+    {
+    }
+  return ret;
+}

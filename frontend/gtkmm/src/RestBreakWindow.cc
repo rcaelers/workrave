@@ -207,8 +207,7 @@ RestBreakWindow::create_info_panel()
 {
   Gtk::HBox *info_box = Gtk::manage(new Gtk::HBox(false, 12));
 
-  string icon = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *info_img = Gtk::manage(new Gtk::Image(icon));
+  Gtk::Image *info_img = GtkUtil::create_image("rest-break.png");
   info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =
     Gtk::manage(new Gtk::Label());

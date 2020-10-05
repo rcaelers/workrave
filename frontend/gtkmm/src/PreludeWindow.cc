@@ -355,7 +355,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     }
   if (icon != NULL)
     {
-      string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
+      string file = GtkUtil::get_image_filename(icon);
       image_icon->set(file);
     }
 }
