@@ -167,6 +167,8 @@ CPPFLAGS="$CPPFLAGS $1"
 
 ADD_COMPILER_FLAG([-Wno-cast-function-type])
 
+AX_CXX_COMPILE_STDCXX_11(ext, mandatory)
+
 dnl
 dnl Headers/Types/Functions
 dnl
@@ -506,7 +508,6 @@ if test "x$config_dbus" = "xyes"
 then
     # For now, only needed for DBus.
     AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
-    AX_CXX_COMPILE_STDCXX_11(ext, mandatory)
 
     AC_DEFINE(HAVE_DBUS, , [DBus support])
 
