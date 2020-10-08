@@ -324,15 +324,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
   Gtk::TreeRow row = *(model->append());
   if (sysoper_model_columns->has_button_images)
     {
-      try {
-          string icon_path = AssetPath::complete_directory(icon_name,
-                                            AssetPath::SEARCH_PATH_IMAGES);
-          Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(icon_path);
-          row[sysoper_model_columns->icon] = img;
-      } catch (Glib::Error &e) {
-        TRACE_MSG("Cannot read image: " << icon_name << " " << e.what());
-      }
-
+      row[sysoper_model_columns->icon] = GtkUtil::create_pixbuf(icon_name);
     }
   row[sysoper_model_columns->name] = Glib::ustring(name);
   row[sysoper_model_columns->id] = type;

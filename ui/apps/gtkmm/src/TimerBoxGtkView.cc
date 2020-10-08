@@ -53,8 +53,6 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
   menu(menu),
   transparent(transparent),
   reconfigure(true),
-  labels(nullptr),
-  bars(nullptr),
   sheep(nullptr),
   sheep_eventbox(nullptr),
   orientation(ORIENTATION_UP),
@@ -84,9 +82,6 @@ TimerBoxGtkView::~TimerBoxGtkView()
         bars[i]->unreference();
       delete bars[i];
     }
-
-  delete [] bars;
-  delete [] labels;
 
   if (sheep != nullptr)
     sheep->unreference();
@@ -156,6 +151,10 @@ TimerBoxGtkView::init()
       bars[i]->reference();
     }
 
+  connections.add(GUIConfig::icon_theme().attach([&] (std::string theme) {
+      update_widgets();
+  }));
+
   reconfigure = true;
   TRACE_EXIT();
 }
@@ -165,9 +164,6 @@ TimerBoxGtkView::init()
 void
 TimerBoxGtkView::init_widgets()
 {
-  labels = new Gtk::Widget*[BREAK_ID_SIZEOF];
-  bars = new TimeBar*[BREAK_ID_SIZEOF];
-
   Glib::RefPtr<Gtk::SizeGroup> size_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
 
@@ -175,8 +171,7 @@ TimerBoxGtkView::init_widgets()
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      string icon = AssetPath::complete_directory(string(icons[count]), AssetPath::SEARCH_PATH_IMAGES);
-      Gtk::Image *img = new Gtk::Image(icon);
+      Gtk::Image *img = GtkUtil::create_image(icons[count]);
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
         {
@@ -217,6 +212,7 @@ TimerBoxGtkView::init_widgets()
 
       size_group->add_widget(*w);
       labels[count] = w;
+      images[count] = img;
 
       bars[count] = new TimeBar;
       bars[count]->set_text_alignment(1);
@@ -225,6 +221,17 @@ TimerBoxGtkView::init_widgets()
     }
 }
 
+//! Update the widgets.
+void
+TimerBoxGtkView::update_widgets()
+{
+  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+  for (int count = 0; count < BREAK_ID_SIZEOF; count++)
+    {
+      std::string filename = GtkUtil::get_image_filename(icons[count]);
+      images[count]->set(filename);
+    }
+}
 
 int
 TimerBoxGtkView::get_number_of_timers() const
@@ -510,18 +517,15 @@ TimerBoxGtkView::set_icon(StatusIconType icon)
   switch (icon)
     {
     case StatusIconType::Normal:
-      file = AssetPath::complete_directory("workrave-icon-medium.png",
-                                      AssetPath::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-icon-medium.png");
       break;
 
     case StatusIconType::Quiet:
-      file = AssetPath::complete_directory("workrave-quiet-icon-medium.png",
-                                             AssetPath::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-quiet-icon-medium.png");
       break;
 
     case StatusIconType::Suspended:
-      file = AssetPath::complete_directory("workrave-suspended-icon-medium.png",
-                                      AssetPath::SEARCH_PATH_IMAGES);
+      file = GtkUtil::get_image_filename("workrave-suspended-icon-medium.png");
       break;
     }
 

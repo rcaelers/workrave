@@ -399,20 +399,6 @@ GtkUtil::get_visible_tooltip_window()
     return func_retval;
 }
 
-Glib::RefPtr<Gdk::Pixbuf>
-GtkUtil::create_image(const std::string &filename)
-{
-  std::string file = AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
-  try
-    {
-      return Gdk::Pixbuf::create_from_file(file);
-    }
-  catch(...)
-    {
-    }
-  return Glib::RefPtr<Gdk::Pixbuf>();
-}
-
 void
 GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 {
@@ -426,4 +412,56 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 
   css_provider->load_from_data(style);
   style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+
+std::string
+GtkUtil::get_image_filename(const std::string &image)
+{
+  std::string theme = GUIConfig::icon_theme()();
+
+  if (theme != "") 
+    {
+      theme += G_DIR_SEPARATOR_S;
+    }
+
+  std::string path;
+  bool found = AssetPath::complete_directory(theme + image, AssetPath::SEARCH_PATH_IMAGES, path);
+  if (!found)
+    {
+      found = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES, path);
+    }
+
+  return path;
+}
+
+Glib::RefPtr<Gdk::Pixbuf>
+GtkUtil::create_pixbuf(const std::string &name)
+{
+  std::string filename = get_image_filename(name);
+  Glib::RefPtr<Gdk::Pixbuf> ret;
+
+  try
+    {
+      ret = Gdk::Pixbuf::create_from_file(filename);
+    }
+  catch(const Glib::Exception&)
+    {
+    }
+  return ret;
+}
+
+Gtk::Image *
+GtkUtil::create_image(const std::string &name)
+{
+  std::string filename = get_image_filename(name);
+  Gtk::Image *ret = NULL;
+
+  try
+    {
+      ret = Gtk::manage(new Gtk::Image(filename));
+    }
+  catch(const Glib::Exception&)
+    {
+    }
+  return ret;
 }

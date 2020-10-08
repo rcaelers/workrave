@@ -43,6 +43,7 @@ const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
 const string GUIConfig::CFG_KEY_AUTOSTART          = "gui/autostart";
+const string GUIConfig::CFG_KEY_ICONTHEME          = "gui/icontheme";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -167,6 +168,12 @@ Setting<bool> &
 GUIConfig::autostart_enabled()
 {
   return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_AUTOSTART);
+}
+
+Setting<std::string> &
+GUIConfig::icon_theme()
+{
+  return SettingCache::get<std::string>(Backend::get_configurator(), CFG_KEY_ICONTHEME, std::string());
 }
 
 workrave::config::SettingGroup &

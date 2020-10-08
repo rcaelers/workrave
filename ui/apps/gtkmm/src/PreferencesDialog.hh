@@ -73,6 +73,7 @@ private:
   Gtk::ComboBoxText *sound_button;
   Gtk::ComboBoxText *block_button;
   Gtk::ComboBoxText *sound_theme_button;
+  Gtk::ComboBoxText *icon_theme_button;
 
   IconListNotebook notebook;
 
@@ -137,8 +138,10 @@ private:
   void on_sound_filechooser_select();
   void on_sound_events_changed();
   void on_sound_theme_changed();
-  void update_theme_selection();
+  void update_sound_theme_selection();
   void update_senstives();
+  void on_icon_theme_changed();
+  void update_icon_theme_combo();
 
   Gtk::CheckButton *autostart_cb;
   void on_autostart_toggled();

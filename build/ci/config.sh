@@ -7,9 +7,10 @@ case "$WORKRAVE_ENV" in
         DEPLOY_DIR=${WORKSPACE}/deploy
         SECRETS_DIR=${WORKSPACE}/secrets
         PREBUILT_DIR=${WORKSPACE}/prebuilt
-        CI_DIR=${WORKSPACE}/ci
+        SCRIPTS_DIR=${WORKSPACE}/scripts
+        CI_DIR=${SCRIPTS_DIR}/ci
 
-        BUILD_DIR=${SOURCES_DIR}/_dist/build
+        BUILD_DIR=${WORKSPACE}/build
         ;;
 
     travis)
@@ -21,18 +22,20 @@ case "$WORKRAVE_ENV" in
         BUILD_DIR=${SOURCES_DIR}/_dist/build
         SECRETS_DIR=${SOURCES_DIR}/_dist/secrets
         PREBUILT_DIR=${WORKSPACE}/prebuilt
-        CI_DIR=${SOURCES_DIR}/build/ci
+        SCRIPTS_DIR=$${SOURCES_DIR}/build
+        CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
     github-docker)
         echo "Running on Github in docker"
         WORKSPACE=/workspace
-        SOURCES_DIR=${WORKSPACE}/source
         OUTPUT_DIR=${WORKSPACE}/output
+        SOURCES_DIR=${WORKSPACE}/source
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
         PREBUILT_DIR=${WORKSPACE}/prebuilt
-        CI_DIR=${SOURCES_DIR}/build/ci
+        SCRIPTS_DIR=${SOURCES_DIR}/build
+        CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
     github)
@@ -63,7 +66,7 @@ cd ${SOURCES_DIR}
 export WORKRAVE_GIT_TAG=`git describe --abbrev=0`
 export WORKRAVE_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//'`
 export WORKRAVE_LONG_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null`
-export WORKRAVE_VERSION=`echo $WORKRAVE_GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-/./g'`
+export WORKRAVE_VERSION=`echo $WORKRAVE_GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g' | sed -e 's/^v//g'`
 export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_GIT_TAG}..HEAD --count`
 export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
 export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`

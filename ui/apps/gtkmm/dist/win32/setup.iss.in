@@ -69,6 +69,8 @@ Source: "@INSTALLDIR@\share\sounds\default\*.wav"; DestDir: "{app}\share\sounds\
 Source: "@INSTALLDIR@\share\sounds\default\soundtheme"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\sounds\subtle\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\bells\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALLDIR@\share\sounds\bells\soundtheme"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\exercises\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "@INSTALLDIR@\share\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "@INSTALLDIR@\share\doc\workrave\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;

@@ -12,6 +12,7 @@ https://github.com/rcaelers/workrave/issues
    in the rest break window. The postpone button is now disabled when the micro
    break is overdue, and the maximum number of break prompts was reached.
 ** Fix build issue with libayatana-indicator3.
+** A new sound theme calls 'Bells' has been added (Pieter De Decker)
 
 * Workrave 1.10.44
 

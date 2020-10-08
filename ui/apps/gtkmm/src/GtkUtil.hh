@@ -91,9 +91,13 @@ public:
 
   static GtkWindow *get_visible_tooltip_window();
 
-  static Glib::RefPtr<Gdk::Pixbuf> create_image(const std::string &filename);
-
   static void set_theme_fg_color(Gtk::Widget *widget);
+
+  static std::string get_image_filename(const std::string &image);
+
+  static Glib::RefPtr<Gdk::Pixbuf> create_pixbuf(const std::string &name);
+  
+  static Gtk::Image *create_image(const std::string &name);
 
 private:
   static Glib::Quark *label_quark;

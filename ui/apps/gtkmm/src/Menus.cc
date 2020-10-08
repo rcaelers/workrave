@@ -32,7 +32,7 @@
 
 #include "Menus.hh"
 #include "GUI.hh"
-#include "utils/AssetPath.hh"
+#include "Gtkutil.hh"
 
 #include "PreferencesDialog.hh"
 
@@ -323,19 +323,7 @@ Menus::on_menu_about()
 {
   if (about == nullptr)
     {
-      string icon = AssetPath::complete_directory("workrave.png",
-                                             AssetPath::SEARCH_PATH_IMAGES);
-      Glib::RefPtr<Gdk::Pixbuf> pixbuf;
-
-      try
-        {
-          pixbuf = Gdk::Pixbuf::create_from_file(icon);
-        }
-      catch (...)
-        {
-        }
-
-
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");

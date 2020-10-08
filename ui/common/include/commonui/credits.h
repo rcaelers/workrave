@@ -34,6 +34,7 @@ const char *workrave_authors[] = {
   "",
   "Sounds:",
   "Ruairi Fullam",
+  "Pieter De Decker",
   NULL
 };
 

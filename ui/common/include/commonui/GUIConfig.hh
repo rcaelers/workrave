@@ -46,6 +46,7 @@ public:
   static workrave::config::Setting<bool> &trayicon_enabled();
   static workrave::config::Setting<bool> &closewarn_enabled();
   static workrave::config::Setting<bool> &autostart_enabled();
+  static workrave::config::Setting<std::string> &icon_theme();
 
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
@@ -75,6 +76,7 @@ private:
   static const std::string CFG_KEY_TRAYICON_ENABLED;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_AUTOSTART;
+  static const std::string CFG_KEY_ICONTHEME;
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;

@@ -65,8 +65,7 @@ MicroBreakWindow::create_gui()
   label = Gtk::manage(new Gtk::Label());
 
   // Icon
-  string icon = AssetPath::complete_directory("micro-break.png", AssetPath::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
+  Gtk::Image *img = GtkUtil::create_image("micro-break.png");
   img->set_alignment(0.0, 0.0);
 
   // HBox

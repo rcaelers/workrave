@@ -33,7 +33,7 @@
 
 #include "GUI.hh"
 #include "WindowHints.hh"
-#include "utils/AssetPath.hh"
+#include "GtkUtil.hh"
 #include "Hig.hh"
 
 using namespace std;
@@ -62,8 +62,7 @@ DailyLimitWindow::create_gui()
   label->set_markup(txt);
 
   // Icon
-  string icon = AssetPath::complete_directory("daily-limit.png", AssetPath::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
+  Gtk::Image *img = GtkUtil::create_image("daily-limit.png");
   img->set_alignment(0.0, 0.0);
 
   // HBox

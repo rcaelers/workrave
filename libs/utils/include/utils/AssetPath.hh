@@ -44,6 +44,7 @@ namespace workrave
 
       static const std::set<std::string> &get_search_path(SearchPathId type);
       static std::string complete_directory(std::string path, SearchPathId type);
+      static bool complete_directory(std::string path, SearchPathId type, std::string &full_path);
 
     private:
       static std::set<std::string> search_paths[SEARCH_PATH_SIZEOF];

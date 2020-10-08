@@ -293,4 +293,22 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
   return full_path.string();
 }
 
-;
+//! Completes the directory for the specified file and file type.
+bool
+AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::string &complete_path)
+{
+  bool found = false;
+
+  const set<string> &search_path = get_search_path(type);
+
+  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); ++i)
+    {
+      boost::filesystem::path full_path;
+      full_path = (*i);
+      full_path /= path;
+      found = boost::filesystem::is_regular_file(full_path);
+      complete_path = full_path.string();
+    }
+
+  return found;
+}
