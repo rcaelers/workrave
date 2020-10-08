@@ -26,7 +26,7 @@ parse_arguments()
         case "${o}" in
             c)
                 CONFIG="${OPTARG}"
-                BUILD_ARGS+=("-c${CONFIG}")
+                BUILD_ARGS+=("-d${CONFIG}")
                 ;;
             d)
                 BUILT_TYPE=Debug
@@ -64,7 +64,7 @@ case "$CONFIG" in
 esac
 
 BUILD_ARGS+=("-DCMAKE_BUILD_TYPE=${BUILT_TYPE}")
-BUILD_ARGS+=("-M\"-j2\"")
+BUILD_ARGS+=("-M\"-j4\"")
 DOCKER_ARGS+=("-v ${ROOT}/:/workspace/source")
 
 if [ -n "${WORKING_DIR}" ]; then
@@ -88,6 +88,7 @@ if [ -n "${OUTPUT_DIR}" ]; then
   DOCKER_ARGS+=("-v ${OUTPUT_DIR}:/workspace/output")
 fi
 
+DOCKER_ARGS+=("-e WORKRAVE_ENV=github-docker")
 DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
 
-docker run ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/docker/build.sh ${BUILD_ARGS[*]}"
+docker run ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"

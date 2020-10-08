@@ -6,22 +6,58 @@ source ${BASEDIR}/config.sh
 CMAKE_FLAGS=()
 CMAKE_FLAGS32=()
 MAKE_FLAGS=()
+REL_DIR=
 
 build()
 {
   config=$1
-  cmake_args=("${!2}")
+  rel_dir=$2
+  cmake_args=("${!3}")
 
-  mkdir -p ${BUILD_DIR}/${config}
-  mkdir -p ${OUTPUT_DIR}/${config}
+  if [ ! -d ${BUILD_DIR}/${config} ]; then
+      mkdir -p ${BUILD_DIR}/${config}
+  fi
+  if [ ! -d ${OUTPUT_DIR}/${config} ]; then
+      mkdir -p ${OUTPUT_DIR}/${config}
+  fi
 
-  cd ${BUILD_DIR}/${config}
+  if [ -n "${rel_dir}" -a ! -d "${BUILD_DIR}/${rel_dir}" ]; then
+      echo Performing build at toplevel first
+      rel_dir=
+  fi
 
-  cmake ${SOURCES_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+  cd ${BUILD_DIR}/${config}/${rel_dir}
+
+  if [ -z "${rel_dir}" ]; then
+      cmake ${SOURCES_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+  fi
 
   make ${MAKE_FLAGS[@]} VERBOSE=1
   make ${MAKE_FLAGS[@]} install VERBOSE=1
 }
+
+parse_arguments()
+{
+  while getopts "d:C:D:M:" o; do
+      case "${o}" in
+          d)
+            DOCKER_IMAGE=${OPTARG}
+            ;;
+          C)
+            REL_DIR=${OPTARG}
+            ;;
+          D)
+            CMAKE_FLAGS+=("-D${OPTARG}")
+            ;;
+          M)
+            MAKE_FLAGS+=("${OPTARG}")
+            ;;
+      esac
+  done
+  shift $((OPTIND-1))
+}
+
+parse_arguments $*
 
 if [[ ${CONF_ENABLE} ]]; then
     for i in ${CONF_ENABLE//,/ }
@@ -39,7 +75,9 @@ if [[ ${CONF_DISABLE} ]]; then
     done
 fi
 
-CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
+if [[ ${CONF_UI} ]]; then
+    CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
+fi
 
 if [[ $COMPILER = 'gcc' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
@@ -53,7 +91,9 @@ elif [[ $COMPILER = 'clang' ]] ; then
     CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=clang-9")
 fi
 
-CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONF_CONFIGURATION")
+if [[ ${CONF_CONFIGURATION} ]]; then
+    CMAKE_FLAGS+=("-DCMAKE_BUILD_TYPE=$CONF_CONFIGURATION")
+fi
 
 if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
@@ -67,7 +107,7 @@ case "$DOCKER_IMAGE" in
 
     mingw-gtk*)
 
-        case "$CONFIG" in
+        case "$PREBUILT" in
             vs)
                 CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
@@ -81,13 +121,13 @@ case "$DOCKER_IMAGE" in
                 CMAKE_FLAGS32+=("-DWITH_UI=None")
                 CMAKE_FLAGS32+=("-DCMAKE_BUILD_TYPE=Release")
 
-                build ".32" CMAKE_FLAGS32[@]
+                build ".32" "" CMAKE_FLAGS32[@]
                 ;;
         esac
         ;;
 esac
 
-build "" CMAKE_FLAGS[@]
+build "" "${REL_DIR}" CMAKE_FLAGS[@]
 
 mkdir -p ${DEPLOY_DIR}
 
