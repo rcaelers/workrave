@@ -32,7 +32,7 @@
 
 #include "Menus.hh"
 #include "GUI.hh"
-#include "Gtkutil.hh"
+#include "GtkUtil.hh"
 
 #include "PreferencesDialog.hh"
 
