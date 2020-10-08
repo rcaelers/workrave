@@ -1,4 +1,4 @@
-set (SOUND_THEMES default subtle)
+set (SOUND_THEMES default subtle bells)
 
 foreach(soundtheme ${SOUND_THEMES})
   file(GLOB SND_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/${soundtheme}/*.wav
