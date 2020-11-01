@@ -28,7 +28,7 @@
 class TracedFieldBase
 {
 public:
-  constexpr TracedFieldBase() noexcept = default;
+  TracedFieldBase() noexcept = default;
 
   static bool debug;
 };
@@ -121,7 +121,7 @@ public:
   using value_type = ValueType;
   using base_type = TracedField<ValueType>;
 
-  explicit constexpr TracedField(const TracedField &p) noexcept
+  explicit TracedField(const TracedField &p) noexcept
       : _name{ p._name }
       , _value{ p._value }
       , _last_published_value{ p._last_published_value }
@@ -134,7 +134,7 @@ public:
       }
   }
 
-  explicit constexpr TracedField(TracedField &&p) noexcept
+  explicit TracedField(TracedField &&p) noexcept
       : _name{ std::move(p._name) }
       , _value{ std::move(p._value) }
       , _last_published_value{ p._last_published_value }
@@ -147,7 +147,7 @@ public:
       }
   }
 
-  constexpr TracedField(const std::string &name, const value_type &initial, bool manual = false) noexcept
+  TracedField(const std::string &name, const value_type &initial, bool manual = false) noexcept
       : _name{ name }
       , _value{ initial }
       , _manual{ manual }
@@ -159,7 +159,7 @@ public:
       }
   }
 
-  constexpr TracedField(std::string &&name, value_type &&initial, bool manual = false) noexcept
+  TracedField(std::string &&name, value_type &&initial, bool manual = false) noexcept
       : _name{ std::move(name) }
       , _value{ std::move(initial) }
       , _manual{ manual }
@@ -176,37 +176,31 @@ public:
     Diagnostics::instance().unregister_topic(_name);
   }
 
-  constexpr auto &operator=(const TracedField &prop) noexcept
+  base_type &operator=(const TracedField &prop) noexcept
   {
     set(prop.get());
     return *this;
   }
 
-  constexpr auto &operator=(TracedField &&prop) noexcept
+  base_type &operator=(TracedField &&prop) noexcept
   {
     set(std::move(prop.get()));
     return *this;
   }
 
-  constexpr auto &operator=(const value_type &value) noexcept
+  base_type &operator=(const value_type &value) noexcept
   {
     set(value);
     return *this;
   }
 
-  constexpr auto &operator=(value_type &&value) noexcept
+  base_type &operator=(value_type &&value) noexcept
   {
     set(std::move(value));
     return *this;
   }
 
-  template<class V, std::enable_if_t<std::is_convertible<V, ValueType>::type> * = nullptr>
-  decltype(auto) operator=(V &&value) const
-  {
-    return set(std::forward<V>(value));
-  };
-
-  constexpr auto get() const noexcept
+  value_type get() const noexcept
   {
     return _value;
   }
@@ -226,7 +220,7 @@ public:
       }
   }
 
-  constexpr void set(value_type const &value) noexcept
+  void set(const value_type &value) noexcept
   {
     if (debug && !_manual && value != _value)
       {
@@ -235,7 +229,7 @@ public:
     _value = value;
   }
 
-  constexpr void set(value_type &&value)
+  void set(value_type &&value)
   {
     if (debug && !_manual && value != _value)
       {
@@ -244,7 +238,7 @@ public:
     _value = std::move(value);
   }
 
-  constexpr operator value_type() const
+  operator value_type() const
   {
     return get();
   }
@@ -271,253 +265,253 @@ public:
     return get() != value;
   }
 
-  auto &operator++()
+  base_type &operator++()
   {
     set(get() + 1);
     return *this;
   }
 
-  auto operator++(int)
+  value_type operator++(int)
   {
     value_type before = get();
     set(get() + 1);
     return before;
   }
 
-  auto &operator--()
+  base_type &operator--()
   {
     set(get() - 1);
     return *this;
   }
 
-  auto operator--(int)
+  value_type operator--(int)
   {
     value_type before = get();
     set(get() - 1);
     return before;
   }
 
-  auto operator-() const
+  value_type operator-() const
   {
     return -get();
   }
 
-  auto operator~() const
+  value_type operator~() const
   {
     return ~get();
   }
 
-  auto operator+(const base_type &right) const
+  value_type operator+(const base_type &right) const
   {
     return get() + right.get();
   }
 
   template<typename T>
-  auto operator+(const T &right) const
+  value_type operator+(const T &right) const
   {
     return get() + right;
   }
 
-  auto &operator+=(const base_type &right)
+  base_type &operator+=(const base_type &right)
   {
     set(get() + right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator+=(const T &right)
+  base_type &operator+=(const T &right)
   {
     set(get() + right);
     return *this;
   }
 
-  auto operator-(const base_type &right) const
+  value_type operator-(const base_type &right) const
   {
     return get() - right.get();
   }
 
   template<typename T>
-  auto operator-(const T &right) const
+  value_type operator-(const T &right) const
   {
     return get() - right;
   }
 
-  auto &operator-=(const base_type &right)
+  base_type &operator-=(const base_type &right)
   {
     set(get() - right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator-=(const T &right)
+  base_type &operator-=(const T &right)
   {
     set(get() - right);
     return *this;
   }
 
-  auto operator*(const base_type &right) const
+  value_type operator*(const base_type &right) const
   {
     return get() * right.get();
   }
 
   template<typename T>
-  auto operator*(const T &right) const
+  value_type operator*(const T &right) const
   {
     return get() * right;
   }
 
-  auto &operator*=(const base_type &right)
+  base_type &operator*=(const base_type &right)
   {
     set(get() * right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator*=(const T &right)
+  base_type &operator*=(const T &right)
   {
     set(get() * right);
     return *this;
   }
 
-  auto operator/(const base_type &right) const
+  value_type operator/(const base_type &right) const
   {
     return get() / right.get();
   }
 
   template<typename T>
-  auto operator/(const T &right) const
+  value_type operator/(const T &right) const
   {
     return get() / right;
   }
 
-  auto &operator/=(const base_type &right)
+  base_type &operator/=(const base_type &right)
   {
     set(get() / right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator/=(const T &right)
+  base_type &operator/=(const T &right)
   {
     set(get() / right);
     return *this;
   }
 
-  auto operator%(const base_type &right) const
+  value_type operator%(const base_type &right) const
   {
     return get() % right.get();
   }
 
   template<typename T>
-  auto operator%(const T &right) const
+  value_type operator%(const T &right) const
   {
     return get() % right;
   }
 
-  auto &operator%=(const base_type &right)
+  base_type &operator%=(const base_type &right)
   {
     set(get() % right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator%=(const T &right)
+  base_type &operator%=(const T &right)
   {
     set(get() % right);
     return *this;
   }
 
-  auto operator&(const base_type &right) const
+  value_type operator&(const base_type &right) const
   {
     return get() & right.get();
   }
 
   template<typename T>
-  auto operator&(const T &right) const
+  value_type operator&(const T &right) const
   {
     return get() & right;
   }
 
-  auto &operator&=(const base_type &right)
+  base_type &operator&=(const base_type &right)
   {
     set(get() & right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator&=(const T &right)
+  base_type &operator&=(const T &right)
   {
     set(get() & right);
     return *this;
   };
 
-  auto operator|(const base_type &right) const
+  value_type operator|(const base_type &right) const
   {
     return get() | right.get();
   }
 
   template<typename T>
-  auto operator|(const T &right) const
+  value_type operator|(const T &right) const
   {
     return get() | right;
   }
 
-  auto &operator|=(const base_type &right)
+  base_type &operator|=(const base_type &right)
   {
     set(get() | right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator|=(const T &right)
+  base_type &operator|=(const T &right)
   {
     set(get() | right);
     return *this;
   };
 
-  auto operator^(const base_type &right) const
+  value_type operator^(const base_type &right) const
   {
     return get() ^ right.get();
   }
 
   template<typename T>
-  auto operator^(const T &right) const
+  value_type operator^(const T &right) const
   {
     return get() ^ right;
   }
 
-  auto &operator^=(const base_type &right)
+  base_type &operator^=(const base_type &right)
   {
     set(get() ^ right.get());
     return *this;
   }
 
   template<typename T>
-  auto &operator^=(const T &right)
+  base_type &operator^=(const T &right)
   {
     set(get() ^ right);
     return *this;
   };
 
-  auto operator<<(int num) const
+  value_type operator<<(int num) const
   {
     return get() << num;
   }
 
   template<typename T>
-  auto &operator<<=(int num)
+  base_type &operator<<=(int num)
   {
     set(get() << num);
     return *this;
   }
 
-  auto operator>>(int num) const
+  value_type operator>>(int num) const
   {
     return get() >> num;
   }
 
   template<typename T>
-  auto &operator>>=(int num)
+  base_type &operator>>=(int num)
   {
     set(get() >> num);
     return *this;
