@@ -32,6 +32,7 @@ class StatisticsDialog;
 class PreferencesDialog;
 class AppletControl;
 class ExercisesDialog;
+class DebugDialog;
 class IMenu;
 
 namespace Gtk
@@ -78,6 +79,7 @@ private:
   void on_network_join_response(int response);
 #endif
   void on_statistics_response(int response);
+  void on_debug_response(int response);
   void on_preferences_response(int response);
 #ifdef HAVE_EXERCISES
   void on_exercises_response(int response);
@@ -101,6 +103,7 @@ public:
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
   void on_set_operation_mode(OperationMode m);
+  void on_menu_debug();
 
 #ifdef PLATFORM_OS_WIN32
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
@@ -120,6 +123,9 @@ private:
 
   // The Statistics dialog.
   PreferencesDialog *preferences_dialog;
+
+  // The Debug dialog.
+  DebugDialog *debug_dialog;
 
 #ifdef HAVE_EXERCISES
   // The exercises dialog.

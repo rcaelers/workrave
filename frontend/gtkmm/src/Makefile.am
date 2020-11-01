@@ -184,6 +184,7 @@ workrave_SOURCES = \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
 			DataConnector.cc \
+			DebugDialog.cc \
 			EventButton.cc \
 			EventImage.cc \
 			EventLabel.cc \

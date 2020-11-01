@@ -1,6 +1,4 @@
-// PreferencesDialog.cc --- Preferences dialog
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2020 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,6 +51,7 @@
 #include "GUI.hh"
 #include "GUIConfig.hh"
 #include "DataConnector.hh"
+#include "Menus.hh"
 
 #include "CoreFactory.hh"
 #include "CoreConfig.hh"
@@ -544,7 +543,6 @@ PreferencesDialog::create_timer_page()
 #endif
     }
 
-#if defined(PLATFORM_OS_WIN32)
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
@@ -553,18 +551,17 @@ PreferencesDialog::create_timer_page()
 #else
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
 #endif
-#endif
 
   return tnotebook;
 }
 
-#if defined(PLATFORM_OS_WIN32)
 Gtk::Widget *
 PreferencesDialog::create_monitoring_page()
 {
   Gtk::VBox *panel = Gtk::manage(new Gtk::VBox(false, 6));
   panel->set_border_width(12);
 
+#if defined(PLATFORM_OS_WIN32)
   Gtk::Label *monitor_type_lab = Gtk::manage(GtkUtil::create_label(_("Use alternate monitor"), false));
   monitor_type_cb = Gtk::manage(new Gtk::CheckButton());
   monitor_type_cb->add(*monitor_type_lab);
@@ -591,11 +588,15 @@ PreferencesDialog::create_monitoring_page()
   monitor_type_cb->set_active(monitor_type != "default");
 
   sensitivity_box->set_sensitive(monitor_type != "default");
+#endif
+
+  debug_btn = Gtk::manage(new Gtk::Button(_("Debug monitoring")));
+  debug_btn->signal_clicked().connect(sigc::mem_fun(*this, &PreferencesDialog::on_debug_pressed) );
+  panel->pack_start(*debug_btn, false, false, 0);
 
   return panel;
 }
 
-#endif
 
 Gtk::Widget *
 PreferencesDialog::create_mainwindow_page()
@@ -1090,4 +1091,11 @@ PreferencesDialog::update_icon_theme_combo()
     }
 
   TRACE_EXIT();
+}
+
+void PreferencesDialog::on_debug_pressed()
+{
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
+  menus->on_menu_debug();
 }

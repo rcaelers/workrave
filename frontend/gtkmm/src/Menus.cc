@@ -38,6 +38,7 @@
 
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
+#include "DebugDialog.hh"
 #include "IStatistics.hh"
 
 #include "CoreFactory.hh"
@@ -92,6 +93,7 @@ Menus::Menus() :
 #endif
   statistics_dialog(NULL),
   preferences_dialog(NULL),
+  debug_dialog(NULL),
 #ifdef HAVE_EXERCISES
   exercises_dialog(NULL),
 #endif
@@ -327,6 +329,23 @@ Menus::on_menu_statistics()
     }
 }
 
+//! Debug Dialog.
+void
+Menus::on_menu_debug()
+{
+  if (debug_dialog == NULL)
+    {
+      debug_dialog = new DebugDialog();
+      debug_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_debug_response));
+
+      debug_dialog->run();
+    }
+  else
+    {
+      debug_dialog->present();
+    }
+}
+
 
 //! About Dialog.
 void
@@ -531,6 +550,18 @@ Menus::on_preferences_response(int response)
 
   delete preferences_dialog;
   preferences_dialog = NULL;
+}
+
+void
+Menus::on_debug_response(int response)
+{
+  (void) response;
+
+  assert(debug_dialog != NULL);
+  debug_dialog->hide();
+
+  delete debug_dialog;
+  debug_dialog = NULL;
 }
 
 

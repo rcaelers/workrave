@@ -155,10 +155,14 @@ private:
   Gtk::CheckButton *autostart_cb;
   void on_autostart_toggled();
 
+  Gtk::Button *debug_btn;
+  void on_debug_pressed();
+
+  Gtk::Widget *create_monitoring_page();
+
 #if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *monitor_type_cb;
   void on_monitor_type_toggled();
-  Gtk::Widget *create_monitoring_page();
 
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
