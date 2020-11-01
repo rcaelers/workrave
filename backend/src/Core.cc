@@ -89,26 +89,26 @@ const int SAVESTATETIME = 60;
 //! Constructs a new Core.
 Core::Core() :
   last_process_time(0),
-  master_node(true),
+  master_node{ "core.master_node", true},
   configurator(NULL),
   monitor(NULL),
   application(NULL),
   statistics(NULL),
-  operation_mode(OPERATION_MODE_NORMAL),
-  operation_mode_regular(OPERATION_MODE_NORMAL),
-  usage_mode(USAGE_MODE_NORMAL),
+  operation_mode{ "core.operation_mode", OPERATION_MODE_NORMAL},
+  operation_mode_regular{ "core.operation_mode_regular",OPERATION_MODE_NORMAL},
+  usage_mode{ "core.usage_mode", USAGE_MODE_NORMAL},
   core_event_listener(NULL),
-  powersave(false),
+  powersave{ "core.powersave", false},
   powersave_resume_time(0),
-  insist_policy(ICore::INSIST_POLICY_HALT),
-  active_insist_policy(ICore::INSIST_POLICY_INVALID),
-  resume_break(BREAK_ID_NONE),
-  local_state(ACTIVITY_IDLE),
-  monitor_state(ACTIVITY_UNKNOWN)
+  insist_policy{ "core.insist_policy", ICore::INSIST_POLICY_HALT},
+  active_insist_policy{ "core.active_insist_policy", ICore::INSIST_POLICY_INVALID},
+  resume_break{ "core.resume_break", BREAK_ID_NONE},
+  local_state{ "core.local_state", ACTIVITY_IDLE},
+  monitor_state{ "core.monitor_state", ACTIVITY_UNKNOWN }
 #ifdef HAVE_DISTRIBUTION
   ,
   dist_manager(NULL),
-  remote_state(ACTIVITY_IDLE),
+  remote_state{ "core.remote_state", ACTIVITY_IDLE},
   idlelog_manager(NULL)
 #  ifndef NDEBUG
   ,

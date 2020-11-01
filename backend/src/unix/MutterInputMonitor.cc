@@ -23,6 +23,7 @@
 
 #include "debug.hh"
 #include "IInputMonitorListener.hh"
+#include "Diagnostics.hh"
 
 using namespace std;
 
@@ -81,7 +82,14 @@ MutterInputMonitor::init_idle_monitor()
       g_signal_connect(idle_proxy, "g-signal", G_CALLBACK(on_idle_monitor_signal), this);
 
       result = register_active_watch();
-      result = result && register_idle_watch();
+      if (result) 
+        {
+          result = register_idle_watch();
+          if (!result)
+            {
+              unregister_active_watch();
+            }
+        }
 
       if (result)
         {
@@ -118,6 +126,7 @@ MutterInputMonitor::init_inhibitors()
 
       GVariant *v = g_dbus_proxy_get_cached_property(session_proxy, "InhibitedActions");
       inhibited = (g_variant_get_uint32(v) & GSM_INHIBITOR_FLAG_IDLE) != 0;
+      trace_inhibited = inhibited;
       TRACE_MSG("Inhibited:" << g_variant_get_uint32(v) << " " << inhibited);
       g_variant_unref(v);
     }
@@ -133,7 +142,9 @@ MutterInputMonitor::register_active_watch()
 
   if (error == NULL)
     {
-      g_variant_get(reply, "(u)", &watch_active);
+      guint watch = 0;
+      g_variant_get(reply, "(u)", &watch);
+      watch_active = active;
       g_variant_unref(reply);
     }
   else
@@ -169,7 +180,9 @@ MutterInputMonitor::on_register_active_watch_reply(GObject *object, GAsyncResult
       return;
     }
 
-  g_variant_get(params, "(u)", &self->watch_active);
+  guint watch = 0;
+  g_variant_get(params, "(u)", &watch);
+  self->watch_active = watch;
   g_variant_unref(params);
 }
 
@@ -178,7 +191,7 @@ MutterInputMonitor::unregister_active_watch()
 {
   TRACE_ENTER("MutterInputMonitor::unregister_active_watch");
   GError *error = NULL;
-  if (watch_active != 0)
+  if (watch_active != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
       if (error == NULL)
@@ -200,7 +213,7 @@ void
 MutterInputMonitor::unregister_active_watch_async()
 {
   TRACE_ENTER("MutterInputMonitor::unregister_active_watch_async");
-  if (watch_active != 0)
+  if (watch_active != 0u)
     {
       g_dbus_proxy_call(idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, on_unregister_active_watch_reply, this);
     }
@@ -235,7 +248,9 @@ MutterInputMonitor::register_idle_watch()
 
   if (error == NULL)
     {
-      g_variant_get(reply, "(u)", &watch_idle);
+      guint watch = 0;;
+      g_variant_get(reply, "(u)", &watch);
+      watch_idle = watch;
       g_variant_unref(reply);
     }
   else
@@ -252,7 +267,7 @@ MutterInputMonitor::unregister_idle_watch()
 {
   TRACE_ENTER("MutterInputMonitor::unregister_idle_watch");
   GError *error = NULL;
-  if (watch_idle != 0)
+  if (watch_idle != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
       if (error == NULL)
@@ -298,15 +313,22 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name
       guint handlerID;
       g_variant_get(parameters, "(u)", &handlerID);
 
+      Diagnostics::instance().log("mutter: watch dired");
       if (handlerID == self->watch_active)
         {
           self->unregister_active_watch_async();
           self->active = true;
+          self->trace_active = true;
         }
       else if (handlerID == self->watch_idle)
         {
           self->register_active_watch_async();
           self->active = false;
+          self->trace_active = false;
+        }
+      else 
+        {
+          Diagnostics::instance().log("mutter: unknown handler ID");
         }
     }
 }
@@ -324,6 +346,7 @@ MutterInputMonitor::on_session_manager_property_changed(GDBusProxy *session, GVa
   if (v != NULL)
     {
       self->inhibited = g_variant_get_uint32(v) & GSM_INHIBITOR_FLAG_IDLE;
+      self->trace_inhibited = self->inhibited;
       TRACE_MSG("Inhibited:" << g_variant_get_uint32(v));
       g_variant_unref(v);
     }
@@ -350,6 +373,7 @@ MutterInputMonitor::run()
 
               g_variant_get(reply, "(t)", &idletime);
               g_variant_unref(reply);
+              Diagnostics::instance().log("mutter: " + std::to_string(idletime));
               local_active = idletime < 1000;
             }
           else

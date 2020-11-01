@@ -24,6 +24,7 @@
 #include <string>
 
 #include "IInputMonitorFactory.hh"
+#include "Diagnostics.hh"
 
 //! Factory to create input monitors.
 class W32InputMonitorFactory : public IInputMonitorFactory
@@ -42,7 +43,7 @@ private:
   IInputMonitor *activity_monitor;
   IInputMonitor *statistics_monitor;
 
-  std::string actual_monitor_method;
+  TracedField<std::string> actual_monitor_method;
 };
 
 #endif // W32INPUTMONITORFACTORY_HH

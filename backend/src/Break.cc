@@ -103,9 +103,8 @@ Break::init(BreakId id, IApp *app)
   Defaults &def = default_config[break_id];
 
   break_name = def.name;
-  timer = new Timer();
-  timer->set_id(break_name);
-  break_control = new BreakControl(break_id, app, timer);
+  timer = new Timer(break_name);
+  break_control = new BreakControl(break_id, break_name, app, timer);
 
   init_timer();
   init_break_control();

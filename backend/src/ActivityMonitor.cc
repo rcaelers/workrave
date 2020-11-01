@@ -50,11 +50,9 @@ using namespace std;
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor() :
-  activity_state(ACTIVITY_IDLE),
   prev_x(-10),
   prev_y(-10),
-  button_is_pressed(false),
-  sensitivity(3),
+  button_is_pressed(false), 
   listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
@@ -109,6 +107,7 @@ ActivityMonitor::suspend()
   lock.lock();
   activity_state = ACTIVITY_SUSPENDED;
   lock.unlock();
+  activity_state.publish();
   TRACE_RETURN(activity_state);
 }
 
@@ -121,6 +120,7 @@ ActivityMonitor::resume()
   lock.lock();
   activity_state = ACTIVITY_IDLE;
   lock.unlock();
+  activity_state.publish();
   TRACE_RETURN(activity_state);
 }
 
@@ -137,6 +137,7 @@ ActivityMonitor::force_idle()
       last_action_time = 0;
     }
   lock.unlock();
+  activity_state.publish();
   TRACE_RETURN(activity_state);
 }
 
@@ -165,10 +166,10 @@ ActivityMonitor::get_current_state()
     }
 
   lock.unlock();
+  activity_state.publish();
   TRACE_RETURN(activity_state);
   return activity_state;
 }
-
 
 
 //! Sets the operation parameters.
@@ -204,6 +205,7 @@ ActivityMonitor::shift_time(int delta)
 {
   gint64 d = delta * G_USEC_PER_SEC;
 
+  Diagnostics::instance().log("activity_monitor: shift");
   lock.lock();
 
   if (last_action_time != 0)
@@ -276,6 +278,7 @@ ActivityMonitor::action_notify()
 
   last_action_time = now;
   lock.unlock();
+  activity_state.publish();
   call_listener();
 }
 

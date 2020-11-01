@@ -56,19 +56,21 @@ using namespace std;
  *          windows.
  *  \param timer pointer to the interface of the timer that belongs to this break.
  */
-BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
+BreakControl::BreakControl(BreakId id, const std::string &break_name, IApp *app, Timer *timer) :
   break_id(id),
+  break_name(break_name),
   application(app),
   break_timer(timer),
-  break_stage(STAGE_NONE),
+  break_stage{ break_name + ".break.state", STAGE_NONE},
   reached_max_prelude(false),
   prelude_time(0),
-  prelude_count(0),
+  prelude_count{ break_name + ".break.prelude_count", 0},
+  forced_break{ break_name + ".break.forced", false },
   max_number_of_preludes(2),
-  fake_break(false),
+  fake_break{ break_name + ".break.fake", false},
   fake_break_count(0),
-  user_abort(false),
-  delayed_abort(false),
+  user_abort{ break_name + ".break.user_abort", false},
+  delayed_abort{ break_name + ".break.delayed_abort", false},
   break_hint(BREAK_HINT_NONE)
 {
   assert(break_timer != NULL);

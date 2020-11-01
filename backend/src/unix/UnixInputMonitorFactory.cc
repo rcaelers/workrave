@@ -39,7 +39,8 @@
 #include "MutterInputMonitor.hh"
 
 UnixInputMonitorFactory::UnixInputMonitorFactory()
-  : error_reported(false)
+  : error_reported(false),
+    actual_monitor_method{ "monitor.method", ""}
 {
   monitor = NULL;
 }
@@ -87,24 +88,25 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
         }
 
       vector<string>::const_iterator loop = start;
+      string monitor_method;
       while(1)
         {
-          string actual_monitor_method = *loop;
-          TRACE_MSG("Test " <<  actual_monitor_method);
+          monitor_method = *loop;
+          TRACE_MSG("Test " <<  monitor_method);
 
-          if (actual_monitor_method == "record")
+          if (monitor_method == "record")
             {
               monitor = new RecordInputMonitor(display);
             }
-          else if (actual_monitor_method == "screensaver")
+          else if (monitor_method == "screensaver")
             {
               monitor = new XScreenSaverMonitor();
             }
-          else if (actual_monitor_method == "x11events")
+          else if (monitor_method == "x11events")
             {
               monitor = new X11InputMonitor(display);
             }
-          else if (actual_monitor_method == "mutter")
+          else if (monitor_method == "mutter")
             {
               monitor = new MutterInputMonitor();
             }
@@ -145,7 +147,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           CoreFactory::get_configurator()->set_value("advanced/monitor", "default");
           CoreFactory::get_configurator()->save();
 
-          actual_monitor_method = "";
+          monitor_method = "";
         }
       else
         {
@@ -155,8 +157,10 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
               CoreFactory::get_configurator()->save();
             }
 
-          TRACE_MSG("using " << actual_monitor_method);
+          TRACE_MSG("using " << monitor_method);
         }
+
+        actual_monitor_method = monitor_method;
     }
 
   TRACE_EXIT();

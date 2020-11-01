@@ -81,14 +81,6 @@ Timer::get_snooze() const
 }
 
 
-//! Sets ID of this timer.
-inline void
-Timer::set_id(std::string id)
-{
-  timer_id = id;
-}
-
-
 //! Gets ID of this timer.
 inline std::string
 Timer::get_id() const

@@ -21,6 +21,7 @@
 #define ICORE_HH
 
 #include <string>
+#include <iostream>
 
 #include "enum.h"
 
@@ -43,6 +44,29 @@ namespace workrave {
       BREAK_ID_DAILY_LIMIT,
       BREAK_ID_SIZEOF
     };
+
+    inline std::ostream& operator<<(std::ostream& stream, BreakId n)
+    {
+      switch (n)
+        {
+        case BREAK_ID_NONE:
+          stream << "none";
+          break;
+        case BREAK_ID_MICRO_BREAK:
+          stream << "micro";
+          break;
+        case BREAK_ID_REST_BREAK:
+          stream << "rest";
+          break;
+        case BREAK_ID_DAILY_LIMIT:
+          stream << "daily";
+          break;
+        default:
+          stream << "invalid";
+          break;
+        }
+      return stream;
+    }
 
     enum BreakHint
       {
@@ -81,6 +105,7 @@ namespace workrave {
         //! Number of policies.
         INSIST_POLICY_SIZEOF
       };
+
 
     //! Initialize the Core. Must be called first.
     virtual void init(int argc, char **argv, IApp *app, const char *display) = 0;
@@ -152,6 +177,49 @@ namespace workrave {
   };
 
   std::string operator%(const std::string &key, BreakId id);
+
+    enum InsistPolicy
+      {
+        //! Uninitialized policy
+        INSIST_POLICY_INVALID,
+
+        //! Halts the timer on activity.
+        INSIST_POLICY_HALT,
+
+        //! Resets the timer on activity.
+        INSIST_POLICY_RESET,
+
+        //! Ignores all activity.
+        INSIST_POLICY_IGNORE,
+
+        //! Number of policies.
+        INSIST_POLICY_SIZEOF
+      };
+
+
+  inline std::ostream& operator<<(std::ostream& stream, ICore::InsistPolicy p)
+  {
+    switch (p)
+      {
+      case ICore::INSIST_POLICY_INVALID:
+        stream << "invalid";
+        break;
+      case ICore::INSIST_POLICY_HALT:
+        stream << "halt";
+        break;
+      case ICore::INSIST_POLICY_RESET:
+        stream << "reset";
+        break;
+      case ICore::INSIST_POLICY_IGNORE:
+        stream << "ignore";
+        break;
+      default:
+        stream << "invalid";
+        break;
+      }
+    return stream;
+  }
+
 };
 
 #endif // ICORE_HH

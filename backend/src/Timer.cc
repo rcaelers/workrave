@@ -56,11 +56,12 @@ static int timezone = 0;
 /*!
  *  \param time_source source of the current time that will be used by the timer.
  */
-Timer::Timer() :
-  timer_enabled(false),
-  timer_frozen(false),
-  activity_state(ACTIVITY_UNKNOWN),
-  timer_state(STATE_INVALID),
+Timer::Timer(const std::string &timer_id) :
+  timer_id(timer_id),
+  timer_enabled{ timer_id + ".timer.enabled", false},
+  timer_frozen{ timer_id + ".timer.frozen", false},
+  activity_state{ timer_id + ".timer.activity_state", ACTIVITY_UNKNOWN},
+  timer_state{ timer_id + ".timer.state", STATE_INVALID},
   snooze_interval(60),
   snooze_on_active(true),
   snooze_inhibited(false),
@@ -82,8 +83,8 @@ Timer::Timer() :
   next_limit_time(0),
   total_overdue_time(0),
   activity_monitor(NULL),
-  activity_sensitive(true),
-  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
+  activity_sensitive{ timer_id + ".timer.activity_sensitive", true},
+  insensitive_mode{ timer_id + ".timer.insensitive_mode", INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED}
 {
   core = CoreFactory::get_core();
 }

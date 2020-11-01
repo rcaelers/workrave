@@ -24,6 +24,7 @@
 #include <string>
 
 #include "IInputMonitorFactory.hh"
+#include "Diagnostics.hh"
 
 #include <glib.h>
 
@@ -40,7 +41,7 @@ private:
   static gboolean static_report_failure(void *data);
 
   bool error_reported;
-  std::string actual_monitor_method;
+  TracedField<std::string> actual_monitor_method;
   IInputMonitor *monitor;
   const char *display;
 };

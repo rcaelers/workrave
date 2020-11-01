@@ -52,6 +52,7 @@
 #include "TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
+#include "Diagnostics.hh"
 
 #ifdef HAVE_DBUS
 #include "dbus/IDBus.hh"
@@ -250,7 +251,7 @@ private:
   time_t last_process_time;
 
   //! Are we the master node??
-  bool master_node;
+  TracedField<bool> master_node;
 
   //! List of breaks.
   Break breaks[BREAK_ID_SIZEOF];
@@ -268,40 +269,40 @@ private:
   Statistics *statistics;
 
   //! Current operation mode.
-  OperationMode operation_mode;
+  TracedField<OperationMode> operation_mode;
 
   //! The same as operation_mode unless operation_mode is an override mode.
-  OperationMode operation_mode_regular;
+  TracedField<OperationMode> operation_mode_regular;
 
   //! Active operation mode overrides.
   std::map<std::string, OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
-  UsageMode usage_mode;
+  TracedField<UsageMode> usage_mode;
 
   //! Where to send core events to?
   ICoreEventListener *core_event_listener;
 
   //! Did the OS announce a powersave?
-  bool powersave;
+  TracedField<bool> powersave;
 
   //! Time the OS announces a resume from powersave
   time_t powersave_resume_time;
 
   //! What to do with activity during insisted break?
-  ICore::InsistPolicy insist_policy;
+  TracedField<ICore::InsistPolicy> insist_policy;
 
   //! Policy currently in effect.
-  ICore::InsistPolicy active_insist_policy;
+  TracedField<ICore::InsistPolicy> active_insist_policy;
 
   //! Resumes this break if current break ends.
-  BreakId resume_break;
+  TracedField<BreakId> resume_break;
 
   //! Current local monitor state.
-  ActivityState local_state;
+  TracedField<ActivityState> local_state;
 
   //! Current overall monitor state.
-  ActivityState monitor_state;
+  TracedField<ActivityState> monitor_state;
 
 #ifdef HAVE_DBUS
   //! DBUS bridge
@@ -313,7 +314,7 @@ private:
   DistributionManager *dist_manager;
 
   //! State of the remote master.
-  ActivityState remote_state;
+  TracedField<ActivityState> remote_state;
 
   //! Manager that collects idle times of all clients.
   IdleLogManager *idlelog_manager;

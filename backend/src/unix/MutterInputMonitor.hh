@@ -25,6 +25,7 @@
 
 #include "Runnable.hh"
 #include "Thread.hh"
+#include "Diagnostics.hh"
 
 class MutterInputMonitor :
   public InputMonitor,
@@ -69,8 +70,10 @@ private:
   GDBusProxy *session_proxy = NULL;
   std::atomic<bool> active { false };
   std::atomic<bool> inhibited { false };
-  guint watch_active = 0;
-  guint watch_idle = 0;
+  TracedField<bool> trace_active { "monitor.mutter.active", false };
+  TracedField<bool> trace_inhibited { "monitor.inhibited", false };
+  TracedField<guint> watch_active { "monitor.mutter.watch_active", 0};
+  TracedField<guint> watch_idle { "monitor.mutter.watch_idle", 0};
 
   bool abort = false;
   Thread *monitor_thread = NULL;

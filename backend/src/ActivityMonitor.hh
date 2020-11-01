@@ -24,6 +24,8 @@
 #include "IInputMonitorListener.hh"
 #include "Mutex.hh"
 
+#include "Diagnostics.hh"
+
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
 # include <time.h>
@@ -72,7 +74,7 @@ private:
   IInputMonitor *input_monitor;
 
   //! the current state.
-  ActivityState activity_state;
+  TracedField<ActivityState> activity_state { "monitor.activity_state", ACTIVITY_IDLE, true };
 
   //! Internal locking
   Mutex lock;
@@ -93,16 +95,16 @@ private:
   gint64 first_action_time;
 
   //! The noise threshold
-  gint64 noise_threshold;
+  TracedField<gint64> noise_threshold{ "monitor.noise_threshold", 0 };
 
   //! The activity threshold.
-  gint64 activity_threshold;
+  TracedField<gint64> activity_threshold{ "monitor.activity_threshold", 0 };
 
   //! The idle threshold.
-  gint64 idle_threshold;
+  TracedField<gint64> idle_threshold{ "monitor.idle_threshold", 0};
 
   //! Mouse sensitivity
-  int sensitivity;
+  TracedField<int> sensitivity { "monitor.sensitivity", 3 };
 
   //! Activity listener.
   ActivityMonitorListener *listener;
