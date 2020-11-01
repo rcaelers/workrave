@@ -50,44 +50,11 @@ public:
     return *diag;
   }
 
-  void enable(DiagnosticsSink *sink)
-  {
-    this->sink = sink;
-    enabled = true;
-    TracedFieldBase::debug = true;
-    for (const auto &kv : topics)
-      {
-        kv.second();
-      }
-  }
-
-  void disable()
-  {
-    enabled = false;
-    sink = nullptr;
-    TracedFieldBase::debug = false;
-  }
-
-  void register_topic(const std::string &name, request_t func)
-  {
-    topics[name] = func;
-  }
-
-  void unregister_topic(const std::string &name)
-  {
-    topics.erase(name);
-  }
-
-  std::string trace_get_time()
-  {
-    char logtime[128];
-    time_t ltime;
-
-    time(&ltime);
-    struct tm *tmlt = localtime(&ltime);
-    strftime(logtime, 128, "%d %b %Y %H:%M:%S ", tmlt);
-    return logtime;
-  }
+  void enable(DiagnosticsSink *sink);
+  void disable();
+  void register_topic(const std::string &name, request_t func);
+  void unregister_topic(const std::string &name);
+  std::string trace_get_time();
 
   template<typename T>
   void report(const std::string &name, const T &value)
