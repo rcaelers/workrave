@@ -167,7 +167,7 @@ CPPFLAGS="$CPPFLAGS $1"
 
 ADD_COMPILER_FLAG([-Wno-cast-function-type])
 
-AX_CXX_COMPILE_STDCXX_11(ext, mandatory)
+AX_CXX_COMPILE_STDCXX_14(ext, mandatory)
 
 dnl
 dnl Headers/Types/Functions
