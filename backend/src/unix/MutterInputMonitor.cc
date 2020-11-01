@@ -313,7 +313,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name
       guint handlerID;
       g_variant_get(parameters, "(u)", &handlerID);
 
-      Diagnostics::instance().log("mutter: watch dired");
+      Diagnostics::instance().log("mutter: watch fired");
       if (handlerID == self->watch_active)
         {
           self->unregister_active_watch_async();
