@@ -80,6 +80,7 @@ frontend/gtkmm/src/AppletWindow.cc
 frontend/gtkmm/src/BreakWindow.cc
 frontend/gtkmm/src/DailyLimitWindow.cc
 frontend/gtkmm/src/DataConnector.cc
+frontend/gtkmm/src/DebugDialog.cc
 frontend/gtkmm/src/EventButton.cc
 frontend/gtkmm/src/EventImage.cc
 frontend/gtkmm/src/EventLabel.cc
