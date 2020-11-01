@@ -17,7 +17,8 @@ libworkrave_common_la_SOURCES =  \
 			Util.cc \
 			StringUtil.cc \
 			WRID.cc \
-      DBusProxy-gio.cc \
+			DBusProxy-gio.cc \
+			Diagnostics.cc \
 			${localesources}
 
 if PLATFORM_OS_WIN32
