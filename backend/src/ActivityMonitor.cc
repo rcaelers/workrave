@@ -278,7 +278,6 @@ ActivityMonitor::action_notify()
 
   last_action_time = now;
   lock.unlock();
-  activity_state.publish();
   call_listener();
 }
 
