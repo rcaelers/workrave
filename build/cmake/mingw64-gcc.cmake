@@ -1,6 +1,6 @@
 set(SYS_ROOT_PREFIX "")
 
-set(TOOLCHAIN_ROOT "/usr/ix86_64-w64-mingw32")
+set(TOOLCHAIN_ROOT "/usr/x86_64-w64-mingw32")
 set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/x86_64-w64-mingw32/sys-root/mingw/")
 
 set(CMAKE_SYSTEM_NAME Windows)
