@@ -5,6 +5,7 @@ MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     dnf -y upgrade && dnf clean all && \
     dnf -y install \
+                clang \
                 cmake \
                 gcc \
                 git \
@@ -48,6 +49,14 @@ RUN cd /workspace && \
     tar xvfJ ./workrave-prebuilt-windows-vs2015.tar.xz && \
     rm ./workrave-prebuilt-windows-vs2015.tar.xz && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
+
+RUN cd /workspace && \
+    git clone https://github.com/tpoechtrager/wclang.git && \
+    cd /workspace/wclang && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/ && \
+    make && \
+    make install && \
+    rm -rf /workspace/wclang
 
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2
