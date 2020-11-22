@@ -23,17 +23,17 @@ GNU_URL="ftp://ftp.gnu.org/gnu"
 GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.28/"
 GLIB_FILES="glib_2.28.1-1_win32.zip glib-dev_2.28.1-1_win32.zip"
 
-PIXBUF_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gdk-pixbuf/2.24"
-PIXBUF_FILES="gdk-pixbuf_2.24.0-1_win32.zip gdk-pixbuf-dev_2.24.0-1_win32.zip"
+PIXBUF_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gdk-pixbuf/2.22"
+PIXBUF_FILES="gdk-pixbuf_2.22.1-1_win32.zip gdk-pixbuf-dev_2.22.1-1_win32.zip"
 
 GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/"
-GTK_FILES="gtk+_2.24.10-1_win32.zip gtk+-dev_2.24.10-1_win32.zip"
+GTK_FILES="gtk+_2.24.0-1_win32.zip gtk+-dev_2.24.0-1_win32.zip"
 
-PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.29"
-PANGO_FILES="pango_1.29.4-1_win32.zip pango-dev_1.29.4-1_win32.zip"
+PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.28"
+PANGO_FILES="pango_1.28.3-1_win32.zip pango-dev_1.28.3-1_win32.zip"
 
 ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.32/"
-ATK_FILES="atk_1.32.0-2_win32.zip atk-dev_1.32.0-2_win32.zip"
+ATK_FILES="atk_1.32.0-1_win32.zip atk-dev_1.32.0-1_win32.zip"
 
 DBUS_URL="http://dbus.freedesktop.org/releases/dbus/"
 DBUS_FILES="dbus-1.5.6.tar.gz"
@@ -47,10 +47,10 @@ DIRECTX_URL="http://www.g-productions.net/files/devpak/"
 DIRECTX_FILE="DirectX90c.DevPak"
 
 DEP_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/"
-DEP_FILES="cairo_1.10.2-1_win32.zip cairo-dev_1.10.2-1_win32.zip jpeg_8d-1_win32.zip jpeg-dev_8d-1_win32.zip libpng_1.4.12-1_win32.zip libpng-dev_1.4.12-1_win32.zip zlib_1.2.5-2_win32.zip zlib-dev_1.2.5-2_win32.zip libtiff-dev_3.9.2-1_win32.zip libtiff_3.9.2-1_win32.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev_0.18.1.1-2_win32.zip gettext-runtime_0.18.1.1-2_win32.zip freetype-dev_2.4.10-1_win32.zip freetype_2.4.10-1_win32.zip fontconfig_2.8.0-2_win32.zip fontconfig-dev_2.8.0-2_win32.zip expat-dev_2.1.0-1_win32.zip expat_2.1.0-1_win32.zip"
+DEP_FILES="cairo_1.10.2-1_win32.zip cairo-dev_1.10.2-1_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.4.3-1_win32.zip libpng-dev_1.4.3-1_win32.zip zlib_1.2.5-2_win32.zip zlib-dev_1.2.5-2_win32.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev_0.18.1.1-2_win32.zip gettext-runtime_0.18.1.1-2_win32.zip freetype-dev_2.4.4-1_win32.zip freetype_2.4.4-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
 
 PKGCONFIG_URL="http://pkgconfig.freedesktop.org/releases/"
-PKGCONFIG_FILES="pkg-config-0.29.tar.gz"
+PKGCONFIG_FILES="pkg-config-0.26.tar.gz"
 
 SIGCPPSRC_URL=$GNOME_URL/libsigc++/2.2/
 GLIBMMSRC_URL=$GNOME_URL/glibmm/2.28/
@@ -60,7 +60,7 @@ ATKMMSRC_URL=$GNOME_URL/atkmm/2.22/
 CAIROMMSRC_URL=http://cairographics.org/releases/
 
 SIGCPPSRC_FILES="libsigc++-2.2.10.tar.bz2"
-GTKMMSRC_FILES="gtkmm-2.24.5.tar.bz2"
+GTKMMSRC_FILES="gtkmm-2.24.2.tar.bz2"
 GLIBMMSRC_FILES="glibmm-2.28.2.tar.bz2"
 PANGOMMSRC_FILES="pangomm-2.28.2.tar.bz2"
 ATKMMSRC_FILES="atkmm-2.22.5.tar.bz2"
