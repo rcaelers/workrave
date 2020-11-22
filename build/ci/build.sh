@@ -79,12 +79,12 @@ if [[ ${CONF_UI} ]]; then
     CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 fi
 
-if [[ $COMPILER = 'gcc' ]] ; then
+if [[ $CONF_COMPILER = 'gcc' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
     CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
     CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
     CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=gcc")
-elif [[ $COMPILER = 'clang' ]] ; then
+elif [[ $CONF_COMPILER = 'clang' ]] ; then
     CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++")
     CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=clang++")
     CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang")
@@ -101,7 +101,7 @@ fi
 
 case "$DOCKER_IMAGE" in
     mingw-qt5)
-        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${COMPILER}.cmake")
+        CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${CONF_COMPILER}.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
         ;;
 
@@ -109,15 +109,15 @@ case "$DOCKER_IMAGE" in
 
         case "$PREBUILT" in
             vs)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${COMPILER}.cmake")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${CONF_COMPILER}.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
                 ;;
 
             *)
-                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${COMPILER}.cmake")
+                CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${CONF_COMPILER}.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
 
-                CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32-${COMPILER}.cmake")
+                CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32-${CONF_COMPILER}.cmake")
                 CMAKE_FLAGS32+=("-DWITH_UI=None")
                 CMAKE_FLAGS32+=("-DCMAKE_BUILD_TYPE=Release")
 
