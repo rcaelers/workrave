@@ -19,12 +19,8 @@ EXTRA_DIST =  Applet.cpp \
               Guid.h \
               Icon.cpp \
               Icon.h \
-              Makefile \
-              Makefile.am \
-              Makefile.in \
               PaintHelper.cpp \
               PaintHelper.h \
-              Release \
               TimeBar.cpp \
               TimeBar.h \
               TimerBox.cpp \
