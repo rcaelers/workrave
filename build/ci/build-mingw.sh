@@ -1,8 +1,6 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 echo Mingw
-
-env
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
