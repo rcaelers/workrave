@@ -1,4 +1,8 @@
-export CROSSROOT="/usr/local/cross-packages-gtk2.14/"
+if [[ $DOCKER_IMAGE = 'mingw-gtk2' ]] ; then
+   export CROSSROOT="/usr/local/cross-packages-gtk2.14/"
+else
+   export CROSSROOT="/usr/i686-w64-mingw32/sys-root/mingw/"
+fi
 
 export CFLAGS="-I$CROSSROOT/include"
 export CXXFLAGS="-I$CROSSROOT/include"

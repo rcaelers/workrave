@@ -13,6 +13,19 @@ case "$WORKRAVE_ENV" in
         BUILD_DIR=${WORKSPACE}/build
         ;;
 
+    inline)
+        echo "Running inline"
+        WORKSPACE=/workspace
+        OUTPUT_DIR=${WORKSPACE}/output
+        SOURCES_DIR=${WORKSPACE}/source
+        DEPLOY_DIR=${SOURCES_DIR}/_deploy
+        BUILD_DIR=${SOURCES_DIR}/_build
+        SECRETS_DIR=${WORKSPACE}/secrets
+        PREBUILT_DIR=${WORKSPACE}/prebuilt
+        SCRIPTS_DIR=${SOURCES_DIR}/build
+        CI_DIR=${SCRIPTS_DIR}/ci
+        ;;
+
     travis)
         echo "Running on Travis"
         WORKSPACE=/workspace
@@ -71,6 +84,10 @@ fi
 
 case "$WORKRAVE_ENV" in
     local)
+        export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
+        ;;
+
+    inline)
         export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
         ;;
 

@@ -602,6 +602,9 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
+if test "x$platform_os_win32" != "xyes"
+then
+
 PKG_CHECK_MODULES(GTK,
                      glib-2.0 >= 2.28.0
                      gio-2.0 >= 2.26.0
@@ -614,6 +617,8 @@ PKG_CHECK_MODULES(GTK,
                       config_gtk_version=3
                       AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [ ] )
+
+fi
 
 if test x$config_gtk = xno
 then
@@ -636,10 +641,12 @@ dnl
 dnl Introspection
 dnl
 
-#if test "x$platform_os_win32" != "xyes"
-#then
+if test "x$platform_os_win32" != "xyes"
+then
     GOBJECT_INTROSPECTION_CHECK([0.6.7])
-#fi
+else
+AM_CONDITIONAL(HAVE_INTROSPECTION, 0)
+fi
 
 dnl
 dnl Indicator applet

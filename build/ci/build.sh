@@ -8,6 +8,10 @@ case "$DOCKER_IMAGE" in
         ${CI_DIR}/build-mingw.sh
         ;;
 
+    mingw-gtk)
+        ${CI_DIR}/build-mingw.sh
+        ;;
+
     *)
         ${CI_DIR}/build-linux.sh
         ;;

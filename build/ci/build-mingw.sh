@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 echo Mingw
 
@@ -45,13 +45,18 @@ build()
         EXTRA_CONF="--enable-debug --enable-tracing"
     fi
 
-    bash ./build/win32/autogencross.sh ${CONF_FLAGS} ${EXTRA_CONF} && \
-        make -j4 && \
-        cp -a ${SOURCES_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/frontend/gtkmm/src && \
-        $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe >${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym && \
-        if [ $CONF_CONFIGURATION == "Release" ]; then \
-            $TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe; \
-        fi
+    autopoint --force
+    AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install -I/usr/local/share/aclocal/
+
+    CONF_FLAGS="--target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --disable-dbus"
+
+    ./configure ${CONF_FLAGS} ${EXTRA_CONF}
+    make -j4
+    cp -a ${SOURCES_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/frontend/gtkmm/src
+    $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe >${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym
+    if [ $CONF_CONFIGURATION == "Release" ]; then
+        $TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe;
+    fi
 }
 
 make_installer()
@@ -76,7 +81,7 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
         bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
 
     else
@@ -86,7 +91,7 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
         bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
     fi
 
@@ -96,7 +101,8 @@ make_installer()
     PORTABLE_DIR=${BUILD_DIR}/portable
     portableFilename=${baseFilename}-portable.zip
 
-    mkdir -p ${PORTABLE_DIR}
+    rm -rf ${PORTABLE_DIR}
+    mkdir -p ${PORTABLE_DIR=}
     innoextract -d ${PORTABLE_DIR} ${DEPLOY_DIR}/${installerFilename}
 
     mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
