@@ -8,6 +8,40 @@ on:
       - branch_v1_10
 
 jobs:
+  build-windows:
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build Release/x64
+        run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=Release -p:Platform=x64
+
+      - name: Build Release/x86
+        run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86
+
+      - name: Build Debug/x64
+        run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=Debug -p:Platform=x64
+
+      - name: Build Debug/x86
+        run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=Debug -p:Platform=x86
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: applet
+          path: |
+            frontend/applets/win32/src/x64/Release/workrave-applet64.dll
+            frontend/applets/win32/src/Release/workrave-applet.dll
+            frontend/applets/win32/src/x64/Debug/workrave-applet64.dll
+            frontend/applets/win32/src/Debug/workrave-applet.dll
+
+
   build:
     runs-on: ubuntu-latest
     strategy:
