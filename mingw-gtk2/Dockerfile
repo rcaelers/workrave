@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:focal
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
@@ -29,9 +29,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         make \
         pkg-config \
         python3-jinja2 \
+        unzip \
         wget \
         wine \
-        xvfb
+        xvfb \
+        zip
 
 
 RUN mkdir /workspace && \
