@@ -13,7 +13,7 @@
         "async": "^3.2.0",
         "aws-sdk": "^2.639.0",
         "date-fns": "^2.11.0",
-        "isomorphic-git": "^0.58.0",
+        "isomorphic-git": "^0.58.2",
         "yargs": "^13.3.2"
     },
     "devDependencies": {
