@@ -166,6 +166,8 @@ CDeskBand::GetWindow(HWND *phWnd)
 STDMETHODIMP
 CDeskBand::ContextSensitiveHelp(BOOL fEnterMode)
 {
+  TRACE_ENTER_MSG("CDeskBand::ContextSensitiveHelp",fEnterMode);
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
@@ -214,30 +216,43 @@ CDeskBand::ResizeBorderDW(LPCRECT prcBorder,
                           IUnknown* punkSite,
                           BOOL fReserved)
 {
+  TRACE_ENTER("CDeskBand::ResizeBorderDW");
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
 STDMETHODIMP
 CDeskBand::UIActivateIO(BOOL fActivate, LPMSG pMsg)
 {
+  TRACE_ENTER_MSG("CDeskBand::UIActivateIO", fActivate);
+
   if (fActivate)
     SetFocus(m_hWnd);
 
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::HasFocusIO()
 {
-  if (m_bFocus)
-    return S_OK;
+  TRACE_ENTER("CDeskBand::HasFocusIO");
 
+  if (m_bFocus)
+  {
+    TRACE_RETURN("OK");
+    return S_OK;
+  }
+
+  TRACE_RETURN("FALSE");
   return S_FALSE;
 }
 
 STDMETHODIMP
 CDeskBand::TranslateAcceleratorIO(LPMSG pMsg)
 {
+  TRACE_ENTER("CDeskBand::TranslateAcceleratorIO");
+  TRACE_EXIT();
   return S_FALSE;
 }
 
@@ -294,6 +309,7 @@ CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
   if (m_pSite)
     return m_pSite->QueryInterface(riid, ppvReturn);
 
+  TRACE_EXIT();
   return E_FAIL;
 }
 
@@ -416,23 +432,32 @@ CDeskBand::GetClassID(LPCLSID pClassID)
 STDMETHODIMP
 CDeskBand::IsDirty()
 {
+  TRACE_ENTER("CDeskBand::IsDirty");
+  TRACE_EXIT();
   return S_FALSE;
 }
 
 STDMETHODIMP
 CDeskBand::Load(LPSTREAM pStream)
 {
+  TRACE_ENTER("CDeskBand::Load");
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::Save(LPSTREAM pStream, BOOL fClearDirty)
 {
+  TRACE_ENTER("CDeskBand::Save");
+  TRACE_EXIT();
   return S_OK;
 }
+
 STDMETHODIMP
 CDeskBand::GetSizeMax(ULARGE_INTEGER *pul)
 {
+  TRACE_ENTER("CDeskBand::GetSizeMax");
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
@@ -483,7 +508,7 @@ CDeskBand::QueryContextMenu(HMENU hMenu,
               InsertMenuW(hMenu,
                           indexMenu++,
                           MF_POPUP | flags,
-                          (UINT) popup,
+                          (UINT_PTR) popup,
                           textw);
               popup = NULL;
             }
@@ -679,6 +704,7 @@ CDeskBand::OnSize(LPARAM lParam)
 
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
+  TRACE_MSG(cx << " " << cy);
   if (m_TimerBox != NULL)
     {
       m_TimerBox->set_size(cx, cy);

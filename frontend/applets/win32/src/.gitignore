@@ -1,4 +1,4 @@
 /Release
 /Debug
-/Release64
-/Debug64
+/x64
+.vs

@@ -87,7 +87,7 @@ TimerBox::set_slot(int slot, BreakId brk)
               filled_slots++;
             }
           break_visible[brk] = true;
-          break_to_slot[brk] = slot;
+          break_to_slot[brk] = static_cast<short>(slot);
         }
     }
   TRACE_EXIT();
