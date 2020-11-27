@@ -208,6 +208,9 @@ TimerBox::update_dimensions()
         sheep_icon->get_size(preferred_width, preferred_height);
         minimum_width = preferred_width;
         minimum_height = preferred_height;
+        TRACE_MSG("only sheep");
+        TRACE_MSG("pref" << preferred_width << " " << preferred_height);
+        TRACE_MSG("min" << minimum_width << " " << minimum_height);
     }
     TRACE_EXIT();
 }
