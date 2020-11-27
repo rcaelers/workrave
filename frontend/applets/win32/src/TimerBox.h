@@ -39,14 +39,17 @@ class TimerBox
   ~TimerBox();
 
   void set_slot(int slot, BreakId brk);
-  TimeBar *get_time_bar(BreakId timer);
+  TimeBar *get_time_bar(BreakId timer) const;
   void set_size(int width, int height);
+  void get_preferred_size(int &width, int &height) const;
+  void get_minimum_size(int &width, int &height) const;
   void update(bool repaint);
   void set_enabled(bool enabled);
 
  private:
   void update_sheep(TransparentDamageControl &ctrl);
   void update_time_bars(TransparentDamageControl &ctrl);
+  void update_dimensions();
 
   TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF];
   HWND parent_window;
@@ -59,6 +62,13 @@ class TimerBox
   short filled_slots;
   int width;
   int height;
+  int preferred_width;
+  int preferred_height;
+  int minimum_width;
+  int minimum_height;
+  int icon_bar_width;
+  int rows;
+  int columns;
 };
 
 #endif // TIMERBOX_H

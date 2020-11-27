@@ -182,7 +182,7 @@ PaintHelper::Init()
 	TRACE_ENTER("PaintHelper::Init");
 	HINSTANCE handle = LoadLibrary("UxTheme.dll");
 
-  composition_available = false;
+	composition_available = false;
 	composition_enabled = false;
 
 	if (handle != NULL)
@@ -201,6 +201,7 @@ PaintHelper::Init()
         BufferedPaintInit != NULL &&
         GetBufferedPaintBits != NULL)
       {
+          TRACE_MSG("composition available");
           composition_available = true;
       }
 	}
