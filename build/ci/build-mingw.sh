@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 echo Mingw
 
@@ -28,8 +28,13 @@ prepare_prebuilt()
     if [ ! -d Release ]; then
         mkdir Release
     fi
-    cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}/workrave-applet.dll Release
-    cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}64/workrave-applet64.dll Release
+    if [ -d ${SOURCES_DIR}/_vsbuild ]; then
+        cp -a ${SOURCES_DIR}/_vsbuild/${CONF_CONFIGURATION}/workrave-applet.dll Release
+        cp -a ${SOURCES_DIR}/_vsbuild/x64/${CONF_CONFIGURATION}/workrave-applet64.dll Release
+    else
+        cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}/workrave-applet.dll Release
+        cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}64/workrave-applet64.dll Release
+    fi
 }
 
 build()
