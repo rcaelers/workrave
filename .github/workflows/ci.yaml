@@ -49,6 +49,16 @@ jobs:
             compiler: gcc
             upload: true
 
+          - image: mingw-gtk
+            configuration: Release
+            compiler: gcc
+            upload: true
+
+          - image: mingw-gtk
+            configuration: Debug
+            compiler: gcc
+            upload: true
+
     steps:
       - name: Prepare
         run: |
