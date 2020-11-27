@@ -655,6 +655,7 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
         {
           m_TimerBox->set_enabled(false);
           m_TimerBox->update(false);
+          UpdateDeskband();
         }
     }
   TRACE_EXIT();
