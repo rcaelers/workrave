@@ -73,6 +73,8 @@ jobs:
           fi
 
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Download applet artifacts from GitHub
         uses: actions/download-artifact@v2
@@ -168,6 +170,8 @@ jobs:
           fi
         
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Build
         run: |
