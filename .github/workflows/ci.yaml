@@ -52,12 +52,12 @@ jobs:
           - image: mingw-gtk
             configuration: Release
             compiler: gcc
-            upload: true
+            upload: false
 
           - image: mingw-gtk
             configuration: Debug
             compiler: gcc
-            upload: true
+            upload: false
 
     steps:
       - name: Prepare
