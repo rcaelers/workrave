@@ -1,6 +1,4 @@
-// PreferencesDialog.cc --- Preferences dialog
-//
-// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2020 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -564,9 +562,14 @@ PreferencesDialog::create_monitoring_page()
 
   sensitivity_box->set_sensitive(monitor_type != "default");
 
+#if NOT_YET
+  debug_btn = Gtk::manage(new Gtk::Button(_("Debug monitoring")));
+  debug_btn->signal_clicked().connect(sigc::mem_fun(*this, &PreferencesDialog::on_debug_pressed) );
+  panel->pack_start(*debug_btn, false, false, 0);
+#endif
+
   return panel;
 }
-
 #endif
 
 Gtk::Widget *
@@ -1033,3 +1036,12 @@ PreferencesDialog::update_icon_theme_combo()
 
   TRACE_EXIT();
 }
+
+#ifdef NOT_YET
+void PreferencesDialog::on_debug_pressed()
+{
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
+  menus->on_menu_debug();
+}
+#endif

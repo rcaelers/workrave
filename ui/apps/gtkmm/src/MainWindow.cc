@@ -246,21 +246,28 @@ MainWindow::init()
 
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
-  const char *icon_files[] = {
-                               "scalable/apps/workrave.svg",
-                               "16x16/apps/workrave.png",
-                               "24x24/apps/workrave.png",
-                               "32x32/apps/workrave.png",
-                               "48x48/apps/workrave.png",
-                               "64x64/apps/workrave.png",
-                               "96x96/apps/workrave.png",
-                               "128x128/apps/workrave.png",
-                               };
+  const char *icon_files[] =
+    {
+#ifndef PLATFORM_OS_WIN32
+       // This causes a crash on windows
+       "scalable" G_DIR_SEPARATOR_S "workrave.svg",
+#endif
+       "16x16" G_DIR_SEPARATOR_S "workrave.png",
+       "24x24" G_DIR_SEPARATOR_S "workrave.png",
+       "32x32" G_DIR_SEPARATOR_S "workrave.png",
+       "48x48" G_DIR_SEPARATOR_S "workrave.png",
+       "64x64" G_DIR_SEPARATOR_S "workrave.png",
+       "96x96" G_DIR_SEPARATOR_S "workrave.png",
+       "128x128" G_DIR_SEPARATOR_S "workrave.png",
+    };
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_files[i]);
-      icons.push_back(pixbuf);
+      if (pixbuf)
+      {
+        icons.push_back(pixbuf);
+      }
     }
 
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);

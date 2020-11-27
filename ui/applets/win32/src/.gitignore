@@ -1,11 +1,5 @@
-Win32/Debug
-Win32/Release
-x64/Debug
-x64/Release
+Release
+Debug
+x64
 .vs
-*.sdf
-*.opensdf
-*.suo
-*.user
-*.db
-*.opendb
+Applet.vcxproj.user

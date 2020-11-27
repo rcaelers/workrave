@@ -8,6 +8,32 @@ on:
       - next
 
 jobs:
+   build-windows:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+        platform: [ x86, x64 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build
+        run: msbuild ui/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: applet
+          path: |
+            ui/applets/win32/src/x64/Release/workrave-applet64.dll
+            ui/applets/win32/src/Release/workrave-applet.dll
+            ui/applets/win32/src/x64/Debug/workrave-applet64.dll
+            ui/applets/win32/src/Debug/workrave-applet.dll
+
+
   build:
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -88,8 +114,6 @@ jobs:
           fi
         
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
@@ -102,19 +126,10 @@ jobs:
       - name: Build
         run: |
             if [[ $DOCKER_IMAGE ]]; then
-              if [[ $GITHUB_ACTOR == "nektos/act" ]]; then
-                dockerid=`head -1 /proc/self/cgroup|cut -d/ -f3`
-                 echo Running in nektos/act, container id $dockerid
-                 mountpoint=`docker inspect $dockerid --format "{{ .Name }}" | sed -e 's|/||'`
-               else
-                 echo Running on Github
-                 mountpoint="$GITHUB_WORKSPACE"
-               fi
-               echo Mountpoint: $mountpoint;
                IFS=$'\n'
                export WORKRAVE_ENV=github-docker
                docker run --rm \
-                   -v $mountpoint:/workspace/source \
+                   -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    rcaelers/workrave-build:${DOCKER_IMAGE} \
                    sh -c "/workspace/source/build/ci/build.sh"
@@ -145,6 +160,8 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - uses: actions/download-artifact@v2
         with:

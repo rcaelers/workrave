@@ -40,6 +40,10 @@ CDeskBand::CDeskBand()
   m_HasAppletMenu = FALSE;
   m_LastCopyData = 0;
   m_ObjRefCount = 1;
+  m_preferredWidth = DB_MIN_SIZE_X;
+  m_preferredHeight = DB_MIN_SIZE_Y;
+  m_minimumWidth = DB_MIN_SIZE_X;
+  m_minimumHeight = DB_MIN_SIZE_Y;
 
   g_DllRefCount++;
 }
@@ -166,6 +170,8 @@ CDeskBand::GetWindow(HWND *phWnd)
 STDMETHODIMP
 CDeskBand::ContextSensitiveHelp(BOOL fEnterMode)
 {
+  TRACE_ENTER_MSG("CDeskBand::ContextSensitiveHelp",fEnterMode);
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
@@ -214,30 +220,43 @@ CDeskBand::ResizeBorderDW(LPCRECT prcBorder,
                           IUnknown* punkSite,
                           BOOL fReserved)
 {
+  TRACE_ENTER("CDeskBand::ResizeBorderDW");
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
 STDMETHODIMP
 CDeskBand::UIActivateIO(BOOL fActivate, LPMSG pMsg)
 {
+  TRACE_ENTER_MSG("CDeskBand::UIActivateIO", fActivate);
+
   if (fActivate)
     SetFocus(m_hWnd);
 
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::HasFocusIO()
 {
-  if (m_bFocus)
-    return S_OK;
+  TRACE_ENTER("CDeskBand::HasFocusIO");
 
+  if (m_bFocus)
+  {
+    TRACE_RETURN("OK");
+    return S_OK;
+  }
+
+  TRACE_RETURN("FALSE");
   return S_FALSE;
 }
 
 STDMETHODIMP
 CDeskBand::TranslateAcceleratorIO(LPMSG pMsg)
 {
+  TRACE_ENTER("CDeskBand::TranslateAcceleratorIO");
+  TRACE_EXIT();
   return S_FALSE;
 }
 
@@ -294,6 +313,7 @@ CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
   if (m_pSite)
     return m_pSite->QueryInterface(riid, ppvReturn);
 
+  TRACE_EXIT();
   return E_FAIL;
 }
 
@@ -315,8 +335,9 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
             }
           else
             {
-              pdbi->ptMinSize.x = DB_MIN_SIZE_X;
-              pdbi->ptMinSize.y = DB_MIN_SIZE_Y;
+              TRACE_MSG("min w x h: " << m_minimumWidth << " " << m_minimumHeight);
+              pdbi->ptMinSize.x = m_minimumWidth;
+              pdbi->ptMinSize.y = m_minimumHeight;
             }
         }
 
@@ -334,8 +355,9 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 
       if (pdbi->dwMask & DBIM_ACTUAL)
         {
-          pdbi->ptActual.x = 100;
-          pdbi->ptActual.y = 100;
+          TRACE_MSG("ideal w x h: " << m_preferredWidth << " " << m_preferredHeight);
+          pdbi->ptActual.x = m_preferredWidth;
+          pdbi->ptActual.y = m_preferredHeight;
         }
 
       if (pdbi->dwMask & DBIM_TITLE)
@@ -376,7 +398,7 @@ CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
 
   if (!pfCanRenderComposited)
     return E_INVALIDARG;
-
+  
   *pfCanRenderComposited = TRUE;
   TRACE_EXIT();
   return S_OK;
@@ -388,7 +410,7 @@ CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
   TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
     return E_INVALIDARG;
-
+  
   *pfCompositionEnabled = m_CompositionEnabled;
   TRACE_EXIT();
   return S_OK;
@@ -416,23 +438,32 @@ CDeskBand::GetClassID(LPCLSID pClassID)
 STDMETHODIMP
 CDeskBand::IsDirty()
 {
+  TRACE_ENTER("CDeskBand::IsDirty");
+  TRACE_EXIT();
   return S_FALSE;
 }
 
 STDMETHODIMP
 CDeskBand::Load(LPSTREAM pStream)
 {
+  TRACE_ENTER("CDeskBand::Load");
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::Save(LPSTREAM pStream, BOOL fClearDirty)
 {
+  TRACE_ENTER("CDeskBand::Save");
+  TRACE_EXIT();
   return S_OK;
 }
+
 STDMETHODIMP
 CDeskBand::GetSizeMax(ULARGE_INTEGER *pul)
 {
+  TRACE_ENTER("CDeskBand::GetSizeMax");
+  TRACE_EXIT();
   return E_NOTIMPL;
 }
 
@@ -559,10 +590,10 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_ERASEBKGND:
-    if (pThis->m_CompositionEnabled)
-    {
-    lResult = 1;
-    }
+      if (pThis->m_CompositionEnabled)
+      {
+        lResult = 1;
+      }
       break;
 
     case WM_COMMAND:
@@ -624,6 +655,7 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
         {
           m_TimerBox->set_enabled(false);
           m_TimerBox->update(false);
+          UpdateDeskband();
         }
     }
   TRACE_EXIT();
@@ -665,6 +697,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
         }
 
       m_TimerBox->update(false);
+      UpdateDeskband();
     }
   TRACE_EXIT();
   return 0;
@@ -679,6 +712,7 @@ CDeskBand::OnSize(LPARAM lParam)
 
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
+  TRACE_MSG(cx << " " << cy);
   if (m_TimerBox != NULL)
     {
       m_TimerBox->set_size(cx, cy);
@@ -762,6 +796,7 @@ CDeskBand::RegisterAndCreateWindow()
       RECT  rc;
 
       GetClientRect(m_hwndParent, &rc);
+      TRACE_MSG(rc.left << " " << rc.top << " " << rc.right << " " << rc.bottom);
 
       //Create the window. The WndProc will set m_hWnd.
       HWND h = CreateWindowEx(WS_EX_TRANSPARENT,
@@ -776,7 +811,7 @@ CDeskBand::RegisterAndCreateWindow()
                               NULL,
                               g_hInst,
                               (LPVOID)this);
-
+      
       m_TimerBox = new TimerBox(h, g_hInst, this);
     }
 
@@ -795,4 +830,45 @@ CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
     }
   TRACE_EXIT();
   return 0;
+}
+
+
+void CDeskBand::UpdateDeskband()
+{
+    TRACE_ENTER("CDeskBand::UpdateDeskband");
+
+    int preferredWidth, preferredHeight;
+    m_TimerBox->get_preferred_size(preferredWidth, preferredHeight);
+    preferredWidth = __max(DB_MIN_SIZE_X, preferredWidth);
+    preferredHeight = __max(DB_MIN_SIZE_Y, preferredHeight);
+
+    int minimumWidth, minimumHeight;
+    m_TimerBox->get_minimum_size(minimumWidth, minimumHeight);
+    minimumWidth = __max(DB_MIN_SIZE_X, minimumWidth);
+    minimumHeight = __max(DB_MIN_SIZE_Y, minimumHeight);
+
+    TRACE_MSG("w x h: " << preferredWidth << " " << preferredHeight << " old: " << m_preferredWidth << " " << m_preferredHeight);
+    TRACE_MSG("w x h: " << minimumWidth << " " << minimumHeight << " old: " << m_minimumWidth << " " << m_minimumHeight);
+
+    if (preferredWidth != m_preferredWidth || preferredHeight != m_preferredHeight ||
+        minimumWidth != m_minimumWidth || minimumHeight != m_minimumHeight)
+    {
+        m_preferredWidth = preferredWidth;
+        m_preferredHeight = preferredHeight;
+        m_minimumWidth = minimumWidth;
+        m_minimumHeight = minimumHeight;
+
+        IOleCommandTarget* oleCommandTarget;
+        HRESULT hr = GetSite(IID_IOleCommandTarget, (LPVOID*)&oleCommandTarget);
+
+        if (SUCCEEDED(hr))
+        {
+            VARIANTARG v = { 0 };
+            v.vt = VT_I4;
+            v.lVal = m_dwBandID;
+
+            oleCommandTarget->Exec(&CGID_DeskBand, DBID_BANDINFOCHANGED, OLECMDEXECOPT_DODEFAULT, &v, NULL);
+            oleCommandTarget->Release();
+        }
+    }
 }

@@ -147,9 +147,13 @@ private:
   void on_autostart_toggled();
 
 #if defined(PLATFORM_OS_WINDOWS)
+  Gtk::Button *debug_btn;
+  void on_debug_pressed();
+
+  Gtk::Widget *create_monitoring_page();
+
   Gtk::CheckButton *monitor_type_cb;
   void on_monitor_type_toggled();
-  Gtk::Widget *create_monitoring_page();
 
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
   Gtk::HBox *sensitivity_box;

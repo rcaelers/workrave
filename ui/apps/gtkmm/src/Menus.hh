@@ -1,6 +1,4 @@
-// Menus.hh --- Main info Window
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2020 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,6 +28,7 @@ class StatisticsDialog;
 class PreferencesDialog;
 class AppletControl;
 class ExercisesDialog;
+class DebugDialog;
 class IMenu;
 
 namespace Gtk
@@ -72,6 +71,7 @@ private:
   void on_about_response(int response);
 
   void on_statistics_response(int response);
+  void on_debug_response(int response);
   void on_preferences_response(int response);
   void on_exercises_response(int response);
 
@@ -93,6 +93,7 @@ public:
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
   void on_set_operation_mode(workrave::OperationMode m);
+  void on_menu_debug();
 
 #ifdef PLATFORM_OS_WINDOWS
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
@@ -100,21 +101,24 @@ public:
 
 private:
   //! Interface to the GUI.
-  IGUI *gui;
+  IGUI *gui { nullptr };
 
   // The Statistics dialog.
-  StatisticsDialog *statistics_dialog;
+  StatisticsDialog *statistics_dialog { nullptr };
 
   // The Statistics dialog.
-  PreferencesDialog *preferences_dialog;
+  PreferencesDialog *preferences_dialog { nullptr };
+
+  // The Debug dialog.
+  DebugDialog *debug_dialog { nullptr };
 
   // The exercises dialog.
-  ExercisesDialog *exercises_dialog;
+  ExercisesDialog *exercises_dialog { nullptr };
 
   //! Different kind of menus
   IMenu *menus[MENU_SIZEOF];
 
-  Gtk::AboutDialog *about;
+  Gtk::AboutDialog *about { nullptr };
 
   SoundTheme::Ptr sound_theme;
 };

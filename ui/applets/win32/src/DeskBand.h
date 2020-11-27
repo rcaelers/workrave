@@ -104,6 +104,10 @@ private:
   AppletMenuData m_AppletMenu;
   BOOL m_HasAppletMenu;
   BOOL m_CompositionEnabled;
+  int m_preferredWidth;
+  int m_preferredHeight;
+  int m_minimumWidth;
+  int m_minimumHeight;
 
 private:
   void FocusChange(BOOL);
@@ -116,6 +120,7 @@ private:
   LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
   LRESULT OnWindowPosChanging(WPARAM wParam, LPARAM lParam);
   BOOL RegisterAndCreateWindow();
+  void UpdateDeskband();
 };
 
 inline HWND

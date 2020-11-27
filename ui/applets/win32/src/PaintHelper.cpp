@@ -201,6 +201,7 @@ PaintHelper::Init()
         BufferedPaintInit != NULL &&
         GetBufferedPaintBits != NULL)
       {
+          TRACE_MSG("composition available");
           composition_available = true;
       }
   }

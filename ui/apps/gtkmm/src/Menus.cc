@@ -46,6 +46,8 @@
 #include "ExercisesDialog.hh"
 #include "commonui/Exercise.hh"
 
+#include "DebugDialog.hh"
+
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
 
@@ -80,12 +82,7 @@ using namespace workrave::utils;
  *  \param control Interface to the controller.
  */
 Menus::Menus(SoundTheme::Ptr sound_theme) :
-  statistics_dialog(nullptr),
-  preferences_dialog(nullptr),
-  exercises_dialog(nullptr),
-  about(nullptr),
   sound_theme(sound_theme)
-
 {
   gui = GUI::get_instance();
 
@@ -316,6 +313,25 @@ Menus::on_menu_statistics()
     }
 }
 
+//! Debug Dialog.
+void
+Menus::on_menu_debug()
+{
+#ifdef NOY_YET
+  if (debug_dialog == NULL)
+    {
+      debug_dialog = new DebugDialog();
+      debug_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_debug_response));
+
+      debug_dialog->run();
+    }
+  else
+    {
+      debug_dialog->present();
+    }
+#endif
+}
+
 
 //! About Dialog.
 void
@@ -397,6 +413,18 @@ Menus::on_preferences_response(int response)
 
   delete preferences_dialog;
   preferences_dialog = nullptr;
+}
+
+void
+Menus::on_debug_response(int response)
+{
+  (void) response;
+
+  assert(debug_dialog != NULL);
+  debug_dialog->hide();
+
+  delete debug_dialog;
+  debug_dialog = NULL;
 }
 
 
