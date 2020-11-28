@@ -7,6 +7,7 @@ DOCKER_ARGS=()
 BUILT_TYPE=RelWithDebInfo
 WORKING_DIR=
 OUTPUT_DIR=
+CONF_COMPILER=gcc
 
 ROOT=`git rev-parse --show-toplevel`
 if [ $? -ne 0 ]; then
@@ -22,11 +23,14 @@ usage()
 
 parse_arguments()
 {
-    while getopts "c:dD:O:vW:" o; do
+    while getopts "c:C:dD:O:vW:" o; do
         case "${o}" in
             c)
                 CONFIG="${OPTARG}"
                 BUILD_ARGS+=("-d${CONFIG}")
+                ;;
+            C)
+                CONF_COMPILER="${OPTARG}"
                 ;;
             d)
                 BUILT_TYPE=Debug
@@ -89,6 +93,7 @@ if [ -n "${OUTPUT_DIR}" ]; then
 fi
 
 DOCKER_ARGS+=("-e WORKRAVE_ENV=github-docker")
+DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
 
-docker run ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
