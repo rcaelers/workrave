@@ -8,7 +8,7 @@ on:
       - next
 
 jobs:
-   build-windows:
+  build-windows:
     runs-on: windows-2019
     strategy:
       matrix:
@@ -32,7 +32,6 @@ jobs:
             ui/applets/win32/src/Release/workrave-applet.dll
             ui/applets/win32/src/x64/Debug/workrave-applet64.dll
             ui/applets/win32/src/Debug/workrave-applet.dll
-
 
   build:
     runs-on: ${{ matrix.config.os }}
