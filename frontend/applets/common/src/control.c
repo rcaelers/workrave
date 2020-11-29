@@ -491,7 +491,7 @@ workrave_timerbox_control_create_dbus(WorkraveTimerboxControl *self)
   gboolean autostart = g_settings_get_boolean(settings, "autostart");
   g_object_unref(settings);
 
-  GDBusProxyFlags flags = autostart ?  : G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START;
+  GDBusProxyFlags flags = autostart ? 0 : G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START;
 
   priv->applet_proxy_cancel = g_cancellable_new();
   g_dbus_proxy_new_for_bus(G_BUS_TYPE_SESSION,
