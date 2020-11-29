@@ -108,6 +108,7 @@ workrave_timerbox_init(WorkraveTimerbox *self)
       priv->break_visible[i] = FALSE;
       priv->slot_to_break[i] = BREAK_ID_NONE;
       priv->break_to_slot[i] = -1;
+      priv->break_to_icon[i] = NULL;
     }
   priv->filled_slots = 0;
   priv->enabled = FALSE;
@@ -115,6 +116,10 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   priv->mode = g_strdup("normal");
   priv->settings = g_settings_new("org.workrave.gui");
   g_signal_connect(priv->settings, "changed", G_CALLBACK(workrave_on_settings_changed), self);
+
+  priv->normal_sheep_icon = NULL;
+  priv->quiet_sheep_icon = NULL;
+  priv->suspended_sheep_icon = NULL;
 
   workrave_timerbox_init_images(self);
 }
@@ -505,17 +510,29 @@ workrave_timerbox_init_images(WorkraveTimerbox *self)
 
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
 
-  g_object_unref(priv->normal_sheep_icon);
-  g_object_unref(priv->quiet_sheep_icon);
-  g_object_unref(priv->suspended_sheep_icon);
+  if (priv->normal_sheep_icon != NULL)
+    {
+      g_object_unref(priv->normal_sheep_icon);
+    }
+  if (priv->quiet_sheep_icon != NULL)
+    {
+      g_object_unref(priv->quiet_sheep_icon);
+    }
+  if (priv->suspended_sheep_icon != NULL)
+    {
+      g_object_unref(priv->suspended_sheep_icon);
+    }
 
   priv->normal_sheep_icon = workrave_load_image(self, "workrave-icon-medium.png");
   priv->quiet_sheep_icon = workrave_load_image(self, "workrave-quiet-icon-medium.png");
   priv->suspended_sheep_icon = workrave_load_image(self, "workrave-suspended-icon-medium.png");
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      g_object_unref(priv->break_to_icon[i]);
+  {
+      if (priv->break_to_icon[i] != NULL)
+        {
+          g_object_unref(priv->break_to_icon[i]);
+        }
       priv->break_to_icon[i] = workrave_load_image(self, icons[i]);
     }
 }
