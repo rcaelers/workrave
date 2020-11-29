@@ -5,14 +5,19 @@ MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     dnf -y upgrade && dnf clean all && \
     dnf -y install \
+                autoconf-archive \
+                bzip2 \
                 clang \
                 cmake \
+                dos2unix \
                 gcc \
                 git \
+                gobject-introspection-devel \
                 gtk-update-icon-cache \
                 innoextract \
                 intltool \
                 jq \
+                libtool \
                 make \
                 mingw32-boost \
                 mingw32-dbus \
@@ -20,6 +25,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw32-gcc-c++ \
                 mingw32-gettext \
                 mingw32-gtkmm30 \
+                mingw32-gtkmm24 \
                 mingw32-librsvg2 \
                 mingw32-openssl \
                 mingw32-adwaita-icon-theme \
