@@ -2,7 +2,8 @@ FROM ubuntu:focal
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
+RUN sed -i 's:^path-exclude=/usr/share/locale:#path-exclude=/usr/share/locale:' /etc/dpkg/dpkg.cfg.d/excludes && \
+    export DEBIAN_FRONTEND=noninteractive && \
     echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99translations > /dev/null && \
     dpkg --add-architecture i386 && \
     apt-get update -y && \
