@@ -113,6 +113,8 @@ jobs:
           fi
         
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
