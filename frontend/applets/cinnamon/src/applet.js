@@ -261,9 +261,10 @@ MyApplet.prototype = {
          let cr = area.get_context();
 
          let bar_height = this._timerbox.get_height();
+         let padding = Math.floor((height + this._padding - bar_height) / 2);
 
-         this.actor.style = "padding-top: "+ ( (height + this._padding - bar_height + 1) / 2) +"px;";
-         this._padding = (height - bar_height + 1) / 2;
+         this.actor.style = "padding-top: " + padding + "px;";
+         this._padding = padding;
 
          this._timerbox.draw(cr);
     },
