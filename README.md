@@ -1,3 +1,7 @@
+[![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
+[![Build Status](https://github.com/rcaelers/workrave/workflows/CI/badge.svg?branch=branch_v1_10)](https://github.com/rcaelers/workrave/actions)
+
+
 # Workrave 1.10
 
 Please visit http://www.workrave.org for more information.
