@@ -21,6 +21,7 @@ RUN \
     gsettings-desktop-schemas-dev \
     intltool \
     jq \
+    libayatana-indicator3-dev \
     libboost-chrono-dev \
     libboost-context-dev \
     libboost-coroutine-dev \
@@ -35,12 +36,11 @@ RUN \
     libdbusmenu-glib-dev \
     libdbusmenu-gtk3-dev \
     libgirepository1.0-dev \
+    libgnome-panel-dev \
     libgstreamer1.0-dev \
     libgtk-3-dev \
     libgtkmm-3.0-dev \
-    libayatana-indicator3-dev \
     libmate-panel-applet-dev \
-    libpanel-applet-dev \
     libpulse-dev \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
