@@ -645,7 +645,7 @@ if test "x$platform_os_win32" != "xyes"
 then
     GOBJECT_INTROSPECTION_CHECK([0.6.7])
 else
-AM_CONDITIONAL(HAVE_INTROSPECTION, 0)
+    AM_CONDITIONAL(HAVE_INTROSPECTION, false)
 fi
 
 dnl
@@ -699,7 +699,7 @@ fi
 with_localinstall="no"
 AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
 
-AS_IF([test "x$with_localinstall" = "xyes"],
+AS_IF([test "x$with_localinstall" = "xyes" -a "x$config_indicator_package" != "xnone"],
     INDICATORDIR="${libdir}/indicators3/7"
     INDICATORICONSDIR="${datadir}/libindicate/icons"
     ,
