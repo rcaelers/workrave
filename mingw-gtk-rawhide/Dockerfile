@@ -18,6 +18,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 intltool \
                 jq \
                 libtool \
+                lld \
                 make \
                 mingw32-boost \
                 mingw32-dbus \

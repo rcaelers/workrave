@@ -1,15 +1,22 @@
-FROM fedora:32
+FROM fedora:33
 
 MAINTAINER Rob Caelers <rob.caelers@gmail.com>
 
 RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
-    dnf -y update && dnf clean all && \
+    dnf -y upgrade && dnf clean all && \
     dnf -y install \
+                bzip2 \
+                clang \
                 cmake \
+                dos2unix \
+                gcc \
                 git \
                 intltool \
                 jq \
+                lld \
                 make \
+                mingw32-gcc \
+                mingw32-gcc-c++ \
                 mingw64-boost \
                 mingw64-dbus \
                 mingw64-gcc \
