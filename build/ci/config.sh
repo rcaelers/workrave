@@ -1,18 +1,4 @@
 case "$WORKRAVE_ENV" in
-    local)
-        echo "Running locally"
-        WORKSPACE=/workspace
-        OUTPUT_DIR=${WORKSPACE}/output
-        SOURCES_DIR=${WORKSPACE}/source
-        DEPLOY_DIR=${WORKSPACE}/deploy
-        SECRETS_DIR=${WORKSPACE}/secrets
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
-        SCRIPTS_DIR=${WORKSPACE}/scripts
-        CI_DIR=${SCRIPTS_DIR}/ci
-
-        BUILD_DIR=${WORKSPACE}/build
-        ;;
-
     inline)
         echo "Running inline"
         WORKSPACE=/workspace
@@ -20,22 +6,8 @@ case "$WORKRAVE_ENV" in
         OUTPUT_DIR=${SOURCES_DIR}/_output
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_build
-        SECRETS_DIR=${WORKSPACE}/secrets
         PREBUILT_DIR=${WORKSPACE}/prebuilt
         SCRIPTS_DIR=${SOURCES_DIR}/build
-        CI_DIR=${SCRIPTS_DIR}/ci
-        ;;
-
-    travis)
-        echo "Running on Travis"
-        WORKSPACE=/workspace
-        OUTPUT_DIR=${WORKSPACE}/output
-        SOURCES_DIR=${WORKSPACE}/source
-        DEPLOY_DIR=${SOURCES_DIR}/_deploy
-        BUILD_DIR=${SOURCES_DIR}/_dist/build
-        SECRETS_DIR=${SOURCES_DIR}/_dist/secrets
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
-        SCRIPTS_DIR=$${SOURCES_DIR}/build
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
