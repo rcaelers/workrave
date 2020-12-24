@@ -186,7 +186,7 @@ target_link_libraries(workrave ${INDICATOR_LIBRARIES})
 
 if (WIN32)
   if (HAVE_HARPOON)
-    target_link_libraries(workrave harpoon)
+    target_link_libraries(workrave harpoon64)
     include_directories(${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
   endif()
 

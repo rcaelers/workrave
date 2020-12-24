@@ -1,4 +1,4 @@
-set(SRC
+add_library(workrave-libs-core STATIC
   Break.cc
   BreakDBus.cc
   BreakStateModel.cc
@@ -15,24 +15,16 @@ set(SRC
   ReadingActivityMonitor.cc
   Statistics.cc
   Timer.cc
-  TimerActivityMonitor.cc
-  )
+  TimerActivityMonitor.cc)
 
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkrave)
-
-  set(SRC ${SRC}
-    ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
-  )
+  target_sources(workrave-libs-core PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc)
 endif()
 
 if (HAVE_GSETTINGS)
   gsettings_add_schemas(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
-
-add_library(workrave-libs-core STATIC ${SRC})
-
-add_cppcheck(workrave-libs-core)
 
 target_link_libraries(workrave-libs-core
   ${CMAKE_THREAD_LIBS_INIT}
@@ -44,6 +36,5 @@ target_link_libraries(workrave-libs-core
 target_include_directories(
   workrave-libs-core
   PUBLIC
-  ${CMAKE_SOURCE_DIR}/libs/core/include
-  )
+  ${CMAKE_SOURCE_DIR}/libs/core/include)
 

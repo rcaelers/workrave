@@ -1,59 +1,39 @@
-set(SRC
-  SoundPlayer.cc
- )
+add_library(workrave-libs-audio STATIC SoundPlayer.cc)
 
 if (HAVE_GSTREAMER)
-  set(SRC ${SRC}
-    GstSoundPlayer.cc
-    )
+  target_sources(workrave-libs-input-monitor PRIVATE GstSoundPlayer.cc)
   include_directories(${GSTREAMER_INCLUDE_DIRS})
-endif()
-
-if (HAVE_PULSE)
-  set(SRC ${SRC}
-    PulseMixer.cc
-    )
-  include_directories(${PULSE_INCLUDE_DIRS})
-endif()
-
-if (PLATFORM_OS_WINDOWS)
-  set(SRC ${SRC}
-    win32/W32DirectSoundPlayer.cc
-    win32/W32Mixer.cc
-    win32/W32SoundPlayer.cc
-    )
-  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/win32)
-endif()
-
-if (PLATFORM_OS_MACOS)
-  set(SRC ${SRC}
-    macos/MACOSSoundPlayer.cc)
-  include_directories(${CMAKE_SOURCE_DIR}/libs/audio/src/macos)
-  set_source_files_properties(macos/MacOSSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
-endif()
-
-if (HAVE_GTK)
-  include_directories(${GTK_INCLUDE_DIRS})
-endif()
-
-add_library(workrave-libs-audio STATIC ${SRC})
-add_cppcheck(workrave-libs-audio)
-
-target_link_libraries(workrave-libs-audio workrave-libs-utils)
-
-IF (HAVE_GSTREAMER)
-  link_directories(${GSTREAMER_LIBPATH})
+  target_link_libraries(workrave-libs-audio ${GSTREAMER_LIBPATH})
   target_link_libraries(workrave-libs-audio ${GSTREAMER_LIBRARIES})
 endif()
 
 if (HAVE_PULSE)
-  link_directories(${PULSE_LIBPATH})
+  target_sources(workrave-libs-audio PRIVATE PulseMixer.cc)
+  target_include_directories(workrave-libs-audio PRIVATE ${PULSE_INCLUDE_DIRS})
+  target_link_libraries(workrave-libs-audio ${PULSE_LIBPATH})
   target_link_libraries(workrave-libs-audio ${PULSE_LIBRARIES})
 endif()
 
-if (PLATFORM_OS_MACOS)
-  target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
+if (PLATFORM_OS_WINDOWS)
+  target_sources(workrave-libs-audio PRIVATE
+    win32/W32DirectSoundPlayer.cc
+    win32/W32Mixer.cc
+    win32/W32SoundPlayer.cc)
+    target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/win32)
 endif()
+
+if (PLATFORM_OS_MACOS)
+  target_sources(workrave-libs-audio PRIVATE macos/MACOSSoundPlayer.cc)
+  target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/macos)
+  target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
+  set_source_files_properties(macos/MacOSSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+endif()
+
+if (HAVE_GTK)
+  target_include_directories(workrave-libs-audio PRIVATE ${GTK_INCLUDE_DIRS})
+endif()
+
+target_link_libraries(workrave-libs-audio workrave-libs-utils)
 
 target_include_directories(
   workrave-libs-audio
@@ -62,4 +42,3 @@ target_include_directories(
   PRIVATE
   ${CMAKE_SOURCE_DIR}/libs/audio/src
   )
-
