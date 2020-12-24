@@ -43,7 +43,7 @@ using namespace workrave::utils;
 #endif
 
 PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
-  : QWidget(nullptr),
+  : QWidget(nullptr, Qt::Window),
     break_id(break_id),
     screen(screen)
 {
