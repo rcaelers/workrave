@@ -16,8 +16,8 @@ case "$WORKRAVE_ENV" in
     inline)
         echo "Running inline"
         WORKSPACE=/workspace
-        OUTPUT_DIR=${WORKSPACE}/output
         SOURCES_DIR=${WORKSPACE}/source
+        OUTPUT_DIR=${SOURCES_DIR}/_output
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_build
         SECRETS_DIR=${WORKSPACE}/secrets
