@@ -3,12 +3,19 @@ set(SYS_ROOT_PREFIX "")
 set(TOOLCHAIN_ROOT "/usr/x86_64-w64-mingw32")
 set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/x86_64-w64-mingw32/sys-root/mingw/")
 
+# If 'bin' is in PATH, zlib1.dll is found. lld cannot directly link with DLLs
+# it needs anm import library in 'lib'.
+set(ZLIB_ROOT ${SYS_ROOT}/lib)
+
 set(CMAKE_SYSTEM_NAME Windows)
-set(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_SYSTEM_VERSION 10)
 
 set(CMAKE_C_COMPILER   x86_64-w64-mingw32-clang)
 set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-clang++)
 set(CMAKE_RC_COMPILER  x86_64-w64-mingw32-windres)
+
+SET (CMAKE_C_FLAGS              "-fuse-ld=lld")
+SET (CMAKE_CXX_FLAGS            ${CMAKE_C_FLAGS})
 
 set (WINE wine)
 set (ISCC "/workspace/inno/app/ISCC.exe")

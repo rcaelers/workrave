@@ -4,7 +4,7 @@ set(TOOLCHAIN_ROOT "/usr/x86_64-w64-mingw32")
 set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/x86_64-w64-mingw32/sys-root/mingw/")
 
 set(CMAKE_SYSTEM_NAME Windows)
-set(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_SYSTEM_VERSION 10)
 
 set(CMAKE_C_COMPILER   x86_64-w64-mingw32-gcc)
 set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
