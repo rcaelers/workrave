@@ -119,7 +119,7 @@ case "$DOCKER_IMAGE" in
                 CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${CONF_COMPILER}.cmake")
                 CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
 
-                CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32-${CONF_COMPILER}.cmake")
+                CMAKE_FLAGS32+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw32-gcc.cmake")
                 CMAKE_FLAGS32+=("-DWITH_UI=None")
                 CMAKE_FLAGS32+=("-DCMAKE_BUILD_TYPE=Release")
 
