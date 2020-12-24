@@ -244,7 +244,7 @@ MainWindow::init()
   set_border_width(2);
   set_resizable(false);
 
-  list<Glib::RefPtr<Gdk::Pixbuf> > icons;
+  std::list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
   const char *icon_files[] =
     {
@@ -545,9 +545,9 @@ MainWindow::win32_init()
 
   win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
 
-  WNDCLASSEX wclass =
+  WNDCLASSEXA wclass =
     {
-      sizeof(WNDCLASSEX),
+      sizeof(WNDCLASSEXA),
       0,
       win32_window_proc,
       0,
@@ -560,9 +560,9 @@ MainWindow::win32_init()
       WIN32_MAIN_CLASS_NAME,
       NULL
     };
-  /* ATOM atom = */ RegisterClassEx(&wclass);
+  /* ATOM atom = */ RegisterClassExA(&wclass);
 
-  win32_main_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
+  win32_main_hwnd = CreateWindowExA(WS_EX_TOOLWINDOW,
                                    WIN32_MAIN_CLASS_NAME,
                                    "Workrave",
                                    WS_OVERLAPPED,
@@ -590,7 +590,7 @@ void
 MainWindow::win32_exit()
 {
   DestroyWindow(win32_main_hwnd);
-  UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
+  UnregisterClassA(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
 }
 
 #endif

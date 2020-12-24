@@ -58,7 +58,7 @@ StatusIcon::StatusIcon()
   mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
-  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+  wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
 #endif
   TRACE_EXIT();
 }

@@ -58,7 +58,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
     }
   }
 
-  hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
+  hwnd = CreateWindowExA(WS_EX_TOOLWINDOW,
                         WINDOW_CLASS,
                         WINDOW_CLASS,
                         WS_POPUP,
@@ -105,7 +105,7 @@ DesktopWindow::init()
 
   HINSTANCE win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
 
-  WNDCLASSEX wclass =
+  WNDCLASSEXA wclass =
     {
       sizeof(WNDCLASSEX),
       0,
@@ -120,7 +120,7 @@ DesktopWindow::init()
       WINDOW_CLASS,
       NULL
     };
-  RegisterClassEx(&wclass);
+  RegisterClassExA(&wclass);
   initialized = true;
 }
 

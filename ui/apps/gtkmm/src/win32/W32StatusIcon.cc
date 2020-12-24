@@ -209,13 +209,13 @@ W32StatusIcon::init()
 
   if (tray_hwnd == NULL)
     {
-      WNDCLASS wclass;
+      WNDCLASSA wclass;
       memset(&wclass, 0, sizeof(WNDCLASS));
       wclass.lpszClassName = "WorkraveTrayObserver";
       wclass.lpfnWndProc = window_proc;
       wclass.hInstance = hinstance;
 
-      ATOM atom = RegisterClass(&wclass);
+      ATOM atom = RegisterClassA(&wclass);
       if (atom != 0)
         {
           tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom),
@@ -230,7 +230,7 @@ W32StatusIcon::init()
         }
       else
         {
-          wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+          wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
         }
     }
 

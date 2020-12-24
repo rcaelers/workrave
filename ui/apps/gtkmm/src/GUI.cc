@@ -1571,7 +1571,7 @@ GUI::win32_filter_func (void     *xevent,
           case DBT_DEVICEARRIVAL:
           case DBT_DEVICEREMOVECOMPLETE:
           {
-            HWND hwnd = FindWindowEx(NULL, NULL, "GdkDisplayChange", NULL);
+            HWND hwnd = FindWindowExA(NULL, NULL, "GdkDisplayChange", NULL);
             if (hwnd)
             {
               SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);

@@ -91,12 +91,11 @@ W32AppletWindow::~W32AppletWindow()
   TRACE_EXIT();
 }
 
-
 static HWND
-RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
+RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
 {
   static char buf[80];
-  int num = GetClassName(hwnd, buf, sizeof(buf)-1);
+  int num = GetClassNameA(hwnd, buf, sizeof(buf)-1);
   buf[num] = 0;
   HWND ret = NULL;
 
@@ -220,7 +219,7 @@ W32AppletWindow::update_applet_window()
   HWND previous_applet_window = applet_window;
   if (applet_window == NULL || !IsWindow(applet_window))
     {
-      HWND taskbar = FindWindow("Shell_TrayWnd",NULL);
+      HWND taskbar = FindWindowA("Shell_TrayWnd",NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
       menu_sent = false;
     }
