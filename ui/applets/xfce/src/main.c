@@ -20,7 +20,7 @@
 #endif
 
 #include <gdk/gdk.h>
-#include <libxfce4panel/xfce-panel-plugin.h>
+#include <libxfce4panel/libxfce4panel.h>
 
 #include <gio/gio.h>
 
@@ -399,7 +399,7 @@ static void workrave_applet_fill(WorkraveApplet *applet)
 
 static void workrave_applet_construct(XfcePanelPlugin *plugin)
 {
-  WorkraveApplet *applet = panel_slice_new0(WorkraveApplet);
+  WorkraveApplet *applet = g_slice_new0(WorkraveApplet);
   applet->plugin = plugin;
   applet->image = NULL;
   applet->timerbox_control = NULL;
