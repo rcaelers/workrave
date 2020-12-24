@@ -23,7 +23,6 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   include_directories(
     ../include
-    #${CMAKE_SOURCE_DIR}/libs/utils/include
     ${CMAKE_SOURCE_DIR}/libs/core/include
     ${CMAKE_SOURCE_DIR}/ui/common/include
   )
