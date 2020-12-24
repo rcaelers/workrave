@@ -61,7 +61,6 @@ include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
-include(CppCheck)
 include(FindPythonModule)
 
 if (NOT VCPKG_TOOLCHAIN)
