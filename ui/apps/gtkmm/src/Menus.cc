@@ -73,7 +73,6 @@
 
 #include "commonui/MenuEnums.hh"
 
-using namespace std;
 using namespace workrave::utils;
 
 //! Constructor.

@@ -36,7 +36,6 @@
 
 #include "locale.inc"
 
-using namespace std;
 using namespace workrave::utils;
 
 extern "C" int _nl_msg_cat_cntr;
@@ -54,7 +53,7 @@ int compare_countries (const void *a, const void *b)
 }
 
 bool
-Locale::get_language(const string &code, string &language)
+Locale::get_language(const std::string &code, std::string &language)
 {
   language_t key = { code.c_str(), nullptr };
   language_t *val;
@@ -75,7 +74,7 @@ Locale::get_language(const string &code, string &language)
 
 
 bool
-Locale::get_country(const string &code, string &country)
+Locale::get_country(const std::string &code, std::string &country)
 {
   country_t key = { code.c_str(), nullptr };
   country_t *val;
@@ -116,7 +115,7 @@ Locale::set_locale(const std::string &code)
 std::string
 Locale::get_locale()
 {
-  string ret;
+  std::string ret;
   const char *lang_env = getenv("LANGUAGE");
 
   if (lang_env == nullptr)
@@ -133,9 +132,9 @@ Locale::get_locale()
 }
 
 void
-Locale::lookup(const string &domain, string &str)
+Locale::lookup(const std::string &domain, std::string &str)
 {
-  string ret;
+  std::string ret;
 
   if (str != "")
     {
@@ -160,8 +159,8 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 
   for (auto code : all_linguas)
     {
-      string lang_code;
-      string country_code;
+      std::string lang_code;
+      std::string country_code;
 
       Language &language_entry = languages[code];
 
@@ -198,12 +197,12 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
   boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
-  string lang_save = Locale::get_locale();
+  std::string lang_save = Locale::get_locale();
 
   for (auto code : all_linguas)
     {
-      string lang_code;
-      string country_code;
+      std::string lang_code;
+      std::string country_code;
 
       Locale::set_locale(code);
 

@@ -52,7 +52,6 @@ const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
 
-using namespace std;
 using namespace workrave::utils;
 
 //! Constructor.

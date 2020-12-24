@@ -35,15 +35,11 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
-using namespace workrave;
-using namespace workrave::config;
-using namespace std;
-
 class TimerBoxPreferencePage
   : public Gtk::HBox
 {
 public:
-  TimerBoxPreferencePage(string name);
+  TimerBoxPreferencePage(std::string name);
   ~TimerBoxPreferencePage();
 
 private:
@@ -57,7 +53,7 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
-  string name;
+  std::string name;
 
   Gtk::CheckButton *ontop_cb;
   Gtk::CheckButton *enabled_cb;

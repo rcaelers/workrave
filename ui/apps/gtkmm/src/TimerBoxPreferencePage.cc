@@ -40,7 +40,7 @@
 #include "utils/Platform.hh"
 
 //! Constructs the Applet Preference Notebook page.
-TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
+TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   : Gtk::HBox(false, 6),
     name(n),
     ontop_cb(nullptr)
