@@ -30,8 +30,11 @@
 #include <io.h>
 #include <fcntl.h>
 
-#include "utils/crashlog.h"
 #include "utils/W32ActiveSetup.hh"
+#endif
+
+#if defined(HAVE_CRASHPAD)
+#include "crash/CrashReporter.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -39,17 +42,12 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+#if defined(HAVE_CRASHPAD)
+  workrave::crash::CrashReporter::instance().init();
+#endif
+
 #ifdef PLATFORM_OS_WINDOWS
     W32ActiveSetup::update_all();
-#endif
-
-#if defined(PLATFORM_OS_WINDOWS_32) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
-  SetUnhandledExceptionFilter(exception_filter);
-
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-  // Enable Windows structural exception handling.
-  __try1(exception_handler);
-#endif
 #endif
 
 #ifdef TRACING
@@ -61,13 +59,6 @@ run(int argc, char **argv)
   gui->main();
 
   delete gui;
-
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
-  // Disable Windows structural exception handling.
-  __except1;
-#endif
-#endif
 
   return 0;
 }

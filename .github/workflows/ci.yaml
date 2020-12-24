@@ -60,10 +60,10 @@ jobs:
             ui: Qt5
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
             disable: TESTS,COVERAGE
-  
+
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
-            compiler: gcc
+            compiler: clang
             ui: Gtk+3
             configuration: Release
             enable: 
@@ -72,7 +72,7 @@ jobs:
   
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
-            compiler: gcc
+            compiler: clang
             ui: Gtk+3
             configuration: Debug
             enable: TRACING

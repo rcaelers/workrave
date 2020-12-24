@@ -599,6 +599,8 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # platform - win32
 
+option(WITH_CRASHPAD "Use crashpad" ON)
+
 if (WIN32)
   set (PLATFORM_OS_WINDOWS ON)
 
@@ -728,6 +730,14 @@ if (WIN32)
       message(STATUS "Could not find ${lib}")
     endif()
   endforeach()
+
+  set(HAVE_CRASHPAD OFF)
+  if(WITH_CRASHPAD)
+    find_package(crashpad REQUIRED)
+    if (crashpad_FOUND)
+      set(HAVE_CRASHPAD ON)
+    endif()
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------

@@ -165,8 +165,8 @@ if (MINGW)
 
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
   endif()
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
 endif()
 
 target_link_libraries(workrave ${GTK_LIBRARIES})
@@ -217,6 +217,12 @@ if (WIN32)
     set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
     set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
   endif()
+
+  if (HAVE_CRASHPAD)
+    target_compile_definitions(workrave PRIVATE HAVE_CRASHPAD)
+    target_link_libraries(workrave workrave-libs-crash)
+  endif()
+
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})

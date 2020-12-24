@@ -32,7 +32,6 @@
 #include <io.h>
 #include <fcntl.h>
 
-#include "utils/crashlog.h"
 #include "utils/W32ActiveSetup.hh"
 #endif
 

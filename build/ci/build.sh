@@ -79,7 +79,21 @@ if [[ ${CONF_UI} ]]; then
     CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 fi
 
-if [[ ! $DOCKER_IMAGE =~ "mingw" ]] ; then  
+if [[ $DOCKER_IMAGE =~ "mingw" ]] ; then
+    if [ ! -d ${SOURCES_DIR}/_ext ]; then
+        mkdir -p ${SOURCES_DIR}/_ext
+    fi
+
+    crashpad_name=crashpad-mingw64-20201224-18-52ff3f4d6a8277499327ee8d0c9fdc759016ee2e
+    crashpad_ext=.tar.xz
+    if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
+        curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext
+        rm -f ${SOURCES_DIR}/_ext/crashpad
+        cd ${SOURCES_DIR}/_ext
+        ln -s ${crashpad_name} crashpad
+        cd ${SOURCES_DIR}/
+    fi
+else
     if [[ $CONF_COMPILER = 'gcc' ]] ; then
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
         CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
@@ -105,9 +119,12 @@ case "$DOCKER_IMAGE" in
     mingw-qt5)
         CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/mingw64-${CONF_COMPILER}.cmake")
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${WORKSPACE}/prebuilt")
+        CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
         ;;
 
     mingw-gtk*)
+        CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
+        CMAKE_FLAGS32+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
 
         case "$PREBUILT" in
             vs)
