@@ -607,11 +607,11 @@ if (WIN32)
     set (PLATFORM_OS_WINDOWS_NATIVE 1)
   endif()
 
+  set (HAVE_HARPOON ON)
   if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set (PLATFORM_OS_WINDOWS_64 ON)
   else()
     set (PLATFORM_OS_WINDOWS_32 ON)
-    set (HAVE_HARPOON ON)
   endif()
 
   if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
