@@ -8,8 +8,18 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
               TimeBar.cpp
               TimerBox.cpp
               Util.cpp
-              resource.rc
   )
+
+  if (MINGW)
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                      COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
+                                                    -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+                      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+                      )
+    set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
+  else()
+    set(SRC ${SRC} resource.rc)
+  endif()
 
   include_directories(
     ../include
@@ -36,7 +46,9 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   add_library(${APPLET_TARGET} SHARED ${SOURCES})
   set_target_properties(${APPLET_TARGET} PROPERTIES PREFIX "")
-  SET_TARGET_PROPERTIES(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )
+  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+     set_target_properties(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )
+  endif()
   target_link_libraries(${APPLET_TARGET} shlwapi uuid) #   kernel32 user32 gdi32 winspool comdlg32 advapi32  shell32 ole32 oleaut32  odbc32 odbccp32)
 
   install(TARGETS ${APPLET_TARGET}
