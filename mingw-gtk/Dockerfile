@@ -65,5 +65,11 @@ RUN cd /workspace && \
     make install && \
     rm -rf /workspace/wclang
 
+RUN cd /workspace && \
+    curl -OL https://github.com/mozilla/dump_syms/releases/download/v0.0.7/dump_syms-linux-x86_64.tar.gz && \
+    tar xvfz dump_syms-linux-x86_64.tar.gz && \
+    cp -a dump_syms-linux-x86_64/dump_syms /usr/local/bin && \
+    rm -rf dump_syms-linux-x86_64.tar.gz dump_syms-linux-x86_64
+
 RUN pip3 install --upgrade pip
 RUN pip3 install Jinja2
