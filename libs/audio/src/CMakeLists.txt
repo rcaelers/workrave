@@ -1,8 +1,8 @@
 add_library(workrave-libs-audio STATIC SoundPlayer.cc)
 
 if (HAVE_GSTREAMER)
-  target_sources(workrave-libs-input-monitor PRIVATE GstSoundPlayer.cc)
-  include_directories(${GSTREAMER_INCLUDE_DIRS})
+  target_sources(workrave-libs-audio PRIVATE GstSoundPlayer.cc)
+  target_include_directories(workrave-libs-audio PRIVATE ${GSTREAMER_INCLUDE_DIRS})
   target_link_libraries(workrave-libs-audio ${GSTREAMER_LIBPATH})
   target_link_libraries(workrave-libs-audio ${GSTREAMER_LIBRARIES})
 endif()
