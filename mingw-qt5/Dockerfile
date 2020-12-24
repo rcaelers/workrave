@@ -36,6 +36,14 @@ RUN mkdir -p /workspace && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
 
 RUN cd /workspace && \
+    git clone https://github.com/tpoechtrager/wclang.git && \
+    cd /workspace/wclang && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/ && \
+    make && \
+    make install && \
+    rm -rf /workspace/wclang
+
+RUN cd /workspace && \
     curl -OL https://github.com/mozilla/dump_syms/releases/download/v0.0.7/dump_syms-linux-x86_64.tar.gz && \
     tar xvfz dump_syms-linux-x86_64.tar.gz && \
     cp -a dump_syms-linux-x86_64/dump_syms /usr/local/bin && \
