@@ -150,10 +150,13 @@ if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     fi
 
     filename=${baseFilename}.exe
+    symbolsFilename=${baseFilename}.sym
 
     cp ${OUTPUT_DIR}/mysetup.exe ${DEPLOY_DIR}/${filename}
+    cp ${OUTPUT_DIR}/workrave.sym ${DEPLOY_DIR}/${symbolsFilename}
 
     ${SOURCES_DIR}/build/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
+    ${SOURCES_DIR}/build/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
 
     PORTABLE_DIR=${BUILD_DIR}/portable
     portableFilename=${baseFilename}-portable.zip

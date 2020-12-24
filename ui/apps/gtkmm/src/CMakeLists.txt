@@ -150,8 +150,8 @@ target_link_libraries(workrave
   workrave-libs-utils)
 
 if (MINGW)
-  ADD_CUSTOM_COMMAND(TARGET workrave POST_BUILD
-      # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
+  add_custom_command(TARGET workrave POST_BUILD
+      # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
       COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
           $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
       COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
@@ -159,11 +159,16 @@ if (MINGW)
       COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
           $<TARGET_FILE:workrave>
   )
+
+  add_custom_command(TARGET workrave POST_BUILD
+    COMMAND dump_syms $<TARGET_FILE:workrave> -o ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
+  )
+
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
   endif()
 endif()
-
 
 target_link_libraries(workrave ${GTK_LIBRARIES})
 target_link_libraries(workrave ${Boost_LIBRARIES})
