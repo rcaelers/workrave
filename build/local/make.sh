@@ -8,6 +8,7 @@ BUILT_TYPE=RelWithDebInfo
 WORKING_DIR=
 OUTPUT_DIR=
 CONF_COMPILER=gcc
+CONF_CONFIGURATION=Release
 
 ROOT=`git rev-parse --show-toplevel`
 if [ $? -ne 0 ]; then
@@ -33,7 +34,8 @@ parse_arguments()
                 CONF_COMPILER="${OPTARG}"
                 ;;
             d)
-                BUILT_TYPE=Debug
+                BUILD_TYPE=Debug
+                CONF_CONFIGURATION=Debug
                 BUILD_ARGS+=("-DWITH_TRACING=ON")
                 ;;
             D)
@@ -67,7 +69,7 @@ case "$CONFIG" in
       ;;
 esac
 
-BUILD_ARGS+=("-DCMAKE_BUILD_TYPE=${BUILT_TYPE}")
+BUILD_ARGS+=("-DCMAKE_BUILD_TYPE=${BUILD_TYPE}")
 BUILD_ARGS+=("-M\"-j4\"")
 DOCKER_ARGS+=("-v ${ROOT}/:/workspace/source")
 
@@ -94,6 +96,7 @@ fi
 
 DOCKER_ARGS+=("-e WORKRAVE_ENV=github-docker")
 DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
+DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
 DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
 
 docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
