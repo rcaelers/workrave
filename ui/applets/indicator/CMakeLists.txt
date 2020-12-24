@@ -16,8 +16,7 @@ if (WITH_INDICATOR)
     )
 
   add_library(workrave-applet-indicator SHARED ${SRC})
-  add_cppcheck(workrave-applet-indicator)
-
+  
   set_target_properties(workrave-applet-indicator PROPERTIES OUTPUT_NAME workrave)
 
   link_directories(${INDICATOR_LIBPATH})

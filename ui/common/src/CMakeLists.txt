@@ -8,7 +8,6 @@ set(SRC
  )
 
 add_library(workrave-ui-common STATIC ${SRC})
-add_cppcheck(workrave-ui-common)
 
 target_link_libraries(workrave-ui-common
   workrave-libs-utils

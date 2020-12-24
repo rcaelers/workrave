@@ -136,7 +136,6 @@ If (PLATFORM_OS_WINDOWS)
 endif()
 
 add_executable(workrave ${SRC})
-add_cppcheck(workrave)
 
 target_link_libraries(workrave
   workrave-ui-common

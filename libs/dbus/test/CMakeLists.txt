@@ -21,9 +21,7 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
     )
 
   add_executable(workrave-libs-dbus-test ${TEST_SRC})
-  add_cppcheck(workrave-libs-dbus-test)
   add_executable(workrave-libs-dbus-test-server-qt5 ${SERVER_QT5_SRC})
-  add_cppcheck(workrave-libs-dbus-test-server-qt5)
   set_target_properties(workrave-libs-dbus-test-server-qt5 PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
   set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
 
@@ -57,7 +55,6 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
       )
 
     add_executable(workrave-libs-dbus-test-server-gio ${SERVER_GIO_SRC})
-    add_cppcheck(workrave-libs-dbus-test-server-gio)
 
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_GIO=1")
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_GIO=1")

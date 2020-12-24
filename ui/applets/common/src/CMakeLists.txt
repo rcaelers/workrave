@@ -7,7 +7,6 @@ set(SRC
 if (GTK3_FOUND AND UNIX AND NOT APPLE)
 
   add_library(workrave-private-1.0 SHARED ${SRC})
-  add_cppcheck(workrave-private-1.0)
   link_directories(${GTK_LIBPATH})
 
   target_include_directories(workrave-private-1.0

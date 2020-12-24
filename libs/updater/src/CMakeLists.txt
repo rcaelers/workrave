@@ -3,7 +3,6 @@ set(SRC
   )
 
 add_library(workrave-libs-updater STATIC ${SRC})
-add_cppcheck(workrave-libs-updater)
 
 target_include_directories(
   workrave-libs-updater

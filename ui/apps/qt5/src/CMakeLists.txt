@@ -103,7 +103,6 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5Svg_DEFINITIONS})
 
 add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
-add_cppcheck(Workrave)
 
 target_include_directories(Workrave
   PRIVATE
