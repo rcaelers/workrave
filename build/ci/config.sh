@@ -6,7 +6,6 @@ case "$WORKRAVE_ENV" in
         OUTPUT_DIR=${SOURCES_DIR}/_output
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_build
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
         SCRIPTS_DIR=${SOURCES_DIR}/build
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
@@ -18,7 +17,6 @@ case "$WORKRAVE_ENV" in
         SOURCES_DIR=${WORKSPACE}/source
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
         SCRIPTS_DIR=${SOURCES_DIR}/build
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
@@ -30,7 +28,6 @@ case "$WORKRAVE_ENV" in
         OUTPUT_DIR=${WORKSPACE}/output
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
         CI_DIR=${SOURCES_DIR}/build/ci
         ;;
     *)
