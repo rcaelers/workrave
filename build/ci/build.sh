@@ -79,16 +79,18 @@ if [[ ${CONF_UI} ]]; then
     CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 fi
 
-if [[ $CONF_COMPILER = 'gcc' ]] ; then
-    CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
-    CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
-    CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
-    CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=gcc")
-elif [[ $CONF_COMPILER = 'clang' ]] ; then
-    CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++")
-    CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=clang++")
-    CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang")
-    CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=clang")
+if [[ ! $DOCKER_IMAGE =~ "mingw" ]] ; then  
+    if [[ $CONF_COMPILER = 'gcc' ]] ; then
+        CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
+        CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
+        CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
+        CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=gcc")
+    elif [[ $CONF_COMPILER = 'clang' ]] ; then
+        CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++")
+        CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=clang++")
+        CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang")
+        CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=clang")
+    fi
 fi
 
 if [[ ${CONF_CONFIGURATION} ]]; then
