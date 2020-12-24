@@ -12,7 +12,6 @@ if (HAVE_TESTS)
   endif()
 
   add_executable(workrave-test ${SRC})
-  add_cppcheck(workrave-test)
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/libs/core/src
