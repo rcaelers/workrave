@@ -40,20 +40,6 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-bionic
-            os: ubuntu-latest
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
-
-          - image: ubuntu-eoan
-            os: ubuntu-latest
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
-  
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
