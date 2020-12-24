@@ -94,7 +94,7 @@ if [ -n "${OUTPUT_DIR}" ]; then
   DOCKER_ARGS+=("-v ${OUTPUT_DIR}:/workspace/output")
 fi
 
-DOCKER_ARGS+=("-e WORKRAVE_ENV=github-docker")
+DOCKER_ARGS+=("-e WORKRAVE_ENV=inline")
 DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
 DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
