@@ -19,6 +19,7 @@
 #define PULSEMIXER_HH
 
 #include <map>
+#include <string>
 
 #include <pulse/pulseaudio.h>
 #include <pulse/stream.h>
