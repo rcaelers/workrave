@@ -7,7 +7,7 @@
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_DBUS_FREEDESKTOP
 #cmakedefine HAVE_DBUS_GIO
-#cmakedefine HAVE_DBUS_QT5
+#cmakedefine HAVE_DBUS_QT
 #cmakedefine HAVE_DBUS_TEST_GIO
 #cmakedefine HAVE_DSOUND
 #cmakedefine HAVE_HARPOON

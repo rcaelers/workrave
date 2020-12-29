@@ -225,7 +225,7 @@ Application::init_sound_player()
       sound_theme = std::make_shared<SoundTheme>();
       sound_theme->init();
     }
-  catch (workrave::utils::Exception)
+  catch (workrave::utils::Exception &)
     {
     }
 }

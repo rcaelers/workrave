@@ -38,9 +38,11 @@
 
 #ifdef HAVE_QT
 #include <QtGui>
-//#include <qdesktopwidget.h>
+#if defined(HAVE_QT5)
+#include <qdesktopwidget.h>
+#include <qpa/qplatformnativeinterface.h>
+#endif
 #include <qapplication.h>
-//#include <qpa/qplatformnativeinterface.h>
 
 #if defined(PLATFORM_OS_UNIX)
 #include <X11/Xlib.h>

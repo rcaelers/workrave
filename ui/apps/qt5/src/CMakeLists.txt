@@ -115,7 +115,7 @@ target_link_libraries(Workrave PRIVATE
   ${Boost_LIBRARIES}
   ${LIBINTL_LIBRARIES})
 
-if (HAVE_QT5)
+if (HAVE_QT5 AND PLATFORM_OS_MACOS)
   target_link_libraries(Workrave PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
 endif()
 
