@@ -61,8 +61,7 @@ RUN \
     qtbase5-dev-tools \
     qtbase5-private-dev \
     qttools5-dev \
-    qttools5-dev-tools \
-    xfce4-panel-dev && \
+    qttools5-dev-tools && \
   apt-get clean
 
 CMD ["/bin/bash"]
