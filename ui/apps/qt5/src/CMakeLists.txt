@@ -1,4 +1,4 @@
-set(SRC
+add_executable(Workrave MACOSX_BUNDLE
   AboutDialog.cc
   Application.cc
   BreakWindow.cc
@@ -35,30 +35,21 @@ set(SRC
   )
 
 if (PLATFORM_OS_MACOS)
-  set(SRC ${SRC}
+  target_sources(Workrave PRIVATE
     Dock.mm
     MouseMonitor.cc
-    ToolkitPlatformMac.cc
-    )
+    ToolkitPlatformMac.cc)
 endif()
 
 if (PLATFORM_OS_UNIX)
-  set(SRC ${SRC}
-    ToolkitPlatformLinux.cc
-  )
+  target_sources(Workrave PRIVATE ToolkitPlatformLinux.cc)
 endif()
 
 if (PLATFORM_OS_WINDOWS)
-  set(SRC ${SRC}
-    ToolkitPlatformWindows.cc
-  )
+  target_sources(Workrave PRIVATE ToolkitPlatformWindows.cc)
 endif()
 
-set(DESIGNER_UI
-)
-
-qt5_wrap_ui(HEADERS_UI ${DESIGNER_UI})
-qt5_wrap_cpp(MOC_SRC
+set(MOC_SOURCES
   AboutDialog.hh
   BreakWindow.hh
   DailyLimitWindow.hh
@@ -86,23 +77,20 @@ qt5_wrap_cpp(MOC_SRC
 )
 
 if (PLATFORM_OS_MACOS)
-  qt5_wrap_cpp(MOC_SRC
-    Dock.hh
-    )
+  set(MOC_SOURCES ${MOC_SOURCES} Dock.hh)
 endif()
+
+qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
+
+target_sources(Workrave PRIVATE ${MOC_SRC})
 
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
-  set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
   dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.service.in ${BINDIR})
+  target_sources(Workrave PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc)
 endif (HAVE_DBUS)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Svg_DEFINITIONS})
-
-add_executable(Workrave MACOSX_BUNDLE ${SRC} ${HEADERS_UI} ${MOC_SRC})
 
 target_include_directories(Workrave
   PRIVATE
@@ -110,9 +98,9 @@ target_include_directories(Workrave
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   )
 
-link_directories(${Boost_LIBRARIES_DIR})
+target_link_directories(Workrave PRIVATE ${Boost_LIBRARIES_DIR})
 
-target_link_libraries(Workrave
+target_link_libraries(Workrave PRIVATE
   workrave-ui-common
   workrave-libs-audio
   workrave-libs-config
@@ -122,17 +110,19 @@ target_link_libraries(Workrave
   workrave-libs-session
   workrave-libs-updater
   workrave-libs-utils
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5Svg_LIBRARIES}
-  ${Qt5DBus_LIBRARIES}
-  ${Qt5MacExtras_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Svg
   ${Boost_LIBRARIES}
   ${LIBINTL_LIBRARIES})
+
+if (HAVE_QT5)
+  target_link_libraries(Workrave PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
+endif()
 
 if (HAVE_GLIB)
   target_include_directories(Workrave PRIVATE ${GLIB_INCLUDE_DIRS})
   target_link_directories(Workrave PRIVATE ${GLIB_LIBPATH})
-  target_link_libraries(Workrave ${GLIB_LIBRARIES})
+  target_link_libraries(Workrave PRIVATE ${GLIB_LIBRARIES})
 endif()
 
 if (APPLE)
@@ -146,7 +136,7 @@ if (APPLE)
 endif()
 
 if (PLATFORM_OS_UNIX)
-  target_link_libraries(Workrave ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
+  target_link_libraries(Workrave PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
 
   intltool_merge_desktop(${CMAKE_CURRENT_SOURCE_DIR}/workrave.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)
   add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/workrave.desktop)

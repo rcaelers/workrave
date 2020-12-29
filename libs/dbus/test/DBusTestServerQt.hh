@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DBUSTESTSERVERQT5_HH
-#define DBUSTESTSERVERQT5_HH
+#ifndef DBUSTESTSERVERQT_HH
+#define DBUSTESTSERVERQT_HH
 
 #include <string>
 #include <set>
@@ -32,11 +32,11 @@
 #include "dbus/IDBus.hh"
 
 
-class DBusTestServerQt5 : DBusTestServer
+class DBusTestServerQt : DBusTestServer
 {
 public:
-  DBusTestServerQt5();
-  virtual ~DBusTestServerQt5();
+  DBusTestServerQt();
+  virtual ~DBusTestServerQt();
 
   void run(int argc, char **argv);
 
@@ -49,4 +49,4 @@ private:
   workrave::dbus::IDBus::Ptr dbus;
 };
 
-#endif // DBUSTESTSERVERQT5_HH
+#endif // DBUSTESTSERVERQT_HH

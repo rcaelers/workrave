@@ -31,7 +31,7 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-test ${Boost_LIBRARIES})
 
-  if (HAVE_APP_QT5)
+  if (HAVE_APP_QT)
     target_link_libraries(workrave-test ${Qt5DBus_LIBRARIES})
     target_link_libraries(workrave-test ${Qt5Widgets_LIBRARIES})
   elseif (HAVE_APP_GTK)

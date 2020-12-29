@@ -182,7 +182,7 @@ endif()
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt5" "Gtk+3" "None")
+set (WITH_UI_VALUES "Qt6" "Qt5" "Gtk+3" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -196,10 +196,15 @@ if ("${WITH_UI}" STREQUAL "None"
   message(STATUS "Building ONLY 32 bit support ")
 endif()
 
+set (WITH_UI_QT FALSE)
+if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
+  set (WITH_UI_QT TRUE)
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Pkg-config
 
-if ((NOT ("${WITH_UI}" STREQUAL "Qt5")) AND (NOT VCPKG_TOOLCHAIN))
+if ("${WITH_UI_QT}" AND (NOT VCPKG_TOOLCHAIN))
   find_package(PkgConfig REQUIRED)
 endif()
 
@@ -356,8 +361,9 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   endif()
 
   set (CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
+  set (HAVE_QT ON)
   set (HAVE_QT5 ON)
-  set (HAVE_APP_QT5 ON)
+  set (HAVE_APP_QT ON)
 
   if (Qt5_POSITION_INDEPENDENT_CODE)
     set (CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -375,6 +381,68 @@ if ("${WITH_UI}" STREQUAL "Qt5")
     message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
   endif()
 endif()
+
+
+if ("${WITH_UI}" STREQUAL "Qt6")
+  message(STATUS "Checking for: Qt6")
+
+  find_package(Qt6Widgets REQUIRED)
+  find_package(Qt6Core REQUIRED)
+  find_package(Qt6Gui REQUIRED)
+  find_package(Qt6Svg REQUIRED)
+  find_package(Qt6LinguistTools REQUIRED)
+
+  get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease LOCATION)
+
+  if (TARGET Qt6::lconvert)
+    get_target_property(QT_LCONVERT_EXECUTABLE Qt6::lconvert LOCATION)
+  else()
+    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
+    find_program(QT_LCONVERT_EXECUTABLE
+                 NAMES lconvert-qt6 lconvert
+                 PATHS ${QT_LRELEASE_PATH}
+                 NO_DEFAULT_PATH)
+  endif()
+
+  if (WITH_DBUS)
+    find_package(Qt6DBus QUIET)
+    if (Qt6DBus_FOUND)
+      set (HAVE_DBUS ON)
+      set (HAVE_DBUS_QT5 ON)
+      set (DBUS_BACKEND "qt5")
+    endif()
+  endif()
+
+  get_target_property(QtCore_location_Release Qt6::Core LOCATION_Release)
+  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
+  message(STATUS "XXXXXXXXXX ${Qt_BIN_DIR} ${QT_LIBRARY_DIR} ${QT_BINARY_DIR}")
+
+  if (APPLE)
+    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/../../../" REALPATH)
+  endif()
+
+  set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
+  set (HAVE_QT ON)
+  set (HAVE_QT6 ON)
+  set (HAVE_APP_QT ON)
+
+  if (Qt6_POSITION_INDEPENDENT_CODE)
+    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+  endif()
+
+  if ((NOT APPLE) AND (NOT WIN32))
+    # glib is required for ui/common/src/System.cc
+    pkg_check_modules(
+      GLIB REQUIRED
+      glib-2.0>=2.28.0
+      gio-2.0>=2.26.0)
+    set (HAVE_GLIB ON)
+  endif()
+  if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
+    message(FATAL_ERROR "32 bit compilation of Qt6 UI not supported on Windows")
+  endif()
+endif()
+
 
 #----------------------------------------------------------------------------------------------------
 # GStreamer
@@ -962,13 +1030,13 @@ endif()
 include(CPack)
 
 if (APPLE)
-  if ("${WITH_UI}" STREQUAL "Qt5")
+  if ("${WITH_UI_QT}")
     add_subdirectory(ui/apps/qt5/dist/macos)
   endif()
 elseif (WIN32)
   if (BUILD_ONLY_32_BIT_FOR_WIN64)
     add_subdirectory(build/win32)
-  elseif ("${WITH_UI}" STREQUAL "Qt5")
+  elseif ("${WITH_UI_QT}")
     add_subdirectory(ui/apps/qt5/dist/win32)
   elseif ("${WITH_UI}" STREQUAL "Gtk+3")
     add_subdirectory(ui/apps/gtkmm/dist/win32)

@@ -19,12 +19,12 @@ if (HAVE_DBUS_FREEDESKTOP)
   target_link_libraries(workrave-libs-dbus ${DBUS_LIBRARIES})
 endif()
 
-if (HAVE_DBUS_QT5)
+if (HAVE_DBUS_QT)
   target_sources(workrave-libs-dbus PRIVATE 
-    DBusQt5.cc
+    DBusQt.cc
     DBusGeneric.cc
-    DBusBindingQt5.cc)
-  target_include_directories(workrave-libs-dbus PUBLIC ${Qt5DBus_INCLUDE_DIRS})
+    DBusBindingQt.cc)
+    target_link_libraries(workrave-libs-dbus PUBLIC Qt${QT_VERSION_MAJOR}::DBus)
 endif()
 
 target_link_libraries(workrave-libs-dbus workrave-libs-utils)
@@ -39,9 +39,9 @@ add_library(workrave-libs-dbus-stub STATIC
   DBusException.cc
   DBusDummy.cc)
 
-if (HAVE_DBUS_QT5)
-  target_sources(workrave-libs-dbus-stub PRIVATE DBusBindingQt5.cc)
-  target_include_directories(workrave-libs-dbus-stub PRIVATE ${Qt5DBus_INCLUDE_DIRS})
+if (HAVE_DBUS_QT)
+  target_sources(workrave-libs-dbus-stub PRIVATE DBusBindingQt.cc)
+  target_link_libraries(workrave-libs-dbus-stub PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
 endif()
 if (HAVE_DBUS_GIO)
   target_sources(workrave-libs-dbus-stub PRIVATE DBusBindingGio.cc)

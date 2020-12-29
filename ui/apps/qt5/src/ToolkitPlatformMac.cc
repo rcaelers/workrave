@@ -21,14 +21,16 @@
 
 #include "ToolkitPlatformMac.hh"
 
-#include <QtMacExtras>
 #import <Cocoa/Cocoa.h>
 
 #include <ApplicationServices/ApplicationServices.h>
 #import <AppKit/NSRunningApplication.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
+
+#if defined(HAVE_QT5)
 #include <QtMacExtras>
+#endif
 
 class ToolkitPlatformMac::Pimpl
 {
@@ -86,6 +88,10 @@ ToolkitPlatformMac::unlock()
   pimpl->unlock();
 }
 
+#ifdef HAVE_QT6
+extern QImage qt_mac_toQImage(CGImageRef image);
+#endif
+
 QPixmap
 ToolkitPlatformMac::Pimpl::get_desktop_image()
 {
@@ -110,7 +116,12 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
               CFNumberGetValue(index, kCFNumberIntType, &winId);
 
               CGImageRef cgImage = CGWindowListCreateImage(CGRectInfinite, kCGWindowListOptionIncludingWindow, winId, kCGWindowImageNominalResolution);
+#if defined(HAVE_QT5)
               pixmap = QtMac::fromCGImageRef(cgImage);
+#elif defined(HAVE_QT6)
+              // FIXME: don't use internal API
+              pixmap = QPixmap::fromImage(qt_mac_toQImage(cgImage));
+#endif
               break;
             }
         }

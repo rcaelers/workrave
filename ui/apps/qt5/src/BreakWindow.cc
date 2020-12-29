@@ -23,7 +23,7 @@
 
 #include <QtGui>
 #include <QStyle>
-#include <QDesktopWidget>
+//#include <QDesktopWidget>
 #include <QApplication>
 
 #include "debug.hh"

@@ -23,8 +23,9 @@
 
 #include <QMoveEvent>
 #include <QApplication>
-#include <QDesktopWidget>
+// #include <QDesktopWidget>
 #include <QScreen>
+#include <QWindow>
 
 #include "debug.hh"
 #include "commonui/GUIConfig.hh"
@@ -131,7 +132,10 @@ MainWindow::moveEvent(QMoveEvent * event)
     {
       GUIConfig::main_window_x().set(frameGeometry().x());
       GUIConfig::main_window_y().set(frameGeometry().y());
-      GUIConfig::main_window_head().set(QApplication::desktop()->screenNumber(this));
+
+      QScreen *screen = window()->windowHandle()->screen();
+      int screen_index = QGuiApplication::screens().indexOf(screen);
+      GUIConfig::main_window_head().set(screen_index);
     }
   QWidget::moveEvent(event);
 }

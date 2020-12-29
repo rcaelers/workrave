@@ -39,14 +39,14 @@ libs/core/test/SimulatedTime.cc
 libs/core/test/TimerTests.cc
 libs/dbus/src/DBusBindingFreeDesktop.cc
 libs/dbus/src/DBusBindingGio.cc
-libs/dbus/src/DBusBindingQt5.cc
+libs/dbus/src/DBusBindingQt.cc
 libs/dbus/src/DBusDummy.cc
 libs/dbus/src/DBusException.cc
 libs/dbus/src/DBusFactory.cc
 libs/dbus/src/DBusFreeDesktop.cc
 libs/dbus/src/DBusGeneric.cc
 libs/dbus/src/DBusGio.cc
-libs/dbus/src/DBusQt5.cc
+libs/dbus/src/DBusQt.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/input-monitor/src/InputMonitor.cc
 libs/input-monitor/src/InputMonitorFactory.cc

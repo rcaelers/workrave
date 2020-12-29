@@ -3,7 +3,7 @@
 #cmakedefine ENABLE_NLS
 #cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
 #cmakedefine HAVE_APP_GTK
-#cmakedefine HAVE_APP_QT5
+#cmakedefine HAVE_APP_QT
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_DBUS_FREEDESKTOP
 #cmakedefine HAVE_DBUS_GIO
@@ -24,7 +24,9 @@
 #cmakedefine HAVE_NANOSLEEP
 #cmakedefine HAVE_PANELAPPLET4
 #cmakedefine HAVE_PULSE
+#cmakedefine HAVE_QT
 #cmakedefine HAVE_QT5
+#cmakedefine HAVE_QT6
 #cmakedefine HAVE_REALPATH
 #cmakedefine HAVE_SCREENSAVER
 #cmakedefine HAVE_SETLOCALE

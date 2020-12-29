@@ -23,24 +23,24 @@
 
 #include "debug.hh"
 
-#include "DBusQt5.hh"
-#include "dbus/DBusBindingQt5.hh"
+#include "DBusQt.hh"
+#include "dbus/DBusBindingQt.hh"
 #include "dbus/DBusException.hh"
 
 using namespace workrave;
 using namespace workrave::dbus;
 
 
-DBusBindingQt5::DBusBindingQt5(IDBus::Ptr dbus)
+DBusBindingQt::DBusBindingQt(IDBus::Ptr dbus)
   :dbus(dbus)
 {
 }
 
-DBusBindingQt5::~DBusBindingQt5()
+DBusBindingQt::~DBusBindingQt()
 = default;
 
 void
-DBusMarshallQt5::get_uint8(const QVariant &variant, uint8_t &value)
+DBusMarshallQt::get_uint8(const QVariant &variant, uint8_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UChar)
     {
@@ -55,7 +55,7 @@ DBusMarshallQt5::get_uint8(const QVariant &variant, uint8_t &value)
 
 
 void
-DBusMarshallQt5::get_int(const QVariant &variant, int &value)
+DBusMarshallQt::get_int(const QVariant &variant, int &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
@@ -69,7 +69,7 @@ DBusMarshallQt5::get_int(const QVariant &variant, int &value)
 }
 
 void
-DBusMarshallQt5::get_uint16(const QVariant &variant, uint16_t &value)
+DBusMarshallQt::get_uint16(const QVariant &variant, uint16_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UShort)
     {
@@ -83,7 +83,7 @@ DBusMarshallQt5::get_uint16(const QVariant &variant, uint16_t &value)
 }
 
 void
-DBusMarshallQt5::get_int16(const QVariant &variant, int16_t &value)
+DBusMarshallQt::get_int16(const QVariant &variant, int16_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Short)
     {
@@ -97,7 +97,7 @@ DBusMarshallQt5::get_int16(const QVariant &variant, int16_t &value)
 }
 
 void
-DBusMarshallQt5::get_uint32(const QVariant &variant, uint32_t &value)
+DBusMarshallQt::get_uint32(const QVariant &variant, uint32_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UInt)
     {
@@ -111,7 +111,7 @@ DBusMarshallQt5::get_uint32(const QVariant &variant, uint32_t &value)
 }
 
 void
-DBusMarshallQt5::get_int32(const QVariant &variant, int32_t &value)
+DBusMarshallQt::get_int32(const QVariant &variant, int32_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
@@ -125,7 +125,7 @@ DBusMarshallQt5::get_int32(const QVariant &variant, int32_t &value)
 }
 
 void
-DBusMarshallQt5::get_uint64(const QVariant &variant, uint64_t &value)
+DBusMarshallQt::get_uint64(const QVariant &variant, uint64_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::ULongLong)
     {
@@ -139,7 +139,7 @@ DBusMarshallQt5::get_uint64(const QVariant &variant, uint64_t &value)
 }
 
 void
-DBusMarshallQt5::get_int64(const QVariant &variant, int64_t &value)
+DBusMarshallQt::get_int64(const QVariant &variant, int64_t &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::LongLong)
     {
@@ -153,7 +153,7 @@ DBusMarshallQt5::get_int64(const QVariant &variant, int64_t &value)
 }
 
 void
-DBusMarshallQt5::get_bool(const QVariant &variant, bool &value)
+DBusMarshallQt::get_bool(const QVariant &variant, bool &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Bool)
     {
@@ -167,7 +167,7 @@ DBusMarshallQt5::get_bool(const QVariant &variant, bool &value)
 }
 
 void
-DBusMarshallQt5::get_double(const QVariant &variant, double &value)
+DBusMarshallQt::get_double(const QVariant &variant, double &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Double)
     {
@@ -181,7 +181,7 @@ DBusMarshallQt5::get_double(const QVariant &variant, double &value)
 }
 
 void
-DBusMarshallQt5::get_string(const QVariant &variant, std::string &value)
+DBusMarshallQt::get_string(const QVariant &variant, std::string &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
@@ -195,7 +195,7 @@ DBusMarshallQt5::get_string(const QVariant &variant, std::string &value)
 }
 
 void
-DBusMarshallQt5::get_string(const QVariant &variant, QString &value)
+DBusMarshallQt::get_string(const QVariant &variant, QString &value)
 {
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
@@ -209,76 +209,76 @@ DBusMarshallQt5::get_string(const QVariant &variant, QString &value)
 }
 
 QVariant
-DBusMarshallQt5::put_int(const int &value)
+DBusMarshallQt::put_int(const int &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_uint8(const uint8_t &value)
+DBusMarshallQt::put_uint8(const uint8_t &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_uint16(const uint16_t &value)
+DBusMarshallQt::put_uint16(const uint16_t &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_int16(const int16_t &value)
+DBusMarshallQt::put_int16(const int16_t &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_uint32(const uint32_t &value)
-{
-  return QVariant(value);
-}
-
-
-QVariant
-DBusMarshallQt5::put_int32(const int32_t &value)
+DBusMarshallQt::put_uint32(const uint32_t &value)
 {
   return QVariant(value);
 }
 
 
 QVariant
-DBusMarshallQt5::put_uint64(const uint64_t &value)
+DBusMarshallQt::put_int32(const int32_t &value)
+{
+  return QVariant(value);
+}
+
+
+QVariant
+DBusMarshallQt::put_uint64(const uint64_t &value)
 {
   return QVariant(static_cast<qulonglong>(value));
 }
 
 QVariant
-DBusMarshallQt5::put_int64(const int64_t &value)
+DBusMarshallQt::put_int64(const int64_t &value)
 {
   return QVariant(static_cast<qlonglong>(value));
 }
 
 
 QVariant
-DBusMarshallQt5::put_double(const double &value)
+DBusMarshallQt::put_double(const double &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_bool(const bool &value)
+DBusMarshallQt::put_bool(const bool &value)
 {
   return QVariant(value);
 }
 
 QVariant
-DBusMarshallQt5::put_string(const std::string &value)
+DBusMarshallQt::put_string(const std::string &value)
 {
   return QVariant(QString::fromStdString(value));
 }
 
 QVariant
-DBusMarshallQt5::put_string(const QString &value)
+DBusMarshallQt::put_string(const QString &value)
 {
   return QVariant(value);
 }

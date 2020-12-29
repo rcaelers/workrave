@@ -28,8 +28,8 @@ if (HAVE_GTK)
   target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 
-if (HAVE_QT5)
-  target_include_directories(workrave-libs-utils PRIVATE ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+if (HAVE_QT)
+  target_link_libraries(workrave-libs-utils PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
 endif()
 
 target_include_directories(

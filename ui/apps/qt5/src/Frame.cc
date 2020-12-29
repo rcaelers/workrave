@@ -127,7 +127,7 @@ Frame::paintEvent(QPaintEvent *pe)
   QRect fr = get_frame_rect();
 
   QStyleOptionFrame opt;
-  opt.init(this);
+  opt.initFrom(this);
 
   opt.rect          = fr;
   opt.lineWidth     = 1;

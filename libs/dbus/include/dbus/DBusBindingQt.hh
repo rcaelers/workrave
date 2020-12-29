@@ -1,4 +1,4 @@
-// DBusBinding-qt5.hh --- DBUS interface
+// DBusBinding-qt.hh --- DBUS interface
 //
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUSBINDINGQT5_HH
-#define WORKRAVE_DBUS_DBUSBINDINGQT5_HH
+#ifndef WORKRAVE_DBUS_DBUSBINDINGQT_HH
+#define WORKRAVE_DBUS_DBUSBINDINGQT_HH
 
 #include <string>
 
@@ -33,21 +33,21 @@ namespace workrave
   {
     class DBus;
 
-    class IDBusPrivateQt5
+    class IDBusPrivateQt
     {
     public:
-      typedef std::shared_ptr<IDBusPrivateQt5> Ptr;
+      typedef std::shared_ptr<IDBusPrivateQt> Ptr;
 
-      virtual ~IDBusPrivateQt5() {}
+      virtual ~IDBusPrivateQt() {}
 
       virtual QDBusConnection get_connection() = 0;
     };
 
-    class DBusBindingQt5 : public DBusBinding
+    class DBusBindingQt : public DBusBinding
     {
     public:
-      explicit DBusBindingQt5(IDBus::Ptr dbus);
-      ~DBusBindingQt5() override;
+      explicit DBusBindingQt(IDBus::Ptr dbus);
+      ~DBusBindingQt() override;
 
       virtual const char *get_interface_introspect() = 0;
       virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
@@ -56,7 +56,7 @@ namespace workrave
       IDBus::Ptr dbus;
     };
 
-    class DBusMarshallQt5
+    class DBusMarshallQt
     {
     public:
       void get_int(const QVariant &variant, int &value);
@@ -88,4 +88,4 @@ namespace workrave
   }
 }
 
-#endif // WORKRAVE_DBUS_DBUSBINDINGQT5_HH
+#endif // WORKRAVE_DBUS_DBUSBINDINGQT_HH

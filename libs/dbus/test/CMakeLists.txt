@@ -1,17 +1,17 @@
-if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
+if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
 
-  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt5)
-  dbus_generate_xml(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt5)
+  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt)
+  dbus_generate_xml(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestQt qt)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestGio gio)
 
-  set(SERVER_QT5_SRC ${SERVER_QT5_SRC}
+  set(SERVER_QT_SRC ${SERVER_QT_SRC}
     DBusTestData.cc
     DBusTestServer.cc
-    DBusTestServerQt5.cc
+    DBusTestServerQt.cc
     DBusTestQt.cc
     )
 
-  qt5_wrap_cpp(MOC_SRC
+  qt_wrap_cpp(MOC_SRC
     Test.hh
   )
 
@@ -21,9 +21,9 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
     )
 
   add_executable(workrave-libs-dbus-test ${TEST_SRC})
-  add_executable(workrave-libs-dbus-test-server-qt5 ${SERVER_QT5_SRC})
-  set_target_properties(workrave-libs-dbus-test-server-qt5 PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
-  set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT5=1")
+  add_executable(workrave-libs-dbus-test-server-qt ${SERVER_QT_SRC})
+  set_target_properties(workrave-libs-dbus-test-server-qt PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT=1")
+  set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT=1")
 
   include_directories(
     ${CMAKE_SOURCE_DIR}/libs/dbus/src
@@ -32,18 +32,18 @@ if (HAVE_DBUS AND HAVE_QT5 AND HAVE_TESTS)
     )
 
   if (HAVE_DBUS_FREEDESKTOP)
-    target_link_libraries(workrave-libs-dbus-test-server-qt5 ${DBUS_LIBRARIES})
+    target_link_libraries(workrave-libs-dbus-test-server-qt ${DBUS_LIBRARIES})
   endif()
 
   target_link_libraries(workrave-libs-dbus-test workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
-  target_link_libraries(workrave-libs-dbus-test ${Qt5DBus_LIBRARIES})
+  target_link_libraries(workrave-libs-dbus-test Qt${QT_VERSION_MAJOR}::DBus)
   target_link_libraries(workrave-libs-dbus-test ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-  target_link_libraries(workrave-libs-dbus-test-server-qt5 workrave-libs-dbus)
-  target_link_libraries(workrave-libs-dbus-test-server-qt5 workrave-libs-utils)
-  target_link_libraries(workrave-libs-dbus-test-server-qt5 ${Qt5DBus_LIBRARIES})
-  target_link_libraries(workrave-libs-dbus-test-server-qt5 ${Boost_LIBRARIES})
+  target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-dbus)
+  target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-utils)
+  target_link_libraries(workrave-libs-dbus-test-server-qt Qt${QT_VERSION_MAJOR}::DBus)
+  target_link_libraries(workrave-libs-dbus-test-server-qt ${Boost_LIBRARIES})
 
   if (HAVE_DBUS_TEST_GIO)
 

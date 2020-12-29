@@ -28,8 +28,8 @@
 #include <list>
 #include <map>
 
-#include "DBusQt5.hh"
-#include "dbus/DBusBindingQt5.hh"
+#include "DBusQt.hh"
+#include "dbus/DBusBindingQt.hh"
 #include "dbus/DBusException.hh"
 #include "dbus/IDBusWatch.hh"
 
@@ -38,7 +38,7 @@ using namespace workrave;
 using namespace workrave::dbus;
 
 //! Construct a new D-BUS bridge
-DBusQt5::DBusQt5()
+DBusQt::DBusQt()
   : connection(QDBusConnection::sessionBus()), watcher(this)
 {
   watcher.setConnection(connection);
@@ -46,23 +46,23 @@ DBusQt5::DBusQt5()
 
 
 //! Destruct the D-BUS bridge
-DBusQt5::~DBusQt5()
+DBusQt::~DBusQt()
 = default;
 
 
 //! Initialize D-BUS bridge
 void
-DBusQt5::init()
+DBusQt::init()
 {
-  QObject::connect(&watcher, &QDBusServiceWatcher::serviceOwnerChanged, this, &DBusQt5::on_service_owner_changed);
-  QObject::connect(&watcher, &QDBusServiceWatcher::serviceRegistered, this, &DBusQt5::on_service_registered);
-  QObject::connect(&watcher, &QDBusServiceWatcher::serviceUnregistered, this, &DBusQt5::on_service_unregistered);
+  QObject::connect(&watcher, &QDBusServiceWatcher::serviceOwnerChanged, this, &DBusQt::on_service_owner_changed);
+  QObject::connect(&watcher, &QDBusServiceWatcher::serviceRegistered, this, &DBusQt::on_service_registered);
+  QObject::connect(&watcher, &QDBusServiceWatcher::serviceUnregistered, this, &DBusQt::on_service_unregistered);
 }
 
 
 //! Registers the specified service
 void
-DBusQt5::register_service(const std::string &service, IDBusWatch *cb)
+DBusQt::register_service(const std::string &service, IDBusWatch *cb)
 {
   // TODO: use cb
   connection.registerService(QString::fromStdString(service));
@@ -71,7 +71,7 @@ DBusQt5::register_service(const std::string &service, IDBusWatch *cb)
 
 //! Registers the specified object path
 void
-DBusQt5::register_object_path(const string &object_path)
+DBusQt::register_object_path(const string &object_path)
 {
   bool success = connection.registerVirtualObject(QString::fromStdString(object_path), this);
   if (!success)
@@ -82,14 +82,14 @@ DBusQt5::register_object_path(const string &object_path)
 
 
 bool
-DBusQt5::is_available() const
+DBusQt::is_available() const
 {
 
   return connection.isConnected();
 }
 
 bool
-DBusQt5::is_running(const std::string &name) const
+DBusQt::is_running(const std::string &name) const
 {
   QDBusConnectionInterface *i = connection.interface();
   QDBusReply<QString> reply = i->serviceOwner(QString::fromStdString(name));
@@ -97,7 +97,7 @@ DBusQt5::is_running(const std::string &name) const
 }
 
 void
-DBusQt5::watch(const std::string &name, IDBusWatch *cb)
+DBusQt::watch(const std::string &name, IDBusWatch *cb)
 {
   watcher.addWatchedService(QString::fromStdString(name));
 
@@ -106,14 +106,14 @@ DBusQt5::watch(const std::string &name, IDBusWatch *cb)
 }
 
 void
-DBusQt5::unwatch(const std::string &name)
+DBusQt::unwatch(const std::string &name)
 {
   watched.erase(name);
   watcher.removeWatchedService(QString::fromStdString(name));
 }
 
 QString
-DBusQt5::introspect(const QString &path) const
+DBusQt::introspect(const QString &path) const
 {
   string str;
 
@@ -123,7 +123,7 @@ DBusQt5::introspect(const QString &path) const
       for (auto &interface : object_it->second)
         {
           string interface_name = interface.first;
-          DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
+          DBusBindingQt *binding = dynamic_cast<DBusBindingQt*>(find_binding(interface_name));
           if (binding != nullptr)
             {
               str += binding->get_interface_introspect();
@@ -135,7 +135,7 @@ DBusQt5::introspect(const QString &path) const
 }
 
 bool
-DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
+DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
 {
   bool success = false;
   string path = message.path().toStdString();
@@ -146,7 +146,7 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
       void *cobject = find_object(path, interface_name);
       if (cobject != nullptr)
         {
-          DBusBindingQt5 *binding = dynamic_cast<DBusBindingQt5*>(find_binding(interface_name));
+          DBusBindingQt *binding = dynamic_cast<DBusBindingQt*>(find_binding(interface_name));
           if (binding != nullptr)
             {
               success = binding->call(cobject, message, connection);
@@ -165,14 +165,14 @@ DBusQt5::handleMessage(const QDBusMessage &message, const QDBusConnection &conne
   return success;
 }
 
-void DBusQt5::on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner)
+void DBusQt::on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner)
 {
   (void) name;
   (void) oldowner;
   (void) newowner;
 }
 
-void DBusQt5::on_service_registered(const QString &name)
+void DBusQt::on_service_registered(const QString &name)
 {
   string service_name = name.toStdString();
   if (watched.find(service_name) != watched.end())
@@ -183,7 +183,7 @@ void DBusQt5::on_service_registered(const QString &name)
     }
 }
 
-void DBusQt5::on_service_unregistered(const QString &name)
+void DBusQt::on_service_unregistered(const QString &name)
 {
   string service_name = name.toStdString();
   if (watched.find(service_name) != watched.end())

@@ -36,11 +36,11 @@
 #endif
 #endif
 
-#ifdef HAVE_QT5
+#ifdef HAVE_QT
 #include <QtGui>
-#include <qdesktopwidget.h>
+//#include <qdesktopwidget.h>
 #include <qapplication.h>
-#include <qpa/qplatformnativeinterface.h>
+//#include <qpa/qplatformnativeinterface.h>
 
 #if defined(PLATFORM_OS_UNIX)
 #include <X11/Xlib.h>
@@ -61,7 +61,7 @@ Platform::get_default_display()
     {
       xdisplay = gdk_x11_display_get_xdisplay(display);
     }
-#elif defined(HAVE_QT5)
+#elif defined(HAVE_QT)
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (native != NULL)
     {
@@ -89,7 +89,7 @@ Platform::get_default_display_name()
           ret = name;
         }
     }
-#elif defined(HAVE_QT5)
+#elif defined(HAVE_QT)
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (native != NULL)
     {
@@ -111,7 +111,7 @@ Platform::get_default_root_window()
 {
 #if defined(HAVE_GTK)
   return gdk_x11_get_default_root_xwindow();
-#elif defined(HAVE_QT5)
+#elif defined(HAVE_QT)
   QDesktopWidget *desktop = QApplication::desktop();
   QWindow *window = desktop->windowHandle();
   return window->winId();

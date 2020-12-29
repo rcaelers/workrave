@@ -27,8 +27,8 @@
 
 #if defined(HAVE_DBUS_DUMMY)
 #include "DBusDummy.hh"
-#elif defined(HAVE_DBUS_QT5)
-#include "DBusQt5.hh"
+#elif defined(HAVE_DBUS_QT)
+#include "DBusQt.hh"
 #elif defined(HAVE_DBUS_GIO)
 #include "DBusGio.hh"
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
@@ -42,8 +42,8 @@ workrave::dbus::DBusFactory::create()
 {
 #if defined(HAVE_DBUS_DUMMY)
   return std::make_shared<workrave::dbus::DBusDummy>();
-#elif defined(HAVE_DBUS_QT5)
-  return std::make_shared<workrave::dbus::DBusQt5>();
+#elif defined(HAVE_DBUS_QT)
+  return std::make_shared<workrave::dbus::DBusQt>();
 #elif defined(HAVE_DBUS_GIO)
   return std::make_shared<workrave::dbus::DBusGio>();
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)

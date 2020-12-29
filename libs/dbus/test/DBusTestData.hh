@@ -23,7 +23,7 @@
 #include <string>
 #include <set>
 
-#ifdef DBUS_BACKEND_QT5
+#ifdef DBUS_BACKEND_QT
 #include <QDBusArgument>
 #include <QMetaType>
 #endif
@@ -150,7 +150,7 @@ public:
   virtual ~DBusTestData();
 };
 
-#ifdef DBUS_BACKEND_QT5
+#ifdef DBUS_BACKEND_QT
 Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
 Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
 Q_DECLARE_METATYPE(DBusTestData::Data)

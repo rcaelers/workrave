@@ -1,4 +1,4 @@
-// DBusQt5.hh --- DBUS interface
+// DBusQt.hh --- DBUS interface
 //
 // Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_DBUS_DBUSQT5_HH
-#define WORKRAVE_DBUS_DBUSQT5_HH
+#ifndef WORKRAVE_DBUS_DBUSQT_HH
+#define WORKRAVE_DBUS_DBUSQT_HH
 
 #include <string>
 #include <map>
@@ -29,21 +29,21 @@
 #include <QtDBus/QtDBus>
 
 #include "dbus/IDBus.hh"
-#include "dbus/DBusBindingQt5.hh"
+#include "dbus/DBusBindingQt.hh"
 #include "DBusGeneric.hh"
 
 namespace workrave
 {
   namespace dbus
   {
-    class DBusQt5 : public DBusGeneric, public IDBusPrivateQt5, public QDBusVirtualObject
+    class DBusQt : public DBusGeneric, public IDBusPrivateQt, public QDBusVirtualObject
     {
     public:
-      typedef std::shared_ptr<DBusQt5> Ptr;
+      typedef std::shared_ptr<DBusQt> Ptr;
 
     public:
-      DBusQt5();
-      ~DBusQt5() override;
+      DBusQt();
+      ~DBusQt() override;
 
       // IDBus
       void init() override;
@@ -54,7 +54,7 @@ namespace workrave
       void watch(const std::string &name, IDBusWatch *cb) override;
       void unwatch(const std::string &name) override;
 
-      //! IDBusPrivateQt5
+      //! IDBusPrivateQt
       QDBusConnection get_connection() override { return connection; }
 
       // QDBusVirtualObject
@@ -87,4 +87,4 @@ namespace workrave
     };
   }
 }
-#endif // WORKRAVE_DBUS_DBUSQT5_HH
+#endif // WORKRAVE_DBUS_DBUSQT_HH
