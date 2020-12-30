@@ -151,6 +151,11 @@ jobs:
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
+          - image: ubuntu-hirsute
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
           - image: debian-testing
             compiler: gcc
             gtk_version: 3
