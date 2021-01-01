@@ -22,82 +22,47 @@
 
 #include "preinclude.h"
 
+#include <map>
+#include <memory>
+
 #include "IAppletWindow.hh"
 #include "IConfiguratorListener.hh"
 
 using namespace workrave;
 
-class AppletControl :
-  public IConfiguratorListener
+class AppletControl
 {
 public:
-  enum AppletType
+  enum class AppletType
     {
-      APPLET_NONE = -1,
-      APPLET_FIRST = 0,
-      APPLET_TRAY = APPLET_FIRST,
-      APPLET_GENERIC_DBUS,
-      APPLET_W32,
-      APPLET_OSX,
-      APPLET_SIZE
+     Tray,
+     GenericDBus,
+     Windows,
+     MacOS,
     };
 
-  AppletControl();
-  virtual ~AppletControl();
+  AppletControl() = default;
+  ~AppletControl() = default;
 
   void init();
   void heartbeat();
   void set_tooltip(std::string& tip);
-  bool is_active();
-  bool is_visible();
-  IAppletWindow *get_applet_window(AppletType type);
+  std::shared_ptr<IAppletWindow> get_applet_window(AppletType type);
 
+  bool is_visible() const;
   sigc::signal<void> &signal_visibility_changed();
 
 private:
-  //! All known applets
-  IAppletWindow *applets[APPLET_SIZE];
+  std::map<AppletType, std::shared_ptr<IAppletWindow>> applets;
 
-  //! Did applet acknowledge visibility?
-  IAppletWindow::AppletState applet_state[APPLET_SIZE];
+  bool enabled { false };
+  bool visible { false };
 
-  //!
-  bool visible;
-  
-  //!
-  bool enabled;
-
-  //!
-  int delayed_show;
-
-  //!
   sigc::signal<void> visibility_changed_signal;
   
 private:
-  typedef IAppletWindow::AppletState AppletState;
-
-  AppletState activate_applet(AppletType type);
-  void deactivate_applet(AppletType type);
-
-  void on_applet_state_changed(AppletType type, IAppletWindow::AppletState state);
-  void on_applet_request_activate(AppletType type);
-  
-  void config_changed_notify(const std::string &key);
-  void read_configuration();
+  void on_applet_visibility_changed(AppletType type, bool visible);
   void check_visible();
-  void show();
-  void show(AppletType type);
-  void hide();
-  bool is_visible(AppletType type);
-  bool is_active(AppletType type);
 };
-
-
-//! Return the specified applet.
-inline IAppletWindow *
-AppletControl::get_applet_window(AppletType type)
-{
-  return applets[type];
-}
 
 #endif // APPLETCONTROL_HH

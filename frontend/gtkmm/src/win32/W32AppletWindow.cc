@@ -49,7 +49,7 @@ W32AppletWindow::W32AppletWindow()
   thread_handle = NULL;
   timer_box_view = this;
   applet_window = NULL;
-  heartbeat_data.enabled = false;
+  heartbeat_data.enabled = true;
   local_applet_window = NULL;
   init_menu(NULL);
 
@@ -57,8 +57,8 @@ W32AppletWindow::W32AppletWindow()
   thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-  // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
   timer_box_control = new TimerBoxControl("applet", *this);
+  init_thread();
 
   TRACE_EXIT();
 }
@@ -159,18 +159,21 @@ W32AppletWindow::update_view()
   BOOL entered = ::TryEnterCriticalSection(&heartbeat_data_lock);
   if (entered)
   {
-    memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
-
     update_applet_window();
 
-    if (!menu_sent)
+    if (applet_window != NULL)
       {
-        memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
-        local_applet_window = applet_window;
-        menu_sent = true;
+        memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
+        if (!menu_sent)
+          {
+            memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
+            local_applet_window = applet_window;
+            menu_sent = true;
+          }
+
+        SetEvent(heartbeat_data_event);
       }
 
-    SetEvent(heartbeat_data_event);
     ::LeaveCriticalSection(&heartbeat_data_lock);
   }
 
@@ -204,7 +207,6 @@ W32AppletWindow::update_time_bars()
       msg.dwData = APPLET_MESSAGE_HEARTBEAT;
       msg.cbData = sizeof(AppletHeartbeatData);
       msg.lpData = &local_heartbeat_data;
-      TRACE_MSG("sending: enabled=" << local_heartbeat_data.enabled);
       for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           TRACE_MSG("sending: slots[]=" << local_heartbeat_data.slots[i]);
@@ -228,11 +230,11 @@ W32AppletWindow::update_applet_window()
 
   if (previous_applet_window == NULL && applet_window != NULL)
     {
-      state_changed_signal.emit(AppletWindow::APPLET_STATE_ACTIVE);
+      visibility_changed_signal.emit(true);
     }
   else if (previous_applet_window != NULL && applet_window == NULL)
     {
-      state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+      visibility_changed_signal.emit(false);
     }
   
   TRACE_EXIT();
@@ -240,17 +242,12 @@ W32AppletWindow::update_applet_window()
 
 
 void
-W32AppletWindow::set_enabled( bool enabled )
+W32AppletWindow::init_thread()
 {
-	TRACE_ENTER_MSG( "W32AppletWindow::set_enabled", enabled );
+	TRACE_ENTER( "W32AppletWindow::init_thread" );
 	DWORD thread_exit_code = 0;
 
-	heartbeat_data.enabled = enabled;
-
-	if( !enabled )
-		return;
-
-	if( thread_id 
+	if( thread_id
 		&& thread_handle 
 		&& GetExitCodeThread( thread_handle, &thread_exit_code ) 
 		&& ( thread_exit_code == STILL_ACTIVE ) 
@@ -349,27 +346,12 @@ W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 }
 
 
-AppletWindow::AppletState
-W32AppletWindow::activate_applet()
-{
-  update_applet_window();
-  return applet_window != NULL ? APPLET_STATE_ACTIVE : APPLET_STATE_DISABLED;
-}
-
-
-void
-W32AppletWindow::deactivate_applet()
-{
-}
-
-
 void
 W32AppletWindow::set_geometry(Orientation orientation, int size)
 {
   (void) orientation;
   (void) size;
 }
-
 
 bool
 W32AppletWindow::on_applet_command(int command)
@@ -411,4 +393,10 @@ W32AppletWindow::win32_filter_func (void     *xevent,
       break;
     }
   return ret;
+}
+
+bool
+W32AppletWindow::is_visible() const
+{
+  return applet_window != NULL && heartbeat_data.enabled;
 }

@@ -27,25 +27,15 @@
 
 class IAppletWindow
 {
-public:
-  enum AppletState
-    {
-      APPLET_STATE_DISABLED,
-      APPLET_STATE_PENDING,
-      APPLET_STATE_VISIBLE,
-      APPLET_STATE_ACTIVE,
-    };
+  public:
+    virtual ~IAppletWindow() {}
 
-  virtual ~IAppletWindow() {}
+    virtual sigc::signal<void, bool> &signal_visibility_changed() = 0;
 
-  virtual sigc::signal<void, AppletState> &signal_state_changed() = 0;
-  virtual sigc::signal<void> &signal_request_activate() = 0;
-
-  virtual AppletState activate_applet() = 0;
-  virtual void deactivate_applet() = 0;
-  virtual void init_applet() = 0;
-  virtual void update_applet() = 0;
-  virtual void set_applet_tooltip(const std::string &tip) = 0;
+    virtual void init_applet() = 0;
+    virtual void update_applet() = 0;
+    virtual void set_applet_tooltip(const std::string &tip) = 0;
+    virtual bool is_visible() const = 0;
 };
 
 #endif // IAPPLETWINDOW_HH

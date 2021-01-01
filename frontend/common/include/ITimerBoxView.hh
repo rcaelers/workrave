@@ -50,7 +50,6 @@ public:
   virtual void set_tip(std::string tip) = 0;
   virtual void set_icon(IconType icon) = 0;
   virtual void update_view() = 0;
-  virtual void set_enabled(bool enabled) = 0;
   virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 

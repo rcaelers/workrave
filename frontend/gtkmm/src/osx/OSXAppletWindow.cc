@@ -116,14 +116,8 @@ OSXAppletWindow::convertColorId(ITimeBar::ColorId colorId)
   return COLOR_ID_INACTIVE;
 }
 
-AppletWindow::AppletState
-OSXAppletWindow::activate_applet()
+bool
+OSXAppletWindow::is_visible() const
 {
-  return APPLET_STATE_VISIBLE;
-}
-
-
-void
-OSXAppletWindow::deactivate_applet()
-{
+  return true;
 }

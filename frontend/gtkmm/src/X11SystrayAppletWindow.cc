@@ -28,6 +28,8 @@
 
 #include "X11SystrayAppletWindow.hh"
 
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
@@ -35,21 +37,17 @@
 
 #include "gtktrayicon.h"
 
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-X11SystrayAppletWindow::X11SystrayAppletWindow() :
-  view(NULL),
-  plug(NULL),
-  container(NULL),
-  applet_orientation(ORIENTATION_UP),
-  applet_size(0),
-  applet_active(false),
-  embedded(false),
-  tray_icon(NULL)
+X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
+  IConfigurator *config = CoreFactory::get_configurator();
+  config->add_listener(GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED, this);
+  read_configuration();
 }
 
 
@@ -105,28 +103,27 @@ X11SystrayAppletWindow::notify_callback()
 }
 
 //! Initializes the applet.
-AppletWindow::AppletState
-X11SystrayAppletWindow::activate_applet()
+void
+X11SystrayAppletWindow::activate()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::activate_applet");
+  TRACE_ENTER("X11SystrayAppletWindow::activate");
 
 #if defined(GDK_WINDOWING_X11) && defined(HAVE_GTK3)
   GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   if (!GDK_IS_X11_DISPLAY(display))
     {
       TRACE_EXIT();
-      return APPLET_STATE_DISABLED;
+      return;
     }
 #endif
 
   if (applet_active)
     {
-      TRACE_EXIT();
-      return APPLET_STATE_ACTIVE;
+      TRACE_RETURN("already active, embedded: " << embedded);
+      return;
     }
 
   tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
-  AppletState ret =  APPLET_STATE_DISABLED;
 
   if (tray_icon != NULL)
     {
@@ -179,15 +176,15 @@ X11SystrayAppletWindow::activate_applet()
     }
 
   TRACE_EXIT();
-  return ret;
+  return;
 }
 
 
 //! Destroys the applet.
 void
-X11SystrayAppletWindow::deactivate_applet()
+X11SystrayAppletWindow::deactivate()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::destroy_applet");
+  TRACE_ENTER("X11SystrayAppletWindow::deactivate");
 
   if (applet_active)
     {
@@ -211,7 +208,7 @@ X11SystrayAppletWindow::deactivate_applet()
       timer_box_view = NULL;
       view = NULL;
 
-      state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+      visibility_changed_signal.emit(false);
     }
 
   applet_active = false;
@@ -225,8 +222,8 @@ bool
 X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
 {
   (void) event;
-  deactivate_applet();
-  state_changed_signal.emit(AppletWindow::APPLET_STATE_DISABLED);
+  deactivate();
+  visibility_changed_signal.emit(false);
   return true;
 }
 
@@ -263,7 +260,7 @@ X11SystrayAppletWindow::on_embedded()
 #endif
     }
 
-  state_changed_signal.emit(AppletWindow::APPLET_STATE_ACTIVE);
+  visibility_changed_signal.emit(true);
   TRACE_EXIT();
 }
 
@@ -365,4 +362,35 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
 #endif
     }
   TRACE_EXIT();
+}
+
+void
+X11SystrayAppletWindow::read_configuration()
+{
+  bool previous_enabled = enabled;
+  enabled = GUIConfig::is_applet_fallback_enabled();
+
+  if (!previous_enabled && enabled)
+    {
+      activate();
+    }
+  else if (previous_enabled && !enabled)
+    {
+      deactivate();
+    }
+}
+
+void
+X11SystrayAppletWindow::config_changed_notify(const std::string &key)
+{
+  TRACE_ENTER_MSG("X11SystrayAppletWindow::config_changed_notify", key);
+  (void) key;
+  read_configuration();
+  TRACE_EXIT();
+}
+
+bool
+X11SystrayAppletWindow::is_visible() const
+{
+  return applet_active && embedded;
 }

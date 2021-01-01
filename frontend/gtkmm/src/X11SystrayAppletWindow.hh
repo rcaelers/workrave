@@ -23,6 +23,7 @@
 #include "preinclude.h"
 #include <stdio.h>
 
+#include "IConfiguratorListener.hh"
 #include "AppletWindow.hh"
 #include "Orientation.hh"
 
@@ -40,6 +41,7 @@ class AppletControl;
 using namespace workrave;
 
 class X11SystrayAppletWindow :
+  public IConfiguratorListener,
   public sigc::trackable,
   public AppletWindow
 {
@@ -47,35 +49,39 @@ public:
   X11SystrayAppletWindow();
   virtual ~X11SystrayAppletWindow();
 
-  AppletState activate_applet();
-  void deactivate_applet();
+  bool is_visible() const override;
 
 private:
   //! Gtk timerbox viewer
-  TimerBoxGtkView *view;
+  TimerBoxGtkView *view { nullptr };
 
   //! The Gtk+ plug in the panel.
-  Gtk::Plug *plug;
+  Gtk::Plug *plug { nullptr };
 
   //! Container to put the timers in..
-  Gtk::Bin *container;
+  Gtk::Bin *container { nullptr };
 
   //! Align break orientationly.
-  Orientation applet_orientation;
+  Orientation applet_orientation { ORIENTATION_UP };
 
   //! Size of the applet
-  int applet_size;
+  int applet_size { 0 };
 
   //! Applet currently visible?
-  bool applet_active;
+  bool applet_active { false };
 
   //! Applet embedded?
-  bool embedded;
+  bool embedded { false };
+
+  bool enabled { false };
 
   //! The tray icon
-  WRGtkTrayIcon *tray_icon;
+  WRGtkTrayIcon *tray_icon  { nullptr };
 
 private:
+  void activate();
+  void deactivate();
+
   static void static_notify_callback(GObject    *gobject,
                                      GParamSpec *arg,
                                      gpointer    user_data);
@@ -88,6 +94,9 @@ private:
   bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny*);
   void on_size_allocate(Gtk::Allocation &allocation);
+
+  void config_changed_notify(const std::string &key);
+  void read_configuration();
 };
 
 #endif // X11SYSTRAYAPPLETWINDOW_HH

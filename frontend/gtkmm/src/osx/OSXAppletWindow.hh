@@ -37,16 +37,15 @@ public:
   OSXAppletWindow();
   virtual ~OSXAppletWindow();
 
-  virtual AppletState activate_applet();
-  virtual void deactivate_applet();
+  bool is_visible() const override;
 
-  void set_slot(BreakId  id, int slot);
+  void set_slot(BreakId  id, int slot) override;
   void set_time_bar(BreakId id,
                     std::string text,
                     ITimeBar::ColorId primary_color,
                     int primary_value, int primary_max,
                     ITimeBar::ColorId secondary_color,
-                    int secondary_value, int secondary_max);
+                    int secondary_value, int secondary_max) override;
 
 private:
   ColorId convertColorId(ITimeBar::ColorId colorId);

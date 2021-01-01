@@ -45,7 +45,10 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
-  
+
+  static const std::string CFG_KEY_APPLET_FALLBACK_ENABLED;
+  static const std::string CFG_KEY_APPLET_ICON_ENABLED;
+
   static void init();
 
   enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
@@ -73,6 +76,12 @@ public:
 
   static std::string get_icon_theme();
   static void set_icon_theme(std::string theme);
+
+  static bool is_applet_fallback_enabled();
+  static void set_applet_fallback_enabled(bool enabled);
+
+  static bool is_applet_icon_enabled();
+  static void set_applet_icon_enabled(bool enabled);
 
 private:
   static std::string expand(const std::string &str, BreakId id);

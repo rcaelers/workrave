@@ -119,7 +119,7 @@ Menus::~Menus()
 void
 Menus::init(AppletControl *applet_control)
 {
-  IAppletWindow *applet_window = NULL;
+  std::shared_ptr<IAppletWindow> applet_window;
 
 #if defined(PLATFORM_OS_OSX)
   menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
@@ -134,15 +134,15 @@ Menus::init(AppletControl *applet_control)
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
-  applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
-  W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
-  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window);
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
+  std::shared_ptr<>W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
+  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
 #endif
 
 #if defined(HAVE_DBUS)
-  applet_window = applet_control->get_applet_window(AppletControl::APPLET_GENERIC_DBUS);
-  GenericDBusApplet *indicator_applet = dynamic_cast<GenericDBusApplet*>(applet_window);
-  menus[MENU_APPLET_GENERICDBUS] = indicator_applet;
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
+  std::shared_ptr<GenericDBusApplet> indicator_applet = std::dynamic_pointer_cast<GenericDBusApplet>(applet_window);
+  menus[MENU_APPLET_GENERICDBUS] = indicator_applet.get();
 
 #if defined(HAVE_INDICATOR)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();

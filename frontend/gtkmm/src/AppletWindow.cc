@@ -64,14 +64,8 @@ AppletWindow::init_applet()
 {
 }
 
-sigc::signal<void, IAppletWindow::AppletState> &
-AppletWindow::signal_state_changed()
+sigc::signal<void, bool> &
+AppletWindow::signal_visibility_changed()
 {
-  return state_changed_signal;
-}
-
-sigc::signal<void> &
-AppletWindow::signal_request_activate()
-{
-  return request_activate_signal;
+  return visibility_changed_signal;
 }

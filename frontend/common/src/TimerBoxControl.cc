@@ -461,7 +461,6 @@ TimerBoxControl::read_configuration()
       break_flags[i] = get_timer_flags(name, bid);
       break_imminent_time[i] = get_timer_imminent_time(name, bid);
     }
-  view->set_enabled(is_enabled(name));
   TRACE_EXIT();
 }
 
@@ -607,3 +606,4 @@ TimerBoxControl::set_enabled(string name, bool enabled)
   CoreFactory::get_configurator()
     ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);
 }
+

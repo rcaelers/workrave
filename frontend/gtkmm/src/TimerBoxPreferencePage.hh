@@ -52,6 +52,8 @@ private:
   void init_page_callbacks();
   void enable_buttons();
   void on_enabled_toggled();
+  void on_applet_fallback_enabled_toggled();
+  void on_applet_icon_enabled_toggled();
   void on_place_changed();
   void on_display_changed(int break_id);
   void on_cycle_time_changed();
@@ -61,11 +63,13 @@ private:
 
   string name;
 
-  Gtk::CheckButton *ontop_cb;
-  Gtk::CheckButton *enabled_cb;
-  Gtk::ComboBoxText *place_button;
-  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF];
-  Gtk::SpinButton *cycle_entry;
+  Gtk::CheckButton *ontop_cb { nullptr };
+  Gtk::CheckButton *enabled_cb{ nullptr };
+  Gtk::ComboBoxText *place_button { nullptr };
+  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF] = { nullptr, };
+  Gtk::SpinButton *cycle_entry { nullptr };
+  Gtk::CheckButton *applet_fallback_enabled_cb{ nullptr };
+  Gtk::CheckButton *applet_icon_enabled_cb{ nullptr };
 };
 
 #ifndef GTKMM_CHECK_VERSION

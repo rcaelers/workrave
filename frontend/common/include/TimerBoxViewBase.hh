@@ -45,11 +45,6 @@ public:
   {
   }
   
-  virtual void set_enabled(bool enabled)
-  {
-    (void) enabled;
-  }
-  
   virtual void set_geometry(Orientation orientation, int size)
   {
     (void) orientation;
