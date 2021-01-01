@@ -45,8 +45,8 @@ public:
                     ITimeBar::ColorId secondary_color,
                     int secondary_value, int secondary_max) override;
   void update_view()  override;
-  void update_time_bars() override;
-  void update_menu() override;
+  void update_time_bars();
+  void update_menu();
   bool is_visible() const override;
   void set_geometry(Orientation orientation, int size)  override;
 

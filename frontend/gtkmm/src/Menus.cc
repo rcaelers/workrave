@@ -135,7 +135,7 @@ Menus::init(AppletControl *applet_control)
 
 #if defined(PLATFORM_OS_WIN32)
   applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
-  std::shared_ptr<>W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
+  std::shared_ptr<W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
   menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
 #endif
 
