@@ -88,7 +88,7 @@ SendQuit(HWND hwnd, enum Kind kind)
 }
 
 BOOL CALLBACK
-EnumWindowsProc(HWND hwnd, long lParam)
+EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
   char className[MAX_CLASS_NAME] = { 0, };
   char title[MAX_TITLE] = { 0,  };
