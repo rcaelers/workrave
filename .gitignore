@@ -1,4 +1,5 @@
 Output
 .DS_Store
 /_*
-.vscode
+/.vscode
+/*code-workspace
