@@ -16,19 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "qformat.hh"
 
 template<>
-qformat& qformat::operator%(const QString & v)
+qformat &
+qformat::operator%(const QString &v)
 {
   fmt % v.toStdString();
-    return *this;
+  return *this;
 }
 
-QString qstr(const qformat &f)
+QString
+qstr(const qformat &f)
 {
   return f.str();
 }

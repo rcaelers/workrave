@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Text.hh"
@@ -26,14 +26,14 @@
 #include <stdio.h>
 
 #ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  ifdef HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include "qformat.hh"
@@ -50,11 +50,11 @@ Text::time_to_string(time_t time, bool display_units)
       time = -time;
     }
 
-  int hrs = static_cast<int>(time/3600);
+  int hrs = static_cast<int>(time / 3600);
   int min = (time / 60) % 60;
   int sec = time % 60;
 
-  if (! display_units)
+  if (!display_units)
     {
       if (hrs > 0)
         {

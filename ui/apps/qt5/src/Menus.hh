@@ -33,9 +33,7 @@ class Menus
 public:
   typedef std::shared_ptr<Menus> Ptr;
 
-  Menus(std::shared_ptr<IApplication> app,
-        std::shared_ptr<IToolkit> toolkit,
-        std::shared_ptr<workrave::ICore> core);
+  Menus(std::shared_ptr<IApplication> app, std::shared_ptr<IToolkit> toolkit, std::shared_ptr<workrave::ICore> core);
 
   const MenuModel::Ptr get_menu_model() const;
 

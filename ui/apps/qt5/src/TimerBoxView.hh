@@ -19,7 +19,7 @@
 #define TIMERBOXVIEW_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -32,7 +32,9 @@
 
 #include "TimeBar.hh"
 
-class TimerBoxView : public QWidget, public TimerBoxViewBase
+class TimerBoxView
+    : public QWidget
+    , public TimerBoxViewBase
 {
   Q_OBJECT
 
@@ -40,13 +42,15 @@ public:
   TimerBoxView();
   ~TimerBoxView() override;
 
-  void set_slot(workrave::BreakId  id, int slot) override;
+  void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
                     TimerColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     TimerColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
+                    int secondary_value,
+                    int secondary_max) override;
 
   void set_icon(StatusIconType icon) override;
   void update_view() override;
@@ -61,10 +65,10 @@ private:
   void set_sheep_only(bool sheep_only);
 
 private:
-  QGridLayout *layout { nullptr };
+  QGridLayout *layout{ nullptr };
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
-  QLabel *sheep { nullptr };
+  QLabel *sheep{ nullptr };
   bool reconfigure = true;
   int size = 0;
   int current_content[workrave::BREAK_ID_SIZEOF];

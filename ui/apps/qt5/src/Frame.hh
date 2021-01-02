@@ -28,13 +28,13 @@ class Frame : public QWidget
   Q_OBJECT
 
 public:
-  explicit Frame(QWidget* parent = 0);
+  explicit Frame(QWidget *parent = 0);
 
   enum class Style
-    {
-      Solid,
-      BreakWindow
-    };
+  {
+    Solid,
+    BreakWindow
+  };
 
   boost::signals2::signal<void(bool)> &signal_flash();
 
@@ -53,12 +53,12 @@ protected:
 private:
   QRect get_frame_rect() const;
 
-  int frame_width { 0 };
-  int border_width { 0 };
-  QColor frame_color { QColor("black") };
-  Style frame_style { Style::Solid };
-  bool frame_visible { true };
-  int flash_delay { -1 };
+  int frame_width{ 0 };
+  int border_width{ 0 };
+  QColor frame_color{ QColor("black") };
+  Style frame_style{ Style::Solid };
+  bool frame_visible{ true };
+  int flash_delay{ -1 };
 
   std::shared_ptr<QTimer> heartbeat_timer;
   boost::signals2::signal<void(bool)> flash_signal;

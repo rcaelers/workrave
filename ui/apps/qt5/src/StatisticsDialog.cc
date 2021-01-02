@@ -18,22 +18,22 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  ifdef HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include <assert.h>
 #include <sstream>
@@ -63,7 +63,7 @@ StatisticsDialog::StatisticsDialog()
   ICore::Ptr core = Backend::get_core();
   statistics = core->get_statistics();
 
-  for (auto & activity_label : activity_labels)
+  for (auto &activity_label : activity_labels)
     {
       activity_label = nullptr;
     }
@@ -84,7 +84,6 @@ StatisticsDialog::run()
   return 0;
 }
 
-
 void
 StatisticsDialog::init_gui()
 {
@@ -99,7 +98,7 @@ StatisticsDialog::init_gui()
   create_navigation_box(main_layout);
   create_statistics_box(main_layout);
 
-  QDialogButtonBox *buttonBox =  new QDialogButtonBox(QDialogButtonBox::Close);
+  QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
   layout->addWidget(buttonBox);
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
 
@@ -134,7 +133,7 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
   connect(forward_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_go_forward);
   button_box->addWidget(forward_button, QDialogButtonBox::ActionRole);
 
-  last_button  = new QPushButton;
+  last_button = new QPushButton;
   last_button->setIcon(QIcon::fromTheme("go-last", UiUtil::create_icon("go-last-symbolic.svg")));
   connect(last_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_goto_last);
   button_box->addWidget(last_button, QDialogButtonBox::ActionRole);
@@ -142,8 +141,8 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
   layout->addLayout(button_box);
 
   calendar = new QCalendarWidget();
-	connect(calendar, &QCalendarWidget::clicked, this, &StatisticsDialog::on_calendar_day_selected);
-	connect(calendar, &QCalendarWidget::currentPageChanged, this, &StatisticsDialog::on_calendar_month_changed);
+  connect(calendar, &QCalendarWidget::clicked, this, &StatisticsDialog::on_calendar_day_selected);
+  connect(calendar, &QCalendarWidget::currentPageChanged, this, &StatisticsDialog::on_calendar_month_changed);
   layout->addWidget(calendar);
 
   delete_button = new QPushButton(tr("Delete all statistics history"));
@@ -172,61 +171,34 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   QGridLayout *table = new QGridLayout();
   parent->addLayout(table);
 
-  QWidget *unique_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Break prompts"),
-     tr("The number of times you were prompted to break, excluding"
-       " repeated prompts for the same break"));
+  QWidget *unique_label = UiUtil::create_label_with_tooltip(tr("Break prompts"),
+                                                            tr("The number of times you were prompted to break, excluding"
+                                                               " repeated prompts for the same break"));
 
-  QWidget *prompted_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Repeated prompts"),
-     tr("The number of times you were repeatedly prompted to break"));
+  QWidget *prompted_label = UiUtil::create_label_with_tooltip(tr("Repeated prompts"),
+                                                              tr("The number of times you were repeatedly prompted to break"));
 
-  QWidget *taken_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Prompted breaks taken"),
-     tr("The number of times you took a break when being prompted"));
+  QWidget *taken_label = UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"),
+                                                           tr("The number of times you took a break when being prompted"));
 
-  QWidget *natural_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Natural breaks taken"),
-     tr("The number of times you took a break without being prompted"));
+  QWidget *natural_label = UiUtil::create_label_with_tooltip(tr("Natural breaks taken"),
+                                                             tr("The number of times you took a break without being prompted"));
 
-  QWidget *skipped_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Breaks skipped"),
-     tr("The number of breaks you skipped"));
+  QWidget *skipped_label = UiUtil::create_label_with_tooltip(tr("Breaks skipped"), tr("The number of breaks you skipped"));
 
-  QWidget *postponed_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Breaks postponed"),
-     tr("The number of breaks you postponed"));
+  QWidget *postponed_label = UiUtil::create_label_with_tooltip(tr("Breaks postponed"), tr("The number of breaks you postponed"));
 
-  QWidget *overdue_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Overdue time"),
-     tr("The total time this break was overdue"));
+  QWidget *overdue_label = UiUtil::create_label_with_tooltip(tr("Overdue time"), tr("The total time this break was overdue"));
 
-  QWidget *usage_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Usage"),
-      ("Active computer usage"));
+  QWidget *usage_label = UiUtil::create_label_with_tooltip(tr("Usage"), ("Active computer usage"));
 
-  QWidget *daily_usage_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Daily"),
-     tr("The total computer usage for the selected day"));
+  QWidget *daily_usage_label = UiUtil::create_label_with_tooltip(tr("Daily"), tr("The total computer usage for the selected day"));
 
-  QWidget *weekly_usage_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Weekly"),
-     tr("The total computer usage for the whole week of the selected day"));
+  QWidget *weekly_usage_label = UiUtil::create_label_with_tooltip(tr("Weekly"),
+                                                                  tr("The total computer usage for the whole week of the selected day"));
 
-  QWidget *monthly_usage_label
-    = UiUtil::create_label_with_tooltip
-    (tr("Monthly"),
-     tr("The total computer usage for the whole month of the selected day"));
+  QWidget *monthly_usage_label = UiUtil::create_label_with_tooltip(tr("Monthly"),
+                                                                   tr("The total computer usage for the whole month of the selected day"));
 
   QFrame *hrule = new QFrame();
   QFrame *vrule = new QFrame();
@@ -265,7 +237,7 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   hrule->setFrameShadow(QFrame::Raised);
 
   table->addWidget(hrule, y, 0, 1, 5);
-  y+=2;
+  y += 2;
 
   daily_usage_time_label = new QLabel();
   weekly_usage_time_label = new QLabel();
@@ -291,7 +263,6 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   table->addWidget(daily_usage_time_label, y, 2);
   table->addWidget(weekly_usage_time_label, y, 3);
   table->addWidget(monthly_usage_time_label, y, 4);
-
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -339,7 +310,6 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 
       date_label->setText(text);
     }
-
 
   int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
   daily_usage_time_label->setText(Text::time_to_string(value));
@@ -403,9 +373,7 @@ StatisticsDialog::display_week_statistics()
       time_loc = std::localtime(&t);
 
       int idx, next, prev;
-      statistics->get_day_index_by_date(time_loc->tm_year + 1900,
-                                        time_loc->tm_mon + 1,
-                                        time_loc->tm_mday, idx, next, prev);
+      statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
 
       if (idx >= 0)
         {
@@ -423,7 +391,8 @@ StatisticsDialog::display_week_statistics()
 }
 
 void
-StatisticsDialog::display_month_statistics() {
+StatisticsDialog::display_month_statistics()
+{
   QDate date = calendar->selectedDate();
   int y = date.year();
   int m = date.month() - 1;
@@ -478,7 +447,7 @@ StatisticsDialog::clear_display_statistics()
   weekly_usage_time_label->setText("");
   monthly_usage_time_label->setText("");
 
-  for (auto & break_label : break_labels)
+  for (auto &break_label : break_labels)
     {
       for (int j = 0; j <= 6; j++)
         {
@@ -501,7 +470,7 @@ StatisticsDialog::on_calendar_month_changed(int year, int month)
 }
 
 void
-StatisticsDialog::on_calendar_day_selected(const QDate & date)
+StatisticsDialog::on_calendar_day_selected(const QDate &date)
 {
   display_calendar_date();
 }
@@ -518,7 +487,7 @@ StatisticsDialog::set_calendar_day_index(int idx)
 {
   IStatistics::DailyStats *stats = statistics->get_day(idx);
   QDate date = calendar->selectedDate();
-  date.setDate(stats->start.tm_year+1900, stats->start.tm_mon + 1, stats->start.tm_mday);
+  date.setDate(stats->start.tm_year + 1900, stats->start.tm_mon + 1, stats->start.tm_mday);
   calendar->setSelectedDate(date);
   display_calendar_date();
 }
@@ -581,58 +550,57 @@ StatisticsDialog::on_history_goto_first()
 void
 StatisticsDialog::on_history_delete_all()
 {
-    // /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
-    // triggered while the message boxes are shown. The user would have no way to interact
-    // with the break window without closing out the dialog which may be hidden behind it.
-    // Temporarily override operation mode to avoid catastrophe, and remove the
-    // override before any return.
-    // */
-    // const char funcname[] = "StatisticsDialog::on_history_delete_all";
-    // Backend::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
+  // /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
+  // triggered while the message boxes are shown. The user would have no way to interact
+  // with the break window without closing out the dialog which may be hidden behind it.
+  // Temporarily override operation mode to avoid catastrophe, and remove the
+  // override before any return.
+  // */
+  // const char funcname[] = "StatisticsDialog::on_history_delete_all";
+  // Backend::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
 
-    // // Confirm the user's intention
-    // string msg = UiUtil::create_alert_text(
-    //     tr("Warning"),
-    //     tr("You have chosen to delete your statistics history. Continue?")
-    //     );
-    // QMessageDialog mb_ask( *this, msg, true, QMESSAGE_WARNING, QBUTTONS_YES_NO, false );
-    // mb_ask.set_title( tr("Warning") );
-    // mb_ask.get_widget_for_response( QRESPONSE_NO )->grab_default();
-    // if( mb_ask.run() == QRESPONSE_YES )
-    // {
-    //     mb_ask.hide();
+  // // Confirm the user's intention
+  // string msg = UiUtil::create_alert_text(
+  //     tr("Warning"),
+  //     tr("You have chosen to delete your statistics history. Continue?")
+  //     );
+  // QMessageDialog mb_ask( *this, msg, true, QMESSAGE_WARNING, QBUTTONS_YES_NO, false );
+  // mb_ask.set_title( tr("Warning") );
+  // mb_ask.get_widget_for_response( QRESPONSE_NO )->grab_default();
+  // if( mb_ask.run() == QRESPONSE_YES )
+  // {
+  //     mb_ask.hide();
 
-    //     // Try to delete statistics history files
-    //     for( ;; )
-    //     {
-    //         if( statistics->delete_all_history() )
-    //         {
-    //             msg = UiUtil::create_alert_text(
-    //                 tr("Files deleted!"),
-    //                 tr("The files containing your statistics history have been deleted.")
-    //                 );
-    //             QMessageDialog mb_info( *this, msg, true, QMESSAGE_INFO, QBUTTONS_OK, false );
-    //             mb_info.set_title( tr("Info") );
-    //             mb_info.run();
-    //             break;
-    //         }
+  //     // Try to delete statistics history files
+  //     for( ;; )
+  //     {
+  //         if( statistics->delete_all_history() )
+  //         {
+  //             msg = UiUtil::create_alert_text(
+  //                 tr("Files deleted!"),
+  //                 tr("The files containing your statistics history have been deleted.")
+  //                 );
+  //             QMessageDialog mb_info( *this, msg, true, QMESSAGE_INFO, QBUTTONS_OK, false );
+  //             mb_info.set_title( tr("Info") );
+  //             mb_info.run();
+  //             break;
+  //         }
 
-    //         msg = UiUtil::create_alert_text(
-    //             tr("File deletion failed!"),
-    //             tr("The files containing your statistics history could not be deleted. Try again?")
-    //             );
-    //         QMessageDialog mb_error( *this, msg, true, QMESSAGE_ERROR, QBUTTONS_YES_NO, false );
-    //         mb_error.set_title( tr("Error") );
-    //         mb_error.get_widget_for_response( QRESPONSE_NO )->grab_default();
-    //         if( mb_error.run() != QRESPONSE_YES )
-    //             break;
-    //     }
-    // }
+  //         msg = UiUtil::create_alert_text(
+  //             tr("File deletion failed!"),
+  //             tr("The files containing your statistics history could not be deleted. Try again?")
+  //             );
+  //         QMessageDialog mb_error( *this, msg, true, QMESSAGE_ERROR, QBUTTONS_YES_NO, false );
+  //         mb_error.set_title( tr("Error") );
+  //         mb_error.get_widget_for_response( QRESPONSE_NO )->grab_default();
+  //         if( mb_error.run() != QRESPONSE_YES )
+  //             break;
+  //     }
+  // }
 
-    // // Remove this function's operation mode override
-    // Backend::get_core()->remove_operation_mode_override( funcname );
+  // // Remove this function's operation mode override
+  // Backend::get_core()->remove_operation_mode_override( funcname );
 }
-
 
 //! Periodic heartbeat.
 bool

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DataConnector.hh"
@@ -33,7 +33,7 @@ using namespace workrave::config;
 
 // Define connector for standard qt widgets.
 DEFINE_DATA_TYPE_PTR(QCheckBox, DataConnectionQCheckBox);
-DEFINE_DATA_TYPE_PTR(QSpinBox,  DataConnectionQSpinBox);
+DEFINE_DATA_TYPE_PTR(QSpinBox, DataConnectionQSpinBox);
 DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
@@ -52,9 +52,7 @@ DataConnector::~DataConnector()
 }
 
 void
-DataConnector::connect(const std::string &setting,
-                       DataConnection *connection,
-                       dc::Flags flags)
+DataConnector::connect(const std::string &setting, DataConnection *connection, dc::Flags flags)
 {
   if (connection != nullptr)
     {
@@ -70,10 +68,7 @@ DataConnector::connect(const std::string &setting,
 }
 
 void
-DataConnector::connect(const std::string &setting,
-                       DataConnection *connection,
-                       std::function<bool(const std::string &, bool)> cb,
-                       dc::Flags flags)
+DataConnector::connect(const std::string &setting, DataConnection *connection, std::function<bool(const std::string &, bool)> cb, dc::Flags flags)
 {
   if (connection != nullptr)
     {
@@ -90,11 +85,10 @@ DataConnector::connect(const std::string &setting,
 }
 
 DataConnection::DataConnection()
-  : flags(dc::NONE)
+    : flags(dc::NONE)
 {
   config = Backend::get_configurator();
 }
-
 
 DataConnection::~DataConnection()
 {
@@ -122,7 +116,7 @@ DataConnection::set(dc::Flags flags, const std::string &key)
 void
 DataConnectionQSpinBox::init()
 {
-  void (QSpinBox:: *signal)(int) = &QSpinBox::valueChanged;
+  void (QSpinBox::*signal)(int) = &QSpinBox::valueChanged;
   QObject::connect(widget, signal, this, &DataConnectionQSpinBox::widget_changed_notify);
   config_changed_notify(key);
 }
@@ -221,7 +215,7 @@ DataConnectionQCheckBox::config_changed_notify(const std::string &key)
 void
 DataConnectionQComboBox::init()
 {
-  void (QComboBox:: *signal)(int) = &QComboBox::currentIndexChanged;
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
   QObject::connect(widget, signal, this, &DataConnectionQComboBox::widget_changed_notify);
   config_changed_notify(key);
 }
@@ -271,7 +265,7 @@ DataConnectionQComboBox::config_changed_notify(const std::string &key)
 void
 DataConnectionQAbstractSlider::init()
 {
-  void (QAbstractSlider:: *signal)(int) = &QAbstractSlider::valueChanged;
+  void (QAbstractSlider::*signal)(int) = &QAbstractSlider::valueChanged;
   QObject::connect(widget, signal, this, &DataConnectionQAbstractSlider::widget_changed_notify);
   config_changed_notify(key);
 }
@@ -321,8 +315,7 @@ DataConnectionQAbstractSlider::config_changed_notify(const std::string &key)
 void
 DataConnectionTimeEntry::init()
 {
-  widget->signal_value_changed()
-    .connect(std::bind(&DataConnectionTimeEntry::widget_changed_notify, this));
+  widget->signal_value_changed().connect(std::bind(&DataConnectionTimeEntry::widget_changed_notify, this));
   config_changed_notify(key);
 }
 

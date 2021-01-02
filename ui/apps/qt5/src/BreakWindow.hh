@@ -49,13 +49,11 @@ public:
   void refresh() override;
 
 protected:
-  BreakFlags
-  get_break_flags() const
+  BreakFlags get_break_flags() const
   {
     return break_flags;
   }
-  QScreen *
-  get_screen()
+  QScreen *get_screen()
   {
     return screen;
   }

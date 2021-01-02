@@ -39,10 +39,12 @@
 #include "IToolkitPlatform.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#include "Dock.hh"
+#  include "Dock.hh"
 #endif
 
-class Toolkit : public QApplication, public IToolkit
+class Toolkit
+    : public QApplication
+    , public IToolkit
 {
   Q_OBJECT
 
@@ -59,18 +61,17 @@ public:
   IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) override;
   void show_window(WindowType type) override;
   int get_screen_count() const override;
-  void create_oneshot_timer(int ms, std::function<void ()> func) override;
+  void create_oneshot_timer(int ms, std::function<void()> func) override;
   void show_balloon(const std::string &id, const std::string &title, const std::string &balloon) override;
 
 public Q_SLOTS:
   void on_timer();
 
 private:
-
 private:
-  QTimer *heartbeat_timer { nullptr };
+  QTimer *heartbeat_timer{ nullptr };
 
-  MainWindow *main_window { nullptr };
+  MainWindow *main_window{ nullptr };
   std::shared_ptr<StatusIcon> status_icon;
 
   QPointer<PreferencesDialog> preferences_dialog;
@@ -97,7 +98,8 @@ class OneshotTimer : public QObject
   Q_OBJECT
 
 public:
-  OneshotTimer(int ms, std::function<void ()> func) : func(func)
+  OneshotTimer(int ms, std::function<void()> func)
+      : func(func)
   {
     QTimer::singleShot(ms, this, SLOT(exec()));
   };
@@ -110,7 +112,7 @@ public Q_SLOTS:
   };
 
 private:
-    std::function<void ()> func;
+  std::function<void()> func;
 };
 
 #endif // TOOLKIT_HH

@@ -29,16 +29,17 @@
 #include "TimeBar.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#include "MouseMonitor.hh"
+#  include "MouseMonitor.hh"
 #endif
 
-
-class PreludeWindow : public QWidget, public IPreludeWindow
+class PreludeWindow
+    : public QWidget
+    , public IPreludeWindow
 {
   Q_OBJECT
 
 public:
-  PreludeWindow(QScreen *screen , workrave::BreakId break_id);
+  PreludeWindow(QScreen *screen, workrave::BreakId break_id);
 
   void start() override;
   void stop() override;
@@ -56,7 +57,7 @@ private:
   const static int SCREEN_MARGIN = 20;
 
   workrave::BreakId break_id;
-  QScreen *screen { nullptr };
+  QScreen *screen{ nullptr };
 
   int progress_value = 0;
   int progress_max_value = 1;
@@ -65,11 +66,11 @@ private:
   QString progress_text;
   bool did_avoid = false;
 
-  QVBoxLayout *layout { nullptr };
-  TimeBar *timebar { nullptr };
-  QLabel *label { nullptr };
-  QLabel *image { nullptr };
-  Frame* frame { nullptr };
+  QVBoxLayout *layout{ nullptr };
+  TimeBar *timebar{ nullptr };
+  QLabel *label{ nullptr };
+  QLabel *image{ nullptr };
+  Frame *frame{ nullptr };
   scoped_connections connections;
 
 #ifdef PLATFORM_OS_MACOS

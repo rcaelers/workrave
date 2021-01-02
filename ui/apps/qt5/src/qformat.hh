@@ -24,12 +24,13 @@
 class qformat : public boost::format
 {
 public:
-  qformat(const QString &str) : fmt(str.toStdString())
+  qformat(const QString &str)
+      : fmt(str.toStdString())
   {
   }
 
   template<typename T>
-  qformat& operator%(const T & v)
+  qformat &operator%(const T &v)
   {
     fmt % v;
     return *this;
@@ -44,10 +45,8 @@ private:
   boost::format fmt;
 };
 
-
 template<>
-qformat& qformat::operator%(const QString & v);
-
+qformat &qformat::operator%(const QString &v);
 
 QString qstr(const qformat &f);
 

@@ -37,13 +37,12 @@ class DataConnection;
 namespace dc
 {
   enum Flags
-    {
-      NONE = 0,
-      NO_CONFIG = 1,
-      NO_WIDGET = 2,
-    };
+  {
+    NONE = 0,
+    NO_CONFIG = 1,
+    NO_WIDGET = 2,
+  };
 }
-
 
 class DataConnector
 {
@@ -53,19 +52,12 @@ public:
   DataConnector();
   ~DataConnector();
 
-  void connect(const std::string &setting,
-               DataConnection *connection,
-               dc::Flags flags = dc::NONE);
+  void connect(const std::string &setting, DataConnection *connection, dc::Flags flags = dc::NONE);
 
-  void connect(const std::string &setting,
-               DataConnection *connection,
-               std::function<bool (const std::string &, bool)> cb,
-               dc::Flags flags = dc::NONE);
+  void connect(const std::string &setting, DataConnection *connection, std::function<bool(const std::string &, bool)> cb, dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
-  void connect(workrave::config::Setting<T, R> &setting,
-               DataConnection *connection,
-               dc::Flags flags = dc::NONE)
+  void connect(workrave::config::Setting<T, R> &setting, DataConnection *connection, dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, flags);
   }
@@ -73,12 +65,11 @@ public:
   template<class T, class R = T>
   void connect(workrave::config::Setting<T, R> &setting,
                DataConnection *connection,
-               std::function<bool (const std::string &, bool)> cb,
+               std::function<bool(const std::string &, bool)> cb,
                dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, cb, flags);
   }
-
 
 private:
   struct MonitoredWidget
@@ -98,10 +89,9 @@ private:
   workrave::config::IConfigurator::Ptr config;
 };
 
-
-class DataConnection :
-  public QObject,
-  public workrave::config::IConfiguratorListener
+class DataConnection
+    : public QObject
+    , public workrave::config::IConfiguratorListener
 {
 public:
   DataConnection();
@@ -110,7 +100,7 @@ public:
   void set(dc::Flags flags, const std::string &key);
   virtual void init() = 0;
 
-  std::function<bool (const std::string &, bool)> intercept;
+  std::function<bool(const std::string &, bool)> intercept;
 
 protected:
   workrave::config::IConfigurator::Ptr config;
@@ -118,52 +108,54 @@ protected:
   dc::Flags flags;
 };
 
-
-#define DECLARE_DATA_TYPE(WidgetType, WrapperType)                      \
-  class WrapperType : public DataConnection                             \
-  {                                                                     \
-  public:                                                               \
-    explicit WrapperType(WidgetType widget)                             \
-      : widget(widget)                                                  \
-      {                                                                 \
-      }                                                                 \
-    virtual ~WrapperType()                                              \
-    {                                                                   \
-    }                                                                   \
-                                                                        \
-    void init();                                                        \
-    void widget_changed_notify();                                       \
-    void config_changed_notify(const std::string &key);                 \
-                                                                        \
-  private:                                                              \
-    WidgetType widget;                                                  \
-  };                                                                    \
-                                                                        \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType t);                                   \
+#define DECLARE_DATA_TYPE(WidgetType, WrapperType)      \
+  class WrapperType : public DataConnection             \
+  {                                                     \
+  public:                                               \
+    explicit WrapperType(WidgetType widget)             \
+        : widget(widget)                                \
+    {                                                   \
+    }                                                   \
+    virtual ~WrapperType()                              \
+    {                                                   \
+    }                                                   \
+                                                        \
+    void init();                                        \
+    void widget_changed_notify();                       \
+    void config_changed_notify(const std::string &key); \
+                                                        \
+  private:                                              \
+    WidgetType widget;                                  \
+  };                                                    \
+                                                        \
+  namespace dc                                          \
+  {                                                     \
+    WrapperType *wrap(WidgetType t);                    \
   }
 
-#define DEFINE_DATA_TYPE(WidgetType, WrapperType)                       \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType t)                                    \
-    {                                                                   \
-      return new WrapperType(t);                                        \
-    }                                                                   \
+#define DEFINE_DATA_TYPE(WidgetType, WrapperType) \
+  namespace dc                                    \
+  {                                               \
+    WrapperType *wrap(WidgetType t)               \
+    {                                             \
+      return new WrapperType(t);                  \
+    }                                             \
   }
 
-#define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType)                   \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType *t)                                   \
-    {                                                                   \
-      if (t != NULL)                                                    \
-        {                                                               \
-          return new WrapperType(t);                                    \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          return NULL;                                                  \
-        }                                                               \
-    }                                                                   \
+#define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType) \
+  namespace dc                                        \
+  {                                                   \
+    WrapperType *wrap(WidgetType *t)                  \
+    {                                                 \
+      if (t != NULL)                                  \
+        {                                             \
+          return new WrapperType(t);                  \
+        }                                             \
+      else                                            \
+        {                                             \
+          return NULL;                                \
+        }                                             \
+    }                                                 \
   }
 
 DECLARE_DATA_TYPE(QCheckBox *, DataConnectionQCheckBox);

@@ -38,8 +38,8 @@
 #include "Menus.hh"
 
 class Application
-  : public IApplication
-  , public workrave::IApp
+    : public IApplication
+    , public workrave::IApp
 {
 public:
   typedef std::shared_ptr<Application> Ptr;
@@ -91,14 +91,14 @@ private:
   std::shared_ptr<workrave::ICore> core;
   std::shared_ptr<Menus> menus;
   std::shared_ptr<workrave::updater::Updater> updater;
-  int argc { 0 };
-  char **argv { nullptr };
+  int argc{ 0 };
+  char **argv{ nullptr };
   SoundTheme::Ptr sound_theme;
   BreakWindows break_windows;
   PreludeWindows prelude_windows;
-  workrave::BreakId active_break_id { workrave::BREAK_ID_NONE};
+  workrave::BreakId active_break_id{ workrave::BREAK_ID_NONE };
   Session::Ptr session;
-  bool muted { false };
+  bool muted{ false };
 
   scoped_connections connections;
 };

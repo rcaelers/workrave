@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "StatusIcon.hh"
@@ -45,7 +45,7 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
   OperationMode mode = core->get_operation_mode_regular();
   tray_icon->setIcon(mode_icons[mode]);
 
-  GUIConfig::trayicon_enabled().attach([&] (bool enabled) { tray_icon->setVisible(enabled); });
+  GUIConfig::trayicon_enabled().attach([&](bool enabled) { tray_icon->setVisible(enabled); });
 
   QObject::connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &StatusIcon::on_activate);
 }
@@ -63,7 +63,7 @@ StatusIcon::set_tooltip(const QString &tip)
 }
 
 void
-StatusIcon::show_balloon(const QString &id, const QString& title, const QString &balloon)
+StatusIcon::show_balloon(const QString &id, const QString &title, const QString &balloon)
 {
   tray_icon->showMessage(title, balloon);
 }

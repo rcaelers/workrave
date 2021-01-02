@@ -18,7 +18,7 @@
 #include "MainWindow.hh"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <QMoveEvent>
@@ -34,7 +34,7 @@
 #include "Menus.hh"
 
 MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
-  : QWidget(parent)
+    : QWidget(parent)
 {
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
@@ -51,24 +51,22 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   menu = std::make_shared<ToolkitMenu>(menu_model, [](MenuNode::Ptr menu) { return menu->get_id() != Menus::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(on_show_contextmenu(const QPoint&)));
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_show_contextmenu(const QPoint &)));
 
-  GUIConfig::main_window_always_on_top().attach([&] (bool enabled)
-                                                {
-                                                  if (enabled)
-                                                    {
-                                                      setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-                                                    }
-                                                  else
-                                                    {
-                                                      setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
-                                                    }
-                                                  show();
-                                                });
+  GUIConfig::main_window_always_on_top().attach([&](bool enabled) {
+    if (enabled)
+      {
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+      }
+    else
+      {
+        setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
+      }
+    show();
+  });
 
   move_to_start_position();
 }
-
 
 void
 MainWindow::heartbeat()
@@ -126,7 +124,7 @@ MainWindow::on_show_contextmenu(const QPoint &pos)
 }
 
 void
-MainWindow::moveEvent(QMoveEvent * event)
+MainWindow::moveEvent(QMoveEvent *event)
 {
   if (isVisible())
     {

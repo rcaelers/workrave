@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -40,7 +40,7 @@ TimeEntry::TimeEntry()
   mins->setMinimum(0);
   mins->setMaximum(59);
 
-  void (QSpinBox:: *signal)(int) = &QSpinBox::valueChanged;
+  void (QSpinBox::*signal)(int) = &QSpinBox::valueChanged;
   connect(secs, signal, this, &TimeEntry::on_value_changed);
   connect(hrs, signal, this, &TimeEntry::on_value_changed);
   connect(mins, signal, this, &TimeEntry::on_value_changed);
@@ -64,7 +64,7 @@ TimeEntry::TimeEntry()
 void
 TimeEntry::set_value(time_t t)
 {
-  hrs->setValue(static_cast<double>(t / (60*60)));
+  hrs->setValue(static_cast<double>(t / (60 * 60)));
   mins->setValue(static_cast<double>((t / 60) % 60));
   secs->setValue(static_cast<double>(t % 60));
 }
@@ -89,4 +89,3 @@ TimeEntry::signal_value_changed()
 {
   return value_changed_signal;
 }
-

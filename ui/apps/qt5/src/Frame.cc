@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Frame.hh"
@@ -26,9 +26,9 @@
 #include <QStylePainter>
 #include <QStyleOptionFrame>
 
-Frame::Frame(QWidget* parent)
-  : QWidget(parent),
-    heartbeat_timer(new QTimer(this))
+Frame::Frame(QWidget *parent)
+    : QWidget(parent)
+    , heartbeat_timer(new QTimer(this))
 {
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
 }
@@ -73,10 +73,7 @@ Frame::set_frame_width(int frame, int border)
 
   QRect cr = fr.isValid() ? fr : rect();
 
-  cr.adjust(frame_width + border_width,
-            frame_width + border_width,
-            -frame_width - border_width,
-            -frame_width - border_width);
+  cr.adjust(frame_width + border_width, frame_width + border_width, -frame_width - border_width, -frame_width - border_width);
 
   setContentsMargins(cr.left(), cr.top(), rect().right() - cr.right(), rect().bottom() - cr.bottom());
 }
@@ -85,10 +82,7 @@ QRect
 Frame::get_frame_rect() const
 {
   QRect fr = contentsRect();
-  fr.adjust(-frame_width - border_width,
-            -frame_width - border_width,
-            frame_width + border_width,
-            frame_width + border_width);
+  fr.adjust(-frame_width - border_width, -frame_width - border_width, frame_width + border_width, frame_width + border_width);
 
   return fr;
 }
@@ -114,7 +108,7 @@ Frame::set_frame_flashing(int delay)
 void
 Frame::on_timer()
 {
-  set_frame_visible(! frame_visible);
+  set_frame_visible(!frame_visible);
   update();
   flash_signal(frame_visible);
 }
@@ -129,28 +123,20 @@ Frame::paintEvent(QPaintEvent *pe)
   QStyleOptionFrame opt;
   opt.initFrom(this);
 
-  opt.rect          = fr;
-  opt.lineWidth     = 1;
-  opt.midLineWidth  = 0;
-  opt.state        |= QStyle::State_Raised;
-  opt.frameShape    = QFrame::Panel;
+  opt.rect = fr;
+  opt.lineWidth = 1;
+  opt.midLineWidth = 0;
+  opt.state |= QStyle::State_Raised;
+  opt.frameShape = QFrame::Panel;
 
   paint.drawControl(QStyle::CE_ShapedFrame, opt);
 
   if (frame_visible)
     {
-      paint.fillRect(border_width, border_width,
-                     frame_width, height() - 2*border_width,
-                     frame_color);
-      paint.fillRect(width() - border_width - frame_width, border_width,
-                     frame_width, height() - 2*border_width,
-                     frame_color);
-      paint.fillRect(border_width + frame_width, border_width,
-                     width() - 2*frame_width - 2*border_width, frame_width,
-                     frame_color);
-      paint.fillRect(border_width + frame_width, height() - frame_width - border_width,
-                     width() - 2*frame_width - 2*border_width, frame_width,
-                     frame_color);
+      paint.fillRect(border_width, border_width, frame_width, height() - 2 * border_width, frame_color);
+      paint.fillRect(width() - border_width - frame_width, border_width, frame_width, height() - 2 * border_width, frame_color);
+      paint.fillRect(border_width + frame_width, border_width, width() - 2 * frame_width - 2 * border_width, frame_width, frame_color);
+      paint.fillRect(border_width + frame_width, height() - frame_width - border_width, width() - 2 * frame_width - 2 * border_width, frame_width, frame_color);
     }
 }
 

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -29,10 +29,10 @@
 #include "core/ICore.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <io.h>
-#include <fcntl.h>
+#  include <io.h>
+#  include <fcntl.h>
 
-#include "utils/W32ActiveSetup.hh"
+#  include "utils/W32ActiveSetup.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -40,40 +40,30 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+#if defined(HAVE_CRASHPAD)
+  try
+    {
+      workrave::crash::CrashReporter::instance().init();
+    }
+  catch (std::exception &e)
+    {
+    }
+#endif
+
 #ifdef PLATFORM_OS_WINDOWS
   W32ActiveSetup::update_all();
-#endif
-
-#if defined(PLATFORM_OS_WINDOWS_32) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
-  SetUnhandledExceptionFilter(exception_filter);
-
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-  // Enable Windows structural exception handling.
-  __try1(exception_handler);
-#endif
 #endif
 
 #ifdef TRACING
   Debug::init();
 #endif
 
-  {
-    std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
-    std::shared_ptr<Application> app = std::make_shared<Application>(argc, argv, toolkit);
-
-    app->main();
-  }
-
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
-  // Disable Windows structural exception handling.
-  __except1;
-#endif
-#endif
+  std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
+  std::shared_ptr<Application> app = std::make_shared<Application>(argc, argv, toolkit);
+  app->main();
 
   return 0;
 }
-
 
 #if !defined(PLATFORM_OS_WINDOWS) // || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
 int
@@ -85,16 +75,14 @@ main(int argc, char **argv)
 
 #else
 
-#include <windows.h>
+#  include <windows.h>
 
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    PSTR szCmdLine,
-                    int iCmdShow)
+int WINAPI
+WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-  (void) hInstance;
-  (void) hPrevInstance;
-  (void) iCmdShow;
+  (void)hInstance;
+  (void)hPrevInstance;
+  (void)iCmdShow;
 
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
@@ -103,7 +91,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
       char *argv[] = { szCmdLine };
-      run(sizeof(argv)/sizeof(argv[0]), argv);
+      run(sizeof(argv) / sizeof(argv[0]), argv);
     }
   return (0);
 }

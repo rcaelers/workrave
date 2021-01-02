@@ -49,14 +49,14 @@ protected:
 private:
   static std::map<TimerColorId, QColor> bar_colors;
 
-  TimerColorId bar_color { TimerColorId::Active };
-  TimerColorId secondary_bar_color { TimerColorId::Active };
-  int bar_value { 0 };
-  int bar_max_value { 0 };
-  int secondary_bar_value { 0 };
-  int secondary_bar_max_value { 0 };
+  TimerColorId bar_color{ TimerColorId::Active };
+  TimerColorId secondary_bar_color{ TimerColorId::Active };
+  int bar_value{ 0 };
+  int bar_max_value{ 0 };
+  int secondary_bar_value{ 0 };
+  int secondary_bar_max_value{ 0 };
   QString bar_text;
-  int bar_text_align { 0 };
+  int bar_text_align{ 0 };
 };
 
 #endif // TIMEBAR_HH

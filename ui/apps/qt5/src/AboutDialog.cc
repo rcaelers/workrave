@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "AboutDialog.hh"
@@ -36,7 +36,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 AboutDialog::AboutDialog()
-  : QDialog()
+    : QDialog()
 {
   setWindowTitle(tr("About Workrave"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -45,9 +45,10 @@ AboutDialog::AboutDialog()
   layout->setSizeConstraint(QLayout::SetFixedSize);
 
   QString description = qstr(qformat(tr("<h3>Workrave %s</h3>"
-                                        "<br/>%s<br/>")) %
-#ifdef GIT_VERSION
-                             (PACKAGE_VERSION "(" GIT_VERSION ")") %
+                                        "<br/>%s<br/>"))
+                             %
+#ifdef WORKRAVE_GIT_VERSION
+                             (PACKAGE_VERSION "(" WORKRAVE_GIT_VERSION ")") %
 #else
                              (PACKAGE_VERSION "") %
 #endif

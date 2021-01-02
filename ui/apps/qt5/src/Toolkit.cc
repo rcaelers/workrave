@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Toolkit.hh"
@@ -33,19 +33,19 @@
 #include "UiUtil.hh"
 
 #if defined(PLATFORM_OS_MACOS)
-#include "ToolkitPlatformMac.hh"
+#  include "ToolkitPlatformMac.hh"
 #elif defined(PLATFORM_OS_WINDOWS)
-#include "ToolkitPlatformWindows.hh"
+#  include "ToolkitPlatformWindows.hh"
 #elif defined(PLATFORM_OS_LINUX)
-#include "ToolkitPlatformLinux.hh"
+#  include "ToolkitPlatformLinux.hh"
 #endif
 
 using namespace workrave;
 using namespace workrave::config;
 
 Toolkit::Toolkit(int argc, char **argv)
-  : QApplication(argc, argv),
-    heartbeat_timer(new QTimer(this))
+    : QApplication(argc, argv)
+    , heartbeat_timer(new QTimer(this))
 {
 }
 
@@ -65,7 +65,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 
   status_icon = std::make_shared<StatusIcon>(menu_model);
 
-  main_window =  new MainWindow(menu_model, nullptr);
+  main_window = new MainWindow(menu_model, nullptr);
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
 
@@ -109,17 +109,17 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
   QScreen *screen = screens.at(screen_index);
 
   if (break_id == BREAK_ID_MICRO_BREAK)
-   {
-     ret = std::make_shared<MicroBreakWindow>(platform, screen, break_flags);
-   }
+    {
+      ret = std::make_shared<MicroBreakWindow>(platform, screen, break_flags);
+    }
   else if (break_id == BREAK_ID_REST_BREAK)
-   {
-     ret = std::make_shared<RestBreakWindow>(platform, sound_theme, screen, break_flags);
-   }
+    {
+      ret = std::make_shared<RestBreakWindow>(platform, sound_theme, screen, break_flags);
+    }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
-   {
-     ret = std::make_shared<DailyLimitWindow>(platform, screen, break_flags);
-   }
+    {
+      ret = std::make_shared<DailyLimitWindow>(platform, screen, break_flags);
+    }
 
   return ret;
 }
@@ -191,13 +191,11 @@ Toolkit::get_screen_count() const
 void
 Toolkit::show_balloon(const std::string &id, const std::string &title, const std::string &balloon)
 {
-  status_icon->show_balloon(QString::fromStdString(id),
-                            QString::fromStdString(title),
-                            QString::fromStdString(balloon));
+  status_icon->show_balloon(QString::fromStdString(id), QString::fromStdString(title), QString::fromStdString(balloon));
 }
 
 void
-Toolkit::create_oneshot_timer(int ms, std::function<void ()> func)
+Toolkit::create_oneshot_timer(int ms, std::function<void()> func)
 {
   new OneshotTimer(ms, func);
 }

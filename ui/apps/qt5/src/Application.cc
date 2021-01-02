@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Application.hh"
@@ -35,7 +35,7 @@
 
 // DBus
 #if defined(interface)
-#undef interface
+#  undef interface
 #endif
 #include "dbus/IDBus.hh"
 
@@ -43,7 +43,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
-  : toolkit(toolkit)
+    : toolkit(toolkit)
 {
   TRACE_ENTER("GUI:GUI");
 

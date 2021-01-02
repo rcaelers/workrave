@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <QPushButton>
@@ -163,7 +163,6 @@ TimerBoxView::init_table()
       sheep->show();
     }
 
-
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
@@ -223,17 +222,13 @@ TimerBoxView::set_slot(BreakId id, int slot)
 }
 
 void
-TimerBoxView::set_time_bar(BreakId id,
-                           int value, TimerColorId primary_color,
-                           int primary_val, int primary_max,
-                           TimerColorId secondary_color,
-                           int secondary_val, int secondary_max)
+TimerBoxView::set_time_bar(BreakId id, int value, TimerColorId primary_color, int primary_val, int primary_max, TimerColorId secondary_color, int secondary_val, int secondary_max)
 {
   TRACE_ENTER_MSG("TimerBoxView::set_time_bar", id);
 
   TRACE_MSG(value);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
-  TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
+  TRACE_MSG(secondary_val << " " << secondary_max << " " << int(secondary_color));
 
   TimeBar *bar = bars[id];
   bar->set_text(Text::time_to_string(value));
@@ -247,7 +242,7 @@ TimerBoxView::set_time_bar(BreakId id,
 void
 TimerBoxView::set_icon(StatusIconType icon)
 {
- QString file = Ui::get_status_icon_filename(icon);
+  QString file = Ui::get_status_icon_filename(icon);
   // TODO:
 }
 
@@ -268,7 +263,7 @@ TimerBoxView::update_view()
 void
 TimerBoxView::set_enabled(bool enabled)
 {
-  (void) enabled;
+  (void)enabled;
 }
 
 void

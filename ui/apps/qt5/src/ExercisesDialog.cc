@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ExercisesDialog.hh"
@@ -29,15 +29,15 @@
 #include "ExercisesPanel.hh"
 
 ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
-  : QDialog()
+    : QDialog()
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 
-  QVBoxLayout* layout = new QVBoxLayout();
+  QVBoxLayout *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
-  panel =  new ExercisesPanel(sound_theme, true);
+  panel = new ExercisesPanel(sound_theme, true);
   panel->set_exercise_count(0);
   panel->signal_stop().connect(std::bind(&ExercisesDialog::on_stop, this));
 

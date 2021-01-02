@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "MouseMonitor.hh"
@@ -31,15 +31,16 @@ class MouseMonitor::Private
 {
 public:
   id monitor;
-  std::function<void(int,int)> func;
+  std::function<void(int, int)> func;
 
 public:
-  Private() : monitor(nil)
+  Private()
+      : monitor(nil)
   {
   }
 };
 
-MouseMonitor::MouseMonitor(std::function<void(int,int)> func)
+MouseMonitor::MouseMonitor(std::function<void(int, int)> func)
 {
   priv = std::make_unique<Private>();
   priv->func = func;
@@ -55,12 +56,12 @@ MouseMonitor::start()
 {
   if (priv->monitor == nil)
     {
-      priv->monitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^(NSEvent *)
-                       {
-                         NSPoint pos = [NSEvent mouseLocation];
-                         priv->func(pos.x, pos.y);
-                         ;
-                       }];
+      priv->monitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved
+                                                             handler:^(NSEvent *) {
+                                                               NSPoint pos = [NSEvent mouseLocation];
+                                                               priv->func(pos.x, pos.y);
+                                                               ;
+                                                             }];
     }
 }
 

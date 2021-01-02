@@ -26,7 +26,7 @@ class IApplication : public std::enable_shared_from_this<IApplication>
 public:
   typedef std::shared_ptr<IApplication> Ptr;
 
-  virtual ~IApplication() {}
+  virtual ~IApplication() = default;
 
   virtual void restbreak_now() = 0;
   virtual void terminate() = 0;

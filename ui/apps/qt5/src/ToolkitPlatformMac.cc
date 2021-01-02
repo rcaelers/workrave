@@ -29,7 +29,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 #if defined(HAVE_QT5)
-#include <QtMacExtras>
+#  include <QtMacExtras>
 #endif
 
 class ToolkitPlatformMac::Pimpl
@@ -55,7 +55,6 @@ ToolkitPlatformMac::ToolkitPlatformMac()
 
 ToolkitPlatformMac::~ToolkitPlatformMac()
 {
-
 }
 
 QPixmap

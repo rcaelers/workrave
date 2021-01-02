@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "PreludeWindow.hh"
@@ -39,13 +39,13 @@ using namespace workrave;
 using namespace workrave::utils;
 
 #ifdef PLATFORM_OS_MACOS
-#import <Cocoa/Cocoa.h>
+#  import <Cocoa/Cocoa.h>
 #endif
 
-PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
-  : QWidget(nullptr, Qt::Window),
-    break_id(break_id),
-    screen(screen)
+PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
+    : QWidget(nullptr, Qt::Window)
+    , break_id(break_id)
+    , screen(screen)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -107,16 +107,12 @@ PreludeWindow::PreludeWindow(QScreen *screen , workrave::BreakId break_id)
 
   setWindowFlags(
 #ifdef PLATFORM_OS_MACOS
-                 Qt::SubWindow |
+      Qt::SubWindow |
 #else
-                 Qt::Tool |
+      Qt::Tool |
 #endif
-                 Qt::FramelessWindowHint |
-                 Qt::WindowSystemMenuHint |
-                 Qt::WindowStaysOnTopHint |
-                 Qt::WindowDoesNotAcceptFocus |
-                 Qt::X11BypassWindowManagerHint
-                 );
+      Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
+      | Qt::X11BypassWindowManagerHint);
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
@@ -219,7 +215,7 @@ void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
   const char *icon = nullptr;
-  switch(stage)
+  switch (stage)
     {
     case IApp::STAGE_INITIAL:
       frame->set_frame_flashing(0);
@@ -241,7 +237,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       break;
 
     case IApp::STAGE_MOVE_OUT:
-      if (! did_avoid)
+      if (!did_avoid)
         {
           const QRect rect = screen->geometry();
           move(x(), rect.y() + SCREEN_MARGIN);
@@ -268,7 +264,7 @@ PreludeWindow::event(QEvent *event)
 {
   if (event->type() == QEvent::HoverEnter)
     {
-      QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
+      QHoverEvent *hoverEvent = static_cast<QHoverEvent *>(event);
       avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
   bool res = QWidget::event(event);
@@ -307,7 +303,7 @@ PreludeWindow::avoid_pointer(int px, int py)
     }
   else
     {
-      if (py > winy + geo.height()/2)
+      if (py > winy + geo.height() / 2)
         {
           winy = top_y;
         }

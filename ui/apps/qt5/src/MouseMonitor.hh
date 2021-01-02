@@ -26,7 +26,7 @@ class MouseMonitor
 public:
   typedef std::shared_ptr<MouseMonitor> Ptr;
 
-  explicit MouseMonitor(std::function<void(int,int)> func);
+  explicit MouseMonitor(std::function<void(int, int)> func);
   ~MouseMonitor();
 
   void start();

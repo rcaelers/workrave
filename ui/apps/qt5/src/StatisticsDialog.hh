@@ -42,20 +42,20 @@ private:
 
   QLabel *break_labels[workrave::BREAK_ID_SIZEOF][9];
   QLabel *activity_labels[5];
-  QLabel *usage_label { nullptr };
-  QLabel *daily_usage_time_label { nullptr };
-  QLabel *weekly_usage_time_label { nullptr };
-  QLabel *monthly_usage_time_label { nullptr };
-  QLabel *date_label { nullptr };
+  QLabel *usage_label{ nullptr };
+  QLabel *daily_usage_time_label{ nullptr };
+  QLabel *weekly_usage_time_label{ nullptr };
+  QLabel *monthly_usage_time_label{ nullptr };
+  QLabel *date_label{ nullptr };
 
-  QCalendarWidget *calendar { nullptr };
-  QPushButton *forward_button { nullptr };
-  QPushButton *back_button { nullptr };
-  QPushButton *last_button { nullptr };
-  QPushButton *first_button { nullptr };
-  QPushButton *delete_button { nullptr };
+  QCalendarWidget *calendar{ nullptr };
+  QPushButton *forward_button{ nullptr };
+  QPushButton *back_button{ nullptr };
+  QPushButton *last_button{ nullptr };
+  QPushButton *first_button{ nullptr };
+  QPushButton *delete_button{ nullptr };
 
-  bool update_usage_real_time { false };
+  bool update_usage_real_time{ false };
 
   void on_history_delete_all();
 

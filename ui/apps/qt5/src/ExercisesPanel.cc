@@ -17,7 +17,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <random>
@@ -35,8 +35,8 @@ using namespace workrave::utils;
 int ExercisesPanel::exercises_pointer = 0;
 
 ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
-  : sound_theme(sound_theme),
-    exercises(Exercise::get_exercises())
+    : sound_theme(sound_theme)
+    , exercises(Exercise::get_exercises())
 {
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
 
@@ -66,10 +66,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
 
   pause_button = new QPushButton;
 
-  QPushButton *back_button =  new QPushButton;
+  QPushButton *back_button = new QPushButton;
   back_button->setIcon(QIcon::fromTheme("go-previous", UiUtil::create_icon("go-previous-symbolic.svg")));
 
-  QPushButton *forward_button =  new QPushButton;
+  QPushButton *forward_button = new QPushButton;
   forward_button->setIcon(QIcon::fromTheme("go-next", UiUtil::create_icon("go-next-symbolic.svg")));
 
   QPushButton *stop_button = new QPushButton;
@@ -86,7 +86,6 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
 
       box->addWidget(description_scroll, 0, 2);
       box->addLayout(button_box, 1, 0, 1, 3);
-
     }
   else
     {
@@ -158,8 +157,7 @@ ExercisesPanel::start_exercise()
     {
       const Exercise &exercise = *exercise_iterator;
 
-      QString txt = UiUtil::create_alert_text(exercise.title.c_str(),
-                                              exercise.description.c_str());
+      QString txt = UiUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
 
       description_text->setText(txt);
       exercise_time = 0;
@@ -178,9 +176,8 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
-  std::string file = AssetPath::complete_directory(img.image,
-                                              AssetPath::SEARCH_PATH_EXERCISES);
-  if (! img.mirror_x)
+  std::string file = AssetPath::complete_directory(img.image, AssetPath::SEARCH_PATH_EXERCISES);
+  if (!img.mirror_x)
     {
       image->setPixmap(QPixmap(file.c_str()));
     }
@@ -235,7 +232,7 @@ ExercisesPanel::refresh_progress()
 void
 ExercisesPanel::on_stop()
 {
-  if (! stopped)
+  if (!stopped)
     {
       stopped = true;
       stop_signal();
@@ -294,7 +291,7 @@ ExercisesPanel::refresh_pause()
 void
 ExercisesPanel::on_pause()
 {
-  paused = ! paused;
+  paused = !paused;
   refresh_pause();
 }
 
@@ -311,7 +308,6 @@ ExercisesPanel::heartbeat()
       return;
     }
 
-
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
   if (exercise_time >= exercise.duration)
@@ -322,9 +318,7 @@ ExercisesPanel::heartbeat()
         {
           on_stop();
         }
-      sound_theme->play_sound(stopped
-                              ? SoundEvent::ExercisesEnded
-                              : SoundEvent::ExerciseEnded);
+      sound_theme->play_sound(stopped ? SoundEvent::ExercisesEnded : SoundEvent::ExerciseEnded);
     }
   else
     {

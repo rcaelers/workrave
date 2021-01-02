@@ -58,8 +58,8 @@ MenuEntryFactory::create(MenuNode::Ptr menu_node, MenuNodeFilter filter)
     case MenuNodeType::RADIO:
       return std::make_shared<ActionMenuEntry>(menu_node, filter);
     }
-    
-    return MenuEntry::Ptr();
+
+  return MenuEntry::Ptr();
 }
 
 MenuEntry::MenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)

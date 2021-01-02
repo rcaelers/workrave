@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Menus.hh"
@@ -39,10 +39,10 @@ const std::string Menus::MODE_READING = "workrave:mode_reading";
 const std::string Menus::OPEN = "workrave:open";
 const std::string Menus::QUIT = "workrave:quit";
 
-Menus::Menus(std::shared_ptr<IApplication> app,
-             std::shared_ptr<IToolkit> toolkit,
-             std::shared_ptr<workrave::ICore> core)
-  : app(app), toolkit(toolkit), core(core)
+Menus::Menus(std::shared_ptr<IApplication> app, std::shared_ptr<IToolkit> toolkit, std::shared_ptr<workrave::ICore> core)
+    : app(app)
+    , toolkit(toolkit)
+    , core(core)
 {
   menu_model = std::make_shared<MenuModel>();
   init();
@@ -62,32 +62,22 @@ Menus::init()
 
   MenuNode::Ptr root = menu_model->get_root();
 
-  MenuNode::Ptr item = std::make_shared<MenuNode>(OPEN,
-                                     N_("Open"),
-                                     std::bind(&Menus::on_menu_open_main_window, this));
+  MenuNode::Ptr item = std::make_shared<MenuNode>(OPEN, N_("Open"), std::bind(&Menus::on_menu_open_main_window, this));
   root->add_menu_item(item);
 
   MenuNode::Ptr separator = std::make_shared<MenuNode>(MenuNodeType::SEPARATOR);
   root->add_menu_item(separator);
 
-  item = std::make_shared<MenuNode>(PREFERENCES,
-                                     N_("Preferences"),
-                                     std::bind(&Menus::on_menu_preferences, this));
+  item = std::make_shared<MenuNode>(PREFERENCES, N_("Preferences"), std::bind(&Menus::on_menu_preferences, this));
   root->add_menu_item(item);
 
-  item = std::make_shared<MenuNode>(REST_BREAK,
-                                     N_("Rest break"),
-                                     std::bind(&Menus::on_menu_restbreak_now, this));
+  item = std::make_shared<MenuNode>(REST_BREAK, N_("Rest break"), std::bind(&Menus::on_menu_restbreak_now, this));
   root->add_menu_item(item);
 
-  item = std::make_shared<MenuNode>(EXERCISES,
-                                     N_("Exercises"),
-                                     std::bind(&Menus::on_menu_exercises, this));
+  item = std::make_shared<MenuNode>(EXERCISES, N_("Exercises"), std::bind(&Menus::on_menu_exercises, this));
   root->add_menu_item(item);
 
-  item = std::make_shared<MenuNode>(STATISTICS,
-                                     N_("Statistics"),
-                                     std::bind(&Menus::on_menu_statistics, this));
+  item = std::make_shared<MenuNode>(STATISTICS, N_("Statistics"), std::bind(&Menus::on_menu_statistics, this));
   root->add_menu_item(item);
 
   separator = std::make_shared<MenuNode>(MenuNodeType::SEPARATOR);
@@ -96,46 +86,33 @@ Menus::init()
   MenuNode::Ptr modemenu = std::make_shared<MenuNode>(MODE, N_("Mode"), nullptr, MenuNodeType::MENU);
   root->add_menu_item(modemenu);
 
-  normal_item = std::make_shared<MenuNode>(MODE_NORMAL,
-                                            N_("Normal"),
-                                            std::bind(&Menus::on_menu_normal, this),
-                                            MenuNodeType::RADIO);
+  normal_item = std::make_shared<MenuNode>(MODE_NORMAL, N_("Normal"), std::bind(&Menus::on_menu_normal, this), MenuNodeType::RADIO);
   normal_item->set_checked(mode == workrave::OperationMode::Normal);
   modemenu->add_menu_item(normal_item);
 
-  suspended_item = std::make_shared<MenuNode>(MODE_SUSPENDED,
-                                               N_("Suspended"),
-                                               std::bind(&Menus::on_menu_suspend, this),
-                                               MenuNodeType::RADIO);
+  suspended_item = std::make_shared<MenuNode>(MODE_SUSPENDED, N_("Suspended"), std::bind(&Menus::on_menu_suspend, this), MenuNodeType::RADIO);
 
   suspended_item->set_checked(mode == workrave::OperationMode::Suspended);
   modemenu->add_menu_item(suspended_item);
 
-  quiet_item = std::make_shared<MenuNode>(MODE_QUIET,
-                                           N_("Quiet"),
-                                           std::bind(&Menus::on_menu_quiet, this),
-                                           MenuNodeType::RADIO);
+  quiet_item = std::make_shared<MenuNode>(MODE_QUIET, N_("Quiet"), std::bind(&Menus::on_menu_quiet, this), MenuNodeType::RADIO);
   quiet_item->set_checked(mode == workrave::OperationMode::Quiet);
   modemenu->add_menu_item(quiet_item);
 
   reading_item = std::make_shared<MenuNode>(MODE_READING,
-                                             N_("Reading mode"),
-                                             std::bind(static_cast<void (Menus::*)()>(&Menus::on_menu_reading), this),
-                                             MenuNodeType::CHECK);
+                                            N_("Reading mode"),
+                                            std::bind(static_cast<void (Menus::*)()>(&Menus::on_menu_reading), this),
+                                            MenuNodeType::CHECK);
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   root->add_menu_item(reading_item);
 
   separator = std::make_shared<MenuNode>(MenuNodeType::SEPARATOR);
   root->add_menu_item(separator);
 
-  item = std::make_shared<MenuNode>(ABOUT,
-                                     N_("About..."),
-                                     std::bind(&Menus::on_menu_about, this));
+  item = std::make_shared<MenuNode>(ABOUT, N_("About..."), std::bind(&Menus::on_menu_about, this));
   root->add_menu_item(item);
 
-  item = std::make_shared<MenuNode>(QUIT,
-                                     N_("Quit"),
-                                     std::bind(&Menus::on_menu_quit, this));
+  item = std::make_shared<MenuNode>(QUIT, N_("Quit"), std::bind(&Menus::on_menu_quit, this));
   root->add_menu_item(item);
   menu_model->update();
 

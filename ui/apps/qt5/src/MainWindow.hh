@@ -32,10 +32,10 @@ public:
 
   void heartbeat();
 
-  void moveEvent(QMoveEvent * event) override;
+  void moveEvent(QMoveEvent *event) override;
 
 public Q_SLOTS:
-  void on_show_contextmenu(const QPoint& pos);
+  void on_show_contextmenu(const QPoint &pos);
 
 private:
   void move_to_start_position();
@@ -43,8 +43,7 @@ private:
 private:
   std::shared_ptr<ToolkitMenu> menu;
   std::shared_ptr<TimerBoxControl> timer_box_control;
-  TimerBoxView *timer_box_view  { nullptr };
+  TimerBoxView *timer_box_view{ nullptr };
 };
-
 
 #endif // MAINWINDOW_HH

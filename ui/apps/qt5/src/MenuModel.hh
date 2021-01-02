@@ -26,20 +26,19 @@
 
 enum class MenuNodeType : int
 {
-    MENU,
-    SEPARATOR,
-    ACTION,
-    CHECK,
-    RADIO,
+  MENU,
+  SEPARATOR,
+  ACTION,
+  CHECK,
+  RADIO,
 };
-
 
 class MenuNode
 {
 public:
   typedef std::shared_ptr<MenuNode> Ptr;
   typedef std::list<MenuNode::Ptr> MenuNodeList;
-  typedef std::function<void ()> Activated;
+  typedef std::function<void()> Activated;
 
   MenuNode();
   MenuNode(const std::string &id, const std::string &text, Activated activated, MenuNodeType type = MenuNodeType::ACTION);
@@ -68,7 +67,7 @@ private:
   Activated activated;
   MenuNodeType type;
   MenuNodeList menu_items;
-  bool checked { false };
+  bool checked{ false };
   boost::signals2::signal<void()> changed_signal;
 };
 

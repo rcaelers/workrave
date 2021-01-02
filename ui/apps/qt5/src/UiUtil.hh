@@ -35,10 +35,10 @@ public:
   static QPushButton *create_image_button(const QString &filename);
   static QPushButton *create_image_text_button(const QString &filename, const QString &text);
 
-  static void clear_layout(QLayout* layout);
+  static void clear_layout(QLayout *layout);
 
-  static void add_widget(QBoxLayout *layout, const QString &text, QWidget* widget);
-  static void add_widget(QBoxLayout *layout, QLabel *label, QWidget* widget);
+  static void add_widget(QBoxLayout *layout, const QString &text, QWidget *widget);
+  static void add_widget(QBoxLayout *layout, QLabel *label, QWidget *widget);
   static QLabel *add_label(QBoxLayout *layout, const QString &text, bool bold = false);
 
   static QIcon create_icon(const QString &filename);
