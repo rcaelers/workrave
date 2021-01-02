@@ -7,7 +7,7 @@ DOCKER_ARGS=()
 BUILT_TYPE=RelWithDebInfo
 WORKING_DIR=
 OUTPUT_DIR=
-CONF_COMPILER=gcc
+CONF_COMPILER=clang
 CONF_CONFIGURATION=Release
 
 ROOT=`git rev-parse --show-toplevel`

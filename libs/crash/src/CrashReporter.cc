@@ -32,6 +32,7 @@
 #  include <windows.h>
 #endif
 
+#include "debug.hh"
 #include "utils/Platform.hh"
 #ifdef HAVE_HARPOON
 #  include "input-monitor/Harpoon.hh"
@@ -64,11 +65,13 @@ CrashReporter::init()
 bool
 CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 {
+  TRACE_ENTER("CrashReporter::Pimpl::crashpad_handler");
 #ifdef HAVE_HARPOON
   Harpoon::unblock_input();
 #endif
   std::cout << "crashpad_handler\n";
 
+  TRACE_EXIT();
   return false;
 }
 
@@ -76,17 +79,12 @@ void
 CrashReporter::Pimpl::init()
 {
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
-  std::cout << "temp dir: " << temp_dir << "\n";
-
   const std::filesystem::path app_dir = workrave::utils::Platform::get_application_directory();
-  std::cout << "application path: " << app_dir << "\n";
-
-  std::string handler_exe;
 
 #ifdef PLATFORM_OS_WINDOWS
-  handler_exe = "crashpad_handler.exe";
+  std::string handler_exe = "WorkraveCrashHandler.exe";
 #else
-  handler_exe = "crashpad_handler";
+  std::string handler_exe = "WorkraveCrashHandler";
 #endif
 
   base::FilePath handler(app_dir / "bin" / handler_exe);
@@ -95,21 +93,28 @@ CrashReporter::Pimpl::init()
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
 
+  annotations["product"] = "Workrave";
+  annotations["version"] = PACKAGE_VERSION;
+#ifdef WORKRAVE_GIT_VERSION
+  annotations["commit"] = WORKRAVE_GIT_VERSION;
+#endif
+#ifdef WORKRAVE_BUILD_ID
+  annotations["buildid"] = WORKRAVE_BUILD_ID;
+#endif
+
   base::FilePath reports_dir(temp_dir);
   base::FilePath metrics_dir(temp_dir);
   std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
 
   if (database == NULL)
     {
-      std::cout << "no database\n";
-      return;
+      throw std::runtime_error("failed to initialize crashplan database");
     }
 
   crashpad::Settings *settings = database->GetSettings();
   if (settings == NULL)
     {
-      std::cout << "no settings\n";
-      return;
+      throw std::runtime_error("failed to obtain crashplan settings");
     }
 
   settings->SetUploadsEnabled(true);

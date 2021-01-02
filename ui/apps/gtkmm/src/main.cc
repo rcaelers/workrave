@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -27,14 +27,14 @@
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WINDOWS
-#include <io.h>
-#include <fcntl.h>
+#  include <io.h>
+#  include <fcntl.h>
 
-#include "utils/W32ActiveSetup.hh"
+#  include "utils/W32ActiveSetup.hh"
 #endif
 
 #if defined(HAVE_CRASHPAD)
-#include "crash/CrashReporter.hh"
+#  include "crash/CrashReporter.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -43,11 +43,17 @@ int
 run(int argc, char **argv)
 {
 #if defined(HAVE_CRASHPAD)
-  workrave::crash::CrashReporter::instance().init();
+  try
+    {
+      workrave::crash::CrashReporter::instance().init();
+    }
+  catch (std::exception &e)
+    {
+    }
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-    W32ActiveSetup::update_all();
+  W32ActiveSetup::update_all();
 #endif
 
 #ifdef TRACING
@@ -55,14 +61,12 @@ run(int argc, char **argv)
 #endif
 
   GUI *gui = new GUI(argc, argv);
-
   gui->main();
 
   delete gui;
 
   return 0;
 }
-
 
 #if !defined(PLATFORM_OS_WINDOWS) || !defined(NDEBUG)
 int
@@ -74,16 +78,14 @@ main(int argc, char **argv)
 
 #else
 
-#include <windows.h>
+#  include <windows.h>
 
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    PSTR szCmdLine,
-                    int iCmdShow)
+int WINAPI
+WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-  (void) hInstance;
-  (void) hPrevInstance;
-  (void) iCmdShow;
+  (void)hInstance;
+  (void)hPrevInstance;
+  (void)iCmdShow;
 
   char *argv[] = { szCmdLine };
 
@@ -93,7 +95,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
   HANDLE mtx = CreateMutexA(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
-      run(sizeof(argv)/sizeof(argv[0]), argv);
+      run(sizeof(argv) / sizeof(argv[0]), argv);
     }
   return (0);
 }

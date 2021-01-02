@@ -56,6 +56,7 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 
 [Files]
 Source: "@INSTALLDIR@\dist\libzapper-0.dll"; DestDir: "{app}";
+Source: "@INSTALLDIR@\bin\*.*"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALLDIR@\lib\harpoon64.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALLDIR@\lib\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;

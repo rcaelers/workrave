@@ -338,6 +338,9 @@ Menus::on_menu_about()
 {
   if (about == nullptr)
     {
+      int *ptr = 0;
+      *ptr = 10;
+      
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about = new Gtk::AboutDialog;
 
@@ -356,8 +359,8 @@ Menus::on_menu_about()
       about->set_translator_credits(workrave_translators);
 
 
-#ifdef GIT_VERSION
-      about->set_version(PACKAGE_VERSION "\n(" GIT_VERSION ")");
+#ifdef WORKRAVE_GIT_VERSION
+      about->set_version(PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
 #else
       about->set_version(PACKAGE_VERSION);
 #endif
