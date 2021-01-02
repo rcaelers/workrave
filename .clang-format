@@ -15,12 +15,12 @@ AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortEnumsOnASingleLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortFunctionsOnASingleLine: None
 AllowShortLambdasOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: All
-AlwaysBreakAfterReturnType: AllDefinitions
+AlwaysBreakAfterReturnType: TopLevelDefinitions
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
@@ -133,7 +133,7 @@ SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
-BitFieldColonSpacing: Both
+#BitFieldColonSpacing: Both
 Standard:        Latest
 StatementMacros:
   - Q_UNUSED
