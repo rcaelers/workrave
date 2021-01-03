@@ -999,7 +999,7 @@ PreferencesDialog::update_icon_theme_combo()
               gchar *test_path = g_build_filename(dirname.c_str(), file, nullptr);
               if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
-                  themes.push_back(file);
+                  themes.emplace_back(file);
                 }
               g_free(test_path);
             }

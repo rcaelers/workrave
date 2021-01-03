@@ -130,7 +130,7 @@ Exercise::parse_exercises(const char *file_name,
     {
       if (v.first == "exercise")
         {
-          exercises.push_back(Exercise());
+          exercises.emplace_back();
           Exercise &exercise = exercises.back();
 
           int title_lang_rank = -1;
@@ -168,7 +168,7 @@ Exercise::parse_exercises(const char *file_name,
                           string src = vs.second.get<string>("<xmlattr>.src");
                           bool mirrorx = vs.second.get<string>("<xmlattr>.mirrorx", "no") == "yes";
 
-                          exercise.sequence.push_back(Exercise::Image(src, duration, mirrorx));
+                          exercise.sequence.emplace_back(src, duration, mirrorx);
                         }
                     }
                 }

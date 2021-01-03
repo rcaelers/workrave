@@ -348,7 +348,7 @@ Menus::on_menu_about()
       std::vector<Glib::ustring> authors;
       for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
-          authors.push_back(workrave_authors[index]);
+          authors.emplace_back(workrave_authors[index]);
         }
       about->set_authors(authors);
 
