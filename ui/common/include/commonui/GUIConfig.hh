@@ -54,6 +54,9 @@ public:
   static workrave::config::Setting<int> &main_window_y();
   static workrave::config::Setting<int> &main_window_head();
 
+  static workrave::config::Setting<bool> &applet_fallback_enabled();
+  static workrave::config::Setting<bool> &applet_icon_enabled();
+
   static workrave::config::Setting<int> &timerbox_cycle_time(const std::string &box);
   static workrave::config::Setting<int> &timerbox_slot(const std::string &box, workrave::BreakId break_id);
   static workrave::config::Setting<int> &timerbox_flags(const std::string &box, workrave::BreakId break_id);
@@ -84,6 +87,9 @@ private:
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
+
+  static const std::string CFG_KEY_APPLET_FALLBACK_ENABLED;
+  static const std::string CFG_KEY_APPLET_ICON_ENABLED;
 
   static const std::string CFG_KEY_TIMERBOX;
   static const std::string CFG_KEY_TIMERBOX_CYCLE_TIME;

@@ -139,7 +139,7 @@ build_single() {
 }
 
 build_all() {
-    for series in groovy focal eoan disco bionic xenial trusty; do
+    for series in hirsute groovy focal eoan disco bionic xenial trusty; do
         build_single $series
     done
 }

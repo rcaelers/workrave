@@ -29,13 +29,12 @@ class AppletWindow : public IAppletWindow
 {
 public:
   AppletWindow();
-  virtual ~AppletWindow();
+  virtual ~AppletWindow() = default;
 
-  virtual void init_applet();
-  virtual void update_applet();
-  virtual void set_applet_tooltip(const std::string &tip);
-  virtual sigc::signal<void, AppletState> &signal_state_changed();
-  virtual sigc::signal<void> &signal_request_activate();
+  void init_applet() override;
+  void update_applet() override;
+  void set_applet_tooltip(const std::string &tip) override;
+  sigc::signal<void, bool> &signal_visibility_changed() override;
 
 protected:
   //! Box container all the timers.
@@ -44,11 +43,8 @@ protected:
   //! Box container controller.
   TimerBoxControl *timer_box_control;
 
-  //! Signal to indicate that the applet changed state.
-  sigc::signal<void, AppletState> state_changed_signal;
-
-  //! Signal to indicate that the applet requests to be activated.
-  sigc::signal<void> request_activate_signal;
+  //! Signal to indicate that the applet changed visibility.
+  sigc::signal<void, bool> visibility_changed_signal;
 };
 
 #endif // APPLETWINDOW_HH

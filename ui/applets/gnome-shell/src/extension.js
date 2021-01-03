@@ -163,6 +163,7 @@ const WorkraveButton = new Lang.Class({
         PanelMenu.Button.prototype._init.call(this, 0.0);
 
         this._timerbox = new Workrave.Timerbox();
+
         this._force_icon = false;
         this._height = 24;
         this._bus_name = 'org.workrave.GnomeShellApplet';
@@ -173,8 +174,16 @@ const WorkraveButton = new Lang.Class({
         this._area.set_height(this._height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
-        this.actor.add_actor(this._area);
-        this.actor.show();
+        if (typeof this.add_actor === "function")
+        {
+            this.add_actor(this._area);
+            this.show();
+        }
+        else
+        {
+            this.actor.add_actor(this._area);
+            this.actor.show();
+        }
 
         this.connect('destroy', Lang.bind(this, this._onDestroy));
 
@@ -187,8 +196,6 @@ const WorkraveButton = new Lang.Class({
         this._operation_mode_changed_id = this._core_proxy.connectSignal("OperationModeChanged", Lang.bind(this, this._onOperationModeChanged));
 
         this._updateMenu(null);
-
-        // MainLoop.timeout_add(1000, Lang.bind(this, this._connect));
     },
 
     _connectUI: function()

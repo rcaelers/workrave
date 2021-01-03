@@ -42,8 +42,7 @@
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   : Gtk::HBox(false, 6),
-    name(n),
-    ontop_cb(nullptr)
+    name(n)
 {
   TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 
@@ -116,13 +115,10 @@ TimerBoxPreferencePage::create_page()
 #endif
     }
 
-  // Enabled/Disabled checkbox
-  Gtk::Label *enabled_lab = nullptr;
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Display")));
 
   if (name == "main_window")
     {
-      enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
-
       // Always-on-top
 #ifdef PLATFORM_OS_UNIX
       if (! workrave::utils::Platform::running_on_wayland())
@@ -134,18 +130,13 @@ TimerBoxPreferencePage::create_page()
           ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
           ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
         }
+
+      Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
+      enabled_cb = Gtk::manage(new Gtk::CheckButton());
+      enabled_cb->add(*enabled_lab);
+      hig->add_widget(*enabled_cb);
     }
-  else if (name == "applet")
-    {
-      enabled_lab = Gtk::manage(GtkUtil::create_label(_("Applet enabled"), false));
-    }
 
-  enabled_cb = Gtk::manage(new Gtk::CheckButton());
-  enabled_cb->add(*enabled_lab);
-
-  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Display")));
-
-  hig->add_widget(*enabled_cb);
 
   if (ontop_cb != nullptr)
     {
@@ -161,6 +152,19 @@ TimerBoxPreferencePage::create_page()
   hig->add_label(_("Micro-break:"), *timer_display_button[0]);
   hig->add_label(_("Rest break:"), *timer_display_button[1]);
   hig->add_label(_("Daily limit:"), *timer_display_button[2]);
+
+  if (name == "applet")
+    {
+      Gtk::Label *applet_fallback_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Fallback applet enabled"), false));
+      applet_fallback_enabled_cb = Gtk::manage(new Gtk::CheckButton());
+      applet_fallback_enabled_cb->add(*applet_fallback_enabled_lab);
+      hig->add_widget(*applet_fallback_enabled_cb);
+
+      Gtk::Label *applet_icon_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status icon"), false));
+      applet_icon_enabled_cb = Gtk::manage(new Gtk::CheckButton());
+      applet_icon_enabled_cb->add(*applet_icon_enabled_lab);
+      hig->add_widget(*applet_icon_enabled_cb);
+    }
 
   pack_end(*hig, true, true, 0);
 
@@ -215,7 +219,17 @@ TimerBoxPreferencePage::init_page_values()
     }
   cycle_entry->set_value(GUIConfig::timerbox_cycle_time(name)());
 
-  enabled_cb->set_active(GUIConfig::timerbox_enabled(name)());
+  if (enabled_cb != nullptr)
+    {
+      enabled_cb->set_active(GUIConfig::timerbox_enabled(name)());
+    }
+
+  if (name == "applet")
+    {
+      applet_fallback_enabled_cb->set_active(GUIConfig::applet_fallback_enabled()());
+      applet_icon_enabled_cb->set_active(GUIConfig::applet_icon_enabled()());
+    }
+
   enable_buttons();
 }
 
@@ -226,7 +240,20 @@ TimerBoxPreferencePage::init_page_callbacks()
   place_button->signal_changed().connect
     (sigc::mem_fun(*this, &TimerBoxPreferencePage::on_place_changed));
 
-  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+  if (enabled_cb != nullptr)
+    {
+      enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+    }
+
+  if (applet_fallback_enabled_cb != nullptr)
+    {
+      applet_fallback_enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_fallback_enabled_toggled));
+    }
+
+  if (applet_icon_enabled_cb != nullptr)
+    {
+      applet_icon_enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_icon_enabled_toggled));
+    }
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -244,6 +271,21 @@ TimerBoxPreferencePage::on_enabled_toggled()
   GUIConfig::timerbox_enabled(name).set(on);
 
   enable_buttons();
+}
+
+void
+TimerBoxPreferencePage::on_applet_fallback_enabled_toggled()
+{
+  bool on = applet_fallback_enabled_cb->get_active();
+  GUIConfig::applet_fallback_enabled().set(on);
+}
+
+
+void
+TimerBoxPreferencePage::on_applet_icon_enabled_toggled()
+{
+  bool on = applet_icon_enabled_cb->get_active();
+  GUIConfig::applet_icon_enabled().set(on);
 }
 
 
@@ -328,18 +370,16 @@ TimerBoxPreferencePage::enable_buttons()
 
   if (name == "applet")
     {
-      bool on = enabled_cb->get_active();
-
-      place_button->set_sensitive(on && count != 3);
+      place_button->set_sensitive(count != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore::Ptr core = Backend::get_core();
           IBreak::Ptr b = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
-          timer_display_button[i]->set_sensitive(on && timer_on);
+          timer_display_button[i]->set_sensitive(timer_on);
         }
-      cycle_entry->set_sensitive(on && count != 3);
+      cycle_entry->set_sensitive(count != 3);
 
     }
   else if (name == "main_window")

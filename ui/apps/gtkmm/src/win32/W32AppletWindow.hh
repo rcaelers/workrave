@@ -36,23 +36,21 @@ public:
   W32AppletWindow();
   virtual ~W32AppletWindow();
 
-  virtual AppletState activate_applet();
-  virtual void deactivate_applet();
-
-  void set_slot(workrave::BreakId  id, int slot);
+  void set_slot(workrave::BreakId  id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
                     TimerColorId primary_color,
                     int primary_value, int primary_max,
                     TimerColorId secondary_color,
-                    int secondary_value, int secondary_max);
-  void update_view();
+                    int secondary_value, int secondary_max) override;
+  void update_view()  override;
   void update_time_bars();
   void update_menu();
-  void set_enabled(bool enabled);
-  void set_geometry(Orientation orientation, int size);
+  bool is_visible() const override;
+  void set_geometry(Orientation orientation, int size)  override;
 
   void init_menu(HWND dest);
+  void init_thread();
   void add_menu(const char *text, short cmd, int flags);
 
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
@@ -76,7 +74,6 @@ private:
   HWND applet_window;
   bool menu_sent;
 
-  bool local_menu_ready;
   AppletHeartbeatData local_heartbeat_data;
   AppletMenuData local_menu_data;
   HWND local_applet_window;

@@ -49,7 +49,6 @@
 
 #ifdef PLATFORM_OS_WINDOWS
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
-const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
 
 using namespace workrave::utils;

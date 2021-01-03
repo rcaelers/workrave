@@ -76,33 +76,32 @@ public:
 
 private:
   // IAppletWindow
-  virtual AppletState activate_applet();
-  virtual void deactivate_applet();
-  virtual void init_applet();
+  void init_applet() override;
 
   // ITimerBoxView
-  virtual void set_slot(workrave::BreakId  id, int slot);
-  virtual void set_time_bar(workrave::BreakId id,
-                            int value,
-                            TimerColorId primary_color,
-                            int primary_value, int primary_max,
-                            TimerColorId secondary_color,
-                            int secondary_value, int secondary_max);
-  virtual void update_view();
+  void set_slot(workrave::BreakId  id, int slot) override;
+  void set_time_bar(workrave::BreakId id,
+                    int value,
+                    TimerColorId primary_color,
+                    int primary_value, int primary_max,
+                    TimerColorId secondary_color,
+                    int secondary_value, int secondary_max) override;
+  void update_view() override;
+  bool is_visible() const override;
 
   // IDBusWatch
-  virtual void bus_name_presence(const std::string &name, bool present);
+  void bus_name_presence(const std::string &name, bool present) override;
 
   // Menu
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage) override;
 
   void add_menu_item(const char *text, int command, int flags);
 
   void send_tray_icon_enabled();
 
 private:
-  bool enabled;
-  bool visible;
+  bool visible { false };
+  bool embedded { false };
   TimerData data[workrave::BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;

@@ -113,14 +113,8 @@ MacOSAppletWindow::convertColorId(TimerColorId colorId)
   return TimerColorId::Inactive;
 }
 
-AppletWindow::AppletState
-MacOSAppletWindow::activate_applet()
+bool
+OSXAppletWindow::is_visible() const
 {
-  return APPLET_STATE_VISIBLE;
-}
-
-
-void
-MacOSAppletWindow::deactivate_applet()
-{
+  return true;
 }

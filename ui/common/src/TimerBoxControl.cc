@@ -430,7 +430,6 @@ TimerBoxControl::load_configuration()
 
       break_slot_cycle[i] = 0;
     }
-  view->set_enabled(GUIConfig::timerbox_enabled(name)());
   reconfigure = true;
   TRACE_EXIT();
 }

@@ -61,7 +61,6 @@ private:
   void add_trailing_slash(std::string &key) const;
 
   std::string key_root;
-  PHKEY key_root_handle;
 };
 
 #endif // W32CONFIGURATOR_HH

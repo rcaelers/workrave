@@ -7,7 +7,7 @@ DOCKER_ARGS=()
 BUILT_TYPE=RelWithDebInfo
 WORKING_DIR=
 OUTPUT_DIR=
-CONF_COMPILER=clang
+CONF_COMPILER=
 CONF_CONFIGURATION=Release
 
 ROOT=`git rev-parse --show-toplevel`
@@ -68,6 +68,14 @@ case "$CONFIG" in
         IMAGE=$CONFIG
       ;;
 esac
+
+if [[ -z "$CONF_COMPILER" ]] ; then
+    if [[ $IMAGE =~ "mingw" ]]; then
+        CONF_COMPILER=clang
+    else
+        CONF_COMPILER=gcc
+    fi
+fi
 
 BUILD_ARGS+=("-DCMAKE_BUILD_TYPE=${BUILD_TYPE}")
 BUILD_ARGS+=("-M\"-j4\"")

@@ -1578,11 +1578,9 @@ GUI::win32_filter_func (void     *xevent,
         break;
       }
 
-    default:
-      W32AppletWindow *applet_window =
-        static_cast<W32AppletWindow*>
-        (gui->applet_control->get_applet_window(AppletControl::APPLET_W32));
-      if (applet_window)
+      default:
+        std::shared_ptr<W32AppletWindow> applet_window = std::dynamic_pointer_cast<W32AppletWindow>(gui->applet_control->get_applet_window(AppletControl::AppletType::Windows));
+        if (applet_window)
         {
           ret = applet_window->win32_filter_func(xevent, event);
         }

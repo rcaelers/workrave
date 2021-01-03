@@ -42,13 +42,8 @@ public:
   void update_view() override
   {
   }
-
-  void set_enabled(bool enabled) override
-  {
-    (void) enabled;
-  }
-
-  void set_geometry(Orientation orientation, int size) override
+  
+  virtual void set_geometry(Orientation orientation, int size) override
   {
     (void) orientation;
     (void) size;

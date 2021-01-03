@@ -52,6 +52,9 @@ const string GUIConfig::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
+const string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
+const string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
+
 const string GUIConfig::CFG_KEY_TIMERBOX = "gui/";
 const string GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
 const string GUIConfig::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
@@ -89,7 +92,6 @@ GUIConfig::init()
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 }
-
 
 
 string
@@ -249,4 +251,16 @@ Setting<bool> &
 GUIConfig::timerbox_enabled(const std::string &box)
 {
   return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + CFG_KEY_TIMERBOX_ENABLED, true);
+}
+
+Setting<bool> &
+GUIConfig::applet_fallback_enabled()
+{
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_APPLET_FALLBACK_ENABLED, false);
+}
+
+Setting<bool> &
+GUIConfig::applet_icon_enabled()
+{
+  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_APPLET_ICON_ENABLED, true);
 }
