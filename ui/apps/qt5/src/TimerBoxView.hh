@@ -54,7 +54,6 @@ public:
 
   void set_icon(StatusIconType icon) override;
   void update_view() override;
-  void set_enabled(bool enabled) override;
 
 private:
   void init_table();
