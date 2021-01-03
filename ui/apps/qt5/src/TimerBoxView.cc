@@ -261,12 +261,6 @@ TimerBoxView::update_view()
 }
 
 void
-TimerBoxView::set_enabled(bool enabled)
-{
-  (void)enabled;
-}
-
-void
 TimerBoxView::set_sheep_only(bool sheep_only)
 {
   TRACE_ENTER_MSG("TimerBoxView::set_sheep_only", sheep_only);
