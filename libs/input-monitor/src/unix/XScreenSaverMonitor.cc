@@ -25,6 +25,8 @@
 
 #ifdef HAVE_GTK
 #include <gdk/gdkx.h>
+
+#include <memory>
 #endif
 
 #include "XScreenSaverMonitor.hh"
@@ -71,7 +73,7 @@ XScreenSaverMonitor::init()
   {
 
     screen_saver_info = XScreenSaverAllocInfo();
-    monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&XScreenSaverMonitor::run, this)));
+    monitor_thread = std::make_shared<boost::thread>(std::bind(&XScreenSaverMonitor::run, this));
   }
 
   TRACE_RETURN(has_extension);

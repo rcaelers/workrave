@@ -16,6 +16,8 @@
 //
 
 #ifdef HAVE_CONFIG_H
+#include <memory>
+
 #include "config.h"
 #endif
 
@@ -76,7 +78,7 @@ MutterInputMonitor::init_idle_monitor()
 
       if (result)
         {
-          monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&MutterInputMonitor::run, this)));
+          monitor_thread = std::make_shared<boost::thread>(std::bind(&MutterInputMonitor::run, this));
         }
     }
   else

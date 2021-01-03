@@ -40,6 +40,8 @@
 
 #ifdef HAVE_APP_GTK
 #include <gdk/gdkx.h>
+
+#include <memory>
 #endif
 
 using namespace std;
@@ -130,7 +132,7 @@ X11InputMonitor::~X11InputMonitor()
 bool
 X11InputMonitor::init()
 {
-  monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&X11InputMonitor::run, this)));
+  monitor_thread = std::make_shared<boost::thread>(std::bind(&X11InputMonitor::run, this));
   return true;
 }
 
