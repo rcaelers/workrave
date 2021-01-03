@@ -31,7 +31,7 @@ class TimeBar : public Gtk::DrawingArea
 {
 public:
   TimeBar();
-  virtual ~TimeBar();
+  ~TimeBar() override;
 
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);
@@ -58,13 +58,13 @@ private:
   void set_text_color(Gdk::Color color);
 
 protected:
-  virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
-  virtual void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const;
-  virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
-  virtual void on_size_allocate(Gtk::Allocation& allocation);
-  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
+  Gtk::SizeRequestMode get_request_mode_vfunc() const override;
+  void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const override;
+  void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const override;
+  void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const override;
+  void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const override;
+  void on_size_allocate(Gtk::Allocation& allocation) override;
+  bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
 
 private:
   static std::map<TimerColorId, Gdk::Color> bar_colors;

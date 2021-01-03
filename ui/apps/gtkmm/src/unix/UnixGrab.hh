@@ -33,9 +33,9 @@ class UnixGrab : public Grab
 public:
   UnixGrab();
 
-  bool can_grab();
-  void grab(GdkWindow *window);
-  void ungrab();
+  bool can_grab() override;
+  void grab(GdkWindow *window) override;
+  void ungrab() override;
 
 private:
   bool grab_internal();

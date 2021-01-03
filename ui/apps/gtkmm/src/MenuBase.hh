@@ -27,9 +27,9 @@
 class MenuBase : public IMenu
 {
 public:
-  virtual ~MenuBase() {}
+  ~MenuBase() override {}
 
-  virtual void init()
+  void init() override
   {
   }
 
@@ -38,7 +38,7 @@ public:
     (void) window;
   }
 
-  virtual void popup(const guint button, const guint activate_time)
+  void popup(const guint button, const guint activate_time) override
   {
     (void) button;
     (void) activate_time;

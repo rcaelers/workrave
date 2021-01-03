@@ -38,14 +38,14 @@ class RestBreakWindow :
 {
 public:
   RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~RestBreakWindow();
+  ~RestBreakWindow() override;
 
-  void start();
-  void set_progress(int value, int max_value);
-  void update_break_window();
+  void start() override;
+  void set_progress(int value, int max_value) override;
+  void update_break_window() override;
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
   void draw_time_bar();
 
 private:

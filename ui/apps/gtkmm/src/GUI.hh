@@ -81,47 +81,47 @@ class GUI :
 {
 public:
   GUI(int argc, char **argv);
-  virtual ~GUI();
+  ~GUI() override;
 
   static IGUI *get_instance();
 
   AppletControl *get_applet_control() const;
-  MainWindow *get_main_window() const;
-  SoundTheme::Ptr get_sound_theme() const;
-  Menus *get_menus() const;
+  MainWindow *get_main_window() const override;
+  SoundTheme::Ptr get_sound_theme() const override;
+  Menus *get_menus() const override;
 
   void main();
 
   // GUIFactoryInterface methods
-  virtual void create_prelude_window(workrave::BreakId break_id);
-  virtual void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint);
-  virtual void hide_break_window();
-  virtual void show_break_window();
-  virtual void refresh_break_window();
-  virtual void set_break_progress(int value, int max_value);
-  virtual void set_prelude_stage(PreludeStage stage);
-  virtual void set_prelude_progress_text(PreludeProgressText text);
-  virtual void terminate();
+  void create_prelude_window(workrave::BreakId break_id) override;
+  void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint) override;
+  void hide_break_window() override;
+  void show_break_window() override;
+  void refresh_break_window() override;
+  void set_break_progress(int value, int max_value) override;
+  void set_prelude_stage(PreludeStage stage) override;
+  void set_prelude_progress_text(PreludeProgressText text) override;
+  void terminate() override;
 
   //
 
-  virtual void bus_name_presence(const std::string &name, bool present);
+  void bus_name_presence(const std::string &name, bool present) override;
 
   // Internal public methods
-  void restbreak_now();
-  void open_main_window();
+  void restbreak_now() override;
+  void open_main_window() override;
   void close_main_window();
   void init_multihead();
 
   // Prefs
   // Misc
-  sigc::signal0<void> &signal_heartbeat();
-  HeadInfo &get_head(int head);
-  int get_number_of_heads() const;
-  int map_to_head(int &x, int &y);
-  void map_from_head(int &x, int &y, int head);
-  bool bound_head(int &x, int &y, int width, int height, int &head);
-  void interrupt_grab();
+  sigc::signal0<void> &signal_heartbeat() override;
+  HeadInfo &get_head(int head) override;
+  int get_number_of_heads() const override;
+  int map_to_head(int &x, int &y) override;
+  void map_from_head(int &x, int &y, int head) override;
+  bool bound_head(int &x, int &y, int width, int height, int &head) override;
+  void interrupt_grab() override;
 
 private:
   std::string get_timers_tooltip();

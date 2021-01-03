@@ -38,13 +38,13 @@ class ExercisesPanel : public Gtk::HBox
 {
 public:
   ExercisesPanel(Gtk::ButtonBox *dialog_action_area);
-  ~ExercisesPanel();
+  ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
   sigc::signal0<void> &signal_stop() { return stop_signal; }
 
 protected:
-  void on_realize();
+  void on_realize() override;
 
 private:
   void reset();

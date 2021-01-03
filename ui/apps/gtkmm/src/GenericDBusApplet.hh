@@ -65,7 +65,7 @@ public:
   using MenuItems = std::list<MenuItem>;
 
   GenericDBusApplet();
-  virtual ~GenericDBusApplet();
+  ~GenericDBusApplet() override;
 
   // DBus
   virtual void get_menu(MenuItems &out) const;

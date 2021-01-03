@@ -43,7 +43,7 @@ public:
   {
   }
   
-  virtual void set_geometry(Orientation orientation, int size) override
+  void set_geometry(Orientation orientation, int size) override
   {
     (void) orientation;
     (void) size;

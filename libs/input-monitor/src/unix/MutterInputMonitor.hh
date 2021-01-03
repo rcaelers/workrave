@@ -34,13 +34,13 @@ public:
   MutterInputMonitor();
 
   //! Destructor.
-  virtual ~MutterInputMonitor();
+  ~MutterInputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   static void on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);

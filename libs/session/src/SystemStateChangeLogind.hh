@@ -43,20 +43,20 @@ class SystemStateChangeLogind : public ISystemStateChangeMethod
 {
 public:
   explicit SystemStateChangeLogind(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeLogind() {};
+  
+  ~SystemStateChangeLogind() override {};
 
   //PowerOff(), Reboot(), Suspend(), Hibernate(), HybridSleep()
-  virtual bool shutdown() { return execute("PowerOff"); }
-  virtual bool suspend() { return execute("Suspend"); }
-  virtual bool hibernate() { return execute("Hibernate"); }
-  virtual bool suspendHybrid() { return execute("HybridSleep"); }
+  bool shutdown() override { return execute("PowerOff"); }
+  bool suspend() override { return execute("Suspend"); }
+  bool hibernate() override { return execute("Hibernate"); }
+  bool suspendHybrid() override { return execute("HybridSleep"); }
 
 
-  virtual bool canShutdown() { return can_shutdown;}
-  virtual bool canSuspend() { return can_suspend;}
-  virtual bool canHibernate() { return can_hibernate;}
-  virtual bool canSuspendHybrid() { return can_suspend_hybrid;}
+  bool canShutdown() override { return can_shutdown;}
+  bool canSuspend() override { return can_suspend;}
+  bool canHibernate() override { return can_hibernate;}
+  bool canSuspendHybrid() override { return can_suspend_hybrid;}
 
   static const char *dbus_name;
 

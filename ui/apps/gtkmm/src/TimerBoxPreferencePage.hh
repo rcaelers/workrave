@@ -40,7 +40,7 @@ class TimerBoxPreferencePage
 {
 public:
   TimerBoxPreferencePage(std::string name);
-  ~TimerBoxPreferencePage();
+  ~TimerBoxPreferencePage() override;
 
 private:
   void create_page();

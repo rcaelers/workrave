@@ -32,7 +32,7 @@ public:
   sigc::signal<bool, int> button_pressed;
 
 private:
-  bool on_button_press_event(GdkEventButton *event);
+  bool on_button_press_event(GdkEventButton *event) override;
 };
 
 

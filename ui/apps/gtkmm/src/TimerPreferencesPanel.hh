@@ -51,7 +51,7 @@ public:
   TimerPreferencesPanel(workrave::BreakId timer,
                         Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                         Glib::RefPtr<Gtk::SizeGroup> vsize_group);
-  ~TimerPreferencesPanel();
+  ~TimerPreferencesPanel() override;
 
 private:
   bool on_preludes_changed(const std::string &key, bool write);

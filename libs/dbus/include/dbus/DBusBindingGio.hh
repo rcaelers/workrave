@@ -44,7 +44,7 @@ namespace workrave
     {
     public:
       explicit DBusBindingGio(IDBus::Ptr dbus);
-      virtual ~DBusBindingGio();
+      ~DBusBindingGio() override;
 
       virtual const char *get_interface_introspect() = 0;
       virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs) = 0;

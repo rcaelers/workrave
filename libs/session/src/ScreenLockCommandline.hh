@@ -35,7 +35,7 @@ public:
   //async - whether to invoke the program syncronously (async = false, wait for the command
   //to complete) or asynchronously (async = true)
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
-  ~ScreenLockCommandline()
+  ~ScreenLockCommandline() override
     {
       if (cmd != NULL)
         {
@@ -44,8 +44,8 @@ public:
         }
     }
 
-  virtual bool is_lock_supported() { return cmd != NULL; }
-  virtual bool lock();
+  bool is_lock_supported() override { return cmd != NULL; }
+  bool lock() override;
 private:
   bool invoke(const gchar* command, bool async);
 

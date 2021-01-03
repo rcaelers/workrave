@@ -45,23 +45,23 @@ namespace workrave
 
     public:
       DBusGio();
-      virtual ~DBusGio();
+      ~DBusGio() override;
 
-      virtual void init();
-      virtual void register_service(const std::string &service, IDBusWatch *cb  = nullptr);
-      virtual void register_object_path(const std::string &object_path);
-      virtual void connect(const std::string &path, const std::string &interface_name, void *object);
-      virtual void disconnect(const std::string &path, const std::string &interface_name);
-      virtual void register_binding(const std::string &interface_name, DBusBinding *binding);
-      virtual DBusBinding *find_binding(const std::string &interface_name) const;
+      void init() override;
+      void register_service(const std::string &service, IDBusWatch *cb  = nullptr) override;
+      void register_object_path(const std::string &object_path) override;
+      void connect(const std::string &path, const std::string &interface_name, void *object) override;
+      void disconnect(const std::string &path, const std::string &interface_name) override;
+      void register_binding(const std::string &interface_name, DBusBinding *binding) override;
+      DBusBinding *find_binding(const std::string &interface_name) const override;
 
-      virtual bool is_available() const;
-      virtual bool is_running(const std::string &name) const;
+      bool is_available() const override;
+      bool is_running(const std::string &name) const override;
 
-      virtual GDBusConnection *get_connection() const { return connection; }
+      GDBusConnection *get_connection() const override { return connection; }
 
-      void watch(const std::string &name, IDBusWatch *cb);
-      void unwatch(const std::string &name);
+      void watch(const std::string &name, IDBusWatch *cb) override;
+      void unwatch(const std::string &name) override;
 
     private:
       using Bindings = std::map<std::string, DBusBinding *>;

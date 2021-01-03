@@ -35,10 +35,10 @@ class IndicatorAppletMenu : public MenuBase
 {
 public:
   IndicatorAppletMenu();
-  virtual ~IndicatorAppletMenu();
+  ~IndicatorAppletMenu() override;
 
-  virtual void init();
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
+  void init() override;
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage) override;
 
 private:
   enum MenuItemType { Radio, Check, Normal };

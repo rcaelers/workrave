@@ -26,11 +26,11 @@ class GstSoundPlayer : public ISoundDriver
 {
 public:
   GstSoundPlayer();
-  virtual ~GstSoundPlayer();
+  ~GstSoundPlayer() override;
 
-  void init(ISoundPlayerEvents *events);
-  bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(std::string wavfile, int volume);
+  void init(ISoundPlayerEvents *events) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
 
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 

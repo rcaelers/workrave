@@ -28,17 +28,17 @@ class IconListCellRenderer : public Gtk::CellRenderer
 {
 public:
   IconListCellRenderer();
-  virtual ~IconListCellRenderer();
+  ~IconListCellRenderer() override;
 
   Glib::PropertyProxy<Glib::ustring> property_text();
   Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > property_pixbuf();
 
 protected:
-  virtual void get_preferred_width_vfunc(Gtk::Widget &widget, int &minimum_width, int &natural_width) const;
-  virtual void get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const;
-  virtual void get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const;
-  virtual void get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const;
-  virtual void render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::Widget &widget, const Gdk::Rectangle &background_area, const Gdk::Rectangle &cell_area, Gtk::CellRendererState flags);
+  void get_preferred_width_vfunc(Gtk::Widget &widget, int &minimum_width, int &natural_width) const override;
+  void get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const override;
+  void get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const override;
+  void get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const override;
+  void render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::Widget &widget, const Gdk::Rectangle &background_area, const Gdk::Rectangle &cell_area, Gtk::CellRendererState flags) override;
 
 private:
   void update_properties();

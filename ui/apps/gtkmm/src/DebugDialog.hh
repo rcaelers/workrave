@@ -37,7 +37,7 @@ class DebugDialog :
 {
 public:
   DebugDialog();
-  ~DebugDialog();
+  ~DebugDialog() override;
 
   int run();
 

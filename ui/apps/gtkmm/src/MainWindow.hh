@@ -38,7 +38,7 @@ class MainWindow :
 {
 public:
   MainWindow();
-  ~MainWindow();
+  ~MainWindow() override;
 
   void init();
   void toggle_window();
@@ -100,8 +100,8 @@ private:
   void move_to_start_position();
 
   // UI Events.
-  bool on_delete_event(GdkEventAny*);
-  bool on_configure_event(GdkEventConfigure *event);
+  bool on_delete_event(GdkEventAny*) override;
+  bool on_configure_event(GdkEventConfigure *event) override;
 
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);

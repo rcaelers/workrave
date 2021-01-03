@@ -31,8 +31,8 @@ class UnixInputMonitorFactory  : public workrave::input_monitor::IInputMonitorFa
 public:
   UnixInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
-  virtual void init(const char *display);
-  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
+  void init(const char *display) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability) override;
 
   bool error_reported;
   std::string actual_monitor_method;

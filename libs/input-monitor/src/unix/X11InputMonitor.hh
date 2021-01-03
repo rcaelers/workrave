@@ -38,13 +38,13 @@ public:
   X11InputMonitor(const char *display_name);
 
   //! Destructor.
-  virtual ~X11InputMonitor();
+  ~X11InputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   //! The monitor's execution thread.

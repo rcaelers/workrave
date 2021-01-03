@@ -68,16 +68,16 @@ public:
               HeadInfo &head,
               BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
-  virtual ~BreakWindow();
+  ~BreakWindow() override;
 
-  virtual void init();
-  virtual void start();
-  virtual void stop();
-  virtual void refresh();
+  void init() override;
+  void start() override;
+  void stop() override;
+  void refresh() override;
 
   virtual void update_break_window();
 
-  Glib::RefPtr<Gdk::Window> get_gdk_window();
+  Glib::RefPtr<Gdk::Window> get_gdk_window() override;
 
 protected:
   virtual Gtk::Widget *create_gui() = 0;
@@ -90,7 +90,7 @@ protected:
   void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
-  bool on_delete_event(GdkEventAny *);
+  bool on_delete_event(GdkEventAny *) override;
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
@@ -169,8 +169,8 @@ private:
       System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
 
-  virtual bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
-  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+  bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr) override;
+  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen) override;
 };
 
 inline BreakWindow::BreakFlags

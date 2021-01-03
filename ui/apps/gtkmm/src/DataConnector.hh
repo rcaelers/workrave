@@ -113,7 +113,7 @@ class DataConnection
 {
 public:
   DataConnection();
-  virtual ~DataConnection();
+  ~DataConnection() override;
 
   void set(dc::Flags flags, const std::string &key);
   virtual void init() = 0;
@@ -191,13 +191,13 @@ class DataConnectionGtkEntryTwin  : public DataConnection
     : widget1(widget1), widget2(widget2)
   {
   }
-  virtual ~DataConnectionGtkEntryTwin()
+  ~DataConnectionGtkEntryTwin() override
   {
   }
 
-  void init();
+  void init() override;
   void widget_changed_notify();
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
 private:
   Gtk::Entry *widget1;

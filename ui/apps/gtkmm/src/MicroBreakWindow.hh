@@ -43,17 +43,17 @@ class MicroBreakWindow :
 {
 public:
   MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~MicroBreakWindow();
+  ~MicroBreakWindow() override;
 
-  void set_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
   void heartbeat();
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
   void on_restbreaknow_button_clicked();
 
 private:
-  void update_break_window();
+  void update_break_window() override;
   void update_time_bar();
   void update_label();
   Gtk::Button *create_restbreaknow_button(bool label);

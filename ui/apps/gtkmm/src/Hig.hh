@@ -59,7 +59,7 @@ class HigCategoriesPanel : public Gtk::VBox
 {
 public:
   HigCategoriesPanel();
-  void add(Gtk::Widget &panel);
+  void add(Gtk::Widget &panel) override;
 };
 
 class HigUtil

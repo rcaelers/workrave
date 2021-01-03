@@ -28,15 +28,15 @@ class MainGtkMenu : public MenuBase
 {
 public:
   MainGtkMenu(bool show_open);
-  virtual ~MainGtkMenu() = default;
+  ~MainGtkMenu() override = default;
 
   virtual void create_actions();
   virtual void create_menu();
   virtual void post_init() {}
 
-  virtual void init();
-  virtual void popup(const guint button, const guint activate_time);
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage);
+  void init() override;
+  void popup(const guint button, const guint activate_time) override;
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage) override;
 
 private:
   void on_menu_mode(int mode);

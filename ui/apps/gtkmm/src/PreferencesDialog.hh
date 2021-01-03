@@ -53,7 +53,7 @@ class PreferencesDialog : public HigDialog
 {
 public:
   explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
-  virtual ~PreferencesDialog();
+  ~PreferencesDialog() override;
 
   int run();
 
@@ -64,8 +64,8 @@ private:
   Gtk::Widget *create_sounds_page();
   Gtk::Widget *create_applet_page();
   Gtk::Widget *create_mainwindow_page();
-  bool on_focus_in_event(GdkEventFocus *event);
-  bool on_focus_out_event(GdkEventFocus *event);
+  bool on_focus_in_event(GdkEventFocus *event) override;
+  bool on_focus_out_event(GdkEventFocus *event) override;
 
   void on_sound_changed();
   void on_block_changed();

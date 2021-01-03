@@ -40,11 +40,11 @@ class SystemStateChangeConsolekit : public ISystemStateChangeMethod
 public:
   static const char *dbus_name;
   explicit SystemStateChangeConsolekit(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeConsolekit() {};
+  
+  ~SystemStateChangeConsolekit() override {};
 
-  virtual bool shutdown();
-  virtual bool canShutdown() { return can_shutdown;}
+  bool shutdown() override;
+  bool canShutdown() override { return can_shutdown;}
 
 private:
   bool can_shutdown;

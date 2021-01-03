@@ -42,13 +42,13 @@ class SystemStateChangeUPower : public ISystemStateChangeMethod
 {
 public:
   explicit SystemStateChangeUPower(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeUPower() {};
-  virtual bool suspend() { return execute("Suspend"); }
-  virtual bool hibernate() { return execute("Hibernate"); }
+  
+  ~SystemStateChangeUPower() override {};
+  bool suspend() override { return execute("Suspend"); }
+  bool hibernate() override { return execute("Hibernate"); }
 
-  virtual bool canSuspend() { return can_suspend;}
-  virtual bool canHibernate() { return can_hibernate;}
+  bool canSuspend() override { return can_suspend;}
+  bool canHibernate() override { return can_hibernate;}
 
   static const char *dbus_name;
 private:

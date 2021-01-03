@@ -44,7 +44,7 @@ class X11SystrayAppletWindow :
 {
 public:
   X11SystrayAppletWindow();
-  virtual ~X11SystrayAppletWindow();
+  ~X11SystrayAppletWindow() override;
 
   bool is_visible() const override;
 

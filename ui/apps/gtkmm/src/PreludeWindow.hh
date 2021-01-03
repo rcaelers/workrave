@@ -36,24 +36,24 @@ class PreludeWindow :
 {
 public:
   PreludeWindow(HeadInfo &head, workrave::BreakId break_id);
-  virtual ~PreludeWindow();
+  ~PreludeWindow() override;
 
-  void start();
-  void stop();
-  void refresh();
-  void set_progress(int value, int max_value);
-  void set_stage(workrave::IApp::PreludeStage stage);
-  void set_progress_text(workrave::IApp::PreludeProgressText text);
+  void start() override;
+  void stop() override;
+  void refresh() override;
+  void set_progress(int value, int max_value) override;
+  void set_stage(workrave::IApp::PreludeStage stage) override;
+  void set_progress_text(workrave::IApp::PreludeProgressText text) override;
 
 private:
   void on_frame_flash_event(bool frame_visible);
-  void add(Gtk::Widget& widget);
+  void add(Gtk::Widget& widget) override;
 
 #ifdef PLATFORM_OS_WINDOWS
   void init_avoid_pointer_polling();
   bool on_avoid_pointer_timer_event();
 #else
-  bool on_enter_notify_event(GdkEventCrossing* event);
+  bool on_enter_notify_event(GdkEventCrossing* event) override;
 #endif
   void get_pointer_location(int &x, int &y);
   void avoid_pointer();

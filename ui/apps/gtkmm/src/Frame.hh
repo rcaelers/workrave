@@ -29,7 +29,7 @@ public:
   };
 
   Frame();
-  virtual ~Frame();
+  ~Frame() override;
 
   void set_frame_width(guint width);
   void set_frame_style(Style style);
@@ -40,14 +40,14 @@ public:
 
 protected:
   bool on_timer();
-  void on_size_allocate(Gtk::Allocation &allocation);
+  void on_size_allocate(Gtk::Allocation &allocation) override;
 
-  virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
-  virtual void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const;
-  virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
-  virtual bool on_draw(const Cairo::RefPtr< Cairo::Context >& cr);
+  Gtk::SizeRequestMode get_request_mode_vfunc() const override;
+  void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const override;
+  void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const override;
+  void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const override;
+  void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const override;
+  bool on_draw(const Cairo::RefPtr< Cairo::Context >& cr) override;
 
   void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);

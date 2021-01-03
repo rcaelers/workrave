@@ -41,13 +41,13 @@ public:
   XScreenSaverMonitor();
 
   //! Destructor.
-  virtual ~XScreenSaverMonitor();
+  ~XScreenSaverMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   //! The monitor's execution thread.

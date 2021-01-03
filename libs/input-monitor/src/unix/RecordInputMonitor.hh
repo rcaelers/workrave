@@ -40,13 +40,13 @@ public:
   RecordInputMonitor(const char *display_name);
 
   //! Destructor.
-  virtual ~RecordInputMonitor();
+  ~RecordInputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
 

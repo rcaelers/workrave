@@ -30,12 +30,12 @@ class DailyLimitWindow :
 {
 public:
   DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~DailyLimitWindow();
+  ~DailyLimitWindow() override;
 
-  void set_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
 };
 
 

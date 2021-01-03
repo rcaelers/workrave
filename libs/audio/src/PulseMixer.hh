@@ -31,10 +31,10 @@ class PulseMixer : public IMixer
 {
 public:
   PulseMixer();
-  virtual ~PulseMixer();
+  ~PulseMixer() override;
 
-  void init();
-  bool set_mute(bool on);
+  void init() override;
+  bool set_mute(bool on) override;
 
 private:
   static void context_state_cb(pa_context *c, void *user_data);

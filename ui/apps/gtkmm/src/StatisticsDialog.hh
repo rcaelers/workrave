@@ -40,7 +40,7 @@ class StatisticsDialog : public HigDialog
 {
 public:
   StatisticsDialog();
-  ~StatisticsDialog();
+  ~StatisticsDialog() override;
 
   static const int BREAK_STATS = 7;
 
