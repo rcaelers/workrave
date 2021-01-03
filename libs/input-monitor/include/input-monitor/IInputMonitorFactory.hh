@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 #define WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "IInputMonitor.hh"

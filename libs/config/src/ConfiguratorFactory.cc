@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "IConfigurator.hh"
 #include "ConfiguratorFactory.hh"

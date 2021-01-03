@@ -23,7 +23,7 @@
 
 #include "Text.hh"
 
-#include <stdio.h>
+#include <cstdio>
 
 #ifdef TIME_WITH_SYS_TIME
 # include <sys/time.h>

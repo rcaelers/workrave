@@ -27,9 +27,9 @@
 #include "commonui/nls.h"
 
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
-#include <string.h>
+#include <cstring>
 #include <boost/algorithm/string.hpp>
 
 #include "utils/Platform.hh"

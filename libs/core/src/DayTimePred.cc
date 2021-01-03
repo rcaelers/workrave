@@ -34,7 +34,7 @@
 
 #include <cstdlib>
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 
 #include "DayTimePred.hh"
 

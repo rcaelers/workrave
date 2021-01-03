@@ -35,9 +35,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <assert.h>
+#include <cassert>
 #include <sstream>
-#include <stdio.h>
+#include <cstdio>
 
 #include <ctime>
 #include <cstring>

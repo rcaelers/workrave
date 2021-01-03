@@ -18,8 +18,9 @@
 #include "config.h"
 
 #include <algorithm>
+#include <random>
 
-#include <string.h>
+#include <cstring>
 #include <gtkmm.h>
 
 #include "ExercisesPanel.hh"

@@ -22,8 +22,8 @@
 #include "debug.hh"
 
 #ifdef HAVE_REALPATH
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #endif
 
 #include "SoundPlayer.hh"

@@ -35,8 +35,8 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <stdio.h>
-#include <assert.h>
+#include <cstdio>
+#include <cassert>
 #include <fcntl.h>
 
 #include "GUI.hh"

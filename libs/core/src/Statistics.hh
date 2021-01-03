@@ -29,8 +29,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <time.h>
-#include <string.h>
+#include <ctime>
+#include <cstring>
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"

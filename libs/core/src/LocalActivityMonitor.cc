@@ -23,8 +23,8 @@
 
 #include "LocalActivityMonitor.hh"
 
-#include <assert.h>
-#include <math.h>
+#include <cassert>
+#include <cmath>
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"

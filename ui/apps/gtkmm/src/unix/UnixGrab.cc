@@ -21,7 +21,7 @@
 
 #include "UnixGrab.hh"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <glibmm.h>
 

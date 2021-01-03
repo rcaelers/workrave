@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH
 #define WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "config/IConfigurator.hh"

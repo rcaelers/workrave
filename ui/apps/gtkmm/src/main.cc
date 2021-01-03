@@ -23,7 +23,7 @@
 
 #include "debug.hh"
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WINDOWS

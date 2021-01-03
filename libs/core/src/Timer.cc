@@ -33,9 +33,9 @@
 #include "utils/TimeSource.hh"
 
 #include <sstream>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include <cstdio>
+#include <cmath>
+#include <ctime>
 
 #include "DayTimePred.hh"
 

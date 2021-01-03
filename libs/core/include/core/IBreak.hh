@@ -23,7 +23,7 @@
 #include "core/CoreTypes.hh"
 
 #include <boost/signals2.hpp>
-#include <string.h>
+#include <cstring>
 
 namespace workrave {
 

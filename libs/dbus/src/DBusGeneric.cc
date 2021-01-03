@@ -22,7 +22,7 @@
 #endif
 
 #include "debug.hh"
-#include <string.h>
+#include <cstring>
 
 #include <string>
 #include <list>

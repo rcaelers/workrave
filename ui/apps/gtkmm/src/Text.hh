@@ -21,7 +21,7 @@
 #define TEXT_HH
 
 #include <string>
-#include <time.h>
+#include <ctime>
 
 class Text
 {

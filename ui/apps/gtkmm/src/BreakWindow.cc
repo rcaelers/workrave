@@ -21,7 +21,7 @@
 
 #include <ctime>
 
-#include <string.h>
+#include <cstring>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -43,7 +43,7 @@
 #include "commonui/nls.h"
 
 #include <gtkmm.h>
-#include <math.h>
+#include <cmath>
 
 #include "BreakWindow.hh"
 

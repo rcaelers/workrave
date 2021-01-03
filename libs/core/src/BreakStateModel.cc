@@ -21,7 +21,7 @@
 
 #include "debug.hh"
 
-#include <assert.h>
+#include <cassert>
 #include <string>
 
 #include "BreakStateModel.hh"

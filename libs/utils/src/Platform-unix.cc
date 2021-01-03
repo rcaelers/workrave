@@ -23,7 +23,7 @@
 
 #include "utils/Platform.hh"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #ifdef HAVE_GTK
 #include <glib.h>

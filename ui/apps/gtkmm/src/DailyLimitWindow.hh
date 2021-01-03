@@ -20,7 +20,7 @@
 #ifndef DAILYLIMITWINDOW_HH
 #define DAILYLIMITWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "BreakWindow.hh"
 #include "commonui/GUIConfig.hh"

@@ -20,7 +20,7 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 class TimeBar;
 

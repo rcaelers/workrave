@@ -20,7 +20,7 @@
 #ifndef PREFERENCESDIALOG_HH
 #define PREFERENCESDIALOG_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <vector>
 

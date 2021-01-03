@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_UTILS_DEBUG_HH
 #define WORKRAVE_UTILS_DEBUG_HH
 
-#include <assert.h>
+#include <cassert>
 
 #ifndef TRACING
 

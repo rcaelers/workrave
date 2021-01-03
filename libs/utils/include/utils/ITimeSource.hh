@@ -20,7 +20,7 @@
 #ifndef WORKRAVE_UTILS_ITIMESOURCE_HH
 #define WORKRAVE_UTILS_ITIMESOURCE_HH
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 
 namespace workrave

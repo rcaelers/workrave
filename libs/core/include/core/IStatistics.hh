@@ -20,12 +20,12 @@
 #ifndef WORKRAVE_BACKEND_ISTATISTICS_HH
 #define WORKRAVE_BACKEND_ISTATISTICS_HH
 
-#include <time.h>
+#include <ctime>
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;
 #else
-#include <stdint.h>
+#include <cstdint>
 #endif
 
 #include "core/CoreTypes.hh"

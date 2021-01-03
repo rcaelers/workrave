@@ -20,7 +20,7 @@
 #ifndef UNIXINPUTMONITORFACTORY_HH
 #define UNIXINPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "input-monitor/IInputMonitorFactory.hh"

@@ -23,7 +23,7 @@
 #include <glib.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 #include <strings.h>
 
 #include <iostream>

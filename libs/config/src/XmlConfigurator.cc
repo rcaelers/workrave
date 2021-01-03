@@ -24,7 +24,7 @@
 #include <boost/algorithm/string.hpp>
 #include "debug.hh"
 
-#include <string.h>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 

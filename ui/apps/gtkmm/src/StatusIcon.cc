@@ -23,7 +23,7 @@
 
 #include "debug.hh"
 #include <string>
-#include <assert.h>
+#include <cassert>
 
 #ifdef PLATFORM_OS_MACOS
 #if HAVE_IGE_MAC_INTEGRATION

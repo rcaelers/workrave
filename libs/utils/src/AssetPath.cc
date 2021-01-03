@@ -30,7 +30,7 @@
 #endif
 
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 
 #ifdef HAVE_UNISTD_H
