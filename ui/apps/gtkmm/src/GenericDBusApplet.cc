@@ -61,7 +61,7 @@ GenericDBusApplet::GenericDBusApplet()
       i.bar_secondary_max = 0;
     }
 
-  connections.add(GUIConfig::trayicon_enabled().connect(std::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
+  connections.add(GUIConfig::trayicon_enabled().connect([this](bool enabled) { send_tray_icon_enabled(); }));
 }
 
 GenericDBusApplet::~GenericDBusApplet()

@@ -75,7 +75,7 @@ LocalActivityMonitor::init()
   InputMonitorFactory::init(config, display_name);
 
   load_config();
-  connections.add(CoreConfig::key_monitor().connect(std::bind(&LocalActivityMonitor::load_config, this)));
+  connections.add(CoreConfig::key_monitor().connect([this] { load_config(); }));
 
   input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != nullptr)

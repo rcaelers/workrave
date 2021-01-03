@@ -51,12 +51,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   enable_buttons();
   init_page_callbacks();
 
-  connections.add(GUIConfig::key_timerbox(name).connect(std::bind(&TimerBoxPreferencePage::enable_buttons, this)));
+  connections.add(GUIConfig::key_timerbox(name).connect([this] { enable_buttons(); }));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = Backend::get_core();
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(std::bind(&TimerBoxPreferencePage::enable_buttons, this)));
+      connections.add(CoreConfig::break_enabled(BreakId(i)).connect([this](bool enabled) { enable_buttons(); }));
     }
 
   TRACE_EXIT();

@@ -41,8 +41,8 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
   load_timer_config();
   load_break_config();
 
-  connections.add(CoreConfig::key_timer(break_id).connect(std::bind(&BreakConfig::load_timer_config, this)));
-  connections.add(CoreConfig::key_break(break_id).connect(std::bind(&BreakConfig::load_break_config, this)));
+  connections.add(CoreConfig::key_timer(break_id).connect([this] { load_timer_config(); }));
+  connections.add(CoreConfig::key_break(break_id).connect([this] { load_break_config(); }));
 }
 
 void

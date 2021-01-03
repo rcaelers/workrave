@@ -516,11 +516,11 @@ GUI::init_core()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      b->signal_break_event().connect(std::bind(&GUI::on_break_event, this, BreakId(i), std::placeholders::_1));
+      b->signal_break_event().connect([this, break_id = BreakId(i)](auto && event) { on_break_event(break_id, std::forward<decltype(event)>(event)); });
     }
 
-  core->signal_operation_mode_changed().connect(std::bind(&GUI::on_operation_mode_changed, this, std::placeholders::_1));
-  core->signal_usage_mode_changed().connect(std::bind(&GUI::on_usage_mode_changed, this, std::placeholders::_1));
+  core->signal_operation_mode_changed().connect([this](auto && PH1) { on_operation_mode_changed(std::forward<decltype(PH1)>(PH1)); });
+  core->signal_usage_mode_changed().connect([this](auto && PH1) { on_usage_mode_changed(std::forward<decltype(PH1)>(PH1)); });
 
   GUIConfig::init();
 }

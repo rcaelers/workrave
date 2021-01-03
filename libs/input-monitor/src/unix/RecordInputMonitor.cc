@@ -95,7 +95,7 @@ RecordInputMonitor::init()
   bool ok = init_xrecord();
   if (ok)
     {
-      monitor_thread = std::make_shared<boost::thread>(std::bind(&RecordInputMonitor::run, this));
+      monitor_thread = std::make_shared<boost::thread>([this] { run(); });
     }
   return ok;
 }

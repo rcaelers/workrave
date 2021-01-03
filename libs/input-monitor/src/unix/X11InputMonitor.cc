@@ -132,7 +132,7 @@ X11InputMonitor::~X11InputMonitor()
 bool
 X11InputMonitor::init()
 {
-  monitor_thread = std::make_shared<boost::thread>(std::bind(&X11InputMonitor::run, this));
+  monitor_thread = std::make_shared<boost::thread>([this] { run(); });
   return true;
 }
 

@@ -42,7 +42,7 @@
 X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
   enabled = GUIConfig::applet_fallback_enabled()();
-  connections.add(GUIConfig::applet_fallback_enabled().connect(std::bind(&X11SystrayAppletWindow::on_enabled_changed, this)));
+  connections.add(GUIConfig::applet_fallback_enabled().connect([this](bool enabled) { on_enabled_changed(); }));
 }
 
 

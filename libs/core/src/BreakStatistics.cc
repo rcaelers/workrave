@@ -32,7 +32,7 @@ BreakStatistics::BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_st
   timer(timer),
   statistics(statistics)
 {
-  connections.connect(break_state_model->signal_break_event(), std::bind(&BreakStatistics::on_break_event, this, std::placeholders::_1));
+  connections.connect(break_state_model->signal_break_event(), [this](auto && event) { on_break_event(std::forward<decltype(event)>(event)); });
 }
 
 void
