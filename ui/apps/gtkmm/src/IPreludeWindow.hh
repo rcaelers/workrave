@@ -27,7 +27,7 @@
 class IPreludeWindow
 {
 public:
-  virtual ~IPreludeWindow() {}
+  virtual ~IPreludeWindow() = default;
 
   using Ptr = std::shared_ptr<IPreludeWindow>;
 

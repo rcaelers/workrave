@@ -28,7 +28,7 @@
 class ITimerBoxView
 {
 public:
-  virtual ~ITimerBoxView() {}
+  virtual ~ITimerBoxView() = default;
 
   virtual void set_slot(workrave::BreakId  id, int slot) = 0;
   virtual void set_time_bar(workrave::BreakId id,

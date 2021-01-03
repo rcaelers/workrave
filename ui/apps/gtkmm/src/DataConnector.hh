@@ -192,8 +192,7 @@ class DataConnectionGtkEntryTwin  : public DataConnection
   {
   }
   ~DataConnectionGtkEntryTwin() override
-  {
-  }
+  = default;
 
   void init() override;
   void widget_changed_notify();

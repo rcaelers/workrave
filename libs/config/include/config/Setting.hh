@@ -31,7 +31,7 @@ namespace workrave
     class SettingBase
     {
     public:
-      virtual ~SettingBase() {}
+      virtual ~SettingBase() = default;
     };
 
     class SettingGroup : public SettingBase, IConfiguratorListener, boost::noncopyable
@@ -45,8 +45,7 @@ namespace workrave
       }
 
       ~SettingGroup() override
-      {
-      }
+      = default;
 
       const std::string key() const
       {
@@ -94,8 +93,7 @@ namespace workrave
       }
 
       ~Setting() override
-      {
-      }
+      = default;
 
       const std::string key() const
       {

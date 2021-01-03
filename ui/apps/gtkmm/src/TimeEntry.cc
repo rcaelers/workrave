@@ -77,8 +77,7 @@ TimeEntry::TimeEntry()
 
 
 TimeEntry::~TimeEntry()
-{
-}
+= default;
 
 void
 TimeEntry::set_value(time_t t)

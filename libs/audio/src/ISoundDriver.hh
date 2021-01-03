@@ -27,7 +27,7 @@
 class ISoundDriver
 {
 public:
-  virtual ~ISoundDriver() {}
+  virtual ~ISoundDriver() = default;
 
   virtual void init(ISoundPlayerEvents *events = nullptr) = 0;
   virtual bool capability(workrave::audio::SoundCapability cap) = 0;

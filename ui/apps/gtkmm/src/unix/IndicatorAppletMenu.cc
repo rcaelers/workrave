@@ -39,8 +39,7 @@ using namespace std;
 
 //! Constructor.
 IndicatorAppletMenu::IndicatorAppletMenu()
-{
-}
+= default;
 
 //! Destructor.
 IndicatorAppletMenu::~IndicatorAppletMenu()

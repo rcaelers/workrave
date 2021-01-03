@@ -44,7 +44,7 @@ namespace workrave
         PROGRESS_TEXT_SILENT_IN
       };
 
-    virtual ~IApp() {}
+    virtual ~IApp() = default;
 
     //! Create a prelude window for specified break type.
     virtual void create_prelude_window(workrave::BreakId break_id) = 0;

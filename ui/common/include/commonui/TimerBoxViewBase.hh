@@ -27,7 +27,7 @@
 class TimerBoxViewBase : public ITimerBoxView
 {
 public:
-  ~TimerBoxViewBase() override {}
+  ~TimerBoxViewBase() override = default;
 
   void set_tip(std::string tip) override
   {

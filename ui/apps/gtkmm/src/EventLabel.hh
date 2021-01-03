@@ -26,8 +26,7 @@ class EventLabel : public Gtk::Label
 {
 public:
   EventLabel()
-  {
-  }
+  = default;
 
   EventLabel(const Glib::ustring& label, bool mnemonic = false) :
     Gtk::Label(label, mnemonic)

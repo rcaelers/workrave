@@ -45,7 +45,7 @@ namespace workrave
   public:
     using Ptr = std::shared_ptr<ICore>;
 
-    virtual ~ICore() {}
+    virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
     virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;

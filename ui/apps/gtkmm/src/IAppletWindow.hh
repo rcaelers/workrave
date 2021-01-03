@@ -26,7 +26,7 @@
 class IAppletWindow
 {
   public:
-    virtual ~IAppletWindow() {}
+    virtual ~IAppletWindow() = default;
 
     virtual sigc::signal<void, bool> &signal_visibility_changed() = 0;
 

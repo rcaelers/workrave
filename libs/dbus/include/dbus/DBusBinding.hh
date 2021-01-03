@@ -29,7 +29,7 @@ namespace workrave
     class DBusBinding
     {
     public:
-      virtual ~DBusBinding() {}
+      virtual ~DBusBinding() = default;
     };
   }
 }

@@ -39,7 +39,7 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<ISoundPlayer>;
 
-      virtual ~ISoundPlayer() {}
+      virtual ~ISoundPlayer() = default;
 
       virtual void init() = 0;
       virtual bool capability(SoundCapability cap) = 0;

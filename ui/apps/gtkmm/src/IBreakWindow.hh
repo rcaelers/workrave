@@ -25,7 +25,7 @@
 class IBreakWindow
 {
 public:
-  virtual ~IBreakWindow() {}
+  virtual ~IBreakWindow() = default;
 
   using Ptr = std::shared_ptr<IBreakWindow>;
 

@@ -25,7 +25,7 @@ namespace workrave
     class IConfiguratorListener
     {
     public:
-      virtual ~IConfiguratorListener() {}
+      virtual ~IConfiguratorListener() = default;
 
       //! The configuration item with specified key has changed.
       virtual void config_changed_notify(const std::string &key) = 0;

@@ -33,8 +33,7 @@
 using namespace std;
 
 XmlConfigurator::XmlConfigurator()
-{
-}
+= default;
 
 
 XmlConfigurator::~XmlConfigurator()

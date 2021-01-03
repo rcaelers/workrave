@@ -37,8 +37,7 @@ using namespace workrave::dbus;
 
 //! Construct a new D-BUS bridge
 DBusGeneric::DBusGeneric()
-{
-}
+= default;
 
 
 //! Destruct the D-BUS bridge

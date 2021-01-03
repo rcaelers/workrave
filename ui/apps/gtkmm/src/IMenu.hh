@@ -28,8 +28,8 @@
 class IMenu
 {
 public:
-  IMenu() {}
-  virtual ~IMenu() {}
+  IMenu() = default;
+  virtual ~IMenu() = default;
 
   virtual void init() = 0;
   virtual void popup(const guint button, const guint activate_time) = 0;

@@ -27,7 +27,7 @@ class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
 {
 public:
   using Ptr = std::shared_ptr<ICoreHooks>;
-  virtual ~ICoreHooks() {}
+  virtual ~ICoreHooks() = default;
 };
 
 #endif // WORKRAVE_BACKEND_ICOREHOOKS_HH

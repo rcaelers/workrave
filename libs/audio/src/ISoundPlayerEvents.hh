@@ -22,7 +22,7 @@
 class ISoundPlayerEvents
 {
 public:
-  virtual ~ISoundPlayerEvents() {}
+  virtual ~ISoundPlayerEvents() = default;
 
   virtual void eos_event() = 0;
 };

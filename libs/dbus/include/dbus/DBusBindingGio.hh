@@ -35,7 +35,7 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<IDBusPrivateGio>;
 
-      virtual ~IDBusPrivateGio() {}
+      virtual ~IDBusPrivateGio() = default;
 
       virtual GDBusConnection *get_connection() const = 0;
     };

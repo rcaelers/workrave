@@ -27,7 +27,7 @@
 class MenuBase : public IMenu
 {
 public:
-  ~MenuBase() override {}
+  ~MenuBase() override = default;
 
   void init() override
   {

@@ -39,7 +39,7 @@ namespace workrave
           CAPABILITY_STATISTICS
         };
 
-      virtual ~IInputMonitorFactory() {}
+      virtual ~IInputMonitorFactory() = default;
 
       virtual void init(const char *display) = 0;
       virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability) = 0;

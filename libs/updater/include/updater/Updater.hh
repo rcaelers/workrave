@@ -30,7 +30,7 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<Updater>;
 
-      virtual ~Updater() {}
+      virtual ~Updater() = default;
       virtual void check_for_updates() = 0;
 
     };

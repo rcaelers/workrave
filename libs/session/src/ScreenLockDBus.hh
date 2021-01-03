@@ -35,7 +35,7 @@ public:
                   const char *dbus_name, const char *dbus_path, const char *dbus_interface,
                   const char *dbus_lock_method, const char *dbus_method_to_check_existence);
 
-  ~ScreenLockDBus() override {};
+  ~ScreenLockDBus() override = default;;
 
   bool is_lock_supported() override {   return proxy.is_valid();  };
   bool lock() override;

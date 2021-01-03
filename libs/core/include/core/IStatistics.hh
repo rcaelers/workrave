@@ -79,7 +79,7 @@ namespace workrave {
     };
 
   public:
-    virtual ~IStatistics() {}
+    virtual ~IStatistics() = default;
 
     virtual bool delete_all_history() = 0;
     virtual void update() = 0;

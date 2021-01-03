@@ -26,8 +26,7 @@
 using namespace std;
 
 MutterInputMonitor::MutterInputMonitor()
-{
-}
+= default;
 
 MutterInputMonitor::~MutterInputMonitor()
 {

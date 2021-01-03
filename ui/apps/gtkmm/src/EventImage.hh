@@ -26,8 +26,7 @@ class EventImage : public Gtk::Image
 {
 public:
   EventImage()
-  {
-  }
+  = default;
 
   EventImage(const Glib::ustring& file, bool mnemonic = false) :
     Gtk::Image(file)

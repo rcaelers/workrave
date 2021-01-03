@@ -35,8 +35,7 @@ class Variant
 {
 public:
   Variant()
-  {
-  }
+  = default;
 
   explicit Variant(std::string v)
   {

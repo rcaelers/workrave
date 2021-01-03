@@ -33,7 +33,7 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<ITimeSource>;
 
-      virtual ~ITimeSource() {}
+      virtual ~ITimeSource() = default;
 
       //! Returns the system wall-clock time.
       virtual int64_t get_real_time_usec() = 0;

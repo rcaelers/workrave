@@ -43,8 +43,7 @@ namespace workrave
       }
 
       ~DBusException() override
-      {
-      }
+      = default;
     };
 
     using message_info = boost::error_info<struct tag_message_info, std::string>;

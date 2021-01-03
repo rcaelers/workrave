@@ -25,7 +25,7 @@ class IActivityMonitorListener
 public:
   using Ptr = std::shared_ptr<IActivityMonitorListener>;
 
-  virtual ~IActivityMonitorListener() {}
+  virtual ~IActivityMonitorListener() = default;
 
   // Notification that the user is currently active.
   virtual bool action_notify() = 0;
@@ -37,7 +37,7 @@ public:
   using Ptr = std::shared_ptr<IActivityMonitor>;
 
 public:
-  virtual ~IActivityMonitor() {}
+  virtual ~IActivityMonitor() = default;
 
   virtual void init() = 0;
   virtual void terminate() = 0;

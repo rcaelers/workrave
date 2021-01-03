@@ -30,7 +30,7 @@ namespace workrave
     class IInputMonitorListener
     {
     public:
-      virtual ~IInputMonitorListener() {}
+      virtual ~IInputMonitorListener() = default;
 
       //! Generic user activity (if no details info is available)
       virtual void action_notify() = 0;

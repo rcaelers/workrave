@@ -38,8 +38,7 @@
 using namespace std;
 
 IniConfigurator::IniConfigurator()
-{
-}
+= default;
 
 
 IniConfigurator::~IniConfigurator()

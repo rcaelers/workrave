@@ -26,8 +26,7 @@ class EventButton : public Gtk::Button
 {
 public:
   EventButton()
-  {
-  }
+  = default;
 
   sigc::signal<bool, int> button_pressed;
 

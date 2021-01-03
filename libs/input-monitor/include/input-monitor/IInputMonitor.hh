@@ -35,7 +35,7 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<IInputMonitor>;
 
-      virtual ~IInputMonitor() {}
+      virtual ~IInputMonitor() = default;
 
       //! Initializes the activity monitor.
       virtual bool init() = 0;

@@ -93,7 +93,7 @@ namespace workrave {
   public:
     using Ptr = std::shared_ptr<IBreak>;
 
-    virtual ~IBreak() {}
+    virtual ~IBreak() = default;
 
     virtual boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() = 0;
 

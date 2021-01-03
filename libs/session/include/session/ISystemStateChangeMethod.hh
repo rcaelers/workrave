@@ -24,7 +24,7 @@
 class /*interface*/ ISystemStateChangeMethod {
 
 public:
-  virtual ~ISystemStateChangeMethod() {};
+  virtual ~ISystemStateChangeMethod() = default;;
   virtual bool shutdown() { return false;}
   virtual bool suspend() { return false;}
   virtual bool hibernate() { return false;}

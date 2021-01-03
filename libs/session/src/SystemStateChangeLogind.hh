@@ -44,7 +44,7 @@ class SystemStateChangeLogind : public ISystemStateChangeMethod
 public:
   explicit SystemStateChangeLogind(GDBusConnection *connection);
   
-  ~SystemStateChangeLogind() override {};
+  ~SystemStateChangeLogind() override = default;;
 
   //PowerOff(), Reboot(), Suspend(), Hibernate(), HybridSleep()
   bool shutdown() override { return execute("PowerOff"); }

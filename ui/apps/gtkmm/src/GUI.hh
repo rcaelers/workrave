@@ -52,7 +52,7 @@ using namespace workrave::config;
 class IGUI
 {
 public:
-  virtual ~IGUI() {}
+  virtual ~IGUI() = default;
 
   virtual sigc::signal0<void> &signal_heartbeat() = 0;
 
