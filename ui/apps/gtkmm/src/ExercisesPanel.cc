@@ -69,7 +69,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   standalone = dialog_action_area != nullptr;
 
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
-  random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
+  shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), std::mt19937(std::random_device()()));
 
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
 
