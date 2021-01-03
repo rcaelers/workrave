@@ -59,12 +59,7 @@
 using namespace std;
 
 StatisticsDialog::StatisticsDialog()
-  : HigDialog(_("Statistics"), false, false),
-    daily_usage_time_label(nullptr),
-    weekly_usage_time_label(nullptr),
-    monthly_usage_time_label(nullptr),
-    date_label(nullptr),
-    update_usage_real_time(false)
+  : HigDialog(_("Statistics"), false, false)
 {
   ICore::Ptr core = Backend::get_core();
   statistics = core->get_statistics();

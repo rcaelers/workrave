@@ -38,12 +38,12 @@
 class DBusProxy
 {
 private:
-  GDBusProxy *proxy;
-  GError *error;
-  GDBusProxyFlags flags;
+  GDBusProxy *proxy{nullptr};
+  GError *error{nullptr};
+  GDBusProxyFlags flags{G_DBUS_PROXY_FLAGS_NONE};
 
 public:
-  DBusProxy (): proxy(nullptr), error(nullptr), flags(G_DBUS_PROXY_FLAGS_NONE) {}
+  DBusProxy ()  = default;
 
   ~DBusProxy() { clear(); }
 

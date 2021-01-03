@@ -38,10 +38,10 @@ public:
 
 protected:
   //! Box container all the timers.
-  ITimerBoxView *timer_box_view;
+  ITimerBoxView *timer_box_view{nullptr};
 
   //! Box container controller.
-  TimerBoxControl *timer_box_control;
+  TimerBoxControl *timer_box_control{nullptr};
 
   //! Signal to indicate that the applet changed visibility.
   sigc::signal<void, bool> visibility_changed_signal;

@@ -50,9 +50,9 @@ private:
   void update(Gtk::SpinButton *spin);
 
 private:
-  Gtk::SpinButton *hrs;
-  Gtk::SpinButton *mins;
-  Gtk::SpinButton *secs;
+  Gtk::SpinButton *hrs{nullptr};
+  Gtk::SpinButton *mins{nullptr};
+  Gtk::SpinButton *secs{nullptr};
 
   Glib::RefPtr<Gtk::Adjustment> hours_adjustment;
   Glib::RefPtr<Gtk::Adjustment> mins_adjustment;

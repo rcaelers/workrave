@@ -43,11 +43,12 @@ private:
   bool on_grab_retry_timer();
 
 #if !GTK_CHECK_VERSION(3, 24, 0)
-  GdkDevice *keyboard, *pointer;
+  GdkDevice *keyboard{ nullptr }l
+  GdkDevice **pointer{ nullptr };
 #endif
-  GdkWindow *grab_window;
-  bool grab_wanted;
-  bool grabbed;
+  GdkWindow *grab_window{nullptr};
+  bool grab_wanted{false};
+  bool grabbed{false};
   sigc::connection grab_retry_connection;
 };
 

@@ -59,9 +59,7 @@ CoreFactory::create()
   return std::make_shared<Core>();
 }
 
-Core::Core() :
-  application(nullptr),
-  powersave(false)
+Core::Core()
 {
   TRACE_ENTER("Core::Core");
   hooks = std::make_shared<CoreHooks>();

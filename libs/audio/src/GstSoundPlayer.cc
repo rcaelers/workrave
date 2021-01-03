@@ -26,7 +26,7 @@
 
 using namespace std;
 
-GstSoundPlayer::GstSoundPlayer() : gst_ok(false)
+GstSoundPlayer::GstSoundPlayer()
 {
   GError *error = nullptr;
 

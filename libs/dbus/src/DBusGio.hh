@@ -74,13 +74,13 @@ namespace workrave
 
       struct InterfaceData
       {
-        InterfaceData() : introspection_data(nullptr), registration_id(0), object(nullptr) {}
+        InterfaceData() = default;
 
         std::string object_path;
         std::string interface_name;
-        GDBusNodeInfo *introspection_data;
-        guint registration_id;
-        void *object;
+        GDBusNodeInfo *introspection_data{nullptr};
+        guint registration_id{0};
+        void *object{nullptr};
       };
 
       using Interfaces = std::map<std::string, InterfaceData>;
@@ -89,10 +89,10 @@ namespace workrave
 
       struct ObjectData
       {
-        ObjectData() : registered(false) {}
+        ObjectData() = default;
 
         Interfaces interfaces;
-        bool registered;
+        bool registered{false};
       };
 
       using Objects = std::map<std::string, ObjectData>;
@@ -167,7 +167,7 @@ namespace workrave
       //
       Watched watched;
 
-      GDBusConnection *connection;
+      GDBusConnection *connection{nullptr};
 
       static const GDBusInterfaceVTable interface_vtable;
     };

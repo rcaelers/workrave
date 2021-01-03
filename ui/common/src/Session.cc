@@ -35,10 +35,7 @@ using namespace workrave::config;
 using namespace std;
 
 Session::Session()
-  : is_idle(false),
-    taking(false)
-{
-}
+= default;
 
 
 void

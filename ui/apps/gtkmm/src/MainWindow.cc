@@ -59,10 +59,7 @@ using namespace workrave::utils;
  *  \param control Interface to the controller.
  */
 MainWindow::MainWindow() :
-  enabled(true),
-  can_close(true),
-  timer_box_control(nullptr),
-  timer_box_view(nullptr),
+  
   window_location(-1, -1),
   window_head_location(-1, -1),
   window_relocated_location(-1, -1)

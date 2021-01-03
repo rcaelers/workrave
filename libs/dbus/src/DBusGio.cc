@@ -48,9 +48,7 @@ const GDBusInterfaceVTable DBusGio::interface_vtable =
 
 //! Construct a new D-BUS bridge
 DBusGio::DBusGio()
-  : connection(nullptr)
-{
-}
+= default;
 
 
 //! Destruct the D-BUS bridge

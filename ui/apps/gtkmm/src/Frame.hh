@@ -55,7 +55,7 @@ protected:
 
 private:
   //! Frame border width
-  guint frame_width;
+  guint frame_width{1};
 
   //! Color of the frame.
   Gdk::Color frame_color;
@@ -64,13 +64,13 @@ private:
   Gdk::Color color_black;
 
   //! Style of the frame.
-  Style frame_style;
+  Style frame_style{STYLE_SOLID};
 
   //! Visible;
-  bool frame_visible;
+  bool frame_visible{true};
 
   //! Flash delay;
-  int flash_delay;
+  int flash_delay{-1};
 
   //! Flash timeout signal
   sigc::connection flash_signal;

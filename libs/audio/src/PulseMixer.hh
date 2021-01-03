@@ -54,12 +54,12 @@ private:
     uint32_t index;
   };
 
-  pa_glib_mainloop *pa_mainloop;
-  pa_mainloop_api *pa_api;
-  pa_context *context;
+  pa_glib_mainloop *pa_mainloop{nullptr};
+  pa_mainloop_api *pa_api{nullptr};
+  pa_context *context{nullptr};
 
   std::map<uint32_t, SinkInfo*> sinks;
-  SinkInfo *default_sink_info;
+  SinkInfo *default_sink_info{nullptr};
   std::string default_sink_name;
 };
 

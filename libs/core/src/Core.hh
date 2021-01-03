@@ -95,13 +95,13 @@ private:
   CoreDBus::Ptr core_dbus;
 
   //! GUI Widget factory.
-  workrave::IApp *application;
+  workrave::IApp *application{nullptr};
 
   //! The statistics collector.
   Statistics::Ptr statistics;
 
   //! Did the OS announce a powersave?
-  bool powersave;
+  bool powersave{false};
 
   //! DBUS bridge
   workrave::dbus::IDBus::Ptr dbus;

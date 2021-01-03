@@ -43,8 +43,8 @@ private:
 #endif
 
 private:
-  bool is_idle;
-  bool taking;
+  bool is_idle{false};
+  bool taking{false};
 };
 
 #endif // SESSION_HH

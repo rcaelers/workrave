@@ -35,11 +35,8 @@
 using namespace std;
 using namespace workrave::utils;
 
-XScreenSaverMonitor::XScreenSaverMonitor() :
-  abort(false),
-  screen_saver_info(nullptr)
-{
-}
+XScreenSaverMonitor::XScreenSaverMonitor()
+= default;
 
 
 XScreenSaverMonitor::~XScreenSaverMonitor()

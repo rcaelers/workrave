@@ -56,13 +56,13 @@ private:
 
 private:
   //! Abort the main loop
-  bool abort;
+  bool abort{false};
 
   //! The activity monitor thread.
   std::shared_ptr<boost::thread> monitor_thread;
 
   //
-  XScreenSaverInfo *screen_saver_info;
+  XScreenSaverInfo *screen_saver_info{nullptr};
   Display *xdisplay;
   Drawable root;
 

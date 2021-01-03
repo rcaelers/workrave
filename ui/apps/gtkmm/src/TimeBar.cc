@@ -49,13 +49,7 @@ std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors {
   { TimerColorId::Bg, Gdk::Color("#777777")},
   };
 
-TimeBar::TimeBar() :
-  bar_value(0),
-  bar_max_value(0),
-  secondary_bar_value(0),
-  secondary_bar_max_value(0),
-  bar_text_align(0),
-  rotation(0)
+TimeBar::TimeBar()
 {
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::BUTTON_PRESS_MASK);

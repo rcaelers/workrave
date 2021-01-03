@@ -37,9 +37,7 @@
 
 TimeEntry::TimeEntry()
   : Gtk::HBox(false, 1),
-    hrs(nullptr),
-    mins(nullptr),
-    secs(nullptr),
+    
     hours_adjustment(Gtk::Adjustment::create(0, 0, 23)),
     mins_adjustment(Gtk::Adjustment::create(0, 0, 59)),
     secs_adjustment(Gtk::Adjustment::create(0, 0, 59))

@@ -35,7 +35,7 @@ public:
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
-  gboolean gst_ok;
+  gboolean gst_ok{false};
   ISoundPlayerEvents *events;
 
   struct WatchData

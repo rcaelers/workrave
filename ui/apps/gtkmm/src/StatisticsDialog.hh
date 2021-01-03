@@ -60,16 +60,16 @@ private:
   Gtk::Label *usage_label;
 
   /** Daily time. */
-  Gtk::Label *daily_usage_time_label;
+  Gtk::Label *daily_usage_time_label{nullptr};
 
   /** Weekly time. */
-  Gtk::Label *weekly_usage_time_label;
+  Gtk::Label *weekly_usage_time_label{nullptr};
 
   /** Monthly time */
-  Gtk::Label *monthly_usage_time_label;
+  Gtk::Label *monthly_usage_time_label{nullptr};
 
   /** Labels indicating the start time of the visible data. */
-  Gtk::Label *date_label;
+  Gtk::Label *date_label{nullptr};
 
   /** Calendar */
   Gtk::Calendar *calendar;
@@ -89,7 +89,7 @@ private:
   /** Delete button */
   Gtk::Button *delete_btn;
 
-  bool update_usage_real_time;
+  bool update_usage_real_time{false};
 
   void on_history_delete_all();
 

@@ -59,16 +59,16 @@ private:
 
 private:
   //! Is the main window enabled?
-  bool enabled;
+  bool enabled{true};
 
   //! Can the user close the window?
-  bool can_close;
+  bool can_close{true};
 
   //! Controller that determines the timerbox content
-  TimerBoxControl *timer_box_control;
+  TimerBoxControl *timer_box_control{nullptr};
 
   //! View that displays the timerbox.
-  TimerBoxGtkView *timer_box_view;
+  TimerBoxGtkView *timer_box_view{nullptr};
 
 #ifdef PLATFORM_OS_UNIX
   Gtk::Window *leader;

@@ -79,25 +79,25 @@ private:
   Gdk::Color bar_text_color;
 
   //! The current value.
-  int bar_value;
+  int bar_value{0};
 
   //! The maximum value.
-  int bar_max_value;
+  int bar_max_value{0};
 
   //! The current value.
-  int secondary_bar_value;
+  int secondary_bar_value{0};
 
   //! The maximum value.
-  int secondary_bar_max_value;
+  int secondary_bar_max_value{0};
 
   //! Text to show;
   std::string bar_text;
 
   //! Text alignment
-  int bar_text_align;
+  int bar_text_align{0};
 
   //! Bar rotation (clockwise degrees)
-  int rotation;
+  int rotation{0};
 };
 
 

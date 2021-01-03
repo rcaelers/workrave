@@ -26,12 +26,7 @@
 using namespace std;
 
 PulseMixer::PulseMixer()
-  : pa_mainloop(nullptr),
-    pa_api(nullptr),
-    context(nullptr),
-    default_sink_info(nullptr)
-{
-}
+= default;
 
 PulseMixer::~PulseMixer()
 {
