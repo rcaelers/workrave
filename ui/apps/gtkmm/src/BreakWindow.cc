@@ -466,8 +466,8 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ( (postpone_button != NULL && !postpone_button->get_sensitive()) ||
-       (skip_button != NULL && !skip_button->get_sensitive()))
+  if ( (postpone_button != nullptr && !postpone_button->get_sensitive()) ||
+       (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;
@@ -489,12 +489,12 @@ BreakWindow::update_skip_postpone_lock()
             }
         }
 
-      if (!postpone_locked && postpone_button != NULL)
+      if (!postpone_locked && postpone_button != nullptr)
         {
           postpone_button->set_has_tooltip(false);
           postpone_button->set_sensitive(true);
         }
-      if (!skip_locked && skip_button != NULL)
+      if (!skip_locked && skip_button != nullptr)
         {
           skip_button->set_has_tooltip(false);
           skip_button->set_sensitive(true);

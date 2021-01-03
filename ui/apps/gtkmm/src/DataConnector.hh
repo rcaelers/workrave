@@ -90,7 +90,7 @@ private:
   {
     MonitoredWidget()
     {
-      connection = NULL;
+      connection = nullptr;
     }
 
     DataConnection *connection;

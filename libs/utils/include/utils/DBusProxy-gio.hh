@@ -43,7 +43,7 @@ private:
   GDBusProxyFlags flags;
 
 public:
-  DBusProxy (): proxy(NULL), error(NULL), flags(G_DBUS_PROXY_FLAGS_NONE) {}
+  DBusProxy (): proxy(nullptr), error(nullptr), flags(G_DBUS_PROXY_FLAGS_NONE) {}
 
   ~DBusProxy() { clear(); }
 
@@ -74,28 +74,28 @@ public:
 
   void clear()
   {
-    if (error != NULL)
+    if (error != nullptr)
       {
         g_error_free(error);
-        error = NULL;
+        error = nullptr;
       }
-    if (proxy != NULL)
+    if (proxy != nullptr)
       {
         g_object_unref(proxy);
-        proxy = NULL;
+        proxy = nullptr;
       }
   }
 
 
   bool is_valid()
   {
-    return proxy != NULL;
+    return proxy != nullptr;
   }
 
   gchar *get_last_error_message()
   {
-    if (error == NULL)
-      return NULL;
+    if (error == nullptr)
+      return nullptr;
     else
       return error->message;
   }

@@ -65,8 +65,8 @@ private:
 private:
   static const int GSM_INHIBITOR_FLAG_IDLE = 8;
 
-  GDBusProxy *idle_proxy = NULL;
-  GDBusProxy *session_proxy = NULL;
+  GDBusProxy *idle_proxy = nullptr;
+  GDBusProxy *session_proxy = nullptr;
   std::atomic<bool> active { false };
   std::atomic<bool> inhibited { false };
   guint watch_active = 0;

@@ -319,7 +319,7 @@ PreferencesDialog::create_gui_page()
   panel->add_widget(*trayicon_cb, false, false);
 
   update_icon_theme_combo();
-  if (icon_theme_button != NULL) 
+  if (icon_theme_button != nullptr) 
     {
       panel->add_label(_("Icon Theme:"), *icon_theme_button);
     }
@@ -989,15 +989,15 @@ PreferencesDialog::update_icon_theme_combo()
           continue;
         }
 
-      GDir *dir = g_dir_open(dirname.c_str(), 0, NULL);
-      if (dir != NULL)
+      GDir *dir = g_dir_open(dirname.c_str(), 0, nullptr);
+      if (dir != nullptr)
         {
           const char *file;
-		      while ((file = g_dir_read_name(dir)) != NULL)
+		      while ((file = g_dir_read_name(dir)) != nullptr)
             {
 
               gchar *test_path = g_build_filename(dirname.c_str(), file, nullptr);
-              if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+              if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   themes.push_back(file);
                 }

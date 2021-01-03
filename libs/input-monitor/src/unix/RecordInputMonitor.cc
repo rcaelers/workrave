@@ -66,7 +66,7 @@ RecordInputMonitor::RecordInputMonitor(const char *display_name) :
   x11_display(nullptr),
   abort(false),
   xrecord_context(0),
-  xrecord_datalink(NULL)
+  xrecord_datalink(nullptr)
 {
 }
 
@@ -315,7 +315,7 @@ RecordInputMonitor::init_xrecord()
 
   x11_display = XOpenDisplay(x11_display_name);
 
-  if (x11_display != NULL && XRecordQueryVersion(x11_display, &major, &minor))
+  if (x11_display != nullptr && XRecordQueryVersion(x11_display, &major, &minor))
     {
       xrecord_context = 0;
       xrecord_datalink = nullptr;

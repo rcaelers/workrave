@@ -42,7 +42,7 @@ namespace workrave
           }
 
         workrave::config::Setting<T, S> *ret = dynamic_cast<workrave::config::Setting<T,S> *>(cache[key]);
-        assert(ret != NULL);
+        assert(ret != nullptr);
         return *ret;
       }
 
@@ -54,7 +54,7 @@ namespace workrave
           }
 
         workrave::config::SettingGroup *ret = dynamic_cast<workrave::config::SettingGroup *>(cache[key]);
-        assert(ret != NULL);
+        assert(ret != nullptr);
         return *ret;
       }
 

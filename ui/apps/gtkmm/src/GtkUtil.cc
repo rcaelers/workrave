@@ -454,7 +454,7 @@ Gtk::Image *
 GtkUtil::create_image(const std::string &name)
 {
   std::string filename = get_image_filename(name);
-  Gtk::Image *ret = NULL;
+  Gtk::Image *ret = nullptr;
 
   try
     {

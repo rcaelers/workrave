@@ -65,7 +65,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     progress_value(0),
     progress_max_value(0),
     flash_visible(false),
-    align(NULL)
+    align(nullptr)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
 

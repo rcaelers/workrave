@@ -37,14 +37,14 @@ public:
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
   ~ScreenLockCommandline() override
     {
-      if (cmd != NULL)
+      if (cmd != nullptr)
         {
           free(cmd);
-          cmd = NULL;
+          cmd = nullptr;
         }
     }
 
-  bool is_lock_supported() override { return cmd != NULL; }
+  bool is_lock_supported() override { return cmd != nullptr; }
   bool lock() override;
 private:
   bool invoke(const gchar* command, bool async);

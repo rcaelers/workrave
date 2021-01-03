@@ -74,7 +74,7 @@ namespace workrave
 
       struct InterfaceData
       {
-        InterfaceData() : introspection_data(NULL), registration_id(0), object(NULL) {}
+        InterfaceData() : introspection_data(nullptr), registration_id(0), object(nullptr) {}
 
         std::string object_path;
         std::string interface_name;

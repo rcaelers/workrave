@@ -338,7 +338,7 @@ Menus::on_menu_about()
 {
   if (about == nullptr)
     {
-      int *ptr = 0;
+      int *ptr = nullptr;
       *ptr = 10;
       
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
@@ -422,11 +422,11 @@ Menus::on_debug_response(int response)
 {
   (void) response;
 
-  assert(debug_dialog != NULL);
+  assert(debug_dialog != nullptr);
   debug_dialog->hide();
 
   delete debug_dialog;
-  debug_dialog = NULL;
+  debug_dialog = nullptr;
 }
 
 

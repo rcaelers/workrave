@@ -504,7 +504,7 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
-  const char *display_name = NULL;
+  const char *display_name = nullptr;
 
 #if defined(PLATFORM_OS_UNIX)
   display_name = gdk_display_get_name(gdk_display_get_default());

@@ -80,7 +80,7 @@ UnixGrab::grab_internal()
 
       GdkDisplay *display = gdk_display_get_default();
       GdkSeat *seat = gdk_display_get_default_seat(display);
-      status = gdk_seat_grab(seat, grab_window, GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
+      status = gdk_seat_grab(seat, grab_window, GDK_SEAT_CAPABILITY_ALL, TRUE, nullptr, nullptr, nullptr, nullptr);
 
       ret = status == GDK_GRAB_SUCCESS;
 #else

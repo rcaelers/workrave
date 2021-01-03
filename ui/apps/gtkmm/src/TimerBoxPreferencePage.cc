@@ -401,7 +401,7 @@ TimerBoxPreferencePage::enable_buttons()
       enabled_cb->set_sensitive(count != 3);
       place_button->set_sensitive(count != 3);
       cycle_entry->set_sensitive(count != 3);
-      if (ontop_cb != NULL)
+      if (ontop_cb != nullptr)
         {
           ontop_cb->set_sensitive(count != 3);
         }
