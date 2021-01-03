@@ -66,11 +66,11 @@ TimeEntry::TimeEntry()
   Gtk::Label *semi1 = Gtk::manage(new Gtk::Label(":"));
   Gtk::Label *semi2 = Gtk::manage(new Gtk::Label(":"));
 
-  pack_start(*hrs, 0, 0);
-  pack_start(*semi1, 0, 0);
-  pack_start(*mins, 0, 0);
-  pack_start(*semi2, 0, 0);
-  pack_start(*secs, 0, 0);
+  pack_start(*hrs, false, false);
+  pack_start(*semi1, false, false);
+  pack_start(*mins, false, false);
+  pack_start(*semi2, false, false);
+  pack_start(*secs, false, false);
 }
 
 

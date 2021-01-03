@@ -167,7 +167,7 @@ X11InputMonitor::run()
 
   error_trap_exit();
 
-  while (1)
+  while (true)
     {
       XEvent event;
       bool gotEvent = XNextEventTimed(x11_display, &event, 100);

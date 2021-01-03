@@ -68,17 +68,17 @@ DailyLimitWindow::create_gui()
   // HBox
   Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
-  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
+  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, false);
 
   // Overall vbox
   Gtk::VBox *box = new Gtk::VBox(false, 12);
-  box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
+  box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, false);
 
   // Button box at the bottom.
   Gtk::Box *bottom_box = create_bottom_box(true, true);
   if (bottom_box)
     {
-      box->pack_start(*Gtk::manage(bottom_box), Gtk::EXPAND | Gtk::FILL, 0);
+      box->pack_start(*Gtk::manage(bottom_box), Gtk::EXPAND | Gtk::FILL, false);
     }
   return box;
 }
