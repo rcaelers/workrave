@@ -71,7 +71,7 @@ DailyLimitWindow::create_gui()
   hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, false);
 
   // Overall vbox
-  Gtk::VBox *box = new Gtk::VBox(false, 12);
+  auto *box = new Gtk::VBox(false, 12);
   box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, false);
 
   // Button box at the bottom.

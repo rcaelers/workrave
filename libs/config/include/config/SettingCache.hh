@@ -41,7 +41,7 @@ namespace workrave
             cache[key] = new workrave::config::Setting<T, S>(config, key, def);
           }
 
-        workrave::config::Setting<T, S> *ret = dynamic_cast<workrave::config::Setting<T,S> *>(cache[key]);
+        auto *ret = dynamic_cast<workrave::config::Setting<T,S> *>(cache[key]);
         assert(ret != nullptr);
         return *ret;
       }
@@ -53,7 +53,7 @@ namespace workrave
             cache[key] = new workrave::config::SettingGroup(config, key);
           }
 
-        workrave::config::SettingGroup *ret = dynamic_cast<workrave::config::SettingGroup *>(cache[key]);
+        auto *ret = dynamic_cast<workrave::config::SettingGroup *>(cache[key]);
         assert(ret != nullptr);
         return *ret;
       }

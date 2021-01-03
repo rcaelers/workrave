@@ -264,7 +264,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
         }
     }
 
-  GSettingsConfigurator *self = (GSettingsConfigurator *) user_data;
+  auto *self = (GSettingsConfigurator *) user_data;
   self->listener->config_changed_notify(changed);
 
   g_free(path);
@@ -302,7 +302,7 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
 
   TRACE_MSG(key << " " << path << " " << schema);
 
-  SettingsCIter i = settings.find(schema_base + "." + schema);
+  auto i = settings.find(schema_base + "." + schema);
   if (i == settings.end())
     {
       TRACE_RETURN("NULL");

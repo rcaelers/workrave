@@ -278,7 +278,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
 
   const set<string> &search_path = get_search_path(type);
 
-  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); ++i)
+  for (auto i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
       full_path = (*i);
       full_path /= path;
@@ -301,7 +301,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::st
 
   const set<string> &search_path = get_search_path(type);
 
-  for (set<string>::const_iterator i = search_path.begin(); !found && i != search_path.end(); ++i)
+  for (auto i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
       boost::filesystem::path full_path;
       full_path = (*i);

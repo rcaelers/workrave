@@ -162,7 +162,7 @@ void
 RecordInputMonitor::handle_xrecord_motion_event(XRecordInterceptData *data)
 {
   TRACE_ENTER("RecordInputMonitor::handle_xrecord_motion_event");
-  xEvent *event = (xEvent *)data->data;
+  auto *event = (xEvent *)data->data;
 
   if (event != nullptr)
     {
@@ -181,7 +181,7 @@ RecordInputMonitor::handle_xrecord_motion_event(XRecordInterceptData *data)
 void
 RecordInputMonitor::handle_xrecord_button_event(XRecordInterceptData *data)
 {
-  xEvent *event = (xEvent *)data->data;
+  auto *event = (xEvent *)data->data;
 
   if (event != nullptr)
     {
@@ -196,7 +196,7 @@ RecordInputMonitor::handle_xrecord_button_event(XRecordInterceptData *data)
 void
 RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordInterceptData *data)
 {
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
   static int detail = 0;
   static int state = 0;
@@ -223,7 +223,7 @@ RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordIntercept
 void
 RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *data)
 {
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
@@ -239,7 +239,7 @@ RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *dat
 void
 RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *data)
 {
-  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
@@ -255,7 +255,7 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
 {
   TRACE_ENTER("RecordInputMonitor::handle_xrecord_callback");
   xEvent *  event;
-  RecordInputMonitor *monitor = (RecordInputMonitor *) closure;
+  auto *monitor = (RecordInputMonitor *) closure;
 
   switch (data->category)
     {

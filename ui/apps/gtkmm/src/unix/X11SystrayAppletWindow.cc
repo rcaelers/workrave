@@ -62,7 +62,7 @@ X11SystrayAppletWindow::static_notify_callback(GObject    *gobject,
 {
   (void) gobject;
   (void) arg;
-  X11SystrayAppletWindow *applet = (X11SystrayAppletWindow *)user_data;
+  auto *applet = (X11SystrayAppletWindow *)user_data;
   applet->notify_callback();
 }
 
@@ -128,7 +128,7 @@ X11SystrayAppletWindow::activate()
 
       plug = Glib::wrap(GTK_PLUG(tray_icon));
 
-      Gtk::EventBox *eventbox = new Gtk::EventBox;
+      auto *eventbox = new Gtk::EventBox;
       eventbox->set_visible_window(false);
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this,

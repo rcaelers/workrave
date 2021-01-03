@@ -276,7 +276,7 @@ MainWindow::init()
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
 
-  Gtk::EventBox *eventbox = new Gtk::EventBox;
+  auto *eventbox = new Gtk::EventBox;
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
 #ifndef PLATFORM_OS_MACOS

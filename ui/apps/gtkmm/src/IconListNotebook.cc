@@ -46,8 +46,8 @@ IconListNotebook::IconListNotebook()
   list_store = Gtk::ListStore::create(model_columns);
   icon_list.set_model(list_store);
 
-  IconListCellRenderer *renderer = new IconListCellRenderer();
-  Gtk::TreeViewColumn *tvc = new Gtk::TreeViewColumn("Bla",
+  auto *renderer = new IconListCellRenderer();
+  auto *tvc = new Gtk::TreeViewColumn("Bla",
                                                      *Gtk::manage(renderer));
   icon_list.append_column(*Gtk::manage(tvc));
   tvc->add_attribute(renderer->property_text(),

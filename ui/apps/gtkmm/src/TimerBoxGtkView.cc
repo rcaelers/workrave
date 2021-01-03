@@ -177,7 +177,7 @@ TimerBoxGtkView::init_widgets()
         {
           img->set_padding(0, 0);
 
-          EventButton *b = new EventButton();
+          auto *b = new EventButton();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));

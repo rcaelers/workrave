@@ -113,7 +113,7 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
   (void) proxy;
   (void) sender_name;
 
-  Session *self = static_cast<Session *>(user_data);
+  auto *self = static_cast<Session *>(user_data);
   int session_status;
 
   if (g_strcmp0(signal_name, "StatusChanged") == 0)

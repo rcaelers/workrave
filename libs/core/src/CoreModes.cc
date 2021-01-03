@@ -223,7 +223,7 @@ CoreModes::set_operation_mode_internal(
       /* Find the most important override. Override modes in order of importance:
          OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
       */
-      for(map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin();
+      for(auto i = operation_mode_overrides.begin();
           (i != operation_mode_overrides.end());
           ++i
           )

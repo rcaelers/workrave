@@ -74,7 +74,7 @@ MicroBreakWindow::create_gui()
   hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
 
   // Overall vbox
-  Gtk::VBox *box = new Gtk::VBox(false, 12);
+  auto *box = new Gtk::VBox(false, 12);
   box->pack_start(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 

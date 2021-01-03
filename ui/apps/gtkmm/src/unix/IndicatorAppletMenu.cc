@@ -151,7 +151,7 @@ IndicatorAppletMenu::static_menu_item_activated(DbusmenuMenuitem *mi, guint time
 {
   (void) timestamp;
 
-  IndicatorAppletMenu *menu = (IndicatorAppletMenu *) user_data;
+  auto *menu = (IndicatorAppletMenu *) user_data;
   menu->menu_item_activated(mi);
 }
 

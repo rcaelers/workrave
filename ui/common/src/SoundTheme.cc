@@ -290,7 +290,7 @@ SoundTheme::load_sound_theme(const string &themedir)
 
       for (SoundRegistry &snd : sound_registry)
         {
-          string filename = pt.get<std::string>(snd.id + ".file");
+          auto filename = pt.get<std::string>(snd.id + ".file");
 
           boost::filesystem::path soundpath(themedir);
           soundpath /= filename;
@@ -356,7 +356,7 @@ SoundTheme::get_active_theme()
 SoundTheme::ThemeInfo::Ptr
 SoundTheme::get_theme(const std::string &theme_id)
 {
-  ThemeInfos::iterator it = std::find_if(themes.begin(), themes.end(), [&] (ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
+  auto it = std::find_if(themes.begin(), themes.end(), [&] (ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
   if (it != themes.end())
     {
       return *it;

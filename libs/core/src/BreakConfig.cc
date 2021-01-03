@@ -128,7 +128,7 @@ BreakConfig::create_time_pred(string spec)
 
       if (type == "day")
         {
-          DayTimePred *dayPred = new DayTimePred();
+          auto *dayPred = new DayTimePred();
           ok = dayPred->init(spec);
           pred = dayPred;
         }

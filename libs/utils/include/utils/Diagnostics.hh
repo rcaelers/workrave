@@ -46,7 +46,7 @@ public:
 
   static Diagnostics &instance()
   {
-    static Diagnostics *diag = new Diagnostics();
+    static auto *diag = new Diagnostics();
     return *diag;
   }
 

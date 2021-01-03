@@ -66,7 +66,7 @@ DataConnector::DataConnector()
 //! Destruct data connector.
 DataConnector::~DataConnector()
 {
-  for (WidgetIter i = connections.begin(); i != connections.end(); i++)
+  for (auto i = connections.begin(); i != connections.end(); i++)
     {
       delete i->connection;
     }

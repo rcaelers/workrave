@@ -79,7 +79,7 @@ Gtk::Widget *
 RestBreakWindow::create_gui()
 {
   // Add other widgets.
-  Gtk::VBox *vbox = new Gtk::VBox(false, 6);
+  auto *vbox = new Gtk::VBox(false, 6);
 
   pluggable_panel = Gtk::manage(new Gtk::HBox);
 

@@ -92,11 +92,11 @@ Configurator::heartbeat()
 {
   time_t now = TimeSource::get_monotonic_time_sec();
 
-  DelayedListIter it = delayed_config.begin();
+  auto it = delayed_config.begin();
   while (it != delayed_config.end())
     {
       DelayedConfig &delayed = it->second;
-      DelayedListIter next = it;
+      auto next = it;
       next++;
 
       if (now >= delayed.until)
@@ -262,7 +262,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   strip_trailing_slash(newkey);
   strip_leading_slash(newkey);
 
-  DelayedListCIter it = delayed_config.find(newkey);
+  auto it = delayed_config.find(newkey);
   if (it != delayed_config.end())
     {
       const DelayedConfig &delayed = it->second;
@@ -582,7 +582,7 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
 
   if (ret)
     {
-      ListenerIter i = listeners.begin();
+      auto i = listeners.begin();
       while (ret && i != listeners.end())
         {
           if (key == i->first && listener == i->second)
@@ -610,7 +610,7 @@ Configurator::remove_listener(IConfiguratorListener *listener)
 {
   bool ret = false;
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (listener == i->second)
@@ -639,7 +639,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
       dynamic_cast<IConfigBackendMonitoring *>(backend)->remove_listener(key_prefix);
     }
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (i->first == key_prefix && i->second == listener)
@@ -663,7 +663,7 @@ Configurator::find_listener(IConfiguratorListener *listener, std::string &key) c
 {
   bool ret = false;
 
-  ListenerCIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (listener == i->second)
@@ -688,7 +688,7 @@ Configurator::fire_configurator_event(const string &key)
   strip_leading_slash(k);
   strip_trailing_slash(k);
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       string prefix = i->first;
@@ -758,7 +758,7 @@ Configurator::find_setting(const string &key, Setting &setting) const
 {
   bool ret = false;
 
-  SettingCIter it = settings.find(key);
+  auto it = settings.find(key);
   if (it != settings.end())
     {
       setting = it->second;

@@ -131,7 +131,7 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
   embedded = enable;
 
-  for (std::set<std::string>::iterator i = active_bus_names.begin(); i != active_bus_names.end(); i++)
+  for (auto i = active_bus_names.begin(); i != active_bus_names.end(); i++)
     {
       dbus->unwatch(*i);
     }

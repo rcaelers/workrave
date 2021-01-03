@@ -223,7 +223,7 @@ GUI::main()
   cleanup_session();
 #endif
 
-  for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
+  for (auto i = event_connections.begin(); i != event_connections.end(); i++)
     {
       i->disconnect();
     }

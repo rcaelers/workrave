@@ -106,7 +106,7 @@ void
 PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *user_data)
 {
   TRACE_ENTER("PulseMixer::subscribe_cb");
-  PulseMixer* pulse = (PulseMixer*)user_data;
+  auto* pulse = (PulseMixer*)user_data;
 
   switch (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK)
     {
@@ -144,7 +144,7 @@ void
 PulseMixer::context_state_cb(pa_context *c, void *user_data)
 {
   TRACE_ENTER("PulseMixer::context_state_cb");
-  PulseMixer* pulse = (PulseMixer*)user_data;
+  auto* pulse = (PulseMixer*)user_data;
 
   switch (pa_context_get_state(c))
     {
@@ -201,7 +201,7 @@ void
 PulseMixer::server_info_cb(pa_context *, const pa_server_info *i, void *user_data)
 {
   TRACE_ENTER("PulseMixer::server_info_cb");
-  PulseMixer *pulse = (PulseMixer*)user_data;
+  auto *pulse = (PulseMixer*)user_data;
   pulse->set_default_sink_name(i->default_sink_name ? i->default_sink_name : "");
   TRACE_EXIT();
 }
@@ -210,7 +210,7 @@ void
 PulseMixer::sink_cb(pa_context *, const pa_sink_info *i, int eol, void *user_data)
 {
   TRACE_ENTER("PulseMixer::sink_cb");
-  PulseMixer *pulse = (PulseMixer*)user_data;
+  auto *pulse = (PulseMixer*)user_data;
 
   if (eol == 0)
     {

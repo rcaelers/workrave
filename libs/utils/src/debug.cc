@@ -77,7 +77,7 @@ Debug::trace_string()
 
 #else
 
-  time_t t = (time_t) TimeSource::get_real_time_sec();
+  auto t = (time_t) TimeSource::get_real_time_sec();
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 

@@ -140,7 +140,7 @@ Statistics::delete_all_history()
     }
   else
     {
-      for (vector<DailyStatsImpl *>::iterator i = history.begin(); (i != history.end()); ++i)
+      for (auto i = history.begin(); (i != history.end()); ++i)
         {
           delete *i;
         }
@@ -304,7 +304,7 @@ Statistics::add_history(DailyStatsImpl *stats)
   else
     {
       bool found = false;
-      HistoryRIter i = history.rbegin();
+      auto i = history.rbegin();
       while (i != history.rend())
         {
           DailyStatsImpl *ref = *i;

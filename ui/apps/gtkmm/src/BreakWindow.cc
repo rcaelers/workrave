@@ -355,7 +355,7 @@ BreakWindow::create_sysoper_combobox()
   append_row_to_sysoper_model(model,
       System::SystemOperation::SYSTEM_OPERATION_NONE);
 
-  for (std::vector<System::SystemOperation>::iterator iter = supported_system_operations.begin();
+  for (auto iter = supported_system_operations.begin();
       iter != supported_system_operations.end(); ++iter)
     {
       append_row_to_sysoper_model(model,
@@ -371,7 +371,7 @@ BreakWindow::create_sysoper_combobox()
       return nullptr;
     }
 
-  Gtk::ComboBox *comboBox = new Gtk::ComboBox();
+  auto *comboBox = new Gtk::ComboBox();
   comboBox->set_model(model);
   if (has_button_images)
     {
@@ -599,7 +599,7 @@ BreakWindow::create_bottom_box(bool lockable,
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
-  Gtk::VBox *vbox = new Gtk::VBox(false, 0);
+  auto *vbox = new Gtk::VBox(false, 0);
 
   button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);

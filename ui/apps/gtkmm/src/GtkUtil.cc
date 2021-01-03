@@ -63,7 +63,7 @@ Gtk::Button *
 GtkUtil::create_custom_stock_button(const char *label_text,
                                     const char *icon)
 {
-  Gtk::Button *ret = new Gtk::Button();
+  auto *ret = new Gtk::Button();
   update_custom_stock_button(ret, label_text, icon);
   return ret;
 }
@@ -110,7 +110,7 @@ GtkUtil::create_image_button(const char *label_text,
                              const char *image_file,
                              bool label)
 {
-  Gtk::Button *btn = new Gtk::Button();
+  auto *btn = new Gtk::Button();
   Gtk::Image *img = nullptr;
   if (has_button_images())
     {
@@ -152,7 +152,7 @@ GtkUtil::create_image_button(const char *label_text,
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  Gtk::HBox *box = new Gtk::HBox(false, 3);
+  auto *box = new Gtk::HBox(false, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -237,7 +237,7 @@ GtkUtil::create_image_with_tooltip(string file, string tooltip)
 Gtk::Label *
 GtkUtil::create_label(string text, bool bold)
 {
-  Gtk::Label *label
+  auto *label
     = new Gtk::Label();
   if (bold)
     {
@@ -356,7 +356,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {
-  Gtk::Label *label = (Gtk::Label *)widget->get_data(*label_quark);
+  auto *label = (Gtk::Label *)widget->get_data(*label_quark);
   if (label != nullptr)
     {
       guint mnemonic = label->get_mnemonic_keyval();
@@ -380,7 +380,7 @@ GtkUtil::get_visible_tooltip_window()
     GList *list = gtk_window_list_toplevels();
     for( GList *item = list; item; item = item->next )
     {
-        GtkWidget *widget = (GtkWidget *)item->data;
+        auto *widget = (GtkWidget *)item->data;
         if( !widget || !GTK_IS_WINDOW( widget ) || !gtk_widget_get_visible( widget ) )
             continue;
 

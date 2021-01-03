@@ -142,7 +142,7 @@ Exercise::parse_exercises(const char *file_name,
 
               if (ve.first == "title")
                 {
-                  string title = v.second.get<string>("title");
+                  auto title = v.second.get<string>("title");
 
                   exercise_parse_update_i18n_attribute
                         (nullptr, exercise.title,
@@ -150,7 +150,7 @@ Exercise::parse_exercises(const char *file_name,
                 }
               else if (ve.first == "description")
                 {
-                  string description = v.second.get<string>("description");
+                  auto description = v.second.get<string>("description");
 
                   exercise_parse_update_i18n_attribute
                         (languages, exercise.description,
@@ -165,7 +165,7 @@ Exercise::parse_exercises(const char *file_name,
                       if (vs.first == "image")
                         {
                           int duration = vs.second.get<int>("<xmlattr>.duration", 1);
-                          string src = vs.second.get<string>("<xmlattr>.src");
+                          auto src = vs.second.get<string>("<xmlattr>.src");
                           bool mirrorx = vs.second.get<string>("<xmlattr>.mirrorx", "no") == "yes";
 
                           exercise.sequence.emplace_back(src, duration, mirrorx);

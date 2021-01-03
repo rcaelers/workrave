@@ -420,7 +420,7 @@ PreferencesDialog::create_sounds_page()
   int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
   Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
 
-  Gtk::CellRendererToggle *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
+  auto *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
 
   cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
   column = sound_treeview.get_column(cols_count - 1);

@@ -152,7 +152,7 @@ MutterInputMonitor::on_register_active_watch_reply(GObject *object, GAsyncResult
   TRACE_ENTER("MutterInputMonitor::on_register_active_watch_reply");
   GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   GVariant *params = g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)
@@ -206,7 +206,7 @@ MutterInputMonitor::on_unregister_active_watch_reply(GObject *object, GAsyncResu
   TRACE_ENTER("MutterInputMonitor::on_unregister_active_watch_reply");
   GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)
@@ -283,7 +283,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name
   (void)proxy;
   (void)sender_name;
 
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   if (g_strcmp0(signal_name, "WatchFired") == 0)
     {
@@ -310,7 +310,7 @@ MutterInputMonitor::on_session_manager_property_changed(GDBusProxy *session, GVa
   (void) session;
   (void) invalidated;
 
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   GVariant *v = g_variant_lookup_value(changed, "InhibitedActions", G_VARIANT_TYPE_UINT32);
   if (v != nullptr)

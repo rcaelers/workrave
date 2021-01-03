@@ -74,7 +74,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
 
       config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
-      vector<string>::const_iterator start = available_monitors.end();
+      auto start = available_monitors.end();
 
       if (configure_monitor_method != "default")
         {
@@ -88,7 +88,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
           TRACE_MSG("Start first available");
         }
 
-      vector<string>::const_iterator loop = start;
+      auto loop = start;
       while (true)
         {
           actual_monitor_method = *loop;
