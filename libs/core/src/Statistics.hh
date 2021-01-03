@@ -76,7 +76,7 @@ private:
             }
         }
 
-      for(long & misc_stat : misc_stats)
+      for(int64_t & misc_stat : misc_stats)
         {
           misc_stat = 0;
         }
