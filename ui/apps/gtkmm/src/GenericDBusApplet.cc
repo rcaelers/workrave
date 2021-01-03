@@ -50,15 +50,15 @@ GenericDBusApplet::GenericDBusApplet()
   timer_box_control = new TimerBoxControl("applet", this);
   timer_box_view = this;
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & i : data)
     {
-      data[i].bar_text = "";
-      data[i].bar_primary_color = 0;
-      data[i].bar_primary_val = 0;
-      data[i].bar_primary_max = 0;
-      data[i].bar_secondary_color = 0;
-      data[i].bar_secondary_val = 0;
-      data[i].bar_secondary_max = 0;
+      i.bar_text = "";
+      i.bar_primary_color = 0;
+      i.bar_primary_val = 0;
+      i.bar_primary_max = 0;
+      i.bar_secondary_color = 0;
+      i.bar_secondary_val = 0;
+      i.bar_secondary_max = 0;
     }
 
   connections.add(GUIConfig::trayicon_enabled().connect(std::bind(&GenericDBusApplet::send_tray_icon_enabled, this)));
@@ -131,9 +131,9 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
   embedded = enable;
 
-  for (auto i = active_bus_names.begin(); i != active_bus_names.end(); i++)
+  for (const auto & active_bus_name : active_bus_names)
     {
-      dbus->unwatch(*i);
+      dbus->unwatch(active_bus_name);
     }
   active_bus_names.clear();
 

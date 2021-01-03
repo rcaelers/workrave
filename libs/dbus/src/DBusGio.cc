@@ -54,25 +54,23 @@ DBusGio::DBusGio()
 //! Destruct the D-BUS bridge
 DBusGio::~DBusGio()
 {
-  for (auto i = services.begin(); i != services.end(); i++)
+  for (auto & service : services)
     {
-      g_bus_unown_name(i->second);
+      g_bus_unown_name(service.second);
     }
 
   for (auto &obj : objects)
     {
-      for (auto interface_it = obj.second.interfaces.begin();
-           interface_it != obj.second.interfaces.end();
-           interface_it++)
+      for (auto & interface : obj.second.interfaces)
         {
-          if (interface_it->second.registration_id != 0)
+          if (interface.second.registration_id != 0)
             {
-              g_dbus_connection_unregister_object(connection, interface_it->second.registration_id);
+              g_dbus_connection_unregister_object(connection, interface.second.registration_id);
             }
 
-          if (interface_it->second.introspection_data != nullptr)
+          if (interface.second.introspection_data != nullptr)
             {
-              g_dbus_node_info_unref(interface_it->second.introspection_data);
+              g_dbus_node_info_unref(interface.second.introspection_data);
             }
         }
     }

@@ -223,9 +223,9 @@ GUI::main()
   cleanup_session();
 #endif
 
-  for (auto i = event_connections.begin(); i != event_connections.end(); i++)
+  for (auto & event_connection : event_connections)
     {
-      i->disconnect();
+      event_connection.disconnect();
     }
 
   delete main_window;
@@ -899,11 +899,11 @@ GUI::on_break_event(BreakId break_id, BreakEvent event)
         { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak,      SoundEvent::MicroBreakEnded },
       };
 
-  for (unsigned int i = 0; i < sizeof(event_map)/sizeof(EventMap); i++)
+  for (auto & i : event_map)
     {
-      if (event_map[i].id == break_id && event_map[i].break_event == event)
+      if (i.id == break_id && i.break_event == event)
         {
-          SoundEvent snd = event_map[i].sound_event;
+          SoundEvent snd = i.sound_event;
           TRACE_MSG("play " << event);
 
           bool mute = SoundTheme::sound_mute()();

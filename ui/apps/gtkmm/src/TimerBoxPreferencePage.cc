@@ -99,10 +99,10 @@ TimerBoxPreferencePage::create_page()
     (sigc::mem_fun(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
 
   // Timer display
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & i : timer_display_button)
     {
       Gtk::ComboBoxText *display_button  = Gtk::manage(new Gtk::ComboBoxText());
-      timer_display_button[i] = display_button;
+      i = display_button;
 
 #if GTKMM_CHECK_VERSION(2, 24, 0)
       display_button->append(_("Hide"));
@@ -360,9 +360,9 @@ void
 TimerBoxPreferencePage::enable_buttons()
 {
   int count = 0;
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & i : timer_display_button)
     {
-      if (! timer_display_button[i]->get_active())
+      if (! i->get_active())
         {
           count++;
         }

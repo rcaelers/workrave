@@ -64,9 +64,9 @@ StatisticsDialog::StatisticsDialog()
   ICore::Ptr core = Backend::get_core();
   statistics = core->get_statistics();
 
-  for (int i = 0; i < 5; i++)
+  for (auto & activity_label : activity_labels)
     {
-      activity_labels[i] = nullptr;
+      activity_label = nullptr;
     }
 
   init_gui();
@@ -578,11 +578,11 @@ StatisticsDialog::clear_display_statistics()
   monthly_usage_time_label->set_text("");
 
   // Put the breaks in table.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & break_label : break_labels)
     {
       for (int j = 0; j <= 6; j++)
         {
-          break_labels[i][j]->set_text("");
+          break_label[j]->set_text("");
         }
     }
   for (int i = 0; i <= 4; i++)

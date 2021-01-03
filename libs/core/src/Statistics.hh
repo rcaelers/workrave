@@ -68,17 +68,17 @@ private:
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));
 
-      for(int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
+      for(auto & break_stat : break_stats)
         {
           for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
             {
-              break_stats[i][j] = 0;
+              break_stat[j] = 0;
             }
         }
 
-      for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+      for(long & misc_stat : misc_stats)
         {
-          misc_stats[j] = 0;
+          misc_stat = 0;
         }
 
       // Empty marker.

@@ -85,9 +85,9 @@ Menus::Menus(SoundTheme::Ptr sound_theme) :
 {
   gui = GUI::get_instance();
 
-  for (int i = 0; i < MENU_SIZEOF; i++)
+  for (auto & menu : menus)
     {
-      menus[i] = nullptr;
+      menu = nullptr;
     }
 }
 
@@ -135,11 +135,11 @@ Menus::init(AppletControl *applet_control)
 #endif
 #endif
   
-  for (int i = 0; i < MENU_SIZEOF; i++)
+  for (auto & menu : menus)
     {
-      if (menus[i] != nullptr)
+      if (menu != nullptr)
         {
-          menus[i]->init();
+          menu->init();
         }
     }
 
@@ -483,9 +483,9 @@ Menus::resync()
     return;
   syncing = true;
 
-  for (int i = 0; i < MENU_SIZEOF; i++)
+  for (auto & menu : menus)
     {
-      if (menus[i] != nullptr)
+      if (menu != nullptr)
         {
           ICore::Ptr core = Backend::get_core();
 
@@ -496,7 +496,7 @@ Menus::resync()
           the resync, and cause a signal that then calls back into core with the override mode
           as a regular mode. That would erase whatever the user's regular mode was.
           */
-          menus[i]->resync(core->get_operation_mode_regular(),
+          menu->resync(core->get_operation_mode_regular(),
                            core->get_usage_mode());
         }
     }
@@ -513,11 +513,11 @@ Menus::locale_changed()
     return;
   syncing = true;
 
-  for (int i = 0; i < MENU_SIZEOF; i++)
+  for (auto & menu : menus)
     {
-      if (menus[i] != nullptr)
+      if (menu != nullptr)
         {
-          menus[i]->init();
+          menu->init();
         }
     }
 

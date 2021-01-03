@@ -105,9 +105,9 @@ TimerBoxGtkView::set_geometry(Orientation orientation, int size)
   this->orientation = orientation;
   this->size = size;
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & bar : bars)
     {
-      bars[i]->queue_resize();
+      bar->queue_resize();
     }
 
   init_table();
@@ -239,9 +239,9 @@ TimerBoxGtkView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int i : new_content)
         {
-          if (new_content[i] != BREAK_ID_NONE)
+          if (i != BREAK_ID_NONE)
             {
               number_of_timers++;
             }
@@ -285,9 +285,9 @@ TimerBoxGtkView::init_table()
   TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
   TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & bar : bars)
     {
-      bars[i]->set_rotation(0);
+      bar->set_rotation(0);
     }
 
   bars[0]->get_preferred_size(bar_size.width, bar_size.height);
@@ -362,9 +362,9 @@ TimerBoxGtkView::init_table()
         }
     }
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & bar : bars)
     {
-      bars[i]->set_rotation(rotation);
+      bar->set_rotation(rotation);
     }
 
   TRACE_MSG("c/r " << columns << " " << rows << " " << rotation);
@@ -543,9 +543,9 @@ TimerBoxGtkView::update_view()
       init_table();
       reconfigure = false;
     }
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto & bar : bars)
     {
-      bars[i]->update();
+      bar->update();
     }
 }
 

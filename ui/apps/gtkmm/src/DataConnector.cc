@@ -66,9 +66,9 @@ DataConnector::DataConnector()
 //! Destruct data connector.
 DataConnector::~DataConnector()
 {
-  for (auto i = connections.begin(); i != connections.end(); i++)
+  for (auto & connection : connections)
     {
-      delete i->connection;
+      delete connection.connection;
     }
 }
 

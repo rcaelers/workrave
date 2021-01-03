@@ -355,11 +355,10 @@ BreakWindow::create_sysoper_combobox()
   append_row_to_sysoper_model(model,
       System::SystemOperation::SYSTEM_OPERATION_NONE);
 
-  for (auto iter = supported_system_operations.begin();
-      iter != supported_system_operations.end(); ++iter)
+  for (auto & supported_system_operation : supported_system_operations)
     {
       append_row_to_sysoper_model(model,
-          iter->type);
+          supported_system_operation.type);
     }
 
   //if there are no operations to put in the combobox

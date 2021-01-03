@@ -256,9 +256,9 @@ MainWindow::init()
        "128x128" G_DIR_SEPARATOR_S "workrave.png",
     };
 
-  for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
+  for (auto & icon_file : icon_files)
     {
-      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_files[i]);
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_file);
       if (pixbuf)
       {
         icons.push_back(pixbuf);

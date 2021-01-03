@@ -253,12 +253,12 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
 
-  for (unsigned int i = 0; i < sizeof(underscore_exceptions) / sizeof(string); i++)
+  for (auto & underscore_exception : underscore_exceptions)
     {
-      string mangled = boost::algorithm::replace_all_copy(underscore_exceptions[i], "-", "_");
+      string mangled = boost::algorithm::replace_all_copy(underscore_exception, "-", "_");
       if (mangled == changed)
         {
-          changed = underscore_exceptions[i];
+          changed = underscore_exception;
           TRACE_MSG(" exception: " << changed);
           break;
         }
