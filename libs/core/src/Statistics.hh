@@ -43,7 +43,7 @@ class Statistics
     public workrave::input_monitor::IInputMonitorListener
 {
 public:
-  typedef std::shared_ptr<Statistics> Ptr;
+  using Ptr = std::shared_ptr<Statistics>;
 
 private:
   enum StatsMarker
@@ -93,9 +93,9 @@ private:
     }
   };
 
-  typedef std::vector<DailyStatsImpl *> History;
-  typedef std::vector<DailyStatsImpl *>::iterator HistoryIter;
-  typedef std::vector<DailyStatsImpl *>::reverse_iterator HistoryRIter;
+  using History = std::vector<DailyStatsImpl *>;
+  using HistoryIter = std::vector<DailyStatsImpl *>::iterator;
+  using HistoryRIter = std::vector<DailyStatsImpl *>::reverse_iterator;
 
 public:
   //! Constructor.

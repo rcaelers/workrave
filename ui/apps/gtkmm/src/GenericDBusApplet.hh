@@ -62,7 +62,7 @@ public:
     int flags;
   };
 
-  typedef std::list<MenuItem> MenuItems;
+  using MenuItems = std::list<MenuItem>;
 
   GenericDBusApplet();
   virtual ~GenericDBusApplet();

@@ -36,7 +36,7 @@ namespace workrave
     class DBusGeneric : public IDBus
     {
     public:
-      typedef std::shared_ptr<DBusGeneric> Ptr;
+      using Ptr = std::shared_ptr<DBusGeneric>;
 
     public:
       DBusGeneric();
@@ -49,17 +49,17 @@ namespace workrave
       DBusBinding *find_binding(const std::string &interface_name) const override;
 
     protected:
-      typedef std::map<std::string, DBusBinding *> Bindings;
-      typedef Bindings::iterator BindingIter;
-      typedef Bindings::const_iterator BindingCIter;
+      using Bindings = std::map<std::string, DBusBinding *>;
+      using BindingIter = Bindings::iterator;
+      using BindingCIter = Bindings::const_iterator;
 
-      typedef std::map<std::string, void *> Interfaces;
-      typedef Interfaces::iterator InterfaceIter;
-      typedef Interfaces::const_iterator InterfaceCIter;
+      using Interfaces = std::map<std::string, void *>;
+      using InterfaceIter = Interfaces::iterator;
+      using InterfaceCIter = Interfaces::const_iterator;
 
-      typedef std::map<std::string, Interfaces> Objects;
-      typedef Objects::iterator ObjectIter;
-      typedef Objects::const_iterator ObjectCIter;
+      using Objects = std::map<std::string, Interfaces>;
+      using ObjectIter = Objects::iterator;
+      using ObjectCIter = Objects::const_iterator;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;
 

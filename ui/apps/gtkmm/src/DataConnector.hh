@@ -96,8 +96,8 @@ private:
     DataConnection *connection;
   };
 
-  typedef std::list<MonitoredWidget> Widgets;
-  typedef Widgets::iterator WidgetIter;
+  using Widgets = std::list<MonitoredWidget>;
+  using WidgetIter = Widgets::iterator;
 
   //!
   Widgets connections;

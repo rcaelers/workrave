@@ -27,7 +27,7 @@ class IBreakWindow
 public:
   virtual ~IBreakWindow() {}
 
-  typedef std::shared_ptr<IBreakWindow> Ptr;
+  using Ptr = std::shared_ptr<IBreakWindow>;
 
   //!
   virtual void init() = 0;

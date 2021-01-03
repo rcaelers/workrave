@@ -30,7 +30,7 @@ class DayTimePred;
 class BreakConfig
 {
 public:
-  typedef std::shared_ptr<BreakConfig> Ptr;
+  using Ptr = std::shared_ptr<BreakConfig>;
 
 public:
   BreakConfig(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);

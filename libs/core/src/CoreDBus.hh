@@ -28,7 +28,7 @@
 class CoreDBus
 {
 public:
-  typedef std::shared_ptr<CoreDBus> Ptr;
+  using Ptr = std::shared_ptr<CoreDBus>;
 
   CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 

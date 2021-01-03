@@ -43,7 +43,7 @@ namespace workrave
   class ICore
   {
   public:
-    typedef std::shared_ptr<ICore> Ptr;
+    using Ptr = std::shared_ptr<ICore>;
 
     virtual ~ICore() {}
 

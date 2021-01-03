@@ -30,7 +30,7 @@
 class BreakStatistics
 {
 public:
-  typedef std::shared_ptr<BreakStatistics> Ptr;
+  using Ptr = std::shared_ptr<BreakStatistics>;
 
 public:
   BreakStatistics(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);

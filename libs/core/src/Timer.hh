@@ -70,7 +70,7 @@ enum TimerEvent
 class Timer
 {
 public:
-  typedef std::shared_ptr<Timer> Ptr;
+  using Ptr = std::shared_ptr<Timer>;
 
 public:
   // Construction/Destruction.

@@ -32,7 +32,7 @@ class ReadingActivityMonitor :
   public std::enable_shared_from_this<ReadingActivityMonitor>
 {
 public:
-  typedef std::shared_ptr<ReadingActivityMonitor> Ptr;
+  using Ptr = std::shared_ptr<ReadingActivityMonitor>;
 
 public:
   ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);

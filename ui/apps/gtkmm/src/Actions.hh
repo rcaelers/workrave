@@ -1,4 +1,4 @@
-// Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,32 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UPDATE_UPDATER_HH
-#define WORKRAVE_UPDATE_UPDATER_HH
+#ifndef ACTIONS_HH
+#define ACTIONS_HH
 
-#include<string>
-#include <memory>
+#include <string>
 
-namespace workrave
+#include <gtkmm.h>
+
+#include "MenuBase.hh"
+
+class Actions
 {
-  namespace updater
-  {
-    class Updater
-    {
-    public:
-      using Ptr = std::shared_ptr<Updater>;
+public:
+  Actions(Glib::RefPtr<Gtk::Application> app);
+  virtual ~MainGtkMenu() = default;
 
-      virtual ~Updater() {}
-      virtual void check_for_updates() = 0;
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage);
 
-    };
+private:
+  void on_menu_mode(int mode);
+  void on_menu_reading();
 
-    class UpdaterFactory
-    {
-    public:
-      static Updater::Ptr create(std::string appcast_url);
-    };
-  }
-}
+  void init(Glib::RefPtr<Gtk::Application> app);
+  
+  Glib::RefPtr<Gio::SimpleActionGroup> action_group;
+};
 
-#endif // WORKRAVE_UPDATE_UPDATER_HH
+#endif // MAINGTKMENU_HH

@@ -31,7 +31,7 @@
 class CoreModes
 {
 public:
-  typedef std::shared_ptr<CoreModes> Ptr;
+  using Ptr = std::shared_ptr<CoreModes>;
 
   explicit CoreModes(IActivityMonitor::Ptr monitor);
   virtual ~CoreModes();

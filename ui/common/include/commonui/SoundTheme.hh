@@ -76,15 +76,15 @@ public:
   class ThemeInfo
   {
   public:
-    typedef std::shared_ptr<ThemeInfo> Ptr;
+    using Ptr = std::shared_ptr<ThemeInfo>;
 
     std::string theme_id;
     std::string description;
     std::vector<SoundInfo> sounds;
   };
-  typedef std::vector<SoundTheme::ThemeInfo::Ptr> ThemeInfos;
+  using ThemeInfos = std::vector<SoundTheme::ThemeInfo::Ptr>;
 
-  typedef std::shared_ptr<SoundTheme> Ptr;
+  using Ptr = std::shared_ptr<SoundTheme>;
 
   SoundTheme();
   virtual ~SoundTheme();

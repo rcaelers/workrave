@@ -33,7 +33,7 @@ namespace workrave
     class IDBusPrivateGio
     {
     public:
-      typedef std::shared_ptr<IDBusPrivateGio> Ptr;
+      using Ptr = std::shared_ptr<IDBusPrivateGio>;
 
       virtual ~IDBusPrivateGio() {}
 

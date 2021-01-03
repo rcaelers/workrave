@@ -36,7 +36,7 @@
 class Break : public workrave::IBreak
 {
 public:
-  typedef std::shared_ptr<Break> Ptr;
+  using Ptr = std::shared_ptr<Break>;
 
 public:
   Break(workrave::BreakId id,

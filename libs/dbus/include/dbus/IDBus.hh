@@ -34,7 +34,7 @@ namespace workrave
     class IDBus
     {
     public:
-      typedef std::shared_ptr<IDBus> Ptr;
+      using Ptr = std::shared_ptr<IDBus>;
 
     public:
       virtual ~IDBus() {}

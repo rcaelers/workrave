@@ -29,7 +29,7 @@
 class Session
 {
 public:
-  typedef std::shared_ptr<Session> Ptr;
+  using Ptr = std::shared_ptr<Session>;
 
   Session();
   void init();

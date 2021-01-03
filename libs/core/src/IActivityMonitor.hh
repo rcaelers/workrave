@@ -23,7 +23,7 @@
 class IActivityMonitorListener
 {
 public:
-  typedef std::shared_ptr<IActivityMonitorListener> Ptr;
+  using Ptr = std::shared_ptr<IActivityMonitorListener>;
 
   virtual ~IActivityMonitorListener() {}
 
@@ -34,7 +34,7 @@ public:
 class IActivityMonitor
 {
 public:
-  typedef std::shared_ptr<IActivityMonitor> Ptr;
+  using Ptr = std::shared_ptr<IActivityMonitor>;
 
 public:
   virtual ~IActivityMonitor() {}

@@ -37,7 +37,7 @@ public:
   time_t get_value();
   void set_value(time_t time);
 
-  typedef sigc::signal0<void> signal_value_changed_t;
+  using signal_value_changed_t = sigc::signal0<void>;
   signal_value_changed_t &signal_value_changed();
 
 protected:

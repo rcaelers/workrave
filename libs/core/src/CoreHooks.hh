@@ -27,7 +27,7 @@ class CoreHooks : public ICoreHooks
 #endif
 {
 public:
-  typedef std::shared_ptr<CoreHooks> Ptr;
+  using Ptr = std::shared_ptr<CoreHooks>;
 
   CoreHooks();
   ~CoreHooks() override;

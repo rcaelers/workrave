@@ -33,7 +33,7 @@ namespace workrave
     class IInputMonitor
     {
     public:
-      typedef std::shared_ptr<IInputMonitor> Ptr;
+      using Ptr = std::shared_ptr<IInputMonitor>;
 
       virtual ~IInputMonitor() {}
 

@@ -33,7 +33,7 @@ namespace workrave
     class DBusDummy : public IDBus
     {
     public:
-      typedef std::shared_ptr<DBusDummy> Ptr;
+      using Ptr = std::shared_ptr<DBusDummy>;
 
     public:
       DBusDummy();

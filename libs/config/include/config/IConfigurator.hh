@@ -46,7 +46,7 @@ namespace workrave
     class IConfigurator
     {
     public:
-      typedef std::shared_ptr<IConfigurator> Ptr;
+      using Ptr = std::shared_ptr<IConfigurator>;
 
     public:
       virtual ~IConfigurator() {}

@@ -41,7 +41,7 @@ namespace workrave
     class DBusGio : public IDBus, public IDBusPrivateGio
     {
     public:
-      typedef std::shared_ptr<DBusGio> Ptr;
+      using Ptr = std::shared_ptr<DBusGio>;
 
     public:
       DBusGio();
@@ -64,13 +64,13 @@ namespace workrave
       void unwatch(const std::string &name);
 
     private:
-      typedef std::map<std::string, DBusBinding *> Bindings;
-      typedef Bindings::iterator BindingIter;
-      typedef Bindings::const_iterator BindingCIter;
+      using Bindings = std::map<std::string, DBusBinding *>;
+      using BindingIter = Bindings::iterator;
+      using BindingCIter = Bindings::const_iterator;
 
-      typedef std::map<std::string, guint> Services;
-      typedef Services::iterator ServicesIter;
-      typedef Services::const_iterator ServicesCIter;
+      using Services = std::map<std::string, guint>;
+      using ServicesIter = Services::iterator;
+      using ServicesCIter = Services::const_iterator;
 
       struct InterfaceData
       {
@@ -83,9 +83,9 @@ namespace workrave
         void *object;
       };
 
-      typedef std::map<std::string, InterfaceData> Interfaces;
-      typedef Interfaces::iterator InterfaceIter;
-      typedef Interfaces::const_iterator InterfaceCIter;
+      using Interfaces = std::map<std::string, InterfaceData>;
+      using InterfaceIter = Interfaces::iterator;
+      using InterfaceCIter = Interfaces::const_iterator;
 
       struct ObjectData
       {
@@ -95,9 +95,9 @@ namespace workrave
         bool registered;
       };
 
-      typedef std::map<std::string, ObjectData> Objects;
-      typedef Objects::iterator ObjectIter;
-      typedef Objects::const_iterator ObjectCIter;
+      using Objects = std::map<std::string, ObjectData>;
+      using ObjectIter = Objects::iterator;
+      using ObjectCIter = Objects::const_iterator;
 
       struct WatchData
       {
@@ -106,9 +106,9 @@ namespace workrave
         bool seen;
       };
 
-      typedef std::map<std::string, WatchData> Watched;
-      typedef Watched::iterator WatchIter;
-      typedef Watched::const_iterator WatchCIter;
+      using Watched = std::map<std::string, WatchData>;
+      using WatchIter = Watched::iterator;
+      using WatchCIter = Watched::const_iterator;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;
       void send() const;

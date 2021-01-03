@@ -48,7 +48,7 @@ class BreakStateModel :
   public std::enable_shared_from_this<BreakStateModel>
 {
 public:
-  typedef std::shared_ptr<BreakStateModel> Ptr;
+  using Ptr = std::shared_ptr<BreakStateModel>;
 
 public:
   BreakStateModel(workrave::BreakId id,

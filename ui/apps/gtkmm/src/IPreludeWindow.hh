@@ -29,7 +29,7 @@ class IPreludeWindow
 public:
   virtual ~IPreludeWindow() {}
 
-  typedef std::shared_ptr<IPreludeWindow> Ptr;
+  using Ptr = std::shared_ptr<IPreludeWindow>;
 
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;

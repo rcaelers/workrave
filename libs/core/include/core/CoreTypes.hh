@@ -75,7 +75,7 @@ namespace workrave
     return stream;
   }
 
-  typedef int BreakId;
+  using BreakId = int;
   const int BREAK_ID_NONE = -1;
   const int BREAK_ID_MICRO_BREAK = 0;
   const int BREAK_ID_REST_BREAK = 1;

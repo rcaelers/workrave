@@ -37,7 +37,7 @@ namespace workrave
     class ISoundPlayer
     {
     public:
-      typedef std::shared_ptr<ISoundPlayer> Ptr;
+      using Ptr = std::shared_ptr<ISoundPlayer>;
 
       virtual ~ISoundPlayer() {}
 

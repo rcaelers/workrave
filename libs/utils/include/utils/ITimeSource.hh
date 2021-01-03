@@ -31,7 +31,7 @@ namespace workrave
     class ITimeSource
     {
     public:
-      typedef std::shared_ptr<ITimeSource> Ptr;
+      using Ptr = std::shared_ptr<ITimeSource>;
 
       virtual ~ITimeSource() {}
 

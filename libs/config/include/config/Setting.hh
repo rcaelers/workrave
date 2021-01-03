@@ -37,7 +37,7 @@ namespace workrave
     class SettingGroup : public SettingBase, IConfiguratorListener, boost::noncopyable
     {
     private:
-      typedef boost::signals2::signal<void()> NotifyType;
+      using NotifyType = boost::signals2::signal<void ()>;
 
     public:
       explicit SettingGroup(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting)
@@ -82,7 +82,7 @@ namespace workrave
     class Setting : public SettingBase, IConfiguratorListener, boost::noncopyable
     {
     private:
-      typedef boost::signals2::signal<void(const R&)> NotifyType;
+      using NotifyType = boost::signals2::signal<void (const R &)>;
 
     public:
       explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting) , has_default_value(false)

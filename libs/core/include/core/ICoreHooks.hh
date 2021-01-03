@@ -26,7 +26,7 @@
 class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
 {
 public:
-  typedef std::shared_ptr<ICoreHooks> Ptr;
+  using Ptr = std::shared_ptr<ICoreHooks>;
   virtual ~ICoreHooks() {}
 };
 

@@ -38,7 +38,7 @@ class BreaksControl :
   public std::enable_shared_from_this<BreaksControl>
 {
 public:
-  typedef std::shared_ptr<BreaksControl> Ptr;
+  using Ptr = std::shared_ptr<BreaksControl>;
 
   BreaksControl(workrave::IApp *app,
                 IActivityMonitor::Ptr activity_monitor,

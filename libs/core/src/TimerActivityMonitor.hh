@@ -28,7 +28,7 @@
 class TimerActivityMonitor
 {
 public:
-  typedef std::shared_ptr<TimerActivityMonitor> Ptr;
+  using Ptr = std::shared_ptr<TimerActivityMonitor>;
 
 public:
   TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);

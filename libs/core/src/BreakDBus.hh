@@ -28,7 +28,7 @@
 class BreakDBus
 {
 public:
-  typedef std::shared_ptr<BreakDBus> Ptr;
+  using Ptr = std::shared_ptr<BreakDBus>;
 
 public:
   BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);

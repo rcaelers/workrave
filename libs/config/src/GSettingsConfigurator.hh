@@ -54,9 +54,9 @@ private:
   std::string schema_base;
   std::string path_base;
 
-  typedef std::map<std::string, GSettings *> SettingsMap;
-  typedef SettingsMap::iterator SettingsIter;
-  typedef SettingsMap::const_iterator SettingsCIter;
+  using SettingsMap = std::map<std::string, GSettings *>;
+  using SettingsIter = SettingsMap::iterator;
+  using SettingsCIter = SettingsMap::const_iterator;
 
   //!
   SettingsMap settings;

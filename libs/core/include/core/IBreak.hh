@@ -91,7 +91,7 @@ namespace workrave {
   class IBreak
   {
   public:
-    typedef std::shared_ptr<IBreak> Ptr;
+    using Ptr = std::shared_ptr<IBreak>;
 
     virtual ~IBreak() {}
 

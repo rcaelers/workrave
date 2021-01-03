@@ -35,7 +35,7 @@ namespace workrave {
   class IStatistics
   {
   public:
-    typedef std::shared_ptr<IStatistics> Ptr;
+    using Ptr = std::shared_ptr<IStatistics>;
 
     enum StatsBreakValueType
       {
